@@ -1,0 +1,114 @@
+version = 1
+
+[output]
+timezone = "Asia/Tokyo"
+format = "markdown"
+save_to = "./reports"
+include_summary = true
+
+[telegram]
+enabled = true
+bot_token = "8613115746:AAFqi8RrP6eGNKPdOmazv_kAI70CnSTnCV0"
+chat_id = "8442596122"
+
+
+[rules.trend]
+lookback_days = 20
+flat_threshold_pct = 0.5 # [-0.5%, +0.5%] 视为走平
+
+[rules.deviation_bands]
+# 阶梯下限阈值 (>=命中)
+overheat_2 = 30.0   
+overheat_1 = 15.0   
+cruise     = 5.0    
+optimal    = -5.0   
+pullback   = -15.0  
+fear_1     = -25.0  
+
+[rules.actions]
+# 默认的全局文案现在针对的是“个股”（非定投类）
+overheat_2 = "停止买入，注意回调风险"
+overheat_1 = "减半买入，寻找左侧机会"
+cruise     = "按计划加仓个股"
+optimal    = "绝佳位置，积极加仓个股"
+pullback   = "适度加仓（逢低买入）"
+fear_1     = "过度恐慌：用极少现金抢左侧"
+fear_2     = "过度恐慌：考虑极端反弹机会"
+
+[rules.bear_mode]
+enabled = true
+fallback_action = "【防御降级】：主人下山，停止加仓/仅观察"
+
+[[watchlist]]
+symbol = "TSLA"
+market = "US"
+owner_ma_days = 120
+leash_ma_days = 20
+deviation_basis = "owner"
+enable = true
+
+[[watchlist]]
+symbol = "PLTR"
+market = "US"
+owner_ma_days = 60
+leash_ma_days = 20
+deviation_basis = "owner"
+enable = true
+
+[[watchlist]]
+symbol = "GOOG"
+market = "US"
+owner_ma_days = 120
+leash_ma_days = 20
+deviation_basis = "owner"
+enable = true
+
+[[watchlist]]
+symbol = "NVDA"
+market = "US"
+owner_ma_days = 60
+leash_ma_days = 20
+deviation_basis = "owner"
+enable = true
+
+[[watchlist]]
+symbol = "MSFT"
+market = "US"
+owner_ma_days = 120
+leash_ma_days = 20
+deviation_basis = "owner"
+enable = true
+
+[[watchlist]]
+symbol = "FIG"
+market = "US"
+owner_ma_days = 120
+leash_ma_days = 20
+deviation_basis = "owner"
+enable = true
+
+[[watchlist]]
+symbol = "U"
+market = "US"
+owner_ma_days = 60
+leash_ma_days = 20
+deviation_basis = "owner"
+enable = true
+
+[[watchlist]]
+symbol = "SPY"
+market = "US"
+owner_ma_days = 200
+leash_ma_days = 20
+deviation_basis = "leash"
+enable = true
+
+[watchlist.action_overrides]
+# 只有 SPY 这种指数才会触发强制定投文案
+overheat_2 = "停止加仓，现金缓冲"
+overheat_1 = "减半定投，现金缓冲"
+cruise     = "照常定投"
+optimal    = "照常定投（效率最佳）"
+pullback   = "指数回调，适度增加定投额"
+fear_1     = "使用缓冲现金，补仓指数"
+fear_2     = "极限恐慌，大幅加仓指数"
