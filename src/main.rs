@@ -139,6 +139,8 @@ async fn main() -> Result<()> {
         let mut up_weight = 0.0;
         let mut flat_weight = 0.0;
         let mut down_weight = 0.0;
+        let mut regime_forming_count = 0;
+        let mut regime_forming_weight = 0.0;
         
         for s in &snapshots {
             match s.trend_status {
@@ -158,6 +160,10 @@ async fn main() -> Result<()> {
                     down_count += 1; // Unknown counts as non-up/down during transition
                     down_weight += s.weight;
                 }
+            }
+            if s.state_code == "REGIME_FORMING" {
+                regime_forming_count += 1;
+                regime_forming_weight += s.weight;
             }
         }
         
@@ -251,6 +257,8 @@ async fn main() -> Result<()> {
             market_phase: market_phase.to_string(),
             capital_flow_vector: capital_flow_vector.to_string(),
             recommended_exposure,
+            regime_forming_count,
+            regime_forming_weight,
             prev_potential_energy: prev_gp,
             prev_system_confidence: None, 
             prev_dominance_margin: prev_margin,

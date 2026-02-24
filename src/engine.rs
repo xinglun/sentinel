@@ -434,7 +434,9 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     // Cap at 99
     if confidence_score > 99 { confidence_score = 99; }
 
-    TickerSnapshot {
+    let regime_forming = history.bars.len() < entry.owner_ma_days * 2;
+
+    let mut snapshot = TickerSnapshot {
         symbol: entry.symbol.clone(),
         name,
         weight: entry.weight.unwrap_or(1.0),
@@ -456,6 +458,17 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         is_caution_mode_active,
         trend_age,
         owner_deviation_pct,
-        deviation_percentile,
+        deviation_percentile: if regime_forming { None } else { deviation_percentile },
+    };
+
+    if regime_forming {
+        snapshot.state_code = "REGIME_FORMING".to_string();
+        if let Some(act) = rules.actions.get("regime_forming") {
+            snapshot.action_text = act.clone();
+        } else {
+            snapshot.action_text = "【观察期】：引力结构尚未形成，暂不参与".to_string();
+        }
     }
+
+    snapshot
 }

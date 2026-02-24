@@ -35,6 +35,7 @@ optimal    = "【効率定投】絶好のポジション、積極的に買い増
 pullback   = "【押し目買い】適度に買い増し、ポジション構築(Cash 0%)"
 fear_1     = "【極度恐慌1】バッファキャッシュを投入して逆張り(Exemption)"
 fear_2     = "【極度恐慌2】極端な反発の機会、キャッシュ全投入(Exemption)"
+regime_forming = "【观察期】：引力结构尚未形成，暂不参与"
 
 [rules.bear_mode]
 enabled = true

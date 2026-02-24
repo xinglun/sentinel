@@ -183,12 +183,12 @@
     "trend_status": "Down",
     "deviation_pct": -41.22315227678168,
     "deviation_basis_used": "owner",
-    "state_code": "fear_downtrend",
-    "action_text": "【防御 (DEFEND)】：長期トレンド不明中の恐慌。落ちるナイフを掴まない(Cash 80%+)",
+    "state_code": "REGIME_FORMING",
+    "action_text": "【观察期】：引力结构尚未形成，暂不参与",
     "is_bear_mode_active": true,
     "is_caution_mode_active": false,
     "trend_age": 3,
     "owner_deviation_pct": -41.22315227678168,
-    "deviation_percentile": 82.6086956521739
+    "deviation_percentile": null
   }
 ]

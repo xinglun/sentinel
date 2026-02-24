@@ -34,10 +34,12 @@ pub struct GravityHealth {
     pub up_count: usize,
     pub flat_count: usize,
     pub down_count: usize,
+    pub regime_forming_count: usize,
     pub total_count: usize, // Also watchlist_size
     pub up_weight: f64,
     pub flat_weight: f64,
     pub down_weight: f64,
+    pub regime_forming_weight: f64,
     pub total_weight: f64,
     pub global_gravity_strength: f64,
     pub global_potential_energy: f64,
@@ -246,6 +248,7 @@ fn get_rank_priority(state: &str) -> usize {
     else if state.contains("fear") && !state.contains("down") { 1 } // Opportunity fear
     else if state.contains("fear") && state.contains("down") { 5 } // Risk fear
     else if state.contains("overheat") || state.contains("DEFEND") { 6 }
+    else if state == "REGIME_FORMING" { 99 }
     else { 4 } 
 }
 
@@ -285,6 +288,7 @@ fn get_position_guidance(state_code: &str) -> &str {
         "pullback" => "Portfolio Allocation: +10% (Buy)",
         "CAUTION" => "Neutral / Maintain",
         "DEFEND" | "fear_downtrend" => "Portfolio Allocation: 0-20% (Avoid/Cash)",
+        "REGIME_FORMING" => "Allocation: N/A (Observe)",
         _ => "Neutral",
     }
 }
@@ -312,11 +316,20 @@ fn get_final_order(gravity: &GravityHealth, posture: &CapitalPosture, buy_zone: 
     orders.join("\n • ")
 }
 
-fn get_state_emoji(state: &str) -> &'static str {
-    if state.starts_with("optimal") || state.starts_with("cruise") { "🟢" }
-    else if state.starts_with("pullback") || state.contains("caution") || state.starts_with("CAUTION") { "🟡" }
-    else if state.starts_with("overheat") || state.starts_with("fear") || state.starts_with("DEFEND") { "🔴" }
-    else { "⚪" }
+fn get_state_emoji(state_code: &str) -> &'static str {
+    match state_code {
+        "overheat_2" => "🔴",
+        "overheat_1" => "🟠",
+        "cruise" => "🟢",
+        "optimal" => "💎",
+        "pullback" => "🟡",
+        "fear_1" => "🛡️",
+        "fear_2" => "🆘",
+        "CAUTION" => "⚠️",
+        "DEFEND" => "🛑",
+        "REGIME_FORMING" => "🌀",
+        _ => "⚪",
+    }
 }
 
 pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravity_health: &GravityHealth, yesterday_state: &str) -> Result<ReportResult> {
@@ -523,19 +536,21 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             
             let up_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.up_count as f64 / gravity_health.total_count as f64 };
             let flat_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.flat_count as f64 / gravity_health.total_count as f64 };
-            let down_share = 1.0 - up_share - flat_share;
+            let regime_forming_share_c = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.regime_forming_count as f64 / gravity_health.total_count as f64 };
+            let down_share = 1.0 - up_share - flat_share - regime_forming_share_c;
             
             let w_up_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.up_weight / gravity_health.total_weight };
             let w_flat_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.flat_weight / gravity_health.total_weight };
-            let w_down_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.down_weight / gravity_health.total_weight };
+            let regime_forming_share_w = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.regime_forming_weight / gravity_health.total_weight };
+            let w_down_share = 1.0 - w_up_share - w_flat_share - regime_forming_share_w;
 
             let timestamp = Local::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
 
             let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
 
-            // Ultimate Schema (20 Columns): 
-            // date,timestamp,config_hash,state_code,state_text,gs,gp,t_raw,r_raw,r_adj,t_final,r_final,margin,exposure,size,c_up,c_flat,c_down,w_up,w_flat,w_down
-            let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
+            // Ultimate Schema (22 Columns): 
+            // date,timestamp,config_hash,state_code,state_text,gs,gp,t_raw,r_raw,r_adj,t_final,r_final,margin,exposure,size,c_up,c_flat,c_down,c_forming,w_up,w_flat,w_down,w_forming
+            let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
                 date_str,
                 timestamp,
                 gravity_health.config_hash,
@@ -554,13 +569,15 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
                 up_share,
                 flat_share,
                 down_share,
+                regime_forming_share_c,
                 w_up_share,
                 w_flat_share,
-                w_down_share
+                w_down_share,
+                regime_forming_share_w
             );
 
             if !file_exists {
-                let header = "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,watchlist_size,count_up_share,count_flat_share,count_down_share,weight_up_share,weight_flat_share,weight_down_share\n";
+                let header = "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share\n";
                 fs::write(&telemetry_path, format!("{}{}", header, telemetry_row))?;
             } else {
                 use std::io::Write;
