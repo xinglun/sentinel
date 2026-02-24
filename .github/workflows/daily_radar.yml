@@ -126,18 +126,17 @@ jobs:
           rm -rf ../data_worktree || true
 
           # 2. Create isolated worktree for data branch
-          if git show-ref --verify --quiet refs/remotes/origin/data; then
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
             git worktree add ../data_worktree -B data origin/data
           else
             echo "Remote data branch not found. Initializing orphan branch..."
-            # Initialize orphaned branch safely without switching main working tree
-            git worktree add --detach ../data_worktree
-            cd ../data_worktree
+            git worktree add --detach "${DATA_DIR}"
+            cd "${DATA_DIR}"
             git checkout --orphan data
             git rm -rf . >/dev/null 2>&1 || true
             git branch -M data
             git remote get-url origin >/dev/null 2>&1 || git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            cd -
+            cd "${ROOT_DIR}"
           fi
 
           # 3. Port over generated reports cleanly (Mirror Strategy for snapshots)
