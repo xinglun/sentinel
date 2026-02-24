@@ -11,6 +11,12 @@ struct TelegramPayload {
     disable_web_page_preview: bool,
 }
 
+pub fn escape_html(s: &str) -> String {
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+}
+
 pub async fn send_telegram_message(config: &TelegramConfig, markdown_text: &str) -> Result<()> {
     if !config.enabled || config.bot_token.is_empty() || config.chat_id.is_empty() {
         return Ok(());
