@@ -2,7 +2,7 @@ name: Weekly Sentinel Backtest
 
 on:
   schedule:
-    # Run every Saturday at 01:00 JST (Friday 16:00 UTC)
+    # Runs Friday 16:00 UTC (Saturday 01:00 JST)
     - cron: '0 16 * * 5'
   workflow_dispatch:
 
@@ -26,12 +26,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
 
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cache dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/bin/
@@ -80,9 +82,9 @@ jobs:
           set -euo pipefail
           DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
           
-          # Ensure backtest generated some artifacts (e.g. backtest markdown/json or refreshed telemetry)
-          if [ ! -s "reports/telemetry.csv" ]; then
-            echo "❌ CRITICAL: Backtest failed or produced empty telemetry file!"
+          # Ensure backtest generated some artifacts (specifically the summary markdown)
+          if [ ! -s "backtest/summary.md" ] && [ ! -s "reports/telemetry.csv" ]; then
+            echo "❌ CRITICAL: backtest summary missing or produced empty output!"
             exit 1
           fi
           
@@ -116,8 +118,10 @@ jobs:
             
             git checkout --orphan data
             git rm -rf . >/dev/null 2>&1 || true
-            mkdir -p reports
+            mkdir -p reports backtest
             echo "# Sentinel data branch" > README.md
+            echo "- reports/: daily radar outputs" >> README.md
+            echo "- backtest/: weekly calibration & alpha separation" >> README.md
             git add -A
             git commit -m "init data branch"
             
@@ -132,11 +136,12 @@ jobs:
 
           # 3. Port over generated reports cleanly
           rsync -a --delete reports/ ../data_worktree/reports/
-
+          rsync -a --delete backtest/ ../data_worktree/backtest/
+          
           # 4. Hop into worktree, commit and push
           cd ../data_worktree
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git add -f reports/
+          git add -f reports/ backtest/
           
           if ! git diff --cached --quiet; then
             echo "Pushing update to: $(git remote get-url origin | sed -e 's/x-access-token:.*@/x-access-token:***@/')"
