@@ -52,12 +52,12 @@ jobs:
           set -euo pipefail
           mkdir -p reports
           
-          # Try to steal telemetry.csv from historical records without disrupting workspace
-          if git fetch origin refs/heads/data:refs/remotes/origin/data; then
+          # Try to steal telemetry.csv from historical records (depth=1 is enough for tip)
+          if git fetch --depth=1 origin refs/heads/data:refs/remotes/origin/data; then
             echo "Data branch exists. Fetching telemetry.csv..."
             if git cat-file -e origin/data:reports/telemetry.csv 2>/dev/null; then
               git show origin/data:reports/telemetry.csv > reports/telemetry.csv
-              echo "✅ telemetry.csv restored from data branch"
+              echo "✅ telemetry.csv restored from data branch ($(wc -l < reports/telemetry.csv) lines)"
             else
               echo "⚠️ telemetry.csv not found in data branch"
             fi
@@ -166,7 +166,8 @@ jobs:
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           
           # Minimize --force-with-lease failures by rebasing against latest remote state
-          git fetch origin data || true
+          # Uniform refspec for maximum stability
+          git fetch origin refs/heads/data:refs/remotes/origin/data || true
           git pull --rebase origin data || true
 
           git add -f reports/ backtest/
@@ -182,10 +183,7 @@ jobs:
       - name: Notify on Failure
         if: failure()
         run: |
-          ERROR_MSG="❌ Weekly Backtest FAILED on ${GITHUB_REPOSITORY}
-          Workflow: ${GITHUB_WORKFLOW}
-          Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-          Commit: ${GITHUB_SHA::7}"
+          MSG="❌ Weekly Backtest FAILED on ${GITHUB_REPOSITORY}\nWorkflow: ${GITHUB_WORKFLOW}\nRun: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\nCommit: ${GITHUB_SHA::7}"
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
-            -d text="${ERROR_MSG}" > /dev/null || echo "Failed to send Telegram notification"
+            --data-urlencode text="$(printf "${MSG}")" > /dev/null || echo "Failed to send Telegram notification"
