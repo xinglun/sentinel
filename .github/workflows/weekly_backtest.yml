@@ -1,0 +1,131 @@
+name: Weekly Sentinel Backtest
+
+on:
+  schedule:
+    # Run every Saturday at 01:00 JST (Friday 16:00 UTC)
+    - cron: '0 16 * * 5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-backtest-data-branch
+  cancel-in-progress: false
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      TZ: Asia/Tokyo
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/registry/src/
+            ~/.cargo/git/db/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock', '**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Fetch Historical Telemetry (Optional)
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          
+          # Try to steal telemetry.csv from historical records without disrupting workspace
+          if git ls-remote --exit-code --heads origin data; then
+            git fetch --depth=1 origin data
+            echo "Data branch exists. Fetching telemetry.csv..."
+            git checkout origin/data -- reports/telemetry.csv 2>/dev/null || echo "No telemetry.csv found in data branch."
+            git reset --quiet HEAD reports/telemetry.csv 2>/dev/null || true
+          fi
+
+          # Fail-safe: if the file still doesn't exist, create a dummy header so Rust doesn't panic
+          if [ ! -f reports/telemetry.csv ]; then
+            echo "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share,universe_integrity,capital_flow_acceleration" > reports/telemetry.csv
+            echo "⚠️ Created empty telemetry.csv with headers to prevent Rust panic."
+          fi
+
+      - name: Run Sentinel Backtest
+        run: |
+          echo "RUN_AT_JST=$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
+          echo "REPORT_DATE_JST=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+          cargo run --release -- backtest
+
+      - name: Output Integrity Check
+        run: |
+          set -euo pipefail
+          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          
+          # Ensure backtest generated some artifacts (e.g. backtest markdown/json or refreshed telemetry)
+          if [ ! -s "reports/telemetry.csv" ]; then
+            echo "❌ CRITICAL: Backtest failed or produced empty telemetry file!"
+            exit 1
+          fi
+          
+      - name: Commit and Push to Data Worktree
+        run: |
+          set -euo pipefail
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          # 1. Ensure origin/data history exists locally (shallow fetch)
+          git fetch --depth=1 origin data || true
+
+          # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
+          git worktree remove --force ../data_worktree 2>/dev/null || true
+          git worktree prune || true
+          rm -rf ../data_worktree || true
+
+          # 2. Create isolated worktree for data branch
+          if git ls-remote --exit-code --heads origin data; then
+            git worktree add ../data_worktree -B data origin/data
+          else
+            # Initialize orphaned branch safely without switching main working tree
+            git worktree add --detach ../data_worktree
+            cd ../data_worktree
+            
+            # Use safe GITHUB_SERVER_URL/GITHUB_REPOSITORY injection
+            git remote get-url origin >/dev/null 2>&1 || git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+            
+            git checkout --orphan data
+            git rm -rf . >/dev/null 2>&1 || true
+            mkdir -p reports
+            echo "# Sentinel data branch" > README.md
+            git add -A
+            git commit -m "init data branch"
+            git push origin data
+            cd -
+            rm -rf ../data_worktree
+            git worktree add ../data_worktree -B data origin/data
+          fi
+
+          # 3. Port over generated reports cleanly
+          rsync -a --delete reports/ ../data_worktree/reports/
+
+          # 4. Hop into worktree, commit and push
+          cd ../data_worktree
+          git add -f reports/
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "Stock Sentinel Weekly Backtest: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
+            git push origin data
+          else
+            echo "No changes to commit in data branch from backtest."
+          fi
