@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: daily-decision-radar
+  group: daily-radar-data-branch
   cancel-in-progress: false
 
 jobs:
@@ -35,11 +35,30 @@ jobs:
             ~/.cargo/bin/
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
+            ~/.cargo/registry/src/
             ~/.cargo/git/db/
-            target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock', '**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
+
+      - name: Fetch Historical Telemetry
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          
+          # Try to steal telemetry.csv from historical records without disrupting workspace
+          if git ls-remote --exit-code --heads origin data; then
+            git fetch --depth=1 origin data
+            echo "Data branch exists. Fetching telemetry.csv..."
+            git checkout origin/data -- reports/telemetry.csv 2>/dev/null || echo "No telemetry.csv found in data branch."
+            git reset --quiet HEAD reports/telemetry.csv 2>/dev/null || true
+          fi
+
+          # Fail-safe: if the file still doesn't exist, create a dummy header so Rust doesn't panic
+          if [ ! -f reports/telemetry.csv ]; then
+            echo "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share,universe_integrity,capital_flow_acceleration" > reports/telemetry.csv
+            echo "⚠️ Created empty telemetry.csv with headers to prevent Rust panic."
+          fi
 
       - name: Run Sentinel Radar
         env:
@@ -56,38 +75,69 @@ jobs:
           set -euo pipefail
           if [ -f "reports/freshness.json" ]; then
             echo "freshness.json found, validating..."
-            python - << 'PY'
+            python -c '
           import json, sys
           p="reports/freshness.json"
           d=json.load(open(p))
           stale=d.get("stale", False)
           max_age=d.get("max_age_minutes", None)
-          threshold=15
           if stale:
               print(f"❌ Data marked stale or too old: max_age_minutes={max_age}")
               sys.exit(1)
           print(f"✅ Freshness OK (max_age={max_age}m).")
-          PY
+          '
           else
             echo "⚠️ No freshness.json; skipping gate."
           fi
 
-      - name: Commit and Push Changes
+      - name: Commit and Push to Data Worktree
         run: |
           set -euo pipefail
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
           DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
 
-          git add -f reports/telemetry.csv || true
-          git add -f "reports/${DATE_JST}.json" || true
-          git add -f "reports/${DATE_JST}.md" || true
-          git add -f reports/freshness.json || true
+          # 1. Ensure origin/data history exists locally (shallow fetch)
+          git fetch --depth=1 origin data || true
 
-          if ! git diff --quiet || ! git diff --staged --quiet; then
-            git commit -m "Stock Sentinel Observation: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
-            git push origin main
+          # Clean any stale worktree state (paranoia mode)
+          git worktree prune || true
+          rm -rf ../data_worktree || true
+
+          # 2. Create isolated worktree for data branch
+          if git ls-remote --exit-code --heads origin data; then
+            git worktree add ../data_worktree -B data origin/data
           else
-            echo "No changes to commit."
+            # Initialize orphaned branch safely without switching main working tree
+            git worktree add --detach ../data_worktree
+            cd ../data_worktree
+            
+            # Use safe GITHUB_SERVER_URL/GITHUB_REPOSITORY injection
+            git remote get-url origin >/dev/null 2>&1 || git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
+            
+            git checkout --orphan data
+            git rm -rf . >/dev/null 2>&1 || true
+            mkdir -p reports
+            echo "# Sentinel data branch" > README.md
+            git add -A
+            git commit -m "init data branch"
+            git push origin data
+            cd -
+            rm -rf ../data_worktree
+            git worktree add ../data_worktree -B data origin/data
+          fi
+
+          # 3. Port over generated reports cleanly
+          rsync -a --delete reports/ ../data_worktree/reports/
+
+          # 4. Hop into worktree, commit and push
+          cd ../data_worktree
+          git add -f reports/
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "Stock Sentinel Observation: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
+            git push origin data
+          else
+            echo "No changes to commit in data branch."
           fi
