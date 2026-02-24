@@ -116,11 +116,15 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-          ROOT_DIR=$(pwd)
+          ROOT_DIR="${GITHUB_WORKSPACE}"
           DATA_DIR="${ROOT_DIR}/../data_worktree"
-          # 1. Ensure origin/data history exists locally (explicit refspec fetch)
-          # We don't suppress stderr here so auth or network failures are visible in Actions logs
-          git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data || true
+
+          # 1. Ensure origin/data history exists locally
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data
+          else
+            echo "Remote data branch not found; will initialize."
+          fi
 
           # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
           git worktree remove --force ../data_worktree 2>/dev/null || true
@@ -129,7 +133,9 @@ jobs:
 
           # 2. Create isolated worktree for data branch
           if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
-            git worktree add ../data_worktree -B data origin/data
+            echo "Remote data branch found. Fetching..."
+            git fetch origin refs/heads/data:refs/remotes/origin/data
+            git worktree add "${DATA_DIR}" -B data origin/data
           else
             echo "Remote data branch not found. Initializing orphan branch..."
             git worktree add --detach "${DATA_DIR}"
@@ -142,12 +148,10 @@ jobs:
           fi
 
           # 3. Port over generated reports cleanly
-          # - reports/ is a Mirror (snapshot), so we use --delete
-          # - backtest/ is a Ledger (append-only), so we copy files/archives individually
           mkdir -p "${DATA_DIR}/reports" "${DATA_DIR}/backtest/archive"
-          rsync -a --delete reports/ "${DATA_DIR}/reports/"
-          rsync -a backtest/summary_latest.md "${DATA_DIR}/backtest/"
-          rsync -a backtest/archive/ "${DATA_DIR}/backtest/archive/"
+          rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
+          rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
+          rsync -a "${ROOT_DIR}/backtest/archive/" "${DATA_DIR}/backtest/archive/"
           
           # 4. Hop into worktree, commit and push
           cd "${DATA_DIR}"
