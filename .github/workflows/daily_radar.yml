@@ -132,7 +132,6 @@ jobs:
 
           # 2. Create isolated worktree for data branch
           if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
-            echo "Remote data branch found. Fetching..."
             git fetch origin refs/heads/data:refs/remotes/origin/data
             git worktree add "${DATA_DIR}" -B data origin/data
           else
@@ -142,13 +141,33 @@ jobs:
             git checkout --orphan data
             git rm -rf . >/dev/null 2>&1 || true
             git branch -M data
-            git remote get-url origin >/dev/null 2>&1 || git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            cd "${ROOT_DIR}"
+
+            echo "# Sentinel data branch" > README.md
+            mkdir -p reports
+            git add -A
+            git commit -m "init data branch"
+
+            git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" 2>/dev/null || true
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push origin data
+            cd "${GITHUB_WORKSPACE}"
+
+            # Re-add worktree now that remote exists
+            rm -rf "${DATA_DIR}"
+            git worktree add "${DATA_DIR}" -B data origin/data
           fi
 
           # 3. Port over generated reports cleanly (Mirror Strategy for snapshots)
+          cd "${GITHUB_WORKSPACE}"
           mkdir -p "${DATA_DIR}/reports"
-          rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
+          
+          echo "PWD=$(pwd)"
+          echo "ROOT_DIR=${ROOT_DIR}"
+          echo "DATA_DIR=${DATA_DIR}"
+          echo "About to run: rsync -a --delete ${GITHUB_WORKSPACE}/reports/ ${DATA_DIR}/reports/"
+          ls -la "${GITHUB_WORKSPACE}/reports" || true
+
+          rsync -a --delete "${GITHUB_WORKSPACE}/reports/" "${DATA_DIR}/reports/"
           
           # 4. Hop into worktree, commit and push
           cd "${DATA_DIR}"
