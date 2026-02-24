@@ -114,11 +114,20 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
+          echo "---- DEBUG CONTEXT ----"
+          echo "GITHUB_WORKFLOW=${GITHUB_WORKFLOW}"
+          echo "GITHUB_REF=${GITHUB_REF}"
+          echo "GITHUB_SHA=${GITHUB_SHA}"
+          echo "WORKFLOW_FILE_LIST:"
+          ls -la .github/workflows || true
+          echo "SHOW daily_radar.yml HEAD (L130-180):"
+          sed -n '130,180p' .github/workflows/daily_radar.yml || true
+          echo "----------------------"
+
           ROOT_DIR="${GITHUB_WORKSPACE}"
           DATA_DIR="${ROOT_DIR}/.worktrees/data"
           DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
 
-          # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
           # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
           git worktree remove --force "${DATA_DIR}" 2>/dev/null || true
           git worktree prune || true
