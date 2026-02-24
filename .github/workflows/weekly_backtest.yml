@@ -74,17 +74,37 @@ jobs:
       - name: Run Sentinel Backtest
         run: |
           echo "RUN_AT_JST=$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
-          echo "REPORT_DATE_JST=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+          echo "REPORT_DATE_JST=$(TZ=Asia/Tokyo date +%Y-%m-%d)" >> $GITHUB_ENV
           cargo run --release -- backtest
+
+      - name: Snapshot Backtest Summary (latest + archive)
+        run: |
+          set -euo pipefail
+          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+
+          # Ensure source exists
+          test -s backtest/summary.md
+
+          # 1) latest pointer (overwrite)
+          cp -f backtest/summary.md backtest/summary_latest.md
+
+          # 2) archive (immutable snapshot)
+          mkdir -p backtest/archive
+          ARCHIVE_PATH="backtest/archive/summary_${DATE_JST}.md"
+          if [ -f "${ARCHIVE_PATH}" ]; then
+            echo "⚠️ Archive already exists: ${ARCHIVE_PATH} (keeping existing, not overwriting)"
+          else
+            cp backtest/summary.md "${ARCHIVE_PATH}"
+            echo "✅ Archived: ${ARCHIVE_PATH}"
+          fi
 
       - name: Output Integrity Check
         run: |
           set -euo pipefail
-          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
           
-          # Ensure backtest generated some artifacts (specifically the summary markdown)
-          if [ ! -s "backtest/summary.md" ] && [ ! -s "reports/telemetry.csv" ]; then
-            echo "❌ CRITICAL: backtest summary missing or produced empty output!"
+          # CRITICAL: Backtest must produce the summary markdown
+          if [ ! -s "backtest/summary.md" ] || [ ! -s "backtest/summary_latest.md" ]; then
+            echo "❌ CRITICAL: backtest summary missing or empty!"
             exit 1
           fi
           
@@ -134,17 +154,9 @@ jobs:
             git worktree add ../data_worktree -B data origin/data
           fi
 
-          # 3. Port over generated reports cleanly with archiving
-          rsync -a --delete reports/  ../data_worktree/reports/
-          mkdir -p ../data_worktree/backtest/archive
-          
-          # Create date-stamped archive and latest snapshot
-          if [ -f backtest/summary.md ]; then
-            cp backtest/summary.md "../data_worktree/backtest/summary_${REPORT_DATE_JST}.md"
-            cp backtest/summary.md "../data_worktree/backtest/summary_latest.md"
-            # Also keep a copy in the archive folder if desired, or just use the root date-stamped ones
-            cp backtest/summary.md "../data_worktree/backtest/archive/summary_${REPORT_DATE_JST}.md"
-          fi
+          # 3. Port over generated reports cleanly with archive persistence
+          rsync -a --delete reports/ ../data_worktree/reports/
+          rsync -a --delete backtest/ ../data_worktree/backtest/
           
           # 4. Hop into worktree, commit and push
           cd ../data_worktree
