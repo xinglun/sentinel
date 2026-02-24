@@ -63,6 +63,10 @@ pub struct GravityHealth {
     pub stability_score: f64,
     pub base_exposure: f64,
     pub adjusted_exposure: f64,
+    pub conf_trend_alloc: f64,
+    pub conf_inverse_potential: f64,
+    pub capital_flow_acceleration: Option<f64>,
+    pub universe_integrity: f64,
 }
 
 pub struct CapitalPosture {
@@ -588,9 +592,9 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
 
             let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
 
-            // Ultimate Schema (22 Columns): 
-            // date,timestamp,config_hash,state_code,state_text,gs,gp,t_raw,r_raw,r_adj,t_final,r_final,margin,exposure,size,c_up,c_flat,c_down,c_forming,w_up,w_flat,w_down,w_forming
-            let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
+            // Ultimate Schema (24 Columns): 
+            // date,timestamp,config_hash,state_code,state_text,gs,gp,t_raw,r_raw,r_adj,t_final,r_final,margin,exposure,size,c_up,c_flat,c_down,c_forming,w_up,w_flat,w_down,w_forming,integrity,accel
+            let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
                 date_str,
                 timestamp,
                 gravity_health.config_hash,
@@ -604,7 +608,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
                 posture.t_ratio_final,
                 posture.r_ratio_final,
                 dominance_margin,
-                gravity_health.recommended_exposure,
+                gravity_health.adjusted_exposure,
                 snapshots.len(),
                 up_share,
                 flat_share,
@@ -613,11 +617,13 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
                 w_up_share,
                 w_flat_share,
                 w_down_share,
-                regime_forming_share_w
+                regime_forming_share_w,
+                gravity_health.universe_integrity,
+                dominance_margin - gravity_health.prev_dominance_margin.unwrap_or(dominance_margin)
             );
 
             if !file_exists {
-                let header = "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share\n";
+                let header = "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share,universe_integrity,capital_flow_acceleration\n";
                 fs::write(&telemetry_path, format!("{}{}", header, telemetry_row))?;
             } else {
                 use std::io::Write;
@@ -684,13 +690,14 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n\n", date_str);
     
     md.push_str("## 🌍 Macro Indicators (全域状态监测)\n");
+    let integrity_pct = gravity.universe_integrity * 100.0;
     md.push_str(&format!("- **Universe Composition**: {} Universe | {} Valid | {} Forming ({}E / {}L)\n", 
         gravity.universe_count, gravity.total_count, 
         gravity.forming_early_count + gravity.forming_late_count,
         gravity.forming_early_count, gravity.forming_late_count));
+    md.push_str(&format!("- **Universe Integrity**: {:.1}% Valid Ratio\n", integrity_pct));
     md.push_str(&format!("- **CAPITAL STATE**: {}\n", posture.display_text));
     
-    // Delta for System Confidence
     let conf_delta = gravity.prev_system_confidence.map(|p| gravity.system_confidence - p);
     let conf_str = if let Some(d) = conf_delta {
         format!("{}% (Δ {:+.2}%)", gravity.system_confidence, d)
@@ -698,15 +705,25 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         format!("{}%", gravity.system_confidence)
     };
     md.push_str(&format!("- **System Confidence**: {}\n", conf_str));
-    
-    md.push_str(&format!("- **Capital Flow Vector**: {}\n", gravity.capital_flow_vector));
-    md.push_str(&format!("- **Market Structure**: {}\n", market_structure));
+    md.push_str("  - *Confidence Source*:\n");
+    md.push_str(&format!("    - Trend Allocation (Max 50%): {:.1}%\n", gravity.conf_trend_alloc));
+    md.push_str(&format!("    - Inverse Potential (Max 50%): {:.1}%\n", gravity.conf_inverse_potential));
     
     // Delta for Dominance Margin
     let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
     let margin_evolution = if let Some(d) = margin_delta {
         if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
     } else { "Baseline" };
+    
+    let accel_str = if let Some(acc) = margin_delta {
+        if acc > 0.05 { format!("{:+.2} (Strong)", acc) }
+        else if acc < -0.05 { format!("{:+.2} (Severe)", acc) }
+        else { format!("{:+.2} (Stable)", acc) }
+    } else { "Baseline".to_string() };
+    
+    md.push_str(&format!("- **Capital Flow Vector**: {}\n", gravity.capital_flow_vector));
+    md.push_str(&format!("- **Capital Flow Acceleration**: {}\n", accel_str));
+    md.push_str(&format!("- **Market Structure**: {}\n", market_structure));
     md.push_str(&format!("- **Dominance Margin**: {:+.2} ({} / {})\n", dominance_margin, posture.dominance_label, margin_evolution));
     
     // Exposure Scope
@@ -720,9 +737,13 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
     } else { "New Baseline" };
     
-    md.push_str(&format!("- **Base Exposure**: **{:.0}-{:.0}%**\n", b_floor, b_ceil));
-    md.push_str(&format!("- **Confidence Adjusted Exposure**: **{:.0}-{:.0}%**\n", a_floor, a_ceil));
-    md.push_str(&format!("- **Exposure Change**: {}\n", exp_delta_str));
+    md.push_str("- **Exposure Calculation Breakdown**:\n");
+    md.push_str(&format!("  - Base Exposure (Direction): {:.0}-{:.0}%\n", b_floor, b_ceil));
+    md.push_str(&format!("  - Confidence Modifier: × {:.2}\n", gravity.system_confidence / 100.0));
+    let stab_mod = if gravity.stability_score < 0.2 { 0.70 } else { 1.00 };
+    md.push_str(&format!("  - Stability Modifier (Cap): Max {:.0}%\n", stab_mod * 100.0));
+    md.push_str(&format!("  - **Final Adjusted Exposure**: **{:.0}-{:.0}%**\n", a_floor, a_ceil));
+    md.push_str(&format!("  - *Exposure Change vs Yesterday*: {}\n", exp_delta_str));
     let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
     md.push_str(&format!("- **Regime Age**: {} days ({} {})\n", gravity.regime_age, maturity_label, maturity_desc));
     md.push_str(&format!("- **Stability**: {}\n", format_stability_bar(gravity.stability_score)));
@@ -880,10 +901,12 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n\n", date_str);
 
     html.push_str("<b>🌍 Macro Indicators</b>\n");
+    let integrity_pct = gravity.universe_integrity * 100.0;
     html.push_str(&format!(" • Universe Composition: {} Universe | {} Valid | {} Forming ({}E/{}L)\n", 
         gravity.universe_count, gravity.total_count, 
         gravity.forming_early_count + gravity.forming_late_count,
         gravity.forming_early_count, gravity.forming_late_count));
+    html.push_str(&format!(" • Universe Integrity: <code>{:.1}%</code> Valid Ratio\n", integrity_pct));
     html.push_str(&format!(" • CAPITAL STATE: <code>{}</code>\n", posture.display_text));
     
     let conf_delta = gravity.prev_system_confidence.map(|p| gravity.system_confidence - p);
@@ -893,23 +916,41 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         format!("<code>{}%</code>", gravity.system_confidence)
     };
     html.push_str(&format!(" • System Confidence: {}\n", conf_str));
-    html.push_str(&format!(" • Capital Flow Vector: <code>{}</code>\n", gravity.capital_flow_vector));
-    html.push_str(&format!(" • Market Structure: <code>{}</code>\n", market_structure));
-    
+    html.push_str(&format!("   ├ Trend Alloc: <code>{:.1}%</code>\n", gravity.conf_trend_alloc));
+    html.push_str(&format!("   └ Inverse Potential: <code>{:.1}%</code>\n", gravity.conf_inverse_potential));
     let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
     let margin_evolution = if let Some(d) = margin_delta {
         if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
     } else { "Baseline" };
+    
+    let accel_str = if let Some(acc) = margin_delta {
+        if acc > 0.05 { format!("<code>{:+.2}</code> (Strong)", acc) }
+        else if acc < -0.05 { format!("<code>{:+.2}</code> (Severe)", acc) }
+        else { format!("<code>{:+.2}</code> (Stable)", acc) }
+    } else { "<code>Baseline</code>".to_string() };
+    
+    html.push_str(&format!(" • Capital Flow Vector: <code>{}</code>\n", gravity.capital_flow_vector));
+    html.push_str(&format!(" • Flow Acceleration: {}\n", accel_str));
+    html.push_str(&format!(" • Market Structure: <code>{}</code>\n", market_structure));
     html.push_str(&format!(" • Dominance Margin: <code>{:+.2}</code> ({})\n", dominance_margin, margin_evolution));
     
-    let floor = (gravity.recommended_exposure * 10.0).floor() * 10.0;
-    let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
-    html.push_str(&format!(" • Recommended Exposure: <b>{:.0}-{:.0}%</b>\n", floor, ceil));
+    let b_floor = (gravity.base_exposure * 10.0).floor() * 10.0;
+    let b_ceil = if b_floor >= 100.0 { 100.0 } else { b_floor + 10.0 };
+    let a_floor = (gravity.adjusted_exposure * 10.0).floor() * 10.0;
+    let a_ceil = if a_floor >= 100.0 { 100.0 } else { a_floor + 10.0 };
+    
+    html.push_str("<b> • Exposure Calculation Breakdown:</b>\n");
+    html.push_str(&format!("   ├ Base (Direction): <b>{:.0}-{:.0}%</b>\n", b_floor, b_ceil));
+    html.push_str(&format!("   ├ Confidence Mod: × {:.2}\n", gravity.system_confidence / 100.0));
+    let stab_mod = if gravity.stability_score < 0.2 { 0.70 } else { 1.00 };
+    html.push_str(&format!("   ├ Stability Cap: Max {:.0}%\n", stab_mod * 100.0));
+    html.push_str(&format!("   └ <b>Final Adjusted: {:.0}-{:.0}%</b>\n", a_floor, a_ceil));
     
     let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {
-        let diff = gravity.recommended_exposure - prev;
+        let diff = gravity.adjusted_exposure - prev;
         if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
     } else { "New Baseline" };
+    
     let (maturity_label, _) = gravity.get_regime_maturity();
     html.push_str(&format!(" • Exposure Change: <code>{}</code>\n", exp_delta_str));
     html.push_str(&format!(" • Stability: <code>{}</code>\n", format_stability_bar(gravity.stability_score)));

@@ -239,8 +239,11 @@ async fn main() -> Result<()> {
         };
 
         // --- Phase 25: Composite Macro Metrics ---
+        // --- Phase 25: Composite Macro Metrics ---
         let dominance_margin = (trend_alloc_weight - reversion_alloc_weight) / total_weight; // Normalized margin
-        let confidence_score = (trend_alloc_weight / total_weight * 50.0) + (1.0 / (1.0 + global_potential_energy) * 50.0);
+        let conf_trend_alloc = (trend_alloc_weight / total_weight * 50.0).clamp(0.0, 50.0);
+        let conf_inverse_potential = (1.0 / (1.0 + global_potential_energy) * 50.0).clamp(0.0, 50.0);
+        let confidence_score = conf_trend_alloc + conf_inverse_potential;
         let system_confidence = (confidence_score.clamp(0.0, 100.0) * 100.0).round() / 100.0;
 
         let market_phase = if dominance_margin > 0.5 {
@@ -310,6 +313,10 @@ async fn main() -> Result<()> {
             stability_score: 0.0,
             base_exposure,
             adjusted_exposure,
+            conf_trend_alloc,
+            conf_inverse_potential,
+            capital_flow_acceleration: prev_margin.map(|p| dominance_margin - p),
+            universe_integrity: if snapshots.len() > 0 { total_count as f64 / snapshots.len() as f64 } else { 0.0 },
         };
         let posture = temp_health.compute_capital_posture();
         let regime_age = calculate_regime_age(std::path::Path::new(&config_arc.output.save_to), &posture.state_code);
