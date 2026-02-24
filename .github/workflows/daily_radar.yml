@@ -108,7 +108,8 @@ jobs:
           DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
 
           # 1. Ensure origin/data history exists locally (explicit refspec fetch)
-          git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data 2>/dev/null || true
+          # We don't suppress stderr here so auth or network failures are visible in Actions logs
+          git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data || true
 
           # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
           git worktree remove --force ../data_worktree 2>/dev/null || true
@@ -132,6 +133,9 @@ jobs:
             echo "# Sentinel data branch" > README.md
             git add -A
             git commit -m "init data branch"
+            
+            # Guarantee explicit authentication for the very first initialization push
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push origin data
             cd -
             rm -rf ../data_worktree
