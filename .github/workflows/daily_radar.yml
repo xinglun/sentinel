@@ -112,6 +112,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
+          ROOT_DIR=$(pwd)
+          DATA_DIR="${ROOT_DIR}/../data_worktree"
           DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
 
           # 1. Ensure origin/data history exists locally (explicit refspec fetch)
@@ -140,11 +142,11 @@ jobs:
 
           # 3. Port over generated reports cleanly (Mirror Strategy for snapshots)
           # We use --delete here because reports/ is intended to be a latest-only snapshot
-          mkdir -p ../data_worktree/reports
-          rsync -a --delete reports/ ../data_worktree/reports/
+          mkdir -p "${DATA_DIR}/reports"
+          rsync -a --delete reports/ "${DATA_DIR}/reports/"
           
           # 4. Hop into worktree, commit and push
-          cd ../data_worktree
+          cd "${DATA_DIR}"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           
           # Standardize on the target branch for absolute safety
