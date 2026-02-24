@@ -34,6 +34,7 @@ pub struct TickerSnapshot {
     pub is_caution_mode_active: bool,
     pub trend_age: usize,
     pub owner_deviation_pct: Option<f64>,
+    pub deviation_percentile: Option<f64>,
 }
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
@@ -116,6 +117,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
             is_caution_mode_active: false,
             trend_age: 0,
             owner_deviation_pct: None,
+            deviation_percentile: None,
         };
     }
 
@@ -151,6 +153,28 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     } else {
         None
     };
+
+    // --- Phase 35: Behavioral Context (Historical Percentile) ---
+    let mut deviation_percentile = None;
+    if let Some(current_dev) = owner_deviation_pct {
+        let lookback_bars = 1260; // Approx 5 years of trading days
+        let start_sim = if last_idx > lookback_bars { last_idx - lookback_bars } else { 0 };
+        let mut historical_devs = Vec::with_capacity(last_idx - start_sim + 1);
+        
+        for i in start_sim..=last_idx {
+            if let Some(ma) = calculate_ma(&history.bars, entry.owner_ma_days, i) {
+                if ma != 0.0 {
+                    let dev = (history.bars[i].close - ma) / ma * 100.0;
+                    historical_devs.push(dev);
+                }
+            }
+        }
+        
+        if !historical_devs.is_empty() {
+            let count_lower = historical_devs.iter().filter(|&&d| d < current_dev).count();
+            deviation_percentile = Some((count_lower as f64 / historical_devs.len() as f64) * 100.0);
+        }
+    }
 
     // --- Trend Age Calculation ---
     let mut trend_age = 1;
@@ -432,5 +456,6 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         is_caution_mode_active,
         trend_age,
         owner_deviation_pct,
+        deviation_percentile,
     }
 }

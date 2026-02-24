@@ -383,10 +383,12 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             format!("{} {}", emoji, s.state_code)
         };
         
+        let percentile_str = s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default();
+        
         rows.push(TerminalRow {
             symbol: s.symbol.clone(),
             trend: trend_combined,
-            owner_dev: format!("Dist: {:+.1}%", owner_dev_val), 
+            owner_dev: format!("Dist: {:+.1}%{}", owner_dev_val, percentile_str), 
             strength_z: strength_z_combined,
             state: state_rc,
             action: get_position_guidance(&s.state_code).to_string(), 
@@ -707,7 +709,8 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         let strength_z_combined = format!("{} ({})", format_sigma(z_val), z_label);
         
         let owner_dev = s.owner_deviation_pct.unwrap_or(0.0);
-        let recovery_str = format!("{:+.1}%", owner_dev);
+        let percentile_str = s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default();
+        let recovery_str = format!("{:+.1}%{}", owner_dev, percentile_str);
 
         let emoji = get_state_emoji(&s.state_code);
         let state_name = if let Some(rc) = &s.reason_code {
@@ -849,7 +852,8 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
             _ => "➡️",
         };
         let z_val = s.dev_z_score.unwrap_or(0.0);
-        let owner_dev = s.owner_deviation_pct.unwrap_or(0.0);
+        let owner_dev_val = s.owner_deviation_pct.unwrap_or(0.0);
+        let percentile_str = s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default();
         let emoji = get_state_emoji(&s.state_code);
         
         let state_name = if let Some(rc) = &s.reason_code {
@@ -859,7 +863,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         };
 
         html.push_str(&format!("{}. <b>{}</b> | {} | <code>{}</code>\n", idx+1, s.symbol, state_name, get_position_guidance(&s.state_code)));
-        html.push_str(&format!("└ Owner Dist: {:+.1}% | {} | {}\n", owner_dev, format_sigma(z_val), s.action_text));
+        html.push_str(&format!("└ Owner Dist: <code>{:+.1}%{}</code> | {} | {}\n", owner_dev_val, percentile_str, format_sigma(z_val), s.action_text));
         html.push_str("\n");
     }
     

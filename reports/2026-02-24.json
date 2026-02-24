@@ -20,7 +20,8 @@
     "is_bear_mode_active": false,
     "is_caution_mode_active": false,
     "trend_age": 122,
-    "owner_deviation_pct": -7.075188638648208
+    "owner_deviation_pct": -7.075188638648208,
+    "deviation_percentile": 14.173228346456693
   },
   {
     "symbol": "SPY",
@@ -43,7 +44,8 @@
     "is_bear_mode_active": false,
     "is_caution_mode_active": false,
     "trend_age": 187,
-    "owner_deviation_pct": 4.697745622865476
+    "owner_deviation_pct": 4.697745622865476,
+    "deviation_percentile": 28.903654485049834
   },
   {
     "symbol": "GOOG",
@@ -66,7 +68,8 @@
     "is_bear_mode_active": false,
     "is_caution_mode_active": false,
     "trend_age": 130,
-    "owner_deviation_pct": 7.474586061819746
+    "owner_deviation_pct": 7.474586061819746,
+    "deviation_percentile": 51.181102362204726
   },
   {
     "symbol": "NVDA",
@@ -89,7 +92,8 @@
     "is_bear_mode_active": false,
     "is_caution_mode_active": true,
     "trend_age": 15,
-    "owner_deviation_pct": 3.9249706468509107
+    "owner_deviation_pct": 3.9249706468509107,
+    "deviation_percentile": 53.74149659863946
   },
   {
     "symbol": "MSFT",
@@ -112,7 +116,8 @@
     "is_bear_mode_active": true,
     "is_caution_mode_active": false,
     "trend_age": 31,
-    "owner_deviation_pct": -20.58368461565352
+    "owner_deviation_pct": -20.58368461565352,
+    "deviation_percentile": 0.0
   },
   {
     "symbol": "U",
@@ -135,7 +140,8 @@
     "is_bear_mode_active": true,
     "is_caution_mode_active": false,
     "trend_age": 10,
-    "owner_deviation_pct": -55.68624464472401
+    "owner_deviation_pct": -55.68624464472401,
+    "deviation_percentile": 0.0
   },
   {
     "symbol": "PLTR",
@@ -158,7 +164,8 @@
     "is_bear_mode_active": true,
     "is_caution_mode_active": false,
     "trend_age": 21,
-    "owner_deviation_pct": -21.599306598134195
+    "owner_deviation_pct": -21.599306598134195,
+    "deviation_percentile": 0.6802721088435374
   },
   {
     "symbol": "FIG",
@@ -181,6 +188,7 @@
     "is_bear_mode_active": true,
     "is_caution_mode_active": false,
     "trend_age": 3,
-    "owner_deviation_pct": -41.22315227678168
+    "owner_deviation_pct": -41.22315227678168,
+    "deviation_percentile": 82.6086956521739
   }
 ]

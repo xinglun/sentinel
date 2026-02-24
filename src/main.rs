@@ -109,6 +109,7 @@ async fn main() -> Result<()> {
                             is_caution_mode_active: false,
                             trend_age: 0,
                             owner_deviation_pct: None,
+                            deviation_percentile: None,
                         };
                         Some(err_snap)
                     }
