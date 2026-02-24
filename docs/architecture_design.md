@@ -52,6 +52,19 @@ struct WatchlistEntry {
 }
 ```
 
+### 3. モジュール構成とデータフロー (Module Data Flow)
+
+本システムは以下のステートレスなパイプラインで構成されています：
+
+1.  **Fetcher (`fetcher.rs`)**: `config` に基づき Yahoo Finance から時系列データを非同期で取得。
+2.  **Calc (`calc.rs`)**: 移動平均、標準偏差、Z-Score、モメンタム傾斜、曲率（加速度）を算出。
+3.  **Engine (`engine.rs`)**: 物理量ベクトルから `State` を判定し、`Confidence` を算出。
+4.  **Main (`main.rs`)**: 各銘柄の出力を `GravityHealth`（序参量を含む状態ベクトル）に集約。資本配分比率（Trend vs Reversion）を計算し `CAPITAL STATE` を決定。
+5.  **Report (`report.rs`)**: 
+    - **UI**: Terminal, Markdown, Telegram HTML の生成。
+    - **Persistence**: Daily JSON, `telemetry_v3.csv` (19列 序参量データセット) の追記保存。
+6.  **Backtest (`backtest.rs`)**: 歴史的な価格データを用いて全ロジックをシミュレート。Calibration Error や Alpha 分離度をレポート。
+
 ### 1.2 基礎データレイヤー (Market Data)
 APIから取得した生の時系列データです。
 ```rust
@@ -64,6 +77,22 @@ struct DailyBar {
 struct TickerHistory {
     symbol: String,
     bars: Vec<DailyBar>, // 日付の昇順にソート
+}
+
+/// 物理量と分配ロジックを集約したマクロ状態ベクトル
+struct GravityHealth {
+    up_count: usize,
+    flat_count: usize,
+    total_count: usize, // watchlist_size
+    up_weight: f64,
+    flat_weight: f64,
+    down_weight: f64,
+    total_weight: f64,
+    global_gravity_strength: f64,
+    global_potential_energy: f64,
+    trend_alloc_weight: f64,
+    reversion_alloc_weight: f64,
+    config_hash: String, // 参数宇宙隔离标识
 }
 ```
 
@@ -82,9 +111,12 @@ struct TickerSnapshot {
     deviation_pct: Option<f64>,   // 乖離率 %
     deviation_basis_used: String, // "owner" または "leash"
     state_code: String,           // ヒットした band のステータスキー名 (例: "overheat_1")
-    action_text: String,          // 最終的な提案アクション文（bear_mode/caution_mode を反映）
-    is_bear_mode_active: bool,
-    is_caution_mode_active: bool,
+    reason_code: Option<String>,
+    action_text: String,          // 最終的な提案アクション文
+    confidence_score: u8,         // 置信度 (0-100)
+    owner_ma_slope_pct: Option<f64>, // 重力強度
+    dev_z_score: Option<f64>,        // Z-Score
+    curvature: Option<f64>,          // 曲率
 }
 
 enum TrendStatus { Up, Down, Flat, Unknown }

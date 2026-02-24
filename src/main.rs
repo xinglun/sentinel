@@ -9,6 +9,7 @@ use anyhow::Result;
 use futures::stream::{self, StreamExt};
 use std::sync::Arc;
 use crate::engine::TickerSnapshot;
+use sha2::{Sha256, Digest};
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -37,6 +38,11 @@ async fn main() -> Result<()> {
     
     let app_config = config::AppConfig::load("config.toml")?;
     let parsed_rules = app_config.get_parsed_rules();
+
+    let config_content = std::fs::read_to_string("config.toml").unwrap_or_default();
+    let mut hasher = Sha256::new();
+    hasher.update(config_content.as_bytes());
+    let config_hash = format!("{:x}", hasher.finalize())[..8].to_string();
     
     let config_arc = Arc::new(app_config);
     let rules_arc = Arc::new(parsed_rules);
@@ -103,8 +109,10 @@ async fn main() -> Result<()> {
     
     if !snapshots.is_empty() {
         let mut up_count = 0;
+        let mut flat_count = 0;
         let mut down_count = 0;
         let mut up_weight = 0.0;
+        let mut flat_weight = 0.0;
         let mut down_weight = 0.0;
         
         for s in &snapshots {
@@ -113,16 +121,23 @@ async fn main() -> Result<()> {
                     up_count += 1;
                     up_weight += s.weight;
                 },
+                engine::TrendStatus::Flat => {
+                    flat_count += 1;
+                    flat_weight += s.weight;
+                },
                 engine::TrendStatus::Down => {
                     down_count += 1;
                     down_weight += s.weight;
                 },
-                _ => {} // Ignore Flat/Unknown for Gravity Health calculation
+                engine::TrendStatus::Unknown => {
+                    down_count += 1; // Unknown counts as non-up/down during transition
+                    down_weight += s.weight;
+                }
             }
         }
         
-        let total_count = up_count + down_count;
-        let total_weight = up_weight + down_weight;
+        let total_count = up_count + flat_count + down_count;
+        let total_weight = up_weight + flat_weight + down_weight;
         
         let mut total_strength_sum = 0.0;
         let mut weight_for_strength = 0.0;
@@ -170,15 +185,17 @@ async fn main() -> Result<()> {
         
         let gravity_health = report::GravityHealth {
             up_count,
-            down_count,
+            flat_count,
             total_count,
             up_weight,
+            flat_weight,
             down_weight,
             total_weight,
             global_gravity_strength,
             global_potential_energy,
             trend_alloc_weight,
             reversion_alloc_weight,
+            config_hash,
         };
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health)?;

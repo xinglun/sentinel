@@ -1,55 +1,58 @@
----
-tags: [rust, stock, investment, trading, sentinel]
-keywords: [monitoring, yahoo-finance, telegram, dca, strategy]
----
-
-# 🐕 Stock Sentinel (Decision Radar)
+# 🐕 Stock Sentinel (Capital Physics Engine)
 
 ## 目的
-Stock Sentinelは、市場の変動を客観的に監視し、感情に左右されない投資判断（積み立て、防御、買い増し）を支援するための意思決定支援ツールです。
+Stock Sentinelは、市場の変動を「物理的な観測」として捉え、感情に左右されない資本配分判断（DCA、防御、買い増し）を支援するための意思決定支援レーダーです。
 
 ## 読むタイミング
-- プロジェクトの概要と目的を理解したい時
-- セットアップ方法や使用方法を確認したい時
-- 提供される機能の詳細を知りたい時
+- システムの核心概念（飼い主-リード-犬モデル）と物理学的アプローチを理解したい時
+- セットアップ方法や日常の運用・検証コマンドを確認したい時
+- 資本状態（CAPITAL STATE）の読み方を知りたい時
 
 ---
 
-Rustで書かれた、高度にカスタマイズ可能な「意思決定レーダー」システムです。複数の銘柄に対して移動平均線の乖離（「飼い主-リード-犬」モデル）を体系的に監視するように設計されています。非合理的な感情による取引決定を避けるための客観的な取引提案（DCA、防御、買い増し）を提供し、日々の分析結果を直接Telegramにプッシュ通知します。
+## 🛰️ V1.2.1：Capital Dynamics Observatory (观测纪元)
+本システムは単なるテクニカル指標の集合体ではなく、市場のエネルギー状態を測定し、長期的な量化研究を可能にする「资本动力学观测站」へと進化しました。現在は**観測紀元（Observation Epoch）**に入っており、データの整合性和蓄積を最優先しています。
 
-## 主な機能
-- **構成駆動型エンジン:** 再コンパイルすることなく、`config.toml`で銘柄の追加、閾値バンドの変更、提案文の微調整が可能です。
-- **マルチタイムフレーム:** 資産タイプごとに異なる構造的MAを割り当てることができます（例：SPYにはMA200、PLTRのようなボラティリティの高いテック株にはMA60）。
-- **ティッカーごとのアクションロジック:** メインのフォールバックルールをティッカーレベルで上書きでき、指数（DCA）と個別株で異なる提案文を表示できます。
-- **ベアモード防御:** 飼い主MAのトレンドが下向きになった場合、システムは「買い」推奨を強制的に排除し、落ちてくるナイフを掴むリスクから保護します。
-- **エクスポネンシャルバックオフによる取得:** 非同期リトライにより、Yahoo Financeのレート制限を自動的に処理します。
-- **HTML Telegramレポート:** モバイルフレンドリーでクリーンなデイリーレポートをデバイスに直接配信します。
+- **CAPITAL STATE（资本姿态）:** ポートフォリオ全体の「趨勢主導」か「回帰主導」かを自動判定し、最適な配分戦略を提示。
+- **5つの物理および序参量指標:**
+    - **重力強度 (Strength):** 資本の推進力（移動平均の傾き）の測定。
+    - **势能 Z-Score:** 統計的な歪みの正規化。
+    - **曲率 (Curvature):** 加速・減速によるトレンド反転の早期検知。
+    - **信心度 (Confidence):** 物理指標のベクトル一致度。
+    - **统治优势差 (Dominance Margin):** 序参量（Order Parameter）。体制の安定度を記述。
+- **三位一体（Ternary）重力モデル:** UP/FLAT/DOWN を明確に分離し、市場幅（Breadth）の真実を記録。
+- **Telemetry V3 (19-Column Schema):** 毎日の読数を 19 列の完全な状態ベクトルとして `telemetry_v3.csv` に自動記録。
+- **Parameter Universe Isolation:** `config.toml` のハッシュ値を記録することで、パラメータ変更履歴とデータを完全に整合。
 
-## ドキュメント (Documentation)
-本システムの詳細な要件、アーキテクチャ、および設計哲学については、以下のドキュメントを参照してください：
-- [要件と機能の定義 (PRD)](./docs/PRD.md)
-- [システムアーキテクチャ設計](./docs/architecture_design.md)
-- [戦略設計哲学と評価 (Overview & Philosophy)](./docs/strategy_philosophy.md)
+## 🚀 使用方法 (Usage)
 
-## システム要件
-- Rust & Cargo (Edition 2021)
-- Yahoo Finance APIへのアクセス（APIキーは不要）
+### 1. 準備
+- Rust & Cargo (Edition 2021) がインストールされていること。
+- `config.toml` を開き、自身のウォッチリストと Telegram 通知（`bot_token`, `chat_id`）を設定します。
 
-## 使用方法
-1. リポジトリをクローンします。
-2. `config.toml`を編集して以下を設定します。
-   - Telegramの`bot_token`と`chat_id`を入力します。
-   - Telegramでボットとの会話を開始していることを確認してください。
-   - 取引ルールを調整し、`[[watchlist]]`の下にカスタムウォッチリストを追加します。
-3. ローカルで以下のコマンドを実行するか、日常のCRONジョブ/GitHub Actionに組み込みます。
+### 2. 日常の観測 (Daily Radar)
+毎日の終値確定後、以下のコマンドで現在の「資本の天気」を確認します。
 ```bash
 cargo run --release
 ```
+- ターミナルにカラーテーブルが出力されます。
+- `./reports` に JSON, Markdown, および `telemetry.csv` が生成されます。
+- Telegram にデイリーレポートがプッシュ通知されます。
 
-## 出力
-- **コンソール:** `tabled`による美しくフォーマットされたカラフルなCLI出力。
-- **ローカルファイル:** 日々のレポートとして、`.json`データベースファイルと`.md`成果物を`./reports`フォルダ内に生成します。
-- **Telegram通知:** HTML形式のアラート通知。
+### 3. 歴史的検証 (Backtest Mode)
+過去のデータを用いて、システムの「目盛り（Calibration）」と「アルファ分離」を検証します。
+```bash
+cargo run --release -- backtest
+```
+- `./backtest/summary.md` に以下の詳細レポートが出力されます。
+    - **Calibration Error:** 確率予測の正確性。
+    - **Alpha Separation:** トレンド対回帰の期待値の差。
+    - **Transition Matrix:** 状態遷移の確率統計。
+
+## 📁 ドキュメント (Documentation)
+- [要件と機能の定義 (PRD)](./docs/PRD.md) - システムの鉄則と核心要件
+- [システムアーキテクチャ設計](./docs/architecture_design.md) - 内部構造とデータフロー
+- [戦略設計哲学と評価](./docs/strategy_philosophy.md) - 「飼い主-犬」モデルと掃参（Sweep）プロトコル
 
 ---
 

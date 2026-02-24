@@ -28,37 +28,37 @@
 - **Low Tension (Potential <= 1.0)**: +20d = `+1.71%`, +60d = `+4.48%`
 
 ## 4. State Transition Flow
-**FROM cruise** (501 transitions):
-  - `→ optimal`: 58.9%
-  - `→ overheat_1`: 39.5%
-  - `→ pullback`: 0.8%
-**FROM overheat_1** (285 transitions):
-  - `→ cruise`: 77.2%
-  - `→ overheat_2`: 22.1%
-  - `→ optimal`: 0.7%
+**FROM overheat_2** (72 transitions):
+  - `→ overheat_1`: 98.6%
+  - `→ cruise`: 1.4%
+**FROM fear_downtrend** (84 transitions):
+  - `→ DEFEND`: 81.0%
+  - `→ CAUTION`: 19.0%
 **FROM pullback** (177 transitions):
   - `→ optimal`: 62.1%
   - `→ fear_1`: 23.7%
   - `→ CAUTION`: 6.8%
-**FROM optimal** (428 transitions):
-  - `→ cruise`: 61.0%
-  - `→ pullback`: 33.6%
-  - `→ CAUTION`: 3.5%
 **FROM DEFEND** (85 transitions):
   - `→ fear_downtrend`: 58.8%
   - `→ CAUTION`: 14.1%
   - `→ optimal`: 10.6%
-**FROM fear_1** (50 transitions):
-  - `→ pullback`: 54.0%
-  - `→ fear_downtrend`: 26.0%
-  - `→ CAUTION`: 18.0%
+**FROM optimal** (428 transitions):
+  - `→ cruise`: 61.0%
+  - `→ pullback`: 33.6%
+  - `→ CAUTION`: 3.5%
+**FROM cruise** (501 transitions):
+  - `→ optimal`: 58.9%
+  - `→ overheat_1`: 39.5%
+  - `→ pullback`: 0.8%
 **FROM CAUTION** (63 transitions):
   - `→ fear_downtrend`: 31.7%
   - `→ cruise`: 19.0%
   - `→ optimal`: 15.9%
-**FROM fear_downtrend** (84 transitions):
-  - `→ DEFEND`: 81.0%
-  - `→ CAUTION`: 19.0%
-**FROM overheat_2** (72 transitions):
-  - `→ overheat_1`: 98.6%
-  - `→ cruise`: 1.4%
+**FROM fear_1** (50 transitions):
+  - `→ pullback`: 54.0%
+  - `→ fear_downtrend`: 26.0%
+  - `→ CAUTION`: 18.0%
+**FROM overheat_1** (285 transitions):
+  - `→ cruise`: 77.2%
+  - `→ overheat_2`: 22.1%
+  - `→ optimal`: 0.7%

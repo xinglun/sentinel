@@ -333,7 +333,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
     // --- Phase 10: Confidence Calibration (Baseline Adjustments) ---
     // A heuristic based on the convergence of the physics variables
-    let mut confidence_score = 50; 
+    let mut confidence_score; 
     
     match state_code.as_str() {
         "DEFEND" | "fear_downtrend" => {

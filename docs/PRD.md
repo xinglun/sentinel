@@ -20,6 +20,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
     * **Z-Score**: 現在の乖離率が、その銘柄の歴史的ボラティリティに対してどれほど異常かを示す統計的基準。
     * **曲率 (Curvature / 2nd Derivative)**: 飼い主の歩く速度の変化（加速/減速）。最早期の底打ち（Early Recovery）を検知します。
     * **置信度 (Confidence)**: 上記の物理指標群のベクトルが一致している度合い（0〜100%）。
+    * **相対優位性差 (Dominance Margin)**: 序参量（Order Parameter）。Trend Ratio と Reversion Ratio の差分。資本体制の物理的な「統治安定度」を記述します。
 
 ## 2. 核心機能の要件と入出力
 ### 2.1 入力：構成駆動 (config.toml)
@@ -55,16 +56,26 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
   2. **Regime Alpha Separation**（Trend / Reversion の明確な分離とエッジ）
   3. **State Transition 安定性**（遷移確率が異常なノイズで崩壊していないこと）
 
+### 鉄則 D：データ蓄積期（Observation Epoch）における安定性優先
+* **ルール**: V1.2.x 以降、システムは「開発期」から「観測期」に移行します。コードの複雑化や新規機能の追加よりも、**時間軸におけるデータの整合性と連続性**を最優先します。パラメータやロジックの変更は、序参量（Order Parameter）の解釈が根本的に変化する場合にのみ、極めて慎重に行われます。
+
 ## 4. システムアーキテクチャの実装案 (Rust)
 本システムは、クロスプラットフォーム、安定性、および極めて高い実行効率を保証するため、Rustを用いて構築されます。
 
-### 3.1 コアモジュールの分割
+### 4.1 コアモジュールの分割
 * **`config`**: `serde` と `toml` を使用し、TOMLファイルの読み込みと検証を行います。
-* **`datasource`**: 市場データ（Yahoo Finance APIなど）との連携を行い、HTTPリトライメカニズム（`reqwest` + `tokio`）を担当します。
-* **`calc`**: 時系列のステートレスな計算（MAの計算、変化率など）に特化します。
-* **`engine`**: ステートマシンモジュール。算出された乖離率（Dev%）を対応する状態にマッピングし、下降トレンド検出時にベアモードをトリガーします。
-* **`report`**: レンダラーモジュール。ターミナルテーブル（`tabled`）、Markdownテキスト、およびJSONファイルを生成します。
-* **`notify`**: Webhookプッシュモジュール。Telegram APIをカプセル化し、毎日の自動通知を行います。
+* **`fetcher`**: 市場データ（Yahoo Finance APIなど）との連携を行い、HTTPリトライメカニズム（`reqwest` + `tokio`）を担当します。
+* **`calc`**: 時系列のステートレスな計算（MAの計算、標準偏差、Z-Score、曲率など）に特化します。
+* **`engine`**: キャピタル・フィジクス・エンジン。物理量ベクトルから `State` と `Confidence` を算出します。
+* **`report`**: レンダラーモジュール。Terminal, Markdown, Telegram HTML および `telemetry_v3.csv`（19列 序参量データセット）を生成します。
+* **`backtest`**: シミュレーションエンジン。歴史データに基づき Calibration Error 等を算出します。
+* **`notify`**: Telegram API をカプセル化し、毎日の自動通知を行います。
+
+### 4.2 データエンジニアリング層 (Data Engineering V1.2.1)
+本システムは長期的な回帰分析に耐えうるデータ品質を保証します：
+* **Config Hashing**: `config.toml` の SHA256 ハッシュを各レコードに付与し、パラメータ宇宙を隔離します。
+* **High-Res Timestamp**: RFC3339 形式によるサンプリング汚染の防止。
+* **10/10 Observatory Schema**: 物理層、分配層、姿態層、統治層、広度層を含む 19 列の完全な状態ベクトル（序参量を含む）を保存します。
 
 ### 3.2 構成ファイルの標準例 (TOML)
 ```toml
@@ -121,6 +132,21 @@ enable = true
 3. **正しい状態マッピング**: 定義された閾値に従って厳格に実行されること。`bear_mode = true` の判定時、長期MAによるCAUTIONまたはDEFENDの状態に応じ、提案アクションが必ず警戒または防御的なメッセージで上書きされること。ただし、状態が `fear` を含み、なおかつ「価格 > MA200」かつ「MA200が下降トレンドでない」という厳しい構造的条件を満たした場合にのみ、この上書きが豁免（スキップ）されること。
 4. **ファイルの永続化**: 1回の実行ごとに `reports/YYYY-MM-DD.md` と `reports/YYYY-MM-DD.json` を生成すること。
 5. **TG 配信（フェーズ2/拡張）**: 環境変数から BOT_TOKEN を読み取り、レポートを特定の Telegram チャットにフル送信し、Markdownでレンダリングされること。
+## 5. 将来のロードマップ：地平線紀元 (The Horizon Epoch)
+本システムは「観測紀元」によるデータ蓄積を経て、最終的に以下の研究目標（地平線紀元）を目指します。
+
+### 5.1 監督学習用ラベルの自動統合 (Market Reference Return)
+* **概要**: Telemetry データに「N日後の市場パフォーマンス」を自動的に紐付けます。
+* **目標**: `spy_return_20d`, `spy_return_60d` などの将来リターンを追記することで、Telemetry をそのまま機械学習のトレーニングデータセットへと昇華させます。
+
+### 5.2 状態推移確率の深化研究
+* **概要**: 累積された `dominance_margin` の推移から、Regime 崩壊の予兆を統計的に記述します。
+* **目標**: 「序参量が X 連続で下降した場合、Y日以内に趋势主導から回帰主導へ遷移する確率」を算出します。
+
+### 5.3 資本加速度 (Capital Acceleration) の導入
+* **概要**: `dominance_margin` の時間微分（Δ margin / Δ time）を計算します。
+* **目標**: 価格の下落に先んじて、資本構造の空心化（Internal Hollow out）を検知する先行指標を確立します。
+
 ---
 
 ## Author
