@@ -117,27 +117,18 @@ jobs:
           git config --global user.name "github-actions[bot]"
 
           ROOT_DIR="${GITHUB_WORKSPACE}"
-          DATA_DIR="${ROOT_DIR}/../data_worktree"
-
-          # 1. Ensure origin/data history exists locally
-          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
-            git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data
-          else
-            echo "Remote data branch not found; will initialize."
-          fi
+          DATA_DIR="${ROOT_DIR}/.worktrees/data"
 
           # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
-          git worktree remove --force ../data_worktree 2>/dev/null || true
+          git worktree remove --force "${DATA_DIR}" 2>/dev/null || true
           git worktree prune || true
-          rm -rf ../data_worktree || true
+          rm -rf "${DATA_DIR}" || true
+          mkdir -p "$(dirname "${DATA_DIR}")"
 
-          # 2. Create isolated worktree for data branch
-          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
-            echo "Remote data branch found. Fetching..."
-            git fetch origin refs/heads/data:refs/remotes/origin/data
-            git worktree add "${DATA_DIR}" -B data origin/data
-          else
-            echo "Remote data branch not found. Initializing orphan branch..."
+          # 1. ensure data branch exists; if not, create & push once
+          if ! git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            echo "Remote data branch not found. Bootstrapping..."
+
             git worktree add --detach "${DATA_DIR}"
             cd "${DATA_DIR}"
             git checkout --orphan data
@@ -154,21 +145,24 @@ jobs:
             git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" 2>/dev/null || true
             git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push origin data
-            cd "${GITHUB_WORKSPACE}"
 
-            # Re-add worktree now that remote exists
-            rm -rf "${DATA_DIR}"
-            git worktree add "${DATA_DIR}" -B data origin/data
+            cd "${ROOT_DIR}"
+            git worktree remove --force "${DATA_DIR}" 2>/dev/null || true
+            rm -rf "${DATA_DIR}" || true
           fi
 
+          # 2. Add worktree from remote data
+          git fetch origin refs/heads/data:refs/remotes/origin/data
+          git worktree add "${DATA_DIR}" -B data origin/data
+
           # 3. Port over generated reports cleanly
-          cd "${GITHUB_WORKSPACE}"
+          cd "${ROOT_DIR}"
           mkdir -p "${DATA_DIR}/reports" "${DATA_DIR}/backtest/archive"
           
           echo "PWD=$(pwd)"
-          echo "ROOT_DIR=${ROOT_DIR}"
+          echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}"
           echo "DATA_DIR=${DATA_DIR}"
-          echo "About to run: rsync -a --delete ${GITHUB_WORKSPACE}/reports/ ${DATA_DIR}/reports/"
+          ls -la "${ROOT_DIR}/reports" || true
           
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
