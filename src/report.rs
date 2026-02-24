@@ -200,13 +200,25 @@ impl GravityHealth {
         }
     }
 
-    pub fn get_action_bias(&self, posture: &CapitalPosture, buy_zone_empty: bool) -> &str {
-        match posture.state_code.as_str() {
+    pub fn get_regime_maturity(&self) -> (&'static str, &'static str) {
+        if self.regime_age <= 10 { ("🟡 Newborn", "(Unstable)") }
+        else if self.regime_age <= 60 { ("🟢 Healthy", "(Rising)") }
+        else if self.regime_age <= 200 { ("🔵 Mature", "(Compounding)") }
+        else { ("🟠 Aging", "(Inertial Risk)") }
+    }
+
+    pub fn get_action_bias(&self, posture: &CapitalPosture, buy_zone_empty: bool) -> String {
+        let (maturity_label, _) = self.get_regime_maturity();
+        let risk_prefix = if self.regime_age <= 10 { " [High Newborn Risk]" } else { "" };
+        
+        let base = match posture.state_code.as_str() {
             "OPTIMAL" | "CRUISE" if buy_zone_empty => "HOLD",
             "OPTIMAL" | "CRUISE" | "TREND_DOMINANT" => "SELECTIVE ACCUMULATION (ON PULLBACKS)",
             "REVERSION_DOMINANT" if self.global_potential_energy > 1.8 => "ACCUMULATE (Contrarian)",
             _ => "DEFEND",
-        }
+        };
+        
+        format!("{}{}", base, risk_prefix)
     }
 }
 
@@ -425,7 +437,8 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     println!(" • Dominance Margin: {:+.2} ({}) {}", dominance_margin, posture.dominance_label, margin_evolution);
     
     println!(" • Market Structure: {}", market_structure);
-    println!(" • Regime Age: {} days", gravity_health.regime_age);
+    let (maturity_label, maturity_desc) = gravity_health.get_regime_maturity();
+    println!(" • Regime Age: {} days {} {}", gravity_health.regime_age, maturity_label, maturity_desc);
     println!(" • Capital Flow Vector: {}", gravity_health.capital_flow_vector);
     println!(" • Action Bias: {}", gravity_health.get_action_bias(&posture, buy_zone.is_empty()));
     println!(" • GRAVITY POTENTIAL:\n{}", format_thermometer(gravity_health.global_potential_energy, 2.0));
@@ -627,7 +640,8 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     } else { "New Baseline" };
     md.push_str(&format!("- **Recommended Exposure**: **{:.0}-{:.0}%**\n", floor, ceil));
     md.push_str(&format!("- **Exposure Change**: {}\n", exp_delta_str));
-    md.push_str(&format!("- **Regime Age**: {} days\n", gravity.regime_age));
+    let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
+    md.push_str(&format!("- **Regime Age**: {} days ({} {})\n", gravity.regime_age, maturity_label, maturity_desc));
     md.push_str(&format!("- **Action Bias**: **{}**\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     md.push_str(&format!("- **GRAVITY POTENTIAL**:\n```\n{}\n```\n({})\n\n", format_thermometer(gravity.global_potential_energy, 2.0), gravity.format_potential_energy()));
@@ -778,8 +792,9 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         let diff = gravity.recommended_exposure - prev;
         if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
     } else { "New Baseline" };
+    let (maturity_label, _) = gravity.get_regime_maturity();
     html.push_str(&format!(" • Exposure Change: <code>{}</code>\n", exp_delta_str));
-    html.push_str(&format!(" • Regime Age: <code>{} days</code>\n", gravity.regime_age));
+    html.push_str(&format!(" • Regime Age: <code>{} days</code> ({})\n", gravity.regime_age, maturity_label));
     html.push_str(&format!(" • Action Bias: <b>{}</b>\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     html.push_str(&format!(" • GRAVITY POTENTIAL: <code>{}</code>\n\n", format_thermometer(gravity.global_potential_energy, 2.0).replace("\n", " | ")));
