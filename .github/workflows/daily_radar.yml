@@ -40,9 +40,9 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add reports/telemetry.csv
-          git add reports/$(date +%Y-%m-%d).json
-          git add reports/$(date +%Y-%m-%d).md
+          git add -f reports/telemetry.csv
+          git add -f reports/$(date +%Y-%m-%d).json
+          git add -f reports/$(date +%Y-%m-%d).md
           # 检查是否有变化
           if ! git diff --quiet || ! git diff --staged --quiet; then
             git commit -m "Stock Sentinel Observation: $(date +'%Y-%m-%d %H:%M:%S')"
