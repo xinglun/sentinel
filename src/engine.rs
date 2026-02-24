@@ -14,7 +14,8 @@ pub enum TrendStatus {
 #[derive(Debug, Serialize, Clone, PartialEq, Eq)]
 pub enum RegimeValidity {
     Valid,
-    Forming,
+    FormingEarly, // < 1.5x Owner MA
+    FormingLate,  // 1.5x - 3x Owner MA or unstable slope
     Invalid,
 }
 
@@ -448,15 +449,21 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     // Cap at 99
     if confidence_score > 99 { confidence_score = 99; }
 
-    // Phase 4.1 Structural Honesty: Refined Trigger
-    let is_short_history = history_days < entry.owner_ma_days * 2;
+    // Phase 4.2 Institutional Audit: Granular Forming Stages
+    // FORMING_EARLY: < 1.5x Owner MA
+    // FORMING_LATE: 1.5x - 3x Owner MA or unstable slope
+    let is_early_history = history_days < (entry.owner_ma_days as f32 * 1.5) as usize;
+    let is_late_history = !is_early_history && history_days < entry.owner_ma_days * 3;
     let is_unstable_slope = owner_ma_slope_pct.map(|s| s.abs() < 0.5).unwrap_or(true);
-    let regime_forming = is_short_history || is_unstable_slope;
-
+    
     let mut validity = RegimeValidity::Valid;
-    if regime_forming {
-        validity = RegimeValidity::Forming;
+    if is_early_history {
+        validity = RegimeValidity::FormingEarly;
+    } else if is_late_history || is_unstable_slope {
+        validity = RegimeValidity::FormingLate;
     }
+
+    let is_any_forming = validity == RegimeValidity::FormingEarly || validity == RegimeValidity::FormingLate;
 
     let mut snapshot = TickerSnapshot {
         symbol: entry.symbol.clone(),
@@ -468,36 +475,36 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         owner_ma,
         leash_ma,
         owner_ma_slope_pct,
-        dev_z_score,
-        curvature,
+        dev_z_score: if is_any_forming { None } else { dev_z_score },
+        curvature: if is_any_forming { None } else { curvature },
         confidence_score: confidence_score as usize,
         trend_status,
         deviation_pct,
         deviation_basis_used: format!("{:?}", entry.deviation_basis).to_lowercase(),
         state_code,
         action_text,
-        is_bear_mode_active,
-        is_caution_mode_active,
+        is_bear_mode_active: false, // Placeholder, will be computed in main
+        is_caution_mode_active: false,
         trend_age,
-        owner_deviation_pct,
-        deviation_percentile: if regime_forming { None } else { deviation_percentile },
-        validity,
+        owner_deviation_pct: if is_any_forming { None } else { owner_deviation_pct },
+        deviation_percentile: if is_any_forming { None } else { deviation_percentile },
+        validity: validity.clone(),
         history_days,
     };
 
-    if regime_forming {
-        snapshot.state_code = "REGIME_FORMING".to_string();
+    if is_any_forming {
+        snapshot.state_code = if validity == RegimeValidity::FormingEarly { "FORMING_EARLY".to_string() } else { "FORMING_LATE".to_string() };
         if let Some(act) = rules.actions.get("regime_forming") {
             snapshot.action_text = act.clone();
         } else {
             snapshot.action_text = "【观察期】：引力结构尚未形成，暂不参与".to_string();
         }
 
-        // Phase 4.1 Institutional Audit: Downgrade deviation_basis to leash for forming assets
+        // Phase 4.2 Institutional Audit: Semantic Honesty - Downgrade deviation_basis to leash
         if let Some(lm) = leash_ma {
             if lm != 0.0 {
                 snapshot.deviation_pct = Some((dog_price - lm) / lm * 100.0);
-                snapshot.deviation_basis_used = "leash (forming override)".to_string();
+                snapshot.deviation_basis_used = "leash (formation override)".to_string();
             }
         }
     }

@@ -141,13 +141,21 @@ async fn main() -> Result<()> {
         let mut up_weight = 0.0;
         let mut flat_weight = 0.0;
         let mut down_weight = 0.0;
-        let mut regime_forming_count = 0;
-        let mut regime_forming_weight = 0.0;
+        let mut forming_early_count = 0;
+        let mut forming_late_count = 0;
+        let mut forming_early_weight = 0.0;
+        let mut forming_late_weight = 0.0;
+
         for s in &snapshots {
-            if s.validity == engine::RegimeValidity::Forming {
-                regime_forming_count += 1;
-                regime_forming_weight += s.weight;
-                continue; // --- MACRO CLEANSE: Exclude from global trend counts ---
+            if s.validity == engine::RegimeValidity::FormingEarly || s.validity == engine::RegimeValidity::FormingLate {
+                if s.validity == engine::RegimeValidity::FormingEarly {
+                    forming_early_count += 1;
+                    forming_early_weight += s.weight;
+                } else {
+                    forming_late_count += 1;
+                    forming_late_weight += s.weight;
+                }
+                continue; // --- MACRO CLEANSE: Strictly exclude all forming assets from global identifiers ---
             }
 
             match s.trend_status {
@@ -182,7 +190,7 @@ async fn main() -> Result<()> {
         
         for s in &snapshots {
             // --- MACRO CLEANSE: Exclude Forming assets from Physics logic ---
-            if s.validity == engine::RegimeValidity::Forming {
+            if s.validity == engine::RegimeValidity::FormingEarly || s.validity == engine::RegimeValidity::FormingLate {
                 continue;
             }
 
@@ -235,13 +243,26 @@ async fn main() -> Result<()> {
             "Neutral / Transition"
         };
 
+        // --- Phase 4.2: Granular Capital Flow Vector ---
         let capital_flow_vector = if dominance_margin > 0.0 {
-            if global_gravity_strength > 0.0 { "Accelerating Upward ↗️" } else { "Weakening Uptrend ↗️ slowing" }
+            if global_gravity_strength > 0.5 {
+                 "Accelerating Upward 🚀" 
+            } else if global_gravity_strength > 0.0 {
+                 "Early Uptrend / Emerging ↗️" 
+            } else {
+                 "Weakening Uptrend ↗️ slowing"
+            }
         } else {
-            if global_gravity_strength < 0.0 { "Accelerating Downward ↘️" } else { "Stabilizing / Bottoming ↘️ slowing" }
+            if global_gravity_strength < -0.5 {
+                 "Accelerating Downward ↘️" 
+            } else if global_gravity_strength < 0.0 {
+                 "Early Downtrend / Correction 📉"
+            } else {
+                 "Stabilizing / Bottoming ↘️ slowing"
+            }
         };
 
-        let recommended_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
+        let mut recommended_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
 
         let mut temp_health = report::GravityHealth {
             up_count,
@@ -260,9 +281,12 @@ async fn main() -> Result<()> {
             system_confidence,
             market_phase: market_phase.to_string(),
             capital_flow_vector: capital_flow_vector.to_string(),
-            recommended_exposure,
-            regime_forming_count,
-            regime_forming_weight,
+            recommended_exposure: 0.0, // Placeholder
+            forming_early_count,
+            forming_late_count,
+            forming_early_weight,
+            forming_late_weight,
+            universe_count: snapshots.len(),
             prev_potential_energy: prev_gp,
             prev_system_confidence: None, 
             prev_dominance_margin: prev_margin,
@@ -273,7 +297,16 @@ async fn main() -> Result<()> {
         let posture = temp_health.compute_capital_posture();
         let regime_age = calculate_regime_age(std::path::Path::new(&config_arc.output.save_to), &posture.state_code);
         temp_health.regime_age = regime_age;
-        temp_health.stability_score = (regime_age as f64 / 30.0).min(1.0);
+        let stability_score = (regime_age as f64 / 30.0).min(1.0);
+        temp_health.stability_score = stability_score;
+
+        // --- Phase 4.2 Strategic Anchor: Stability-Governed Exposure Cap ---
+        // If stability < 20% (Newborn/Unstable), cap exposure at 70% to prevent over-optimization
+        if stability_score < 0.2 {
+            recommended_exposure = recommended_exposure.min(0.70);
+        }
+        temp_health.recommended_exposure = recommended_exposure;
+
         let gravity_health = temp_health;
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;

@@ -34,13 +34,16 @@ pub struct GravityHealth {
     pub up_count: usize,
     pub flat_count: usize,
     pub down_count: usize,
-    pub regime_forming_count: usize,
-    pub total_count: usize, // Also watchlist_size
+    pub forming_early_count: usize,
+    pub forming_late_count: usize,
+    pub universe_count: usize,
+    pub total_count: usize, // Valid count (Macro denominator)
     pub up_weight: f64,
     pub flat_weight: f64,
     pub down_weight: f64,
-    pub regime_forming_weight: f64,
-    pub total_weight: f64,
+    pub forming_early_weight: f64,
+    pub forming_late_weight: f64,
+    pub total_weight: f64, // Valid weight (Macro denominator)
     pub global_gravity_strength: f64,
     pub global_potential_energy: f64,
     pub trend_alloc_weight: f64,
@@ -382,12 +385,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             "-".to_string()
         };
 
-        let _strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
         let owner_dev_val = s.owner_deviation_pct.unwrap_or(0.0);
-        let _owner_dev_str = format!("{:+.2}%", owner_dev_val);
-        
-        let z_val = s.dev_z_score.unwrap_or(0.0);
-        let strength_z_combined = format!("{} ({})", format_sigma(z_val), get_z_label(z_val));
         
         let emoji = get_state_emoji(&s.state_code);
         let state_rc = if let Some(rc) = &s.reason_code {
@@ -395,23 +393,36 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
         } else {
             format!("{} {}", emoji, s.state_code)
         };
-        
-        let percentile_str = if s.validity == RegimeValidity::Forming {
+
+        let percentile_str = if s.validity == RegimeValidity::FormingEarly || s.validity == RegimeValidity::FormingLate {
             "".to_string()
         } else {
             s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default()
         };
         
-        let action_guidance = if s.validity == RegimeValidity::Forming {
+        let action_guidance = if s.validity == RegimeValidity::FormingEarly || s.validity == RegimeValidity::FormingLate {
             "Allocation: N/A (Observe)".to_string()
         } else {
             get_position_guidance(&s.state_code).to_string()
         };
 
+        let owner_dev_str = if s.validity == RegimeValidity::FormingEarly {
+            "Dist: N/A".to_string()
+        } else {
+            format!("Dist: {:+.1}%{}", owner_dev_val, percentile_str)
+        };
+
+        let strength_z_combined = if s.validity == RegimeValidity::FormingEarly {
+            "Z-Score: N/A".to_string()
+        } else {
+            let z_val = s.dev_z_score.unwrap_or(0.0);
+            format!("{} ({})", format_sigma(z_val), get_z_label(z_val))
+        };
+
         rows.push(TerminalRow {
             symbol: s.symbol.clone(),
             trend: trend_combined,
-            owner_dev: format!("Dist: {:+.1}%{}", owner_dev_val, percentile_str), 
+            owner_dev: owner_dev_str, 
             strength_z: strength_z_combined,
             state: state_rc,
             action: action_guidance, 
@@ -453,7 +464,13 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     let mut table = Table::new(rows);
     table.with(Style::modern());
     
-    println!("VALID TICKERS: {} | FORMING: {}", gravity_health.total_count, gravity_health.regime_forming_count);
+    println!("UNIVERSE: {} | VALID: {} | FORMING: {} ({}E / {}L)", 
+        gravity_health.universe_count,
+        gravity_health.total_count, 
+        gravity_health.forming_early_count + gravity_health.forming_late_count,
+        gravity_health.forming_early_count,
+        gravity_health.forming_late_count
+    );
     println!("{}", table);
 
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
@@ -547,14 +564,17 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             let telemetry_path = Path::new(&config.output.save_to).join("telemetry.csv");
             let file_exists = telemetry_path.exists();
             
+            let forming_count = gravity_health.forming_early_count + gravity_health.forming_late_count;
+            let forming_weight = gravity_health.forming_early_weight + gravity_health.forming_late_weight;
+
             let up_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.up_count as f64 / gravity_health.total_count as f64 };
             let flat_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.flat_count as f64 / gravity_health.total_count as f64 };
-            let regime_forming_share_c = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.regime_forming_count as f64 / gravity_health.total_count as f64 };
+            let regime_forming_share_c = if gravity_health.total_count == 0 { 0.0 } else { forming_count as f64 / gravity_health.total_count as f64 };
             let down_share = 1.0 - up_share - flat_share - regime_forming_share_c;
             
             let w_up_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.up_weight / gravity_health.total_weight };
             let w_flat_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.flat_weight / gravity_health.total_weight };
-            let regime_forming_share_w = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.regime_forming_weight / gravity_health.total_weight };
+            let regime_forming_share_w = if gravity_health.total_weight <= 0.0 { 0.0 } else { forming_weight / gravity_health.total_weight };
             let w_down_share = 1.0 - w_up_share - w_flat_share - regime_forming_share_w;
 
             let timestamp = Local::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
@@ -736,17 +756,25 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         
         let z_val = s.dev_z_score.unwrap_or(0.0);
         let z_label = get_z_label(z_val);
-        let strength_z_combined = format!("{} ({})", format_sigma(z_val), z_label);
+        let strength_z_combined = if s.validity == RegimeValidity::FormingEarly {
+            "N/A".to_string()
+        } else {
+            format!("{} ({})", format_sigma(z_val), z_label)
+        };
         
         let owner_dev = s.owner_deviation_pct.unwrap_or(0.0);
-        let percentile_str = if s.validity == RegimeValidity::Forming {
+        let percentile_str = if s.validity == RegimeValidity::FormingEarly || s.validity == RegimeValidity::FormingLate {
             "".to_string()
         } else {
             s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default()
         };
-        let recovery_str = format!("{:+.1}%{}", owner_dev, percentile_str);
+        let recovery_str = if s.validity == RegimeValidity::FormingEarly {
+            "N/A".to_string()
+        } else {
+            format!("{:+.1}%{}", owner_dev, percentile_str)
+        };
 
-        let action_guidance = if s.validity == RegimeValidity::Forming {
+        let action_guidance = if s.validity == RegimeValidity::FormingEarly || s.validity == RegimeValidity::FormingLate {
             "Allocation: N/A (Observe)".to_string()
         } else {
             get_position_guidance(&s.state_code).to_string()
@@ -893,17 +921,29 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         };
         let z_val = s.dev_z_score.unwrap_or(0.0);
         let owner_dev_val = s.owner_deviation_pct.unwrap_or(0.0);
-        let percentile_str = if s.validity == RegimeValidity::Forming {
+        let percentile_str = if s.validity == RegimeValidity::FormingEarly || s.validity == RegimeValidity::FormingLate {
             "".to_string()
         } else {
             s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default()
         };
         let emoji = get_state_emoji(&s.state_code);
         
-        let action_guidance = if s.validity == RegimeValidity::Forming {
+        let action_guidance = if s.validity == RegimeValidity::FormingEarly || s.validity == RegimeValidity::FormingLate {
             "Allocation: N/A (Observe)".to_string()
         } else {
             get_position_guidance(&s.state_code).to_string()
+        };
+
+        let owner_dev_str = if s.validity == RegimeValidity::FormingEarly {
+            "Dist: N/A".to_string()
+        } else {
+            format!("Owner Dist: {:+.1}%{}", owner_dev_val, percentile_str)
+        };
+
+        let strength_z_combined = if s.validity == RegimeValidity::FormingEarly {
+            "Z-Score: N/A".to_string()
+        } else {
+            format!("{}", format_sigma(z_val))
         };
 
         let state_name = if let Some(rc) = &s.reason_code {
@@ -913,7 +953,8 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         };
 
         html.push_str(&format!("{}. <b>{}</b> | {} | <code>{}</code>\n", idx+1, s.symbol, state_name, action_guidance));
-        html.push_str(&format!("└ Owner Dist: <code>{:+.1}%{}</code> | {} | {}\n", owner_dev_val, percentile_str, format_sigma(z_val), s.action_text));
+        html.push_str(&format!("└ <code>{}</code> | {} | {}\n", owner_dev_str, strength_z_combined, s.action_text));
+
         html.push_str("\n");
     }
     
