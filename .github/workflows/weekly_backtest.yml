@@ -137,6 +137,7 @@ jobs:
             git rm -rf . >/dev/null 2>&1 || true
             git branch -M data
             git remote get-url origin >/dev/null 2>&1 || git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            cd -
           fi
 
           # 3. Port over generated reports cleanly
