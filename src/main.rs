@@ -258,23 +258,24 @@ async fn main() -> Result<()> {
             "Neutral / Transition"
         };
 
-        // --- Phase 4.2: Granular Capital Flow Vector ---
+        let mut capital_flow_acceleration = None;
+        if let Some(pm) = prev_margin {
+            capital_flow_acceleration = Some(dominance_margin - pm);
+        }
+
+        // --- Phase 42: Semantic Calibration of Flow Vectors (Momentum State) ---
+        // Velocity = dominance_margin
+        // Acceleration = capital_flow_acceleration
         let capital_flow_vector = if dominance_margin > 0.0 {
-            if global_gravity_strength > 0.5 {
-                 "Accelerating Upward 🚀" 
-            } else if global_gravity_strength > 0.0 {
-                 "Early Uptrend / Emerging ↗️" 
-            } else {
-                 "Weakening Uptrend ↗️ slowing"
-            }
+            let acc = capital_flow_acceleration.unwrap_or(0.0);
+            if acc.abs() < 0.02 { "Stable Uptrend ↗️" }
+            else if acc >= 0.02 { "Accelerating Uptrend 🚀" }
+            else { "Decelerating Uptrend ⚠️" }
         } else {
-            if global_gravity_strength < -0.5 {
-                 "Accelerating Downward ↘️" 
-            } else if global_gravity_strength < 0.0 {
-                 "Early Downtrend / Correction 📉"
-            } else {
-                 "Stabilizing / Bottoming ↘️ slowing"
-            }
+            let acc = capital_flow_acceleration.unwrap_or(0.0);
+            if acc.abs() < 0.02 { "Stable Downtrend ↘️" }
+            else if acc <= -0.02 { "Accelerating Downtrend 🩸" }
+            else { "Decelerating Downtrend (Bottoming) ⏳" }
         };
 
         // Base exposure relies solely on trend direction (dominance margin)
@@ -315,7 +316,7 @@ async fn main() -> Result<()> {
             adjusted_exposure,
             conf_trend_alloc,
             conf_inverse_potential,
-            capital_flow_acceleration: prev_margin.map(|p| dominance_margin - p),
+            capital_flow_acceleration,
             universe_integrity: if snapshots.len() > 0 { total_count as f64 / snapshots.len() as f64 } else { 0.0 },
         };
         let posture = temp_health.compute_capital_posture();

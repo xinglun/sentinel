@@ -706,8 +706,8 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     };
     md.push_str(&format!("- **System Confidence**: {}\n", conf_str));
     md.push_str("  - *Confidence Source*:\n");
-    md.push_str(&format!("    - Trend Allocation (Max 50%): {:.1}%\n", gravity.conf_trend_alloc));
-    md.push_str(&format!("    - Inverse Potential (Max 50%): {:.1}%\n", gravity.conf_inverse_potential));
+    md.push_str(&format!("    - Trend Strength (Max 50%): {:.1}%\n", gravity.conf_trend_alloc));
+    md.push_str(&format!("    - Structural Stability (Max 50%): {:.1}%\n", gravity.conf_inverse_potential));
     
     // Delta for Dominance Margin
     let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
@@ -716,13 +716,13 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     } else { "Baseline" };
     
     let accel_str = if let Some(acc) = margin_delta {
-        if acc > 0.05 { format!("{:+.2} (Strong)", acc) }
-        else if acc < -0.05 { format!("{:+.2} (Severe)", acc) }
-        else { format!("{:+.2} (Stable)", acc) }
+        if acc.abs() < 0.02 { format!("{:+.2} (Stable)", acc.abs()) } // Force +0.00
+        else if acc >= 0.02 { format!("{:+.2} (Strong)", acc) }
+        else { format!("{:+.2} (Severe)", acc) }
     } else { "Baseline".to_string() };
     
-    md.push_str(&format!("- **Capital Flow Vector**: {}\n", gravity.capital_flow_vector));
-    md.push_str(&format!("- **Capital Flow Acceleration**: {}\n", accel_str));
+    md.push_str(&format!("- **Momentum State**: {}\n", gravity.capital_flow_vector));
+    md.push_str(&format!("- **Flow Acceleration**: {}\n", accel_str));
     md.push_str(&format!("- **Market Structure**: {}\n", market_structure));
     md.push_str(&format!("- **Dominance Margin**: {:+.2} ({} / {})\n", dominance_margin, posture.dominance_label, margin_evolution));
     
@@ -916,20 +916,19 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         format!("<code>{}%</code>", gravity.system_confidence)
     };
     html.push_str(&format!(" • System Confidence: {}\n", conf_str));
-    html.push_str(&format!("   ├ Trend Alloc: <code>{:.1}%</code>\n", gravity.conf_trend_alloc));
-    html.push_str(&format!("   └ Inverse Potential: <code>{:.1}%</code>\n", gravity.conf_inverse_potential));
+    html.push_str(&format!("   ├ Trend Strength: <code>{:.1}%</code>\n", gravity.conf_trend_alloc));
+    html.push_str(&format!("   └ Structural Stability: <code>{:.1}%</code>\n", gravity.conf_inverse_potential));
     let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
     let margin_evolution = if let Some(d) = margin_delta {
         if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
     } else { "Baseline" };
-    
     let accel_str = if let Some(acc) = margin_delta {
-        if acc > 0.05 { format!("<code>{:+.2}</code> (Strong)", acc) }
-        else if acc < -0.05 { format!("<code>{:+.2}</code> (Severe)", acc) }
-        else { format!("<code>{:+.2}</code> (Stable)", acc) }
+        if acc.abs() < 0.02 { format!("<code>{:+.2}</code> (Stable)", acc.abs()) } // Force +0.00
+        else if acc >= 0.02 { format!("<code>{:+.2}</code> (Strong)", acc) }
+        else { format!("<code>{:+.2}</code> (Severe)", acc) }
     } else { "<code>Baseline</code>".to_string() };
     
-    html.push_str(&format!(" • Capital Flow Vector: <code>{}</code>\n", gravity.capital_flow_vector));
+    html.push_str(&format!(" • Momentum State: <code>{}</code>\n", gravity.capital_flow_vector));
     html.push_str(&format!(" • Flow Acceleration: {}\n", accel_str));
     html.push_str(&format!(" • Market Structure: <code>{}</code>\n", market_structure));
     html.push_str(&format!(" • Dominance Margin: <code>{:+.2}</code> ({})\n", dominance_margin, margin_evolution));
