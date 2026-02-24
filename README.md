@@ -53,7 +53,7 @@ cargo run --release -- backtest
 - [要件と機能の定義 (PRD)](./docs/PRD.md) - システムの鉄則と核心要件
 - [システムアーキテクチャ設計](./docs/architecture_design.md) - 内部構造とデータフロー
 - [戦略設計哲学と評価](./docs/strategy_philosophy.md) - 「飼い主-犬」モデルと掃参（Sweep）プロトコル
-- [GitHub Actions 托管运行说明书 (V1.0)](./docs/hosting_spec.md) - 将望遠鏡放进轨道
+- [GitHub Actions 托管运行说明书](./docs/hosting_spec.md) - 将望遠鏡放进轨道
 
 ---
 

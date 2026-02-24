@@ -41,7 +41,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 3. **JSON データ出力**: 実行結果を構造化データとして保存。Webダッシュボードやバックテストシステムでの活用が可能です。
 4. **マルチチャネル通知（Telegram優先）**: 高いS/N比、無料利用、およびネイティブなMarkdown解析のニーズに合致するTelegramへの配信。
 
-## 3. System Sealing & Integrity Guidelines (v1.0.0 封存鉄則)
+## 3. System Sealing & Integrity Guidelines (封存鉄則)
 本システムは「予測」ではなく「測定」を行う物理エンジンとして完成しました。将来の機能拡張やパラメータ調整による過学習（オーバーフィッティング）を防ぐため、以下の3つの「鉄則（Iron Laws）」を遵守しなければなりません。
 
 ### 鉄則 A：物理的整合性のないパラメータ調整の禁止
@@ -57,7 +57,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
   3. **State Transition 安定性**（遷移確率が異常なノイズで崩壊していないこと）
 
 ### 鉄則 D：データ蓄積期（Observation Epoch）における安定性優先
-* **ルール**: V1.2.x 以降、システムは「開発期」から「観測期」に移行します。コードの複雑化や新規機能の追加よりも、**時間軸におけるデータの整合性と連続性**を最優先します。パラメータやロジックの変更は、序参量（Order Parameter）の解釈が根本的に変化する場合にのみ、極めて慎重に行われます。
+* **ルール**: システムは「開発期」から「観測期」に移行しています。コードの複雑化や新規機能の追加よりも、**時間軸におけるデータの整合性と連続性**を最優先します。パラメータやロジックの変更は、序参量（Order Parameter）の解釈が根本的に変化する場合にのみ、極めて慎重に行われます。
 
 ## 4. システムアーキテクチャの実装案 (Rust)
 本システムは、クロスプラットフォーム、安定性、および極めて高い実行効率を保証するため、Rustを用いて構築されます。
@@ -71,7 +71,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 * **`backtest`**: シミュレーションエンジン。歴史データに基づき Calibration Error 等を算出します。
 * **`notify`**: Telegram API をカプセル化し、毎日の自動通知を行います。
 
-### 4.2 データエンジニアリング層 (Data Engineering V1.2.1)
+### 4.2 データエンジニアリング層 (Data Engineering)
 本システムは長期的な回帰分析に耐えうるデータ品質を保証します：
 * **Config Hashing**: `config.toml` の SHA256 ハッシュを各レコードに付与し、パラメータ宇宙を隔離します。
 * **High-Res Timestamp**: RFC3339 形式によるサンプリング汚染の防止。

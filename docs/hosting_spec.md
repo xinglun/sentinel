@@ -1,5 +1,5 @@
 # Stock Sentinel 自动观测系统
-# GitHub Actions 托管运行要求说明书（V1.0）
+# GitHub Actions 托管运行要求说明书
 
 ## 一、目标
 将 Stock Sentinel 部署到 GitHub Actions，实现完全无人值守的自动观测运行环境，确保系统可以长期、稳定、连续地执行以下核心任务：
