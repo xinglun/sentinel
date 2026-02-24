@@ -4,6 +4,7 @@ use anyhow::Result;
 use chrono::Local;
 use std::fs;
 use std::path::Path;
+use crate::notify::escape_html;
 use tabled::{Table, Tabled};
 use tabled::settings::Style;
 
@@ -882,7 +883,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         gravity.forming_early_count + gravity.forming_late_count,
         gravity.forming_early_count, gravity.forming_late_count));
     html.push_str(&format!(" • Universe Integrity: <code>{:.1}%</code> Valid Ratio\n", integrity_pct));
-    html.push_str(&format!(" • CAPITAL STATE: <code>{}</code>\n", posture.display_text));
+    html.push_str(&format!(" • CAPITAL STATE: <code>{}</code>\n", escape_html(&posture.display_text)));
     
     let conf_delta = gravity.prev_system_confidence.map(|p| gravity.system_confidence - p);
     let conf_str = if let Some(d) = conf_delta {
@@ -903,10 +904,10 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         else { format!("<code>{:+.2}</code> (Severe)", acc) }
     } else { "<code>Baseline</code>".to_string() };
     
-    html.push_str(&format!(" • Momentum State: <code>{}</code>\n", gravity.capital_flow_vector));
+    html.push_str(&format!(" • Momentum State: <code>{}</code>\n", escape_html(&gravity.capital_flow_vector)));
     html.push_str(&format!(" • Flow Acceleration: {}\n", accel_str));
-    html.push_str(&format!(" • Market Structure: <code>{}</code>\n", market_structure));
-    html.push_str(&format!(" • Dominance Margin: <code>{:+.2}</code> ({})\n", dominance_margin, margin_evolution));
+    html.push_str(&format!(" • Market Structure: <code>{}</code>\n", escape_html(&market_structure)));
+    html.push_str(&format!(" • Dominance Margin: <code>{:+.2}</code> ({})\n", dominance_margin, escape_html(margin_evolution)));
     
     let b_floor = (gravity.base_exposure * 10.0).floor() * 10.0;
     let b_ceil = if b_floor >= 100.0 { 100.0 } else { b_floor + 10.0 };
@@ -931,30 +932,30 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     html.push_str(&format!(" • Stability: <code>{}</code>\n", format_stability_bar(gravity.stability_score)));
     html.push_str(&format!("   ├ Structural: <code>{:.1}%</code>\n", gravity.stability_structural));
     html.push_str(&format!("   └ Temporal: <code>{:.1}%</code>\n", gravity.stability_temporal));
-    html.push_str(&format!(" • Action Bias: <b>{}</b>\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
+    html.push_str(&format!(" • Action Bias: <b>{}</b>\n", escape_html(&gravity.get_action_bias(posture, buy_zone.is_empty()))));
     
     html.push_str(&format!(" • GRAVITY POTENTIAL: <code>{}</code>\n\n", format_thermometer(gravity.global_potential_energy, 2.0).replace("\n", " | ")));
 
-    html.push_str(&format!("<i>📡 Interpretation: {}</i>\n\n", gravity.get_interpretation(posture)));
+    html.push_str(&format!("<i>📡 Interpretation: {}</i>\n\n", escape_html(&gravity.get_interpretation(posture))));
 
     html.push_str("<b>🧭 今日执行指令 (Final Order)</b>\n");
-    html.push_str(&format!(" • <code>{}</code>\n\n", get_final_order(gravity, posture, &buy_zone).replace("\n", "")));
+    html.push_str(&format!(" • <code>{}</code>\n\n", escape_html(&get_final_order(gravity, posture, &buy_zone).replace("\n", ""))));
 
     html.push_str("<b>🎯 Tactical Summary</b>\n");
-    html.push_str(&format!(" • 加仓区: <code>{}</code>\n", buy_zone.join(" / ")));
-    html.push_str(&format!(" • 观察区: <code>{}</code>\n", watch_zone.join(" / ")));
-    html.push_str(&format!(" • 防御区: <code>{}</code>\n", defend_zone.join(" / ")));
-    html.push_str(&format!(" • 持有区: <code>{}</code>\n\n", hold_zone.join(" / ")));
+    html.push_str(&format!(" • 加仓区: <code>{}</code>\n", escape_html(&buy_zone.join(" / "))));
+    html.push_str(&format!(" • 观察区: <code>{}</code>\n", escape_html(&watch_zone.join(" / "))));
+    html.push_str(&format!(" • 防御区: <code>{}</code>\n", escape_html(&defend_zone.join(" / "))));
+    html.push_str(&format!(" • 持有区: <code>{}</code>\n\n", escape_html(&hold_zone.join(" / "))));
 
     html.push_str("<b>🔥 Highest Opportunity</b>\n");
     for (i, s) in opportunities.iter().take(3).enumerate() {
         let z = s.dev_z_score.unwrap_or(0.0);
-        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n", i+1, s.symbol, s.state_code, format_sigma(z)));
+        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n", i+1, s.symbol, escape_html(&s.state_code), format_sigma(z)));
     }
     html.push_str("\n<b>☠️ Highest Risk</b>\n");
     for (i, s) in risks.iter().take(3).enumerate() {
         let z = s.dev_z_score.unwrap_or(0.0);
-        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n", i+1, s.symbol, s.state_code, format_sigma(z)));
+        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n", i+1, s.symbol, escape_html(&s.state_code), format_sigma(z)));
     }
     html.push_str("\n");
     
@@ -995,13 +996,13 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         };
 
         let state_name = if let Some(rc) = &s.reason_code {
-            format!("{} {} {}", emoji, s.state_code, rc)
+            format!("{} {} {}", emoji, escape_html(&s.state_code), escape_html(rc))
         } else {
-            format!("{} {}", emoji, s.state_code)
+            format!("{} {}", emoji, escape_html(&s.state_code))
         };
 
-        html.push_str(&format!("{}. <b>{}</b> | {} | <code>{}</code>\n", idx+1, s.symbol, state_name, action_guidance));
-        html.push_str(&format!("└ <code>{}</code> | {} | {}\n", owner_dev_str, strength_z_combined, s.action_text));
+        html.push_str(&format!("{}. <b>{}</b> | {} | <code>{}</code>\n", idx+1, s.symbol, state_name, escape_html(&action_guidance)));
+        html.push_str(&format!("└ <code>{}</code> | {} | {}\n", escape_html(&owner_dev_str), strength_z_combined, escape_html(&s.action_text)));
 
         html.push_str("\n");
     }

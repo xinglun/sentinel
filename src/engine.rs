@@ -357,7 +357,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
                 // If confirmed breakdown AND CAUTION_MA is pointing DOWN
                 if is_structurally_broken && matches!(caution_ma_trend, TrendStatus::Down) {
-                    reason_code = Some(format!("[B{}<0.97 x{}/{}]", caution_days, confirm_threshold, confirm_days));
+                    reason_code = Some(format!("[B{} < 0.97 x{}/{}]", caution_days, confirm_threshold, confirm_days));
                     if is_extreme_fear {
                         state_code = "fear_downtrend".to_string();
                         action_text = "【防御 (DEFEND)】：长期趋势崩坏中的恐慌。严禁伸手接飞刀 (Cash 80%+)".to_string();
