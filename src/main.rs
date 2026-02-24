@@ -50,13 +50,18 @@ async fn main() -> Result<()> {
     let watchlist = &config_arc.watchlist;
     let enabled_count = watchlist.iter().filter(|w| w.enable).count();
     
-    // --- Phase 23: Retrieve Yesterday's State for Velocity Tracking ---
+    // --- Phase 28: Deep Telemetry Parsing for Delta Tracking ---
     let mut yesterday_state = "Unknown".to_string();
+    let mut prev_gp = None;
+    let mut prev_margin = None;
+
     if let Ok(content) = std::fs::read_to_string(std::path::Path::new(&config_arc.output.save_to).join("telemetry.csv")) {
         if let Some(last_line) = content.lines().last() {
             let cols: Vec<&str> = last_line.split(',').collect();
-            if cols.len() > 3 {
-                yesterday_state = cols[3].to_string(); // state_code is index 3
+            if cols.len() > 12 {
+                yesterday_state = cols[3].to_string(); // state_code
+                prev_gp = cols[6].parse::<f64>().ok();
+                prev_margin = cols[12].parse::<f64>().ok();
             }
         }
     }
@@ -215,10 +220,12 @@ async fn main() -> Result<()> {
         };
 
         let capital_flow_vector = if dominance_margin > 0.0 {
-            if global_gravity_strength > 0.0 { "Accelerating Upward" } else { "Weakening Uptrend" }
+            if global_gravity_strength > 0.0 { "Accelerating Upward ↗️" } else { "Weakening Uptrend ↗️ slowing" }
         } else {
-            if global_gravity_strength < 0.0 { "Accelerating Downward" } else { "Stabilizing / Bottoming" }
+            if global_gravity_strength < 0.0 { "Accelerating Downward ↘️" } else { "Stabilizing / Bottoming ↘️ slowing" }
         };
+
+        let recommended_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
 
         let gravity_health = report::GravityHealth {
             up_count,
@@ -237,6 +244,10 @@ async fn main() -> Result<()> {
             system_confidence,
             market_phase: market_phase.to_string(),
             capital_flow_vector: capital_flow_vector.to_string(),
+            recommended_exposure,
+            prev_potential_energy: prev_gp,
+            prev_system_confidence: None, // Will be populated in future runs
+            prev_dominance_margin: prev_margin,
         };
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;
