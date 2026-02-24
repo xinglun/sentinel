@@ -127,15 +127,14 @@ jobs:
           if git show-ref --verify --quiet refs/remotes/origin/data; then
             git worktree add ../data_worktree -B data origin/data
           else
+            echo "Remote data branch not found. Initializing orphan branch..."
             # Initialize orphaned branch safely without switching main working tree
             git worktree add --detach ../data_worktree
             cd ../data_worktree
-            git init
             git checkout --orphan data
+            git rm -rf . >/dev/null 2>&1 || true
             git branch -M data
-            git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            cd ../sentinel
-            git worktree add ../data_worktree data
+            git remote get-url origin >/dev/null 2>&1 || git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           fi
 
           # 3. Port over generated reports cleanly (Mirror Strategy for snapshots)
