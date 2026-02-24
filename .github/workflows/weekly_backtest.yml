@@ -118,9 +118,13 @@ jobs:
 
           ROOT_DIR="${GITHUB_WORKSPACE}"
           DATA_DIR="${ROOT_DIR}/../data_worktree"
-          # 1. Ensure origin/data history exists locally (explicit refspec fetch)
-          # We don't suppress stderr here so auth or network failures are visible in Actions logs
-          git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data || true
+
+          # 1. Ensure origin/data history exists locally
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data
+          else
+            echo "Remote data branch not found; will initialize."
+          fi
 
           # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
           git worktree remove --force "${DATA_DIR}" 2>/dev/null || true
