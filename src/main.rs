@@ -208,13 +208,22 @@ async fn main() -> Result<()> {
             "Early Bull"
         } else if dominance_margin < -0.5 {
             "Bear Market"
+        } else if dominance_margin < -0.1 {
+            "Correction"
         } else {
-            "Correction / Recovery"
+            "Neutral / Transition"
         };
-        
+
+        let capital_flow_vector = if dominance_margin > 0.0 {
+            if global_gravity_strength > 0.0 { "Accelerating Upward" } else { "Weakening Uptrend" }
+        } else {
+            if global_gravity_strength < 0.0 { "Accelerating Downward" } else { "Stabilizing / Bottoming" }
+        };
+
         let gravity_health = report::GravityHealth {
             up_count,
             flat_count,
+            down_count,
             total_count,
             up_weight,
             flat_weight,
@@ -227,6 +236,7 @@ async fn main() -> Result<()> {
             config_hash,
             system_confidence,
             market_phase: market_phase.to_string(),
+            capital_flow_vector: capital_flow_vector.to_string(),
         };
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;

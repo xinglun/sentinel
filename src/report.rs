@@ -33,6 +33,7 @@ pub struct ReportResult {
 pub struct GravityHealth {
     pub up_count: usize,
     pub flat_count: usize,
+    pub down_count: usize,
     pub total_count: usize, // Also watchlist_size
     pub up_weight: f64,
     pub flat_weight: f64,
@@ -45,6 +46,7 @@ pub struct GravityHealth {
     pub config_hash: String,
     pub system_confidence: f64,
     pub market_phase: String,
+    pub capital_flow_vector: String,
 }
 
 pub struct CapitalPosture {
@@ -217,6 +219,31 @@ fn get_rank_priority(state: &str) -> usize {
     else { 4 } 
 }
 
+fn format_thermometer(value: f64, max: f64) -> String {
+    let width = 10;
+    let filled = ((value / max) * width as f64).round() as usize;
+    let filled = filled.clamp(0, width);
+    let mut bar = String::new();
+    for _ in 0..filled { bar.push('█'); }
+    for _ in filled..width { bar.push('░'); }
+    format!("{} {:.2}", bar, value)
+}
+
+fn format_sigma(z: f64) -> String {
+    let label = if z >= 0.0 { "above equilibrium" } else { "below equilibrium" };
+    format!("{:.1}σ {}", z.abs(), label)
+}
+
+fn get_position_guidance(state: &str) -> &'static str {
+    if state.contains("fear") && !state.contains("down") { "+15% (Load)" }
+    else if state == "pullback" { "+10% (Buy)" }
+    else if state == "optimal" { "Maintain (Max Efficiency)" }
+    else if state == "cruise" { "Maintain (Trend Follow)" }
+    else if state.contains("overheat") { "-20% (Trim)" }
+    else if state.contains("down") || state.contains("DEFEND") { "0% (Avoid/Cash)" }
+    else { "Neutral" }
+}
+
 fn get_state_emoji(state: &str) -> &'static str {
     if state.starts_with("optimal") || state.starts_with("cruise") { "🟢" }
     else if state.starts_with("pullback") || state.contains("caution") || state.starts_with("CAUTION") { "🟡" }
@@ -273,16 +300,15 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             "-".to_string()
         };
 
-        let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
+        let _strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
         let z_val = s.dev_z_score.unwrap_or(0.0);
-        let z_label = get_z_label(z_val);
-        let strength_z_combined = format!("{} (Z:{:+.1} {})", strength_str, z_val, z_label);
+        let strength_z_combined = format!("{} ({})", format_sigma(z_val), get_z_label(z_val));
         
         let emoji = get_state_emoji(&s.state_code);
         let state_rc = if let Some(rc) = &s.reason_code {
-            format!("{} {} {} ({}%)", emoji, s.state_code, rc, s.confidence_score)
+            format!("{} {} {}", emoji, s.state_code, rc)
         } else {
-            format!("{} {} ({}%)", emoji, s.state_code, s.confidence_score)
+            format!("{} {}", emoji, s.state_code)
         };
         
         rows.push(TerminalRow {
@@ -291,7 +317,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             owner_dev: owner_dev_str,
             strength_z: strength_z_combined,
             state: state_rc,
-            action: s.action_text.clone(),
+            action: get_position_guidance(&s.state_code).to_string(), // Strategic guidance instead of action text
         });
     }
 
@@ -316,11 +342,11 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
 
     // Previous state comparison
     let yesterday_state = yesterday_state;
-    let velocity_label = if yesterday_state == posture.state_code { "Stability maintained" } else { "Shift detected" };
+    let _velocity_label = if yesterday_state == posture.state_code { "Stability maintained" } else { "Shift detected" };
     
     let raw_label = config.output.weight_kind.clone().unwrap_or_else(|| "Portfolio".to_string());
     let binding = raw_label.to_lowercase();
-    let weight_kind_label = match binding.as_str() {
+    let _weight_kind_label = match binding.as_str() {
         "portfolio" => "Portfolio",
         "cap" | "mktcap" => "MktCap",
         "risk" => "Risk",
@@ -331,20 +357,18 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     table.with(Style::modern());
     
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
-    
-    println!("\n🌍 CAPITAL STATE: {} ({} -> {})", posture.display_text, yesterday_state, posture.state_code);
-    println!("🌍 Velocity: {}", velocity_label);
-    println!("🌍 Dominance Margin: {:+.2} ({})", dominance_margin, posture.dominance_label);
-    println!("🌍 System Confidence: {}%", gravity_health.system_confidence);
-    println!("🌍 Market Phase: {}", gravity_health.market_phase);
-    println!("🌍 Market Regime (SPY): {}", spy_regime);
-    println!("🌍 GRAVITY (Count): {}", gravity_health.format_count_health());
-    println!("🌍 GRAVITY (Weight/{}): {}", weight_kind_label, gravity_health.format_weight_health());
-    println!("🌍 GRAVITY (Strength/{}): {:+.2}%", weight_kind_label, gravity_health.global_gravity_strength);
-    println!("🌍 GRAVITY POTENTIAL: {}", gravity_health.format_potential_energy());
-    println!("{}", gravity_health.get_interpretation(&posture));
+    let market_structure = format!("{} ({})", gravity_health.market_phase, spy_regime);
 
-    println!("\n🎯 今日行动摘要");
+    println!("🌍 Macro Indicators (全域监测)");
+    println!(" • CAPITAL STATE: {}", posture.display_text);
+    println!(" • System Confidence: {}%", gravity_health.system_confidence);
+    println!(" • Capital Flow Vector: {}", gravity_health.capital_flow_vector);
+    println!(" • Market Structure: {}", market_structure);
+    println!(" • Dominance Margin: {:+.2} ({})", dominance_margin, posture.dominance_label);
+    println!(" • GRAVITY POTENTIAL: {} ({})", format_thermometer(gravity_health.global_potential_energy, 3.0), gravity_health.format_potential_energy());
+    println!("\n> 📡 Interpretation: {}", gravity_health.get_interpretation(&posture));
+
+    println!("\n🎯 Tactical Summary (今日行动要领)");
     println!(" • 加仓区: {}", buy_zone.join(" / "));
     println!(" • 观察区: {}", watch_zone.join(" / "));
     println!(" • 防御区: {}", defend_zone.join(" / "));
@@ -352,15 +376,17 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
 
     println!("\n🔥 Highest Opportunity");
     for (i, s) in opportunities.iter().take(3).enumerate() {
-        println!(" {}. {} ({} / Z:{:+.1})", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0));
+        println!(" {}. {} ({} / {})", i+1, s.symbol, s.state_code, format_sigma(s.dev_z_score.unwrap_or(0.0)));
     }
-
+    
     println!("\n☠️ Highest Risk");
     for (i, s) in risks.iter().take(3).enumerate() {
-        println!(" {}. {} ({} / Z:{:+.1})", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0));
+        println!(" {}. {} ({} / {})", i+1, s.symbol, s.state_code, format_sigma(s.dev_z_score.unwrap_or(0.0)));
     }
 
-    println!("\n{}", table);
+    println!("\n🎯 Execution Radar (個別銘柄レーダー)");
+    println!(" > Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable\n");
+    println!("{}", table);
 
     let md_content = generate_markdown(config, &snapshots, &date_str, gravity_health, &posture);
     let tg_html = generate_telegram_html(config, &snapshots, &date_str, gravity_health, &posture);
@@ -494,73 +520,71 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     }).unwrap_or("Unknown");
 
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
+    let market_structure = format!("{} ({})", gravity.market_phase, spy_regime);
 
-    let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n🌍 **CAPITAL STATE**: {}\n🌍 **Dominance Margin**: {:+.2} ({})\n🌍 **System Confidence**: {}%\n🌍 **Market Phase**: {}\n🌍 **Market Regime (SPY)**: {}\n🌍 **GRAVITY POTENTIAL**: {}\n\n", 
-        date_str, 
-        posture.display_text,
-        dominance_margin,
-        posture.dominance_label,
-        gravity.system_confidence,
-        gravity.market_phase,
-        spy_regime,
-        gravity.format_potential_energy()
-    );
+    let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n\n", date_str);
+    
+    md.push_str("## 🌍 Macro Indicators (全域状态监测)\n");
+    md.push_str(&format!("- **CAPITAL STATE**: {}\n", posture.display_text));
+    md.push_str(&format!("- **System Confidence**: {}%\n", gravity.system_confidence));
+    md.push_str(&format!("- **Capital Flow Vector**: {}\n", gravity.capital_flow_vector));
+    md.push_str(&format!("- **Market Structure**: {}\n", market_structure));
+    md.push_str(&format!("- **Dominance Margin**: {:+.2} ({} / 趋势统治力)\n", dominance_margin, posture.dominance_label));
+    md.push_str(&format!("- **GRAVITY POTENTIAL**: {} ({})\n\n", format_thermometer(gravity.global_potential_energy, 3.0), gravity.format_potential_energy()));
 
-    md.push_str(&format!("> {}\n\n", gravity.get_interpretation(posture)));
+    md.push_str(&format!("> 📡 Interpretation: {}\n\n", gravity.get_interpretation(posture)));
 
-    md.push_str("### 🎯 今日行动摘要\n");
+    md.push_str("## 🎯 Tactical Summary (今日行动要领)\n");
+    md.push_str("### 今日行动摘要\n");
     md.push_str(&format!("- **加仓区 (Buy)**: {}\n", buy_zone.join(" / ")));
     md.push_str(&format!("- **观察区 (Watch)**: {}\n", watch_zone.join(" / ")));
     md.push_str(&format!("- **防御区 (Defend)**: {}\n", defend_zone.join(" / ")));
     md.push_str(&format!("- **持有区 (Hold)**: {}\n\n", hold_zone.join(" / ")));
 
-    md.push_str("### 🔥 Highest Opportunity\n");
+    md.push_str("### 🔥 Highest Opportunity (均值回归弹性)\n");
     for (i, s) in opportunities.iter().take(3).enumerate() {
-        md.push_str(&format!("{}. **{}** ({} / Z:{:+.1})\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+        let z = s.dev_z_score.unwrap_or(0.0);
+        let elasticity = if z.abs() > 2.0 { "High" } else if z.abs() > 1.0 { "Medium" } else { "Normal" };
+        md.push_str(&format!("{}. **{}** ({} / {} / Elasticity: {})\n", i+1, s.symbol, s.state_code, format_sigma(z), elasticity));
     }
-    md.push_str("\n### ☠️ Highest Risk\n");
+    md.push_str("\n### ☠️ Highest Risk (系统性偏离风险)\n");
     for (i, s) in risks.iter().take(3).enumerate() {
-        md.push_str(&format!("{}. **{}** ({} / Z:{:+.1})\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+        let z = s.dev_z_score.unwrap_or(0.0);
+        md.push_str(&format!("{}. **{}** ({} / {})\n", i+1, s.symbol, s.state_code, format_sigma(z)));
     }
     md.push_str("\n");
-    
-    md.push_str("### 🎯 個別銘柄レーダー\n\n");
-    md.push_str("| 銘柄 | 趋势 (天数) | Owner (乖离) | 强度 (Z-Score) | 状态 (置信度) | 行动建议 |\n");
+
+    md.push_str("## 🎯 個別銘柄レーダー (Execution Radar)\n");
+    md.push_str("> ℹ️ *Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable*\n\n");
+    md.push_str("| 銘柄 | 状态 | Position Guidance | 强度 (Sigma) | 趋势 (天数) | 行动建议 |\n");
     md.push_str("| :--- | :--- | :--- | :--- | :--- | :--- |\n");
     
     for s in &snapshots {
         let trend_icon = match s.trend_status {
-            TrendStatus::Up => "↗️ 上昇",
-            TrendStatus::Down => "↘️ 下落",
-            TrendStatus::Flat => "➡️ 横ばい",
-            TrendStatus::Unknown => "❓ 未知",
+            TrendStatus::Up => "↗️",
+            TrendStatus::Down => "↘️",
+            TrendStatus::Flat => "➡️",
+            TrendStatus::Unknown => "❓",
         };
         let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
         
-        let owner_dev_str = if let (Some(om), Some(dev)) = (s.owner_ma, s.owner_deviation_pct) {
-            format!("{:.2} (**{:+.2}%**)", om, dev)
-        } else {
-            "-".to_string()
-        };
-
-        let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
         let z_val = s.dev_z_score.unwrap_or(0.0);
         let z_label = get_z_label(z_val);
-        let strength_z_combined = format!("{} (Z:{:+.1} {})", strength_str, z_val, z_label);
+        let strength_z_combined = format!("{} ({})", format_sigma(z_val), z_label);
         
         let emoji = get_state_emoji(&s.state_code);
-        let state_rc = if let Some(rc) = &s.reason_code {
-            format!("{} {} {} ({}%)", emoji, s.state_code, rc, s.confidence_score)
+        let state_name = if let Some(rc) = &s.reason_code {
+            format!("{} {} {}", emoji, s.state_code, rc)
         } else {
-            format!("{} {} ({}%)", emoji, s.state_code, s.confidence_score)
+            format!("{} {}", emoji, s.state_code)
         };
         
-        md.push_str(&format!("| **{}** | {} | {} | {} | {} | {} |\n",
+        md.push_str(&format!("| **{}** | {} | **{}** | {} | {} | {} |\n",
             s.symbol,
-            trend_combined,
-            owner_dev_str,
+            state_name,
+            get_position_guidance(&s.state_code),
             strength_z_combined,
-            state_rc,
+            trend_combined,
             s.action_text
         ));
     }
@@ -614,21 +638,21 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     }).unwrap_or("Unknown");
 
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
+    let market_structure = format!("{} ({})", gravity.market_phase, spy_regime);
 
-    let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n🌍 <b>CAPITAL STATE:</b> {}\n🌍 <b>Dominance Margin:</b> {:+.2} ({})\n🌍 <b>System Confidence:</b> {}%\n🌍 <b>Market Phase:</b> {}\n🌍 <b>Market Regime (SPY):</b> {}\n🌍 <b>GRAVITY POTENTIAL:</b> {}\n\n", 
-        date_str, 
-        posture.display_text,
-        dominance_margin,
-        posture.dominance_label,
-        gravity.system_confidence,
-        gravity.market_phase,
-        spy_regime,
-        gravity.format_potential_energy()
-    );
+    let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n\n", date_str);
 
-    html.push_str(&format!("<i>{}</i>\n\n", gravity.get_interpretation(posture)));
+    html.push_str("<b>🌍 Macro Indicators</b>\n");
+    html.push_str(&format!(" • CAPITAL STATE: <code>{}</code>\n", posture.display_text));
+    html.push_str(&format!(" • System Confidence: <code>{}%</code>\n", gravity.system_confidence));
+    html.push_str(&format!(" • Capital Flow Vector: <code>{}</code>\n", gravity.capital_flow_vector));
+    html.push_str(&format!(" • Market Structure: <code>{}</code>\n", market_structure));
+    html.push_str(&format!(" • Dominance Margin: <code>{:+.2}</code> (<i>{}</i>)\n", dominance_margin, posture.dominance_label));
+    html.push_str(&format!(" • GRAVITY POTENTIAL: <code>{}</code>\n\n", format_thermometer(gravity.global_potential_energy, 3.0)));
 
-    html.push_str("<b>🎯 今日行动摘要</b>\n");
+    html.push_str(&format!("<i>📡 Interpretation: {}</i>\n\n", gravity.get_interpretation(posture)));
+
+    html.push_str("<b>🎯 Tactical Summary</b>\n");
     html.push_str(&format!(" • 加仓区: <code>{}</code>\n", buy_zone.join(" / ")));
     html.push_str(&format!(" • 观察区: <code>{}</code>\n", watch_zone.join(" / ")));
     html.push_str(&format!(" • 防御区: <code>{}</code>\n", defend_zone.join(" / ")));
@@ -636,43 +660,37 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
 
     html.push_str("<b>🔥 Highest Opportunity</b>\n");
     for (i, s) in opportunities.iter().take(3).enumerate() {
-        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / Z:<code>{:+.1}</code>)\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+        let z = s.dev_z_score.unwrap_or(0.0);
+        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n", i+1, s.symbol, s.state_code, format_sigma(z)));
     }
     html.push_str("\n<b>☠️ Highest Risk</b>\n");
     for (i, s) in risks.iter().take(3).enumerate() {
-        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / Z:<code>{:+.1}</code>)\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+        let z = s.dev_z_score.unwrap_or(0.0);
+        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n", i+1, s.symbol, s.state_code, format_sigma(z)));
     }
     html.push_str("\n");
     
+    html.push_str("<b>🎯 個別銘柄レーダー (Execution Radar)</b>\n");
+    html.push_str("<i>ℹ️ Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable</i>\n\n");
+
     for s in &snapshots {
-        let dev_str = s.deviation_pct.map(|v| format!("{:.2}%", v)).unwrap_or_else(|| "-".to_string());
-        let owner_dev_str = s.owner_deviation_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
-        let owner_ma_str = s.owner_ma.map(|v| format!("{:.2}", v)).unwrap_or_else(|| "-".to_string());
-        
         let trend_icon = match s.trend_status {
-            TrendStatus::Up => "↗️ 上昇",
-            TrendStatus::Down => "↘️ 下落",
-            TrendStatus::Flat => "➡️ 横ばい",
-            TrendStatus::Unknown => "❓ 未知",
+            TrendStatus::Up => "↗️",
+            TrendStatus::Down => "↘️",
+            _ => "➡️",
         };
-        let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
-        
-        let emoji = get_state_emoji(&s.state_code);
-        let state_rc = if let Some(rc) = &s.reason_code {
-            format!("{} {} {} ({}%)", emoji, s.state_code, rc, s.confidence_score)
-        } else {
-            format!("{} {} ({}%)", emoji, s.state_code, s.confidence_score)
-        };
-        
-        let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
         let z_val = s.dev_z_score.unwrap_or(0.0);
-        let z_label = get_z_label(z_val);
+        let emoji = get_state_emoji(&s.state_code);
         
-        html.push_str(&format!("<b>{}</b> {} <code>${:.2}</code> (Dev: <code>{}</code>)\n", s.symbol, trend_combined, s.dog_price, dev_str));
-        html.push_str(&format!(" • <b>状態(置信度):</b> {}\n", state_rc));
-        html.push_str(&format!(" • <b>物理:</b> 強度 <code>{}</code> | Z-Score: <code>{:+.1} {}</code>\n", strength_str, z_val, z_label));
-        html.push_str(&format!(" • <b>距离Owner:</b> <code>{}</code> ({} <code>{}</code>)\n", owner_dev_str, s.deviation_basis_used, owner_ma_str));
-        html.push_str(&format!(" • <b>建議:</b> {}\n\n", s.action_text));
+        let state_name = if let Some(rc) = &s.reason_code {
+            format!("{} {} {}", emoji, s.state_code, rc)
+        } else {
+            format!("{} {}", emoji, s.state_code)
+        };
+
+        html.push_str(&format!("<b>{}</b> | {} | <code>{}</code>\n", s.symbol, state_name, get_position_guidance(&s.state_code)));
+        html.push_str(&format!("└ {} | {} | {}\n", format_sigma(z_val), trend_icon, s.action_text));
+        html.push_str("\n");
     }
     
     html
