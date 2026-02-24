@@ -143,6 +143,7 @@ jobs:
           # 3. Port over generated reports cleanly
           # - reports/ is a Mirror (snapshot), so we use --delete
           # - backtest/ is a Ledger (append-only), so we copy files/archives individually
+          mkdir -p ../data_worktree/reports ../data_worktree/backtest/archive
           rsync -a --delete reports/ ../data_worktree/reports/
           rsync -a backtest/summary_latest.md ../data_worktree/backtest/
           rsync -a backtest/archive/ ../data_worktree/backtest/archive/
