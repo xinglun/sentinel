@@ -82,6 +82,11 @@ jobs:
           fi
           
       - name: Commit and Push to Data Worktree
+<<<<<<< HEAD
+=======
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+>>>>>>> develop
         run: |
           set -euo pipefail
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
