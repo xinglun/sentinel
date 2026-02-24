@@ -255,10 +255,12 @@ async fn main() -> Result<()> {
             prev_dominance_margin: prev_margin,
             prev_recommended_exposure: prev_exposure,
             regime_age: 0,
+            stability_score: 0.0,
         };
         let posture = temp_health.compute_capital_posture();
         let regime_age = calculate_regime_age(std::path::Path::new(&config_arc.output.save_to), &posture.state_code);
         temp_health.regime_age = regime_age;
+        temp_health.stability_score = (regime_age as f64 / 30.0).min(1.0);
         let gravity_health = temp_health;
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;
