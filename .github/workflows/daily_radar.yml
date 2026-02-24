@@ -9,9 +9,15 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: daily-decision-radar
+  cancel-in-progress: false
+
 jobs:
   observe:
     runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Tokyo
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -31,24 +37,56 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('Cargo.lock', '**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
       - name: Run Sentinel Radar
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: cargo run --release
+        run: |
+          set -euo pipefail
+          echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
+          echo "REPORT_DATE_JST=$(date +%Y-%m-%d)" >> $GITHUB_ENV
+          cargo run --release
+
+      - name: Freshness Gate
+        run: |
+          set -euo pipefail
+          if [ -f "reports/freshness.json" ]; then
+            echo "freshness.json found, validating..."
+            python - << 'PY'
+          import json, sys
+          p="reports/freshness.json"
+          d=json.load(open(p))
+          stale=d.get("stale", False)
+          max_age=d.get("max_age_minutes", None)
+          threshold=15
+          if stale:
+              print(f"❌ Data marked stale or too old: max_age_minutes={max_age}")
+              sys.exit(1)
+          print(f"✅ Freshness OK (max_age={max_age}m).")
+          PY
+          else
+            echo "⚠️ No freshness.json; skipping gate."
+          fi
 
       - name: Commit and Push Changes
         run: |
+          set -euo pipefail
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -f reports/telemetry.csv
-          git add -f reports/$(date +%Y-%m-%d).json
-          git add -f reports/$(date +%Y-%m-%d).md
-          # 检查是否有变化
+
+          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+
+          git add -f reports/telemetry.csv || true
+          git add -f "reports/${DATE_JST}.json" || true
+          git add -f "reports/${DATE_JST}.md" || true
+          git add -f reports/freshness.json || true
+
           if ! git diff --quiet || ! git diff --staged --quiet; then
-            git commit -m "Stock Sentinel Observation: $(date +'%Y-%m-%d %H:%M:%S')"
+            git commit -m "Stock Sentinel Observation: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
             git push origin main
           else
             echo "No changes to commit."
