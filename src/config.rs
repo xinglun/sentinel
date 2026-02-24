@@ -94,9 +94,27 @@ impl AppConfig {
         let content = fs::read_to_string(path)
             .map_err(|e| anyhow!("設定ファイルの読み込みに失敗しました: {}", e))?;
             
-        let config: AppConfig = toml::from_str(&content)
+        let mut config: AppConfig = toml::from_str(&content)
             .map_err(|e| anyhow!("設定ファイルのパースに失敗しました: {}", e))?;
             
+        // Environment variable overrides for Telegram (for secure hosting)
+        if let Some(ref mut tg) = config.telegram {
+            if let Ok(token) = std::env::var("TELEGRAM_BOT_TOKEN") {
+                tg.bot_token = token;
+                tg.enabled = true;
+            }
+            if let Ok(chat_id) = std::env::var("TELEGRAM_CHAT_ID") {
+                tg.chat_id = chat_id;
+            }
+        } else if let (Ok(token), Ok(chat_id)) = (std::env::var("TELEGRAM_BOT_TOKEN"), std::env::var("TELEGRAM_CHAT_ID")) {
+            // If telegram section is missing in TOML but ENV vars are present
+            config.telegram = Some(TelegramConfig {
+                enabled: true,
+                bot_token: token,
+                chat_id,
+            });
+        }
+
         for band_key in config.rules.deviation_bands.keys() {
             if !config.rules.actions.contains_key(band_key) {
                 return Err(anyhow!(

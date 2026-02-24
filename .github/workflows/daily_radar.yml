@@ -1,0 +1,46 @@
+name: Daily Decision Radar
+
+on:
+  schedule:
+    # 每天 UTC 时间 21:00 运行 (对应北京时间 05:00)
+    - cron: '0 21 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Run Sentinel Radar
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: cargo run --release
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add reports/telemetry.csv
+          git add reports/$(date +%Y-%m-%d).json
+          git add reports/$(date +%Y-%m-%d).md
+          # 仅在有变化时提交
+          git diff --quiet && git diff --staged --quiet || (git commit -m "data: internal capital gravity update $(date +%Y-%m-%d) [skip ci]" && git push)
