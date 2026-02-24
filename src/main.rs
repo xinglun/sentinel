@@ -362,21 +362,45 @@ async fn main() -> Result<()> {
             conf_inverse_potential,
             capital_flow_acceleration,
             universe_integrity: if snapshots.len() > 0 { total_count as f64 / snapshots.len() as f64 } else { 0.0 },
+            trend_maturity: 0.0,
+            stability_structural: 0.0,
+            stability_temporal: 0.0,
+            regime_penalty: 1.0,
+            integrity_impact: 0.0,
         };
         let posture = temp_health.compute_capital_posture();
         let regime_age = calculate_regime_age(std::path::Path::new(&config_arc.output.save_to), &posture.state_code);
         temp_health.regime_age = regime_age;
-        let stability_score = (regime_age as f64 / 30.0).min(1.0);
-        temp_health.stability_score = stability_score;
+        
+        let trend_maturity = (regime_age as f64 / 40.0).min(1.0);
+        temp_health.trend_maturity = trend_maturity;
+        
+        let stability_structural = conf_inverse_potential / 50.0;
+        let stability_temporal = trend_maturity;
+        
+        temp_health.stability_structural = conf_inverse_potential; // Raw percentage
+        temp_health.stability_temporal = stability_temporal * 100.0; // Raw percentage
+        
+        let stability_score = stability_structural * stability_temporal;
+        temp_health.stability_score = stability_score; // 0.0 to 1.0 range
 
-        // --- Phase 40 Strategic Anchor: Stability & Confidence Governed Exposure Cap ---
-        // Exposure = Direction * Confidence * Stability
-        // We simulate this by applying a cap when stability is low.
+        let regime_penalty = if regime_age < 5 { 0.80 } else { 1.0 };
+        temp_health.regime_penalty = regime_penalty;
+        
+        let integrity_impact = temp_health.universe_integrity - 1.0;
+        temp_health.integrity_impact = integrity_impact;
+
+        // Final Exposure Calculation
+        let conf_multiplier = system_confidence / 100.0;
+        let mut final_exposure = base_exposure * conf_multiplier * regime_penalty;
+        final_exposure += integrity_impact; 
+        final_exposure = final_exposure.max(0.0).min(1.0);
+
         if stability_score < 0.2 {
-            adjusted_exposure = adjusted_exposure.min(0.70);
+            final_exposure = final_exposure.min(0.70);
         }
-        // Incorporate system confidence into the adjustment penalty if desired, 
-        // but for now we follow the simple "stability cap" rule explicitely shown.
+        adjusted_exposure = final_exposure;
+        
         temp_health.adjusted_exposure = adjusted_exposure;
         // Also update recommended_exposure to match adjusted_exposure for legacy compat
         temp_health.recommended_exposure = adjusted_exposure;

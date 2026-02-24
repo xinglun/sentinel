@@ -67,6 +67,11 @@ pub struct GravityHealth {
     pub conf_inverse_potential: f64,
     pub capital_flow_acceleration: Option<f64>,
     pub universe_integrity: f64,
+    pub trend_maturity: f64,
+    pub stability_structural: f64,
+    pub stability_temporal: f64,
+    pub regime_penalty: f64,
+    pub integrity_impact: f64,
 }
 
 pub struct CapitalPosture {
@@ -194,7 +199,7 @@ impl GravityHealth {
         match posture.state_code.as_str() {
             "TREND_DOMINANT" => {
                 let mut interpretation = if self.global_gravity_strength > 0.0 {
-                    "趋势强劲主导。强者继续复利，避免频繁调仓，回撤即机会。".to_string()
+                    "趋势强劲主导，延续概率较高。强者继续复利，避免频繁调仓，回撤即机会。".to_string()
                 } else {
                     "趋势仍主导但引力减速。保持仓位但由于动能衰减，严禁追高。".to_string()
                 };
@@ -740,13 +745,22 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     md.push_str("- **Exposure Calculation Breakdown**:\n");
     md.push_str(&format!("  - Base Exposure (Direction): {:.0}-{:.0}%\n", b_floor, b_ceil));
     md.push_str(&format!("  - Confidence Modifier: × {:.2}\n", gravity.system_confidence / 100.0));
+    if gravity.regime_penalty < 1.0 {
+        md.push_str(&format!("  - Regime Penalty (Newborn): × {:.2}\n", gravity.regime_penalty));
+    }
+    if gravity.integrity_impact < 0.0 {
+        md.push_str(&format!("  - Integrity Impact: {:+.1}%\n", gravity.integrity_impact * 100.0));
+    }
     let stab_mod = if gravity.stability_score < 0.2 { 0.70 } else { 1.00 };
     md.push_str(&format!("  - Stability Modifier (Cap): Max {:.0}%\n", stab_mod * 100.0));
     md.push_str(&format!("  - **Final Adjusted Exposure**: **{:.0}-{:.0}%**\n", a_floor, a_ceil));
     md.push_str(&format!("  - *Exposure Change vs Yesterday*: {}\n", exp_delta_str));
     let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
     md.push_str(&format!("- **Regime Age**: {} days ({} {})\n", gravity.regime_age, maturity_label, maturity_desc));
+    md.push_str(&format!("- **Trend Maturity**: {:.1}%\n", gravity.trend_maturity * 100.0));
     md.push_str(&format!("- **Stability**: {}\n", format_stability_bar(gravity.stability_score)));
+    md.push_str(&format!("  ├ Structural: {:.1}%\n", gravity.stability_structural));
+    md.push_str(&format!("  └ Temporal: {:.1}%\n", gravity.stability_temporal));
     
     // Phase 40: Trend Breadth Momentum
     let breadth_str = if let Some(prev_up) = gravity.prev_up_count {
@@ -941,6 +955,12 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     html.push_str("<b> • Exposure Calculation Breakdown:</b>\n");
     html.push_str(&format!("   ├ Base (Direction): <b>{:.0}-{:.0}%</b>\n", b_floor, b_ceil));
     html.push_str(&format!("   ├ Confidence Mod: × {:.2}\n", gravity.system_confidence / 100.0));
+    if gravity.regime_penalty < 1.0 {
+        html.push_str(&format!("   ├ Regime Penalty (Newborn): × {:.2}\n", gravity.regime_penalty));
+    }
+    if gravity.integrity_impact < 0.0 {
+        html.push_str(&format!("   ├ Integrity Impact: {:+.1}%\n", gravity.integrity_impact * 100.0));
+    }
     let stab_mod = if gravity.stability_score < 0.2 { 0.70 } else { 1.00 };
     html.push_str(&format!("   ├ Stability Cap: Max {:.0}%\n", stab_mod * 100.0));
     html.push_str(&format!("   └ <b>Final Adjusted: {:.0}-{:.0}%</b>\n", a_floor, a_ceil));
@@ -952,8 +972,11 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     
     let (maturity_label, _) = gravity.get_regime_maturity();
     html.push_str(&format!(" • Exposure Change: <code>{}</code>\n", exp_delta_str));
-    html.push_str(&format!(" • Stability: <code>{}</code>\n", format_stability_bar(gravity.stability_score)));
     html.push_str(&format!(" • Regime Age: <code>{} days</code> ({})\n", gravity.regime_age, maturity_label));
+    html.push_str(&format!(" • Trend Maturity: <code>{:.1}%</code>\n", gravity.trend_maturity * 100.0));
+    html.push_str(&format!(" • Stability: <code>{}</code>\n", format_stability_bar(gravity.stability_score)));
+    html.push_str(&format!("   ├ Structural: <code>{:.1}%</code>\n", gravity.stability_structural));
+    html.push_str(&format!("   └ Temporal: <code>{:.1}%</code>\n", gravity.stability_temporal));
     html.push_str(&format!(" • Action Bias: <b>{}</b>\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     html.push_str(&format!(" • GRAVITY POTENTIAL: <code>{}</code>\n\n", format_thermometer(gravity.global_potential_energy, 2.0).replace("\n", " | ")));
