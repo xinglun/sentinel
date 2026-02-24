@@ -43,6 +43,8 @@ pub struct GravityHealth {
     pub trend_alloc_weight: f64,
     pub reversion_alloc_weight: f64,
     pub config_hash: String,
+    pub system_confidence: f64,
+    pub market_phase: String,
 }
 
 pub struct CapitalPosture {
@@ -53,6 +55,7 @@ pub struct CapitalPosture {
     pub r_share_adj: f64,
     pub t_ratio_final: f64,
     pub r_ratio_final: f64,
+    pub dominance_label: String,
 }
 
 impl GravityHealth {
@@ -77,16 +80,16 @@ impl GravityHealth {
     }
 
     pub fn format_potential_energy(&self) -> String {
-        let label = if self.global_potential_energy < 1.0 {
-            "Cold (安定)"
+        let (label, intensity) = if self.global_potential_energy < 1.0 {
+            ("Cold", "(安定 / 波动极低)")
         } else if self.global_potential_energy < 1.5 {
-            "Warm (蓄力)"
+            ("Warm", "(蓄力 / 趋势健康但警惕波动)")
         } else if self.global_potential_energy < 2.0 {
-            "Hot (高张力)"
+            ("Hot", "(高张力 / 极端背离，波动即将来临)")
         } else {
-            "Critical (极端)"
+            ("Critical", "(极端 / 风险极高，严防剧烈修正)")
         };
-        format!("{:.2} ({})", self.global_potential_energy, label)
+        format!("{:.2} {} {}", self.global_potential_energy, label, intensity)
     }
 
     /// Linear interpolation for smooth Potential Modifier
@@ -114,6 +117,7 @@ impl GravityHealth {
                 r_share_adj: 0.0,
                 t_ratio_final: 0.0,
                 r_ratio_final: 0.0,
+                dominance_label: "Null".to_string(),
             };
         }
         
@@ -141,6 +145,17 @@ impl GravityHealth {
             ("TRANSITIONAL", "Transitional (结构转换期 / 防御优先，等待确认)")
         };
 
+        let margin = (final_trend_ratio - final_reversion_ratio).abs();
+        let dominance_label = if margin < 0.2 {
+            "Neutral"
+        } else if margin < 0.5 {
+            "Weak"
+        } else if margin < 0.8 {
+            "Strong"
+        } else {
+            "Absolute"
+        };
+
         CapitalPosture {
             state_code: state_code.to_string(),
             display_text: display_text.to_string(),
@@ -149,6 +164,7 @@ impl GravityHealth {
             r_share_adj,
             t_ratio_final: final_trend_ratio,
             r_ratio_final: final_reversion_ratio,
+            dominance_label: dominance_label.to_string(),
         }
     }
 
@@ -184,6 +200,23 @@ fn get_z_label(z: f64) -> &'static str {
     else { "Panic" }
 }
 
+fn get_action_category(state: &str) -> &'static str {
+    if state.contains("fear") && !state.contains("down") { "加仓区 (Buy)" }
+    else if state.contains("pullback") { "加仓区 (Buy)" }
+    else if state.contains("optimal") || state.contains("cruise") { "持有区 (Hold)" }
+    else if state.contains("overheat") || state.contains("DEFEND") || state.contains("caution") || (state.contains("fear") && state.contains("down")) { "防御区 (Defend)" }
+    else { "观察区 (Watch)" }
+}
+
+fn get_rank_priority(state: &str) -> usize {
+    if state == "optimal" || state == "cruise" { 3 }
+    else if state == "pullback" { 2 }
+    else if state.contains("fear") && !state.contains("down") { 1 } // Opportunity fear
+    else if state.contains("fear") && state.contains("down") { 5 } // Risk fear
+    else if state.contains("overheat") || state.contains("DEFEND") { 6 }
+    else { 4 } 
+}
+
 fn get_state_emoji(state: &str) -> &'static str {
     if state.starts_with("optimal") || state.starts_with("cruise") { "🟢" }
     else if state.starts_with("pullback") || state.contains("caution") || state.starts_with("CAUTION") { "🟡" }
@@ -197,15 +230,35 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     let posture = gravity_health.compute_capital_posture();
     
     let mut snapshots = snapshots.to_vec();
-    // Sorting: Descending by |Z-Score|
+    // Sorting: Opportunity-First (Fear -> Pullback -> Optimal -> Cruise)
     snapshots.sort_by(|a, b| {
-        let az = a.dev_z_score.unwrap_or(0.0).abs();
-        let bz = b.dev_z_score.unwrap_or(0.0).abs();
-        bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+        let pa = get_rank_priority(&a.state_code);
+        let pb = get_rank_priority(&b.state_code);
+        if pa != pb {
+            pa.cmp(&pb)
+        } else {
+            // Tie-break by |Z-score| descending for similar states
+            let az = a.dev_z_score.unwrap_or(0.0).abs();
+            let bz = b.dev_z_score.unwrap_or(0.0).abs();
+            bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+        }
     });
 
     let mut rows = Vec::new();
+    let mut buy_zone = Vec::new();
+    let mut watch_zone = Vec::new();
+    let mut defend_zone = Vec::new();
+    let mut hold_zone = Vec::new();
+
     for s in &snapshots {
+        let cat = get_action_category(&s.state_code);
+        match cat {
+            "加仓区 (Buy)" => buy_zone.push(s.symbol.clone()),
+            "观察区 (Watch)" => watch_zone.push(s.symbol.clone()),
+            "防御区 (Defend)" => defend_zone.push(s.symbol.clone()),
+            _ => hold_zone.push(s.symbol.clone()),
+        }
+
         let trend_icon = match s.trend_status {
             TrendStatus::Up => "↗",
             TrendStatus::Down => "↘",
@@ -241,9 +294,29 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             action: s.action_text.clone(),
         });
     }
-    
+
+    // Rankings
+    let mut opportunities = snapshots.iter()
+        .filter(|s| (s.state_code.contains("fear") && !s.state_code.contains("down")) || s.state_code.contains("pullback"))
+        .collect::<Vec<_>>();
+    opportunities.sort_by(|a, b| b.dev_z_score.unwrap_or(0.0).abs().partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs()).unwrap());
+
+    let mut risks = snapshots.iter()
+        .filter(|s| s.state_code.contains("overheat") || (s.state_code.contains("fear") && s.state_code.contains("down")) || s.state_code.contains("DEFEND"))
+        .collect::<Vec<_>>();
+    risks.sort_by(|a, b| b.dev_z_score.unwrap_or(0.0).abs().partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs()).unwrap());
+
+    // SPY Regime
+    let spy_regime = snapshots.iter().find(|s| s.symbol == "SPY").map(|s| {
+        if s.state_code.contains("optimal") || s.state_code.contains("cruise") { "Bull Stable" }
+        else if s.state_code.contains("fear") || s.state_code.contains("pullback") { "Correction" }
+        else if s.trend_status == TrendStatus::Down { "Bear / Crash" }
+        else { "Uncertain" }
+    }).unwrap_or("Unknown");
+
     // Previous state comparison
     let yesterday_state = yesterday_state;
+    let velocity_label = if yesterday_state == posture.state_code { "Stability maintained" } else { "Shift detected" };
     
     let raw_label = config.output.weight_kind.clone().unwrap_or_else(|| "Portfolio".to_string());
     let binding = raw_label.to_lowercase();
@@ -260,13 +333,34 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
     
     println!("\n🌍 CAPITAL STATE: {} ({} -> {})", posture.display_text, yesterday_state, posture.state_code);
-    println!("🌍 Dominance Margin: {:+.2}", dominance_margin);
+    println!("🌍 Velocity: {}", velocity_label);
+    println!("🌍 Dominance Margin: {:+.2} ({})", dominance_margin, posture.dominance_label);
+    println!("🌍 System Confidence: {}%", gravity_health.system_confidence);
+    println!("🌍 Market Phase: {}", gravity_health.market_phase);
+    println!("🌍 Market Regime (SPY): {}", spy_regime);
     println!("🌍 GRAVITY (Count): {}", gravity_health.format_count_health());
     println!("🌍 GRAVITY (Weight/{}): {}", weight_kind_label, gravity_health.format_weight_health());
     println!("🌍 GRAVITY (Strength/{}): {:+.2}%", weight_kind_label, gravity_health.global_gravity_strength);
     println!("🌍 GRAVITY POTENTIAL: {}", gravity_health.format_potential_energy());
     println!("{}", gravity_health.get_interpretation(&posture));
-    println!("{}", table);
+
+    println!("\n🎯 今日行动摘要");
+    println!(" • 加仓区: {}", buy_zone.join(" / "));
+    println!(" • 观察区: {}", watch_zone.join(" / "));
+    println!(" • 防御区: {}", defend_zone.join(" / "));
+    println!(" • 持有区: {}", hold_zone.join(" / "));
+
+    println!("\n🔥 Highest Opportunity");
+    for (i, s) in opportunities.iter().take(3).enumerate() {
+        println!(" {}. {} ({} / Z:{:+.1})", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0));
+    }
+
+    println!("\n☠️ Highest Risk");
+    for (i, s) in risks.iter().take(3).enumerate() {
+        println!(" {}. {} ({} / Z:{:+.1})", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0));
+    }
+
+    println!("\n{}", table);
 
     let md_content = generate_markdown(config, &snapshots, &date_str, gravity_health, &posture);
     let tg_html = generate_telegram_html(config, &snapshots, &date_str, gravity_health, &posture);
@@ -338,38 +432,81 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     })
 }
 
-fn generate_markdown(config: &AppConfig, snapshots: &[TickerSnapshot], date_str: &str, gravity: &GravityHealth, posture: &CapitalPosture) -> String {
-    let raw_label = config.output.weight_kind.clone().unwrap_or_else(|| "Portfolio".to_string());
-    let binding = raw_label.to_lowercase();
-    let weight_kind_label = match binding.as_str() {
-        "portfolio" => "Portfolio",
-        "cap" | "mktcap" => "MktCap",
-        "risk" => "Risk",
-        _ => &raw_label,
-    };
-
+fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str: &str, gravity: &GravityHealth, posture: &CapitalPosture) -> String {
     let mut snapshots = snapshots.to_vec();
     snapshots.sort_by(|a, b| {
-        let az = a.dev_z_score.unwrap_or(0.0).abs();
-        let bz = b.dev_z_score.unwrap_or(0.0).abs();
-        bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+        let pa = get_rank_priority(&a.state_code);
+        let pb = get_rank_priority(&b.state_code);
+        if pa != pb {
+            pa.cmp(&pb)
+        } else {
+            let az = a.dev_z_score.unwrap_or(0.0).abs();
+            let bz = b.dev_z_score.unwrap_or(0.0).abs();
+            bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+        }
     });
+
+    let mut buy_zone = Vec::new();
+    let mut watch_zone = Vec::new();
+    let mut defend_zone = Vec::new();
+    let mut hold_zone = Vec::new();
+    for s in &snapshots {
+        let cat = get_action_category(&s.state_code);
+        match cat {
+            "加仓区 (Buy)" => buy_zone.push(s.symbol.clone()),
+            "观察区 (Watch)" => watch_zone.push(s.symbol.clone()),
+            "防御区 (Defend)" => defend_zone.push(s.symbol.clone()),
+            _ => hold_zone.push(s.symbol.clone()),
+        }
+    }
+
+    let mut opportunities = snapshots.iter()
+        .filter(|s| (s.state_code.contains("fear") && !s.state_code.contains("down")) || s.state_code.contains("pullback"))
+        .collect::<Vec<_>>();
+    opportunities.sort_by(|a, b| b.dev_z_score.unwrap_or(0.0).abs().partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs()).unwrap());
+
+    let mut risks = snapshots.iter()
+        .filter(|s| s.state_code.contains("overheat") || (s.state_code.contains("fear") && s.state_code.contains("down")) || s.state_code.contains("DEFEND"))
+        .collect::<Vec<_>>();
+    risks.sort_by(|a, b| b.dev_z_score.unwrap_or(0.0).abs().partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs()).unwrap());
+
+    let spy_regime = snapshots.iter().find(|s| s.symbol == "SPY").map(|s| {
+        if s.state_code.contains("optimal") || s.state_code.contains("cruise") { "Bull Stable" }
+        else if s.state_code.contains("fear") || s.state_code.contains("pullback") { "Correction" }
+        else if s.trend_status == TrendStatus::Down { "Bear / Crash" }
+        else { "Uncertain" }
+    }).unwrap_or("Unknown");
 
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
 
-    let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n🌍 **CAPITAL STATE**: {}\n🌍 **Dominance Margin**: {:+.2}\n🌍 **GRAVITY (Count)**: {}\n🌍 **GRAVITY (Weight/{})**: {}\n🌍 **GRAVITY (Strength/{})**: {:+.2}%\n🌍 **GRAVITY POTENTIAL**: {}\n\n", 
+    let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n🌍 **CAPITAL STATE**: {}\n🌍 **Dominance Margin**: {:+.2} ({})\n🌍 **System Confidence**: {}%\n🌍 **Market Phase**: {}\n🌍 **Market Regime (SPY)**: {}\n🌍 **GRAVITY POTENTIAL**: {}\n\n", 
         date_str, 
         posture.display_text,
         dominance_margin,
-        gravity.format_count_health(),
-        weight_kind_label,
-        gravity.format_weight_health(),
-        weight_kind_label,
-        gravity.global_gravity_strength,
+        posture.dominance_label,
+        gravity.system_confidence,
+        gravity.market_phase,
+        spy_regime,
         gravity.format_potential_energy()
     );
 
     md.push_str(&format!("> {}\n\n", gravity.get_interpretation(posture)));
+
+    md.push_str("### 🎯 今日行动摘要\n");
+    md.push_str(&format!("- **加仓区 (Buy)**: {}\n", buy_zone.join(" / ")));
+    md.push_str(&format!("- **观察区 (Watch)**: {}\n", watch_zone.join(" / ")));
+    md.push_str(&format!("- **防御区 (Defend)**: {}\n", defend_zone.join(" / ")));
+    md.push_str(&format!("- **持有区 (Hold)**: {}\n\n", hold_zone.join(" / ")));
+
+    md.push_str("### 🔥 Highest Opportunity\n");
+    for (i, s) in opportunities.iter().take(3).enumerate() {
+        md.push_str(&format!("{}. **{}** ({} / Z:{:+.1})\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+    }
+    md.push_str("\n### ☠️ Highest Risk\n");
+    for (i, s) in risks.iter().take(3).enumerate() {
+        md.push_str(&format!("{}. **{}** ({} / Z:{:+.1})\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+    }
+    md.push_str("\n");
     
     md.push_str("### 🎯 個別銘柄レーダー\n\n");
     md.push_str("| 銘柄 | 趋势 (天数) | Owner (乖离) | 强度 (Z-Score) | 状态 (置信度) | 行动建议 |\n");
@@ -415,38 +552,81 @@ fn generate_markdown(config: &AppConfig, snapshots: &[TickerSnapshot], date_str:
     md
 }
 
-fn generate_telegram_html(config: &AppConfig, snapshots: &[TickerSnapshot], date_str: &str, gravity: &GravityHealth, posture: &CapitalPosture) -> String {
-    let raw_label = config.output.weight_kind.clone().unwrap_or_else(|| "Portfolio".to_string());
-    let binding = raw_label.to_lowercase();
-    let weight_kind_label = match binding.as_str() {
-        "portfolio" => "Portfolio",
-        "cap" | "mktcap" => "MktCap",
-        "risk" => "Risk",
-        _ => &raw_label,
-    };
-
-    let mut snapshots = snapshots.to_vec();
+fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot], date_str: &str, gravity: &GravityHealth, posture: &CapitalPosture) -> String {
+    let mut snapshots = snapshots_raw.to_vec();
     snapshots.sort_by(|a, b| {
-        let az = a.dev_z_score.unwrap_or(0.0).abs();
-        let bz = b.dev_z_score.unwrap_or(0.0).abs();
-        bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+        let pa = get_rank_priority(&a.state_code);
+        let pb = get_rank_priority(&b.state_code);
+        if pa != pb {
+            pa.cmp(&pb)
+        } else {
+            let az = a.dev_z_score.unwrap_or(0.0).abs();
+            let bz = b.dev_z_score.unwrap_or(0.0).abs();
+            bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+        }
     });
+
+    let mut buy_zone = Vec::new();
+    let mut watch_zone = Vec::new();
+    let mut defend_zone = Vec::new();
+    let mut hold_zone = Vec::new();
+    for s in &snapshots {
+        let cat = get_action_category(&s.state_code);
+        match cat {
+            "加仓区 (Buy)" => buy_zone.push(s.symbol.clone()),
+            "观察区 (Watch)" => watch_zone.push(s.symbol.clone()),
+            "防御区 (Defend)" => defend_zone.push(s.symbol.clone()),
+            _ => hold_zone.push(s.symbol.clone()),
+        }
+    }
+
+    let mut opportunities = snapshots.iter()
+        .filter(|s| (s.state_code.contains("fear") && !s.state_code.contains("down")) || s.state_code.contains("pullback"))
+        .collect::<Vec<_>>();
+    opportunities.sort_by(|a, b| b.dev_z_score.unwrap_or(0.0).abs().partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs()).unwrap());
+
+    let mut risks = snapshots.iter()
+        .filter(|s| s.state_code.contains("overheat") || (s.state_code.contains("fear") && s.state_code.contains("down")) || s.state_code.contains("DEFEND"))
+        .collect::<Vec<_>>();
+    risks.sort_by(|a, b| b.dev_z_score.unwrap_or(0.0).abs().partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs()).unwrap());
+
+    let spy_regime = snapshots.iter().find(|s| s.symbol == "SPY").map(|s| {
+        if s.state_code.contains("optimal") || s.state_code.contains("cruise") { "Bull Stable" }
+        else if s.state_code.contains("fear") || s.state_code.contains("pullback") { "Correction" }
+        else if s.trend_status == TrendStatus::Down { "Bear / Crash" }
+        else { "Uncertain" }
+    }).unwrap_or("Unknown");
 
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
 
-    let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n🌍 <b>CAPITAL STATE:</b> {}\n🌍 <b>Dominance Margin:</b> {:+.2}\n🌍 <b>GRAVITY (Count):</b> {}\n🌍 <b>GRAVITY (Weight/{}):</b> {}\n🌍 <b>GRAVITY (Strength/{}):</b> {:+.2}%\n🌍 <b>GRAVITY POTENTIAL:</b> {}\n\n", 
+    let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n🌍 <b>CAPITAL STATE:</b> {}\n🌍 <b>Dominance Margin:</b> {:+.2} ({})\n🌍 <b>System Confidence:</b> {}%\n🌍 <b>Market Phase:</b> {}\n🌍 <b>Market Regime (SPY):</b> {}\n🌍 <b>GRAVITY POTENTIAL:</b> {}\n\n", 
         date_str, 
         posture.display_text,
         dominance_margin,
-        gravity.format_count_health(),
-        weight_kind_label,
-        gravity.format_weight_health(),
-        weight_kind_label,
-        gravity.global_gravity_strength,
+        posture.dominance_label,
+        gravity.system_confidence,
+        gravity.market_phase,
+        spy_regime,
         gravity.format_potential_energy()
     );
 
     html.push_str(&format!("<i>{}</i>\n\n", gravity.get_interpretation(posture)));
+
+    html.push_str("<b>🎯 今日行动摘要</b>\n");
+    html.push_str(&format!(" • 加仓区: <code>{}</code>\n", buy_zone.join(" / ")));
+    html.push_str(&format!(" • 观察区: <code>{}</code>\n", watch_zone.join(" / ")));
+    html.push_str(&format!(" • 防御区: <code>{}</code>\n", defend_zone.join(" / ")));
+    html.push_str(&format!(" • 持有区: <code>{}</code>\n\n", hold_zone.join(" / ")));
+
+    html.push_str("<b>🔥 Highest Opportunity</b>\n");
+    for (i, s) in opportunities.iter().take(3).enumerate() {
+        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / Z:<code>{:+.1}</code>)\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+    }
+    html.push_str("\n<b>☠️ Highest Risk</b>\n");
+    for (i, s) in risks.iter().take(3).enumerate() {
+        html.push_str(&format!("{}. <b>{}</b> (<code>{}</code> / Z:<code>{:+.1}</code>)\n", i+1, s.symbol, s.state_code, s.dev_z_score.unwrap_or(0.0)));
+    }
+    html.push_str("\n");
     
     for s in &snapshots {
         let dev_str = s.deviation_pct.map(|v| format!("{:.2}%", v)).unwrap_or_else(|| "-".to_string());

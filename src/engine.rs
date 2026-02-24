@@ -3,7 +3,7 @@ use crate::fetcher::{DailyBar, TickerHistory};
 use chrono::NaiveDate;
 use serde::Serialize;
 
-#[derive(Debug, Serialize, Clone)]
+#[derive(Debug, Serialize, Clone, PartialEq, Eq)]
 pub enum TrendStatus {
     Up,
     Down,

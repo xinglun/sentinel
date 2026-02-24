@@ -196,6 +196,21 @@ async fn main() -> Result<()> {
         } else {
             0.0
         };
+
+        // --- Phase 25: Composite Macro Metrics ---
+        let dominance_margin = (trend_alloc_weight - reversion_alloc_weight) / total_weight; // Normalized margin
+        let confidence_score = (trend_alloc_weight / total_weight * 50.0) + (1.0 / (1.0 + global_potential_energy) * 50.0);
+        let system_confidence = (confidence_score.clamp(0.0, 100.0) * 100.0).round() / 100.0;
+
+        let market_phase = if dominance_margin > 0.5 {
+            if global_gravity_strength > 0.5 { "Mid Bull" } else { "Late Bull" }
+        } else if dominance_margin > 0.2 {
+            "Early Bull"
+        } else if dominance_margin < -0.5 {
+            "Bear Market"
+        } else {
+            "Correction / Recovery"
+        };
         
         let gravity_health = report::GravityHealth {
             up_count,
@@ -210,6 +225,8 @@ async fn main() -> Result<()> {
             trend_alloc_weight,
             reversion_alloc_weight,
             config_hash,
+            system_confidence,
+            market_phase: market_phase.to_string(),
         };
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;
