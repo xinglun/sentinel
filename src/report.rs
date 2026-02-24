@@ -230,7 +230,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
         fs::write(md_path, &md_content)?;
         
         // --- 📊 Telemetry System Heartbeat (V3 Ultimate Schema) ---
-        let telemetry_path = Path::new(&config.output.save_to).join("telemetry_v3.csv");
+        let telemetry_path = Path::new(&config.output.save_to).join("telemetry.csv");
         let file_exists = telemetry_path.exists();
         
         let up_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.up_count as f64 / gravity_health.total_count as f64 };

@@ -21,7 +21,7 @@ Stock Sentinelは、市場の変動を「物理的な観測」として捉え、
     - **信心度 (Confidence):** 物理指標のベクトル一致度。
     - **统治优势差 (Dominance Margin):** 序参量（Order Parameter）。体制の安定度を記述。
 - **三位一体（Ternary）重力モデル:** UP/FLAT/DOWN を明確に分離し、市場幅（Breadth）の真実を記録。
-- **Telemetry V3 (19-Column Schema):** 毎日の読数を 19 列の完全な状態ベクトルとして `telemetry_v3.csv` に自動記録。
+- **Telemetry V3 (19-Column Schema):** 毎日の読数を 19 列の完全な状态ベクトルとして `telemetry.csv` に自動記録。
 - **Parameter Universe Isolation:** `config.toml` のハッシュ値を記録することで、パラメータ変更履歴とデータを完全に整合。
 
 ## 🚀 使用方法 (Usage)

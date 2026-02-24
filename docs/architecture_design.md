@@ -62,7 +62,7 @@ struct WatchlistEntry {
 4.  **Main (`main.rs`)**: 各銘柄の出力を `GravityHealth`（序参量を含む状態ベクトル）に集約。資本配分比率（Trend vs Reversion）を計算し `CAPITAL STATE` を決定。
 5.  **Report (`report.rs`)**: 
     - **UI**: Terminal, Markdown, Telegram HTML の生成。
-    - **Persistence**: Daily JSON, `telemetry_v3.csv` (19列 序参量データセット) の追記保存。
+    - **Persistence**: Daily JSON, `telemetry.csv` (19列 序参量データセット) の追記保存。
 6.  **Backtest (`backtest.rs`)**: 歴史的な価格データを用いて全ロジックをシミュレート。Calibration Error や Alpha 分離度をレポート。
 
 ### 1.2 基礎データレイヤー (Market Data)

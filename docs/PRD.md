@@ -67,7 +67,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 * **`fetcher`**: 市場データ（Yahoo Finance APIなど）との連携を行い、HTTPリトライメカニズム（`reqwest` + `tokio`）を担当します。
 * **`calc`**: 時系列のステートレスな計算（MAの計算、標準偏差、Z-Score、曲率など）に特化します。
 * **`engine`**: キャピタル・フィジクス・エンジン。物理量ベクトルから `State` と `Confidence` を算出します。
-* **`report`**: レンダラーモジュール。Terminal, Markdown, Telegram HTML および `telemetry_v3.csv`（19列 序参量データセット）を生成します。
+* **`report`**: レンダラーモジュール。Terminal, Markdown, Telegram HTML および `telemetry.csv`（19列 序参量データセット）を生成します。
 * **`backtest`**: シミュレーションエンジン。歴史データに基づき Calibration Error 等を算出します。
 * **`notify`**: Telegram API をカプセル化し、毎日の自動通知を行います。
 
