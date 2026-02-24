@@ -21,7 +21,9 @@
     "is_caution_mode_active": false,
     "trend_age": 122,
     "owner_deviation_pct": -7.075188638648208,
-    "deviation_percentile": 14.173228346456693
+    "deviation_percentile": null,
+    "validity": "Valid",
+    "history_days": 500
   },
   {
     "symbol": "SPY",
@@ -45,7 +47,9 @@
     "is_caution_mode_active": false,
     "trend_age": 187,
     "owner_deviation_pct": 4.697745622865476,
-    "deviation_percentile": 28.903654485049834
+    "deviation_percentile": null,
+    "validity": "Valid",
+    "history_days": 500
   },
   {
     "symbol": "GOOG",
@@ -69,7 +73,9 @@
     "is_caution_mode_active": false,
     "trend_age": 130,
     "owner_deviation_pct": 7.474586061819746,
-    "deviation_percentile": 51.181102362204726
+    "deviation_percentile": null,
+    "validity": "Valid",
+    "history_days": 500
   },
   {
     "symbol": "NVDA",
@@ -93,7 +99,9 @@
     "is_caution_mode_active": true,
     "trend_age": 15,
     "owner_deviation_pct": 3.9249706468509107,
-    "deviation_percentile": 53.74149659863946
+    "deviation_percentile": null,
+    "validity": "Valid",
+    "history_days": 500
   },
   {
     "symbol": "MSFT",
@@ -117,7 +125,9 @@
     "is_caution_mode_active": false,
     "trend_age": 31,
     "owner_deviation_pct": -20.58368461565352,
-    "deviation_percentile": 0.0
+    "deviation_percentile": null,
+    "validity": "Valid",
+    "history_days": 500
   },
   {
     "symbol": "U",
@@ -141,7 +151,9 @@
     "is_caution_mode_active": false,
     "trend_age": 10,
     "owner_deviation_pct": -55.68624464472401,
-    "deviation_percentile": 0.0
+    "deviation_percentile": null,
+    "validity": "Valid",
+    "history_days": 500
   },
   {
     "symbol": "PLTR",
@@ -165,7 +177,9 @@
     "is_caution_mode_active": false,
     "trend_age": 21,
     "owner_deviation_pct": -21.599306598134195,
-    "deviation_percentile": 0.6802721088435374
+    "deviation_percentile": null,
+    "validity": "Valid",
+    "history_days": 500
   },
   {
     "symbol": "FIG",
@@ -181,14 +195,16 @@
     "curvature": null,
     "confidence_score": 90,
     "trend_status": "Down",
-    "deviation_pct": -41.22315227678168,
-    "deviation_basis_used": "owner",
+    "deviation_pct": 0.997735076525425,
+    "deviation_basis_used": "leash (forming override)",
     "state_code": "REGIME_FORMING",
     "action_text": "【观察期】：引力结构尚未形成，暂不参与",
     "is_bear_mode_active": true,
     "is_caution_mode_active": false,
     "trend_age": 3,
     "owner_deviation_pct": -41.22315227678168,
-    "deviation_percentile": null
+    "deviation_percentile": null,
+    "validity": "Forming",
+    "history_days": 142
   }
 ]

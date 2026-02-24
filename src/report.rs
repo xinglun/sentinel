@@ -1,5 +1,5 @@
 use crate::config::AppConfig;
-use crate::engine::{TickerSnapshot, TrendStatus};
+use crate::engine::{TickerSnapshot, TrendStatus, RegimeValidity};
 use anyhow::Result;
 use chrono::Local;
 use std::fs;
@@ -396,15 +396,25 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
             format!("{} {}", emoji, s.state_code)
         };
         
-        let percentile_str = s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default();
+        let percentile_str = if s.validity == RegimeValidity::Forming {
+            "".to_string()
+        } else {
+            s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default()
+        };
         
+        let action_guidance = if s.validity == RegimeValidity::Forming {
+            "Allocation: N/A (Observe)".to_string()
+        } else {
+            get_position_guidance(&s.state_code).to_string()
+        };
+
         rows.push(TerminalRow {
             symbol: s.symbol.clone(),
             trend: trend_combined,
             owner_dev: format!("Dist: {:+.1}%{}", owner_dev_val, percentile_str), 
             strength_z: strength_z_combined,
             state: state_rc,
-            action: get_position_guidance(&s.state_code).to_string(), 
+            action: action_guidance, 
         });
     }
 
@@ -443,6 +453,9 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     let mut table = Table::new(rows);
     table.with(Style::modern());
     
+    println!("VALID TICKERS: {} | FORMING: {}", gravity_health.total_count, gravity_health.regime_forming_count);
+    println!("{}", table);
+
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
     let market_structure = format!("{} ({})", gravity_health.market_phase, spy_regime);
 
@@ -726,8 +739,18 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         let strength_z_combined = format!("{} ({})", format_sigma(z_val), z_label);
         
         let owner_dev = s.owner_deviation_pct.unwrap_or(0.0);
-        let percentile_str = s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default();
+        let percentile_str = if s.validity == RegimeValidity::Forming {
+            "".to_string()
+        } else {
+            s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default()
+        };
         let recovery_str = format!("{:+.1}%{}", owner_dev, percentile_str);
+
+        let action_guidance = if s.validity == RegimeValidity::Forming {
+            "Allocation: N/A (Observe)".to_string()
+        } else {
+            get_position_guidance(&s.state_code).to_string()
+        };
 
         let emoji = get_state_emoji(&s.state_code);
         let state_name = if let Some(rc) = &s.reason_code {
@@ -740,7 +763,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
             idx + 1,
             s.symbol,
             state_name,
-            get_position_guidance(&s.state_code),
+            action_guidance,
             recovery_str,
             strength_z_combined,
             trend_combined,
@@ -870,16 +893,26 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         };
         let z_val = s.dev_z_score.unwrap_or(0.0);
         let owner_dev_val = s.owner_deviation_pct.unwrap_or(0.0);
-        let percentile_str = s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default();
+        let percentile_str = if s.validity == RegimeValidity::Forming {
+            "".to_string()
+        } else {
+            s.deviation_percentile.map(|v| format!(" (罕见度: {:.0}%)", v)).unwrap_or_default()
+        };
         let emoji = get_state_emoji(&s.state_code);
         
+        let action_guidance = if s.validity == RegimeValidity::Forming {
+            "Allocation: N/A (Observe)".to_string()
+        } else {
+            get_position_guidance(&s.state_code).to_string()
+        };
+
         let state_name = if let Some(rc) = &s.reason_code {
             format!("{} {} {}", emoji, s.state_code, rc)
         } else {
             format!("{} {}", emoji, s.state_code)
         };
 
-        html.push_str(&format!("{}. <b>{}</b> | {} | <code>{}</code>\n", idx+1, s.symbol, state_name, get_position_guidance(&s.state_code)));
+        html.push_str(&format!("{}. <b>{}</b> | {} | <code>{}</code>\n", idx+1, s.symbol, state_name, action_guidance));
         html.push_str(&format!("└ Owner Dist: <code>{:+.1}%{}</code> | {} | {}\n", owner_dev_val, percentile_str, format_sigma(z_val), s.action_text));
         html.push_str("\n");
     }

@@ -110,6 +110,8 @@ async fn main() -> Result<()> {
                             trend_age: 0,
                             owner_deviation_pct: None,
                             deviation_percentile: None,
+                            validity: engine::RegimeValidity::Invalid,
+                            history_days: 0,
                         };
                         Some(err_snap)
                     }
@@ -141,8 +143,13 @@ async fn main() -> Result<()> {
         let mut down_weight = 0.0;
         let mut regime_forming_count = 0;
         let mut regime_forming_weight = 0.0;
-        
         for s in &snapshots {
+            if s.validity == engine::RegimeValidity::Forming {
+                regime_forming_count += 1;
+                regime_forming_weight += s.weight;
+                continue; // --- MACRO CLEANSE: Exclude from global trend counts ---
+            }
+
             match s.trend_status {
                 engine::TrendStatus::Up => {
                     up_count += 1;
@@ -152,18 +159,10 @@ async fn main() -> Result<()> {
                     flat_count += 1;
                     flat_weight += s.weight;
                 },
-                engine::TrendStatus::Down => {
+                engine::TrendStatus::Down | engine::TrendStatus::Unknown => {
                     down_count += 1;
                     down_weight += s.weight;
                 },
-                engine::TrendStatus::Unknown => {
-                    down_count += 1; // Unknown counts as non-up/down during transition
-                    down_weight += s.weight;
-                }
-            }
-            if s.state_code == "REGIME_FORMING" {
-                regime_forming_count += 1;
-                regime_forming_weight += s.weight;
             }
         }
         
@@ -182,6 +181,11 @@ async fn main() -> Result<()> {
         let mut reversion_alloc_weight = 0.0;
         
         for s in &snapshots {
+            // --- MACRO CLEANSE: Exclude Forming assets from Physics logic ---
+            if s.validity == engine::RegimeValidity::Forming {
+                continue;
+            }
+
             // Only aggregate strength if valid
             if let Some(strength) = s.owner_ma_slope_pct {
                 total_strength_sum += strength * s.weight;

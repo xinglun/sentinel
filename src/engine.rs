@@ -11,6 +11,13 @@ pub enum TrendStatus {
     Unknown,
 }
 
+#[derive(Debug, Serialize, Clone, PartialEq, Eq)]
+pub enum RegimeValidity {
+    Valid,
+    Forming,
+    Invalid,
+}
+
 #[derive(Debug, Serialize, Clone)]
 pub struct TickerSnapshot {
     pub symbol: String,
@@ -35,6 +42,8 @@ pub struct TickerSnapshot {
     pub trend_age: usize,
     pub owner_deviation_pct: Option<f64>,
     pub deviation_percentile: Option<f64>,
+    pub validity: RegimeValidity,
+    pub history_days: usize,
 }
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
@@ -118,6 +127,8 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
             trend_age: 0,
             owner_deviation_pct: None,
             deviation_percentile: None,
+            validity: RegimeValidity::Invalid,
+            history_days: 0,
         };
     }
 
@@ -154,6 +165,8 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         None
     };
 
+    let history_days = history.bars.len();
+
     // --- Phase 35: Behavioral Context (Historical Percentile) ---
     let mut deviation_percentile = None;
     if let Some(current_dev) = owner_deviation_pct {
@@ -170,7 +183,8 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
             }
         }
         
-        if !historical_devs.is_empty() {
+        // Phase 37: Institutional Audit - Min sample requirement for statistical validity
+        if historical_devs.len() >= 500 {
             let count_lower = historical_devs.iter().filter(|&&d| d < current_dev).count();
             deviation_percentile = Some((count_lower as f64 / historical_devs.len() as f64) * 100.0);
         }
@@ -434,7 +448,15 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     // Cap at 99
     if confidence_score > 99 { confidence_score = 99; }
 
-    let regime_forming = history.bars.len() < entry.owner_ma_days * 2;
+    // Phase 4.1 Structural Honesty: Refined Trigger
+    let is_short_history = history_days < entry.owner_ma_days * 2;
+    let is_unstable_slope = owner_ma_slope_pct.map(|s| s.abs() < 0.5).unwrap_or(true);
+    let regime_forming = is_short_history || is_unstable_slope;
+
+    let mut validity = RegimeValidity::Valid;
+    if regime_forming {
+        validity = RegimeValidity::Forming;
+    }
 
     let mut snapshot = TickerSnapshot {
         symbol: entry.symbol.clone(),
@@ -459,6 +481,8 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         trend_age,
         owner_deviation_pct,
         deviation_percentile: if regime_forming { None } else { deviation_percentile },
+        validity,
+        history_days,
     };
 
     if regime_forming {
@@ -467,6 +491,14 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
             snapshot.action_text = act.clone();
         } else {
             snapshot.action_text = "【观察期】：引力结构尚未形成，暂不参与".to_string();
+        }
+
+        // Phase 4.1 Institutional Audit: Downgrade deviation_basis to leash for forming assets
+        if let Some(lm) = leash_ma {
+            if lm != 0.0 {
+                snapshot.deviation_pct = Some((dog_price - lm) / lm * 100.0);
+                snapshot.deviation_basis_used = "leash (forming override)".to_string();
+            }
         }
     }
 
