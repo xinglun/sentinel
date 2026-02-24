@@ -56,8 +56,34 @@ async fn main() -> Result<()> {
     let mut prev_margin = None;
     let mut prev_exposure = None;
     let mut prev_up_count = None;
+    let mut prev_ema_accel = None;
 
     if let Ok(content) = std::fs::read_to_string(std::path::Path::new(&config_arc.output.save_to).join("telemetry.csv")) {
+        let mut historical_margins = Vec::new();
+        for line in content.lines().skip(1) { // Skip header
+            let cols: Vec<&str> = line.split(',').collect();
+            if cols.len() > 12 {
+                if let Ok(m) = cols[12].parse::<f64>() {
+                    historical_margins.push(m);
+                }
+            }
+        }
+        
+        if historical_margins.len() > 1 {
+            let mut accelerations = Vec::new();
+            for i in 1..historical_margins.len() {
+                accelerations.push(historical_margins[i] - historical_margins[i-1]);
+            }
+            if !accelerations.is_empty() {
+                let mut ema = accelerations[0];
+                let alpha = 2.0 / (5.0 + 1.0); // 5-day EMA
+                for &acc in accelerations.iter().skip(1) {
+                    ema = alpha * acc + (1.0 - alpha) * ema;
+                }
+                prev_ema_accel = Some(ema);
+            }
+        }
+
         if let Some(last_line) = content.lines().last() {
             let cols: Vec<&str> = last_line.split(',').collect();
             if cols.len() > 12 {
@@ -258,15 +284,33 @@ async fn main() -> Result<()> {
             "Neutral / Transition"
         };
 
+        // 1. Calculate true finalized margin from energy adjustment
+        let t_share_raw = trend_alloc_weight / total_weight;
+        let r_share_raw = reversion_alloc_weight / total_weight;
+        let r_share_adj = r_share_raw * (1.0 + global_potential_energy);
+        let total_adjusted = t_share_raw + r_share_adj;
+        let t_ratio_final = t_share_raw / total_adjusted;
+        let r_ratio_final = r_share_adj / total_adjusted;
+        let energy_adjusted_margin = t_ratio_final - r_ratio_final;
+
+        // 2. Compute 5-day EMA of Acceleration
         let mut capital_flow_acceleration = None;
         if let Some(pm) = prev_margin {
-            capital_flow_acceleration = Some(dominance_margin - pm);
+            let today_accel = energy_adjusted_margin - pm;
+            let ema_accel = match prev_ema_accel {
+                Some(prev_ema) => {
+                    let alpha = 2.0 / (5.0 + 1.0);
+                    alpha * today_accel + (1.0 - alpha) * prev_ema
+                },
+                None => today_accel
+            };
+            capital_flow_acceleration = Some(ema_accel);
         }
 
-        // --- Phase 42: Semantic Calibration of Flow Vectors (Momentum State) ---
-        // Velocity = dominance_margin
-        // Acceleration = capital_flow_acceleration
-        let capital_flow_vector = if dominance_margin > 0.0 {
+        // --- Phase 43: Semantic Calibration of Flow Vectors (Momentum State) ---
+        // Velocity = energy_adjusted_margin
+        // Acceleration = capital_flow_acceleration (5-day EMA)
+        let capital_flow_vector = if energy_adjusted_margin > 0.0 {
             let acc = capital_flow_acceleration.unwrap_or(0.0);
             if acc.abs() < 0.02 { "Stable Uptrend ↗️" }
             else if acc >= 0.02 { "Accelerating Uptrend 🚀" }

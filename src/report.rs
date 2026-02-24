@@ -715,7 +715,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
     } else { "Baseline" };
     
-    let accel_str = if let Some(acc) = margin_delta {
+    let accel_str = if let Some(acc) = gravity.capital_flow_acceleration {
         if acc.abs() < 0.02 { format!("{:+.2} (Stable)", acc.abs()) } // Force +0.00
         else if acc >= 0.02 { format!("{:+.2} (Strong)", acc) }
         else { format!("{:+.2} (Severe)", acc) }
@@ -922,7 +922,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     let margin_evolution = if let Some(d) = margin_delta {
         if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
     } else { "Baseline" };
-    let accel_str = if let Some(acc) = margin_delta {
+    let accel_str = if let Some(acc) = gravity.capital_flow_acceleration {
         if acc.abs() < 0.02 { format!("<code>{:+.2}</code> (Stable)", acc.abs()) } // Force +0.00
         else if acc >= 0.02 { format!("<code>{:+.2}</code> (Strong)", acc) }
         else { format!("<code>{:+.2}</code> (Severe)", acc) }
