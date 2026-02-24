@@ -25,7 +25,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main
 
@@ -154,9 +154,11 @@ jobs:
             git worktree add ../data_worktree -B data origin/data
           fi
 
-          # 3. Port over generated reports cleanly with archive persistence
-          rsync -a --delete reports/ ../data_worktree/reports/
-          rsync -a --delete backtest/ ../data_worktree/backtest/
+          # 3. Port over generated reports cleanly (Append-only Ledger Pattern)
+          # Specifically avoid --delete on archives to prevent wiping historical logs
+          rsync -a reports/ ../data_worktree/reports/
+          rsync -a backtest/summary_latest.md ../data_worktree/backtest/
+          rsync -a backtest/archive/ ../data_worktree/backtest/archive/
           
           # 4. Hop into worktree, commit and push
           cd ../data_worktree
@@ -166,7 +168,7 @@ jobs:
           if ! git diff --cached --quiet; then
             echo "Pushing update to: $(git remote get-url origin | sed -e 's/x-access-token:.*@/x-access-token:***@/')"
             git commit -m "Stock Sentinel Weekly Backtest: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
-            git push origin data
+            git push origin data --force-with-lease
           else
             echo "No changes to commit in data branch from backtest."
           fi
