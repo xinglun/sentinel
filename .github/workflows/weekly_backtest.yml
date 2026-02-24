@@ -116,7 +116,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
 
-          ROOT_DIR=$(pwd)
+          ROOT_DIR="${GITHUB_WORKSPACE}"
           DATA_DIR="${ROOT_DIR}/../data_worktree"
           # 1. Ensure origin/data history exists locally (explicit refspec fetch)
           # We don't suppress stderr here so auth or network failures are visible in Actions logs
@@ -144,12 +144,10 @@ jobs:
           fi
 
           # 3. Port over generated reports cleanly
-          # - reports/ is a Mirror (snapshot), so we use --delete
-          # - backtest/ is a Ledger (append-only), so we copy files/archives individually
           mkdir -p "${DATA_DIR}/reports" "${DATA_DIR}/backtest/archive"
-          rsync -a --delete reports/ "${DATA_DIR}/reports/"
-          rsync -a backtest/summary_latest.md "${DATA_DIR}/backtest/"
-          rsync -a backtest/archive/ "${DATA_DIR}/backtest/archive/"
+          rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
+          rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
+          rsync -a "${ROOT_DIR}/backtest/archive/" "${DATA_DIR}/backtest/archive/"
           
           # 4. Hop into worktree, commit and push
           cd "${DATA_DIR}"
