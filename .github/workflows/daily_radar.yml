@@ -22,7 +22,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
           ref: main # 确保在 main 分支运行并提交
 
@@ -150,9 +150,9 @@ jobs:
             git worktree add ../data_worktree -B data origin/data
           fi
 
-          # 3. Port over generated reports cleanly
-          rsync -a --delete reports/ ../data_worktree/reports/
-
+          # 3. Port over generated reports cleanly (Append-only)
+          rsync -a reports/ ../data_worktree/reports/
+          
           # 4. Hop into worktree, commit and push
           cd ../data_worktree
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
@@ -161,7 +161,7 @@ jobs:
           if ! git diff --cached --quiet; then
             echo "Pushing update to: $(git remote get-url origin | sed -e 's/x-access-token:.*@/x-access-token:***@/')"
             git commit -m "Stock Sentinel Observation: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
-            git push origin data
+            git push origin data --force-with-lease
           else
             echo "No changes to commit in data branch."
           fi
