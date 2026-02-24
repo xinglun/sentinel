@@ -745,14 +745,12 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     md.push_str("- **Exposure Calculation Breakdown**:\n");
     md.push_str(&format!("  - Base Exposure (Direction): {:.0}-{:.0}%\n", b_floor, b_ceil));
     md.push_str(&format!("  - Confidence Mod (Integrity Adj): × {:.2}\n", (gravity.system_confidence / 100.0) * gravity.integrity_multiplier));
-    if gravity.temporal_modifier < 1.0 {
-        md.push_str(&format!("  - Temporal Modifier (Newborn): × {:.2}\n", gravity.temporal_modifier));
-    }
     md.push_str(&format!("  - **Final Adjusted Exposure**: **{:.0}-{:.0}%**\n", a_floor, a_ceil));
     md.push_str(&format!("  - *Exposure Change vs Yesterday*: {}\n", exp_delta_str));
     let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
     md.push_str(&format!("- **Regime Age**: {} days ({} {})\n", gravity.regime_age, maturity_label, maturity_desc));
     md.push_str(&format!("- **Trend Maturity**: {:.1}%\n", gravity.trend_maturity * 100.0));
+    md.push_str(&format!("  └ Trend Quality (Temporal): {:.2}x\n", gravity.temporal_modifier));
     md.push_str(&format!("- **Stability**: {}\n", format_stability_bar(gravity.stability_score)));
     md.push_str(&format!("  ├ Structural: {:.1}%\n", gravity.stability_structural));
     md.push_str(&format!("  └ Temporal: {:.1}%\n", gravity.stability_temporal));
@@ -950,9 +948,6 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     html.push_str("<b> • Exposure Calculation Breakdown:</b>\n");
     html.push_str(&format!("   ├ Base (Direction): <b>{:.0}-{:.0}%</b>\n", b_floor, b_ceil));
     html.push_str(&format!("   ├ Confidence Mod (Integrity Adj): × {:.2}\n", (gravity.system_confidence / 100.0) * gravity.integrity_multiplier));
-    if gravity.temporal_modifier < 1.0 {
-        html.push_str(&format!("   ├ Temporal Modifier: × {:.2}\n", gravity.temporal_modifier));
-    }
     html.push_str(&format!("   └ <b>Final Adjusted: {:.0}-{:.0}%</b>\n", a_floor, a_ceil));
     
     let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {
@@ -964,6 +959,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     html.push_str(&format!(" • Exposure Change: <code>{}</code>\n", exp_delta_str));
     html.push_str(&format!(" • Regime Age: <code>{} days</code> ({})\n", gravity.regime_age, maturity_label));
     html.push_str(&format!(" • Trend Maturity: <code>{:.1}%</code>\n", gravity.trend_maturity * 100.0));
+    html.push_str(&format!("   └ Trend Quality (Temporal): <code>{:.2}x</code>\n", gravity.temporal_modifier));
     html.push_str(&format!(" • Stability: <code>{}</code>\n", format_stability_bar(gravity.stability_score)));
     html.push_str(&format!("   ├ Structural: <code>{:.1}%</code>\n", gravity.stability_structural));
     html.push_str(&format!("   └ Temporal: <code>{:.1}%</code>\n", gravity.stability_temporal));

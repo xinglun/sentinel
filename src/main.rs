@@ -392,7 +392,7 @@ async fn main() -> Result<()> {
 
         // Final Exposure Calculation
         let conf_multiplier = (system_confidence / 100.0) * integrity_multiplier;
-        let mut final_exposure = base_exposure * conf_multiplier * temporal_modifier;
+        let mut final_exposure = base_exposure * conf_multiplier;
         final_exposure = final_exposure.max(0.0).min(1.0);
 
         adjusted_exposure = final_exposure;
