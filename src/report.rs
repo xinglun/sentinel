@@ -33,14 +33,12 @@ pub struct ReportResult {
 pub struct GravityHealth {
     pub up_count: usize,
     pub flat_count: usize,
-    pub down_count: usize,
     pub forming_early_count: usize,
     pub forming_late_count: usize,
     pub universe_count: usize,
     pub total_count: usize, // Valid count (Macro denominator)
     pub up_weight: f64,
     pub flat_weight: f64,
-    pub down_weight: f64,
     pub forming_early_weight: f64,
     pub forming_late_weight: f64,
     pub total_weight: f64, // Valid weight (Macro denominator)
@@ -54,7 +52,6 @@ pub struct GravityHealth {
     pub capital_flow_vector: String,
     pub recommended_exposure: f64,
     // Delta trackers (Change vs Yesterday)
-    pub prev_potential_energy: Option<f64>,
     pub prev_system_confidence: Option<f64>,
     pub prev_dominance_margin: Option<f64>,
     pub prev_recommended_exposure: Option<f64>,
@@ -86,25 +83,6 @@ pub struct CapitalPosture {
 }
 
 impl GravityHealth {
-    pub fn format_count_health(&self) -> String {
-        if self.total_count == 0 {
-            return "0% UP / 0% FLAT / 0% DOWN".to_string();
-        }
-        let up_pct = (self.up_count as f64 / self.total_count as f64 * 100.0).round() as usize;
-        let flat_pct = (self.flat_count as f64 / self.total_count as f64 * 100.0).round() as usize;
-        let down_pct = 100 - up_pct - flat_pct; // Avoid 101% or 99% logic with simple subtraction
-        format!("{}% UP / {}% FLAT / {}% DOWN", up_pct, flat_pct, down_pct)
-    }
-
-    pub fn format_weight_health(&self) -> String {
-        if self.total_weight <= 0.0 {
-            return "0% UP / 0% FLAT / 0% DOWN".to_string();
-        }
-        let up_pct = (self.up_weight / self.total_weight * 100.0).round() as usize;
-        let flat_pct = (self.flat_weight / self.total_weight * 100.0).round() as usize;
-        let down_pct = 100 - up_pct - flat_pct;
-        format!("{}% UP / {}% FLAT / {}% DOWN", up_pct, flat_pct, down_pct)
-    }
 
     pub fn format_potential_energy(&self) -> String {
         let (label, intensity) = if self.global_potential_energy < 1.0 {

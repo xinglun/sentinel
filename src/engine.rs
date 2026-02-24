@@ -286,9 +286,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         }
     }
     
-    let mut is_bear_mode_active = false;
-    let mut is_caution_mode_active = false;
-    let mut reason_code: Option<String> = None;
+    let mut reason_code: Option<String> = None;    
     
     // Extreme Fear Exemption: 极度恐慌时直接豁免降级，尊重均值回归抄底
     let is_extreme_fear = state_code.starts_with("fear");
@@ -359,7 +357,6 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
                 // If confirmed breakdown AND CAUTION_MA is pointing DOWN
                 if is_structurally_broken && matches!(caution_ma_trend, TrendStatus::Down) {
-                    is_bear_mode_active = true;
                     reason_code = Some(format!("[B{}<0.97 x{}/{}]", caution_days, confirm_threshold, confirm_days));
                     if is_extreme_fear {
                         state_code = "fear_downtrend".to_string();
@@ -373,14 +370,12 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
                     if is_extreme_fear {
                         if !is_structurally_safe {
-                            is_bear_mode_active = true;
                             state_code = "fear_downtrend".to_string();
                             reason_code = Some(format!("[B{}↓]", caution_days));
                             action_text = "【防御 (DEFEND)】：長期トレンド下降または不安定。逆張り禁止(Cash 80%+)".to_string();
                         }
                         // else safe, keep fear_1, reason_code stays whatever dev triggered it
                     } else {
-                        is_caution_mode_active = true;
                         reason_code = Some(format!("[C{} SAFE]", caution_days));
                         action_text = rules.bear_mode.caution_action.clone()
                             .unwrap_or_else(|| "【警戒】：長期トレンド維持。定投または小幅加仓".to_string());
@@ -389,7 +384,6 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 }
             } else {
                 // Fallback to DEFEND if caution MA cannot be calculated
-                is_bear_mode_active = true;
                 reason_code = Some("[NO_CMA]".to_string());
                 if is_extreme_fear {
                     state_code = "fear_downtrend".to_string();

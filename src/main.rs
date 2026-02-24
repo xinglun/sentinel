@@ -52,7 +52,6 @@ async fn main() -> Result<()> {
     
     // --- Phase 28: Deep Telemetry Parsing for Delta Tracking ---
     let mut yesterday_state = "Unknown".to_string();
-    let mut prev_gp = None;
     let mut prev_margin = None;
     let mut prev_exposure = None;
     let mut prev_up_count = None;
@@ -88,7 +87,6 @@ async fn main() -> Result<()> {
             let cols: Vec<&str> = last_line.split(',').collect();
             if cols.len() > 12 {
                 yesterday_state = cols[3].to_string(); // state_code
-                prev_gp = cols[6].parse::<f64>().ok();
                 prev_margin = cols[12].parse::<f64>().ok();
                 // If we added exposure column (index 13), parse it
                 if cols.len() > 13 {
@@ -329,11 +327,9 @@ async fn main() -> Result<()> {
         let mut temp_health = report::GravityHealth {
             up_count,
             flat_count,
-            down_count,
             total_count,
             up_weight,
             flat_weight,
-            down_weight,
             total_weight,
             global_gravity_strength,
             global_potential_energy,
@@ -349,7 +345,6 @@ async fn main() -> Result<()> {
             forming_early_weight,
             forming_late_weight,
             universe_count: snapshots.len(),
-            prev_potential_energy: prev_gp,
             prev_system_confidence: None, 
             prev_dominance_margin: prev_margin,
             prev_recommended_exposure: prev_exposure,

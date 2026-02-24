@@ -51,11 +51,7 @@ async fn fetch_once(provider: &yahoo::YahooConnector, symbol: &str, start_dt: Op
 
     let response = match provider.get_quote_history(symbol, start, end).await {
         Ok(res) => {
-            if symbol == "SPY" || symbol == "FIG" {
-                if let Ok(meta) = res.metadata() {
-                    println!("[DEBUG {}] metadata: {:?}", symbol, meta);
-                }
-            }
+
             res
         },
         Err(_) => {
