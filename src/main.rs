@@ -49,6 +49,18 @@ async fn main() -> Result<()> {
     
     let watchlist = &config_arc.watchlist;
     let enabled_count = watchlist.iter().filter(|w| w.enable).count();
+    
+    // --- Phase 23: Retrieve Yesterday's State for Velocity Tracking ---
+    let mut yesterday_state = "Unknown".to_string();
+    if let Ok(content) = std::fs::read_to_string(std::path::Path::new(&config_arc.output.save_to).join("telemetry.csv")) {
+        if let Some(last_line) = content.lines().last() {
+            let cols: Vec<&str> = last_line.split(',').collect();
+            if cols.len() > 3 {
+                yesterday_state = cols[3].to_string(); // state_code is index 3
+            }
+        }
+    }
+
     println!("📊 {} 個の有効な銘柄のデータを取得しています...", enabled_count);
     
     let mut snapshots = Vec::new();
@@ -85,6 +97,8 @@ async fn main() -> Result<()> {
                             action_text: format!("取得失敗: {}", e),
                             is_bear_mode_active: false,
                             is_caution_mode_active: false,
+                            trend_age: 0,
+                            owner_deviation_pct: None,
                         };
                         Some(err_snap)
                     }
@@ -198,7 +212,7 @@ async fn main() -> Result<()> {
             config_hash,
         };
 
-        let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health)?;
+        let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;
 
         // Phase 8: Hard block on Telegram Token leaks
         if let Some(ref tg_cfg) = config_arc.telegram {

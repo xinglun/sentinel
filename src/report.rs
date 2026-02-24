@@ -11,17 +11,15 @@ use tabled::settings::Style;
 struct TerminalRow {
     #[tabled(rename = "銘柄")]
     symbol: String,
-    #[tabled(rename = "トレンド")]
+    #[tabled(rename = "趋势 (天数)")]
     trend: String,
-    #[tabled(rename = "重力強度")]
-    strength_pct: String,
-    #[tabled(rename = "Z-Score(曲率)")]
-    z_score_curv: String,
-    #[tabled(rename = "乖離率 %")]
-    dev_pct: String,
-    #[tabled(rename = "状態 (置信度)")]
+    #[tabled(rename = "Owner (乖离)")]
+    owner_dev: String,
+    #[tabled(rename = "强度 (Z)")]
+    strength_z: String,
+    #[tabled(rename = "状态 (置信度)")]
     state: String,
-    #[tabled(rename = "行動建議")]
+    #[tabled(rename = "行动建议")]
     action: String,
 }
 
@@ -31,7 +29,6 @@ pub struct ReportResult {
     pub telegram_html: String,
 }
 
-const CURVATURE_DEADZONE: f64 = 0.05;
 
 pub struct GravityHealth {
     pub up_count: usize,
@@ -80,13 +77,16 @@ impl GravityHealth {
     }
 
     pub fn format_potential_energy(&self) -> String {
-        if self.global_potential_energy < 1.0 {
-            format!("{:.2} (LOW / 安定)", self.global_potential_energy)
+        let label = if self.global_potential_energy < 1.0 {
+            "Cold (安定)"
+        } else if self.global_potential_energy < 1.5 {
+            "Warm (蓄力)"
         } else if self.global_potential_energy < 2.0 {
-            format!("{:.2} (MEDIUM / 蓄力)", self.global_potential_energy)
+            "Hot (高张力)"
         } else {
-            format!("{:.2} (HIGH / 高张力)", self.global_potential_energy)
-        }
+            "Critical (极端)"
+        };
+        format!("{:.2} ({})", self.global_potential_energy, label)
     }
 
     /// Linear interpolation for smooth Potential Modifier
@@ -151,51 +151,99 @@ impl GravityHealth {
             r_ratio_final: final_reversion_ratio,
         }
     }
+
+    pub fn get_interpretation(&self, posture: &CapitalPosture) -> String {
+        match posture.state_code.as_str() {
+            "TREND_DOMINANT" => {
+                if self.global_gravity_strength > 0.0 {
+                    "📡 Interpretation: 趋势强劲主导。强者继续复利，避免频繁调仓，回撤即机会。".to_string()
+                } else {
+                    "📡 Interpretation: 趋势仍主导但引力减速。保持仓位但由于动能衰减，严禁追高。".to_string()
+                }
+            },
+            "REVERSION_DOMINANT" => {
+                if self.global_potential_energy > 1.8 {
+                    "📡 Interpretation: 极端背离导向。结构性超卖/超买严重，分批部署/防御而非追跌杀涨。".to_string()
+                } else {
+                    "📡 Interpretation: 均值回归主导。震荡格局，避免趋势交易逻辑，关注边缘突破。".to_string()
+                }
+            },
+            "TRANSITIONAL" => {
+                "📡 Interpretation: 结构转换期。引力方向不明联，防御优先，等待新体制确立。".to_string()
+            },
+            _ => "📡 Interpretation: 系统状态观测中。".to_string()
+        }
+    }
 }
 
-pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravity_health: &GravityHealth) -> Result<ReportResult> {
+fn get_z_label(z: f64) -> &'static str {
+    let abs_z = z.abs();
+    if abs_z < 1.0 { "Neutral" }
+    else if abs_z < 2.0 { "Strong" }
+    else if abs_z < 3.0 { "Extreme" }
+    else { "Panic" }
+}
+
+fn get_state_emoji(state: &str) -> &'static str {
+    if state.starts_with("optimal") || state.starts_with("cruise") { "🟢" }
+    else if state.starts_with("pullback") || state.contains("caution") || state.starts_with("CAUTION") { "🟡" }
+    else if state.starts_with("overheat") || state.starts_with("fear") || state.starts_with("DEFEND") { "🔴" }
+    else { "⚪" }
+}
+
+pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravity_health: &GravityHealth, yesterday_state: &str) -> Result<ReportResult> {
     let now = Local::now();
     let date_str = now.format("%Y-%m-%d").to_string();
     let posture = gravity_health.compute_capital_posture();
     
+    let mut snapshots = snapshots.to_vec();
+    // Sorting: Descending by |Z-Score|
+    snapshots.sort_by(|a, b| {
+        let az = a.dev_z_score.unwrap_or(0.0).abs();
+        let bz = b.dev_z_score.unwrap_or(0.0).abs();
+        bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+    });
+
     let mut rows = Vec::new();
-    for s in snapshots {
-        let trend_str = match s.trend_status {
-            TrendStatus::Up => "上昇 ↗",
-            TrendStatus::Down => "下落 ↘",
-            TrendStatus::Flat => "横ばい →",
+    for s in &snapshots {
+        let trend_icon = match s.trend_status {
+            TrendStatus::Up => "↗",
+            TrendStatus::Down => "↘",
+            TrendStatus::Flat => "→",
             TrendStatus::Unknown => "?",
         };
+        let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
         
-        let dev_str = s.deviation_pct.map(|v| format!("{:.2}%", v)).unwrap_or_else(|| "-".to_string());
-        let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
-        let z_score_str = s.dev_z_score.map(|v| format!("{:+.1}", v)).unwrap_or_else(|| "-".to_string());
-        
-        // Curvature dead-zone (centralized constant)
-        let curv_str = s.curvature.map(|v| {
-            if v >= CURVATURE_DEADZONE { "拐点↗" }
-            else if v <= -CURVATURE_DEADZONE { "下沉↘" }
-            else { "平坦~" }
-        }).unwrap_or("-");
-        
-        let z_curv_combined = format!("{} ({})", z_score_str, curv_str);
-        
-        let state_rc = if let Some(rc) = &s.reason_code {
-            format!("{} {} ({}%)", s.state_code, rc, s.confidence_score)
+        let owner_dev_str = if let (Some(om), Some(dev)) = (s.owner_ma, s.owner_deviation_pct) {
+            format!("{:.2} ({:+.2}%)", om, dev)
         } else {
-            format!("{} ({}%)", s.state_code, s.confidence_score)
+            "-".to_string()
+        };
+
+        let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
+        let z_val = s.dev_z_score.unwrap_or(0.0);
+        let z_label = get_z_label(z_val);
+        let strength_z_combined = format!("{} (Z:{:+.1} {})", strength_str, z_val, z_label);
+        
+        let emoji = get_state_emoji(&s.state_code);
+        let state_rc = if let Some(rc) = &s.reason_code {
+            format!("{} {} {} ({}%)", emoji, s.state_code, rc, s.confidence_score)
+        } else {
+            format!("{} {} ({}%)", emoji, s.state_code, s.confidence_score)
         };
         
         rows.push(TerminalRow {
             symbol: s.symbol.clone(),
-            trend: trend_str.to_string(),
-            strength_pct: strength_str,
-            z_score_curv: z_curv_combined,
-            dev_pct: dev_str,
+            trend: trend_combined,
+            owner_dev: owner_dev_str,
+            strength_z: strength_z_combined,
             state: state_rc,
             action: s.action_text.clone(),
         });
     }
+    
+    // Previous state comparison
+    let yesterday_state = yesterday_state;
     
     let raw_label = config.output.weight_kind.clone().unwrap_or_else(|| "Portfolio".to_string());
     let binding = raw_label.to_lowercase();
@@ -203,27 +251,31 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
         "portfolio" => "Portfolio",
         "cap" | "mktcap" => "MktCap",
         "risk" => "Risk",
-        _ => &raw_label, // Use original if not mapped
+        _ => &raw_label, 
     };
     
     let mut table = Table::new(rows);
     table.with(Style::modern());
     
-    println!("\n🌍 CAPITAL STATE: {}", posture.display_text);
+    let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
+    
+    println!("\n🌍 CAPITAL STATE: {} ({} -> {})", posture.display_text, yesterday_state, posture.state_code);
+    println!("🌍 Dominance Margin: {:+.2}", dominance_margin);
     println!("🌍 GRAVITY (Count): {}", gravity_health.format_count_health());
     println!("🌍 GRAVITY (Weight/{}): {}", weight_kind_label, gravity_health.format_weight_health());
     println!("🌍 GRAVITY (Strength/{}): {:+.2}%", weight_kind_label, gravity_health.global_gravity_strength);
     println!("🌍 GRAVITY POTENTIAL: {}", gravity_health.format_potential_energy());
+    println!("{}", gravity_health.get_interpretation(&posture));
     println!("{}", table);
 
-    let md_content = generate_markdown(config, snapshots, &date_str, gravity_health, &posture);
-    let tg_html = generate_telegram_html(config, snapshots, &date_str, gravity_health, &posture);
+    let md_content = generate_markdown(config, &snapshots, &date_str, gravity_health, &posture);
+    let tg_html = generate_telegram_html(config, &snapshots, &date_str, gravity_health, &posture);
 
     if !config.output.save_to.is_empty() {
         fs::create_dir_all(&config.output.save_to)?;
         
         let json_path = Path::new(&config.output.save_to).join(format!("{}.json", date_str));
-        let json_content = serde_json::to_string_pretty(snapshots)?;
+        let json_content = serde_json::to_string_pretty(&snapshots)?;
         fs::write(json_path, json_content)?;
         
         let md_path = Path::new(&config.output.save_to).join(format!("{}.md", date_str));
@@ -296,9 +348,19 @@ fn generate_markdown(config: &AppConfig, snapshots: &[TickerSnapshot], date_str:
         _ => &raw_label,
     };
 
-    let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n🌍 **CAPITAL STATE**: {}\n🌍 **GRAVITY (Count)**: {}\n🌍 **GRAVITY (Weight/{})**: {}\n🌍 **GRAVITY (Strength/{})**: {:+.2}%\n🌍 **GRAVITY POTENTIAL**: {}\n\n", 
+    let mut snapshots = snapshots.to_vec();
+    snapshots.sort_by(|a, b| {
+        let az = a.dev_z_score.unwrap_or(0.0).abs();
+        let bz = b.dev_z_score.unwrap_or(0.0).abs();
+        bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+    });
+
+    let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
+
+    let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n🌍 **CAPITAL STATE**: {}\n🌍 **Dominance Margin**: {:+.2}\n🌍 **GRAVITY (Count)**: {}\n🌍 **GRAVITY (Weight/{})**: {}\n🌍 **GRAVITY (Strength/{})**: {:+.2}%\n🌍 **GRAVITY POTENTIAL**: {}\n\n", 
         date_str, 
         posture.display_text,
+        dominance_margin,
         gravity.format_count_health(),
         weight_kind_label,
         gravity.format_weight_health(),
@@ -306,44 +368,45 @@ fn generate_markdown(config: &AppConfig, snapshots: &[TickerSnapshot], date_str:
         gravity.global_gravity_strength,
         gravity.format_potential_energy()
     );
+
+    md.push_str(&format!("> {}\n\n", gravity.get_interpretation(posture)));
     
     md.push_str("### 🎯 個別銘柄レーダー\n\n");
-    md.push_str("| 銘柄 | トレンド | 強度 | Z-Score (曲率) | 乖離率 | 状態 (置信度) | 行動建議 |\n");
-    md.push_str("| :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n");
+    md.push_str("| 銘柄 | 趋势 (天数) | Owner (乖离) | 强度 (Z-Score) | 状态 (置信度) | 行动建议 |\n");
+    md.push_str("| :--- | :--- | :--- | :--- | :--- | :--- |\n");
     
-    for s in snapshots {
-        let dev_str = s.deviation_pct.map(|v| format!("{:.2}%", v)).unwrap_or_else(|| "-".to_string());
-        
-        let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
-        let z_score_str = s.dev_z_score.map(|v| format!("{:+.1}", v)).unwrap_or_else(|| "-".to_string());
-        
-        let curv_str = s.curvature.map(|v| {
-            if v >= CURVATURE_DEADZONE { "拐点↗" }
-            else if v <= -CURVATURE_DEADZONE { "下沉↘" }
-            else { "平坦~" }
-        }).unwrap_or("-");
-        
-        let z_curv_combined = format!("{} ({})", z_score_str, curv_str);
-        
+    for s in &snapshots {
         let trend_icon = match s.trend_status {
             TrendStatus::Up => "↗️ 上昇",
             TrendStatus::Down => "↘️ 下落",
             TrendStatus::Flat => "➡️ 横ばい",
             TrendStatus::Unknown => "❓ 未知",
         };
+        let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
         
-        let state_rc = if let Some(rc) = &s.reason_code {
-            format!("{} {} ({}%)", s.state_code, rc, s.confidence_score)
+        let owner_dev_str = if let (Some(om), Some(dev)) = (s.owner_ma, s.owner_deviation_pct) {
+            format!("{:.2} (**{:+.2}%**)", om, dev)
         } else {
-            format!("{} ({}%)", s.state_code, s.confidence_score)
+            "-".to_string()
+        };
+
+        let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
+        let z_val = s.dev_z_score.unwrap_or(0.0);
+        let z_label = get_z_label(z_val);
+        let strength_z_combined = format!("{} (Z:{:+.1} {})", strength_str, z_val, z_label);
+        
+        let emoji = get_state_emoji(&s.state_code);
+        let state_rc = if let Some(rc) = &s.reason_code {
+            format!("{} {} {} ({}%)", emoji, s.state_code, rc, s.confidence_score)
+        } else {
+            format!("{} {} ({}%)", emoji, s.state_code, s.confidence_score)
         };
         
-        md.push_str(&format!("| **{}** | {} | {} | {} | **{}** | {} | {} |\n",
+        md.push_str(&format!("| **{}** | {} | {} | {} | {} | {} |\n",
             s.symbol,
-            trend_icon,
-            strength_str,
-            z_curv_combined,
-            dev_str,
+            trend_combined,
+            owner_dev_str,
+            strength_z_combined,
             state_rc,
             s.action_text
         ));
@@ -362,9 +425,19 @@ fn generate_telegram_html(config: &AppConfig, snapshots: &[TickerSnapshot], date
         _ => &raw_label,
     };
 
-    let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n🌍 <b>CAPITAL STATE:</b> {}\n🌍 <b>GRAVITY (Count):</b> {}\n🌍 <b>GRAVITY (Weight/{}):</b> {}\n🌍 <b>GRAVITY (Strength/{}):</b> {:+.2}%\n🌍 <b>GRAVITY POTENTIAL:</b> {}\n\n", 
+    let mut snapshots = snapshots.to_vec();
+    snapshots.sort_by(|a, b| {
+        let az = a.dev_z_score.unwrap_or(0.0).abs();
+        let bz = b.dev_z_score.unwrap_or(0.0).abs();
+        bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
+    });
+
+    let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
+
+    let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n🌍 <b>CAPITAL STATE:</b> {}\n🌍 <b>Dominance Margin:</b> {:+.2}\n🌍 <b>GRAVITY (Count):</b> {}\n🌍 <b>GRAVITY (Weight/{}):</b> {}\n🌍 <b>GRAVITY (Strength/{}):</b> {:+.2}%\n🌍 <b>GRAVITY POTENTIAL:</b> {}\n\n", 
         date_str, 
         posture.display_text,
+        dominance_margin,
         gravity.format_count_health(),
         weight_kind_label,
         gravity.format_weight_health(),
@@ -372,11 +445,13 @@ fn generate_telegram_html(config: &AppConfig, snapshots: &[TickerSnapshot], date
         gravity.global_gravity_strength,
         gravity.format_potential_energy()
     );
+
+    html.push_str(&format!("<i>{}</i>\n\n", gravity.get_interpretation(posture)));
     
-    for s in snapshots {
+    for s in &snapshots {
         let dev_str = s.deviation_pct.map(|v| format!("{:.2}%", v)).unwrap_or_else(|| "-".to_string());
+        let owner_dev_str = s.owner_deviation_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
         let owner_ma_str = s.owner_ma.map(|v| format!("{:.2}", v)).unwrap_or_else(|| "-".to_string());
-        let leash_ma_str = s.leash_ma.map(|v| format!("{:.2}", v)).unwrap_or_else(|| "-".to_string());
         
         let trend_icon = match s.trend_status {
             TrendStatus::Up => "↗️ 上昇",
@@ -384,20 +459,23 @@ fn generate_telegram_html(config: &AppConfig, snapshots: &[TickerSnapshot], date
             TrendStatus::Flat => "➡️ 横ばい",
             TrendStatus::Unknown => "❓ 未知",
         };
+        let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
         
+        let emoji = get_state_emoji(&s.state_code);
         let state_rc = if let Some(rc) = &s.reason_code {
-            format!("{} {} ({}%)", s.state_code, rc, s.confidence_score)
+            format!("{} {} {} ({}%)", emoji, s.state_code, rc, s.confidence_score)
         } else {
-            format!("{} ({}%)", s.state_code, s.confidence_score)
+            format!("{} {} ({}%)", emoji, s.state_code, s.confidence_score)
         };
         
         let strength_str = s.owner_ma_slope_pct.map(|v| format!("{:+.2}%", v)).unwrap_or_else(|| "-".to_string());
-        let z_score_str = s.dev_z_score.map(|v| format!("{:+.1}", v)).unwrap_or_else(|| "-".to_string());
+        let z_val = s.dev_z_score.unwrap_or(0.0);
+        let z_label = get_z_label(z_val);
         
-        html.push_str(&format!("<b>{}</b> {} <code>${:.2}</code> (Dev: <code>{}</code>)\n", s.symbol, trend_icon, s.dog_price, dev_str));
+        html.push_str(&format!("<b>{}</b> {} <code>${:.2}</code> (Dev: <code>{}</code>)\n", s.symbol, trend_combined, s.dog_price, dev_str));
         html.push_str(&format!(" • <b>状態(置信度):</b> {}\n", state_rc));
-        html.push_str(&format!(" • <b>物理:</b> 強度 <code>{}</code> | Z-Score <code>{}</code>\n", strength_str, z_score_str));
-        html.push_str(&format!(" • <b>基準:</b> Owner <code>{}</code> | Leash <code>{}</code> | Basis: <code>{}</code>\n", owner_ma_str, leash_ma_str, s.deviation_basis_used));
+        html.push_str(&format!(" • <b>物理:</b> 強度 <code>{}</code> | Z-Score: <code>{:+.1} {}</code>\n", strength_str, z_val, z_label));
+        html.push_str(&format!(" • <b>距离Owner:</b> <code>{}</code> ({} <code>{}</code>)\n", owner_dev_str, s.deviation_basis_used, owner_ma_str));
         html.push_str(&format!(" • <b>建議:</b> {}\n\n", s.action_text));
     }
     

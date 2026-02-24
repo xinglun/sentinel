@@ -32,6 +32,8 @@ pub struct TickerSnapshot {
     pub action_text: String,
     pub is_bear_mode_active: bool,
     pub is_caution_mode_active: bool,
+    pub trend_age: usize,
+    pub owner_deviation_pct: Option<f64>,
 }
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
@@ -112,6 +114,8 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
             action_text: "データが見つかりません".to_string(),
             is_bear_mode_active: false,
             is_caution_mode_active: false,
+            trend_age: 0,
+            owner_deviation_pct: None,
         };
     }
 
@@ -138,6 +142,34 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     } else {
         None
     };
+    let owner_deviation_pct = if let Some(om) = owner_ma {
+        if om != 0.0 {
+            Some((dog_price - om) / om * 100.0)
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    // --- Trend Age Calculation ---
+    let mut trend_age = 1;
+    if last_idx > 0 {
+        let current_trend = trend_status.clone();
+        for i in (0..last_idx).rev() {
+            let past_trend = detect_trend(
+                &history.bars[0..=i],
+                entry.owner_ma_days,
+                rules.trend.lookback_days,
+                rules.trend.flat_threshold_pct,
+            );
+            if matches!((&current_trend, &past_trend), (TrendStatus::Up, TrendStatus::Up) | (TrendStatus::Down, TrendStatus::Down) | (TrendStatus::Flat, TrendStatus::Flat) | (TrendStatus::Unknown, TrendStatus::Unknown)) {
+                trend_age += 1;
+            } else {
+                break;
+            }
+        }
+    }
 
     // --- Phase 9 Physics: Gravity Strength (Slope) ---
     let mut owner_ma_slope_pct = None;
@@ -398,5 +430,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         action_text,
         is_bear_mode_active,
         is_caution_mode_active,
+        trend_age,
+        owner_deviation_pct,
     }
 }
