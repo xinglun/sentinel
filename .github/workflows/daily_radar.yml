@@ -48,7 +48,7 @@ jobs:
           mkdir -p reports
           
           # Try to steal telemetry.csv from historical records without disrupting workspace
-          if git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data; then
+          if git fetch origin refs/heads/data:refs/remotes/origin/data; then
             echo "Data branch exists. Fetching telemetry.csv..."
             if git cat-file -e origin/data:reports/telemetry.csv 2>/dev/null; then
               git show origin/data:reports/telemetry.csv > reports/telemetry.csv
@@ -150,12 +150,18 @@ jobs:
             git worktree add ../data_worktree -B data origin/data
           fi
 
-          # 3. Port over generated reports cleanly (Append-only)
-          rsync -a reports/ ../data_worktree/reports/
+          # 3. Port over generated reports cleanly (Mirror Strategy for snapshots)
+          # We use --delete here because reports/ is intended to be a latest-only snapshot
+          rsync -a --delete reports/ ../data_worktree/reports/
           
           # 4. Hop into worktree, commit and push
           cd ../data_worktree
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          
+          # Minimize --force-with-lease failures by rebasing against latest remote state
+          git fetch origin data || true
+          git pull --rebase origin data || true
+
           git add -f reports/
           
           if ! git diff --cached --quiet; then
@@ -165,3 +171,14 @@ jobs:
           else
             echo "No changes to commit in data branch."
           fi
+
+      - name: Notify on Failure
+        if: failure()
+        run: |
+          ERROR_MSG="❌ Daily Radar FAILED on ${GITHUB_REPOSITORY}
+          Workflow: ${GITHUB_WORKFLOW}
+          Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          Commit: ${GITHUB_SHA::7}"
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d text="${ERROR_MSG}" > /dev/null || echo "Failed to send Telegram notification"
