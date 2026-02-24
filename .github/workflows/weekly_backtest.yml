@@ -25,7 +25,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -51,10 +51,16 @@ jobs:
           mkdir -p reports
           
           # Try to steal telemetry.csv from historical records without disrupting workspace
-          if git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data 2>/dev/null; then
+          if git fetch --depth=50 origin refs/heads/data:refs/remotes/origin/data; then
             echo "Data branch exists. Fetching telemetry.csv..."
-            git checkout origin/data -- reports/telemetry.csv 2>/dev/null || echo "No telemetry.csv found in data branch."
-            git reset --quiet HEAD reports/telemetry.csv 2>/dev/null || true
+            if git cat-file -e origin/data:reports/telemetry.csv 2>/dev/null; then
+              git show origin/data:reports/telemetry.csv > reports/telemetry.csv
+              echo "✅ telemetry.csv restored from data branch"
+            else
+              echo "⚠️ telemetry.csv not found in data branch"
+            fi
+          else
+            echo "⚠️ Could not fetch data branch (branch missing OR auth/network issue). Will continue with empty telemetry.csv."
           fi
 
           # Fail-safe: if the file still doesn't exist, create a dummy header so Rust doesn't panic
@@ -117,6 +123,7 @@ jobs:
             
             # Guarantee explicit authentication for the very first initialization push
             git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            echo "Pushing initialization to: $(git remote get-url origin | sed -e 's/x-access-token:.*@/x-access-token:***@/')"
             git push origin data
             cd -
             rm -rf ../data_worktree
@@ -132,6 +139,7 @@ jobs:
           git add -f reports/
           
           if ! git diff --cached --quiet; then
+            echo "Pushing update to: $(git remote get-url origin | sed -e 's/x-access-token:.*@/x-access-token:***@/')"
             git commit -m "Stock Sentinel Weekly Backtest: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
             git push origin data
           else
