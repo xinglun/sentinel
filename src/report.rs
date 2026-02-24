@@ -13,7 +13,7 @@ struct TerminalRow {
     symbol: String,
     #[tabled(rename = "趋势 (天数)")]
     trend: String,
-    #[tabled(rename = "Owner (乖离)")]
+    #[tabled(rename = "Owner Distance")]
     owner_dev: String,
     #[tabled(rename = "强度 (Z)")]
     strength_z: String,
@@ -198,6 +198,15 @@ impl GravityHealth {
             _ => "系统状态观测中。".to_string()
         }
     }
+
+    pub fn get_action_bias(&self, posture: &CapitalPosture, buy_zone_empty: bool) -> &str {
+        match posture.state_code.as_str() {
+            "OPTIMAL" | "CRUISE" if buy_zone_empty => "HOLD",
+            "OPTIMAL" | "CRUISE" | "TREND_DOMINANT" => "ACCUMULATE",
+            "REVERSION_DOMINANT" if self.global_potential_energy > 1.8 => "ACCUMULATE (Contrarian)",
+            _ => "DEFEND",
+        }
+    }
 }
 
 fn get_z_label(z: f64) -> &'static str {
@@ -242,14 +251,15 @@ fn format_sigma(z: f64) -> String {
     format!("{:.1}σ {}", z.abs(), label)
 }
 
-fn get_position_guidance(state: &str) -> &'static str {
-    if state.contains("fear") && !state.contains("down") { "Allocation: +15% (Load)" }
-    else if state == "pullback" { "Allocation: +10% (Buy)" }
-    else if state == "optimal" { "Target: 100% (Stay Efficient)" }
-    else if state == "cruise" { "Target: 100% (Trend Follow)" }
-    else if state.contains("overheat") { "Target: 60-80% (Trim)" }
-    else if state.contains("down") || state.contains("DEFEND") { "Target: 0-20% (Avoid/Cash)" }
-    else { "Neutral" }
+fn get_position_guidance(state_code: &str) -> &str {
+    match state_code {
+        "optimal" => "Portfolio Allocation: 100% (Stay Efficient)",
+        "cruise" => "Portfolio Allocation: 100% (Trend Follow)",
+        "pullback" => "Portfolio Allocation: +10% (Buy)",
+        "CAUTION" => "Neutral / Maintain",
+        "DEFEND" | "fear_downtrend" => "Portfolio Allocation: 0-20% (Avoid/Cash)",
+        _ => "Neutral",
+    }
 }
 
 fn get_final_order(gravity: &GravityHealth, posture: &CapitalPosture, buy_zone: &[String]) -> String {
@@ -260,10 +270,8 @@ fn get_final_order(gravity: &GravityHealth, posture: &CapitalPosture, buy_zone: 
     let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
     orders.push(format!("Maintain {:.0}-{:.0}% equity exposure.", floor, ceil));
     
-    // Command 2: Action Bias
-    if buy_zone.is_empty() && (posture.state_code == "OPTIMAL" || posture.state_code == "CRUISE") {
-        orders.push("Action Bias: HOLD (Do nothing).".to_string());
-    } else if !buy_zone.is_empty() {
+    // Command 2: Deployment
+    if !buy_zone.is_empty() {
         orders.push(format!("Deploy capital only into pullbacks ({}).", buy_zone.join(", ")));
     }
     
@@ -351,7 +359,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
         rows.push(TerminalRow {
             symbol: s.symbol.clone(),
             trend: trend_combined,
-            owner_dev: format!("{} (Dist: {:+.1}%)", s.symbol, owner_dev_val), // Terminal simplified
+            owner_dev: format!("Dist: {:+.1}%", owner_dev_val), 
             strength_z: strength_z_combined,
             state: state_rc,
             action: get_position_guidance(&s.state_code).to_string(), 
@@ -404,18 +412,20 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
     let exp_delta_str = if let Some(prev) = gravity_health.prev_recommended_exposure {
         let diff = gravity_health.recommended_exposure - prev;
-        if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stability maintained" }
+        if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
     } else { "New Baseline" };
-    println!(" • Recommended Exposure: {:.0}-{:.0}% ({})", floor, ceil, exp_delta_str);
+    println!(" • Recommended Exposure: {:.0}-{:.0}%", floor, ceil);
+    println!(" • Exposure Change: {}", exp_delta_str);
 
-    let margin_label = format!("{:+.2} ({})", dominance_margin, posture.dominance_label);
-    let margin_delta_str = if let Some(prev) = gravity_health.prev_dominance_margin {
-        format!("(Δ {:+.2})", dominance_margin - prev)
-    } else { "".to_string() };
-    println!(" • Dominance Margin: {} {}", margin_label, margin_delta_str);
+    let margin_delta = gravity_health.prev_dominance_margin.map(|p| dominance_margin - p);
+    let margin_evolution = if let Some(d) = margin_delta {
+        if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
+    } else { "Baseline" };
+    println!(" • Dominance Margin: {:+.2} ({}) {}", dominance_margin, posture.dominance_label, margin_evolution);
     
     println!(" • Market Structure: {}", market_structure);
     println!(" • Capital Flow Vector: {}", gravity_health.capital_flow_vector);
+    println!(" • Action Bias: {}", gravity_health.get_action_bias(&posture, buy_zone.is_empty()));
     println!(" • GRAVITY POTENTIAL:\n{}", format_thermometer(gravity_health.global_potential_energy, 2.0));
     println!("\n> 📡 Interpretation: {}", gravity_health.get_interpretation(&posture));
 
@@ -432,7 +442,8 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     for (i, s) in opportunities.iter().take(3).enumerate() {
         let z = s.dev_z_score.unwrap_or(0.0);
         let bias = if z < 0.0 { "Mean Reversion ↑" } else { "Mean Reversion ↓" };
-        println!(" {}. {} ({} / Bias: {})", i+1, s.symbol, format_sigma(z), bias);
+        let guidance = get_position_guidance(&s.state_code);
+        println!(" {}. {} ({} / Bias: {} / {})", i+1, s.symbol, format_sigma(z), bias, guidance);
     }
     
     println!("\n☠️ Highest Risk");
@@ -600,21 +611,21 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     
     // Delta for Dominance Margin
     let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
-    let margin_str = if let Some(d) = margin_delta {
-        format!("{:+.2} (Δ {:+.2})", dominance_margin, d)
-    } else {
-        format!("{:+.2}", dominance_margin)
-    };
-    md.push_str(&format!("- **Dominance Margin**: {} ({} / 趋势统治力)\n", margin_str, posture.dominance_label));
+    let margin_evolution = if let Some(d) = margin_delta {
+        if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
+    } else { "Baseline" };
+    md.push_str(&format!("- **Dominance Margin**: {:+.2} ({} / {})\n", dominance_margin, posture.dominance_label, margin_evolution));
     
     // Exposure Scope
     let floor = (gravity.recommended_exposure * 10.0).floor() * 10.0;
     let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
     let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {
         let diff = gravity.recommended_exposure - prev;
-        if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stability maintained" }
+        if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
     } else { "New Baseline" };
-    md.push_str(&format!("- **Recommended Exposure**: **{:.0}-{:.0}%** ({})\n", floor, ceil, exp_delta_str));
+    md.push_str(&format!("- **Recommended Exposure**: **{:.0}-{:.0}%**\n", floor, ceil));
+    md.push_str(&format!("- **Exposure Change**: {}\n", exp_delta_str));
+    md.push_str(&format!("- **Action Bias**: **{}**\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     md.push_str(&format!("- **GRAVITY POTENTIAL**:\n```\n{}\n```\n({})\n\n", format_thermometer(gravity.global_potential_energy, 2.0), gravity.format_potential_energy()));
 
@@ -635,7 +646,8 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         let z = s.dev_z_score.unwrap_or(0.0);
         let elasticity = if z.abs() > 2.0 { "High" } else if z.abs() > 1.0 { "Medium" } else { "Normal" };
         let bias = if z < 0.0 { "Mean Reversion ↑" } else { "Mean Reversion ↓" };
-        md.push_str(&format!("{}. **{}** ({} / {} / Elasticity: {} / Bias: {})\n", i+1, s.symbol, s.state_code, format_sigma(z), elasticity, bias));
+        let guidance = get_position_guidance(&s.state_code);
+        md.push_str(&format!("{}. **{}** ({} / {} / Elasticity: {} / Bias: {} / {})\n", i+1, s.symbol, s.state_code, format_sigma(z), elasticity, bias, guidance));
     }
     md.push_str("\n### ☠️ Highest Risk (系统性偏离风险)\n");
     for (i, s) in risks.iter().take(3).enumerate() {
@@ -645,9 +657,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     }
     md.push_str("\n");
 
-    md.push_str("## 🎯 個別銘柄レーダー (Execution Radar)\n");
-    md.push_str("> ℹ️ *Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable*\n\n");
-    md.push_str("| # | 銘柄 | 状态 | Portfolio Allocation | Recovery | 强度 (Sigma) | 趋势 (天数) | 行动建议 |\n");
+    md.push_str("| # | 銘柄 | 状态 | Portfolio Allocation | Owner Distance | 强度 (Sigma) | 趋势 (天数) | 行动建议 |\n");
     md.push_str("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n");
     
     for (idx, s) in snapshots.iter().enumerate() {
@@ -664,7 +674,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
         let strength_z_combined = format!("{} ({})", format_sigma(z_val), z_label);
         
         let owner_dev = s.owner_deviation_pct.unwrap_or(0.0);
-        let recovery_str = format!("{:+.2}%", owner_dev);
+        let recovery_str = format!("{:+.1}%", owner_dev);
 
         let emoji = get_state_emoji(&s.state_code);
         let state_name = if let Some(rc) = &s.reason_code {
@@ -752,16 +762,21 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     html.push_str(&format!(" • Market Structure: <code>{}</code>\n", market_structure));
     
     let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
-    let margin_str = if let Some(d) = margin_delta {
-        format!("<code>{:+.2}</code> (Δ <code>{:+.2}</code>)", dominance_margin, d)
-    } else {
-        format!("<code>{:+.2}</code>", dominance_margin)
-    };
-    html.push_str(&format!(" • Dominance Margin: {} (<i>{}</i>)\n", margin_str, posture.dominance_label));
+    let margin_evolution = if let Some(d) = margin_delta {
+        if d.abs() < 0.01 { "→ Stable" } else if d > 0.0 { "↗ Improving" } else { "↘ Weakening" }
+    } else { "Baseline" };
+    html.push_str(&format!(" • Dominance Margin: <code>{:+.2}</code> ({})\n", dominance_margin, margin_evolution));
     
     let floor = (gravity.recommended_exposure * 10.0).floor() * 10.0;
     let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
     html.push_str(&format!(" • Recommended Exposure: <b>{:.0}-{:.0}%</b>\n", floor, ceil));
+    
+    let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {
+        let diff = gravity.recommended_exposure - prev;
+        if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
+    } else { "New Baseline" };
+    html.push_str(&format!(" • Exposure Change: <code>{}</code>\n", exp_delta_str));
+    html.push_str(&format!(" • Action Bias: <b>{}</b>\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     html.push_str(&format!(" • GRAVITY POTENTIAL: <code>{}</code>\n\n", format_thermometer(gravity.global_potential_energy, 2.0).replace("\n", " | ")));
 
@@ -792,7 +807,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     html.push_str("<i>ℹ️ Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable</i>\n\n");
 
     for (idx, s) in snapshots.iter().enumerate() {
-        let trend_icon = match s.trend_status {
+        let _trend_icon = match s.trend_status {
             TrendStatus::Up => "↗️",
             TrendStatus::Down => "↘️",
             _ => "➡️",
@@ -808,7 +823,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         };
 
         html.push_str(&format!("{}. <b>{}</b> | {} | <code>{}</code>\n", idx+1, s.symbol, state_name, get_position_guidance(&s.state_code)));
-        html.push_str(&format!("└ Rec: {:+.1}% | {} | {}\n", owner_dev, format_sigma(z_val), s.action_text));
+        html.push_str(&format!("└ Owner Dist: {:+.1}% | {} | {}\n", owner_dev, format_sigma(z_val), s.action_text));
         html.push_str("\n");
     }
     
