@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ github.token }}
           ref: main # 确保在 main 分支运行并提交
 
       - name: Install Rust
@@ -168,7 +168,8 @@ jobs:
           if ! git diff --cached --quiet; then
             echo "Pushing update to: $(git remote get-url origin | sed -e 's/x-access-token:.*@/x-access-token:***@/')"
             git commit -m "Stock Sentinel Observation: ${RUN_AT_JST:-$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')}"
-            git push origin data --force-with-lease
+            # Protect history with lease, fallback to rebase retry if concurrent write detected
+            git push origin data --force-with-lease || (git pull --rebase origin data && git push origin data --force-with-lease)
           else
             echo "No changes to commit in data branch."
           fi
@@ -179,4 +180,4 @@ jobs:
           MSG="❌ Daily Radar FAILED on ${GITHUB_REPOSITORY}\nWorkflow: ${GITHUB_WORKFLOW}\nRun: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\nCommit: ${GITHUB_SHA::7}"
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
-            --data-urlencode text="$(printf "${MSG}")" > /dev/null || echo "Failed to send Telegram notification"
+            --data-urlencode text="$(printf '%s' "${MSG}")" > /dev/null || echo "Failed to send Telegram notification"
