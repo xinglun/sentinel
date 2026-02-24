@@ -1,31 +1,58 @@
+---
+tags: [rust, stock, investment, trading, sentinel]
+keywords: [monitoring, yahoo-finance, telegram, dca, strategy]
+---
+
 # 🐕 Stock Sentinel (Decision Radar)
 
-A highly configurable Decision Radar system written in Rust designed to systematically monitor moving average deviations (the "Owner-Leash-Dog" model) for multiple stocks. It provides objective trading suggestions (DCA, Defense, Accumulate) to avoid irrational emotional trading decisions and pushes the daily analysis directly to your Telegram.
+## 目的
+Stock Sentinelは、市場の変動を客観的に監視し、感情に左右されない投資判断（積み立て、防御、買い増し）を支援するための意思決定支援ツールです。
 
-## Features
-- **Config-Driven Engine:** Add stocks, change threshold bands, or tweak suggestion texts directly in `config.toml` without recompiling.
-- **Multiple Timeframes:** Assign different structural MAs for different asset types (e.g., MA200 for SPY, MA60 for volatile tech stocks like PLTR).
-- **Per-Ticker Action Logic:** The main fallback rules can be overridden at a per-ticker level, enabling distinct suggestion wording for indexes (DCA) and normal stocks.
-- **Bear Mode Defense:** If the owner MA trend turns downwards, the system forcefully strips out "Buy" recommendations to protect against catching falling knives.
-- **Exponential Backoff Fetching:** Automatically handles Yahoo Finance rate limits with asynchronous retries.
-- **HTML Telegram Reporting:** Clean, mobile-friendly daily briefings delivered straight to your device.
+## 読むタイミング
+- プロジェクトの概要と目的を理解したい時
+- セットアップ方法や使用方法を確認したい時
+- 提供される機能の詳細を知りたい時
 
-## System Requirements
+---
+
+Rustで書かれた、高度にカスタマイズ可能な「意思決定レーダー」システムです。複数の銘柄に対して移動平均線の乖離（「飼い主-リード-犬」モデル）を体系的に監視するように設計されています。非合理的な感情による取引決定を避けるための客観的な取引提案（DCA、防御、買い増し）を提供し、日々の分析結果を直接Telegramにプッシュ通知します。
+
+## 主な機能
+- **構成駆動型エンジン:** 再コンパイルすることなく、`config.toml`で銘柄の追加、閾値バンドの変更、提案文の微調整が可能です。
+- **マルチタイムフレーム:** 資産タイプごとに異なる構造的MAを割り当てることができます（例：SPYにはMA200、PLTRのようなボラティリティの高いテック株にはMA60）。
+- **ティッカーごとのアクションロジック:** メインのフォールバックルールをティッカーレベルで上書きでき、指数（DCA）と個別株で異なる提案文を表示できます。
+- **ベアモード防御:** 飼い主MAのトレンドが下向きになった場合、システムは「買い」推奨を強制的に排除し、落ちてくるナイフを掴むリスクから保護します。
+- **エクスポネンシャルバックオフによる取得:** 非同期リトライにより、Yahoo Financeのレート制限を自動的に処理します。
+- **HTML Telegramレポート:** モバイルフレンドリーでクリーンなデイリーレポートをデバイスに直接配信します。
+
+## ドキュメント (Documentation)
+本システムの詳細な要件、アーキテクチャ、および設計哲学については、以下のドキュメントを参照してください：
+- [要件と機能の定義 (PRD)](./docs/PRD.md)
+- [システムアーキテクチャ設計](./docs/architecture_design.md)
+- [戦略設計哲学と評価 (Overview & Philosophy)](./docs/strategy_philosophy.md)
+
+## システム要件
 - Rust & Cargo (Edition 2021)
-- Access to Yahoo Finance API (No API key needed)
+- Yahoo Finance APIへのアクセス（APIキーは不要）
 
-## How to use
-1. Clone the repository.
-2. Edit `config.toml` to:
-   - Insert your Telegram `bot_token` and `chat_id`. 
-   - Ensure you started a conversation with your bot on Telegram.
-   - Adjust trading rules and add your custom watchlist under `[[watchlist]]`.
-3. Run the following command locally or wire it to a daily CRON job/GitHub Action:
+## 使用方法
+1. リポジトリをクローンします。
+2. `config.toml`を編集して以下を設定します。
+   - Telegramの`bot_token`と`chat_id`を入力します。
+   - Telegramでボットとの会話を開始していることを確認してください。
+   - 取引ルールを調整し、`[[watchlist]]`の下にカスタムウォッチリストを追加します。
+3. ローカルで以下のコマンドを実行するか、日常のCRONジョブ/GitHub Actionに組み込みます。
 ```bash
 cargo run --release
 ```
 
-## Outputs
-- **Console:** A beautifully formatted, colorful `tabled` CLI output.
-- **Local Files:** Produces a `.json` database file and a `.md` artifact saved inside the `./reports` folder daily.
-- **Telegram Notification:** An HTML formatted alert.
+## 出力
+- **コンソール:** `tabled`による美しくフォーマットされたカラフルなCLI出力。
+- **ローカルファイル:** 日々のレポートとして、`.json`データベースファイルと`.md`成果物を`./reports`フォルダ内に生成します。
+- **Telegram通知:** HTML形式のアラート通知。
+
+---
+
+## Author
+
+Ray

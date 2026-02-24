@@ -15,16 +15,23 @@ pub enum TrendStatus {
 pub struct TickerSnapshot {
     pub symbol: String,
     pub name: String,
+    pub weight: f64,
+    pub reason_code: Option<String>,
     pub current_date: NaiveDate,
     pub dog_price: f64,
     pub owner_ma: Option<f64>,
     pub leash_ma: Option<f64>,
+    pub owner_ma_slope_pct: Option<f64>,
+    pub dev_z_score: Option<f64>,
+    pub curvature: Option<f64>,
+    pub confidence_score: usize,
     pub trend_status: TrendStatus,
     pub deviation_pct: Option<f64>,
     pub deviation_basis_used: String,
     pub state_code: String,
     pub action_text: String,
     pub is_bear_mode_active: bool,
+    pub is_caution_mode_active: bool,
 }
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
@@ -35,6 +42,19 @@ pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<
     let slice = &bars[start_index..=end_index];
     let sum: f64 = slice.iter().map(|b| b.close).sum();
     Some(sum / days as f64)
+}
+
+pub fn calculate_std_dev(bars: &[DailyBar], days: usize, end_index: usize, mean: f64) -> Option<f64> {
+    if days == 0 || end_index + 1 < days {
+        return None;
+    }
+    let start_index = end_index + 1 - days;
+    let slice = &bars[start_index..=end_index];
+    let variance: f64 = slice.iter().map(|b| {
+        let diff = b.close - mean;
+        diff * diff
+    }).sum::<f64>() / days as f64;
+    Some(variance.sqrt())
 }
 
 pub fn detect_trend(bars: &[DailyBar], ma_days: usize, lookback: usize, flat_threshold_pct: f64) -> TrendStatus {
@@ -53,7 +73,7 @@ pub fn detect_trend(bars: &[DailyBar], ma_days: usize, lookback: usize, flat_thr
     match (current_ma, past_ma) {
         (Some(curr), Some(past)) => {
             if past == 0.0 {
-                return TrendStatus::Unknown; // avoid division by zero
+                return TrendStatus::Unknown; // ゼロ除算を回避
             }
             let change_pct = (curr - past) / past * 100.0;
             if change_pct > flat_threshold_pct {
@@ -75,16 +95,23 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         return TickerSnapshot {
             symbol: entry.symbol.clone(),
             name,
+            weight: entry.weight.unwrap_or(1.0),
+            reason_code: Some("[NO DATA]".to_string()),
             current_date: chrono::Local::now().date_naive(),
             dog_price: 0.0,
             owner_ma: None,
             leash_ma: None,
+            owner_ma_slope_pct: None,
+            dev_z_score: None,
+            curvature: None,
+            confidence_score: 0,
             trend_status: TrendStatus::Unknown,
             deviation_pct: None,
             deviation_basis_used: format!("{:?}", entry.deviation_basis).to_lowercase(),
             state_code: "ERROR".to_string(),
-            action_text: "No data found".to_string(),
+            action_text: "データが見つかりません".to_string(),
             is_bear_mode_active: false,
+            is_caution_mode_active: false,
         };
     }
 
@@ -112,15 +139,52 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         None
     };
 
+    // --- Phase 9 Physics: Gravity Strength (Slope) ---
+    let mut owner_ma_slope_pct = None;
+    if last_idx >= rules.trend.lookback_days {
+        let past_idx = last_idx - rules.trend.lookback_days;
+        if let (Some(curr_ma), Some(past_ma)) = (owner_ma, calculate_ma(&history.bars, entry.owner_ma_days, past_idx)) {
+            if past_ma != 0.0 {
+                owner_ma_slope_pct = Some((curr_ma - past_ma) / past_ma * 100.0);
+            }
+        }
+    }
+
+    // --- Phase 9 Physics: Deviation Z-Score ---
+    let mut dev_z_score = None;
+    if let Some(om) = owner_ma {
+        if let Some(std_dev) = calculate_std_dev(&history.bars, entry.owner_ma_days, last_idx, om) {
+            if std_dev != 0.0 {
+                dev_z_score = Some((dog_price - om) / std_dev);
+            }
+        }
+    }
+
+    // --- Phase 9 Physics: Curvature (Acceleration/Inflection) ---
+    let mut curvature = None;
+    if last_idx >= 2 * rules.trend.lookback_days {
+        let p1_idx = last_idx - rules.trend.lookback_days;
+        let p2_idx = last_idx - 2 * rules.trend.lookback_days;
+        if let (Some(om_curr), Some(om_p1), Some(om_p2)) = (
+            owner_ma,
+            calculate_ma(&history.bars, entry.owner_ma_days, p1_idx),
+            calculate_ma(&history.bars, entry.owner_ma_days, p2_idx)
+        ) {
+            let slope_current = om_curr - om_p1;
+            let slope_past = om_p1 - om_p2;
+            curvature = Some(slope_current - slope_past);
+        }
+    }
+
     let mut state_code = "UNKNOWN".to_string();
-    let mut action_text = "数据不足或计算异常".to_string();
+    let mut action_text = "データ不足または計算異常".to_string();
     
     if let Some(dev) = deviation_pct {
         let mut found = false;
         for (band_name, threshold) in &rules.sorted_bands {
             if dev >= *threshold {
                 state_code = band_name.clone();
-                // Check for ticker-specific override first
+                // 個別の銘柄設定による上書きを優先的に確認します
                 if let Some(ref overrides) = entry.action_overrides {
                     if let Some(act) = overrides.get(band_name) {
                         action_text = act.clone();
@@ -152,26 +216,187 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     }
     
     let mut is_bear_mode_active = false;
+    let mut is_caution_mode_active = false;
+    let mut reason_code: Option<String> = None;
+    
+    // Extreme Fear Exemption: 极度恐慌时直接豁免降级，尊重均值回归抄底
+    let is_extreme_fear = state_code.starts_with("fear");
+
     if rules.bear_mode.enabled {
         if let TrendStatus::Down = trend_status {
-            is_bear_mode_active = true;
-            action_text = rules.bear_mode.fallback_action.clone();
-            state_code = "DEFEND".to_string(); 
+            let caution_days = entry.caution_ma_days.unwrap_or(200);
+            let caution_ma = calculate_ma(&history.bars, caution_days, last_idx);
+            let caution_ma_trend = detect_trend(
+                &history.bars,
+                caution_days,
+                rules.trend.lookback_days,
+                rules.trend.flat_threshold_pct,
+            );
+
+            // Leash Cross rule: 用稳定的绳子(leash)代替发神经的狗(dog_price)
+            if caution_ma.is_some() {
+                // Apply Gravity Buffer Layer and N-day Anti-Jitter Verification
+                let buffer_pct = rules.bear_mode.buffer_pct.unwrap_or(0.0);
+                let confirm_days = rules.bear_mode.confirm_days.unwrap_or(1);
+                let confirm_threshold = rules.bear_mode.confirm_threshold.unwrap_or(1);
+                let recover_days = rules.bear_mode.recover_days.unwrap_or(confirm_days);
+                let recover_threshold = rules.bear_mode.recover_threshold.unwrap_or(confirm_threshold);
+
+                // Stateless 60-day sliding window simulation to detect structural brokenness crossovers
+                let mut is_structurally_broken = false;
+                let sim_start = if last_idx > 60 { last_idx - 60 } else { 0 };
+
+                for step_idx in sim_start..=last_idx {
+                    if !is_structurally_broken {
+                        // Looking for breakdown
+                        let lookback_start = if step_idx >= confirm_days { step_idx - confirm_days + 1 } else { 0 };
+                        let mut breakdown_count = 0;
+                        for i in lookback_start..=step_idx {
+                            let h_leash = calculate_ma(&history.bars, entry.leash_ma_days, i);
+                            let h_ref = h_leash.unwrap_or(history.bars[i].close);
+                            let h_cma = calculate_ma(&history.bars, caution_days, i);
+                            if let Some(cma_val) = h_cma {
+                                let h_buffered_cma = cma_val * (1.0 - (buffer_pct / 100.0));
+                                if h_ref < h_buffered_cma {
+                                    breakdown_count += 1;
+                                }
+                            }
+                        }
+                        if breakdown_count >= confirm_threshold {
+                            is_structurally_broken = true;
+                        }
+                    } else {
+                        // Looking for recovery
+                        let lookback_start = if step_idx >= recover_days { step_idx - recover_days + 1 } else { 0 };
+                        let mut recover_count = 0;
+                        for i in lookback_start..=step_idx {
+                            let h_leash = calculate_ma(&history.bars, entry.leash_ma_days, i);
+                            let h_ref = h_leash.unwrap_or(history.bars[i].close);
+                            let h_cma = calculate_ma(&history.bars, caution_days, i);
+                            if let Some(cma_val) = h_cma {
+                                let h_buffered_cma_recover = cma_val * (1.0 + (buffer_pct / 100.0));
+                                if h_ref > h_buffered_cma_recover {
+                                    recover_count += 1;
+                                }
+                            }
+                        }
+                        if recover_count >= recover_threshold {
+                            is_structurally_broken = false;
+                        }
+                    }
+                }
+
+                // If confirmed breakdown AND CAUTION_MA is pointing DOWN
+                if is_structurally_broken && matches!(caution_ma_trend, TrendStatus::Down) {
+                    is_bear_mode_active = true;
+                    reason_code = Some(format!("[B{}<0.97 x{}/{}]", caution_days, confirm_threshold, confirm_days));
+                    if is_extreme_fear {
+                        state_code = "fear_downtrend".to_string();
+                        action_text = "【防御 (DEFEND)】：長期トレンド崩壊中の恐慌。落ちるナイフを掴まない(Cash 80%+)".to_string();
+                    } else {
+                        state_code = "DEFEND".to_string();
+                        action_text = rules.bear_mode.fallback_action.clone();
+                    }
+                } else {
+                    let is_structurally_safe = !is_structurally_broken && !matches!(caution_ma_trend, TrendStatus::Down);
+
+                    if is_extreme_fear {
+                        if !is_structurally_safe {
+                            is_bear_mode_active = true;
+                            state_code = "fear_downtrend".to_string();
+                            reason_code = Some(format!("[B{}↓]", caution_days));
+                            action_text = "【防御 (DEFEND)】：長期トレンド下降または不安定。逆張り禁止(Cash 80%+)".to_string();
+                        }
+                        // else safe, keep fear_1, reason_code stays whatever dev triggered it
+                    } else {
+                        is_caution_mode_active = true;
+                        reason_code = Some(format!("[C{} SAFE]", caution_days));
+                        action_text = rules.bear_mode.caution_action.clone()
+                            .unwrap_or_else(|| "【警戒】：長期トレンド維持。定投または小幅加仓".to_string());
+                        state_code = "CAUTION".to_string();
+                    }
+                }
+            } else {
+                // Fallback to DEFEND if caution MA cannot be calculated
+                is_bear_mode_active = true;
+                reason_code = Some("[NO_CMA]".to_string());
+                if is_extreme_fear {
+                    state_code = "fear_downtrend".to_string();
+                    action_text = "【防御 (DEFEND)】：長期トレンド不明中の恐慌。落ちるナイフを掴まない(Cash 80%+)".to_string();
+                } else {
+                    state_code = "DEFEND".to_string();
+                    action_text = rules.bear_mode.fallback_action.clone();
+                }
+            }
         }
     }
+
+    // --- Phase 10: Confidence Calibration (Baseline Adjustments) ---
+    // A heuristic based on the convergence of the physics variables
+    let mut confidence_score = 50; 
+    
+    match state_code.as_str() {
+        "DEFEND" | "fear_downtrend" => {
+            // High confidence if actively accelerating downward and heavily abnormal
+            confidence_score = 70; // Baseline for clear structural breaks
+            if let Some(z) = dev_z_score { if z < -2.0 { confidence_score += 15; } else if z < -1.0 { confidence_score += 10; } }
+            if let Some(slope) = owner_ma_slope_pct { if slope < -0.5 { confidence_score += 10; } }
+            if let Some(curv) = curvature { if curv < 0.0 { confidence_score += 10; } }
+        },
+        "CAUTION" => {
+            // Medium baseline, relies on physical convergence to reach high confidence
+            confidence_score = 60;
+            if let Some(slope) = owner_ma_slope_pct { if slope > 0.0 { confidence_score += 20; } }
+            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 10; } }
+            if let Some(z) = dev_z_score { if z > -1.5 { confidence_score += 10; } }
+        },
+        state if state.starts_with("optimal") || state.starts_with("cruise") || state.starts_with("pullback") => {
+            // These are clean "system is working" states. Default shouldn't be 50.
+            confidence_score = 75; // Baseline for standard upward/neutral trends
+            if let Some(slope) = owner_ma_slope_pct { if slope > 0.5 { confidence_score += 10; } }
+            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 10; } }
+            if let Some(z) = dev_z_score { if z > -0.5 && z < 1.0 { confidence_score += 10; } }
+        },
+        state if state.starts_with("overheat") => {
+            confidence_score = 60;
+            // High confidence if actively accelerating upward and statistically absurd
+            if let Some(z) = dev_z_score { if z > 2.0 { confidence_score += 20; } else if z > 1.0 { confidence_score += 10; } }
+            if let Some(slope) = owner_ma_slope_pct { if slope > 1.0 { confidence_score += 10; } }
+            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 10; } }
+        },
+        state if state.starts_with("fear") => {
+            // Standard fear (safe fear, buying dip). High confidence if decelerating (curvature > 0)
+            confidence_score = 60;
+            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 20; } }
+            if let Some(z) = dev_z_score { if z < -2.0 { confidence_score += 15; } }
+        },
+        _ => {
+            confidence_score = 60; // base fallback
+        }
+    }
+    
+    // Cap at 99
+    if confidence_score > 99 { confidence_score = 99; }
 
     TickerSnapshot {
         symbol: entry.symbol.clone(),
         name,
+        weight: entry.weight.unwrap_or(1.0),
+        reason_code,
         current_date: current_bar.date,
         dog_price,
         owner_ma,
         leash_ma,
+        owner_ma_slope_pct,
+        dev_z_score,
+        curvature,
+        confidence_score: confidence_score as usize,
         trend_status,
         deviation_pct,
         deviation_basis_used: format!("{:?}", entry.deviation_basis).to_lowercase(),
         state_code,
         action_text,
         is_bear_mode_active,
+        is_caution_mode_active,
     }
 }
