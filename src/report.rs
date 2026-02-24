@@ -373,56 +373,72 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
         fs::write(json_path, json_content)?;
         
         let md_path = Path::new(&config.output.save_to).join(format!("{}.md", date_str));
-        fs::write(md_path, &md_content)?;
+        fs::write(&md_path, &md_content)?;
         
-        // --- 📊 Telemetry System Heartbeat (V3 Ultimate Schema) ---
-        let telemetry_path = Path::new(&config.output.save_to).join("telemetry.csv");
-        let file_exists = telemetry_path.exists();
+        // --- Phase 26: Data Freshness Guard ---
+        // If the data date is significantly older than today (e.g. > 3 days on a weekday),
+        // it means the API hasn't updated yet. We still show the report but skip telemetry.
+        let data_date = snapshots.first().map(|s| s.current_date).unwrap_or_else(|| Local::now().date_naive());
+        let today = Local::now().date_naive();
+        let days_diff = (today - data_date).num_days();
         
-        let up_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.up_count as f64 / gravity_health.total_count as f64 };
-        let flat_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.flat_count as f64 / gravity_health.total_count as f64 };
-        let down_share = 1.0 - up_share - flat_share;
-        
-        let w_up_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.up_weight / gravity_health.total_weight };
-        let w_flat_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.flat_weight / gravity_health.total_weight };
-        let w_down_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.down_weight / gravity_health.total_weight };
-
-        let timestamp = Local::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
-
-        let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
-
-        // Ultimate Schema (19 Columns): 
-        // date,timestamp,config_hash,state_code,state_text,gs,gp,t_raw,r_raw,r_adj,t_final,r_final,margin,size,c_up,c_flat,c_down,w_up,w_flat,w_down
-        let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
-            date_str,
-            timestamp,
-            gravity_health.config_hash,
-            posture.state_code,
-            posture.display_text,
-            gravity_health.global_gravity_strength,
-            gravity_health.global_potential_energy,
-            posture.t_share_raw,
-            posture.r_share_raw,
-            posture.r_share_adj,
-            posture.t_ratio_final,
-            posture.r_ratio_final,
-            dominance_margin,
-            gravity_health.total_count, // watchlist_size
-            up_share,
-            flat_share,
-            down_share,
-            w_up_share,
-            w_flat_share,
-            w_down_share
-        );
-
-        if !file_exists {
-            let header = "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,watchlist_size,count_up_share,count_flat_share,count_down_share,weight_up_share,weight_flat_share,weight_down_share\n";
-            fs::write(&telemetry_path, format!("{}{}", header, telemetry_row))?;
+        let should_write_telemetry = if days_diff > 3 {
+            println!("⚠️ [WARNING] Data date ({}) is too old. Skipping telemetry to avoid pollution.", data_date);
+            false
         } else {
-            use std::io::Write;
-            let mut file = std::fs::OpenOptions::new().append(true).open(&telemetry_path)?;
-            file.write_all(telemetry_row.as_bytes())?;
+            true
+        };
+
+        if should_write_telemetry {
+            // --- 📊 Telemetry System Heartbeat (V3 Ultimate Schema) ---
+            let telemetry_path = Path::new(&config.output.save_to).join("telemetry.csv");
+            let file_exists = telemetry_path.exists();
+            
+            let up_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.up_count as f64 / gravity_health.total_count as f64 };
+            let flat_share = if gravity_health.total_count == 0 { 0.0 } else { gravity_health.flat_count as f64 / gravity_health.total_count as f64 };
+            let down_share = 1.0 - up_share - flat_share;
+            
+            let w_up_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.up_weight / gravity_health.total_weight };
+            let w_flat_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.flat_weight / gravity_health.total_weight };
+            let w_down_share = if gravity_health.total_weight <= 0.0 { 0.0 } else { gravity_health.down_weight / gravity_health.total_weight };
+
+            let timestamp = Local::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
+
+            let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
+
+            // Ultimate Schema (19 Columns): 
+            // date,timestamp,config_hash,state_code,state_text,gs,gp,t_raw,r_raw,r_adj,t_final,r_final,margin,size,c_up,c_flat,c_down,w_up,w_flat,w_down
+            let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
+                date_str,
+                timestamp,
+                gravity_health.config_hash,
+                posture.state_code,
+                posture.display_text,
+                gravity_health.global_gravity_strength,
+                gravity_health.global_potential_energy,
+                posture.t_share_raw,
+                posture.r_share_raw,
+                posture.r_share_adj,
+                posture.t_ratio_final,
+                posture.r_ratio_final,
+                dominance_margin,
+                gravity_health.total_count, // watchlist_size
+                up_share,
+                flat_share,
+                down_share,
+                w_up_share,
+                w_flat_share,
+                w_down_share
+            );
+
+            if !file_exists {
+                let header = "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,watchlist_size,count_up_share,count_flat_share,count_down_share,weight_up_share,weight_flat_share,weight_down_share\n";
+                fs::write(&telemetry_path, format!("{}{}", header, telemetry_row))?;
+            } else {
+                use std::io::Write;
+                let mut file = std::fs::OpenOptions::new().append(true).open(&telemetry_path)?;
+                file.write_all(telemetry_row.as_bytes())?;
+            }
         }
     }
     
