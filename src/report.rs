@@ -70,8 +70,8 @@ pub struct GravityHealth {
     pub trend_maturity: f64,
     pub stability_structural: f64,
     pub stability_temporal: f64,
-    pub regime_penalty: f64,
-    pub integrity_impact: f64,
+    pub temporal_modifier: f64,
+    pub integrity_multiplier: f64,
 }
 
 pub struct CapitalPosture {
@@ -744,15 +744,10 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     
     md.push_str("- **Exposure Calculation Breakdown**:\n");
     md.push_str(&format!("  - Base Exposure (Direction): {:.0}-{:.0}%\n", b_floor, b_ceil));
-    md.push_str(&format!("  - Confidence Modifier: × {:.2}\n", gravity.system_confidence / 100.0));
-    if gravity.regime_penalty < 1.0 {
-        md.push_str(&format!("  - Regime Penalty (Newborn): × {:.2}\n", gravity.regime_penalty));
+    md.push_str(&format!("  - Confidence Mod (Integrity Adj): × {:.2}\n", (gravity.system_confidence / 100.0) * gravity.integrity_multiplier));
+    if gravity.temporal_modifier < 1.0 {
+        md.push_str(&format!("  - Temporal Modifier (Newborn): × {:.2}\n", gravity.temporal_modifier));
     }
-    if gravity.integrity_impact < 0.0 {
-        md.push_str(&format!("  - Integrity Impact: {:+.1}%\n", gravity.integrity_impact * 100.0));
-    }
-    let stab_mod = if gravity.stability_score < 0.2 { 0.70 } else { 1.00 };
-    md.push_str(&format!("  - Stability Modifier (Cap): Max {:.0}%\n", stab_mod * 100.0));
     md.push_str(&format!("  - **Final Adjusted Exposure**: **{:.0}-{:.0}%**\n", a_floor, a_ceil));
     md.push_str(&format!("  - *Exposure Change vs Yesterday*: {}\n", exp_delta_str));
     let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
@@ -954,15 +949,10 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     
     html.push_str("<b> • Exposure Calculation Breakdown:</b>\n");
     html.push_str(&format!("   ├ Base (Direction): <b>{:.0}-{:.0}%</b>\n", b_floor, b_ceil));
-    html.push_str(&format!("   ├ Confidence Mod: × {:.2}\n", gravity.system_confidence / 100.0));
-    if gravity.regime_penalty < 1.0 {
-        html.push_str(&format!("   ├ Regime Penalty (Newborn): × {:.2}\n", gravity.regime_penalty));
+    html.push_str(&format!("   ├ Confidence Mod (Integrity Adj): × {:.2}\n", (gravity.system_confidence / 100.0) * gravity.integrity_multiplier));
+    if gravity.temporal_modifier < 1.0 {
+        html.push_str(&format!("   ├ Temporal Modifier: × {:.2}\n", gravity.temporal_modifier));
     }
-    if gravity.integrity_impact < 0.0 {
-        html.push_str(&format!("   ├ Integrity Impact: {:+.1}%\n", gravity.integrity_impact * 100.0));
-    }
-    let stab_mod = if gravity.stability_score < 0.2 { 0.70 } else { 1.00 };
-    html.push_str(&format!("   ├ Stability Cap: Max {:.0}%\n", stab_mod * 100.0));
     html.push_str(&format!("   └ <b>Final Adjusted: {:.0}-{:.0}%</b>\n", a_floor, a_ceil));
     
     let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {

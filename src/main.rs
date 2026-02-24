@@ -365,8 +365,8 @@ async fn main() -> Result<()> {
             trend_maturity: 0.0,
             stability_structural: 0.0,
             stability_temporal: 0.0,
-            regime_penalty: 1.0,
-            integrity_impact: 0.0,
+            temporal_modifier: 1.0,
+            integrity_multiplier: 1.0,
         };
         let posture = temp_health.compute_capital_posture();
         let regime_age = calculate_regime_age(std::path::Path::new(&config_arc.output.save_to), &posture.state_code);
@@ -384,21 +384,17 @@ async fn main() -> Result<()> {
         let stability_score = stability_structural * stability_temporal;
         temp_health.stability_score = stability_score; // 0.0 to 1.0 range
 
-        let regime_penalty = if regime_age < 5 { 0.80 } else { 1.0 };
-        temp_health.regime_penalty = regime_penalty;
+        let temporal_modifier = 0.85 + (trend_maturity * 0.15).min(0.15);
+        temp_health.temporal_modifier = temporal_modifier;
         
-        let integrity_impact = temp_health.universe_integrity - 1.0;
-        temp_health.integrity_impact = integrity_impact;
+        let integrity_multiplier = temp_health.universe_integrity;
+        temp_health.integrity_multiplier = integrity_multiplier;
 
         // Final Exposure Calculation
-        let conf_multiplier = system_confidence / 100.0;
-        let mut final_exposure = base_exposure * conf_multiplier * regime_penalty;
-        final_exposure += integrity_impact; 
+        let conf_multiplier = (system_confidence / 100.0) * integrity_multiplier;
+        let mut final_exposure = base_exposure * conf_multiplier * temporal_modifier;
         final_exposure = final_exposure.max(0.0).min(1.0);
 
-        if stability_score < 0.2 {
-            final_exposure = final_exposure.min(0.70);
-        }
         adjusted_exposure = final_exposure;
         
         temp_health.adjusted_exposure = adjusted_exposure;
