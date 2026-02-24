@@ -29,6 +29,23 @@ jobs:
           token: ${{ github.token }}
           ref: main
 
+      - name: "Debug: Show runtime context"
+        run: |
+          set -euo pipefail
+          echo "=== RUNTIME CONTEXT ==="
+          echo "workflow=${GITHUB_WORKFLOW}"
+          echo "ref=${GITHUB_REF}"
+          echo "sha=${GITHUB_SHA}"
+          echo "actor=${GITHUB_ACTOR}"
+          echo "workspace=${GITHUB_WORKSPACE}"
+          pwd
+          ls -la
+          echo "workflows:"
+          ls -la .github/workflows || true
+          echo "weekly_backtest.yml (first 60 lines):"
+          sed -n '1,60p' .github/workflows/weekly_backtest.yml || true
+          echo "======================="
+
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
 
