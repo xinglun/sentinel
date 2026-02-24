@@ -135,23 +135,12 @@ jobs:
             
             # Use safe GITHUB_SERVER_URL/GITHUB_REPOSITORY injection
             git remote get-url origin >/dev/null 2>&1 || git remote add origin "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
-            
+            git init
             git checkout --orphan data
-            git rm -rf . >/dev/null 2>&1 || true
-            mkdir -p reports backtest
-            echo "# Sentinel data branch" > README.md
-            echo "- reports/: daily radar outputs" >> README.md
-            echo "- backtest/: weekly calibration & alpha separation" >> README.md
-            git add -A
-            git commit -m "init data branch"
-            
-            # Guarantee explicit authentication for the very first initialization push
-            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            echo "Pushing initialization to: $(git remote get-url origin | sed -e 's/x-access-token:.*@/x-access-token:***@/')"
-            git push origin data
-            cd -
-            rm -rf ../data_worktree
-            git worktree add ../data_worktree -B data origin/data
+            git branch -M data
+            git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            cd ../sentinel
+            git worktree add ../data_worktree data
           fi
 
           # 3. Port over generated reports cleanly
@@ -195,4 +184,4 @@ jobs:
 
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
-            --data-urlencode text="$(printf '%s' "${MSG}")" > /dev/null || echo "Failed to send Telegram notification"
+            --data-urlencode text="${MSG}" > /dev/null || echo "Failed to send Telegram notification"
