@@ -47,7 +47,7 @@ jobs:
 
       - name: Fetch Historical Telemetry (Optional)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           mkdir -p reports
@@ -110,7 +110,7 @@ jobs:
           
       - name: Commit and Push to Data Worktree
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -165,6 +165,9 @@ jobs:
           cd ../data_worktree
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           
+          # Standardize on the target branch for absolute safety
+          git checkout data || true
+          
           # Minimize --force-with-lease failures by rebasing against latest remote state
           # Uniform refspec for maximum stability
           git fetch origin refs/heads/data:refs/remotes/origin/data || true
@@ -184,7 +187,12 @@ jobs:
       - name: Notify on Failure
         if: failure()
         run: |
-          MSG="❌ Weekly Backtest FAILED on ${GITHUB_REPOSITORY}\nWorkflow: ${GITHUB_WORKFLOW}\nRun: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}\nCommit: ${GITHUB_SHA::7}"
+          # Use ANSI-C quoting for real newlines in Telegram
+          MSG=$'❌ Weekly Backtest FAILED on '"${GITHUB_REPOSITORY}"$'\n'
+          MSG+=$'Workflow: '"${GITHUB_WORKFLOW}"$'\n'
+          MSG+=$'Run: '"${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"$'\n'
+          MSG+=$'Commit: '"${GITHUB_SHA::7}"
+
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
             --data-urlencode text="$(printf '%s' "${MSG}")" > /dev/null || echo "Failed to send Telegram notification"
