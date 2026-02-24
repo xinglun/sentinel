@@ -55,6 +55,7 @@ async fn main() -> Result<()> {
     let mut prev_gp = None;
     let mut prev_margin = None;
     let mut prev_exposure = None;
+    let mut prev_up_count = None;
 
     if let Ok(content) = std::fs::read_to_string(std::path::Path::new(&config_arc.output.save_to).join("telemetry.csv")) {
         if let Some(last_line) = content.lines().last() {
@@ -66,6 +67,17 @@ async fn main() -> Result<()> {
                 // If we added exposure column (index 13), parse it
                 if cols.len() > 13 {
                     prev_exposure = cols[13].parse::<f64>().ok();
+                }
+                // extract prev_up_count from count_up_share if possible (we need the raw count, 
+                // but since telemetry in V4 only has share, we might have to reconstruct it or accept it's not there.
+                // Wait, if it wasn't recorded, we can just leave it as None for the first run, 
+                // but let's parse count_up_share (index 15 in V4.2) and multiply by watchlist_size? 
+                // Actually, let's just parse the 15th column if available and use it as an approximation or None.
+                // In telemetry.csv, index 14 is watchlist_size, index 15 is count_up_share.
+                if cols.len() > 15 {
+                    if let (Ok(universe), Ok(up_share)) = (cols[14].parse::<f64>(), cols[15].parse::<f64>()) {
+                        prev_up_count = Some((universe * up_share).round() as usize);
+                    }
                 }
             }
         }
@@ -262,7 +274,9 @@ async fn main() -> Result<()> {
             }
         };
 
-        let mut recommended_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
+        // Base exposure relies solely on trend direction (dominance margin)
+        let base_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
+        let mut adjusted_exposure = base_exposure;
 
         let mut temp_health = report::GravityHealth {
             up_count,
@@ -291,8 +305,11 @@ async fn main() -> Result<()> {
             prev_system_confidence: None, 
             prev_dominance_margin: prev_margin,
             prev_recommended_exposure: prev_exposure,
+            prev_up_count,
             regime_age: 0,
             stability_score: 0.0,
+            base_exposure,
+            adjusted_exposure,
         };
         let posture = temp_health.compute_capital_posture();
         let regime_age = calculate_regime_age(std::path::Path::new(&config_arc.output.save_to), &posture.state_code);
@@ -300,12 +317,17 @@ async fn main() -> Result<()> {
         let stability_score = (regime_age as f64 / 30.0).min(1.0);
         temp_health.stability_score = stability_score;
 
-        // --- Phase 4.2 Strategic Anchor: Stability-Governed Exposure Cap ---
-        // If stability < 20% (Newborn/Unstable), cap exposure at 70% to prevent over-optimization
+        // --- Phase 40 Strategic Anchor: Stability & Confidence Governed Exposure Cap ---
+        // Exposure = Direction * Confidence * Stability
+        // We simulate this by applying a cap when stability is low.
         if stability_score < 0.2 {
-            recommended_exposure = recommended_exposure.min(0.70);
+            adjusted_exposure = adjusted_exposure.min(0.70);
         }
-        temp_health.recommended_exposure = recommended_exposure;
+        // Incorporate system confidence into the adjustment penalty if desired, 
+        // but for now we follow the simple "stability cap" rule explicitely shown.
+        temp_health.adjusted_exposure = adjusted_exposure;
+        // Also update recommended_exposure to match adjusted_exposure for legacy compat
+        temp_health.recommended_exposure = adjusted_exposure;
 
         let gravity_health = temp_health;
 

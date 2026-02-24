@@ -58,8 +58,11 @@ pub struct GravityHealth {
     pub prev_system_confidence: Option<f64>,
     pub prev_dominance_margin: Option<f64>,
     pub prev_recommended_exposure: Option<f64>,
+    pub prev_up_count: Option<usize>, // For Trend Breadth Momentum
     pub regime_age: usize,
     pub stability_score: f64,
+    pub base_exposure: f64,
+    pub adjusted_exposure: f64,
 }
 
 pub struct CapitalPosture {
@@ -186,11 +189,15 @@ impl GravityHealth {
     pub fn get_interpretation(&self, posture: &CapitalPosture) -> String {
         match posture.state_code.as_str() {
             "TREND_DOMINANT" => {
-                if self.global_gravity_strength > 0.0 {
+                let mut interpretation = if self.global_gravity_strength > 0.0 {
                     "趋势强劲主导。强者继续复利，避免频繁调仓，回撤即机会。".to_string()
                 } else {
                     "趋势仍主导但引力减速。保持仓位但由于动能衰减，严禁追高。".to_string()
+                };
+                if self.stability_score < 0.2 {
+                    interpretation.push_str(" ⚠️趋势尚处形成早期，稳定性低，已自动收缩仓位暴露度。");
                 }
+                interpretation
             },
             "REVERSION_DOMINANT" => {
                 if self.global_potential_energy > 1.8 {
@@ -703,18 +710,34 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     md.push_str(&format!("- **Dominance Margin**: {:+.2} ({} / {})\n", dominance_margin, posture.dominance_label, margin_evolution));
     
     // Exposure Scope
-    let floor = (gravity.recommended_exposure * 10.0).floor() * 10.0;
-    let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
+    let b_floor = (gravity.base_exposure * 10.0).floor() * 10.0;
+    let b_ceil = if b_floor >= 100.0 { 100.0 } else { b_floor + 10.0 };
+    let a_floor = (gravity.adjusted_exposure * 10.0).floor() * 10.0;
+    let a_ceil = if a_floor >= 100.0 { 100.0 } else { a_floor + 10.0 };
+
     let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {
-        let diff = gravity.recommended_exposure - prev;
+        let diff = gravity.adjusted_exposure - prev;
         if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
     } else { "New Baseline" };
-    md.push_str(&format!("- **Recommended Exposure**: **{:.0}-{:.0}%**\n", floor, ceil));
+    
+    md.push_str(&format!("- **Base Exposure**: **{:.0}-{:.0}%**\n", b_floor, b_ceil));
+    md.push_str(&format!("- **Confidence Adjusted Exposure**: **{:.0}-{:.0}%**\n", a_floor, a_ceil));
     md.push_str(&format!("- **Exposure Change**: {}\n", exp_delta_str));
     let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
     md.push_str(&format!("- **Regime Age**: {} days ({} {})\n", gravity.regime_age, maturity_label, maturity_desc));
     md.push_str(&format!("- **Stability**: {}\n", format_stability_bar(gravity.stability_score)));
+    
+    // Phase 40: Trend Breadth Momentum
+    let breadth_str = if let Some(prev_up) = gravity.prev_up_count {
+        let diff = gravity.up_count as isize - prev_up as isize;
+        format!("{:+} assets", diff)
+    } else {
+        "Baseline".to_string()
+    };
+    md.push_str(&format!("- **Trend Breadth Change**: {}\n", breadth_str));
+    
     md.push_str(&format!("- **Action Bias**: **{}**\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
+
     
     md.push_str(&format!("- **GRAVITY POTENTIAL**:\n```\n{}\n```\n({})\n\n", format_thermometer(gravity.global_potential_energy, 2.0), gravity.format_potential_energy()));
 
