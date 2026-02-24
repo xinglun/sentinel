@@ -266,6 +266,18 @@ fn format_sigma(z: f64) -> String {
     format!("{:.1}σ {}", z.abs(), label)
 }
 
+fn format_stability_bar(value: f64) -> String {
+    let width = 10;
+    let filled = (value * width as f64).round() as usize;
+    let filled = filled.clamp(0, width);
+    let mut bar = String::new();
+    for _ in 0..filled { bar.push('▉'); } // Use a distinct block for stability
+    for _ in filled..width { bar.push('░'); }
+    
+    let reliability = if value < 0.2 { "Low Reliability" } else { "Established" };
+    format!("{} {:.0}% ({})", bar, value * 100.0, reliability)
+}
+
 fn get_position_guidance(state_code: &str) -> &str {
     match state_code {
         "optimal" => "Portfolio Allocation: Maintain Full Allocation (Stay Efficient)",
@@ -441,7 +453,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     println!(" • Market Structure: {}", market_structure);
     let (maturity_label, maturity_desc) = gravity_health.get_regime_maturity();
     println!(" • Regime Age: {} days {} {}", gravity_health.regime_age, maturity_label, maturity_desc);
-    println!(" • Stability Score: {:.2} / 1.00 ({})", gravity_health.stability_score, if gravity_health.stability_score < 0.2 { "Low Reliability" } else { "Established" });
+    println!(" • Stability:   {}", format_stability_bar(gravity_health.stability_score));
     println!(" • Capital Flow Vector: {}", gravity_health.capital_flow_vector);
     println!(" • Action Bias: {}", gravity_health.get_action_bias(&posture, buy_zone.is_empty()));
     println!(" • GRAVITY POTENTIAL:\n{}", format_thermometer(gravity_health.global_potential_energy, 2.0));
@@ -645,7 +657,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     md.push_str(&format!("- **Exposure Change**: {}\n", exp_delta_str));
     let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
     md.push_str(&format!("- **Regime Age**: {} days ({} {})\n", gravity.regime_age, maturity_label, maturity_desc));
-    md.push_str(&format!("- **Stability Score**: {:.2} / 1.00 ({})\n", gravity.stability_score, if gravity.stability_score < 0.2 { "Low Reliability" } else { "Established" }));
+    md.push_str(&format!("- **Stability**: {}\n", format_stability_bar(gravity.stability_score)));
     md.push_str(&format!("- **Action Bias**: **{}**\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     md.push_str(&format!("- **GRAVITY POTENTIAL**:\n```\n{}\n```\n({})\n\n", format_thermometer(gravity.global_potential_energy, 2.0), gravity.format_potential_energy()));
@@ -798,7 +810,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     } else { "New Baseline" };
     let (maturity_label, _) = gravity.get_regime_maturity();
     html.push_str(&format!(" • Exposure Change: <code>{}</code>\n", exp_delta_str));
-    html.push_str(&format!(" • Stability: <code>{:.2}</code>\n", gravity.stability_score));
+    html.push_str(&format!(" • Stability: <code>{}</code>\n", format_stability_bar(gravity.stability_score)));
     html.push_str(&format!(" • Regime Age: <code>{} days</code> ({})\n", gravity.regime_age, maturity_label));
     html.push_str(&format!(" • Action Bias: <b>{}</b>\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
