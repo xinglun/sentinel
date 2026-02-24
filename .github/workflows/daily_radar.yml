@@ -140,6 +140,7 @@ jobs:
 
           # 3. Port over generated reports cleanly (Mirror Strategy for snapshots)
           # We use --delete here because reports/ is intended to be a latest-only snapshot
+          mkdir -p ../data_worktree/reports
           rsync -a --delete reports/ ../data_worktree/reports/
           
           # 4. Hop into worktree, commit and push
