@@ -134,9 +134,17 @@ jobs:
             git worktree add ../data_worktree -B data origin/data
           fi
 
-          # 3. Port over generated reports cleanly
-          rsync -a --delete reports/ ../data_worktree/reports/
-          rsync -a --delete backtest/ ../data_worktree/backtest/
+          # 3. Port over generated reports cleanly with archiving
+          rsync -a --delete reports/  ../data_worktree/reports/
+          mkdir -p ../data_worktree/backtest/archive
+          
+          # Create date-stamped archive and latest snapshot
+          if [ -f backtest/summary.md ]; then
+            cp backtest/summary.md "../data_worktree/backtest/summary_${REPORT_DATE_JST}.md"
+            cp backtest/summary.md "../data_worktree/backtest/summary_latest.md"
+            # Also keep a copy in the archive folder if desired, or just use the root date-stamped ones
+            cp backtest/summary.md "../data_worktree/backtest/archive/summary_${REPORT_DATE_JST}.md"
+          fi
           
           # 4. Hop into worktree, commit and push
           cd ../data_worktree
