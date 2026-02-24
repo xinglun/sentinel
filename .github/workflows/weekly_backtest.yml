@@ -143,12 +143,33 @@ jobs:
             git checkout --orphan data
             git rm -rf . >/dev/null 2>&1 || true
             git branch -M data
-            git remote get-url origin >/dev/null 2>&1 || git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-            cd "${ROOT_DIR}"
+
+            echo "# Sentinel data branch" > README.md
+            echo "- reports/: daily radar outputs" >> README.md
+            echo "- backtest/: weekly calibration & alpha separation" >> README.md
+            mkdir -p reports backtest/archive
+            git add -A
+            git commit -m "init data branch"
+
+            git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" 2>/dev/null || true
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            git push origin data
+            cd "${GITHUB_WORKSPACE}"
+
+            # Re-add worktree now that remote exists
+            rm -rf "${DATA_DIR}"
+            git worktree add "${DATA_DIR}" -B data origin/data
           fi
 
           # 3. Port over generated reports cleanly
+          cd "${GITHUB_WORKSPACE}"
           mkdir -p "${DATA_DIR}/reports" "${DATA_DIR}/backtest/archive"
+          
+          echo "PWD=$(pwd)"
+          echo "ROOT_DIR=${ROOT_DIR}"
+          echo "DATA_DIR=${DATA_DIR}"
+          echo "About to run: rsync -a --delete ${GITHUB_WORKSPACE}/reports/ ${DATA_DIR}/reports/"
+          
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/archive/" "${DATA_DIR}/backtest/archive/"
@@ -156,8 +177,6 @@ jobs:
           # 4. Hop into worktree, commit and push
           cd "${DATA_DIR}"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          
-          # Standardize on the target branch for absolute safety
           git checkout data || true
           
           # Minimize --force-with-lease failures by rebasing against latest remote state
