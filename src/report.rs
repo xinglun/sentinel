@@ -9,17 +9,17 @@ use tabled::settings::Style;
 
 #[derive(Tabled)]
 struct TerminalRow {
-    #[tabled(rename = "銘柄")]
+    #[tabled(rename = "代码")]
     symbol: String,
-    #[tabled(rename = "趋势 (天数)")]
+    #[tabled(rename = "Trend (Days)")]
     trend: String,
-    #[tabled(rename = "Owner Distance")]
+    #[tabled(rename = "Owner Dist")]
     owner_dev: String,
-    #[tabled(rename = "强度 (Z)")]
+    #[tabled(rename = "Sigma (σ)")]
     strength_z: String,
-    #[tabled(rename = "状态 (置信度)")]
+    #[tabled(rename = "Status (State)")]
     state: String,
-    #[tabled(rename = "行动建议")]
+    #[tabled(rename = "Action Guidance")]
     action: String,
 }
 
@@ -443,22 +443,12 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     }).unwrap_or("Unknown");
 
     // Previous state comparison
-    let yesterday_state = yesterday_state;
-    let _velocity_label = if yesterday_state == posture.state_code { "Stability maintained" } else { "Shift detected" };
-    
-    let raw_label = config.output.weight_kind.clone().unwrap_or_else(|| "Portfolio".to_string());
-    let binding = raw_label.to_lowercase();
-    let _weight_kind_label = match binding.as_str() {
-        "portfolio" => "Portfolio",
-        "cap" | "mktcap" => "MktCap",
-        "risk" => "Risk",
-        _ => &raw_label, 
-    };
+    let _yesterday_state = yesterday_state;
     
     let mut table = Table::new(rows);
     table.with(Style::modern());
     
-    println!("UNIVERSE: {} | VALID: {} | FORMING: {} ({}E / {}L)", 
+    println!("Universe Composition: {} Universe | {} Valid | {} Forming ({}E / {}L)", 
         gravity_health.universe_count,
         gravity_health.total_count, 
         gravity_health.forming_early_count + gravity_health.forming_late_count,
@@ -470,7 +460,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
     let market_structure = format!("{} ({})", gravity_health.market_phase, spy_regime);
 
-    println!("🌍 Macro Indicators (全域监测)");
+    println!("🌍 Macro Indicators (全域状态监测)");
     println!(" • CAPITAL STATE: {}", posture.display_text);
     
     // Exposure Range and Velocity
@@ -522,7 +512,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
         println!(" {}. {} ({} / Bias: {})", i+1, s.symbol, format_sigma(z), bias);
     }
 
-    println!("\n🎯 Execution Radar (個別銘柄レーダー)");
+    println!("\n🎯 Execution Radar (个股雷达)");
     println!(" > Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable\n");
     println!("{}", table);
 
@@ -670,7 +660,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
     let market_structure = format!("{} ({})", gravity.market_phase, spy_regime);
 
-    let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n\n", date_str);
+    let mut md = format!("# 🐕 Stock Sentinel 每日观测雷达\n📅 **日期**: {}\n\n", date_str);
     
     md.push_str("## 🌍 Macro Indicators (全域状态监测)\n");
     let integrity_pct = gravity.universe_integrity * 100.0;
@@ -775,7 +765,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     }
     md.push_str("\n");
 
-    md.push_str("| # | 銘柄 | 状态 | Portfolio Allocation | Owner Distance | 强度 (Sigma) | 趋势 (天数) | 行动建议 |\n");
+    md.push_str("| # | 代码 | Status (State) | Portfolio Allocation | Owner Dist | Sigma (σ) | Trend (Days) | Action Guidance |\n");
     md.push_str("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n");
     
     for (idx, s) in snapshots.iter().enumerate() {
@@ -883,7 +873,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
     let market_structure = format!("{} ({})", gravity.market_phase, spy_regime);
 
-    let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n\n", date_str);
+    let mut html = format!("🐕 <b>Stock Sentinel 每日观测雷达</b>\n📅 <b>日期:</b> {}\n\n", date_str);
 
     html.push_str("<b>🌍 Macro Indicators</b>\n");
     let integrity_pct = gravity.universe_integrity * 100.0;
@@ -968,7 +958,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     }
     html.push_str("\n");
     
-    html.push_str("<b>🎯 個別銘柄レーダー (Execution Radar)</b>\n");
+    html.push_str("<b>🎯 个股雷达 (Execution Radar)</b>\n");
     html.push_str("<i>ℹ️ Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable</i>\n\n");
 
     for (idx, s) in snapshots.iter().enumerate() {

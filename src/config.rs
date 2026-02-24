@@ -23,6 +23,7 @@ pub struct OutputConfig {
     pub save_to: String,
     #[allow(dead_code)]
     pub include_summary: bool,
+    #[allow(dead_code)]
     pub weight_kind: Option<String>,
 }
 
@@ -92,10 +93,10 @@ pub struct ParsedRules {
 impl AppConfig {
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Self> {
         let content = fs::read_to_string(path)
-            .map_err(|e| anyhow!("設定ファイルの読み込みに失敗しました: {}", e))?;
+            .map_err(|e| anyhow!("Failed to read config file: {}", e))?;
             
         let mut config: AppConfig = toml::from_str(&content)
-            .map_err(|e| anyhow!("設定ファイルのパースに失敗しました: {}", e))?;
+            .map_err(|e| anyhow!("Failed to parse config file: {}", e))?;
             
         // Environment variable overrides for Telegram (for secure hosting)
         if let Some(ref mut tg) = config.telegram {
@@ -118,8 +119,7 @@ impl AppConfig {
         for band_key in config.rules.deviation_bands.keys() {
             if !config.rules.actions.contains_key(band_key) {
                 return Err(anyhow!(
-                    "設定エラー: deviation_bands に '{}' が含まれていますが、対応するアクションが定義されていません。",
-                    band_key
+                    format!("Configuration Error: deviation_bands contains '{}', but no corresponding action is defined.", band_key),
                 ));
             }
         }
@@ -133,7 +133,7 @@ impl AppConfig {
             .map(|(k, v)| (k.clone(), *v))
             .collect();
             
-        // 閾値を降順にソートします
+        // Sort thresholds in descending order
         bands.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
         
         ParsedRules {

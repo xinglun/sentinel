@@ -15,10 +15,10 @@ chat_id = "8442596122"
 
 [rules.trend]
 lookback_days = 20
-flat_threshold_pct = 0.5 # [-0.5%, +0.5%] は横ばいと見なす
+flat_threshold_pct = 0.5 # [-0.5%, +0.5%] 区间视为平盘
 
 [rules.deviation_bands]
-# 段階的な下限閾値 (>=命中)
+# 阶梯式下限阈值 (>= 则命中)
 overheat_2 = 30.0   
 overheat_1 = 15.0   
 cruise     = 5.0    
@@ -27,14 +27,14 @@ pullback   = -15.0
 fear_1     = -25.0  
 
 [rules.actions]
-# デフォルトのグローバル文案。個別株（積み立て以外）を想定しています。
-overheat_2 = "【利确】保有現金比率を急増させ警戒(Cash 50%+)"
-overheat_1 = "【部分利确】買いを半分にし、一部利確を検討(Cash 30%+)"
-cruise     = "【定投】計画通りに買い増しを継続(Cash 10%)"
-optimal    = "【効率定投】絶好のポジション、積極的に買い増し(Cash 5%)"
-pullback   = "【押し目買い】適度に買い増し、ポジション構築(Cash 0%)"
-fear_1     = "【極度恐慌1】バッファキャッシュを投入して逆張り(Exemption)"
-fear_2     = "【極度恐慌2】極端な反発の機会、キャッシュ全投入(Exemption)"
+# 默认全局文案。适用于常规个股：
+overheat_2 = "【利确】警惕极端背驰，大幅增加现金储备 (Cash 50%+)"
+overheat_1 = "【部分利确】买入减半，分批锁定利润 (Cash 30%+)"
+cruise     = "【定投】趋势延续，按计划持续买入 (Cash 10%)"
+optimal    = "【效率定投】极优仓位，保持高效配置 (Cash 5%)"
+pullback   = "【回撤买入】趋势内回调，适度补仓 (Cash 0%)"
+fear_1     = "【极度恐慌 🛡️】使用备用资金进行防御性逆势部署 (Exemption)"
+fear_2     = "【极度恐慌 🆘】回归概率极大，果断部署现金 (Exemption)"
 regime_forming = "【观察期】：引力结构尚未形成，暂不参与"
 
 [rules.bear_mode]
@@ -44,8 +44,8 @@ confirm_days = 5
 confirm_threshold = 3
 recover_days = 5
 recover_threshold = 3
-fallback_action = "【防御 (DEFEND)】：長期トレンド崩壊。現金保有率を最大限上げ(Cash 80%+)、観測のみ"
-caution_action = "【警戒 (CAUTION)】：中期調整中。定投継続(Cash 20%)"
+fallback_action = "【防御 (DEFEND)】：长期趋势崩坏，最大限度持有现金 (Cash 80%+)，静待转机"
+caution_action = "【警戒 (CAUTION)】：中期调整中，收紧仓位，维持低比例定投 (Cash 20%)"
 
 [[watchlist]]
 symbol = "TSLA"
@@ -116,11 +116,11 @@ deviation_basis = "leash"
 enable = true
 
 [watchlist.action_overrides]
-# SPYのような「指数」に対してのみ、強制的な積み立て文案を適用します
-overheat_2 = "【利确】積み立て停止、キャッシュバッファ確保(Cash 40%+)"
-overheat_1 = "【部分利确】積み立てを半分に、キャッシュバッファ確保(Cash 20%+)"
-cruise     = "【定投】通常通り積み立て"
-optimal    = "【効率定投】通常通り積み立て（最高効率）"
-pullback   = "【押し目買い】指数が押し目、積み立て額を適度に増額"
-fear_1     = "【極度恐慌1】バッファキャッシュを使用して指数を大きく補填"
-fear_2     = "【極度恐慌2】限界的な恐慌、大幅に買い増し"
+# 针对 SPY 等基石资产的专用文案
+overheat_2 = "【利确】停止定投，强制建立现金缓冲 (Cash 40%+)"
+overheat_1 = "【部分利确】定投减半，增加现金储备 (Cash 20%+)"
+cruise     = "【定投】基石资产，维持标准定投频率"
+optimal    = "【效率定投】基石资产，维持最高效定投布局"
+pullback   = "【回撤买入】基石资产回调，适度增加定投力度"
+fear_1     = "【指数极度恐慌1】使用现金储备大幅度低位补仓"
+fear_2     = "【指数极度恐慌2】底部确认性极高，全力补仓"

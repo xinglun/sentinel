@@ -35,7 +35,7 @@ async fn main() -> Result<()> {
         return Ok(());
     }
 
-    println!("🐕 Stock Sentinel 起床中...");
+    println!("🐕 Stock Sentinel initializing...");
     
     let app_config = config::AppConfig::load("config.toml")?;
     let parsed_rules = app_config.get_parsed_rules();
@@ -108,7 +108,7 @@ async fn main() -> Result<()> {
         }
     }
 
-    println!("📊 {} 個の有効な銘柄のデータを取得しています...", enabled_count);
+    println!("📊 Fetching data for {} enabled assets...", enabled_count);
     
     let mut snapshots = Vec::new();
     
@@ -126,7 +126,7 @@ async fn main() -> Result<()> {
                         (Some(snapshot), latest_ts)
                     },
                     Err(e) => {
-                        println!("[エラー] {} の処理中にエラーが発生しました: {}", symbol, e);
+                        println!("[ERROR] Error processing {}: {}", symbol, e);
                         let err_snap = TickerSnapshot {
                             symbol: symbol.clone(),
                             name: entry.name.clone().unwrap_or_else(|| symbol.clone()),
@@ -144,7 +144,7 @@ async fn main() -> Result<()> {
                             deviation_pct: None,
                             deviation_basis_used: format!("{:?}", entry.deviation_basis).to_lowercase(),
                             state_code: "ERROR".to_string(),
-                            action_text: format!("取得失敗: {}", e),
+                            action_text: format!("Fetch failed: {}", e),
                             is_bear_mode_active: false,
                             is_caution_mode_active: false,
                             trend_age: 0,
@@ -172,7 +172,7 @@ async fn main() -> Result<()> {
         }
     }
     
-    // config.toml で定義された元の順序を維持します
+    // Maintain original watchlist order from config.toml
     for entry in watchlist.iter().filter(|w| w.enable) {
         if let Some(snap) = results_map.remove(&entry.symbol) {
             snapshots.push(snap);
@@ -440,19 +440,19 @@ async fn main() -> Result<()> {
             let _ = std::fs::write(freshness_path, freshness_content);
         }
 
-        println!("✅ レポートが提供されました: {}", config_arc.output.save_to);
+        println!("✅ Report generated: {}", config_arc.output.save_to);
         
         if let Some(ref tg_cfg) = config_arc.telegram {
             if tg_cfg.enabled {
-                println!("📤 Telegramにレポートを送信中...");
+                println!("📤 Sending report to Telegram...");
                 if let Err(e) = notify::send_telegram_message(tg_cfg, &report_result.telegram_html).await {
-                    println!("❌ Telegramメッセージの送信に失敗しました: {}", e);
+                    println!("❌ Failed to send Telegram message: {}", e);
                 }
             }
         }
         
     } else {
-        println!("⚠️ 有効なデータが見つからなかったため、レポートは生成されませんでした。");
+        println!("⚠️ No valid data found. Report generation skipped.");
     }
     
     Ok(())

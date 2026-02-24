@@ -38,9 +38,9 @@ pub async fn send_telegram_message(config: &TelegramConfig, markdown_text: &str)
 
     if !res.status().is_success() {
         let err_text = res.text().await.unwrap_or_default();
-        return Err(anyhow!("Telegram API がエラーを返しました: {}", err_text));
+        return Err(anyhow!("Telegram API returned an error: {}", err_text));
     }
 
-    println!("✅ Telegram 通知を {} に正常に送信しました", config.chat_id);
+    println!("✅ Telegram notification successfully sent to: {}", config.chat_id);
     Ok(())
 }

@@ -86,7 +86,7 @@ pub fn detect_trend(bars: &[DailyBar], ma_days: usize, lookback: usize, flat_thr
     match (current_ma, past_ma) {
         (Some(curr), Some(past)) => {
             if past == 0.0 {
-                return TrendStatus::Unknown; // ゼロ除算を回避
+                return TrendStatus::Unknown; // Avoid division by zero
             }
             let change_pct = (curr - past) / past * 100.0;
             if change_pct > flat_threshold_pct {
@@ -122,7 +122,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
             deviation_pct: None,
             deviation_basis_used: format!("{:?}", entry.deviation_basis).to_lowercase(),
             state_code: "ERROR".to_string(),
-            action_text: "データが見つかりません".to_string(),
+            action_text: "[NO DATA]".to_string(),
             is_bear_mode_active: false,
             is_caution_mode_active: false,
             trend_age: 0,
@@ -255,7 +255,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         for (band_name, threshold) in &rules.sorted_bands {
             if dev >= *threshold {
                 state_code = band_name.clone();
-                // 個別の銘柄設定による上書きを優先的に確認します
+                // Priority Check: Individual ticker overrides
                 if let Some(ref overrides) = entry.action_overrides {
                     if let Some(act) = overrides.get(band_name) {
                         action_text = act.clone();
@@ -360,7 +360,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                     reason_code = Some(format!("[B{}<0.97 x{}/{}]", caution_days, confirm_threshold, confirm_days));
                     if is_extreme_fear {
                         state_code = "fear_downtrend".to_string();
-                        action_text = "【防御 (DEFEND)】：長期トレンド崩壊中の恐慌。落ちるナイフを掴まない(Cash 80%+)".to_string();
+                        action_text = "【防御 (DEFEND)】：长期趋势崩坏中的恐慌。严禁伸手接飞刀 (Cash 80%+)".to_string();
                     } else {
                         state_code = "DEFEND".to_string();
                         action_text = rules.bear_mode.fallback_action.clone();
@@ -372,13 +372,13 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                         if !is_structurally_safe {
                             state_code = "fear_downtrend".to_string();
                             reason_code = Some(format!("[B{}↓]", caution_days));
-                            action_text = "【防御 (DEFEND)】：長期トレンド下降または不安定。逆張り禁止(Cash 80%+)".to_string();
+                            action_text = "【防御 (DEFEND)】：长期趋势下降或不稳定。严禁伸手接飞刀 (Cash 80%+)".to_string();
                         }
                         // else safe, keep fear_1, reason_code stays whatever dev triggered it
                     } else {
                         reason_code = Some(format!("[C{} SAFE]", caution_days));
                         action_text = rules.bear_mode.caution_action.clone()
-                            .unwrap_or_else(|| "【警戒】：長期トレンド維持。定投または小幅加仓".to_string());
+                            .unwrap_or_else(|| "【警戒】：长期趋势维持。定投或小幅加仓".to_string());
                         state_code = "CAUTION".to_string();
                     }
                 }
@@ -387,7 +387,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 reason_code = Some("[NO_CMA]".to_string());
                 if is_extreme_fear {
                     state_code = "fear_downtrend".to_string();
-                    action_text = "【防御 (DEFEND)】：長期トレンド不明中の恐慌。落ちるナイフを掴まない(Cash 80%+)".to_string();
+                    action_text = "【防御 (DEFEND)】：长期趋势不明中的恐慌。严禁伸手接飞刀 (Cash 80%+)".to_string();
                 } else {
                     state_code = "DEFEND".to_string();
                     action_text = rules.bear_mode.fallback_action.clone();

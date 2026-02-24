@@ -35,9 +35,9 @@ pub async fn fetch_history(symbol: &str, start_date: Option<OffsetDateTime>, end
             Ok(history) => return Ok(history),
             Err(e) => {
                 if retries == 0 {
-                    return Err(anyhow!("リトライ回数の上限に達したため、{} の取得に失敗しました: {}", symbol, e));
+                    return Err(anyhow!("Failed to fetch {} after multiple retries: {}", symbol, e));
                 }
-                println!("[警告] {} の取得に失敗しました ({}). {} 秒後にリトライします...", symbol, e, delay.as_secs());
+                println!("[WARNING] Failed to fetch {} ({}). Retrying in {} seconds...", symbol, e, delay.as_secs());
                 sleep(delay).await;
                 retries -= 1;
                 delay *= 2; 
@@ -56,7 +56,7 @@ async fn fetch_once(provider: &yahoo::YahooConnector, symbol: &str, start_dt: Op
             res
         },
         Err(_) => {
-            // "FIG" のような上場間もない銘柄の中長期データ取得が失敗した場合のフォールバック
+            // Fallback for new listings or short-history symbols like "FIG"
             provider.get_quote_range(symbol, "1d", "max").await
                 .map_err(|e| anyhow!("Yahoo API error (fallback max): {}", e))?
         }
@@ -70,7 +70,7 @@ async fn fetch_once(provider: &yahoo::YahooConnector, symbol: &str, start_dt: Op
     let mut bars: Vec<DailyBar> = quotes.into_iter().filter_map(|q| {
         let timestamp = q.timestamp as i64;
         
-        // 未設定の未来データや、要求された期間外のデータはカット
+        // Cut data outside requested range or future dates
         if timestamp > end_ts {
             return None;
         }
