@@ -232,7 +232,7 @@ async fn main() -> Result<()> {
 
         let recommended_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
 
-        let gravity_health = report::GravityHealth {
+        let mut temp_health = report::GravityHealth {
             up_count,
             flat_count,
             down_count,
@@ -254,7 +254,12 @@ async fn main() -> Result<()> {
             prev_system_confidence: None, 
             prev_dominance_margin: prev_margin,
             prev_recommended_exposure: prev_exposure,
+            regime_age: 0,
         };
+        let posture = temp_health.compute_capital_posture();
+        let regime_age = calculate_regime_age(std::path::Path::new(&config_arc.output.save_to), &posture.state_code);
+        temp_health.regime_age = regime_age;
+        let gravity_health = temp_health;
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;
 
@@ -282,4 +287,39 @@ async fn main() -> Result<()> {
     }
     
     Ok(())
+}
+
+fn calculate_regime_age(save_dir: &std::path::Path, current_state: &str) -> usize {
+    let telemetry_path = save_dir.join("telemetry.csv");
+    if let Ok(content) = std::fs::read_to_string(telemetry_path) {
+        let mut lines: Vec<&str> = content.lines().collect();
+        if lines.len() <= 1 { return 1; }
+        
+        let mut age = 1;
+        let mut last_date = "";
+        
+        // Skip header
+        lines.remove(0);
+        
+        // Scan backwards to find consecutive days with the same state_code
+        for line in lines.iter().rev() {
+            let cols: Vec<&str> = line.split(',').collect();
+            if cols.len() > 3 {
+                let date = cols[0];
+                let state = cols[3];
+                
+                if state == current_state {
+                    if date != last_date {
+                        age += 1;
+                        last_date = date;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        age
+    } else {
+        1
+    }
 }

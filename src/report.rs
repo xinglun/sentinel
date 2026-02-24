@@ -53,6 +53,7 @@ pub struct GravityHealth {
     pub prev_system_confidence: Option<f64>,
     pub prev_dominance_margin: Option<f64>,
     pub prev_recommended_exposure: Option<f64>,
+    pub regime_age: usize,
 }
 
 pub struct CapitalPosture {
@@ -202,7 +203,7 @@ impl GravityHealth {
     pub fn get_action_bias(&self, posture: &CapitalPosture, buy_zone_empty: bool) -> &str {
         match posture.state_code.as_str() {
             "OPTIMAL" | "CRUISE" if buy_zone_empty => "HOLD",
-            "OPTIMAL" | "CRUISE" | "TREND_DOMINANT" => "ACCUMULATE",
+            "OPTIMAL" | "CRUISE" | "TREND_DOMINANT" => "SELECTIVE ACCUMULATION (ON PULLBACKS)",
             "REVERSION_DOMINANT" if self.global_potential_energy > 1.8 => "ACCUMULATE (Contrarian)",
             _ => "DEFEND",
         }
@@ -253,8 +254,8 @@ fn format_sigma(z: f64) -> String {
 
 fn get_position_guidance(state_code: &str) -> &str {
     match state_code {
-        "optimal" => "Portfolio Allocation: 100% (Stay Efficient)",
-        "cruise" => "Portfolio Allocation: 100% (Trend Follow)",
+        "optimal" => "Portfolio Allocation: Maintain Full Allocation (Stay Efficient)",
+        "cruise" => "Portfolio Allocation: Maintain Full Allocation (Trend Follow)",
         "pullback" => "Portfolio Allocation: +10% (Buy)",
         "CAUTION" => "Neutral / Maintain",
         "DEFEND" | "fear_downtrend" => "Portfolio Allocation: 0-20% (Avoid/Cash)",
@@ -424,6 +425,7 @@ pub fn generate_reports(config: &AppConfig, snapshots: &[TickerSnapshot], gravit
     println!(" • Dominance Margin: {:+.2} ({}) {}", dominance_margin, posture.dominance_label, margin_evolution);
     
     println!(" • Market Structure: {}", market_structure);
+    println!(" • Regime Age: {} days", gravity_health.regime_age);
     println!(" • Capital Flow Vector: {}", gravity_health.capital_flow_vector);
     println!(" • Action Bias: {}", gravity_health.get_action_bias(&posture, buy_zone.is_empty()));
     println!(" • GRAVITY POTENTIAL:\n{}", format_thermometer(gravity_health.global_potential_energy, 2.0));
@@ -625,6 +627,7 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     } else { "New Baseline" };
     md.push_str(&format!("- **Recommended Exposure**: **{:.0}-{:.0}%**\n", floor, ceil));
     md.push_str(&format!("- **Exposure Change**: {}\n", exp_delta_str));
+    md.push_str(&format!("- **Regime Age**: {} days\n", gravity.regime_age));
     md.push_str(&format!("- **Action Bias**: **{}**\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     md.push_str(&format!("- **GRAVITY POTENTIAL**:\n```\n{}\n```\n({})\n\n", format_thermometer(gravity.global_potential_energy, 2.0), gravity.format_potential_energy()));
@@ -776,6 +779,7 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
         if diff > 0.01 { "↑ Increasing" } else if diff < -0.01 { "↓ Decreasing" } else { "Stable" }
     } else { "New Baseline" };
     html.push_str(&format!(" • Exposure Change: <code>{}</code>\n", exp_delta_str));
+    html.push_str(&format!(" • Regime Age: <code>{} days</code>\n", gravity.regime_age));
     html.push_str(&format!(" • Action Bias: <b>{}</b>\n", gravity.get_action_bias(posture, buy_zone.is_empty())));
     
     html.push_str(&format!(" • GRAVITY POTENTIAL: <code>{}</code>\n\n", format_thermometer(gravity.global_potential_energy, 2.0).replace("\n", " | ")));
