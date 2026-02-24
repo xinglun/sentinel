@@ -10,6 +10,7 @@ use futures::stream::{self, StreamExt};
 use std::sync::Arc;
 use crate::engine::TickerSnapshot;
 use sha2::{Sha256, Digest};
+use chrono::Utc;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -111,6 +112,8 @@ async fn main() -> Result<()> {
     
     let mut snapshots = Vec::new();
     
+    let mut quote_timestamps = Vec::new();
+
     let fetches = stream::iter(watchlist.iter().filter(|w| w.enable))
         .map(|entry| {
             let rules_ref = Arc::clone(&rules_arc);
@@ -118,8 +121,9 @@ async fn main() -> Result<()> {
                 let symbol = &entry.symbol;
                 match fetcher::fetch_history(symbol, None, None).await {
                     Ok(history) => {
+                        let latest_ts = history.latest_quote_timestamp;
                         let snapshot = engine::evaluate_snapshot(&history, entry, &rules_ref);
-                        Some(snapshot)
+                        (Some(snapshot), latest_ts)
                     },
                     Err(e) => {
                         println!("[エラー] {} の処理中にエラーが発生しました: {}", symbol, e);
@@ -149,7 +153,7 @@ async fn main() -> Result<()> {
                             validity: engine::RegimeValidity::Invalid,
                             history_days: 0,
                         };
-                        Some(err_snap)
+                        (Some(err_snap), None)
                     }
                 }
             }
@@ -157,10 +161,15 @@ async fn main() -> Result<()> {
         .buffer_unordered(10);
         
     let mut results_map = std::collections::HashMap::new();
-    let results: Vec<Option<TickerSnapshot>> = fetches.collect().await;
+    let results: Vec<(Option<TickerSnapshot>, Option<i64>)> = fetches.collect().await;
     
-    for res in results.into_iter().flatten() {
-        results_map.insert(res.symbol.clone(), res);
+    for (res_opt, ts_opt) in results {
+        if let Some(res) = res_opt {
+            results_map.insert(res.symbol.clone(), res);
+        }
+        if let Some(ts) = ts_opt {
+            quote_timestamps.push(ts);
+        }
     }
     
     // config.toml で定義された元の順序を維持します
@@ -406,6 +415,29 @@ async fn main() -> Result<()> {
             if combined_output.contains(&tg_cfg.bot_token) {
                 panic!("FATAL SECURITY ERROR: bot_token leak detected in reports!");
             }
+        }
+
+        // --- Phase 50: Freshness Gate Artifact Generation ---
+        let mut max_age_minutes: Option<i64> = None;
+        if !quote_timestamps.is_empty() {
+            let now = Utc::now().timestamp();
+            let mut min_ts = quote_timestamps[0];
+            for &ts in &quote_timestamps {
+                if ts < min_ts { min_ts = ts; }
+            }
+            let age_sec = now - min_ts;
+            max_age_minutes = Some(age_sec / 60);
+        }
+
+        let freshness_data = serde_json::json!({
+            "max_age_minutes": max_age_minutes,
+            "stale": max_age_minutes.map_or(true, |age| age > 15),
+            "timestamp_utc": Utc::now().to_rfc3339(),
+        });
+
+        if let Ok(freshness_content) = serde_json::to_string_pretty(&freshness_data) {
+            let freshness_path = std::path::Path::new(&config_arc.output.save_to).join("freshness.json");
+            let _ = std::fs::write(freshness_path, freshness_content);
         }
 
         println!("✅ レポートが提供されました: {}", config_arc.output.save_to);

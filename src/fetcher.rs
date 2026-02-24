@@ -20,6 +20,7 @@ pub struct TickerHistory {
     pub bars: Vec<DailyBar>,
     // The estimated total trading days since IPO/First Trade Date
     pub total_trading_days: usize,
+    pub latest_quote_timestamp: Option<i64>,
 }
 
 pub async fn fetch_history(symbol: &str, start_date: Option<OffsetDateTime>, end_date: Option<OffsetDateTime>) -> Result<TickerHistory> {
@@ -64,8 +65,8 @@ async fn fetch_once(provider: &yahoo::YahooConnector, symbol: &str, start_dt: Op
     let quotes = response.quotes()
         .map_err(|e| anyhow!("Failed to parse quotes: {}", e))?;
         
+    let latest_quote_timestamp = quotes.last().map(|q| q.timestamp as i64);
     let end_ts = end.unix_timestamp();
-        
     let mut bars: Vec<DailyBar> = quotes.into_iter().filter_map(|q| {
         let timestamp = q.timestamp as i64;
         
@@ -106,6 +107,7 @@ async fn fetch_once(provider: &yahoo::YahooConnector, symbol: &str, start_dt: Op
         symbol: symbol.to_string(),
         bars,
         total_trading_days,
+        latest_quote_timestamp,
     })
 }
 
