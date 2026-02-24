@@ -450,16 +450,12 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     if confidence_score > 99 { confidence_score = 99; }
 
     // Phase 4.2 Institutional Audit: Granular Forming Stages
-    // FORMING_EARLY: < 1.5x Owner MA
-    // FORMING_LATE: 1.5x - 3x Owner MA or unstable slope
-    let is_early_history = history_days < (entry.owner_ma_days as f32 * 1.5) as usize;
-    let is_late_history = !is_early_history && history_days < entry.owner_ma_days * 3;
-    let is_unstable_slope = owner_ma_slope_pct.map(|s| s.abs() < 0.5).unwrap_or(true);
-    
+    // FORMING_EARLY: < 150 trading days history
+    // FORMING_LATE: < 400 trading days history
     let mut validity = RegimeValidity::Valid;
-    if is_early_history {
+    if history.total_trading_days < 150 {
         validity = RegimeValidity::FormingEarly;
-    } else if is_late_history || is_unstable_slope {
+    } else if history.total_trading_days < 400 {
         validity = RegimeValidity::FormingLate;
     }
 

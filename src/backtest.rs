@@ -81,7 +81,9 @@ pub async fn run_backtest(config: &AppConfig, from_date_str: &str, to_date_str: 
                 let sliced_history = TickerHistory {
                     symbol: entry.symbol.clone(),
                     bars: sliced_bars,
+                    total_trading_days: hist.total_trading_days,
                 };
+
                 
                 let snap = evaluate_snapshot(&sliced_history, entry, &parsed_rules);
                 daily_snapshots.push(snap.clone());

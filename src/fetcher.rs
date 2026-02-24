@@ -18,6 +18,8 @@ pub struct TickerHistory {
     #[allow(dead_code)]
     pub symbol: String,
     pub bars: Vec<DailyBar>,
+    // The estimated total trading days since IPO/First Trade Date
+    pub total_trading_days: usize,
 }
 
 pub async fn fetch_history(symbol: &str, start_date: Option<OffsetDateTime>, end_date: Option<OffsetDateTime>) -> Result<TickerHistory> {
@@ -48,7 +50,14 @@ async fn fetch_once(provider: &yahoo::YahooConnector, symbol: &str, start_dt: Op
     let start = start_dt.unwrap_or_else(|| end - TimeDuration::days(365 * 2));
 
     let response = match provider.get_quote_history(symbol, start, end).await {
-        Ok(res) => res,
+        Ok(res) => {
+            if symbol == "SPY" || symbol == "FIG" {
+                if let Ok(meta) = res.metadata() {
+                    println!("[DEBUG {}] metadata: {:?}", symbol, meta);
+                }
+            }
+            res
+        },
         Err(_) => {
             // "FIG" のような上場間もない銘柄の中長期データ取得が失敗した場合のフォールバック
             provider.get_quote_range(symbol, "1d", "max").await
@@ -81,8 +90,26 @@ async fn fetch_once(provider: &yahoo::YahooConnector, symbol: &str, start_dt: Op
     
     bars.sort_by(|a, b| a.date.cmp(&b.date));
     
+    // Calculate accurate total_trading_days using firstTradeDate from metadata
+    let mut total_trading_days = bars.len();
+    if let Ok(meta) = response.metadata() {
+        if let Some(first_trade) = meta.first_trade_date {
+            let now = OffsetDateTime::now_utc().unix_timestamp();
+            let elapsed_seconds = now - first_trade as i64;
+            if elapsed_seconds > 0 {
+                let elapsed_days = elapsed_seconds / 86400; // calendar days
+                // Approximate trading days (minus weekends/holidays) = elapsed_days * 252 / 365
+                let estimated_trading_days = (elapsed_days as f64 * (252.0 / 365.25)) as usize;
+                // Use the highest of the two (in case the fetch downloaded more than estimated)
+                total_trading_days = std::cmp::max(total_trading_days, estimated_trading_days);
+            }
+        }
+    }
+    
     Ok(TickerHistory {
         symbol: symbol.to_string(),
         bars,
+        total_trading_days,
     })
 }
+

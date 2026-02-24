@@ -677,6 +677,10 @@ fn generate_markdown(_config: &AppConfig, snapshots: &[TickerSnapshot], date_str
     let mut md = format!("# 🐕 Stock Sentinel 每日観測レーダー\n📅 **日付**: {}\n\n", date_str);
     
     md.push_str("## 🌍 Macro Indicators (全域状态监测)\n");
+    md.push_str(&format!("- **Universe Composition**: {} Universe | {} Valid | {} Forming ({}E / {}L)\n", 
+        gravity.universe_count, gravity.total_count, 
+        gravity.forming_early_count + gravity.forming_late_count,
+        gravity.forming_early_count, gravity.forming_late_count));
     md.push_str(&format!("- **CAPITAL STATE**: {}\n", posture.display_text));
     
     // Delta for System Confidence
@@ -853,6 +857,10 @@ fn generate_telegram_html(_config: &AppConfig, snapshots_raw: &[TickerSnapshot],
     let mut html = format!("🐕 <b>Stock Sentinel レーダー</b>\n📅 <b>日付:</b> {}\n\n", date_str);
 
     html.push_str("<b>🌍 Macro Indicators</b>\n");
+    html.push_str(&format!(" • Universe Composition: {} Universe | {} Valid | {} Forming ({}E/{}L)\n", 
+        gravity.universe_count, gravity.total_count, 
+        gravity.forming_early_count + gravity.forming_late_count,
+        gravity.forming_early_count, gravity.forming_late_count));
     html.push_str(&format!(" • CAPITAL STATE: <code>{}</code>\n", posture.display_text));
     
     let conf_delta = gravity.prev_system_confidence.map(|p| gravity.system_confidence - p);
