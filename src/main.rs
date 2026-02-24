@@ -54,6 +54,7 @@ async fn main() -> Result<()> {
     let mut yesterday_state = "Unknown".to_string();
     let mut prev_gp = None;
     let mut prev_margin = None;
+    let mut prev_exposure = None;
 
     if let Ok(content) = std::fs::read_to_string(std::path::Path::new(&config_arc.output.save_to).join("telemetry.csv")) {
         if let Some(last_line) = content.lines().last() {
@@ -62,6 +63,10 @@ async fn main() -> Result<()> {
                 yesterday_state = cols[3].to_string(); // state_code
                 prev_gp = cols[6].parse::<f64>().ok();
                 prev_margin = cols[12].parse::<f64>().ok();
+                // If we added exposure column (index 13), parse it
+                if cols.len() > 13 {
+                    prev_exposure = cols[13].parse::<f64>().ok();
+                }
             }
         }
     }
@@ -246,8 +251,9 @@ async fn main() -> Result<()> {
             capital_flow_vector: capital_flow_vector.to_string(),
             recommended_exposure,
             prev_potential_energy: prev_gp,
-            prev_system_confidence: None, // Will be populated in future runs
+            prev_system_confidence: None, 
             prev_dominance_margin: prev_margin,
+            prev_recommended_exposure: prev_exposure,
         };
 
         let report_result = report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;
