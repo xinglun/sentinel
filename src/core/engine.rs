@@ -195,11 +195,7 @@ pub fn evaluate_snapshot(
     let mut deviation_percentile = None;
     if let Some(current_dev) = owner_deviation_pct {
         let lookback_bars = 1260; // Approx 5 years of trading days
-        let start_sim = if last_idx > lookback_bars {
-            last_idx - lookback_bars
-        } else {
-            0
-        };
+        let start_sim = last_idx.saturating_sub(lookback_bars);
         let mut historical_devs = Vec::with_capacity(last_idx - start_sim + 1);
 
         for i in start_sim..=last_idx {
@@ -353,7 +349,7 @@ pub fn evaluate_snapshot(
 
                 // Stateless 60-day sliding window simulation to detect structural brokenness crossovers
                 let mut is_structurally_broken = false;
-                let sim_start = if last_idx > 60 { last_idx - 60 } else { 0 };
+                let sim_start = last_idx.saturating_sub(60);
 
                 for step_idx in sim_start..=last_idx {
                     if !is_structurally_broken {

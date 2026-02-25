@@ -93,7 +93,7 @@ pub struct CustomIndicatorFilter {
     /// 自定义数值。当 stock_field2 选择自定义数值时，value 为必传参数。支持与KDJ_K，KDJ_D，KDJ_J，MACD_DIFF，MACD_DEA，MACD，BOLL_UPPER，BOLL_MIDDLER，BOLL_LOWER 进行比较（stock_field1 不支持此字段）
     #[prost(double, optional, tag = "4")]
     pub field_value: ::core::option::Option<f64>,
-    /// Qot_Common.KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期
+    /// Qot_Common.KLType，K线类型，仅支持K_60M，K_DAY，K_WEEK，K_MON 四种时间周期	
     #[prost(int32, required, tag = "5")]
     pub kl_type: i32,
     /// 该字段是否不需要筛选，True代表不筛选，False代表筛选。不传默认为不筛选
@@ -207,7 +207,7 @@ pub struct C2s {
     /// 形态技术指标过滤器
     #[prost(message, repeated, tag = "8")]
     pub pattern_filter_list: ::prost::alloc::vec::Vec<PatternFilter>,
-    /// 自定义技术指标过滤器
+    /// 自定义技术指标过滤器	
     #[prost(message, repeated, tag = "9")]
     pub custom_indicator_filter_list: ::prost::alloc::vec::Vec<CustomIndicatorFilter>,
 }
@@ -302,10 +302,18 @@ impl StockField {
             Self::StockCode => "StockField_StockCode",
             Self::StockName => "StockField_StockName",
             Self::CurPrice => "StockField_CurPrice",
-            Self::CurPriceToHighest52WeeksRatio => "StockField_CurPriceToHighest52WeeksRatio",
-            Self::CurPriceToLowest52WeeksRatio => "StockField_CurPriceToLowest52WeeksRatio",
-            Self::HighPriceToHighest52WeeksRatio => "StockField_HighPriceToHighest52WeeksRatio",
-            Self::LowPriceToLowest52WeeksRatio => "StockField_LowPriceToLowest52WeeksRatio",
+            Self::CurPriceToHighest52WeeksRatio => {
+                "StockField_CurPriceToHighest52WeeksRatio"
+            }
+            Self::CurPriceToLowest52WeeksRatio => {
+                "StockField_CurPriceToLowest52WeeksRatio"
+            }
+            Self::HighPriceToHighest52WeeksRatio => {
+                "StockField_HighPriceToHighest52WeeksRatio"
+            }
+            Self::LowPriceToLowest52WeeksRatio => {
+                "StockField_LowPriceToLowest52WeeksRatio"
+            }
             Self::VolumeRatio => "StockField_VolumeRatio",
             Self::BidAskRatio => "StockField_BidAskRatio",
             Self::LotPrice => "StockField_LotPrice",
@@ -329,12 +337,18 @@ impl StockField {
             "StockField_StockCode" => Some(Self::StockCode),
             "StockField_StockName" => Some(Self::StockName),
             "StockField_CurPrice" => Some(Self::CurPrice),
-            "StockField_CurPriceToHighest52WeeksRatio" => Some(Self::CurPriceToHighest52WeeksRatio),
-            "StockField_CurPriceToLowest52WeeksRatio" => Some(Self::CurPriceToLowest52WeeksRatio),
+            "StockField_CurPriceToHighest52WeeksRatio" => {
+                Some(Self::CurPriceToHighest52WeeksRatio)
+            }
+            "StockField_CurPriceToLowest52WeeksRatio" => {
+                Some(Self::CurPriceToLowest52WeeksRatio)
+            }
             "StockField_HighPriceToHighest52WeeksRatio" => {
                 Some(Self::HighPriceToHighest52WeeksRatio)
             }
-            "StockField_LowPriceToLowest52WeeksRatio" => Some(Self::LowPriceToLowest52WeeksRatio),
+            "StockField_LowPriceToLowest52WeeksRatio" => {
+                Some(Self::LowPriceToLowest52WeeksRatio)
+            }
             "StockField_VolumeRatio" => Some(Self::VolumeRatio),
             "StockField_BidAskRatio" => Some(Self::BidAskRatio),
             "StockField_LotPrice" => Some(Self::LotPrice),
@@ -450,7 +464,7 @@ pub enum FinancialField {
     ///
     /// 流动比率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[100,250\] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
     CurrentRatio = 20,
-    /// 速动比率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[100,250\] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+    /// 速动比率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[100,250\] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）	
     QuickRatio = 21,
     /// 清债能力属性
     ///
@@ -462,7 +476,7 @@ pub enum FinancialField {
     EquityMultiplier = 24,
     /// 产权比率（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[50,100\] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
     PropertyRatio = 25,
-    /// 现金和现金等价（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[1000000000,1000000000\] 值区间（单位：元）
+    /// 现金和现金等价（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[1000000000,1000000000\] 值区间（单位：元）	
     CashAndCashEquivalents = 26,
     /// 运营能力属性
     ///
@@ -474,7 +488,7 @@ pub enum FinancialField {
     InventoryTurnover = 29,
     /// 经营活动现金流 TTM（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[1000000000,1000000000\] 值区间（单位：元。仅适用于年报。）
     OperatingCashFlowTtm = 30,
-    /// 应收账款净额（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[1000000000,1000000000\] 值区间 例如填写 \[1000000000,1000000000\] 值区间 （单位：元）
+    /// 应收账款净额（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[1000000000,1000000000\] 值区间 例如填写 \[1000000000,1000000000\] 值区间 （单位：元）	
     AccountsReceivable = 31,
     /// 成长能力属性
     ///
@@ -502,7 +516,7 @@ pub enum FinancialField {
     ///
     /// 经营现金收入比（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[10,100\] 值区间（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
     OperatingRevenueCashCover = 42,
-    /// 营业利润占比（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[10,100\] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+    /// 营业利润占比（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[10,100\] 值区间 （该字段为百分比字段，默认不展示 %，如 20 实际对应 20%） 	
     OperatingProfitToTotalProfit = 43,
     /// 市场表现属性
     ///
@@ -510,7 +524,7 @@ pub enum FinancialField {
     BasicEps = 44,
     /// 稀释每股收益（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[0.1,10\] 值区间 (单位：元)
     DilutedEps = 45,
-    /// 每股经营现金净流量（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[0.1,10\] 值区间 (单位：元)
+    /// 每股经营现金净流量（精确到小数点后 3 位，超出部分会被舍弃）例如填写 \[0.1,10\] 值区间 (单位：元)	
     NocfPerShare = 46,
 }
 impl FinancialField {
@@ -555,7 +569,9 @@ impl FinancialField {
             Self::EbitGrowthRate => "FinancialField_EBITGrowthRate",
             Self::OperatingProfitGrowthRate => "FinancialField_OperatingProfitGrowthRate",
             Self::TotalAssetsGrowthRate => "FinancialField_TotalAssetsGrowthRate",
-            Self::ProfitToShareholdersGrowthRate => "FinancialField_ProfitToShareholdersGrowthRate",
+            Self::ProfitToShareholdersGrowthRate => {
+                "FinancialField_ProfitToShareholdersGrowthRate"
+            }
             Self::ProfitBeforeTaxGrowthRate => "FinancialField_ProfitBeforeTaxGrowthRate",
             Self::EpsGrowthRate => "FinancialField_EPSGrowthRate",
             Self::RoeGrowthRate => "FinancialField_ROEGrowthRate",
@@ -563,7 +579,9 @@ impl FinancialField {
             Self::NocfGrowthRate => "FinancialField_NOCFGrowthRate",
             Self::NocfPerShareGrowthRate => "FinancialField_NOCFPerShareGrowthRate",
             Self::OperatingRevenueCashCover => "FinancialField_OperatingRevenueCashCover",
-            Self::OperatingProfitToTotalProfit => "FinancialField_OperatingProfitToTotalProfit",
+            Self::OperatingProfitToTotalProfit => {
+                "FinancialField_OperatingProfitToTotalProfit"
+            }
             Self::BasicEps => "FinancialField_BasicEPS",
             Self::DilutedEps => "FinancialField_DilutedEPS",
             Self::NocfPerShare => "FinancialField_NOCFPerShare",
@@ -590,7 +608,9 @@ impl FinancialField {
             "FinancialField_EBITDAMargin" => Some(Self::EbitdaMargin),
             "FinancialField_FinancialCostRate" => Some(Self::FinancialCostRate),
             "FinancialField_OperatingProfitTTM" => Some(Self::OperatingProfitTtm),
-            "FinancialField_ShareholderNetProfitTTM" => Some(Self::ShareholderNetProfitTtm),
+            "FinancialField_ShareholderNetProfitTTM" => {
+                Some(Self::ShareholderNetProfitTtm)
+            }
             "FinancialField_NetProfitCashCoverTTM" => Some(Self::NetProfitCashCoverTtm),
             "FinancialField_CurrentRatio" => Some(Self::CurrentRatio),
             "FinancialField_QuickRatio" => Some(Self::QuickRatio),
@@ -605,18 +625,24 @@ impl FinancialField {
             "FinancialField_OperatingCashFlowTTM" => Some(Self::OperatingCashFlowTtm),
             "FinancialField_AccountsReceivable" => Some(Self::AccountsReceivable),
             "FinancialField_EBITGrowthRate" => Some(Self::EbitGrowthRate),
-            "FinancialField_OperatingProfitGrowthRate" => Some(Self::OperatingProfitGrowthRate),
+            "FinancialField_OperatingProfitGrowthRate" => {
+                Some(Self::OperatingProfitGrowthRate)
+            }
             "FinancialField_TotalAssetsGrowthRate" => Some(Self::TotalAssetsGrowthRate),
             "FinancialField_ProfitToShareholdersGrowthRate" => {
                 Some(Self::ProfitToShareholdersGrowthRate)
             }
-            "FinancialField_ProfitBeforeTaxGrowthRate" => Some(Self::ProfitBeforeTaxGrowthRate),
+            "FinancialField_ProfitBeforeTaxGrowthRate" => {
+                Some(Self::ProfitBeforeTaxGrowthRate)
+            }
             "FinancialField_EPSGrowthRate" => Some(Self::EpsGrowthRate),
             "FinancialField_ROEGrowthRate" => Some(Self::RoeGrowthRate),
             "FinancialField_ROICGrowthRate" => Some(Self::RoicGrowthRate),
             "FinancialField_NOCFGrowthRate" => Some(Self::NocfGrowthRate),
             "FinancialField_NOCFPerShareGrowthRate" => Some(Self::NocfPerShareGrowthRate),
-            "FinancialField_OperatingRevenueCashCover" => Some(Self::OperatingRevenueCashCover),
+            "FinancialField_OperatingRevenueCashCover" => {
+                Some(Self::OperatingRevenueCashCover)
+            }
             "FinancialField_OperatingProfitToTotalProfit" => {
                 Some(Self::OperatingProfitToTotalProfit)
             }
@@ -675,7 +701,7 @@ pub enum CustomIndicatorField {
     KdjK = 50,
     /// KDJ 指标的 D 值。指标参数需要根据 KDJ 进行传参。不传则默认为 \[9,3,3\]
     KdjD = 51,
-    /// KDJ 指标的 J 值。指标参数需要根据 KDJ 进行传参。不传则默认为 \[9,3,3\]
+    /// KDJ 指标的 J 值。指标参数需要根据 KDJ 进行传参。不传则默认为 \[9,3,3\]	
     KdjJ = 52,
     /// MACD 指标的 DIFF 值。指标参数需要根据 MACD 进行传参。不传则默认为 \[12,26,9\]
     MacdDiff = 60,

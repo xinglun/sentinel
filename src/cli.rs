@@ -542,7 +542,7 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
             conf_trend_alloc,
             conf_inverse_potential,
             capital_flow_acceleration,
-            universe_integrity: if snapshots.len() > 0 {
+            universe_integrity: if !snapshots.is_empty() {
                 total_count as f64 / snapshots.len() as f64
             } else {
                 0.0
@@ -580,7 +580,7 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
 
         let conf_multiplier = (system_confidence / 100.0) * integrity_multiplier;
         let mut final_exposure = base_exposure * conf_multiplier;
-        final_exposure = final_exposure.max(0.0).min(1.0);
+        final_exposure = final_exposure.clamp(0.0, 1.0);
 
         adjusted_exposure = final_exposure;
 
@@ -615,7 +615,7 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
 
         let freshness_data = serde_json::json!({
             "max_age_minutes": max_age_minutes,
-            "stale": max_age_minutes.map_or(true, |age| age > 15),
+            "stale": max_age_minutes.is_none_or(|age| age > 15),
             "timestamp_utc": Utc::now().to_rfc3339(),
         });
 

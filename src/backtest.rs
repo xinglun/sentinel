@@ -170,10 +170,8 @@ pub async fn run_backtest(
                                 if fwd_return < 0.0 {
                                     is_correct_for_fwd = true;
                                 }
-                            } else {
-                                if fwd_return > 0.0 {
-                                    is_correct_for_fwd = true;
-                                }
+                            } else if fwd_return > 0.0 {
+                                is_correct_for_fwd = true;
                             }
 
                             if snap.confidence_score >= 80 {
@@ -302,7 +300,7 @@ pub async fn run_backtest(
     summary.push_str("| Confidence Bucket | Expected Hit Rate | Actual Hit Rate | Signals |\n");
     summary.push_str("|-------------------|-------------------|-----------------|---------|\n");
     let mut rel_vec: Vec<_> = reliability.iter().collect();
-    rel_vec.sort_by(|a, b| b.0.cmp(&a.0)); // sort bucket descending
+    rel_vec.sort_by(|a, b| b.0.cmp(a.0)); // sort bucket descending
 
     let mut total_calibration_error = 0.0;
     let mut total_signals_calib = 0;
@@ -371,7 +369,7 @@ pub async fn run_backtest(
         "- **Avg 20d Forward Return**: `{:+.2}%`\n",
         avg_high
     ));
-    summary.push_str(&format!("- *Characteristics: High probability of success, lower elastic magnitude. Suitable for compounding over time.*\n\n"));
+    summary.push_str("- *Characteristics: High probability of success, lower elastic magnitude. Suitable for compounding over time.*\n\n");
 
     summary.push_str("### 🧲 Mean Reversion Alpha (Confidence <= 60%)\n");
     summary.push_str(&format!("- **Hit Rate**: `{:.1}%`\n", hit_rate_low));
@@ -379,7 +377,7 @@ pub async fn run_backtest(
         "- **Avg 20d Forward Return**: `{:+.2}%`\n",
         avg_low
     ));
-    summary.push_str(&format!("- *Characteristics: Lower probability of immediate success, but much higher elastic magnitude on resolution. Suitable for opportunistic accumulation.*\n\n"));
+    summary.push_str("- *Characteristics: Lower probability of immediate success, but much higher elastic magnitude on resolution. Suitable for opportunistic accumulation.*\n\n");
 
     // Potential
     summary.push_str("## 3. Potential Energy Forward Returns (Median 20d/60d Index Returns)\n");
@@ -401,7 +399,7 @@ pub async fn run_backtest(
         median(low_pot_20d),
         median(low_pot_60d)
     ));
-    summary.push_str("\n");
+    summary.push('\n');
 
     // Transitions
     summary.push_str("## 4. State Transition Flow\n");

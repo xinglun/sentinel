@@ -6,7 +6,9 @@ pub struct C2s {
     pub header: super::trd_common::TrdHeader,
     /// 过滤条件
     #[prost(message, optional, tag = "2")]
-    pub filter_conditions: ::core::option::Option<super::trd_common::TrdFilterConditions>,
+    pub filter_conditions: ::core::option::Option<
+        super::trd_common::TrdFilterConditions,
+    >,
     /// 立即刷新OpenD缓存的此数据，默认不填。true向服务器获取最新数据更新缓存并返回；flase或没填则返回OpenD缓存的数据，不会向服务器请求。
     #[prost(bool, optional, tag = "3")]
     pub refresh_cache: ::core::option::Option<bool>,

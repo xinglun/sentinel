@@ -211,7 +211,7 @@ pub struct BasicQot {
     /// 振幅（该字段为百分比字段，默认不展示%，如20实际对应20%）
     #[prost(double, required, tag = "14")]
     pub amplitude: f64,
-    /// DarkStatus, 暗盘交易状态
+    /// DarkStatus, 暗盘交易状态	
     #[prost(int32, optional, tag = "15")]
     pub dark_status: ::core::option::Option<i32>,
     /// 期权特有字段
@@ -915,7 +915,7 @@ pub enum QotMarketState {
     PreMarketEnd = 9,
     /// 盘后
     AfterHoursBegin = 10,
-    /// 盘后结束
+    /// 盘后结束	
     AfterHoursEnd = 11,
     FutuSwitchDate = 12,
     /// 夜市开盘
@@ -930,7 +930,7 @@ pub enum QotMarketState {
     FutureDayClose = 17,
     /// 期货日市等待开盘
     FutureDayWaitForOpen = 18,
-    /// 盘后竞价,港股市场增加CAS机制对应的市场状态
+    /// 盘后竞价,港股市场增加CAS机制对应的市场状态	
     HkCas = 19,
     /// 夜市等待开盘（已废弃）
     FutureNightWait = 20,
@@ -1193,7 +1193,7 @@ pub enum KlType {
     Day = 2,
     /// 周K
     Week = 3,
-    /// 月K
+    /// 月K	
     Month = 4,
     /// 年K
     Year = 5,
@@ -1203,7 +1203,7 @@ pub enum KlType {
     KlType15min = 7,
     /// 30分K
     KlType30min = 8,
-    /// 60分K
+    /// 60分K		
     KlType60min = 9,
     /// 3分K
     KlType3min = 10,
@@ -1456,7 +1456,7 @@ pub enum TickerType {
     InterNoneAutomatch = 5,
     /// 碎股交易
     OddLot = 6,
-    /// 竞价交易
+    /// 竞价交易	
     Auction = 7,
     /// 批量交易
     Bulk = 8,
@@ -1693,7 +1693,9 @@ impl SecurityStatus {
             Self::ChangedPlateTradeEnd => "SecurityStatus_ChangedPlateTradeEnd",
             Self::ChangedCodeTradeEnd => "SecurityStatus_ChangedCodeTradeEnd",
             Self::RecoverableCircuitBreaker => "SecurityStatus_RecoverableCircuitBreaker",
-            Self::UnRecoverableCircuitBreaker => "SecurityStatus_UnRecoverableCircuitBreaker",
+            Self::UnRecoverableCircuitBreaker => {
+                "SecurityStatus_UnRecoverableCircuitBreaker"
+            }
             Self::AfterCombination => "SecurityStatus_AfterCombination",
             Self::AfterTransation => "SecurityStatus_AfterTransation",
         }
@@ -1719,8 +1721,12 @@ impl SecurityStatus {
             "SecurityStatus_TemporaryCodeTradeEnd" => Some(Self::TemporaryCodeTradeEnd),
             "SecurityStatus_ChangedPlateTradeEnd" => Some(Self::ChangedPlateTradeEnd),
             "SecurityStatus_ChangedCodeTradeEnd" => Some(Self::ChangedCodeTradeEnd),
-            "SecurityStatus_RecoverableCircuitBreaker" => Some(Self::RecoverableCircuitBreaker),
-            "SecurityStatus_UnRecoverableCircuitBreaker" => Some(Self::UnRecoverableCircuitBreaker),
+            "SecurityStatus_RecoverableCircuitBreaker" => {
+                Some(Self::RecoverableCircuitBreaker)
+            }
+            "SecurityStatus_UnRecoverableCircuitBreaker" => {
+                Some(Self::UnRecoverableCircuitBreaker)
+            }
             "SecurityStatus_AfterCombination" => Some(Self::AfterCombination),
             "SecurityStatus_AfterTransation" => Some(Self::AfterTransation),
             _ => None,
@@ -2041,7 +2047,7 @@ pub enum Issuer {
     Bp = 2,
     /// 瑞信
     Cs = 3,
-    /// 花旗
+    /// 花旗	
     Ct = 4,
     /// 东亚
     Ea = 5,
@@ -2049,9 +2055,9 @@ pub enum Issuer {
     Gs = 6,
     /// 汇丰
     Hs = 7,
-    /// 摩通
+    /// 摩通	
     Jp = 8,
-    /// 麦银
+    /// 麦银	
     Mb = 9,
     /// 渣打
     Sc = 10,
@@ -2069,7 +2075,7 @@ pub enum Issuer {
     Nm = 16,
     /// 荷合
     Rb = 17,
-    /// 苏皇
+    /// 苏皇	
     Rs = 18,
     /// 巴克莱
     Bc = 19,
@@ -2289,7 +2295,7 @@ impl WarrantStatus {
 pub enum CompanyAct {
     /// 无
     None = 0,
-    /// 拆股
+    /// 拆股		
     Split = 1,
     /// 合股
     Join = 2,
@@ -2297,13 +2303,13 @@ pub enum CompanyAct {
     Bonus = 4,
     /// 转赠股
     Transfer = 8,
-    /// 配股
+    /// 配股	
     Allot = 16,
     /// 增发股
     Add = 32,
     /// 现金分红
     Dividend = 64,
-    /// 特别股息
+    /// 特别股息	
     SpDividend = 128,
 }
 impl CompanyAct {
@@ -2434,8 +2440,12 @@ impl PriceReminderType {
             Self::PriceDown => "PriceReminderType_PriceDown",
             Self::ChangeRateUp => "PriceReminderType_ChangeRateUp",
             Self::ChangeRateDown => "PriceReminderType_ChangeRateDown",
-            Self::PriceReminderType5minChangeRateUp => "PriceReminderType_5MinChangeRateUp",
-            Self::PriceReminderType5minChangeRateDown => "PriceReminderType_5MinChangeRateDown",
+            Self::PriceReminderType5minChangeRateUp => {
+                "PriceReminderType_5MinChangeRateUp"
+            }
+            Self::PriceReminderType5minChangeRateDown => {
+                "PriceReminderType_5MinChangeRateDown"
+            }
             Self::VolumeUp => "PriceReminderType_VolumeUp",
             Self::TurnoverUp => "PriceReminderType_TurnoverUp",
             Self::TurnoverRateUp => "PriceReminderType_TurnoverRateUp",
@@ -2443,8 +2453,12 @@ impl PriceReminderType {
             Self::AskPriceDown => "PriceReminderType_AskPriceDown",
             Self::BidVolUp => "PriceReminderType_BidVolUp",
             Self::AskVolUp => "PriceReminderType_AskVolUp",
-            Self::PriceReminderType3minChangeRateUp => "PriceReminderType_3MinChangeRateUp",
-            Self::PriceReminderType3minChangeRateDown => "PriceReminderType_3MinChangeRateDown",
+            Self::PriceReminderType3minChangeRateUp => {
+                "PriceReminderType_3MinChangeRateUp"
+            }
+            Self::PriceReminderType3minChangeRateDown => {
+                "PriceReminderType_3MinChangeRateDown"
+            }
         }
     }
     /// Creates an enum from field names used in the ProtoBuf definition.
@@ -2455,7 +2469,9 @@ impl PriceReminderType {
             "PriceReminderType_PriceDown" => Some(Self::PriceDown),
             "PriceReminderType_ChangeRateUp" => Some(Self::ChangeRateUp),
             "PriceReminderType_ChangeRateDown" => Some(Self::ChangeRateDown),
-            "PriceReminderType_5MinChangeRateUp" => Some(Self::PriceReminderType5minChangeRateUp),
+            "PriceReminderType_5MinChangeRateUp" => {
+                Some(Self::PriceReminderType5minChangeRateUp)
+            }
             "PriceReminderType_5MinChangeRateDown" => {
                 Some(Self::PriceReminderType5minChangeRateDown)
             }
@@ -2466,7 +2482,9 @@ impl PriceReminderType {
             "PriceReminderType_AskPriceDown" => Some(Self::AskPriceDown),
             "PriceReminderType_BidVolUp" => Some(Self::BidVolUp),
             "PriceReminderType_AskVolUp" => Some(Self::AskVolUp),
-            "PriceReminderType_3MinChangeRateUp" => Some(Self::PriceReminderType3minChangeRateUp),
+            "PriceReminderType_3MinChangeRateUp" => {
+                Some(Self::PriceReminderType3minChangeRateUp)
+            }
             "PriceReminderType_3MinChangeRateDown" => {
                 Some(Self::PriceReminderType3minChangeRateDown)
             }

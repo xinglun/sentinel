@@ -124,7 +124,7 @@ pub struct UsIpoExData {
 /// 新股Ipo数据
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct IpoData {
-    /// IPO基本数据
+    /// IPO基本数据	
     #[prost(message, required, tag = "1")]
     pub basic: BasicIpoData,
     /// A股IPO额外数据

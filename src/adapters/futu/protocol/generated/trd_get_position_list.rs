@@ -6,7 +6,9 @@ pub struct C2s {
     pub header: super::trd_common::TrdHeader,
     /// 过滤条件
     #[prost(message, optional, tag = "2")]
-    pub filter_conditions: ::core::option::Option<super::trd_common::TrdFilterConditions>,
+    pub filter_conditions: ::core::option::Option<
+        super::trd_common::TrdFilterConditions,
+    >,
     /// 过滤盈亏百分比下限，高于此比例的会返回，比如传10.0，返回盈亏比例大于10%的持仓
     #[prost(double, optional, tag = "3")]
     pub filter_pl_ratio_min: ::core::option::Option<f64>,

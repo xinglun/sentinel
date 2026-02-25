@@ -37,7 +37,7 @@ pub struct HistoryPointsKl {
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct SecurityHistoryKlPoints {
-    /// 股票
+    /// 股票	
     #[prost(message, required, tag = "1")]
     pub security: super::qot_common::Security,
     /// K线数据

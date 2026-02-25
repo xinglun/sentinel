@@ -65,7 +65,7 @@ async fn fetch_once(
     start_dt: Option<OffsetDateTime>,
     end_dt: Option<OffsetDateTime>,
 ) -> Result<TickerHistory> {
-    let end = end_dt.unwrap_or_else(|| OffsetDateTime::now_utc());
+    let end = end_dt.unwrap_or_else(OffsetDateTime::now_utc);
     let start = start_dt.unwrap_or_else(|| end - TimeDuration::days(365 * 2));
 
     let response = match provider.get_quote_history(symbol, start, end).await {

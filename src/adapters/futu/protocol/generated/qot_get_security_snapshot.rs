@@ -181,13 +181,13 @@ pub struct OptionSnapshotExData {
     /// 希腊值 Rho
     #[prost(double, required, tag = "13")]
     pub rho: f64,
-    /// 行权日时间戳
+    /// 行权日时间戳			
     #[prost(double, optional, tag = "14")]
     pub strike_timestamp: ::core::option::Option<f64>,
     /// Qot_Common.IndexOptionType，指数期权类型
     #[prost(int32, optional, tag = "15")]
     pub index_option_type: ::core::option::Option<i32>,
-    /// 净未平仓合约数，仅港股期权适用
+    /// 净未平仓合约数，仅港股期权适用	
     #[prost(int32, optional, tag = "16")]
     pub net_open_interest: ::core::option::Option<i32>,
     /// 距离到期日天数，负数表示已过期

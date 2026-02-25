@@ -15,7 +15,9 @@ pub struct C2s {
 pub struct S2c {
     /// 板块下的股票静态信息
     #[prost(message, repeated, tag = "1")]
-    pub static_info_list: ::prost::alloc::vec::Vec<super::qot_common::SecurityStaticInfo>,
+    pub static_info_list: ::prost::alloc::vec::Vec<
+        super::qot_common::SecurityStaticInfo,
+    >,
 }
 #[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Request {

@@ -1,7 +1,7 @@
 use anyhow::Result;
 use time::OffsetDateTime;
 
-use crate::data::yahoo_provider::{DailyBar, TickerHistory};
+use crate::data::yahoo_provider::TickerHistory;
 
 #[async_trait::async_trait]
 pub trait MarketDataProvider: Send + Sync {

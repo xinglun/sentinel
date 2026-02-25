@@ -12,10 +12,13 @@ use tokio_util::codec::Framed;
 use crate::adapters::futu::codec::{FutuCodec, FutuHeader};
 use crate::adapters::futu::protocol::generated::init_connect::{C2s, Request, Response};
 
+pub type PendingRequests = Arc<Mutex<HashMap<u32, oneshot::Sender<(FutuHeader, Vec<u8>)>>>>;
+pub type WriteSink = Arc<Mutex<SplitSink<Framed<TcpStream, FutuCodec>, (FutuHeader, Vec<u8>)>>>;
+
 pub struct FutuClient {
-    write_sink: Arc<Mutex<SplitSink<Framed<TcpStream, FutuCodec>, (FutuHeader, Vec<u8>)>>>,
+    write_sink: WriteSink,
     serial_no: Arc<AtomicU32>,
-    pending_requests: Arc<Mutex<HashMap<u32, oneshot::Sender<(FutuHeader, Vec<u8>)>>>>,
+    pending_requests: PendingRequests,
 }
 
 impl FutuClient {
@@ -35,7 +38,7 @@ impl FutuClient {
         let (mut sink, mut stream_reader) = framed.split();
         let serial_no = Arc::new(AtomicU32::new(1));
 
-        let pending_requests: Arc<Mutex<HashMap<u32, oneshot::Sender<(FutuHeader, Vec<u8>)>>>> =
+        let pending_requests: PendingRequests =
             Arc::new(Mutex::new(HashMap::new()));
 
         let init_req = Request {
@@ -56,7 +59,8 @@ impl FutuClient {
 
         sink.send((header, body)).await?;
 
-        let mut _keep_alive_interval = 10;
+        #[allow(unused_assignments)]
+        let mut keep_alive_interval = 10;
 
         if let Some(res) = stream_reader.next().await {
             match res {
@@ -128,15 +132,13 @@ impl FutuClient {
                         let mut pending = pending_clone.lock().await;
                         if let Some(sender) = pending.remove(&serial) {
                             let _ = sender.send((res_header, res_body));
+                        } else if res_header.n_proto_id == 1004 { // KeepAlive Response
+                             // Silently drop keepalive ACKs to avoid log spam
                         } else {
-                            if res_header.n_proto_id == 1004 { // KeepAlive Response
-                                 // Silently drop keepalive ACKs to avoid log spam
-                            } else {
-                                println!(
-                                    "📩 Unmatched or Push Notification received! ProtoID: {}",
-                                    res_header.n_proto_id
-                                );
-                            }
+                            println!(
+                                "📩 Unmatched or Push Notification received! ProtoID: {}",
+                                res_header.n_proto_id
+                            );
                         }
                     }
                     Err(e) => {

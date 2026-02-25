@@ -42,7 +42,7 @@ pub struct C2s {
     /// 最新价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
     #[prost(double, optional, tag = "13")]
     pub cur_price_min: ::core::option::Option<f64>,
-    /// 最新价的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+    /// 最新价的过滤上限（闭区间），不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃） 	
     #[prost(double, optional, tag = "14")]
     pub cur_price_max: ::core::option::Option<f64>,
     /// 行使价的过滤下限（闭区间），不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
@@ -90,7 +90,7 @@ pub struct C2s {
     /// 引伸波幅的过滤下限（闭区间），仅认购认沽支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
     #[prost(double, optional, tag = "29")]
     pub implied_min: ::core::option::Option<f64>,
-    /// 引伸波幅的过滤上限（闭区间），仅认购认沽支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+    /// 引伸波幅的过滤上限（闭区间），仅认购认沽支持此字段过滤，不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）	
     #[prost(double, optional, tag = "30")]
     pub implied_max: ::core::option::Option<f64>,
     /// 收回价的过滤下限（闭区间），仅牛熊证支持此字段过滤，不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
@@ -102,7 +102,7 @@ pub struct C2s {
     /// 正股距收回价，的过滤下限（闭区间），仅牛熊证支持此字段过滤。该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表下限为 -∞（精确到小数点后 3 位，超出部分会被舍弃）
     #[prost(double, optional, tag = "33")]
     pub price_recovery_ratio_min: ::core::option::Option<f64>,
-    /// 正股距收回价，的过滤上限（闭区间），仅牛熊证支持此字段过滤。该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）
+    /// 正股距收回价，的过滤上限（闭区间），仅牛熊证支持此字段过滤。该字段为百分比字段，默认不展示 %，如 20 实际对应 20%。不传代表上限为 +∞（精确到小数点后 3 位，超出部分会被舍弃）	
     #[prost(double, optional, tag = "34")]
     pub price_recovery_ratio_max: ::core::option::Option<f64>,
 }
@@ -149,13 +149,13 @@ pub struct WarrantData {
     /// 每手数量
     #[prost(int32, required, tag = "13")]
     pub lot_size: i32,
-    /// 行使价
+    /// 行使价	
     #[prost(double, required, tag = "14")]
     pub strike_price: f64,
     /// 昨收价
     #[prost(double, required, tag = "15")]
     pub last_close_price: f64,
-    /// 名称
+    /// 名称	
     #[prost(string, required, tag = "16")]
     pub name: ::prost::alloc::string::String,
     /// 动态数据项
@@ -166,13 +166,13 @@ pub struct WarrantData {
     /// 涨跌额
     #[prost(double, required, tag = "18")]
     pub price_change_val: f64,
-    /// 涨跌幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+    /// 涨跌幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）	
     #[prost(double, required, tag = "19")]
     pub change_rate: f64,
-    /// Qot_Common.WarrantStatus，窝轮状态
+    /// Qot_Common.WarrantStatus，窝轮状态	
     #[prost(int32, required, tag = "20")]
     pub status: i32,
-    /// 买入价
+    /// 买入价	
     #[prost(double, required, tag = "21")]
     pub bid_price: f64,
     /// 卖出价
@@ -187,7 +187,7 @@ pub struct WarrantData {
     /// 成交量
     #[prost(int64, required, tag = "25")]
     pub volume: i64,
-    /// 成交额
+    /// 成交额	
     #[prost(double, required, tag = "26")]
     pub turnover: f64,
     /// 综合评分
@@ -196,13 +196,13 @@ pub struct WarrantData {
     /// 溢价（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
     #[prost(double, required, tag = "28")]
     pub premium: f64,
-    /// 打和点
+    /// 打和点	
     #[prost(double, required, tag = "29")]
     pub break_even_point: f64,
     /// 杠杆比率（倍）
     #[prost(double, required, tag = "30")]
     pub leverage: f64,
-    /// 价内/价外，正数表示价内，负数表示价外（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+    /// 价内/价外，正数表示价内，负数表示价外（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）        	
     #[prost(double, required, tag = "31")]
     pub ipop: f64,
     /// 正股距收回价，仅牛熊证支持此字段（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
@@ -211,7 +211,7 @@ pub struct WarrantData {
     /// 换股价
     #[prost(double, required, tag = "33")]
     pub conversion_price: f64,
-    /// 街货占比（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
+    /// 街货占比（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）	
     #[prost(double, required, tag = "34")]
     pub street_rate: f64,
     /// 街货量
@@ -220,13 +220,13 @@ pub struct WarrantData {
     /// 振幅（该字段为百分比字段，默认不展示 %，如 20 实际对应 20%）
     #[prost(double, required, tag = "36")]
     pub amplitude: f64,
-    /// 发行量
+    /// 发行量	
     #[prost(int64, required, tag = "37")]
     pub issue_size: i64,
     /// 最高价
     #[prost(double, required, tag = "39")]
     pub high_price: f64,
-    /// 最低价
+    /// 最低价	
     #[prost(double, required, tag = "40")]
     pub low_price: f64,
     /// 引申波幅，仅认购认沽支持此字段

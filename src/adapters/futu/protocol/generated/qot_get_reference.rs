@@ -12,7 +12,9 @@ pub struct C2s {
 pub struct S2c {
     /// 相关股票列表
     #[prost(message, repeated, tag = "2")]
-    pub static_info_list: ::prost::alloc::vec::Vec<super::qot_common::SecurityStaticInfo>,
+    pub static_info_list: ::prost::alloc::vec::Vec<
+        super::qot_common::SecurityStaticInfo,
+    >,
 }
 #[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Request {

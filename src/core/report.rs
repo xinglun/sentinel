@@ -263,9 +263,7 @@ fn get_z_label(z: f64) -> &'static str {
 }
 
 fn get_action_category(state: &str) -> &'static str {
-    if state.contains("fear") && !state.contains("down") {
-        "加仓区 (Buy)"
-    } else if state.contains("pullback") {
+    if (state.contains("fear") && !state.contains("down")) || state.contains("pullback") {
         "加仓区 (Buy)"
     } else if state.contains("optimal") || state.contains("cruise") {
         "持有区 (Hold)"
@@ -1162,7 +1160,7 @@ fn generate_markdown(
             bias
         ));
     }
-    md.push_str("\n");
+    md.push('\n');
 
     md.push_str("| # | 代码 | Status (State) | Portfolio Allocation | Owner Dist | Sigma (σ) | Trend (Days) | Action Guidance |\n");
     md.push_str("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n");
@@ -1530,7 +1528,7 @@ fn generate_telegram_html(
             format_sigma(z)
         ));
     }
-    html.push_str("\n");
+    html.push('\n');
 
     html.push_str("<b>🎯 个股雷达 (Execution Radar)</b>\n");
     html.push_str("<i>ℹ️ Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable</i>\n\n");
@@ -1571,7 +1569,7 @@ fn generate_telegram_html(
         let strength_z_combined = if s.validity == RegimeValidity::FormingEarly {
             "Z-Score: N/A".to_string()
         } else {
-            format!("{}", format_sigma(z_val))
+            format_sigma(z_val).to_string()
         };
 
         let state_name = if let Some(rc) = &s.reason_code {
@@ -1599,7 +1597,7 @@ fn generate_telegram_html(
             escape_html(&s.action_text)
         ));
 
-        html.push_str("\n");
+        html.push('\n');
     }
 
     html
