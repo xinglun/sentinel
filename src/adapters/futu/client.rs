@@ -38,8 +38,7 @@ impl FutuClient {
         let (mut sink, mut stream_reader) = framed.split();
         let serial_no = Arc::new(AtomicU32::new(1));
 
-        let pending_requests: PendingRequests =
-            Arc::new(Mutex::new(HashMap::new()));
+        let pending_requests: PendingRequests = Arc::new(Mutex::new(HashMap::new()));
 
         let init_req = Request {
             c2s: C2s {

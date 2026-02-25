@@ -6,4 +6,6 @@
 #![allow(clippy::empty_docs)]
 #![allow(clippy::derive_partial_eq_without_eq)]
 #![allow(clippy::type_complexity)]
+
+#[rustfmt::skip]
 pub mod generated;
