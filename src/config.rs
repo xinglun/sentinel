@@ -11,6 +11,7 @@ pub struct AppConfig {
     pub output: OutputConfig,
     pub telegram: Option<TelegramConfig>,
     pub futu: Option<FutuConfig>,
+    pub trading: Option<TradingConfig>,
     pub rules: RulesConfig,
     pub watchlist: Vec<WatchlistEntry>,
 }
@@ -43,6 +44,12 @@ pub struct FutuConfig {
     pub market: u32,        // 1: HK, 2: US, etc.
     pub acc_id: Option<u64>, // Loaded from config or ENV
     pub unlock_password_md5: Option<String>, // Loaded from ENV
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct TradingConfig {
+    pub enabled: bool,
+    pub global_budget: f64,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -84,6 +91,8 @@ pub struct WatchlistEntry {
     pub deviation_basis: DeviationBasis,
     pub enable: bool,
     pub action_overrides: Option<HashMap<String, String>>,
+    pub trade_enabled: Option<bool>,
+    pub trade_amount: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, PartialEq, Eq, Clone)]

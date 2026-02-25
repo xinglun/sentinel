@@ -1,14 +1,16 @@
 use anyhow::{anyhow, Result};
 use std::sync::Arc;
 use sha2::{Sha256, Digest};
-use chrono::Utc;
+use chrono::{Utc, Local};
 use futures::stream::{self, StreamExt};
 use time::OffsetDateTime;
+use tokio::sync::Mutex;
 
 use crate::config;
 use crate::core::engine::{self, TickerSnapshot};
 use crate::core::report;
 use crate::core::notify;
+use crate::core::trader_agent::TraderAgent;
 use crate::data::provider::MarketDataProvider;
 use crate::trade::trader::TradeExecutor;
 use crate::backtest;
@@ -104,10 +106,39 @@ pub async fn run() -> Result<()> {
                 }
                 
                 println!("🛡️ 哨兵自动化交易模块挂载完毕，进入监听循环...");
-                // Keep the daemon alive
+                
+                let trader_arc: Arc<Mutex<dyn TradeExecutor + Send + Sync>> = Arc::new(Mutex::new(trader));
+                let trader_agent = TraderAgent::new(Arc::new(app_config.clone()), trader_arc.clone());
+                let rules_arc = Arc::new(app_config.get_parsed_rules());
+
+                // Keep the daemon alive and executing
                 loop {
+                    println!("\n▶️ [Daemon] {} - 开始本轮行情拉取与策略评估...", Local::now().format("%Y-%m-%d %H:%M:%S"));
+                    
+                    let mut current_snapshots = Vec::new();
+                    
+                    for entry in app_config.watchlist.iter().filter(|w| w.enable) {
+                        match _provider.fetch_history(&entry.symbol, None, None).await {
+                            Ok(history) => {
+                                let snapshot = engine::evaluate_snapshot(&history, entry, &rules_arc);
+                                current_snapshots.push(snapshot);
+                            },
+                            Err(e) => {
+                                println!("❌ [Daemon] 无法拉取 {} 行情: {}", entry.symbol, e);
+                            }
+                        }
+                    }
+
+                    if !current_snapshots.is_empty() {
+                        if let Err(e) = trader_agent.execute_signals(&current_snapshots).await {
+                            println!("❌ [Daemon] 交易代理执行信号失败: {}", e);
+                        }
+                    } else {
+                        println!("⚠️ [Daemon] 本轮未获取到任何有效的行情快照。");
+                    }
+
+                    println!("⏳ [Daemon] 评估结束。等待下一次心跳周期 (60s)...");
                     tokio::time::sleep(std::time::Duration::from_secs(60)).await;
-                    println!("💓 Daemon Heartbeat... (TCP Session Managed by Codec)");
                 }
             } else {
                 println!("⚠️ Daemon 模式建议使用 --provider futu 配合本地网关运行以获得最新实盘数据和报单支持。");
