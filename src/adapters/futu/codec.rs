@@ -5,6 +5,7 @@ use tokio_util::codec::{Decoder, Encoder};
 
 pub const FUTU_PROTO_MAGIC: [u8; 4] = [b'F', b'T', b'-', b'X'];
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct FutuHeader {
     pub sz_header: u8,

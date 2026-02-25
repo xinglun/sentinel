@@ -1,6 +1,8 @@
+#![allow(dead_code)]
 use anyhow::Result;
 use async_trait::async_trait;
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct AccountFunds {
     pub power: f64,         // 购买力
@@ -22,6 +24,7 @@ pub enum OrderType {
     Market, // 市价订单
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct PlaceOrderRequest {
     pub symbol: String, // ticker (e.g., US.TSLA)

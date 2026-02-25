@@ -36,6 +36,7 @@ pub struct TelegramConfig {
     pub chat_id: String,
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Deserialize, Clone)]
 pub struct FutuConfig {
     pub opend_ip: String,
@@ -46,6 +47,7 @@ pub struct FutuConfig {
     pub unlock_password_md5: Option<String>, // Loaded from ENV
 }
 
+#[allow(dead_code)]
 #[derive(Debug, Deserialize, Clone)]
 pub struct TradingConfig {
     pub enabled: bool,
