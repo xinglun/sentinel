@@ -501,3 +501,100 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
     snapshot
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::{RulesConfig, TrendConfig, BearModeConfig};
+    use chrono::NaiveDate;
+    use std::collections::{BTreeMap, HashMap};
+
+    fn make_test_bars(prices: &[f64]) -> Vec<DailyBar> {
+        let mut bars = Vec::new();
+        let mut d = NaiveDate::from_ymd_opt(2023, 1, 1).unwrap();
+        for &p in prices {
+            bars.push(DailyBar {
+                date: d,
+                close: p,
+                volume: Some(100.0),
+            });
+            d = d.succ_opt().unwrap();
+        }
+        bars
+    }
+
+    #[test]
+    fn test_detect_trend() {
+        // Continuous upward slope
+        let prices: Vec<f64> = (1..=30).map(|x| x as f64).collect();
+        let bars = make_test_bars(&prices);
+        
+        let status = detect_trend(&bars, 5, 10, 0.5);
+        assert_eq!(status, TrendStatus::Up);
+        
+        // Continuous downward slope
+        let prices_down: Vec<f64> = (1..=30).rev().map(|x| x as f64).collect();
+        let bars_down = make_test_bars(&prices_down);
+        let status_down = detect_trend(&bars_down, 5, 10, 0.5);
+        assert_eq!(status_down, TrendStatus::Down);
+        
+        // Flat market
+        let prices_flat: Vec<f64> = vec![100.0; 30];
+        let bars_flat = make_test_bars(&prices_flat);
+        let status_flat = detect_trend(&bars_flat, 5, 10, 0.5);
+        assert_eq!(status_flat, TrendStatus::Flat);
+    }
+
+    #[test]
+    fn test_regime_validity() {
+        let rules = ParsedRules {
+            trend: TrendConfig { lookback_days: 20, flat_threshold_pct: 0.5 },
+            sorted_bands: vec![("optimal".to_string(), -5.0)],
+            actions: HashMap::new(),
+            bear_mode: BearModeConfig { 
+                enabled: false, 
+                fallback_action: "DEFEND".to_string(), 
+                caution_action: None, 
+                buffer_pct: Some(3.0), 
+                confirm_days: Some(5), 
+                confirm_threshold: Some(3),
+                recover_days: Some(5),
+                recover_threshold: Some(3)
+            },
+        };
+
+        let entry = WatchlistEntry {
+            symbol: "TEST".to_string(),
+            name: None,
+            weight: None,
+            market: "US".to_string(),
+            owner_ma_days: 120,
+            leash_ma_days: 20,
+            caution_ma_days: None,
+            deviation_basis: DeviationBasis::Owner,
+            enable: true,
+            action_overrides: None,
+            trade_enabled: Some(true),
+            trade_amount: Some(100.0),
+        };
+
+        // Early Forming (< 150 days)
+        let prices = vec![100.0; 100];
+        let hist = TickerHistory { symbol: "TEST".to_string(), bars: make_test_bars(&prices), total_trading_days: 100, latest_quote_timestamp: None };
+        let snap = evaluate_snapshot(&hist, &entry, &rules);
+        assert_eq!(snap.validity, RegimeValidity::FormingEarly);
+        assert_eq!(snap.state_code, "FORMING_EARLY");
+
+        // Late Forming (< 400 days)
+        let prices2 = vec![100.0; 250];
+        let hist2 = TickerHistory { symbol: "TEST".to_string(), bars: make_test_bars(&prices2), total_trading_days: 250, latest_quote_timestamp: None };
+        let snap2 = evaluate_snapshot(&hist2, &entry, &rules);
+        assert_eq!(snap2.validity, RegimeValidity::FormingLate);
+        
+        // Valid (> 400 days)
+        let prices3 = vec![100.0; 450];
+        let hist3 = TickerHistory { symbol: "TEST".to_string(), bars: make_test_bars(&prices3), total_trading_days: 450, latest_quote_timestamp: None };
+        let snap3 = evaluate_snapshot(&hist3, &entry, &rules);
+        assert_eq!(snap3.validity, RegimeValidity::Valid);
+    }
+}

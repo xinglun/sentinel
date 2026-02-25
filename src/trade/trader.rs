@@ -10,7 +10,7 @@ pub struct AccountFunds {
     pub unrealized_pl: f64,       // 浮动盈亏
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub enum OrderSide {
     Buy,
     Sell,

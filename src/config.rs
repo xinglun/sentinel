@@ -201,7 +201,10 @@ mod tests {
             [rules.deviation_bands]
             overheat_2 = 30.0   
             optimal    = -5.0   
-            optimal     = -5.0   
+
+            [trading]
+            enabled = false
+            global_budget = 100000.0
 
             [rules.actions]
             overheat_2 = "停止买入"

@@ -32,19 +32,18 @@ impl TraderAgent {
         println!("🤖 TraderAgent: Processing {} snapshots for potential execution...", snapshots.len());
 
         // We lock the executor momentarily to get available funds (to respect boundaries)
-        let mut available_funds = 0.0;
-        {
+        let _available_funds = {
             let exec = self.executor.lock().await;
             match exec.get_funds().await {
-                Ok(funds) => available_funds = funds.cash,
+                Ok(funds) => funds.cash,
                 Err(e) => {
                     println!("❌ TraderAgent Failed to retrieve account funds: {}. Aborting execution run.", e);
                     return Err(e);
                 }
             }
-        }
+        };
         
-        println!("💰 TraderAgent Available Cash: ${:.2}", available_funds);
+        println!("💰 TraderAgent Available Cash: ${:.2}", _available_funds);
 
         for snap in snapshots {
             // Find the specific watchlist configuration for the ticker
@@ -120,5 +119,126 @@ impl TraderAgent {
         }
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::{TradingConfig, WatchlistEntry, DeviationBasis};
+    use crate::trade::trader::{AccountFunds, PlaceOrderResponse};
+    use async_trait::async_trait;
+    use chrono::NaiveDate;
+    use crate::core::engine::{TrendStatus, RegimeValidity};
+    use std::sync::atomic::{AtomicUsize, Ordering};
+
+    struct MockTradeExecutor {
+        pub placed_orders_count: AtomicUsize,
+    }
+
+    #[async_trait]
+    impl TradeExecutor for MockTradeExecutor {
+        async fn unlock_trade(&self) -> Result<()> { Ok(()) }
+        async fn get_funds(&self) -> Result<AccountFunds> {
+            Ok(AccountFunds { power: 10000.0, total_assets: 10000.0, cash: 10000.0, market_val: 0.0, unrealized_pl: 0.0 })
+        }
+        async fn place_order(&self, _req: PlaceOrderRequest) -> Result<PlaceOrderResponse> {
+            self.placed_orders_count.fetch_add(1, Ordering::SeqCst);
+            Ok(PlaceOrderResponse { order_id: "mock_id_123".to_string(), status: "submitted".to_string() })
+        }
+    }
+
+    fn create_test_config(global_enabled: bool, symbol_enabled: bool, trade_amount: f64) -> Arc<AppConfig> {
+        let mut wl = WatchlistEntry {
+            symbol: "TEST".to_string(),
+            name: None,
+            weight: None,
+            market: "US".to_string(),
+            owner_ma_days: 120,
+            leash_ma_days: 20,
+            caution_ma_days: None,
+            deviation_basis: DeviationBasis::Owner,
+            enable: true,
+            action_overrides: None,
+            trade_enabled: Some(symbol_enabled),
+            trade_amount: Some(trade_amount),
+        };
+
+        Arc::new(AppConfig {
+            version: 1,
+            output: crate::config::OutputConfig { timezone: "UTC".to_string(), format: "md".to_string(), save_to: ".".to_string(), include_summary: false, weight_kind: Some("equal".to_string()) },
+            telegram: None,
+            futu: None,
+            trading: Some(TradingConfig { enabled: global_enabled, global_budget: 10000.0 }),
+            rules: crate::config::RulesConfig {
+                trend: crate::config::TrendConfig { lookback_days: 20, flat_threshold_pct: 0.5 },
+                deviation_bands: std::collections::BTreeMap::new(),
+                actions: std::collections::HashMap::new(),
+                bear_mode: crate::config::BearModeConfig { enabled: false, fallback_action: "".to_string(), caution_action: None, buffer_pct: Some(3.0), confirm_days: Some(5), confirm_threshold: Some(3), recover_days: Some(5), recover_threshold: Some(3) },
+            },
+            watchlist: vec![wl],
+        })
+    }
+
+    fn create_test_snapshot(state_code: &str, dog_price: f64) -> TickerSnapshot {
+        TickerSnapshot {
+            symbol: "TEST".to_string(),
+            name: "TEST".to_string(),
+            weight: 1.0,
+            reason_code: None,
+            current_date: NaiveDate::from_ymd_opt(2023, 1, 1).unwrap(),
+            dog_price,
+            owner_ma: None,
+            leash_ma: None,
+            owner_ma_slope_pct: None,
+            dev_z_score: None,
+            curvature: None,
+            confidence_score: 99,
+            trend_status: TrendStatus::Up,
+            deviation_pct: None,
+            deviation_basis_used: "owner".to_string(),
+            state_code: state_code.to_string(),
+            action_text: "".to_string(),
+            is_bear_mode_active: false,
+            is_caution_mode_active: false,
+            trend_age: 10,
+            owner_deviation_pct: None,
+            deviation_percentile: None,
+            validity: RegimeValidity::Valid,
+            history_days: 500,
+        }
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_dispatch() {
+        let config = create_test_config(true, true, 5000.0);
+        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor { placed_orders_count: AtomicUsize::new(0) }));
+        let agent = TraderAgent::new(config, mock_exec.clone());
+
+        // Test 1: Optimal signal (Should Buy)
+        let snap1 = create_test_snapshot("optimal", 100.0);
+        agent.execute_signals(&[snap1]).await.unwrap();
+        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 1);
+
+        // Test 2: Overheat signal (Should Sell)
+        let snap2 = create_test_snapshot("overheat_2", 150.0);
+        agent.execute_signals(&[snap2]).await.unwrap();
+        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 2);
+
+        // Test 3: Hold signal (Should Ignore)
+        let snap3 = create_test_snapshot("cruise", 120.0);
+        agent.execute_signals(&[snap3]).await.unwrap();
+        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 2); // Unchanged
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_disabled() {
+        // Global disabled
+        let config = create_test_config(false, true, 5000.0);
+        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor { placed_orders_count: AtomicUsize::new(0) }));
+        let agent = TraderAgent::new(config, mock_exec.clone());
+        let snap1 = create_test_snapshot("optimal", 100.0);
+        agent.execute_signals(&[snap1]).await.unwrap();
+        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 0);
     }
 }

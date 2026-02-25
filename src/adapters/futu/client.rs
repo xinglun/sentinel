@@ -55,7 +55,7 @@ impl FutuClient {
         
         sink.send((header, body)).await?;
 
-        let mut keep_alive_interval = 10;
+        let mut _keep_alive_interval = 10;
         
         if let Some(res) = stream_reader.next().await {
             match res {
