@@ -1,21 +1,29 @@
 use crate::config::AppConfig;
 use crate::core::engine::TickerSnapshot;
+use crate::core::ledger::{Ledger, TradeRecord};
 use crate::trade::trader::{OrderSide, OrderType, PlaceOrderRequest, TradeExecutor};
 use anyhow::Result;
+use chrono::Local;
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
 pub struct TraderAgent {
     config: Arc<AppConfig>,
     executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>,
+    ledger: Arc<Ledger>,
 }
 
 impl TraderAgent {
     pub fn new(
         config: Arc<AppConfig>,
         executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>,
+        ledger: Arc<Ledger>,
     ) -> Self {
-        Self { config, executor }
+        Self {
+            config,
+            executor,
+            ledger,
+        }
     }
 
     pub async fn execute_signals(&self, snapshots: &[TickerSnapshot]) -> Result<()> {
@@ -69,6 +77,11 @@ impl TraderAgent {
 
                 if trade_amount <= 0.0 {
                     println!("⚠️  [Trader] {} is trade_enabled but has no trade_amount configured. Skipping.", snap.symbol);
+                    continue;
+                }
+
+                // Phase 12 Hardening: Prevent duplicate trades for the same ticker/signal today
+                if self.ledger.has_acted_today(&snap.symbol, &snap.state_code) {
                     continue;
                 }
 
@@ -127,6 +140,17 @@ impl TraderAgent {
                                 "✅ [Trader - SUCCESS] Order placed for {}. Order ID: {}",
                                 snap.symbol, res.order_id
                             );
+
+                            // Record to ledger to prevent duplicate execution in next pulse
+                            let _ = self.ledger.record_trade(TradeRecord {
+                                date: Local::now().date_naive(),
+                                timestamp: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
+                                symbol: snap.symbol.clone(),
+                                side: side_str.to_string(),
+                                qty,
+                                price: snap.dog_price,
+                                signal: snap.state_code.clone(),
+                            });
                         }
                         Err(e) => {
                             println!(
@@ -185,7 +209,7 @@ mod tests {
         symbol_enabled: bool,
         trade_amount: f64,
     ) -> Arc<AppConfig> {
-        let mut wl = WatchlistEntry {
+        let wl = WatchlistEntry {
             symbol: "TEST".to_string(),
             name: None,
             weight: None,
@@ -272,7 +296,11 @@ mod tests {
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor {
             placed_orders_count: AtomicUsize::new(0),
         }));
-        let agent = TraderAgent::new(config, mock_exec.clone());
+        // Use a temporary directory for the ledger in tests
+        let temp_dir = std::env::temp_dir().join(format!("test_ledger_{}", std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()));
+        let _ = std::fs::create_dir_all(&temp_dir);
+        let ledger = Arc::new(Ledger::new(temp_dir));
+        let agent = TraderAgent::new(config, mock_exec.clone(), ledger);
 
         // Test 1: Optimal signal (Should Buy)
         let snap1 = create_test_snapshot("optimal", 100.0);
@@ -318,7 +346,10 @@ mod tests {
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor {
             placed_orders_count: AtomicUsize::new(0),
         }));
-        let agent = TraderAgent::new(config, mock_exec.clone());
+        let temp_dir = std::env::temp_dir().join(format!("test_ledger_disabled_{}", std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()));
+        let _ = std::fs::create_dir_all(&temp_dir);
+        let ledger = Arc::new(Ledger::new(temp_dir));
+        let agent = TraderAgent::new(config, mock_exec.clone(), ledger);
         let snap1 = create_test_snapshot("optimal", 100.0);
         agent.execute_signals(&[snap1]).await.unwrap();
         assert_eq!(

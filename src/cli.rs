@@ -9,6 +9,7 @@ use tokio::sync::Mutex;
 use crate::backtest;
 use crate::config;
 use crate::core::engine::{self, TickerSnapshot};
+use crate::core::ledger::Ledger;
 use crate::core::notify;
 use crate::core::report;
 use crate::core::trader_agent::TraderAgent;
@@ -126,8 +127,14 @@ pub async fn run() -> Result<()> {
 
                 let trader_arc: Arc<Mutex<dyn TradeExecutor + Send + Sync>> =
                     Arc::new(Mutex::new(trader));
+
+                // Initialize the persistent ledger to prevent duplicate daily trades
+                let ledger = Arc::new(Ledger::new(std::path::PathBuf::from(
+                    &app_config.output.save_to,
+                )));
+
                 let trader_agent =
-                    TraderAgent::new(Arc::new(app_config.clone()), trader_arc.clone());
+                    TraderAgent::new(Arc::new(app_config.clone()), trader_arc.clone(), ledger);
                 let rules_arc = Arc::new(app_config.get_parsed_rules());
 
                 // Keep the daemon alive and executing
