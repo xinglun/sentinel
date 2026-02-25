@@ -8,9 +8,10 @@ include_summary = true
 weight_kind = "portfolio" # portfolio, cap, risk
 
 [telegram]
-enabled = true
-bot_token = "8613115746:AAFqi8RrP6eGNKPdOmazv_kAI70CnSTnCV0"
-chat_id = "8442596122"
+enabled = false
+# bot_token 和 chat_id 建议通过环境变量(TELEGRAM_BOT_TOKEN)提供，以保障安全
+bot_token = ""
+chat_id = ""
 
 [futu]
 opend_ip = "127.0.0.1"      # Moomoo/Futu OpenD 运行的本地 IP
