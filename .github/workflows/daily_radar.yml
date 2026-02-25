@@ -91,7 +91,7 @@ jobs:
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
           echo "REPORT_DATE_JST=$(date +%Y-%m-%d)" >> $GITHUB_ENV
-          cargo run --release
+          cargo run --release -- radar
 
       - name: Freshness Gate and Output Validation
         run: |

@@ -17,3 +17,12 @@ yahoo_finance_api = "2.4"
 futures = "0.3"
 time = { version = "0.3", features = ["macros"] }
 sha2 = "0.10"
+async-trait = "0.1.89"
+prost = "0.14.3"
+bytes = "1.11.1"
+tokio-util = { version = "0.7.18", features = ["codec"] }
+byteorder = "1.5.0"
+dotenvy = "0.15.7"
+
+[build-dependencies]
+prost-build = "0.14.3"

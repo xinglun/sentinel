@@ -10,50 +10,55 @@ Stock Sentinelは、市場の変動を「物理的な観測」として捉え、
 
 ---
 
-## 🛰️ V1.2.1：Capital Dynamics Observatory (观测纪元)
-本システムは単なるテクニカル指標の集合体ではなく、市場のエネルギー状態を測定し、長期的な量化研究を可能にする「资本动力学观测站」へと進化しました。現在は**観測紀元（Observation Epoch）**に入っており、データの整合性和蓄積を最優先しています。
+## 🛰️ V1.3.0：Dual-Engine Architecture (双擎时代)
+本系统由单一的雅虎财经批处理脚本，正式进化为支持高频持久化连接的**双引擎架构**，并全面整合了 **Moomoo (Futu) OpenD** 交易网关接口。
 
-- **CAPITAL STATE（资本姿态）:** ポートフォリオ全体の「趨勢主導」か「回帰主導」かを自動判定し、最適な配分戦略を提示。
-- **5つの物理および序参量指標:**
-    - **重力強度 (Strength):** 資本の推進力（移動平均の傾き）の測定。
-    - **势能 Z-Score:** 統計的な歪みの正規化。
-    - **曲率 (Curvature):** 加速・減速によるトレンド反転の早期検知。
-    - **信心度 (Confidence):** 物理指標のベクトル一致度。
-    - **统治优势差 (Dominance Margin):** 序参量（Order Parameter）。体制の安定度を記述。
-- **三位一体（Ternary）重力モデル:** UP/FLAT/DOWN を明確に分離し、市場幅（Breadth）の真実を記録。
-- **Telemetry V3 (19-Column Schema):** 毎日の読数を 19 列の完全な状态ベクトルとして `telemetry.csv` に自動記録。
-- **Parameter Universe Isolation:** `config.toml` のハッシュ値を記録することで、パラメータ変更履歴とデータを完全に整合。
+- **Dual-Engine Routing:**
+    - **Yahoo Finance Engine**: 基于 HTTP REST 的轻量级引擎，专供 GitHub Actions 等无状态 CI 环境执行每日雷达扫盘（Daily Radar）。
+    - **Moomoo (Futu) Engine**: 专为本地/私有服务器设计的重量级交易引擎。通过 TCP Protobuf 与 OpenD 网关持久直连，支持精准的复权历史数据抓取和未来的自动化实盘下单。
+- **CLI Commands (CLI 命令分离):** 全新解耦的运行入口 `radar`, `daemon`, 和 `backtest`。
 
 ## 🚀 使用方法 (Usage)
 
-### 1. 準備
-- Rust & Cargo (Edition 2021) がインストールされていること。
-- `config.toml` を開き、自身のウォッチリストと Telegram 通知（`bot_token`, `chat_id`）を設定します。
+### 1. 环境与参数准备 (`config.toml` 与环境变量)
+- 确保系统安装了 Rust & Cargo (Edition 2021)。
+- 在 `config.toml` 中配置 `[telegram]` 的机器人信息（也可使用环境变量 `TELEGRAM_BOT_TOKEN`）。
+- **Moomoo 实盘配置**：在 `config.toml` 的 `[futu]` 块中指定基础本地网络参数：
+    - `opend_ip` 和 `opend_port`: 一般为 `127.0.0.1:11111`。
+- **隐私交易授权**：为了安全，请在您的电脑或部署环境中设置以下环境变量，而不要明文写在代码里：
+    - `FUTU_ACC_ID`: 牛牛/Moomoo 客户端内获取的真实或模拟账户 ID。
+    - `FUTU_UNLOCK_PASSWORD_MD5`: 解锁交易所需的交易密码（经过 MD5 转换后的字符串）。仅行情订阅则不需要密码。
 
-### 2. 日常の観測 (Daily Radar)
-毎日の終値確定後、以下のコマンドで現在の「資本の天気」を確認します。
+> **注意：** Moomoo OpenD 网关需要在您的电脑或服务器上独占运行并完成安全扫码验证。GitHub Actions 云端等 CI 环境将自动略过 OpenD 并降级至 Yahoo 数据源。
+
+### 2. 日常的观测 (Daily Radar)
+毎日の終値確定後、以下のコマンドで現在の「資本の天気」を確認します。通常在 GitHub Actions 夜间执行。
 ```bash
-cargo run --release
+cargo run -- radar
 ```
-- ターミナルにカラーテーブルが出力されます。
-- `./reports` に JSON, Markdown, および `telemetry.csv` が生成されます。
-- Telegram にデイリーレポートがプッシュ通知されます。
+想要在本地强制通过 Moomoo 获取行情，可追加参数：
+```bash
+cargo run -- radar --provider futu --opend 127.0.0.1:11111
+```
 
-### 3. 歴史的検証 (Backtest Mode)
+### 3. 常驻交易守护进程 (Daemon Mode)
+针对自动化交易设计的模式，一旦启动后便持久化接管 TCP 会话，自动处理 `KeepAlive` 心跳，绝不会退出。
+```bash
+cargo run -- daemon --provider futu
+```
+
+### 4. 歴史的検証 (Backtest Mode)
 過去のデータを用いて、システムの「目盛り（Calibration）」と「アルファ分離」を検証します。
 ```bash
-cargo run --release -- backtest
+cargo run -- backtest
 ```
 - `./backtest/summary.md` に以下の詳細レポートが出力されます。
-    - **Calibration Error:** 確率予測の正確性。
-    - **Alpha Separation:** トレンド対回帰の期待値の差。
-    - **Transition Matrix:** 状態遷移の確率統計。
 
 ## 📁 ドキュメント (Documentation)
 - [要件と機能の定義 (PRD)](./docs/PRD.md) - システムの鉄則と核心要件
-- [システムアーキテクチャ設計](./docs/architecture_design.md) - 内部構造とデータフロー
-- [戦略設計哲学と評価](./docs/strategy_philosophy.md) - 「飼い主-犬」モデルと掃参（Sweep）プロトコル
-- [GitHub Actions 托管运行说明书](./docs/hosting_spec.md) - 将望遠鏡放进轨道
+- [システムアーキテクチャ設計](./docs/architecture_design.md) - 内部结构和数据流转
+- [战略设计哲学与评价](./docs/strategy_philosophy.md) - 「饲主-狗」模型
+- [GitHub Actions 托管运行说明书](./docs/hosting_spec.md) - 将望远镜放进轨道
 
 ---
 

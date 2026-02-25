@@ -12,6 +12,14 @@ enabled = true
 bot_token = "8613115746:AAFqi8RrP6eGNKPdOmazv_kAI70CnSTnCV0"
 chat_id = "8442596122"
 
+[futu]
+opend_ip = "127.0.0.1"      # Moomoo/Futu OpenD 运行的本地 IP
+opend_port = 11111          # Moomoo/Futu OpenD 使用的 TCP 端口
+trd_env = 1                 # 0: 真实实盘 (Real), 1: 模拟炒股环境 (Simulate)
+market = 2                  # 交易市场 (1: HK, 2: US, 3: SH, 4: SZ)
+# 注意：交易账户 ID 和交易解锁密码应通过环境变量 FUTU_ACC_ID 和 FUTU_UNLOCK_PASSWORD_MD5 配置，防止泄露。
+
+
 
 [rules.trend]
 lookback_days = 20
