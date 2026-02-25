@@ -297,7 +297,13 @@ mod tests {
             placed_orders_count: AtomicUsize::new(0),
         }));
         // Use a temporary directory for the ledger in tests
-        let temp_dir = std::env::temp_dir().join(format!("test_ledger_{}", std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()));
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_ledger_{}",
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
         let _ = std::fs::create_dir_all(&temp_dir);
         let ledger = Arc::new(Ledger::new(temp_dir));
         let agent = TraderAgent::new(config, mock_exec.clone(), ledger);
@@ -346,7 +352,13 @@ mod tests {
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor {
             placed_orders_count: AtomicUsize::new(0),
         }));
-        let temp_dir = std::env::temp_dir().join(format!("test_ledger_disabled_{}", std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_nanos()));
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_ledger_disabled_{}",
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .unwrap()
+                .as_nanos()
+        ));
         let _ = std::fs::create_dir_all(&temp_dir);
         let ledger = Arc::new(Ledger::new(temp_dir));
         let agent = TraderAgent::new(config, mock_exec.clone(), ledger);
