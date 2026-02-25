@@ -23,9 +23,7 @@ pub struct S2c {
     pub security: super::qot_common::Security,
     /// 对应类别的持股变化列表（最多返回前100大股东的变化）
     #[prost(message, repeated, tag = "2")]
-    pub holding_change_list: ::prost::alloc::vec::Vec<
-        super::qot_common::ShareHoldingChange,
-    >,
+    pub holding_change_list: ::prost::alloc::vec::Vec<super::qot_common::ShareHoldingChange>,
 }
 #[derive(Clone, PartialEq, Eq, Hash, ::prost::Message)]
 pub struct Request {

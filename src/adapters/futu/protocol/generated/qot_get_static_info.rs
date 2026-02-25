@@ -17,9 +17,7 @@ pub struct C2s {
 pub struct S2c {
     /// 静态信息
     #[prost(message, repeated, tag = "1")]
-    pub static_info_list: ::prost::alloc::vec::Vec<
-        super::qot_common::SecurityStaticInfo,
-    >,
+    pub static_info_list: ::prost::alloc::vec::Vec<super::qot_common::SecurityStaticInfo>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Request {

@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Result};
 use serde::Deserialize;
-use std::collections::{HashMap, BTreeMap};
+use std::collections::{BTreeMap, HashMap};
 use std::fs;
 use std::path::Path;
 
@@ -40,9 +40,9 @@ pub struct TelegramConfig {
 pub struct FutuConfig {
     pub opend_ip: String,
     pub opend_port: u16,
-    pub trd_env: u32,       // 0: Real, 1: Simulate
-    pub market: u32,        // 1: HK, 2: US, etc.
-    pub acc_id: Option<u64>, // Loaded from config or ENV
+    pub trd_env: u32,                        // 0: Real, 1: Simulate
+    pub market: u32,                         // 1: HK, 2: US, etc.
+    pub acc_id: Option<u64>,                 // Loaded from config or ENV
     pub unlock_password_md5: Option<String>, // Loaded from ENV
 }
 
@@ -116,12 +116,12 @@ impl AppConfig {
         // Variables already present in the environment will not be overridden.
         dotenvy::dotenv().ok();
 
-        let content = fs::read_to_string(path)
-            .map_err(|e| anyhow!("Failed to read config file: {}", e))?;
-            
-        let mut config: AppConfig = toml::from_str(&content)
-            .map_err(|e| anyhow!("Failed to parse config file: {}", e))?;
-            
+        let content =
+            fs::read_to_string(path).map_err(|e| anyhow!("Failed to read config file: {}", e))?;
+
+        let mut config: AppConfig =
+            toml::from_str(&content).map_err(|e| anyhow!("Failed to parse config file: {}", e))?;
+
         // Environment variable overrides for Telegram
         if let Some(ref mut tg) = config.telegram {
             if let Ok(token) = std::env::var("TELEGRAM_BOT_TOKEN") {
@@ -131,7 +131,10 @@ impl AppConfig {
             if let Ok(chat_id) = std::env::var("TELEGRAM_CHAT_ID") {
                 tg.chat_id = chat_id;
             }
-        } else if let (Ok(token), Ok(chat_id)) = (std::env::var("TELEGRAM_BOT_TOKEN"), std::env::var("TELEGRAM_CHAT_ID")) {
+        } else if let (Ok(token), Ok(chat_id)) = (
+            std::env::var("TELEGRAM_BOT_TOKEN"),
+            std::env::var("TELEGRAM_CHAT_ID"),
+        ) {
             config.telegram = Some(TelegramConfig {
                 enabled: true,
                 bot_token: token,
@@ -158,19 +161,21 @@ impl AppConfig {
                 ));
             }
         }
-        
+
         Ok(config)
     }
 
     pub fn get_parsed_rules(&self) -> ParsedRules {
-        let mut bands: Vec<(String, f64)> = self.rules.deviation_bands
+        let mut bands: Vec<(String, f64)> = self
+            .rules
+            .deviation_bands
             .iter()
             .map(|(k, v)| (k.clone(), *v))
             .collect();
-            
+
         // Sort thresholds in descending order
         bands.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
-        
+
         ParsedRules {
             trend: self.rules.trend.clone(),
             sorted_bands: bands,
@@ -229,7 +234,7 @@ mod tests {
             deviation_basis = "owner"
             enable = true
         "#;
-        
+
         let config: AppConfig = toml::from_str(toml_str).expect("should parse");
         assert_eq!(config.version, 1);
         assert_eq!(config.watchlist[0].symbol, "TSLA");

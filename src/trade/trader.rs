@@ -3,11 +3,11 @@ use async_trait::async_trait;
 
 #[derive(Debug, Clone)]
 pub struct AccountFunds {
-    pub power: f64,               // 购买力
-    pub total_assets: f64,        // 总资产
-    pub cash: f64,                // 现金
-    pub market_val: f64,          // 证券市值
-    pub unrealized_pl: f64,       // 浮动盈亏
+    pub power: f64,         // 购买力
+    pub total_assets: f64,  // 总资产
+    pub cash: f64,          // 现金
+    pub market_val: f64,    // 证券市值
+    pub unrealized_pl: f64, // 浮动盈亏
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -24,11 +24,11 @@ pub enum OrderType {
 
 #[derive(Debug, Clone)]
 pub struct PlaceOrderRequest {
-    pub symbol: String,           // ticker (e.g., US.TSLA)
-    pub side: OrderSide,          
-    pub order_type: OrderType,    
-    pub qty: f64,                 // 数量
-    pub price: Option<f64>,       // 价格 (如果是 limit order则需)
+    pub symbol: String, // ticker (e.g., US.TSLA)
+    pub side: OrderSide,
+    pub order_type: OrderType,
+    pub qty: f64,           // 数量
+    pub price: Option<f64>, // 价格 (如果是 limit order则需)
 }
 
 #[derive(Debug, Clone)]

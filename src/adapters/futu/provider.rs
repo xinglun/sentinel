@@ -1,15 +1,17 @@
 use anyhow::Result;
 use async_trait::async_trait;
-use time::OffsetDateTime;
-use std::sync::Arc;
-use prost::Message;
 use chrono::DateTime;
+use prost::Message;
+use std::sync::Arc;
+use time::OffsetDateTime;
 
+use crate::adapters::futu::client::FutuClient;
+use crate::adapters::futu::protocol::generated::qot_common::{
+    KlType, QotMarket, RehabType, Security,
+};
+use crate::adapters::futu::protocol::generated::qot_get_history_kl::{C2s, Request, Response};
 use crate::data::provider::MarketDataProvider;
 use crate::data::yahoo_provider::{DailyBar, TickerHistory};
-use crate::adapters::futu::client::FutuClient;
-use crate::adapters::futu::protocol::generated::qot_common::{Security, QotMarket, RehabType, KlType};
-use crate::adapters::futu::protocol::generated::qot_get_history_kl::{Request, C2s, Response};
 
 pub struct FutuProvider {
     client: Arc<FutuClient>,
@@ -52,21 +54,30 @@ impl FutuProvider {
 #[async_trait]
 impl MarketDataProvider for FutuProvider {
     async fn fetch_history(
-        &self, 
-        symbol: &str, 
-        start_date: Option<OffsetDateTime>, 
-        end_date: Option<OffsetDateTime>
+        &self,
+        symbol: &str,
+        start_date: Option<OffsetDateTime>,
+        end_date: Option<OffsetDateTime>,
     ) -> Result<TickerHistory> {
-        
         let security = Self::parse_symbol(symbol);
-        
+
         let begin_time = match start_date {
-            Some(dt) => format!("{:04}-{:02}-{:02} 00:00:00", dt.year(), dt.month() as u8, dt.day()),
+            Some(dt) => format!(
+                "{:04}-{:02}-{:02} 00:00:00",
+                dt.year(),
+                dt.month() as u8,
+                dt.day()
+            ),
             None => "1970-01-01 00:00:00".to_string(),
         };
 
         let end_time = match end_date {
-            Some(dt) => format!("{:04}-{:02}-{:02} 23:59:59", dt.year(), dt.month() as u8, dt.day()),
+            Some(dt) => format!(
+                "{:04}-{:02}-{:02} 23:59:59",
+                dt.year(),
+                dt.month() as u8,
+                dt.day()
+            ),
             None => "2038-01-01 00:00:00".to_string(), // reasonably far future
         };
 
@@ -77,9 +88,9 @@ impl MarketDataProvider for FutuProvider {
                 security: security.clone(),
                 begin_time,
                 end_time,
-                max_ack_kl_num: Some(1000), 
+                max_ack_kl_num: Some(1000),
                 need_kl_fields_flag: None, // return all fields
-            }
+            },
         };
 
         let raw_res = self.client.send_request(3103, &req).await?;
@@ -89,8 +100,10 @@ impl MarketDataProvider for FutuProvider {
             anyhow::bail!("Futu HistoryKL failed: {:?}", res.ret_msg);
         }
 
-        let s2c = res.s2c.ok_or_else(|| anyhow::anyhow!("Missing s2c payload"))?;
-        
+        let s2c = res
+            .s2c
+            .ok_or_else(|| anyhow::anyhow!("Missing s2c payload"))?;
+
         // Futu API returns oldest first
         let mut bars = Vec::new();
         let mut latest_ts = None;
@@ -102,9 +115,9 @@ impl MarketDataProvider for FutuProvider {
                         .map(|dt| dt.naive_utc())
                 })
                 .unwrap_or_default();
-                
+
             latest_ts = Some(dt.and_utc().timestamp());
-            
+
             bars.push(DailyBar {
                 date: dt.date(),
                 close: kline.close_price.unwrap_or(0.0),

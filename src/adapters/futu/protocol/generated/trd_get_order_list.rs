@@ -6,9 +6,7 @@ pub struct C2s {
     pub header: super::trd_common::TrdHeader,
     /// 过滤条件
     #[prost(message, optional, tag = "2")]
-    pub filter_conditions: ::core::option::Option<
-        super::trd_common::TrdFilterConditions,
-    >,
+    pub filter_conditions: ::core::option::Option<super::trd_common::TrdFilterConditions>,
     /// 需要过滤的订单状态列表
     #[prost(int32, repeated, packed = "false", tag = "3")]
     pub filter_status_list: ::prost::alloc::vec::Vec<i32>,

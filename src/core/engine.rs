@@ -57,26 +57,40 @@ pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<
     Some(sum / days as f64)
 }
 
-pub fn calculate_std_dev(bars: &[DailyBar], days: usize, end_index: usize, mean: f64) -> Option<f64> {
+pub fn calculate_std_dev(
+    bars: &[DailyBar],
+    days: usize,
+    end_index: usize,
+    mean: f64,
+) -> Option<f64> {
     if days == 0 || end_index + 1 < days {
         return None;
     }
     let start_index = end_index + 1 - days;
     let slice = &bars[start_index..=end_index];
-    let variance: f64 = slice.iter().map(|b| {
-        let diff = b.close - mean;
-        diff * diff
-    }).sum::<f64>() / days as f64;
+    let variance: f64 = slice
+        .iter()
+        .map(|b| {
+            let diff = b.close - mean;
+            diff * diff
+        })
+        .sum::<f64>()
+        / days as f64;
     Some(variance.sqrt())
 }
 
-pub fn detect_trend(bars: &[DailyBar], ma_days: usize, lookback: usize, flat_threshold_pct: f64) -> TrendStatus {
+pub fn detect_trend(
+    bars: &[DailyBar],
+    ma_days: usize,
+    lookback: usize,
+    flat_threshold_pct: f64,
+) -> TrendStatus {
     if bars.is_empty() {
         return TrendStatus::Unknown;
     }
     let current_idx = bars.len() - 1;
     let current_ma = calculate_ma(bars, ma_days, current_idx);
-    
+
     if current_idx < lookback {
         return TrendStatus::Unknown;
     }
@@ -96,14 +110,18 @@ pub fn detect_trend(bars: &[DailyBar], ma_days: usize, lookback: usize, flat_thr
             } else {
                 TrendStatus::Flat
             }
-        },
+        }
         _ => TrendStatus::Unknown,
     }
 }
 
-pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules: &ParsedRules) -> TickerSnapshot {
+pub fn evaluate_snapshot(
+    history: &TickerHistory,
+    entry: &WatchlistEntry,
+    rules: &ParsedRules,
+) -> TickerSnapshot {
     let name = entry.name.clone().unwrap_or_else(|| entry.symbol.clone());
-    
+
     if history.bars.is_empty() {
         return TickerSnapshot {
             symbol: entry.symbol.clone(),
@@ -136,17 +154,22 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     let last_idx = history.bars.len() - 1;
     let current_bar = &history.bars[last_idx];
     let dog_price = current_bar.close;
-    
+
     let owner_ma = calculate_ma(&history.bars, entry.owner_ma_days, last_idx);
     let leash_ma = calculate_ma(&history.bars, entry.leash_ma_days, last_idx);
-    
-    let trend_status = detect_trend(&history.bars, entry.owner_ma_days, rules.trend.lookback_days, rules.trend.flat_threshold_pct);
-    
+
+    let trend_status = detect_trend(
+        &history.bars,
+        entry.owner_ma_days,
+        rules.trend.lookback_days,
+        rules.trend.flat_threshold_pct,
+    );
+
     let basis_val = match entry.deviation_basis {
         DeviationBasis::Owner => owner_ma,
         DeviationBasis::Leash => leash_ma,
     };
-    
+
     let deviation_pct = if let Some(b) = basis_val {
         if b != 0.0 {
             Some((dog_price - b) / b * 100.0)
@@ -172,9 +195,13 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     let mut deviation_percentile = None;
     if let Some(current_dev) = owner_deviation_pct {
         let lookback_bars = 1260; // Approx 5 years of trading days
-        let start_sim = if last_idx > lookback_bars { last_idx - lookback_bars } else { 0 };
+        let start_sim = if last_idx > lookback_bars {
+            last_idx - lookback_bars
+        } else {
+            0
+        };
         let mut historical_devs = Vec::with_capacity(last_idx - start_sim + 1);
-        
+
         for i in start_sim..=last_idx {
             if let Some(ma) = calculate_ma(&history.bars, entry.owner_ma_days, i) {
                 if ma != 0.0 {
@@ -183,11 +210,12 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 }
             }
         }
-        
+
         // Phase 37: Institutional Audit - Min sample requirement for statistical validity
         if historical_devs.len() >= 500 {
             let count_lower = historical_devs.iter().filter(|&&d| d < current_dev).count();
-            deviation_percentile = Some((count_lower as f64 / historical_devs.len() as f64) * 100.0);
+            deviation_percentile =
+                Some((count_lower as f64 / historical_devs.len() as f64) * 100.0);
         }
     }
 
@@ -202,7 +230,13 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 rules.trend.lookback_days,
                 rules.trend.flat_threshold_pct,
             );
-            if matches!((&current_trend, &past_trend), (TrendStatus::Up, TrendStatus::Up) | (TrendStatus::Down, TrendStatus::Down) | (TrendStatus::Flat, TrendStatus::Flat) | (TrendStatus::Unknown, TrendStatus::Unknown)) {
+            if matches!(
+                (&current_trend, &past_trend),
+                (TrendStatus::Up, TrendStatus::Up)
+                    | (TrendStatus::Down, TrendStatus::Down)
+                    | (TrendStatus::Flat, TrendStatus::Flat)
+                    | (TrendStatus::Unknown, TrendStatus::Unknown)
+            ) {
                 trend_age += 1;
             } else {
                 break;
@@ -214,7 +248,10 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
     let mut owner_ma_slope_pct = None;
     if last_idx >= rules.trend.lookback_days {
         let past_idx = last_idx - rules.trend.lookback_days;
-        if let (Some(curr_ma), Some(past_ma)) = (owner_ma, calculate_ma(&history.bars, entry.owner_ma_days, past_idx)) {
+        if let (Some(curr_ma), Some(past_ma)) = (
+            owner_ma,
+            calculate_ma(&history.bars, entry.owner_ma_days, past_idx),
+        ) {
             if past_ma != 0.0 {
                 owner_ma_slope_pct = Some((curr_ma - past_ma) / past_ma * 100.0);
             }
@@ -239,7 +276,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         if let (Some(om_curr), Some(om_p1), Some(om_p2)) = (
             owner_ma,
             calculate_ma(&history.bars, entry.owner_ma_days, p1_idx),
-            calculate_ma(&history.bars, entry.owner_ma_days, p2_idx)
+            calculate_ma(&history.bars, entry.owner_ma_days, p2_idx),
         ) {
             let slope_current = om_curr - om_p1;
             let slope_past = om_p1 - om_p2;
@@ -249,7 +286,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
     let mut state_code = "UNKNOWN".to_string();
     let mut action_text = "データ不足または計算異常".to_string();
-    
+
     if let Some(dev) = deviation_pct {
         let mut found = false;
         for (band_name, threshold) in &rules.sorted_bands {
@@ -269,7 +306,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 break;
             }
         }
-        
+
         if !found {
             if let Some((lowest_band, _)) = rules.sorted_bands.last() {
                 state_code = lowest_band.clone();
@@ -285,9 +322,9 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
             }
         }
     }
-    
-    let mut reason_code: Option<String> = None;    
-    
+
+    let mut reason_code: Option<String> = None;
+
     // Extreme Fear Exemption: 极度恐慌时直接豁免降级，尊重均值回归抄底
     let is_extreme_fear = state_code.starts_with("fear");
 
@@ -309,7 +346,10 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 let confirm_days = rules.bear_mode.confirm_days.unwrap_or(1);
                 let confirm_threshold = rules.bear_mode.confirm_threshold.unwrap_or(1);
                 let recover_days = rules.bear_mode.recover_days.unwrap_or(confirm_days);
-                let recover_threshold = rules.bear_mode.recover_threshold.unwrap_or(confirm_threshold);
+                let recover_threshold = rules
+                    .bear_mode
+                    .recover_threshold
+                    .unwrap_or(confirm_threshold);
 
                 // Stateless 60-day sliding window simulation to detect structural brokenness crossovers
                 let mut is_structurally_broken = false;
@@ -318,7 +358,11 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 for step_idx in sim_start..=last_idx {
                     if !is_structurally_broken {
                         // Looking for breakdown
-                        let lookback_start = if step_idx >= confirm_days { step_idx - confirm_days + 1 } else { 0 };
+                        let lookback_start = if step_idx >= confirm_days {
+                            step_idx - confirm_days + 1
+                        } else {
+                            0
+                        };
                         let mut breakdown_count = 0;
                         for i in lookback_start..=step_idx {
                             let h_leash = calculate_ma(&history.bars, entry.leash_ma_days, i);
@@ -336,7 +380,11 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                         }
                     } else {
                         // Looking for recovery
-                        let lookback_start = if step_idx >= recover_days { step_idx - recover_days + 1 } else { 0 };
+                        let lookback_start = if step_idx >= recover_days {
+                            step_idx - recover_days + 1
+                        } else {
+                            0
+                        };
                         let mut recover_count = 0;
                         for i in lookback_start..=step_idx {
                             let h_leash = calculate_ma(&history.bars, entry.leash_ma_days, i);
@@ -357,16 +405,22 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
                 // If confirmed breakdown AND CAUTION_MA is pointing DOWN
                 if is_structurally_broken && matches!(caution_ma_trend, TrendStatus::Down) {
-                    reason_code = Some(format!("[B{} < 0.97 x{}/{}]", caution_days, confirm_threshold, confirm_days));
+                    reason_code = Some(format!(
+                        "[B{} < 0.97 x{}/{}]",
+                        caution_days, confirm_threshold, confirm_days
+                    ));
                     if is_extreme_fear {
                         state_code = "fear_downtrend".to_string();
-                        action_text = "【防御 (DEFEND)】：长期趋势崩坏中的恐慌。严禁伸手接飞刀 (Cash 80%+)".to_string();
+                        action_text =
+                            "【防御 (DEFEND)】：长期趋势崩坏中的恐慌。严禁伸手接飞刀 (Cash 80%+)"
+                                .to_string();
                     } else {
                         state_code = "DEFEND".to_string();
                         action_text = rules.bear_mode.fallback_action.clone();
                     }
                 } else {
-                    let is_structurally_safe = !is_structurally_broken && !matches!(caution_ma_trend, TrendStatus::Down);
+                    let is_structurally_safe =
+                        !is_structurally_broken && !matches!(caution_ma_trend, TrendStatus::Down);
 
                     if is_extreme_fear {
                         if !is_structurally_safe {
@@ -377,8 +431,9 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                         // else safe, keep fear_1, reason_code stays whatever dev triggered it
                     } else {
                         reason_code = Some(format!("[C{} SAFE]", caution_days));
-                        action_text = rules.bear_mode.caution_action.clone()
-                            .unwrap_or_else(|| "【警戒】：长期趋势维持。定投或小幅加仓".to_string());
+                        action_text = rules.bear_mode.caution_action.clone().unwrap_or_else(|| {
+                            "【警戒】：长期趋势维持。定投或小幅加仓".to_string()
+                        });
                         state_code = "CAUTION".to_string();
                     }
                 }
@@ -387,7 +442,9 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
                 reason_code = Some("[NO_CMA]".to_string());
                 if is_extreme_fear {
                     state_code = "fear_downtrend".to_string();
-                    action_text = "【防御 (DEFEND)】：长期趋势不明中的恐慌。严禁伸手接飞刀 (Cash 80%+)".to_string();
+                    action_text =
+                        "【防御 (DEFEND)】：长期趋势不明中的恐慌。严禁伸手接飞刀 (Cash 80%+)"
+                            .to_string();
                 } else {
                     state_code = "DEFEND".to_string();
                     action_text = rules.bear_mode.fallback_action.clone();
@@ -398,50 +455,116 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 
     // --- Phase 10: Confidence Calibration (Baseline Adjustments) ---
     // A heuristic based on the convergence of the physics variables
-    let mut confidence_score; 
-    
+    let mut confidence_score;
+
     match state_code.as_str() {
         "DEFEND" | "fear_downtrend" => {
             // High confidence if actively accelerating downward and heavily abnormal
             confidence_score = 70; // Baseline for clear structural breaks
-            if let Some(z) = dev_z_score { if z < -2.0 { confidence_score += 15; } else if z < -1.0 { confidence_score += 10; } }
-            if let Some(slope) = owner_ma_slope_pct { if slope < -0.5 { confidence_score += 10; } }
-            if let Some(curv) = curvature { if curv < 0.0 { confidence_score += 10; } }
-        },
+            if let Some(z) = dev_z_score {
+                if z < -2.0 {
+                    confidence_score += 15;
+                } else if z < -1.0 {
+                    confidence_score += 10;
+                }
+            }
+            if let Some(slope) = owner_ma_slope_pct {
+                if slope < -0.5 {
+                    confidence_score += 10;
+                }
+            }
+            if let Some(curv) = curvature {
+                if curv < 0.0 {
+                    confidence_score += 10;
+                }
+            }
+        }
         "CAUTION" => {
             // Medium baseline, relies on physical convergence to reach high confidence
             confidence_score = 60;
-            if let Some(slope) = owner_ma_slope_pct { if slope > 0.0 { confidence_score += 20; } }
-            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 10; } }
-            if let Some(z) = dev_z_score { if z > -1.5 { confidence_score += 10; } }
-        },
-        state if state.starts_with("optimal") || state.starts_with("cruise") || state.starts_with("pullback") => {
+            if let Some(slope) = owner_ma_slope_pct {
+                if slope > 0.0 {
+                    confidence_score += 20;
+                }
+            }
+            if let Some(curv) = curvature {
+                if curv > 0.0 {
+                    confidence_score += 10;
+                }
+            }
+            if let Some(z) = dev_z_score {
+                if z > -1.5 {
+                    confidence_score += 10;
+                }
+            }
+        }
+        state
+            if state.starts_with("optimal")
+                || state.starts_with("cruise")
+                || state.starts_with("pullback") =>
+        {
             // These are clean "system is working" states. Default shouldn't be 50.
             confidence_score = 75; // Baseline for standard upward/neutral trends
-            if let Some(slope) = owner_ma_slope_pct { if slope > 0.5 { confidence_score += 10; } }
-            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 10; } }
-            if let Some(z) = dev_z_score { if z > -0.5 && z < 1.0 { confidence_score += 10; } }
-        },
+            if let Some(slope) = owner_ma_slope_pct {
+                if slope > 0.5 {
+                    confidence_score += 10;
+                }
+            }
+            if let Some(curv) = curvature {
+                if curv > 0.0 {
+                    confidence_score += 10;
+                }
+            }
+            if let Some(z) = dev_z_score {
+                if z > -0.5 && z < 1.0 {
+                    confidence_score += 10;
+                }
+            }
+        }
         state if state.starts_with("overheat") => {
             confidence_score = 60;
             // High confidence if actively accelerating upward and statistically absurd
-            if let Some(z) = dev_z_score { if z > 2.0 { confidence_score += 20; } else if z > 1.0 { confidence_score += 10; } }
-            if let Some(slope) = owner_ma_slope_pct { if slope > 1.0 { confidence_score += 10; } }
-            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 10; } }
-        },
+            if let Some(z) = dev_z_score {
+                if z > 2.0 {
+                    confidence_score += 20;
+                } else if z > 1.0 {
+                    confidence_score += 10;
+                }
+            }
+            if let Some(slope) = owner_ma_slope_pct {
+                if slope > 1.0 {
+                    confidence_score += 10;
+                }
+            }
+            if let Some(curv) = curvature {
+                if curv > 0.0 {
+                    confidence_score += 10;
+                }
+            }
+        }
         state if state.starts_with("fear") => {
             // Standard fear (safe fear, buying dip). High confidence if decelerating (curvature > 0)
             confidence_score = 60;
-            if let Some(curv) = curvature { if curv > 0.0 { confidence_score += 20; } }
-            if let Some(z) = dev_z_score { if z < -2.0 { confidence_score += 15; } }
-        },
+            if let Some(curv) = curvature {
+                if curv > 0.0 {
+                    confidence_score += 20;
+                }
+            }
+            if let Some(z) = dev_z_score {
+                if z < -2.0 {
+                    confidence_score += 15;
+                }
+            }
+        }
         _ => {
             confidence_score = 60; // base fallback
         }
     }
-    
+
     // Cap at 99
-    if confidence_score > 99 { confidence_score = 99; }
+    if confidence_score > 99 {
+        confidence_score = 99;
+    }
 
     // Phase 4.2 Institutional Audit: Granular Forming Stages
     // FORMING_EARLY: < 150 trading days history
@@ -453,7 +576,8 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         validity = RegimeValidity::FormingLate;
     }
 
-    let is_any_forming = validity == RegimeValidity::FormingEarly || validity == RegimeValidity::FormingLate;
+    let is_any_forming =
+        validity == RegimeValidity::FormingEarly || validity == RegimeValidity::FormingLate;
 
     let mut snapshot = TickerSnapshot {
         symbol: entry.symbol.clone(),
@@ -476,14 +600,26 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
         is_bear_mode_active: false, // Placeholder, will be computed in main
         is_caution_mode_active: false,
         trend_age,
-        owner_deviation_pct: if is_any_forming { None } else { owner_deviation_pct },
-        deviation_percentile: if is_any_forming { None } else { deviation_percentile },
+        owner_deviation_pct: if is_any_forming {
+            None
+        } else {
+            owner_deviation_pct
+        },
+        deviation_percentile: if is_any_forming {
+            None
+        } else {
+            deviation_percentile
+        },
         validity: validity.clone(),
         history_days,
     };
 
     if is_any_forming {
-        snapshot.state_code = if validity == RegimeValidity::FormingEarly { "FORMING_EARLY".to_string() } else { "FORMING_LATE".to_string() };
+        snapshot.state_code = if validity == RegimeValidity::FormingEarly {
+            "FORMING_EARLY".to_string()
+        } else {
+            "FORMING_LATE".to_string()
+        };
         if let Some(act) = rules.actions.get("regime_forming") {
             snapshot.action_text = act.clone();
         } else {
@@ -505,7 +641,7 @@ pub fn evaluate_snapshot(history: &TickerHistory, entry: &WatchlistEntry, rules:
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::{RulesConfig, TrendConfig, BearModeConfig};
+    use crate::config::{BearModeConfig, RulesConfig, TrendConfig};
     use chrono::NaiveDate;
     use std::collections::{BTreeMap, HashMap};
 
@@ -528,16 +664,16 @@ mod tests {
         // Continuous upward slope
         let prices: Vec<f64> = (1..=30).map(|x| x as f64).collect();
         let bars = make_test_bars(&prices);
-        
+
         let status = detect_trend(&bars, 5, 10, 0.5);
         assert_eq!(status, TrendStatus::Up);
-        
+
         // Continuous downward slope
         let prices_down: Vec<f64> = (1..=30).rev().map(|x| x as f64).collect();
         let bars_down = make_test_bars(&prices_down);
         let status_down = detect_trend(&bars_down, 5, 10, 0.5);
         assert_eq!(status_down, TrendStatus::Down);
-        
+
         // Flat market
         let prices_flat: Vec<f64> = vec![100.0; 30];
         let bars_flat = make_test_bars(&prices_flat);
@@ -548,18 +684,21 @@ mod tests {
     #[test]
     fn test_regime_validity() {
         let rules = ParsedRules {
-            trend: TrendConfig { lookback_days: 20, flat_threshold_pct: 0.5 },
+            trend: TrendConfig {
+                lookback_days: 20,
+                flat_threshold_pct: 0.5,
+            },
             sorted_bands: vec![("optimal".to_string(), -5.0)],
             actions: HashMap::new(),
-            bear_mode: BearModeConfig { 
-                enabled: false, 
-                fallback_action: "DEFEND".to_string(), 
-                caution_action: None, 
-                buffer_pct: Some(3.0), 
-                confirm_days: Some(5), 
+            bear_mode: BearModeConfig {
+                enabled: false,
+                fallback_action: "DEFEND".to_string(),
+                caution_action: None,
+                buffer_pct: Some(3.0),
+                confirm_days: Some(5),
                 confirm_threshold: Some(3),
                 recover_days: Some(5),
-                recover_threshold: Some(3)
+                recover_threshold: Some(3),
             },
         };
 
@@ -580,20 +719,35 @@ mod tests {
 
         // Early Forming (< 150 days)
         let prices = vec![100.0; 100];
-        let hist = TickerHistory { symbol: "TEST".to_string(), bars: make_test_bars(&prices), total_trading_days: 100, latest_quote_timestamp: None };
+        let hist = TickerHistory {
+            symbol: "TEST".to_string(),
+            bars: make_test_bars(&prices),
+            total_trading_days: 100,
+            latest_quote_timestamp: None,
+        };
         let snap = evaluate_snapshot(&hist, &entry, &rules);
         assert_eq!(snap.validity, RegimeValidity::FormingEarly);
         assert_eq!(snap.state_code, "FORMING_EARLY");
 
         // Late Forming (< 400 days)
         let prices2 = vec![100.0; 250];
-        let hist2 = TickerHistory { symbol: "TEST".to_string(), bars: make_test_bars(&prices2), total_trading_days: 250, latest_quote_timestamp: None };
+        let hist2 = TickerHistory {
+            symbol: "TEST".to_string(),
+            bars: make_test_bars(&prices2),
+            total_trading_days: 250,
+            latest_quote_timestamp: None,
+        };
         let snap2 = evaluate_snapshot(&hist2, &entry, &rules);
         assert_eq!(snap2.validity, RegimeValidity::FormingLate);
-        
+
         // Valid (> 400 days)
         let prices3 = vec![100.0; 450];
-        let hist3 = TickerHistory { symbol: "TEST".to_string(), bars: make_test_bars(&prices3), total_trading_days: 450, latest_quote_timestamp: None };
+        let hist3 = TickerHistory {
+            symbol: "TEST".to_string(),
+            bars: make_test_bars(&prices3),
+            total_trading_days: 450,
+            latest_quote_timestamp: None,
+        };
         let snap3 = evaluate_snapshot(&hist3, &entry, &rules);
         assert_eq!(snap3.validity, RegimeValidity::Valid);
     }

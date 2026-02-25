@@ -1,7 +1,7 @@
+use crate::config::TelegramConfig;
 use anyhow::{anyhow, Result};
 use reqwest::Client;
 use serde::Serialize;
-use crate::config::TelegramConfig;
 
 #[derive(Serialize)]
 struct TelegramPayload {
@@ -24,10 +24,13 @@ pub async fn send_telegram_message(config: &TelegramConfig, markdown_text: &str)
 
     // Telegram's MarkdownV2 requires escaping specific characters
     // For simplicity of this MVP, we will use 'Markdown' (v1) which is more forgiving
-    // but we still need to be careful. If HTML is preferred, let me know. 
+    // but we still need to be careful. If HTML is preferred, let me know.
     // We'll use the basic `Markdown` parse_mode for now.
-    
-    let url = format!("https://api.telegram.org/bot{}/sendMessage", config.bot_token);
+
+    let url = format!(
+        "https://api.telegram.org/bot{}/sendMessage",
+        config.bot_token
+    );
     let payload = TelegramPayload {
         chat_id: config.chat_id.clone(),
         text: markdown_text.to_string(),
@@ -36,7 +39,8 @@ pub async fn send_telegram_message(config: &TelegramConfig, markdown_text: &str)
     };
 
     let client = Client::new();
-    let res = client.post(&url)
+    let res = client
+        .post(&url)
         .json(&payload)
         .send()
         .await
@@ -47,6 +51,9 @@ pub async fn send_telegram_message(config: &TelegramConfig, markdown_text: &str)
         return Err(anyhow!("Telegram API returned an error: {}", err_text));
     }
 
-    println!("✅ Telegram notification successfully sent to: {}", config.chat_id);
+    println!(
+        "✅ Telegram notification successfully sent to: {}",
+        config.chat_id
+    );
     Ok(())
 }

@@ -1,6 +1,6 @@
 use crate::config::AppConfig;
 use crate::core::engine::TickerSnapshot;
-use crate::trade::trader::{TradeExecutor, OrderSide, OrderType, PlaceOrderRequest};
+use crate::trade::trader::{OrderSide, OrderType, PlaceOrderRequest, TradeExecutor};
 use anyhow::Result;
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -11,7 +11,10 @@ pub struct TraderAgent {
 }
 
 impl TraderAgent {
-    pub fn new(config: Arc<AppConfig>, executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>) -> Self {
+    pub fn new(
+        config: Arc<AppConfig>,
+        executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>,
+    ) -> Self {
         Self { config, executor }
     }
 
@@ -29,7 +32,10 @@ impl TraderAgent {
             return Ok(());
         }
 
-        println!("🤖 TraderAgent: Processing {} snapshots for potential execution...", snapshots.len());
+        println!(
+            "🤖 TraderAgent: Processing {} snapshots for potential execution...",
+            snapshots.len()
+        );
 
         // We lock the executor momentarily to get available funds (to respect boundaries)
         let _available_funds = {
@@ -42,13 +48,17 @@ impl TraderAgent {
                 }
             }
         };
-        
+
         println!("💰 TraderAgent Available Cash: ${:.2}", _available_funds);
 
         for snap in snapshots {
             // Find the specific watchlist configuration for the ticker
-            let wl_entry = self.config.watchlist.iter().find(|w| w.symbol == snap.symbol);
-            
+            let wl_entry = self
+                .config
+                .watchlist
+                .iter()
+                .find(|w| w.symbol == snap.symbol);
+
             if let Some(entry) = wl_entry {
                 let trade_enabled = entry.trade_enabled.unwrap_or(false);
                 let trade_amount = entry.trade_amount.unwrap_or(0.0);
@@ -67,19 +77,20 @@ impl TraderAgent {
                     // BUY Signals
                     "optimal" | "pullback" | "fear_1" | "fear_2" => {
                         (Some(OrderSide::Buy), trade_amount)
-                    },
+                    }
                     // SELL Signals
-                    "overheat_1" | "overheat_2" => {
-                        (Some(OrderSide::Sell), trade_amount)
-                    },
+                    "overheat_1" | "overheat_2" => (Some(OrderSide::Sell), trade_amount),
                     // HOLD / WAIT (cruise, regime_forming, DEFEND, CAUTION)
-                    _ => (None, 0.0)
+                    _ => (None, 0.0),
                 };
 
                 if let Some(order_side) = side {
                     // Calculate shares based on targeted trade amount and current market dog_price.
                     if snap.dog_price <= 0.0 {
-                        println!("❌ [Trader] Invalid price {:.2} for {}. Skipping.", snap.dog_price, snap.symbol);
+                        println!(
+                            "❌ [Trader] Invalid price {:.2} for {}. Skipping.",
+                            snap.dog_price, snap.symbol
+                        );
                         continue;
                     }
 
@@ -91,7 +102,11 @@ impl TraderAgent {
                         continue;
                     }
 
-                    let side_str = if order_side == OrderSide::Buy { "BUY" } else { "SELL" };
+                    let side_str = if order_side == OrderSide::Buy {
+                        "BUY"
+                    } else {
+                        "SELL"
+                    };
                     println!("⚡ [Trader] Signal [{}] detected for {}! Preparing to {} {} shares @ {:.2} (Targeting ${:.2})", 
                         snap.state_code, snap.symbol, side_str, qty, snap.dog_price, action_amount
                     );
@@ -108,10 +123,16 @@ impl TraderAgent {
 
                     match exec.place_order(req).await {
                         Ok(res) => {
-                            println!("✅ [Trader - SUCCESS] Order placed for {}. Order ID: {}", snap.symbol, res.order_id);
-                        },
+                            println!(
+                                "✅ [Trader - SUCCESS] Order placed for {}. Order ID: {}",
+                                snap.symbol, res.order_id
+                            );
+                        }
                         Err(e) => {
-                            println!("❌ [Trader - FAILED] Failed to complete {} order for {}: {}", side_str, snap.symbol, e);
+                            println!(
+                                "❌ [Trader - FAILED] Failed to complete {} order for {}: {}",
+                                side_str, snap.symbol, e
+                            );
                         }
                     }
                 }
@@ -125,11 +146,11 @@ impl TraderAgent {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::{TradingConfig, WatchlistEntry, DeviationBasis};
+    use crate::config::{DeviationBasis, TradingConfig, WatchlistEntry};
+    use crate::core::engine::{RegimeValidity, TrendStatus};
     use crate::trade::trader::{AccountFunds, PlaceOrderResponse};
     use async_trait::async_trait;
     use chrono::NaiveDate;
-    use crate::core::engine::{TrendStatus, RegimeValidity};
     use std::sync::atomic::{AtomicUsize, Ordering};
 
     struct MockTradeExecutor {
@@ -138,17 +159,32 @@ mod tests {
 
     #[async_trait]
     impl TradeExecutor for MockTradeExecutor {
-        async fn unlock_trade(&self) -> Result<()> { Ok(()) }
+        async fn unlock_trade(&self) -> Result<()> {
+            Ok(())
+        }
         async fn get_funds(&self) -> Result<AccountFunds> {
-            Ok(AccountFunds { power: 10000.0, total_assets: 10000.0, cash: 10000.0, market_val: 0.0, unrealized_pl: 0.0 })
+            Ok(AccountFunds {
+                power: 10000.0,
+                total_assets: 10000.0,
+                cash: 10000.0,
+                market_val: 0.0,
+                unrealized_pl: 0.0,
+            })
         }
         async fn place_order(&self, _req: PlaceOrderRequest) -> Result<PlaceOrderResponse> {
             self.placed_orders_count.fetch_add(1, Ordering::SeqCst);
-            Ok(PlaceOrderResponse { order_id: "mock_id_123".to_string(), status: "submitted".to_string() })
+            Ok(PlaceOrderResponse {
+                order_id: "mock_id_123".to_string(),
+                status: "submitted".to_string(),
+            })
         }
     }
 
-    fn create_test_config(global_enabled: bool, symbol_enabled: bool, trade_amount: f64) -> Arc<AppConfig> {
+    fn create_test_config(
+        global_enabled: bool,
+        symbol_enabled: bool,
+        trade_amount: f64,
+    ) -> Arc<AppConfig> {
         let mut wl = WatchlistEntry {
             symbol: "TEST".to_string(),
             name: None,
@@ -166,15 +202,36 @@ mod tests {
 
         Arc::new(AppConfig {
             version: 1,
-            output: crate::config::OutputConfig { timezone: "UTC".to_string(), format: "md".to_string(), save_to: ".".to_string(), include_summary: false, weight_kind: Some("equal".to_string()) },
+            output: crate::config::OutputConfig {
+                timezone: "UTC".to_string(),
+                format: "md".to_string(),
+                save_to: ".".to_string(),
+                include_summary: false,
+                weight_kind: Some("equal".to_string()),
+            },
             telegram: None,
             futu: None,
-            trading: Some(TradingConfig { enabled: global_enabled, global_budget: 10000.0 }),
+            trading: Some(TradingConfig {
+                enabled: global_enabled,
+                global_budget: 10000.0,
+            }),
             rules: crate::config::RulesConfig {
-                trend: crate::config::TrendConfig { lookback_days: 20, flat_threshold_pct: 0.5 },
+                trend: crate::config::TrendConfig {
+                    lookback_days: 20,
+                    flat_threshold_pct: 0.5,
+                },
                 deviation_bands: std::collections::BTreeMap::new(),
                 actions: std::collections::HashMap::new(),
-                bear_mode: crate::config::BearModeConfig { enabled: false, fallback_action: "".to_string(), caution_action: None, buffer_pct: Some(3.0), confirm_days: Some(5), confirm_threshold: Some(3), recover_days: Some(5), recover_threshold: Some(3) },
+                bear_mode: crate::config::BearModeConfig {
+                    enabled: false,
+                    fallback_action: "".to_string(),
+                    caution_action: None,
+                    buffer_pct: Some(3.0),
+                    confirm_days: Some(5),
+                    confirm_threshold: Some(3),
+                    recover_days: Some(5),
+                    recover_threshold: Some(3),
+                },
             },
             watchlist: vec![wl],
         })
@@ -212,33 +269,65 @@ mod tests {
     #[tokio::test]
     async fn test_trader_agent_dispatch() {
         let config = create_test_config(true, true, 5000.0);
-        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor { placed_orders_count: AtomicUsize::new(0) }));
+        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor {
+            placed_orders_count: AtomicUsize::new(0),
+        }));
         let agent = TraderAgent::new(config, mock_exec.clone());
 
         // Test 1: Optimal signal (Should Buy)
         let snap1 = create_test_snapshot("optimal", 100.0);
         agent.execute_signals(&[snap1]).await.unwrap();
-        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 1);
+        assert_eq!(
+            mock_exec
+                .lock()
+                .await
+                .placed_orders_count
+                .load(Ordering::SeqCst),
+            1
+        );
 
         // Test 2: Overheat signal (Should Sell)
         let snap2 = create_test_snapshot("overheat_2", 150.0);
         agent.execute_signals(&[snap2]).await.unwrap();
-        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 2);
+        assert_eq!(
+            mock_exec
+                .lock()
+                .await
+                .placed_orders_count
+                .load(Ordering::SeqCst),
+            2
+        );
 
         // Test 3: Hold signal (Should Ignore)
         let snap3 = create_test_snapshot("cruise", 120.0);
         agent.execute_signals(&[snap3]).await.unwrap();
-        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 2); // Unchanged
+        assert_eq!(
+            mock_exec
+                .lock()
+                .await
+                .placed_orders_count
+                .load(Ordering::SeqCst),
+            2
+        ); // Unchanged
     }
 
     #[tokio::test]
     async fn test_trader_agent_disabled() {
         // Global disabled
         let config = create_test_config(false, true, 5000.0);
-        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor { placed_orders_count: AtomicUsize::new(0) }));
+        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor {
+            placed_orders_count: AtomicUsize::new(0),
+        }));
         let agent = TraderAgent::new(config, mock_exec.clone());
         let snap1 = create_test_snapshot("optimal", 100.0);
         agent.execute_signals(&[snap1]).await.unwrap();
-        assert_eq!(mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst), 0);
+        assert_eq!(
+            mock_exec
+                .lock()
+                .await
+                .placed_orders_count
+                .load(Ordering::SeqCst),
+            0
+        );
     }
 }

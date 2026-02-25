@@ -1,7 +1,7 @@
-use bytes::{Buf, BufMut, BytesMut};
-use tokio_util::codec::{Decoder, Encoder};
 use byteorder::{LittleEndian, ReadBytesExt};
+use bytes::{Buf, BufMut, BytesMut};
 use std::io::Cursor;
+use tokio_util::codec::{Decoder, Encoder};
 
 pub const FUTU_PROTO_MAGIC: [u8; 4] = [b'F', b'T', b'-', b'X'];
 
@@ -46,10 +46,10 @@ impl Decoder for FutuCodec {
         }
 
         let mut buf = Cursor::new(&src[..44]);
-        
+
         let mut magic = [0u8; 4];
         std::io::Read::read_exact(&mut buf, &mut magic)?;
-        
+
         if magic != FUTU_PROTO_MAGIC {
             return Err(std::io::Error::new(
                 std::io::ErrorKind::InvalidData,
@@ -62,10 +62,10 @@ impl Decoder for FutuCodec {
         let proto_ver = std::io::Read::bytes(&mut buf).next().unwrap()?;
         let serial_no = buf.read_u32::<LittleEndian>()?;
         let body_len = buf.read_u32::<LittleEndian>()?;
-        
+
         let mut arr_body_sha1 = [0u8; 20];
         std::io::Read::read_exact(&mut buf, &mut arr_body_sha1)?;
-        
+
         let mut arr_reserved = [0u8; 8];
         std::io::Read::read_exact(&mut buf, &mut arr_reserved)?;
 
@@ -99,7 +99,11 @@ impl Decoder for FutuCodec {
 impl Encoder<(FutuHeader, Vec<u8>)> for FutuCodec {
     type Error = std::io::Error;
 
-    fn encode(&mut self, item: (FutuHeader, Vec<u8>), dst: &mut BytesMut) -> Result<(), Self::Error> {
+    fn encode(
+        &mut self,
+        item: (FutuHeader, Vec<u8>),
+        dst: &mut BytesMut,
+    ) -> Result<(), Self::Error> {
         let (header, body) = item;
         dst.reserve(44 + body.len());
 
