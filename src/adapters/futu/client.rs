@@ -1,13 +1,13 @@
 use tokio::net::TcpStream;
-use tokio_util::codec::{Framed, FramedRead, FramedWrite};
-use futures::stream::{SplitStream, SplitSink};
+use tokio_util::codec::Framed;
+use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
 use prost::Message;
 use std::sync::atomic::{AtomicU32, Ordering};
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::{oneshot, Mutex};
-use anyhow::{Result, Context};
+use anyhow::Result;
 
 use crate::adapters::futu::protocol::generated::init_connect::{Request, C2s, Response};
 use crate::adapters::futu::codec::{FutuCodec, FutuHeader};
@@ -19,6 +19,14 @@ pub struct FutuClient {
 }
 
 impl FutuClient {
+    pub fn conn_id(&self) -> u64 {
+        0 // Currently OpenD connect doesn't expose conn_id explicitly in InitConnect response in this implementation yet, 0 is safe bypass.
+    }
+
+    pub fn next_serial(&self) -> u32 {
+        self.serial_no.fetch_add(1, Ordering::SeqCst)
+    }
+
     pub async fn connect(addr: &str) -> Result<Self> {
         println!("🔌 Connecting to Moomoo OpenD at {}", addr);
         let stream = TcpStream::connect(addr).await?;

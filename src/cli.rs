@@ -9,13 +9,14 @@ use crate::config;
 use crate::core::engine::{self, TickerSnapshot};
 use crate::core::report;
 use crate::core::notify;
-use crate::data::yahoo_provider;
 use crate::data::provider::MarketDataProvider;
+use crate::trade::trader::TradeExecutor;
 use crate::backtest;
 
 // Conditionally import Futu adapter (it requires Tokio runtime and TCP stream)
 use crate::adapters::futu::client::FutuClient;
 use crate::adapters::futu::provider::FutuProvider;
+use crate::adapters::futu::trader::FutuTrader;
 
 #[derive(Clone, Copy, PartialEq)]
 enum ProviderType {
@@ -77,24 +78,42 @@ pub async fn run() -> Result<()> {
             println!("🤖 哨兵守卫：交易守护进程启动 (Daemon Mode)");
             println!("   数据引擎: {:?}", if provider_type == ProviderType::Futu { "Moomoo OpenD" } else { "Yahoo Finance" });
             
-            // For Daemon mode, we default to setting up Futu if requested, then enter a sleep/poll loop.
-            // Placeholder for the real-time execution engine.
+            let app_config = config::AppConfig::load("config.toml")?;
+            
             if provider_type == ProviderType::Futu {
-                let client = FutuClient::connect(&futu_addr).await?;
-                let _provider = Arc::new(FutuProvider::new(client));
-                println!("✅ 成功连接至 Moomoo OpenD ({})", futu_addr);
-                println!("🚧 自动化交易模块 (Trade Exec) 正在建设中...");
+                let futu_cfg = app_config.futu.clone().ok_or_else(|| anyhow!("Missing [futu] config section"))?;
                 
+                println!("🔌 正在建立协议封装和心跳机制...");
+                let client = Arc::new(FutuClient::connect(&futu_addr).await?);
+                let _provider = Arc::new(FutuProvider::new(client.clone()));
+                
+                println!("✅ 成功连接至 Moomoo OpenD ({})", futu_addr);
+                
+                let trader = FutuTrader::new(client.clone(), futu_cfg);
+                
+                println!("🔑 正在尝试鉴权与解锁交易核心...");
+                match trader.unlock_trade().await {
+                    Ok(_) => println!("✅ 交易授权解锁成功。"),
+                    Err(e) => println!("⚠️ 交易授权未解锁或失败 (通常仅支持读取模式): {}", e),
+                }
+
+                println!("💰 查询本地网关账户资金情况...");
+                match trader.get_funds().await {
+                    Ok(funds) => println!("   -> 现金: ${:.2}, 购买力: ${:.2}, 总资产: ${:.2}", funds.cash, funds.power, funds.total_assets),
+                    Err(e) => println!("   -> 获取账户资金失败: {}", e),
+                }
+                
+                println!("🛡️ 哨兵自动化交易模块挂载完毕，进入监听循环...");
                 // Keep the daemon alive
                 loop {
                     tokio::time::sleep(std::time::Duration::from_secs(60)).await;
-                    println!("💓 Daemon Heartbeat...");
+                    println!("💓 Daemon Heartbeat... (TCP Session Managed by Codec)");
                 }
             } else {
-                println!("⚠️ Daemon 模式建议使用 --provider futu 配合本地网关运行以获得最新实盘数据。");
+                println!("⚠️ Daemon 模式建议使用 --provider futu 配合本地网关运行以获得最新实盘数据和报单支持。");
                 loop {
                     tokio::time::sleep(std::time::Duration::from_secs(60)).await;
-                    println!("💓 Daemon Heartbeat (Yahoo Mode)...");
+                    println!("💓 Daemon Heartbeat (Yahoo/Offline Mode)...");
                 }
             }
         },
@@ -105,7 +124,7 @@ pub async fn run() -> Result<()> {
                 ProviderType::Futu => {
                     println!("🔌 尝试通过 Moomoo OpenD ({}) 获取行情...", futu_addr);
                     match FutuClient::connect(&futu_addr).await {
-                        Ok(client) => Arc::new(FutuProvider::new(client)),
+                        Ok(client) => Arc::new(FutuProvider::new(Arc::new(client))),
                         Err(e) => {
                             println!("❌ 无法连接至 Moomoo OpenD: {}。将自动降级使用 Yahoo Finance。", e);
                             Arc::new(YahooProviderAdapter)

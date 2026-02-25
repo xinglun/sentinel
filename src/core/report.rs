@@ -1,10 +1,10 @@
 use crate::config::AppConfig;
-use crate::engine::{TickerSnapshot, TrendStatus, RegimeValidity};
+use crate::core::engine::{TickerSnapshot, TrendStatus, RegimeValidity};
 use anyhow::Result;
 use chrono::Local;
 use std::fs;
 use std::path::Path;
-use crate::notify::escape_html;
+use crate::core::notify::escape_html;
 use tabled::{Table, Tabled};
 use tabled::settings::Style;
 

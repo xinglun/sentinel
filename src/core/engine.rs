@@ -1,5 +1,5 @@
 use crate::config::{DeviationBasis, ParsedRules, WatchlistEntry};
-use crate::fetcher::{DailyBar, TickerHistory};
+use crate::data::yahoo_provider::{DailyBar, TickerHistory};
 use chrono::NaiveDate;
 use serde::Serialize;
 

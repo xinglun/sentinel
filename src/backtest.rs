@@ -1,6 +1,6 @@
 use crate::config::AppConfig;
-use crate::fetcher::{fetch_history, TickerHistory, DailyBar};
-use crate::engine::evaluate_snapshot;
+use crate::data::yahoo_provider::{fetch_history, TickerHistory, DailyBar};
+use crate::core::engine::evaluate_snapshot;
 use anyhow::Result;
 use chrono::NaiveDate;
 use time::OffsetDateTime;

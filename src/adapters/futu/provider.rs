@@ -1,7 +1,9 @@
 use anyhow::Result;
 use async_trait::async_trait;
 use time::OffsetDateTime;
+use std::sync::Arc;
 use prost::Message;
+use chrono::DateTime;
 
 use crate::data::provider::MarketDataProvider;
 use crate::data::yahoo_provider::{DailyBar, TickerHistory};
@@ -10,11 +12,11 @@ use crate::adapters::futu::protocol::generated::qot_common::{Security, QotMarket
 use crate::adapters::futu::protocol::generated::qot_get_history_kl::{Request, C2s, Response};
 
 pub struct FutuProvider {
-    client: FutuClient,
+    client: Arc<FutuClient>,
 }
 
 impl FutuProvider {
-    pub fn new(client: FutuClient) -> Self {
+    pub fn new(client: Arc<FutuClient>) -> Self {
         Self { client }
     }
 
@@ -93,12 +95,15 @@ impl MarketDataProvider for FutuProvider {
         let mut bars = Vec::new();
         let mut latest_ts = None;
         for kline in s2c.kl_list {
-            let dt_opt = chrono::NaiveDateTime::parse_from_str(&kline.time, "%Y-%m-%d %H:%M:%S")
+            let dt = chrono::NaiveDateTime::parse_from_str(&kline.time, "%Y-%m-%d %H:%M:%S")
                 .ok()
-                .or_else(|| chrono::NaiveDateTime::from_timestamp_opt(kline.timestamp.unwrap_or(0.0) as i64, 0));
+                .or_else(|| {
+                    DateTime::from_timestamp(kline.timestamp.unwrap_or(0.0) as i64, 0)
+                        .map(|dt| dt.naive_utc())
+                })
+                .unwrap_or_default();
                 
-            let dt = dt_opt.unwrap_or_default();
-            latest_ts = Some(dt.timestamp());
+            latest_ts = Some(dt.and_utc().timestamp());
             
             bars.push(DailyBar {
                 date: dt.date(),
