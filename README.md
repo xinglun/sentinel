@@ -41,11 +41,20 @@ cargo run -- radar
 cargo run -- radar --provider futu --opend 127.0.0.1:11111
 ```
 
-### 3. 常驻交易守护进程 (Daemon Mode)
-针对自动化交易设计的模式，一旦启动后便持久化接管 TCP 会话，自动处理 `KeepAlive` 心跳，绝不会退出。
+### 3. 常驻交易守护进程 (Daemon Mode) & 自动交易
+针对全自动化交易设计的模式，启动后持久化接管 TCP 会话，自动处理 `KeepAlive` 心跳，并自动评估 `[trading]` 逻辑。
 ```bash
 cargo run -- daemon --provider futu
 ```
+
+**实盘开关说明 (Simulated vs Real Trading):**
+Sentinel 内置了一套**安全的自动交易沙盒**。
+1. `config.toml` 中默认设置 `trd_env = 1` 为 **模拟炒股环境 (Simulate)**。当挂载守护进程跑出买卖信号时，引擎仅会消耗 Moomoo 提供的模拟资金，不会有真实金钱损失。
+2. 当测试完毕决定开启实盘时，请将**两极锁**同时开启：
+   - 将 `[futu]` 块下的 `trd_env = 1` 更改为 `trd_env = 0 (Real)`。
+   - 将 `[trading]` 块下的 `enabled = false` 更改为 `enabled = true`，并为其配置您允许引擎调用的 `global_budget` 最高预算（如美股市场，预算即等额美元）。
+   
+完成解锁后，当雷达发出如 `optimal` 或 `fear` 信号，它将立即连接 Moomoo 的核心引擎下发现货限价/市价订单！
 
 ### 4. 歴史的検証 (Backtest Mode)
 過去のデータを用いて、システムの「目盛り（Calibration）」と「アルファ分離」を検証します。
