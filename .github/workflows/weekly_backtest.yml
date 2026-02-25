@@ -46,6 +46,9 @@ jobs:
           sed -n '1,60p' .github/workflows/weekly_backtest.yml || true
           echo "======================="
 
+      - name: Install Protoc (Required for Futu)
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
       - name: Install Rust Toolchain
         uses: dtolnay/rust-toolchain@stable
 
