@@ -54,8 +54,6 @@ impl Ledger {
         Ok(())
     }
 
-    /// Check if we have already traded this symbol with this specific signal *today*.
-    /// This prevents the bot from "spamming" orders every 60s while a signal persists.
     pub fn has_acted_today(&self, symbol: &str, signal: &str) -> bool {
         let today = Local::now().date_naive();
 
@@ -70,11 +68,7 @@ impl Ledger {
             let parts: Vec<&str> = line.split(',').collect();
             if parts.len() >= 7 {
                 let date_str = parts[0];
-                // parts[1] is timestamp
                 let sym_str = parts[2];
-                // parts[3] is side
-                // parts[4] is qty
-                // parts[5] is price
                 let sig_str = parts[6];
 
                 if date_str == today.to_string() && sym_str == symbol && sig_str == signal {
@@ -84,5 +78,73 @@ impl Ledger {
         }
 
         false
+    }
+
+    /// Get total traded value (buy + sell absolute) today to enforce budget limits.
+    pub fn get_daily_traded_amount(&self) -> f64 {
+        let today = Local::now().date_naive();
+        let mut total = 0.0;
+
+        let file = match std::fs::File::open(&self.file_path) {
+            Ok(f) => f,
+            Err(_) => return 0.0,
+        };
+
+        let reader = BufReader::new(file);
+        for line in reader.lines().skip(1).flatten() {
+            let parts: Vec<&str> = line.split(',').collect();
+            if parts.len() >= 7 {
+                let date_str = parts[0];
+                if date_str == today.to_string() {
+                    let qty = parts[4].parse::<f64>().unwrap_or(0.0);
+                    let price = parts[5].parse::<f64>().unwrap_or(0.0);
+                    total += qty * price;
+                }
+            }
+        }
+        total
+    }
+
+    /// Calculate realized P/L and current positions.
+    /// Returns (Realized P/L, HashMap<Symbol, (Qty, AvgPrice)>)
+    pub fn get_portfolio_stats(&self) -> (f64, std::collections::HashMap<String, (f64, f64)>) {
+        let mut realized_pl = 0.0;
+        let mut positions: std::collections::HashMap<String, (f64, f64)> =
+            std::collections::HashMap::new();
+
+        let file = match std::fs::File::open(&self.file_path) {
+            Ok(f) => f,
+            Err(_) => return (0.0, positions),
+        };
+
+        let reader = BufReader::new(file);
+        for line in reader.lines().skip(1).flatten() {
+            let parts: Vec<&str> = line.split(',').collect();
+            if parts.len() >= 7 {
+                let symbol = parts[2].to_string();
+                let side = parts[3];
+                let qty = parts[4].parse::<f64>().unwrap_or(0.0);
+                let price = parts[5].parse::<f64>().unwrap_or(0.0);
+
+                let entry = positions.entry(symbol).or_insert((0.0, 0.0));
+                let (current_qty, current_avg) = *entry;
+
+                if side == "BUY" {
+                    let new_qty = current_qty + qty;
+                    let new_avg = (current_qty * current_avg + qty * price) / new_qty;
+                    *entry = (new_qty, new_avg);
+                } else if side == "SELL" {
+                    // Realized P/L calculation: (Sell Price - Avg Cost) * Sold Qty
+                    realized_pl += (price - current_avg) * qty;
+                    let new_qty = current_qty - qty;
+                    if new_qty <= 0.0 {
+                        *entry = (0.0, 0.0);
+                    } else {
+                        *entry = (new_qty, current_avg);
+                    }
+                }
+            }
+        }
+        (realized_pl, positions)
     }
 }

@@ -24,6 +24,20 @@ struct TerminalRow {
     action: String,
 }
 
+#[derive(Tabled)]
+struct TerminalRowHeld {
+    #[tabled(rename = "Symbol")]
+    symbol: String,
+    #[tabled(rename = "Quantity")]
+    qty: f64,
+    #[tabled(rename = "Avg Cost")]
+    avg_price: f64,
+    #[tabled(rename = "Current Price")]
+    current_price: f64,
+    #[tabled(rename = "P/L (Realized/Open)")]
+    pl: String,
+}
+
 pub struct ReportResult {
     #[allow(dead_code)]
     pub markdown: String,
@@ -71,6 +85,15 @@ pub struct GravityHealth {
     pub integrity_multiplier: f64,
 }
 
+pub struct GravityPrevContext {
+    pub prev_margin: Option<f64>,
+    pub prev_exposure: Option<f64>,
+    pub prev_up_count: Option<usize>,
+    pub prev_ema_accel: Option<f64>,
+    pub prev_system_confidence: Option<f64>,
+    pub regime_age: usize,
+}
+
 pub struct CapitalPosture {
     pub state_code: String,
     pub display_text: String,
@@ -83,6 +106,229 @@ pub struct CapitalPosture {
 }
 
 impl GravityHealth {
+    pub fn compute(
+        snapshots: &[TickerSnapshot],
+        config_hash: &str,
+        prev: &GravityPrevContext,
+        _regime_age: usize,
+    ) -> Self {
+        let mut up_count = 0;
+        let mut flat_count = 0;
+        let mut down_count = 0;
+        let mut up_weight = 0.0;
+        let mut flat_weight = 0.0;
+        let mut down_weight = 0.0;
+        let mut forming_early_count = 0;
+        let mut forming_late_count = 0;
+        let mut forming_early_weight = 0.0;
+        let mut forming_late_weight = 0.0;
+
+        for s in snapshots {
+            if s.validity == RegimeValidity::FormingEarly
+                || s.validity == RegimeValidity::FormingLate
+            {
+                if s.validity == RegimeValidity::FormingEarly {
+                    forming_early_count += 1;
+                    forming_early_weight += s.weight;
+                } else {
+                    forming_late_count += 1;
+                    forming_late_weight += s.weight;
+                }
+                continue;
+            }
+
+            match s.trend_status {
+                TrendStatus::Up => {
+                    up_count += 1;
+                    up_weight += s.weight;
+                }
+                TrendStatus::Flat => {
+                    flat_count += 1;
+                    flat_weight += s.weight;
+                }
+                TrendStatus::Down | TrendStatus::Unknown => {
+                    down_count += 1;
+                    down_weight += s.weight;
+                }
+            }
+        }
+
+        let total_count = up_count + flat_count + down_count;
+        let total_weight = up_weight + flat_weight + down_weight;
+
+        let mut total_strength_sum = 0.0;
+        let mut weight_for_strength = 0.0;
+        let mut total_potential_sum = 0.0;
+        let mut weight_for_potential = 0.0;
+        let mut trend_alloc_weight = 0.0;
+        let mut reversion_alloc_weight = 0.0;
+
+        for s in snapshots {
+            if s.validity == RegimeValidity::FormingEarly
+                || s.validity == RegimeValidity::FormingLate
+            {
+                continue;
+            }
+
+            if let Some(strength) = s.owner_ma_slope_pct {
+                total_strength_sum += strength * s.weight;
+                weight_for_strength += s.weight;
+            }
+            if let Some(z) = s.dev_z_score {
+                total_potential_sum += z.abs() * s.weight;
+                weight_for_potential += s.weight;
+
+                if s.confidence_score >= 80 {
+                    trend_alloc_weight += s.weight * (s.confidence_score as f64 / 100.0);
+                } else if s.confidence_score <= 60 {
+                    reversion_alloc_weight +=
+                        s.weight * ((100.0 - s.confidence_score as f64) / 100.0) * z.abs();
+                }
+            }
+        }
+
+        let global_gravity_strength = if weight_for_strength > 0.0 {
+            total_strength_sum / weight_for_strength
+        } else {
+            0.0
+        };
+        let global_potential_energy = if weight_for_potential > 0.0 {
+            total_potential_sum / weight_for_potential
+        } else {
+            0.0
+        };
+
+        let total_weight_safe = if total_weight <= 0.0 {
+            1.0
+        } else {
+            total_weight
+        };
+        let dominance_margin = (trend_alloc_weight - reversion_alloc_weight) / total_weight_safe;
+        let conf_trend_alloc = (trend_alloc_weight / total_weight_safe * 50.0).clamp(0.0, 50.0);
+        let conf_inverse_potential =
+            (1.0 / (1.0 + global_potential_energy) * 50.0).clamp(0.0, 50.0);
+        let system_confidence = (conf_trend_alloc + conf_inverse_potential).clamp(0.0, 100.0);
+
+        let market_phase = if dominance_margin > 0.5 {
+            if global_gravity_strength > 0.5 {
+                "Mid Bull"
+            } else {
+                "Late Bull"
+            }
+        } else if dominance_margin > 0.2 {
+            "Early Bull"
+        } else if dominance_margin < -0.5 {
+            "Bear Market"
+        } else if dominance_margin < -0.1 {
+            "Correction"
+        } else {
+            "Neutral / Transition"
+        };
+
+        let t_share_raw = trend_alloc_weight / total_weight_safe;
+        let r_share_raw = reversion_alloc_weight / total_weight_safe;
+        let r_share_adj = r_share_raw * (1.0 + global_potential_energy);
+        let total_adjusted = t_share_raw + r_share_adj;
+        let total_adj_safe = if total_adjusted <= 0.0 {
+            1.0
+        } else {
+            total_adjusted
+        };
+        let t_ratio_final = t_share_raw / total_adj_safe;
+        let r_ratio_final = r_share_adj / total_adj_safe;
+        let energy_adjusted_margin = t_ratio_final - r_ratio_final;
+
+        let mut capital_flow_acceleration = None;
+        if let Some(pm) = prev.prev_margin {
+            let today_accel = energy_adjusted_margin - pm;
+            let ema_accel = match prev.prev_ema_accel {
+                Some(prev_ema) => {
+                    let alpha = 2.0 / (5.0 + 1.0);
+                    alpha * today_accel + (1.0 - alpha) * prev_ema
+                }
+                None => today_accel,
+            };
+            capital_flow_acceleration = Some(ema_accel);
+        }
+
+        let capital_flow_vector = if energy_adjusted_margin > 0.0 {
+            let acc = capital_flow_acceleration.unwrap_or(0.0);
+            if acc.abs() < 0.02 {
+                "Stable Uptrend ↗️"
+            } else if acc >= 0.02 {
+                "Accelerating Uptrend 🚀"
+            } else {
+                "Decelerating Uptrend ⚠️"
+            }
+        } else {
+            let acc = capital_flow_acceleration.unwrap_or(0.0);
+            if acc.abs() < 0.02 {
+                "Stable Downtrend ↘️"
+            } else if acc <= -0.02 {
+                "Accelerating Downtrend 🩸"
+            } else {
+                "Decelerating Downtrend (Bottoming) ⏳"
+            }
+        };
+
+        let base_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
+        let universe_integrity = if snapshots.is_empty() {
+            0.0
+        } else {
+            total_count as f64 / snapshots.len() as f64
+        };
+
+        let trend_maturity = (prev.regime_age as f64 / 40.0).min(1.0);
+        let stability_structural = conf_inverse_potential / 50.0;
+        let stability_temporal = trend_maturity;
+        let stability_score = stability_structural * stability_temporal;
+        let temporal_modifier = 0.85 + (trend_maturity * 0.15).min(0.15);
+        let integrity_multiplier = universe_integrity;
+
+        let conf_multiplier = (system_confidence / 100.0) * integrity_multiplier;
+        let recommended_exposure = (base_exposure * conf_multiplier).clamp(0.0, 1.0);
+
+        Self {
+            up_count,
+            flat_count,
+            forming_early_count,
+            forming_late_count,
+            universe_count: snapshots.len(),
+            total_count,
+            up_weight,
+            flat_weight,
+            forming_early_weight,
+            forming_late_weight,
+            total_weight,
+            global_gravity_strength,
+            global_potential_energy,
+            trend_alloc_weight,
+            reversion_alloc_weight,
+            config_hash: config_hash.to_string(),
+            system_confidence,
+            market_phase: market_phase.to_string(),
+            capital_flow_vector: capital_flow_vector.to_string(),
+            recommended_exposure,
+            prev_system_confidence: prev.prev_system_confidence,
+            prev_dominance_margin: prev.prev_margin,
+            prev_recommended_exposure: prev.prev_exposure,
+            prev_up_count: prev.prev_up_count,
+            regime_age: prev.regime_age,
+            stability_score,
+            base_exposure,
+            adjusted_exposure: recommended_exposure,
+            conf_trend_alloc,
+            conf_inverse_potential,
+            capital_flow_acceleration,
+            universe_integrity,
+            trend_maturity,
+            stability_structural: conf_inverse_potential,
+            stability_temporal: stability_temporal * 100.0,
+            temporal_modifier,
+            integrity_multiplier,
+        }
+    }
+
     pub fn format_potential_energy(&self) -> String {
         let (label, intensity) = if self.global_potential_energy < 1.0 {
             ("Cold", "(安定 / 波动极低)")
@@ -418,7 +664,9 @@ pub fn generate_reports(
     config: &AppConfig,
     snapshots: &[TickerSnapshot],
     gravity_health: &GravityHealth,
-    yesterday_state: &str,
+    _yesterday_state: &str,
+    realized_pl: f64,
+    positions: &std::collections::HashMap<String, (f64, f64)>,
 ) -> Result<ReportResult> {
     let now = Local::now();
     let date_str = now.format("%Y-%m-%d").to_string();
@@ -461,13 +709,6 @@ pub fn generate_reports(
             TrendStatus::Unknown => "?",
         };
         let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
-
-        let _owner_dev_str = if let (true, Some(owner)) = (s.dog_price != 0.0, s.owner_ma) {
-            let dev = (s.dog_price - owner) / owner * 100.0;
-            format!("{:+.2}%", dev)
-        } else {
-            "-".to_string()
-        };
 
         let owner_dev_val = s.owner_deviation_pct.unwrap_or(0.0);
 
@@ -519,6 +760,28 @@ pub fn generate_reports(
         });
     }
 
+    // Portfolio Summary Section
+    let mut held_rows = Vec::new();
+    let mut total_equity = 0.0;
+    for (sym, (qty, avg)) in positions {
+        if *qty > 0.0 {
+            let current_price = snapshots
+                .iter()
+                .find(|s| s.symbol == *sym)
+                .map(|s| s.dog_price)
+                .unwrap_or(0.0);
+            let open_pl = (current_price - avg) * qty;
+            total_equity += current_price * qty;
+            held_rows.push(TerminalRowHeld {
+                symbol: sym.clone(),
+                qty: *qty,
+                avg_price: *avg,
+                current_price,
+                pl: format!("{:+.2}", open_pl),
+            });
+        }
+    }
+
     // Rankings
     let mut opportunities = snapshots
         .iter()
@@ -568,9 +831,6 @@ pub fn generate_reports(
         })
         .unwrap_or("Unknown");
 
-    // Previous state comparison
-    let _yesterday_state = yesterday_state;
-
     let mut table = Table::new(rows);
     table.with(Style::modern());
 
@@ -584,10 +844,19 @@ pub fn generate_reports(
     );
     println!("{}", table);
 
+    if !held_rows.is_empty() {
+        println!("\n💼 Portfolio Status (持仓快照)");
+        let mut held_table = Table::new(&held_rows);
+        held_table.with(Style::sharp());
+        println!("{}", held_table);
+        println!(" • Total Portfolio Equity: ${:.2}", total_equity);
+        println!(" • Total Realized P/L:    {:+.2}", realized_pl);
+    }
+
     let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
     let market_structure = format!("{} ({})", gravity_health.market_phase, spy_regime);
 
-    println!("🌍 Macro Indicators (全域状态监测)");
+    println!("\n🌍 Macro Indicators (全域状态监测)");
     println!(" • CAPITAL STATE: {}", posture.display_text);
 
     // Exposure Range and Velocity
@@ -706,7 +975,13 @@ pub fn generate_reports(
     println!(" > Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable\n");
     println!("{}", table);
 
-    let md_content = generate_markdown(config, &snapshots, &date_str, gravity_health, &posture);
+    let mut md_content = generate_markdown(config, &snapshots, &date_str, gravity_health, &posture);
+    if !held_rows.is_empty() {
+        md_content.push_str("\n\n## 💼 Portfolio Intelligence\n");
+        md_content.push_str(&format!("- **Total Realized P/L**: {:+.2}\n", realized_pl));
+        md_content.push_str(&format!("- **Total Open Equity**: ${:.2}\n", total_equity));
+    }
+
     let tg_html = generate_telegram_html(config, &snapshots, &date_str, gravity_health, &posture);
 
     if !config.output.save_to.is_empty() {
@@ -720,8 +995,6 @@ pub fn generate_reports(
         fs::write(&md_path, &md_content)?;
 
         // --- Phase 26: Data Freshness Guard ---
-        // If the data date is significantly older than today (e.g. > 3 days on a weekday),
-        // it means the API hasn't updated yet. We still show the report but skip telemetry.
         let data_date = snapshots
             .first()
             .map(|s| s.current_date)
@@ -740,7 +1013,7 @@ pub fn generate_reports(
         };
 
         if should_write_telemetry {
-            // --- 📊 Telemetry System Heartbeat (V3 Ultimate Schema) ---
+            // --- 📊 Telemetry System ---
             let telemetry_path = Path::new(&config.output.save_to).join("telemetry.csv");
             let file_exists = telemetry_path.exists();
 
@@ -787,8 +1060,6 @@ pub fn generate_reports(
 
             let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
 
-            // Ultimate Schema (24 Columns):
-            // date,timestamp,config_hash,state_code,state_text,gs,gp,t_raw,r_raw,r_adj,t_final,r_final,margin,exposure,size,c_up,c_flat,c_down,c_forming,w_up,w_flat,w_down,w_forming,integrity,accel
             let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
                 date_str,
                 timestamp,

@@ -52,6 +52,7 @@ pub struct FutuConfig {
 pub struct TradingConfig {
     pub enabled: bool,
     pub global_budget: f64,
+    pub max_daily_budget: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, Clone)]

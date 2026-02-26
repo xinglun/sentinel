@@ -79,6 +79,11 @@ pub async fn run() -> Result<()> {
                 }
             }
             let app_config = config::AppConfig::load("config.toml")?;
+            // For backtest, regime_age is not directly applicable from a live telemetry.csv
+            // It's usually calculated within the backtest simulation itself.
+            // The `trend_maturity` line seems to be a misplaced instruction for `run_radar`.
+            // Keeping it commented out or removed as it would cause a compile error.
+            // let trend_maturity = (regime_age as f64 / 40.0).min(1.0);
             backtest::run_backtest(&app_config, &from_date, &to_date).await?;
         }
         "daemon" => {
@@ -102,7 +107,7 @@ pub async fn run() -> Result<()> {
 
                 println!("🔌 正在建立协议封装和心跳机制...");
                 let client = Arc::new(FutuClient::connect(&futu_addr).await?);
-                let _provider = Arc::new(FutuProvider::new(client.clone()));
+                let provider = Arc::new(FutuProvider::new(client.clone()));
 
                 println!("✅ 成功连接至 Moomoo OpenD ({})", futu_addr);
 
@@ -147,7 +152,7 @@ pub async fn run() -> Result<()> {
                     let mut current_snapshots = Vec::new();
 
                     for entry in app_config.watchlist.iter().filter(|w| w.enable) {
-                        match _provider.fetch_history(&entry.symbol, None, None).await {
+                        match provider.fetch_history(&entry.symbol, None, None).await {
                             Ok(history) => {
                                 let snapshot =
                                     engine::evaluate_snapshot(&history, entry, &rules_arc);
@@ -160,7 +165,25 @@ pub async fn run() -> Result<()> {
                     }
 
                     if !current_snapshots.is_empty() {
-                        if let Err(e) = trader_agent.execute_signals(&current_snapshots).await {
+                        let prev_context = report::GravityPrevContext {
+                            prev_margin: None,
+                            prev_exposure: None,
+                            prev_up_count: None,
+                            prev_ema_accel: None,
+                            prev_system_confidence: None,
+                            regime_age: 0,
+                        };
+                        let gravity_health = report::GravityHealth::compute(
+                            &current_snapshots,
+                            "daemon",
+                            &prev_context,
+                            0, // Initial macro for daemon doesn't have yesterday's regime age info easily available
+                        );
+
+                        if let Err(e) = trader_agent
+                            .execute_signals(&current_snapshots, &gravity_health)
+                            .await
+                        {
                             println!("❌ [Daemon] 交易代理执行信号失败: {}", e);
                         }
                     } else {
@@ -241,6 +264,7 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
     let mut prev_exposure = None;
     let mut prev_up_count = None;
     let mut prev_ema_accel = None;
+    let mut prev_system_confidence = None;
 
     if let Ok(content) = std::fs::read_to_string(
         std::path::Path::new(&config_arc.output.save_to).join("telemetry.csv"),
@@ -284,6 +308,10 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
                     {
                         prev_up_count = Some((universe * up_share).round() as usize);
                     }
+                }
+                if cols.len() > 16 {
+                    // Assuming system confidence is at index 16
+                    prev_system_confidence = cols[16].parse::<f64>().ok();
                 }
             }
         }
@@ -361,249 +389,54 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
     }
 
     if !snapshots.is_empty() {
-        let mut up_count = 0;
-        let mut flat_count = 0;
-        let mut down_count = 0;
-        let mut up_weight = 0.0;
-        let mut flat_weight = 0.0;
-        let mut down_weight = 0.0;
-        let mut forming_early_count = 0;
-        let mut forming_late_count = 0;
-        let mut forming_early_weight = 0.0;
-        let mut forming_late_weight = 0.0;
-
-        for s in &snapshots {
-            if s.validity == engine::RegimeValidity::FormingEarly
-                || s.validity == engine::RegimeValidity::FormingLate
-            {
-                if s.validity == engine::RegimeValidity::FormingEarly {
-                    forming_early_count += 1;
-                    forming_early_weight += s.weight;
-                } else {
-                    forming_late_count += 1;
-                    forming_late_weight += s.weight;
-                }
-                continue;
-            }
-
-            match s.trend_status {
-                engine::TrendStatus::Up => {
-                    up_count += 1;
-                    up_weight += s.weight;
-                }
-                engine::TrendStatus::Flat => {
-                    flat_count += 1;
-                    flat_weight += s.weight;
-                }
-                engine::TrendStatus::Down | engine::TrendStatus::Unknown => {
-                    down_count += 1;
-                    down_weight += s.weight;
-                }
-            }
-        }
-
-        let total_count = up_count + flat_count + down_count;
-        let total_weight = up_weight + flat_weight + down_weight;
-
-        let mut total_strength_sum = 0.0;
-        let mut weight_for_strength = 0.0;
-
-        let mut total_potential_sum = 0.0;
-        let mut weight_for_potential = 0.0;
-
-        let mut trend_alloc_weight = 0.0;
-        let mut reversion_alloc_weight = 0.0;
-
-        for s in &snapshots {
-            if s.validity == engine::RegimeValidity::FormingEarly
-                || s.validity == engine::RegimeValidity::FormingLate
-            {
-                continue;
-            }
-
-            if let Some(strength) = s.owner_ma_slope_pct {
-                total_strength_sum += strength * s.weight;
-                weight_for_strength += s.weight;
-            }
-            if let Some(z) = s.dev_z_score {
-                total_potential_sum += z.abs() * s.weight;
-                weight_for_potential += s.weight;
-
-                if s.confidence_score >= 80 {
-                    trend_alloc_weight += s.weight * (s.confidence_score as f64 / 100.0);
-                } else if s.confidence_score <= 60 {
-                    reversion_alloc_weight +=
-                        s.weight * ((100.0 - s.confidence_score as f64) / 100.0) * z.abs();
-                }
-            }
-        }
-
-        let global_gravity_strength = if weight_for_strength > 0.0 {
-            total_strength_sum / weight_for_strength
-        } else {
-            0.0
-        };
-
-        let global_potential_energy = if weight_for_potential > 0.0 {
-            total_potential_sum / weight_for_potential
-        } else {
-            0.0
-        };
-
-        let dominance_margin = (trend_alloc_weight - reversion_alloc_weight) / total_weight;
-        let conf_trend_alloc = (trend_alloc_weight / total_weight * 50.0).clamp(0.0, 50.0);
-        let conf_inverse_potential =
-            (1.0 / (1.0 + global_potential_energy) * 50.0).clamp(0.0, 50.0);
-        let confidence_score = conf_trend_alloc + conf_inverse_potential;
-        let system_confidence = (confidence_score.clamp(0.0, 100.0) * 100.0).round() / 100.0;
-
-        let market_phase = if dominance_margin > 0.5 {
-            if global_gravity_strength > 0.5 {
-                "Mid Bull"
-            } else {
-                "Late Bull"
-            }
-        } else if dominance_margin > 0.2 {
-            "Early Bull"
-        } else if dominance_margin < -0.5 {
-            "Bear Market"
-        } else if dominance_margin < -0.1 {
-            "Correction"
-        } else {
-            "Neutral / Transition"
-        };
-
-        let t_share_raw = trend_alloc_weight / total_weight;
-        let r_share_raw = reversion_alloc_weight / total_weight;
-        let r_share_adj = r_share_raw * (1.0 + global_potential_energy);
-        let total_adjusted = t_share_raw + r_share_adj;
-        let t_ratio_final = t_share_raw / total_adjusted;
-        let r_ratio_final = r_share_adj / total_adjusted;
-        let energy_adjusted_margin = t_ratio_final - r_ratio_final;
-
-        let mut capital_flow_acceleration = None;
-        if let Some(pm) = prev_margin {
-            let today_accel = energy_adjusted_margin - pm;
-            let ema_accel = match prev_ema_accel {
-                Some(prev_ema) => {
-                    let alpha = 2.0 / (5.0 + 1.0);
-                    alpha * today_accel + (1.0 - alpha) * prev_ema
-                }
-                None => today_accel,
-            };
-            capital_flow_acceleration = Some(ema_accel);
-        }
-
-        let capital_flow_vector = if energy_adjusted_margin > 0.0 {
-            let acc = capital_flow_acceleration.unwrap_or(0.0);
-            if acc.abs() < 0.02 {
-                "Stable Uptrend ↗️"
-            } else if acc >= 0.02 {
-                "Accelerating Uptrend 🚀"
-            } else {
-                "Decelerating Uptrend ⚠️"
-            }
-        } else {
-            let acc = capital_flow_acceleration.unwrap_or(0.0);
-            if acc.abs() < 0.02 {
-                "Stable Downtrend ↘️"
-            } else if acc <= -0.02 {
-                "Accelerating Downtrend 🩸"
-            } else {
-                "Decelerating Downtrend (Bottoming) ⏳"
-            }
-        };
-
-        let base_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
-        let mut adjusted_exposure = base_exposure;
-
-        let mut temp_health = report::GravityHealth {
-            up_count,
-            flat_count,
-            total_count,
-            up_weight,
-            flat_weight,
-            total_weight,
-            global_gravity_strength,
-            global_potential_energy,
-            trend_alloc_weight,
-            reversion_alloc_weight,
-            config_hash,
-            system_confidence,
-            market_phase: market_phase.to_string(),
-            capital_flow_vector: capital_flow_vector.to_string(),
-            recommended_exposure: 0.0,
-            forming_early_count,
-            forming_late_count,
-            forming_early_weight,
-            forming_late_weight,
-            universe_count: snapshots.len(),
-            prev_system_confidence: None,
-            prev_dominance_margin: prev_margin,
-            prev_recommended_exposure: prev_exposure,
+        let temp_prev = report::GravityPrevContext {
+            prev_margin,
+            prev_exposure,
             prev_up_count,
-            regime_age: 0,
-            stability_score: 0.0,
-            base_exposure,
-            adjusted_exposure,
-            conf_trend_alloc,
-            conf_inverse_potential,
-            capital_flow_acceleration,
-            universe_integrity: if !snapshots.is_empty() {
-                total_count as f64 / snapshots.len() as f64
-            } else {
-                0.0
-            },
-            trend_maturity: 0.0,
-            stability_structural: 0.0,
-            stability_temporal: 0.0,
-            temporal_modifier: 1.0,
-            integrity_multiplier: 1.0,
+            prev_ema_accel,
+            prev_system_confidence,
+            regime_age: 0, // This will be updated after first pass
         };
-        let posture = temp_health.compute_capital_posture();
+
+        // Pass 1: Determine current state to calculate regime age
+        let temp_gravity = report::GravityHealth::compute(&snapshots, &config_hash, &temp_prev, 0);
+        let posture = temp_gravity.compute_capital_posture();
         let regime_age = calculate_regime_age(
             std::path::Path::new(&config_arc.output.save_to),
             &posture.state_code,
         );
-        temp_health.regime_age = regime_age;
 
-        let trend_maturity = (regime_age as f64 / 40.0).min(1.0);
-        temp_health.trend_maturity = trend_maturity;
+        // Pass 2: Final calculation with correct regime age
+        let prev_context = report::GravityPrevContext {
+            prev_margin,
+            prev_exposure,
+            prev_up_count,
+            prev_ema_accel,
+            prev_system_confidence: None,
+            regime_age,
+        };
+        let gravity_health =
+            report::GravityHealth::compute(&snapshots, &config_hash, &prev_context, regime_age);
 
-        let stability_structural = conf_inverse_potential / 50.0;
-        let stability_temporal = trend_maturity;
+        let ledger = Ledger::new(std::path::PathBuf::from(&config_arc.output.save_to));
+        let (realized_pl, positions) = ledger.get_portfolio_stats();
 
-        temp_health.stability_structural = conf_inverse_potential;
-        temp_health.stability_temporal = stability_temporal * 100.0;
-
-        let stability_score = stability_structural * stability_temporal;
-        temp_health.stability_score = stability_score;
-
-        let temporal_modifier = 0.85 + (trend_maturity * 0.15).min(0.15);
-        temp_health.temporal_modifier = temporal_modifier;
-
-        let integrity_multiplier = temp_health.universe_integrity;
-        temp_health.integrity_multiplier = integrity_multiplier;
-
-        let conf_multiplier = (system_confidence / 100.0) * integrity_multiplier;
-        let mut final_exposure = base_exposure * conf_multiplier;
-        final_exposure = final_exposure.clamp(0.0, 1.0);
-
-        adjusted_exposure = final_exposure;
-
-        temp_health.adjusted_exposure = adjusted_exposure;
-        temp_health.recommended_exposure = adjusted_exposure;
-
-        let gravity_health = temp_health;
-
-        let report_result =
-            report::generate_reports(&config_arc, &snapshots, &gravity_health, &yesterday_state)?;
+        let report_result = report::generate_reports(
+            &config_arc,
+            &snapshots,
+            &gravity_health,
+            &yesterday_state,
+            realized_pl,
+            &positions,
+        )?;
 
         if let Some(ref tg_cfg) = config_arc.telegram {
-            let combined_output =
-                format!("{}{}", report_result.markdown, report_result.telegram_html);
-            if combined_output.contains(&tg_cfg.bot_token) {
-                panic!("FATAL SECURITY ERROR: bot_token leak detected in reports!");
+            if !tg_cfg.bot_token.is_empty() {
+                let combined_output =
+                    format!("{}{}", report_result.markdown, report_result.telegram_html);
+                if combined_output.contains(&tg_cfg.bot_token) {
+                    panic!("FATAL SECURITY ERROR: bot_token leak detected in reports!");
+                }
             }
         }
 

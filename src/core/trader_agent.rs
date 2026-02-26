@@ -26,7 +26,11 @@ impl TraderAgent {
         }
     }
 
-    pub async fn execute_signals(&self, snapshots: &[TickerSnapshot]) -> Result<()> {
+    pub async fn execute_signals(
+        &self,
+        snapshots: &[TickerSnapshot],
+        gravity_health: &crate::core::report::GravityHealth,
+    ) -> Result<()> {
         let trading_config = match &self.config.trading {
             Some(tc) => tc,
             None => {
@@ -59,6 +63,20 @@ impl TraderAgent {
 
         println!("💰 TraderAgent Available Cash: ${:.2}", _available_funds);
 
+        // Phase 12 Hardening: Circuit Breaker
+        if gravity_health.global_potential_energy > 1.8 {
+            println!("🚨 TraderAgent: High Gravity Potential ({:.2} > 1.8). Global Circuit Breaker ACTIVE. Skipping all BUY signals.", gravity_health.global_potential_energy);
+        }
+
+        // Phase 12 Hardening: Check daily budget
+        let daily_traded = self.ledger.get_daily_traded_amount();
+        if let Some(max_daily) = trading_config.max_daily_budget {
+            if daily_traded >= max_daily {
+                println!("🛑 TraderAgent: Daily budget limit reached (${:.2} / ${:.2}). Skipping further trades.", daily_traded, max_daily);
+                return Ok(());
+            }
+        }
+
         for snap in snapshots {
             // Find the specific watchlist configuration for the ticker
             let wl_entry = self
@@ -85,14 +103,23 @@ impl TraderAgent {
                     continue;
                 }
 
+                // Phase 12 Hardening: Dynamic Sizing based on Confidence (0-100)
+                // If confidence is low, we buy less.
+                let confidence_factor = snap.confidence_score as f64 / 100.0;
+                let adjusted_amount = trade_amount * confidence_factor;
+
                 // Core logic mapping
                 let (side, action_amount) = match snap.state_code.as_str() {
                     // BUY Signals
                     "optimal" | "pullback" | "fear_1" | "fear_2" => {
-                        (Some(OrderSide::Buy), trade_amount)
+                        if gravity_health.global_potential_energy > 1.8 {
+                            (None, 0.0) // Blocked by circuit breaker
+                        } else {
+                            (Some(OrderSide::Buy), adjusted_amount)
+                        }
                     }
                     // SELL Signals
-                    "overheat_1" | "overheat_2" => (Some(OrderSide::Sell), trade_amount),
+                    "overheat_1" | "overheat_2" => (Some(OrderSide::Sell), adjusted_amount),
                     // HOLD / WAIT (cruise, regime_forming, DEFEND, CAUTION)
                     _ => (None, 0.0),
                 };
@@ -238,6 +265,7 @@ mod tests {
             trading: Some(TradingConfig {
                 enabled: global_enabled,
                 global_budget: 10000.0,
+                max_daily_budget: None,
             }),
             rules: crate::config::RulesConfig {
                 trend: crate::config::TrendConfig {
@@ -290,6 +318,48 @@ mod tests {
         }
     }
 
+    fn create_test_gravity_health() -> crate::core::report::GravityHealth {
+        crate::core::report::GravityHealth {
+            up_count: 5,
+            flat_count: 2,
+            forming_early_count: 0,
+            forming_late_count: 0,
+            universe_count: 7,
+            total_count: 7,
+            up_weight: 5.0,
+            flat_weight: 2.0,
+            forming_early_weight: 0.0,
+            forming_late_weight: 0.0,
+            total_weight: 7.0,
+            global_gravity_strength: 1.0,
+            global_potential_energy: 0.5,
+            trend_alloc_weight: 5.0,
+            reversion_alloc_weight: 0.0,
+            config_hash: "test".to_string(),
+            system_confidence: 80.0,
+            market_phase: "Bull".to_string(),
+            capital_flow_vector: "Up".to_string(),
+            recommended_exposure: 0.8,
+            prev_system_confidence: None,
+            prev_dominance_margin: None,
+            prev_recommended_exposure: None,
+            prev_up_count: None,
+            regime_age: 10,
+            stability_score: 0.9,
+            base_exposure: 0.8,
+            adjusted_exposure: 0.8,
+            conf_trend_alloc: 40.0,
+            conf_inverse_potential: 40.0,
+            capital_flow_acceleration: None,
+            universe_integrity: 1.0,
+            trend_maturity: 0.25,
+            stability_structural: 40.0,
+            stability_temporal: 25.0,
+            temporal_modifier: 0.9,
+            integrity_multiplier: 1.0,
+        }
+    }
+
     #[tokio::test]
     async fn test_trader_agent_dispatch() {
         let config = create_test_config(true, true, 5000.0);
@@ -310,7 +380,8 @@ mod tests {
 
         // Test 1: Optimal signal (Should Buy)
         let snap1 = create_test_snapshot("optimal", 100.0);
-        agent.execute_signals(&[snap1]).await.unwrap();
+        let gravity = create_test_gravity_health();
+        agent.execute_signals(&[snap1], &gravity).await.unwrap();
         assert_eq!(
             mock_exec
                 .lock()
@@ -322,7 +393,7 @@ mod tests {
 
         // Test 2: Overheat signal (Should Sell)
         let snap2 = create_test_snapshot("overheat_2", 150.0);
-        agent.execute_signals(&[snap2]).await.unwrap();
+        agent.execute_signals(&[snap2], &gravity).await.unwrap();
         assert_eq!(
             mock_exec
                 .lock()
@@ -334,7 +405,7 @@ mod tests {
 
         // Test 3: Hold signal (Should Ignore)
         let snap3 = create_test_snapshot("cruise", 120.0);
-        agent.execute_signals(&[snap3]).await.unwrap();
+        agent.execute_signals(&[snap3], &gravity).await.unwrap();
         assert_eq!(
             mock_exec
                 .lock()
@@ -363,7 +434,8 @@ mod tests {
         let ledger = Arc::new(Ledger::new(temp_dir));
         let agent = TraderAgent::new(config, mock_exec.clone(), ledger);
         let snap1 = create_test_snapshot("optimal", 100.0);
-        agent.execute_signals(&[snap1]).await.unwrap();
+        let gravity = create_test_gravity_health();
+        agent.execute_signals(&[snap1], &gravity).await.unwrap();
         assert_eq!(
             mock_exec
                 .lock()
