@@ -90,6 +90,7 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: |
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
