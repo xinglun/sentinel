@@ -600,9 +600,13 @@ fn format_stability_bar(value: f64) -> String {
 }
 
 fn get_position_guidance(state_code: &str, rules: &crate::config::ParsedRules) -> String {
-    let multiplier = rules.sizing_multipliers.get(state_code).copied().unwrap_or(1.0);
+    let multiplier = rules
+        .sizing_multipliers
+        .get(state_code)
+        .copied()
+        .unwrap_or(1.0);
     let pct = multiplier * 100.0;
-    
+
     if pct == 0.0 {
         "Alloc: 0% (Cash/Halt)".to_string()
     } else if pct == 100.0 {

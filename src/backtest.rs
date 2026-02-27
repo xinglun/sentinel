@@ -199,7 +199,11 @@ pub async fn run_backtest(
 
                             // Calculate Max Drawdown in those 20 days
                             let mut min_price_in_20d = curr.close;
-                            for fd_bar in full_hist.bars.iter().filter(|b| b.date >= *current_date && b.date <= future_date) {
+                            for fd_bar in full_hist
+                                .bars
+                                .iter()
+                                .filter(|b| b.date >= *current_date && b.date <= future_date)
+                            {
                                 if fd_bar.close < min_price_in_20d {
                                     min_price_in_20d = fd_bar.close;
                                 }
@@ -240,7 +244,9 @@ pub async fn run_backtest(
                             }
 
                             // Phase 13: Store in regime
-                            let reg_entry = regime_tracking.entry(snap.state_code.clone()).or_insert_with(RegimeStats::default);
+                            let reg_entry = regime_tracking
+                                .entry(snap.state_code.clone())
+                                .or_insert_with(RegimeStats::default);
                             reg_entry.total_signals += 1;
                             if is_correct_for_fwd {
                                 reg_entry.correct_signals += 1;
@@ -460,9 +466,14 @@ pub async fn run_backtest(
 
     // Phase 13 Regime-Specific Audit
     summary.push_str("## 3. Regime-Specific Alpha Audit\n");
-    summary.push_str("*Performance decoupled by generated Capital State (20d forward metrics).*\n\n");
-    summary.push_str("| Capital State | Signals | Hit Rate | Avg 20d Return | Avg 20d Max Drawdown |\n");
-    summary.push_str("|---------------|---------|----------|----------------|----------------------|\n");
+    summary
+        .push_str("*Performance decoupled by generated Capital State (20d forward metrics).*\n\n");
+    summary.push_str(
+        "| Capital State | Signals | Hit Rate | Avg 20d Return | Avg 20d Max Drawdown |\n",
+    );
+    summary.push_str(
+        "|---------------|---------|----------|----------------|----------------------|\n",
+    );
 
     // We want a logical ordering for display if possible, or just default alphabetical string sorting
     let mut reg_vec: Vec<_> = regime_tracking.into_iter().collect();
@@ -471,7 +482,9 @@ pub async fn run_backtest(
     reg_vec.sort_by(|a, b| b.1.total_signals.cmp(&a.1.total_signals));
 
     for (state, stats) in reg_vec {
-        if stats.total_signals == 0 { continue; }
+        if stats.total_signals == 0 {
+            continue;
+        }
         let hit_rate = (stats.correct_signals as f64 / stats.total_signals as f64) * 100.0;
         let avg_ret = (stats.sum_20d_return / stats.total_signals as f64) * 100.0;
         let avg_dd = if stats.count_drawdowns > 0 {
@@ -479,7 +492,7 @@ pub async fn run_backtest(
         } else {
             0.0
         };
-        
+
         let mut state_name = state;
         if state_name == "fear_downtrend" || state_name == "DEFEND" {
             state_name = format!("🛑 {}", state_name);
@@ -492,9 +505,11 @@ pub async fn run_backtest(
         } else if state_name.starts_with("CAUTION") {
             state_name = format!("⚠️ {}", state_name);
         }
-        
-        summary.push_str(&format!("| **{}** | `{}` | `{:.1}%` | `{:+.2}%` | `{:+.2}%` |\n", 
-            state_name, stats.total_signals, hit_rate, avg_ret, avg_dd));
+
+        summary.push_str(&format!(
+            "| **{}** | `{}` | `{:.1}%` | `{:+.2}%` | `{:+.2}%` |\n",
+            state_name, stats.total_signals, hit_rate, avg_ret, avg_dd
+        ));
     }
     summary.push('\n');
 

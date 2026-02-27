@@ -106,7 +106,13 @@ impl TraderAgent {
                 // Phase 12 Hardening: Dynamic Sizing based on Confidence (0-100)
                 // Phase 14: Dynamic Risk Sizing Multipliers based on Capital State
                 let confidence_factor = snap.confidence_score as f64 / 100.0;
-                let state_multiplier = self.config.get_parsed_rules().sizing_multipliers.get(&snap.state_code).copied().unwrap_or(1.0);
+                let state_multiplier = self
+                    .config
+                    .get_parsed_rules()
+                    .sizing_multipliers
+                    .get(&snap.state_code)
+                    .copied()
+                    .unwrap_or(1.0);
                 let adjusted_amount = trade_amount * confidence_factor * state_multiplier;
 
                 // Core logic mapping
