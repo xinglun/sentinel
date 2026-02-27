@@ -246,7 +246,7 @@ pub async fn run_backtest(
                             // Phase 13: Store in regime
                             let reg_entry = regime_tracking
                                 .entry(snap.state_code.clone())
-                                .or_insert_with(RegimeStats::default);
+                                .or_default();
                             reg_entry.total_signals += 1;
                             if is_correct_for_fwd {
                                 reg_entry.correct_signals += 1;
