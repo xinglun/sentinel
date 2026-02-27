@@ -599,15 +599,18 @@ fn format_stability_bar(value: f64) -> String {
     format!("{} {:.0}% ({})", bar, value * 100.0, reliability)
 }
 
-fn get_position_guidance(state_code: &str) -> &str {
-    match state_code {
-        "optimal" => "Portfolio Allocation: Maintain Full Allocation (Stay Efficient)",
-        "cruise" => "Portfolio Allocation: Maintain Full Allocation (Trend Follow)",
-        "pullback" => "Portfolio Allocation: +10% (Buy)",
-        "CAUTION" => "Neutral / Maintain",
-        "DEFEND" | "fear_downtrend" => "Portfolio Allocation: 0-20% (Avoid/Cash)",
-        "REGIME_FORMING" => "Allocation: N/A (Observe)",
-        _ => "Neutral",
+fn get_position_guidance(state_code: &str, rules: &crate::config::ParsedRules) -> String {
+    let multiplier = rules.sizing_multipliers.get(state_code).copied().unwrap_or(1.0);
+    let pct = multiplier * 100.0;
+    
+    if pct == 0.0 {
+        "Alloc: 0% (Cash/Halt)".to_string()
+    } else if pct == 100.0 {
+        "Alloc: 100% (Standard)".to_string()
+    } else if pct > 100.0 {
+        format!("Alloc: {:.0}% (Overweight)", pct)
+    } else {
+        format!("Alloc: {:.0}% (Underweight)", pct)
     }
 }
 
@@ -732,9 +735,9 @@ pub fn generate_reports(
         let action_guidance = if s.validity == RegimeValidity::FormingEarly
             || s.validity == RegimeValidity::FormingLate
         {
-            "Allocation: N/A (Observe)".to_string()
+            "Alloc: N/A (Observe)".to_string()
         } else {
-            get_position_guidance(&s.state_code).to_string()
+            get_position_guidance(&s.state_code, &config.get_parsed_rules())
         };
 
         let owner_dev_str = if s.validity == RegimeValidity::FormingEarly {
@@ -943,7 +946,7 @@ pub fn generate_reports(
         } else {
             "Mean Reversion ↓"
         };
-        let guidance = get_position_guidance(&s.state_code);
+        let guidance = get_position_guidance(&s.state_code, &config.get_parsed_rules());
         println!(
             " {}. {} ({} / Bias: {} / {})",
             i + 1,
@@ -1108,7 +1111,7 @@ pub fn generate_reports(
 }
 
 fn generate_markdown(
-    _config: &AppConfig,
+    config: &AppConfig,
     snapshots: &[TickerSnapshot],
     date_str: &str,
     gravity: &GravityHealth,
@@ -1402,7 +1405,7 @@ fn generate_markdown(
         } else {
             "Mean Reversion ↓"
         };
-        let guidance = get_position_guidance(&s.state_code);
+        let guidance = get_position_guidance(&s.state_code, &config.get_parsed_rules());
         md.push_str(&format!(
             "{}. **{}** ({} / {} / Elasticity: {} / Bias: {} / {})\n",
             i + 1,
@@ -1474,7 +1477,7 @@ fn generate_markdown(
         {
             "Allocation: N/A (Observe)".to_string()
         } else {
-            get_position_guidance(&s.state_code).to_string()
+            get_position_guidance(&s.state_code, &config.get_parsed_rules()).to_string()
         };
 
         let emoji = get_state_emoji(&s.state_code);
@@ -1501,7 +1504,7 @@ fn generate_markdown(
 }
 
 fn generate_telegram_html(
-    _config: &AppConfig,
+    config: &AppConfig,
     snapshots_raw: &[TickerSnapshot],
     date_str: &str,
     gravity: &GravityHealth,
@@ -1828,7 +1831,7 @@ fn generate_telegram_html(
         {
             "Allocation: N/A (Observe)".to_string()
         } else {
-            get_position_guidance(&s.state_code).to_string()
+            get_position_guidance(&s.state_code, &config.get_parsed_rules()).to_string()
         };
 
         let owner_dev_str = if s.validity == RegimeValidity::FormingEarly {

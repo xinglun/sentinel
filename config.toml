@@ -47,6 +47,18 @@ fear_1     = "【极度恐慌 🛡️】使用备用资金进行防御性逆势�
 fear_2     = "【极度恐慌 🆘】回归概率极大，果断部署现金 (Exemption)"
 regime_forming = "【观察期】：引力结构尚未形成，暂不参与"
 
+[rules.sizing_multipliers]
+optimal = 1.0
+cruise = 1.0
+pullback = 0.5
+fear_1 = 1.5
+fear_2 = 2.0
+overheat_1 = 0.5
+overheat_2 = 0.0
+DEFEND = 0.0
+fear_downtrend = 0.0
+CAUTION = 0.0
+
 [rules.bear_mode]
 enabled = true
 buffer_pct = 3.0

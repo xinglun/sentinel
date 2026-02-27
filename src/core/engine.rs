@@ -686,6 +686,7 @@ mod tests {
             },
             sorted_bands: vec![("optimal".to_string(), -5.0)],
             actions: HashMap::new(),
+            sizing_multipliers: HashMap::new(),
             bear_mode: BearModeConfig {
                 enabled: false,
                 fallback_action: "DEFEND".to_string(),

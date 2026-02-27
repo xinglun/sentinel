@@ -104,9 +104,10 @@ impl TraderAgent {
                 }
 
                 // Phase 12 Hardening: Dynamic Sizing based on Confidence (0-100)
-                // If confidence is low, we buy less.
+                // Phase 14: Dynamic Risk Sizing Multipliers based on Capital State
                 let confidence_factor = snap.confidence_score as f64 / 100.0;
-                let adjusted_amount = trade_amount * confidence_factor;
+                let state_multiplier = self.config.get_parsed_rules().sizing_multipliers.get(&snap.state_code).copied().unwrap_or(1.0);
+                let adjusted_amount = trade_amount * confidence_factor * state_multiplier;
 
                 // Core logic mapping
                 let (side, action_amount) = match snap.state_code.as_str() {
@@ -147,8 +148,8 @@ impl TraderAgent {
                     } else {
                         "SELL"
                     };
-                    println!("⚡ [Trader] Signal [{}] detected for {}! Preparing to {} {} shares @ {:.2} (Targeting ${:.2})", 
-                        snap.state_code, snap.symbol, side_str, qty, snap.dog_price, action_amount
+                    println!("⚡ [Trader] Signal [{}] detected for {}! Preparing to {} {} shares @ {:.2} (Targeting ${:.2} | Base: ${:.2} x Conf: {:.2} x Mul: {:.2})", 
+                        snap.state_code, snap.symbol, side_str, qty, snap.dog_price, action_amount, trade_amount, confidence_factor, state_multiplier
                     );
 
                     // Actually dispatch the order!
@@ -274,6 +275,7 @@ mod tests {
                 },
                 deviation_bands: std::collections::BTreeMap::new(),
                 actions: std::collections::HashMap::new(),
+                sizing_multipliers: None,
                 bear_mode: crate::config::BearModeConfig {
                     enabled: false,
                     fallback_action: "".to_string(),

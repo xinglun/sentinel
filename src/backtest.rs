@@ -87,11 +87,37 @@ pub async fn run_backtest(
     let mut high_conf_correct = 0;
     let mut low_conf_correct = 0;
 
+    // --- Phase 13: Regime Alpha Separation Audit ---
+    #[derive(Default, Debug)]
+    struct RegimeStats {
+        total_signals: usize,
+        correct_signals: usize,
+        sum_20d_return: f64,
+        sum_max_drawdown_20d: f64,
+        count_drawdowns: usize,
+    }
+    let mut regime_tracking: HashMap<String, RegimeStats> = HashMap::new();
+
     // Potential Energy -> Forward Returns
     let mut potential_records: Vec<(NaiveDate, f64)> = Vec::new();
 
+    // Phase 15: ML Features CSV
+    let mut ml_csv = "Date,Symbol,State_Code,Confidence_Score,Z_Score,Owner_MA_Slope,Curvature,Trend_Age,Global_Potential_Energy,Forward_20d_Return_Pct\n".to_string();
+
+    struct TempMlRow {
+        symbol: String,
+        state_code: String,
+        confidence: usize,
+        z_score: Option<f64>,
+        slope: Option<f64>,
+        curvature: Option<f64>,
+        trend_age: usize,
+        fwd_return: f64,
+    }
+
     for (i, current_date) in simulation_dates.iter().enumerate() {
         let mut daily_snapshots = Vec::new();
+        let mut daily_ml_rows = Vec::new();
 
         for entry in config.watchlist.iter().filter(|w| w.enable) {
             if let Some(hist) = histories.get(&entry.symbol) {
@@ -159,6 +185,27 @@ pub async fn run_backtest(
                         if let (Some(curr), Some(fut)) = (curr_bar, fut_bar) {
                             let fwd_return = (fut.close - curr.close) / curr.close;
 
+                            // Phase 15: Store for ML Export
+                            daily_ml_rows.push(TempMlRow {
+                                symbol: entry.symbol.clone(),
+                                state_code: snap.state_code.clone(),
+                                confidence: snap.confidence_score,
+                                z_score: snap.dev_z_score,
+                                slope: snap.owner_ma_slope_pct,
+                                curvature: snap.curvature,
+                                trend_age: snap.trend_age,
+                                fwd_return: fwd_return * 100.0,
+                            });
+
+                            // Calculate Max Drawdown in those 20 days
+                            let mut min_price_in_20d = curr.close;
+                            for fd_bar in full_hist.bars.iter().filter(|b| b.date >= *current_date && b.date <= future_date) {
+                                if fd_bar.close < min_price_in_20d {
+                                    min_price_in_20d = fd_bar.close;
+                                }
+                            }
+                            let max_drawdown = (min_price_in_20d - curr.close) / curr.close;
+
                             // Tracking for Discrimination Score
                             let mut is_correct_for_fwd = false;
                             let is_bear_state =
@@ -191,6 +238,16 @@ pub async fn run_backtest(
                             if is_correct_for_fwd {
                                 entry.1 += 1;
                             }
+
+                            // Phase 13: Store in regime
+                            let reg_entry = regime_tracking.entry(snap.state_code.clone()).or_insert_with(RegimeStats::default);
+                            reg_entry.total_signals += 1;
+                            if is_correct_for_fwd {
+                                reg_entry.correct_signals += 1;
+                            }
+                            reg_entry.sum_20d_return += fwd_return;
+                            reg_entry.sum_max_drawdown_20d += max_drawdown;
+                            reg_entry.count_drawdowns += 1;
                         }
                     }
                 }
@@ -206,9 +263,28 @@ pub async fn run_backtest(
                 weight_sum += s.weight;
             }
         }
+        let mut daily_pot = 0.0;
         if weight_sum > 0.0 {
             let potential = total_z / weight_sum;
             potential_records.push((*current_date, potential));
+            daily_pot = potential;
+        }
+
+        // Phase 15: Write ML rows
+        for row in daily_ml_rows {
+            ml_csv.push_str(&format!(
+                "{},{},{},{},{:.4},{:.4},{:.4},{},{:.4},{:.4}\n",
+                current_date,
+                row.symbol,
+                row.state_code,
+                row.confidence,
+                row.z_score.unwrap_or(0.0),
+                row.slope.unwrap_or(0.0),
+                row.curvature.unwrap_or(0.0),
+                row.trend_age,
+                daily_pot,
+                row.fwd_return
+            ));
         }
     }
 
@@ -221,6 +297,9 @@ pub async fn run_backtest(
         tm_csv.push_str(&format!("{},{},{}\n", from, to, count));
     }
     fs::write("backtest/transition_matrix.csv", tm_csv)?;
+
+    // Phase 15: ML Data Write
+    fs::write("backtest/ml_features.csv", ml_csv)?;
 
     // 2. Reliability Curve
     let mut rc_csv = "ConfidenceBucket,TotalSignals,CorrectSignals,WinRatePct\n".to_string();
@@ -379,8 +458,48 @@ pub async fn run_backtest(
     ));
     summary.push_str("- *Characteristics: Lower probability of immediate success, but much higher elastic magnitude on resolution. Suitable for opportunistic accumulation.*\n\n");
 
+    // Phase 13 Regime-Specific Audit
+    summary.push_str("## 3. Regime-Specific Alpha Audit\n");
+    summary.push_str("*Performance decoupled by generated Capital State (20d forward metrics).*\n\n");
+    summary.push_str("| Capital State | Signals | Hit Rate | Avg 20d Return | Avg 20d Max Drawdown |\n");
+    summary.push_str("|---------------|---------|----------|----------------|----------------------|\n");
+
+    // We want a logical ordering for display if possible, or just default alphabetical string sorting
+    let mut reg_vec: Vec<_> = regime_tracking.into_iter().collect();
+    // Sort by total signals descending just to show the most active states first
+    // You can also use a custom sort logic if you prefer optimal -> fear -> defend
+    reg_vec.sort_by(|a, b| b.1.total_signals.cmp(&a.1.total_signals));
+
+    for (state, stats) in reg_vec {
+        if stats.total_signals == 0 { continue; }
+        let hit_rate = (stats.correct_signals as f64 / stats.total_signals as f64) * 100.0;
+        let avg_ret = (stats.sum_20d_return / stats.total_signals as f64) * 100.0;
+        let avg_dd = if stats.count_drawdowns > 0 {
+            (stats.sum_max_drawdown_20d / stats.count_drawdowns as f64) * 100.0
+        } else {
+            0.0
+        };
+        
+        let mut state_name = state;
+        if state_name == "fear_downtrend" || state_name == "DEFEND" {
+            state_name = format!("🛑 {}", state_name);
+        } else if state_name.starts_with("fear") {
+            state_name = format!("🩸 {}", state_name);
+        } else if state_name.starts_with("optimal") || state_name.starts_with("cruise") {
+            state_name = format!("🟢 {}", state_name);
+        } else if state_name.starts_with("overheat") || state_name.starts_with("pullback") {
+            state_name = format!("🟡 {}", state_name);
+        } else if state_name.starts_with("CAUTION") {
+            state_name = format!("⚠️ {}", state_name);
+        }
+        
+        summary.push_str(&format!("| **{}** | `{}` | `{:.1}%` | `{:+.2}%` | `{:+.2}%` |\n", 
+            state_name, stats.total_signals, hit_rate, avg_ret, avg_dd));
+    }
+    summary.push('\n');
+
     // Potential
-    summary.push_str("## 3. Potential Energy Forward Returns (Median 20d/60d Index Returns)\n");
+    summary.push_str("## 4. Potential Energy Forward Returns (Median 20d/60d Index Returns)\n");
     let median = |mut arr: Vec<f64>| -> String {
         if arr.is_empty() {
             return "N/A".to_string();
@@ -402,7 +521,7 @@ pub async fn run_backtest(
     summary.push('\n');
 
     // Transitions
-    summary.push_str("## 4. State Transition Flow\n");
+    summary.push_str("## 5. State Transition Flow\n");
     let mut from_groups: HashMap<String, Vec<(String, usize)>> = HashMap::new();
     for ((from, to), count) in &transition_matrix {
         from_groups

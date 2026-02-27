@@ -60,6 +60,7 @@ pub struct RulesConfig {
     pub trend: TrendConfig,
     pub deviation_bands: BTreeMap<String, f64>,
     pub actions: HashMap<String, String>,
+    pub sizing_multipliers: Option<HashMap<String, f64>>, // Optional for backward compatibility
     pub bear_mode: BearModeConfig,
 }
 
@@ -110,6 +111,7 @@ pub struct ParsedRules {
     pub trend: TrendConfig,
     pub sorted_bands: Vec<(String, f64)>, // descending thresholds
     pub actions: HashMap<String, String>,
+    pub sizing_multipliers: HashMap<String, f64>,
     pub bear_mode: BearModeConfig,
 }
 
@@ -183,6 +185,7 @@ impl AppConfig {
             trend: self.rules.trend.clone(),
             sorted_bands: bands,
             actions: self.rules.actions.clone(),
+            sizing_multipliers: self.rules.sizing_multipliers.clone().unwrap_or_default(),
             bear_mode: self.rules.bear_mode.clone(),
         }
     }
