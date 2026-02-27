@@ -26,7 +26,7 @@ fn main() {
         );
     } else {
         println!(
-            "cargo:warning=Compiling {} proto files into src/adapters/futu/protocol/generated",
+            "Compiling {} proto files into src/adapters/futu/protocol/generated",
             proto_files.len()
         );
         // Compile them into Rust traits using prost-build

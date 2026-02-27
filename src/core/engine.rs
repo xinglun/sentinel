@@ -664,9 +664,9 @@ pub fn evaluate_snapshot(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::{BearModeConfig, RulesConfig, TrendConfig};
+    use crate::config::{BearModeConfig, TrendConfig};
     use chrono::NaiveDate;
-    use std::collections::{BTreeMap, HashMap};
+    use std::collections::HashMap;
 
     fn make_test_bars(prices: &[f64]) -> Vec<DailyBar> {
         let mut bars = Vec::new();
@@ -714,6 +714,7 @@ mod tests {
             sorted_bands: vec![("optimal".to_string(), -5.0)],
             actions: HashMap::new(),
             sizing_multipliers: HashMap::new(),
+            sentiment_thresholds: HashMap::new(),
             bear_mode: BearModeConfig {
                 enabled: false,
                 fallback_action: "DEFEND".to_string(),

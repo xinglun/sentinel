@@ -269,6 +269,7 @@ mod tests {
             },
             telegram: None,
             futu: None,
+            finnhub: None,
             trading: Some(TradingConfig {
                 enabled: global_enabled,
                 global_budget: 10000.0,
@@ -282,6 +283,7 @@ mod tests {
                 deviation_bands: std::collections::BTreeMap::new(),
                 actions: std::collections::HashMap::new(),
                 sizing_multipliers: None,
+                sentiment_thresholds: None,
                 bear_mode: crate::config::BearModeConfig {
                     enabled: false,
                     fallback_action: "".to_string(),
@@ -323,6 +325,7 @@ mod tests {
             deviation_percentile: None,
             validity: RegimeValidity::Valid,
             history_days: 500,
+            sentiment: None,
         }
     }
 
