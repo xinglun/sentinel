@@ -139,7 +139,7 @@ pub async fn run_backtest(
                     latest_quote_timestamp: None,
                 };
 
-                let snap = evaluate_snapshot(&sliced_history, entry, &parsed_rules);
+                let snap = evaluate_snapshot(&sliced_history, entry, &parsed_rules, None);
                 daily_snapshots.push(snap.clone());
 
                 // Track transitions

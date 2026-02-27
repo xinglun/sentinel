@@ -45,6 +45,7 @@ pub struct TickerSnapshot {
     pub deviation_percentile: Option<f64>,
     pub validity: RegimeValidity,
     pub history_days: usize,
+    pub sentiment: Option<crate::data::sentiment::SentimentScore>,
 }
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
@@ -119,6 +120,7 @@ pub fn evaluate_snapshot(
     history: &TickerHistory,
     entry: &WatchlistEntry,
     rules: &ParsedRules,
+    sentiment: Option<crate::data::sentiment::SentimentScore>,
 ) -> TickerSnapshot {
     let name = entry.name.clone().unwrap_or_else(|| entry.symbol.clone());
 
@@ -148,6 +150,7 @@ pub fn evaluate_snapshot(
             deviation_percentile: None,
             validity: RegimeValidity::Invalid,
             history_days: 0,
+            sentiment: None,
         };
     }
 
@@ -281,40 +284,59 @@ pub fn evaluate_snapshot(
     }
 
     let mut state_code = "UNKNOWN".to_string();
-    let mut action_text = "データ不足または計算異常".to_string();
+    let mut action_text = "データ不足または计算异常".to_string();
 
     if let Some(dev) = deviation_pct {
-        let mut found = false;
+        let mut candidate = None;
         for (band_name, threshold) in &rules.sorted_bands {
             if dev >= *threshold {
-                state_code = band_name.clone();
-                // Priority Check: Individual ticker overrides
-                if let Some(ref overrides) = entry.action_overrides {
-                    if let Some(act) = overrides.get(band_name) {
-                        action_text = act.clone();
-                    } else if let Some(act) = rules.actions.get(band_name) {
-                        action_text = act.clone();
-                    }
-                } else if let Some(act) = rules.actions.get(band_name) {
-                    action_text = act.clone();
-                }
-                found = true;
+                candidate = Some(band_name.clone());
                 break;
             }
         }
 
-        if !found {
+        if candidate.is_none() {
             if let Some((lowest_band, _)) = rules.sorted_bands.last() {
-                state_code = lowest_band.clone();
-                if let Some(ref overrides) = entry.action_overrides {
-                    if let Some(act) = overrides.get(lowest_band) {
-                        action_text = act.clone();
-                    } else if let Some(act) = rules.actions.get(lowest_band) {
-                        action_text = act.clone();
+                candidate = Some(lowest_band.clone());
+            }
+        }
+
+        if let Some(mut eval_state) = candidate {
+            // Apply Sentiment Threshold verification
+            loop {
+                let mut passed = true;
+                if let Some(req_sent) = rules.sentiment_thresholds.get(&eval_state) {
+                    if let Some(ref sent) = sentiment {
+                        if sent.score > *req_sent {
+                            passed = false;
+                        }
+                    } else {
+                        passed = false; // No sentiment data = fail cautious threshold
                     }
-                } else if let Some(act) = rules.actions.get(lowest_band) {
+                }
+                if passed {
+                    break;
+                } else {
+                    // Fallback to a less extreme (higher threshold) state
+                    let pos = rules.sorted_bands.iter().position(|(b, _)| b == &eval_state).unwrap();
+                    if pos == 0 {
+                        break;
+                    }
+                    eval_state = rules.sorted_bands[pos - 1].0.clone();
+                }
+            }
+
+            state_code = eval_state.clone();
+
+            // Set Action Text
+            if let Some(ref overrides) = entry.action_overrides {
+                if let Some(act) = overrides.get(&eval_state) {
+                    action_text = act.clone();
+                } else if let Some(act) = rules.actions.get(&eval_state) {
                     action_text = act.clone();
                 }
+            } else if let Some(act) = rules.actions.get(&eval_state) {
+                action_text = act.clone();
             }
         }
     }
@@ -608,6 +630,7 @@ pub fn evaluate_snapshot(
         },
         validity: validity.clone(),
         history_days,
+        sentiment,
     };
 
     if is_any_forming {
@@ -722,7 +745,7 @@ mod tests {
             total_trading_days: 100,
             latest_quote_timestamp: None,
         };
-        let snap = evaluate_snapshot(&hist, &entry, &rules);
+        let snap = evaluate_snapshot(&hist, &entry, &rules, None);
         assert_eq!(snap.validity, RegimeValidity::FormingEarly);
         assert_eq!(snap.state_code, "FORMING_EARLY");
 
@@ -734,7 +757,7 @@ mod tests {
             total_trading_days: 250,
             latest_quote_timestamp: None,
         };
-        let snap2 = evaluate_snapshot(&hist2, &entry, &rules);
+        let snap2 = evaluate_snapshot(&hist2, &entry, &rules, None);
         assert_eq!(snap2.validity, RegimeValidity::FormingLate);
 
         // Valid (> 400 days)
@@ -745,7 +768,7 @@ mod tests {
             total_trading_days: 450,
             latest_quote_timestamp: None,
         };
-        let snap3 = evaluate_snapshot(&hist3, &entry, &rules);
+        let snap3 = evaluate_snapshot(&hist3, &entry, &rules, None);
         assert_eq!(snap3.validity, RegimeValidity::Valid);
     }
 }

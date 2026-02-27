@@ -155,7 +155,7 @@ pub async fn run() -> Result<()> {
                         match provider.fetch_history(&entry.symbol, None, None).await {
                             Ok(history) => {
                                 let snapshot =
-                                    engine::evaluate_snapshot(&history, entry, &rules_arc);
+                                    engine::evaluate_snapshot(&history, entry, &rules_arc, None);
                                 current_snapshots.push(snapshot);
                             }
                             Err(e) => {
@@ -321,17 +321,22 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
 
     let mut snapshots = Vec::new();
     let mut quote_timestamps = Vec::new();
+    use crate::data::sentiment::SentimentProvider;
+    let sentiment_provider = Arc::new(crate::data::sentiment::MockSentimentProvider::new());
 
     let fetches = stream::iter(watchlist.iter().filter(|w| w.enable))
         .map(|entry| {
             let rules_ref = Arc::clone(&rules_arc);
             let provider_ref = Arc::clone(&provider);
+            let sentiment_provider_ref = Arc::clone(&sentiment_provider);
             async move {
                 let symbol = &entry.symbol;
+                let sentiment_score = sentiment_provider_ref.fetch_sentiment(symbol).await.ok();
+
                 match provider_ref.fetch_history(symbol, None, None).await {
                     Ok(history) => {
                         let latest_ts = history.latest_quote_timestamp;
-                        let snapshot = engine::evaluate_snapshot(&history, entry, &rules_ref);
+                        let snapshot = engine::evaluate_snapshot(&history, entry, &rules_ref, sentiment_score);
                         (Some(snapshot), latest_ts)
                     }
                     Err(e) => {
@@ -362,6 +367,7 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
                             deviation_percentile: None,
                             validity: engine::RegimeValidity::Invalid,
                             history_days: 0,
+                            sentiment: None,
                         };
                         (Some(err_snap), None)
                     }

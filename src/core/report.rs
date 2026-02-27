@@ -18,6 +18,8 @@ struct TerminalRow {
     owner_dev: String,
     #[tabled(rename = "Sigma (σ)")]
     strength_z: String,
+    #[tabled(rename = "Sentiment")]
+    sentiment: String,
     #[tabled(rename = "Status (State)")]
     state: String,
     #[tabled(rename = "Action Guidance")]
@@ -757,11 +759,18 @@ pub fn generate_reports(
             format!("{} ({})", format_sigma(z_val), get_z_label(z_val))
         };
 
+        let sentiment_str = if let Some(ref sent) = s.sentiment {
+            format!("{:.0} ({})", sent.score, sent.label)
+        } else {
+            "-".to_string()
+        };
+
         rows.push(TerminalRow {
             symbol: s.symbol.clone(),
             trend: trend_combined,
             owner_dev: owner_dev_str,
             strength_z: strength_z_combined,
+            sentiment: sentiment_str,
             state: state_rc,
             action: action_guidance,
         });
@@ -1861,12 +1870,19 @@ fn generate_telegram_html(
             format!("{} {}", emoji, escape_html(&s.state_code))
         };
 
+        let sentiment_html = if let Some(ref sent) = s.sentiment {
+            format!(" | 🧠 <code>{:.0}</code> ({})", sent.score, escape_html(&sent.label))
+        } else {
+            "".to_string()
+        };
+
         html.push_str(&format!(
-            "{}. <b>{}</b> | {} | <code>{}</code>\n",
+            "{}. <b>{}</b> | {} | <code>{}</code>{}\n",
             idx + 1,
             s.symbol,
             state_name,
-            escape_html(&action_guidance)
+            escape_html(&action_guidance),
+            sentiment_html
         ));
         html.push_str(&format!(
             "└ <code>{}</code> | {} | {}\n",

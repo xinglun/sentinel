@@ -61,6 +61,7 @@ pub struct RulesConfig {
     pub deviation_bands: BTreeMap<String, f64>,
     pub actions: HashMap<String, String>,
     pub sizing_multipliers: Option<HashMap<String, f64>>, // Optional for backward compatibility
+    pub sentiment_thresholds: Option<HashMap<String, f64>>, // Optional for mapping states to sentiment caps
     pub bear_mode: BearModeConfig,
 }
 
@@ -112,6 +113,7 @@ pub struct ParsedRules {
     pub sorted_bands: Vec<(String, f64)>, // descending thresholds
     pub actions: HashMap<String, String>,
     pub sizing_multipliers: HashMap<String, f64>,
+    pub sentiment_thresholds: HashMap<String, f64>,
     pub bear_mode: BearModeConfig,
 }
 
@@ -186,6 +188,7 @@ impl AppConfig {
             sorted_bands: bands,
             actions: self.rules.actions.clone(),
             sizing_multipliers: self.rules.sizing_multipliers.clone().unwrap_or_default(),
+            sentiment_thresholds: self.rules.sentiment_thresholds.clone().unwrap_or_default(),
             bear_mode: self.rules.bear_mode.clone(),
         }
     }
