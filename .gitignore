@@ -5,5 +5,4 @@ Cargo.lock
 reports/
 backtest/
 .env
-data/
 telemetry.csv
