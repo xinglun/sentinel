@@ -1871,7 +1871,11 @@ fn generate_telegram_html(
         };
 
         let sentiment_html = if let Some(ref sent) = s.sentiment {
-            format!(" | 🧠 <code>{:.0}</code> ({})", sent.score, escape_html(&sent.label))
+            format!(
+                " | 🧠 <code>{:.0}</code> ({})",
+                sent.score,
+                escape_html(&sent.label)
+            )
         } else {
             "".to_string()
         };

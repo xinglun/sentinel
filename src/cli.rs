@@ -322,7 +322,15 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
     let mut snapshots = Vec::new();
     let mut quote_timestamps = Vec::new();
     use crate::data::sentiment::SentimentProvider;
-    let sentiment_provider = Arc::new(crate::data::sentiment::MockSentimentProvider::new());
+    let sentiment_provider: Arc<dyn SentimentProvider> = if let Some(ref fh) = config_arc.finnhub {
+        println!("🧠 Using Finnhub Sentiment API...");
+        Arc::new(crate::data::sentiment::FinnhubSentimentProvider::new(
+            fh.api_key.clone(),
+        ))
+    } else {
+        println!("🧠 Using Mock Sentiment API (No config found)...");
+        Arc::new(crate::data::sentiment::MockSentimentProvider::new())
+    };
 
     let fetches = stream::iter(watchlist.iter().filter(|w| w.enable))
         .map(|entry| {
@@ -336,7 +344,8 @@ async fn run_radar(provider: Arc<dyn MarketDataProvider>) -> Result<()> {
                 match provider_ref.fetch_history(symbol, None, None).await {
                     Ok(history) => {
                         let latest_ts = history.latest_quote_timestamp;
-                        let snapshot = engine::evaluate_snapshot(&history, entry, &rules_ref, sentiment_score);
+                        let snapshot =
+                            engine::evaluate_snapshot(&history, entry, &rules_ref, sentiment_score);
                         (Some(snapshot), latest_ts)
                     }
                     Err(e) => {

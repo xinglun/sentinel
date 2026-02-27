@@ -11,6 +11,7 @@ pub struct AppConfig {
     pub output: OutputConfig,
     pub telegram: Option<TelegramConfig>,
     pub futu: Option<FutuConfig>,
+    pub finnhub: Option<FinnhubConfig>,
     pub trading: Option<TradingConfig>,
     pub rules: RulesConfig,
     pub watchlist: Vec<WatchlistEntry>,
@@ -45,6 +46,11 @@ pub struct FutuConfig {
     pub market: u32,                         // 1: HK, 2: US, etc.
     pub acc_id: Option<u64>,                 // Loaded from config or ENV
     pub unlock_password_md5: Option<String>, // Loaded from ENV
+}
+
+#[derive(Debug, Deserialize, Clone)]
+pub struct FinnhubConfig {
+    pub api_key: String,
 }
 
 #[allow(dead_code)]
@@ -158,6 +164,15 @@ impl AppConfig {
             }
             if let Ok(pwd) = std::env::var("FUTU_UNLOCK_PASSWORD_MD5") {
                 futu.unlock_password_md5 = Some(pwd);
+            }
+        }
+
+        // Environment variable overrides for Finnhub
+        if let Ok(key) = std::env::var("FINNHUB_API_KEY") {
+            if let Some(ref mut fh) = config.finnhub {
+                fh.api_key = key;
+            } else {
+                config.finnhub = Some(FinnhubConfig { api_key: key });
             }
         }
 

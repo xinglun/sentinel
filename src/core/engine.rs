@@ -318,7 +318,11 @@ pub fn evaluate_snapshot(
                     break;
                 } else {
                     // Fallback to a less extreme (higher threshold) state
-                    let pos = rules.sorted_bands.iter().position(|(b, _)| b == &eval_state).unwrap();
+                    let pos = rules
+                        .sorted_bands
+                        .iter()
+                        .position(|(b, _)| b == &eval_state)
+                        .unwrap();
                     if pos == 0 {
                         break;
                     }
