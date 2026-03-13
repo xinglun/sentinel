@@ -1,5 +1,5 @@
 {
-  "max_age_minutes": 0,
-  "stale": false,
-  "timestamp_utc": "2026-03-13T14:47:52.239586792+00:00"
+  "max_age_minutes": 1323,
+  "stale": true,
+  "timestamp_utc": "2026-02-27T12:33:26.454424+00:00"
 }
