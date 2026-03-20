@@ -317,10 +317,20 @@ async fn run_pipeline(
                 println!("🔌 [Daemon] Initializing context from LIVE FutuTrader adapter...");
                 let addr = format!("{}:{}", futu_config.opend_ip, futu_config.opend_port);
                 let futu_client = FutuClient::connect(&addr).await?;
-                Arc::new(Mutex::new(FutuTrader::new(
-                    Arc::new(futu_client),
-                    futu_config.clone(),
-                )))
+                let trader = FutuTrader::new(Arc::new(futu_client), futu_config.clone());
+
+                // Preflight: Ensure trading is unlocked at startup
+                if config_arc
+                    .trading
+                    .as_ref()
+                    .map(|t| t.enabled)
+                    .unwrap_or(false)
+                {
+                    println!("🔑 [Preflight] Unlocking trading account...");
+                    trader.unlock_trade().await?;
+                }
+
+                Arc::new(Mutex::new(trader))
             } else {
                 println!("⚠️ [Daemon] Futu config missing, using MockTradeExecutor for archival context.");
                 Arc::new(Mutex::new(crate::trade::trader::MockTradeExecutor::new()))

@@ -46,19 +46,16 @@ impl TraderAgent {
             });
         }
 
-        // 1. Preflight: Unlock Trading (Required for Futu/Moomoo)
-        {
-            let exec = self.executor.lock().await;
-            if let Err(e) = exec.unlock_trade().await {
-                println!("❌ [TraderAgent - PREFLIGHT] Failed to unlock trading: {}. Aborting execution.", e);
-                return Err(e);
-            }
-            println!("🔓 [TraderAgent - PREFLIGHT] Trading account successfully unlocked.");
-        }
-
         let mut errors = Vec::new();
+        let mut first = true;
 
         for trade in gated_trades {
+            // 2. Rate Limiting: 1s buffer between orders to comply with Moomoo limits (15/30s)
+            if !first {
+                tokio::time::sleep(std::time::Duration::from_secs(1)).await;
+            }
+            first = false;
+
             // Check if we've already acted on this symbol today for the same side to avoid double-trading
             let side_str_upper = format!("{:?}", trade.side).to_uppercase();
             if self.ledger.has_acted_today(&trade.symbol, &side_str_upper) {
