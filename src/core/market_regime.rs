@@ -2,8 +2,9 @@ use crate::core::features::MarketFeatures;
 use serde::{Deserialize, Serialize};
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum MarketState {
+    #[default]
     IGNITION,
     NEWBORN,
     EARLY_CONFIRMATION,
@@ -13,8 +14,9 @@ pub enum MarketState {
 }
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum LifecycleState {
+    #[default]
     NONE,
     IGNITION,
     NEWBORN,
@@ -24,15 +26,16 @@ pub enum LifecycleState {
 }
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum RiskOverlay {
+    #[default]
     NORMAL,
     DECELERATING,
     DEFENSIVE,
     BROKEN,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct MarketRegimeSnapshot {
     pub market_state: MarketState,
     pub lifecycle_state: LifecycleState,

@@ -217,8 +217,11 @@ async fn run_pipeline(
         archival: crate::core::run_status::DeliveryStatus::Skipped,
         notification: crate::core::run_status::DeliveryStatus::Skipped,
         execution: crate::core::run_status::DeliveryStatus::Skipped,
+        reconciliation: crate::core::run_status::DeliveryStatus::Skipped,
+        reconciliation_report: None,
         data_quality: "PENDING".to_string(),
         execution_details: None,
+        preflight: None,
     };
 
     if !ticker_histories.is_empty() {
@@ -328,6 +331,82 @@ async fn run_pipeline(
                 {
                     println!("🔑 [Preflight] Unlocking trading account...");
                     trader.unlock_trade().await?;
+
+                    println!("🔍 [Preflight] Checking broker quote permissions & quota...");
+                    let res = trader.get_broker_permissions().await;
+                    let mut preflight = crate::core::run_status::PreflightResult {
+                        status: "Verified".to_string(),
+                        sub_quota_used: 0,
+                        sub_quota_total: 0,
+                        market_rights: std::collections::HashMap::new(),
+                    };
+
+                    match res {
+                        Ok(perms) => {
+                            preflight.sub_quota_used = perms.sub_quota_used;
+                            preflight.sub_quota_total = perms.sub_quota_total;
+                            println!(
+                                "📊 [Broker] Quota: {}/{} used.",
+                                perms.sub_quota_used, perms.sub_quota_total
+                            );
+
+                            let required_quota =
+                                config_arc.watchlist.iter().filter(|w| w.enable).count() as i32;
+                            let remaining = perms.sub_quota_total - perms.sub_quota_used;
+
+                            if required_quota > remaining {
+                                let msg = format!("Watchlist size ({}) exceeds remaining quota ({}).", required_quota, remaining);
+                                println!("⚠️ [Preflight] {}", msg);
+                                preflight.status = "Warning".to_string();
+                                if mode == crate::core::runtime_mode::ExecutionMode::Live {
+                                    outcome.preflight = Some(preflight);
+                                    let _ = persistence.save_run_status(&outcome);
+                                    anyhow::bail!("Insufficient subscription quota for Live trading: {}", msg);
+                                }
+                            }
+
+                            for watch in config_arc.watchlist.iter().filter(|w| w.enable) {
+                                let market_key = match watch.market.as_str() {
+                                    "US" => "US",
+                                    "HK" => "HK",
+                                    "SH" => "SH",
+                                    "SZ" => "SZ",
+                                    _ => "US",
+                                };
+
+                                if let Some(right) = perms.market_rights.get(market_key) {
+                                    use crate::trade::trader::MarketRight;
+                                    preflight
+                                        .market_rights
+                                        .insert(market_key.to_string(), format!("{:?}", right));
+
+                                    match right {
+                                        MarketRight::BMP | MarketRight::None | MarketRight::Unknow => {
+                                            let msg = format!("Market {} right is {:?}. No real-time subscription.", market_key, right);
+                                            println!("⚠️ [Preflight] Potential issue for {}: {}", watch.symbol, msg);
+                                            preflight.status = "Warning".to_string();
+                                            if mode == crate::core::runtime_mode::ExecutionMode::Live {
+                                                outcome.preflight = Some(preflight);
+                                                let _ = persistence.save_run_status(&outcome);
+                                                anyhow::bail!("Insufficient market permissions for {}: {}", watch.symbol, msg);
+                                            }
+                                        }
+                                        _ => {}
+                                    }
+                                }
+                            }
+                        }
+                        Err(e) => {
+                            println!("⚠️ [Preflight] Failed to fetch broker permissions: {}", e);
+                            preflight.status = "Failed".to_string();
+                            if mode == crate::core::runtime_mode::ExecutionMode::Live {
+                                outcome.preflight = Some(preflight);
+                                let _ = persistence.save_run_status(&outcome);
+                                anyhow::bail!("Broker permission check failed in Live mode: {}", e);
+                            }
+                        }
+                    }
+                    outcome.preflight = Some(preflight);
                 }
 
                 Arc::new(Mutex::new(trader))
@@ -343,8 +422,9 @@ async fn run_pipeline(
         // 2. Fetch context for ExecutionGate and Snapshots
         let funds = {
             let exec = trader_executor.lock().await;
-            exec.get_funds().await?
+            exec.get_account_funds().await?
         };
+        outcome.execution_details = None; // Initial state
         let daily_traded = ledger.get_daily_traded_amount();
         let (realized_pl, positions) = ledger.get_portfolio_stats();
         let mut current_exposure = 0.0;
@@ -437,12 +517,54 @@ async fn run_pipeline(
                     };
                 }
             }
+
+            // 8. Position Reconciliation (Post-flight)
+            println!("🔍 [Post-flight] Performing broker-side position reconciliation...");
+            match agent.reconcile_positions().await {
+                Ok(report) => {
+                    if !report.mismatches.is_empty() {
+                        println!("❌ [RECONCILIATION] Critical mismatches detected in Live mode!");
+                        for m in &report.mismatches {
+                            println!("   - {}: Local={} Broker={} Diff={}", m.symbol, m.local_qty, m.broker_qty, m.diff);
+                        }
+                        outcome.reconciliation = crate::core::run_status::DeliveryStatus::Failed {
+                            reason: "Position mismatch detected between ledger and broker".to_string(),
+                        };
+                    } else {
+                        println!("✅ [Post-flight] Reconciliation successful. Local ledger matches broker.");
+                        outcome.reconciliation = crate::core::run_status::DeliveryStatus::Succeeded;
+                    }
+                    outcome.reconciliation_report = Some(report);
+                }
+                Err(e) => {
+                    println!("❌ [Post-flight] Reconciliation API failure: {}", e);
+                    outcome.reconciliation = crate::core::run_status::DeliveryStatus::Failed {
+                        reason: format!("Broker API failure during reconciliation: {}", e),
+                    };
+                }
+            }
         } else {
             println!(
                 "💡 [{}] Mode: ExecutionGate logic completed for archival (trading bypassed)",
                 mode
             );
             outcome.execution = crate::core::run_status::DeliveryStatus::Skipped;
+
+            // In Dry-run, we can still reconcile if it's Futu type
+            if provider_type == ProviderType::Futu {
+                let agent = TraderAgent::new(trader_executor.clone(), ledger.clone());
+                match agent.reconcile_positions().await {
+                    Ok(report) => {
+                        outcome.reconciliation_report = Some(report);
+                        outcome.reconciliation = crate::core::run_status::DeliveryStatus::Succeeded;
+                    }
+                    Err(e) => {
+                        outcome.reconciliation = crate::core::run_status::DeliveryStatus::Failed {
+                            reason: e.to_string(),
+                        };
+                    }
+                }
+            }
         }
 
         let fetched_symbols: std::collections::HashSet<String> = ticker_histories
@@ -487,10 +609,13 @@ async fn run_pipeline(
         // Finalize Outcome and Save
         persistence.save_run_status(&outcome)?;
 
-        // P0 Closure: Fail if critical parts failed (Execution, Notification, OR Archival)
+        // P0 Closure: Fail if critical parts failed (Execution, Notification, Archival, OR Reconciliation)
         if mode == crate::core::runtime_mode::ExecutionMode::Live {
             if let crate::core::run_status::DeliveryStatus::Failed { reason } = outcome.execution {
                 return Err(anyhow::anyhow!("Critical Execution Failure: {}", reason));
+            }
+            if let crate::core::run_status::DeliveryStatus::Failed { reason } = outcome.reconciliation {
+                return Err(anyhow::anyhow!("Critical Reconciliation Failure: {}", reason));
             }
         }
 

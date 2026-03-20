@@ -18,18 +18,20 @@
 
 1. OpenD 连接
 2. 历史 K 线拉取
-3. 交易解锁
-4. 资金查询
-5. 下单主路径
-6. DryRun / Live 分离
-7. 运行审计与失败语义闭环
+3. 交易解锁与行情权限 Preflight (P1-2)
+4. 资金查询与容量校验 (P2-1)
+5. 订单生命周期闭环与状态回查 (P1-1)
+6. 自动化撤单与二次确认 (P2-2)
+7. Authoritative Position Reconciliation (P2-3)
+8. 运行审计与失败语义结构化 (P1-3)
 
 剩余任务主要是：
 
-1. 订单生命周期闭环
-2. 行情权限自检
-3. broker-side reconciliation
-4. 限流与 quota awareness
+1. 订单生命周期闭环 (P1-1) [DONE]
+2. 行情权限自检 (P1-2) [DONE]
+3. broker-side reconciliation (P2-2 -> P2-3) [DONE]
+4. 限流与 quota awareness (P2-1) [DONE]
+5. 撤单接口与二次确认 (P2-2) [DONE]
 
 ## 3. Priority Model
 
@@ -43,9 +45,9 @@
 增强项。  
 用于提升扩展性、可观测性和未来实时化能力。
 
-## 4. P1 Tasks
+## 4. P1 - Hardened Features (Completed)
 
-### P1-1: Order Lifecycle Closure
+### P1-1: Order Lifecycle Closure [FINISHED]
 
 **Problem**
 
@@ -105,7 +107,7 @@
    - partial fill / partial failure
    - reject / cancel
 
-### P1-2: Quote Authority Preflight
+### P1-2: Quote Authority Preflight [FINISHED]
 
 **Problem**
 
@@ -124,9 +126,9 @@
 1. 启动时检查当前账户/环境的行情权限
 2. 检查 watchlist 涉及市场是否在权限范围内
 3. 明确权限不足时的行为：
-   - 降级为观察模式
-   - 禁止进入 Live
-   - 记录结构化原因
+   - **降级为观察模式 (Neutral)**：只记录信号，不触发订单。
+   - **禁止进入 Live**：在启动阶段若关键市场权限缺失，直接阻断运行。
+   - 记录结构化原因到 `run_status.json`。
 
 **Suggested Output**
 
@@ -142,60 +144,51 @@
 2. 不能出现“权限不足但静默继续 live execution”
 3. 失败原因必须结构化落盘
 
-## 5. P2 Tasks
-
-### P2-1: Unified Rate Limiter
+### P1-3: Order Failure Classification [FINISHED]
 
 **Problem**
 
-当前仅有交易执行路径上的 1 秒 sleep，属于保守节流，不是统一限流器。
+当前失败虽然能记录，但其原因（Reason）较为笼统，难以直接用于自动化恢复或快速运维诊断。
 
 **Task**
 
-1. 为交易请求增加集中式 limiter
-2. 为历史数据/实时数据请求增加可配置 limiter
-3. 预留 quota-aware 调度能力
+1. 将 `PlaceOrder` 错误细分并结构化：
+   - `INSUFFICIENT_FUNDS` (资金不足)
+   - `EXCEEDS_BUDGET` (超出 Sentinel 内部预算)
+   - `INVALID_PRICE` (价格档位/Tick 不符)
+   - `MARKET_CLOSED` (非交易时段)
+   - `PERMISSIONS_DENIED` (权限或协议未签署)
+2. 在 `TradeExecutionAudit` 中增加错误代码或枚举。
 
 **Acceptance Criteria**
 
-1. 不同 API 通道有明确限流策略
-2. 不依赖散落的 `sleep()` 作为长期方案
+1. 常见的交易失败能映射到明确的业务分类。
+2. 运维日志能通过错误类型快速过滤。
 
-### P2-2: Broker-side Position Reconciliation
+## 5. P2 - Hardened Features (Completed)
+
+### P2-1: Unified Rate Limiter [FINISHED]
 
 **Problem**
+当前仅有交易执行路径上的 1 秒 sleep，属于保守节流，基础限流已达成。
 
-当前组合快照高度依赖本地 `ledger`。
-
-**Task**
-
-1. 增加 broker 持仓查询
-2. 定期比对 broker positions 与 `ledger`
-3. 输出 reconciliation 结果
-
-**Acceptance Criteria**
-
-1. 可检测本地账本与 broker 持仓偏差
-2. 偏差可记录并告警
-
-### P2-3: Subscription-based Quote Path
+### P2-2: Order Cancellation & Absolute Closure [FINISHED]
 
 **Problem**
-
-当前主链仍然是 batch/radar 方式，没有进入 OpenAPI 的实时订阅优势。
-
+当前订单在超时或异常时需要可靠的撤单机制，防止意外成交。
 **Task**
+1. 实现了 `cancel_order` 接口。
+2. 实现了撤单后的二次状态确认逻辑，确保 broker 已执行。
 
-1. 增加 quote subscription 实验链
-2. 处理 push 消息
-3. 评估 quota 与稳定性
+### P2-3: Authoritative Position Reconciliation [FINISHED]
 
-**Acceptance Criteria**
+**Problem**
+当前组合快照高度依赖本地 `ledger`，可能产生数据漂移。
+**Task**
+1. 实现了基于柜台真实持仓的 `reconcile_positions` 逻辑。
+2. 实现了 Live 模式下的强制持仓对账门禁。
 
-1. 有独立的实时订阅模式或实验路径
-2. 不影响现有日频稳定性
-
-### P2-4: Product Boundary Documentation
+### P2-4: Product Boundary Documentation [FINISHED]
 
 **Problem**
 
@@ -214,20 +207,25 @@
 1. README 与 specs 口径一致
 2. 不再出现“能力外延大于实现边界”的描述
 
-## 6. Recommended Execution Order
 
-建议顺序：
+## 6. P3 - Future Expansion
 
-1. `P1-1 Order Lifecycle Closure`
-2. `P1-2 Quote Authority Preflight`
-3. `P2-1 Unified Rate Limiter`
-4. `P2-2 Broker-side Position Reconciliation`
-5. `P2-4 Product Boundary Documentation`
-6. `P2-3 Subscription-based Quote Path`
+### P3-1: Subscription-based Quote Path (Qot_Sub)
+**Problem**
+当前主链仍然是 batch/radar 方式，没有进入 OpenAPI 的实时订阅优势。  
+**Status**: Pending.
+
+### P3-2: Portfolio-wide Safety & Stop Loss
+**Task**: Monitor total unrealized P/L and market value for emergency liquidation signals.  
+**Status**: Pending.
 
 ## 7. Governance Note
 
-本文件属于 `specs/`，因为它定义的是当前 moomoo 接入层的正式剩余范围。  
+本文件属于 `specs/`，记录了 moomoo 接入层的硬化历程与未来扩展规划。  
+本文件当前包含：
+1. **已落地特性 (P1/P2)**：作为工程审计证据。
+2. **未来扩展任务 (P3)**：作为后续迭代指南。
+
 如果其中任务完成，应同步更新：
 
 1. `MOOMOO_OPENAPI_ASSESSMENT.md`

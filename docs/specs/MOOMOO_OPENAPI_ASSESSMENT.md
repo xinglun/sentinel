@@ -129,11 +129,14 @@ OpenAPI 的两大能力：
 
 1. OpenD TCP 连接
 2. 历史 K 线拉取
-3. 交易解锁
-4. 资金查询
-5. 下单
+3. 交易解锁与权限前置检查 (P1-2)
+4. 资金查询与购买力校验
+5. 订单全生命周期闭环 (P1-1Filled/Partial/etc)
 6. 模拟/实盘切换
-7. 失败语义与运行审计
+7. 撤单/取消接口与二次确认 (P2-2)
+8. 持仓查询与柜台对账 (P2-3 Authoritative Reconciliation)
+9. 失败语义结构化分类 (P1-3)
+10. 运行审计与 run_status_[DATE].json
 
 对应代码：
 
@@ -146,15 +149,11 @@ OpenAPI 的两大能力：
 
 ### 6.2 Not Yet Fully Implemented
 
-以下能力仍未完全落地到生产主链：
+以下能力仍未落地到生产主链：
 
-1. 权限前置检查
-2. 订阅额度/历史 K 线额度检查
-3. 全局限流器
-4. 订单状态回查
-5. 仓位查询与 broker-side authoritative reconciliation
-6. 撤单/改单
-7. 订阅式实时行情主链
+1. 订阅式实时行情主链 (Qot_Sub)
+2. 逐笔成交/盘口数据流
+3. 全自动持仓纠偏（当前仅能发现偏差并拦截，不支持自动平仓修正）
 
 ## 7. Capability Matrix
 
@@ -168,12 +167,12 @@ OpenAPI 的两大能力：
 | Paper/Live switch | Yes | Implemented | Ready |
 | Quote subscriptions | Yes | Not in main path | Pending |
 | Order book / tick stream | Yes | Not in main path | Pending |
-| Order status reconciliation | Yes | Not in main path | Pending |
-| Position reconciliation | Yes | Not in main path | Pending |
-| Modify/cancel order | Yes | Not implemented | Pending |
-| Authority preflight | Required | Not complete | Gap |
-| Rate limiting | Required | Not complete | Gap |
-| Quota awareness | Required | Not complete | Gap |
+| Order status reconciliation| Yes | Implemented | Ready |
+| Position reconciliation | Yes | Implemented | Ready |
+| Modify/cancel order | Yes | Implemented | Ready |
+| Authority preflight | Required | Implemented | Ready |
+| Rate limiting | Required | Implemented (1s) | Ready (Low-freq) |
+| Quota awareness | Required | Implemented (Preflight)| Ready |
 
 ## 8. Product Boundary
 
@@ -181,23 +180,23 @@ OpenAPI 的两大能力：
 
 1. 基于 moomoo/OpenD 的美股日频观测
 2. 基于 moomoo/OpenD 的美股模拟交易
-3. 基于 moomoo/OpenD 的美股低频/日频实盘执行主路径
+3. 基于 moomoo/OpenD 的美股低频/日频实盘执行，具备完整的持仓校验与审计闭环
 
 当前不应对外宣称：
 
 1. 日本股票自动交易已支持
 2. 高频交易已支持
-3. 实时订阅驱动策略已完成
-4. 完整 broker-side reconciliation 已完成
+3. 实时订阅（Qot_Sub）驱动策略已完成（当前仍为 RADAR 轮询模式）
 
 ## 9. Engineering Decision
 
 当前建议将 moomoo/OpenAPI 集成定义为：
 
-1. `Core execution path connected`
-2. `Production-hardening still required for broker integration`
+1. `Core execution layer hardened`
+2. `Initial production-grade integration completed for low-frequency trading`
 
 这意味着：
 
-1. 策略层和执行主路径可以继续推进
-2. 但经纪商接入层仍需专项硬化，不应视为已完成
+1. 接入层已具备足够的防御性（风控门禁、对账、撤单二次确认）
+2. 现有架构支持日频/低频规模的实盘部署
+3. 未来若切换至秒级/高频，需开启 P3 阶段的实时订阅架构升级

@@ -16,9 +16,9 @@
 - **PULLBACK 路径保护**：修正了 z-score 过滤逻辑。深度回调（低 z-score）现在被准确识别为 `PULLBACK`（买入机会），而非由于过度防御逻辑导致的误杀。
 - **Action Matrix**：扩展了“市场状态 × 个股状态”的映射矩阵，涵盖了从 Ignition（点火期）到 Defensive（防御期）的完整生命周期映射。
 
-## 4. 持久化与分层存档 (Persistence & 9-Asset Standard)
+## 4. 持久化与分层存档 (Persistence & 10-Asset Standard)
 
-每次成功运行决策管线，系统均会产生 9 类核心资产，确保了 6 个月后的深度审计能力。这 9 类资产无论是否执行交易均会产出：
+每次成功运行决策管线，系统均会产生 10 类核心资产，确保了 6 个月后的深度审计能力。这 10 类资产无论是否执行交易均会产出：
 1. `decision_history.jsonl`：流式记录所有历史决策主轴。
 2. `state_transitions.jsonl` / `.csv`：结构化与表格版的状态变迁日志。
 3. `ledger.csv`：成交审计，记录所有已执行的交易。
@@ -26,8 +26,9 @@
 5. `decision_packet_[DATE].json`：当日引擎决策的完整特征快照。
 6. `portfolio_snapshot_[DATE].json`：当日组合持仓与浮盈快照。
 7. `account_snapshot_[DATE].json`：当日账户资金与购买力快照。
-8. `data_quality_log.jsonl`：数据源质量监控（fetch 状态与 Bar 计数）。
-9. `reports/[DATE].md`：人读版日报，包含市场头条与决策摘要。
+8. `run_status_[DATE].json` 中的 `reconciliation` 字段：持仓对账嵌入式报告。
+9. `data_quality_log.jsonl`：数据源质量监控（fetch 状态与 Bar 计数）。
+10. `reports/[DATE].md`：人读版日报，包含市场头条与决策摘要。
 
 
 ## 5. 风控網門与交易集成 (Execution Gate & Kill Switch)
@@ -37,7 +38,7 @@
 
 ## 6. データ完全性と研究コントラクト (Data Integrity)
 - **Research Telemetry (20-column)**: `telemetry.csv` は 20 列の固定スキーマを持つ研究用コントラクトへと昇格しました。これには `config_hash` が含まれ、どの設定パラメーターでその物理量が算出されたかを完全に追跡可能です。
-- **Structured Run Outcomes**: 毎日の実行結果は `run_status_[DATE].json` に保存されます。`decisioning`, `archival`, `notification`, `execution` 各ステージの成否が記録され、バッチジョブの監視が容易になります。
+- **Structured Run Outcomes**: 毎日の実行結果は `run_status_[DATE].json` に保存されます。`decisioning`, `archival`, `notification`, `execution`, `reconciliation` 各ステージの成否が記録され、データ不整合や API 障害を即座に検知可能です。
 
 ## 7. 検証証明と回測一致性 (Verification)
 - **Zero-Warning Base**: 全量 `cargo check` および `cargo test` をクリア。

@@ -109,8 +109,8 @@ mod tests {
 
         // Verify V3 elements
         assert!(card.contains("ESTABLISHED | Risk Normal")); // Header casing
-        assert!(card.contains("Bias: Stay Long")); // Bias line
-        assert!(card.contains("仓位: 20-80%"));
+        assert!(card.contains("Stay Long Bias ·")); // Combined Header (Product Style)
+        assert!(card.contains("仓位 20-80%"));
         assert!(card.contains("TSLA  加仓  PULLBACK [CHANGED]")); // Localized + Tag
         assert!(card.contains("NVDA  持有  OPTIMAL")); // Localized
         assert!(card.contains("Data Notice: MISSING fetch failed")); // Specific symbols
@@ -160,8 +160,7 @@ mod tests {
 
         // Verify Defensive V3 elements
         assert!(card.contains("DEFENSIVE | Risk Defensive"));
-        assert!(card.contains("Warning: Circuit Breaker Active")); // Reordered warning
-        assert!(card.contains("Bias: Defense First"));
+        assert!(card.contains("Defense First Bias ·"));
         assert!(card.contains("Priority Actions")); // Reordered section title
         assert!(card.contains("SPY  回避  DEFEND")); // Localized
     }
@@ -281,5 +280,112 @@ mod tests {
 
         assert!(card.contains("TSLA  加仓  PULLBACK [CHANGED]"));
         assert!(card.contains("GOOG  等待  FORMING [NEW]"));
+    }
+
+    #[test]
+    fn test_telegram_combined_standard() {
+        let assets = vec![
+            mock_asset("TSLA", AssetAction::ACCUMULATE, AssetState::PULLBACK, true),
+            mock_asset("NVDA", AssetAction::HOLD, AssetState::OPTIMAL, false),
+            mock_asset("MSFT", AssetAction::AVOID, AssetState::DEFEND, false),
+        ];
+        let mut packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_features: Default::default(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::ESTABLISHED,
+                lifecycle_state: LifecycleState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                reasons: vec![],
+            },
+            portfolio_policy: PortfolioPolicy {
+                target_exposure_min: 0.1,
+                target_exposure_max: 0.9,
+                ..PortfolioPolicy::from_market_regime(&MarketRegimeSnapshot::default())
+            },
+            assets,
+            telegram: TelegramOutput {
+                headline: "ESTABLISHED".to_string(),
+                summary: "Standard Summary".to_string(),
+                bias: "Stay Long".to_string(),
+            },
+        };
+        packet.market_features.system_confidence = 65.0;
+        packet.market_features.stability_score = 0.0;
+        packet.market_features.regime_age = 5;
+
+        let card = generate_refined_report(
+            &mock_config(),
+            &packet,
+            0.0,
+            &HashMap::new(),
+            &ExecutionMode::DryRun,
+            vec![],
+        )
+        .unwrap()
+        .markdown_body;
+
+        // Verify Product Grade Aesthetic
+        assert!(card.contains("ESTABLISHED | Risk Normal"));
+        assert!(card.contains("Stay Long Bias ·")); // Combined Header
+        assert!(card.contains("仓位 10-90%")); // No colon
+        assert!(card.contains("Confidence 65 (Moderate) · Stability 0 (Fragile)")); // Combined Signals
+        
+        assert!(card.contains("市场摘要"));
+        assert!(card.contains("战术分区"));
+        assert!(card.contains("风险与机会"));
+        
+        assert!(card.contains("• 趋势年龄: 5d"));
+        assert!(card.contains("• 加仓区: TSLA"));
+        assert!(card.contains("• 防御区: MSFT"));
+        assert!(card.contains("• 机会: TSLA (PULLBACK)"));
+    }
+
+    #[test]
+    fn test_telegram_combined_defensive() {
+        let assets = vec![
+            mock_asset("U", AssetAction::REDUCE, AssetState::DEFEND, true),
+        ];
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_features: Default::default(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::DEFENSIVE,
+                lifecycle_state: LifecycleState::ESTABLISHED,
+                risk_overlay: RiskOverlay::DEFENSIVE,
+                reasons: vec![],
+            },
+            portfolio_policy: PortfolioPolicy::from_market_regime(&MarketRegimeSnapshot {
+                market_state: MarketState::DEFENSIVE,
+                lifecycle_state: LifecycleState::ESTABLISHED,
+                risk_overlay: RiskOverlay::DEFENSIVE,
+                reasons: vec![],
+            }),
+            assets,
+            telegram: TelegramOutput {
+                headline: "DEFENSIVE".to_string(),
+                summary: "Defensive Summary".to_string(),
+                bias: "Defensive Only".to_string(),
+            },
+        };
+
+        let card = generate_refined_report(
+            &mock_config(),
+            &packet,
+            0.0,
+            &HashMap::new(),
+            &ExecutionMode::Live,
+            vec![],
+        )
+        .unwrap()
+        .markdown_body;
+
+        assert!(card.contains("DEFENSIVE | Risk Defensive"));
+        assert!(card.contains("Defensive Only Bias ·"));
+        assert!(card.contains("市场摘要"));
+        assert!(card.contains("• 市场状态: Protect"));
+        assert!(card.contains("战术分区"));
+        assert!(card.contains("• 防御区: U"));
+        assert!(card.contains("• 风险: U (DEFEND)"));
     }
 }

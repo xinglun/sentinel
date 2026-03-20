@@ -169,7 +169,6 @@ fn format_telegram_card(
 
     // 1. Header & Bias
     let state_str = format!("{:?}", state).to_uppercase();
-    // Humanize Risk formatting
     let risk_str = match risk {
         crate::core::market_regime::RiskOverlay::NORMAL => "Risk Normal",
         crate::core::market_regime::RiskOverlay::DEFENSIVE => "Risk Defensive",
@@ -177,28 +176,21 @@ fn format_telegram_card(
     };
 
     let mut card = format!("<b>{} | {}</b>\n", state_str, risk_str);
-    card.push_str(&format!("Bias: {}\n", packet.telegram.bias));
+    card.push_str(&format!("{} Bias · {}\n\n", packet.telegram.bias, date_str));
 
-    // Defensive Warning First
-    if state == MarketState::DEFENSIVE {
-        card.push_str("Warning: Circuit Breaker Active\n");
-    }
-
-    card.push_str(&format!("{}\n\n", date_str));
-
-    // 2. Policy & Portfolio Section
+    // 2. Exposure & Policy
     let min_exp = (packet.portfolio_policy.target_exposure_min * 100.0) as i32;
     let max_exp = (packet.portfolio_policy.target_exposure_max * 100.0) as i32;
 
-    card.push_str(&format!("仓位: {}-{}%\n", min_exp, max_exp));
-    card.push_str(&format!("策略: {}\n", packet.telegram.summary));
+    card.push_str(&format!("<b>仓位 {}-{}%</b>\n", min_exp, max_exp));
+    card.push_str(&format!("{}\n", packet.telegram.summary));
 
     if !positions.is_empty() {
-        card.push_str(&format!("持仓: {} positions\n", positions.len()));
+        card.push_str(&format!("持仓 {} positions\n", positions.len()));
     }
     card.push('\n');
 
-    // 3. Top Actions (v3 Visual Tags & Localization)
+    // 3. Top Actions
     if state == MarketState::DEFENSIVE {
         card.push_str("<b>Priority Actions</b>\n");
     } else {
@@ -241,25 +233,15 @@ fn format_telegram_card(
     }
     card.push('\n');
 
-    // 4. Signals Section
-    if state == MarketState::DEFENSIVE {
-        card.push_str("<b>Risk Signals</b>\n");
-    } else {
-        card.push_str("<b>Signals</b>\n");
-    }
-
+    // 4. Signals Section (Compact 2-line format)
+    card.push_str("<b>Signals</b>\n");
     let f = &packet.market_features;
     card.push_str(&format!(
-        "Confidence {:.1} ({})\n",
+        "Confidence {:.0} ({}) · Stability {:.0} ({})\n",
         f.system_confidence,
-        confidence_label(f.system_confidence)
-    ));
-
-    card.push_str(&format!(
-        "Stability {:.1} ({}) | Age {}d\n",
+        confidence_label(f.system_confidence),
         f.stability_score,
-        stability_label(f.stability_score),
-        f.regime_age
+        stability_label(f.stability_score)
     ));
 
     let flow_str = f
@@ -272,20 +254,18 @@ fn format_telegram_card(
         crate::core::runtime_mode::ExecutionMode::Disabled => "Disabled",
     };
 
-    if state == MarketState::DEFENSIVE {
-        card.push_str(&format!("Execution {}\n", mode_str));
-    } else {
-        card.push_str(&format!("Flow {} | Execution {}\n", flow_str, mode_str));
-    }
+    card.push_str(&format!(
+        "Age {}d · Flow {} · Execution {}\n",
+        f.regime_age, flow_str, mode_str
+    ));
 
-    // 5. Data Warning (Specific Symbols)
+    // 5. Data Warning
     if !failed_symbols.is_empty() {
         let warning_type = match failed_symbols.len() {
             1 => "Notice",
             2..=3 => "Warning",
             _ => "Critical",
         };
-
         let symbols_str = failed_symbols.join(", ");
         card.push_str(&format!(
             "\nData {}: {} fetch failed\n",
@@ -293,27 +273,94 @@ fn format_telegram_card(
         ));
     }
 
+    // 6. Summary Layers (Chinese Product Style)
+    card.push_str("\n<b>市场摘要</b>\n");
+    card.push_str(&format_macro_summary(packet));
+    card.push('\n');
+    card.push_str("<b>战术分区</b>\n");
+    card.push_str(&format_tactical_summary(&packet.assets));
+    card.push('\n');
+    card.push_str("<b>风险与机会</b>\n");
+    card.push_str(&format_risk_opportunity(&packet.assets));
+
     card
 }
 
-fn confidence_label(val: f64) -> &'static str {
-    if val >= 80.0 {
-        "High"
-    } else if val >= 65.0 {
-        "Moderate"
+fn format_macro_summary(packet: &DecisionPacket) -> String {
+    let mut s = String::new();
+    let cap_state = match packet.market_regime.market_state {
+        MarketState::ESTABLISHED | MarketState::CONFIRMED => "Expanding", // Simplified mapping
+        MarketState::DEFENSIVE => "Protect",
+        _ => "Neutral",
+    };
+    let momentum = if packet.market_features.flow_acceleration.unwrap_or(0.0) > 0.0 {
+        "Stable Uptrend"
     } else {
-        "Low"
+        "Trend Neutral"
+    };
+
+    s.push_str(&format!("• 市场状态: {}\n", cap_state));
+    s.push_str(&format!("• 动量: {}\n", momentum));
+    s.push_str(&format!("• 趋势年龄: {}d\n", packet.market_features.regime_age));
+    s.push_str(&format!("• 当前倾向: {}\n", packet.telegram.bias));
+    s
+}
+
+fn format_tactical_summary(assets: &[crate::core::action_matrix::AssetActionDecision]) -> String {
+    let mut s = String::new();
+
+    // Forced Order: 加仓, 持有, 观察, 防御
+    let accum: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::ACCUMULATE).map(|a| a.symbol.clone()).collect();
+    let hold: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::HOLD).map(|a| a.symbol.clone()).collect();
+    let watch: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::OBSERVE || a.action == AssetAction::WAIT).map(|a| a.symbol.clone()).collect();
+    let defend: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::AVOID || a.action == AssetAction::FREEZE || a.action == AssetAction::REDUCE).map(|a| a.symbol.clone()).collect();
+
+    if !accum.is_empty() { s.push_str(&format!("• 加仓区: {}\n", join_symbols(accum))); }
+    if !hold.is_empty() { s.push_str(&format!("• 持有区: {}\n", join_symbols(hold))); }
+    if !watch.is_empty() { s.push_str(&format!("• 观察区: {}\n", join_symbols(watch))); }
+    if !defend.is_empty() { s.push_str(&format!("• 防御区: {}\n", join_symbols(defend))); }
+    
+    s
+}
+
+fn format_risk_opportunity(assets: &[crate::core::action_matrix::AssetActionDecision]) -> String {
+    let mut s = String::new();
+
+    let best_opp = assets
+        .iter()
+        .filter(|a| a.action == AssetAction::ACCUMULATE || a.state == AssetState::PULLBACK)
+        .max_by_key(|a| (a.deviation.unwrap_or(0.0).abs() * 100.0) as i64)
+        .map(|a| format!("{} ({:?})", a.symbol, a.state))
+        .unwrap_or_else(|| "None".to_string());
+
+    let best_risk = assets
+        .iter()
+        .filter(|a| a.action == AssetAction::AVOID || a.action == AssetAction::REDUCE || a.state == AssetState::DEFEND || a.state == AssetState::OVERHEAT)
+        .max_by_key(|a| (a.deviation.unwrap_or(0.0).abs() * 100.0) as i64)
+        .map(|a| format!("{} ({:?})", a.symbol, a.state))
+        .unwrap_or_else(|| "None".to_string());
+
+    s.push_str(&format!("• 机会: {}\n", best_opp));
+    s.push_str(&format!("• 风险: {}\n", best_risk));
+    s
+}
+
+fn join_symbols(symbols: Vec<String>) -> String {
+    if symbols.is_empty() { return "None".to_string(); }
+    let len = symbols.len();
+    if len <= 3 {
+        symbols.join(" / ")
+    } else {
+        format!("{} +{}", symbols[..3].join(" / "), len - 3)
     }
 }
 
+fn confidence_label(val: f64) -> &'static str {
+    if val >= 80.0 { "High" } else if val >= 65.0 { "Moderate" } else { "Low" }
+}
+
 fn stability_label(val: f64) -> &'static str {
-    if val >= 25.0 {
-        "Stable"
-    } else if val >= 15.0 {
-        "Mixed"
-    } else {
-        "Fragile"
-    }
+    if val >= 25.0 { "Stable" } else if val >= 15.0 { "Mixed" } else { "Fragile" }
 }
 
 fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> String {
@@ -323,7 +370,6 @@ fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> S
             None => "今日新进入关注列表".to_string(),
         };
     }
-
     match asset.state {
         AssetState::PULLBACK => "趋势内回撤，允许补仓".to_string(),
         AssetState::OPTIMAL => "结构最强，适合持有".to_string(),
