@@ -1,0 +1,185 @@
+{
+  "date": "2026-03-20",
+  "market_features": {
+    "date": "2026-03-20",
+    "up_count": 3,
+    "flat_count": 1,
+    "down_count": 4,
+    "total_count": 8,
+    "up_weight": 12.0,
+    "flat_weight": 1.0,
+    "down_weight": 4.0,
+    "total_weight": 17.0,
+    "gravity_strength": -1.4366305579609775,
+    "potential_energy": 0.815859999386852,
+    "dominance_margin": 0.5166652080578698,
+    "system_confidence": 62.829280058744274,
+    "stability_score": 0.013767581205842722,
+    "stability_structural": 27.535162411685445,
+    "stability_temporal": 2.5,
+    "trend_maturity": 0.025,
+    "universe_integrity": 1.0,
+    "flow_acceleration": null,
+    "regime_age": 1,
+    "any_pullback_occurred": true
+  },
+  "market_regime": {
+    "market_state": "IGNITION",
+    "lifecycle_state": "IGNITION",
+    "risk_overlay": "NORMAL",
+    "reasons": [
+      "Structural stability detected"
+    ]
+  },
+  "portfolio_policy": {
+    "target_exposure_min": 0.1,
+    "target_exposure_max": 0.3,
+    "allow_chase": false,
+    "allow_pullback_buy": true,
+    "allow_new_risk": true,
+    "risk_assets_mode": "NEUTRAL"
+  },
+  "assets": [
+    {
+      "symbol": "U",
+      "price": 18.38999938964844,
+      "state": "CRUISE",
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -39.66)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -39.655127388443425,
+      "z_score": -1.048182998447239,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "FIG",
+      "price": 23.729999542236328,
+      "state": "CRUISE",
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -37.01)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -37.01170719241552,
+      "z_score": -1.2081920062018936,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "TSLA",
+      "price": 367.9599914550781,
+      "state": "FORMING",
+      "action": "OBSERVE",
+      "reasons": [
+        "Trend age (2) < 5",
+        "Matrix: Asset in formation, no action"
+      ],
+      "deviation": -14.71971298075536,
+      "z_score": -2.5534560955794694,
+      "trade_enabled": true,
+      "trade_amount": 5000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "PLTR",
+      "price": 150.67999267578125,
+      "state": "OPTIMAL",
+      "action": "ACCUMULATE",
+      "reasons": [
+        "Matched band: optimal (dev: -3.84)",
+        "Matrix: Ignition + Optimal -> Aggressive entry"
+      ],
+      "deviation": -3.836933487980984,
+      "z_score": -0.33000099952597595,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "SPY",
+      "price": 648.5700073242188,
+      "state": "OPTIMAL",
+      "action": "ACCUMULATE",
+      "reasons": [
+        "Matched band: optimal (dev: -4.01)",
+        "Matrix: Ignition + Optimal -> Aggressive entry"
+      ],
+      "deviation": -4.01125895667653,
+      "z_score": -0.4239053845994218,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "NVDA",
+      "price": 172.6999969482422,
+      "state": "PULLBACK",
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: pullback (dev: -6.77)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -6.765822954576797,
+      "z_score": -2.602371095983476,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 0.5,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "GOOG",
+      "price": 298.7900085449219,
+      "state": "OPTIMAL",
+      "action": "ACCUMULATE",
+      "reasons": [
+        "Matched band: optimal (dev: -0.38)",
+        "Matrix: Ignition + Optimal -> Aggressive entry"
+      ],
+      "deviation": -0.38445876944762025,
+      "z_score": -0.04135602598689434,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "MSFT",
+      "price": 381.8699951171875,
+      "state": "CRUISE",
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -18.24)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -18.24486424370475,
+      "z_score": -1.8470069218573195,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    }
+  ],
+  "telegram": {
+    "headline": "IGNITION | Risk NORMAL",
+    "summary": "轻仓试探，只保留最强标的",
+    "bias": "Probe"
+  }
+}

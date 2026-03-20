@@ -1,0 +1,3 @@
+{"action":"ACCUMULATE","blocked_by":"TradingDisabled","details":{"available_power":100000.0,"daily_total":0.0,"effective_limit":1.7976931348623157e+308,"final_amount":2000.0,"global_cap":100000.0,"running_exposure":0.0},"passed":false,"symbol":"PLTR"}
+{"action":"ACCUMULATE","blocked_by":"TradingDisabled","details":{"available_power":100000.0,"daily_total":0.0,"effective_limit":1.7976931348623157e+308,"final_amount":2000.0,"global_cap":100000.0,"running_exposure":0.0},"passed":false,"symbol":"SPY"}
+{"action":"ACCUMULATE","blocked_by":"TradingDisabled","details":{"available_power":100000.0,"daily_total":0.0,"effective_limit":1.7976931348623157e+308,"final_amount":2000.0,"global_cap":100000.0,"running_exposure":0.0},"passed":false,"symbol":"GOOG"}
