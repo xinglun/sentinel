@@ -1,9 +1,7 @@
 use crate::core::execution_gate::TradeSide;
 use crate::core::ledger::{Ledger, TradeRecord};
 use crate::core::run_status::{PositionMismatch, ReconciliationReport};
-use crate::trade::trader::{
-    OrderSide, OrderType, PlaceOrderRequest, TradeExecutor,
-};
+use crate::trade::trader::{OrderSide, OrderType, PlaceOrderRequest, TradeExecutor};
 use anyhow::Result;
 use chrono::Local;
 use std::sync::Arc;
@@ -240,8 +238,11 @@ impl TraderAgent {
                             audit.failure_reason = details.failure_reason.clone();
 
                             if audit.qty_filled > 0.0 {
-                                let side_str =
-                                    if trade.side == TradeSide::Buy { "BUY" } else { "SELL" };
+                                let side_str = if trade.side == TradeSide::Buy {
+                                    "BUY"
+                                } else {
+                                    "SELL"
+                                };
                                 let _ = self.ledger.record_trade(TradeRecord {
                                     date: Local::now().date_naive(),
                                     timestamp: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
@@ -260,7 +261,10 @@ impl TraderAgent {
                             );
 
                             // --- P2-2: Behavioral Closure - Automatic Cancellation on Timeout ---
-                            println!("📡 [Trader - CANCEL] Attempting to cancel timed-out order {}...", order_id);
+                            println!(
+                                "📡 [Trader - CANCEL] Attempting to cancel timed-out order {}...",
+                                order_id
+                            );
                             let cancel_res = {
                                 let exec = self.executor.lock().await;
                                 exec.cancel_order(&order_id).await
@@ -268,8 +272,11 @@ impl TraderAgent {
 
                             match cancel_res {
                                 Ok(_) => {
-                                    println!("✅ [Trader - CANCEL] Order {} cancellation requested.", order_id);
-                                    
+                                    println!(
+                                        "✅ [Trader - CANCEL] Order {} cancellation requested.",
+                                        order_id
+                                    );
+
                                     // --- P2-2: Absolute Closure - Final Confirmation ---
                                     let final_check = {
                                         let exec = self.executor.lock().await;
@@ -277,11 +284,18 @@ impl TraderAgent {
                                     };
 
                                     match final_check {
-                                        Ok(details) if details.status == crate::trade::trader::OrderStatus::Cancelled => {
+                                        Ok(details)
+                                            if details.status
+                                                == crate::trade::trader::OrderStatus::Cancelled =>
+                                        {
                                             println!("🏁 [Trader - CONFIRMED] Order {} is verified CANCELLED at broker.", order_id);
                                             audit.status = "TimedOutCancelledConfirmed".to_string();
                                             audit.qty_filled = details.qty_filled;
-                                            audit.price = if details.avg_price > 0.0 { details.avg_price } else { trade.price };
+                                            audit.price = if details.avg_price > 0.0 {
+                                                details.avg_price
+                                            } else {
+                                                trade.price
+                                            };
                                         }
                                         _ => {
                                             println!("❓ [Trader - UNKNOWN] Order {} cancellation requested but not yet confirmed as terminal.", order_id);
@@ -290,7 +304,10 @@ impl TraderAgent {
                                     }
                                 }
                                 Err(e) => {
-                                    println!("❌ [Trader - CANCEL] Failed to cancel order {}: {}", order_id, e);
+                                    println!(
+                                        "❌ [Trader - CANCEL] Failed to cancel order {}: {}",
+                                        order_id, e
+                                    );
                                     audit.status = "TimedOutCancellationFailed".to_string();
                                     audit.error = Some(format!("Cancellation failed: {}", e));
                                 }
@@ -339,32 +356,34 @@ impl TraderAgent {
     /// 对比本地 Ledger 导出的理论持仓与 Broker 侧的真实持仓
     pub async fn reconcile_positions(&self) -> Result<ReconciliationReport> {
         println!("🔍 Starting position reconciliation...");
-        
+
         // 1. 获取本地持仓
         let (_, local_positions) = self.ledger.get_portfolio_stats();
-        
+
         // 2. 获取 Broker 持仓
         let broker_positions = {
             let exec = self.executor.lock().await;
             exec.get_positions().await?
         };
-        
+
         let mut mismatches = Vec::new();
         let mut matching_count = 0;
-        
+
         // 3. 对比逻辑
         let mut broker_map: std::collections::HashMap<String, f64> = broker_positions
             .into_iter()
             .map(|p| (p.symbol, p.qty))
             .collect();
-            
+
         // Check local vs broker
         for (symbol, (local_qty, _)) in local_positions {
-            if local_qty == 0.0 { continue; }
-            
+            if local_qty == 0.0 {
+                continue;
+            }
+
             let b_qty = broker_map.remove(&symbol).unwrap_or(0.0);
             let diff = local_qty - b_qty;
-            
+
             if diff.abs() > 0.001 {
                 mismatches.push(PositionMismatch {
                     symbol: symbol.clone(),
@@ -376,10 +395,12 @@ impl TraderAgent {
                 matching_count += 1;
             }
         }
-        
+
         // Check remaining broker positions (not in local ledger)
         for (symbol, broker_qty) in broker_map {
-            if broker_qty == 0.0 { continue; }
+            if broker_qty == 0.0 {
+                continue;
+            }
             mismatches.push(PositionMismatch {
                 symbol: symbol.clone(),
                 local_qty: 0.0,
@@ -387,22 +408,31 @@ impl TraderAgent {
                 diff: -broker_qty,
             });
         }
-        
+
         let report = ReconciliationReport {
             timestamp: Local::now().to_rfc3339(),
             mismatches,
             matching_count,
         };
-        
+
         if report.mismatches.is_empty() {
-            println!("✅ Reconciliation successful! All {} positions match.", report.matching_count);
+            println!(
+                "✅ Reconciliation successful! All {} positions match.",
+                report.matching_count
+            );
         } else {
-            println!("⚠️ Reconciliation found {} mismatches!", report.mismatches.len());
+            println!(
+                "⚠️ Reconciliation found {} mismatches!",
+                report.mismatches.len()
+            );
             for m in &report.mismatches {
-                println!("   - {}: Local={} Broker={} Diff={}", m.symbol, m.local_qty, m.broker_qty, m.diff);
+                println!(
+                    "   - {}: Local={} Broker={} Diff={}",
+                    m.symbol, m.local_qty, m.broker_qty, m.diff
+                );
             }
         }
-        
+
         Ok(report)
     }
 }
@@ -538,7 +568,7 @@ mod tests {
         let save_dir = temp.path().to_path_buf();
 
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
-        
+
         // --- Set Low Capacity ---
         {
             let exec = mock_exec.lock().await;
@@ -557,14 +587,11 @@ mod tests {
             reason: "Test".to_string(),
         };
 
-        let summary = agent
-            .execute_signals(vec![trade])
-            .await
-            .unwrap();
+        let summary = agent.execute_signals(vec![trade]).await.unwrap();
 
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
-        
+
         // SHOULD BE CAPPED TO 5.0
         assert_eq!(audit.qty_requested, 5.0);
         assert_eq!(audit.qty_filled, 5.0); // Filled because mock returns status Filled for 2nd query
@@ -590,21 +617,26 @@ mod tests {
 
         // Note: MockTradeExecutor currently doesn't fail unless we modify it to handle specific symbols.
         // Let's implement a symbol-based failure in MockTradeExecutor for testing.
-        
-        let summary = agent
-            .execute_signals(vec![trade])
-            .await
-            .unwrap();
+
+        let summary = agent.execute_signals(vec![trade]).await.unwrap();
 
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
-        
+
         // CHECK STATUS & REASON
         assert_eq!(audit.status, "CapacityQueryFailed");
-        assert!(audit.error.as_ref().unwrap().contains("Mock capacity query failure"));
-        
+        assert!(audit
+            .error
+            .as_ref()
+            .unwrap()
+            .contains("Mock capacity query failure"));
+
         // VERIFY ORDER WAS NOT PLACED
-        let count = mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst);
+        let count = mock_exec
+            .lock()
+            .await
+            .placed_orders_count
+            .load(Ordering::SeqCst);
         assert_eq!(count, 0);
     }
 
@@ -614,15 +646,15 @@ mod tests {
         let save_dir = temp.path().to_path_buf();
 
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
-        
+
         // --- Configure Mock to stay in Submitted status ---
         // By default, MockTradeExecutor returns Filled after 2 queries.
         // We don't have a direct way to change the "Filled threshold" without modifying Mock,
         // so let's just assert that it hits the timeout if we mock it to never increment or similar.
         // Actually, let's keep it simple: Mock already hits Timeout if it doesn't return terminal status.
-        
+
         // Let's modify MockTradeExecutor::get_order_status to stay Submitted for a specific symbol.
-        
+
         let ledger = Arc::new(Ledger::new(save_dir.clone()));
         // Accelerated polling: 5 attempts * 1ms = 5ms total "timeout"
         let agent = TraderAgent::new(mock_exec.clone(), ledger)
@@ -643,7 +675,7 @@ mod tests {
 
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
-        
+
         // VERIFY STATUS: Should be confirmed as Cancelled by the final check
         assert_eq!(audit.status, "TimedOutCancelledConfirmed");
 
@@ -652,14 +684,17 @@ mod tests {
         let mock = mock_exec.lock().await;
         let cancelled = mock.cancelled_orders.lock().await;
         assert!(cancelled.contains(order_id));
-        
-        println!("✅ Fast timeout cancellation verified for order {}", order_id);
+
+        println!(
+            "✅ Fast timeout cancellation verified for order {}",
+            order_id
+        );
     }
 
     #[tokio::test]
     async fn test_trader_agent_reconciliation() {
-        use crate::trade::trader::{Position, PositionSide};
         use crate::core::ledger::TradeRecord;
+        use crate::trade::trader::{Position, PositionSide};
         use chrono::Local;
 
         let temp = tempdir().unwrap();
@@ -667,38 +702,68 @@ mod tests {
         let ledger = Arc::new(Ledger::new(save_dir.clone()));
 
         // 1. Setup local ledger: 10 TSLA, 20 AAPL
-        ledger.record_trade(TradeRecord {
-            date: Local::now().date_naive(),
-            timestamp: "10:00:00".to_string(),
-            symbol: "US.TSLA".to_string(),
-            side: "BUY".to_string(),
-            qty: 10.0,
-            price: 200.0,
-            signal: "TEST".to_string(),
-        }).unwrap();
-        ledger.record_trade(TradeRecord {
-            date: Local::now().date_naive(),
-            timestamp: "10:01:00".to_string(),
-            symbol: "US.AAPL".to_string(),
-            side: "BUY".to_string(),
-            qty: 20.0,
-            price: 150.0,
-            signal: "TEST".to_string(),
-        }).unwrap();
+        ledger
+            .record_trade(TradeRecord {
+                date: Local::now().date_naive(),
+                timestamp: "10:00:00".to_string(),
+                symbol: "US.TSLA".to_string(),
+                side: "BUY".to_string(),
+                qty: 10.0,
+                price: 200.0,
+                signal: "TEST".to_string(),
+            })
+            .unwrap();
+        ledger
+            .record_trade(TradeRecord {
+                date: Local::now().date_naive(),
+                timestamp: "10:01:00".to_string(),
+                symbol: "US.AAPL".to_string(),
+                side: "BUY".to_string(),
+                qty: 20.0,
+                price: 150.0,
+                signal: "TEST".to_string(),
+            })
+            .unwrap();
 
         // 2. Setup mock executor: 10 TSLA (Match), 25 AAPL (Mismatch), 5 NVDA (Broker only)
         let _mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
-        
+
         struct ReconMock;
         #[async_trait::async_trait]
         impl crate::trade::trader::TradeExecutor for ReconMock {
-            async fn get_account_funds(&self) -> Result<crate::trade::trader::AccountFunds> { unreachable!() }
-            async fn get_broker_permissions(&self) -> Result<crate::trade::trader::BrokerPermissions> { unreachable!() }
-            async fn get_tradable_capacity(&self, _: &str, _: f64) -> Result<crate::trade::trader::TradableCapacity> { unreachable!() }
-            async fn place_order(&self, _: crate::trade::trader::PlaceOrderRequest) -> Result<crate::trade::trader::PlaceOrderResponse> { unreachable!() }
-            async fn get_order_status(&self, _: &str) -> Result<crate::trade::trader::OrderExecutionDetails> { unreachable!() }
-            async fn unlock_trade(&self) -> Result<()> { Ok(()) }
-            async fn cancel_order(&self, _: &str) -> Result<()> { Ok(()) }
+            async fn get_account_funds(&self) -> Result<crate::trade::trader::AccountFunds> {
+                unreachable!()
+            }
+            async fn get_broker_permissions(
+                &self,
+            ) -> Result<crate::trade::trader::BrokerPermissions> {
+                unreachable!()
+            }
+            async fn get_tradable_capacity(
+                &self,
+                _: &str,
+                _: f64,
+            ) -> Result<crate::trade::trader::TradableCapacity> {
+                unreachable!()
+            }
+            async fn place_order(
+                &self,
+                _: crate::trade::trader::PlaceOrderRequest,
+            ) -> Result<crate::trade::trader::PlaceOrderResponse> {
+                unreachable!()
+            }
+            async fn get_order_status(
+                &self,
+                _: &str,
+            ) -> Result<crate::trade::trader::OrderExecutionDetails> {
+                unreachable!()
+            }
+            async fn unlock_trade(&self) -> Result<()> {
+                Ok(())
+            }
+            async fn cancel_order(&self, _: &str) -> Result<()> {
+                Ok(())
+            }
             async fn get_positions(&self) -> Result<Vec<Position>> {
                 Ok(vec![
                     Position {
@@ -734,7 +799,7 @@ mod tests {
                 ])
             }
         }
-        
+
         let agent = TraderAgent::new(Arc::new(Mutex::new(ReconMock)), ledger);
         let report = agent.reconcile_positions().await.unwrap();
 
@@ -743,13 +808,21 @@ mod tests {
         assert_eq!(report.mismatches.len(), 2);
 
         // AAPL Mismatch
-        let aapl = report.mismatches.iter().find(|m| m.symbol == "US.AAPL").unwrap();
+        let aapl = report
+            .mismatches
+            .iter()
+            .find(|m| m.symbol == "US.AAPL")
+            .unwrap();
         assert_eq!(aapl.local_qty, 20.0);
         assert_eq!(aapl.broker_qty, 25.0);
         assert_eq!(aapl.diff, -5.0);
 
         // NVDA Broker-only
-        let nvda = report.mismatches.iter().find(|m| m.symbol == "US.NVDA").unwrap();
+        let nvda = report
+            .mismatches
+            .iter()
+            .find(|m| m.symbol == "US.NVDA")
+            .unwrap();
         assert_eq!(nvda.local_qty, 0.0);
         assert_eq!(nvda.broker_qty, 5.0);
     }

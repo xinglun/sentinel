@@ -3,7 +3,9 @@ use prost::Message;
 use std::sync::Arc;
 
 use crate::adapters::futu::client::FutuClient;
-use crate::adapters::futu::protocol::generated::trd_common::{ModifyOrderOp, PositionSide as FutuPositionSide, TrdHeader};
+use crate::adapters::futu::protocol::generated::trd_common::{
+    ModifyOrderOp, PositionSide as FutuPositionSide, TrdHeader,
+};
 use crate::adapters::futu::protocol::generated::trd_get_funds;
 use crate::adapters::futu::protocol::generated::trd_get_max_trd_qtys;
 use crate::adapters::futu::protocol::generated::trd_get_position_list;
@@ -12,8 +14,8 @@ use crate::adapters::futu::protocol::generated::trd_place_order;
 use crate::adapters::futu::protocol::generated::trd_unlock_trade;
 use crate::trade::trader::{
     AccountFunds, BrokerPermissions, MarketRight, OrderExecutionDetails, OrderFailureReason,
-    OrderSide, OrderStatus, OrderType, PlaceOrderRequest, PlaceOrderResponse, Position, PositionSide,
-    TradableCapacity, TradeExecutor,
+    OrderSide, OrderStatus, OrderType, PlaceOrderRequest, PlaceOrderResponse, Position,
+    PositionSide, TradableCapacity, TradeExecutor,
 };
 
 pub struct FutuTrader {
@@ -274,10 +276,7 @@ impl TradeExecutor for FutuTrader {
                 flag: Some(crate::adapters::futu::protocol::generated::get_user_info::UserInfoField::QotRight as i32),
             },
         };
-        let raw_info = self
-            .client
-            .send_request(1001, &info_req)
-            .await?;
+        let raw_info = self.client.send_request(1001, &info_req).await?;
         let info_res: crate::adapters::futu::protocol::generated::get_user_info::Response =
             prost::Message::decode(&raw_info[..])?;
 
@@ -302,15 +301,15 @@ impl TradeExecutor for FutuTrader {
                 is_req_all_conn: Some(true),
             },
         };
-        let raw_sub = self
-            .client
-            .send_request(3003, &sub_info_req)
-            .await?;
+        let raw_sub = self.client.send_request(3003, &sub_info_req).await?;
         let sub_res: crate::adapters::futu::protocol::generated::qot_get_sub_info::Response =
             prost::Message::decode(&raw_sub[..])?;
 
         let (total, used) = if let Some(s2c) = sub_res.s2c {
-            (s2c.remain_quota + s2c.total_used_quota, s2c.total_used_quota)
+            (
+                s2c.remain_quota + s2c.total_used_quota,
+                s2c.total_used_quota,
+            )
         } else {
             (0, 0)
         };
@@ -323,7 +322,10 @@ impl TradeExecutor for FutuTrader {
     }
 
     async fn get_tradable_capacity(&self, symbol: &str, price: f64) -> Result<TradableCapacity> {
-        println!("📊 Fetching tradable capacity for {} @ ${:.2}...", symbol, price);
+        println!(
+            "📊 Fetching tradable capacity for {} @ ${:.2}...",
+            symbol, price
+        );
 
         let header = self.build_trd_header()?;
 
@@ -451,7 +453,9 @@ impl TradeExecutor for FutuTrader {
             .into_iter()
             .map(|f| Position {
                 symbol: f.code,
-                side: match FutuPositionSide::try_from(f.position_side).unwrap_or(FutuPositionSide::Unknown) {
+                side: match FutuPositionSide::try_from(f.position_side)
+                    .unwrap_or(FutuPositionSide::Unknown)
+                {
                     FutuPositionSide::Long => PositionSide::Long,
                     FutuPositionSide::Short => PositionSide::Short,
                     _ => PositionSide::Unknown,

@@ -355,13 +355,19 @@ async fn run_pipeline(
                             let remaining = perms.sub_quota_total - perms.sub_quota_used;
 
                             if required_quota > remaining {
-                                let msg = format!("Watchlist size ({}) exceeds remaining quota ({}).", required_quota, remaining);
+                                let msg = format!(
+                                    "Watchlist size ({}) exceeds remaining quota ({}).",
+                                    required_quota, remaining
+                                );
                                 println!("⚠️ [Preflight] {}", msg);
                                 preflight.status = "Warning".to_string();
                                 if mode == crate::core::runtime_mode::ExecutionMode::Live {
                                     outcome.preflight = Some(preflight);
                                     let _ = persistence.save_run_status(&outcome);
-                                    anyhow::bail!("Insufficient subscription quota for Live trading: {}", msg);
+                                    anyhow::bail!(
+                                        "Insufficient subscription quota for Live trading: {}",
+                                        msg
+                                    );
                                 }
                             }
 
@@ -381,14 +387,25 @@ async fn run_pipeline(
                                         .insert(market_key.to_string(), format!("{:?}", right));
 
                                     match right {
-                                        MarketRight::BMP | MarketRight::None | MarketRight::Unknow => {
+                                        MarketRight::BMP
+                                        | MarketRight::None
+                                        | MarketRight::Unknow => {
                                             let msg = format!("Market {} right is {:?}. No real-time subscription.", market_key, right);
-                                            println!("⚠️ [Preflight] Potential issue for {}: {}", watch.symbol, msg);
+                                            println!(
+                                                "⚠️ [Preflight] Potential issue for {}: {}",
+                                                watch.symbol, msg
+                                            );
                                             preflight.status = "Warning".to_string();
-                                            if mode == crate::core::runtime_mode::ExecutionMode::Live {
+                                            if mode
+                                                == crate::core::runtime_mode::ExecutionMode::Live
+                                            {
                                                 outcome.preflight = Some(preflight);
                                                 let _ = persistence.save_run_status(&outcome);
-                                                anyhow::bail!("Insufficient market permissions for {}: {}", watch.symbol, msg);
+                                                anyhow::bail!(
+                                                    "Insufficient market permissions for {}: {}",
+                                                    watch.symbol,
+                                                    msg
+                                                );
                                             }
                                         }
                                         _ => {}
@@ -525,10 +542,14 @@ async fn run_pipeline(
                     if !report.mismatches.is_empty() {
                         println!("❌ [RECONCILIATION] Critical mismatches detected in Live mode!");
                         for m in &report.mismatches {
-                            println!("   - {}: Local={} Broker={} Diff={}", m.symbol, m.local_qty, m.broker_qty, m.diff);
+                            println!(
+                                "   - {}: Local={} Broker={} Diff={}",
+                                m.symbol, m.local_qty, m.broker_qty, m.diff
+                            );
                         }
                         outcome.reconciliation = crate::core::run_status::DeliveryStatus::Failed {
-                            reason: "Position mismatch detected between ledger and broker".to_string(),
+                            reason: "Position mismatch detected between ledger and broker"
+                                .to_string(),
                         };
                     } else {
                         println!("✅ [Post-flight] Reconciliation successful. Local ledger matches broker.");
@@ -614,8 +635,13 @@ async fn run_pipeline(
             if let crate::core::run_status::DeliveryStatus::Failed { reason } = outcome.execution {
                 return Err(anyhow::anyhow!("Critical Execution Failure: {}", reason));
             }
-            if let crate::core::run_status::DeliveryStatus::Failed { reason } = outcome.reconciliation {
-                return Err(anyhow::anyhow!("Critical Reconciliation Failure: {}", reason));
+            if let crate::core::run_status::DeliveryStatus::Failed { reason } =
+                outcome.reconciliation
+            {
+                return Err(anyhow::anyhow!(
+                    "Critical Reconciliation Failure: {}",
+                    reason
+                ));
             }
         }
 

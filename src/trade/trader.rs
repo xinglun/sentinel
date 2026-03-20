@@ -147,7 +147,8 @@ pub struct MockTradeExecutor {
     pub placed_orders_count: std::sync::atomic::AtomicUsize,
     pub query_counts: std::sync::Arc<tokio::sync::Mutex<std::collections::HashMap<String, usize>>>,
     pub mock_capacity: std::sync::Arc<tokio::sync::Mutex<TradableCapacity>>,
-    pub order_metadata: std::sync::Arc<tokio::sync::Mutex<std::collections::HashMap<String, (String, f64)>>>,
+    pub order_metadata:
+        std::sync::Arc<tokio::sync::Mutex<std::collections::HashMap<String, (String, f64)>>>,
     pub cancelled_orders: std::sync::Arc<tokio::sync::Mutex<std::collections::HashSet<String>>>,
 }
 
@@ -155,13 +156,19 @@ impl MockTradeExecutor {
     pub fn new() -> Self {
         Self {
             placed_orders_count: std::sync::atomic::AtomicUsize::new(0),
-            query_counts: std::sync::Arc::new(tokio::sync::Mutex::new(std::collections::HashMap::new())),
+            query_counts: std::sync::Arc::new(tokio::sync::Mutex::new(
+                std::collections::HashMap::new(),
+            )),
             mock_capacity: std::sync::Arc::new(tokio::sync::Mutex::new(TradableCapacity {
                 max_buy: 100000.0,
                 max_sell: 100000.0,
             })),
-            order_metadata: std::sync::Arc::new(tokio::sync::Mutex::new(std::collections::HashMap::new())),
-            cancelled_orders: std::sync::Arc::new(tokio::sync::Mutex::new(std::collections::HashSet::new())),
+            order_metadata: std::sync::Arc::new(tokio::sync::Mutex::new(
+                std::collections::HashMap::new(),
+            )),
+            cancelled_orders: std::sync::Arc::new(tokio::sync::Mutex::new(
+                std::collections::HashSet::new(),
+            )),
         }
     }
 }
@@ -215,7 +222,10 @@ impl TradeExecutor for MockTradeExecutor {
             let cancelled = self.cancelled_orders.lock().await;
             if cancelled.contains(order_id) {
                 let metadata = self.order_metadata.lock().await;
-                let (sym, qty) = metadata.get(order_id).cloned().unwrap_or(("UNKNOWN".to_string(), 0.0));
+                let (sym, qty) = metadata
+                    .get(order_id)
+                    .cloned()
+                    .unwrap_or(("UNKNOWN".to_string(), 0.0));
                 return Ok(OrderExecutionDetails {
                     order_id: order_id.to_string(),
                     symbol: sym,
@@ -231,7 +241,10 @@ impl TradeExecutor for MockTradeExecutor {
 
         let (symbol, qty) = {
             let metadata = self.order_metadata.lock().await;
-            metadata.get(order_id).cloned().unwrap_or(("UNKNOWN".to_string(), 0.0))
+            metadata
+                .get(order_id)
+                .cloned()
+                .unwrap_or(("UNKNOWN".to_string(), 0.0))
         };
 
         if symbol == "STAY_SUBMITTED" {

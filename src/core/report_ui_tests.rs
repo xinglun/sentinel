@@ -330,11 +330,11 @@ mod tests {
         assert!(card.contains("Stay Long Bias ·")); // Combined Header
         assert!(card.contains("仓位 10-90%")); // No colon
         assert!(card.contains("Confidence 65 (Moderate) · Stability 0 (Fragile)")); // Combined Signals
-        
+
         assert!(card.contains("市场摘要"));
         assert!(card.contains("战术分区"));
         assert!(card.contains("风险与机会"));
-        
+
         assert!(card.contains("• 趋势年龄: 5d"));
         assert!(card.contains("• 加仓区: TSLA"));
         assert!(card.contains("• 防御区: MSFT"));
@@ -343,9 +343,12 @@ mod tests {
 
     #[test]
     fn test_telegram_combined_defensive() {
-        let assets = vec![
-            mock_asset("U", AssetAction::REDUCE, AssetState::DEFEND, true),
-        ];
+        let assets = vec![mock_asset(
+            "U",
+            AssetAction::REDUCE,
+            AssetState::DEFEND,
+            true,
+        )];
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
             market_features: Default::default(),

@@ -301,7 +301,10 @@ fn format_macro_summary(packet: &DecisionPacket) -> String {
 
     s.push_str(&format!("• 市场状态: {}\n", cap_state));
     s.push_str(&format!("• 动量: {}\n", momentum));
-    s.push_str(&format!("• 趋势年龄: {}d\n", packet.market_features.regime_age));
+    s.push_str(&format!(
+        "• 趋势年龄: {}d\n",
+        packet.market_features.regime_age
+    ));
     s.push_str(&format!("• 当前倾向: {}\n", packet.telegram.bias));
     s
 }
@@ -310,16 +313,44 @@ fn format_tactical_summary(assets: &[crate::core::action_matrix::AssetActionDeci
     let mut s = String::new();
 
     // Forced Order: 加仓, 持有, 观察, 防御
-    let accum: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::ACCUMULATE).map(|a| a.symbol.clone()).collect();
-    let hold: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::HOLD).map(|a| a.symbol.clone()).collect();
-    let watch: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::OBSERVE || a.action == AssetAction::WAIT).map(|a| a.symbol.clone()).collect();
-    let defend: Vec<_> = assets.iter().filter(|a| a.action == AssetAction::AVOID || a.action == AssetAction::FREEZE || a.action == AssetAction::REDUCE).map(|a| a.symbol.clone()).collect();
+    let accum: Vec<_> = assets
+        .iter()
+        .filter(|a| a.action == AssetAction::ACCUMULATE)
+        .map(|a| a.symbol.clone())
+        .collect();
+    let hold: Vec<_> = assets
+        .iter()
+        .filter(|a| a.action == AssetAction::HOLD)
+        .map(|a| a.symbol.clone())
+        .collect();
+    let watch: Vec<_> = assets
+        .iter()
+        .filter(|a| a.action == AssetAction::OBSERVE || a.action == AssetAction::WAIT)
+        .map(|a| a.symbol.clone())
+        .collect();
+    let defend: Vec<_> = assets
+        .iter()
+        .filter(|a| {
+            a.action == AssetAction::AVOID
+                || a.action == AssetAction::FREEZE
+                || a.action == AssetAction::REDUCE
+        })
+        .map(|a| a.symbol.clone())
+        .collect();
 
-    if !accum.is_empty() { s.push_str(&format!("• 加仓区: {}\n", join_symbols(accum))); }
-    if !hold.is_empty() { s.push_str(&format!("• 持有区: {}\n", join_symbols(hold))); }
-    if !watch.is_empty() { s.push_str(&format!("• 观察区: {}\n", join_symbols(watch))); }
-    if !defend.is_empty() { s.push_str(&format!("• 防御区: {}\n", join_symbols(defend))); }
-    
+    if !accum.is_empty() {
+        s.push_str(&format!("• 加仓区: {}\n", join_symbols(accum)));
+    }
+    if !hold.is_empty() {
+        s.push_str(&format!("• 持有区: {}\n", join_symbols(hold)));
+    }
+    if !watch.is_empty() {
+        s.push_str(&format!("• 观察区: {}\n", join_symbols(watch)));
+    }
+    if !defend.is_empty() {
+        s.push_str(&format!("• 防御区: {}\n", join_symbols(defend)));
+    }
+
     s
 }
 
@@ -335,7 +366,12 @@ fn format_risk_opportunity(assets: &[crate::core::action_matrix::AssetActionDeci
 
     let best_risk = assets
         .iter()
-        .filter(|a| a.action == AssetAction::AVOID || a.action == AssetAction::REDUCE || a.state == AssetState::DEFEND || a.state == AssetState::OVERHEAT)
+        .filter(|a| {
+            a.action == AssetAction::AVOID
+                || a.action == AssetAction::REDUCE
+                || a.state == AssetState::DEFEND
+                || a.state == AssetState::OVERHEAT
+        })
         .max_by_key(|a| (a.deviation.unwrap_or(0.0).abs() * 100.0) as i64)
         .map(|a| format!("{} ({:?})", a.symbol, a.state))
         .unwrap_or_else(|| "None".to_string());
@@ -346,7 +382,9 @@ fn format_risk_opportunity(assets: &[crate::core::action_matrix::AssetActionDeci
 }
 
 fn join_symbols(symbols: Vec<String>) -> String {
-    if symbols.is_empty() { return "None".to_string(); }
+    if symbols.is_empty() {
+        return "None".to_string();
+    }
     let len = symbols.len();
     if len <= 3 {
         symbols.join(" / ")
@@ -356,11 +394,23 @@ fn join_symbols(symbols: Vec<String>) -> String {
 }
 
 fn confidence_label(val: f64) -> &'static str {
-    if val >= 80.0 { "High" } else if val >= 65.0 { "Moderate" } else { "Low" }
+    if val >= 80.0 {
+        "High"
+    } else if val >= 65.0 {
+        "Moderate"
+    } else {
+        "Low"
+    }
 }
 
 fn stability_label(val: f64) -> &'static str {
-    if val >= 25.0 { "Stable" } else if val >= 15.0 { "Mixed" } else { "Fragile" }
+    if val >= 25.0 {
+        "Stable"
+    } else if val >= 15.0 {
+        "Mixed"
+    } else {
+        "Fragile"
+    }
 }
 
 fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> String {
