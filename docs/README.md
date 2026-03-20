@@ -42,22 +42,5 @@
 5. `PRODUCT_GRADE_AUDIT_TASKS.md`
 6. `PRODUCT_GRADE_IMPLEMENTATION_PLAN.md`
 7. `PRODUCT_GRADE_REVIEW_2_TASKS.md`
-
-## 4. Reading Order
-
-如果你是新工程师，建议按这个顺序阅读：
-
-1. `specs/PRD.md`
-2. `specs/DECISION_PACKET_SCHEMA.md`
-3. `specs/STATE_DEFINITIONS.md`
-4. `specs/TRANSITION_RULES.md`
-5. `specs/ACTION_MATRIX.md`
-6. `specs/DATA_BRANCH_LAYOUT.md`
-7. `specs/hosting_spec.md`
-8. `architecture/IMPLEMENTATION_WALKTHROUGH.md`
-
-## 5. Governance Rule
-
-1. 规范冲突时，以 `specs/` 为准。
 2. `archive/` 中的历史文档不得覆盖当前规范。
 3. 新增临时审计或整改文档，不得放在仓库根目录。
