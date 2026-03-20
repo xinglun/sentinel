@@ -87,7 +87,7 @@ jobs:
 
           # Fail-safe: if the file still doesn't exist, create a dummy header so Rust doesn't panic
           if [ ! -f reports/telemetry.csv ]; then
-            echo "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share,universe_integrity,capital_flow_acceleration" > reports/telemetry.csv
+            echo "timestamp,date,provider,market_state,risk_overlay,system_confidence,stability_score,dominance_margin,potential_energy,regime_age,up_count,flat_count,down_count,total_count,up_weight,flat_weight,down_weight,total_weight,config_hash,data_quality_status" > reports/telemetry.csv
             echo "⚠️ Created empty telemetry.csv with headers to prevent Rust panic."
           fi
 
@@ -123,11 +123,13 @@ jobs:
           set -euo pipefail
           
           # CRITICAL: Backtest must produce the summary markdown
-          if [ ! -s "backtest/summary.md" ] || [ ! -s "backtest/summary_latest.md" ]; then
-            echo "❌ CRITICAL: backtest summary missing or empty!"
-            exit 1
-          fi
-          
+          REQUIRED_FILES=("backtest/summary.md" "backtest/summary_latest.md")
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -s "$file" ]; then
+              echo "❌ CRITICAL: Required archival asset $file is missing or empty!"
+              exit 1
+            fi
+          done
       - name: Commit and Push to Data Worktree
         env:
           GITHUB_TOKEN: ${{ github.token }}

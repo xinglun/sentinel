@@ -24,29 +24,21 @@ struct OutputConfig {
     timezone: String, // 例: "Asia/Tokyo"
     format: String,   // "markdown", "json"
     save_to: String,  // "./reports"
-    include_summary: bool,
 }
 
 struct RulesConfig {
     trend: TrendConfig,
     deviation_bands: Vec<(String, f64)>, // 内部的には f64 の降順にソートされた配列として保持
     actions: std::collections::HashMap<String, String>,
-    bear_mode: BearModeConfig,
 }
 
-struct BearModeConfig {
-    enabled: bool,
-    fallback_action: String,
-    caution_action: Option<String>,
-}
+// (BearModeConfig removed in v0.1.0)
 
 struct WatchlistEntry {
     symbol: String,
-    name: Option<String>,
     market: String,
     owner_ma_days: usize,
     leash_ma_days: usize,
-    caution_ma_days: Option<usize>,
     deviation_basis: DeviationBasis, // 列挙型: Owner | Leash
     enable: bool,
 }
@@ -61,8 +53,7 @@ struct WatchlistEntry {
 3.  **Engine (`engine.rs`)**: 物理量ベクトルから `State` を判定し、`Confidence` を算出。
 4.  **Main (`main.rs`)**: 各銘柄の出力を `GravityHealth`（序参量を含む状態ベクトル）に集約。資本配分比率（Trend vs Reversion）を計算し `CAPITAL STATE` を決定。
 5.  **Report (`report.rs`)**: 
-    - **UI**: Terminal, Markdown, Telegram HTML の生成。
-    - **Persistence**: Daily JSON, `telemetry.csv` (19列 序参量データセット) の追記保存。
+    - **Persistence**: Daily JSON, `run_status_YYYY-MM-DD.json`, `telemetry.csv` (20列 序参量データセット) の追記保存。
 6.  **Backtest (`backtest.rs`)**: 歴史的な価格データを用いて全ロジックをシミュレート。Calibration Error や Alpha 分離度をレポート。
 
 ### 1.2 基礎データレイヤー (Market Data)
@@ -134,10 +125,7 @@ enum TrendStatus { Up, Down, Flat, Unknown }
 | **銘柄の取引停止・上場廃止** | 空の配列を取得、または最終データが数年前のもの | `bars.last().date` が現在の日付から7日以上離れている場合、システムは `[STALE] データが古い` という警告を表示する。 |
 | **構成ステータス名の欠落** | `bands` に `fear_3` があるが `actions` に文案がない | 起動時の `config::load()` フェーズで検証を行い、キーが一致しない場合はプログラムを panic させ、設定エラーを通知する（Fail Fast 原則）。 |
 | **極端な暴落による下限突破** | 乖離率が -50% で、設定した最低閾値 `fear_1: -25%` を下回る | 最下層の閾値状態を使用する（最後の要素にフォールバック）。 |
-| **下山中の長期トレンド維持 (CAUTION)** | `bear_mode = true` かつトレンドがDownだが、`leash_ma` (ない場合は現在価格) が `caution_ma_days` (例: MA200) より上 | 完全な買い停止(DEFEND)にはせず、`caution_action`（警戒しつつ定投など）に留め、`is_caution_mode_active = true` とする。 |
-| **下山中の長期トレンド崩壊 (DEFEND)** | `bear_mode = true` かつトレンドがDownで、`leash_ma` が近 N 日間で `confirm_threshold` 回以上 `caution_ma_days` (例: MA200) の緩衝ライン (例: 0.97x) より下 | 強制的に防御アクション（`fallback_action`）へダウングレードし、`is_bear_mode_active = true` とする。 |
-| **極端な恐慌と下山トレンドの衝突 (Fear Exemption)** | `bear_mode = true` かつ `fear_x` 該当。さらに **1. 過去 N 日間で長期 MA を下回った回数が閾値未満** かつ **2. 長期 MA 自体が下落トレンドではない** | 牛市中の「黄金坑（絶好の買い場）」と見なし、`bear_mode` による Action 上書きを**スキップ**し、逆張り抄底を許可する。 |
-| **長期トレンド崩壊中の極端な恐慌 (Fear Downtrend)** | `bear_mode = true` かつ `fear_x` 該当だが、**1. 过去 N 日間で長期 MA を下回った回数が閾値以上** または **2. 長期 MA 自体が下落トレンド** | 構造的な崩壊と見なし、豁免権を剥奪。Action 上書きを行い、`state_code` を `fear_downtrend` に設定して強制防御（DEFEND）を実行する。落ちるナイフは掴まない。 |
+| **极端恐慌与下山模式** | - | (Logic consolidated into MarketRegime and PortfolioPolicy in major refactor) |
 
 ## 3. 並列モデルの提案
 50銘柄程度の取得であれば、`tokio` を使用した並列リクエストによりネットワークI/Oの待機時間を大幅に短縮できます。`futures::stream::StreamExt` の `buffer_unordered(10)` などを使用し、Yahoo Finance APIへの過度な負荷を避けるため、最大並列数を10程度に制限することを推奨します。

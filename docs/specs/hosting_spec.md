@@ -15,7 +15,7 @@
 **最终目标是建立：长期连续、不可篡改、可追溯的资本结构时间序列数据库（系统的核心资产）。**
 
 *   **GitHub Actions 运行分支**：`main`
-*   **提交分支**：`main`
+*   **观测数据提交分支**：`data` (使用 Git Worktree 隔离)
 
 ## 二、运行频率要求
 GitHub Actions 必须支持：
@@ -38,19 +38,20 @@ GitHub Actions 必须支持：
 *   **执行指令**：`cargo run --release`
 *   **禁止使用 debug 模式**：确保 release 模式与研究数据保持一致，保证观测结果可复现。
 
-## 五、观测数据持久化要求
-每次运行必须保存并提交到仓库：
+每次运行必须保存并提交到 `data` 分支：
 *   **目录**：`/reports/`
-*   **核心资产**：`telemetry.csv`（必须持续追加，绝对禁止覆盖历史数据）。
-*   **日常报告**：`YYYY-MM-DD.md`。
+*   **核心资产**：
+    *   `telemetry.csv`：多维时间序列（必须持续追加）。
+    *   `run_status_YYYY-MM-DD.json`：机器可读的运行健康快照（P0 校验项）。
+    *   `YYYY-MM-DD.md`：人类可读的归档报告。
+    *   `decision_packet_YYYY-MM-DD.json`：单一事实源决策包。
+    *   `portfolio_snapshot_YYYY-MM-DD.json`：组合暴露快照。
+    *   `account_snapshot_YYYY-MM-DD.json`：账户资金快照。
+    *   `state_transitions.csv` / `state_transitions.jsonl`：市场状态迁移日志。
+    *   `execution_gate_log.jsonl`：执行门禁审计。
+    *   `data_quality_log.jsonl`：数据质量日志。
 
-## 六、GitHub 自动提交要求
-每次运行后必须自动执行：
-```bash
-git add reports/
-git commit -m "Stock Sentinel Observation: YYYY-MM-DD HH:MM:SS"
-git push origin main
-```
+每次运行后必须自动推送至 `data` 分支。禁止直接提交至 `main` 分支以保持代码与数据的物理隔离。
 **目的**：将 GitHub Repository 作为永久观测档案库。
 
 ## 七、Telegram 通知要求
@@ -65,13 +66,29 @@ git push origin main
 
 ## 十、Repository 标准结构
 ```text
-stock-sentinel/
-├── .github/
-│   └── workflows/
-│       └── daily_radar.yml
-├── reports/
-│   ├── telemetry.csv
-│   └── YYYY-MM-DD.md
+stock-sentinel/ (main branch)
+├── .github/workflows/daily_radar.yml
+└── ... (source code)
+
+stock-sentinel/ (data branch)
+├── backtest/
+│   ├── summary_latest.md
+│   └── archive/
+│       └── summary_YYYY-MM-DD.md
+└── reports/
+    ├── YYYY-MM-DD.md
+    ├── decision_packet_YYYY-MM-DD.json
+    ├── telemetry.csv
+    ├── run_status_YYYY-MM-DD.json
+    ├── portfolio_snapshot_YYYY-MM-DD.json
+    ├── account_snapshot_YYYY-MM-DD.json
+    ├── decision_history.jsonl
+    ├── state_transitions.csv
+    ├── state_transitions.jsonl
+    ├── execution_gate_log.jsonl
+    ├── data_quality_log.jsonl
+    ├── ledger.csv
+    └── freshness.json
 ```
 
 ## 十一、最终目标定义

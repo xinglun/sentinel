@@ -13,21 +13,25 @@ pub struct DailyBar {
     pub volume: Option<f64>,
 }
 
+use std::borrow::Cow;
+
 #[derive(Debug, Clone)]
-pub struct TickerHistory {
+pub struct TickerHistory<'a> {
     #[allow(dead_code)]
     pub symbol: String,
-    pub bars: Vec<DailyBar>,
+    pub bars: Cow<'a, [DailyBar]>,
     // The estimated total trading days since IPO/First Trade Date
     pub total_trading_days: usize,
+    #[allow(dead_code)]
     pub latest_quote_timestamp: Option<i64>,
 }
+
 
 pub async fn fetch_history(
     symbol: &str,
     start_date: Option<OffsetDateTime>,
     end_date: Option<OffsetDateTime>,
-) -> Result<TickerHistory> {
+) -> Result<TickerHistory<'static>> {
     let provider =
         yahoo::YahooConnector::new().map_err(|e| anyhow!("Yahoo connector failed: {}", e))?;
 
@@ -64,7 +68,7 @@ async fn fetch_once(
     symbol: &str,
     start_dt: Option<OffsetDateTime>,
     end_dt: Option<OffsetDateTime>,
-) -> Result<TickerHistory> {
+) -> Result<TickerHistory<'static>> {
     let end = end_dt.unwrap_or_else(OffsetDateTime::now_utc);
     let start = start_dt.unwrap_or_else(|| end - TimeDuration::days(365 * 2));
 
@@ -126,7 +130,7 @@ async fn fetch_once(
 
     Ok(TickerHistory {
         symbol: symbol.to_string(),
-        bars,
+        bars: Cow::Owned(bars),
         total_trading_days,
         latest_quote_timestamp,
     })

@@ -1,14 +1,8 @@
-mod adapters;
-mod backtest;
-mod cli;
-mod config;
-mod core;
-mod data;
-mod trade;
-
 use anyhow::Result;
+use stock_sentinel::cli;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     cli::run().await
 }
+

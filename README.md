@@ -64,10 +64,24 @@ cargo run -- backtest
 - `./backtest/summary.md` に以下の詳細レポートが出力されます。
 
 ## 📁 ドキュメント (Documentation)
-- [要件と機能の定義 (PRD)](./docs/PRD.md) - システムの鉄則と核心要件
-- [システムアーキテクチャ設計](./docs/architecture_design.md) - 内部结构和数据流转
-- [战略设计哲学与评价](./docs/strategy_philosophy.md) - 「饲主-狗」模型
-- [GitHub Actions 托管运行说明书](./docs/hosting_spec.md) - 将望远镜放进轨道
+
+### SSOT / Current Specs
+- [Documentation Guide](./docs/README.md) - 文档分层、阅读顺序与治理规则
+- [PRD](./docs/specs/PRD.md) - 系统铁则、产品边界与核心要求
+- [Decision Packet Schema](./docs/specs/DECISION_PACKET_SCHEMA.md) - `DecisionPacket` 主契约
+- [State Definitions](./docs/specs/STATE_DEFINITIONS.md) - 市场状态定义
+- [Transition Rules](./docs/specs/TRANSITION_RULES.md) - 状态迁移规则
+- [Action Matrix](./docs/specs/ACTION_MATRIX.md) - 市场状态 × 资产状态 → 动作
+- [Data Branch Layout](./docs/specs/DATA_BRANCH_LAYOUT.md) - `data` 分支归档标准
+- [Hosting Spec](./docs/specs/hosting_spec.md) - GitHub Actions 托管与归档要求
+
+### Implementation
+- [Implementation Walkthrough](./docs/architecture/IMPLEMENTATION_WALKTHROUGH.md) - 当前实现导览
+- [Architecture Design](./docs/architecture/architecture_design.md) - 结构设计与数据流
+- [Strategy Philosophy](./docs/architecture/strategy_philosophy.md) - 策略设计哲学
+
+### Historical Materials
+- [Archive Roadmap](./docs/archive/decision_engine_roadmap.md) - 历史重构路线图
 
 ---
 

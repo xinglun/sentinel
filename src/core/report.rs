@@ -1,793 +1,95 @@
 use crate::config::AppConfig;
-use crate::core::engine::{RegimeValidity, TickerSnapshot, TrendStatus};
-use crate::core::notify::escape_html;
+use crate::core::decision::DecisionPacket;
+use crate::core::asset_state::AssetState;
+use crate::core::market_regime::MarketState;
+use crate::core::action_matrix::AssetAction;
 use anyhow::Result;
-use chrono::Local;
-use std::fs;
-use std::path::Path;
-use tabled::settings::Style;
-use tabled::{Table, Tabled};
+use tabled::{settings::Style, Table, Tabled};
 
 #[derive(Tabled)]
-struct TerminalRow {
-    #[tabled(rename = "代码")]
-    symbol: String,
-    #[tabled(rename = "Trend (Days)")]
-    trend: String,
-    #[tabled(rename = "Owner Dist")]
-    owner_dev: String,
-    #[tabled(rename = "Sigma (σ)")]
-    strength_z: String,
-    #[tabled(rename = "Sentiment")]
-    sentiment: String,
-    #[tabled(rename = "Status (State)")]
-    state: String,
-    #[tabled(rename = "Action Guidance")]
-    action: String,
+pub struct TerminalRow {
+    #[tabled(rename = "Symbol")]
+    pub symbol: String,
+    #[tabled(rename = "State")]
+    pub state: String,
+    #[tabled(rename = "Action")]
+    pub action: String,
+    #[tabled(rename = "Dist")]
+    pub owner_dev: String,
+    #[tabled(rename = "Z-Score")]
+    pub strength_z: String,
 }
 
 #[derive(Tabled)]
-struct TerminalRowHeld {
-    #[tabled(rename = "Symbol")]
-    symbol: String,
-    #[tabled(rename = "Quantity")]
-    qty: f64,
-    #[tabled(rename = "Avg Cost")]
-    avg_price: f64,
-    #[tabled(rename = "Current Price")]
-    current_price: f64,
-    #[tabled(rename = "P/L (Realized/Open)")]
-    pl: String,
+pub struct TerminalRowHeld {
+    pub symbol: String,
+    pub qty: f64,
+    pub avg_price: f64,
+    pub current_price: f64,
+    pub pl: String,
 }
 
 pub struct ReportResult {
+    pub markdown_body: String,
+    pub archival_markdown: String,
     #[allow(dead_code)]
-    pub markdown: String,
-    pub telegram_html: String,
-}
-
-pub struct GravityHealth {
-    pub up_count: usize,
-    pub flat_count: usize,
-    pub forming_early_count: usize,
-    pub forming_late_count: usize,
-    pub universe_count: usize,
-    pub total_count: usize, // Valid count (Macro denominator)
-    pub up_weight: f64,
-    pub flat_weight: f64,
-    pub forming_early_weight: f64,
-    pub forming_late_weight: f64,
-    pub total_weight: f64, // Valid weight (Macro denominator)
-    pub global_gravity_strength: f64,
-    pub global_potential_energy: f64,
-    pub trend_alloc_weight: f64,
-    pub reversion_alloc_weight: f64,
-    pub config_hash: String,
-    pub system_confidence: f64,
-    pub market_phase: String,
-    pub capital_flow_vector: String,
-    pub recommended_exposure: f64,
-    // Delta trackers (Change vs Yesterday)
-    pub prev_system_confidence: Option<f64>,
-    pub prev_dominance_margin: Option<f64>,
-    pub prev_recommended_exposure: Option<f64>,
-    pub prev_up_count: Option<usize>, // For Trend Breadth Momentum
-    pub regime_age: usize,
-    pub stability_score: f64,
-    pub base_exposure: f64,
-    pub adjusted_exposure: f64,
-    pub conf_trend_alloc: f64,
-    pub conf_inverse_potential: f64,
-    pub capital_flow_acceleration: Option<f64>,
-    pub universe_integrity: f64,
-    pub trend_maturity: f64,
-    pub stability_structural: f64,
-    pub stability_temporal: f64,
-    pub temporal_modifier: f64,
-    pub integrity_multiplier: f64,
-}
-
-pub struct GravityPrevContext {
-    pub prev_margin: Option<f64>,
-    pub prev_exposure: Option<f64>,
-    pub prev_up_count: Option<usize>,
-    pub prev_ema_accel: Option<f64>,
-    pub prev_system_confidence: Option<f64>,
-    pub regime_age: usize,
-}
-
-pub struct CapitalPosture {
     pub state_code: String,
-    pub display_text: String,
-    pub t_share_raw: f64,
-    pub r_share_raw: f64,
-    pub r_share_adj: f64,
-    pub t_ratio_final: f64,
-    pub r_ratio_final: f64,
-    pub dominance_label: String,
 }
 
-impl GravityHealth {
-    pub fn compute(
-        snapshots: &[TickerSnapshot],
-        config_hash: &str,
-        prev: &GravityPrevContext,
-        _regime_age: usize,
-    ) -> Self {
-        let mut up_count = 0;
-        let mut flat_count = 0;
-        let mut down_count = 0;
-        let mut up_weight = 0.0;
-        let mut flat_weight = 0.0;
-        let mut down_weight = 0.0;
-        let mut forming_early_count = 0;
-        let mut forming_late_count = 0;
-        let mut forming_early_weight = 0.0;
-        let mut forming_late_weight = 0.0;
 
-        for s in snapshots {
-            if s.validity == RegimeValidity::FormingEarly
-                || s.validity == RegimeValidity::FormingLate
-            {
-                if s.validity == RegimeValidity::FormingEarly {
-                    forming_early_count += 1;
-                    forming_early_weight += s.weight;
-                } else {
-                    forming_late_count += 1;
-                    forming_late_weight += s.weight;
-                }
-                continue;
-            }
-
-            match s.trend_status {
-                TrendStatus::Up => {
-                    up_count += 1;
-                    up_weight += s.weight;
-                }
-                TrendStatus::Flat => {
-                    flat_count += 1;
-                    flat_weight += s.weight;
-                }
-                TrendStatus::Down | TrendStatus::Unknown => {
-                    down_count += 1;
-                    down_weight += s.weight;
-                }
-            }
-        }
-
-        let total_count = up_count + flat_count + down_count;
-        let total_weight = up_weight + flat_weight + down_weight;
-
-        let mut total_strength_sum = 0.0;
-        let mut weight_for_strength = 0.0;
-        let mut total_potential_sum = 0.0;
-        let mut weight_for_potential = 0.0;
-        let mut trend_alloc_weight = 0.0;
-        let mut reversion_alloc_weight = 0.0;
-
-        for s in snapshots {
-            if s.validity == RegimeValidity::FormingEarly
-                || s.validity == RegimeValidity::FormingLate
-            {
-                continue;
-            }
-
-            if let Some(strength) = s.owner_ma_slope_pct {
-                total_strength_sum += strength * s.weight;
-                weight_for_strength += s.weight;
-            }
-            if let Some(z) = s.dev_z_score {
-                total_potential_sum += z.abs() * s.weight;
-                weight_for_potential += s.weight;
-
-                if s.confidence_score >= 80 {
-                    trend_alloc_weight += s.weight * (s.confidence_score as f64 / 100.0);
-                } else if s.confidence_score <= 60 {
-                    reversion_alloc_weight +=
-                        s.weight * ((100.0 - s.confidence_score as f64) / 100.0) * z.abs();
-                }
-            }
-        }
-
-        let global_gravity_strength = if weight_for_strength > 0.0 {
-            total_strength_sum / weight_for_strength
-        } else {
-            0.0
-        };
-        let global_potential_energy = if weight_for_potential > 0.0 {
-            total_potential_sum / weight_for_potential
-        } else {
-            0.0
-        };
-
-        let total_weight_safe = if total_weight <= 0.0 {
-            1.0
-        } else {
-            total_weight
-        };
-        let dominance_margin = (trend_alloc_weight - reversion_alloc_weight) / total_weight_safe;
-        let conf_trend_alloc = (trend_alloc_weight / total_weight_safe * 50.0).clamp(0.0, 50.0);
-        let conf_inverse_potential =
-            (1.0 / (1.0 + global_potential_energy) * 50.0).clamp(0.0, 50.0);
-        let system_confidence = (conf_trend_alloc + conf_inverse_potential).clamp(0.0, 100.0);
-
-        let market_phase = if dominance_margin > 0.5 {
-            if global_gravity_strength > 0.5 {
-                "Mid Bull"
-            } else {
-                "Late Bull"
-            }
-        } else if dominance_margin > 0.2 {
-            "Early Bull"
-        } else if dominance_margin < -0.5 {
-            "Bear Market"
-        } else if dominance_margin < -0.1 {
-            "Correction"
-        } else {
-            "Neutral / Transition"
-        };
-
-        let t_share_raw = trend_alloc_weight / total_weight_safe;
-        let r_share_raw = reversion_alloc_weight / total_weight_safe;
-        let r_share_adj = r_share_raw * (1.0 + global_potential_energy);
-        let total_adjusted = t_share_raw + r_share_adj;
-        let total_adj_safe = if total_adjusted <= 0.0 {
-            1.0
-        } else {
-            total_adjusted
-        };
-        let t_ratio_final = t_share_raw / total_adj_safe;
-        let r_ratio_final = r_share_adj / total_adj_safe;
-        let energy_adjusted_margin = t_ratio_final - r_ratio_final;
-
-        let mut capital_flow_acceleration = None;
-        if let Some(pm) = prev.prev_margin {
-            let today_accel = energy_adjusted_margin - pm;
-            let ema_accel = match prev.prev_ema_accel {
-                Some(prev_ema) => {
-                    let alpha = 2.0 / (5.0 + 1.0);
-                    alpha * today_accel + (1.0 - alpha) * prev_ema
-                }
-                None => today_accel,
-            };
-            capital_flow_acceleration = Some(ema_accel);
-        }
-
-        let capital_flow_vector = if energy_adjusted_margin > 0.0 {
-            let acc = capital_flow_acceleration.unwrap_or(0.0);
-            if acc.abs() < 0.02 {
-                "Stable Uptrend ↗️"
-            } else if acc >= 0.02 {
-                "Accelerating Uptrend 🚀"
-            } else {
-                "Decelerating Uptrend ⚠️"
-            }
-        } else {
-            let acc = capital_flow_acceleration.unwrap_or(0.0);
-            if acc.abs() < 0.02 {
-                "Stable Downtrend ↘️"
-            } else if acc <= -0.02 {
-                "Accelerating Downtrend 🩸"
-            } else {
-                "Decelerating Downtrend (Bottoming) ⏳"
-            }
-        };
-
-        let base_exposure = (0.5 + (dominance_margin * 0.5)).clamp(0.0, 1.0);
-        let universe_integrity = if snapshots.is_empty() {
-            0.0
-        } else {
-            total_count as f64 / snapshots.len() as f64
-        };
-
-        let trend_maturity = (prev.regime_age as f64 / 40.0).min(1.0);
-        let stability_structural = conf_inverse_potential / 50.0;
-        let stability_temporal = trend_maturity;
-        let stability_score = stability_structural * stability_temporal;
-        let temporal_modifier = 0.85 + (trend_maturity * 0.15).min(0.15);
-        let integrity_multiplier = universe_integrity;
-
-        let conf_multiplier = (system_confidence / 100.0) * integrity_multiplier;
-        let recommended_exposure = (base_exposure * conf_multiplier).clamp(0.0, 1.0);
-
-        Self {
-            up_count,
-            flat_count,
-            forming_early_count,
-            forming_late_count,
-            universe_count: snapshots.len(),
-            total_count,
-            up_weight,
-            flat_weight,
-            forming_early_weight,
-            forming_late_weight,
-            total_weight,
-            global_gravity_strength,
-            global_potential_energy,
-            trend_alloc_weight,
-            reversion_alloc_weight,
-            config_hash: config_hash.to_string(),
-            system_confidence,
-            market_phase: market_phase.to_string(),
-            capital_flow_vector: capital_flow_vector.to_string(),
-            recommended_exposure,
-            prev_system_confidence: prev.prev_system_confidence,
-            prev_dominance_margin: prev.prev_margin,
-            prev_recommended_exposure: prev.prev_exposure,
-            prev_up_count: prev.prev_up_count,
-            regime_age: prev.regime_age,
-            stability_score,
-            base_exposure,
-            adjusted_exposure: recommended_exposure,
-            conf_trend_alloc,
-            conf_inverse_potential,
-            capital_flow_acceleration,
-            universe_integrity,
-            trend_maturity,
-            stability_structural: conf_inverse_potential,
-            stability_temporal: stability_temporal * 100.0,
-            temporal_modifier,
-            integrity_multiplier,
-        }
-    }
-
-    pub fn format_potential_energy(&self) -> String {
-        let (label, intensity) = if self.global_potential_energy < 1.0 {
-            ("Cold", "(安定 / 波动极低)")
-        } else if self.global_potential_energy < 1.5 {
-            ("Warm", "(蓄力 / 趋势健康但警惕波动)")
-        } else if self.global_potential_energy < 2.0 {
-            ("Hot", "(高张力 / 极端背离，波动即将来临)")
-        } else {
-            ("Critical", "(极端 / 风险极高，严防剧烈修正)")
-        };
-        format!(
-            "{:.2} {} {}",
-            self.global_potential_energy, label, intensity
-        )
-    }
-
-    /// Linear interpolation for smooth Potential Modifier
-    /// 1.0 -> 0.7 (Discount)
-    /// 1.5 -> 1.0 (Neutral)
-    /// 2.0 -> 1.3 (Amplify)
-    fn get_potential_mod(&self) -> f64 {
-        let p = self.global_potential_energy;
-        if p <= 1.0 {
-            0.7
-        } else if p >= 2.0 {
-            1.3
-        } else if p < 1.5 {
-            0.7 + (p - 1.0) * (1.0 - 0.7) / (1.5 - 1.0)
-        } else {
-            1.0 + (p - 1.5) * (1.3 - 1.0) / (2.0 - 1.5)
-        }
-    }
-
-    pub fn compute_capital_posture(&self) -> CapitalPosture {
-        if self.trend_alloc_weight == 0.0 && self.reversion_alloc_weight == 0.0 {
-            return CapitalPosture {
-                state_code: "NULL".to_string(),
-                display_text: "Transitional (Null)".to_string(),
-                t_share_raw: 0.0,
-                r_share_raw: 0.0,
-                r_share_adj: 0.0,
-                t_ratio_final: 0.0,
-                r_ratio_final: 0.0,
-                dominance_label: "Null".to_string(),
-            };
-        }
-
-        let t_raw = self.trend_alloc_weight;
-        let r_raw = self.reversion_alloc_weight;
-        let total_raw = t_raw + r_raw;
-
-        let t_share_raw = t_raw / total_raw;
-        let r_share_raw = r_raw / total_raw;
-
-        // 2. Continuous Potential Modifier
-        let mod_factor = self.get_potential_mod();
-        let r_share_adj = r_share_raw * mod_factor;
-
-        // 3. Re-normalization
-        let mod_total = t_share_raw + r_share_adj;
-        let final_trend_ratio = t_share_raw / mod_total;
-        let final_reversion_ratio = 1.0 - final_trend_ratio;
-
-        let (state_code, display_text) = if final_trend_ratio >= 0.6 {
-            (
-                "TREND_DOMINANT",
-                "Trend Dominant (趋势主导 / 复利优先，谨慎加速)",
-            )
-        } else if final_trend_ratio <= 0.4 {
-            (
-                "REVERSION_DOMINANT",
-                "Reversion Dominant (回归主导 / 分批部署，控制仓位)",
-            )
-        } else {
-            (
-                "TRANSITIONAL",
-                "Transitional (结构转换期 / 防御优先，等待确认)",
-            )
-        };
-
-        let margin = (final_trend_ratio - final_reversion_ratio).abs();
-        let dominance_label = if margin < 0.2 {
-            "Neutral"
-        } else if margin < 0.5 {
-            "Weak"
-        } else if margin < 0.8 {
-            "Strong"
-        } else {
-            "Absolute"
-        };
-
-        CapitalPosture {
-            state_code: state_code.to_string(),
-            display_text: display_text.to_string(),
-            t_share_raw,
-            r_share_raw,
-            r_share_adj,
-            t_ratio_final: final_trend_ratio,
-            r_ratio_final: final_reversion_ratio,
-            dominance_label: dominance_label.to_string(),
-        }
-    }
-
-    pub fn get_interpretation(&self, posture: &CapitalPosture) -> String {
-        match posture.state_code.as_str() {
-            "TREND_DOMINANT" => {
-                let mut interpretation = if self.global_gravity_strength > 0.0 {
-                    "趋势强劲主导，延续概率较高。强者继续复利，避免频繁调仓，回撤即机会。"
-                        .to_string()
-                } else {
-                    "趋势仍主导但引力减速。保持仓位但由于动能衰减，严禁追高。".to_string()
-                };
-                if self.stability_score < 0.2 {
-                    interpretation
-                        .push_str(" ⚠️趋势尚处形成早期，稳定性低，已自动收缩仓位暴露度。");
-                }
-                interpretation
-            }
-            "REVERSION_DOMINANT" => {
-                if self.global_potential_energy > 1.8 {
-                    "极端背离导向。结构性超卖/超买严重，分批部署/防御而非追跌杀涨。".to_string()
-                } else {
-                    "均值回归主导。震荡格局，避免趋势交易逻辑，关注边缘突破。".to_string()
-                }
-            }
-            "TRANSITIONAL" => "结构转换期。引力方向不明联，防御优先，等待新体制确立。".to_string(),
-            _ => "系统状态观测中。".to_string(),
-        }
-    }
-
-    pub fn get_regime_maturity(&self) -> (&'static str, &'static str) {
-        if self.regime_age <= 10 {
-            ("🟡 Newborn", "(Unstable)")
-        } else if self.regime_age <= 60 {
-            ("🟢 Healthy", "(Rising)")
-        } else if self.regime_age <= 200 {
-            ("🔵 Mature", "(Compounding)")
-        } else {
-            ("🟠 Aging", "(Inertial Risk)")
-        }
-    }
-
-    pub fn get_action_bias(&self, posture: &CapitalPosture, buy_zone_empty: bool) -> String {
-        let (_maturity_label, _) = self.get_regime_maturity();
-        let risk_prefix = if self.regime_age <= 10 {
-            " [High Newborn Risk]"
-        } else {
-            ""
-        };
-        let stability_prefix = if self.stability_score < 0.2 {
-            " [LOW STABILITY]"
-        } else {
-            ""
-        };
-
-        let base = match posture.state_code.as_str() {
-            "OPTIMAL" | "CRUISE" if buy_zone_empty => "HOLD",
-            "OPTIMAL" | "CRUISE" | "TREND_DOMINANT" => "SELECTIVE ACCUMULATION (ON PULLBACKS)",
-            "REVERSION_DOMINANT" if self.global_potential_energy > 1.8 => "ACCUMULATE (Contrarian)",
-            _ => "DEFEND",
-        };
-
-        format!("{}{}{}", base, risk_prefix, stability_prefix)
-    }
-}
-
-fn get_z_label(z: f64) -> &'static str {
-    let abs_z = z.abs();
-    if abs_z < 1.0 {
-        "Neutral"
-    } else if abs_z < 2.0 {
-        "Strong"
-    } else if abs_z < 3.0 {
-        "Extreme"
-    } else {
-        "Panic"
-    }
-}
-
-fn get_action_category(state: &str) -> &'static str {
-    if (state.contains("fear") && !state.contains("down")) || state.contains("pullback") {
-        "加仓区 (Buy)"
-    } else if state.contains("optimal") || state.contains("cruise") {
-        "持有区 (Hold)"
-    } else if state.contains("overheat")
-        || state.contains("DEFEND")
-        || state.contains("caution")
-        || (state.contains("fear") && state.contains("down"))
-    {
-        "防御区 (Defend)"
-    } else {
-        "观察区 (Watch)"
-    }
-}
-
-fn get_rank_priority(state: &str) -> usize {
-    if state == "optimal" || state == "cruise" {
-        3
-    } else if state == "pullback" {
-        2
-    } else if state.contains("fear") && !state.contains("down") {
-        1
-    }
-    // Opportunity fear
-    else if state.contains("fear") && state.contains("down") {
-        5
-    }
-    // Risk fear
-    else if state.contains("overheat") || state.contains("DEFEND") {
-        6
-    } else if state == "REGIME_FORMING" {
-        99
-    } else {
-        4
-    }
-}
-
-fn format_thermometer(value: f64, max: f64) -> String {
-    let width = 10;
-    let filled = ((value / max) * width as f64).round() as usize;
-    let filled = filled.clamp(0, width);
-    let mut bar = String::new();
-    for _ in 0..filled {
-        bar.push('█');
-    }
-    for _ in filled..width {
-        bar.push('░');
-    }
-
-    let zone = if value > 1.8 {
-        "PANIC/EXTREME"
-    } else if value > 1.2 {
-        "HIGH"
-    } else if value > 0.8 {
-        "MEDIUM"
-    } else {
-        "LOW"
-    };
-    format!("{} {:.2} / {:.1}\nZone: {}", bar, value, max, zone)
-}
-
-fn format_sigma(z: f64) -> String {
-    let label = if z >= 0.0 {
-        "above equilibrium"
-    } else {
-        "below equilibrium"
-    };
-    format!("{:.1}σ {}", z.abs(), label)
-}
-
-fn format_stability_bar(value: f64) -> String {
-    let width = 10;
-    let filled = (value * width as f64).round() as usize;
-    let filled = filled.clamp(0, width);
-    let mut bar = String::new();
-    for _ in 0..filled {
-        bar.push('▉');
-    } // Use a distinct block for stability
-    for _ in filled..width {
-        bar.push('░');
-    }
-
-    let reliability = if value < 0.2 {
-        "Low Reliability"
-    } else {
-        "Established"
-    };
-    format!("{} {:.0}% ({})", bar, value * 100.0, reliability)
-}
-
-fn get_position_guidance(state_code: &str, rules: &crate::config::ParsedRules) -> String {
-    let multiplier = rules
-        .sizing_multipliers
-        .get(state_code)
-        .copied()
-        .unwrap_or(1.0);
-    let pct = multiplier * 100.0;
-
-    if pct == 0.0 {
-        "Alloc: 0% (Cash/Halt)".to_string()
-    } else if pct == 100.0 {
-        "Alloc: 100% (Standard)".to_string()
-    } else if pct > 100.0 {
-        format!("Alloc: {:.0}% (Overweight)", pct)
-    } else {
-        format!("Alloc: {:.0}% (Underweight)", pct)
-    }
-}
-
-fn get_final_order(
-    gravity: &GravityHealth,
-    posture: &CapitalPosture,
-    buy_zone: &[String],
-) -> String {
-    let mut orders = Vec::new();
-
-    // Command 1: Exposure
-    let floor = (gravity.recommended_exposure * 10.0).floor() * 10.0;
-    let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
-    orders.push(format!(
-        "Maintain {:.0}-{:.0}% equity exposure.",
-        floor, ceil
-    ));
-
-    // Command 2: Deployment
-    if !buy_zone.is_empty() {
-        orders.push(format!(
-            "Deploy capital only into pullbacks ({}).",
-            buy_zone.join(", ")
-        ));
-    }
-
-    // Command 3: Rules
-    if posture.state_code.contains("Risk") || posture.state_code.contains("Panic") {
-        orders.push("Avoid bottom-fishing downtrend assets.".to_string());
-    } else {
-        orders.push("Do not chase strength.".to_string());
-    }
-
-    orders.join("\n • ")
-}
-
-fn get_state_emoji(state_code: &str) -> &'static str {
-    match state_code {
-        "overheat_2" => "🔴",
-        "overheat_1" => "🟠",
-        "cruise" => "🟢",
-        "optimal" => "💎",
-        "pullback" => "🟡",
-        "fear_1" => "🛡️",
-        "fear_2" => "🆘",
-        "CAUTION" => "⚠️",
-        "DEFEND" => "🛑",
-        "REGIME_FORMING" => "🌀",
-        _ => "⚪",
-    }
-}
-
-pub fn generate_reports(
-    config: &AppConfig,
-    snapshots: &[TickerSnapshot],
-    gravity_health: &GravityHealth,
-    _yesterday_state: &str,
+pub fn generate_refined_report(
+    _config: &AppConfig,
+    packet: &DecisionPacket,
     realized_pl: f64,
     positions: &std::collections::HashMap<String, (f64, f64)>,
+    mode: &crate::core::runtime_mode::ExecutionMode,
+    failed_symbols: Vec<String>,
 ) -> Result<ReportResult> {
-    let now = Local::now();
-    let date_str = now.format("%Y-%m-%d").to_string();
-    let posture = gravity_health.compute_capital_posture();
+    let date_str = packet.date.format("%Y-%m-%d").to_string();
 
-    let mut snapshots = snapshots.to_vec();
-    // Sorting: Opportunity-First (Fear -> Pullback -> Optimal -> Cruise)
-    snapshots.sort_by(|a, b| {
-        let pa = get_rank_priority(&a.state_code);
-        let pb = get_rank_priority(&b.state_code);
-        if pa != pb {
-            pa.cmp(&pb)
-        } else {
-            // Tie-break by |Z-score| descending for similar states
-            let az = a.dev_z_score.unwrap_or(0.0).abs();
-            let bz = b.dev_z_score.unwrap_or(0.0).abs();
-            bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
-        }
-    });
+    let telegram_card = format_telegram_card(packet, mode, &failed_symbols, positions);
 
     let mut rows = Vec::new();
-    let mut buy_zone = Vec::new();
-    let mut watch_zone = Vec::new();
-    let mut defend_zone = Vec::new();
-    let mut hold_zone = Vec::new();
-
-    for s in &snapshots {
-        let cat = get_action_category(&s.state_code);
-        match cat {
-            "加仓区 (Buy)" => buy_zone.push(s.symbol.clone()),
-            "观察区 (Watch)" => watch_zone.push(s.symbol.clone()),
-            "防御区 (Defend)" => defend_zone.push(s.symbol.clone()),
-            _ => hold_zone.push(s.symbol.clone()),
-        }
-
-        let trend_icon = match s.trend_status {
-            TrendStatus::Up => "↗",
-            TrendStatus::Down => "↘",
-            TrendStatus::Flat => "→",
-            TrendStatus::Unknown => "?",
-        };
-        let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
-
-        let owner_dev_val = s.owner_deviation_pct.unwrap_or(0.0);
-
-        let emoji = get_state_emoji(&s.state_code);
-        let state_rc = if let Some(rc) = &s.reason_code {
-            format!("{} {} {}", emoji, s.state_code, rc)
-        } else {
-            format!("{} {}", emoji, s.state_code)
-        };
-
-        let percentile_str = if s.validity == RegimeValidity::FormingEarly
-            || s.validity == RegimeValidity::FormingLate
-        {
-            "".to_string()
-        } else {
-            s.deviation_percentile
-                .map(|v| format!(" (罕见度: {:.0}%)", v))
-                .unwrap_or_default()
-        };
-
-        let action_guidance = if s.validity == RegimeValidity::FormingEarly
-            || s.validity == RegimeValidity::FormingLate
-        {
-            "Alloc: N/A (Observe)".to_string()
-        } else {
-            get_position_guidance(&s.state_code, &config.get_parsed_rules())
-        };
-
-        let owner_dev_str = if s.validity == RegimeValidity::FormingEarly {
-            "Dist: N/A".to_string()
-        } else {
-            format!("Dist: {:+.1}%{}", owner_dev_val, percentile_str)
-        };
-
-        let strength_z_combined = if s.validity == RegimeValidity::FormingEarly {
-            "Z-Score: N/A".to_string()
-        } else {
-            let z_val = s.dev_z_score.unwrap_or(0.0);
-            format!("{} ({})", format_sigma(z_val), get_z_label(z_val))
-        };
-
-        let sentiment_str = if let Some(ref sent) = s.sentiment {
-            format!("{:.0} ({})", sent.score, sent.label)
-        } else {
-            "-".to_string()
+    for asset in &packet.assets {
+        let emoji = match asset.state {
+            AssetState::OPTIMAL => "🔥",
+            AssetState::PULLBACK => "🏹",
+            AssetState::OVERHEAT => "🌋",
+            AssetState::DEFEND => "🛡️",
+            _ => "▫️",
         };
 
         rows.push(TerminalRow {
-            symbol: s.symbol.clone(),
-            trend: trend_combined,
-            owner_dev: owner_dev_str,
-            strength_z: strength_z_combined,
-            sentiment: sentiment_str,
-            state: state_rc,
-            action: action_guidance,
+            symbol: asset.symbol.clone(),
+            state: format!("{} {:?}", emoji, asset.state),
+            action: format!("{:?}", asset.action),
+            owner_dev: format!("{:+.1}%", asset.deviation.unwrap_or(0.0)),
+            strength_z: format!("{:.1}σ", asset.z_score.unwrap_or(0.0)),
         });
     }
 
-    // Portfolio Summary Section
+    let mut table = Table::new(&rows);
+    table.with(Style::modern());
+
+    println!("\n--- 🐕 Stock Sentinel Decision Packet ({}) ---", date_str);
+    println!("Headline: {}", packet.telegram.headline);
+    println!("Summary:  {}", packet.telegram.summary);
+    println!("-----------------------------------------------");
+    println!("{}", table);
+
+    let mut _total_equity = 0.0;
+
     let mut held_rows = Vec::new();
-    let mut total_equity = 0.0;
     for (sym, (qty, avg)) in positions {
         if *qty > 0.0 {
-            let current_price = snapshots
-                .iter()
-                .find(|s| s.symbol == *sym)
-                .map(|s| s.dog_price)
+            let current_price = packet.assets.iter()
+                .find(|a| a.symbol == *sym)
+                .map(|a| a.price)
                 .unwrap_or(0.0);
+                
             let open_pl = (current_price - avg) * qty;
-            total_equity += current_price * qty;
+            _total_equity += current_price * qty;
+
             held_rows.push(TerminalRowHeld {
                 symbol: sym.clone(),
                 qty: *qty,
@@ -798,1105 +100,265 @@ pub fn generate_reports(
         }
     }
 
-    // Rankings
-    let mut opportunities = snapshots
-        .iter()
-        .filter(|s| {
-            (s.state_code.contains("fear") && !s.state_code.contains("down"))
-                || s.state_code.contains("pullback")
-        })
-        .collect::<Vec<_>>();
-    opportunities.sort_by(|a, b| {
-        b.dev_z_score
-            .unwrap_or(0.0)
-            .abs()
-            .partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs())
-            .unwrap()
-    });
-
-    let mut risks = snapshots
-        .iter()
-        .filter(|s| {
-            s.state_code.contains("overheat")
-                || (s.state_code.contains("fear") && s.state_code.contains("down"))
-                || s.state_code.contains("DEFEND")
-        })
-        .collect::<Vec<_>>();
-    risks.sort_by(|a, b| {
-        b.dev_z_score
-            .unwrap_or(0.0)
-            .abs()
-            .partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs())
-            .unwrap()
-    });
-
-    // SPY Regime
-    let spy_regime = snapshots
-        .iter()
-        .find(|s| s.symbol == "SPY")
-        .map(|s| {
-            if s.state_code.contains("optimal") || s.state_code.contains("cruise") {
-                "Bull Stable"
-            } else if s.state_code.contains("fear") || s.state_code.contains("pullback") {
-                "Correction"
-            } else if s.trend_status == TrendStatus::Down {
-                "Bear / Crash"
-            } else {
-                "Uncertain"
-            }
-        })
-        .unwrap_or("Unknown");
-
-    let mut table = Table::new(rows);
-    table.with(Style::modern());
-
-    println!(
-        "Universe Composition: {} Universe | {} Valid | {} Forming ({}E / {}L)",
-        gravity_health.universe_count,
-        gravity_health.total_count,
-        gravity_health.forming_early_count + gravity_health.forming_late_count,
-        gravity_health.forming_early_count,
-        gravity_health.forming_late_count
-    );
-    println!("{}", table);
 
     if !held_rows.is_empty() {
-        println!("\n💼 Portfolio Status (持仓快照)");
+        println!("\n💼 Portfolio Status");
         let mut held_table = Table::new(&held_rows);
         held_table.with(Style::sharp());
         println!("{}", held_table);
-        println!(" • Total Portfolio Equity: ${:.2}", total_equity);
-        println!(" • Total Realized P/L:    {:+.2}", realized_pl);
+        println!(" • Total Realized P/L: {:+.2}", realized_pl);
     }
 
-    let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
-    let market_structure = format!("{} ({})", gravity_health.market_phase, spy_regime);
-
-    println!("\n🌍 Macro Indicators (全域状态监测)");
-    println!(" • CAPITAL STATE: {}", posture.display_text);
-
-    // Exposure Range and Velocity
-    let floor = (gravity_health.recommended_exposure * 10.0).floor() * 10.0;
-    let ceil = if floor >= 100.0 { 100.0 } else { floor + 10.0 };
-    let exp_delta_str = if let Some(prev) = gravity_health.prev_recommended_exposure {
-        let diff = gravity_health.recommended_exposure - prev;
-        if diff > 0.01 {
-            "↑ Increasing"
-        } else if diff < -0.01 {
-            "↓ Decreasing"
-        } else {
-            "Stable"
-        }
-    } else {
-        "New Baseline"
-    };
-    println!(" • Recommended Exposure: {:.0}-{:.0}%", floor, ceil);
-    println!(" • Exposure Change: {}", exp_delta_str);
-
-    let margin_delta = gravity_health
-        .prev_dominance_margin
-        .map(|p| dominance_margin - p);
-    let margin_evolution = if let Some(d) = margin_delta {
-        if d.abs() < 0.01 {
-            "→ Stable"
-        } else if d > 0.0 {
-            "↗ Improving"
-        } else {
-            "↘ Weakening"
-        }
-    } else {
-        "Baseline"
-    };
-    println!(
-        " • Dominance Margin: {:+.2} ({}) {}",
-        dominance_margin, posture.dominance_label, margin_evolution
-    );
-
-    println!(" • Market Structure: {}", market_structure);
-    let (maturity_label, maturity_desc) = gravity_health.get_regime_maturity();
-    println!(
-        " • Regime Age: {} days {} {}",
-        gravity_health.regime_age, maturity_label, maturity_desc
-    );
-    println!(
-        " • Stability:   {}",
-        format_stability_bar(gravity_health.stability_score)
-    );
-    println!(
-        " • Capital Flow Vector: {}",
-        gravity_health.capital_flow_vector
-    );
-    println!(
-        " • Action Bias: {}",
-        gravity_health.get_action_bias(&posture, buy_zone.is_empty())
-    );
-    println!(
-        " • GRAVITY POTENTIAL:\n{}",
-        format_thermometer(gravity_health.global_potential_energy, 2.0)
-    );
-    println!(
-        "\n> 📡 Interpretation: {}",
-        gravity_health.get_interpretation(&posture)
-    );
-
-    println!("\n🧭 今日执行指令 (Final Order)");
-    println!(
-        " • {}",
-        get_final_order(gravity_health, &posture, &buy_zone)
-    );
-
-    println!("\n🎯 Tactical Summary (今日行动要领)");
-    println!(" • 加仓区: {}", buy_zone.join(" / "));
-    println!(" • 观察区: {}", watch_zone.join(" / "));
-    println!(" • 防御区: {}", defend_zone.join(" / "));
-    println!(" • 持有区: {}", hold_zone.join(" / "));
-
-    println!("\n🔥 Highest Opportunity");
-    for (i, s) in opportunities.iter().take(3).enumerate() {
-        let z = s.dev_z_score.unwrap_or(0.0);
-        let bias = if z < 0.0 {
-            "Mean Reversion ↑"
-        } else {
-            "Mean Reversion ↓"
-        };
-        let guidance = get_position_guidance(&s.state_code, &config.get_parsed_rules());
-        println!(
-            " {}. {} ({} / Bias: {} / {})",
-            i + 1,
-            s.symbol,
-            format_sigma(z),
-            bias,
-            guidance
-        );
+    // Archival Markdown (Clean formatting for reports/YYYY-MM-DD.md)
+    let mut archival_md = format!("# Sentinel Decision Report: {}\n\n", date_str);
+    archival_md.push_str(&format!("## 📋 Headline\n> {}\n\n", packet.telegram.headline));
+    archival_md.push_str(&format!("## 📝 Summary\n{}\n\n", packet.telegram.summary));
+    
+    archival_md.push_str("## 📈 Market & Asset Decisions\n\n");
+    archival_md.push_str("| Symbol | State | Action | Deviation | Z-Score |\n");
+    archival_md.push_str("|---|---|---|---|---|\n");
+    for row in &rows {
+        archival_md.push_str(&format!("| {} | {} | {} | {} | {} |\n", 
+            row.symbol, row.state, row.action, row.owner_dev, row.strength_z));
     }
+    archival_md.push_str("\n\n");
 
-    println!("\n☠️ Highest Risk");
-    for (i, s) in risks.iter().take(3).enumerate() {
-        let z = s.dev_z_score.unwrap_or(0.0);
-        let bias = if z > 2.0 {
-            "Overheat Correction ↓"
-        } else {
-            "Trend Breakdown ↓"
-        };
-        println!(
-            " {}. {} ({} / Bias: {})",
-            i + 1,
-            s.symbol,
-            format_sigma(z),
-            bias
-        );
-    }
-
-    println!("\n🎯 Execution Radar (个股雷达)");
-    println!(" > Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable\n");
-    println!("{}", table);
-
-    let mut md_content = generate_markdown(config, &snapshots, &date_str, gravity_health, &posture);
     if !held_rows.is_empty() {
-        md_content.push_str("\n\n## 💼 Portfolio Intelligence\n");
-        md_content.push_str(&format!("- **Total Realized P/L**: {:+.2}\n", realized_pl));
-        md_content.push_str(&format!("- **Total Open Equity**: ${:.2}\n", total_equity));
-    }
-
-    let tg_html = generate_telegram_html(config, &snapshots, &date_str, gravity_health, &posture);
-
-    if !config.output.save_to.is_empty() {
-        fs::create_dir_all(&config.output.save_to)?;
-
-        let json_path = Path::new(&config.output.save_to).join(format!("{}.json", date_str));
-        let json_content = serde_json::to_string_pretty(&snapshots)?;
-        fs::write(json_path, json_content)?;
-
-        let md_path = Path::new(&config.output.save_to).join(format!("{}.md", date_str));
-        fs::write(&md_path, &md_content)?;
-
-        // --- Phase 26: Data Freshness Guard ---
-        let data_date = snapshots
-            .first()
-            .map(|s| s.current_date)
-            .unwrap_or_else(|| Local::now().date_naive());
-        let today = Local::now().date_naive();
-        let days_diff = (today - data_date).num_days();
-
-        let should_write_telemetry = if days_diff > 3 {
-            println!(
-                "⚠️ [WARNING] Data date ({}) is too old. Skipping telemetry to avoid pollution.",
-                data_date
-            );
-            false
-        } else {
-            true
-        };
-
-        if should_write_telemetry {
-            // --- 📊 Telemetry System ---
-            let telemetry_path = Path::new(&config.output.save_to).join("telemetry.csv");
-            let file_exists = telemetry_path.exists();
-
-            let forming_count =
-                gravity_health.forming_early_count + gravity_health.forming_late_count;
-            let forming_weight =
-                gravity_health.forming_early_weight + gravity_health.forming_late_weight;
-
-            let up_share = if gravity_health.total_count == 0 {
-                0.0
-            } else {
-                gravity_health.up_count as f64 / gravity_health.total_count as f64
-            };
-            let flat_share = if gravity_health.total_count == 0 {
-                0.0
-            } else {
-                gravity_health.flat_count as f64 / gravity_health.total_count as f64
-            };
-            let regime_forming_share_c = if gravity_health.total_count == 0 {
-                0.0
-            } else {
-                forming_count as f64 / gravity_health.total_count as f64
-            };
-            let down_share = 1.0 - up_share - flat_share - regime_forming_share_c;
-
-            let w_up_share = if gravity_health.total_weight <= 0.0 {
-                0.0
-            } else {
-                gravity_health.up_weight / gravity_health.total_weight
-            };
-            let w_flat_share = if gravity_health.total_weight <= 0.0 {
-                0.0
-            } else {
-                gravity_health.flat_weight / gravity_health.total_weight
-            };
-            let regime_forming_share_w = if gravity_health.total_weight <= 0.0 {
-                0.0
-            } else {
-                forming_weight / gravity_health.total_weight
-            };
-            let w_down_share = 1.0 - w_up_share - w_flat_share - regime_forming_share_w;
-
-            let timestamp = Local::now().to_rfc3339_opts(chrono::SecondsFormat::Secs, true);
-
-            let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
-
-            let telemetry_row = format!("{},{},{},{},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4},{:.4}\n",
-                date_str,
-                timestamp,
-                gravity_health.config_hash,
-                posture.state_code,
-                posture.display_text,
-                gravity_health.global_gravity_strength,
-                gravity_health.global_potential_energy,
-                posture.t_share_raw,
-                posture.r_share_raw,
-                posture.r_share_adj,
-                posture.t_ratio_final,
-                posture.r_ratio_final,
-                dominance_margin,
-                gravity_health.adjusted_exposure,
-                snapshots.len(),
-                up_share,
-                flat_share,
-                down_share,
-                regime_forming_share_c,
-                w_up_share,
-                w_flat_share,
-                w_down_share,
-                regime_forming_share_w,
-                gravity_health.universe_integrity,
-                dominance_margin - gravity_health.prev_dominance_margin.unwrap_or(dominance_margin)
-            );
-
-            if !file_exists {
-                let header = "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share,universe_integrity,capital_flow_acceleration\n";
-                fs::write(&telemetry_path, format!("{}{}", header, telemetry_row))?;
-            } else {
-                use std::io::Write;
-                let mut file = std::fs::OpenOptions::new()
-                    .append(true)
-                    .open(&telemetry_path)?;
-                file.write_all(telemetry_row.as_bytes())?;
-            }
+        archival_md.push_str("## 💼 Portfolio Status\n\n");
+        archival_md.push_str("| Symbol | Qty | Avg Price | Current Price | Open P/L |\n");
+        archival_md.push_str("|---|---|---|---|---|\n");
+        for h in &held_rows {
+            archival_md.push_str(&format!("| {} | {:.2} | {:.2} | {:.2} | {} |\n", 
+                h.symbol, h.qty, h.avg_price, h.current_price, h.pl));
         }
+        archival_md.push_str(&format!("\n**Total Realized P/L**: {:+.2}\n", realized_pl));
     }
+
+    archival_md.push_str(&format!("\n\n---\n*Generated by Sentinel Engine 2.0 at {}*", chrono::Local::now().to_rfc3339()));
+
+    let state_code = format!("{:?}", packet.market_regime.market_state);
 
     Ok(ReportResult {
-        markdown: md_content,
-        telegram_html: tg_html,
+        markdown_body: telegram_card,
+        archival_markdown: archival_md,
+        state_code,
     })
 }
 
-fn generate_markdown(
-    config: &AppConfig,
-    snapshots: &[TickerSnapshot],
-    date_str: &str,
-    gravity: &GravityHealth,
-    posture: &CapitalPosture,
+fn format_telegram_card(
+    packet: &DecisionPacket, 
+    mode: &crate::core::runtime_mode::ExecutionMode,
+    failed_symbols: &[String],
+    positions: &std::collections::HashMap<String, (f64, f64)>,
 ) -> String {
-    let mut snapshots = snapshots.to_vec();
-    snapshots.sort_by(|a, b| {
-        let pa = get_rank_priority(&a.state_code);
-        let pb = get_rank_priority(&b.state_code);
-        if pa != pb {
-            pa.cmp(&pb)
-        } else {
-            let az = a.dev_z_score.unwrap_or(0.0).abs();
-            let bz = b.dev_z_score.unwrap_or(0.0).abs();
-            bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
-        }
-    });
+    use crate::core::action_matrix::AssetAction;
 
-    let mut buy_zone = Vec::new();
-    let mut watch_zone = Vec::new();
-    let mut defend_zone = Vec::new();
-    let mut hold_zone = Vec::new();
-    for s in &snapshots {
-        let cat = get_action_category(&s.state_code);
-        match cat {
-            "加仓区 (Buy)" => buy_zone.push(s.symbol.clone()),
-            "观察区 (Watch)" => watch_zone.push(s.symbol.clone()),
-            "防御区 (Defend)" => defend_zone.push(s.symbol.clone()),
-            _ => hold_zone.push(s.symbol.clone()),
-        }
+    let date_str = packet.date.format("%Y-%m-%d").to_string();
+    let state = packet.market_regime.market_state;
+    let risk = packet.market_regime.risk_overlay;
+
+    // 1. Header & Bias
+    let state_str = format!("{:?}", state).to_uppercase();
+    // Humanize Risk formatting
+    let risk_str = match risk {
+        crate::core::market_regime::RiskOverlay::NORMAL => "Risk Normal",
+        crate::core::market_regime::RiskOverlay::DEFENSIVE => "Risk Defensive",
+        _ => "Risk Mixed",
+    };
+
+    let mut card = format!("<b>{} | {}</b>\n", state_str, risk_str);
+    card.push_str(&format!("Bias: {}\n", packet.telegram.bias));
+
+    // Defensive Warning First
+    if state == MarketState::DEFENSIVE {
+        card.push_str("Warning: Circuit Breaker Active\n");
     }
 
-    let mut opportunities = snapshots
-        .iter()
-        .filter(|s| {
-            (s.state_code.contains("fear") && !s.state_code.contains("down"))
-                || s.state_code.contains("pullback")
-        })
-        .collect::<Vec<_>>();
-    opportunities.sort_by(|a, b| {
-        b.dev_z_score
-            .unwrap_or(0.0)
-            .abs()
-            .partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs())
-            .unwrap()
-    });
+    card.push_str(&format!("{}\n\n", date_str));
 
-    let mut risks = snapshots
-        .iter()
-        .filter(|s| {
-            s.state_code.contains("overheat")
-                || (s.state_code.contains("fear") && s.state_code.contains("down"))
-                || s.state_code.contains("DEFEND")
-        })
-        .collect::<Vec<_>>();
-    risks.sort_by(|a, b| {
-        b.dev_z_score
-            .unwrap_or(0.0)
-            .abs()
-            .partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs())
-            .unwrap()
-    });
-
-    let spy_regime = snapshots
-        .iter()
-        .find(|s| s.symbol == "SPY")
-        .map(|s| {
-            if s.state_code.contains("optimal") || s.state_code.contains("cruise") {
-                "Bull Stable"
-            } else if s.state_code.contains("fear") || s.state_code.contains("pullback") {
-                "Correction"
-            } else if s.trend_status == TrendStatus::Down {
-                "Bear / Crash"
-            } else {
-                "Uncertain"
-            }
-        })
-        .unwrap_or("Unknown");
-
-    let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
-    let market_structure = format!("{} ({})", gravity.market_phase, spy_regime);
-
-    let mut md = format!(
-        "# 🐕 Stock Sentinel 每日观测雷达\n📅 **日期**: {}\n\n",
-        date_str
-    );
-
-    md.push_str("## 🌍 Macro Indicators (全域状态监测)\n");
-    let integrity_pct = gravity.universe_integrity * 100.0;
-    md.push_str(&format!(
-        "- **Universe Composition**: {} Universe | {} Valid | {} Forming ({}E / {}L)\n",
-        gravity.universe_count,
-        gravity.total_count,
-        gravity.forming_early_count + gravity.forming_late_count,
-        gravity.forming_early_count,
-        gravity.forming_late_count
-    ));
-    md.push_str(&format!(
-        "- **Universe Integrity**: {:.1}% Valid Ratio\n",
-        integrity_pct
-    ));
-    md.push_str(&format!("- **CAPITAL STATE**: {}\n", posture.display_text));
-
-    let conf_delta = gravity
-        .prev_system_confidence
-        .map(|p| gravity.system_confidence - p);
-    let conf_str = if let Some(d) = conf_delta {
-        format!("{}% (Δ {:+.2}%)", gravity.system_confidence, d)
-    } else {
-        format!("{}%", gravity.system_confidence)
-    };
-    md.push_str(&format!("- **System Confidence**: {}\n", conf_str));
-    md.push_str("  - *Confidence Source*:\n");
-    md.push_str(&format!(
-        "    - Trend Strength (Max 50%): {:.1}%\n",
-        gravity.conf_trend_alloc
-    ));
-    md.push_str(&format!(
-        "    - Structural Stability (Max 50%): {:.1}%\n",
-        gravity.conf_inverse_potential
-    ));
-
-    // Delta for Dominance Margin
-    let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
-    let margin_evolution = if let Some(d) = margin_delta {
-        if d.abs() < 0.01 {
-            "→ Stable"
-        } else if d > 0.0 {
-            "↗ Improving"
-        } else {
-            "↘ Weakening"
-        }
-    } else {
-        "Baseline"
-    };
-
-    let accel_str = if let Some(acc) = gravity.capital_flow_acceleration {
-        if acc.abs() < 0.02 {
-            format!("{:+.2} (Stable)", acc.abs())
-        }
-        // Force +0.00
-        else if acc >= 0.02 {
-            format!("{:+.2} (Strong)", acc)
-        } else {
-            format!("{:+.2} (Severe)", acc)
-        }
-    } else {
-        "Baseline".to_string()
-    };
-
-    md.push_str(&format!(
-        "- **Momentum State**: {}\n",
-        gravity.capital_flow_vector
-    ));
-    md.push_str(&format!("- **Flow Acceleration**: {}\n", accel_str));
-    md.push_str(&format!("- **Market Structure**: {}\n", market_structure));
-    md.push_str(&format!(
-        "- **Dominance Margin**: {:+.2} ({} / {})\n",
-        dominance_margin, posture.dominance_label, margin_evolution
-    ));
-
-    // Exposure Scope
-    let b_floor = (gravity.base_exposure * 10.0).floor() * 10.0;
-    let b_ceil = if b_floor >= 100.0 {
-        100.0
-    } else {
-        b_floor + 10.0
-    };
-    let a_floor = (gravity.adjusted_exposure * 10.0).floor() * 10.0;
-    let a_ceil = if a_floor >= 100.0 {
-        100.0
-    } else {
-        a_floor + 10.0
-    };
-
-    let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {
-        let diff = gravity.adjusted_exposure - prev;
-        if diff > 0.01 {
-            "↑ Increasing"
-        } else if diff < -0.01 {
-            "↓ Decreasing"
-        } else {
-            "Stable"
-        }
-    } else {
-        "New Baseline"
-    };
-
-    md.push_str("- **Exposure Calculation Breakdown**:\n");
-    md.push_str(&format!(
-        "  - Base Exposure (Direction): {:.0}-{:.0}%\n",
-        b_floor, b_ceil
-    ));
-    md.push_str(&format!(
-        "  - Confidence Mod (Integrity Adj): × {:.2}\n",
-        (gravity.system_confidence / 100.0) * gravity.integrity_multiplier
-    ));
-    md.push_str(&format!(
-        "  - **Final Adjusted Exposure**: **{:.0}-{:.0}%**\n",
-        a_floor, a_ceil
-    ));
-    md.push_str(&format!(
-        "  - *Exposure Change vs Yesterday*: {}\n",
-        exp_delta_str
-    ));
-    let (maturity_label, maturity_desc) = gravity.get_regime_maturity();
-    md.push_str(&format!(
-        "- **Regime Age**: {} days ({} {})\n",
-        gravity.regime_age, maturity_label, maturity_desc
-    ));
-    md.push_str(&format!(
-        "- **Trend Maturity**: {:.1}%\n",
-        gravity.trend_maturity * 100.0
-    ));
-    md.push_str(&format!(
-        "  └ Trend Quality (Temporal): {:.2}x\n",
-        gravity.temporal_modifier
-    ));
-    md.push_str(&format!(
-        "- **Stability**: {}\n",
-        format_stability_bar(gravity.stability_score)
-    ));
-    md.push_str(&format!(
-        "  ├ Structural: {:.1}%\n",
-        gravity.stability_structural
-    ));
-    md.push_str(&format!(
-        "  └ Temporal: {:.1}%\n",
-        gravity.stability_temporal
-    ));
-
-    // Phase 40: Trend Breadth Momentum
-    let breadth_str = if let Some(prev_up) = gravity.prev_up_count {
-        let diff = gravity.up_count as isize - prev_up as isize;
-        format!("{:+} assets", diff)
-    } else {
-        "Baseline".to_string()
-    };
-    md.push_str(&format!("- **Trend Breadth Change**: {}\n", breadth_str));
-
-    md.push_str(&format!(
-        "- **Action Bias**: **{}**\n",
-        gravity.get_action_bias(posture, buy_zone.is_empty())
-    ));
-
-    md.push_str(&format!(
-        "- **GRAVITY POTENTIAL**:\n```\n{}\n```\n({})\n\n",
-        format_thermometer(gravity.global_potential_energy, 2.0),
-        gravity.format_potential_energy()
-    ));
-
-    md.push_str(&format!(
-        "> 📡 Interpretation: {}\n\n",
-        gravity.get_interpretation(posture)
-    ));
-
-    md.push_str("## 🧭 今日执行指令 (Final Order)\n");
-    md.push_str(&format!(
-        "- **Command**:\n • {}\n\n",
-        get_final_order(gravity, posture, &buy_zone)
-    ));
-
-    md.push_str("## 🎯 Tactical Summary (今日行动要领)\n");
-    md.push_str("### 今日行动摘要\n");
-    md.push_str(&format!("- **加仓区 (Buy)**: {}\n", buy_zone.join(" / ")));
-    md.push_str(&format!(
-        "- **观察区 (Watch)**: {}\n",
-        watch_zone.join(" / ")
-    ));
-    md.push_str(&format!(
-        "- **防御区 (Defend)**: {}\n",
-        defend_zone.join(" / ")
-    ));
-    md.push_str(&format!(
-        "- **持有区 (Hold)**: {}\n\n",
-        hold_zone.join(" / ")
-    ));
-
-    md.push_str("### 🔥 Highest Opportunity (均值回归弹性)\n");
-    for (i, s) in opportunities.iter().take(3).enumerate() {
-        let z = s.dev_z_score.unwrap_or(0.0);
-        let elasticity = if z.abs() > 2.0 {
-            "High"
-        } else if z.abs() > 1.0 {
-            "Medium"
-        } else {
-            "Normal"
-        };
-        let bias = if z < 0.0 {
-            "Mean Reversion ↑"
-        } else {
-            "Mean Reversion ↓"
-        };
-        let guidance = get_position_guidance(&s.state_code, &config.get_parsed_rules());
-        md.push_str(&format!(
-            "{}. **{}** ({} / {} / Elasticity: {} / Bias: {} / {})\n",
-            i + 1,
-            s.symbol,
-            s.state_code,
-            format_sigma(z),
-            elasticity,
-            bias,
-            guidance
-        ));
+    // 2. Policy & Portfolio Section
+    let min_exp = (packet.portfolio_policy.target_exposure_min * 100.0) as i32;
+    let max_exp = (packet.portfolio_policy.target_exposure_max * 100.0) as i32;
+    
+    card.push_str(&format!("仓位: {}-{}%\n", min_exp, max_exp));
+    card.push_str(&format!("策略: {}\n", packet.telegram.summary));
+    
+    if !positions.is_empty() {
+        card.push_str(&format!("持仓: {} positions\n", positions.len()));
     }
-    md.push_str("\n### ☠️ Highest Risk (系统性偏离风险)\n");
-    for (i, s) in risks.iter().take(3).enumerate() {
-        let z = s.dev_z_score.unwrap_or(0.0);
-        let bias = if z > 2.0 {
-            "Overheat Correction ↓"
-        } else {
-            "Trend Breakdown ↓"
-        };
-        md.push_str(&format!(
-            "{}. **{}** ({} / {} / Bias: {})\n",
-            i + 1,
-            s.symbol,
-            s.state_code,
-            format_sigma(z),
-            bias
-        ));
-    }
-    md.push('\n');
+    card.push('\n');
 
-    md.push_str("| # | 代码 | Status (State) | Portfolio Allocation | Owner Dist | Sigma (σ) | Trend (Days) | Action Guidance |\n");
-    md.push_str("| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |\n");
-
-    for (idx, s) in snapshots.iter().enumerate() {
-        let trend_icon = match s.trend_status {
-            TrendStatus::Up => "↗️",
-            TrendStatus::Down => "↘️",
-            TrendStatus::Flat => "➡️",
-            TrendStatus::Unknown => "❓",
-        };
-        let trend_combined = format!("{} ({}d)", trend_icon, s.trend_age);
-
-        let z_val = s.dev_z_score.unwrap_or(0.0);
-        let z_label = get_z_label(z_val);
-        let strength_z_combined = if s.validity == RegimeValidity::FormingEarly {
-            "N/A".to_string()
-        } else {
-            format!("{} ({})", format_sigma(z_val), z_label)
-        };
-
-        let owner_dev = s.owner_deviation_pct.unwrap_or(0.0);
-        let percentile_str = if s.validity == RegimeValidity::FormingEarly
-            || s.validity == RegimeValidity::FormingLate
-        {
-            "".to_string()
-        } else {
-            s.deviation_percentile
-                .map(|v| format!(" (罕见度: {:.0}%)", v))
-                .unwrap_or_default()
-        };
-        let recovery_str = if s.validity == RegimeValidity::FormingEarly {
-            "N/A".to_string()
-        } else {
-            format!("{:+.1}%{}", owner_dev, percentile_str)
-        };
-
-        let action_guidance = if s.validity == RegimeValidity::FormingEarly
-            || s.validity == RegimeValidity::FormingLate
-        {
-            "Allocation: N/A (Observe)".to_string()
-        } else {
-            get_position_guidance(&s.state_code, &config.get_parsed_rules()).to_string()
-        };
-
-        let emoji = get_state_emoji(&s.state_code);
-        let state_name = if let Some(rc) = &s.reason_code {
-            format!("{} {} {}", emoji, s.state_code, rc)
-        } else {
-            format!("{} {}", emoji, s.state_code)
-        };
-
-        md.push_str(&format!(
-            "| {} | **{}** | {} | **{}** | {} | {} | {} | {} |\n",
-            idx + 1,
-            s.symbol,
-            state_name,
-            action_guidance,
-            recovery_str,
-            strength_z_combined,
-            trend_combined,
-            s.action_text
-        ));
+    // 3. Top Actions (v3 Visual Tags & Localization)
+    if state == MarketState::DEFENSIVE {
+        card.push_str("<b>Priority Actions</b>\n");
+    } else {
+        card.push_str("<b>Top Actions</b>\n");
     }
 
-    md
+    let top_assets = select_top_actions(&packet.assets, state);
+    
+    for (idx, asset) in top_assets.iter().enumerate() {
+        let tag = if asset.action_changed {
+            if asset.prev_action.is_none() { " [NEW]" } else { " [CHANGED]" }
+        } else {
+            ""
+        };
+        
+        let local_action = match asset.action {
+            AssetAction::ACCUMULATE => "加仓",
+            AssetAction::REDUCE => "减仓",
+            AssetAction::FREEZE => "冻结",
+            AssetAction::AVOID => "回避",
+            AssetAction::HOLD => "持有",
+            AssetAction::OBSERVE => "观察",
+            AssetAction::WAIT => "等待",
+        };
+
+        card.push_str(&format!("{}. {}  {}  {:?}{}\n", idx + 1, asset.symbol, local_action, asset.state, tag));
+        let reason = telegram_reason(asset);
+        card.push_str(&format!("   {}\n", reason));
+    }
+    card.push('\n');
+
+    // 4. Signals Section
+    if state == MarketState::DEFENSIVE {
+        card.push_str("<b>Risk Signals</b>\n");
+    } else {
+        card.push_str("<b>Signals</b>\n");
+    }
+
+    let f = &packet.market_features;
+    card.push_str(&format!(
+        "Confidence {:.1} ({})\n", 
+        f.system_confidence, 
+        confidence_label(f.system_confidence)
+    ));
+    
+    card.push_str(&format!(
+        "Stability {:.1} ({}) | Age {}d\n", 
+        f.stability_score, 
+        stability_label(f.stability_score), 
+        f.regime_age
+    ));
+
+    let flow_str = f.flow_acceleration.map(|x| format!("{:+.2}", x)).unwrap_or_else(|| "N/A".to_string());
+    let mode_str = match mode {
+        crate::core::runtime_mode::ExecutionMode::Live => "Live",
+        crate::core::runtime_mode::ExecutionMode::DryRun => "Dry Run",
+        crate::core::runtime_mode::ExecutionMode::Disabled => "Disabled",
+    };
+
+    if state == MarketState::DEFENSIVE {
+        card.push_str(&format!("Execution {}\n", mode_str));
+    } else {
+        card.push_str(&format!("Flow {} | Execution {}\n", flow_str, mode_str));
+    }
+
+    // 5. Data Warning (Specific Symbols)
+    if !failed_symbols.is_empty() {
+        let warning_type = match failed_symbols.len() {
+            1 => "Notice",
+            2..=3 => "Warning",
+            _ => "Critical",
+        };
+        
+        let symbols_str = failed_symbols.join(", ");
+        card.push_str(&format!("\nData {}: {} fetch failed\n", warning_type, symbols_str));
+    }
+
+    card
 }
 
-fn generate_telegram_html(
-    config: &AppConfig,
-    snapshots_raw: &[TickerSnapshot],
-    date_str: &str,
-    gravity: &GravityHealth,
-    posture: &CapitalPosture,
-) -> String {
-    let mut snapshots = snapshots_raw.to_vec();
-    snapshots.sort_by(|a, b| {
-        let pa = get_rank_priority(&a.state_code);
-        let pb = get_rank_priority(&b.state_code);
-        if pa != pb {
-            pa.cmp(&pb)
-        } else {
-            let az = a.dev_z_score.unwrap_or(0.0).abs();
-            let bz = b.dev_z_score.unwrap_or(0.0).abs();
-            bz.partial_cmp(&az).unwrap_or(std::cmp::Ordering::Equal)
-        }
-    });
-
-    let mut buy_zone = Vec::new();
-    let mut watch_zone = Vec::new();
-    let mut defend_zone = Vec::new();
-    let mut hold_zone = Vec::new();
-    for s in &snapshots {
-        let cat = get_action_category(&s.state_code);
-        match cat {
-            "加仓区 (Buy)" => buy_zone.push(s.symbol.clone()),
-            "观察区 (Watch)" => watch_zone.push(s.symbol.clone()),
-            "防御区 (Defend)" => defend_zone.push(s.symbol.clone()),
-            _ => hold_zone.push(s.symbol.clone()),
-        }
-    }
-
-    let mut opportunities = snapshots
-        .iter()
-        .filter(|s| {
-            (s.state_code.contains("fear") && !s.state_code.contains("down"))
-                || s.state_code.contains("pullback")
-        })
-        .collect::<Vec<_>>();
-    opportunities.sort_by(|a, b| {
-        b.dev_z_score
-            .unwrap_or(0.0)
-            .abs()
-            .partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs())
-            .unwrap()
-    });
-
-    let mut risks = snapshots
-        .iter()
-        .filter(|s| {
-            s.state_code.contains("overheat")
-                || (s.state_code.contains("fear") && s.state_code.contains("down"))
-                || s.state_code.contains("DEFEND")
-        })
-        .collect::<Vec<_>>();
-    risks.sort_by(|a, b| {
-        b.dev_z_score
-            .unwrap_or(0.0)
-            .abs()
-            .partial_cmp(&a.dev_z_score.unwrap_or(0.0).abs())
-            .unwrap()
-    });
-
-    let spy_regime = snapshots
-        .iter()
-        .find(|s| s.symbol == "SPY")
-        .map(|s| {
-            if s.state_code.contains("optimal") || s.state_code.contains("cruise") {
-                "Bull Stable"
-            } else if s.state_code.contains("fear") || s.state_code.contains("pullback") {
-                "Correction"
-            } else if s.trend_status == TrendStatus::Down {
-                "Bear / Crash"
-            } else {
-                "Uncertain"
-            }
-        })
-        .unwrap_or("Unknown");
-
-    let dominance_margin = posture.t_ratio_final - posture.r_ratio_final;
-    let market_structure = format!("{} ({})", gravity.market_phase, spy_regime);
-
-    let mut html = format!(
-        "🐕 <b>Stock Sentinel 每日观测雷达</b>\n📅 <b>日期:</b> {}\n\n",
-        date_str
-    );
-
-    html.push_str("<b>🌍 Macro Indicators</b>\n");
-    let integrity_pct = gravity.universe_integrity * 100.0;
-    html.push_str(&format!(
-        " • Universe Composition: {} Universe | {} Valid | {} Forming ({}E/{}L)\n",
-        gravity.universe_count,
-        gravity.total_count,
-        gravity.forming_early_count + gravity.forming_late_count,
-        gravity.forming_early_count,
-        gravity.forming_late_count
-    ));
-    html.push_str(&format!(
-        " • Universe Integrity: <code>{:.1}%</code> Valid Ratio\n",
-        integrity_pct
-    ));
-    html.push_str(&format!(
-        " • CAPITAL STATE: <code>{}</code>\n",
-        escape_html(&posture.display_text)
-    ));
-
-    let conf_delta = gravity
-        .prev_system_confidence
-        .map(|p| gravity.system_confidence - p);
-    let conf_str = if let Some(d) = conf_delta {
-        format!(
-            "<code>{}%</code> (Δ <code>{:+.2}%</code>)",
-            gravity.system_confidence, d
-        )
-    } else {
-        format!("<code>{}%</code>", gravity.system_confidence)
-    };
-    html.push_str(&format!(" • System Confidence: {}\n", conf_str));
-    html.push_str(&format!(
-        "   ├ Trend Strength: <code>{:.1}%</code>\n",
-        gravity.conf_trend_alloc
-    ));
-    html.push_str(&format!(
-        "   └ Structural Stability: <code>{:.1}%</code>\n",
-        gravity.conf_inverse_potential
-    ));
-    let margin_delta = gravity.prev_dominance_margin.map(|p| dominance_margin - p);
-    let margin_evolution = if let Some(d) = margin_delta {
-        if d.abs() < 0.01 {
-            "→ Stable"
-        } else if d > 0.0 {
-            "↗ Improving"
-        } else {
-            "↘ Weakening"
-        }
-    } else {
-        "Baseline"
-    };
-    let accel_str = if let Some(acc) = gravity.capital_flow_acceleration {
-        if acc.abs() < 0.02 {
-            format!("<code>{:+.2}</code> (Stable)", acc.abs())
-        }
-        // Force +0.00
-        else if acc >= 0.02 {
-            format!("<code>{:+.2}</code> (Strong)", acc)
-        } else {
-            format!("<code>{:+.2}</code> (Severe)", acc)
-        }
-    } else {
-        "<code>Baseline</code>".to_string()
-    };
-
-    html.push_str(&format!(
-        " • Momentum State: <code>{}</code>\n",
-        escape_html(&gravity.capital_flow_vector)
-    ));
-    html.push_str(&format!(" • Flow Acceleration: {}\n", accel_str));
-    html.push_str(&format!(
-        " • Market Structure: <code>{}</code>\n",
-        escape_html(&market_structure)
-    ));
-    html.push_str(&format!(
-        " • Dominance Margin: <code>{:+.2}</code> ({})\n",
-        dominance_margin,
-        escape_html(margin_evolution)
-    ));
-
-    let b_floor = (gravity.base_exposure * 10.0).floor() * 10.0;
-    let b_ceil = if b_floor >= 100.0 {
-        100.0
-    } else {
-        b_floor + 10.0
-    };
-    let a_floor = (gravity.adjusted_exposure * 10.0).floor() * 10.0;
-    let a_ceil = if a_floor >= 100.0 {
-        100.0
-    } else {
-        a_floor + 10.0
-    };
-
-    html.push_str("<b> • Exposure Calculation Breakdown:</b>\n");
-    html.push_str(&format!(
-        "   ├ Base (Direction): <b>{:.0}-{:.0}%</b>\n",
-        b_floor, b_ceil
-    ));
-    html.push_str(&format!(
-        "   ├ Confidence Mod (Integrity Adj): × {:.2}\n",
-        (gravity.system_confidence / 100.0) * gravity.integrity_multiplier
-    ));
-    html.push_str(&format!(
-        "   └ <b>Final Adjusted: {:.0}-{:.0}%</b>\n",
-        a_floor, a_ceil
-    ));
-
-    let exp_delta_str = if let Some(prev) = gravity.prev_recommended_exposure {
-        let diff = gravity.adjusted_exposure - prev;
-        if diff > 0.01 {
-            "↑ Increasing"
-        } else if diff < -0.01 {
-            "↓ Decreasing"
-        } else {
-            "Stable"
-        }
-    } else {
-        "New Baseline"
-    };
-
-    let (maturity_label, _) = gravity.get_regime_maturity();
-    html.push_str(&format!(
-        " • Exposure Change: <code>{}</code>\n",
-        exp_delta_str
-    ));
-    html.push_str(&format!(
-        " • Regime Age: <code>{} days</code> ({})\n",
-        gravity.regime_age, maturity_label
-    ));
-    html.push_str(&format!(
-        " • Trend Maturity: <code>{:.1}%</code>\n",
-        gravity.trend_maturity * 100.0
-    ));
-    html.push_str(&format!(
-        "   └ Trend Quality (Temporal): <code>{:.2}x</code>\n",
-        gravity.temporal_modifier
-    ));
-    html.push_str(&format!(
-        " • Stability: <code>{}</code>\n",
-        format_stability_bar(gravity.stability_score)
-    ));
-    html.push_str(&format!(
-        "   ├ Structural: <code>{:.1}%</code>\n",
-        gravity.stability_structural
-    ));
-    html.push_str(&format!(
-        "   └ Temporal: <code>{:.1}%</code>\n",
-        gravity.stability_temporal
-    ));
-    html.push_str(&format!(
-        " • Action Bias: <b>{}</b>\n",
-        escape_html(&gravity.get_action_bias(posture, buy_zone.is_empty()))
-    ));
-
-    html.push_str(&format!(
-        " • GRAVITY POTENTIAL: <code>{}</code>\n\n",
-        format_thermometer(gravity.global_potential_energy, 2.0).replace("\n", " | ")
-    ));
-
-    html.push_str(&format!(
-        "<i>📡 Interpretation: {}</i>\n\n",
-        escape_html(&gravity.get_interpretation(posture))
-    ));
-
-    html.push_str("<b>🧭 今日执行指令 (Final Order)</b>\n");
-    html.push_str(&format!(
-        " • <code>{}</code>\n\n",
-        escape_html(&get_final_order(gravity, posture, &buy_zone).replace("\n", ""))
-    ));
-
-    html.push_str("<b>🎯 Tactical Summary</b>\n");
-    html.push_str(&format!(
-        " • 加仓区: <code>{}</code>\n",
-        escape_html(&buy_zone.join(" / "))
-    ));
-    html.push_str(&format!(
-        " • 观察区: <code>{}</code>\n",
-        escape_html(&watch_zone.join(" / "))
-    ));
-    html.push_str(&format!(
-        " • 防御区: <code>{}</code>\n",
-        escape_html(&defend_zone.join(" / "))
-    ));
-    html.push_str(&format!(
-        " • 持有区: <code>{}</code>\n\n",
-        escape_html(&hold_zone.join(" / "))
-    ));
-
-    html.push_str("<b>🔥 Highest Opportunity</b>\n");
-    for (i, s) in opportunities.iter().take(3).enumerate() {
-        let z = s.dev_z_score.unwrap_or(0.0);
-        html.push_str(&format!(
-            "{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n",
-            i + 1,
-            s.symbol,
-            escape_html(&s.state_code),
-            format_sigma(z)
-        ));
-    }
-    html.push_str("\n<b>☠️ Highest Risk</b>\n");
-    for (i, s) in risks.iter().take(3).enumerate() {
-        let z = s.dev_z_score.unwrap_or(0.0);
-        html.push_str(&format!(
-            "{}. <b>{}</b> (<code>{}</code> / <code>{}</code>)\n",
-            i + 1,
-            s.symbol,
-            escape_html(&s.state_code),
-            format_sigma(z)
-        ));
-    }
-    html.push('\n');
-
-    html.push_str("<b>🎯 个股雷达 (Execution Radar)</b>\n");
-    html.push_str("<i>ℹ️ Sorted by: Extreme Opportunities (Fear) > Pullbacks > Optimal > Cruise > Risks/Stable</i>\n\n");
-
-    for (idx, s) in snapshots.iter().enumerate() {
-        let _trend_icon = match s.trend_status {
-            TrendStatus::Up => "↗️",
-            TrendStatus::Down => "↘️",
-            _ => "➡️",
-        };
-        let z_val = s.dev_z_score.unwrap_or(0.0);
-        let owner_dev_val = s.owner_deviation_pct.unwrap_or(0.0);
-        let percentile_str = if s.validity == RegimeValidity::FormingEarly
-            || s.validity == RegimeValidity::FormingLate
-        {
-            "".to_string()
-        } else {
-            s.deviation_percentile
-                .map(|v| format!(" (罕见度: {:.0}%)", v))
-                .unwrap_or_default()
-        };
-        let emoji = get_state_emoji(&s.state_code);
-
-        let action_guidance = if s.validity == RegimeValidity::FormingEarly
-            || s.validity == RegimeValidity::FormingLate
-        {
-            "Allocation: N/A (Observe)".to_string()
-        } else {
-            get_position_guidance(&s.state_code, &config.get_parsed_rules()).to_string()
-        };
-
-        let owner_dev_str = if s.validity == RegimeValidity::FormingEarly {
-            "Dist: N/A".to_string()
-        } else {
-            format!("Owner Dist: {:+.1}%{}", owner_dev_val, percentile_str)
-        };
-
-        let strength_z_combined = if s.validity == RegimeValidity::FormingEarly {
-            "Z-Score: N/A".to_string()
-        } else {
-            format_sigma(z_val).to_string()
-        };
-
-        let state_name = if let Some(rc) = &s.reason_code {
-            format!(
-                "{} {} {}",
-                emoji,
-                escape_html(&s.state_code),
-                escape_html(rc)
-            )
-        } else {
-            format!("{} {}", emoji, escape_html(&s.state_code))
-        };
-
-        let sentiment_html = if let Some(ref sent) = s.sentiment {
-            format!(
-                " | 🧠 <code>{:.0}</code> ({})",
-                sent.score,
-                escape_html(&sent.label)
-            )
-        } else {
-            "".to_string()
-        };
-
-        html.push_str(&format!(
-            "{}. <b>{}</b> | {} | <code>{}</code>{}\n",
-            idx + 1,
-            s.symbol,
-            state_name,
-            escape_html(&action_guidance),
-            sentiment_html
-        ));
-        html.push_str(&format!(
-            "└ <code>{}</code> | {} | {}\n",
-            escape_html(&owner_dev_str),
-            strength_z_combined,
-            escape_html(&s.action_text)
-        ));
-
-        html.push('\n');
-    }
-
-    html
+fn confidence_label(val: f64) -> &'static str {
+    if val >= 80.0 { "High" } else if val >= 65.0 { "Moderate" } else { "Low" }
 }
+
+fn stability_label(val: f64) -> &'static str {
+    if val >= 25.0 { "Stable" } else if val >= 15.0 { "Mixed" } else { "Fragile" }
+}
+
+fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> String {
+    if asset.action_changed {
+        return match asset.prev_action {
+            Some(prev) => format!("由 {:?} -> {:?}，今日信号变化", prev, asset.action),
+            None => "今日新进入关注列表".to_string(),
+        };
+    }
+
+    match asset.state {
+        AssetState::PULLBACK => "趋势内回撤，允许补仓".to_string(),
+        AssetState::OPTIMAL => "结构最强，适合持有".to_string(),
+        AssetState::DEFEND => "结构转弱，避免参与".to_string(),
+        AssetState::OVERHEAT => "偏离过热，避免追高".to_string(),
+        AssetState::CRUISE => "趋势延续，持有为主".to_string(),
+        AssetState::CAUTION => "信号转弱，暂不加仓".to_string(),
+        AssetState::FORMING => "结构未完成，继续观察".to_string(),
+    }
+}
+
+fn select_top_actions(
+    assets: &[crate::core::action_matrix::AssetActionDecision],
+    state: MarketState,
+) -> Vec<crate::core::action_matrix::AssetActionDecision> {
+    let mut items = assets.to_vec();
+
+    fn action_prio(a: AssetAction) -> i32 {
+        match a {
+            AssetAction::ACCUMULATE => 100,
+            AssetAction::REDUCE => 90,
+            AssetAction::FREEZE => 80,
+            AssetAction::AVOID => 70,
+            AssetAction::HOLD => 60,
+            AssetAction::OBSERVE => 50,
+            AssetAction::WAIT => 40,
+        }
+    }
+
+    fn state_prio(s: AssetState) -> i32 {
+        match s {
+            AssetState::PULLBACK => 100,
+            AssetState::OPTIMAL => 90,
+            AssetState::DEFEND => 80,
+            AssetState::OVERHEAT => 70,
+            AssetState::CRUISE => 60,
+            AssetState::CAUTION => 50,
+            AssetState::FORMING => 40,
+        }
+    }
+
+    items.sort_by(|a, b| {
+        let ka = (
+            if a.action_changed { 1 } else { 0 },
+            action_prio(a.action),
+            state_prio(a.state),
+            a.z_score.unwrap_or(0.0).abs() as i64,
+            a.deviation.unwrap_or(0.0).abs() as i64,
+        );
+        let kb = (
+            if b.action_changed { 1 } else { 0 },
+            action_prio(b.action),
+            state_prio(b.state),
+            b.z_score.unwrap_or(0.0).abs() as i64,
+            b.deviation.unwrap_or(0.0).abs() as i64,
+        );
+        kb.cmp(&ka)
+    });
+
+    let limit = if state == MarketState::DEFENSIVE { 4 } else { 3 };
+    let mut selected = Vec::new();
+    let mut seen_actions = std::collections::HashSet::new();
+
+    for asset in items {
+        if selected.len() >= limit { break; }
+        
+        let action_str = format!("{:?}", asset.action);
+        // Diversity: prefer different actions, unless action_changed is true
+        if asset.action_changed || !seen_actions.contains(&action_str) || selected.is_empty() {
+            seen_actions.insert(action_str);
+            selected.push(asset);
+        }
+    }
+
+    selected
+}
+

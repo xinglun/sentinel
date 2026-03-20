@@ -10,5 +10,5 @@ pub trait MarketDataProvider: Send + Sync {
         symbol: &str,
         start_date: Option<OffsetDateTime>,
         end_date: Option<OffsetDateTime>,
-    ) -> Result<TickerHistory>;
+    ) -> Result<TickerHistory<'static>>;
 }

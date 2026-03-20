@@ -3,8 +3,9 @@ use anyhow::Result;
 use async_trait::async_trait;
 
 #[allow(dead_code)]
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct AccountFunds {
+
     pub power: f64,         // 购买力
     pub total_assets: f64,  // 总资产
     pub cash: f64,          // 现金
@@ -52,3 +53,43 @@ pub trait TradeExecutor: Send + Sync {
     /// 3. 下单
     async fn place_order(&self, req: PlaceOrderRequest) -> Result<PlaceOrderResponse>;
 }
+
+pub struct MockTradeExecutor {
+    pub placed_orders_count: std::sync::atomic::AtomicUsize,
+}
+
+impl MockTradeExecutor {
+    pub fn new() -> Self {
+        Self::default()
+    }
+}
+
+impl Default for MockTradeExecutor {
+    fn default() -> Self {
+        Self {
+            placed_orders_count: std::sync::atomic::AtomicUsize::new(0),
+        }
+    }
+}
+
+#[async_trait]
+impl TradeExecutor for MockTradeExecutor {
+    async fn unlock_trade(&self) -> Result<()> { Ok(()) }
+    async fn get_funds(&self) -> Result<AccountFunds> {
+        Ok(AccountFunds {
+            power: 100000.0,
+            total_assets: 100000.0,
+            cash: 100000.0,
+            market_val: 0.0,
+            unrealized_pl: 0.0,
+        })
+    }
+    async fn place_order(&self, _req: PlaceOrderRequest) -> Result<PlaceOrderResponse> {
+        self.placed_orders_count.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        Ok(PlaceOrderResponse {
+            order_id: format!("MOCK-{}", self.placed_orders_count.load(std::sync::atomic::Ordering::SeqCst)),
+            status: "FILLED".to_string(),
+        })
+    }
+}
+

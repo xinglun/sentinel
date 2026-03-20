@@ -27,19 +27,21 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 単一の構成ファイルを変更することでシステム全体を制御します。以下の要素が含まれます：
 * **ウォッチリスト (Watchlist)**: 各銘柄に対して、ティッカー、データソース市場、および専用の「飼い主とリード」の期間（例：インデックスにはMA200、高成長テック株にはMA60/120など）を個別に設定します。
 * **ルール (Rules)**: 明確な段階的乖離閾値（加熱、パニックなど）と、対応する売買/観測アクションを定義します。
-* **ベアモード (Bear Mode) / Caution Mode**: 安全網の核となる機能。「飼い主が山を下っている（トレンドが下向き）」と判定された場合、長期MA（例: MA200）との位置関係に応じ、強制的な防御アクションへダウングレードする（DEFEND）か、警戒しつつ定投を継続する（CAUTION）の判定を行います。**【防震荡优化】** 为防止价格频繁波动导致的反复摩擦，判断是否跌破长期MA的参考标准为“狗绳（短期MA）”而非活蹦乱跳的“狗（当前价格）”。**【恐慌豁免与守门员 (MA200 Goalkeeper)】** 若此时正处于极度恐慌的超跌状态（触发 fear 级别规则），系统会进行严格的**结构性健康检查**：必须同时满足 **1. 当前价格高于长期均线** 且 **2. 长期均线本身不在下降趋势中**，才允许跳过防守拦截进行极限抄底（均值回归）；若任一条件不满足，则视为结构性崩盘（falling knife），系统将强制剥夺豁免权并降级为 `fear_downtrend` 执行深度防御。
+* **Trading Kill Switch (`trading.enabled`)**: グローバルな取引門禁。`false` の場合、システムは `DryRun` または `Disabled` モードで動作し、物理エンジンによる計算とレポート生成は行いますが、実際の注文執行パスは物理コードレベルで完全に遮断されます。
 
 ### 2.2 処理ロジック（エンジン）
 1. **データ取得**: 日々の取引終了後に最低1年分の履歴データを取得します（MA200の計算に必須）。ネットワークやレート制限に対応するため、エクスポネンシャルバックオフによるリトライ機能を備えています。
 2. **指標計算**: 日々の `owner_ma`、`leash_ma`、および `deviation`（乖離率）を計算します。さらに、標準偏差を用いた Z-Score や、MA斜率・曲率などの物理パラメータを計算します。
 3. **トレンド判定 (Trend)**: 当日とN日前（例：20日前）の飼い主MAの値を比較します。±0.5%程度の微小な閾値を導入し、Up / Down / Flatを判定します。
-4. **状態推論 (State Machine)**: `deviation` がどの範囲に収まるかを判定し、物理パラメータの収束度合いから「置信度 (Confidence)」を算出し、ベアモードロック判定と組み合わせて最終アクション（Action）と `reason_code` を生成します。
+4. **状態推論 (State Machine)**: `deviation` がどの範囲に収まるかを判定し、物理パラメータの収束度合いから「置信度 (Confidence)」を算出し、最終アクション（Action）と `reason_code` を生成します。
 
 ### 2.3 出力：多角的な表示とプッシュ通知
 1. **テキスト形式 Markdown レポート**: 絵文字やテーブルレイアウトを使用した、精緻で読み取り専用のレポートを生成します（`./reports` に保存）。
 2. **コマンドラインインターフェース (CLI Console)**: ターミナルでのカラー出力をサポート。
 3. **JSON データ出力**: 実行結果を構造化データとして保存。Webダッシュボードやバックテストシステムでの活用が可能です。
 4. **マルチチャネル通知（Telegram優先）**: 高いS/N比、無料利用、およびネイティブなMarkdown解析のニーズに合致するTelegramへの配信。
+5. **研究契約テレメトリ (Research Telemetry)**: 20列の固定スキーマを持つ `telemetry.csv`。物理層、分配層、姿態層、統治層、広度層を含む完全な状態ベクトルを保存し、機械学習用のデータセットとして活用可能。
+6. **実行リザルト (Structured Run Outcomes)**: 毎回の実行成否を `decisioning`, `archival`, `notification`, `execution` の4ステージで記録し、サイレントな失敗（例：Telegram送信失敗後の終了）を防止します。
 
 ## 3. System Sealing & Integrity Guidelines (封存鉄則)
 本システムは「予測」ではなく「測定」を行う物理エンジンとして完成しました。将来の機能拡張やパラメータ調整による過学習（オーバーフィッティング）を防ぐため、以下の3つの「鉄則（Iron Laws）」を遵守しなければなりません。
@@ -67,7 +69,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 * **`fetcher`**: 市場データ（Yahoo Finance APIなど）との連携を行い、HTTPリトライメカニズム（`reqwest` + `tokio`）を担当します。
 * **`calc`**: 時系列のステートレスな計算（MAの計算、標準偏差、Z-Score、曲率など）に特化します。
 * **`engine`**: キャピタル・フィジクス・エンジン。物理量ベクトルから `State` と `Confidence` を算出します。
-* **`report`**: レンダラーモジュール。Terminal, Markdown, Telegram HTML および `telemetry.csv`（19列 序参量データセット）を生成します。
+* **`report`**: レンダラーモジュール。Terminal, Markdown, Telegram HTML および `telemetry.csv`（20列 序参量データセット）を生成します。
 * **`backtest`**: シミュレーションエンジン。歴史データに基づき Calibration Error 等を算出します。
 * **`notify`**: Telegram API をカプセル化し、毎日の自動通知を行います。
 
@@ -75,7 +77,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 本システムは長期的な回帰分析に耐えうるデータ品質を保証します：
 * **Config Hashing**: `config.toml` の SHA256 ハッシュを各レコードに付与し、パラメータ宇宙を隔離します。
 * **High-Res Timestamp**: RFC3339 形式によるサンプリング汚染の防止。
-* **10/10 Observatory Schema**: 物理層、分配層、姿態層、統治層、広度層を含む 19 列の完全な状態ベクトル（序参量を含む）を保存します。
+* **10/10 Observatory Schema**: 物理層、分配層、姿態層、統治層、広度層を含む 20 列の完全な状態ベクトル（序参量を含む）を保存します。
 
 ### 3.2 構成ファイルの標準例 (TOML)
 ```toml
@@ -85,7 +87,6 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 timezone = "Asia/Tokyo"
 format = "markdown"
 save_to = "./reports"
-include_summary = true
 
 [rules.trend]
 lookback_days = 20
@@ -110,18 +111,11 @@ pullback   = "適度な買い増し（分散）"
 fear_1     = "手動介入：キャッシュを使用して買い増し"
 fear_2     = "手動介入：大幅な買い増し（極限のパニック）"
 
-[rules.bear_mode]
-enabled = true
-fallback_action = "【防御的ダウングレード】：飼い主が下山中。買い増し停止、または観測のみ"
-caution_action = "【警戒】：飼い主が下山中だが、長期トレンド（MA200）は維持。定投または小幅の買い増しを検討"
-
 [[watchlist]]
 symbol = "TSLA"
-name = "Tesla"
 market = "US"
 owner_ma_days = 120
 leash_ma_days = 20
-caution_ma_days = 200
 deviation_basis = "owner"
 enable = true
 ```
@@ -129,8 +123,8 @@ enable = true
 ## 4. MVP 承認条件 (Acceptance Criteria)
 1. **構成駆動**: コードを再コンパイルすることなく、`config.toml` を変更するだけで銘柄の増減や各閾値の調整が可能であること。
 2. **フォールトトレランス**: いずれかの銘柄のデータ取得に失敗しても、プログラムがクラッシュしたり他の銘柄の実行に影響を与えたりしないこと。失敗した銘柄はレポート内で赤色などで明示されること。
-3. **正しい状態マッピング**: 定義された閾値に従って厳格に実行されること。`bear_mode = true` の判定時、長期MAによるCAUTIONまたはDEFENDの状態に応じ、提案アクションが必ず警戒または防御的なメッセージで上書きされること。ただし、状態が `fear` を含み、なおかつ「価格 > MA200」かつ「MA200が下降トレンドでない」という厳しい構造的条件を満たした場合にのみ、この上書きが豁免（スキップ）されること。
-4. **ファイルの永続化**: 1回の実行ごとに `reports/YYYY-MM-DD.md` と `reports/YYYY-MM-DD.json` を生成すること。
+3. **正しい状態マッピング**: 定義された閾値に従って厳格に実行されること。
+4. **ファイルの永続化**: 1回の実行ごとに `decision_packet_[DATE].json` を生成し、`run_status_[DATE].json` で成否を記録すること。
 5. **TG 配信（フェーズ2/拡張）**: 環境変数から BOT_TOKEN を読み取り、レポートを特定の Telegram チャットにフル送信し、Markdownでレンダリングされること。
 ## 5. 将来のロードマップ：地平線紀元 (The Horizon Epoch)
 本システムは「観測紀元」によるデータ蓄積を経て、最終的に以下の研究目標（地平線紀元）を目指します。

@@ -23,6 +23,8 @@ bytes = "1.11.1"
 tokio-util = { version = "0.7.18", features = ["codec"] }
 byteorder = "1.5.0"
 dotenvy = "0.15.7"
+tempfile = "3.10"
+
 
 [build-dependencies]
 prost-build = "0.14.3"

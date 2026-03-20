@@ -1,0 +1,161 @@
+use stock_sentinel::core::engine::Engine;
+use stock_sentinel::core::market_regime::{MarketState, MarketRegimeSnapshot, LifecycleState, RiskOverlay};
+use stock_sentinel::core::action_matrix::AssetAction;
+use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::core::features::MarketFeatures;
+use stock_sentinel::core::decision::DecisionPacket;
+use stock_sentinel::config::{ParsedRules, WatchlistEntry, DeviationBasis, TrendConfig};
+use stock_sentinel::data::yahoo_provider::{TickerHistory, DailyBar};
+use chrono::{NaiveDate, Utc};
+use std::collections::HashMap;
+
+use std::borrow::Cow;
+
+fn create_mock_history(symbol: &str, start_price: f64, count: usize, daily_change: f64) -> TickerHistory<'static> {
+    let start_date = NaiveDate::from_ymd_opt(2023, 1, 1).unwrap();
+    let mut bars = Vec::new();
+    let mut current_price = start_price;
+    
+    for i in 0..count {
+        bars.push(DailyBar {
+            date: start_date + chrono::Duration::days(i as i64),
+            close: current_price,
+            volume: Some(1000.0),
+        });
+        current_price *= 1.0 + daily_change;
+    }
+
+    TickerHistory {
+        symbol: symbol.to_string(),
+        bars: Cow::Owned(bars),
+        total_trading_days: count,
+        latest_quote_timestamp: Some(Utc::now().timestamp()),
+    }
+}
+
+fn create_mock_rules() -> ParsedRules {
+    let mut sorted_bands = vec![
+        ("OPTIMAL".to_string(), 0.10),
+        ("CRUISE".to_string(), 0.00),
+        ("CAUTION".to_string(), -0.05),
+        ("DEFEND".to_string(), -0.10),
+    ];
+    sorted_bands.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap());
+
+    let mut actions = HashMap::new();
+    actions.insert("optimal".to_string(), "ACCUMULATE".to_string());
+    actions.insert("cruise".to_string(), "HOLD".to_string());
+    actions.insert("caution".to_string(), "REDUCE".to_string());
+    actions.insert("defend".to_string(), "AVOID".to_string());
+
+    ParsedRules {
+        trend: TrendConfig {
+            lookback_days: 10,
+            flat_threshold_pct: 0.1,
+        },
+        sorted_bands,
+        actions,
+        sizing_multipliers: None,
+    }
+}
+
+#[tokio::test]
+async fn test_pipeline_bullish_path() {
+    // 60 days of steady 0.2% daily gain
+    let history = create_mock_history("AAPL", 100.0, 60, 0.002);
+    let entry = WatchlistEntry {
+        symbol: "AAPL".to_string(),
+        weight: None,
+        market: "US".to_string(),
+        owner_ma_days: 20,
+        leash_ma_days: 10,
+        deviation_basis: DeviationBasis::Owner,
+        enable: true,
+        trade_enabled: Some(true),
+        trade_amount: Some(1000.0),
+    };
+
+    let rules = create_mock_rules();
+    let histories = vec![(history, &entry)];
+
+    // Test transition from IGNITION to NEWBORN (needs confidence 60, age 5)
+    let prev_market = MarketRegimeSnapshot {
+        market_state: MarketState::IGNITION,
+        lifecycle_state: LifecycleState::IGNITION,
+        risk_overlay: RiskOverlay::NORMAL,
+        reasons: vec![],
+    };
+    let prev_features = MarketFeatures {
+        date: NaiveDate::from_ymd_opt(2022, 12, 31).unwrap(),
+        up_count: 1,
+        total_count: 1,
+        system_confidence: 100.0,
+        regime_age: 5,
+        stability_structural: 100.0,
+        ..Default::default()
+    };
+    let prev_policy = PortfolioPolicy::from_market_regime(&prev_market);
+    let prev_packet = DecisionPacket::new(
+        prev_features.date,
+        prev_features,
+        prev_market,
+        prev_policy,
+        vec![]
+    );
+
+    let packet = Engine::run_daily_pipeline(&histories, &rules, Some(&prev_packet)).expect("Pipeline failed");
+
+    assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
+    assert!(packet.assets[0].action == AssetAction::ACCUMULATE || packet.assets[0].action == AssetAction::HOLD);
+}
+
+#[tokio::test]
+async fn test_pipeline_bearish_path() {
+    // Start at 100, then sudden drop
+    let mut bars = Vec::new();
+    let start_date = NaiveDate::from_ymd_opt(2023, 1, 1).unwrap();
+    for i in 0..40 {
+        bars.push(DailyBar {
+            date: start_date + chrono::Duration::days(i as i64),
+            close: 100.0, // Flat
+            volume: Some(1000.0),
+        });
+    }
+    // Sudden sharp crash 
+    for i in 40..55 {
+        let last_close = bars.last().unwrap().close;
+        bars.push(DailyBar {
+            date: start_date + chrono::Duration::days(i as i64),
+            close: last_close * 0.90, // 10% daily drop
+            volume: Some(1000.0),
+        });
+    }
+
+    let history = TickerHistory {
+        symbol: "TSLA".to_string(),
+        bars: Cow::Owned(bars),
+        total_trading_days: 55,
+        latest_quote_timestamp: Some(Utc::now().timestamp()),
+    };
+
+    let entry = WatchlistEntry {
+        symbol: "TSLA".to_string(),
+        weight: None,
+        market: "US".to_string(),
+        owner_ma_days: 20,
+        leash_ma_days: 10,
+        deviation_basis: DeviationBasis::Owner,
+        enable: true,
+        trade_enabled: Some(true),
+        trade_amount: Some(1000.0),
+    };
+
+    let rules = create_mock_rules();
+    let histories = vec![(history, &entry)];
+
+    let packet = Engine::run_daily_pipeline(&histories, &rules, None).expect("Pipeline failed");
+
+    assert_eq!(packet.market_regime.market_state, MarketState::DEFENSIVE);
+
+    assert_eq!(packet.assets[0].action, AssetAction::AVOID);
+}

@@ -4,7 +4,6 @@ version = 1
 timezone = "Asia/Tokyo"
 format = "markdown"
 save_to = "./reports"
-include_summary = true
 weight_kind = "portfolio" # portfolio, cap, risk
 
 [telegram]
@@ -59,15 +58,6 @@ DEFEND = 0.0
 fear_downtrend = 0.0
 CAUTION = 0.0
 
-[rules.bear_mode]
-enabled = true
-buffer_pct = 3.0
-confirm_days = 5
-confirm_threshold = 3
-recover_days = 5
-recover_threshold = 3
-fallback_action = "【防御 (DEFEND)】：长期趋势崩坏，最大限度持有现金 (Cash 80%+)，静待转机"
-caution_action = "【警戒 (CAUTION)】：中期调整中，收紧仓位，维持低比例定投 (Cash 20%)"
 
 [[watchlist]]
 symbol = "TSLA"
@@ -84,7 +74,6 @@ symbol = "PLTR"
 market = "US"
 owner_ma_days = 60
 leash_ma_days = 20
-caution_ma_days = 150
 deviation_basis = "owner"
 enable = true
 
@@ -101,7 +90,6 @@ symbol = "NVDA"
 market = "US"
 owner_ma_days = 60
 leash_ma_days = 20
-caution_ma_days = 150
 deviation_basis = "owner"
 enable = true
 
@@ -126,7 +114,6 @@ symbol = "U"
 market = "US"
 owner_ma_days = 60
 leash_ma_days = 20
-caution_ma_days = 150
 deviation_basis = "owner"
 enable = true
 
@@ -139,12 +126,3 @@ leash_ma_days = 20
 deviation_basis = "leash"
 enable = true
 
-[watchlist.action_overrides]
-# 针对 SPY 等基石资产的专用文案
-overheat_2 = "【利确】停止定投，强制建立现金缓冲 (Cash 40%+)"
-overheat_1 = "【部分利确】定投减半，增加现金储备 (Cash 20%+)"
-cruise     = "【定投】基石资产，维持标准定投频率"
-optimal    = "【效率定投】基石资产，维持最高效定投布局"
-pullback   = "【回撤买入】基石资产回调，适度增加定投力度"
-fear_1     = "【指数极度恐慌1】使用现金储备大幅度低位补仓"
-fear_2     = "【指数极度恐慌2】底部确认性极高，全力补仓"

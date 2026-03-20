@@ -82,7 +82,7 @@ jobs:
 
           # Fail-safe: if the file still doesn't exist, create a dummy header so Rust doesn't panic
           if [ ! -f reports/telemetry.csv ]; then
-            echo "date,timestamp,config_hash,state_code,state_text,gravity_strength,gravity_potential,t_share_raw,r_share_raw,r_share_adj,t_ratio_final,r_ratio_final,dominance_margin,exposure,watchlist_size,count_up_share,count_flat_share,count_down_share,count_forming_share,weight_up_share,weight_flat_share,weight_down_share,weight_forming_share,universe_integrity,capital_flow_acceleration" > reports/telemetry.csv
+            echo "timestamp,date,provider,market_state,risk_overlay,system_confidence,stability_score,dominance_margin,potential_energy,regime_age,up_count,flat_count,down_count,total_count,up_weight,flat_weight,down_weight,total_weight,config_hash,data_quality_status" > reports/telemetry.csv
             echo "⚠️ Created empty telemetry.csv with headers to prevent Rust panic."
           fi
 
@@ -94,8 +94,22 @@ jobs:
         run: |
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
-          echo "REPORT_DATE_JST=$(date +%Y-%m-%d)" >> $GITHUB_ENV
           cargo run --release -- radar
+
+          REPORT_PACKET_PATH="$(find reports -maxdepth 1 -type f -name 'decision_packet_*.json' | sort | tail -n 1)"
+          if [ -z "${REPORT_PACKET_PATH}" ]; then
+            echo "❌ Could not determine report date: no decision_packet_*.json generated."
+            exit 1
+          fi
+
+          REPORT_DATE="$(basename "${REPORT_PACKET_PATH}" | sed -E 's/^decision_packet_([0-9]{4}-[0-9]{2}-[0-9]{2})\.json$/\1/')"
+          if [ -z "${REPORT_DATE}" ]; then
+            echo "❌ Could not parse report date from ${REPORT_PACKET_PATH}."
+            exit 1
+          fi
+
+          echo "REPORT_DATE_JST=${REPORT_DATE}" >> $GITHUB_ENV
+          echo "✅ Report date resolved from generated packet: ${REPORT_DATE}"
 
       - name: Freshness Gate and Output Validation
         run: |
@@ -104,10 +118,29 @@ jobs:
           DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
           
           # 1. Output Integrity Checks (Prevent pushing empty/failed reports)
-          if [ ! -s "reports/${DATE_JST}.md" ] || [ ! -s "reports/${DATE_JST}.json" ] || [ ! -s "reports/telemetry.csv" ]; then
-            echo "❌ CRITICAL: Reports generation failed or produced empty files!"
-            exit 1
-          fi
+          REQUIRED_FILES=(
+            "reports/${DATE_JST}.md"
+            "reports/decision_packet_${DATE_JST}.json"
+            "reports/decision_history.jsonl"
+            "reports/state_transitions.csv"
+            "reports/state_transitions.jsonl"
+            "reports/execution_gate_log.jsonl"
+            "reports/portfolio_snapshot_${DATE_JST}.json"
+            "reports/account_snapshot_${DATE_JST}.json"
+            "reports/data_quality_log.jsonl"
+            "reports/run_status_${DATE_JST}.json"
+            "reports/telemetry.csv"
+          )
+          
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -s "$file" ]; then
+              echo "❌ CRITICAL: Required archival asset $file is missing or empty!"
+              exit 1
+            fi
+          done
+          
+          echo "✅ All 10 archival assets verified."
+
           
           # 2. Freshness Gate Logic
           if [ -f "reports/freshness.json" ]; then

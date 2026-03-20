@@ -2,6 +2,7 @@ use anyhow::Result;
 use async_trait::async_trait;
 use chrono::DateTime;
 use prost::Message;
+use std::borrow::Cow;
 use std::sync::Arc;
 use time::OffsetDateTime;
 
@@ -58,7 +59,7 @@ impl MarketDataProvider for FutuProvider {
         symbol: &str,
         start_date: Option<OffsetDateTime>,
         end_date: Option<OffsetDateTime>,
-    ) -> Result<TickerHistory> {
+    ) -> Result<TickerHistory<'static>> {
         let security = Self::parse_symbol(symbol);
 
         let begin_time = match start_date {
@@ -131,9 +132,10 @@ impl MarketDataProvider for FutuProvider {
 
         let total_trading_days = bars.len();
 
+        let bars_cow: Cow<'static, [DailyBar]> = Cow::Owned(bars);
         Ok(TickerHistory {
             symbol: symbol.to_string(),
-            bars,
+            bars: bars_cow,
             total_trading_days,
             latest_quote_timestamp: latest_ts,
         })
