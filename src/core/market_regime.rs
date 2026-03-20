@@ -32,7 +32,6 @@ pub enum RiskOverlay {
     BROKEN,
 }
 
-
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct MarketRegimeSnapshot {
     pub market_state: MarketState,
@@ -47,7 +46,6 @@ pub struct MarketRegimeStateMachine {
     pub current_risk: RiskOverlay,
 }
 
-
 impl MarketRegimeStateMachine {
     /// Computes the next regime snapshot and calibrated age based on previous context.
     pub fn transition(
@@ -55,35 +53,40 @@ impl MarketRegimeStateMachine {
         features: &mut MarketFeatures,
         prev_age: usize,
     ) -> (MarketRegimeSnapshot, usize) {
-        let initial_lifecycle = prev_snapshot.map(|s| s.lifecycle_state).unwrap_or(LifecycleState::NONE);
-        let initial_risk = prev_snapshot.map(|s| s.risk_overlay).unwrap_or(RiskOverlay::NORMAL);
-        
+        let initial_lifecycle = prev_snapshot
+            .map(|s| s.lifecycle_state)
+            .unwrap_or(LifecycleState::NONE);
+        let initial_risk = prev_snapshot
+            .map(|s| s.risk_overlay)
+            .unwrap_or(RiskOverlay::NORMAL);
+
         let sm = Self::new(initial_lifecycle, initial_risk);
-        
-        // Hardening: Use current_potential_age (the age it WOULD be today if state remains) 
+
+        // Hardening: Use current_potential_age (the age it WOULD be today if state remains)
         // for transition logic to eliminate the 1-day lag in backtests.
         let current_potential_age = prev_age + 1;
-        
-        // CRITICAL: Recalibrate maturity metrics based on potential age BEFORE decision 
+
+        // CRITICAL: Recalibrate maturity metrics based on potential age BEFORE decision
         // to ensure transitions like ESTABLISHED -> CONFIRMED happen on the correct day.
-        features.recalibrate(current_potential_age); 
+        features.recalibrate(current_potential_age);
         let next_snapshot = sm.compute_next_state(features, current_potential_age);
-        
+
         let next_age = if let Some(ps) = prev_snapshot {
-            if ps.market_state == next_snapshot.market_state { current_potential_age } else { 1 }
+            if ps.market_state == next_snapshot.market_state {
+                current_potential_age
+            } else {
+                1
+            }
         } else {
             1
         };
-        
-        // Final recalibration if state changed (age reset to 1) 
+
+        // Final recalibration if state changed (age reset to 1)
         // or just to ensure total consistency for the final packet.
         features.recalibrate(next_age);
-        
+
         (next_snapshot, next_age)
-
     }
-
-
 
     pub fn new(lifecycle: LifecycleState, risk: RiskOverlay) -> Self {
         Self {
@@ -93,12 +96,10 @@ impl MarketRegimeStateMachine {
     }
 
     pub fn compute_next_state(
-
         &self,
         features: &MarketFeatures,
         regime_age: usize,
     ) -> MarketRegimeSnapshot {
-
         let mut reasons = Vec::new();
         let mut next_lifecycle = self.current_lifecycle;
         let mut next_risk = RiskOverlay::NORMAL;
@@ -106,10 +107,16 @@ impl MarketRegimeStateMachine {
         // --- 1. Risk Overlay Logic (Downgrade priority) ---
         if features.system_confidence < 50.0 {
             next_risk = RiskOverlay::DEFENSIVE;
-            reasons.push(format!("Confidence ({:.1}) < 50", features.system_confidence));
+            reasons.push(format!(
+                "Confidence ({:.1}) < 50",
+                features.system_confidence
+            ));
         } else if features.flow_acceleration.unwrap_or(0.0) < -0.05 {
             next_risk = RiskOverlay::DECELERATING;
-            reasons.push(format!("Flow acceleration ({:.3}) < -0.05", features.flow_acceleration.unwrap_or(0.0)));
+            reasons.push(format!(
+                "Flow acceleration ({:.3}) < -0.05",
+                features.flow_acceleration.unwrap_or(0.0)
+            ));
         }
 
         // --- 2. Lifecycle Progression Logic ---
@@ -127,9 +134,15 @@ impl MarketRegimeStateMachine {
                 }
             }
             LifecycleState::NEWBORN => {
-                if features.system_confidence >= 70.0 && regime_age >= 10 && features.any_pullback_occurred {
+                if features.system_confidence >= 70.0
+                    && regime_age >= 10
+                    && features.any_pullback_occurred
+                {
                     next_lifecycle = LifecycleState::EARLY_CONFIRMATION;
-                    reasons.push("Confidence >= 70, age >= 10, and experienced successful pullback".to_string());
+                    reasons.push(
+                        "Confidence >= 70, age >= 10, and experienced successful pullback"
+                            .to_string(),
+                    );
                 }
             }
 
@@ -203,7 +216,6 @@ mod tests {
             regime_age: 1,
             any_pullback_occurred: false,
         }
-
     }
 
     #[test]
@@ -226,7 +238,9 @@ mod tests {
         let s = sm.compute_next_state(&f, 30);
         assert_eq!(s.market_state, MarketState::DEFENSIVE);
         assert_eq!(s.risk_overlay, RiskOverlay::DEFENSIVE);
-        assert!(s.reasons.iter().any(|r| r.contains("Confidence (40.0) < 50")));
+        assert!(s
+            .reasons
+            .iter()
+            .any(|r| r.contains("Confidence (40.0) < 50")));
     }
 }
-

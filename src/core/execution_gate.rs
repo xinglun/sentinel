@@ -1,10 +1,10 @@
-use crate::core::decision::DecisionPacket;
+use crate::config::TradingConfig;
 use crate::core::action_matrix::AssetAction;
+use crate::core::decision::DecisionPacket;
 use crate::core::market_regime::RiskOverlay;
 use crate::core::portfolio_policy::RiskAssetsMode;
-use crate::config::TradingConfig;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GatedTrade {
@@ -20,7 +20,6 @@ pub enum TradeSide {
     Buy,
     Sell,
 }
-
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GatedAudit {
@@ -38,7 +37,6 @@ pub struct ExecutionResult {
 
 pub struct ExecutionGate;
 
-
 impl ExecutionGate {
     /// Filters and sizes trades from a DecisionPacket based on risk and policy.
     pub fn gate_packet(
@@ -50,13 +48,16 @@ impl ExecutionGate {
     ) -> ExecutionResult {
         let mut gated_trades = Vec::new();
         let mut audits = Vec::new();
-        
-        let is_circuit_breaker_active = matches!(packet.market_regime.risk_overlay, RiskOverlay::BROKEN | RiskOverlay::DEFENSIVE);
-        
+
+        let is_circuit_breaker_active = matches!(
+            packet.market_regime.risk_overlay,
+            RiskOverlay::BROKEN | RiskOverlay::DEFENSIVE
+        );
+
         let mut current_daily_total = daily_traded;
         let mut available_power = buying_power;
         let mut running_exposure = current_exposure;
-        
+
         let effective_limit = trading_config.max_daily_budget.unwrap_or(f64::MAX);
         let global_cap = trading_config.global_budget;
 
@@ -73,7 +74,7 @@ impl ExecutionGate {
             }
 
             let (side, base_amount) = match asset.action {
-                AssetAction::ACCUMULATE => (Some(TradeSide::Buy), asset.trade_amount), 
+                AssetAction::ACCUMULATE => (Some(TradeSide::Buy), asset.trade_amount),
                 AssetAction::REDUCE => (Some(TradeSide::Sell), asset.trade_amount),
                 _ => (None, 0.0),
             };
@@ -106,7 +107,7 @@ impl ExecutionGate {
                         blocked_by: Some("ZeroSize".to_string()),
                         details: audit_details,
                     });
-                    continue; 
+                    continue;
                 }
 
                 if s == TradeSide::Buy && is_circuit_breaker_active {
@@ -117,7 +118,7 @@ impl ExecutionGate {
                         blocked_by: Some("CircuitBreaker".to_string()),
                         details: audit_details,
                     });
-                    continue; 
+                    continue;
                 }
 
                 if !trading_config.enabled {
@@ -128,7 +129,7 @@ impl ExecutionGate {
                         blocked_by: Some("TradingDisabled".to_string()),
                         details: audit_details,
                     });
-                    continue; 
+                    continue;
                 }
 
                 if current_daily_total + final_amount > effective_limit {
@@ -150,7 +151,7 @@ impl ExecutionGate {
                         blocked_by: Some("GlobalExposure".to_string()),
                         details: audit_details,
                     });
-                    continue; 
+                    continue;
                 }
 
                 if s == TradeSide::Buy && final_amount > available_power {
@@ -161,11 +162,11 @@ impl ExecutionGate {
                         blocked_by: Some("BuyingPower".to_string()),
                         details: audit_details,
                     });
-                    continue; 
+                    continue;
                 }
 
                 let qty = (final_amount / asset.price).floor();
-                if qty <= 0.0 { 
+                if qty <= 0.0 {
                     audits.push(GatedAudit {
                         symbol: asset.symbol.clone(),
                         action: asset.action,
@@ -173,7 +174,7 @@ impl ExecutionGate {
                         blocked_by: Some("QuantityRounding".to_string()),
                         details: audit_details,
                     });
-                    continue; 
+                    continue;
                 }
 
                 audits.push(GatedAudit {
@@ -189,7 +190,10 @@ impl ExecutionGate {
                     side: s.clone(),
                     qty,
                     price: asset.price,
-                    reason: format!("Action: {:?}, Policy: {:?}, Base: ${:.0}", asset.action, packet.portfolio_policy.risk_assets_mode, base_amount),
+                    reason: format!(
+                        "Action: {:?}, Policy: {:?}, Base: ${:.0}",
+                        asset.action, packet.portfolio_policy.risk_assets_mode, base_amount
+                    ),
                 });
 
                 if s == TradeSide::Buy {
@@ -212,13 +216,13 @@ impl ExecutionGate {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::market_regime::MarketRegimeSnapshot;
-    use crate::core::market_regime::MarketState;
-    use crate::core::market_regime::LifecycleState;
-    use crate::core::portfolio_policy::PortfolioPolicy;
-    use crate::core::portfolio_policy::RiskAssetsMode;
     use crate::core::action_matrix::AssetActionDecision;
     use crate::core::asset_state::AssetState;
+    use crate::core::market_regime::LifecycleState;
+    use crate::core::market_regime::MarketRegimeSnapshot;
+    use crate::core::market_regime::MarketState;
+    use crate::core::portfolio_policy::PortfolioPolicy;
+    use crate::core::portfolio_policy::RiskAssetsMode;
 
     fn mock_decision(symbol: &str, action: AssetAction, amount: f64) -> AssetActionDecision {
         AssetActionDecision {
@@ -248,7 +252,7 @@ mod tests {
             chrono::Utc::now().date_naive(),
             crate::core::features::MarketFeatures::default(),
             regime,
-            PortfolioPolicy { 
+            PortfolioPolicy {
                 risk_assets_mode: RiskAssetsMode::NEUTRAL,
                 target_exposure_min: 0.0,
                 target_exposure_max: 1.0,
@@ -262,7 +266,11 @@ mod tests {
 
     #[test]
     fn test_gate_daily_budget_limit() {
-        let config = TradingConfig { enabled: true, global_budget: 10000.0, max_daily_budget: Some(2000.0) };
+        let config = TradingConfig {
+            enabled: true,
+            global_budget: 10000.0,
+            max_daily_budget: Some(2000.0),
+        };
         let assets = vec![
             mock_decision("A", AssetAction::ACCUMULATE, 1500.0),
             mock_decision("B", AssetAction::ACCUMULATE, 1000.0),
@@ -279,19 +287,30 @@ mod tests {
 
     #[test]
     fn test_gate_global_exposure_cap() {
-        let config = TradingConfig { enabled: true, global_budget: 2000.0, max_daily_budget: None };
+        let config = TradingConfig {
+            enabled: true,
+            global_budget: 2000.0,
+            max_daily_budget: None,
+        };
         let assets = vec![mock_decision("A", AssetAction::ACCUMULATE, 1500.0)];
         let packet = mock_packet(assets, RiskOverlay::NORMAL);
 
         let result = ExecutionGate::gate_packet(&packet, &config, 0.0, 10000.0, 1000.0);
 
         assert_eq!(result.trades.len(), 0);
-        assert_eq!(result.audits[0].blocked_by, Some("GlobalExposure".to_string()));
+        assert_eq!(
+            result.audits[0].blocked_by,
+            Some("GlobalExposure".to_string())
+        );
     }
 
     #[test]
     fn test_gate_buying_power() {
-        let config = TradingConfig { enabled: true, global_budget: 10000.0, max_daily_budget: None };
+        let config = TradingConfig {
+            enabled: true,
+            global_budget: 10000.0,
+            max_daily_budget: None,
+        };
         let assets = vec![mock_decision("A", AssetAction::ACCUMULATE, 1500.0)];
         let packet = mock_packet(assets, RiskOverlay::NORMAL);
 
@@ -303,7 +322,11 @@ mod tests {
 
     #[test]
     fn test_gate_circuit_breaker() {
-        let config = TradingConfig { enabled: true, global_budget: 10000.0, max_daily_budget: None };
+        let config = TradingConfig {
+            enabled: true,
+            global_budget: 10000.0,
+            max_daily_budget: None,
+        };
         let assets = vec![
             mock_decision("A", AssetAction::ACCUMULATE, 1000.0),
             mock_decision("B", AssetAction::REDUCE, 1000.0),
@@ -315,12 +338,19 @@ mod tests {
         // Buys are blocked, Sells are allowed
         assert_eq!(result.trades.len(), 1);
         assert_eq!(result.trades[0].symbol, "B");
-        assert_eq!(result.audits[0].blocked_by, Some("CircuitBreaker".to_string()));
+        assert_eq!(
+            result.audits[0].blocked_by,
+            Some("CircuitBreaker".to_string())
+        );
     }
 
     #[test]
     fn test_gate_reduction_does_not_consume_buying_power() {
-        let config = TradingConfig { enabled: true, global_budget: 10000.0, max_daily_budget: None };
+        let config = TradingConfig {
+            enabled: true,
+            global_budget: 10000.0,
+            max_daily_budget: None,
+        };
         let assets = vec![mock_decision("A", AssetAction::REDUCE, 1500.0)];
         let packet = mock_packet(assets, RiskOverlay::NORMAL);
 

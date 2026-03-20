@@ -1,9 +1,9 @@
-use crate::core::market_regime::MarketRegimeSnapshot;
-use crate::core::portfolio_policy::PortfolioPolicy;
 use crate::core::action_matrix::AssetActionDecision;
 use crate::core::features::MarketFeatures;
-use serde::{Deserialize, Serialize};
+use crate::core::market_regime::MarketRegimeSnapshot;
+use crate::core::portfolio_policy::PortfolioPolicy;
 use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct TelegramOutput {
@@ -48,7 +48,7 @@ impl DecisionPacket {
         use crate::core::market_regime::MarketState;
 
         let headline = format!("{:?} | Risk {:?}", market.market_state, market.risk_overlay);
-        
+
         let summary = match market.market_state {
             MarketState::IGNITION => "轻仓试探，只保留最强标的",
             MarketState::NEWBORN => "只买回撤，禁止追高",
@@ -67,8 +67,8 @@ impl DecisionPacket {
             MarketState::DEFENSIVE => "Defense First",
         };
 
-        TelegramOutput { 
-            headline, 
+        TelegramOutput {
+            headline,
             summary: summary.to_string(),
             bias: bias.to_string(),
         }

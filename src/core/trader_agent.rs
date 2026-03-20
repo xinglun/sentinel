@@ -1,17 +1,15 @@
+use crate::core::execution_gate::TradeSide;
 use crate::core::ledger::{Ledger, TradeRecord};
 use crate::trade::trader::{OrderSide, OrderType, PlaceOrderRequest, TradeExecutor};
 use anyhow::Result;
 use chrono::Local;
 use std::sync::Arc;
 use tokio::sync::Mutex;
-use crate::core::execution_gate::TradeSide;
-
 
 pub struct TraderAgent {
     executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>,
     ledger: Arc<Ledger>,
 }
-
 
 #[derive(Debug, serde::Serialize, Clone)]
 pub struct TradeExecutionAudit {
@@ -31,17 +29,9 @@ pub struct ExecutionSummary {
 }
 
 impl TraderAgent {
-    pub fn new(
-        executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>,
-        ledger: Arc<Ledger>,
-    ) -> Self {
-        Self {
-            executor,
-            ledger,
-        }
+    pub fn new(executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>, ledger: Arc<Ledger>) -> Self {
+        Self { executor, ledger }
     }
-
-
 
     pub async fn execute_signals(
         &self,
@@ -50,7 +40,10 @@ impl TraderAgent {
         let mut audits = Vec::new();
         if gated_trades.is_empty() {
             println!("ℹ️  TraderAgent: No trades to execute (filtered or no signals).");
-            return Ok(ExecutionSummary { audits, status: Ok(()) });
+            return Ok(ExecutionSummary {
+                audits,
+                status: Ok(()),
+            });
         }
 
         // 1. Preflight: Unlock Trading (Required for Futu/Moomoo)
@@ -72,8 +65,10 @@ impl TraderAgent {
                 continue;
             }
 
-            println!("🛰️  TraderAgent: Dispatching gated trade for {} ({} units @ ${:.2}). Reason: {}", 
-                     trade.symbol, trade.qty, trade.price, trade.reason);
+            println!(
+                "🛰️  TraderAgent: Dispatching gated trade for {} ({} units @ ${:.2}). Reason: {}",
+                trade.symbol, trade.qty, trade.price, trade.reason
+            );
 
             let order_side = match trade.side {
                 TradeSide::Buy => OrderSide::Buy,
@@ -101,11 +96,18 @@ impl TraderAgent {
             let exec = self.executor.lock().await;
             match exec.place_order(req).await {
                 Ok(res) => {
-                    println!("✅ [Trader - SUCCESS] Order placed for {}. Order ID: {}", trade.symbol, res.order_id);
+                    println!(
+                        "✅ [Trader - SUCCESS] Order placed for {}. Order ID: {}",
+                        trade.symbol, res.order_id
+                    );
                     audit.success = true;
                     audit.order_id = Some(res.order_id);
-                    
-                    let side_str = if trade.side == TradeSide::Buy { "BUY" } else { "SELL" };
+
+                    let side_str = if trade.side == TradeSide::Buy {
+                        "BUY"
+                    } else {
+                        "SELL"
+                    };
                     let _ = self.ledger.record_trade(TradeRecord {
                         date: Local::now().date_naive(),
                         timestamp: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
@@ -117,7 +119,10 @@ impl TraderAgent {
                     });
                 }
                 Err(e) => {
-                    println!("❌ [Trader - FAILED] Failed to complete trade for {}: {}", trade.symbol, e);
+                    println!(
+                        "❌ [Trader - FAILED] Failed to complete trade for {}: {}",
+                        trade.symbol, e
+                    );
                     audit.error = Some(e.to_string());
                     errors.push(format!("{}: {}", trade.symbol, e));
                 }
@@ -126,14 +131,16 @@ impl TraderAgent {
         }
 
         let status = if !errors.is_empty() {
-            Err(anyhow::anyhow!("Partial trade execution failure: {}", errors.join("; ")))
+            Err(anyhow::anyhow!(
+                "Partial trade execution failure: {}",
+                errors.join("; ")
+            ))
         } else {
             Ok(())
         };
 
         Ok(ExecutionSummary { audits, status })
     }
-
 }
 
 #[cfg(test)]
@@ -141,13 +148,14 @@ mod tests {
     use super::*;
     use crate::core::action_matrix::{AssetAction, AssetActionDecision};
     use crate::core::asset_state::AssetState;
-    use crate::core::market_regime::{MarketRegimeSnapshot, MarketState, LifecycleState, RiskOverlay};
+    use crate::core::market_regime::{
+        LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
+    };
     use crate::core::portfolio_policy::{PortfolioPolicy, RiskAssetsMode};
 
-
+    use crate::config::AppConfig;
     use crate::core::features::MarketFeatures;
     use crate::trade::trader::MockTradeExecutor;
-    use crate::config::AppConfig;
     use std::sync::atomic::Ordering;
 
     use tempfile::tempdir;
@@ -156,7 +164,7 @@ mod tests {
     async fn test_trader_agent_dispatch() {
         let temp = tempdir().unwrap();
         let save_dir = temp.path().to_path_buf();
-        
+
         let config_str = r#"
             version = 1
             provider = "yahoo"
@@ -195,8 +203,6 @@ mod tests {
 
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
-
-
         let market = MarketRegimeSnapshot {
             market_state: MarketState::NEWBORN,
             lifecycle_state: LifecycleState::NEWBORN,
@@ -221,39 +227,37 @@ mod tests {
             action_changed: false,
         }];
 
-
-
         use crate::core::decision::DecisionPacket;
         use crate::core::execution_gate::ExecutionGate;
 
         let market_features = MarketFeatures::default();
         let packet = DecisionPacket::new(
-            chrono::NaiveDate::from_ymd_opt(2023, 1, 1).unwrap(), 
-            market_features, 
-            market, 
-            policy, 
-            assets
+            chrono::NaiveDate::from_ymd_opt(2023, 1, 1).unwrap(),
+            market_features,
+            market,
+            policy,
+            assets,
         );
 
         let trading_config = config_arc.trading.as_ref().unwrap();
-        let execution_result = ExecutionGate::gate_packet(
-            &packet, 
-            trading_config, 
-            0.0, 
-            100000.0, 
-            0.0
-        );
+        let execution_result =
+            ExecutionGate::gate_packet(&packet, trading_config, 0.0, 100000.0, 0.0);
 
-        let summary = agent.execute_signals(execution_result.trades).await.expect("Preflight should not fail");
+        let summary = agent
+            .execute_signals(execution_result.trades)
+            .await
+            .expect("Preflight should not fail");
         summary.status.expect("Execution should not fail");
 
-
-
-
-        
-        let count = mock_exec.lock().await.placed_orders_count.load(Ordering::SeqCst);
-        assert!(count >= 1, "Should have placed at least 1 order, got {}", count);
+        let count = mock_exec
+            .lock()
+            .await
+            .placed_orders_count
+            .load(Ordering::SeqCst);
+        assert!(
+            count >= 1,
+            "Should have placed at least 1 order, got {}",
+            count
+        );
     }
 }
-
-

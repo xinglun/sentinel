@@ -5,7 +5,6 @@ use async_trait::async_trait;
 #[allow(dead_code)]
 #[derive(Debug, Clone, Default)]
 pub struct AccountFunds {
-
     pub power: f64,         // 购买力
     pub total_assets: f64,  // 总资产
     pub cash: f64,          // 现金
@@ -74,7 +73,9 @@ impl Default for MockTradeExecutor {
 
 #[async_trait]
 impl TradeExecutor for MockTradeExecutor {
-    async fn unlock_trade(&self) -> Result<()> { Ok(()) }
+    async fn unlock_trade(&self) -> Result<()> {
+        Ok(())
+    }
     async fn get_funds(&self) -> Result<AccountFunds> {
         Ok(AccountFunds {
             power: 100000.0,
@@ -85,11 +86,15 @@ impl TradeExecutor for MockTradeExecutor {
         })
     }
     async fn place_order(&self, _req: PlaceOrderRequest) -> Result<PlaceOrderResponse> {
-        self.placed_orders_count.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        self.placed_orders_count
+            .fetch_add(1, std::sync::atomic::Ordering::SeqCst);
         Ok(PlaceOrderResponse {
-            order_id: format!("MOCK-{}", self.placed_orders_count.load(std::sync::atomic::Ordering::SeqCst)),
+            order_id: format!(
+                "MOCK-{}",
+                self.placed_orders_count
+                    .load(std::sync::atomic::Ordering::SeqCst)
+            ),
             status: "FILLED".to_string(),
         })
     }
 }
-

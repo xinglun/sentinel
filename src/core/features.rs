@@ -1,8 +1,8 @@
 use crate::config::{DeviationBasis, ParsedRules, WatchlistEntry};
 use crate::data::yahoo_provider::{DailyBar, TickerHistory};
 
-use serde::{Deserialize, Serialize};
 use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
 pub enum TrendStatus {
@@ -29,11 +29,8 @@ pub struct AssetFeatures {
     pub weight: f64,
 }
 
-
-
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct MarketFeatures {
-
     pub date: NaiveDate,
     pub up_count: usize,
     pub flat_count: usize,
@@ -54,9 +51,8 @@ pub struct MarketFeatures {
     pub universe_integrity: f64,
     pub flow_acceleration: Option<f64>, // EMA of dominance margin delta
     pub regime_age: usize,
-    pub any_pullback_occurred: bool,    // Roadmap: Track if market survived a pullback
+    pub any_pullback_occurred: bool, // Roadmap: Track if market survived a pullback
 }
-
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
     if days == 0 || end_index + 1 < days {
@@ -89,15 +85,19 @@ pub fn calculate_std_dev(
         / days as f64;
     Some(variance.sqrt())
 }
-pub fn calculate_ma_many(bars: &[DailyBar], window: usize, indices: std::ops::RangeInclusive<usize>) -> Vec<Option<f64>> {
+pub fn calculate_ma_many(
+    bars: &[DailyBar],
+    window: usize,
+    indices: std::ops::RangeInclusive<usize>,
+) -> Vec<Option<f64>> {
     if window == 0 || bars.is_empty() {
         return vec![None; indices.end().saturating_sub(*indices.start()) + 1];
     }
-    
+
     let start_idx = *indices.start();
     let end_idx = *indices.end();
     let mut results = Vec::with_capacity(end_idx.saturating_sub(start_idx) + 1);
-    
+
     let mut current_sum: f64 = 0.0;
     let mut initialized = false;
 
@@ -106,7 +106,7 @@ pub fn calculate_ma_many(bars: &[DailyBar], window: usize, indices: std::ops::Ra
             results.push(None);
             continue;
         }
-        
+
         if !initialized {
             current_sum = bars[i + 1 - window..=i].iter().map(|b| b.close).sum();
             initialized = true;
@@ -115,7 +115,7 @@ pub fn calculate_ma_many(bars: &[DailyBar], window: usize, indices: std::ops::Ra
         }
         results.push(Some(current_sum / window as f64));
     }
-    
+
     results
 }
 
@@ -140,7 +140,11 @@ pub fn detect_trend(
     detect_trend_from_mas(current_ma, past_ma, flat_threshold_pct)
 }
 
-fn detect_trend_from_mas(current_ma: Option<f64>, past_ma: Option<f64>, flat_threshold_pct: f64) -> TrendStatus {
+fn detect_trend_from_mas(
+    current_ma: Option<f64>,
+    past_ma: Option<f64>,
+    flat_threshold_pct: f64,
+) -> TrendStatus {
     match (current_ma, past_ma) {
         (Some(curr), Some(past)) => {
             if past == 0.0 {
@@ -165,7 +169,6 @@ impl AssetFeatures {
         entry: &WatchlistEntry,
         rules: &ParsedRules,
     ) -> Self {
-
         let last_idx = history.bars.len().saturating_sub(1);
         let current_bar = &history.bars[last_idx];
         let close = current_bar.close;
@@ -185,7 +188,13 @@ impl AssetFeatures {
             DeviationBasis::Leash => leash_ma,
         };
 
-        let deviation = basis_val.and_then(|b| if b != 0.0 { Some((close - b) / b * 100.0) } else { None });
+        let deviation = basis_val.and_then(|b| {
+            if b != 0.0 {
+                Some((close - b) / b * 100.0)
+            } else {
+                None
+            }
+        });
 
         let mut slope = None;
         if last_idx >= rules.trend.lookback_days {
@@ -202,7 +211,9 @@ impl AssetFeatures {
 
         let mut z_score = None;
         if let Some(om) = owner_ma {
-            if let Some(std_dev) = calculate_std_dev(&history.bars, entry.owner_ma_days, last_idx, om) {
+            if let Some(std_dev) =
+                calculate_std_dev(&history.bars, entry.owner_ma_days, last_idx, om)
+            {
                 if std_dev != 0.0 {
                     z_score = Some((close - om) / std_dev);
                 }
@@ -228,19 +239,27 @@ impl AssetFeatures {
         if last_idx > rules.trend.lookback_days {
             // OPTIMIZATION: Use pre-calculated MAs for the whole search range
             let search_start = last_idx.saturating_sub(500); // Caps search to 500 bars for performance
-            let mas = calculate_ma_many(&history.bars, entry.owner_ma_days, search_start.saturating_sub(rules.trend.lookback_days)..=last_idx);
-            
+            let mas = calculate_ma_many(
+                &history.bars,
+                entry.owner_ma_days,
+                search_start.saturating_sub(rules.trend.lookback_days)..=last_idx,
+            );
+
             let current_ma_opt = mas.last().cloned().flatten();
             let lookback_idx = mas.len().saturating_sub(1 + rules.trend.lookback_days);
             let prev_ma_opt = mas.get(lookback_idx).cloned().flatten();
-            let current_trend = detect_trend_from_mas(current_ma_opt, prev_ma_opt, rules.trend.flat_threshold_pct);
+            let current_trend =
+                detect_trend_from_mas(current_ma_opt, prev_ma_opt, rules.trend.flat_threshold_pct);
 
             for i in (1..mas.len()).rev() {
                 let c_idx = i;
-                if c_idx < rules.trend.lookback_days { break; }
+                if c_idx < rules.trend.lookback_days {
+                    break;
+                }
                 let p_idx = c_idx - rules.trend.lookback_days;
-                
-                let past_trend = detect_trend_from_mas(mas[c_idx], mas[p_idx], rules.trend.flat_threshold_pct);
+
+                let past_trend =
+                    detect_trend_from_mas(mas[c_idx], mas[p_idx], rules.trend.flat_threshold_pct);
                 if past_trend == current_trend {
                     trend_age += 1;
                 } else {
@@ -250,10 +269,16 @@ impl AssetFeatures {
         }
 
         let mut deviation_percentile = None;
-        if let Some(curr_dev) = owner_ma.and_then(|om| if om != 0.0 { Some((close - om) / om * 100.0) } else { None }) {
+        if let Some(curr_dev) = owner_ma.and_then(|om| {
+            if om != 0.0 {
+                Some((close - om) / om * 100.0)
+            } else {
+                None
+            }
+        }) {
             let lookback_bars = 1260; // 5 years
             let start_sim = last_idx.saturating_sub(lookback_bars);
-            
+
             // OPTIMIZATION: Use bulk MA calculation O(N) instead of O(N*W)
             let mas = calculate_ma_many(&history.bars, entry.owner_ma_days, start_sim..=last_idx);
             let mut historical_devs = Vec::with_capacity(mas.len());
@@ -269,7 +294,8 @@ impl AssetFeatures {
 
             if historical_devs.len() >= 500 {
                 let count_lower = historical_devs.iter().filter(|&&d| d < curr_dev).count();
-                deviation_percentile = Some((count_lower as f64 / historical_devs.len() as f64) * 100.0);
+                deviation_percentile =
+                    Some((count_lower as f64 / historical_devs.len() as f64) * 100.0);
             }
         }
 
@@ -288,10 +314,8 @@ impl AssetFeatures {
             deviation_percentile,
             weight: entry.weight.unwrap_or(1.0),
         }
-
     }
 }
-
 
 impl MarketFeatures {
     pub fn compute(
@@ -299,7 +323,10 @@ impl MarketFeatures {
         regime_age: usize,
         prev_packet: Option<&crate::core::decision::DecisionPacket>,
     ) -> Self {
-        let date = assets.first().map(|a| a.date).unwrap_or_else(|| chrono::Utc::now().date_naive());
+        let date = assets
+            .first()
+            .map(|a| a.date)
+            .unwrap_or_else(|| chrono::Utc::now().date_naive());
 
         let mut up_count = 0;
         let mut flat_count = 0;
@@ -329,8 +356,6 @@ impl MarketFeatures {
                     down_count += 1;
                     down_weight += s.weight;
                 }
-
-
             }
 
             if let Some(strength) = s.slope {
@@ -341,35 +366,47 @@ impl MarketFeatures {
                 total_potential_sum += z.abs() * s.weight;
                 weight_for_potential += s.weight;
 
-
-
                 if s.trend_status == TrendStatus::Up {
-                     trend_alloc_weight += s.weight;
-                } else if s.trend_status == TrendStatus::Flat || s.trend_status == TrendStatus::Down {
-                     reversion_alloc_weight += s.weight * (z.abs() / 2.0).min(1.0);
+                    trend_alloc_weight += s.weight;
+                } else if s.trend_status == TrendStatus::Flat || s.trend_status == TrendStatus::Down
+                {
+                    reversion_alloc_weight += s.weight * (z.abs() / 2.0).min(1.0);
                 }
-
-
             }
         }
 
         let total_count = up_count + flat_count + down_count;
         let total_weight = up_weight + flat_weight + down_weight;
-        let total_weight_safe = if total_weight <= 0.0 { 1.0 } else { total_weight };
+        let total_weight_safe = if total_weight <= 0.0 {
+            1.0
+        } else {
+            total_weight
+        };
 
-        let gravity_strength = if weight_for_strength > 0.0 { total_strength_sum / weight_for_strength } else { 0.0 };
-        let potential_energy = if weight_for_potential > 0.0 { total_potential_sum / weight_for_potential } else { 0.0 };
+        let gravity_strength = if weight_for_strength > 0.0 {
+            total_strength_sum / weight_for_strength
+        } else {
+            0.0
+        };
+        let potential_energy = if weight_for_potential > 0.0 {
+            total_potential_sum / weight_for_potential
+        } else {
+            0.0
+        };
 
         let dominance_margin = (trend_alloc_weight - reversion_alloc_weight) / total_weight_safe;
-        
+
         let conf_trend_alloc = (trend_alloc_weight / total_weight_safe * 50.0).clamp(0.0, 50.0);
         let conf_inverse_potential = (1.0 / (1.0 + potential_energy) * 50.0).clamp(0.0, 50.0);
         let system_confidence = (conf_trend_alloc + conf_inverse_potential).clamp(0.0, 100.0);
 
-
-        let universe_integrity = if assets.is_empty() { 0.0 } else { total_count as f64 / assets.len() as f64 };
+        let universe_integrity = if assets.is_empty() {
+            0.0
+        } else {
+            total_count as f64 / assets.len() as f64
+        };
         let trend_maturity = (regime_age as f64 / 40.0).min(1.0);
-        let stability_structural = conf_inverse_potential; 
+        let stability_structural = conf_inverse_potential;
         let stability_temporal = trend_maturity;
         let stability_score = (stability_structural / 50.0) * stability_temporal;
 
@@ -387,13 +424,18 @@ impl MarketFeatures {
             flow_acceleration = Some(ema_accel);
         }
 
-        let mut any_pullback_occurred = prev_packet.map(|p| p.market_features.any_pullback_occurred).unwrap_or(false);
+        let mut any_pullback_occurred = prev_packet
+            .map(|p| p.market_features.any_pullback_occurred)
+            .unwrap_or(false);
         if !any_pullback_occurred {
-             // Heuristic: If confidence is high but many assets are in short-term dip, call it a pullback
-             let pullback_proxy = assets.iter().filter(|s| s.trend_status == TrendStatus::Up && s.z_score.unwrap_or(0.0) < -1.0).count();
-             if pullback_proxy >= up_count / 2 && up_count > 0 {
-                 any_pullback_occurred = true;
-             }
+            // Heuristic: If confidence is high but many assets are in short-term dip, call it a pullback
+            let pullback_proxy = assets
+                .iter()
+                .filter(|s| s.trend_status == TrendStatus::Up && s.z_score.unwrap_or(0.0) < -1.0)
+                .count();
+            if pullback_proxy >= up_count / 2 && up_count > 0 {
+                any_pullback_occurred = true;
+            }
         }
 
         MarketFeatures {
@@ -428,6 +470,3 @@ impl MarketFeatures {
         self.stability_score = (self.stability_structural / 50.0) * self.trend_maturity;
     }
 }
-
-
-

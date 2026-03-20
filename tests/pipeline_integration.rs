@@ -1,21 +1,28 @@
-use stock_sentinel::core::engine::Engine;
-use stock_sentinel::core::market_regime::{MarketState, MarketRegimeSnapshot, LifecycleState, RiskOverlay};
-use stock_sentinel::core::action_matrix::AssetAction;
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::config::{ParsedRules, WatchlistEntry, DeviationBasis, TrendConfig};
-use stock_sentinel::data::yahoo_provider::{TickerHistory, DailyBar};
 use chrono::{NaiveDate, Utc};
 use std::collections::HashMap;
+use stock_sentinel::config::{DeviationBasis, ParsedRules, TrendConfig, WatchlistEntry};
+use stock_sentinel::core::action_matrix::AssetAction;
+use stock_sentinel::core::decision::DecisionPacket;
+use stock_sentinel::core::engine::Engine;
+use stock_sentinel::core::features::MarketFeatures;
+use stock_sentinel::core::market_regime::{
+    LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
+};
+use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::data::yahoo_provider::{DailyBar, TickerHistory};
 
 use std::borrow::Cow;
 
-fn create_mock_history(symbol: &str, start_price: f64, count: usize, daily_change: f64) -> TickerHistory<'static> {
+fn create_mock_history(
+    symbol: &str,
+    start_price: f64,
+    count: usize,
+    daily_change: f64,
+) -> TickerHistory<'static> {
     let start_date = NaiveDate::from_ymd_opt(2023, 1, 1).unwrap();
     let mut bars = Vec::new();
     let mut current_price = start_price;
-    
+
     for i in 0..count {
         bars.push(DailyBar {
             date: start_date + chrono::Duration::days(i as i64),
@@ -100,13 +107,17 @@ async fn test_pipeline_bullish_path() {
         prev_features,
         prev_market,
         prev_policy,
-        vec![]
+        vec![],
     );
 
-    let packet = Engine::run_daily_pipeline(&histories, &rules, Some(&prev_packet)).expect("Pipeline failed");
+    let packet = Engine::run_daily_pipeline(&histories, &rules, Some(&prev_packet))
+        .expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
-    assert!(packet.assets[0].action == AssetAction::ACCUMULATE || packet.assets[0].action == AssetAction::HOLD);
+    assert!(
+        packet.assets[0].action == AssetAction::ACCUMULATE
+            || packet.assets[0].action == AssetAction::HOLD
+    );
 }
 
 #[tokio::test]
@@ -121,7 +132,7 @@ async fn test_pipeline_bearish_path() {
             volume: Some(1000.0),
         });
     }
-    // Sudden sharp crash 
+    // Sudden sharp crash
     for i in 40..55 {
         let last_close = bars.last().unwrap().close;
         bars.push(DailyBar {

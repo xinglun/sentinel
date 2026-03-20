@@ -1,9 +1,9 @@
 use crate::core::market_regime::MarketRegimeSnapshot;
 use anyhow::{Context, Result};
+use chrono::Local;
 use std::fs::OpenOptions;
 use std::io::Write;
 use std::path::{Path, PathBuf};
-use chrono::Local;
 
 pub struct TransitionLogger {
     log_path: PathBuf,
@@ -17,7 +17,6 @@ impl TransitionLogger {
             jsonl_path: save_dir.join("state_transitions.jsonl"),
         }
     }
-
 
     pub fn log_transition(
         &self,
@@ -48,7 +47,7 @@ impl TransitionLogger {
         let old_state = old_regime
             .map(|r| format!("{:?}", r.market_state))
             .unwrap_or_else(|| "START".to_string());
-        
+
         let new_state = format!("{:?}", new_regime.market_state);
         let risk = format!("{:?}", new_regime.risk_overlay);
         let reasons = new_regime.reasons.join(" | ");
@@ -89,4 +88,3 @@ impl TransitionLogger {
         Ok(())
     }
 }
-

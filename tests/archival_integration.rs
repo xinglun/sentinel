@@ -1,11 +1,13 @@
-use stock_sentinel::core::persistence::PersistenceLayer;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::core::market_regime::{MarketRegimeSnapshot, MarketState, LifecycleState, RiskOverlay};
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::transition_log::TransitionLogger;
 use serde_json::json;
 use std::fs;
+use stock_sentinel::core::decision::DecisionPacket;
+use stock_sentinel::core::features::MarketFeatures;
+use stock_sentinel::core::market_regime::{
+    LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
+};
+use stock_sentinel::core::persistence::PersistenceLayer;
+use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::core::transition_log::TransitionLogger;
 use tempfile::tempdir;
 
 #[tokio::test]
@@ -13,7 +15,7 @@ async fn test_full_9_asset_archival_package() {
     let tmp_dir = tempdir().expect("Failed to create temp dir");
     let save_dir = tmp_dir.path().to_owned();
     let layer = PersistenceLayer::new(&save_dir);
-    
+
     let date_str = "2023-01-01";
     let date_naive = chrono::NaiveDate::from_ymd_opt(2023, 1, 1).unwrap();
 
@@ -30,7 +32,7 @@ async fn test_full_9_asset_archival_package() {
         ..Default::default()
     };
     let packet = DecisionPacket::new(date_naive, features, market, policy, vec![]);
-    
+
     layer.save_packet(&packet).unwrap();
     layer.save_daily_packet(&packet).unwrap();
 
@@ -96,7 +98,7 @@ async fn test_full_9_asset_archival_package() {
     for file in expected_files {
         let path = save_dir.join(file);
         assert!(path.exists(), "Missing expected archival asset: {}", file);
-        
+
         // HARDENED: Check that file is not empty (matching CLI -s check)
         let metadata = fs::metadata(&path).unwrap();
         assert!(metadata.len() > 0, "Archival asset {} is empty", file);

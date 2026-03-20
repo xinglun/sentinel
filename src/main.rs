@@ -5,4 +5,3 @@ use stock_sentinel::cli;
 async fn main() -> Result<()> {
     cli::run().await
 }
-

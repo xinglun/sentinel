@@ -1,5 +1,5 @@
-use serde::Serialize;
 use crate::core::market_regime::{MarketState, RiskOverlay};
+use serde::Serialize;
 
 #[derive(Debug, Serialize)]
 pub struct TelemetryRow {

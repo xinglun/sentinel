@@ -21,7 +21,6 @@ pub struct FutuTrader {
 impl FutuTrader {
     #[allow(dead_code)]
     pub fn new(client: Arc<FutuClient>, config: crate::config::FutuConfig) -> Self {
-
         Self { client, config }
     }
 

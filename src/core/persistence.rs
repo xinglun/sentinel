@@ -10,8 +10,6 @@ pub struct PersistenceLayer {
     save_dir: PathBuf,
 }
 
-
-
 impl PersistenceLayer {
     pub fn new(save_dir: &Path) -> Self {
         Self {
@@ -19,7 +17,6 @@ impl PersistenceLayer {
             save_dir: save_dir.to_path_buf(),
         }
     }
-
 
     pub fn save_packet(&self, packet: &DecisionPacket) -> Result<()> {
         let json = serde_json::to_string(packet).context("Failed to serialize DecisionPacket")?;
@@ -38,7 +35,8 @@ impl PersistenceLayer {
             return Ok(None);
         }
 
-        let file = File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
+        let file =
+            File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
         let reader = BufReader::new(file);
 
         // We want the last non-empty line
@@ -48,25 +46,22 @@ impl PersistenceLayer {
             if line.trim().is_empty() {
                 return Ok(None);
             }
-            let packet: DecisionPacket = serde_json::from_str(&line).context("Failed to deserialize DecisionPacket from history")?;
+            let packet: DecisionPacket = serde_json::from_str(&line)
+                .context("Failed to deserialize DecisionPacket from history")?;
             Ok(Some(packet))
         } else {
             Ok(None)
         }
     }
 
-
-
-
-
     pub fn save_daily_packet(&self, packet: &DecisionPacket) -> Result<()> {
         let filename = format!("decision_packet_{}.json", packet.date);
         let path = self.save_dir.join(filename);
-        let json = serde_json::to_string_pretty(packet).context("Failed to serialize DecisionPacket for daily output")?;
+        let json = serde_json::to_string_pretty(packet)
+            .context("Failed to serialize DecisionPacket for daily output")?;
         std::fs::write(path, json).context("Failed to write daily decision packet")?;
         Ok(())
     }
-
 
     pub fn save_execution_gate_log(&self, log: &serde_json::Value) -> Result<()> {
         let path = self.save_dir.join("execution_gate_log.jsonl");
@@ -76,24 +71,23 @@ impl PersistenceLayer {
         Ok(())
     }
 
-
     pub fn save_portfolio_snapshot(&self, snapshot: &serde_json::Value, date: &str) -> Result<()> {
         let filename = format!("portfolio_snapshot_{}.json", date);
         let path = self.save_dir.join(filename);
-        let json = serde_json::to_string_pretty(snapshot).context("Failed to serialize portfolio snapshot")?;
+        let json = serde_json::to_string_pretty(snapshot)
+            .context("Failed to serialize portfolio snapshot")?;
         std::fs::write(path, json)?;
         Ok(())
     }
-
 
     pub fn save_account_snapshot(&self, snapshot: &serde_json::Value, date: &str) -> Result<()> {
         let filename = format!("account_snapshot_{}.json", date);
         let path = self.save_dir.join(filename);
-        let json = serde_json::to_string_pretty(snapshot).context("Failed to serialize account snapshot")?;
+        let json = serde_json::to_string_pretty(snapshot)
+            .context("Failed to serialize account snapshot")?;
         std::fs::write(path, json)?;
         Ok(())
     }
-
 
     pub fn save_markdown_report(&self, content: &str, date: &str) -> Result<()> {
         let filename = format!("{}.md", date);
@@ -101,8 +95,6 @@ impl PersistenceLayer {
         std::fs::write(path, content).context("Failed to write daily markdown report")?;
         Ok(())
     }
-
-
 
     pub fn save_data_quality_log(&self, log: &serde_json::Value) -> Result<()> {
         let path = self.save_dir.join("data_quality_log.jsonl");
@@ -152,31 +144,31 @@ impl PersistenceLayer {
     pub fn save_run_status(&self, outcome: &crate::core::run_status::RunOutcome) -> Result<()> {
         let filename = format!("run_status_{}.json", outcome.date);
         let path = self.save_dir.join(filename);
-        let json = serde_json::to_string_pretty(outcome).context("Failed to serialize run outcome")?;
+        let json =
+            serde_json::to_string_pretty(outcome).context("Failed to serialize run outcome")?;
         std::fs::write(path, json)?;
         Ok(())
     }
-
 }
-
-
-
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::market_regime::{MarketRegimeSnapshot, MarketState, LifecycleState, RiskOverlay};
+    use crate::core::market_regime::{
+        LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
+    };
     use crate::core::portfolio_policy::PortfolioPolicy;
     use chrono::Utc;
     use std::fs;
 
     #[test]
     fn test_persistence_roundtrip() {
-        let temp_dir = std::env::temp_dir().join(format!("test_sentinel_persist_{}", Utc::now().timestamp()));
+        let temp_dir =
+            std::env::temp_dir().join(format!("test_sentinel_persist_{}", Utc::now().timestamp()));
         fs::create_dir_all(&temp_dir).unwrap();
-        
+
         let layer = PersistenceLayer::new(&temp_dir);
-        
+
         let market = MarketRegimeSnapshot {
             market_state: MarketState::ESTABLISHED,
             lifecycle_state: LifecycleState::ESTABLISHED,
@@ -192,9 +184,9 @@ mod tests {
             ..crate::core::features::MarketFeatures::default()
         };
         let packet = DecisionPacket::new(Utc::now().date_naive(), features, market, policy, vec![]);
-        
+
         layer.save_packet(&packet).unwrap();
-        
+
         let loaded = layer.load_latest_packet().unwrap().unwrap();
         assert_eq!(loaded.market_regime.market_state, MarketState::ESTABLISHED);
         assert_eq!(loaded.date, packet.date);
@@ -205,15 +197,16 @@ mod tests {
 
     #[test]
     fn test_markdown_report_saving() {
-        let temp_dir = std::env::temp_dir().join(format!("test_sentinel_report_{}", Utc::now().timestamp()));
+        let temp_dir =
+            std::env::temp_dir().join(format!("test_sentinel_report_{}", Utc::now().timestamp()));
         fs::create_dir_all(&temp_dir).unwrap();
-        
+
         let layer = PersistenceLayer::new(&temp_dir);
         let content = "# Test Report\nContent";
         let date = "2023-01-01";
-        
+
         layer.save_markdown_report(content, date).unwrap();
-        
+
         let report_path = temp_dir.join("2023-01-01.md");
         assert!(report_path.exists());
         let saved_content = fs::read_to_string(report_path).unwrap();
@@ -222,6 +215,3 @@ mod tests {
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 }
-
-
-

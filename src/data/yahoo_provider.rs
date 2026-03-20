@@ -26,7 +26,6 @@ pub struct TickerHistory<'a> {
     pub latest_quote_timestamp: Option<i64>,
 }
 
-
 pub async fn fetch_history(
     symbol: &str,
     start_date: Option<OffsetDateTime>,

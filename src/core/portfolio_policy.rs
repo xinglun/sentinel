@@ -107,4 +107,3 @@ mod tests {
         assert_eq!(policy.risk_assets_mode, RiskAssetsMode::AGGRESSIVE);
     }
 }
-

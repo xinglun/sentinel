@@ -21,7 +21,6 @@ pub struct AppConfig {
     pub watchlist: Vec<WatchlistEntry>,
 }
 
-
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct OutputConfig {
@@ -32,9 +31,6 @@ pub struct OutputConfig {
     pub save_to: String,
     pub weight_kind: Option<String>,
 }
-
-
-
 
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
@@ -80,17 +76,12 @@ pub struct RulesConfig {
     pub sizing_multipliers: Option<HashMap<String, f64>>,
 }
 
-
-
-
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct TrendConfig {
     pub lookback_days: usize,
     pub flat_threshold_pct: f64,
 }
-
-
 
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
@@ -106,11 +97,6 @@ pub struct WatchlistEntry {
     pub trade_enabled: Option<bool>,
     pub trade_amount: Option<f64>,
 }
-
-
-
-
-
 
 #[derive(Debug, Deserialize, PartialEq, Eq, Clone)]
 #[serde(rename_all = "lowercase")]
@@ -128,11 +114,6 @@ pub struct ParsedRules {
 
     pub sizing_multipliers: Option<HashMap<String, f64>>,
 }
-
-
-
-
-
 
 impl AppConfig {
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Self> {
@@ -197,7 +178,9 @@ impl AppConfig {
 
         if let Some(t) = &config.trading {
             if t.global_budget < 0.0 {
-                return Err(anyhow!("Configuration Error: global_budget cannot be negative."));
+                return Err(anyhow!(
+                    "Configuration Error: global_budget cannot be negative."
+                ));
             }
         }
 
@@ -229,10 +212,6 @@ impl AppConfig {
             actions: self.rules.actions.clone(),
             sizing_multipliers: self.rules.sizing_multipliers.clone(),
         }
-
-
-
-
     }
 }
 
