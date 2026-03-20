@@ -161,13 +161,14 @@ fn format_telegram_card(
     failed_symbols: &[String],
     positions: &std::collections::HashMap<String, (f64, f64)>,
 ) -> String {
-    use crate::core::action_matrix::AssetAction;
-
     let date_str = packet.date.format("%Y-%m-%d").to_string();
     let state = packet.market_regime.market_state;
     let risk = packet.market_regime.risk_overlay;
 
-    // 1. Header & Bias
+    // 0. Categorize Assets (Unified Source of Truth)
+    let buckets = categorize_assets(&packet.assets);
+
+    // 1. Header & Strategy
     let state_str = format!("{:?}", state).to_uppercase();
     let risk_str = match risk {
         crate::core::market_regime::RiskOverlay::NORMAL => "Risk Normal",
@@ -176,28 +177,22 @@ fn format_telegram_card(
     };
 
     let mut card = format!("<b>{} | {}</b>\n", state_str, risk_str);
-    card.push_str(&format!("{} Bias · {}\n\n", packet.telegram.bias, date_str));
+    card.push_str(&format!("{} · {}\n\n", packet.telegram.summary, date_str));
 
-    // 2. Exposure & Policy
+    // 2. Exposure
     let min_exp = (packet.portfolio_policy.target_exposure_min * 100.0) as i32;
     let max_exp = (packet.portfolio_policy.target_exposure_max * 100.0) as i32;
 
     card.push_str(&format!("<b>仓位 {}-{}%</b>\n", min_exp, max_exp));
-    card.push_str(&format!("{}\n", packet.telegram.summary));
 
     if !positions.is_empty() {
         card.push_str(&format!("持仓 {} positions\n", positions.len()));
     }
     card.push('\n');
 
-    // 3. Top Actions
-    if state == MarketState::DEFENSIVE {
-        card.push_str("<b>Priority Actions</b>\n");
-    } else {
-        card.push_str("<b>Top Actions</b>\n");
-    }
-
-    let top_assets = select_top_actions(&packet.assets, state);
+    // 3. Top Actions (Derived from Buckets)
+    card.push_str("<b>🎯 Top Actions</b>\n");
+    let top_assets = select_top_actions_v4(&buckets, state);
 
     for (idx, asset) in top_assets.iter().enumerate() {
         let tag = if asset.action_changed {
@@ -220,11 +215,20 @@ fn format_telegram_card(
             AssetAction::WAIT => "等待",
         };
 
+        let state_icon = match asset.state {
+            AssetState::OPTIMAL => "◎ ",
+            AssetState::PULLBACK => "↘ ",
+            AssetState::FORMING => "△ ",
+            AssetState::DEFEND => "! ",
+            _ => "",
+        };
+
         card.push_str(&format!(
-            "{}. {}  {}  {:?}{}\n",
+            "{}. {}  {}  {}{:?}{}\n",
             idx + 1,
             asset.symbol,
             local_action,
+            state_icon,
             asset.state,
             tag
         ));
@@ -233,8 +237,8 @@ fn format_telegram_card(
     }
     card.push('\n');
 
-    // 4. Signals Section (Compact 2-line format)
-    card.push_str("<b>Signals</b>\n");
+    // 4. Signals (Compact)
+    card.push_str("<b>📡 Signals</b>\n");
     let f = &packet.market_features;
     card.push_str(&format!(
         "Confidence {:.0} ({}) · Stability {:.0} ({})\n",
@@ -273,23 +277,73 @@ fn format_telegram_card(
         ));
     }
 
-    // 6. Summary Layers (Chinese Product Style)
-    card.push_str("\n<b>市场摘要</b>\n");
+    // 6. Summary Layers
+    card.push_str("\n<b>🌍 市场摘要</b>\n");
     card.push_str(&format_macro_summary(packet));
     card.push('\n');
-    card.push_str("<b>战术分区</b>\n");
-    card.push_str(&format_tactical_summary(&packet.assets));
+
+    card.push_str("<b>🧭 战术分区</b>\n");
+    card.push_str(&format_tactical_summary_v4(&buckets));
     card.push('\n');
-    card.push_str("<b>风险与机会</b>\n");
-    card.push_str(&format_risk_opportunity(&packet.assets));
+
+    card.push_str("<b>⚠️ 风险与机会</b>\n");
+    card.push_str(&format_risk_opportunity_v4(&buckets));
 
     card
+}
+
+struct AssetBuckets {
+    accumulate: Vec<crate::core::action_matrix::AssetActionDecision>,
+    hold: Vec<crate::core::action_matrix::AssetActionDecision>,
+    watch: Vec<crate::core::action_matrix::AssetActionDecision>,
+    defend: Vec<crate::core::action_matrix::AssetActionDecision>,
+}
+
+fn categorize_assets(assets: &[crate::core::action_matrix::AssetActionDecision]) -> AssetBuckets {
+    let mut buckets = AssetBuckets {
+        accumulate: Vec::new(),
+        hold: Vec::new(),
+        watch: Vec::new(),
+        defend: Vec::new(),
+    };
+
+    for asset in assets {
+        match asset.action {
+            AssetAction::ACCUMULATE => buckets.accumulate.push(asset.clone()),
+            AssetAction::HOLD => buckets.hold.push(asset.clone()),
+            AssetAction::OBSERVE | AssetAction::WAIT => buckets.watch.push(asset.clone()),
+            AssetAction::AVOID | AssetAction::FREEZE | AssetAction::REDUCE => {
+                buckets.defend.push(asset.clone())
+            }
+        }
+    }
+
+    // Sort within buckets for display consistency (by z-score/strength)
+    let sort_fn = |a: &crate::core::action_matrix::AssetActionDecision,
+                   b: &crate::core::action_matrix::AssetActionDecision| {
+        let ka = (
+            if a.action_changed { 1 } else { 0 },
+            a.z_score.unwrap_or(0.0).abs() as i64,
+        );
+        let kb = (
+            if b.action_changed { 1 } else { 0 },
+            b.z_score.unwrap_or(0.0).abs() as i64,
+        );
+        kb.cmp(&ka)
+    };
+
+    buckets.accumulate.sort_by(sort_fn);
+    buckets.hold.sort_by(sort_fn);
+    buckets.watch.sort_by(sort_fn);
+    buckets.defend.sort_by(sort_fn);
+
+    buckets
 }
 
 fn format_macro_summary(packet: &DecisionPacket) -> String {
     let mut s = String::new();
     let cap_state = match packet.market_regime.market_state {
-        MarketState::ESTABLISHED | MarketState::CONFIRMED => "Expanding", // Simplified mapping
+        MarketState::ESTABLISHED | MarketState::CONFIRMED => "Expanding",
         MarketState::DEFENSIVE => "Protect",
         _ => "Neutral",
     };
@@ -309,72 +363,57 @@ fn format_macro_summary(packet: &DecisionPacket) -> String {
     s
 }
 
-fn format_tactical_summary(assets: &[crate::core::action_matrix::AssetActionDecision]) -> String {
+fn format_tactical_summary_v4(buckets: &AssetBuckets) -> String {
     let mut s = String::new();
 
-    // Forced Order: 加仓, 持有, 观察, 防御
-    let accum: Vec<_> = assets
-        .iter()
-        .filter(|a| a.action == AssetAction::ACCUMULATE)
-        .map(|a| a.symbol.clone())
-        .collect();
-    let hold: Vec<_> = assets
-        .iter()
-        .filter(|a| a.action == AssetAction::HOLD)
-        .map(|a| a.symbol.clone())
-        .collect();
-    let watch: Vec<_> = assets
-        .iter()
-        .filter(|a| a.action == AssetAction::OBSERVE || a.action == AssetAction::WAIT)
-        .map(|a| a.symbol.clone())
-        .collect();
-    let defend: Vec<_> = assets
-        .iter()
-        .filter(|a| {
-            a.action == AssetAction::AVOID
-                || a.action == AssetAction::FREEZE
-                || a.action == AssetAction::REDUCE
-        })
-        .map(|a| a.symbol.clone())
-        .collect();
-
-    if !accum.is_empty() {
-        s.push_str(&format!("• 加仓区: {}\n", join_symbols(accum)));
+    if !buckets.accumulate.is_empty() {
+        s.push_str(&format!(
+            "• 加仓区: {}\n",
+            join_symbols(
+                buckets
+                    .accumulate
+                    .iter()
+                    .map(|a| a.symbol.clone())
+                    .collect()
+            )
+        ));
     }
-    if !hold.is_empty() {
-        s.push_str(&format!("• 持有区: {}\n", join_symbols(hold)));
+    if !buckets.hold.is_empty() {
+        s.push_str(&format!(
+            "• 持有区: {}\n",
+            join_symbols(buckets.hold.iter().map(|a| a.symbol.clone()).collect())
+        ));
     }
-    if !watch.is_empty() {
-        s.push_str(&format!("• 观察区: {}\n", join_symbols(watch)));
+    if !buckets.watch.is_empty() {
+        s.push_str(&format!(
+            "• 观察区: {}\n",
+            join_symbols(buckets.watch.iter().map(|a| a.symbol.clone()).collect())
+        ));
     }
-    if !defend.is_empty() {
-        s.push_str(&format!("• 防御区: {}\n", join_symbols(defend)));
+    if !buckets.defend.is_empty() {
+        s.push_str(&format!(
+            "• 防御区: {}\n",
+            join_symbols(buckets.defend.iter().map(|a| a.symbol.clone()).collect())
+        ));
     }
 
     s
 }
 
-fn format_risk_opportunity(assets: &[crate::core::action_matrix::AssetActionDecision]) -> String {
+fn format_risk_opportunity_v4(buckets: &AssetBuckets) -> String {
     let mut s = String::new();
 
-    let best_opp = assets
-        .iter()
-        .filter(|a| a.action == AssetAction::ACCUMULATE || a.state == AssetState::PULLBACK)
-        .max_by_key(|a| (a.deviation.unwrap_or(0.0).abs() * 100.0) as i64)
+    let best_opp = buckets
+        .accumulate
+        .first()
         .map(|a| format!("{} ({:?})", a.symbol, a.state))
         .unwrap_or_else(|| "None".to_string());
 
-    let best_risk = assets
-        .iter()
-        .filter(|a| {
-            a.action == AssetAction::AVOID
-                || a.action == AssetAction::REDUCE
-                || a.state == AssetState::DEFEND
-                || a.state == AssetState::OVERHEAT
-        })
-        .max_by_key(|a| (a.deviation.unwrap_or(0.0).abs() * 100.0) as i64)
+    let best_risk = buckets
+        .defend
+        .first()
         .map(|a| format!("{} ({:?})", a.symbol, a.state))
-        .unwrap_or_else(|| "None".to_string());
+        .unwrap_or_else(|| "无明显高危标的".to_string());
 
     s.push_str(&format!("• 机会: {}\n", best_opp));
     s.push_str(&format!("• 风险: {}\n", best_risk));
@@ -431,73 +470,41 @@ fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> S
     }
 }
 
-fn select_top_actions(
-    assets: &[crate::core::action_matrix::AssetActionDecision],
+fn select_top_actions_v4(
+    buckets: &AssetBuckets,
     state: MarketState,
 ) -> Vec<crate::core::action_matrix::AssetActionDecision> {
-    let mut items = assets.to_vec();
-
-    fn action_prio(a: AssetAction) -> i32 {
-        match a {
-            AssetAction::ACCUMULATE => 100,
-            AssetAction::REDUCE => 90,
-            AssetAction::FREEZE => 80,
-            AssetAction::AVOID => 70,
-            AssetAction::HOLD => 60,
-            AssetAction::OBSERVE => 50,
-            AssetAction::WAIT => 40,
-        }
-    }
-
-    fn state_prio(s: AssetState) -> i32 {
-        match s {
-            AssetState::PULLBACK => 100,
-            AssetState::OPTIMAL => 90,
-            AssetState::DEFEND => 80,
-            AssetState::OVERHEAT => 70,
-            AssetState::CRUISE => 60,
-            AssetState::CAUTION => 50,
-            AssetState::FORMING => 40,
-        }
-    }
-
-    items.sort_by(|a, b| {
-        let ka = (
-            if a.action_changed { 1 } else { 0 },
-            action_prio(a.action),
-            state_prio(a.state),
-            a.z_score.unwrap_or(0.0).abs() as i64,
-            a.deviation.unwrap_or(0.0).abs() as i64,
-        );
-        let kb = (
-            if b.action_changed { 1 } else { 0 },
-            action_prio(b.action),
-            state_prio(b.state),
-            b.z_score.unwrap_or(0.0).abs() as i64,
-            b.deviation.unwrap_or(0.0).abs() as i64,
-        );
-        kb.cmp(&ka)
-    });
-
+    let mut selected = Vec::new();
     let limit = if state == MarketState::DEFENSIVE {
         4
     } else {
         3
     };
-    let mut selected = Vec::new();
-    let mut seen_actions = std::collections::HashSet::new();
 
-    for asset in items {
+    // Sequential pick from buckets
+    for asset in &buckets.accumulate {
         if selected.len() >= limit {
             break;
         }
-
-        let action_str = format!("{:?}", asset.action);
-        // Diversity: prefer different actions, unless action_changed is true
-        if asset.action_changed || !seen_actions.contains(&action_str) || selected.is_empty() {
-            seen_actions.insert(action_str);
-            selected.push(asset);
+        selected.push(asset.clone());
+    }
+    for asset in &buckets.hold {
+        if selected.len() >= limit {
+            break;
         }
+        selected.push(asset.clone());
+    }
+    for asset in &buckets.watch {
+        if selected.len() >= limit {
+            break;
+        }
+        selected.push(asset.clone());
+    }
+    for asset in &buckets.defend {
+        if selected.len() >= limit {
+            break;
+        }
+        selected.push(asset.clone());
     }
 
     selected

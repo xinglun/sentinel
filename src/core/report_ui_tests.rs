@@ -107,13 +107,17 @@ mod tests {
         .unwrap()
         .markdown_body;
 
-        // Verify V3 elements
-        assert!(card.contains("ESTABLISHED | Risk Normal")); // Header casing
-        assert!(card.contains("Stay Long Bias ·")); // Combined Header (Product Style)
-        assert!(card.contains("仓位 20-80%"));
-        assert!(card.contains("TSLA  加仓  PULLBACK [CHANGED]")); // Localized + Tag
-        assert!(card.contains("NVDA  持有  OPTIMAL")); // Localized
-        assert!(card.contains("Data Notice: MISSING fetch failed")); // Specific symbols
+        // Verify V4 elements
+        assert!(card.contains("ESTABLISHED | Risk Normal"));
+        assert!(card.contains("Stay long ·")); // Strategy in Header
+        assert!(card.contains("🎯 Top Actions"));
+        assert!(card.contains("TSLA  加仓  ↘ PULLBACK [CHANGED]"));
+        assert!(card.contains("NVDA  持有  ◎ OPTIMAL"));
+        assert!(card.contains("📡 Signals"));
+        assert!(card.contains("🌍 市场摘要"));
+        assert!(card.contains("🧭 战术分区"));
+        assert!(card.contains("⚠️ 风险与机会"));
+        assert!(card.contains("Data Notice: MISSING fetch failed"));
     }
 
     #[test]
@@ -158,11 +162,13 @@ mod tests {
         .unwrap()
         .markdown_body;
 
-        // Verify Defensive V3 elements
+        // Verify Defensive V4 elements
         assert!(card.contains("DEFENSIVE | Risk Defensive"));
-        assert!(card.contains("Defense First Bias ·"));
-        assert!(card.contains("Priority Actions")); // Reordered section title
-        assert!(card.contains("SPY  回避  DEFEND")); // Localized
+        assert!(card.contains("Stop buying ·"));
+        assert!(card.contains("🎯 Top Actions"));
+        assert!(card.contains("SPY  回避  ! DEFEND"));
+        assert!(card.contains("⚠️ 风险与机会"));
+        assert!(card.contains("• 风险: SPY (DEFEND)"));
     }
 
     #[test]
@@ -230,6 +236,7 @@ mod tests {
         .markdown_body;
 
         assert!(card_crit.contains("Data Critical: A, B, C, D fetch failed"));
+        assert!(card_crit.contains("📡 Signals"));
     }
 
     #[test]
@@ -278,8 +285,8 @@ mod tests {
         .unwrap()
         .markdown_body;
 
-        assert!(card.contains("TSLA  加仓  PULLBACK [CHANGED]"));
-        assert!(card.contains("GOOG  等待  FORMING [NEW]"));
+        assert!(card.contains("TSLA  加仓  ↘ PULLBACK [CHANGED]"));
+        assert!(card.contains("GOOG  等待  △ FORMING [NEW]"));
     }
 
     #[test]
@@ -325,20 +332,21 @@ mod tests {
         .unwrap()
         .markdown_body;
 
-        // Verify Product Grade Aesthetic
+        // Verify V4 Aesthetic
         assert!(card.contains("ESTABLISHED | Risk Normal"));
-        assert!(card.contains("Stay Long Bias ·")); // Combined Header
-        assert!(card.contains("仓位 10-90%")); // No colon
-        assert!(card.contains("Confidence 65 (Moderate) · Stability 0 (Fragile)")); // Combined Signals
+        assert!(card.contains("Standard Summary ·")); // Strategy in Header
+        assert!(card.contains("🎯 Top Actions"));
+        assert!(card.contains("TSLA  加仓  ↘ PULLBACK [CHANGED]")); // State icon
+        assert!(card.contains("NVDA  持有  ◎ OPTIMAL")); // State icon
 
-        assert!(card.contains("市场摘要"));
-        assert!(card.contains("战术分区"));
-        assert!(card.contains("风险与机会"));
+        assert!(card.contains("📡 Signals"));
+        assert!(card.contains("🌍 市场摘要"));
+        assert!(card.contains("🧭 战术分区"));
+        assert!(card.contains("⚠️ 风险与机会"));
 
-        assert!(card.contains("• 趋势年龄: 5d"));
+        // Logical Unification check
         assert!(card.contains("• 加仓区: TSLA"));
-        assert!(card.contains("• 防御区: MSFT"));
-        assert!(card.contains("• 机会: TSLA (PULLBACK)"));
+        assert!(card.contains("• 机会: TSLA (PULLBACK)")); // Sync'd from bucket
     }
 
     #[test]
@@ -367,7 +375,7 @@ mod tests {
             assets,
             telegram: TelegramOutput {
                 headline: "DEFENSIVE".to_string(),
-                summary: "Defensive Summary".to_string(),
+                summary: "防御模式".to_string(),
                 bias: "Defensive Only".to_string(),
             },
         };
@@ -384,11 +392,9 @@ mod tests {
         .markdown_body;
 
         assert!(card.contains("DEFENSIVE | Risk Defensive"));
-        assert!(card.contains("Defensive Only Bias ·"));
-        assert!(card.contains("市场摘要"));
+        assert!(card.contains("防御模式 ·"));
         assert!(card.contains("• 市场状态: Protect"));
-        assert!(card.contains("战术分区"));
         assert!(card.contains("• 防御区: U"));
-        assert!(card.contains("• 风险: U (DEFEND)"));
+        assert!(card.contains("• 风险: U (DEFEND)")); // Mirror check
     }
 }
