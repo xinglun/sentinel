@@ -37,7 +37,13 @@ fn test_kill_switch_behavior_in_execution_gate() {
     let assets = vec![AssetActionDecision {
         symbol: "TEST".to_string(),
         price: 100.0,
-        state: AssetState::OPTIMAL,
+        asset_state: stock_sentinel::core::asset_state::AssetStateSnapshot {
+            symbol: "TEST".to_string(),
+            state: AssetState::OPTIMAL,
+            reasons: vec![],
+            recovery_streak: 0,
+            last_defend_age: 100,
+        },
         action: AssetAction::ACCUMULATE,
         reasons: vec![],
         deviation: None,
@@ -54,6 +60,9 @@ fn test_kill_switch_behavior_in_execution_gate() {
         lifecycle_state: LifecycleState::ESTABLISHED,
         risk_overlay: RiskOverlay::NORMAL,
         reasons: vec![],
+        low_stability_streak: 0,
+        duration_in_state: 1,
+        transition_audit: None,
     };
 
     let packet = DecisionPacket::new(

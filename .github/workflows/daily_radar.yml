@@ -130,6 +130,8 @@ jobs:
             "reports/account_snapshot_${DATE_JST}.json"
             "reports/data_quality_log.jsonl"
             "reports/run_status_${DATE_JST}.json"
+            "reports/weekly_state_metrics.json"
+            "reports/weekly_state_review_auto.md"
             "reports/telemetry.csv"
           )
           

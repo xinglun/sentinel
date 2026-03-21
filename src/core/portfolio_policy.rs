@@ -85,6 +85,9 @@ mod tests {
             lifecycle_state: LifecycleState::NONE,
             risk_overlay: RiskOverlay::NORMAL,
             reasons: vec![],
+            low_stability_streak: 0,
+            duration_in_state: 1,
+            transition_audit: None,
         }
     }
 

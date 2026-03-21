@@ -3,7 +3,7 @@ use crate::core::features::AssetFeatures;
 use serde::{Deserialize, Serialize};
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum AssetState {
     OPTIMAL,
     CRUISE,
@@ -11,28 +11,42 @@ pub enum AssetState {
     CAUTION,
     OVERHEAT,
     DEFEND,
+    #[default]
     FORMING,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct AssetStateSnapshot {
     pub symbol: String,
     pub state: AssetState,
     pub reasons: Vec<String>,
+    pub recovery_streak: usize,
+    pub last_defend_age: usize, // Days since last DEFEND state
 }
 
 pub struct AssetStateMachine;
 
 impl AssetStateMachine {
-    pub fn compute_state(features: &AssetFeatures, rules: &ParsedRules) -> AssetStateSnapshot {
+    pub fn compute_state(
+        features: &AssetFeatures,
+        rules: &ParsedRules,
+        prev_snapshot: Option<&AssetStateSnapshot>,
+    ) -> AssetStateSnapshot {
         let mut reasons = Vec::new();
+
+        let mut recovery_streak = prev_snapshot.map(|s| s.recovery_streak).unwrap_or(0);
+        let mut last_defend_age = prev_snapshot.map(|s| s.last_defend_age + 1).unwrap_or(100);
         // 1. Check for forming stage based on trend age or historical data (from roadmap)
         if features.trend_age < 5 {
-            reasons.push(format!("Trend age ({}) < 5", features.trend_age));
             return AssetStateSnapshot {
                 symbol: features.symbol.clone(),
                 state: AssetState::FORMING,
-                reasons,
+                reasons: vec![format!(
+                    "Trend age ({}) < 5 (FORMING protection)",
+                    features.trend_age
+                )],
+                recovery_streak: 0,
+                last_defend_age: 100,
             };
         }
 
@@ -81,13 +95,103 @@ impl AssetStateMachine {
             reasons.push(format!("Z-Score ({:.2}) extreme structural break", z));
         }
 
-        // TODO: Integrate more complex rules from engine.rs if needed (bear mode confirm etc).
-        // For now, this follows the core specification for the transition to Phase 4.
+        // --- 4. Inertia Layer: Stepped Recovery & Historical Penalty ---
+        let mut next_state = state;
+        let prev_state = prev_snapshot
+            .map(|s| s.state)
+            .unwrap_or(AssetState::FORMING);
+
+        if next_state == AssetState::DEFEND {
+            last_defend_age = 0;
+            recovery_streak = 0;
+        } else {
+            // If we are recovering, increment streak
+            if Self::is_improvement(prev_state, next_state) {
+                recovery_streak += 1;
+            } else if next_state == prev_state {
+                // Stay at same state, streak continues if it's not a peak state
+                recovery_streak += 1;
+            } else {
+                recovery_streak = 0;
+            }
+        }
+
+        // Stepped Recovery Gate
+        if Self::is_recovery(prev_state, next_state) {
+            let allowed_recovery =
+                Self::is_recovery_allowed(prev_state, next_state, recovery_streak);
+            if !allowed_recovery {
+                let clamped_state = Self::step_recovery(prev_state);
+                reasons.push(format!("[Inertia:BlockedRecovery] Step-up from {:?} to {:?} blocked by cooldown (streak: {}). Clamped to {:?}", prev_state, next_state, recovery_streak, clamped_state));
+                next_state = clamped_state;
+            }
+        }
+
+        // Historical Penalty (20-day window)
+        if last_defend_age < 20 && Self::is_strong_state(next_state) {
+            reasons.push(format!(
+                "[Inertia:Penalty] Recent DEFEND event (age: {}) caps state at CRUISE.",
+                last_defend_age
+            ));
+            next_state = AssetState::CRUISE;
+        }
 
         AssetStateSnapshot {
             symbol: features.symbol.clone(),
-            state,
+            state: next_state,
             reasons,
+            recovery_streak,
+            last_defend_age,
+        }
+    }
+
+    fn is_improvement(from: AssetState, to: AssetState) -> bool {
+        Self::state_rank(to) > Self::state_rank(from)
+    }
+
+    fn is_recovery(from: AssetState, to: AssetState) -> bool {
+        Self::is_improvement(from, to)
+            && (from == AssetState::DEFEND || from == AssetState::CAUTION)
+    }
+
+    fn is_strong_state(s: AssetState) -> bool {
+        s == AssetState::OPTIMAL || s == AssetState::PULLBACK
+    }
+
+    fn is_recovery_allowed(from: AssetState, to: AssetState, streak: usize) -> bool {
+        // DEFEND -> CAUTION needs 3 days
+        if from == AssetState::DEFEND && streak < 3 {
+            return false;
+        }
+        // CAUTION -> CRUISE needs 2 days (as per final spec)
+        if from == AssetState::CAUTION && streak < 2 {
+            return false;
+        }
+        // CRUISE -> OPTIMAL is handled by standard logic but could add more here
+
+        // General: forbid skipping levels
+        let rank_diff = Self::state_rank(to) as i32 - Self::state_rank(from) as i32;
+        rank_diff <= 1
+    }
+
+    fn step_recovery(from: AssetState) -> AssetState {
+        match from {
+            AssetState::DEFEND => AssetState::CAUTION,
+            AssetState::CAUTION => AssetState::CRUISE,
+            AssetState::CRUISE => AssetState::OPTIMAL,
+            _ => from,
+        }
+    }
+
+    fn state_rank(s: AssetState) -> usize {
+        match s {
+            AssetState::DEFEND => 0,
+            AssetState::CAUTION => 1,
+            AssetState::CRUISE => 2,
+            AssetState::PULLBACK => 3,
+            AssetState::OPTIMAL => 4,
+            AssetState::OVERHEAT => 5,
+            AssetState::FORMING => 0, // Forming is like base state
         }
     }
 }
@@ -126,10 +230,18 @@ mod tests {
             sorted_bands: vec![],
             actions: std::collections::HashMap::new(),
             sizing_multipliers: None,
+            core_assets: Vec::new(),
+            inertia: crate::config::ParsedInertia {
+                min_state_duration: 3,
+                trend_dominant_min_confidence: 55.0,
+                core_breakdown_k: 2,
+                core_breakdown_avg_deviation: -5.0,
+                core_breakdown_breadth_floor: 0.0,
+            },
         };
 
         let f = mock_asset_features("AAPL", 2, 0.0, 0.0);
-        let s = AssetStateMachine::compute_state(&f, &rules);
+        let s = AssetStateMachine::compute_state(&f, &rules, None);
         assert_eq!(s.state, AssetState::FORMING);
     }
 
@@ -143,10 +255,25 @@ mod tests {
             sorted_bands: vec![("optimal".to_string(), 5.0), ("cruise".to_string(), -5.0)],
             actions: std::collections::HashMap::new(),
             sizing_multipliers: None,
+            core_assets: Vec::new(),
+            inertia: crate::config::ParsedInertia {
+                min_state_duration: 3,
+                trend_dominant_min_confidence: 55.0,
+                core_breakdown_k: 2,
+                core_breakdown_avg_deviation: -5.0,
+                core_breakdown_breadth_floor: 0.0,
+            },
         };
 
         let f = mock_asset_features("AAPL", 10, 0.5, 6.0);
-        let s = AssetStateMachine::compute_state(&f, &rules);
+        let prev = AssetStateSnapshot {
+            symbol: "AAPL".to_string(),
+            state: AssetState::CRUISE,
+            reasons: vec![],
+            recovery_streak: 5,
+            last_defend_age: 100,
+        };
+        let s = AssetStateMachine::compute_state(&f, &rules, Some(&prev));
         assert_eq!(s.state, AssetState::OPTIMAL);
     }
 }

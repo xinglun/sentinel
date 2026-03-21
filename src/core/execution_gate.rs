@@ -217,7 +217,7 @@ impl ExecutionGate {
 mod tests {
     use super::*;
     use crate::core::action_matrix::AssetActionDecision;
-    use crate::core::asset_state::AssetState;
+    use crate::core::asset_state::{AssetState, AssetStateSnapshot};
     use crate::core::market_regime::LifecycleState;
     use crate::core::market_regime::MarketRegimeSnapshot;
     use crate::core::market_regime::MarketState;
@@ -228,7 +228,13 @@ mod tests {
         AssetActionDecision {
             symbol: symbol.to_string(),
             price: 100.0,
-            state: AssetState::OPTIMAL,
+            asset_state: AssetStateSnapshot {
+                symbol: symbol.to_string(),
+                state: AssetState::OPTIMAL,
+                reasons: vec![],
+                recovery_streak: 0,
+                last_defend_age: 100,
+            },
             action,
             reasons: vec![],
             deviation: None,
@@ -247,6 +253,9 @@ mod tests {
             lifecycle_state: LifecycleState::ESTABLISHED,
             risk_overlay: risk,
             reasons: vec![],
+            low_stability_streak: 0,
+            duration_in_state: 1,
+            transition_audit: None,
         };
         DecisionPacket::new(
             chrono::Utc::now().date_naive(),

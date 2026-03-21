@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
     use crate::core::action_matrix::{AssetAction, AssetActionDecision};
-    use crate::core::asset_state::AssetState;
+    use crate::core::asset_state::{AssetState, AssetStateSnapshot};
     use crate::core::decision::{DecisionPacket, TelegramOutput};
     use crate::core::market_regime::{
         LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
@@ -21,7 +21,13 @@ mod tests {
         AssetActionDecision {
             symbol: symbol.to_string(),
             price: 100.0,
-            state,
+            asset_state: AssetStateSnapshot {
+                symbol: symbol.to_string(),
+                state,
+                reasons: vec!["Test reason".to_string()],
+                recovery_streak: 0,
+                last_defend_age: 100,
+            },
             action,
             reasons: vec!["Test reason".to_string()],
             deviation: Some(1.5),
@@ -60,6 +66,9 @@ mod tests {
                 deviation_bands: Default::default(),
                 actions: Default::default(),
                 sizing_multipliers: None,
+                core_assets: None,
+                min_state_duration: None,
+                inertia: None,
             },
             watchlist: vec![],
         }
@@ -79,6 +88,9 @@ mod tests {
                 lifecycle_state: LifecycleState::ESTABLISHED,
                 risk_overlay: RiskOverlay::NORMAL,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             },
             portfolio_policy: PortfolioPolicy {
                 risk_assets_mode: RiskAssetsMode::NEUTRAL,
@@ -136,12 +148,18 @@ mod tests {
                 lifecycle_state: LifecycleState::ESTABLISHED,
                 risk_overlay: RiskOverlay::DEFENSIVE,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             },
             portfolio_policy: PortfolioPolicy::from_market_regime(&MarketRegimeSnapshot {
                 market_state: MarketState::DEFENSIVE,
                 lifecycle_state: LifecycleState::ESTABLISHED,
                 risk_overlay: RiskOverlay::DEFENSIVE,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             }),
             assets,
             telegram: TelegramOutput {
@@ -187,6 +205,9 @@ mod tests {
                 lifecycle_state: LifecycleState::ESTABLISHED,
                 risk_overlay: RiskOverlay::NORMAL,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             },
             portfolio_policy: PortfolioPolicy {
                 target_exposure_min: 0.1,
@@ -257,6 +278,9 @@ mod tests {
                 lifecycle_state: LifecycleState::ESTABLISHED,
                 risk_overlay: RiskOverlay::NORMAL,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             },
             portfolio_policy: PortfolioPolicy {
                 target_exposure_min: 0.1,
@@ -304,11 +328,18 @@ mod tests {
                 lifecycle_state: LifecycleState::IGNITION,
                 risk_overlay: RiskOverlay::NORMAL,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             },
             portfolio_policy: PortfolioPolicy {
                 target_exposure_min: 0.1,
                 target_exposure_max: 0.9,
-                ..PortfolioPolicy::from_market_regime(&MarketRegimeSnapshot::default())
+                ..PortfolioPolicy::from_market_regime(&MarketRegimeSnapshot {
+                    duration_in_state: 1,
+                    transition_audit: None,
+                    ..Default::default()
+                })
             },
             assets,
             telegram: TelegramOutput {
@@ -365,12 +396,18 @@ mod tests {
                 lifecycle_state: LifecycleState::ESTABLISHED,
                 risk_overlay: RiskOverlay::DEFENSIVE,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             },
             portfolio_policy: PortfolioPolicy::from_market_regime(&MarketRegimeSnapshot {
                 market_state: MarketState::DEFENSIVE,
                 lifecycle_state: LifecycleState::ESTABLISHED,
                 risk_overlay: RiskOverlay::DEFENSIVE,
                 reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
             }),
             assets,
             telegram: TelegramOutput {

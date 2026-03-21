@@ -1,6 +1,6 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum DeliveryStatus {
     Succeeded,
@@ -8,7 +8,7 @@ pub enum DeliveryStatus {
     Skipped,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PreflightResult {
     pub status: String, // "Verified", "Warning", "Failed"
     pub sub_quota_used: i32,
@@ -16,7 +16,7 @@ pub struct PreflightResult {
     pub market_rights: std::collections::HashMap<String, String>,
 }
 
-#[derive(Debug, Serialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct PositionMismatch {
     pub symbol: String,
     pub local_qty: f64,
@@ -24,14 +24,28 @@ pub struct PositionMismatch {
     pub diff: f64,
 }
 
-#[derive(Debug, Serialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct ReconciliationReport {
     pub timestamp: String,
     pub mismatches: Vec<PositionMismatch>,
     pub matching_count: usize,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct StateMachineSummary {
+    pub from_state: String,
+    pub to_state: String,
+    pub reset_confirmed: bool,
+    pub reset_blocked: bool,
+    pub soft_reset_applied: bool,
+    pub duration_locked: bool,
+    pub defensive_override: bool,
+    pub core_breakdown: bool,
+    pub reconciliation_mismatch_count: usize,
+    pub preflight_failed: bool,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct RunOutcome {
     pub date: String,
     pub timestamp: String,
@@ -42,6 +56,7 @@ pub struct RunOutcome {
     pub execution: DeliveryStatus,
     pub reconciliation: DeliveryStatus,
     pub reconciliation_report: Option<ReconciliationReport>,
+    pub state_machine: Option<StateMachineSummary>,
     pub data_quality: String,
     pub execution_details: Option<serde_json::Value>,
 }

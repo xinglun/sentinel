@@ -50,7 +50,7 @@ pub fn generate_refined_report(
 
     let mut rows = Vec::new();
     for asset in &packet.assets {
-        let emoji = match asset.state {
+        let emoji = match asset.asset_state.state {
             AssetState::OPTIMAL => "🔥",
             AssetState::PULLBACK => "🏹",
             AssetState::OVERHEAT => "🌋",
@@ -60,7 +60,7 @@ pub fn generate_refined_report(
 
         rows.push(TerminalRow {
             symbol: asset.symbol.clone(),
-            state: format!("{} {:?}", emoji, asset.state),
+            state: format!("{} {:?}", emoji, asset.asset_state.state),
             action: format!("{:?}", asset.action),
             owner_dev: format!("{:+.1}%", asset.deviation.unwrap_or(0.0)),
             strength_z: format!("{:.1}σ", asset.z_score.unwrap_or(0.0)),
@@ -75,6 +75,26 @@ pub fn generate_refined_report(
     println!("Summary:  {}", packet.telegram.summary);
     println!("-----------------------------------------------");
     println!("{}", table);
+
+    // V1.2 Transition Summary (CLI)
+    if let Some(audit) = &packet.market_regime.transition_audit {
+        println!("\n🔄 Transition: {:?} -> {:?}", audit.from, audit.to);
+        if audit.duration_locked {
+            println!("   ⚠️ Duration Lock: Triggered (Stay in {:?})", audit.from);
+        }
+        if audit.is_reset_blocked {
+            println!("   🚫 Reset Gate: Blocked (Step-down to {:?})", audit.to);
+        }
+        if audit.soft_reset_applied {
+            println!("   🧠 Soft Reset: Applied (Age reduced)");
+        }
+        if audit.core_breakdown {
+            println!("   🏚️ Core Assets: Breakdown Detected");
+        }
+        if audit.defensive_override {
+            println!("   🛡️ Safety: Defensive Override Triggered");
+        }
+    }
 
     let mut _total_equity = 0.0;
 
@@ -118,6 +138,54 @@ pub fn generate_refined_report(
     archival_md.push_str(&format!("## 📝 Summary\n{}\n\n", packet.telegram.summary));
 
     archival_md.push_str("## 📈 Market & Asset Decisions\n\n");
+
+    // V1.2 Transition Summary (Archival)
+    if let Some(audit) = &packet.market_regime.transition_audit {
+        archival_md.push_str("### 🔄 State Transition Audit\n");
+        archival_md.push_str(&format!(
+            "- **Path**: `{:?}` -> `{:?}`\n",
+            audit.from, audit.to
+        ));
+        archival_md.push_str(&format!(
+            "- **Reset**: {}\n",
+            if audit.reset_gate_passed {
+                "Confirmed"
+            } else if audit.is_reset_blocked {
+                "Blocked"
+            } else {
+                "N/A"
+            }
+        ));
+        archival_md.push_str(&format!(
+            "- **Duration Lock**: {}\n",
+            if audit.duration_locked {
+                "Yes (Blocked)"
+            } else {
+                "No"
+            }
+        ));
+        archival_md.push_str(&format!(
+            "- **Core Breakdown**: {}\n",
+            if audit.core_breakdown { "Yes" } else { "No" }
+        ));
+        archival_md.push_str(&format!(
+            "- **Trend Dominant**: {}\n",
+            if audit.trend_dominant { "Yes" } else { "No" }
+        ));
+        archival_md.push_str(&format!(
+            "- **Soft Reset**: {}\n",
+            if audit.soft_reset_applied {
+                "Applied"
+            } else {
+                "No"
+            }
+        ));
+        if audit.defensive_override {
+            archival_md.push_str("- **Safety**: Defensive Override Triggered\n");
+        }
+        archival_md.push('\n');
+    }
+
     archival_md.push_str("| Symbol | State | Action | Deviation | Z-Score |\n");
     archival_md.push_str("|---|---|---|---|---|\n");
     for row in &rows {
@@ -215,7 +283,7 @@ fn format_telegram_card(
             AssetAction::WAIT => "等待",
         };
 
-        let state_icon = match asset.state {
+        let state_icon = match asset.asset_state.state {
             AssetState::OPTIMAL => "◎ ",
             AssetState::PULLBACK => "↘ ",
             AssetState::FORMING => "△ ",
@@ -229,7 +297,7 @@ fn format_telegram_card(
             asset.symbol,
             local_action,
             state_icon,
-            asset.state,
+            asset.asset_state.state,
             tag
         ));
         let reason = telegram_reason(asset);
@@ -406,13 +474,13 @@ fn format_risk_opportunity_v4(buckets: &AssetBuckets) -> String {
     let best_opp = buckets
         .accumulate
         .first()
-        .map(|a| format!("{} ({:?})", a.symbol, a.state))
+        .map(|a| format!("{} ({:?})", a.symbol, a.asset_state.state))
         .unwrap_or_else(|| "None".to_string());
 
     let best_risk = buckets
         .defend
         .first()
-        .map(|a| format!("{} ({:?})", a.symbol, a.state))
+        .map(|a| format!("{} ({:?})", a.symbol, a.asset_state.state))
         .unwrap_or_else(|| "无明显高危标的".to_string());
 
     s.push_str(&format!("• 机会: {}\n", best_opp));
@@ -459,7 +527,7 @@ fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> S
             None => "今日新进入关注列表".to_string(),
         };
     }
-    match asset.state {
+    match asset.asset_state.state {
         AssetState::PULLBACK => "趋势内回撤，允许补仓".to_string(),
         AssetState::OPTIMAL => "结构最强，适合持有".to_string(),
         AssetState::DEFEND => "结构转弱，避免参与".to_string(),

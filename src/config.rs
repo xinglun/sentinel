@@ -74,6 +74,19 @@ pub struct RulesConfig {
     pub deviation_bands: BTreeMap<String, f64>,
     pub actions: HashMap<String, String>,
     pub sizing_multipliers: Option<HashMap<String, f64>>,
+    pub core_assets: Option<Vec<String>>,
+    pub min_state_duration: Option<usize>,
+    pub inertia: Option<InertiaConfig>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct InertiaConfig {
+    pub min_state_duration: Option<usize>,
+    pub trend_dominant_min_confidence: Option<f64>,
+    pub core_breakdown_k: Option<usize>,
+    pub core_breakdown_avg_deviation: Option<f64>,
+    pub core_breakdown_breadth_floor: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -113,6 +126,17 @@ pub struct ParsedRules {
     pub actions: HashMap<String, String>,
 
     pub sizing_multipliers: Option<HashMap<String, f64>>,
+    pub core_assets: Vec<String>,
+    pub inertia: ParsedInertia,
+}
+
+#[derive(Debug, Clone)]
+pub struct ParsedInertia {
+    pub min_state_duration: usize,
+    pub trend_dominant_min_confidence: f64,
+    pub core_breakdown_k: usize,
+    pub core_breakdown_avg_deviation: f64,
+    pub core_breakdown_breadth_floor: f64,
 }
 
 impl AppConfig {
@@ -211,6 +235,26 @@ impl AppConfig {
             sorted_bands: bands,
             actions: self.rules.actions.clone(),
             sizing_multipliers: self.rules.sizing_multipliers.clone(),
+            core_assets: self.rules.core_assets.clone().unwrap_or_default(),
+            inertia: {
+                let i = self.rules.inertia.as_ref();
+                ParsedInertia {
+                    min_state_duration: i
+                        .and_then(|c| c.min_state_duration)
+                        .or(self.rules.min_state_duration)
+                        .unwrap_or(3),
+                    trend_dominant_min_confidence: i
+                        .and_then(|c| c.trend_dominant_min_confidence)
+                        .unwrap_or(55.0),
+                    core_breakdown_k: i.and_then(|c| c.core_breakdown_k).unwrap_or(2),
+                    core_breakdown_avg_deviation: i
+                        .and_then(|c| c.core_breakdown_avg_deviation)
+                        .unwrap_or(-5.0),
+                    core_breakdown_breadth_floor: i
+                        .and_then(|c| c.core_breakdown_breadth_floor)
+                        .unwrap_or(0.0),
+                }
+            },
         }
     }
 }

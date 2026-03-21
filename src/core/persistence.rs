@@ -174,6 +174,9 @@ mod tests {
             lifecycle_state: LifecycleState::ESTABLISHED,
             risk_overlay: RiskOverlay::NORMAL,
             reasons: vec!["Test reason".to_string()],
+            low_stability_streak: 0,
+            duration_in_state: 1,
+            transition_audit: None,
         };
         let policy = PortfolioPolicy::from_market_regime(&market);
         let features = crate::core::features::MarketFeatures {

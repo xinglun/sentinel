@@ -63,6 +63,13 @@ cargo run -- backtest
 ```
 - `./backtest/summary.md` に以下の詳細レポートが出力されます。
 
+### 5. 周复盘辅助 (Metrics Review)
+收集并聚合近 7 日的状态机表现指标，为人工复盘提供量化依据。通常在周末或需要复盘时执行。
+```bash
+cargo run -- review
+```
+- `./reports/weekly_state_metrics.json` に聚合指标が出力されます。
+
 ## 📁 ドキュメント (Documentation)
 
 ### SSOT / Current Specs

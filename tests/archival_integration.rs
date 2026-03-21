@@ -25,6 +25,9 @@ async fn test_full_9_asset_archival_package() {
         lifecycle_state: LifecycleState::ESTABLISHED,
         risk_overlay: RiskOverlay::NORMAL,
         reasons: vec!["Test".to_string()],
+        low_stability_streak: 0,
+        duration_in_state: 1,
+        transition_audit: None,
     };
     let policy = PortfolioPolicy::from_market_regime(&market);
     let features = MarketFeatures {

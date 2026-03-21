@@ -63,6 +63,14 @@ fn create_mock_rules() -> ParsedRules {
         sorted_bands,
         actions,
         sizing_multipliers: None,
+        core_assets: Vec::new(),
+        inertia: stock_sentinel::config::ParsedInertia {
+            min_state_duration: 3,
+            trend_dominant_min_confidence: 55.0,
+            core_breakdown_k: 2,
+            core_breakdown_avg_deviation: -5.0,
+            core_breakdown_breadth_floor: 0.0,
+        },
     }
 }
 
@@ -91,6 +99,9 @@ async fn test_pipeline_bullish_path() {
         lifecycle_state: LifecycleState::IGNITION,
         risk_overlay: RiskOverlay::NORMAL,
         reasons: vec![],
+        low_stability_streak: 0,
+        duration_in_state: 3,
+        transition_audit: None,
     };
     let prev_features = MarketFeatures {
         date: NaiveDate::from_ymd_opt(2022, 12, 31).unwrap(),

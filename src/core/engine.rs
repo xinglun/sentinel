@@ -40,13 +40,15 @@ impl Engine {
         }
 
         // 2. Market Features (Initial - using prev_packet for context)
-        let mut market_features = MarketFeatures::compute(&asset_features, prev_age, prev_packet);
+        let mut market_features =
+            MarketFeatures::compute(&asset_features, prev_age, prev_packet, rules);
 
         // 3. Market Regime State Machine (Consolidated Transition)
         let (market_regime, _) = MarketRegimeStateMachine::transition(
             prev_packet.map(|p| &p.market_regime),
             &mut market_features,
             prev_age,
+            rules,
         );
 
         // 4. Portfolio Policy
@@ -55,7 +57,12 @@ impl Engine {
         // 5. Asset Execution State & Action Matrix
         let mut asset_decisions = Vec::new();
         for f in &asset_features {
-            let asset_state_snapshot = AssetStateMachine::compute_state(f, rules);
+            let prev_asset_snapshot = prev_packet
+                .and_then(|p| p.assets.iter().find(|a| a.symbol == f.symbol))
+                .map(|a| &a.asset_state);
+
+            let asset_state_snapshot =
+                AssetStateMachine::compute_state(f, rules, prev_asset_snapshot);
 
             // Get per-asset constraints from watchlist entry
             let (_h, entry) = ticker_histories

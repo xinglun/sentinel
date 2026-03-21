@@ -119,12 +119,23 @@ jobs:
             echo "✅ Archived: ${ARCHIVE_PATH}"
           fi
 
+          # 3) metrics archive
+          cp -f backtest/state_machine_metrics.md backtest/state_machine_metrics_latest.md
+          cp -f backtest/state_machine_metrics.json backtest/state_machine_metrics_latest.json
+          cp backtest/state_machine_metrics.md "backtest/archive/state_machine_metrics_${DATE_JST}.md"
+          cp backtest/state_machine_metrics.json "backtest/archive/state_machine_metrics_${DATE_JST}.json"
+
       - name: Output Integrity Check
         run: |
           set -euo pipefail
           
           # CRITICAL: Backtest must produce the summary markdown
-          REQUIRED_FILES=("backtest/summary.md" "backtest/summary_latest.md")
+          REQUIRED_FILES=(
+            "backtest/summary.md"
+            "backtest/summary_latest.md"
+            "backtest/state_machine_metrics.json"
+            "backtest/state_machine_metrics.md"
+          )
           for file in "${REQUIRED_FILES[@]}"; do
             if [ ! -s "$file" ]; then
               echo "❌ CRITICAL: Required archival asset $file is missing or empty!"
@@ -189,6 +200,8 @@ jobs:
           
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
+          rsync -a "${ROOT_DIR}/backtest/state_machine_metrics_latest.md" "${DATA_DIR}/backtest/"
+          rsync -a "${ROOT_DIR}/backtest/state_machine_metrics_latest.json" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/archive/" "${DATA_DIR}/backtest/archive/"
           
           # 4. Hop into worktree, commit and push

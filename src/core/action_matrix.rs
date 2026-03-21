@@ -19,7 +19,7 @@ pub enum AssetAction {
 pub struct AssetActionDecision {
     pub symbol: String,
     pub price: f64,
-    pub state: AssetState,
+    pub asset_state: AssetStateSnapshot,
     pub action: AssetAction,
     pub reasons: Vec<String>,
     pub deviation: Option<f64>,
@@ -158,7 +158,7 @@ impl ActionMatrix {
         AssetActionDecision {
             symbol: asset_state.symbol.clone(),
             price,
-            state: asset_state.state,
+            asset_state: asset_state.clone(),
             action,
             reasons,
             deviation,
@@ -183,6 +183,9 @@ mod tests {
             lifecycle_state: LifecycleState::NONE,
             risk_overlay: RiskOverlay::NORMAL,
             reasons: vec![],
+            low_stability_streak: 0,
+            duration_in_state: 1,
+            transition_audit: None,
         }
     }
 
@@ -191,6 +194,8 @@ mod tests {
             symbol: "AAPL".to_string(),
             state,
             reasons: vec![],
+            recovery_streak: 0,
+            last_defend_age: 100,
         }
     }
 

@@ -52,6 +52,7 @@ pub async fn run() -> Result<()> {
             "backtest" => command = "backtest",
             "daemon" | "trade" => command = "daemon",
             "radar" => command = "radar",
+            "review" => command = "review",
             "--provider" => {
                 if i + 1 < args.len() {
                     let p = args[i + 1].to_lowercase();
@@ -109,6 +110,10 @@ pub async fn run() -> Result<()> {
 
             let provider = get_provider(provider_type, &futu_addr).await;
             run_pipeline(app_config, provider_type, provider, mode).await?;
+        }
+        "review" => {
+            println!("🔍 状态机周复盘辅助：正在汇总近 7 日数据...");
+            run_review(&app_config).await?;
         }
         _ => {
             println!("🐕 Stock Sentinel initializing (Radar Mode)...");
@@ -222,6 +227,7 @@ async fn run_pipeline(
         data_quality: "PENDING".to_string(),
         execution_details: None,
         preflight: None,
+        state_machine: None,
     };
 
     if !ticker_histories.is_empty() {
@@ -240,6 +246,29 @@ async fn run_pipeline(
                     return Err(e);
                 }
             };
+
+        // Initialize StateMachineSummary for V1.3 Observation
+        let mut sm_summary = crate::core::run_status::StateMachineSummary {
+            from_state: format!(
+                "{:?}",
+                prev_packet
+                    .as_ref()
+                    .map(|p| p.market_regime.market_state)
+                    .unwrap_or(crate::core::market_regime::MarketState::IGNITION)
+            ),
+            to_state: format!("{:?}", packet.market_regime.market_state),
+            ..Default::default()
+        };
+
+        if let Some(audit) = &packet.market_regime.transition_audit {
+            sm_summary.reset_confirmed = audit.reset_gate_passed;
+            sm_summary.reset_blocked = audit.is_reset_blocked;
+            sm_summary.soft_reset_applied = audit.soft_reset_applied;
+            sm_summary.duration_locked = audit.duration_locked;
+            sm_summary.defensive_override = audit.defensive_override;
+            sm_summary.core_breakdown = audit.core_breakdown;
+        }
+        outcome.state_machine = Some(sm_summary);
 
         // Align run-status naming with the market/packet date so all daily assets
         // share the same archival date key.
@@ -424,6 +453,13 @@ async fn run_pipeline(
                         }
                     }
                     outcome.preflight = Some(preflight);
+                    if let Some(sm) = outcome.state_machine.as_mut() {
+                        sm.preflight_failed = outcome
+                            .preflight
+                            .as_ref()
+                            .map(|p| p.status == "Failed")
+                            .unwrap_or(false);
+                    }
                 }
 
                 Arc::new(Mutex::new(trader))
@@ -555,7 +591,10 @@ async fn run_pipeline(
                         println!("✅ [Post-flight] Reconciliation successful. Local ledger matches broker.");
                         outcome.reconciliation = crate::core::run_status::DeliveryStatus::Succeeded;
                     }
-                    outcome.reconciliation_report = Some(report);
+                    outcome.reconciliation_report = Some(report.clone());
+                    if let Some(sm) = outcome.state_machine.as_mut() {
+                        sm.reconciliation_mismatch_count = report.mismatches.len();
+                    }
                 }
                 Err(e) => {
                     println!("❌ [Post-flight] Reconciliation API failure: {}", e);
@@ -576,8 +615,11 @@ async fn run_pipeline(
                 let agent = TraderAgent::new(trader_executor.clone(), ledger.clone());
                 match agent.reconcile_positions().await {
                     Ok(report) => {
-                        outcome.reconciliation_report = Some(report);
+                        outcome.reconciliation_report = Some(report.clone());
                         outcome.reconciliation = crate::core::run_status::DeliveryStatus::Succeeded;
+                        if let Some(sm) = outcome.state_machine.as_mut() {
+                            sm.reconciliation_mismatch_count = report.mismatches.len();
+                        }
                     }
                     Err(e) => {
                         outcome.reconciliation = crate::core::run_status::DeliveryStatus::Failed {
@@ -652,6 +694,230 @@ async fn run_pipeline(
         if let crate::core::run_status::DeliveryStatus::Failed { reason } = outcome.archival {
             return Err(anyhow::anyhow!("Critical Archival Failure: {}", reason));
         }
+
+        // Auto-run review summary after each successful pipeline run
+        let _ = run_review(&config_arc).await;
     }
+    Ok(())
+}
+
+async fn run_review(config: &crate::config::AppConfig) -> Result<()> {
+    let save_dir = std::path::PathBuf::from(&config.output.save_to);
+
+    // Scan reports directory for run_status_*.json
+    let mut entries = std::fs::read_dir(&save_dir)?
+        .filter_map(|res| res.ok())
+        .filter(|e| {
+            let name = e.file_name().to_string_lossy().to_string();
+            name.starts_with("run_status_") && name.ends_with(".json")
+        })
+        .collect::<Vec<_>>();
+
+    entries.sort_by_key(|e| e.file_name());
+    let last_7 = entries.iter().rev().take(7).rev().collect::<Vec<_>>();
+
+    let mut summaries = Vec::new();
+    let mut weekly_totals = serde_json::json!({
+        "reset_confirmed_total": 0,
+        "reset_blocked_total": 0,
+        "soft_reset_total": 0,
+        "duration_lock_total": 0,
+        "defensive_override_total": 0,
+        "core_breakdown_total": 0,
+        "reconciliation_mismatch_total": 0,
+    });
+
+    let mut daily_items = Vec::new();
+
+    for entry in last_7 {
+        if let Ok(content) = std::fs::read_to_string(entry.path()) {
+            if let Ok(outcome) =
+                serde_json::from_str::<crate::core::run_status::RunOutcome>(&content)
+            {
+                if let Some(sm) = outcome.state_machine {
+                    // Accumulate totals
+                    if sm.reset_confirmed {
+                        weekly_totals["reset_confirmed_total"] =
+                            (weekly_totals["reset_confirmed_total"].as_i64().unwrap_or(0) + 1)
+                                .into();
+                    }
+                    if sm.reset_blocked {
+                        weekly_totals["reset_blocked_total"] =
+                            (weekly_totals["reset_blocked_total"].as_i64().unwrap_or(0) + 1).into();
+                    }
+                    if sm.soft_reset_applied {
+                        weekly_totals["soft_reset_total"] =
+                            (weekly_totals["soft_reset_total"].as_i64().unwrap_or(0) + 1).into();
+                    }
+                    if sm.duration_locked {
+                        weekly_totals["duration_lock_total"] =
+                            (weekly_totals["duration_lock_total"].as_i64().unwrap_or(0) + 1).into();
+                    }
+                    if sm.defensive_override {
+                        weekly_totals["defensive_override_total"] = (weekly_totals
+                            ["defensive_override_total"]
+                            .as_i64()
+                            .unwrap_or(0)
+                            + 1)
+                        .into();
+                    }
+                    if sm.core_breakdown {
+                        weekly_totals["core_breakdown_total"] =
+                            (weekly_totals["core_breakdown_total"].as_i64().unwrap_or(0) + 1)
+                                .into();
+                    }
+                    weekly_totals["reconciliation_mismatch_total"] = (weekly_totals
+                        ["reconciliation_mismatch_total"]
+                        .as_i64()
+                        .unwrap_or(0)
+                        + sm.reconciliation_mismatch_count as i64)
+                        .into();
+
+                    summaries.push(serde_json::json!({
+                        "date": outcome.date,
+                        "summary": sm
+                    }));
+                    daily_items.push((outcome.date.clone(), sm));
+                }
+            }
+        }
+    }
+
+    let today = chrono::Local::now().date_naive().to_string();
+    let weekly_summary = serde_json::json!({
+        "week_ending": today,
+        "weekly_totals": weekly_totals,
+        "daily_summaries": summaries
+    });
+
+    // 1. Write JSON
+    let json_path = save_dir.join("weekly_state_metrics.json");
+    std::fs::write(&json_path, serde_json::to_string_pretty(&weekly_summary)?)?;
+
+    // 2. Generate Markdown Draft
+    let mut md = "# Weekly State Machine Review (Auto-Draft)\n\n".to_string();
+    md.push_str(&format!("**Period Ending**: {}\n\n", today));
+
+    md.push_str("## 📊 Weekly Totals\n\n");
+    md.push_str("| Metric | Value |\n|---|---|\n");
+    md.push_str(&format!(
+        "| Reset Confirmed | {} |\n",
+        weekly_totals["reset_confirmed_total"]
+    ));
+    md.push_str(&format!(
+        "| Reset Blocked (Sensitive) | {} |\n",
+        weekly_totals["reset_blocked_total"]
+    ));
+    md.push_str(&format!(
+        "| Duration Locks | {} |\n",
+        weekly_totals["duration_lock_total"]
+    ));
+    md.push_str(&format!(
+        "| Soft Resets | {} |\n",
+        weekly_totals["soft_reset_total"]
+    ));
+    md.push_str(&format!(
+        "| Defensive Overrides | {} |\n",
+        weekly_totals["defensive_override_total"]
+    ));
+    md.push_str(&format!(
+        "| Core Breakdowns | {} |\n",
+        weekly_totals["core_breakdown_total"]
+    ));
+    md.push_str(&format!(
+        "| Recon Mismatches | {} |\n",
+        weekly_totals["reconciliation_mismatch_total"]
+    ));
+    md.push('\n');
+
+    md.push_str("## 🗓️ Daily Timeline\n\n");
+    md.push_str("| Date | Transition | Events |\n|---|---|---|\n");
+    for (date, sm) in &daily_items {
+        let mut events = Vec::new();
+        if sm.reset_confirmed {
+            events.push("✅ Reset");
+        }
+        if sm.reset_blocked {
+            events.push("🚫 Blocked");
+        }
+        if sm.soft_reset_applied {
+            events.push("🧠 SoftReset");
+        }
+        if sm.duration_locked {
+            events.push("🔒 Locked");
+        }
+        if sm.defensive_override {
+            events.push("🛡️ Override");
+        }
+        if sm.reconciliation_mismatch_count > 0 {
+            events.push("⚠️ Mismatch");
+        }
+
+        md.push_str(&format!(
+            "| {} | `{:?}` -> `{:?}` | {} |\n",
+            date,
+            sm.from_state,
+            sm.to_state,
+            events.join(", ")
+        ));
+    }
+    md.push('\n');
+
+    md.push_str("## 🚩 Auto-flagged Anomalies\n");
+    let anomalies = daily_items
+        .iter()
+        .filter(|(_, sm)| {
+            sm.reset_confirmed
+                || sm.reset_blocked
+                || sm.defensive_override
+                || sm.reconciliation_mismatch_count > 0
+        })
+        .collect::<Vec<_>>();
+
+    if anomalies.is_empty() {
+        md.push_str("- No critical anomalies automatically detected this week.\n");
+    } else {
+        for (date, sm) in anomalies {
+            md.push_str(&format!("### {} Anomaly\n", date));
+            if sm.reset_confirmed {
+                md.push_str("- **Triggered Reset**: Logic decided to clear state.\n");
+            }
+            if sm.reset_blocked {
+                md.push_str("- **Blocked Reset**: Reset condition met but duration/confidence gate intervened.\n");
+            }
+            if sm.defensive_override {
+                md.push_str(
+                    "- **Defensive Override**: Forced state downgrade due to safety rules.\n",
+                );
+            }
+            if sm.reconciliation_mismatch_count > 0 {
+                md.push_str(&format!(
+                    "- **Recon Mismatch**: {} differences between local and broker state.\n",
+                    sm.reconciliation_mismatch_count
+                ));
+            }
+            md.push_str("\n> [!NOTE]\n> **Human Explanation Needed**: (Please describe the market context here)\n\n");
+        }
+    }
+
+    md.push_str("\n## 🧠 Manual Review Needed\n\n");
+    md.push_str("### 1. Sensitivity Assessment\n");
+    md.push_str("- [ ] System is behaving as expected\n");
+    md.push_str("- [ ] System is over-sensitive (Too many resets/locks)\n");
+    md.push_str("- [ ] System is sluggish (Missed crucial transitions)\n\n");
+
+    md.push_str("### 2. Logic Feedback\n");
+    md.push_str("(Optional: Notes on any specific rules that need tuning)\n\n");
+
+    md.push_str("### 3. V1.4 Recommendation\n");
+    md.push_str("- **Stay in V1.3 Observation** (Wait for more data)\n");
+    md.push_str("- **Proceed to V1.4 Parameter Convergence** (Refine thresholds)\n");
+
+    let md_path = save_dir.join("weekly_state_review_auto.md");
+    std::fs::write(&md_path, md)?;
+
+    println!("✅ 已生成复盘指标汇总: {:?}", json_path);
+    println!("📝 已生成复盘底稿草案: {:?}", md_path);
+
     Ok(())
 }

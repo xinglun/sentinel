@@ -24,6 +24,7 @@
 6. 自动化撤单与二次确认 (P2-2)
 7. Authoritative Position Reconciliation (P2-3)
 8. 运行审计与失败语义结构化 (P1-3)
+9. Telegram V4 逻辑统一与视觉硬化 (Product Grade)
 
 剩余任务主要是：
 

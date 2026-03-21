@@ -441,7 +441,7 @@ impl TraderAgent {
 mod tests {
     use super::*;
     use crate::core::action_matrix::{AssetAction, AssetActionDecision};
-    use crate::core::asset_state::AssetState;
+    use crate::core::asset_state::{AssetState, AssetStateSnapshot};
     use crate::core::market_regime::{
         LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
     };
@@ -502,6 +502,9 @@ mod tests {
             lifecycle_state: LifecycleState::NEWBORN,
             risk_overlay: RiskOverlay::NORMAL,
             reasons: vec![],
+            low_stability_streak: 0,
+            duration_in_state: 1,
+            transition_audit: None,
         };
         let mut policy = PortfolioPolicy::from_market_regime(&market);
         policy.risk_assets_mode = RiskAssetsMode::NEUTRAL; // Force NEUTRAL for test stability
@@ -509,7 +512,13 @@ mod tests {
         let assets = vec![AssetActionDecision {
             symbol: "AAPL".to_string(),
             price: 150.0,
-            state: AssetState::OPTIMAL,
+            asset_state: AssetStateSnapshot {
+                symbol: "AAPL".to_string(),
+                state: AssetState::OPTIMAL,
+                reasons: vec![],
+                recovery_streak: 0,
+                last_defend_age: 100,
+            },
             action: AssetAction::ACCUMULATE,
             reasons: vec![],
             deviation: Some(10.0),

@@ -4,8 +4,9 @@ use crate::data::yahoo_provider::{DailyBar, TickerHistory};
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum TrendStatus {
+    #[default]
     Up,
     Down,
     Flat,
@@ -29,6 +30,26 @@ pub struct AssetFeatures {
     pub weight: f64,
 }
 
+impl Default for AssetFeatures {
+    fn default() -> Self {
+        Self {
+            symbol: "".to_string(),
+            date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
+            close: 0.0,
+            owner_ma: None,
+            leash_ma: None,
+            deviation: None,
+            z_score: None,
+            slope: None,
+            curvature: None,
+            trend_status: TrendStatus::default(),
+            trend_age: 0,
+            deviation_percentile: None,
+            weight: 1.0,
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct MarketFeatures {
     pub date: NaiveDate,
@@ -44,6 +65,7 @@ pub struct MarketFeatures {
     pub potential_energy: f64,
     pub dominance_margin: f64,
     pub system_confidence: f64,
+    pub trend_dominant: bool,
     pub stability_score: f64,
     pub stability_structural: f64,
     pub stability_temporal: f64,
@@ -51,7 +73,8 @@ pub struct MarketFeatures {
     pub universe_integrity: f64,
     pub flow_acceleration: Option<f64>, // EMA of dominance margin delta
     pub regime_age: usize,
-    pub any_pullback_occurred: bool, // Roadmap: Track if market survived a pullback
+    pub any_pullback_occurred: bool,
+    pub core_assets_breakdown: bool,
 }
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
@@ -322,6 +345,7 @@ impl MarketFeatures {
         assets: &[AssetFeatures],
         regime_age: usize,
         prev_packet: Option<&crate::core::decision::DecisionPacket>,
+        rules: &crate::config::ParsedRules,
     ) -> Self {
         let date = assets
             .first()
@@ -400,6 +424,10 @@ impl MarketFeatures {
         let conf_inverse_potential = (1.0 / (1.0 + potential_energy) * 50.0).clamp(0.0, 50.0);
         let system_confidence = (conf_trend_alloc + conf_inverse_potential).clamp(0.0, 100.0);
 
+        let trend_dominant = (dominance_margin > 0.0)
+            && (up_weight >= down_weight)
+            && (system_confidence >= rules.inertia.trend_dominant_min_confidence);
+
         let universe_integrity = if assets.is_empty() {
             0.0
         } else {
@@ -423,6 +451,53 @@ impl MarketFeatures {
             };
             flow_acceleration = Some(ema_accel);
         }
+
+        let core_assets_breakdown = if rules.core_assets.is_empty() {
+            false
+        } else {
+            // V1.1 Spec: Composite breakdown logic using configurable thresholds
+            let core_count = assets
+                .iter()
+                .filter(|a| rules.core_assets.contains(&a.symbol))
+                .count();
+            let broken_core = assets
+                .iter()
+                .filter(|a| {
+                    rules.core_assets.contains(&a.symbol)
+                        && (a.trend_status == TrendStatus::Down
+                            || a.deviation.unwrap_or(0.0)
+                                < rules.inertia.core_breakdown_avg_deviation)
+                })
+                .count();
+
+            let avg_core_deviation = if core_count > 0 {
+                assets
+                    .iter()
+                    .filter(|a| rules.core_assets.contains(&a.symbol))
+                    .filter_map(|a| a.deviation)
+                    .sum::<f64>()
+                    / core_count as f64
+            } else {
+                0.0
+            };
+
+            let core_breadth = if core_count > 0 {
+                assets
+                    .iter()
+                    .filter(|a| {
+                        rules.core_assets.contains(&a.symbol) && a.trend_status == TrendStatus::Up
+                    })
+                    .count() as f64
+                    / core_count as f64
+            } else {
+                1.0
+            };
+
+            (core_count > 0)
+                && ((broken_core >= rules.inertia.core_breakdown_k)
+                    || (avg_core_deviation <= rules.inertia.core_breakdown_avg_deviation)
+                    || (core_breadth <= rules.inertia.core_breakdown_breadth_floor))
+        };
 
         let mut any_pullback_occurred = prev_packet
             .map(|p| p.market_features.any_pullback_occurred)
@@ -452,6 +527,7 @@ impl MarketFeatures {
             potential_energy,
             dominance_margin,
             system_confidence,
+            trend_dominant,
             stability_score,
             stability_structural,
             stability_temporal: stability_temporal * 100.0,
@@ -460,6 +536,7 @@ impl MarketFeatures {
             flow_acceleration,
             regime_age,
             any_pullback_occurred,
+            core_assets_breakdown,
         }
     }
 
@@ -468,5 +545,91 @@ impl MarketFeatures {
         self.trend_maturity = (new_age as f64 / 40.0).min(1.0);
         self.stability_temporal = self.trend_maturity * 100.0;
         self.stability_score = (self.stability_structural / 50.0) * self.trend_maturity;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::{ParsedInertia, ParsedRules, TrendConfig};
+
+    fn mock_rules() -> ParsedRules {
+        ParsedRules {
+            trend: TrendConfig {
+                lookback_days: 10,
+                flat_threshold_pct: 0.1,
+            },
+            sorted_bands: Vec::new(),
+            actions: std::collections::HashMap::new(),
+            sizing_multipliers: None,
+            core_assets: vec!["AAPL".to_string(), "MSFT".to_string()],
+            inertia: ParsedInertia {
+                min_state_duration: 3,
+                trend_dominant_min_confidence: 55.0,
+                core_breakdown_k: 2,
+                core_breakdown_avg_deviation: -5.0,
+                core_breakdown_breadth_floor: 0.1,
+            },
+        }
+    }
+
+    #[test]
+    fn test_composite_trend_dominant() {
+        let rules = mock_rules();
+
+        // Case 1: dominance_margin > 0 but up_weight < down_weight
+        // We simulate assets: 1 Up (weight 1.0), 2 Down (weight 0.6 each) -> dominance_margin = (1.0 - 0.6*0.5)/2.2 ... wait
+        // Let's just mock AssetFeatures directly.
+        let a1 = AssetFeatures {
+            symbol: "AAPL".to_string(),
+            trend_status: TrendStatus::Up,
+            weight: 1.0,
+            z_score: Some(0.0),
+            ..Default::default()
+        };
+        let a2 = AssetFeatures {
+            symbol: "MSFT".to_string(),
+            trend_status: TrendStatus::Down,
+            weight: 1.1,
+            z_score: Some(1.0),
+            ..Default::default()
+        };
+
+        let assets = vec![a1, a2];
+        let f = MarketFeatures::compute(&assets, 10, None, &rules);
+
+        // up_weight = 1.0, down_weight = 1.1 -> trend_dominant should be false
+        assert!(!f.trend_dominant);
+    }
+
+    #[test]
+    fn test_configurable_breakdown() {
+        let mut rules = mock_rules();
+        rules.core_assets = vec!["AAPL".to_string(), "MSFT".to_string()];
+        rules.inertia.core_breakdown_k = 1; // Any one core asset breakdown triggers it
+
+        let a1 = AssetFeatures {
+            symbol: "AAPL".to_string(),
+            trend_status: TrendStatus::Down,
+            deviation: Some(-6.0),
+            ..Default::default()
+        };
+        let a2 = AssetFeatures {
+            symbol: "MSFT".to_string(),
+            trend_status: TrendStatus::Up,
+            deviation: Some(2.0),
+            ..Default::default()
+        };
+
+        let assets = vec![a1, a2];
+        let f = MarketFeatures::compute(&assets, 10, None, &rules);
+
+        // AAPL is broken (Down & dev -6 < -5)
+        assert!(f.core_assets_breakdown);
+
+        // Now change rules to require 2 broken
+        rules.inertia.core_breakdown_k = 2;
+        let f2 = MarketFeatures::compute(&assets, 10, None, &rules);
+        assert!(!f2.core_assets_breakdown);
     }
 }

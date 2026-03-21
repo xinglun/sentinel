@@ -90,6 +90,21 @@ pub async fn run_backtest(
         count_drawdowns: usize,
     }
 
+    #[derive(Default, Debug, serde::Serialize)]
+    struct StateMachineMetrics {
+        reset_count: usize,
+        blocked_reset_count: usize,
+        multi_step_downgrade_attempt_count: usize,
+        duration_lock_count: usize,
+        soft_reset_count: usize,
+        defensive_override_count: usize,
+        state_flip_count_5d: usize,
+        total_days: usize,
+    }
+
+    let mut sm_metrics = StateMachineMetrics::default();
+    let mut state_history: Vec<crate::core::market_regime::MarketState> = Vec::new();
+
     // Optimization: Track indices for each asset to avoid O(N^2) slicing & cloning.
     let mut asset_indices: HashMap<String, usize> = HashMap::new();
     for sym in histories.keys() {
@@ -137,6 +152,48 @@ pub async fn run_backtest(
             }
         }
 
+        // Track V1.2 State Machine Quality Metrics
+        sm_metrics.total_days += 1;
+        state_history.push(current_packet.market_regime.market_state);
+
+        // Calculate state_flip_count_5d
+        if state_history.len() >= 5 {
+            let window = &state_history[state_history.len() - 5..];
+            let mut flips = 0;
+            for i in 0..4 {
+                if window[i] != window[i + 1] {
+                    flips += 1;
+                }
+            }
+            if flips >= 2 {
+                // At least 2 changes in 5 days is "flippy"
+                sm_metrics.state_flip_count_5d += 1;
+            }
+        }
+
+        if let Some(audit) = &current_packet.market_regime.transition_audit {
+            if audit.to == crate::core::market_regime::LifecycleState::IGNITION
+                && audit.from != crate::core::market_regime::LifecycleState::NEWBORN
+            {
+                sm_metrics.reset_count += 1;
+            }
+            if audit.is_reset_blocked {
+                sm_metrics.blocked_reset_count += 1;
+            }
+            if audit.is_downgrade_clamped {
+                sm_metrics.multi_step_downgrade_attempt_count += 1;
+            }
+            if audit.duration_locked {
+                sm_metrics.duration_lock_count += 1;
+            }
+            if audit.soft_reset_applied {
+                sm_metrics.soft_reset_count += 1;
+            }
+            if audit.defensive_override {
+                sm_metrics.defensive_override_count += 1;
+            }
+        }
+
         // Potential Energy
         potential_records.push((
             *current_date,
@@ -145,7 +202,7 @@ pub async fn run_backtest(
 
         // Asset Level Metrics
         for asset in &current_packet.assets {
-            let state_str = format!("{:?}", asset.state);
+            let state_str = format!("{:?}", asset.asset_state.state);
             let reg_entry = regime_tracking.entry(state_str.clone()).or_default();
 
             // Resolve 20-day forward return with direct indexing
@@ -225,13 +282,14 @@ pub async fn run_backtest(
     let mut rel_vec: Vec<_> = reliability.into_iter().collect();
     rel_vec.sort_by(|a, b| b.0.cmp(&a.0));
     for (b, (t, c)) in rel_vec {
-        summary.push_str(&format!(
+        let line = format!(
             "| {} | {} | {} | {:.1}% |\n",
             b,
             t,
             c,
             (c as f64 / t as f64) * 100.0
-        ));
+        );
+        summary.push_str(&line);
     }
 
     summary.push_str("\n## 2. Regime Performance Audit\n");
@@ -242,24 +300,77 @@ pub async fn run_backtest(
         if stats.total_signals == 0 {
             continue;
         }
-        summary.push_str(&format!(
+        let line = format!(
             "| {} | {} | {:.1}% | {:+.2}% | {:+.2}% |\n",
             state,
             stats.total_signals,
             (stats.correct_signals as f64 / stats.total_signals as f64) * 100.0,
             (stats.sum_20d_return / stats.total_signals as f64) * 100.0,
             (stats.sum_max_drawdown_20d / stats.total_signals as f64) * 100.0
-        ));
+        );
+        summary.push_str(&line);
     }
 
     summary.push_str("\n## 3. Transition Matrix\n");
     summary.push_str("| From | To | Count |\n|---|---|---|\n");
-    for ((from, to), count) in transition_matrix {
-        summary.push_str(&format!("| {} | {} | {} |\n", from, to, count));
+    let mut trans_vec: Vec<_> = transition_matrix.into_iter().collect();
+    trans_vec.sort_by(|a, b| b.1.cmp(&a.1));
+    for ((from, to), count) in trans_vec {
+        let line = format!("| {} | {} | {} |\n", from, to, count);
+        summary.push_str(&line);
     }
 
+    summary
+        .push_str("\n*Note: Full State Machine metrics available in state_machine_metrics.md*\n");
     fs::write("backtest/summary.md", summary)?;
-    println!("✅ Backtest complete! Output written to ./backtest/summary.md");
+
+    // Separate State Machine Metrics Markdown
+    let mut sm_md = String::new();
+    sm_md.push_str("# 🧭 State Machine V1.2 Quality Metrics\n\n");
+    sm_md.push_str("| Metric | Value | Rate (% of days) |\n|---|---|---|\n");
+    let total_days = sm_metrics.total_days as f64;
+    sm_md.push_str(&format!(
+        "| Reset Count | {} | {:.1}% |\n",
+        sm_metrics.reset_count,
+        (sm_metrics.reset_count as f64 / total_days) * 100.0
+    ));
+    sm_md.push_str(&format!(
+        "| Blocked Resets | {} | {:.1}% |\n",
+        sm_metrics.blocked_reset_count,
+        (sm_metrics.blocked_reset_count as f64 / total_days) * 100.0
+    ));
+    sm_md.push_str(&format!(
+        "| Duration Locked | {} | {:.1}% |\n",
+        sm_metrics.duration_lock_count,
+        (sm_metrics.duration_lock_count as f64 / total_days) * 100.0
+    ));
+    sm_md.push_str(&format!(
+        "| Soft Resets | {} | {:.1}% |\n",
+        sm_metrics.soft_reset_count,
+        (sm_metrics.soft_reset_count as f64 / total_days) * 100.0
+    ));
+    sm_md.push_str(&format!(
+        "| Multi-Step Clamps | {} | {:.1}% |\n",
+        sm_metrics.multi_step_downgrade_attempt_count,
+        (sm_metrics.multi_step_downgrade_attempt_count as f64 / total_days) * 100.0
+    ));
+    sm_md.push_str(&format!(
+        "| Defensive Overrides | {} | {:.1}% |\n",
+        sm_metrics.defensive_override_count,
+        (sm_metrics.defensive_override_count as f64 / total_days) * 100.0
+    ));
+    sm_md.push_str(&format!(
+        "| State Flips (5d win) | {} | {:.1}% |\n",
+        sm_metrics.state_flip_count_5d,
+        (sm_metrics.state_flip_count_5d as f64 / total_days) * 100.0
+    ));
+    fs::write("backtest/state_machine_metrics.md", sm_md)?;
+
+    // JSON Output for machine ingestion
+    let json_metrics = serde_json::to_string_pretty(&sm_metrics)?;
+    fs::write("backtest/state_machine_metrics.json", json_metrics)?;
+
+    println!("✅ Backtest complete! Output written to ./backtest/summary.md and ./backtest/state_machine_metrics.json");
 
     Ok(())
 }
