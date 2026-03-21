@@ -10,7 +10,7 @@
     "flat_weight": 2.0,
     "down_weight": 4.0,
     "total_weight": 17.0,
-    "gravity_strength": -1.5236409596385045,
+    "gravity_strength": -1.523640959638505,
     "potential_energy": 0.8031861702028495,
     "dominance_margin": 0.40263104645349634,
     "system_confidence": 60.08163654150616,
@@ -56,24 +56,24 @@
   },
   "assets": [
     {
-      "symbol": "U",
-      "price": 18.38999938964844,
+      "symbol": "FIG",
+      "price": 23.729999542236328,
       "asset_state": {
-        "symbol": "U",
+        "symbol": "FIG",
         "state": "CRUISE",
         "reasons": [
-          "Matched band: fear_1 (dev: -38.76)"
+          "Matched band: fear_1 (dev: -36.60)"
         ],
         "recovery_streak": 1,
         "last_defend_age": 100
       },
       "action": "HOLD",
       "reasons": [
-        "Matched band: fear_1 (dev: -38.76)",
+        "Matched band: fear_1 (dev: -36.60)",
         "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": -38.75716209183131,
-      "z_score": -1.0147055801153466,
+      "deviation": -36.59911703282407,
+      "z_score": -1.1888956676660438,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -81,49 +81,24 @@
       "action_changed": false
     },
     {
-      "symbol": "NVDA",
-      "price": 172.6999969482422,
+      "symbol": "GOOG",
+      "price": 298.7900085449219,
       "asset_state": {
-        "symbol": "NVDA",
-        "state": "FORMING",
-        "reasons": [
-          "Trend age (2) < 5 (FORMING protection)"
-        ],
-        "recovery_streak": 0,
-        "last_defend_age": 100
-      },
-      "action": "OBSERVE",
-      "reasons": [
-        "Trend age (2) < 5 (FORMING protection)",
-        "Matrix: Asset in formation, no action"
-      ],
-      "deviation": -6.627115543201933,
-      "z_score": -2.4287300078119047,
-      "trade_enabled": true,
-      "trade_amount": 2000.0,
-      "config_multiplier": 1.0,
-      "prev_action": null,
-      "action_changed": false
-    },
-    {
-      "symbol": "PLTR",
-      "price": 150.67999267578125,
-      "asset_state": {
-        "symbol": "PLTR",
+        "symbol": "GOOG",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: -3.39)"
+          "Matched band: optimal (dev: -0.53)"
         ],
         "recovery_streak": 1,
         "last_defend_age": 100
       },
       "action": "ACCUMULATE",
       "reasons": [
-        "Matched band: optimal (dev: -3.39)",
+        "Matched band: optimal (dev: -0.53)",
         "Matrix: Ignition + Optimal -> Aggressive entry"
       ],
-      "deviation": -3.390443779301935,
-      "z_score": -0.3010008216827858,
+      "deviation": -0.5348730328088667,
+      "z_score": -0.05860902274334531,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -156,74 +131,74 @@
       "action_changed": false
     },
     {
-      "symbol": "GOOG",
-      "price": 298.7900085449219,
+      "symbol": "NVDA",
+      "price": 172.6999969482422,
       "asset_state": {
-        "symbol": "GOOG",
+        "symbol": "NVDA",
+        "state": "FORMING",
+        "reasons": [
+          "Trend age (2) < 5 (FORMING protection)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "OBSERVE",
+      "reasons": [
+        "Trend age (2) < 5 (FORMING protection)",
+        "Matrix: Asset in formation, no action"
+      ],
+      "deviation": -6.627115543201933,
+      "z_score": -2.4287300078119047,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "U",
+      "price": 18.38999938964844,
+      "asset_state": {
+        "symbol": "U",
+        "state": "CRUISE",
+        "reasons": [
+          "Matched band: fear_1 (dev: -38.76)"
+        ],
+        "recovery_streak": 1,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -38.76)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -38.75716209183131,
+      "z_score": -1.0147055801153466,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "PLTR",
+      "price": 150.67999267578125,
+      "asset_state": {
+        "symbol": "PLTR",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: -0.53)"
+          "Matched band: optimal (dev: -3.39)"
         ],
         "recovery_streak": 1,
         "last_defend_age": 100
       },
       "action": "ACCUMULATE",
       "reasons": [
-        "Matched band: optimal (dev: -0.53)",
+        "Matched band: optimal (dev: -3.39)",
         "Matrix: Ignition + Optimal -> Aggressive entry"
       ],
-      "deviation": -0.5348730328088667,
-      "z_score": -0.05860902274334531,
-      "trade_enabled": true,
-      "trade_amount": 2000.0,
-      "config_multiplier": 1.0,
-      "prev_action": null,
-      "action_changed": false
-    },
-    {
-      "symbol": "MSFT",
-      "price": 381.8699951171875,
-      "asset_state": {
-        "symbol": "MSFT",
-        "state": "CRUISE",
-        "reasons": [
-          "Matched band: fear_1 (dev: -18.05)"
-        ],
-        "recovery_streak": 1,
-        "last_defend_age": 100
-      },
-      "action": "HOLD",
-      "reasons": [
-        "Matched band: fear_1 (dev: -18.05)",
-        "Matrix: Ignition + Build -> Soft hold"
-      ],
-      "deviation": -18.050806052513053,
-      "z_score": -1.8059423511169472,
-      "trade_enabled": true,
-      "trade_amount": 2000.0,
-      "config_multiplier": 1.0,
-      "prev_action": null,
-      "action_changed": false
-    },
-    {
-      "symbol": "FIG",
-      "price": 23.729999542236328,
-      "asset_state": {
-        "symbol": "FIG",
-        "state": "CRUISE",
-        "reasons": [
-          "Matched band: fear_1 (dev: -36.60)"
-        ],
-        "recovery_streak": 1,
-        "last_defend_age": 100
-      },
-      "action": "HOLD",
-      "reasons": [
-        "Matched band: fear_1 (dev: -36.60)",
-        "Matrix: Ignition + Build -> Soft hold"
-      ],
-      "deviation": -36.59911703282407,
-      "z_score": -1.1888956676660438,
+      "deviation": -3.390443779301935,
+      "z_score": -0.3010008216827858,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -249,6 +224,31 @@
       ],
       "deviation": -3.77042612125957,
       "z_score": -0.4391129748833853,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": false
+    },
+    {
+      "symbol": "MSFT",
+      "price": 381.8699951171875,
+      "asset_state": {
+        "symbol": "MSFT",
+        "state": "CRUISE",
+        "reasons": [
+          "Matched band: fear_1 (dev: -18.05)"
+        ],
+        "recovery_streak": 1,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -18.05)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -18.050806052513053,
+      "z_score": -1.8059423511169472,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
