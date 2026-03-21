@@ -31,27 +31,43 @@ impl PersistenceLayer {
     }
 
     pub fn load_latest_packet(&self) -> Result<Option<DecisionPacket>> {
-        if !self.history_path.exists() {
-            return Ok(None);
+        let recent = self.load_recent_packets(1)?;
+        Ok(recent.into_iter().next())
+    }
+
+    /// Loads the most recent N packets from the history log.
+    /// Packets are returned in chronological order (oldest first).
+    pub fn load_recent_packets(&self, count: usize) -> Result<Vec<DecisionPacket>> {
+        if count == 0 || !self.history_path.exists() {
+            return Ok(Vec::new());
         }
 
         let file =
             File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
         let reader = BufReader::new(file);
 
-        // We want the last non-empty line
-        let last_line = reader.lines().map_while(Result::ok).last();
+        // For small history files, we can just read all and take last N.
+        // For very large files, this would need a tail-like implementation.
+        // Given this is a local tool, reading the whole file is usually fine for a few hundred days of history.
+        let lines: Vec<String> = reader.lines().map_while(Result::ok).collect();
 
-        if let Some(line) = last_line {
-            if line.trim().is_empty() {
-                return Ok(None);
-            }
-            let packet: DecisionPacket = serde_json::from_str(&line)
-                .context("Failed to deserialize DecisionPacket from history")?;
-            Ok(Some(packet))
+        let recent_lines = if lines.len() > count {
+            &lines[lines.len() - count..]
         } else {
-            Ok(None)
+            &lines[..]
+        };
+
+        let mut packets = Vec::with_capacity(recent_lines.len());
+        for line in recent_lines {
+            if line.trim().is_empty() {
+                continue;
+            }
+            let packet: DecisionPacket = serde_json::from_str(line)
+                .context("Failed to deserialize DecisionPacket from history")?;
+            packets.push(packet);
         }
+
+        Ok(packets)
     }
 
     pub fn save_daily_packet(&self, packet: &DecisionPacket) -> Result<()> {

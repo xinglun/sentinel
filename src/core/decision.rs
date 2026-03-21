@@ -5,7 +5,7 @@ use crate::core::portfolio_policy::PortfolioPolicy;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct TelegramOutput {
     pub headline: String,
     pub summary: String,
@@ -20,6 +20,19 @@ pub struct DecisionPacket {
     pub portfolio_policy: PortfolioPolicy,
     pub assets: Vec<AssetActionDecision>,
     pub telegram: TelegramOutput,
+}
+
+impl Default for DecisionPacket {
+    fn default() -> Self {
+        Self {
+            date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
+            market_features: Default::default(),
+            market_regime: Default::default(),
+            portfolio_policy: Default::default(),
+            assets: Vec::new(),
+            telegram: Default::default(),
+        }
+    }
 }
 
 impl DecisionPacket {

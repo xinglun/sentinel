@@ -121,8 +121,8 @@ async fn test_pipeline_bullish_path() {
         vec![],
     );
 
-    let packet = Engine::run_daily_pipeline(&histories, &rules, Some(&prev_packet))
-        .expect("Pipeline failed");
+    let packet =
+        Engine::run_daily_pipeline(&histories, &rules, &[prev_packet]).expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
     assert!(
@@ -175,7 +175,7 @@ async fn test_pipeline_bearish_path() {
     let rules = create_mock_rules();
     let histories = vec![(history, &entry)];
 
-    let packet = Engine::run_daily_pipeline(&histories, &rules, None).expect("Pipeline failed");
+    let packet = Engine::run_daily_pipeline(&histories, &rules, &[]).expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::DEFENSIVE);
 

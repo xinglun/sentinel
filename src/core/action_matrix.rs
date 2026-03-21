@@ -4,7 +4,7 @@ use crate::core::portfolio_policy::PortfolioPolicy;
 use serde::{Deserialize, Serialize};
 
 #[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum AssetAction {
     ACCUMULATE,
     HOLD,
@@ -12,10 +12,11 @@ pub enum AssetAction {
     FREEZE,
     OBSERVE,
     AVOID,
+    #[default]
     WAIT,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct AssetActionDecision {
     pub symbol: String,
     pub price: f64,

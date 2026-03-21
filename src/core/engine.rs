@@ -19,11 +19,13 @@ impl Engine {
     pub fn run_daily_pipeline<'a>(
         ticker_histories: &[(TickerHistory<'a>, &WatchlistEntry)],
         rules: &ParsedRules,
-        prev_packet: Option<&DecisionPacket>,
+        history: &[DecisionPacket],
     ) -> Result<DecisionPacket> {
         if ticker_histories.is_empty() {
             return Err(anyhow::anyhow!("No ticker history provided for pipeline"));
         }
+
+        let prev_packet = history.last();
 
         // 0. Extract Previous Context
         let _prev_state = prev_packet.map(|p| p.market_regime.market_state);
@@ -54,15 +56,34 @@ impl Engine {
         // 4. Portfolio Policy
         let portfolio_policy = PortfolioPolicy::from_market_regime(&market_regime);
 
-        // 5. Asset Execution State & Action Matrix
+        // 5. Relative Strength Memory Layer (NEW V1.3)
+        let mut memory_decisions = std::collections::HashMap::new();
+        for f in &asset_features {
+            let prev_asset_snapshot = prev_packet
+                .and_then(|p| p.assets.iter().find(|a| a.symbol == f.symbol))
+                .map(|a| &a.asset_state);
+
+            let mem = AssetStateMachine::compute_asset_strength_memory(&f.symbol, history, rules);
+            let decision = AssetStateMachine::build_asset_strength_decision(
+                f,
+                &mem,
+                prev_asset_snapshot.map(|s| s.state),
+                rules,
+            );
+            memory_decisions.insert(f.symbol.clone(), decision);
+        }
+
+        // 6. Asset Execution State & Action Matrix
         let mut asset_decisions = Vec::new();
         for f in &asset_features {
             let prev_asset_snapshot = prev_packet
                 .and_then(|p| p.assets.iter().find(|a| a.symbol == f.symbol))
                 .map(|a| &a.asset_state);
 
+            let memory_decision = memory_decisions.get(&f.symbol);
+
             let asset_state_snapshot =
-                AssetStateMachine::compute_state(f, rules, prev_asset_snapshot);
+                AssetStateMachine::compute_state(f, rules, prev_asset_snapshot, memory_decision);
 
             // Get per-asset constraints from watchlist entry
             let (_h, entry) = ticker_histories
@@ -124,7 +145,20 @@ impl Engine {
             asset_decisions.push(decision);
         }
 
-        // 6. Final Decision Packet
+        // 7. Memory-Adjusted Ranking (NEW V1.3)
+        let ranked_symbols =
+            AssetStateMachine::rank_assets_with_memory(&asset_features, &memory_decisions);
+
+        let mut final_decisions = Vec::with_capacity(asset_decisions.len());
+        for symbol in ranked_symbols {
+            if let Some(pos) = asset_decisions.iter().position(|d| d.symbol == symbol) {
+                final_decisions.push(asset_decisions.remove(pos));
+            }
+        }
+        // Append any remaining (should be none)
+        final_decisions.extend(asset_decisions);
+
+        // 8. Final Decision Packet
         let date = asset_features
             .first()
             .map(|f| f.date)
@@ -134,7 +168,7 @@ impl Engine {
             market_features,
             market_regime,
             portfolio_policy,
-            asset_decisions,
+            final_decisions,
         );
 
         Ok(packet)

@@ -1,15 +1,16 @@
 use crate::core::market_regime::{MarketRegimeSnapshot, MarketState};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum RiskAssetsMode {
     AGGRESSIVE,
+    #[default]
     NEUTRAL,
     DEFEND,
     HALT,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PortfolioPolicy {
     pub target_exposure_min: f64,
     pub target_exposure_max: f64,

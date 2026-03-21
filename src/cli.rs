@@ -179,7 +179,9 @@ async fn run_pipeline(
     let persistence = PersistenceLayer::new(&save_dir);
     let transition_logger = TransitionLogger::new(&save_dir);
 
-    let prev_packet = persistence.load_latest_packet().ok().flatten();
+    // Load history for Memory Layer (V1.3)
+    let history = persistence.load_recent_packets(20).unwrap_or_default();
+    let prev_packet = history.last();
 
     println!("📊 Fetching data for enabled assets...");
 
@@ -232,20 +234,19 @@ async fn run_pipeline(
 
     if !ticker_histories.is_empty() {
         // Core Decision Pipeline
-        let packet =
-            match Engine::run_daily_pipeline(&ticker_histories, &rules_arc, prev_packet.as_ref()) {
-                Ok(p) => {
-                    outcome.decisioning = crate::core::run_status::DeliveryStatus::Succeeded;
-                    p
-                }
-                Err(e) => {
-                    outcome.decisioning = crate::core::run_status::DeliveryStatus::Failed {
-                        reason: e.to_string(),
-                    };
-                    persistence.save_run_status(&outcome)?;
-                    return Err(e);
-                }
-            };
+        let packet = match Engine::run_daily_pipeline(&ticker_histories, &rules_arc, &history) {
+            Ok(p) => {
+                outcome.decisioning = crate::core::run_status::DeliveryStatus::Succeeded;
+                p
+            }
+            Err(e) => {
+                outcome.decisioning = crate::core::run_status::DeliveryStatus::Failed {
+                    reason: e.to_string(),
+                };
+                persistence.save_run_status(&outcome)?;
+                return Err(e);
+            }
+        };
 
         // Initialize StateMachineSummary for V1.3 Observation
         let mut sm_summary = crate::core::run_status::StateMachineSummary {

@@ -89,7 +89,7 @@ pub struct InertiaConfig {
     pub core_breakdown_breadth_floor: Option<f64>,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, Default)]
 #[serde(deny_unknown_fields)]
 pub struct TrendConfig {
     pub lookback_days: usize,
@@ -118,7 +118,7 @@ pub enum DeviationBasis {
     Leash,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct ParsedRules {
     pub trend: TrendConfig,
     pub sorted_bands: Vec<(String, f64)>, // descending thresholds
@@ -130,7 +130,7 @@ pub struct ParsedRules {
     pub inertia: ParsedInertia,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct ParsedInertia {
     pub min_state_duration: usize,
     pub trend_dominant_min_confidence: f64,
