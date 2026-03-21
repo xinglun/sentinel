@@ -189,7 +189,17 @@ jobs:
           git fetch origin refs/heads/data:refs/remotes/origin/data
           git worktree add "${DATA_DIR}" -B data origin/data
 
-          # 3. Port over generated reports cleanly
+          # 3. Hop into worktree and pull latest state BEFORE modifying files
+          cd "${DATA_DIR}"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git checkout data || true
+          
+          # Minimize --force-with-lease failures by rebasing against latest remote state
+          # Uniform refspec for maximum stability
+          git fetch origin refs/heads/data:refs/remotes/origin/data || true
+          git pull --rebase origin data || true
+
+          # 4. Port over generated reports cleanly
           cd "${ROOT_DIR}"
           mkdir -p "${DATA_DIR}/reports" "${DATA_DIR}/backtest/archive"
           
@@ -204,16 +214,8 @@ jobs:
           rsync -a "${ROOT_DIR}/backtest/state_machine_metrics_latest.json" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/archive/" "${DATA_DIR}/backtest/archive/"
           
-          # 4. Hop into worktree, commit and push
+          # 5. Commit and push
           cd "${DATA_DIR}"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git checkout data || true
-          
-          # Minimize --force-with-lease failures by rebasing against latest remote state
-          # Uniform refspec for maximum stability
-          git fetch origin refs/heads/data:refs/remotes/origin/data || true
-          git pull --rebase origin data || true
-
           git add -f reports/ backtest/
           
           if ! git diff --cached --quiet; then

@@ -213,7 +213,15 @@ jobs:
           git fetch origin refs/heads/data:refs/remotes/origin/data
           git worktree add "${DATA_DIR}" -B data origin/data
 
-          # 3. Port over generated reports cleanly (Mirror Strategy for snapshots)
+          # 3. Hop into worktree and pull latest state BEFORE modifying files
+          cd "${DATA_DIR}"
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git checkout data || true
+          
+          git fetch origin refs/heads/data:refs/remotes/origin/data || true
+          git pull --rebase origin data || true
+
+          # 4. Port over generated reports cleanly (Mirror Strategy for snapshots)
           cd "${ROOT_DIR}"
           mkdir -p "${DATA_DIR}/reports"
           
@@ -224,14 +232,8 @@ jobs:
 
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           
-          # 4. Hop into worktree, commit and push
+          # 5. Commit and push
           cd "${DATA_DIR}"
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git checkout data || true
-          
-          git fetch origin refs/heads/data:refs/remotes/origin/data || true
-          git pull --rebase origin data || true
-
           git add -f reports/
           
           if ! git diff --cached --quiet; then

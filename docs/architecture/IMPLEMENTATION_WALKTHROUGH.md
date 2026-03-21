@@ -57,7 +57,8 @@ V1.2 不再修改判定逻辑，重点加强了对 V1.1 优化效果的“可见
 
 ## 9. 状态机 V1.3 实盘观察期基础设施 (Observation Infrastructure)
 V1.3 标志着系统进入为期 2-4 周的实盘观察期，重点在于指标的自动化收集与标准化复盘：
-- **运行指标聚合**：`run_status_[DATE].json` 现已整合 `StateMachineSummary` 结构。每日运行会自动汇总：从哪迁移到哪、是否触发 Reset（确认或拦截）、是否触发 Soft Reset/Duration Lock、个股对账差异计数、以及 Broker 预检状态。
+- **运行指标聚合**：`run_status_[DATE].json` 现已整合 `StateMachineSummary` 结构。每日运行会自动汇总状态迁移、Reset 状态、持续时间锁、对账差异等指标。
+- **CI 链路原子化同步** (Hardened)：修正了 GitHub Actions 在同步 `data` 分支时的时序缺陷。现统一采取“先 Fetch -> 先 Rebase -> 后覆盖本地产物”的原子化路径，彻底解决了因并发写入导致的 `rebase` 冲突。
 - **复盘辅助自动化**：通过 `cargo run -- review` 命令，系统可自动扫描过去 7 日数据产出 `weekly_state_metrics.json` 以及 **`weekly_state_review_auto.md` (复盘底稿草案)**。草案中自动汇总了全周量化指标、每日对照表以及自动识别的异常日，为人工填写最终复盘报告提供底噪过滤后的事实依据。
 - **标准化复盘流程**：建立了 [WEEKLY_STATE_REVIEW_RUNBOOK.md](../specs/WEEKLY_STATE_REVIEW_RUNBOOK.md) 作为 V1.3 观察期的标准复盘手册，明确了 CI 统计与人工判断的边界。
 - **标准化复盘模板**：在 `docs/templates/weekly_state_review.md` 中建立了每周巡检的标准格式，要求开发/运维人员定期对比各指标的稳定性。
