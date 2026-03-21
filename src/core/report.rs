@@ -427,10 +427,6 @@ fn format_macro_summary(packet: &DecisionPacket) -> String {
 
     s.push_str(&format!("• 市场状态: {}\n", cap_state));
     s.push_str(&format!("• 动量: {}\n", momentum));
-    s.push_str(&format!(
-        "• 趋势年龄: {}d\n",
-        packet.market_features.regime_age
-    ));
     s.push_str(&format!("• 当前倾向: {}\n", packet.telegram.bias));
     s
 }
