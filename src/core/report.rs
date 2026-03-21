@@ -235,6 +235,10 @@ fn format_telegram_card(
 
     // 0. Categorize Assets (Unified Source of Truth)
     let buckets = categorize_assets(&packet.assets);
+    
+    let stability_fragile = packet.market_features.stability_score < 15.0;
+    let is_ignition = state == MarketState::IGNITION;
+    let needs_restraint = stability_fragile && is_ignition;
 
     // 1. Header & Strategy
     let state_str = format!("{:?}", state).to_uppercase();
@@ -260,7 +264,7 @@ fn format_telegram_card(
 
     // 3. Top Actions (Derived from Buckets)
     card.push_str("<b>🎯 Top Actions</b>\n");
-    let top_assets = select_top_actions_v4(&buckets, state);
+    let top_assets = select_top_actions_v4(&buckets, state, needs_restraint);
 
     for (idx, asset) in top_assets.iter().enumerate() {
         let tag = if asset.action_changed {
@@ -300,7 +304,7 @@ fn format_telegram_card(
             asset.asset_state.state,
             tag
         ));
-        let reason = telegram_reason(asset);
+        let reason = telegram_reason(asset, needs_restraint);
         card.push_str(&format!("   {}\n", reason));
     }
     card.push('\n');
@@ -327,7 +331,7 @@ fn format_telegram_card(
     };
 
     card.push_str(&format!(
-        "Age {}d · Flow {} · Execution {}\n",
+        "Regime Age {}d · Flow {} · Execution {}\n",
         f.regime_age, flow_str, mode_str
     ));
 
@@ -520,7 +524,10 @@ fn stability_label(val: f64) -> &'static str {
     }
 }
 
-fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> String {
+fn telegram_reason(
+    asset: &crate::core::action_matrix::AssetActionDecision,
+    is_restrained: bool,
+) -> String {
     if asset.action_changed {
         return match asset.prev_action {
             Some(prev) => format!("由 {:?} -> {:?}，今日信号变化", prev, asset.action),
@@ -528,19 +535,38 @@ fn telegram_reason(asset: &crate::core::action_matrix::AssetActionDecision) -> S
         };
     }
     match asset.asset_state.state {
-        AssetState::PULLBACK => "趋势内回撤，允许补仓".to_string(),
-        AssetState::OPTIMAL => "结构最强，适合持有".to_string(),
+        AssetState::PULLBACK => {
+            if is_restrained && asset.action == AssetAction::ACCUMULATE {
+                "适合轻仓跟踪".to_string()
+            } else {
+                "趋势内回撤，允许补仓".to_string()
+            }
+        }
+        AssetState::OPTIMAL => {
+            if is_restrained && asset.action == AssetAction::ACCUMULATE {
+                "结构占优，但不宜追高".to_string()
+            } else {
+                "结构最强，适合持有".to_string()
+            }
+        }
         AssetState::DEFEND => "结构转弱，避免参与".to_string(),
         AssetState::OVERHEAT => "偏离过热，避免追高".to_string(),
         AssetState::CRUISE => "趋势延续，持有为主".to_string(),
         AssetState::CAUTION => "信号转弱，暂不加仓".to_string(),
-        AssetState::FORMING => "结构未完成，继续观察".to_string(),
+        AssetState::FORMING => {
+            if is_restrained && asset.action == AssetAction::ACCUMULATE {
+                "仅限试探性配置".to_string()
+            } else {
+                "结构未完成，继续观察".to_string()
+            }
+        }
     }
 }
 
 fn select_top_actions_v4(
     buckets: &AssetBuckets,
     state: MarketState,
+    _is_restrained: bool,
 ) -> Vec<crate::core::action_matrix::AssetActionDecision> {
     let mut selected = Vec::new();
     let limit = if state == MarketState::DEFENSIVE {
