@@ -1,6 +1,6 @@
 {
   "date": "2026-03-20",
-  "timestamp": "2026-03-21T07:00:09.594798958+09:00",
+  "timestamp": "2026-03-21T14:27:59.748570357+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "archival": "succeeded",
@@ -8,6 +8,18 @@
   "execution": "skipped",
   "reconciliation": "skipped",
   "reconciliation_report": null,
+  "state_machine": {
+    "from_state": "IGNITION",
+    "to_state": "IGNITION",
+    "reset_confirmed": false,
+    "reset_blocked": false,
+    "soft_reset_applied": false,
+    "duration_locked": false,
+    "defensive_override": false,
+    "core_breakdown": false,
+    "reconciliation_mismatch_count": 0,
+    "preflight_failed": false
+  },
   "data_quality": "OK",
   "execution_details": null
 }
