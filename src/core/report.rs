@@ -235,7 +235,7 @@ fn format_telegram_card(
 
     // 0. Categorize Assets (Unified Source of Truth)
     let buckets = categorize_assets(&packet.assets);
-    
+
     let stability_fragile = packet.market_features.stability_score < 15.0;
     let is_ignition = state == MarketState::IGNITION;
     let needs_restraint = stability_fragile && is_ignition;
