@@ -1,7 +1,7 @@
 {
   "daily_summaries": [
     {
-      "date": "2026-03-20",
+      "date": "2026-03-23",
       "summary": {
         "core_breakdown": false,
         "defensive_override": false,
@@ -16,7 +16,7 @@
       }
     }
   ],
-  "week_ending": "2026-03-21",
+  "week_ending": "2026-03-23",
   "weekly_totals": {
     "core_breakdown_total": 0,
     "defensive_override_total": 0,
