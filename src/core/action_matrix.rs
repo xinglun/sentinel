@@ -39,6 +39,7 @@ impl ActionMatrix {
     #[allow(clippy::too_many_arguments)]
     pub fn decide(
         regime: &MarketRegimeSnapshot,
+        market_features: &crate::core::features::MarketFeatures,
         _policy: &PortfolioPolicy,
 
         asset_state: &AssetStateSnapshot,
@@ -153,6 +154,25 @@ impl ActionMatrix {
             },
         };
 
+        // P0-3: IGNITION + Fragile Gate
+        let (action, matrix_reason) = if regime.market_state
+            == crate::core::market_regime::MarketState::IGNITION
+            && market_features.stability_score < 10.0
+            && action == AssetAction::ACCUMULATE
+        {
+            let downgraded_action = if asset_state.state == AssetState::OPTIMAL {
+                AssetAction::OBSERVE
+            } else {
+                AssetAction::HOLD
+            };
+            (
+                downgraded_action,
+                "Matrix: Fragile Ignition suppression (Candidate only)",
+            )
+        } else {
+            (action, matrix_reason)
+        };
+
         let mut reasons = asset_state.reasons.clone();
         reasons.push(matrix_reason.to_string());
 
@@ -206,7 +226,16 @@ mod tests {
         let asset = mock_asset(AssetState::OPTIMAL);
         let policy = PortfolioPolicy::from_market_regime(&regime);
         let decision = ActionMatrix::decide(
-            &regime, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
+            &regime,
+            &crate::core::features::MarketFeatures::default(),
+            &policy,
+            &asset,
+            None,
+            None,
+            150.0,
+            true,
+            1000.0,
+            1.0,
         );
 
         assert_eq!(decision.action, AssetAction::FREEZE);
@@ -218,9 +247,44 @@ mod tests {
         let asset = mock_asset(AssetState::PULLBACK);
         let policy = PortfolioPolicy::from_market_regime(&regime);
         let decision = ActionMatrix::decide(
-            &regime, &policy, &asset, None, None, 140.0, true, 1000.0, 1.0,
+            &regime,
+            &crate::core::features::MarketFeatures::default(),
+            &policy,
+            &asset,
+            None,
+            None,
+            140.0,
+            true,
+            1000.0,
+            1.0,
         );
 
         assert_eq!(decision.action, AssetAction::ACCUMULATE);
+    }
+
+    #[test]
+    fn test_action_matrix_ignition_fragile() {
+        let regime = mock_market(MarketState::IGNITION);
+        let asset = mock_asset(AssetState::OPTIMAL);
+        let policy = PortfolioPolicy::from_market_regime(&regime);
+
+        // Case 1: Fragile (Stability < 10)
+        let mut features = crate::core::features::MarketFeatures::default();
+        features.stability_score = 5.0;
+        let decision = ActionMatrix::decide(
+            &regime, &features, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
+        );
+        assert_eq!(decision.action, AssetAction::OBSERVE);
+        assert!(decision
+            .reasons
+            .iter()
+            .any(|r| r.contains("Fragile Ignition suppression")));
+
+        // Case 2: Stable (Stability >= 10)
+        features.stability_score = 15.0;
+        let decision2 = ActionMatrix::decide(
+            &regime, &features, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
+        );
+        assert_eq!(decision2.action, AssetAction::ACCUMULATE);
     }
 }

@@ -124,6 +124,7 @@ impl Engine {
 
             let mut decision = ActionMatrix::decide(
                 &market_regime,
+                &market_features,
                 &portfolio_policy,
                 &asset_state_snapshot,
                 f.deviation,

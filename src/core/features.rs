@@ -66,6 +66,7 @@ pub struct MarketFeatures {
     pub dominance_margin: f64,
     pub system_confidence: f64,
     pub trend_dominant: bool,
+    /// Unit: 0..100. (Structural / 50 * Temporal). 0-15 is Fragile.
     pub stability_score: f64,
     pub stability_structural: f64,
     pub stability_temporal: f64,
@@ -436,7 +437,7 @@ impl MarketFeatures {
         let trend_maturity = (regime_age as f64 / 40.0).min(1.0);
         let stability_structural = conf_inverse_potential;
         let stability_temporal = trend_maturity;
-        let stability_score = (stability_structural / 50.0) * stability_temporal;
+        let stability_score = (stability_structural / 50.0) * stability_temporal * 100.0;
 
         let mut flow_acceleration = None;
         if let Some(prev) = prev_packet {
@@ -544,7 +545,7 @@ impl MarketFeatures {
         self.regime_age = new_age;
         self.trend_maturity = (new_age as f64 / 40.0).min(1.0);
         self.stability_temporal = self.trend_maturity * 100.0;
-        self.stability_score = (self.stability_structural / 50.0) * self.trend_maturity;
+        self.stability_score = (self.stability_structural / 50.0) * self.trend_maturity * 100.0;
     }
 }
 

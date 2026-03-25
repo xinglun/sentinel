@@ -181,3 +181,32 @@ async fn test_pipeline_bearish_path() {
 
     assert_eq!(packet.assets[0].action, AssetAction::AVOID);
 }
+
+#[tokio::test]
+async fn test_pipeline_age_continuity() {
+    let rules = create_mock_rules();
+    let history = create_mock_history("AAPL", 100.0, 60, 0.002);
+    let entry = WatchlistEntry {
+        symbol: "AAPL".to_string(),
+        owner_ma_days: 20,
+        leash_ma_days: 10,
+        ..Default::default()
+    };
+    let histories = vec![(history, &entry)];
+
+    // Day 1: Start from scratch (no history)
+    let p1 = Engine::run_daily_pipeline(&histories, &rules, &[]).expect("P1 failed");
+    let age1 = p1.market_features.regime_age;
+
+    // Day 2: Pass p1 as history
+    let p2 = Engine::run_daily_pipeline(&histories, &rules, &[p1.clone()]).expect("P2 failed");
+    let age2 = p2.market_features.regime_age;
+
+    // Day 3: Pass p1, p2 as history
+    let p3 = Engine::run_daily_pipeline(&histories, &rules, &[p1, p2]).expect("P3 failed");
+    let age3 = p3.market_features.regime_age;
+
+    // Expect exactly 1 day increment per call
+    assert_eq!(age2, age1 + 1, "Age should increment by 1 on Day 2");
+    assert_eq!(age3, age2 + 1, "Age should increment by 1 on Day 3");
+}

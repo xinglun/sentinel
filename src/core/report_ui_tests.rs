@@ -434,4 +434,70 @@ mod tests {
         assert!(card.contains("• 防御区: U"));
         assert!(card.contains("• 风险: U (DEFEND)")); // Mirror check
     }
+
+    #[test]
+    fn test_report_ignition_fragile_labels() {
+        let assets = vec![mock_asset(
+            "AAPL",
+            AssetAction::OBSERVE,
+            AssetState::OPTIMAL,
+            false,
+        )];
+
+        let mut packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_features: Default::default(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                lifecycle_state: LifecycleState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                reasons: vec![],
+                low_stability_streak: 0,
+                duration_in_state: 1,
+                transition_audit: None,
+            },
+            portfolio_policy: PortfolioPolicy::from_market_regime(&MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                ..Default::default()
+            }),
+            assets,
+            telegram: TelegramOutput {
+                headline: "IGNITION".to_string(),
+                summary: "Starting up".to_string(),
+                bias: "Neutral".to_string(),
+            },
+        };
+
+        // Case 1: Fragile (Stability < 10)
+        packet.market_features.stability_score = 5.0;
+        let card = generate_refined_report(
+            &mock_config(),
+            &packet,
+            0.0,
+            &HashMap::new(),
+            &ExecutionMode::DryRun,
+            vec![],
+        )
+        .unwrap()
+        .markdown_body;
+
+        assert!(card.contains("当前处于脆弱启动期，以上仅为候选强者"));
+        assert!(card.contains("【候选】结构占优，观察连续性"));
+
+        // Case 2: Stable (Stability >= 10)
+        packet.market_features.stability_score = 12.0;
+        let card2 = generate_refined_report(
+            &mock_config(),
+            &packet,
+            0.0,
+            &HashMap::new(),
+            &ExecutionMode::DryRun,
+            vec![],
+        )
+        .unwrap()
+        .markdown_body;
+
+        assert!(!card2.contains("当前处于脆弱启动期"));
+        assert!(card2.contains("结构最强，适合持有"));
+    }
 }

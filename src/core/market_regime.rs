@@ -119,7 +119,7 @@ impl MarketRegimeStateMachine {
         let mut next_risk = RiskOverlay::NORMAL;
 
         let mut low_stability_streak = prev_snapshot.map(|s| s.low_stability_streak).unwrap_or(0);
-        if features.stability_score * 100.0 < 10.0 {
+        if features.stability_score < 10.0 {
             low_stability_streak += 1;
         } else {
             low_stability_streak = 0;
@@ -259,7 +259,7 @@ impl MarketRegimeStateMachine {
         }
 
         // --- 4. Age & Stability Persistence ---
-        let mut next_age = regime_age + 1;
+        let mut next_age = regime_age;
         if next_lifecycle != self.current_lifecycle {
             let is_downgrade = self.is_downgrade(self.current_lifecycle, next_lifecycle);
             if is_downgrade {

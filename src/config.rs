@@ -96,7 +96,7 @@ pub struct TrendConfig {
     pub flat_threshold_pct: f64,
 }
 
-#[derive(Debug, Deserialize, Clone)]
+#[derive(Debug, Deserialize, Clone, Default)]
 #[serde(deny_unknown_fields)]
 pub struct WatchlistEntry {
     pub symbol: String,
@@ -111,9 +111,10 @@ pub struct WatchlistEntry {
     pub trade_amount: Option<f64>,
 }
 
-#[derive(Debug, Deserialize, PartialEq, Eq, Clone)]
+#[derive(Debug, Deserialize, PartialEq, Eq, Clone, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum DeviationBasis {
+    #[default]
     Owner,
     Leash,
 }

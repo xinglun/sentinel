@@ -236,7 +236,7 @@ fn format_telegram_card(
     // 0. Categorize Assets (Unified Source of Truth)
     let buckets = categorize_assets(&packet.assets);
 
-    let stability_fragile = packet.market_features.stability_score < 15.0;
+    let stability_fragile = packet.market_features.stability_score < 10.0;
     let is_ignition = state == MarketState::IGNITION;
     let needs_restraint = stability_fragile && is_ignition;
 
@@ -307,13 +307,16 @@ fn format_telegram_card(
         let reason = telegram_reason(asset, needs_restraint);
         card.push_str(&format!("   {}\n", reason));
     }
+    if needs_restraint {
+        card.push_str("\n<i>⚠️ 当前处于脆弱启动期，以上仅为候选强者，需等待连续性确认。</i>\n");
+    }
     card.push('\n');
 
     // 4. Signals (Compact)
     card.push_str("<b>📡 Signals</b>\n");
     let f = &packet.market_features;
     card.push_str(&format!(
-        "Confidence {:.0} ({}) · Stability {:.0} ({})\n",
+        "Confidence {:.0} ({}) · Stability {:.1} ({})\n",
         f.system_confidence,
         confidence_label(f.system_confidence),
         f.stability_score,
@@ -532,15 +535,15 @@ fn telegram_reason(
     }
     match asset.asset_state.state {
         AssetState::PULLBACK => {
-            if is_restrained && asset.action == AssetAction::ACCUMULATE {
-                "适合轻仓跟踪".to_string()
+            if is_restrained {
+                "【候选】强势回撤，等待确认".to_string()
             } else {
                 "趋势内回撤，允许补仓".to_string()
             }
         }
         AssetState::OPTIMAL => {
-            if is_restrained && asset.action == AssetAction::ACCUMULATE {
-                "结构占优，但不宜追高".to_string()
+            if is_restrained {
+                "【候选】结构占优，观察连续性".to_string()
             } else {
                 "结构最强，适合持有".to_string()
             }
@@ -550,8 +553,8 @@ fn telegram_reason(
         AssetState::CRUISE => "趋势延续，持有为主".to_string(),
         AssetState::CAUTION => "信号转弱，暂不加仓".to_string(),
         AssetState::FORMING => {
-            if is_restrained && asset.action == AssetAction::ACCUMULATE {
-                "仅限试探性配置".to_string()
+            if is_restrained {
+                "【候选】初具雏形，等待强度确认".to_string()
             } else {
                 "结构未完成，继续观察".to_string()
             }
