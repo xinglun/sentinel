@@ -540,6 +540,8 @@ mod tests {
             market,
             policy,
             assets,
+            crate::core::participation::ParticipationReadiness::default(),
+            Vec::new(),
         );
 
         let trading_config = config_arc.trading.as_ref().unwrap();

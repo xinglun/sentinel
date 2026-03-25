@@ -39,7 +39,8 @@ impl ActionMatrix {
     #[allow(clippy::too_many_arguments)]
     pub fn decide(
         regime: &MarketRegimeSnapshot,
-        market_features: &crate::core::features::MarketFeatures,
+        _market_features: &crate::core::features::MarketFeatures,
+        participation_ready: bool,
         _policy: &PortfolioPolicy,
 
         asset_state: &AssetStateSnapshot,
@@ -154,12 +155,8 @@ impl ActionMatrix {
             },
         };
 
-        // P0-3: IGNITION + Fragile Gate
-        let (action, matrix_reason) = if regime.market_state
-            == crate::core::market_regime::MarketState::IGNITION
-            && market_features.stability_score < 10.0
-            && action == AssetAction::ACCUMULATE
-        {
+        // P0-3: Participation Readiness Gate
+        let (action, matrix_reason) = if !participation_ready && action == AssetAction::ACCUMULATE {
             let downgraded_action = if asset_state.state == AssetState::OPTIMAL {
                 AssetAction::OBSERVE
             } else {
@@ -167,7 +164,7 @@ impl ActionMatrix {
             };
             (
                 downgraded_action,
-                "Matrix: Fragile Ignition suppression (Candidate only)",
+                "Matrix: Participation not ready (streak < 3 or low stability)",
             )
         } else {
             (action, matrix_reason)
@@ -228,6 +225,7 @@ mod tests {
         let decision = ActionMatrix::decide(
             &regime,
             &crate::core::features::MarketFeatures::default(),
+            true, // participation_ready
             &policy,
             &asset,
             None,
@@ -249,6 +247,7 @@ mod tests {
         let decision = ActionMatrix::decide(
             &regime,
             &crate::core::features::MarketFeatures::default(),
+            true, // participation_ready
             &policy,
             &asset,
             None,
@@ -268,22 +267,21 @@ mod tests {
         let asset = mock_asset(AssetState::OPTIMAL);
         let policy = PortfolioPolicy::from_market_regime(&regime);
 
-        // Case 1: Fragile (Stability < 10)
+        // Case 1: Participation Not Ready
         let mut features = crate::core::features::MarketFeatures::default();
-        features.stability_score = 5.0;
+        features.stability_score = 15.0; // Stability OK
         let decision = ActionMatrix::decide(
-            &regime, &features, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
+            &regime, &features, false, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
         );
         assert_eq!(decision.action, AssetAction::OBSERVE);
         assert!(decision
             .reasons
             .iter()
-            .any(|r| r.contains("Fragile Ignition suppression")));
+            .any(|r| r.contains("Participation not ready")));
 
-        // Case 2: Stable (Stability >= 10)
-        features.stability_score = 15.0;
+        // Case 2: Participation Ready
         let decision2 = ActionMatrix::decide(
-            &regime, &features, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
+            &regime, &features, true, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
         );
         assert_eq!(decision2.action, AssetAction::ACCUMULATE);
     }

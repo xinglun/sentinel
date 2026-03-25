@@ -71,6 +71,8 @@ fn test_kill_switch_behavior_in_execution_gate() {
         market.clone(),
         PortfolioPolicy::from_market_regime(&market),
         assets,
+        stock_sentinel::core::participation::ParticipationReadiness::default(),
+        Vec::new(),
     );
 
     // 3. Gate the packet

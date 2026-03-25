@@ -186,6 +186,28 @@ pub fn generate_refined_report(
         archival_md.push('\n');
     }
 
+    // Participation Readiness (Archival)
+    archival_md.push_str("### 🛡️ Participation Readiness\n");
+    archival_md.push_str(&format!(
+        "- **Status**: {}\n",
+        if packet.participation.participation_ready {
+            "READY"
+        } else {
+            "NOT READY"
+        }
+    ));
+    archival_md.push_str(&format!(
+        "- **Core Tier Streak**: {}d\n",
+        packet.participation.core_tier_streak
+    ));
+    if !packet.participation.participation_ready {
+        archival_md.push_str("- **Reasons**:\n");
+        for reason in &packet.participation.reasons {
+            archival_md.push_str(&format!("  - {}\n", reason));
+        }
+    }
+    archival_md.push('\n');
+
     archival_md.push_str("| Symbol | State | Action | Deviation | Z-Score |\n");
     archival_md.push_str("|---|---|---|---|---|\n");
     for row in &rows {
@@ -236,9 +258,7 @@ fn format_telegram_card(
     // 0. Categorize Assets (Unified Source of Truth)
     let buckets = categorize_assets(&packet.assets);
 
-    let stability_fragile = packet.market_features.stability_score < 10.0;
-    let is_ignition = state == MarketState::IGNITION;
-    let needs_restraint = stability_fragile && is_ignition;
+    let needs_restraint = !packet.participation.participation_ready;
 
     // 1. Header & Strategy
     let state_str = format!("{:?}", state).to_uppercase();
@@ -308,7 +328,11 @@ fn format_telegram_card(
         card.push_str(&format!("   {}\n", reason));
     }
     if needs_restraint {
-        card.push_str("\n<i>⚠️ 当前处于脆弱启动期，以上仅为候选强者，需等待连续性确认。</i>\n");
+        if state == crate::core::market_regime::MarketState::IGNITION {
+            card.push_str("\n<i>⚠️ 当前处于脆弱启动期，以上仅为候选强者，需等待连续性确认。</i>\n");
+        } else {
+            card.push_str("\n<i>⚠️ 市场参与未达就绪阈值，以上仅为强度参考，禁止加仓。</i>\n");
+        }
     }
     card.push('\n');
 
@@ -322,6 +346,22 @@ fn format_telegram_card(
         f.stability_score,
         stability_label(f.stability_score)
     ));
+
+    let readiness_str = if packet.participation.participation_ready {
+        "READY ✅"
+    } else {
+        "NOT READY ❌"
+    };
+    card.push_str(&format!(
+        "Participation {} · Streak {}d\n",
+        readiness_str, packet.participation.core_tier_streak
+    ));
+
+    if !packet.participation.participation_ready {
+        if let Some(reason) = packet.participation.reasons.first() {
+            card.push_str(&format!("   <i>{}</i>\n", reason));
+        }
+    }
 
     let flow_str = f
         .flow_acceleration
@@ -536,14 +576,14 @@ fn telegram_reason(
     match asset.asset_state.state {
         AssetState::PULLBACK => {
             if is_restrained {
-                "【候选】强势回撤，等待确认".to_string()
+                "核心回撤，观察强度".to_string()
             } else {
                 "趋势内回撤，允许补仓".to_string()
             }
         }
         AssetState::OPTIMAL => {
             if is_restrained {
-                "【候选】结构占优，观察连续性".to_string()
+                "结构占优，等待参与许可".to_string()
             } else {
                 "结构最强，适合持有".to_string()
             }
@@ -554,7 +594,7 @@ fn telegram_reason(
         AssetState::CAUTION => "信号转弱，暂不加仓".to_string(),
         AssetState::FORMING => {
             if is_restrained {
-                "【候选】初具雏形，等待强度确认".to_string()
+                "雏形初现，等待强度确认".to_string()
             } else {
                 "结构未完成，继续观察".to_string()
             }

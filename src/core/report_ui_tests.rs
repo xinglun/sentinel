@@ -101,6 +101,8 @@ mod tests {
                 allow_new_risk: true,
             },
             assets,
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "ESTABLISHED | Risk NORMAL".to_string(),
                 summary: "Stay long".to_string(),
@@ -162,6 +164,8 @@ mod tests {
                 transition_audit: None,
             }),
             assets,
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "DEFENSIVE | Risk DEFENSIVE".to_string(),
                 summary: "Stop buying".to_string(),
@@ -218,6 +222,8 @@ mod tests {
                 risk_assets_mode: RiskAssetsMode::NEUTRAL,
             },
             assets,
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "ESTABLISHED".to_string(),
                 summary: "Summary".to_string(),
@@ -291,6 +297,8 @@ mod tests {
                 risk_assets_mode: RiskAssetsMode::NEUTRAL,
             },
             assets: vec![assets[0].clone(), goog],
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "ESTABLISHED".to_string(),
                 summary: "Summary".to_string(),
@@ -342,6 +350,8 @@ mod tests {
                 })
             },
             assets,
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "ESTABLISHED".to_string(),
                 summary: "Standard Summary".to_string(),
@@ -410,6 +420,8 @@ mod tests {
                 transition_audit: None,
             }),
             assets,
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "DEFENSIVE".to_string(),
                 summary: "防御模式".to_string(),
@@ -461,6 +473,8 @@ mod tests {
                 ..Default::default()
             }),
             assets,
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "IGNITION".to_string(),
                 summary: "Starting up".to_string(),
@@ -468,8 +482,9 @@ mod tests {
             },
         };
 
-        // Case 1: Fragile (Stability < 10)
-        packet.market_features.stability_score = 5.0;
+        // Case 1: Not Ready
+        packet.participation.participation_ready = false;
+        packet.participation.reasons = vec!["Market not ready".to_string()];
         let card = generate_refined_report(
             &mock_config(),
             &packet,
@@ -482,10 +497,10 @@ mod tests {
         .markdown_body;
 
         assert!(card.contains("当前处于脆弱启动期，以上仅为候选强者"));
-        assert!(card.contains("【候选】结构占优，观察连续性"));
+        assert!(card.contains("结构占优，等待参与许可"));
 
-        // Case 2: Stable (Stability >= 10)
-        packet.market_features.stability_score = 12.0;
+        // Case 2: Ready
+        packet.participation.participation_ready = true;
         let card2 = generate_refined_report(
             &mock_config(),
             &packet,

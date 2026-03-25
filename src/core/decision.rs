@@ -1,6 +1,7 @@
 use crate::core::action_matrix::AssetActionDecision;
 use crate::core::features::MarketFeatures;
 use crate::core::market_regime::MarketRegimeSnapshot;
+use crate::core::participation::ParticipationReadiness;
 use crate::core::portfolio_policy::PortfolioPolicy;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
@@ -19,6 +20,10 @@ pub struct DecisionPacket {
     pub market_regime: MarketRegimeSnapshot,
     pub portfolio_policy: PortfolioPolicy,
     pub assets: Vec<AssetActionDecision>,
+    #[serde(default)]
+    pub participation: ParticipationReadiness,
+    #[serde(default)]
+    pub top_tier_symbols: Vec<String>,
     pub telegram: TelegramOutput,
 }
 
@@ -30,6 +35,8 @@ impl Default for DecisionPacket {
             market_regime: Default::default(),
             portfolio_policy: Default::default(),
             assets: Vec::new(),
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: Default::default(),
         }
     }
@@ -42,6 +49,8 @@ impl DecisionPacket {
         market_regime: MarketRegimeSnapshot,
         portfolio_policy: PortfolioPolicy,
         assets: Vec<AssetActionDecision>,
+        participation: ParticipationReadiness,
+        top_tier_symbols: Vec<String>,
     ) -> Self {
         let telegram = Self::generate_telegram(&market_regime, &portfolio_policy);
         Self {
@@ -50,6 +59,8 @@ impl DecisionPacket {
             market_regime,
             portfolio_policy,
             assets,
+            participation,
+            top_tier_symbols,
             telegram,
         }
     }

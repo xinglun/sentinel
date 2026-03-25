@@ -52,6 +52,14 @@
       }
     }
   ],
+  "participation": {
+    "participation_ready": false,
+    "stability_ready": true,
+    "core_tier_streak_ready": false,
+    "core_tier_streak": 1,
+    "reasons": ["Core Tier streak < 3"]
+  },
+  "top_tier_symbols": ["AAPL", "MSFT", "NVDA"],
   "telegram": {
     "headline": "Market State: ESTABLISHED",
     "summary": "Hold core leaders, buy controlled pullbacks, no chasing."

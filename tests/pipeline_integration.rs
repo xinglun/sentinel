@@ -100,7 +100,7 @@ async fn test_pipeline_bullish_path() {
         risk_overlay: RiskOverlay::NORMAL,
         reasons: vec![],
         low_stability_streak: 0,
-        duration_in_state: 3,
+        duration_in_state: 10,
         transition_audit: None,
     };
     let prev_features = MarketFeatures {
@@ -108,21 +108,39 @@ async fn test_pipeline_bullish_path() {
         up_count: 1,
         total_count: 1,
         system_confidence: 100.0,
-        regime_age: 5,
+        regime_age: 20,
         stability_structural: 100.0,
         ..Default::default()
     };
-    let prev_policy = PortfolioPolicy::from_market_regime(&prev_market);
-    let prev_packet = DecisionPacket::new(
+    use stock_sentinel::core::participation::ParticipationReadiness;
+    let top_tier = vec!["AAPL".to_string()];
+    let prev_packet1 = DecisionPacket::new(
+        NaiveDate::from_ymd_opt(2022, 12, 30).unwrap(),
+        MarketFeatures::default(),
+        prev_market.clone(),
+        PortfolioPolicy::from_market_regime(&prev_market),
+        vec![],
+        ParticipationReadiness {
+            core_tier_streak: 1,
+            ..Default::default()
+        },
+        top_tier.clone(),
+    );
+    let prev_packet2 = DecisionPacket::new(
         prev_features.date,
         prev_features,
-        prev_market,
-        prev_policy,
+        prev_market.clone(),
+        PortfolioPolicy::from_market_regime(&prev_market),
         vec![],
+        ParticipationReadiness {
+            core_tier_streak: 2,
+            ..Default::default()
+        },
+        top_tier.clone(),
     );
 
-    let packet =
-        Engine::run_daily_pipeline(&histories, &rules, &[prev_packet]).expect("Pipeline failed");
+    let packet = Engine::run_daily_pipeline(&histories, &rules, &[prev_packet1, prev_packet2])
+        .expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
     assert!(

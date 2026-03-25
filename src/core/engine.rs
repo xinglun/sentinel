@@ -8,6 +8,7 @@ use crate::core::portfolio_policy::PortfolioPolicy;
 
 use crate::core::action_matrix::ActionMatrix;
 use crate::core::decision::DecisionPacket;
+use crate::core::participation::ParticipationReadiness;
 use anyhow::Result;
 use chrono::Local;
 
@@ -73,6 +74,18 @@ impl Engine {
             memory_decisions.insert(f.symbol.clone(), decision);
         }
 
+        // 6. Memory-Adjusted Ranking (Moved up for Readiness)
+        let ranked_symbols =
+            AssetStateMachine::rank_assets_with_memory(&asset_features, &memory_decisions);
+        let current_top_tier: Vec<String> = ranked_symbols.iter().take(3).cloned().collect();
+
+        // 7. Participation Readiness (NEW)
+        let participation = ParticipationReadiness::compute(
+            market_features.stability_score,
+            &current_top_tier,
+            history,
+        );
+
         // 6. Asset Execution State & Action Matrix
         let mut asset_decisions = Vec::new();
         for f in &asset_features {
@@ -125,6 +138,7 @@ impl Engine {
             let mut decision = ActionMatrix::decide(
                 &market_regime,
                 &market_features,
+                participation.participation_ready,
                 &portfolio_policy,
                 &asset_state_snapshot,
                 f.deviation,
@@ -146,10 +160,7 @@ impl Engine {
             asset_decisions.push(decision);
         }
 
-        // 7. Memory-Adjusted Ranking (NEW V1.3)
-        let ranked_symbols =
-            AssetStateMachine::rank_assets_with_memory(&asset_features, &memory_decisions);
-
+        // 9. Reorder based on ranking
         let mut final_decisions = Vec::with_capacity(asset_decisions.len());
         for symbol in ranked_symbols {
             if let Some(pos) = asset_decisions.iter().position(|d| d.symbol == symbol) {
@@ -170,6 +181,8 @@ impl Engine {
             market_regime,
             portfolio_policy,
             final_decisions,
+            participation,
+            current_top_tier,
         );
 
         Ok(packet)

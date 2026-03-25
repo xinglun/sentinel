@@ -34,7 +34,15 @@ async fn test_full_9_asset_archival_package() {
         date: date_naive,
         ..Default::default()
     };
-    let packet = DecisionPacket::new(date_naive, features, market, policy, vec![]);
+    let packet = DecisionPacket::new(
+        date_naive,
+        features,
+        market,
+        policy,
+        vec![],
+        stock_sentinel::core::participation::ParticipationReadiness::default(),
+        Vec::new(),
+    );
 
     layer.save_packet(&packet).unwrap();
     layer.save_daily_packet(&packet).unwrap();

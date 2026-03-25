@@ -232,7 +232,15 @@ mod tests {
             system_confidence: 80.0,
             ..crate::core::features::MarketFeatures::default()
         };
-        let packet = DecisionPacket::new(Utc::now().date_naive(), features, market, policy, vec![]);
+        let packet = DecisionPacket::new(
+            Utc::now().date_naive(),
+            features,
+            market,
+            policy,
+            vec![],
+            crate::core::participation::ParticipationReadiness::default(),
+            Vec::new(),
+        );
 
         layer.save_packet(&packet).unwrap();
 
@@ -288,6 +296,8 @@ mod tests {
             market.clone(),
             PortfolioPolicy::from_market_regime(&market),
             Vec::<AssetActionDecision>::new(),
+            crate::core::participation::ParticipationReadiness::default(),
+            Vec::new(),
         );
         let result = ExecutionResult {
             trades: vec![],

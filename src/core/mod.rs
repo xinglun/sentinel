@@ -7,6 +7,7 @@ pub mod features;
 pub mod ledger;
 pub mod market_regime;
 pub mod notify;
+pub mod participation;
 pub mod persistence;
 pub mod portfolio_policy;
 pub mod report;

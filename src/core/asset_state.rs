@@ -603,6 +603,8 @@ mod tests {
                     risk_assets_mode: RiskAssetsMode::NEUTRAL,
                 },
                 assets: vec![asset_dec], // NVDA is at index 0 (Top 1)
+                participation: Default::default(),
+                top_tier_symbols: Vec::new(),
                 telegram: TelegramOutput {
                     headline: "".to_string(),
                     summary: "".to_string(),
@@ -683,6 +685,8 @@ mod tests {
                 risk_assets_mode: RiskAssetsMode::NEUTRAL,
             },
             assets: vec![asset_dec],
+            participation: Default::default(),
+            top_tier_symbols: Vec::new(),
             telegram: TelegramOutput {
                 headline: "".to_string(),
                 summary: "".to_string(),
