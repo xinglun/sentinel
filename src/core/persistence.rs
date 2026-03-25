@@ -1,4 +1,5 @@
 use crate::core::decision::DecisionPacket;
+use crate::core::execution_gate::ExecutionResult;
 use anyhow::{Context, Result};
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
@@ -84,6 +85,33 @@ impl PersistenceLayer {
         let json = serde_json::to_string(log).context("Failed to serialize execution gate log")?;
         let mut file = OpenOptions::new().create(true).append(true).open(path)?;
         writeln!(file, "{}", json)?;
+        Ok(())
+    }
+
+    pub fn save_execution_gate_result(
+        &self,
+        packet: &DecisionPacket,
+        result: &ExecutionResult,
+    ) -> Result<()> {
+        if result.audits.is_empty() {
+            let summary = serde_json::json!({
+                "event": "execution_gate_noop",
+                "date": packet.date.to_string(),
+                "market_state": format!("{:?}", packet.market_regime.market_state),
+                "risk_overlay": format!("{:?}", packet.market_regime.risk_overlay),
+                "asset_count": packet.assets.len(),
+                "trade_count": result.trades.len(),
+                "audit_count": 0,
+                "reason": "No eligible ACCUMULATE/REDUCE signals reached the execution gate"
+            });
+            return self.save_execution_gate_log(&summary);
+        }
+
+        for audit in &result.audits {
+            let log_entry = serde_json::to_value(audit)?;
+            self.save_execution_gate_log(&log_entry)?;
+        }
+
         Ok(())
     }
 
@@ -174,6 +202,8 @@ mod tests {
         LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
     };
     use crate::core::portfolio_policy::PortfolioPolicy;
+    use crate::core::{action_matrix::AssetActionDecision, execution_gate::ExecutionResult};
+    use chrono::NaiveDate;
     use chrono::Utc;
     use std::fs;
 
@@ -230,6 +260,46 @@ mod tests {
         assert!(report_path.exists());
         let saved_content = fs::read_to_string(report_path).unwrap();
         assert_eq!(saved_content, content);
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn test_save_execution_gate_result_writes_noop_summary_when_audits_empty() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_gate_noop_{}",
+            Utc::now().timestamp()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+
+        let layer = PersistenceLayer::new(&temp_dir);
+        let market = MarketRegimeSnapshot {
+            market_state: MarketState::IGNITION,
+            lifecycle_state: LifecycleState::IGNITION,
+            risk_overlay: RiskOverlay::NORMAL,
+            reasons: vec![],
+            low_stability_streak: 0,
+            duration_in_state: 1,
+            transition_audit: None,
+        };
+        let packet = DecisionPacket::new(
+            NaiveDate::from_ymd_opt(2023, 1, 1).unwrap(),
+            crate::core::features::MarketFeatures::default(),
+            market.clone(),
+            PortfolioPolicy::from_market_regime(&market),
+            Vec::<AssetActionDecision>::new(),
+        );
+        let result = ExecutionResult {
+            trades: vec![],
+            audits: vec![],
+        };
+
+        layer.save_execution_gate_result(&packet, &result).unwrap();
+
+        let path = temp_dir.join("execution_gate_log.jsonl");
+        assert!(path.exists());
+        let content = fs::read_to_string(path).unwrap();
+        assert!(content.contains("execution_gate_noop"));
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }

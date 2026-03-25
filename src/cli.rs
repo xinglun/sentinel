@@ -504,10 +504,7 @@ async fn run_pipeline(
         );
 
         // 4. Save Execution Gate Audits
-        for audit in &execution_result.audits {
-            let log_entry = serde_json::to_value(audit)?;
-            persistence.save_execution_gate_log(&log_entry)?;
-        }
+        persistence.save_execution_gate_result(&packet, &execution_result)?;
 
         // 5. Generate Account Snapshot
         let account_snapshot = serde_json::json!({
