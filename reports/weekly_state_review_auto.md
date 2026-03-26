@@ -1,6 +1,6 @@
 # Weekly State Machine Review (Auto-Draft)
 
-**Period Ending**: 2026-03-23
+**Period Ending**: 2026-03-26
 
 ## 📊 Weekly Totals
 
@@ -18,7 +18,7 @@
 
 | Date | Transition | Events |
 |---|---|---|
-| 2026-03-23 | `"IGNITION"` -> `"IGNITION"` |  |
+| 2026-03-26 | `"IGNITION"` -> `"IGNITION"` |  |
 
 ## 🚩 Auto-flagged Anomalies
 - No critical anomalies automatically detected this week.
