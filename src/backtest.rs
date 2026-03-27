@@ -129,6 +129,7 @@ pub async fn run_backtest(
 
     // Generate comparison report
     generate_comparison_report(&baseline_metrics, &enhanced_metrics)?;
+    publish_primary_backtest_outputs()?;
 
     Ok(())
 }
@@ -590,5 +591,19 @@ fn generate_comparison_report(
     ));
 
     fs::write("backtest/state_machine_comparison.md", report)?;
+    Ok(())
+}
+
+fn publish_primary_backtest_outputs() -> Result<()> {
+    fs::create_dir_all("backtest")?;
+    fs::copy("backtest/enhanced/summary.md", "backtest/summary.md")?;
+    fs::copy(
+        "backtest/enhanced/state_machine_metrics.md",
+        "backtest/state_machine_metrics.md",
+    )?;
+    fs::copy(
+        "backtest/enhanced/state_machine_metrics.json",
+        "backtest/state_machine_metrics.json",
+    )?;
     Ok(())
 }

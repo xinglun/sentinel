@@ -7,6 +7,7 @@ use time::OffsetDateTime;
 use crate::backtest;
 use crate::config;
 use crate::core::engine::Engine;
+use crate::core::execution_gate::ExecutionGate;
 use crate::core::ledger::Ledger;
 use crate::core::persistence::PersistenceLayer;
 use crate::core::transition_log::TransitionLogger;
@@ -231,6 +232,75 @@ async fn run_pipeline(
         let pres_packet =
             PresentationAssembler::assemble(&packet, &rules_arc, &positions, failed_symbols, lang);
 
+        let default_trading_config = crate::config::TradingConfig {
+            enabled: false,
+            global_budget: 0.0,
+            max_daily_budget: None,
+        };
+        let trading_config = config_arc
+            .trading
+            .as_ref()
+            .unwrap_or(&default_trading_config);
+        let daily_traded = ledger.get_daily_traded_amount();
+        let current_exposure: f64 = positions
+            .values()
+            .map(|(qty, avg_price)| qty * avg_price)
+            .sum();
+        let buying_power = (trading_config.global_budget - current_exposure).max(0.0);
+        let execution_result = ExecutionGate::gate_packet(
+            &packet,
+            trading_config,
+            daily_traded,
+            buying_power,
+            current_exposure,
+        );
+        persistence.save_execution_gate_result(&packet, &execution_result)?;
+
+        let date_str = packet.date.to_string();
+        let portfolio_snapshot = serde_json::json!({
+            "date": date_str,
+            "realized_pl": realized_pl,
+            "current_exposure": current_exposure,
+            "position_count": positions.len(),
+            "positions": positions.iter().map(|(symbol, (qty, avg_price))| {
+                serde_json::json!({
+                    "symbol": symbol,
+                    "qty": qty,
+                    "avg_price": avg_price,
+                    "market_value_estimate": qty * avg_price,
+                })
+            }).collect::<Vec<_>>()
+        });
+        persistence.save_portfolio_snapshot(&portfolio_snapshot, &date_str)?;
+
+        let account_snapshot = serde_json::json!({
+            "date": date_str,
+            "global_budget": trading_config.global_budget,
+            "max_daily_budget": trading_config.max_daily_budget,
+            "daily_traded": daily_traded,
+            "buying_power_estimate": buying_power,
+            "current_exposure": current_exposure,
+            "realized_pl": realized_pl,
+            "failed_fetch_count": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.len()).unwrap_or(0),
+        });
+        persistence.save_account_snapshot(&account_snapshot, &date_str)?;
+
+        let data_quality_log = serde_json::json!({
+            "timestamp": chrono::Local::now().to_rfc3339(),
+            "date": date_str,
+            "successful_fetches": ticker_histories.len(),
+            "failed_fetches": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.len()).unwrap_or(0),
+            "failed_symbols": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.clone()).unwrap_or_default(),
+            "status": if ticker_histories.is_empty() {
+                "CRITICAL"
+            } else if pres_packet.data_alert.is_some() {
+                "WARNING"
+            } else {
+                "OK"
+            }
+        });
+        persistence.save_data_quality_log(&data_quality_log)?;
+
         let mut sm_summary = crate::core::run_status::StateMachineSummary {
             from_state: format!(
                 "{:?}",
@@ -450,6 +520,12 @@ mod tests {
         let run_status_path = tmp.path().join(format!("run_status_{}.json", today));
         let history_path = tmp.path().join("decision_history.jsonl");
         let daily_packet_path = tmp.path().join(format!("decision_packet_{}.json", today));
+        let execution_gate_log_path = tmp.path().join("execution_gate_log.jsonl");
+        let portfolio_snapshot_path = tmp
+            .path()
+            .join(format!("portfolio_snapshot_{}.json", today));
+        let account_snapshot_path = tmp.path().join(format!("account_snapshot_{}.json", today));
+        let data_quality_log_path = tmp.path().join("data_quality_log.jsonl");
 
         assert!(
             report_path.exists(),
@@ -467,10 +543,20 @@ mod tests {
             !daily_packet_path.exists(),
             "diagnostic-only run must not create a daily decision packet"
         );
+        assert!(execution_gate_log_path.exists());
+        assert!(portfolio_snapshot_path.exists());
+        assert!(account_snapshot_path.exists());
+        assert!(data_quality_log_path.exists());
 
         let report = std::fs::read_to_string(report_path).unwrap();
         assert!(report.contains("数据不可用"));
         assert!(report.contains("严重"));
+
+        let gate_log = std::fs::read_to_string(execution_gate_log_path).unwrap();
+        assert!(gate_log.contains("execution_gate_noop"));
+
+        let quality_log = std::fs::read_to_string(data_quality_log_path).unwrap();
+        assert!(quality_log.contains("CRITICAL"));
 
         let run_status: serde_json::Value =
             serde_json::from_str(&std::fs::read_to_string(run_status_path).unwrap()).unwrap();
@@ -524,11 +610,39 @@ mod tests {
                     .unwrap_or(false)
             })
             .expect("daily decision packet must still be produced for partial-failure runs");
+        let execution_gate_log_path = tmp.path().join("execution_gate_log.jsonl");
+        let portfolio_snapshot_path = std::fs::read_dir(tmp.path())
+            .unwrap()
+            .filter_map(Result::ok)
+            .map(|entry| entry.path())
+            .find(|path| {
+                path.file_name()
+                    .and_then(|name| name.to_str())
+                    .map(|name| name.starts_with("portfolio_snapshot_") && name.ends_with(".json"))
+                    .unwrap_or(false)
+            })
+            .expect("portfolio snapshot should exist");
+        let account_snapshot_path = std::fs::read_dir(tmp.path())
+            .unwrap()
+            .filter_map(Result::ok)
+            .map(|entry| entry.path())
+            .find(|path| {
+                path.file_name()
+                    .and_then(|name| name.to_str())
+                    .map(|name| name.starts_with("account_snapshot_") && name.ends_with(".json"))
+                    .unwrap_or(false)
+            })
+            .expect("account snapshot should exist");
+        let data_quality_log_path = tmp.path().join("data_quality_log.jsonl");
 
         assert!(
             history_path.exists(),
             "real decisions must still persist when at least one symbol succeeded"
         );
+        assert!(execution_gate_log_path.exists());
+        assert!(portfolio_snapshot_path.exists());
+        assert!(account_snapshot_path.exists());
+        assert!(data_quality_log_path.exists());
 
         let report = std::fs::read_to_string(report_path).unwrap();
         assert!(report.contains("⚠️"));
@@ -545,5 +659,8 @@ mod tests {
             run_status["state_machine"]["to_state"],
             serde_json::Value::String("DATA_UNAVAILABLE".to_string())
         );
+
+        let quality_log = std::fs::read_to_string(data_quality_log_path).unwrap();
+        assert!(quality_log.contains("WARNING"));
     }
 }
