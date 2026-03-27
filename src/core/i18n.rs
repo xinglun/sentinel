@@ -1,0 +1,533 @@
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Language {
+    #[serde(rename = "zh-cn")]
+    ZhCn,
+    #[serde(rename = "en-us")]
+    EnUs,
+    #[serde(rename = "ja-jp")]
+    JaJp,
+}
+
+impl Default for Language {
+    fn default() -> Self {
+        Self::ZhCn
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DisplayDictionary {
+    pub actions: ActionDictionary,
+    pub buckets: BucketDictionary,
+    pub signals: SignalDictionary,
+    pub states: StateDictionary,
+    pub headers: HeaderDictionary,
+    pub reasons: ReasonDictionary,
+    pub risks: RiskDictionary,
+    pub market_stages: MarketStageDictionary,
+    pub tags: ActionTagDictionary,
+    pub portfolio: PortfolioDictionary,
+    pub asset_tags: TagDictionary,
+    pub asset_states: AssetStateDictionary,
+    pub market_summaries: MarketSummaryDictionary,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MarketSummaryDictionary {
+    pub established: String,
+    pub defensive: String,
+    pub ignition: String,
+    pub neutral: String,
+    pub bias_established: String,
+    pub bias_defensive: String,
+    pub bias_ignition: String,
+    pub bias_neutral: String,
+    pub data_missing: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TagDictionary {
+    pub blocked: String,
+    pub core: String,
+    pub candidate: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AssetStateDictionary {
+    pub pullback: String,
+    pub optimal: String,
+    pub overheat: String,
+    pub forming: String,
+    pub cruise: String,
+    pub caution: String,
+    pub defend: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct RiskDictionary {
+    pub normal: String,
+    pub defensive: String,
+    pub mixed: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MarketStageDictionary {
+    pub established: String,
+    pub defensive: String,
+    pub ignition: String,
+    pub neutral: String,
+    pub pullback: String,
+    pub stable_uptrend: String,
+    pub trend_neutral: String,
+    pub data_missing: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ActionTagDictionary {
+    pub signal_new: String,
+    pub signal_changed: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct PortfolioDictionary {
+    pub exposure: String,
+    pub holdings: String,
+    pub positions_suffix: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReasonDictionary {
+    pub exit_defensive: String,
+    pub exit_strength_loss: String,
+    pub exit_participation: String,
+    pub exit_overheat: String,
+    pub signal_changed: String,
+    pub signal_new: String,
+    pub state_pullback_restrained: String,
+    pub state_pullback_normal: String,
+    pub state_optimal_restrained: String,
+    pub state_optimal_normal: String,
+    pub state_defend: String,
+    pub state_overheat: String,
+    pub state_cruise: String,
+    pub state_caution: String,
+    pub state_forming_restrained: String,
+    pub state_forming_normal: String,
+    pub ignition_notice: String,
+    pub participation_notice: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ActionDictionary {
+    pub accumulate: String,
+    pub hold: String,
+    pub observe: String,
+    pub trim: String,
+    pub exit: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BucketDictionary {
+    pub accumulate: String,
+    pub holdings: String,
+    pub watchlist: String,
+    pub actions: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SignalDictionary {
+    pub confidence: String,
+    pub stability: String,
+    pub participation: String,
+    pub continuity: String,
+    pub regime_age: String,
+    pub net_flow: String,
+    pub runtime_mode: String,
+    pub momentum: String,
+    pub bias: String,
+    pub regime_label: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StateDictionary {
+    pub ready: String,
+    pub not_ready: String,
+    pub mode_live: String,
+    pub mode_dry_run: String,
+    pub mode_monitor: String,
+    pub data_notice: String,
+    pub data_warning: String,
+    pub data_critical: String,
+    pub flow_in: String,
+    pub flow_out: String,
+    pub flow_stable: String,
+    pub fetch_failed: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct HeaderDictionary {
+    pub top_actions: String,
+    pub monitoring_signals: String,
+    pub market_summary: String,
+    pub tactical_buckets: String,
+    pub risks_opportunities: String,
+}
+
+pub fn get_dictionary(lang: Language) -> DisplayDictionary {
+    match lang {
+        Language::ZhCn => DisplayDictionary {
+            actions: ActionDictionary {
+                accumulate: "加仓".to_string(),
+                hold: "持有".to_string(),
+                observe: "观察".to_string(),
+                trim: "减仓".to_string(),
+                exit: "退出".to_string(),
+            },
+            buckets: BucketDictionary {
+                accumulate: "加仓区".to_string(),
+                holdings: "持有区".to_string(),
+                watchlist: "观察区".to_string(),
+                actions: "收缩区".to_string(),
+            },
+            signals: SignalDictionary {
+                confidence: "信心指数".to_string(),
+                stability: "稳定性".to_string(),
+                participation: "参与状态".to_string(),
+                continuity: "连续性".to_string(),
+                regime_age: "周期长度".to_string(),
+                net_flow: "资金流向".to_string(),
+                runtime_mode: "运行基准".to_string(),
+                momentum: "市场动量".to_string(),
+                bias: "当前倾向".to_string(),
+                regime_label: "市场状态".to_string(),
+            },
+            states: StateDictionary {
+                ready: "已就绪".to_string(),
+                not_ready: "未就绪".to_string(),
+                mode_live: "实盘接入".to_string(),
+                mode_dry_run: "模拟演练".to_string(),
+                mode_monitor: "监控模式".to_string(),
+                data_notice: "提示".to_string(),
+                data_warning: "警告".to_string(),
+                data_critical: "严重".to_string(),
+                flow_in: "强势流入 ↗".to_string(),
+                flow_out: "加速流出 ↘".to_string(),
+                flow_stable: "存量博弈 ·".to_string(),
+                fetch_failed: "获取失败".to_string(),
+            },
+            headers: HeaderDictionary {
+                top_actions: "🎯 核心操作".to_string(),
+                monitoring_signals: "📡 监控信号".to_string(),
+                market_summary: "🌍 市场摘要".to_string(),
+                tactical_buckets: "🧭 战术分区".to_string(),
+                risks_opportunities: "⚠️ 风险与机会".to_string(),
+            },
+            reasons: ReasonDictionary {
+                exit_defensive: "🛡️ 结构性风险: 激活保命层强制退出".to_string(),
+                exit_strength_loss: "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
+                exit_participation: "🚫 窗口关闭: 市场热度不足，收缩战线".to_string(),
+                exit_overheat: "🌋 偏离过热: 执行利润保护性减仓".to_string(),
+                signal_changed: "由 {:?} -> {:?}，信号变化".to_string(),
+                signal_new: "新进入关注列表".to_string(),
+                state_pullback_restrained: "核心回撤，观察强度".to_string(),
+                state_pullback_normal: "趋势内回撤，允许补仓".to_string(),
+                state_optimal_restrained: "结构占优，等待参与许可".to_string(),
+                state_optimal_normal: "结构最强，适合持有".to_string(),
+                state_defend: "结构转弱，避免参与".to_string(),
+                state_overheat: "偏离过热，避免追高".to_string(),
+                state_cruise: "趋势延续，持有为主".to_string(),
+                state_caution: "信号转弱，暂不加仓".to_string(),
+                state_forming_restrained: "雏形初现，等待强度确认".to_string(),
+                state_forming_normal: "结构未完成，继续观察".to_string(),
+                ignition_notice: "⚠️ 处于脆弱启动期，以上仅为候选强者，需等待确认。".to_string(),
+                participation_notice: "⚠️ 市场参与未达阈值，仅为强度参考，禁止加仓。".to_string(),
+            },
+            risks: RiskDictionary {
+                normal: "风险正常".to_string(),
+                defensive: "结构防御".to_string(),
+                mixed: "分化显著".to_string(),
+            },
+            market_stages: MarketStageDictionary {
+                established: "扩张期".to_string(),
+                defensive: "保命期".to_string(),
+                ignition: "启动期".to_string(),
+                neutral: "混沌期".to_string(),
+                pullback: "回撤期".to_string(),
+                stable_uptrend: "慢牛上涨".to_string(),
+                trend_neutral: "趋势中立".to_string(),
+                data_missing: "无数据".to_string(),
+            },
+            tags: ActionTagDictionary {
+                signal_new: "新增".to_string(),
+                signal_changed: "信号变更".to_string(),
+            },
+            portfolio: PortfolioDictionary {
+                exposure: "仓位".to_string(),
+                holdings: "持仓".to_string(),
+                positions_suffix: "个标的".to_string(),
+            },
+            asset_tags: TagDictionary {
+                blocked: "风控隔离".to_string(),
+                core: "核心标的".to_string(),
+                candidate: "候选标的".to_string(),
+            },
+            asset_states: AssetStateDictionary {
+                pullback: "回撤".to_string(),
+                optimal: "最优".to_string(),
+                overheat: "过热".to_string(),
+                forming: "筹备".to_string(),
+                cruise: "巡航".to_string(),
+                caution: "警惕".to_string(),
+                defend: "防御".to_string(),
+            },
+            market_summaries: MarketSummaryDictionary {
+                established: "扩张趋势，积极参与".to_string(),
+                defensive: "系统风险，停止开仓".to_string(),
+                ignition: "启动初期，观察强度".to_string(),
+                neutral: "混沌状态，观望为主".to_string(),
+                bias_established: "多头占优".to_string(),
+                bias_defensive: "防守优先".to_string(),
+                bias_ignition: "低仓试探".to_string(),
+                bias_neutral: "中性".to_string(),
+                data_missing: "数据不可用".to_string(),
+            },
+        },
+        Language::EnUs => DisplayDictionary {
+            actions: ActionDictionary {
+                accumulate: "Accumulate".to_string(),
+                hold: "Hold".to_string(),
+                observe: "Observe".to_string(),
+                trim: "Trim".to_string(),
+                exit: "Exit".to_string(),
+            },
+            buckets: BucketDictionary {
+                accumulate: "Accumulate".to_string(),
+                holdings: "Holdings".to_string(),
+                watchlist: "Watchlist".to_string(),
+                actions: "Pullback/Exit".to_string(),
+            },
+            signals: SignalDictionary {
+                confidence: "Confidence".to_string(),
+                stability: "Stability".to_string(),
+                participation: "Participation".to_string(),
+                continuity: "Streak".to_string(),
+                regime_age: "Regime Age".to_string(),
+                net_flow: "Net Flow".to_string(),
+                runtime_mode: "Mode".to_string(),
+                momentum: "Momentum".to_string(),
+                bias: "Bias".to_string(),
+                regime_label: "Market State".to_string(),
+            },
+            states: StateDictionary {
+                ready: "Ready".to_string(),
+                not_ready: "Not Ready".to_string(),
+                mode_live: "Live".to_string(),
+                mode_dry_run: "Dry Run".to_string(),
+                mode_monitor: "Monitor".to_string(),
+                data_notice: "Notice".to_string(),
+                data_warning: "Warning".to_string(),
+                data_critical: "Critical".to_string(),
+                flow_in: "Inflow ↗".to_string(),
+                flow_out: "Outflow ↘".to_string(),
+                flow_stable: "Stable ·".to_string(),
+                fetch_failed: "fetch failed".to_string(),
+            },
+            headers: HeaderDictionary {
+                top_actions: "🎯 Top Actions".to_string(),
+                monitoring_signals: "📡 Monitoring Signals".to_string(),
+                market_summary: "🌍 Market Summary".to_string(),
+                tactical_buckets: "🧭 Tactical Buckets".to_string(),
+                risks_opportunities: "⚠️ Risk & Opportunity".to_string(),
+            },
+            reasons: ReasonDictionary {
+                exit_defensive: "Defensive Exit: Safety layer activated".to_string(),
+                exit_strength_loss: "Mainline Lag: Structural exit on weakness".to_string(),
+                exit_participation: "Window Closed: Low market heat, retracting".to_string(),
+                exit_overheat: "Overheated: Protecting profits".to_string(),
+                signal_changed: "Changed from {:?} to {:?}, signal shifted".to_string(),
+                signal_new: "Newly added to watchlist today".to_string(),
+                state_pullback_restrained: "Core pullback, observing strength".to_string(),
+                state_pullback_normal: "Pullback within trend, accumulation allowed".to_string(),
+                state_optimal_restrained: "Optimal structure, awaiting participation".to_string(),
+                state_optimal_normal: "Strongest structure, bias to hold".to_string(),
+                state_defend: "Weakness detected, avoiding participation".to_string(),
+                state_overheat: "Overheated, avoiding FOMO".to_string(),
+                state_cruise: "Trend continuing, bias to hold".to_string(),
+                state_caution: "Caution: Weakness detected, no new buys".to_string(),
+                state_forming_restrained: "Forming: Awaiting strength confirmation".to_string(),
+                state_forming_normal: "Forming: Incomplete structure, observing".to_string(),
+                ignition_notice: "⚠️ Ignition phase: Candidates only, await continuity."
+                    .to_string(),
+                participation_notice: "⚠️ Participation gate not met, no accumulation.".to_string(),
+            },
+            risks: RiskDictionary {
+                normal: "Risk Normal".to_string(),
+                defensive: "Risk Defensive".to_string(),
+                mixed: "Risk Mixed".to_string(),
+            },
+            market_stages: MarketStageDictionary {
+                established: "Expanding".to_string(),
+                defensive: "Protect".to_string(),
+                ignition: "Ignition".to_string(),
+                neutral: "Neutral".to_string(),
+                pullback: "Pullback".to_string(),
+                stable_uptrend: "Stable Uptrend".to_string(),
+                trend_neutral: "Trend Neutral".to_string(),
+                data_missing: "No Data".to_string(),
+            },
+            tags: ActionTagDictionary {
+                signal_new: "New".to_string(),
+                signal_changed: "Changed".to_string(),
+            },
+            portfolio: PortfolioDictionary {
+                exposure: "Exposure".to_string(),
+                holdings: "Holdings".to_string(),
+                positions_suffix: "positions".to_string(),
+            },
+            asset_tags: TagDictionary {
+                blocked: "Blocked".to_string(),
+                core: "Core".to_string(),
+                candidate: "Candidate".to_string(),
+            },
+            asset_states: AssetStateDictionary {
+                pullback: "Pullback".to_string(),
+                optimal: "Optimal".to_string(),
+                overheat: "Overheat".to_string(),
+                forming: "Forming".to_string(),
+                cruise: "Cruise".to_string(),
+                caution: "Caution".to_string(),
+                defend: "Defend".to_string(),
+            },
+            market_summaries: MarketSummaryDictionary {
+                established: "Stay long".to_string(),
+                defensive: "Stop buying".to_string(),
+                ignition: "Watch candidates".to_string(),
+                neutral: "Stay neutral".to_string(),
+                bias_established: "Long Bias".to_string(),
+                bias_defensive: "Defense First".to_string(),
+                bias_ignition: "Probe".to_string(),
+                bias_neutral: "Neutral".to_string(),
+                data_missing: "Data Unavailable".to_string(),
+            },
+        },
+        Language::JaJp => DisplayDictionary {
+            actions: ActionDictionary {
+                accumulate: "買い増し".to_string(),
+                hold: "ホールド".to_string(),
+                observe: "観測".to_string(),
+                trim: "一部利確".to_string(),
+                exit: "全決済".to_string(),
+            },
+            buckets: BucketDictionary {
+                accumulate: "買い増しエリア".to_string(),
+                holdings: "保有エリア".to_string(),
+                watchlist: "監視エリア".to_string(),
+                actions: "縮小エリア".to_string(),
+            },
+            signals: SignalDictionary {
+                confidence: "信頼指数".to_string(),
+                stability: "安定性".to_string(),
+                participation: "参加状態".to_string(),
+                continuity: "継続性".to_string(),
+                regime_age: "サイクル期間".to_string(),
+                net_flow: "資金流向".to_string(),
+                runtime_mode: "実行モード".to_string(),
+                momentum: "モメンタム".to_string(),
+                bias: "現在の傾向".to_string(),
+                regime_label: "市場状態".to_string(),
+            },
+            states: StateDictionary {
+                ready: "準備完了".to_string(),
+                not_ready: "未完了".to_string(),
+                mode_live: "リアルタイム".to_string(),
+                mode_dry_run: "シミュレーション".to_string(),
+                mode_monitor: "モニタリング".to_string(),
+                data_notice: "通知".to_string(),
+                data_warning: "注意".to_string(),
+                data_critical: "致命的".to_string(),
+                flow_in: "強い流入 ↗".to_string(),
+                flow_out: "加速流出 ↘".to_string(),
+                flow_stable: "均衡状態 ·".to_string(),
+                fetch_failed: "取得失敗".to_string(),
+            },
+            headers: HeaderDictionary {
+                top_actions: "🎯 主要アクション".to_string(),
+                monitoring_signals: "📡 監視シグナル".to_string(),
+                market_summary: "🌍 市場サマリー".to_string(),
+                tactical_buckets: "🧭 戦術的区分".to_string(),
+                risks_opportunities: "⚠️ リスクと機会".to_string(),
+            },
+            reasons: ReasonDictionary {
+                exit_defensive: "🛡️ 防御性エグジット：安全装置発動".to_string(),
+                exit_strength_loss: "📉 主導権喪失：トレンド崩れによる決済".to_string(),
+                exit_participation: "🚫 参加機会終了：熱量不足による撤退".to_string(),
+                exit_overheat: "🌋 利益確定売り".to_string(),
+                signal_changed: "{:?} -> {:?} へ変更".to_string(),
+                signal_new: "ウォッチリストに新規追加".to_string(),
+                state_pullback_restrained: "核心押し目：強度確認中".to_string(),
+                state_pullback_normal: "押し目：買い増し推奨".to_string(),
+                state_optimal_restrained: "最適：参加待機".to_string(),
+                state_optimal_normal: "最強構造：継続保有".to_string(),
+                state_defend: "構造悪化：参加回避".to_string(),
+                state_overheat: "加熱：高値掴み注意".to_string(),
+                state_cruise: "巡航中：継続保有".to_string(),
+                state_caution: "警戒：静観".to_string(),
+                state_forming_restrained: "セットアップ中".to_string(),
+                state_forming_normal: "形成不全：継続監視".to_string(),
+                ignition_notice: "⚠️ 始動期：継続性確認待ち".to_string(),
+                participation_notice: "⚠️ 参加ゲート未達：買い増し禁止".to_string(),
+            },
+            risks: RiskDictionary {
+                normal: "正常".to_string(),
+                defensive: "防御".to_string(),
+                mixed: "混在".to_string(),
+            },
+            market_stages: MarketStageDictionary {
+                established: "拡張期".to_string(),
+                defensive: "守備期".to_string(),
+                ignition: "始動期".to_string(),
+                neutral: "混沌期".to_string(),
+                pullback: "押し目期".to_string(),
+                stable_uptrend: "慢牛上昇".to_string(),
+                trend_neutral: "トレンド中立".to_string(),
+                data_missing: "データ無し".to_string(),
+            },
+            tags: ActionTagDictionary {
+                signal_new: "新規".to_string(),
+                signal_changed: "変更".to_string(),
+            },
+            portfolio: PortfolioDictionary {
+                exposure: "ポジション".to_string(),
+                holdings: "保有".to_string(),
+                positions_suffix: "銘柄".to_string(),
+            },
+            asset_tags: TagDictionary {
+                blocked: "対象外".to_string(),
+                core: "コア".to_string(),
+                candidate: "候補".to_string(),
+            },
+            asset_states: AssetStateDictionary {
+                pullback: "押し目".to_string(),
+                optimal: "最適".to_string(),
+                overheat: "加熱".to_string(),
+                forming: "形成中".to_string(),
+                cruise: "巡航".to_string(),
+                caution: "警戒".to_string(),
+                defend: "防御".to_string(),
+            },
+            market_summaries: MarketSummaryDictionary {
+                established: "拡張傾向、積極参加".to_string(),
+                defensive: "防御モード、新規建玉停止".to_string(),
+                ignition: "始動初期、強度確認".to_string(),
+                neutral: "混沌状態、静観".to_string(),
+                bias_established: "強気".to_string(),
+                bias_defensive: "守備".to_string(),
+                bias_ignition: "打診".to_string(),
+                bias_neutral: "中立".to_string(),
+                data_missing: "データ不足".to_string(),
+            },
+        },
+    }
+}

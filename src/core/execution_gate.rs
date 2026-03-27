@@ -13,6 +13,8 @@ pub struct GatedTrade {
     pub qty: f64,
     pub price: f64,
     pub reason: String,
+    pub is_liquidation: bool,
+    pub is_trim: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -28,6 +30,8 @@ pub struct GatedAudit {
     pub passed: bool,
     pub blocked_by: Option<String>,
     pub details: serde_json::Value,
+    pub is_liquidation: bool,
+    pub is_trim: bool,
 }
 
 pub struct ExecutionResult {
@@ -69,14 +73,23 @@ impl ExecutionGate {
                     passed: false,
                     blocked_by: Some("DisabledByWatchlist".to_string()),
                     details: serde_json::json!({}),
+                    is_liquidation: false,
+                    is_trim: false,
                 });
                 continue;
             }
 
-            let (side, base_amount) = match asset.action {
-                AssetAction::ACCUMULATE => (Some(TradeSide::Buy), asset.trade_amount),
-                AssetAction::REDUCE => (Some(TradeSide::Sell), asset.trade_amount),
-                _ => (None, 0.0),
+            let (side, base_amount, is_liquidation, is_trim) = match asset.position_intent {
+                crate::core::exit::PositionIntent::ADD => {
+                    (Some(TradeSide::Buy), asset.trade_amount, false, false)
+                }
+                crate::core::exit::PositionIntent::TRIM => {
+                    (Some(TradeSide::Sell), 0.0, false, true)
+                }
+                crate::core::exit::PositionIntent::EXIT => {
+                    (Some(TradeSide::Sell), 0.0, true, false)
+                }
+                crate::core::exit::PositionIntent::HOLD => (None, 0.0, false, false),
             };
 
             if let Some(s) = side {
@@ -99,13 +112,15 @@ impl ExecutionGate {
                     "global_cap": global_cap
                 });
 
-                if final_amount <= 0.0 {
+                if final_amount <= 0.0 && !is_liquidation && !is_trim {
                     audits.push(GatedAudit {
                         symbol: asset.symbol.clone(),
                         action: asset.action,
                         passed: false,
                         blocked_by: Some("ZeroSize".to_string()),
                         details: audit_details,
+                        is_liquidation: false,
+                        is_trim: false,
                     });
                     continue;
                 }
@@ -117,6 +132,8 @@ impl ExecutionGate {
                         passed: false,
                         blocked_by: Some("CircuitBreaker".to_string()),
                         details: audit_details,
+                        is_liquidation: false,
+                        is_trim: false,
                     });
                     continue;
                 }
@@ -128,6 +145,8 @@ impl ExecutionGate {
                         passed: false,
                         blocked_by: Some("TradingDisabled".to_string()),
                         details: audit_details,
+                        is_liquidation: false,
+                        is_trim: false,
                     });
                     continue;
                 }
@@ -139,6 +158,8 @@ impl ExecutionGate {
                         passed: false,
                         blocked_by: Some("DailyBudget".to_string()),
                         details: audit_details,
+                        is_liquidation: false,
+                        is_trim: false,
                     });
                     continue;
                 }
@@ -150,6 +171,8 @@ impl ExecutionGate {
                         passed: false,
                         blocked_by: Some("GlobalExposure".to_string()),
                         details: audit_details,
+                        is_liquidation: false,
+                        is_trim: false,
                     });
                     continue;
                 }
@@ -161,18 +184,22 @@ impl ExecutionGate {
                         passed: false,
                         blocked_by: Some("BuyingPower".to_string()),
                         details: audit_details,
+                        is_liquidation: false,
+                        is_trim: false,
                     });
                     continue;
                 }
 
                 let qty = (final_amount / asset.price).floor();
-                if qty <= 0.0 {
+                if qty <= 0.0 && !is_liquidation && !is_trim {
                     audits.push(GatedAudit {
                         symbol: asset.symbol.clone(),
                         action: asset.action,
                         passed: false,
                         blocked_by: Some("QuantityRounding".to_string()),
                         details: audit_details,
+                        is_liquidation: false,
+                        is_trim: false,
                     });
                     continue;
                 }
@@ -183,6 +210,8 @@ impl ExecutionGate {
                     passed: true,
                     blocked_by: None,
                     details: audit_details,
+                    is_liquidation,
+                    is_trim,
                 });
 
                 gated_trades.push(GatedTrade {
@@ -190,10 +219,9 @@ impl ExecutionGate {
                     side: s.clone(),
                     qty,
                     price: asset.price,
-                    reason: format!(
-                        "Action: {:?}, Policy: {:?}, Base: ${:.0}",
-                        asset.action, packet.portfolio_policy.risk_assets_mode, base_amount
-                    ),
+                    reason: format!("{:?} ({:?})", asset.exit_decision, asset.position_intent),
+                    is_liquidation,
+                    is_trim,
                 });
 
                 if s == TradeSide::Buy {
@@ -225,6 +253,11 @@ mod tests {
     use crate::core::portfolio_policy::RiskAssetsMode;
 
     fn mock_decision(symbol: &str, action: AssetAction, amount: f64) -> AssetActionDecision {
+        let intent = match action {
+            AssetAction::ACCUMULATE => crate::core::exit::PositionIntent::ADD,
+            AssetAction::REDUCE => crate::core::exit::PositionIntent::TRIM,
+            _ => crate::core::exit::PositionIntent::HOLD,
+        };
         AssetActionDecision {
             symbol: symbol.to_string(),
             price: 100.0,
@@ -244,6 +277,8 @@ mod tests {
             config_multiplier: 1.0,
             prev_action: None,
             action_changed: false,
+            position_intent: intent,
+            ..Default::default()
         }
     }
 
@@ -272,6 +307,7 @@ mod tests {
             assets,
             crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
+            false,
         )
     }
 

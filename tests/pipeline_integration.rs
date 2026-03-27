@@ -125,6 +125,7 @@ async fn test_pipeline_bullish_path() {
             ..Default::default()
         },
         top_tier.clone(),
+        false,
     );
     let prev_packet2 = DecisionPacket::new(
         prev_features.date,
@@ -137,10 +138,16 @@ async fn test_pipeline_bullish_path() {
             ..Default::default()
         },
         top_tier.clone(),
+        false,
     );
 
-    let packet = Engine::run_daily_pipeline(&histories, &rules, &[prev_packet1, prev_packet2])
-        .expect("Pipeline failed");
+    let packet = Engine::run_daily_pipeline(
+        &histories,
+        &rules,
+        &[prev_packet1, prev_packet2],
+        &HashMap::new(),
+    )
+    .expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
     assert!(
@@ -193,7 +200,8 @@ async fn test_pipeline_bearish_path() {
     let rules = create_mock_rules();
     let histories = vec![(history, &entry)];
 
-    let packet = Engine::run_daily_pipeline(&histories, &rules, &[]).expect("Pipeline failed");
+    let packet = Engine::run_daily_pipeline(&histories, &rules, &[], &HashMap::new())
+        .expect("Pipeline should run");
 
     assert_eq!(packet.market_regime.market_state, MarketState::DEFENSIVE);
 
@@ -213,15 +221,18 @@ async fn test_pipeline_age_continuity() {
     let histories = vec![(history, &entry)];
 
     // Day 1: Start from scratch (no history)
-    let p1 = Engine::run_daily_pipeline(&histories, &rules, &[]).expect("P1 failed");
+    let p1 =
+        Engine::run_daily_pipeline(&histories, &rules, &[], &HashMap::new()).expect("P1 failed");
     let age1 = p1.market_features.regime_age;
 
     // Day 2: Pass p1 as history
-    let p2 = Engine::run_daily_pipeline(&histories, &rules, &[p1.clone()]).expect("P2 failed");
+    let p2 = Engine::run_daily_pipeline(&histories, &rules, &[p1.clone()], &HashMap::new())
+        .expect("P2 failed");
     let age2 = p2.market_features.regime_age;
 
     // Day 3: Pass p1, p2 as history
-    let p3 = Engine::run_daily_pipeline(&histories, &rules, &[p1, p2]).expect("P3 failed");
+    let p3 = Engine::run_daily_pipeline(&histories, &rules, &[p1, p2], &HashMap::new())
+        .expect("P3 failed");
     let age3 = p3.market_features.regime_age;
 
     // Expect exactly 1 day increment per call

@@ -1,16 +1,19 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum DeliveryStatus {
     Succeeded,
-    Failed { reason: String },
+    Failed {
+        reason: String,
+    },
+    #[default]
     Skipped,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PreflightResult {
-    pub status: String, // "Verified", "Warning", "Failed"
+    pub status: String,
     pub sub_quota_used: i32,
     pub sub_quota_total: i32,
     pub market_rights: std::collections::HashMap<String, String>,
@@ -45,7 +48,7 @@ pub struct StateMachineSummary {
     pub preflight_failed: bool,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Default)]
 pub struct RunOutcome {
     pub date: String,
     pub timestamp: String,

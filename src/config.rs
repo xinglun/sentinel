@@ -4,6 +4,8 @@ use std::collections::{BTreeMap, HashMap};
 use std::fs;
 use std::path::Path;
 
+use crate::core::i18n::Language;
+
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct AppConfig {
@@ -30,6 +32,7 @@ pub struct OutputConfig {
     pub format: String,
     pub save_to: String,
     pub weight_kind: Option<String>,
+    pub language: Option<Language>,
 }
 
 #[derive(Debug, Deserialize, Clone)]

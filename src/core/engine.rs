@@ -10,7 +10,6 @@ use crate::core::action_matrix::ActionMatrix;
 use crate::core::decision::DecisionPacket;
 use crate::core::participation::ParticipationReadiness;
 use anyhow::Result;
-use chrono::Local;
 
 pub struct Engine;
 
@@ -21,6 +20,7 @@ impl Engine {
         ticker_histories: &[(TickerHistory<'a>, &WatchlistEntry)],
         rules: &ParsedRules,
         history: &[DecisionPacket],
+        positions: &std::collections::HashMap<String, (f64, f64)>,
     ) -> Result<DecisionPacket> {
         if ticker_histories.is_empty() {
             return Err(anyhow::anyhow!("No ticker history provided for pipeline"));
@@ -86,17 +86,52 @@ impl Engine {
             history,
         );
 
+        let prev_participation_ready = prev_packet
+            .map(|p| p.participation.participation_ready)
+            .unwrap_or(false);
+        let participation_changed = prev_participation_ready != participation.participation_ready;
+
         // 6. Asset Execution State & Action Matrix
         let mut asset_decisions = Vec::new();
         for f in &asset_features {
-            let prev_asset_snapshot = prev_packet
-                .and_then(|p| p.assets.iter().find(|a| a.symbol == f.symbol))
-                .map(|a| &a.asset_state);
+            let prev_asset_decision =
+                prev_packet.and_then(|p| p.assets.iter().find(|a| a.symbol == f.symbol));
+
+            let prev_asset_snapshot = prev_asset_decision.map(|a| &a.asset_state);
 
             let memory_decision = memory_decisions.get(&f.symbol);
 
             let asset_state_snapshot =
                 AssetStateMachine::compute_state(f, rules, prev_asset_snapshot, memory_decision);
+
+            // Streak Calculations
+            let is_in_top_tier = current_top_tier.contains(&f.symbol);
+            let (state_streak, top_tier_streak, out_of_top_tier_streak) = match prev_asset_decision
+            {
+                Some(prev) => {
+                    let s_streak = if prev.asset_state.state == asset_state_snapshot.state {
+                        prev.state_streak + 1
+                    } else {
+                        1
+                    };
+                    let tt_streak = if is_in_top_tier {
+                        prev.top_tier_streak + 1
+                    } else {
+                        0
+                    };
+                    let out_tt_streak = if !is_in_top_tier {
+                        prev.out_of_top_tier_streak + 1
+                    } else {
+                        0
+                    };
+                    (s_streak, tt_streak, out_tt_streak)
+                }
+                None => (
+                    1,
+                    if is_in_top_tier { 1 } else { 0 },
+                    if !is_in_top_tier { 1 } else { 0 },
+                ),
+            };
 
             // Get per-asset constraints from watchlist entry
             let (_h, entry) = ticker_histories
@@ -149,13 +184,41 @@ impl Engine {
                 config_multiplier,
             );
 
-            // Enrich with previous action context
-            let prev_action = prev_packet
-                .and_then(|p| p.assets.iter().find(|a| a.symbol == f.symbol))
-                .map(|a| a.action);
+            // Exit Decision Integration
+            let exit_decision = crate::core::exit::ExitDecision::compute(
+                &f.symbol,
+                asset_state_snapshot.state,
+                prev_asset_snapshot.map(|s| s.state),
+                state_streak,
+                out_of_top_tier_streak,
+                market_regime.risk_overlay,
+                participation.participation_ready,
+                prev_participation_ready,
+            );
 
-            decision.prev_action = prev_action;
-            decision.action_changed = prev_action.map(|a| a != decision.action).unwrap_or(false);
+            // [P0-2] Synthesize PositionIntent (Isolated Lexicon)
+            let final_intent = crate::core::intent_synthesizer::IntentSynthesizer::synthesize(
+                decision.action,
+                &exit_decision,
+                participation.participation_ready,
+            );
+
+            decision.prev_action = prev_asset_decision.map(|a| a.action);
+            decision.action_changed = decision
+                .prev_action
+                .map(|p| p != decision.action)
+                .unwrap_or(true);
+            decision.exit_decision = exit_decision;
+            decision.position_intent = final_intent;
+            // Record domain facts for downstream presentation assembly
+            decision.is_core_fact = rules.core_assets.contains(&decision.symbol);
+            decision.has_position_fact = positions.contains_key(&decision.symbol);
+
+            // Note: DisplayContext and DisplayIntent will be populated by PresentationAssembler at export time.
+            decision.previous_state = prev_asset_snapshot.map(|s| s.state);
+            decision.state_streak = state_streak;
+            decision.top_tier_streak = top_tier_streak;
+            decision.out_of_top_tier_streak = out_of_top_tier_streak;
 
             asset_decisions.push(decision);
         }
@@ -170,19 +233,15 @@ impl Engine {
         // Append any remaining (should be none)
         final_decisions.extend(asset_decisions);
 
-        // 8. Final Decision Packet
-        let date = asset_features
-            .first()
-            .map(|f| f.date)
-            .unwrap_or_else(|| Local::now().date_naive());
         let packet = DecisionPacket::new(
-            date,
+            market_features.date,
             market_features,
             market_regime,
             portfolio_policy,
             final_decisions,
             participation,
             current_top_tier,
+            participation_changed,
         );
 
         Ok(packet)

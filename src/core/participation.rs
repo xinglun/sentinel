@@ -79,6 +79,7 @@ mod tests {
                 ..Default::default()
             },
             top_tier,
+            false,
         );
         packet.participation.core_tier_streak = streak;
         packet

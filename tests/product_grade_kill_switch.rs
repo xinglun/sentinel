@@ -3,6 +3,7 @@ use stock_sentinel::core::action_matrix::{AssetAction, AssetActionDecision};
 use stock_sentinel::core::asset_state::AssetState;
 use stock_sentinel::core::decision::DecisionPacket;
 use stock_sentinel::core::execution_gate::ExecutionGate;
+use stock_sentinel::core::exit::PositionIntent;
 use stock_sentinel::core::features::MarketFeatures;
 use stock_sentinel::core::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
@@ -53,6 +54,8 @@ fn test_kill_switch_behavior_in_execution_gate() {
         config_multiplier: 1.0,
         prev_action: None,
         action_changed: false,
+        position_intent: PositionIntent::ADD,
+        ..Default::default()
     }];
 
     let market = MarketRegimeSnapshot {
@@ -73,6 +76,7 @@ fn test_kill_switch_behavior_in_execution_gate() {
         assets,
         stock_sentinel::core::participation::ParticipationReadiness::default(),
         Vec::new(),
+        false,
     );
 
     // 3. Gate the packet

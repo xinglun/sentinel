@@ -42,6 +42,7 @@ async fn test_full_9_asset_archival_package() {
         vec![],
         stock_sentinel::core::participation::ParticipationReadiness::default(),
         Vec::new(),
+        false,
     );
 
     layer.save_packet(&packet).unwrap();

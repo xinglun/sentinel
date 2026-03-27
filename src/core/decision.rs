@@ -6,13 +6,6 @@ use crate::core::portfolio_policy::PortfolioPolicy;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize, Clone, Default)]
-pub struct TelegramOutput {
-    pub headline: String,
-    pub summary: String,
-    pub bias: String,
-}
-
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DecisionPacket {
     pub date: NaiveDate,
@@ -24,7 +17,8 @@ pub struct DecisionPacket {
     pub participation: ParticipationReadiness,
     #[serde(default)]
     pub top_tier_symbols: Vec<String>,
-    pub telegram: TelegramOutput,
+    #[serde(default)]
+    pub participation_changed: bool,
 }
 
 impl Default for DecisionPacket {
@@ -37,12 +31,13 @@ impl Default for DecisionPacket {
             assets: Vec::new(),
             participation: Default::default(),
             top_tier_symbols: Vec::new(),
-            telegram: Default::default(),
+            participation_changed: false,
         }
     }
 }
 
 impl DecisionPacket {
+    #[allow(clippy::too_many_arguments)]
     pub fn new(
         date: NaiveDate,
         market_features: MarketFeatures,
@@ -51,8 +46,8 @@ impl DecisionPacket {
         assets: Vec<AssetActionDecision>,
         participation: ParticipationReadiness,
         top_tier_symbols: Vec<String>,
+        participation_changed: bool,
     ) -> Self {
-        let telegram = Self::generate_telegram(&market_regime, &portfolio_policy);
         Self {
             date,
             market_features,
@@ -61,40 +56,7 @@ impl DecisionPacket {
             assets,
             participation,
             top_tier_symbols,
-            telegram,
-        }
-    }
-
-    fn generate_telegram(
-        market: &MarketRegimeSnapshot,
-        _policy: &PortfolioPolicy,
-    ) -> TelegramOutput {
-        use crate::core::market_regime::MarketState;
-
-        let headline = format!("{:?} | Risk {:?}", market.market_state, market.risk_overlay);
-
-        let summary = match market.market_state {
-            MarketState::IGNITION => "轻仓试探，只保留最强标的",
-            MarketState::NEWBORN => "只买回撤，禁止追高",
-            MarketState::EARLY_CONFIRMATION => "核心持有，回撤加仓",
-            MarketState::ESTABLISHED => "持有核心，优先买回撤",
-            MarketState::CONFIRMED => "强势持有，浅回撤可加",
-            MarketState::DEFENSIVE => "停止加仓，仅保留核心",
-        };
-
-        let bias = match market.market_state {
-            MarketState::IGNITION => "Probe",
-            MarketState::NEWBORN => "Buy Pullbacks",
-            MarketState::EARLY_CONFIRMATION => "Build",
-            MarketState::ESTABLISHED => "Stay Long",
-            MarketState::CONFIRMED => "Hold Strength",
-            MarketState::DEFENSIVE => "Defense First",
-        };
-
-        TelegramOutput {
-            headline,
-            summary: summary.to_string(),
-            bias: bias.to_string(),
+            participation_changed,
         }
     }
 }

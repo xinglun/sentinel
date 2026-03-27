@@ -240,6 +240,7 @@ mod tests {
             vec![],
             crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
+            false,
         );
 
         layer.save_packet(&packet).unwrap();
@@ -298,6 +299,7 @@ mod tests {
             Vec::<AssetActionDecision>::new(),
             crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
+            false,
         );
         let result = ExecutionResult {
             trades: vec![],

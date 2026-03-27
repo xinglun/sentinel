@@ -194,8 +194,12 @@ fn run_core_simulation(
         } else {
             &[]
         };
-        let current_packet =
-            Engine::run_daily_pipeline(&daily_histories, parsed_rules, effective_window)?;
+        let current_packet = Engine::run_daily_pipeline(
+            &daily_histories,
+            parsed_rules,
+            effective_window,
+            &std::collections::HashMap::new(),
+        )?;
 
         // Update history window
         history_window.push(current_packet.clone());
@@ -296,7 +300,7 @@ fn run_core_simulation(
         // Top Actions Latency Tracking
         for sym in &raw_top3 {
             raw_top3_first_seen
-                .entry(sym.clone())
+                .entry(sym.to_string())
                 .or_insert(*current_date);
             if current_top_actions.contains(sym) {
                 if let Some(raw_date) = raw_top3_first_seen.get(sym) {

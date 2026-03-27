@@ -542,7 +542,6 @@ mod tests {
     #[test]
     fn test_memory_layer_top_tier_lock() {
         use crate::core::action_matrix::{AssetAction, AssetActionDecision};
-        use crate::core::decision::TelegramOutput;
         use crate::core::market_regime::{
             LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
         };
@@ -579,8 +578,8 @@ mod tests {
                 trade_enabled: true,
                 trade_amount: 1000.0,
                 config_multiplier: 1.0,
-                prev_action: None,
                 action_changed: false,
+                ..Default::default()
             };
             let packet = DecisionPacket {
                 date: Utc::now().date_naive(),
@@ -603,13 +602,7 @@ mod tests {
                     risk_assets_mode: RiskAssetsMode::NEUTRAL,
                 },
                 assets: vec![asset_dec], // NVDA is at index 0 (Top 1)
-                participation: Default::default(),
-                top_tier_symbols: Vec::new(),
-                telegram: TelegramOutput {
-                    headline: "".to_string(),
-                    summary: "".to_string(),
-                    bias: "".to_string(),
-                },
+                ..Default::default()
             };
             history.push(packet);
         }
@@ -635,7 +628,6 @@ mod tests {
     #[test]
     fn test_memory_layer_promotion_cap() {
         use crate::core::action_matrix::{AssetAction, AssetActionDecision};
-        use crate::core::decision::TelegramOutput;
         use crate::core::portfolio_policy::{PortfolioPolicy, RiskAssetsMode};
         // Use bands where dev 10.0 -> OPTIMAL
         let rules = crate::config::ParsedRules {
@@ -669,10 +661,11 @@ mod tests {
             trade_enabled: true,
             trade_amount: 1000.0,
             config_multiplier: 1.0,
-            prev_action: None,
             action_changed: false,
+            ..Default::default()
         };
         let packet = DecisionPacket {
+            participation_changed: false,
             date: Utc::now().date_naive(),
             market_features: Default::default(),
             market_regime: Default::default(),
@@ -685,13 +678,7 @@ mod tests {
                 risk_assets_mode: RiskAssetsMode::NEUTRAL,
             },
             assets: vec![asset_dec],
-            participation: Default::default(),
-            top_tier_symbols: Vec::new(),
-            telegram: TelegramOutput {
-                headline: "".to_string(),
-                summary: "".to_string(),
-                bias: "".to_string(),
-            },
+            ..Default::default()
         };
         history.push(packet);
 

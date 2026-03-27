@@ -103,7 +103,16 @@ impl TraderAgent {
                         capacity.max_sell
                     };
 
-                    if final_qty > max_available {
+                    if trade.is_liquidation {
+                        println!("🔥 [Trader - EXIT] Liquidation requested. Setting qty to max available: {}", max_available);
+                        final_qty = max_available;
+                    } else if trade.is_trim {
+                        println!(
+                            "✂️ [Trader - TRIM] 50% reduction requested. Setting qty to: {}",
+                            max_available * 0.5
+                        );
+                        final_qty = max_available * 0.5;
+                    } else if final_qty > max_available {
                         println!(
                             "⚠️ [Trader - CAPPING] Requested {} for {} exceeds broker capacity {}. Capping to max.",
                             final_qty, trade.symbol, max_available
@@ -528,6 +537,8 @@ mod tests {
             config_multiplier: 1.0,
             prev_action: None,
             action_changed: false,
+            position_intent: crate::core::exit::PositionIntent::ADD,
+            ..Default::default()
         }];
 
         use crate::core::decision::DecisionPacket;
@@ -542,6 +553,7 @@ mod tests {
             assets,
             crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
+            false,
         );
 
         let trading_config = config_arc.trading.as_ref().unwrap();
@@ -596,6 +608,8 @@ mod tests {
             qty: 50.0, // Requested 50
             price: 150.0,
             reason: "Test".to_string(),
+            is_liquidation: false,
+            is_trim: false,
         };
 
         let summary = agent.execute_signals(vec![trade]).await.unwrap();
@@ -606,6 +620,74 @@ mod tests {
         // SHOULD BE CAPPED TO 5.0
         assert_eq!(audit.qty_requested, 5.0);
         assert_eq!(audit.qty_filled, 5.0); // Filled because mock returns status Filled for 2nd query
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_liquidation_semantics() {
+        let temp = tempdir().unwrap();
+        let save_dir = temp.path().to_path_buf();
+        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
+
+        // 1. Setup high capacity (current position = 1000)
+        {
+            let exec = mock_exec.lock().await;
+            let mut cap = exec.mock_capacity.lock().await;
+            cap.max_sell = 1000.0;
+        }
+
+        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let agent = TraderAgent::new(mock_exec.clone(), ledger);
+
+        // 2. Dispatch a trade with qty=1.0 but is_liquidation=true
+        let trade = crate::core::execution_gate::GatedTrade {
+            symbol: "EXIT_ASSET".to_string(),
+            side: TradeSide::Sell,
+            qty: 1.0, // Signal only requested 1 units
+            price: 150.0,
+            reason: "ExitTest".to_string(),
+            is_liquidation: true,
+            is_trim: false,
+        };
+
+        let summary = agent.execute_signals(vec![trade]).await.unwrap();
+        assert!(!summary.audits.is_empty());
+
+        // 3. Verify qty was corrected to 1000.0 (max_sell)
+        assert_eq!(summary.audits[0].qty_requested, 1000.0);
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_trim_semantics() {
+        let temp = tempdir().unwrap();
+        let save_dir = temp.path().to_path_buf();
+        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
+
+        // 1. Setup capacity (current position = 1000)
+        {
+            let exec = mock_exec.lock().await;
+            let mut cap = exec.mock_capacity.lock().await;
+            cap.max_sell = 1000.0;
+        }
+
+        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let agent = TraderAgent::new(mock_exec.clone(), ledger);
+
+        // 2. Dispatch a trade with is_trim=true
+        let trade = crate::core::execution_gate::GatedTrade {
+            symbol: "TRIM_ASSET".to_string(),
+            side: TradeSide::Sell,
+            qty: 0.0, // Gate doesn't specify qty for trim
+            price: 150.0,
+            reason: "TrimTest".to_string(),
+            is_liquidation: false,
+            is_trim: true,
+        };
+
+        let summary = agent.execute_signals(vec![trade]).await.unwrap();
+        assert!(!summary.audits.is_empty());
+
+        // 3. Verify qty was corrected to 500.0 (50% of max_sell)
+        assert_eq!(summary.audits[0].qty_requested, 500.0);
     }
 
     #[tokio::test]
@@ -624,6 +706,8 @@ mod tests {
             qty: 50.0,
             price: 150.0,
             reason: "Test Fail".to_string(),
+            is_liquidation: false,
+            is_trim: false,
         };
 
         // Note: MockTradeExecutor currently doesn't fail unless we modify it to handle specific symbols.
@@ -677,6 +761,8 @@ mod tests {
             qty: 10.0,
             price: 150.0,
             reason: "Timeout Test".to_string(),
+            is_liquidation: false,
+            is_trim: false,
         };
 
         let summary = agent

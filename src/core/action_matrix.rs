@@ -30,6 +30,26 @@ pub struct AssetActionDecision {
     pub config_multiplier: f64,
     pub prev_action: Option<AssetAction>,
     pub action_changed: bool,
+    #[serde(default)]
+    pub exit_decision: crate::core::exit::ExitDecision,
+    #[serde(default)]
+    pub position_intent: crate::core::exit::PositionIntent,
+    #[serde(default)]
+    pub display_context: crate::core::display::DisplayContext,
+    #[serde(default)]
+    pub display_intent: crate::core::display::DisplayIntent,
+    #[serde(default)]
+    pub is_core_fact: bool,
+    #[serde(default)]
+    pub has_position_fact: bool,
+    #[serde(default)]
+    pub previous_state: Option<AssetState>,
+    #[serde(default)]
+    pub state_streak: usize,
+    #[serde(default)]
+    pub top_tier_streak: usize,
+    #[serde(default)]
+    pub out_of_top_tier_streak: usize,
 }
 
 pub struct ActionMatrix;
@@ -186,6 +206,7 @@ impl ActionMatrix {
             config_multiplier,
             prev_action: None,
             action_changed: false,
+            ..Default::default()
         }
     }
 }

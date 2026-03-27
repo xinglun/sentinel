@@ -44,12 +44,32 @@
       "name": "Nvidia",
       "asset_state": "OPTIMAL",
       "action": "HOLD",
+      "position_intent": "HOLD",
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
       "reasons": ["trend intact"],
       "metrics": {
           "deviation": 5.2,
           "z_score": 1.2,
           "slope": 0.8
-      }
+      },
+      "history_metrics": {
+          "previous_state": "OPTIMAL",
+          "state_streak": 5,
+          "top_tier_streak": 3,
+          "out_of_top_tier_streak": 0
+      },
+      "display_context": {
+          "has_position": true,
+          "is_core_holding": true,
+          "is_candidate_only": false,
+          "is_top_tier": true,
+          "participation_ready": true
+      },
+      "display_intent": "HOLD"
     }
   ],
   "participation": {
@@ -59,6 +79,7 @@
     "core_tier_streak": 1,
     "reasons": ["Core Tier streak < 3"]
   },
+  "participation_changed": false,
   "top_tier_symbols": ["AAPL", "MSFT", "NVDA"],
   "telegram": {
     "headline": "Market State: ESTABLISHED",
