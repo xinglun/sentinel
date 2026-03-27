@@ -1,0 +1,18 @@
+{
+  "reset_count": 22,
+  "blocked_reset_count": 0,
+  "multi_step_downgrade_attempt_count": 0,
+  "duration_lock_count": 0,
+  "soft_reset_count": 0,
+  "defensive_override_count": 0,
+  "state_flip_count_5d": 0,
+  "top_actions_turnover_sum": 0.0,
+  "core_asset_protection_hits": 0,
+  "weak_asset_promotion_cap_hits": 0,
+  "total_raw_vs_actual_divergence_days": 0,
+  "total_raw_optimal_suppression_days": 154,
+  "total_initial_top_actions_latency_days": 3,
+  "total_overstay_events": 0,
+  "total_recovery_events": 0,
+  "total_days": 22
+}
