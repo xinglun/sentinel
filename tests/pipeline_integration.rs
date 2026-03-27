@@ -226,8 +226,13 @@ async fn test_pipeline_age_continuity() {
     let age1 = p1.market_features.regime_age;
 
     // Day 2: Pass p1 as history
-    let p2 = Engine::run_daily_pipeline(&histories, &rules, &[p1.clone()], &HashMap::new())
-        .expect("P2 failed");
+    let p2 = Engine::run_daily_pipeline(
+        &histories,
+        &rules,
+        std::slice::from_ref(&p1),
+        &HashMap::new(),
+    )
+    .expect("P2 failed");
     let age2 = p2.market_features.regime_age;
 
     // Day 3: Pass p1, p2 as history

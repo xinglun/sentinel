@@ -1,20 +1,15 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum Language {
     #[serde(rename = "zh-cn")]
+    #[default]
     ZhCn,
     #[serde(rename = "en-us")]
     EnUs,
     #[serde(rename = "ja-jp")]
     JaJp,
-}
-
-impl Default for Language {
-    fn default() -> Self {
-        Self::ZhCn
-    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

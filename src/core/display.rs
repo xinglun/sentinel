@@ -91,21 +91,20 @@ impl DisplayAdapter {
     ) -> Vec<RiskOpportunityViewModel> {
         let mut vms = Vec::new();
         for asset in assets {
-            if asset.display_intent == DisplayIntent::ADD
+            if (asset.display_intent == DisplayIntent::ADD
                 || (asset.display_context.is_candidate_only
-                    && asset.display_context.participation_ready)
-            {
-                if matches!(
+                    && asset.display_context.participation_ready))
+                && matches!(
                     asset.asset_state.state,
                     crate::core::asset_state::AssetState::PULLBACK
                         | crate::core::asset_state::AssetState::OPTIMAL
-                ) {
-                    vms.push(RiskOpportunityViewModel {
-                        kind: "OPPORTUNITY".to_string(),
-                        symbol: asset.symbol.clone(),
-                        reason: format!("触发 {:?}", asset.asset_state.state),
-                    });
-                }
+                )
+            {
+                vms.push(RiskOpportunityViewModel {
+                    kind: "OPPORTUNITY".to_string(),
+                    symbol: asset.symbol.clone(),
+                    reason: format!("触发 {:?}", asset.asset_state.state),
+                });
             }
 
             if matches!(

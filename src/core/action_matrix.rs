@@ -289,8 +289,10 @@ mod tests {
         let policy = PortfolioPolicy::from_market_regime(&regime);
 
         // Case 1: Participation Not Ready
-        let mut features = crate::core::features::MarketFeatures::default();
-        features.stability_score = 15.0; // Stability OK
+        let features = crate::core::features::MarketFeatures {
+            stability_score: 15.0, // Stability OK
+            ..Default::default()
+        };
         let decision = ActionMatrix::decide(
             &regime, &features, false, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
         );
