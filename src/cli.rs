@@ -1,6 +1,7 @@
 use anyhow::{Context, Result};
 
 use futures::stream::{self, StreamExt};
+use serde_json::json;
 use std::sync::Arc;
 use time::OffsetDateTime;
 
@@ -349,6 +350,13 @@ async fn run_pipeline(
 
         persistence
             .save_markdown_report(&report_result.archival_markdown, &pres_packet.date_str)?;
+        persist_weekly_state_outputs(
+            &save_dir,
+            &history,
+            &packet,
+            should_persist_history,
+            &pres_packet,
+        )?;
 
         if let Some(ref tg_cfg) = config_arc.telegram {
             if tg_cfg.enabled {
@@ -362,6 +370,118 @@ async fn run_pipeline(
 
 fn should_persist_decision_history(successful_fetches: usize, failed_fetches: usize) -> bool {
     successful_fetches > 0 || failed_fetches == 0
+}
+
+fn persist_weekly_state_outputs(
+    save_dir: &std::path::Path,
+    history: &[crate::core::decision::DecisionPacket],
+    current_packet: &crate::core::decision::DecisionPacket,
+    include_current_packet: bool,
+    pres_packet: &crate::core::presentation::PresentationPacket,
+) -> Result<()> {
+    let mut recent_packets: Vec<&crate::core::decision::DecisionPacket> =
+        history.iter().rev().take(7).collect();
+    recent_packets.reverse();
+    if include_current_packet {
+        recent_packets.push(current_packet);
+    }
+    if recent_packets.len() > 7 {
+        recent_packets = recent_packets[recent_packets.len() - 7..].to_vec();
+    }
+
+    let mut market_state_counts = std::collections::BTreeMap::<String, usize>::new();
+    let mut risk_overlay_counts = std::collections::BTreeMap::<String, usize>::new();
+    let mut total_confidence = 0.0;
+    let mut total_stability = 0.0;
+    let mut participation_ready_days = 0usize;
+
+    for packet in &recent_packets {
+        *market_state_counts
+            .entry(format!("{:?}", packet.market_regime.market_state))
+            .or_insert(0) += 1;
+        *risk_overlay_counts
+            .entry(format!("{:?}", packet.market_regime.risk_overlay))
+            .or_insert(0) += 1;
+        total_confidence += packet.market_features.system_confidence;
+        total_stability += packet.market_features.stability_score;
+        if packet.participation.participation_ready {
+            participation_ready_days += 1;
+        }
+    }
+
+    let day_count = recent_packets.len();
+    let avg_confidence = if day_count > 0 {
+        total_confidence / day_count as f64
+    } else {
+        0.0
+    };
+    let avg_stability = if day_count > 0 {
+        total_stability / day_count as f64
+    } else {
+        0.0
+    };
+
+    let metrics = json!({
+        "generated_at": chrono::Local::now().to_rfc3339(),
+        "as_of_date": pres_packet.date_str,
+        "days_analyzed": day_count,
+        "include_current_packet": include_current_packet,
+        "data_status": if include_current_packet { "OK" } else { "DATA_UNAVAILABLE" },
+        "latest_market_state": format!("{:?}", current_packet.market_regime.market_state),
+        "latest_risk_overlay": format!("{:?}", current_packet.market_regime.risk_overlay),
+        "avg_confidence": avg_confidence,
+        "avg_stability": avg_stability,
+        "participation_ready_days": participation_ready_days,
+        "market_state_counts": market_state_counts,
+        "risk_overlay_counts": risk_overlay_counts,
+    });
+
+    std::fs::write(
+        save_dir.join("weekly_state_metrics.json"),
+        serde_json::to_string_pretty(&metrics)?,
+    )?;
+
+    let mut review = String::new();
+    review.push_str("# Weekly State Review (Auto)\n\n");
+    review.push_str(&format!("- As of: {}\n", pres_packet.date_str));
+    review.push_str(&format!(
+        "- Status: {}\n",
+        if include_current_packet {
+            "using current market decision"
+        } else {
+            "data unavailable; based on prior persisted history only"
+        }
+    ));
+    review.push_str(&format!(
+        "- Latest headline: {} | {}\n",
+        pres_packet.macro_display.headline, pres_packet.macro_display.bias_label
+    ));
+    review.push_str(&format!("- Days analyzed: {}\n", day_count));
+    review.push_str(&format!("- Avg confidence: {:.1}\n", avg_confidence));
+    review.push_str(&format!("- Avg stability: {:.1}\n", avg_stability));
+    review.push_str(&format!(
+        "- Participation ready days: {}\n\n",
+        participation_ready_days
+    ));
+    review.push_str("## Market State Counts\n");
+    for (state, count) in metrics["market_state_counts"]
+        .as_object()
+        .into_iter()
+        .flatten()
+    {
+        review.push_str(&format!("- {}: {}\n", state, count));
+    }
+    review.push_str("\n## Risk Overlay Counts\n");
+    for (state, count) in metrics["risk_overlay_counts"]
+        .as_object()
+        .into_iter()
+        .flatten()
+    {
+        review.push_str(&format!("- {}: {}\n", state, count));
+    }
+
+    std::fs::write(save_dir.join("weekly_state_review_auto.md"), review)?;
+    Ok(())
 }
 
 async fn run_review(_config: &crate::config::AppConfig) -> Result<()> {
@@ -526,6 +646,8 @@ mod tests {
             .join(format!("portfolio_snapshot_{}.json", today));
         let account_snapshot_path = tmp.path().join(format!("account_snapshot_{}.json", today));
         let data_quality_log_path = tmp.path().join("data_quality_log.jsonl");
+        let weekly_metrics_path = tmp.path().join("weekly_state_metrics.json");
+        let weekly_review_path = tmp.path().join("weekly_state_review_auto.md");
 
         assert!(
             report_path.exists(),
@@ -547,6 +669,8 @@ mod tests {
         assert!(portfolio_snapshot_path.exists());
         assert!(account_snapshot_path.exists());
         assert!(data_quality_log_path.exists());
+        assert!(weekly_metrics_path.exists());
+        assert!(weekly_review_path.exists());
 
         let report = std::fs::read_to_string(report_path).unwrap();
         assert!(report.contains("数据不可用"));
@@ -557,6 +681,8 @@ mod tests {
 
         let quality_log = std::fs::read_to_string(data_quality_log_path).unwrap();
         assert!(quality_log.contains("CRITICAL"));
+        let weekly_metrics = std::fs::read_to_string(weekly_metrics_path).unwrap();
+        assert!(weekly_metrics.contains("DATA_UNAVAILABLE"));
 
         let run_status: serde_json::Value =
             serde_json::from_str(&std::fs::read_to_string(run_status_path).unwrap()).unwrap();
@@ -634,6 +760,8 @@ mod tests {
             })
             .expect("account snapshot should exist");
         let data_quality_log_path = tmp.path().join("data_quality_log.jsonl");
+        let weekly_metrics_path = tmp.path().join("weekly_state_metrics.json");
+        let weekly_review_path = tmp.path().join("weekly_state_review_auto.md");
 
         assert!(
             history_path.exists(),
@@ -643,6 +771,8 @@ mod tests {
         assert!(portfolio_snapshot_path.exists());
         assert!(account_snapshot_path.exists());
         assert!(data_quality_log_path.exists());
+        assert!(weekly_metrics_path.exists());
+        assert!(weekly_review_path.exists());
 
         let report = std::fs::read_to_string(report_path).unwrap();
         assert!(report.contains("⚠️"));
@@ -662,5 +792,7 @@ mod tests {
 
         let quality_log = std::fs::read_to_string(data_quality_log_path).unwrap();
         assert!(quality_log.contains("WARNING"));
+        let weekly_metrics = std::fs::read_to_string(weekly_metrics_path).unwrap();
+        assert!(weekly_metrics.contains("\"include_current_packet\": true"));
     }
 }
