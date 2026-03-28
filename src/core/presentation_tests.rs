@@ -139,6 +139,67 @@ mod tests {
     }
 
     #[test]
+    fn test_not_ready_state_emits_no_trade_decision_summary() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::core::market_regime::MarketRegimeSnapshot {
+                market_state: crate::core::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                system_confidence: 54.0,
+                stability_score: 1.1,
+                regime_age: 1,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::JaJp);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::JaJp,
+        );
+
+        assert!(pres
+            .decision_summary
+            .action_status_value
+            .contains("NO TRADE"));
+        assert_eq!(pres.decision_summary.exposure_value, "0-10%");
+        assert!(pres.decision_summary.market_board_value.contains("監視 0"));
+        assert_eq!(
+            pres.decision_summary.opportunity_snapshot_value,
+            "明確な機会なし"
+        );
+        assert_eq!(
+            pres.decision_summary.risk_snapshot_value,
+            "目立つリスクなし"
+        );
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("安定性")));
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("継続性")));
+    }
+
+    #[test]
     fn test_zero_clone_vm_integrity() {
         // Verify TopAction selection still works correctly with new reference sorting
         let assets = vec![

@@ -68,6 +68,13 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: true,
+                core_tier_streak: 3,
+                stability_ready: true,
+                core_tier_streak_ready: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -99,6 +106,7 @@ mod tests {
         assert!(card.contains("扩张期"));
         assert!(card.contains("NVDA"));
         assert!(card.contains("🟢"));
+        assert!(card.contains("决策结论"));
         assert!(card.contains("监控信号"));
         assert!(card.contains("战术分区"));
     }
@@ -122,6 +130,13 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::DEFENSIVE,
                 risk_overlay: RiskOverlay::DEFENSIVE,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: true,
+                stability_ready: true,
+                core_tier_streak_ready: true,
+                core_tier_streak: 3,
                 ..Default::default()
             },
             assets,
@@ -213,6 +228,13 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: true,
+                stability_ready: true,
+                core_tier_streak_ready: true,
+                core_tier_streak: 3,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -240,9 +262,87 @@ mod tests {
             .markdown_body;
 
         assert!(card.contains("市場サマリー"));
+        assert!(card.contains("行動判断"));
         assert!(card.contains("主要アクション"));
         assert!(card.contains("強気"));
         assert!(card.contains("監視シグナル"));
         assert!(!card.contains("市场摘要"));
+    }
+
+    #[test]
+    fn test_no_trade_report_renders_full_battleboard_sections() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                system_confidence: 54.0,
+                stability_score: 1.1,
+                regime_age: 1,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "NVDA".into(),
+                asset_state: AssetStateSnapshot {
+                    symbol: "NVDA".into(),
+                    state: AssetState::FORMING,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::HOLD,
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["NVDA".into()],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+            .unwrap()
+            .markdown_body;
+
+        assert!(card.contains("市場サマリー"));
+        assert!(card.contains("行動判断"));
+        assert!(card.contains("取引禁止（NO TRADE）"));
+        assert!(card.contains("候補観測リスト"));
+        assert!(card.contains("監視シグナル"));
+        assert!(card.contains("戦術的区分"));
+        assert!(card.contains("リスクと機会"));
+        assert!(card.contains("戦況総覧"));
+        assert!(card.contains("以下は候補観測のみ"));
+        assert!(card.contains("本日は何もしてはいけない。"));
+        assert!(!card.contains("1. 🔵 **NVDA** - 観測"));
+        assert!(card.contains("- NVDA · 形成中"));
+        assert!(!card.contains("1. **NVDA**"));
+        assert!(card.contains("### 取引禁止（NO TRADE）"));
+        assert!(card.contains("> 信頼指数 "));
+        assert!(card.contains("サイクル期間 "));
+
+        let decision_idx = card.find("行動判断").unwrap();
+        let actions_idx = card.find("候補観測リスト").unwrap();
+        assert!(decision_idx < actions_idx);
     }
 }

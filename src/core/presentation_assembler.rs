@@ -5,12 +5,21 @@ use crate::core::exit::PositionIntent;
 use crate::core::i18n::{get_dictionary, DisplayDictionary, Language};
 use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
-    DataAlertViewModel, MacroDisplayContext, PresentationPacket, SignalSummaryViewModel,
+    DataAlertViewModel, DecisionSummaryViewModel, MacroDisplayContext, PresentationPacket,
+    RiskOpportunitySummaryViewModel, SignalSummaryViewModel,
 };
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 
 pub struct PresentationAssembler;
+
+struct BattleboardSnapshot {
+    watch_count: usize,
+    hold_count: usize,
+    defend_count: usize,
+    opportunity_snapshot_value: String,
+    risk_snapshot_value: String,
+}
 
 impl PresentationAssembler {
     /// Generate a PresentationPacket from a DecisionPacket.
@@ -146,7 +155,6 @@ impl PresentationAssembler {
             flow_label: dict.signals.net_flow.clone(),
             flow_value,
         };
-
         let macro_display = MacroDisplayContext {
             headline,
             summary,
@@ -280,6 +288,7 @@ impl PresentationAssembler {
                 Some(crate::core::display::TacticalBucketViewModel {
                     bucket_id,
                     display_name,
+                    count: refs.len(),
                     items: refs
                         .iter()
                         .map(|(asset, _, _)| asset.symbol.clone())
@@ -305,7 +314,7 @@ impl PresentationAssembler {
                 )
             {
                 risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
-                    kind: "OPPORTUNITY".to_string(),
+                    kind: dict.decision.opportunity.clone(),
                     symbol: asset.symbol.clone(),
                     reason: Self::derive_telegram_reason(asset, !is_ready, &dict),
                 });
@@ -315,12 +324,38 @@ impl PresentationAssembler {
                 || asset.asset_state.state == crate::core::asset_state::AssetState::OVERHEAT
             {
                 risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
-                    kind: "RISK".to_string(),
+                    kind: dict.decision.risk.clone(),
                     symbol: asset.symbol.clone(),
                     reason: Self::derive_telegram_reason(asset, !is_ready, &dict),
                 });
             }
         }
+
+        let opportunity_value = risk_opportunities
+            .iter()
+            .find(|item| item.kind == dict.decision.opportunity)
+            .map(|item| format!("{} · {}", item.symbol, item.reason))
+            .unwrap_or_else(|| dict.decision.no_opportunity.clone());
+        let risk_value = risk_opportunities
+            .iter()
+            .find(|item| item.kind == dict.decision.risk)
+            .map(|item| format!("{} · {}", item.symbol, item.reason))
+            .unwrap_or_else(|| dict.decision.no_risk.clone());
+        let risk_opportunity_summary = RiskOpportunitySummaryViewModel {
+            opportunity_label: dict.decision.opportunity.clone(),
+            opportunity_value,
+            risk_label: dict.decision.risk.clone(),
+            risk_value,
+        };
+        let battleboard = BattleboardSnapshot {
+            watch_count: watch_refs.len(),
+            hold_count: hold_refs.len(),
+            defend_count: defend_refs.len(),
+            opportunity_snapshot_value: risk_opportunity_summary.opportunity_value.clone(),
+            risk_snapshot_value: risk_opportunity_summary.risk_value.clone(),
+        };
+        let decision_summary =
+            Self::build_decision_summary(packet, is_data_missing, state, &dict, &battleboard);
 
         let mut notices = Vec::new();
         if !is_data_missing && !is_ready {
@@ -360,9 +395,11 @@ impl PresentationAssembler {
             date_str,
             language: lang,
             macro_display,
+            decision_summary,
             signal_summary,
             top_actions: top_vms,
             tactical_buckets,
+            risk_opportunity_summary,
             risk_opportunities,
             notices,
             data_alert,
@@ -445,5 +482,118 @@ impl PresentationAssembler {
         context: &DisplayContext,
     ) -> DisplayIntent {
         DisplayAdapter::derive_display_intent(final_intent, context)
+    }
+
+    fn build_decision_summary(
+        packet: &DecisionPacket,
+        is_data_missing: bool,
+        state: MarketState,
+        dict: &DisplayDictionary,
+        battleboard: &BattleboardSnapshot,
+    ) -> DecisionSummaryViewModel {
+        let not_ready = is_data_missing || !packet.participation.participation_ready;
+        let (action_status_value, behavior_mode_value, exposure_value, summary) = if is_data_missing
+        {
+            (
+                dict.decision.no_trade.clone(),
+                dict.decision.no_trade.clone(),
+                "0-10%".to_string(),
+                dict.market_summaries.data_missing.clone(),
+            )
+        } else if !packet.participation.participation_ready {
+            (
+                dict.decision.no_trade.clone(),
+                dict.decision.no_trade.clone(),
+                "0-10%".to_string(),
+                dict.decision.no_trade_summary.clone(),
+            )
+        } else {
+            match state {
+                MarketState::IGNITION | MarketState::NEWBORN => (
+                    dict.decision.probe.clone(),
+                    dict.decision.probe.clone(),
+                    "10-30%".to_string(),
+                    dict.market_summaries.ignition.clone(),
+                ),
+                MarketState::EARLY_CONFIRMATION => (
+                    dict.decision.accumulate.clone(),
+                    dict.decision.accumulate.clone(),
+                    "20-40%".to_string(),
+                    dict.market_summaries.established.clone(),
+                ),
+                MarketState::ESTABLISHED | MarketState::CONFIRMED => (
+                    dict.decision.trend_follow.clone(),
+                    dict.decision.trend_follow.clone(),
+                    "30-70%".to_string(),
+                    dict.market_summaries.established.clone(),
+                ),
+                MarketState::DEFENSIVE => (
+                    dict.decision.defensive.clone(),
+                    dict.decision.defensive.clone(),
+                    "0-20%".to_string(),
+                    dict.market_summaries.defensive.clone(),
+                ),
+            }
+        };
+
+        let readiness_reasons = if is_data_missing {
+            vec![dict.market_summaries.data_missing.clone()]
+        } else if not_ready {
+            packet
+                .participation
+                .reasons
+                .iter()
+                .map(|reason| Self::localize_participation_reason(reason, dict))
+                .collect()
+        } else {
+            Vec::new()
+        };
+
+        DecisionSummaryViewModel {
+            is_no_trade: not_ready,
+            section_title: dict.headers.decision_summary.clone(),
+            action_status_label: dict.decision.action_status.clone(),
+            action_status_value,
+            behavior_mode_label: dict.decision.behavior_mode.clone(),
+            behavior_mode_value,
+            exposure_label: dict.decision.exposure_guidance.clone(),
+            exposure_value,
+            summary,
+            readiness_reasons_label: dict.decision.readiness_reasons.clone(),
+            readiness_reasons,
+            candidate_only_note: if not_ready && !is_data_missing {
+                Some(dict.decision.candidate_only_note.clone())
+            } else {
+                None
+            },
+            market_board_label: dict.decision.market_board.clone(),
+            market_board_value: format!(
+                "{} {} | {} {} | {} {}",
+                dict.decision.watch_count,
+                battleboard.watch_count,
+                dict.decision.hold_count,
+                battleboard.hold_count,
+                dict.decision.defend_count,
+                battleboard.defend_count
+            ),
+            opportunity_snapshot_label: dict.decision.opportunity.clone(),
+            opportunity_snapshot_value: battleboard.opportunity_snapshot_value.clone(),
+            risk_snapshot_label: dict.decision.risk.clone(),
+            risk_snapshot_value: battleboard.risk_snapshot_value.clone(),
+        }
+    }
+
+    fn localize_participation_reason(reason: &str, dict: &DisplayDictionary) -> String {
+        if reason.starts_with("Stability score") {
+            format!("{} < 10.0", dict.signals.stability)
+        } else if reason.starts_with("Core Tier streak") {
+            format!("{} < 3d", dict.signals.continuity)
+        } else if reason.starts_with("Core Tier set changed") {
+            format!("{} reset", dict.signals.continuity)
+        } else if reason.starts_with("First day of session") {
+            format!("{} day 1", dict.signals.continuity)
+        } else {
+            reason.to_string()
+        }
     }
 }

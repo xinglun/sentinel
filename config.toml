@@ -2,7 +2,7 @@ version = 1
 
 [output]
 # 支持 "zh-cn" (默认), "en-us", "ja-jp"
-language = "ja-jp" 
+language = "zh-cn" 
 timezone = "Asia/Tokyo"
 format = "markdown"
 save_to = "./reports"

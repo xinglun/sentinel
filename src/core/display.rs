@@ -43,6 +43,7 @@ pub struct TopActionViewModel {
 pub struct TacticalBucketViewModel {
     pub bucket_id: String,
     pub display_name: String,
+    pub count: usize,
     pub items: Vec<String>,
 }
 
