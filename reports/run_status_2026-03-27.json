@@ -1,14 +1,10 @@
 {
   "date": "2026-03-27",
-  "timestamp": "2026-03-28T10:40:58.320750283+09:00",
+  "timestamp": "2026-03-28T10:49:04.153582652+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "archival": "skipped",
-  "notification": {
-    "failed": {
-      "reason": "Telegram API returned an error: {\"ok\":false,\"error_code\":400,\"description\":\"Bad Request: can't parse entities: Unsupported start tag \\\"\\\" at byte offset 408\"}"
-    }
-  },
+  "notification": "succeeded",
   "execution": "skipped",
   "reconciliation": "skipped",
   "reconciliation_report": null,
