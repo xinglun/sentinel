@@ -56,6 +56,36 @@ struct WatchlistEntry {
     - **Persistence**: Daily JSON, `run_status_YYYY-MM-DD.json`, `telemetry.csv` (20列 序参量データセット) の追記保存。
 6.  **Backtest (`backtest.rs`)**: 歴史的な価格データを用いて全ロジックをシミュレート。Calibration Error や Alpha 分離度をレポート。
 
+#### 3.1 不可绕过原则 (Non-Bypass Principle)
+
+本系统中的任何模块都不得绕过 `NO TRADE`、`Participation Gate` 或 `Exit Gate` 直接生成最终交易动作。
+
+系统必须始终遵循以下顺序：
+
+```text
+状态判断
+→ Gate 约束
+→ 最终动作
+→ 展示输出 / 执行输出
+```
+
+这意味着：
+
+1. `NO TRADE` 只表示禁止主动开新仓，不等于强制清仓
+2. `Participation Gate` 未通过时，不允许任何模块直接输出进攻性动作
+3. `Exit Gate` 触发后，不允许继续保留与之冲突的进攻性动作语义
+4. 展示层不得改写与 Gate 冲突的最终动作
+
+以下实现被视为违规：
+
+1. 某个“强信号”直接触发买入
+2. 某个“个股特别好”直接允许加仓
+3. 展示层或临时规则绕过 Gate 改写最终动作
+4. Gate 未通过时仍输出 `ADD / ACCUMULATE`
+5. `Exit Gate` 已触发时仍保留 `ADD` 或其他进攻性表达
+
+本原则是系统级约束，不属于某一轮任务的临时规则。任何“例外买入”“特批加仓”“高优先级捷径”都视为破坏系统一致性的违规实现。
+
 ### 1.2 基礎データレイヤー (Market Data)
 APIから取得した生の時系列データです。
 ```rust

@@ -112,6 +112,48 @@ mod tests {
     }
 
     #[test]
+    fn test_telegram_html_body_uses_html_not_markdown_markers() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config();
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let result =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(result.telegram_html_body.contains("<b>🌍 市场摘要</b>"));
+        assert!(result.telegram_html_body.contains("<b>🚫 决策结论</b>"));
+        assert!(!result.telegram_html_body.contains("## 🌍 市场摘要"));
+        assert!(!result.telegram_html_body.contains("**🚫 决策结论**"));
+    }
+
+    #[test]
     fn test_telegram_v3_ui_defensive() {
         let assets = vec![AssetActionDecision {
             symbol: "SPY".into(),

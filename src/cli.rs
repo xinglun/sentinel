@@ -375,7 +375,8 @@ async fn run_pipeline(
 
         outcome.notification = match telegram_delivery_precheck(config_arc.telegram.as_ref()) {
             Ok(tg_cfg) => {
-                match notify::send_telegram_message(tg_cfg, &report_result.markdown_body).await {
+                match notify::send_telegram_message(tg_cfg, &report_result.telegram_html_body).await
+                {
                     Ok(_) => crate::core::run_status::DeliveryStatus::Succeeded,
                     Err(err) => {
                         eprintln!("⚠️ Telegram notification failed: {}", err);

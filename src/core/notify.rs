@@ -19,14 +19,20 @@ pub fn escape_html(s: &str) -> String {
 }
 
 fn sanitize_telegram_html(message_text: &str) -> String {
+    const OPEN_BOLD: &str = "__TG_OPEN_B__";
+    const CLOSE_BOLD: &str = "__TG_CLOSE_B__";
     const OPEN_ITALIC: &str = "__TG_OPEN_I__";
     const CLOSE_ITALIC: &str = "__TG_CLOSE_I__";
 
     escape_html(
         &message_text
+            .replace("<b>", OPEN_BOLD)
+            .replace("</b>", CLOSE_BOLD)
             .replace("<i>", OPEN_ITALIC)
             .replace("</i>", CLOSE_ITALIC),
     )
+    .replace(OPEN_BOLD, "<b>")
+    .replace(CLOSE_BOLD, "</b>")
     .replace(OPEN_ITALIC, "<i>")
     .replace(CLOSE_ITALIC, "</i>")
 }
@@ -105,5 +111,13 @@ mod tests {
         assert!(sanitized.contains("continuity &lt; 3d"));
         assert!(sanitized.contains("<i>setup</i>"));
         assert!(!sanitized.contains("< 10.0"));
+    }
+
+    #[test]
+    fn telegram_payload_preserves_bold_tags_for_html_body() {
+        let sanitized = sanitize_telegram_html("<b>headline</b>\nstability < 10.0");
+
+        assert!(sanitized.contains("<b>headline</b>"));
+        assert!(sanitized.contains("stability &lt; 10.0"));
     }
 }
