@@ -18,10 +18,23 @@ pub fn escape_html(s: &str) -> String {
         .replace('>', "&gt;")
 }
 
+fn sanitize_telegram_html(message_text: &str) -> String {
+    const OPEN_ITALIC: &str = "__TG_OPEN_I__";
+    const CLOSE_ITALIC: &str = "__TG_CLOSE_I__";
+
+    escape_html(
+        &message_text
+            .replace("<i>", OPEN_ITALIC)
+            .replace("</i>", CLOSE_ITALIC),
+    )
+    .replace(OPEN_ITALIC, "<i>")
+    .replace(CLOSE_ITALIC, "</i>")
+}
+
 fn build_payload(config: &TelegramConfig, message_text: &str) -> TelegramPayload {
     TelegramPayload {
         chat_id: config.chat_id.clone(),
-        text: message_text.to_string(),
+        text: sanitize_telegram_html(message_text),
         parse_mode: "HTML".to_string(),
         disable_web_page_preview: true,
     }
@@ -65,7 +78,7 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
 
 #[cfg(test)]
 mod tests {
-    use super::build_payload;
+    use super::{build_payload, sanitize_telegram_html};
     use crate::config::TelegramConfig;
 
     #[test]
@@ -82,5 +95,15 @@ mod tests {
         assert_eq!(json["chat_id"], "chat");
         assert_eq!(json["text"], "## heading\n\n**body**");
         assert_eq!(json["parse_mode"], "HTML");
+    }
+
+    #[test]
+    fn telegram_payload_escapes_raw_angle_brackets_but_preserves_italic_tags() {
+        let sanitized = sanitize_telegram_html("stability < 10.0\n<i>setup</i>\ncontinuity < 3d");
+
+        assert!(sanitized.contains("stability &lt; 10.0"));
+        assert!(sanitized.contains("continuity &lt; 3d"));
+        assert!(sanitized.contains("<i>setup</i>"));
+        assert!(!sanitized.contains("< 10.0"));
     }
 }
