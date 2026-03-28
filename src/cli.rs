@@ -142,6 +142,21 @@ impl MarketDataProvider for YahooProviderAdapter {
     }
 }
 
+fn telegram_delivery_precheck(
+    config: Option<&crate::config::TelegramConfig>,
+) -> Result<&crate::config::TelegramConfig, crate::core::run_status::DeliveryStatus> {
+    match config {
+        Some(cfg) if !cfg.enabled => Err(crate::core::run_status::DeliveryStatus::Skipped),
+        Some(cfg) if cfg.bot_token.is_empty() || cfg.chat_id.is_empty() => {
+            Err(crate::core::run_status::DeliveryStatus::Failed {
+                reason: "Telegram is enabled but bot_token/chat_id is missing".to_string(),
+            })
+        }
+        Some(cfg) => Ok(cfg),
+        None => Err(crate::core::run_status::DeliveryStatus::Skipped),
+    }
+}
+
 async fn run_pipeline(
     app_config: config::AppConfig,
     _provider_type: ProviderType,
@@ -358,11 +373,32 @@ async fn run_pipeline(
             &pres_packet,
         )?;
 
-        if let Some(ref tg_cfg) = config_arc.telegram {
-            if tg_cfg.enabled {
-                let _ = notify::send_telegram_message(tg_cfg, &report_result.markdown_body).await;
+        outcome.notification = match telegram_delivery_precheck(config_arc.telegram.as_ref()) {
+            Ok(tg_cfg) => {
+                match notify::send_telegram_message(tg_cfg, &report_result.markdown_body).await {
+                    Ok(_) => crate::core::run_status::DeliveryStatus::Succeeded,
+                    Err(err) => {
+                        eprintln!("⚠️ Telegram notification failed: {}", err);
+                        crate::core::run_status::DeliveryStatus::Failed {
+                            reason: err.to_string(),
+                        }
+                    }
+                }
             }
-        }
+            Err(crate::core::run_status::DeliveryStatus::Skipped) => {
+                if config_arc.telegram.is_some() {
+                    eprintln!("ℹ️ Telegram notification skipped: config.telegram.enabled = false");
+                } else {
+                    eprintln!("ℹ️ Telegram notification skipped: telegram config is missing");
+                }
+                crate::core::run_status::DeliveryStatus::Skipped
+            }
+            Err(crate::core::run_status::DeliveryStatus::Failed { reason }) => {
+                eprintln!("⚠️ Telegram notification failed precheck: {}", reason);
+                crate::core::run_status::DeliveryStatus::Failed { reason }
+            }
+            Err(other) => other,
+        };
         persistence.save_run_status(&outcome)?;
     }
     Ok(())
@@ -490,11 +526,15 @@ async fn run_review(_config: &crate::config::AppConfig) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use super::{run_pipeline, should_persist_decision_history, ProviderType};
+    use super::{
+        run_pipeline, should_persist_decision_history, telegram_delivery_precheck, ProviderType,
+    };
     use crate::config::{
-        AppConfig, DeviationBasis, OutputConfig, RulesConfig, TrendConfig, WatchlistEntry,
+        AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
+        WatchlistEntry,
     };
     use crate::core::i18n::Language;
+    use crate::core::run_status::DeliveryStatus;
     use crate::core::runtime_mode::ExecutionMode;
     use crate::data::provider::MarketDataProvider;
     use crate::data::yahoo_provider::{DailyBar, TickerHistory};
@@ -618,6 +658,32 @@ mod tests {
     #[test]
     fn empty_fetch_set_does_not_trigger_diagnostic_skip() {
         assert!(should_persist_decision_history(0, 0));
+    }
+
+    #[test]
+    fn telegram_precheck_skips_when_disabled() {
+        let cfg = TelegramConfig {
+            enabled: false,
+            bot_token: "token".to_string(),
+            chat_id: "chat".to_string(),
+        };
+        assert!(matches!(
+            telegram_delivery_precheck(Some(&cfg)),
+            Err(DeliveryStatus::Skipped)
+        ));
+    }
+
+    #[test]
+    fn telegram_precheck_fails_when_credentials_missing() {
+        let cfg = TelegramConfig {
+            enabled: true,
+            bot_token: "".to_string(),
+            chat_id: "".to_string(),
+        };
+        assert!(matches!(
+            telegram_delivery_precheck(Some(&cfg)),
+            Err(DeliveryStatus::Failed { .. })
+        ));
     }
 
     #[tokio::test]

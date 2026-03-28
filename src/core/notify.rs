@@ -18,26 +18,30 @@ pub fn escape_html(s: &str) -> String {
         .replace('>', "&gt;")
 }
 
-pub async fn send_telegram_message(config: &TelegramConfig, markdown_text: &str) -> Result<()> {
-    if !config.enabled || config.bot_token.is_empty() || config.chat_id.is_empty() {
+fn build_payload(config: &TelegramConfig, message_text: &str) -> TelegramPayload {
+    TelegramPayload {
+        chat_id: config.chat_id.clone(),
+        text: message_text.to_string(),
+        parse_mode: "HTML".to_string(),
+        disable_web_page_preview: true,
+    }
+}
+
+pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) -> Result<()> {
+    if !config.enabled {
         return Ok(());
     }
-
-    // Telegram's MarkdownV2 requires escaping specific characters
-    // For simplicity of this MVP, we will use 'Markdown' (v1) which is more forgiving
-    // but we still need to be careful. If HTML is preferred, let me know.
-    // We'll use the basic `Markdown` parse_mode for now.
+    if config.bot_token.is_empty() || config.chat_id.is_empty() {
+        return Err(anyhow!(
+            "Telegram is enabled but bot_token/chat_id is missing"
+        ));
+    }
 
     let url = format!(
         "https://api.telegram.org/bot{}/sendMessage",
         config.bot_token
     );
-    let payload = TelegramPayload {
-        chat_id: config.chat_id.clone(),
-        text: markdown_text.to_string(),
-        parse_mode: "HTML".to_string(),
-        disable_web_page_preview: true,
-    };
+    let payload = build_payload(config, message_text);
 
     let client = Client::new();
     let res = client
@@ -57,4 +61,26 @@ pub async fn send_telegram_message(config: &TelegramConfig, markdown_text: &str)
         config.chat_id
     );
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::build_payload;
+    use crate::config::TelegramConfig;
+
+    #[test]
+    fn telegram_payload_uses_html_parse_mode() {
+        let cfg = TelegramConfig {
+            enabled: true,
+            bot_token: "token".to_string(),
+            chat_id: "chat".to_string(),
+        };
+
+        let payload = build_payload(&cfg, "## heading\n\n**body**");
+        let json = serde_json::to_value(payload).unwrap();
+
+        assert_eq!(json["chat_id"], "chat");
+        assert_eq!(json["text"], "## heading\n\n**body**");
+        assert_eq!(json["parse_mode"], "HTML");
+    }
 }

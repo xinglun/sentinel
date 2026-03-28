@@ -112,6 +112,42 @@ jobs:
           echo "REPORT_DATE_JST=${REPORT_DATE}" >> $GITHUB_ENV
           echo "✅ Report date resolved from generated packet: ${REPORT_DATE}"
 
+      - name: Show Notification Outcome
+        run: |
+          set -euo pipefail
+
+          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          RUN_STATUS_PATH="reports/run_status_${DATE_JST}.json"
+
+          if [ ! -f "${RUN_STATUS_PATH}" ]; then
+            echo "⚠️ run_status not found yet: ${RUN_STATUS_PATH}"
+            exit 0
+          fi
+
+          python - <<'PY'
+          import json
+          import os
+          path = os.path.join("reports", f"run_status_{os.environ.get('REPORT_DATE_JST')}.json")
+          data = json.load(open(path))
+          notification = data.get("notification", "missing")
+          print("=== NOTIFICATION OUTCOME ===")
+          if isinstance(notification, str):
+              print(f"status={notification}")
+          elif isinstance(notification, dict):
+              if "failed" in notification:
+                  print("status=failed")
+                  print(f"reason={notification['failed'].get('reason', '')}")
+              elif "skipped" in notification:
+                  print("status=skipped")
+              elif "succeeded" in notification:
+                  print("status=succeeded")
+              else:
+                  print(f"status={notification}")
+          else:
+              print(f"status={notification}")
+          print("============================")
+          PY
+
       - name: Freshness Gate and Output Validation
         run: |
           set -euo pipefail
