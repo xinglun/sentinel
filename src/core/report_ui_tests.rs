@@ -339,7 +339,7 @@ mod tests {
         assert!(!card.contains("1. **NVDA**"));
         assert!(card.contains("### 取引禁止（NO TRADE）"));
         assert!(card.contains("状態：未確認始動期"));
-        assert!(card.contains("行動：取引禁止（NO TRADE）"));
+        assert!(card.contains("行動：取引禁止"));
         assert!(card.contains("新規建て上限 · 0%"));
         assert!(!card.contains("0-10%"));
         assert!(!card.contains("推奨ポジション"));

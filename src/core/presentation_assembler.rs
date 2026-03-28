@@ -505,19 +505,19 @@ impl PresentationAssembler {
         ) = if is_data_missing {
             (
                 dict.decision.no_trade.clone(),
-                dict.decision.no_trade.clone(),
+                dict.decision.no_trade_action.clone(),
                 "N/A".to_string(),
                 "0%".to_string(),
                 dict.market_summaries.data_missing.clone(),
                 dict.decision.no_trade_rule.clone(),
                 dict.decision.state_data_unavailable.clone(),
-                dict.decision.no_trade.clone(),
+                dict.decision.no_trade_action.clone(),
                 Some(dict.decision.entry_cap_note.clone()),
             )
         } else if !packet.participation.participation_ready {
             (
                 dict.decision.no_trade.clone(),
-                dict.decision.no_trade.clone(),
+                dict.decision.no_trade_action.clone(),
                 "N/A".to_string(),
                 "0%".to_string(),
                 dict.decision.no_trade_summary.clone(),
@@ -527,7 +527,7 @@ impl PresentationAssembler {
                 } else {
                     dict.decision.state_participation_blocked.clone()
                 },
-                dict.decision.no_trade.clone(),
+                dict.decision.no_trade_action.clone(),
                 Some(dict.decision.entry_cap_note.clone()),
             )
         } else {
@@ -587,6 +587,7 @@ impl PresentationAssembler {
                 .reasons
                 .iter()
                 .map(|reason| Self::localize_participation_reason(reason, dict))
+                .filter(|reason| !reason.is_empty())
                 .collect()
         } else {
             Vec::new()
@@ -636,13 +637,18 @@ impl PresentationAssembler {
 
     fn localize_participation_reason(reason: &str, dict: &DisplayDictionary) -> String {
         if reason.starts_with("Stability score") {
-            format!("{} < 10.0", dict.signals.stability)
+            format!("{}不足（< 10.0）", dict.signals.stability)
         } else if reason.starts_with("Core Tier streak") {
-            format!("{} < 3d", dict.signals.continuity)
-        } else if reason.starts_with("Core Tier set changed") {
-            format!("{} reset", dict.signals.continuity)
-        } else if reason.starts_with("First day of session") {
-            format!("{} 1d", dict.signals.continuity)
+            let streak = reason
+                .split('(')
+                .nth(1)
+                .and_then(|s| s.split(')').next())
+                .unwrap_or("0");
+            format!("{}不足（{}d < 3d）", dict.signals.continuity, streak)
+        } else if reason.starts_with("Core Tier set changed")
+            || reason.starts_with("First day of session")
+        {
+            String::new()
         } else {
             reason.to_string()
         }

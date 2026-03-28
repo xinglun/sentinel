@@ -179,10 +179,7 @@ mod tests {
             .contains("NO TRADE"));
         assert_eq!(pres.decision_summary.entry_cap_value, "0%");
         assert_eq!(pres.decision_summary.state_tag_value, "未確認始動期");
-        assert_eq!(
-            pres.decision_summary.action_tag_value,
-            "取引禁止（NO TRADE）"
-        );
+        assert_eq!(pres.decision_summary.action_tag_value, "取引禁止");
         assert_eq!(
             pres.decision_summary.hard_rule_note,
             "あらゆる能動売買はシステム規律違反となる。"
