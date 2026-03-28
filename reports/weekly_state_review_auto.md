@@ -2,7 +2,7 @@
 
 - As of: 2026-03-27
 - Status: using current market decision
-- Latest headline: 始動期 | 打診
+- Latest headline: 启动期 | 低仓试探
 - Days analyzed: 1
 - Avg confidence: 54.1
 - Avg stability: 1.1
