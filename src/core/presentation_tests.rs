@@ -128,6 +128,14 @@ mod tests {
         // It SHOULD contain the explicit error semantics
         assert!(report.markdown_body.contains("数据不可用"));
         assert!(report.markdown_body.contains("无数据"));
+        assert!(report.markdown_body.contains("N/A"));
+        assert!(!report.markdown_body.contains("**信心指数**: 0"));
+        assert_eq!(pres.signal_summary.confidence_value, "N/A");
+        assert_eq!(pres.signal_summary.stability_value, "N/A");
+        assert_eq!(pres.signal_summary.participation_value, "N/A");
+        assert_eq!(pres.signal_summary.continuity_value, "N/A");
+        assert_eq!(pres.signal_summary.regime_age_value, "N/A");
+        assert_eq!(pres.signal_summary.flow_value, "N/A");
     }
 
     #[test]
@@ -299,5 +307,27 @@ mod tests {
 
         assert_eq!(packet.language, Language::ZhCn);
         assert!(packet.data_alert.is_none());
+    }
+
+    #[test]
+    fn test_data_alert_is_not_rendered_twice() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec!["AAPL".to_string(), "TSLA".to_string(), "NVDA".to_string()],
+            Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        let count = report.markdown_body.matches("获取失败").count();
+        assert_eq!(count, 1, "data alert should be rendered exactly once");
     }
 }

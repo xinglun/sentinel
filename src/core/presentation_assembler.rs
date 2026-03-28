@@ -5,7 +5,7 @@ use crate::core::exit::PositionIntent;
 use crate::core::i18n::{get_dictionary, DisplayDictionary, Language};
 use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
-    DataAlertViewModel, MacroDisplayContext, PresentationPacket, TerminalRowViewModel,
+    DataAlertViewModel, MacroDisplayContext, PresentationPacket, SignalSummaryViewModel,
 };
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
@@ -92,6 +92,61 @@ impl PresentationAssembler {
             })
         };
 
+        let flow_value = if is_data_missing {
+            "N/A".to_string()
+        } else {
+            match packet.market_features.flow_acceleration {
+                Some(flow) if flow > 0.05 => dict.states.flow_in.clone(),
+                Some(flow) if flow < -0.05 => dict.states.flow_out.clone(),
+                _ => dict.states.flow_stable.clone(),
+            }
+        };
+        let participation_value = if is_data_missing {
+            "N/A".to_string()
+        } else if packet.participation.participation_ready {
+            format!(
+                "{} · {} {}d",
+                dict.states.ready, dict.signals.continuity, packet.participation.core_tier_streak
+            )
+        } else {
+            format!(
+                "{} · {} {}d",
+                dict.states.not_ready,
+                dict.signals.continuity,
+                packet.participation.core_tier_streak
+            )
+        };
+        let signal_summary = SignalSummaryViewModel {
+            confidence_label: dict.signals.confidence.clone(),
+            confidence_value: if is_data_missing {
+                "N/A".to_string()
+            } else {
+                format!("{:.0}", packet.market_features.system_confidence)
+            },
+            stability_label: dict.signals.stability.clone(),
+            stability_value: if is_data_missing {
+                "N/A".to_string()
+            } else {
+                format!("{:.1}", packet.market_features.stability_score)
+            },
+            participation_label: dict.signals.participation.clone(),
+            participation_value,
+            continuity_label: dict.signals.continuity.clone(),
+            continuity_value: if is_data_missing {
+                "N/A".to_string()
+            } else {
+                format!("{}d", packet.participation.core_tier_streak)
+            },
+            regime_age_label: dict.signals.regime_age.clone(),
+            regime_age_value: if is_data_missing {
+                "N/A".to_string()
+            } else {
+                format!("{}d", packet.market_features.regime_age)
+            },
+            flow_label: dict.signals.net_flow.clone(),
+            flow_value,
+        };
+
         let macro_display = MacroDisplayContext {
             headline,
             summary,
@@ -99,11 +154,7 @@ impl PresentationAssembler {
             bias_label: bias,
         };
 
-        // 2. TRUE ZERO-CLONE: Integrated loop
-        // We calculate context/intent on the fly and push references to buckets.
-        let mut terminal_rows = Vec::with_capacity(packet.assets.len());
-
-        // Internal containers for sorting/categorization (references only!)
+        // 2. Integrated categorization using references only.
         let mut acc_refs = Vec::new();
         let mut hold_refs = Vec::new();
         let mut watch_refs = Vec::new();
@@ -120,28 +171,6 @@ impl PresentationAssembler {
                 asset.has_position_fact,
             );
             let intent = Self::derive_display_intent(asset.position_intent, &context);
-
-            // A. Build Terminal Row (O(1) string ops)
-            let emoji = match asset.asset_state.state {
-                crate::core::asset_state::AssetState::OPTIMAL => "🔥",
-                crate::core::asset_state::AssetState::PULLBACK => "🏹",
-                crate::core::asset_state::AssetState::OVERHEAT => "🌋",
-                crate::core::asset_state::AssetState::DEFEND => "🛡️",
-                _ => "▫️",
-            };
-
-            terminal_rows.push(TerminalRowViewModel {
-                symbol: asset.symbol.clone(),
-                state_label: format!("{} {:?}", emoji, asset.asset_state.state),
-                intent_label: format!("{:?}", intent),
-                action_label: format!("{:?}", asset.action),
-                owner_dev_label: format!("{:+.1}%", asset.deviation.unwrap_or(0.0)),
-                strength_z_label: format!("{:.1}σ", asset.z_score.unwrap_or(0.0)),
-            });
-
-            // B. Categorize by reference (Crucial: NO AssetActionDecision clone)
-            // We store the context/intent metadata separately or use a specialized wrapper.
-            // For simplicity and 100% correctness, we'll store tuples of (Asset, Context, Intent) references
             let item = (asset, context, intent);
             match intent {
                 DisplayIntent::ADD => acc_refs.push(item),
@@ -221,6 +250,86 @@ impl PresentationAssembler {
             }
         }
 
+        let tactical_buckets = vec![
+            (
+                dict.buckets.accumulate.clone(),
+                "accumulate".to_string(),
+                &acc_refs,
+            ),
+            (
+                dict.buckets.holdings.clone(),
+                "hold".to_string(),
+                &hold_refs,
+            ),
+            (
+                dict.buckets.watchlist.clone(),
+                "watch".to_string(),
+                &watch_refs,
+            ),
+            (
+                dict.buckets.actions.clone(),
+                "defend".to_string(),
+                &defend_refs,
+            ),
+        ]
+        .into_iter()
+        .filter_map(|(display_name, bucket_id, refs)| {
+            if refs.is_empty() {
+                None
+            } else {
+                Some(crate::core::display::TacticalBucketViewModel {
+                    bucket_id,
+                    display_name,
+                    items: refs
+                        .iter()
+                        .map(|(asset, _, _)| asset.symbol.clone())
+                        .collect(),
+                })
+            }
+        })
+        .collect::<Vec<_>>();
+
+        let mut risk_opportunities = Vec::new();
+        for (asset, context, intent) in acc_refs
+            .iter()
+            .chain(hold_refs.iter())
+            .chain(watch_refs.iter())
+            .chain(defend_refs.iter())
+        {
+            if (*intent == DisplayIntent::ADD
+                || (context.is_candidate_only && context.participation_ready))
+                && matches!(
+                    asset.asset_state.state,
+                    crate::core::asset_state::AssetState::PULLBACK
+                        | crate::core::asset_state::AssetState::OPTIMAL
+                )
+            {
+                risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
+                    kind: "OPPORTUNITY".to_string(),
+                    symbol: asset.symbol.clone(),
+                    reason: Self::derive_telegram_reason(asset, !is_ready, &dict),
+                });
+            }
+
+            if matches!(*intent, DisplayIntent::TRIM | DisplayIntent::EXIT)
+                || asset.asset_state.state == crate::core::asset_state::AssetState::OVERHEAT
+            {
+                risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
+                    kind: "RISK".to_string(),
+                    symbol: asset.symbol.clone(),
+                    reason: Self::derive_telegram_reason(asset, !is_ready, &dict),
+                });
+            }
+        }
+
+        let mut notices = Vec::new();
+        if !is_data_missing && !is_ready {
+            if matches!(state, MarketState::IGNITION | MarketState::NEWBORN) {
+                notices.push(dict.reasons.ignition_notice.clone());
+            } else {
+                notices.push(dict.reasons.participation_notice.clone());
+            }
+        }
         // 4. Final ViewModel Conversion
         let mut top_vms = Vec::with_capacity(selected_refs.len());
         for (asset, context, intent) in selected_refs {
@@ -251,9 +360,13 @@ impl PresentationAssembler {
             date_str,
             language: lang,
             macro_display,
+            signal_summary,
             top_actions: top_vms,
+            tactical_buckets,
+            risk_opportunities,
+            notices,
             data_alert,
-            terminal_rows,
+            terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
         }
     }

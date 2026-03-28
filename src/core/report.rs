@@ -18,7 +18,7 @@ pub fn generate_refined_report(
     let dict = get_dictionary(pres.language);
 
     let mut card = String::new();
-    card.push_str(&format!("## 🌍 {}\n\n", dict.headers.market_summary));
+    card.push_str(&format!("## {}\n\n", dict.headers.market_summary));
     card.push_str(&format!(
         "**{}**: {} | **{}**: {}\n\n",
         dict.signals.regime_label,
@@ -52,7 +52,48 @@ pub fn generate_refined_report(
     }
 
     card.push('\n');
-    card.push_str(&format!("**{}**\n", dict.headers.monitoring_signals));
+    card.push_str(&format!("**{}**\n\n", dict.headers.monitoring_signals));
+    let s = &pres.signal_summary;
+    card.push_str(&format!(
+        "- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n",
+        s.confidence_label,
+        s.confidence_value,
+        s.stability_label,
+        s.stability_value,
+        s.participation_label,
+        s.participation_value,
+        s.continuity_label,
+        s.continuity_value,
+        s.regime_age_label,
+        s.regime_age_value,
+        s.flow_label,
+        s.flow_value
+    ));
+
+    if !pres.tactical_buckets.is_empty() {
+        card.push_str(&format!("\n**{}**\n\n", dict.headers.tactical_buckets));
+        for bucket in &pres.tactical_buckets {
+            card.push_str(&format!(
+                "- **{}**: {}\n",
+                bucket.display_name,
+                bucket.items.join(" / ")
+            ));
+        }
+    }
+
+    if !pres.risk_opportunities.is_empty() {
+        card.push_str(&format!("\n**{}**\n\n", dict.headers.risks_opportunities));
+        for item in &pres.risk_opportunities {
+            card.push_str(&format!("- **{}** · {}\n", item.symbol, item.reason));
+        }
+    }
+
+    if !pres.notices.is_empty() {
+        card.push('\n');
+        for notice in &pres.notices {
+            card.push_str(&format!("{}\n", notice));
+        }
+    }
 
     if let Some(alert) = &pres.data_alert {
         card.push_str(&format!(

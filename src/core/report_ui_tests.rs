@@ -99,6 +99,8 @@ mod tests {
         assert!(card.contains("扩张期"));
         assert!(card.contains("NVDA"));
         assert!(card.contains("🟢"));
+        assert!(card.contains("监控信号"));
+        assert!(card.contains("战术分区"));
     }
 
     #[test]
@@ -240,6 +242,7 @@ mod tests {
         assert!(card.contains("市場サマリー"));
         assert!(card.contains("主要アクション"));
         assert!(card.contains("強気"));
+        assert!(card.contains("監視シグナル"));
         assert!(!card.contains("市场摘要"));
     }
 }

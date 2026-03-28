@@ -1,4 +1,4 @@
-use crate::core::display::TopActionViewModel;
+use crate::core::display::{RiskOpportunityViewModel, TacticalBucketViewModel, TopActionViewModel};
 use crate::core::i18n::Language;
 use serde::{Deserialize, Serialize};
 
@@ -23,12 +23,36 @@ pub struct DataAlertViewModel {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct SignalSummaryViewModel {
+    pub confidence_label: String,
+    pub confidence_value: String,
+    pub stability_label: String,
+    pub stability_value: String,
+    pub participation_label: String,
+    pub participation_value: String,
+    pub continuity_label: String,
+    pub continuity_value: String,
+    pub regime_age_label: String,
+    pub regime_age_value: String,
+    pub flow_label: String,
+    pub flow_value: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PresentationPacket {
     pub date_str: String,
     #[serde(default = "default_language")]
     pub language: Language,
     pub macro_display: MacroDisplayContext,
+    #[serde(default)]
+    pub signal_summary: SignalSummaryViewModel,
     pub top_actions: Vec<TopActionViewModel>,
+    #[serde(default)]
+    pub tactical_buckets: Vec<TacticalBucketViewModel>,
+    #[serde(default)]
+    pub risk_opportunities: Vec<RiskOpportunityViewModel>,
+    #[serde(default)]
+    pub notices: Vec<String>,
     #[serde(default)]
     pub data_alert: Option<DataAlertViewModel>,
     // For the terminal table and archival markdown
