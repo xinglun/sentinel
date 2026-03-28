@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use crate::core::exit::PositionIntent;
+use crate::core::position_intent::UnifiedPositionIntent;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Default)]
@@ -67,14 +67,15 @@ pub struct DisplayAdapter;
 impl DisplayAdapter {
     /// 基于执行意向（PositionIntent）和结构化展示上下文推导展示语义
     pub fn derive_display_intent(
-        pos_intent: PositionIntent,
+        pos_intent: UnifiedPositionIntent,
         context: &DisplayContext,
     ) -> DisplayIntent {
         match pos_intent {
-            PositionIntent::ADD => DisplayIntent::ADD,
-            PositionIntent::TRIM => DisplayIntent::TRIM,
-            PositionIntent::EXIT => DisplayIntent::EXIT,
-            PositionIntent::HOLD => {
+            UnifiedPositionIntent::Add => DisplayIntent::ADD,
+            UnifiedPositionIntent::Trim => DisplayIntent::TRIM,
+            UnifiedPositionIntent::Exit => DisplayIntent::EXIT,
+            UnifiedPositionIntent::Watch => DisplayIntent::OBSERVE,
+            UnifiedPositionIntent::Hold => {
                 if context.is_candidate_only {
                     DisplayIntent::OBSERVE
                 } else if context.has_position {

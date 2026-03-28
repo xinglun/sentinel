@@ -13,6 +13,7 @@ pub mod notify;
 pub mod participation;
 pub mod persistence;
 pub mod portfolio_policy;
+pub mod position_intent;
 pub mod report;
 pub mod run_status;
 pub mod runtime_mode;

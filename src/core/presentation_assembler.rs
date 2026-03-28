@@ -1,7 +1,7 @@
 use crate::config::ParsedRules;
 use crate::core::decision::DecisionPacket;
 use crate::core::display::{DisplayAdapter, DisplayContext, DisplayIntent};
-use crate::core::exit::{AssetExitState, PositionIntent};
+use crate::core::exit::AssetExitState;
 use crate::core::i18n::{get_dictionary, DisplayDictionary, Language};
 use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
@@ -179,7 +179,8 @@ impl PresentationAssembler {
                 asset.is_core_fact,
                 asset.has_position_fact,
             );
-            let intent = Self::derive_display_intent(asset.position_intent, &context);
+            let unified_intent = Self::derive_unified_intent(asset, &context);
+            let intent = Self::derive_display_intent(unified_intent, &context);
             let item = (asset, context, intent);
             match intent {
                 DisplayIntent::ADD => acc_refs.push(item),
@@ -488,10 +489,24 @@ impl PresentationAssembler {
     }
 
     fn derive_display_intent(
-        final_intent: PositionIntent,
+        final_intent: crate::core::position_intent::UnifiedPositionIntent,
         context: &DisplayContext,
     ) -> DisplayIntent {
         DisplayAdapter::derive_display_intent(final_intent, context)
+    }
+
+    fn derive_unified_intent(
+        asset: &crate::core::action_matrix::AssetActionDecision,
+        context: &DisplayContext,
+    ) -> crate::core::position_intent::UnifiedPositionIntent {
+        crate::core::position_intent::UnifiedIntentSynthesizer::synthesize(
+            asset.position_intent,
+            &asset.exit_decision,
+            context.participation_ready,
+            context.has_position,
+            asset.asset_state.state,
+        )
+        .intent
     }
 
     fn build_exit_summary(
@@ -514,18 +529,19 @@ impl PresentationAssembler {
                 asset.is_core_fact,
                 asset.has_position_fact,
             );
+            let unified_intent = Self::derive_unified_intent(asset, &context);
 
             if !context.has_position {
                 continue;
             }
 
-            let (intent, intent_label, reason) = match asset.exit_decision.position_intent {
-                PositionIntent::EXIT => (
+            let (intent, intent_label, reason) = match unified_intent {
+                crate::core::position_intent::UnifiedPositionIntent::Exit => (
                     ExitDisplayIntent::Exit,
                     dict.decision.exit_intent_exit.clone(),
                     dict.reasons.position_exit_defensive.clone(),
                 ),
-                PositionIntent::TRIM => {
+                crate::core::position_intent::UnifiedPositionIntent::Trim => {
                     let reason = match asset.exit_decision.asset_exit_state {
                         AssetExitState::StrengthLoss => {
                             dict.reasons.position_trim_strength_loss.clone()
@@ -547,7 +563,13 @@ impl PresentationAssembler {
                         reason,
                     )
                 }
-                PositionIntent::HOLD | PositionIntent::ADD => {
+                crate::core::position_intent::UnifiedPositionIntent::Hold => (
+                    ExitDisplayIntent::Hold,
+                    dict.decision.exit_intent_hold.clone(),
+                    dict.reasons.position_hold_core.clone(),
+                ),
+                crate::core::position_intent::UnifiedPositionIntent::Watch
+                | crate::core::position_intent::UnifiedPositionIntent::Add => {
                     if matches!(
                         asset.asset_state.state,
                         crate::core::asset_state::AssetState::PULLBACK
@@ -567,9 +589,9 @@ impl PresentationAssembler {
                         )
                     } else {
                         (
-                            ExitDisplayIntent::Hold,
-                            dict.decision.exit_intent_hold.clone(),
-                            dict.reasons.position_hold_core.clone(),
+                            ExitDisplayIntent::Watch,
+                            dict.decision.exit_intent_watch.clone(),
+                            dict.reasons.position_watch_no_trigger.clone(),
                         )
                     }
                 }
@@ -598,7 +620,10 @@ impl PresentationAssembler {
         ExitDecisionSummaryViewModel {
             title: dict.headers.position_handling.clone(),
             empty_note: if items.is_empty() {
-                Some(dict.reasons.position_none.clone())
+                Some(format!(
+                    "{}\n{}",
+                    dict.reasons.position_none, dict.reasons.position_none_no_trigger
+                ))
             } else {
                 None
             },

@@ -210,6 +210,15 @@ impl Engine {
                 .unwrap_or(true);
             decision.exit_decision = exit_decision;
             decision.position_intent = final_intent;
+            decision.unified_position_intent =
+                crate::core::position_intent::UnifiedIntentSynthesizer::synthesize(
+                    final_intent,
+                    &decision.exit_decision,
+                    participation.participation_ready,
+                    positions.contains_key(&decision.symbol),
+                    asset_state_snapshot.state,
+                )
+                .intent;
             // Record domain facts for downstream presentation assembly
             decision.is_core_fact = rules.core_assets.contains(&decision.symbol);
             decision.has_position_fact = positions.contains_key(&decision.symbol);

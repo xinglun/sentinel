@@ -441,4 +441,41 @@ mod tests {
         assert!(decision_idx < exit_idx);
         assert!(exit_idx < watch_idx);
     }
+
+    #[test]
+    fn test_exit_summary_empty_state_keeps_decision_tone() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+            .unwrap()
+            .markdown_body;
+
+        assert!(card.contains("### 📉 持仓处理建议"));
+        assert!(card.contains("> 当前无持仓，无需处理。"));
+        assert!(card.contains("> 未触发任何退出条件。"));
+    }
 }

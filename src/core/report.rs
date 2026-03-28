@@ -91,7 +91,9 @@ pub fn generate_refined_report(
     card.push_str(&format!("### {}\n\n", pres.exit_summary.title));
     if pres.exit_summary.items.is_empty() {
         if let Some(note) = &pres.exit_summary.empty_note {
-            card.push_str(&format!("> {}\n", note));
+            for line in note.lines() {
+                card.push_str(&format!("> {}\n", line));
+            }
         }
     } else {
         for item in &pres.exit_summary.items {
