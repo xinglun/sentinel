@@ -213,6 +213,156 @@ mod tests {
             .as_deref()
             .unwrap_or_default()
             .contains("候補観測"));
+        assert_eq!(pres.exit_summary.title, "📉 ポジション処理提案");
+        assert_eq!(
+            pres.exit_summary.empty_note.as_deref(),
+            Some("現在処理対象の保有ポジションなし。")
+        );
+    }
+
+    #[test]
+    fn test_exit_summary_distinguishes_hold_trim_exit_and_watch() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "EXITME".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "EXITME".into(),
+                        state: AssetState::DEFEND,
+                        ..Default::default()
+                    },
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::EXIT,
+                        asset_exit_state: AssetExitState::DefensiveExit,
+                        reasons: vec![],
+                    },
+                    position_intent: PositionIntent::EXIT,
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "TRIMME".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "TRIMME".into(),
+                        state: AssetState::CRUISE,
+                        ..Default::default()
+                    },
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::TRIM,
+                        asset_exit_state: AssetExitState::StrengthLoss,
+                        reasons: vec![],
+                    },
+                    position_intent: PositionIntent::TRIM,
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "HOLDME".into(),
+                    has_position_fact: true,
+                    is_core_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "HOLDME".into(),
+                        state: AssetState::OPTIMAL,
+                        ..Default::default()
+                    },
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::HOLD,
+                        asset_exit_state: AssetExitState::ParticipationExit,
+                        reasons: vec![],
+                    },
+                    position_intent: PositionIntent::HOLD,
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "WATCHME".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "WATCHME".into(),
+                        state: AssetState::PULLBACK,
+                        ..Default::default()
+                    },
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::HOLD,
+                        asset_exit_state: AssetExitState::None,
+                        reasons: vec![],
+                    },
+                    position_intent: PositionIntent::HOLD,
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert_eq!(pres.exit_summary.items.len(), 4);
+        assert!(pres
+            .exit_summary
+            .items
+            .iter()
+            .any(|i| i.symbol == "EXITME" && i.intent_label == "退出"));
+        assert!(pres
+            .exit_summary
+            .items
+            .iter()
+            .any(|i| i.symbol == "TRIMME" && i.intent_label == "减仓"));
+        assert!(pres
+            .exit_summary
+            .items
+            .iter()
+            .any(|i| i.symbol == "HOLDME" && i.intent_label == "持有"));
+        assert!(pres
+            .exit_summary
+            .items
+            .iter()
+            .any(|i| i.symbol == "WATCHME" && i.intent_label == "观察"));
+    }
+
+    #[test]
+    fn test_exit_summary_is_localized_in_english() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                has_position_fact: true,
+                asset_state: AssetStateSnapshot {
+                    symbol: "AAPL".into(),
+                    state: AssetState::PULLBACK,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::HOLD,
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert_eq!(pres.exit_summary.title, "📉 Position Handling");
+        assert!(pres
+            .exit_summary
+            .items
+            .iter()
+            .any(|i| i.symbol == "AAPL" && i.intent_label == "WATCH"));
     }
 
     #[test]

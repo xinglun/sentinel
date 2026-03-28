@@ -353,4 +353,92 @@ mod tests {
         let actions_idx = card.find("候補観測リスト").unwrap();
         assert!(decision_idx < actions_idx);
     }
+
+    #[test]
+    fn test_exit_summary_renders_separately_from_no_trade() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    has_position_fact: true,
+                    is_core_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "NVDA".into(),
+                        state: AssetState::OPTIMAL,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::HOLD,
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "FIG".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "FIG".into(),
+                        state: AssetState::DEFEND,
+                        ..Default::default()
+                    },
+                    exit_decision: crate::core::exit::ExitDecision {
+                        position_intent: PositionIntent::EXIT,
+                        asset_exit_state: crate::core::exit::AssetExitState::DefensiveExit,
+                        reasons: vec![],
+                    },
+                    position_intent: PositionIntent::EXIT,
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "TSLA".into(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: "TSLA".into(),
+                        state: AssetState::FORMING,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::HOLD,
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+            .unwrap()
+            .markdown_body;
+
+        assert!(card.contains("### 📉 持仓处理建议"));
+        assert!(card.contains("- NVDA · 持有"));
+        assert!(card.contains("- FIG · 退出"));
+        assert!(!card.contains("- NVDA · 卖出"));
+        let decision_idx = card.find("### 禁止动作（NO TRADE）").unwrap();
+        let exit_idx = card.find("### 📉 持仓处理建议").unwrap();
+        let watch_idx = card.find("### 👀 候选观察名单").unwrap();
+        assert!(decision_idx < exit_idx);
+        assert!(exit_idx < watch_idx);
+    }
 }

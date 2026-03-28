@@ -76,6 +76,32 @@ pub struct RiskOpportunitySummaryViewModel {
     pub risk_value: String,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum ExitDisplayIntent {
+    #[default]
+    Hold,
+    Trim,
+    Exit,
+    Watch,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct ExitDecisionItemViewModel {
+    pub symbol: String,
+    pub intent: ExitDisplayIntent,
+    pub intent_label: String,
+    pub reason: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct ExitDecisionSummaryViewModel {
+    pub title: String,
+    #[serde(default)]
+    pub empty_note: Option<String>,
+    #[serde(default)]
+    pub items: Vec<ExitDecisionItemViewModel>,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PresentationPacket {
     pub date_str: String,
@@ -87,6 +113,8 @@ pub struct PresentationPacket {
     #[serde(default)]
     pub signal_summary: SignalSummaryViewModel,
     pub top_actions: Vec<TopActionViewModel>,
+    #[serde(default)]
+    pub exit_summary: ExitDecisionSummaryViewModel,
     #[serde(default)]
     pub tactical_buckets: Vec<TacticalBucketViewModel>,
     #[serde(default)]

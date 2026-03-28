@@ -1,11 +1,12 @@
 use crate::config::ParsedRules;
 use crate::core::decision::DecisionPacket;
 use crate::core::display::{DisplayAdapter, DisplayContext, DisplayIntent};
-use crate::core::exit::PositionIntent;
+use crate::core::exit::{AssetExitState, PositionIntent};
 use crate::core::i18n::{get_dictionary, DisplayDictionary, Language};
 use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
-    DataAlertViewModel, DecisionSummaryViewModel, MacroDisplayContext, PresentationPacket,
+    DataAlertViewModel, DecisionSummaryViewModel, ExitDecisionItemViewModel,
+    ExitDecisionSummaryViewModel, ExitDisplayIntent, MacroDisplayContext, PresentationPacket,
     RiskOpportunitySummaryViewModel, SignalSummaryViewModel,
 };
 use std::cmp::Ordering;
@@ -356,6 +357,14 @@ impl PresentationAssembler {
         };
         let decision_summary =
             Self::build_decision_summary(packet, is_data_missing, state, &dict, &battleboard);
+        let exit_summary = Self::build_exit_summary(
+            packet,
+            positions,
+            &top_tier_set,
+            &core_assets_set,
+            is_ready,
+            &dict,
+        );
 
         let mut notices = Vec::new();
         if !is_data_missing && !is_ready {
@@ -398,6 +407,7 @@ impl PresentationAssembler {
             decision_summary,
             signal_summary,
             top_actions: top_vms,
+            exit_summary,
             tactical_buckets,
             risk_opportunity_summary,
             risk_opportunities,
@@ -482,6 +492,118 @@ impl PresentationAssembler {
         context: &DisplayContext,
     ) -> DisplayIntent {
         DisplayAdapter::derive_display_intent(final_intent, context)
+    }
+
+    fn build_exit_summary(
+        packet: &DecisionPacket,
+        positions: &HashMap<String, (f64, f64)>,
+        top_tier_set: &HashSet<&str>,
+        core_assets_set: &HashSet<&str>,
+        participation_ready: bool,
+        dict: &DisplayDictionary,
+    ) -> ExitDecisionSummaryViewModel {
+        let mut items = Vec::new();
+
+        for asset in &packet.assets {
+            let context = Self::derive_display_context(
+                &asset.symbol,
+                positions,
+                top_tier_set,
+                core_assets_set,
+                participation_ready,
+                asset.is_core_fact,
+                asset.has_position_fact,
+            );
+
+            if !context.has_position {
+                continue;
+            }
+
+            let (intent, intent_label, reason) = match asset.exit_decision.position_intent {
+                PositionIntent::EXIT => (
+                    ExitDisplayIntent::Exit,
+                    dict.decision.exit_intent_exit.clone(),
+                    dict.reasons.position_exit_defensive.clone(),
+                ),
+                PositionIntent::TRIM => {
+                    let reason = match asset.exit_decision.asset_exit_state {
+                        AssetExitState::StrengthLoss => {
+                            dict.reasons.position_trim_strength_loss.clone()
+                        }
+                        AssetExitState::ParticipationExit => {
+                            dict.reasons.position_trim_participation.clone()
+                        }
+                        AssetExitState::OverheatProfitTake => {
+                            dict.reasons.position_trim_overheat.clone()
+                        }
+                        AssetExitState::DefensiveExit => {
+                            dict.reasons.position_exit_defensive.clone()
+                        }
+                        AssetExitState::None => dict.reasons.position_trim_strength_loss.clone(),
+                    };
+                    (
+                        ExitDisplayIntent::Trim,
+                        dict.decision.exit_intent_trim.clone(),
+                        reason,
+                    )
+                }
+                PositionIntent::HOLD | PositionIntent::ADD => {
+                    if matches!(
+                        asset.asset_state.state,
+                        crate::core::asset_state::AssetState::PULLBACK
+                            | crate::core::asset_state::AssetState::CAUTION
+                            | crate::core::asset_state::AssetState::FORMING
+                    ) {
+                        (
+                            ExitDisplayIntent::Watch,
+                            dict.decision.exit_intent_watch.clone(),
+                            if asset.asset_state.state
+                                == crate::core::asset_state::AssetState::PULLBACK
+                            {
+                                dict.reasons.position_watch_pullback.clone()
+                            } else {
+                                dict.reasons.position_watch_no_trigger.clone()
+                            },
+                        )
+                    } else {
+                        (
+                            ExitDisplayIntent::Hold,
+                            dict.decision.exit_intent_hold.clone(),
+                            dict.reasons.position_hold_core.clone(),
+                        )
+                    }
+                }
+            };
+
+            items.push(ExitDecisionItemViewModel {
+                symbol: asset.symbol.clone(),
+                intent,
+                intent_label,
+                reason,
+            });
+        }
+
+        items.sort_by(|a, b| {
+            let prio = |intent: ExitDisplayIntent| match intent {
+                ExitDisplayIntent::Exit => 0,
+                ExitDisplayIntent::Trim => 1,
+                ExitDisplayIntent::Hold => 2,
+                ExitDisplayIntent::Watch => 3,
+            };
+            prio(a.intent)
+                .cmp(&prio(b.intent))
+                .then_with(|| a.symbol.cmp(&b.symbol))
+        });
+
+        ExitDecisionSummaryViewModel {
+            title: dict.headers.position_handling.clone(),
+            empty_note: if items.is_empty() {
+                Some(dict.reasons.position_none.clone())
+            } else {
+                None
+            },
+            items,
+        }
     }
 
     fn build_decision_summary(

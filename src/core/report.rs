@@ -88,6 +88,19 @@ pub fn generate_refined_report(
     }
     card.push_str("\n\n");
 
+    card.push_str(&format!("### {}\n\n", pres.exit_summary.title));
+    if pres.exit_summary.items.is_empty() {
+        if let Some(note) = &pres.exit_summary.empty_note {
+            card.push_str(&format!("> {}\n", note));
+        }
+    } else {
+        for item in &pres.exit_summary.items {
+            card.push_str(&format!("- {} · {}\n", item.symbol, item.intent_label));
+            card.push_str(&format!("   {}\n", item.reason));
+        }
+    }
+    card.push('\n');
+
     let top_actions_title = if d.action_status_value.contains("NO TRADE") {
         dict.decision.candidate_watchlist.clone()
     } else {
