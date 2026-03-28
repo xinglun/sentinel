@@ -93,6 +93,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
@@ -138,6 +139,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
@@ -183,6 +185,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
@@ -228,6 +231,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
@@ -273,6 +277,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
@@ -320,6 +325,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
@@ -365,6 +371,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
@@ -410,6 +417,7 @@
         "participation_ready": false
       },
       "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": null,
