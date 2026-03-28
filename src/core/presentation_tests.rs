@@ -177,7 +177,20 @@ mod tests {
             .decision_summary
             .action_status_value
             .contains("NO TRADE"));
-        assert_eq!(pres.decision_summary.exposure_value, "0-10%");
+        assert_eq!(pres.decision_summary.entry_cap_value, "0%");
+        assert_eq!(pres.decision_summary.state_tag_value, "未確認始動期");
+        assert_eq!(
+            pres.decision_summary.action_tag_value,
+            "取引禁止（NO TRADE）"
+        );
+        assert_eq!(
+            pres.decision_summary.hard_rule_note,
+            "あらゆる能動売買はシステム規律違反となる。"
+        );
+        assert_eq!(
+            pres.decision_summary.entry_cap_note.as_deref(),
+            Some("既存保有の自然変動のみ許容し、新規建ては行わない。")
+        );
         assert!(pres.decision_summary.market_board_value.contains("監視 0"));
         assert_eq!(
             pres.decision_summary.opportunity_snapshot_value,
@@ -197,6 +210,12 @@ mod tests {
             .readiness_reasons
             .iter()
             .any(|r| r.contains("継続性")));
+        assert!(pres
+            .decision_summary
+            .candidate_only_note
+            .as_deref()
+            .unwrap_or_default()
+            .contains("候補観測"));
     }
 
     #[test]

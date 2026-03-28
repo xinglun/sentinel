@@ -333,11 +333,19 @@ mod tests {
         assert!(card.contains("リスクと機会"));
         assert!(card.contains("戦況総覧"));
         assert!(card.contains("以下は候補観測のみ"));
-        assert!(card.contains("本日は何もしてはいけない。"));
+        assert!(card.contains("あらゆる能動売買はシステム規律違反となる。"));
         assert!(!card.contains("1. 🔵 **NVDA** - 観測"));
         assert!(card.contains("- NVDA · 形成中"));
         assert!(!card.contains("1. **NVDA**"));
         assert!(card.contains("### 取引禁止（NO TRADE）"));
+        assert!(card.contains("状態：未確認始動期"));
+        assert!(card.contains("行動：取引禁止（NO TRADE）"));
+        assert!(card.contains("新規建て上限 · 0%"));
+        assert!(!card.contains("0-10%"));
+        assert!(!card.contains("推奨ポジション"));
+        assert!(!card.contains("買い増し"));
+        assert!(!card.contains("買入"));
+        assert!(!card.contains("建玉"));
         assert!(card.contains("> 信頼指数 "));
         assert!(card.contains("サイクル期間 "));
 

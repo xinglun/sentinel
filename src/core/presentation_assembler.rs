@@ -492,20 +492,43 @@ impl PresentationAssembler {
         battleboard: &BattleboardSnapshot,
     ) -> DecisionSummaryViewModel {
         let not_ready = is_data_missing || !packet.participation.participation_ready;
-        let (action_status_value, behavior_mode_value, exposure_value, summary) = if is_data_missing
-        {
+        let (
+            action_status_value,
+            behavior_mode_value,
+            exposure_value,
+            entry_cap_value,
+            summary,
+            hard_rule_note,
+            state_tag_value,
+            action_tag_value,
+            entry_cap_note,
+        ) = if is_data_missing {
             (
                 dict.decision.no_trade.clone(),
                 dict.decision.no_trade.clone(),
-                "0-10%".to_string(),
+                "N/A".to_string(),
+                "0%".to_string(),
                 dict.market_summaries.data_missing.clone(),
+                dict.decision.no_trade_rule.clone(),
+                dict.decision.state_data_unavailable.clone(),
+                dict.decision.no_trade.clone(),
+                Some(dict.decision.entry_cap_note.clone()),
             )
         } else if !packet.participation.participation_ready {
             (
                 dict.decision.no_trade.clone(),
                 dict.decision.no_trade.clone(),
-                "0-10%".to_string(),
+                "N/A".to_string(),
+                "0%".to_string(),
                 dict.decision.no_trade_summary.clone(),
+                dict.decision.no_trade_rule.clone(),
+                if matches!(state, MarketState::IGNITION | MarketState::NEWBORN) {
+                    dict.decision.state_ignition_unconfirmed.clone()
+                } else {
+                    dict.decision.state_participation_blocked.clone()
+                },
+                dict.decision.no_trade.clone(),
+                Some(dict.decision.entry_cap_note.clone()),
             )
         } else {
             match state {
@@ -513,25 +536,45 @@ impl PresentationAssembler {
                     dict.decision.probe.clone(),
                     dict.decision.probe.clone(),
                     "10-30%".to_string(),
+                    "10-30%".to_string(),
                     dict.market_summaries.ignition.clone(),
+                    String::new(),
+                    dict.market_stages.ignition.clone(),
+                    dict.decision.probe.clone(),
+                    None,
                 ),
                 MarketState::EARLY_CONFIRMATION => (
                     dict.decision.accumulate.clone(),
                     dict.decision.accumulate.clone(),
                     "20-40%".to_string(),
+                    "20-40%".to_string(),
                     dict.market_summaries.established.clone(),
+                    String::new(),
+                    dict.market_stages.neutral.clone(),
+                    dict.decision.accumulate.clone(),
+                    None,
                 ),
                 MarketState::ESTABLISHED | MarketState::CONFIRMED => (
                     dict.decision.trend_follow.clone(),
                     dict.decision.trend_follow.clone(),
                     "30-70%".to_string(),
+                    "30-70%".to_string(),
                     dict.market_summaries.established.clone(),
+                    String::new(),
+                    dict.market_stages.established.clone(),
+                    dict.decision.trend_follow.clone(),
+                    None,
                 ),
                 MarketState::DEFENSIVE => (
                     dict.decision.defensive.clone(),
                     dict.decision.defensive.clone(),
                     "0-20%".to_string(),
+                    "0-20%".to_string(),
                     dict.market_summaries.defensive.clone(),
+                    String::new(),
+                    dict.market_stages.defensive.clone(),
+                    dict.decision.defensive.clone(),
+                    None,
                 ),
             }
         };
@@ -554,10 +597,18 @@ impl PresentationAssembler {
             section_title: dict.headers.decision_summary.clone(),
             action_status_label: dict.decision.action_status.clone(),
             action_status_value,
+            state_tag_label: dict.decision.state_tag.clone(),
+            state_tag_value,
+            action_tag_label: dict.decision.action_tag.clone(),
+            action_tag_value,
             behavior_mode_label: dict.decision.behavior_mode.clone(),
             behavior_mode_value,
             exposure_label: dict.decision.exposure_guidance.clone(),
             exposure_value,
+            entry_cap_label: dict.decision.entry_cap.clone(),
+            entry_cap_value,
+            entry_cap_note,
+            hard_rule_note,
             summary,
             readiness_reasons_label: dict.decision.readiness_reasons.clone(),
             readiness_reasons,
@@ -591,7 +642,7 @@ impl PresentationAssembler {
         } else if reason.starts_with("Core Tier set changed") {
             format!("{} reset", dict.signals.continuity)
         } else if reason.starts_with("First day of session") {
-            format!("{} day 1", dict.signals.continuity)
+            format!("{} 1d", dict.signals.continuity)
         } else {
             reason.to_string()
         }

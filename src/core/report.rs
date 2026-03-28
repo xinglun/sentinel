@@ -33,27 +33,37 @@ pub fn generate_refined_report(
     card.push_str(&format!("**{}**\n\n", d.section_title));
     if is_no_trade {
         card.push_str(&format!("### {}\n\n", d.action_status_value));
-        card.push_str(&format!("> {}\n\n", d.summary));
+        card.push_str(&format!("> {}\n\n", d.hard_rule_note));
         card.push_str(&format!(
-            "> {}\n> {} · {}\n> {} · {}\n",
-            d.behavior_mode_value,
-            d.exposure_label,
-            d.exposure_value,
-            d.market_board_label,
-            d.market_board_value
+            "> {}：{}\n> {}：{}\n> {} · {}\n",
+            d.state_tag_label,
+            d.state_tag_value,
+            d.action_tag_label,
+            d.action_tag_value,
+            d.entry_cap_label,
+            d.entry_cap_value
         ));
         card.push_str(&format!(
-            "\n> **{}**: {}\n> **{}**: {}\n",
+            "\n> {} · {}\n> {} · {}\n> {} · {}\n",
+            d.market_board_label,
+            d.market_board_value,
             d.opportunity_snapshot_label,
             d.opportunity_snapshot_value,
             d.risk_snapshot_label,
             d.risk_snapshot_value
         ));
+        if let Some(note) = &d.entry_cap_note {
+            card.push_str(&format!("\n> {}\n", note));
+        }
     } else {
         card.push_str(&format!(
-            "- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n",
+            "- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n",
             d.action_status_label,
             d.action_status_value,
+            d.state_tag_label,
+            d.state_tag_value,
+            d.action_tag_label,
+            d.action_tag_value,
             d.behavior_mode_label,
             d.behavior_mode_value,
             d.exposure_label,
@@ -68,7 +78,7 @@ pub fn generate_refined_report(
         card.push_str(&format!("\n> {}\n", d.summary));
     }
     if !d.readiness_reasons.is_empty() {
-        card.push_str(&format!("\n- **{}**:\n", d.readiness_reasons_label));
+        card.push_str(&format!("\n- {}:\n", d.readiness_reasons_label));
         for reason in &d.readiness_reasons {
             card.push_str(&format!("  - {}\n", reason));
         }
