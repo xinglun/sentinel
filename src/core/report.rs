@@ -226,8 +226,6 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
         ));
     }
 
-    card.push_str("\n---\n");
-
     card
 }
 
@@ -434,6 +432,5 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
         ));
     }
 
-    card.push_str("\n---\n");
     card
 }

@@ -331,6 +331,61 @@ mod tests {
     }
 
     #[test]
+    fn test_no_trade_candidate_reason_uses_observation_tone_for_cruise() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::core::market_regime::MarketRegimeSnapshot {
+                market_state: crate::core::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "MSFT".into(),
+                asset_state: AssetStateSnapshot {
+                    symbol: "MSFT".into(),
+                    state: AssetState::CRUISE,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::HOLD,
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["MSFT".into()],
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let item = pres
+            .top_actions
+            .iter()
+            .find(|a| a.symbol == "MSFT")
+            .unwrap();
+        assert_eq!(item.secondary_desc, "筹备");
+        assert_eq!(item.diagnostic.as_deref(), Some("趋势延续，观察持续性"));
+        assert!(!item
+            .diagnostic
+            .as_deref()
+            .unwrap_or_default()
+            .contains("持有为主"));
+    }
+
+    #[test]
     fn test_exit_summary_is_localized_in_english() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),

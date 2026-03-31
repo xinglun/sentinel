@@ -255,8 +255,10 @@ mod tests {
 
     #[test]
     fn test_markdown_report_saving() {
-        let temp_dir =
-            std::env::temp_dir().join(format!("test_sentinel_report_{}", Utc::now().timestamp()));
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_report_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
         fs::create_dir_all(&temp_dir).unwrap();
 
         let layer = PersistenceLayer::new(&temp_dir);
@@ -277,7 +279,7 @@ mod tests {
     fn test_save_execution_gate_result_writes_noop_summary_when_audits_empty() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_gate_noop_{}",
-            Utc::now().timestamp()
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
         ));
         fs::create_dir_all(&temp_dir).unwrap();
 

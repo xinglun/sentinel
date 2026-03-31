@@ -397,6 +397,60 @@ mod tests {
     }
 
     #[test]
+    fn test_telegram_output_omits_trailing_rule_and_no_trade_watchlist_stays_observational() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "MSFT".into(),
+                asset_state: AssetStateSnapshot {
+                    symbol: "MSFT".into(),
+                    state: AssetState::CRUISE,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::HOLD,
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["MSFT".into()],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(!report.telegram_html_body.trim_end().ends_with("---"));
+        assert!(!report.markdown_body.trim_end().ends_with("---"));
+        assert!(report.markdown_body.contains("趋势延续，观察持续性"));
+        assert!(!report.markdown_body.contains("持有为主"));
+    }
+
+    #[test]
     fn test_exit_summary_renders_separately_from_no_trade() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),

@@ -452,7 +452,13 @@ impl PresentationAssembler {
             }
             AssetState::DEFEND => dict.reasons.state_defend.clone(),
             AssetState::OVERHEAT => dict.reasons.state_overheat.clone(),
-            AssetState::CRUISE => dict.reasons.state_cruise.clone(),
+            AssetState::CRUISE => {
+                if is_restrained {
+                    dict.reasons.state_cruise_restrained.clone()
+                } else {
+                    dict.reasons.state_cruise.clone()
+                }
+            }
             AssetState::CAUTION => dict.reasons.state_caution.clone(),
             AssetState::FORMING => {
                 if is_restrained {
