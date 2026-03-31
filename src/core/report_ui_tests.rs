@@ -451,6 +451,58 @@ mod tests {
     }
 
     #[test]
+    fn test_no_trade_pullback_reason_avoids_core_priority_hint() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "TSLA".into(),
+                asset_state: AssetStateSnapshot {
+                    symbol: "TSLA".into(),
+                    state: AssetState::PULLBACK,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::HOLD,
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["TSLA".into()],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("回撤结构，观察强度"));
+        assert!(!report.markdown_body.contains("核心回撤"));
+    }
+
+    #[test]
     fn test_exit_summary_renders_separately_from_no_trade() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
