@@ -375,7 +375,7 @@ mod tests {
         assert!(card.contains("リスクと機会"));
         assert!(card.contains("戦況総覧"));
         assert!(card.contains("以下は候補観測のみ"));
-        assert!(card.contains("あらゆる能動売買はシステム規律違反となる。"));
+        assert!(card.contains("あらゆる能動売買はシステム規則違反となる。"));
         assert!(!card.contains("1. 🔵 **NVDA** - 観測"));
         assert!(card.contains("- NVDA · 形成中"));
         assert!(!card.contains("1. **NVDA**"));

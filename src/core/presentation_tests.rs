@@ -182,7 +182,7 @@ mod tests {
         assert_eq!(pres.decision_summary.action_tag_value, "取引禁止");
         assert_eq!(
             pres.decision_summary.hard_rule_note,
-            "あらゆる能動売買はシステム規律違反となる。"
+            "あらゆる能動売買はシステム規則違反となる。"
         );
         assert_eq!(
             pres.decision_summary.entry_cap_note.as_deref(),
@@ -216,7 +216,7 @@ mod tests {
         assert_eq!(pres.exit_summary.title, "📉 ポジション処理提案");
         assert_eq!(
             pres.exit_summary.empty_note.as_deref(),
-            Some("現在処理対象の保有ポジションなし。\nいかなる終了条件も未発動。")
+            Some("現在処理対象の保有ポジションなし。\n現時点で発動している終了条件はない。")
         );
     }
 
