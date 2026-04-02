@@ -377,7 +377,7 @@ mod tests {
             .find(|a| a.symbol == "MSFT")
             .unwrap();
         assert_eq!(item.secondary_desc, "筹备");
-        assert_eq!(item.diagnostic.as_deref(), Some("趋势延续，观察持续性"));
+        assert_eq!(item.diagnostic.as_deref(), Some("结构延续中，观察持续性"));
         assert!(!item
             .diagnostic
             .as_deref()

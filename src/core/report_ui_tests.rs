@@ -446,7 +446,7 @@ mod tests {
 
         assert!(!report.telegram_html_body.trim_end().ends_with("---"));
         assert!(!report.markdown_body.trim_end().ends_with("---"));
-        assert!(report.markdown_body.contains("趋势延续，观察持续性"));
+        assert!(report.markdown_body.contains("结构延续中，观察持续性"));
         assert!(!report.markdown_body.contains("持有为主"));
     }
 
