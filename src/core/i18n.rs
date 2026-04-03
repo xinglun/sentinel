@@ -664,7 +664,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 state_cruise: "巡航中：継続保有".to_string(),
                 state_cruise_restrained: "構造継続中：継続性確認".to_string(),
                 state_caution: "警戒：静観".to_string(),
-                state_forming_restrained: "セットアップ中".to_string(),
+                state_forming_restrained: "構造形成段階".to_string(),
                 state_forming_normal: "形成不全：継続監視".to_string(),
                 ignition_notice: "⚠️ 始動期：継続性確認待ち".to_string(),
                 participation_notice: "⚠️ 参加ゲート未達：買い増し禁止".to_string(),

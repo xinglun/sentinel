@@ -370,6 +370,7 @@ mod tests {
         assert!(card.contains("行動判断"));
         assert!(card.contains("取引禁止（NO TRADE）"));
         assert!(card.contains("候補観測リスト"));
+        assert!(card.contains("構造形成段階"));
         assert!(card.contains("監視シグナル"));
         assert!(card.contains("戦術的区分"));
         assert!(card.contains("リスクと機会"));
