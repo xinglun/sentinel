@@ -2,10 +2,10 @@
 
 - As of: 2026-04-02
 - Status: using current market decision
-- Latest headline: 始動期 | 取引不可
+- Latest headline: 始動期 | 取引ウィンドウなし
 - Days analyzed: 1
-- Avg confidence: 62.7
-- Avg stability: 1.5
+- Avg confidence: 64.1
+- Avg stability: 1.6
 - Participation ready days: 0
 
 ## Market State Counts
