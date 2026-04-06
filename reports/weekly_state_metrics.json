@@ -1,0 +1,18 @@
+{
+  "as_of_date": "2026-04-06",
+  "avg_confidence": 64.25260431237211,
+  "avg_stability": 1.5949831567950767,
+  "data_status": "OK",
+  "days_analyzed": 1,
+  "generated_at": "2026-04-06T23:48:47.522011787+09:00",
+  "include_current_packet": true,
+  "latest_market_state": "IGNITION",
+  "latest_risk_overlay": "NORMAL",
+  "market_state_counts": {
+    "IGNITION": 1
+  },
+  "participation_ready_days": 0,
+  "risk_overlay_counts": {
+    "NORMAL": 1
+  }
+}
