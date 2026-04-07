@@ -1,28 +1,28 @@
 {
-  "date": "2026-04-06",
+  "date": "2026-04-07",
   "market_features": {
-    "date": "2026-04-06",
-    "up_count": 2,
+    "date": "2026-04-07",
+    "up_count": 3,
     "flat_count": 0,
     "down_count": 6,
-    "total_count": 8,
-    "up_weight": 11.0,
+    "total_count": 9,
+    "up_weight": 12.0,
     "flat_weight": 0.0,
     "down_weight": 6.0,
-    "total_weight": 17.0,
-    "gravity_strength": -2.3700984219164933,
-    "potential_energy": 0.5674146710260212,
-    "dominance_margin": 0.45390297395682105,
-    "system_confidence": 64.25260431237211,
+    "total_weight": 18.0,
+    "gravity_strength": -2.2530048241215948,
+    "potential_energy": 0.7668595875900329,
+    "dominance_margin": 0.4725134843908779,
+    "system_confidence": 61.63212988241234,
     "trend_dominant": true,
-    "stability_score": 1.5949831567950767,
-    "stability_structural": 31.899663135901534,
+    "stability_score": 1.414939827453951,
+    "stability_structural": 28.298796549079018,
     "stability_temporal": 2.5,
     "trend_maturity": 0.025,
     "universe_integrity": 1.0,
     "flow_acceleration": null,
     "regime_age": 1,
-    "any_pullback_occurred": false,
+    "any_pullback_occurred": true,
     "core_assets_breakdown": false
   },
   "market_regime": {
@@ -57,69 +57,23 @@
   "assets": [
     {
       "symbol": "SPY",
-      "price": 657.0034790039062,
+      "price": 653.4099731445312,
       "asset_state": {
         "symbol": "SPY",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: -0.19)"
+          "Matched band: optimal (dev: -0.56)"
         ],
         "recovery_streak": 0,
         "last_defend_age": 100
       },
       "action": "OBSERVE",
       "reasons": [
-        "Matched band: optimal (dev: -0.19)",
+        "Matched band: optimal (dev: -0.56)",
         "Matrix: Participation not ready (streak < 3 or low stability)"
       ],
-      "deviation": -0.1870454661392994,
-      "z_score": -0.24147135028902753,
-      "trade_enabled": true,
-      "trade_amount": 2000.0,
-      "config_multiplier": 1.0,
-      "prev_action": null,
-      "action_changed": true,
-      "exit_decision": {
-        "position_intent": "HOLD",
-        "asset_exit_state": "None",
-        "reasons": []
-      },
-      "position_intent": "HOLD",
-      "display_context": {
-        "has_position": false,
-        "is_core_holding": false,
-        "is_candidate_only": false,
-        "is_top_tier": false,
-        "participation_ready": false
-      },
-      "display_intent": "HOLD",
-      "unified_position_intent": "Watch",
-      "is_core_fact": false,
-      "has_position_fact": false,
-      "previous_state": null,
-      "state_streak": 1,
-      "top_tier_streak": 1,
-      "out_of_top_tier_streak": 0
-    },
-    {
-      "symbol": "PLTR",
-      "price": 148.3800048828125,
-      "asset_state": {
-        "symbol": "PLTR",
-        "state": "OPTIMAL",
-        "reasons": [
-          "Matched band: optimal (dev: -1.81)"
-        ],
-        "recovery_streak": 0,
-        "last_defend_age": 100
-      },
-      "action": "OBSERVE",
-      "reasons": [
-        "Matched band: optimal (dev: -1.81)",
-        "Matrix: Participation not ready (streak < 3 or low stability)"
-      ],
-      "deviation": -1.8090107026331768,
-      "z_score": -0.1944077762383442,
+      "deviation": -0.559746539431082,
+      "z_score": -0.4085934122599454,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -149,23 +103,69 @@
     },
     {
       "symbol": "GOOG",
-      "price": 295.5199890136719,
+      "price": 298.4949951171875,
       "asset_state": {
         "symbol": "GOOG",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: -2.63)"
+          "Matched band: optimal (dev: -1.80)"
         ],
         "recovery_streak": 0,
         "last_defend_age": 100
       },
       "action": "OBSERVE",
       "reasons": [
-        "Matched band: optimal (dev: -2.63)",
+        "Matched band: optimal (dev: -1.80)",
         "Matrix: Participation not ready (streak < 3 or low stability)"
       ],
-      "deviation": -2.629969625188181,
-      "z_score": -0.3463599083359932,
+      "deviation": -1.8007218305309616,
+      "z_score": -0.244308953228031,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "participation_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 1,
+      "out_of_top_tier_streak": 0
+    },
+    {
+      "symbol": "PLTR",
+      "price": 146.32989501953125,
+      "asset_state": {
+        "symbol": "PLTR",
+        "state": "OPTIMAL",
+        "reasons": [
+          "Matched band: optimal (dev: -2.83)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "OBSERVE",
+      "reasons": [
+        "Matched band: optimal (dev: -2.83)",
+        "Matrix: Participation not ready (streak < 3 or low stability)"
+      ],
+      "deviation": -2.8336736942859106,
+      "z_score": -0.31220223845372896,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -195,23 +195,23 @@
     },
     {
       "symbol": "NVDA",
-      "price": 176.27000427246094,
+      "price": 174.66000366210938,
       "asset_state": {
         "symbol": "NVDA",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: -3.57)"
+          "Matched band: optimal (dev: -4.37)"
         ],
         "recovery_streak": 0,
         "last_defend_age": 100
       },
       "action": "OBSERVE",
       "reasons": [
-        "Matched band: optimal (dev: -3.57)",
+        "Matched band: optimal (dev: -4.37)",
         "Matrix: Participation not ready (streak < 3 or low stability)"
       ],
-      "deviation": -3.5658771159347595,
-      "z_score": -1.0267284616453427,
+      "deviation": -4.368114399143338,
+      "z_score": -1.245491415216372,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -240,24 +240,116 @@
       "out_of_top_tier_streak": 1
     },
     {
-      "symbol": "U",
-      "price": 22.28499984741211,
+      "symbol": "ISRG",
+      "price": 449.7000122070313,
       "asset_state": {
-        "symbol": "U",
-        "state": "CRUISE",
+        "symbol": "ISRG",
+        "state": "PULLBACK",
         "reasons": [
-          "Matched band: fear_1 (dev: -15.26)"
+          "Matched band: pullback (dev: -14.03)"
         ],
         "recovery_streak": 0,
         "last_defend_age": 100
       },
       "action": "HOLD",
       "reasons": [
-        "Matched band: fear_1 (dev: -15.26)",
+        "Matched band: pullback (dev: -14.03)",
         "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": -15.262132974714762,
-      "z_score": -0.40461010405513265,
+      "deviation": -14.02941736177917,
+      "z_score": -1.7125911474558506,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 0.5,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "participation_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    },
+    {
+      "symbol": "U",
+      "price": 21.80739974975586,
+      "asset_state": {
+        "symbol": "U",
+        "state": "CRUISE",
+        "reasons": [
+          "Matched band: fear_1 (dev: -15.81)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -15.81)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -15.810072926765208,
+      "z_score": -0.42551897131332755,
+      "trade_enabled": true,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "participation_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    },
+    {
+      "symbol": "MSFT",
+      "price": 367.9200134277344,
+      "asset_state": {
+        "symbol": "MSFT",
+        "state": "CRUISE",
+        "reasons": [
+          "Matched band: fear_1 (dev: -18.85)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -18.85)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -18.845514682291515,
+      "z_score": -1.685070199932031,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -287,25 +379,25 @@
     },
     {
       "symbol": "TSLA",
-      "price": 356.8550109863281,
+      "price": 339.5400085449219,
       "asset_state": {
         "symbol": "TSLA",
         "state": "PULLBACK",
         "reasons": [
-          "Matched band: fear_1 (dev: -16.20)",
-          "Z-Score (-2.32) indicates extreme exhaustion / PULLBACK opportunity"
+          "Matched band: fear_1 (dev: -20.11)",
+          "Z-Score (-2.77) indicates extreme exhaustion / PULLBACK opportunity"
         ],
         "recovery_streak": 0,
         "last_defend_age": 100
       },
       "action": "HOLD",
       "reasons": [
-        "Matched band: fear_1 (dev: -16.20)",
-        "Z-Score (-2.32) indicates extreme exhaustion / PULLBACK opportunity",
+        "Matched band: fear_1 (dev: -20.11)",
+        "Z-Score (-2.77) indicates extreme exhaustion / PULLBACK opportunity",
         "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": -16.196439328810698,
-      "z_score": -2.3176771107480074,
+      "deviation": -20.105711201264278,
+      "z_score": -2.771123791408858,
       "trade_enabled": true,
       "trade_amount": 5000.0,
       "config_multiplier": 0.5,
@@ -334,70 +426,24 @@
       "out_of_top_tier_streak": 1
     },
     {
-      "symbol": "MSFT",
-      "price": 371.5199890136719,
-      "asset_state": {
-        "symbol": "MSFT",
-        "state": "CRUISE",
-        "reasons": [
-          "Matched band: fear_1 (dev: -18.27)"
-        ],
-        "recovery_streak": 0,
-        "last_defend_age": 100
-      },
-      "action": "HOLD",
-      "reasons": [
-        "Matched band: fear_1 (dev: -18.27)",
-        "Matrix: Ignition + Build -> Soft hold"
-      ],
-      "deviation": -18.26893698766084,
-      "z_score": -1.6474223066646319,
-      "trade_enabled": true,
-      "trade_amount": 2000.0,
-      "config_multiplier": 1.0,
-      "prev_action": null,
-      "action_changed": true,
-      "exit_decision": {
-        "position_intent": "HOLD",
-        "asset_exit_state": "None",
-        "reasons": []
-      },
-      "position_intent": "HOLD",
-      "display_context": {
-        "has_position": false,
-        "is_core_holding": false,
-        "is_candidate_only": false,
-        "is_top_tier": false,
-        "participation_ready": false
-      },
-      "display_intent": "HOLD",
-      "unified_position_intent": "Watch",
-      "is_core_fact": false,
-      "has_position_fact": false,
-      "previous_state": null,
-      "state_streak": 1,
-      "top_tier_streak": 0,
-      "out_of_top_tier_streak": 1
-    },
-    {
       "symbol": "FIG",
-      "price": 21.135000228881836,
+      "price": 20.875,
       "asset_state": {
         "symbol": "FIG",
         "state": "CRUISE",
         "reasons": [
-          "Matched band: fear_1 (dev: -38.96)"
+          "Matched band: fear_1 (dev: -39.08)"
         ],
         "recovery_streak": 0,
         "last_defend_age": 100
       },
       "action": "HOLD",
       "reasons": [
-        "Matched band: fear_1 (dev: -38.96)",
+        "Matched band: fear_1 (dev: -39.08)",
         "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": -38.96491550414112,
-      "z_score": -1.2941302368646337,
+      "deviation": -39.083628251710415,
+      "z_score": -1.321231737012938,
       "trade_enabled": true,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -432,15 +478,15 @@
     "core_tier_streak_ready": false,
     "core_tier_streak": 1,
     "reasons": [
-      "Stability score (1.6) below threshold (10.0)",
+      "Stability score (1.4) below threshold (10.0)",
       "First day of session (no history)",
       "Core Tier streak (1) below threshold (3)"
     ]
   },
   "top_tier_symbols": [
     "SPY",
-    "PLTR",
-    "GOOG"
+    "GOOG",
+    "PLTR"
   ],
   "participation_changed": false
 }
