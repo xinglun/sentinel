@@ -2,7 +2,7 @@ version = 1
 
 [output]
 # 支持 "zh-cn" (默认), "en-us", "ja-jp"
-language = "ja-jp" 
+language = "zh-cn" 
 timezone = "Asia/Tokyo"
 format = "markdown"
 save_to = "./reports"
@@ -118,6 +118,15 @@ owner_ma_days = 60
 leash_ma_days = 20
 deviation_basis = "owner"
 enable = true
+
+[[watchlist]]
+symbol = "ISRG"
+market = "US"
+owner_ma_days = 120        # ISRG 走势稳健，120日线（半年线）适合作为长期主引力基准
+leash_ma_days = 20         # 20日线作为短期动能牵引
+deviation_basis = "owner"  # 观测基于长期的超买/超卖偏离度
+enable = true              # 开启监控
+trade_enabled = false      # 观察仓：关闭自动交易，仅做监控和信号预警
 
 [[watchlist]]
 symbol = "SPY"
