@@ -1,6 +1,6 @@
 use crate::core::decision::DecisionPacket;
-use std::collections::HashSet;
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum TrendCohesionStatus {
@@ -77,10 +77,11 @@ impl TrendCohesionEvaluator {
 
         // Continuity Quality (Jaccard similarity with yesterday, if yesterday exists)
         let mut continuity_quality_score = 0.0;
-        if let Some(yesterday_tier) = past_top_tiers.first() { // past_top_tiers[0] is the most recent past since we `rev`
+        if let Some(yesterday_tier) = past_top_tiers.first() {
+            // past_top_tiers[0] is the most recent past since we `rev`
             let current_set: HashSet<&str> = current_top_tier.iter().map(|s| s.as_str()).collect();
             let prev_set: HashSet<&str> = yesterday_tier.iter().map(|s| s.as_str()).collect();
-            
+
             let intersection = current_set.intersection(&prev_set).count();
             let union = current_set.union(&prev_set).count();
 
@@ -90,7 +91,7 @@ impl TrendCohesionEvaluator {
         } else if candidate_count > 0 {
             // First day with candidates, technically no churn history, default to 100% or 0%?
             // Conservative: Treat as 0 previous overlap unless candidate count == 0.
-            continuity_quality_score = 0.0; 
+            continuity_quality_score = 0.0;
         } else {
             continuity_quality_score = 0.0;
         }
@@ -127,14 +128,20 @@ impl TrendCohesionEvaluator {
             reasons.push(TrendCohesionCondition::NoRepeatedLeaders);
         }
 
-        if stability_low || streak_low || no_candidates || highly_dispersed || high_churn || no_repeated_leaders {
+        if stability_low
+            || streak_low
+            || no_candidates
+            || highly_dispersed
+            || high_churn
+            || no_repeated_leaders
+        {
             status = TrendCohesionStatus::NotFormed;
-        } else if participation_ready 
-            && stability_score >= 10.0 
-            && continuity_streak >= 3 
-            && candidate_count <= 4 
-            && leader_count >= 2 
-            && continuity_quality_score >= 33.0 
+        } else if participation_ready
+            && stability_score >= 10.0
+            && continuity_streak >= 3
+            && candidate_count <= 4
+            && leader_count >= 2
+            && continuity_quality_score >= 33.0
         {
             status = TrendCohesionStatus::Cohesive;
             reasons.push(TrendCohesionCondition::CompactAndStable);
@@ -155,7 +162,7 @@ impl TrendCohesionEvaluator {
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     fn mock_packet(symbols: Vec<&str>) -> DecisionPacket {
         DecisionPacket {
             top_tier_symbols: symbols.into_iter().map(|s| s.to_string()).collect(),
@@ -172,7 +179,7 @@ mod tests {
         let current = vec!["A".to_string(), "B".to_string(), "E".to_string()];
 
         let snapshot = TrendCohesionEvaluator::evaluate(true, 15.0, 3, &current, &history);
-        
+
         assert_eq!(snapshot.candidate_count, 3);
         assert_eq!(snapshot.leader_count, 2); // A and B repeat
         assert_eq!(snapshot.status, TrendCohesionStatus::Cohesive);
@@ -186,20 +193,35 @@ mod tests {
         let current = vec!["A".to_string(), "B".to_string(), "C".to_string()]; // Today (total change)
 
         let snapshot = TrendCohesionEvaluator::evaluate(true, 15.0, 3, &current, &history);
-        
+
         assert_eq!(snapshot.continuity_quality_score, 0.0);
         assert_eq!(snapshot.status, TrendCohesionStatus::NotFormed); // Highly dispersed implicitly via no repeat leaders + high churn
-        assert!(snapshot.reasons.contains(&TrendCohesionCondition::HighChurn));
+        assert!(snapshot
+            .reasons
+            .contains(&TrendCohesionCondition::HighChurn));
     }
 
     #[test]
     fn test_not_formed_heuristics() {
         let current = vec!["A".to_string(), "B".to_string()];
-        
+
         let snap_low_stab = TrendCohesionEvaluator::evaluate(true, 8.0, 3, &current, &[]);
         assert_eq!(snap_low_stab.status, TrendCohesionStatus::NotFormed);
 
-        let snap_dispersed = TrendCohesionEvaluator::evaluate(true, 15.0, 3, &["A".to_string(), "B".to_string(), "C".to_string(), "D".to_string(), "E".to_string(), "F".to_string()], &[]);
+        let snap_dispersed = TrendCohesionEvaluator::evaluate(
+            true,
+            15.0,
+            3,
+            &[
+                "A".to_string(),
+                "B".to_string(),
+                "C".to_string(),
+                "D".to_string(),
+                "E".to_string(),
+                "F".to_string(),
+            ],
+            &[],
+        );
         assert_eq!(snap_dispersed.status, TrendCohesionStatus::NotFormed);
     }
 }

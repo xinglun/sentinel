@@ -747,20 +747,51 @@ impl PresentationAssembler {
         };
 
         let trend_cohesion_value = match packet.trend_cohesion.status {
-            crate::core::trend_cohesion::TrendCohesionStatus::NotFormed => dict.trend_cohesion.not_formed.clone(),
-            crate::core::trend_cohesion::TrendCohesionStatus::Forming => dict.trend_cohesion.forming.clone(),
-            crate::core::trend_cohesion::TrendCohesionStatus::Cohesive => dict.trend_cohesion.cohesive.clone(),
+            crate::core::trend_cohesion::TrendCohesionStatus::NotFormed => {
+                dict.trend_cohesion.not_formed.clone()
+            }
+            crate::core::trend_cohesion::TrendCohesionStatus::Forming => {
+                dict.trend_cohesion.forming.clone()
+            }
+            crate::core::trend_cohesion::TrendCohesionStatus::Cohesive => {
+                dict.trend_cohesion.cohesive.clone()
+            }
         };
 
-        let trend_cohesion_reasons: Vec<String> = packet.trend_cohesion.reasons.iter().map(|r| match r {
-            crate::core::trend_cohesion::TrendCohesionCondition::NoCandidates => dict.trend_cohesion.reasons.no_candidates.clone(),
-            crate::core::trend_cohesion::TrendCohesionCondition::LowStability(v) => dict.trend_cohesion.reasons.low_stability.replace("{}", &format!("{:.1}", v)),
-            crate::core::trend_cohesion::TrendCohesionCondition::LowStreak(v) => dict.trend_cohesion.reasons.low_streak.replace("{}", &v.to_string()),
-            crate::core::trend_cohesion::TrendCohesionCondition::HighDispersion(v) => dict.trend_cohesion.reasons.high_dispersion.replace("{}", &v.to_string()),
-            crate::core::trend_cohesion::TrendCohesionCondition::HighChurn => dict.trend_cohesion.reasons.high_churn.clone(),
-            crate::core::trend_cohesion::TrendCohesionCondition::NoRepeatedLeaders => dict.trend_cohesion.reasons.no_repeated_leaders.clone(),
-            crate::core::trend_cohesion::TrendCohesionCondition::CompactAndStable => dict.trend_cohesion.reasons.compact_and_stable.clone(),
-        }).collect();
+        let trend_cohesion_reasons: Vec<String> = packet
+            .trend_cohesion
+            .reasons
+            .iter()
+            .map(|r| match r {
+                crate::core::trend_cohesion::TrendCohesionCondition::NoCandidates => {
+                    dict.trend_cohesion.reasons.no_candidates.clone()
+                }
+                crate::core::trend_cohesion::TrendCohesionCondition::LowStability(v) => dict
+                    .trend_cohesion
+                    .reasons
+                    .low_stability
+                    .replace("{}", &format!("{:.1}", v)),
+                crate::core::trend_cohesion::TrendCohesionCondition::LowStreak(v) => dict
+                    .trend_cohesion
+                    .reasons
+                    .low_streak
+                    .replace("{}", &v.to_string()),
+                crate::core::trend_cohesion::TrendCohesionCondition::HighDispersion(v) => dict
+                    .trend_cohesion
+                    .reasons
+                    .high_dispersion
+                    .replace("{}", &v.to_string()),
+                crate::core::trend_cohesion::TrendCohesionCondition::HighChurn => {
+                    dict.trend_cohesion.reasons.high_churn.clone()
+                }
+                crate::core::trend_cohesion::TrendCohesionCondition::NoRepeatedLeaders => {
+                    dict.trend_cohesion.reasons.no_repeated_leaders.clone()
+                }
+                crate::core::trend_cohesion::TrendCohesionCondition::CompactAndStable => {
+                    dict.trend_cohesion.reasons.compact_and_stable.clone()
+                }
+            })
+            .collect();
 
         DecisionSummaryViewModel {
             is_no_trade: not_ready,

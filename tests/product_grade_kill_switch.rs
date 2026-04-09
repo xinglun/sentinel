@@ -77,8 +77,8 @@ fn test_kill_switch_behavior_in_execution_gate() {
         stock_sentinel::core::participation::ParticipationReadiness::default(),
         Vec::new(),
         false,
-            stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
-        );
+        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+    );
 
     // 3. Gate the packet
     let result = ExecutionGate::gate_packet(&packet, trading_config, 0.0, 10000.0, 0.0);
