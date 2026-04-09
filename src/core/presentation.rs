@@ -42,6 +42,9 @@ pub struct SignalSummaryViewModel {
 pub struct DecisionSummaryViewModel {
     pub is_no_trade: bool,
     pub section_title: String,
+    pub trend_cohesion_label: String,
+    pub trend_cohesion_value: String,
+    pub trend_cohesion_reasons: Vec<String>,
     pub action_status_label: String,
     pub action_status_value: String,
     pub state_tag_label: String,

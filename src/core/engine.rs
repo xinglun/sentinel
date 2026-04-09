@@ -9,6 +9,7 @@ use crate::core::portfolio_policy::PortfolioPolicy;
 use crate::core::action_matrix::ActionMatrix;
 use crate::core::decision::DecisionPacket;
 use crate::core::participation::ParticipationReadiness;
+use crate::core::trend_cohesion::TrendCohesionEvaluator;
 use anyhow::Result;
 
 pub struct Engine;
@@ -242,6 +243,15 @@ impl Engine {
         // Append any remaining (should be none)
         final_decisions.extend(asset_decisions);
 
+        // 8. Trend Cohesion Snapshot (NEW V2)
+        let trend_cohesion = TrendCohesionEvaluator::evaluate(
+            participation.participation_ready,
+            market_features.stability_score,
+            participation.core_tier_streak,
+            &current_top_tier,
+            history,
+        );
+
         let packet = DecisionPacket::new(
             market_features.date,
             market_features,
@@ -251,6 +261,7 @@ impl Engine {
             participation,
             current_top_tier,
             participation_changed,
+            trend_cohesion,
         );
 
         Ok(packet)

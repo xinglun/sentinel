@@ -554,6 +554,7 @@ mod tests {
             crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
             false,
+            crate::core::trend_cohesion::TrendCohesionSnapshot::default(),
         );
 
         let trading_config = config_arc.trading.as_ref().unwrap();

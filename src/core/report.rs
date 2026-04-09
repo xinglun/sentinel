@@ -47,7 +47,9 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
         card.push_str(&format!("### {}\n\n", d.action_status_value));
         card.push_str(&format!("> {}\n\n", d.hard_rule_note));
         card.push_str(&format!(
-            "> {}：{}\n> {}：{}\n> {} · {}\n",
+            "> {}：{}\n> {}：{}\n> {}：{}\n> {} · {}\n",
+            d.trend_cohesion_label,
+            d.trend_cohesion_value,
             d.state_tag_label,
             d.state_tag_value,
             d.action_tag_label,
@@ -55,6 +57,9 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
             d.entry_cap_label,
             d.entry_cap_value
         ));
+        if !d.trend_cohesion_reasons.is_empty() {
+            card.push_str(&format!("> 💡 {}：{}\n", d.trend_cohesion_label, d.trend_cohesion_reasons.join(" · ")));
+        }
         card.push_str(&format!(
             "\n> {} · {}\n> {} · {}\n> {} · {}\n",
             d.market_board_label,
@@ -69,7 +74,9 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
         }
     } else {
         card.push_str(&format!(
-            "- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n",
+            "- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n",
+            d.trend_cohesion_label,
+            d.trend_cohesion_value,
             d.action_status_label,
             d.action_status_value,
             d.state_tag_label,
@@ -87,6 +94,9 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
             d.risk_snapshot_label,
             d.risk_snapshot_value
         ));
+        if !d.trend_cohesion_reasons.is_empty() {
+            card.push_str(&format!("- 💡 **{}**: {}\n", d.trend_cohesion_label, d.trend_cohesion_reasons.join(" · ")));
+        }
         card.push_str(&format!("\n> {}\n", d.summary));
     }
     if !d.readiness_reasons.is_empty() {
@@ -250,7 +260,9 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
         card.push_str(&format!("<b>{}</b>\n\n", d.action_status_value));
         card.push_str(&format!("<i>{}</i>\n\n", d.hard_rule_note));
         card.push_str(&format!(
-            "{}：{}\n{}：{}\n{} · {}\n\n",
+            "{}：{}\n{}：{}\n{}：{}\n{} · {}\n\n",
+            d.trend_cohesion_label,
+            d.trend_cohesion_value,
             d.state_tag_label,
             d.state_tag_value,
             d.action_tag_label,
@@ -258,6 +270,9 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
             d.entry_cap_label,
             d.entry_cap_value
         ));
+        if !d.trend_cohesion_reasons.is_empty() {
+            card.push_str(&format!("<i>💡 {}：{}</i>\n\n", d.trend_cohesion_label, d.trend_cohesion_reasons.join(" · ")));
+        }
         card.push_str(&format!(
             "{} · {}\n{} · {}\n{} · {}\n",
             d.market_board_label,
@@ -272,7 +287,9 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
         }
     } else {
         card.push_str(&format!(
-            "{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n",
+            "{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n{}: {}\n",
+            d.trend_cohesion_label,
+            d.trend_cohesion_value,
             d.action_status_label,
             d.action_status_value,
             d.state_tag_label,
@@ -290,6 +307,9 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
             d.risk_snapshot_label,
             d.risk_snapshot_value
         ));
+        if !d.trend_cohesion_reasons.is_empty() {
+            card.push_str(&format!("• 💡 <b>{}</b>: {}\n", d.trend_cohesion_label, d.trend_cohesion_reasons.join(" · ")));
+        }
         card.push_str(&format!("\n<i>{}</i>\n", d.summary));
     }
     if !d.readiness_reasons.is_empty() {

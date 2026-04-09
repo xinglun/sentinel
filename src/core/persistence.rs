@@ -241,6 +241,7 @@ mod tests {
             crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
             false,
+            crate::core::trend_cohesion::TrendCohesionSnapshot::default(),
         );
 
         layer.save_packet(&packet).unwrap();
@@ -302,6 +303,7 @@ mod tests {
             crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
             false,
+            crate::core::trend_cohesion::TrendCohesionSnapshot::default(),
         );
         let result = ExecutionResult {
             trades: vec![],

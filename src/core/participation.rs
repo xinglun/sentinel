@@ -80,6 +80,7 @@ mod tests {
             },
             top_tier,
             false,
+            crate::core::trend_cohesion::TrendCohesionSnapshot::default(),
         );
         packet.participation.core_tier_streak = streak;
         packet

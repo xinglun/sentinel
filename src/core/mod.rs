@@ -30,3 +30,4 @@ mod report_ui_tests;
 
 #[cfg(test)]
 mod presentation_tests;
+pub mod trend_cohesion;

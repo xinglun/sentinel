@@ -43,7 +43,8 @@ async fn test_full_9_asset_archival_package() {
         stock_sentinel::core::participation::ParticipationReadiness::default(),
         Vec::new(),
         false,
-    );
+            stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        );
 
     layer.save_packet(&packet).unwrap();
     layer.save_daily_packet(&packet).unwrap();

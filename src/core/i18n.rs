@@ -28,6 +28,27 @@ pub struct DisplayDictionary {
     pub asset_tags: TagDictionary,
     pub asset_states: AssetStateDictionary,
     pub market_summaries: MarketSummaryDictionary,
+    pub trend_cohesion: TrendCohesionDictionary,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TrendCohesionReasonDictionary {
+    pub no_candidates: String,
+    pub low_stability: String,
+    pub low_streak: String,
+    pub high_dispersion: String,
+    pub high_churn: String,
+    pub no_repeated_leaders: String,
+    pub compact_and_stable: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TrendCohesionDictionary {
+    pub label: String,
+    pub not_formed: String,
+    pub forming: String,
+    pub cohesive: String,
+    pub reasons: TrendCohesionReasonDictionary,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -385,6 +406,21 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 bias_neutral: "中性".to_string(),
                 data_missing: "数据不可用".to_string(),
             },
+            trend_cohesion: TrendCohesionDictionary {
+                label: "主线状态".to_string(),
+                not_formed: "主线未形成".to_string(),
+                forming: "主线形成中".to_string(),
+                cohesive: "主线已收敛".to_string(),
+                reasons: TrendCohesionReasonDictionary {
+                    no_candidates: "没有主线候选".to_string(),
+                    low_stability: "市场稳定性过低 ({})".to_string(),
+                    low_streak: "主线连续性不足 ({}天)".to_string(),
+                    high_dispersion: "候选池过于发散 ({}只)".to_string(),
+                    high_churn: "主线成员流失率高".to_string(),
+                    no_repeated_leaders: "缺乏持续领涨标的".to_string(),
+                    compact_and_stable: "主线结构紧凑且稳定".to_string(),
+                },
+            },
         },
         Language::EnUs => DisplayDictionary {
             actions: ActionDictionary {
@@ -554,6 +590,21 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 bias_neutral: "Neutral".to_string(),
                 data_missing: "Data Unavailable".to_string(),
             },
+            trend_cohesion: TrendCohesionDictionary {
+                label: "Primary Trend".to_string(),
+                not_formed: "Not Formed".to_string(),
+                forming: "Forming".to_string(),
+                cohesive: "Cohesive".to_string(),
+                reasons: TrendCohesionReasonDictionary {
+                    no_candidates: "No candidates".to_string(),
+                    low_stability: "Market stability too low ({})".to_string(),
+                    low_streak: "Primary trend continuity insufficient ({}d)".to_string(),
+                    high_dispersion: "Candidate pool too dispersed ({} assets)".to_string(),
+                    high_churn: "High candidate churn rate".to_string(),
+                    no_repeated_leaders: "Lack of sustained leadership".to_string(),
+                    compact_and_stable: "Primary trend is compact and stable".to_string(),
+                },
+            },
         },
         Language::JaJp => DisplayDictionary {
             actions: ActionDictionary {
@@ -717,6 +768,21 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 bias_ignition: "取引ウィンドウなし".to_string(),
                 bias_neutral: "中立".to_string(),
                 data_missing: "データ不足".to_string(),
+            },
+            trend_cohesion: TrendCohesionDictionary {
+                label: "主線状態".to_string(),
+                not_formed: "主線未形成".to_string(),
+                forming: "主線形成中".to_string(),
+                cohesive: "主線収束済".to_string(),
+                reasons: TrendCohesionReasonDictionary {
+                    no_candidates: "候補なし".to_string(),
+                    low_stability: "市場の安定性が低すぎる ({})".to_string(),
+                    low_streak: "主線の継続性が不十分 ({}日)".to_string(),
+                    high_dispersion: "候補プールが分散しすぎ ({}銘柄)".to_string(),
+                    high_churn: "構成メンバーの流出率が高い".to_string(),
+                    no_repeated_leaders: "持続的なリーダーの欠如".to_string(),
+                    compact_and_stable: "主線構造がコンパクトで安定".to_string(),
+                },
             },
         },
     }
