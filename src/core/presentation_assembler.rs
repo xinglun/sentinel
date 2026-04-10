@@ -644,7 +644,7 @@ impl PresentationAssembler {
         dict: &DisplayDictionary,
         battleboard: &BattleboardSnapshot,
     ) -> DecisionSummaryViewModel {
-        let not_ready = is_data_missing || !packet.participation.participation_ready;
+        let not_ready = is_data_missing || !packet.trend_cohesion.gate_passed;
         let (
             action_status_value,
             behavior_mode_value,
@@ -667,7 +667,7 @@ impl PresentationAssembler {
                 dict.decision.no_trade_action.clone(),
                 Some(dict.decision.entry_cap_note.clone()),
             )
-        } else if !packet.participation.participation_ready {
+        } else if !packet.trend_cohesion.gate_passed {
             (
                 dict.decision.no_trade.clone(),
                 dict.decision.no_trade_action.clone(),
@@ -758,38 +758,49 @@ impl PresentationAssembler {
             }
         };
 
-        let trend_cohesion_reasons: Vec<String> = packet
+        let formation_conditions: Vec<String> = vec![
+            dict.trend_cohesion.conditions.stability_threshold.clone(),
+            dict.trend_cohesion.conditions.continuity_threshold.clone(),
+            dict.trend_cohesion.conditions.directional_cohesion.clone(),
+        ];
+
+        let unmet_conditions: Vec<String> = packet
             .trend_cohesion
-            .reasons
+            .unmet_conditions
             .iter()
             .map(|r| match r {
-                crate::core::trend_cohesion::TrendCohesionCondition::NoCandidates => {
-                    dict.trend_cohesion.reasons.no_candidates.clone()
+                crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold => {
+                    dict.trend_cohesion.unmet.stability_threshold.replace(
+                        "{:.1}",
+                        &format!("{:.1}", packet.trend_cohesion.stability_score),
+                    )
                 }
-                crate::core::trend_cohesion::TrendCohesionCondition::LowStability(v) => dict
+                crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold => {
+                    dict.trend_cohesion
+                        .unmet
+                        .continuity_threshold
+                        .replace("{}", &packet.trend_cohesion.continuity_streak.to_string())
+                }
+                crate::core::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion => {
+                    dict.trend_cohesion.unmet.directional_cohesion.clone()
+                }
+                crate::core::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion => {
+                    dict.trend_cohesion
+                        .unmet
+                        .high_candidate_dispersion
+                        .replace("{}", &packet.trend_cohesion.candidate_count.to_string())
+                }
+                crate::core::trend_cohesion::TrendCohesionGateCondition::UnstableRotation => {
+                    dict.trend_cohesion.unmet.unstable_rotation.replace(
+                        "{:.0}",
+                        &format!("{:.0}", packet.trend_cohesion.rotation_quality_score),
+                    )
+                }
+                crate::core::trend_cohesion::TrendCohesionGateCondition::WeakLeadership => dict
                     .trend_cohesion
-                    .reasons
-                    .low_stability
-                    .replace("{}", &format!("{:.1}", v)),
-                crate::core::trend_cohesion::TrendCohesionCondition::LowStreak(v) => dict
-                    .trend_cohesion
-                    .reasons
-                    .low_streak
-                    .replace("{}", &v.to_string()),
-                crate::core::trend_cohesion::TrendCohesionCondition::HighDispersion(v) => dict
-                    .trend_cohesion
-                    .reasons
-                    .high_dispersion
-                    .replace("{}", &v.to_string()),
-                crate::core::trend_cohesion::TrendCohesionCondition::HighChurn => {
-                    dict.trend_cohesion.reasons.high_churn.clone()
-                }
-                crate::core::trend_cohesion::TrendCohesionCondition::NoRepeatedLeaders => {
-                    dict.trend_cohesion.reasons.no_repeated_leaders.clone()
-                }
-                crate::core::trend_cohesion::TrendCohesionCondition::CompactAndStable => {
-                    dict.trend_cohesion.reasons.compact_and_stable.clone()
-                }
+                    .unmet
+                    .weak_leadership
+                    .replace("{}", &packet.trend_cohesion.leader_count.to_string()),
             })
             .collect();
 
@@ -798,7 +809,11 @@ impl PresentationAssembler {
             section_title: dict.headers.decision_summary.clone(),
             trend_cohesion_label: dict.trend_cohesion.label.clone(),
             trend_cohesion_value,
-            trend_cohesion_reasons,
+            gate_passed: packet.trend_cohesion.gate_passed,
+            formation_conditions_label: dict.trend_cohesion.formation_conditions_label.clone(),
+            unmet_conditions_label: dict.trend_cohesion.unmet_conditions_label.clone(),
+            formation_conditions,
+            unmet_conditions,
             action_status_label: dict.decision.action_status.clone(),
             action_status_value,
             state_tag_label: dict.decision.state_tag.clone(),

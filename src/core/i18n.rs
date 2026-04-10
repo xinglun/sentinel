@@ -32,14 +32,20 @@ pub struct DisplayDictionary {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct TrendCohesionReasonDictionary {
-    pub no_candidates: String,
-    pub low_stability: String,
-    pub low_streak: String,
-    pub high_dispersion: String,
-    pub high_churn: String,
-    pub no_repeated_leaders: String,
-    pub compact_and_stable: String,
+pub struct TrendCohesionGateConditionsDictionary {
+    pub stability_threshold: String,
+    pub continuity_threshold: String,
+    pub directional_cohesion: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TrendCohesionGateUnmetDictionary {
+    pub stability_threshold: String,
+    pub continuity_threshold: String,
+    pub directional_cohesion: String,
+    pub high_candidate_dispersion: String,
+    pub unstable_rotation: String,
+    pub weak_leadership: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -48,7 +54,10 @@ pub struct TrendCohesionDictionary {
     pub not_formed: String,
     pub forming: String,
     pub cohesive: String,
-    pub reasons: TrendCohesionReasonDictionary,
+    pub formation_conditions_label: String,
+    pub unmet_conditions_label: String,
+    pub conditions: TrendCohesionGateConditionsDictionary,
+    pub unmet: TrendCohesionGateUnmetDictionary,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -411,14 +420,20 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 not_formed: "主线未形成".to_string(),
                 forming: "主线形成中".to_string(),
                 cohesive: "主线已收敛".to_string(),
-                reasons: TrendCohesionReasonDictionary {
-                    no_candidates: "没有主线候选".to_string(),
-                    low_stability: "市场稳定性过低 ({})".to_string(),
-                    low_streak: "主线连续性不足 ({}天)".to_string(),
-                    high_dispersion: "候选池过于发散 ({}只)".to_string(),
-                    high_churn: "主线成员流失率高".to_string(),
-                    no_repeated_leaders: "缺乏持续领涨标的".to_string(),
-                    compact_and_stable: "主线结构紧凑且稳定".to_string(),
+                formation_conditions_label: "主线形成条件".to_string(),
+                unmet_conditions_label: "当前未满足项".to_string(),
+                conditions: TrendCohesionGateConditionsDictionary {
+                    stability_threshold: "市场稳定性分数 ≥ 10.0".to_string(),
+                    continuity_threshold: "核心资产连贯性 ≥ 3 天".to_string(),
+                    directional_cohesion: "主导方向收敛 (候选集中且具持续性领涨)".to_string(),
+                },
+                unmet: TrendCohesionGateUnmetDictionary {
+                    stability_threshold: "市场稳定性不足 (当前: {:.1})".to_string(),
+                    continuity_threshold: "连续性不足 (当前: {} 天)".to_string(),
+                    directional_cohesion: "主导方向发散或暂无领涨".to_string(),
+                    high_candidate_dispersion: "候选池过于发散 (当前: {} 只)".to_string(),
+                    unstable_rotation: "主线轮动不稳定 (质量: {:.0})".to_string(),
+                    weak_leadership: "持续领涨强度不足 (领涨: {} 只)".to_string(),
                 },
             },
         },
@@ -595,14 +610,22 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 not_formed: "Not Formed".to_string(),
                 forming: "Forming".to_string(),
                 cohesive: "Cohesive".to_string(),
-                reasons: TrendCohesionReasonDictionary {
-                    no_candidates: "No candidates".to_string(),
-                    low_stability: "Market stability too low ({})".to_string(),
-                    low_streak: "Primary trend continuity insufficient ({}d)".to_string(),
-                    high_dispersion: "Candidate pool too dispersed ({} assets)".to_string(),
-                    high_churn: "High candidate churn rate".to_string(),
-                    no_repeated_leaders: "Lack of sustained leadership".to_string(),
-                    compact_and_stable: "Primary trend is compact and stable".to_string(),
+                formation_conditions_label: "Formation Conditions".to_string(),
+                unmet_conditions_label: "Currently Unmet".to_string(),
+                conditions: TrendCohesionGateConditionsDictionary {
+                    stability_threshold: "Market Stability Score ≥ 10.0".to_string(),
+                    continuity_threshold: "Core Asset Continuity ≥ 3 Days".to_string(),
+                    directional_cohesion: "Directional Cohesion (compact leadership)".to_string(),
+                },
+                unmet: TrendCohesionGateUnmetDictionary {
+                    stability_threshold: "Insufficient Stability (Current: {:.1})".to_string(),
+                    continuity_threshold: "Insufficient Continuity (Current: {} Days)".to_string(),
+                    directional_cohesion: "Directional divergence or lacking leaders".to_string(),
+                    high_candidate_dispersion: "Candidate pool too dispersed (Current: {} assets)"
+                        .to_string(),
+                    unstable_rotation: "Leadership rotation remains unstable (Quality: {:.0})"
+                        .to_string(),
+                    weak_leadership: "Leadership quality remains weak (Leaders: {})".to_string(),
                 },
             },
         },
@@ -774,14 +797,20 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 not_formed: "主線未形成".to_string(),
                 forming: "主線形成中".to_string(),
                 cohesive: "主線収束済".to_string(),
-                reasons: TrendCohesionReasonDictionary {
-                    no_candidates: "候補なし".to_string(),
-                    low_stability: "市場の安定性が低すぎる ({})".to_string(),
-                    low_streak: "主線の継続性が不十分 ({}日)".to_string(),
-                    high_dispersion: "候補プールが分散しすぎ ({}銘柄)".to_string(),
-                    high_churn: "構成メンバーの流出率が高い".to_string(),
-                    no_repeated_leaders: "持続的なリーダーの欠如".to_string(),
-                    compact_and_stable: "主線構造がコンパクトで安定".to_string(),
+                formation_conditions_label: "形成条件".to_string(),
+                unmet_conditions_label: "現在の未達項目".to_string(),
+                conditions: TrendCohesionGateConditionsDictionary {
+                    stability_threshold: "市場安定性スコア ≥ 10.0".to_string(),
+                    continuity_threshold: "コア資産継続性 ≥ 3日".to_string(),
+                    directional_cohesion: "主導方向の収束 (リーダーの集中)".to_string(),
+                },
+                unmet: TrendCohesionGateUnmetDictionary {
+                    stability_threshold: "市場安定性不足 (現在: {:.1})".to_string(),
+                    continuity_threshold: "継続性不足 (現在: {}日)".to_string(),
+                    directional_cohesion: "主導方向の分散またはリーダー不在".to_string(),
+                    high_candidate_dispersion: "候補プールが過度に分散 (現在: {}銘柄)".to_string(),
+                    unstable_rotation: "主線ローテーションが不安定 (品質: {:.0})".to_string(),
+                    weak_leadership: "持続的リーダーシップ不足 (リーダー: {}銘柄)".to_string(),
                 },
             },
         },

@@ -221,6 +221,67 @@ mod tests {
     }
 
     #[test]
+    fn test_trend_cohesion_unmet_conditions_are_localized() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                gate_passed: false,
+                stability_score: 7.5,
+                continuity_streak: 1,
+                candidate_count: 7,
+                leader_count: 1,
+                rotation_quality_score: 22.0,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::UnstableRotation,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::WeakLeadership,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "Not Formed");
+        assert!(pres
+            .decision_summary
+            .unmet_conditions
+            .iter()
+            .any(|r| r.contains("Insufficient Stability")));
+        assert!(pres
+            .decision_summary
+            .unmet_conditions
+            .iter()
+            .any(|r| r.contains("Insufficient Continuity")));
+        assert!(pres
+            .decision_summary
+            .unmet_conditions
+            .iter()
+            .any(|r| r.contains("Candidate pool too dispersed")));
+        assert!(pres
+            .decision_summary
+            .unmet_conditions
+            .iter()
+            .any(|r| r.contains("Leadership rotation remains unstable")));
+        assert!(pres
+            .decision_summary
+            .unmet_conditions
+            .iter()
+            .any(|r| r.contains("Leadership quality remains weak")));
+    }
+
+    #[test]
     fn test_exit_summary_distinguishes_hold_trim_exit_and_watch() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),

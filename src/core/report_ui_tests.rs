@@ -75,6 +75,10 @@ mod tests {
                 core_tier_streak_ready: true,
                 ..Default::default()
             },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -181,6 +185,10 @@ mod tests {
                 core_tier_streak: 3,
                 ..Default::default()
             },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -250,6 +258,57 @@ mod tests {
     }
 
     #[test]
+    fn test_trend_cohesion_gate_renders_extended_unmet_conditions() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                gate_passed: false,
+                stability_score: 7.5,
+                continuity_streak: 1,
+                candidate_count: 7,
+                leader_count: 1,
+                rotation_quality_score: 22.0,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::UnstableRotation,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::WeakLeadership,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config();
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+            .unwrap()
+            .markdown_body;
+
+        assert!(card.contains("主线形成条件"));
+        assert!(card.contains("当前未满足项"));
+        assert!(card.contains("候选池过于发散"));
+        assert!(card.contains("主线轮动不稳定"));
+        assert!(card.contains("持续领涨强度不足"));
+    }
+
+    #[test]
     fn test_report_respects_configured_japanese_language() {
         let assets = vec![AssetActionDecision {
             symbol: "NVDA".into(),
@@ -275,6 +334,10 @@ mod tests {
                 stability_ready: true,
                 core_tier_streak_ready: true,
                 core_tier_streak: 3,
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
                 ..Default::default()
             },
             assets,

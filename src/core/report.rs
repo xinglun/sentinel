@@ -57,12 +57,18 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
             d.entry_cap_label,
             d.entry_cap_value
         ));
-        if !d.trend_cohesion_reasons.is_empty() {
-            card.push_str(&format!(
-                "> 💡 {}：{}\n",
-                d.trend_cohesion_label,
-                d.trend_cohesion_reasons.join(" · ")
-            ));
+        if !d.gate_passed {
+            card.push_str(&format!("> 🎯 **{}**:\n", d.formation_conditions_label));
+            for fc in &d.formation_conditions {
+                card.push_str(&format!("> - {}\n", fc));
+            }
+            if !d.unmet_conditions.is_empty() {
+                card.push_str(&format!(">\n> ❌ **{}**:\n", d.unmet_conditions_label));
+                for uc in &d.unmet_conditions {
+                    card.push_str(&format!("> - {}\n", uc));
+                }
+            }
+            card.push('\n');
         }
         card.push_str(&format!(
             "\n> {} · {}\n> {} · {}\n> {} · {}\n",
@@ -98,12 +104,17 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
             d.risk_snapshot_label,
             d.risk_snapshot_value
         ));
-        if !d.trend_cohesion_reasons.is_empty() {
-            card.push_str(&format!(
-                "- 💡 **{}**: {}\n",
-                d.trend_cohesion_label,
-                d.trend_cohesion_reasons.join(" · ")
-            ));
+        if !d.gate_passed {
+            card.push_str(&format!("- 🎯 **{}**:\n", d.formation_conditions_label));
+            for fc in &d.formation_conditions {
+                card.push_str(&format!("  - {}\n", fc));
+            }
+            if !d.unmet_conditions.is_empty() {
+                card.push_str(&format!("- ❌ **{}**:\n", d.unmet_conditions_label));
+                for uc in &d.unmet_conditions {
+                    card.push_str(&format!("  - {}\n", uc));
+                }
+            }
         }
         card.push_str(&format!("\n> {}\n", d.summary));
     }
@@ -278,12 +289,18 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
             d.entry_cap_label,
             d.entry_cap_value
         ));
-        if !d.trend_cohesion_reasons.is_empty() {
-            card.push_str(&format!(
-                "<i>💡 {}：{}</i>\n\n",
-                d.trend_cohesion_label,
-                d.trend_cohesion_reasons.join(" · ")
-            ));
+        if !d.gate_passed {
+            card.push_str(&format!("🎯 <b>{}</b>:\n", d.formation_conditions_label));
+            for fc in &d.formation_conditions {
+                card.push_str(&format!("- <i>{}</i>\n", fc));
+            }
+            if !d.unmet_conditions.is_empty() {
+                card.push_str(&format!("\n❌ <b>{}</b>:\n", d.unmet_conditions_label));
+                for uc in &d.unmet_conditions {
+                    card.push_str(&format!("- <i>{}</i>\n", uc));
+                }
+            }
+            card.push('\n');
         }
         card.push_str(&format!(
             "{} · {}\n{} · {}\n{} · {}\n",
@@ -319,12 +336,17 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
             d.risk_snapshot_label,
             d.risk_snapshot_value
         ));
-        if !d.trend_cohesion_reasons.is_empty() {
-            card.push_str(&format!(
-                "• 💡 <b>{}</b>: {}\n",
-                d.trend_cohesion_label,
-                d.trend_cohesion_reasons.join(" · ")
-            ));
+        if !d.gate_passed {
+            card.push_str(&format!("• 🎯 <b>{}</b>:\n", d.formation_conditions_label));
+            for fc in &d.formation_conditions {
+                card.push_str(&format!("  - <i>{}</i>\n", fc));
+            }
+            if !d.unmet_conditions.is_empty() {
+                card.push_str(&format!("• ❌ <b>{}</b>:\n", d.unmet_conditions_label));
+                for uc in &d.unmet_conditions {
+                    card.push_str(&format!("  - <i>{}</i>\n", uc));
+                }
+            }
         }
         card.push_str(&format!("\n<i>{}</i>\n", d.summary));
     }

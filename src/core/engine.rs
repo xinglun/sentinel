@@ -80,17 +80,26 @@ impl Engine {
             AssetStateMachine::rank_assets_with_memory(&asset_features, &memory_decisions);
         let current_top_tier: Vec<String> = ranked_symbols.iter().take(3).cloned().collect();
 
-        // 7. Participation Readiness (NEW)
+        // 7. Participation Readiness (Legacy)
         let participation = ParticipationReadiness::compute(
             market_features.stability_score,
             &current_top_tier,
             history,
         );
 
+        // 8. Trend Cohesion Snapshot (NEW V2 Gate) moved up to supersede readiness constraints
+        let trend_cohesion = TrendCohesionEvaluator::evaluate(
+            market_features.stability_score,
+            participation.core_tier_streak,
+            &current_top_tier,
+            history,
+        );
+        let active_gate_passed = trend_cohesion.gate_passed;
+
         let prev_participation_ready = prev_packet
-            .map(|p| p.participation.participation_ready)
+            .map(|p| p.trend_cohesion.gate_passed)
             .unwrap_or(false);
-        let participation_changed = prev_participation_ready != participation.participation_ready;
+        let participation_changed = prev_participation_ready != active_gate_passed;
 
         // 6. Asset Execution State & Action Matrix
         let mut asset_decisions = Vec::new();
@@ -174,7 +183,7 @@ impl Engine {
             let mut decision = ActionMatrix::decide(
                 &market_regime,
                 &market_features,
-                participation.participation_ready,
+                active_gate_passed,
                 &portfolio_policy,
                 &asset_state_snapshot,
                 f.deviation,
@@ -193,7 +202,7 @@ impl Engine {
                 state_streak,
                 out_of_top_tier_streak,
                 market_regime.risk_overlay,
-                participation.participation_ready,
+                active_gate_passed,
                 prev_participation_ready,
             );
 
@@ -201,7 +210,7 @@ impl Engine {
             let final_intent = crate::core::intent_synthesizer::IntentSynthesizer::synthesize(
                 decision.action,
                 &exit_decision,
-                participation.participation_ready,
+                active_gate_passed,
             );
 
             decision.prev_action = prev_asset_decision.map(|a| a.action);
@@ -215,7 +224,7 @@ impl Engine {
                 crate::core::position_intent::UnifiedIntentSynthesizer::synthesize(
                     final_intent,
                     &decision.exit_decision,
-                    participation.participation_ready,
+                    active_gate_passed,
                     positions.contains_key(&decision.symbol),
                     asset_state_snapshot.state,
                 )
@@ -242,15 +251,6 @@ impl Engine {
         }
         // Append any remaining (should be none)
         final_decisions.extend(asset_decisions);
-
-        // 8. Trend Cohesion Snapshot (NEW V2)
-        let trend_cohesion = TrendCohesionEvaluator::evaluate(
-            participation.participation_ready,
-            market_features.stability_score,
-            participation.core_tier_streak,
-            &current_top_tier,
-            history,
-        );
 
         let packet = DecisionPacket::new(
             market_features.date,

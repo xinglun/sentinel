@@ -12,39 +12,42 @@ pub enum TrendCohesionStatus {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq)]
 #[serde(rename_all = "snake_case")]
-pub enum TrendCohesionCondition {
-    NoCandidates,
-    LowStability(f64),
-    LowStreak(usize),
-    HighDispersion(usize),
-    HighChurn,
-    NoRepeatedLeaders,
-    CompactAndStable,
+pub enum TrendCohesionGateCondition {
+    StabilityThreshold,
+    ContinuityThreshold,
+    DirectionalCohesion,
+    HighCandidateDispersion,
+    UnstableRotation,
+    WeakLeadership,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
+#[serde(default)]
 pub struct TrendCohesionSnapshot {
     pub status: TrendCohesionStatus,
+    pub gate_passed: bool,
+    pub stability_score: f64,
+    pub continuity_streak: usize,
     pub candidate_count: usize,
     pub leader_count: usize,
-    pub leader_concentration_score: f64,
-    pub continuity_quality_score: f64,
-    pub dispersion_score: f64,
-    pub reasons: Vec<TrendCohesionCondition>,
+    pub cohesion_score: f64,
+    pub leader_quality_score: f64,
+    pub rotation_quality_score: f64,
+    pub candidate_compactness_score: f64,
+    pub unmet_conditions: Vec<TrendCohesionGateCondition>,
 }
 
 pub struct TrendCohesionEvaluator;
 
 impl TrendCohesionEvaluator {
     pub fn evaluate(
-        participation_ready: bool,
         stability_score: f64,
         continuity_streak: usize,
         current_top_tier: &[String],
         history: &[DecisionPacket],
     ) -> TrendCohesionSnapshot {
         let candidate_count = current_top_tier.len();
-        let mut reasons = Vec::new();
+        let mut unmet_conditions = Vec::new();
 
         // 1. Gather recent history window (up to 2 previous days + current = 3 days).
         let recent_packets: Vec<&DecisionPacket> = history.iter().rev().take(2).collect();
@@ -68,15 +71,15 @@ impl TrendCohesionEvaluator {
             }
         }
 
-        // Leader concentration
-        let leader_concentration_score = if candidate_count > 0 {
+        // Leadership concentration proxy: repeated leaders within the active candidate set.
+        let repeated_leader_ratio = if candidate_count > 0 {
             leader_count as f64 / candidate_count as f64
         } else {
             0.0
         };
 
-        // Continuity Quality (Jaccard similarity with yesterday, if yesterday exists)
-        let mut continuity_quality_score = 0.0;
+        // Rotation quality (Jaccard similarity with yesterday, if yesterday exists)
+        let mut rotation_quality_score = 0.0;
         if let Some(yesterday_tier) = past_top_tiers.first() {
             // past_top_tiers[0] is the most recent past since we `rev`
             let current_set: HashSet<&str> = current_top_tier.iter().map(|s| s.as_str()).collect();
@@ -86,75 +89,110 @@ impl TrendCohesionEvaluator {
             let union = current_set.union(&prev_set).count();
 
             if union > 0 {
-                continuity_quality_score = (intersection as f64 / union as f64) * 100.0;
+                rotation_quality_score = (intersection as f64 / union as f64) * 100.0;
             }
         } else if candidate_count > 0 {
-            // First day with candidates, technically no churn history, default to 100% or 0%?
-            // Conservative: Treat as 0 previous overlap unless candidate count == 0.
-            continuity_quality_score = 0.0;
+            // First day with candidates: not enough history to validate churn, keep neutral.
+            rotation_quality_score = 50.0;
         } else {
-            continuity_quality_score = 0.0;
+            rotation_quality_score = 0.0;
         }
 
-        // Dispersion score: Simple metric, >= 6 is highly dispersed.
-        let dispersion_score = candidate_count as f64;
+        let candidate_compactness_score = match candidate_count {
+            0 => 0.0,
+            1 => 95.0,
+            2 => 90.0,
+            3 => 80.0,
+            4 => 65.0,
+            5 => 50.0,
+            6 => 35.0,
+            _ => 20.0,
+        };
 
-        // V2 Heuristics
-        let mut status = TrendCohesionStatus::Forming;
+        let leader_depth_score = match leader_count {
+            0 => 0.0,
+            1 => 55.0,
+            2 => 85.0,
+            _ => 100.0,
+        };
 
-        let stability_low = stability_score < 10.0;
-        let streak_low = continuity_streak < 2;
+        let stability_component = (stability_score / 15.0 * 100.0).clamp(0.0, 100.0);
+        let continuity_component = (continuity_streak as f64 / 4.0 * 100.0).clamp(0.0, 100.0);
+
+        let leader_quality_score = (repeated_leader_ratio * 100.0 * 0.55
+            + leader_depth_score * 0.30
+            + candidate_compactness_score * 0.15)
+            .clamp(0.0, 100.0);
+
+        let cohesion_score = (stability_component * 0.30
+            + continuity_component * 0.20
+            + leader_quality_score * 0.20
+            + rotation_quality_score * 0.15
+            + candidate_compactness_score * 0.15)
+            .clamp(0.0, 100.0);
+
         let no_candidates = candidate_count == 0;
-        let highly_dispersed = candidate_count >= 6;
-        let high_churn = continuity_quality_score < 33.0 && !past_top_tiers.is_empty(); // Need history to judge churn reliably
-        let no_repeated_leaders = leader_count == 0 && !past_top_tiers.is_empty();
+        let severe_dispersion = candidate_compactness_score < 45.0;
+        let unstable_rotation = !past_top_tiers.is_empty() && rotation_quality_score < 35.0;
+        let weak_leadership = candidate_count > 0 && leader_quality_score < 45.0;
+        let severe_fragmentation = no_candidates
+            || stability_score < 8.0
+            || continuity_streak < 2
+            || severe_dispersion
+            || unstable_rotation
+            || weak_leadership
+            || cohesion_score < 45.0;
 
-        if no_candidates {
-            reasons.push(TrendCohesionCondition::NoCandidates);
-        }
-        if stability_low {
-            reasons.push(TrendCohesionCondition::LowStability(stability_score));
-        }
-        if streak_low {
-            reasons.push(TrendCohesionCondition::LowStreak(continuity_streak));
-        }
-        if highly_dispersed {
-            reasons.push(TrendCohesionCondition::HighDispersion(candidate_count));
-        }
-        if high_churn {
-            reasons.push(TrendCohesionCondition::HighChurn);
-        }
-        if no_repeated_leaders && candidate_count > 0 {
-            reasons.push(TrendCohesionCondition::NoRepeatedLeaders);
-        }
-
-        if stability_low
-            || streak_low
-            || no_candidates
-            || highly_dispersed
-            || high_churn
-            || no_repeated_leaders
-        {
-            status = TrendCohesionStatus::NotFormed;
-        } else if participation_ready
-            && stability_score >= 10.0
-            && continuity_streak >= 3
+        let mut gate_passed = true;
+        let directional_passed = candidate_count > 0
             && candidate_count <= 4
-            && leader_count >= 2
-            && continuity_quality_score >= 33.0
-        {
-            status = TrendCohesionStatus::Cohesive;
-            reasons.push(TrendCohesionCondition::CompactAndStable);
+            && leader_quality_score >= 60.0
+            && rotation_quality_score >= 45.0
+            && candidate_compactness_score >= 60.0;
+
+        if stability_score < 10.0 {
+            unmet_conditions.push(TrendCohesionGateCondition::StabilityThreshold);
+            gate_passed = false;
         }
+        if continuity_streak < 3 {
+            unmet_conditions.push(TrendCohesionGateCondition::ContinuityThreshold);
+            gate_passed = false;
+        }
+        if !directional_passed {
+            unmet_conditions.push(TrendCohesionGateCondition::DirectionalCohesion);
+            gate_passed = false;
+        }
+        if candidate_compactness_score < 60.0 {
+            unmet_conditions.push(TrendCohesionGateCondition::HighCandidateDispersion);
+        }
+        if !past_top_tiers.is_empty() && rotation_quality_score < 45.0 {
+            unmet_conditions.push(TrendCohesionGateCondition::UnstableRotation);
+        }
+        if candidate_count > 0 && leader_quality_score < 60.0 {
+            unmet_conditions.push(TrendCohesionGateCondition::WeakLeadership);
+        }
+
+        let status = if severe_fragmentation {
+            gate_passed = false;
+            TrendCohesionStatus::NotFormed
+        } else if gate_passed && cohesion_score >= 75.0 {
+            TrendCohesionStatus::Cohesive
+        } else {
+            TrendCohesionStatus::Forming
+        };
 
         TrendCohesionSnapshot {
             status,
+            gate_passed,
+            stability_score,
+            continuity_streak,
             candidate_count,
             leader_count,
-            leader_concentration_score,
-            continuity_quality_score,
-            dispersion_score,
-            reasons,
+            cohesion_score,
+            leader_quality_score,
+            rotation_quality_score,
+            candidate_compactness_score,
+            unmet_conditions,
         }
     }
 }
@@ -178,11 +216,13 @@ mod tests {
         ];
         let current = vec!["A".to_string(), "B".to_string(), "E".to_string()];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(true, 15.0, 3, &current, &history);
+        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history);
 
         assert_eq!(snapshot.candidate_count, 3);
         assert_eq!(snapshot.leader_count, 2); // A and B repeat
         assert_eq!(snapshot.status, TrendCohesionStatus::Cohesive);
+        assert!(snapshot.cohesion_score >= 75.0);
+        assert!(snapshot.leader_quality_score >= 60.0);
     }
 
     #[test]
@@ -192,24 +232,29 @@ mod tests {
         ];
         let current = vec!["A".to_string(), "B".to_string(), "C".to_string()]; // Today (total change)
 
-        let snapshot = TrendCohesionEvaluator::evaluate(true, 15.0, 3, &current, &history);
+        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history);
 
-        assert_eq!(snapshot.continuity_quality_score, 0.0);
-        assert_eq!(snapshot.status, TrendCohesionStatus::NotFormed); // Highly dispersed implicitly via no repeat leaders + high churn
+        assert_eq!(snapshot.rotation_quality_score, 0.0);
+        assert_eq!(snapshot.status, TrendCohesionStatus::NotFormed);
         assert!(snapshot
-            .reasons
-            .contains(&TrendCohesionCondition::HighChurn));
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::DirectionalCohesion));
+        assert!(snapshot
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::UnstableRotation));
+        assert!(snapshot
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::WeakLeadership));
     }
 
     #[test]
     fn test_not_formed_heuristics() {
         let current = vec!["A".to_string(), "B".to_string()];
 
-        let snap_low_stab = TrendCohesionEvaluator::evaluate(true, 8.0, 3, &current, &[]);
+        let snap_low_stab = TrendCohesionEvaluator::evaluate(8.0, 3, &current, &[]);
         assert_eq!(snap_low_stab.status, TrendCohesionStatus::NotFormed);
 
         let snap_dispersed = TrendCohesionEvaluator::evaluate(
-            true,
             15.0,
             3,
             &[
@@ -223,5 +268,89 @@ mod tests {
             &[],
         );
         assert_eq!(snap_dispersed.status, TrendCohesionStatus::NotFormed);
+        assert!(snap_dispersed
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::HighCandidateDispersion));
+    }
+
+    #[test]
+    fn test_gate_conditions() {
+        // Test stability failure only
+        let snap1 = TrendCohesionEvaluator::evaluate(
+            9.0, // Failed stability
+            3,
+            &["A".to_string(), "B".to_string()], // Directional ok if it had history... wait, without history leader count is 0
+            &[],                                 // Fails directional cohesion
+        );
+        assert!(snap1
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::StabilityThreshold));
+        assert!(snap1
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::DirectionalCohesion));
+        assert!(!snap1.gate_passed);
+
+        // Test continuity failure only
+        let history = vec![
+            mock_packet(vec!["A", "B", "C"]),
+            mock_packet(vec!["A", "B", "D"]),
+        ];
+        let current = vec!["A".to_string(), "B".to_string()];
+
+        let snap2 = TrendCohesionEvaluator::evaluate(
+            15.0,     // Passed stability
+            2,        // Failed continuity
+            &current, // Passed directional cohesion (candidates <= 4, leaders=2, quality=100%)
+            &history,
+        );
+
+        assert!(snap2
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::ContinuityThreshold));
+        assert!(!snap2
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::StabilityThreshold));
+        assert!(!snap2
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::DirectionalCohesion));
+        assert!(!snap2.gate_passed);
+
+        // Gate passes when all are true
+        let snap3 = TrendCohesionEvaluator::evaluate(
+            15.0,     // Passed stability
+            3,        // Passed continuity
+            &current, // Passed directional cohesion
+            &history,
+        );
+        assert!(snap3.unmet_conditions.is_empty());
+        assert!(snap3.gate_passed);
+    }
+
+    #[test]
+    fn test_forming_when_leaders_repeat_but_structure_not_yet_mature() {
+        let history = vec![
+            mock_packet(vec!["A", "B", "C"]),
+            mock_packet(vec!["A", "D", "E"]),
+        ];
+        let current = vec![
+            "A".to_string(),
+            "B".to_string(),
+            "D".to_string(),
+            "E".to_string(),
+            "F".to_string(),
+        ];
+
+        let snapshot = TrendCohesionEvaluator::evaluate(11.5, 2, &current, &history);
+
+        assert_eq!(snapshot.status, TrendCohesionStatus::Forming);
+        assert!(!snapshot.gate_passed);
+        assert!(snapshot.cohesion_score >= 45.0);
+        assert!(snapshot.cohesion_score < 75.0);
+        assert!(snapshot
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::ContinuityThreshold));
+        assert!(snapshot
+            .unmet_conditions
+            .contains(&TrendCohesionGateCondition::HighCandidateDispersion));
     }
 }

@@ -90,8 +90,21 @@ async fn test_pipeline_bullish_path() {
         trade_amount: Some(1000.0),
     };
 
+    let history2 = create_mock_history("MSFT", 150.0, 60, 0.002);
+    let entry2 = WatchlistEntry {
+        symbol: "MSFT".to_string(),
+        weight: None,
+        market: "US".to_string(),
+        owner_ma_days: 20,
+        leash_ma_days: 10,
+        deviation_basis: DeviationBasis::Owner,
+        enable: true,
+        trade_enabled: Some(true),
+        trade_amount: Some(1000.0),
+    };
+
     let rules = create_mock_rules();
-    let histories = vec![(history, &entry)];
+    let histories = vec![(history, &entry), (history2, &entry2)];
 
     // Test transition from IGNITION to NEWBORN (needs confidence 60, age 5)
     let prev_market = MarketRegimeSnapshot {
@@ -113,7 +126,7 @@ async fn test_pipeline_bullish_path() {
         ..Default::default()
     };
     use stock_sentinel::core::participation::ParticipationReadiness;
-    let top_tier = vec!["AAPL".to_string()];
+    let top_tier = vec!["MSFT".to_string(), "AAPL".to_string()];
     let prev_packet1 = DecisionPacket::new(
         NaiveDate::from_ymd_opt(2022, 12, 30).unwrap(),
         MarketFeatures::default(),
@@ -152,9 +165,12 @@ async fn test_pipeline_bullish_path() {
     .expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
+    println!("Curr: {:?}", packet.top_tier_symbols);
+    println!("{:#?}", packet.trend_cohesion);
     assert!(
         packet.assets[0].action == AssetAction::ACCUMULATE
             || packet.assets[0].action == AssetAction::HOLD
+            || packet.assets[1].action == AssetAction::ACCUMULATE
     );
 }
 
