@@ -58,7 +58,7 @@ struct WatchlistEntry {
 
 #### 3.1 不可绕过原则 (Non-Bypass Principle)
 
-本系统中的任何模块都不得绕过 `NO TRADE`、`Participation Gate` 或 `Exit Gate` 直接生成最终交易动作。
+本系统中的任何模块都不得绕过 `NO TRADE`、`Participation Gate`、`Trend Cohesion Gate` 或 `Exit Gate` 直接生成最终交易动作。
 
 系统必须始终遵循以下顺序：
 
@@ -72,9 +72,10 @@ struct WatchlistEntry {
 这意味着：
 
 1. `NO TRADE` 只表示禁止主动开新仓，不等于强制清仓
-2. `Participation Gate` 未通过时，不允许任何模块直接输出进攻性动作
-3. `Exit Gate` 触发后，不允许继续保留与之冲突的进攻性动作语义
-4. 展示层不得改写与 Gate 冲突的最终动作
+2. `Participation Gate` 负责回答“市场参与条件是否成熟”
+3. `Trend Cohesion Gate` 负责回答“是否存在可跟随主线”
+4. `Exit Gate` 负责回答“已有持仓是否需要收缩或退出”
+5. 展示层不得改写与 Gate 冲突的最终动作
 
 以下实现被视为违规：
 
@@ -82,9 +83,46 @@ struct WatchlistEntry {
 2. 某个“个股特别好”直接允许加仓
 3. 展示层或临时规则绕过 Gate 改写最终动作
 4. Gate 未通过时仍输出 `ADD / ACCUMULATE`
-5. `Exit Gate` 已触发时仍保留 `ADD` 或其他进攻性表达
+5. `Trend Cohesion Gate` 未通过时仍输出 `ADD / ACCUMULATE`
+6. `Exit Gate` 已触发时仍保留 `ADD` 或其他进攻性表达
 
 本原则是系统级约束，不属于某一轮任务的临时规则。任何“例外买入”“特批加仓”“高优先级捷径”都视为破坏系统一致性的违规实现。
+
+#### 3.2 当前三层 Gate 与意图层
+
+当前系统的动作约束已明确分为三层 Gate：
+
+1. `Participation Gate`
+   - 由 `ParticipationReadiness` 计算
+   - 回答“市场参与条件是否成熟”
+   - 属于市场参与条件判断，不直接承担主线识别职责
+
+2. `Trend Cohesion Gate`
+   - 由 `TrendCohesionEvaluator` 计算
+   - 回答“当前是否存在可跟随的主线结构”
+   - 其 `gate_passed` 进入底层动作链，直接约束主动加仓/建仓类动作
+   - 同时输出 `status`、`topology`、`formation_conditions` 与 `unmet_conditions`
+
+3. `Exit Gate`
+   - 由 `ExitDecision` 计算
+   - 回答“已有持仓应当 HOLD / TRIM / EXIT”
+   - 与 `NO TRADE` 解耦，`NO TRADE` 不等于必须卖出
+
+在 Gate 之后，系统再进入统一动作层：
+
+- `Position Intent`
+  - 执行层意图：`ADD / HOLD / TRIM / EXIT`
+- `Unified Position Intent`
+  - 展示层统一动作原语：`ADD / HOLD / TRIM / EXIT / WATCH`
+  - 负责把 Entry/Exit 结果收敛成单一最终动作语言
+
+此外，`Trend Cohesion Topology` 负责区分主线结构类型：
+
+- `NO_LEADER`
+- `SINGLE_LEADER`
+- `FRAGMENTED_LEADERS`
+
+它属于结构解释层增强，不等于交易方向判断，也不等于新的交易动作。
 
 ### 1.2 基礎データレイヤー (Market Data)
 APIから取得した生の時系列データです。

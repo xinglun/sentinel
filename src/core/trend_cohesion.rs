@@ -10,6 +10,14 @@ pub enum TrendCohesionStatus {
     Cohesive,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum TrendCohesionTopology {
+    #[default]
+    NoLeader,
+    SingleLeader,
+    FragmentedLeaders,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq)]
 #[serde(rename_all = "snake_case")]
 pub enum TrendCohesionGateCondition {
@@ -25,6 +33,7 @@ pub enum TrendCohesionGateCondition {
 #[serde(default)]
 pub struct TrendCohesionSnapshot {
     pub status: TrendCohesionStatus,
+    pub topology: TrendCohesionTopology,
     pub gate_passed: bool,
     pub stability_score: f64,
     pub continuity_streak: usize,
@@ -172,6 +181,18 @@ impl TrendCohesionEvaluator {
             unmet_conditions.push(TrendCohesionGateCondition::WeakLeadership);
         }
 
+        let topology = if no_candidates || leader_count == 0 {
+            TrendCohesionTopology::NoLeader
+        } else if candidate_count <= 3
+            && leader_count == 1
+            && candidate_compactness_score >= 65.0
+            && rotation_quality_score >= 30.0
+        {
+            TrendCohesionTopology::SingleLeader
+        } else {
+            TrendCohesionTopology::FragmentedLeaders
+        };
+
         let status = if severe_fragmentation {
             gate_passed = false;
             TrendCohesionStatus::NotFormed
@@ -183,6 +204,7 @@ impl TrendCohesionEvaluator {
 
         TrendCohesionSnapshot {
             status,
+            topology,
             gate_passed,
             stability_score,
             continuity_streak,
@@ -221,6 +243,7 @@ mod tests {
         assert_eq!(snapshot.candidate_count, 3);
         assert_eq!(snapshot.leader_count, 2); // A and B repeat
         assert_eq!(snapshot.status, TrendCohesionStatus::Cohesive);
+        assert_eq!(snapshot.topology, TrendCohesionTopology::FragmentedLeaders);
         assert!(snapshot.cohesion_score >= 75.0);
         assert!(snapshot.leader_quality_score >= 60.0);
     }
@@ -236,6 +259,7 @@ mod tests {
 
         assert_eq!(snapshot.rotation_quality_score, 0.0);
         assert_eq!(snapshot.status, TrendCohesionStatus::NotFormed);
+        assert_eq!(snapshot.topology, TrendCohesionTopology::NoLeader);
         assert!(snapshot
             .unmet_conditions
             .contains(&TrendCohesionGateCondition::DirectionalCohesion));
@@ -253,6 +277,7 @@ mod tests {
 
         let snap_low_stab = TrendCohesionEvaluator::evaluate(8.0, 3, &current, &[]);
         assert_eq!(snap_low_stab.status, TrendCohesionStatus::NotFormed);
+        assert_eq!(snap_low_stab.topology, TrendCohesionTopology::NoLeader);
 
         let snap_dispersed = TrendCohesionEvaluator::evaluate(
             15.0,
@@ -268,6 +293,7 @@ mod tests {
             &[],
         );
         assert_eq!(snap_dispersed.status, TrendCohesionStatus::NotFormed);
+        assert_eq!(snap_dispersed.topology, TrendCohesionTopology::NoLeader);
         assert!(snap_dispersed
             .unmet_conditions
             .contains(&TrendCohesionGateCondition::HighCandidateDispersion));
@@ -352,5 +378,28 @@ mod tests {
         assert!(snapshot
             .unmet_conditions
             .contains(&TrendCohesionGateCondition::HighCandidateDispersion));
+    }
+
+    #[test]
+    fn test_topology_single_leader_when_compact_with_one_dominant_name() {
+        let history = vec![mock_packet(vec!["A"]), mock_packet(vec!["A", "B"])];
+        let current = vec!["A".to_string(), "C".to_string()];
+
+        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history);
+
+        assert_eq!(snapshot.topology, TrendCohesionTopology::SingleLeader);
+    }
+
+    #[test]
+    fn test_topology_fragmented_leaders_when_multiple_leaders_compete() {
+        let history = vec![
+            mock_packet(vec!["A", "B", "C"]),
+            mock_packet(vec!["A", "B", "D"]),
+        ];
+        let current = vec!["A".to_string(), "B".to_string(), "E".to_string()];
+
+        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history);
+
+        assert_eq!(snapshot.topology, TrendCohesionTopology::FragmentedLeaders);
     }
 }

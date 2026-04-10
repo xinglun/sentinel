@@ -45,8 +45,8 @@ impl ExitDecision {
         state_streak: usize,
         out_of_top_tier_streak: usize,
         risk_overlay: RiskOverlay,
-        participation_ready: bool,
-        prev_participation_ready: bool,
+        trend_gate_passed: bool,
+        prev_trend_gate_passed: bool,
     ) -> Self {
         let mut reasons = Vec::new();
         let mut intent = PositionIntent::HOLD;
@@ -90,18 +90,18 @@ impl ExitDecision {
             }
         }
 
-        // Rule 3: Participation Exit
-        if prev_participation_ready && !participation_ready && intent < PositionIntent::TRIM {
-            // Market gate closed
+        // Rule 3: Trend Cohesion Gate Exit
+        if prev_trend_gate_passed && !trend_gate_passed && intent < PositionIntent::TRIM {
+            // Followable leader structure gate closed
             // For core assets (in top tier), we might just HOLD, but here we simplify to rule requirement
             // "弱资产 TRIM, 核心强资产 HOLD / FREEZE"
             // Since this compute is per asset, if out_of_top_tier_streak > 0, it's "weaker"
             if out_of_top_tier_streak > 0 {
                 intent = PositionIntent::TRIM;
-                reasons.push("Market Not Ready: trimming non-core asset".to_string());
+                reasons.push("Trend Gate Closed: trimming non-core asset".to_string());
             } else {
                 intent = PositionIntent::HOLD;
-                reasons.push("Market Not Ready: freezing core asset".to_string());
+                reasons.push("Trend Gate Closed: freezing core asset".to_string());
             }
             exit_state = AssetExitState::ParticipationExit;
         }

@@ -62,7 +62,7 @@ impl ActionMatrix {
     pub fn decide(
         regime: &MarketRegimeSnapshot,
         _market_features: &crate::core::features::MarketFeatures,
-        participation_ready: bool,
+        trend_gate_passed: bool,
         _policy: &PortfolioPolicy,
 
         asset_state: &AssetStateSnapshot,
@@ -177,17 +177,14 @@ impl ActionMatrix {
             },
         };
 
-        // P0-3: Participation Readiness Gate
-        let (action, matrix_reason) = if !participation_ready && action == AssetAction::ACCUMULATE {
+        // Trend Cohesion Gate: active buying is blocked until a followable leader structure exists.
+        let (action, matrix_reason) = if !trend_gate_passed && action == AssetAction::ACCUMULATE {
             let downgraded_action = if asset_state.state == AssetState::OPTIMAL {
                 AssetAction::OBSERVE
             } else {
                 AssetAction::HOLD
             };
-            (
-                downgraded_action,
-                "Matrix: Participation not ready (streak < 3 or low stability)",
-            )
+            (downgraded_action, "Matrix: trend cohesion gate not passed")
         } else {
             (action, matrix_reason)
         };
@@ -248,7 +245,7 @@ mod tests {
         let decision = ActionMatrix::decide(
             &regime,
             &crate::core::features::MarketFeatures::default(),
-            true, // participation_ready
+            true, // trend_gate_passed
             &policy,
             &asset,
             None,
@@ -270,7 +267,7 @@ mod tests {
         let decision = ActionMatrix::decide(
             &regime,
             &crate::core::features::MarketFeatures::default(),
-            true, // participation_ready
+            true, // trend_gate_passed
             &policy,
             &asset,
             None,
@@ -290,7 +287,7 @@ mod tests {
         let asset = mock_asset(AssetState::OPTIMAL);
         let policy = PortfolioPolicy::from_market_regime(&regime);
 
-        // Case 1: Participation Not Ready
+        // Case 1: Trend gate not passed
         let features = crate::core::features::MarketFeatures {
             stability_score: 15.0, // Stability OK
             ..Default::default()
@@ -302,9 +299,9 @@ mod tests {
         assert!(decision
             .reasons
             .iter()
-            .any(|r| r.contains("Participation not ready")));
+            .any(|r| r.contains("trend cohesion gate not passed")));
 
-        // Case 2: Participation Ready
+        // Case 2: Trend gate passed
         let decision2 = ActionMatrix::decide(
             &regime, &features, true, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
         );

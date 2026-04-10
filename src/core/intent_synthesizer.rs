@@ -4,12 +4,12 @@ use crate::core::exit::{ExitDecision, PositionIntent};
 pub struct IntentSynthesizer;
 
 impl IntentSynthesizer {
-    /// Synthesizes the final PositionIntent by combining ActionMatrix, Readiness, and ExitDecision.
+    /// Synthesizes the final PositionIntent by combining ActionMatrix, Trend Cohesion Gate, and ExitDecision.
     /// Priority Rule: EXIT > TRIM > HOLD > ADD
     pub fn synthesize(
         base_action: AssetAction,
         exit_decision: &ExitDecision,
-        participation_ready: bool,
+        trend_gate_passed: bool,
     ) -> PositionIntent {
         // 1. Respect Exit Layer first (EXIT and TRIM override everything)
         if exit_decision.position_intent == PositionIntent::EXIT {
@@ -19,8 +19,8 @@ impl IntentSynthesizer {
             return PositionIntent::TRIM;
         }
 
-        // 2. Market Readiness Gate (If not ready, never ADD)
-        if !participation_ready {
+        // 2. Trend Cohesion Gate (If not passed, never ADD)
+        if !trend_gate_passed {
             return PositionIntent::HOLD;
         }
 

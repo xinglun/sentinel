@@ -267,6 +267,7 @@ mod tests {
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
                 status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 7.5,
                 continuity_streak: 1,
@@ -303,6 +304,8 @@ mod tests {
 
         assert!(card.contains("主线形成条件"));
         assert!(card.contains("当前未满足项"));
+        assert!(card.contains("主线结构"));
+        assert!(card.contains("无主线"));
         assert!(card.contains("候选池过于发散"));
         assert!(card.contains("主线轮动不稳定"));
         assert!(card.contains("持续领涨强度不足"));

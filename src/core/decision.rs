@@ -17,8 +17,8 @@ pub struct DecisionPacket {
     #[serde(default)]
     pub participation: ParticipationReadiness,
     pub top_tier_symbols: Vec<String>,
-    #[serde(default)]
-    pub participation_changed: bool,
+    #[serde(default, alias = "participation_changed")]
+    pub trend_gate_changed: bool,
     #[serde(default)]
     pub trend_cohesion: TrendCohesionSnapshot,
 }
@@ -33,7 +33,7 @@ impl Default for DecisionPacket {
             assets: Vec::new(),
             participation: Default::default(),
             top_tier_symbols: Vec::new(),
-            participation_changed: false,
+            trend_gate_changed: false,
             trend_cohesion: TrendCohesionSnapshot::default(),
         }
     }
@@ -49,7 +49,7 @@ impl DecisionPacket {
         assets: Vec<AssetActionDecision>,
         participation: ParticipationReadiness,
         top_tier_symbols: Vec<String>,
-        participation_changed: bool,
+        trend_gate_changed: bool,
         trend_cohesion: TrendCohesionSnapshot,
     ) -> Self {
         Self {
@@ -60,7 +60,7 @@ impl DecisionPacket {
             assets,
             participation,
             top_tier_symbols,
-            participation_changed,
+            trend_gate_changed,
             trend_cohesion,
         }
     }

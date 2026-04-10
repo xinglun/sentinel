@@ -44,6 +44,8 @@ pub struct DecisionSummaryViewModel {
     pub section_title: String,
     pub trend_cohesion_label: String,
     pub trend_cohesion_value: String,
+    pub trend_topology_label: String,
+    pub trend_topology_value: String,
     pub gate_passed: bool,
     pub formation_conditions_label: String,
     pub unmet_conditions_label: String,

@@ -51,9 +51,13 @@ pub struct TrendCohesionGateUnmetDictionary {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrendCohesionDictionary {
     pub label: String,
+    pub topology_label: String,
     pub not_formed: String,
     pub forming: String,
     pub cohesive: String,
+    pub topology_no_leader: String,
+    pub topology_single_leader: String,
+    pub topology_fragmented_leaders: String,
     pub formation_conditions_label: String,
     pub unmet_conditions_label: String,
     pub conditions: TrendCohesionGateConditionsDictionary,
@@ -417,9 +421,13 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             },
             trend_cohesion: TrendCohesionDictionary {
                 label: "主线状态".to_string(),
+                topology_label: "主线结构".to_string(),
                 not_formed: "主线未形成".to_string(),
                 forming: "主线形成中".to_string(),
                 cohesive: "主线已收敛".to_string(),
+                topology_no_leader: "无主线".to_string(),
+                topology_single_leader: "单主线".to_string(),
+                topology_fragmented_leaders: "多主线分散".to_string(),
                 formation_conditions_label: "主线形成条件".to_string(),
                 unmet_conditions_label: "当前未满足项".to_string(),
                 conditions: TrendCohesionGateConditionsDictionary {
@@ -607,9 +615,13 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             },
             trend_cohesion: TrendCohesionDictionary {
                 label: "Primary Trend".to_string(),
+                topology_label: "Trend Topology".to_string(),
                 not_formed: "Not Formed".to_string(),
                 forming: "Forming".to_string(),
                 cohesive: "Cohesive".to_string(),
+                topology_no_leader: "No Leader".to_string(),
+                topology_single_leader: "Single Leader".to_string(),
+                topology_fragmented_leaders: "Fragmented Leaders".to_string(),
                 formation_conditions_label: "Formation Conditions".to_string(),
                 unmet_conditions_label: "Currently Unmet".to_string(),
                 conditions: TrendCohesionGateConditionsDictionary {
@@ -794,9 +806,13 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             },
             trend_cohesion: TrendCohesionDictionary {
                 label: "主線状態".to_string(),
+                topology_label: "主線構造".to_string(),
                 not_formed: "主線未形成".to_string(),
                 forming: "主線形成中".to_string(),
                 cohesive: "主線収束済".to_string(),
+                topology_no_leader: "主導不在".to_string(),
+                topology_single_leader: "単一主導".to_string(),
+                topology_fragmented_leaders: "多主導分散".to_string(),
                 formation_conditions_label: "形成条件".to_string(),
                 unmet_conditions_label: "現在の未達項目".to_string(),
                 conditions: TrendCohesionGateConditionsDictionary {

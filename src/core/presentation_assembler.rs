@@ -758,6 +758,18 @@ impl PresentationAssembler {
             }
         };
 
+        let trend_topology_value = match packet.trend_cohesion.topology {
+            crate::core::trend_cohesion::TrendCohesionTopology::NoLeader => {
+                dict.trend_cohesion.topology_no_leader.clone()
+            }
+            crate::core::trend_cohesion::TrendCohesionTopology::SingleLeader => {
+                dict.trend_cohesion.topology_single_leader.clone()
+            }
+            crate::core::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
+                dict.trend_cohesion.topology_fragmented_leaders.clone()
+            }
+        };
+
         let formation_conditions: Vec<String> = vec![
             dict.trend_cohesion.conditions.stability_threshold.clone(),
             dict.trend_cohesion.conditions.continuity_threshold.clone(),
@@ -809,6 +821,8 @@ impl PresentationAssembler {
             section_title: dict.headers.decision_summary.clone(),
             trend_cohesion_label: dict.trend_cohesion.label.clone(),
             trend_cohesion_value,
+            trend_topology_label: dict.trend_cohesion.topology_label.clone(),
+            trend_topology_value,
             gate_passed: packet.trend_cohesion.gate_passed,
             formation_conditions_label: dict.trend_cohesion.formation_conditions_label.clone(),
             unmet_conditions_label: dict.trend_cohesion.unmet_conditions_label.clone(),

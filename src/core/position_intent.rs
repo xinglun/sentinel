@@ -34,7 +34,7 @@ impl UnifiedIntentSynthesizer {
     pub fn synthesize(
         execution_intent: PositionIntent,
         exit_decision: &ExitDecision,
-        participation_ready: bool,
+        trend_gate_passed: bool,
         has_position: bool,
         asset_state: AssetState,
     ) -> PositionIntentDecision {
@@ -54,15 +54,15 @@ impl UnifiedIntentSynthesizer {
             };
         }
 
-        if !participation_ready && !has_position {
+        if !trend_gate_passed && !has_position {
             return PositionIntentDecision {
                 intent: UnifiedPositionIntent::Watch,
-                reasons: vec!["No Trade: watch-only asset".to_string()],
+                reasons: vec!["Trend gate closed: watch-only asset".to_string()],
                 source: PositionIntentSource::EntryGate,
             };
         }
 
-        if !participation_ready && has_position {
+        if !trend_gate_passed && has_position {
             return PositionIntentDecision {
                 intent: match asset_state {
                     AssetState::PULLBACK | AssetState::CAUTION | AssetState::FORMING => {
@@ -70,7 +70,7 @@ impl UnifiedIntentSynthesizer {
                     }
                     _ => UnifiedPositionIntent::Hold,
                 },
-                reasons: vec!["No Trade: existing position retained".to_string()],
+                reasons: vec!["Trend gate closed: existing position retained".to_string()],
                 source: PositionIntentSource::Synthesized,
             };
         }
@@ -78,7 +78,7 @@ impl UnifiedIntentSynthesizer {
         match execution_intent {
             PositionIntent::ADD => PositionIntentDecision {
                 intent: UnifiedPositionIntent::Add,
-                reasons: vec!["Participation ready: add allowed".to_string()],
+                reasons: vec!["Trend gate passed: add allowed".to_string()],
                 source: PositionIntentSource::EntryGate,
             },
             PositionIntent::HOLD => PositionIntentDecision {

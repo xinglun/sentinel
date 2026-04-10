@@ -226,6 +226,7 @@ mod tests {
             date: Utc::now().date_naive(),
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
                 status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 7.5,
                 continuity_streak: 1,
@@ -254,6 +255,7 @@ mod tests {
         );
 
         assert_eq!(pres.decision_summary.trend_cohesion_value, "Not Formed");
+        assert_eq!(pres.decision_summary.trend_topology_value, "No Leader");
         assert!(pres
             .decision_summary
             .unmet_conditions
@@ -279,6 +281,32 @@ mod tests {
             .unmet_conditions
             .iter()
             .any(|r| r.contains("Leadership quality remains weak")));
+    }
+
+    #[test]
+    fn test_trend_cohesion_topology_localizes_fragmented_leaders() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Forming,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::FragmentedLeaders,
+                gate_passed: false,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::JaJp);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::JaJp,
+        );
+
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "主線形成中");
+        assert_eq!(pres.decision_summary.trend_topology_value, "多主導分散");
     }
 
     #[test]

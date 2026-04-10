@@ -665,7 +665,7 @@ mod tests {
             ..Default::default()
         };
         let packet = DecisionPacket {
-            participation_changed: false,
+            trend_gate_changed: false,
             date: Utc::now().date_naive(),
             market_features: Default::default(),
             market_regime: Default::default(),

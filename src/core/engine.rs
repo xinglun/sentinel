@@ -94,12 +94,12 @@ impl Engine {
             &current_top_tier,
             history,
         );
-        let active_gate_passed = trend_cohesion.gate_passed;
+        let active_trend_gate_passed = trend_cohesion.gate_passed;
 
-        let prev_participation_ready = prev_packet
+        let prev_trend_gate_passed = prev_packet
             .map(|p| p.trend_cohesion.gate_passed)
             .unwrap_or(false);
-        let participation_changed = prev_participation_ready != active_gate_passed;
+        let trend_gate_changed = prev_trend_gate_passed != active_trend_gate_passed;
 
         // 6. Asset Execution State & Action Matrix
         let mut asset_decisions = Vec::new();
@@ -183,7 +183,7 @@ impl Engine {
             let mut decision = ActionMatrix::decide(
                 &market_regime,
                 &market_features,
-                active_gate_passed,
+                active_trend_gate_passed,
                 &portfolio_policy,
                 &asset_state_snapshot,
                 f.deviation,
@@ -202,15 +202,15 @@ impl Engine {
                 state_streak,
                 out_of_top_tier_streak,
                 market_regime.risk_overlay,
-                active_gate_passed,
-                prev_participation_ready,
+                active_trend_gate_passed,
+                prev_trend_gate_passed,
             );
 
             // [P0-2] Synthesize PositionIntent (Isolated Lexicon)
             let final_intent = crate::core::intent_synthesizer::IntentSynthesizer::synthesize(
                 decision.action,
                 &exit_decision,
-                active_gate_passed,
+                active_trend_gate_passed,
             );
 
             decision.prev_action = prev_asset_decision.map(|a| a.action);
@@ -224,7 +224,7 @@ impl Engine {
                 crate::core::position_intent::UnifiedIntentSynthesizer::synthesize(
                     final_intent,
                     &decision.exit_decision,
-                    active_gate_passed,
+                    active_trend_gate_passed,
                     positions.contains_key(&decision.symbol),
                     asset_state_snapshot.state,
                 )
@@ -260,7 +260,7 @@ impl Engine {
             final_decisions,
             participation,
             current_top_tier,
-            participation_changed,
+            trend_gate_changed,
             trend_cohesion,
         );
 
