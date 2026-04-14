@@ -124,6 +124,30 @@ struct WatchlistEntry {
 
 它属于结构解释层增强，不等于交易方向判断，也不等于新的交易动作。
 
+#### 3.3 `NO TRADE` 场景下的 Breakout 展示原则
+
+`Breakout Detection` 在系统中属于结构证据层，而不是交易动作层。尤其在 `NO TRADE` 场景下，其展示目标必须从“提示可能的机会”收敛为“服务观察与告警”。
+
+这意味着：
+
+1. `Breakout Summary` 的语义目标是 **观察 / 告警**，不是 **建议 / 排序**
+2. `Breakout Detection` 不得通过展示语气削弱上方的 `NO TRADE / 主线未形成 / 无主线` 主结论
+3. `NO TRADE` 场景下，只允许以下对象作为 breakout 主项展开：
+   - `EMERGING_BREAKOUT`
+   - `CONFIRMED_BREAKOUT`
+   - 高失败风险异常个体
+4. `NO_BREAKOUT + 普通反弹 / 回撤修复` 在 `NO TRADE` 场景下默认不得展开成长列表
+5. 若某个 `NO_BREAKOUT` 个体在 `NO TRADE` 下仍被保留展示，其原因必须是高失败风险，且前台应优先显示风险解释，而不是中性描述
+
+实现边界要求如下：
+
+1. `BreakoutEvaluator` 继续只负责领域分类，不直接承担展示降噪职责
+2. `NO TRADE` 下的 breakout 降噪必须在 `PresentationAssembler` 中完成
+3. `report.rs` 只渲染 breakout 结果，不新增展示判断
+4. 展示阈值必须与领域阈值分离，避免为了前台观感反向污染领域语义
+
+本原则的目的不是减少信息，而是避免在 `NO TRADE` 场景下把用户重新拉回“挑票模式”。
+
 ### 1.2 基礎データレイヤー (Market Data)
 APIから取得した生の時系列データです。
 ```rust

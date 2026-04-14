@@ -90,6 +90,7 @@ emerging_min_slope = 0.0                # 突破萌芽所需的最小 slope
 failed_breakout_curvature_threshold = -0.5 # 假突破风险判定的 curvature 下限
 failed_breakout_slope_threshold = 0.0   # 假突破风险判定的 slope 下限
 failed_breakout_display_threshold = 55.0 # 失败突破风险高于该值时才在展示层显式输出
+failed_breakout_no_trade_display_threshold = 70.0 # NO TRADE 场景下仅展示高于该值的失败突破风险，避免基础风险刷屏
 
 [[watchlist]]
 symbol = "TSLA"            # 标的代码

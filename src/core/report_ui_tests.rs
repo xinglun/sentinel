@@ -710,6 +710,10 @@ mod tests {
     fn test_breakout_section_renders_evidence_without_buy_language() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![
                 AssetActionDecision {
                     symbol: "PLTR".into(),
@@ -771,6 +775,10 @@ mod tests {
     fn test_breakout_section_renders_ordinary_rebound_as_visible_evidence() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "QQQ".into(),
                 breakout: crate::core::breakout_detection::BreakoutSnapshot {
@@ -812,6 +820,10 @@ mod tests {
     fn test_breakout_section_renders_all_categories_in_english_final_report() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
@@ -914,6 +926,10 @@ mod tests {
     fn test_breakout_section_renders_all_categories_in_japanese_final_report() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
@@ -1004,5 +1020,259 @@ mod tests {
         assert!(report.telegram_html_body.contains("PLTR · 構造的突破"));
         assert!(report.telegram_html_body.contains("主導突破"));
         assert!(report.telegram_html_body.contains("失敗リスク 66"));
+    }
+
+    #[test]
+    fn test_breakout_section_denoises_no_trade_in_chinese() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "QQQ".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 27.0,
+                        breakout_quality: 29.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "TSLA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 35.0,
+                        breakout_quality: 42.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::PullbackRepair,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "GOOG".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                        breakout_strength: 47.0,
+                        breakout_quality: 88.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 31.0,
+                        breakout_quality: 38.0,
+                        failed_breakout_risk: 82.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("### 🚀 突破识别"));
+        assert!(report.markdown_body.contains("GOOG · 突破萌芽"));
+        assert!(report.markdown_body.contains("NVDA · 无突破"));
+        assert!(report.markdown_body.contains("假突破风险"));
+        assert!(report.markdown_body.contains("失败风险 82"));
+        assert!(!report.markdown_body.contains("QQQ · 无突破"));
+        assert!(!report.markdown_body.contains("TSLA · 无突破"));
+        assert!(!report.markdown_body.contains("普通反弹"));
+        assert!(!report.markdown_body.contains("回撤修复"));
+        assert!(report.telegram_html_body.contains("GOOG · 突破萌芽"));
+        assert!(report.telegram_html_body.contains("NVDA · 无突破"));
+        assert!(report.telegram_html_body.contains("假突破风险"));
+        assert!(report.telegram_html_body.contains("失败风险 82"));
+        assert!(!report.telegram_html_body.contains("QQQ · 无突破"));
+        assert!(!report.telegram_html_body.contains("TSLA · 无突破"));
+    }
+
+    #[test]
+    fn test_breakout_section_denoises_no_trade_in_english() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "QQQ".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "GOOG".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                        breakout_strength: 47.0,
+                        breakout_quality: 88.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        failed_breakout_risk: 82.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("GOOG · Emerging Breakout"));
+        assert!(report.markdown_body.contains("NVDA · No Breakout"));
+        assert!(report.markdown_body.contains("Failure Risk"));
+        assert!(report.markdown_body.contains("Failure Risk 82"));
+        assert!(!report.markdown_body.contains("QQQ · No Breakout"));
+        assert!(!report.markdown_body.contains("Ordinary rebound"));
+        assert!(report
+            .telegram_html_body
+            .contains("GOOG · Emerging Breakout"));
+        assert!(report.telegram_html_body.contains("NVDA · No Breakout"));
+        assert!(report.telegram_html_body.contains("Failure Risk 82"));
+        assert!(!report.telegram_html_body.contains("QQQ · No Breakout"));
+    }
+
+    #[test]
+    fn test_breakout_section_denoises_no_trade_in_japanese() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "QQQ".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "GOOG".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                        breakout_strength: 47.0,
+                        breakout_quality: 88.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        failed_breakout_risk: 82.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::JaJp);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("GOOG · 突破初動"));
+        assert!(report.markdown_body.contains("NVDA · 突破未成立"));
+        assert!(report.markdown_body.contains("失敗リスク 82"));
+        assert!(!report.markdown_body.contains("QQQ · 突破未成立"));
+        assert!(!report.markdown_body.contains("通常反発"));
+        assert!(report.telegram_html_body.contains("GOOG · 突破初動"));
+        assert!(report.telegram_html_body.contains("NVDA · 突破未成立"));
+        assert!(report.telegram_html_body.contains("失敗リスク 82"));
+        assert!(!report.telegram_html_body.contains("QQQ · 突破未成立"));
     }
 }

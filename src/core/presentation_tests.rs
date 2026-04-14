@@ -532,6 +532,10 @@ mod tests {
     fn test_exit_summary_is_localized_in_english() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "AAPL".into(),
                 has_position_fact: true,
@@ -760,6 +764,10 @@ mod tests {
     fn test_breakout_summary_localizes_emerging_and_failed_risk() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "PLTR".into(),
                 breakout: crate::core::breakout_detection::BreakoutSnapshot {
@@ -798,6 +806,10 @@ mod tests {
     fn test_breakout_summary_keeps_pullback_repair_distinct_from_rebound() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "TSLA".into(),
                 breakout: crate::core::breakout_detection::BreakoutSnapshot {
@@ -829,6 +841,10 @@ mod tests {
     fn test_breakout_summary_surfaces_ordinary_rebound() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "QQQ".into(),
                 breakout: crate::core::breakout_detection::BreakoutSnapshot {
@@ -854,5 +870,97 @@ mod tests {
         assert_eq!(pres.breakout_summary.items.len(), 1);
         assert_eq!(pres.breakout_summary.items[0].status_label, "无突破");
         assert_eq!(pres.breakout_summary.items[0].reason, "普通反弹");
+    }
+
+    #[test]
+    fn test_breakout_summary_denoises_no_trade_to_only_actionable_or_high_risk_items() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "QQQ".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 27.0,
+                        breakout_quality: 29.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "TSLA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 35.0,
+                        breakout_quality: 42.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::PullbackRepair,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "GOOG".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                        breakout_strength: 48.0,
+                        breakout_quality: 72.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 31.0,
+                        breakout_quality: 38.0,
+                        failed_breakout_risk: 82.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert_eq!(pres.breakout_summary.items.len(), 2);
+        assert_eq!(pres.breakout_summary.items[0].symbol, "GOOG");
+        assert_eq!(pres.breakout_summary.items[0].status_label, "突破萌芽");
+        assert_eq!(pres.breakout_summary.items[1].symbol, "NVDA");
+        assert_eq!(pres.breakout_summary.items[1].status_label, "无突破");
+        assert_eq!(pres.breakout_summary.items[1].reason, "假突破风险");
+        assert_eq!(
+            pres.breakout_summary.items[1].failed_risk_value.as_deref(),
+            Some("82")
+        );
+        assert!(!pres
+            .breakout_summary
+            .items
+            .iter()
+            .any(|item| item.symbol == "QQQ" || item.symbol == "TSLA"));
     }
 }

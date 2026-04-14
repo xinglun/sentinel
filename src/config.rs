@@ -140,6 +140,7 @@ pub struct BreakoutRulesConfig {
     pub failed_breakout_curvature_threshold: Option<f64>,
     pub failed_breakout_slope_threshold: Option<f64>,
     pub failed_breakout_display_threshold: Option<f64>,
+    pub failed_breakout_no_trade_display_threshold: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, Clone, Default)]
@@ -251,6 +252,7 @@ pub struct ParsedBreakoutRules {
     pub failed_breakout_curvature_threshold: f64,
     pub failed_breakout_slope_threshold: f64,
     pub failed_breakout_display_threshold: f64,
+    pub failed_breakout_no_trade_display_threshold: f64,
 }
 
 impl Default for ParsedBreakoutRules {
@@ -268,6 +270,7 @@ impl Default for ParsedBreakoutRules {
             failed_breakout_curvature_threshold: -0.5,
             failed_breakout_slope_threshold: 0.0,
             failed_breakout_display_threshold: 55.0,
+            failed_breakout_no_trade_display_threshold: 70.0,
         }
     }
 }
@@ -491,6 +494,9 @@ impl AppConfig {
                     failed_breakout_display_threshold: bo
                         .and_then(|c| c.failed_breakout_display_threshold)
                         .unwrap_or(defaults.failed_breakout_display_threshold),
+                    failed_breakout_no_trade_display_threshold: bo
+                        .and_then(|c| c.failed_breakout_no_trade_display_threshold)
+                        .unwrap_or(defaults.failed_breakout_no_trade_display_threshold),
                 }
             },
         }
@@ -579,6 +585,7 @@ mod tests {
             [rules.breakout]
             confirmed_zscore_threshold = 1.5
             failed_breakout_display_threshold = 70.0
+            failed_breakout_no_trade_display_threshold = 82.0
 
             [[watchlist]]
             symbol = "TSLA"
@@ -599,6 +606,10 @@ mod tests {
 
         assert_eq!(rules.breakout.confirmed_zscore_threshold, 1.5);
         assert_eq!(rules.breakout.failed_breakout_display_threshold, 70.0);
+        assert_eq!(
+            rules.breakout.failed_breakout_no_trade_display_threshold,
+            82.0
+        );
         assert_eq!(rules.breakout.emerging_trend_age_threshold, 5);
     }
 }

@@ -646,19 +646,34 @@ impl PresentationAssembler {
         dict: &DisplayDictionary,
     ) -> BreakoutSummaryViewModel {
         use crate::core::breakout_detection::{BreakoutReason, BreakoutStatus};
+        let is_no_trade = !packet.trend_cohesion.gate_passed;
+        let failed_risk_display_threshold = if is_no_trade {
+            rules.breakout.failed_breakout_no_trade_display_threshold
+        } else {
+            rules.breakout.failed_breakout_display_threshold
+        };
 
         let mut items: Vec<BreakoutItemViewModel> = packet
             .assets
             .iter()
             .filter_map(|asset| {
                 let breakout = &asset.breakout;
+                let has_high_failed_risk = breakout
+                    .reasons
+                    .contains(&BreakoutReason::FailedBreakoutRisk)
+                    && breakout.failed_breakout_risk >= failed_risk_display_threshold;
                 let has_signal = breakout.status != BreakoutStatus::NoBreakout
                     || breakout.reasons.contains(&BreakoutReason::OrdinaryRebound)
                     || breakout.reasons.contains(&BreakoutReason::PullbackRepair)
                     || breakout
                         .reasons
                         .contains(&BreakoutReason::FailedBreakoutRisk);
-                if !has_signal {
+                let is_visible = if is_no_trade {
+                    breakout.status != BreakoutStatus::NoBreakout || has_high_failed_risk
+                } else {
+                    has_signal
+                };
+                if !is_visible {
                     return None;
                 }
 
@@ -672,7 +687,14 @@ impl PresentationAssembler {
                     BreakoutStatus::EmergingBreakout => dict.breakout.emerging_breakout.clone(),
                     BreakoutStatus::ConfirmedBreakout => dict.breakout.confirmed_breakout.clone(),
                 };
-                let reason = Self::localize_breakout_reason(&asset.breakout.reasons, dict);
+                let reason = if is_no_trade
+                    && breakout.status == BreakoutStatus::NoBreakout
+                    && has_high_failed_risk
+                {
+                    dict.breakout.failed_breakout_risk.clone()
+                } else {
+                    Self::localize_breakout_reason(&asset.breakout.reasons, dict)
+                };
 
                 Some(BreakoutItemViewModel {
                     symbol: asset.symbol.clone(),
@@ -682,7 +704,7 @@ impl PresentationAssembler {
                     strength_value: format!("{:.0}", breakout.breakout_strength),
                     quality_value: format!("{:.0}", breakout.breakout_quality),
                     failed_risk_value: if breakout.failed_breakout_risk
-                        >= rules.breakout.failed_breakout_display_threshold
+                        >= failed_risk_display_threshold
                     {
                         Some(format!("{:.0}", breakout.failed_breakout_risk))
                     } else {
