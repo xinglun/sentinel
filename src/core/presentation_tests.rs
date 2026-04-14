@@ -32,6 +32,8 @@ fn mock_config(lang: Language) -> AppConfig {
             core_assets: None,
             min_state_duration: None,
             inertia: None,
+            trend_cohesion: None,
+            breakout: None,
         },
         watchlist: vec![],
     }
@@ -155,6 +157,18 @@ mod tests {
                 ],
                 ..Default::default()
             },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 1.1,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                ..Default::default()
+            },
             market_features: crate::core::features::MarketFeatures {
                 system_confidence: 54.0,
                 stability_score: 1.1,
@@ -197,16 +211,7 @@ mod tests {
             pres.decision_summary.risk_snapshot_value,
             "目立つリスクなし"
         );
-        assert!(pres
-            .decision_summary
-            .readiness_reasons
-            .iter()
-            .any(|r| r.contains("安定性")));
-        assert!(pres
-            .decision_summary
-            .readiness_reasons
-            .iter()
-            .any(|r| r.contains("継続性")));
+        assert!(pres.decision_summary.readiness_reasons.is_empty());
         assert!(pres
             .decision_summary
             .candidate_only_note
@@ -281,6 +286,55 @@ mod tests {
             .unmet_conditions
             .iter()
             .any(|r| r.contains("Leadership quality remains weak")));
+    }
+
+    #[test]
+    fn test_readiness_reasons_deduplicate_trend_gate_evidence() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![
+                    "Stability score (7.5) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.5,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert!(pres.decision_summary.readiness_reasons.is_empty());
+        assert!(pres
+            .decision_summary
+            .unmet_conditions
+            .iter()
+            .any(|r| r.contains("市场稳定性不足")));
+        assert!(pres
+            .decision_summary
+            .unmet_conditions
+            .iter()
+            .any(|r| r.contains("连续性不足")));
     }
 
     #[test]
@@ -700,5 +754,105 @@ mod tests {
 
         let count = report.markdown_body.matches("获取失败").count();
         assert_eq!(count, 1, "data alert should be rendered exactly once");
+    }
+
+    #[test]
+    fn test_breakout_summary_localizes_emerging_and_failed_risk() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![AssetActionDecision {
+                symbol: "PLTR".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout_strength: 72.0,
+                    breakout_quality: 68.0,
+                    failed_breakout_risk: 61.0,
+                    reasons: vec![
+                        crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                    ],
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert_eq!(pres.breakout_summary.title, "🚀 Breakout Detection");
+        assert_eq!(pres.breakout_summary.items.len(), 1);
+        let item = &pres.breakout_summary.items[0];
+        assert_eq!(item.status_label, "Emerging Breakout");
+        assert_eq!(item.reason, "Leadership-style breakout");
+        assert_eq!(item.failed_risk_value.as_deref(), Some("61"));
+    }
+
+    #[test]
+    fn test_breakout_summary_keeps_pullback_repair_distinct_from_rebound() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![AssetActionDecision {
+                symbol: "TSLA".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout_strength: 34.0,
+                    breakout_quality: 40.0,
+                    reasons: vec![crate::core::breakout_detection::BreakoutReason::PullbackRepair],
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert_eq!(pres.breakout_summary.items.len(), 1);
+        assert_eq!(pres.breakout_summary.items[0].status_label, "无突破");
+        assert_eq!(pres.breakout_summary.items[0].reason, "回撤修复");
+    }
+
+    #[test]
+    fn test_breakout_summary_surfaces_ordinary_rebound() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![AssetActionDecision {
+                symbol: "QQQ".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout_strength: 28.0,
+                    breakout_quality: 31.0,
+                    reasons: vec![crate::core::breakout_detection::BreakoutReason::OrdinaryRebound],
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert_eq!(pres.breakout_summary.items.len(), 1);
+        assert_eq!(pres.breakout_summary.items[0].status_label, "无突破");
+        assert_eq!(pres.breakout_summary.items[0].reason, "普通反弹");
     }
 }

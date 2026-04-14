@@ -5,9 +5,10 @@ use crate::core::exit::AssetExitState;
 use crate::core::i18n::{get_dictionary, DisplayDictionary, Language};
 use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
-    DataAlertViewModel, DecisionSummaryViewModel, ExitDecisionItemViewModel,
-    ExitDecisionSummaryViewModel, ExitDisplayIntent, MacroDisplayContext, PresentationPacket,
-    RiskOpportunitySummaryViewModel, SignalSummaryViewModel,
+    BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
+    DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
+    ExitDisplayIntent, MacroDisplayContext, PresentationPacket, RiskOpportunitySummaryViewModel,
+    SignalSummaryViewModel,
 };
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
@@ -366,6 +367,7 @@ impl PresentationAssembler {
             is_ready,
             &dict,
         );
+        let breakout_summary = Self::build_breakout_summary(packet, rules, &dict);
 
         let mut notices = Vec::new();
         if !is_data_missing && !is_ready {
@@ -409,6 +411,7 @@ impl PresentationAssembler {
             signal_summary,
             top_actions: top_vms,
             exit_summary,
+            breakout_summary,
             tactical_buckets,
             risk_opportunity_summary,
             risk_opportunities,
@@ -637,6 +640,86 @@ impl PresentationAssembler {
         }
     }
 
+    fn build_breakout_summary(
+        packet: &DecisionPacket,
+        rules: &crate::config::ParsedRules,
+        dict: &DisplayDictionary,
+    ) -> BreakoutSummaryViewModel {
+        use crate::core::breakout_detection::{BreakoutReason, BreakoutStatus};
+
+        let mut items: Vec<BreakoutItemViewModel> = packet
+            .assets
+            .iter()
+            .filter_map(|asset| {
+                let breakout = &asset.breakout;
+                let has_signal = breakout.status != BreakoutStatus::NoBreakout
+                    || breakout.reasons.contains(&BreakoutReason::OrdinaryRebound)
+                    || breakout.reasons.contains(&BreakoutReason::PullbackRepair)
+                    || breakout
+                        .reasons
+                        .contains(&BreakoutReason::FailedBreakoutRisk);
+                if !has_signal {
+                    return None;
+                }
+
+                let status = match breakout.status {
+                    BreakoutStatus::NoBreakout => BreakoutDisplayStatus::NoBreakout,
+                    BreakoutStatus::EmergingBreakout => BreakoutDisplayStatus::EmergingBreakout,
+                    BreakoutStatus::ConfirmedBreakout => BreakoutDisplayStatus::ConfirmedBreakout,
+                };
+                let status_label = match breakout.status {
+                    BreakoutStatus::NoBreakout => dict.breakout.no_breakout.clone(),
+                    BreakoutStatus::EmergingBreakout => dict.breakout.emerging_breakout.clone(),
+                    BreakoutStatus::ConfirmedBreakout => dict.breakout.confirmed_breakout.clone(),
+                };
+                let reason = Self::localize_breakout_reason(&asset.breakout.reasons, dict);
+
+                Some(BreakoutItemViewModel {
+                    symbol: asset.symbol.clone(),
+                    status,
+                    status_label,
+                    reason,
+                    strength_value: format!("{:.0}", breakout.breakout_strength),
+                    quality_value: format!("{:.0}", breakout.breakout_quality),
+                    failed_risk_value: if breakout.failed_breakout_risk
+                        >= rules.breakout.failed_breakout_display_threshold
+                    {
+                        Some(format!("{:.0}", breakout.failed_breakout_risk))
+                    } else {
+                        None
+                    },
+                })
+            })
+            .collect();
+
+        items.sort_by(|a, b| {
+            let prio = |status: BreakoutDisplayStatus| match status {
+                BreakoutDisplayStatus::ConfirmedBreakout => 0,
+                BreakoutDisplayStatus::EmergingBreakout => 1,
+                BreakoutDisplayStatus::NoBreakout => 2,
+            };
+            prio(a.status)
+                .cmp(&prio(b.status))
+                .then_with(|| {
+                    b.quality_value
+                        .parse::<u32>()
+                        .unwrap_or(0)
+                        .cmp(&a.quality_value.parse::<u32>().unwrap_or(0))
+                })
+                .then_with(|| a.symbol.cmp(&b.symbol))
+        });
+
+        BreakoutSummaryViewModel {
+            title: dict.headers.breakout_detection.clone(),
+            empty_note: if items.is_empty() {
+                Some(dict.breakout.empty_note.clone())
+            } else {
+                None
+            },
+            items,
+        }
+    }
+
     fn build_decision_summary(
         packet: &DecisionPacket,
         is_data_missing: bool,
@@ -740,6 +823,7 @@ impl PresentationAssembler {
                 .reasons
                 .iter()
                 .map(|reason| Self::localize_participation_reason(reason, dict))
+                .filter(|reason| !Self::is_redundant_readiness_reason(reason, packet, dict))
                 .filter(|reason| !reason.is_empty())
                 .collect()
         } else {
@@ -884,5 +968,41 @@ impl PresentationAssembler {
         } else {
             reason.to_string()
         }
+    }
+
+    fn localize_breakout_reason(
+        reasons: &[crate::core::breakout_detection::BreakoutReason],
+        dict: &DisplayDictionary,
+    ) -> String {
+        use crate::core::breakout_detection::BreakoutReason;
+
+        if reasons.contains(&BreakoutReason::StructuralBreakout) {
+            dict.breakout.structural_breakout.clone()
+        } else if reasons.contains(&BreakoutReason::PullbackRepair) {
+            dict.breakout.pullback_repair.clone()
+        } else if reasons.contains(&BreakoutReason::OrdinaryRebound) {
+            dict.breakout.ordinary_rebound.clone()
+        } else if reasons.contains(&BreakoutReason::FailedBreakoutRisk) {
+            dict.breakout.failed_breakout_risk.clone()
+        } else {
+            dict.breakout.ordinary_rebound.clone()
+        }
+    }
+
+    fn is_redundant_readiness_reason(
+        localized_reason: &str,
+        packet: &DecisionPacket,
+        dict: &DisplayDictionary,
+    ) -> bool {
+        let unmet_conditions = &packet.trend_cohesion.unmet_conditions;
+
+        (localized_reason.contains(&dict.signals.stability)
+            && unmet_conditions.contains(
+                &crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+            ))
+            || (localized_reason.contains(&dict.signals.continuity)
+                && unmet_conditions.contains(
+                    &crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ))
     }
 }

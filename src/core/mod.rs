@@ -1,5 +1,6 @@
 pub mod action_matrix;
 pub mod asset_state;
+pub mod breakout_detection;
 pub mod decision;
 pub mod display;
 pub mod engine;

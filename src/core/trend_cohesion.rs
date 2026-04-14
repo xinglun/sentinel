@@ -1,3 +1,4 @@
+use crate::config::ParsedTrendCohesionRules;
 use crate::core::decision::DecisionPacket;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
@@ -54,18 +55,20 @@ impl TrendCohesionEvaluator {
         continuity_streak: usize,
         current_top_tier: &[String],
         history: &[DecisionPacket],
+        cfg: &ParsedTrendCohesionRules,
     ) -> TrendCohesionSnapshot {
         let candidate_count = current_top_tier.len();
         let mut unmet_conditions = Vec::new();
 
-        // 1. Gather recent history window (up to 2 previous days + current = 3 days).
-        let recent_packets: Vec<&DecisionPacket> = history.iter().rev().take(2).collect();
+        // 1. Gather a configurable recent history window from persisted packets.
+        let recent_packets: Vec<&DecisionPacket> =
+            history.iter().rev().take(cfg.history_window_days).collect();
         let past_top_tiers: Vec<&[String]> = recent_packets
             .iter()
             .map(|p| p.top_tier_symbols.as_slice())
             .collect();
 
-        // 2. Identify repeating leaders (in current top tier AND in at least 1 of the prior 2 days)
+        // 2. Identify repeating leaders (in current top tier AND in at least 1 prior packet).
         let mut leader_count = 0;
         let mut past_symbols: HashSet<&str> = HashSet::new();
         for tier in &past_top_tiers {
@@ -125,8 +128,10 @@ impl TrendCohesionEvaluator {
             _ => 100.0,
         };
 
-        let stability_component = (stability_score / 15.0 * 100.0).clamp(0.0, 100.0);
-        let continuity_component = (continuity_streak as f64 / 4.0 * 100.0).clamp(0.0, 100.0);
+        let stability_component =
+            (stability_score / cfg.stability_norm_max * 100.0).clamp(0.0, 100.0);
+        let continuity_component =
+            (continuity_streak as f64 / cfg.continuity_norm_max as f64 * 100.0).clamp(0.0, 100.0);
 
         let leader_quality_score = (repeated_leader_ratio * 100.0 * 0.55
             + leader_depth_score * 0.30
@@ -141,29 +146,27 @@ impl TrendCohesionEvaluator {
             .clamp(0.0, 100.0);
 
         let no_candidates = candidate_count == 0;
-        let severe_dispersion = candidate_compactness_score < 45.0;
-        let unstable_rotation = !past_top_tiers.is_empty() && rotation_quality_score < 35.0;
-        let weak_leadership = candidate_count > 0 && leader_quality_score < 45.0;
         let severe_fragmentation = no_candidates
-            || stability_score < 8.0
-            || continuity_streak < 2
-            || severe_dispersion
-            || unstable_rotation
-            || weak_leadership
-            || cohesion_score < 45.0;
+            || stability_score < cfg.severe_stability_threshold
+            || continuity_streak < cfg.severe_continuity_threshold
+            || candidate_compactness_score < cfg.severe_compactness_threshold
+            || (!past_top_tiers.is_empty()
+                && rotation_quality_score < cfg.severe_rotation_threshold)
+            || (candidate_count > 0 && leader_quality_score < cfg.severe_leadership_threshold)
+            || cohesion_score < cfg.severe_cohesion_threshold;
 
         let mut gate_passed = true;
         let directional_passed = candidate_count > 0
-            && candidate_count <= 4
-            && leader_quality_score >= 60.0
-            && rotation_quality_score >= 45.0
-            && candidate_compactness_score >= 60.0;
+            && candidate_count <= cfg.directional_max_candidates
+            && leader_quality_score >= cfg.directional_leadership_threshold
+            && rotation_quality_score >= cfg.directional_rotation_threshold
+            && candidate_compactness_score >= cfg.directional_compactness_threshold;
 
-        if stability_score < 10.0 {
+        if stability_score < cfg.gate_stability_threshold {
             unmet_conditions.push(TrendCohesionGateCondition::StabilityThreshold);
             gate_passed = false;
         }
-        if continuity_streak < 3 {
+        if continuity_streak < cfg.gate_continuity_threshold {
             unmet_conditions.push(TrendCohesionGateCondition::ContinuityThreshold);
             gate_passed = false;
         }
@@ -171,22 +174,23 @@ impl TrendCohesionEvaluator {
             unmet_conditions.push(TrendCohesionGateCondition::DirectionalCohesion);
             gate_passed = false;
         }
-        if candidate_compactness_score < 60.0 {
+        if candidate_compactness_score < cfg.directional_compactness_threshold {
             unmet_conditions.push(TrendCohesionGateCondition::HighCandidateDispersion);
         }
-        if !past_top_tiers.is_empty() && rotation_quality_score < 45.0 {
+        if !past_top_tiers.is_empty() && rotation_quality_score < cfg.directional_rotation_threshold
+        {
             unmet_conditions.push(TrendCohesionGateCondition::UnstableRotation);
         }
-        if candidate_count > 0 && leader_quality_score < 60.0 {
+        if candidate_count > 0 && leader_quality_score < cfg.directional_leadership_threshold {
             unmet_conditions.push(TrendCohesionGateCondition::WeakLeadership);
         }
 
         let topology = if no_candidates || leader_count == 0 {
             TrendCohesionTopology::NoLeader
-        } else if candidate_count <= 3
+        } else if candidate_count <= cfg.topology_single_max_candidates
             && leader_count == 1
-            && candidate_compactness_score >= 65.0
-            && rotation_quality_score >= 30.0
+            && candidate_compactness_score >= cfg.topology_single_min_compactness
+            && rotation_quality_score >= cfg.topology_single_min_rotation
         {
             TrendCohesionTopology::SingleLeader
         } else {
@@ -196,7 +200,7 @@ impl TrendCohesionEvaluator {
         let status = if severe_fragmentation {
             gate_passed = false;
             TrendCohesionStatus::NotFormed
-        } else if gate_passed && cohesion_score >= 75.0 {
+        } else if gate_passed && cohesion_score >= cfg.cohesive_score_threshold {
             TrendCohesionStatus::Cohesive
         } else {
             TrendCohesionStatus::Forming
@@ -223,6 +227,10 @@ impl TrendCohesionEvaluator {
 mod tests {
     use super::*;
 
+    fn rules() -> ParsedTrendCohesionRules {
+        ParsedTrendCohesionRules::default()
+    }
+
     fn mock_packet(symbols: Vec<&str>) -> DecisionPacket {
         DecisionPacket {
             top_tier_symbols: symbols.into_iter().map(|s| s.to_string()).collect(),
@@ -238,7 +246,7 @@ mod tests {
         ];
         let current = vec!["A".to_string(), "B".to_string(), "E".to_string()];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history);
+        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history, &rules());
 
         assert_eq!(snapshot.candidate_count, 3);
         assert_eq!(snapshot.leader_count, 2); // A and B repeat
@@ -255,7 +263,7 @@ mod tests {
         ];
         let current = vec!["A".to_string(), "B".to_string(), "C".to_string()]; // Today (total change)
 
-        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history);
+        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history, &rules());
 
         assert_eq!(snapshot.rotation_quality_score, 0.0);
         assert_eq!(snapshot.status, TrendCohesionStatus::NotFormed);
@@ -275,7 +283,7 @@ mod tests {
     fn test_not_formed_heuristics() {
         let current = vec!["A".to_string(), "B".to_string()];
 
-        let snap_low_stab = TrendCohesionEvaluator::evaluate(8.0, 3, &current, &[]);
+        let snap_low_stab = TrendCohesionEvaluator::evaluate(8.0, 3, &current, &[], &rules());
         assert_eq!(snap_low_stab.status, TrendCohesionStatus::NotFormed);
         assert_eq!(snap_low_stab.topology, TrendCohesionTopology::NoLeader);
 
@@ -291,6 +299,7 @@ mod tests {
                 "F".to_string(),
             ],
             &[],
+            &rules(),
         );
         assert_eq!(snap_dispersed.status, TrendCohesionStatus::NotFormed);
         assert_eq!(snap_dispersed.topology, TrendCohesionTopology::NoLeader);
@@ -307,6 +316,7 @@ mod tests {
             3,
             &["A".to_string(), "B".to_string()], // Directional ok if it had history... wait, without history leader count is 0
             &[],                                 // Fails directional cohesion
+            &rules(),
         );
         assert!(snap1
             .unmet_conditions
@@ -328,6 +338,7 @@ mod tests {
             2,        // Failed continuity
             &current, // Passed directional cohesion (candidates <= 4, leaders=2, quality=100%)
             &history,
+            &rules(),
         );
 
         assert!(snap2
@@ -347,6 +358,7 @@ mod tests {
             3,        // Passed continuity
             &current, // Passed directional cohesion
             &history,
+            &rules(),
         );
         assert!(snap3.unmet_conditions.is_empty());
         assert!(snap3.gate_passed);
@@ -366,7 +378,7 @@ mod tests {
             "F".to_string(),
         ];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(11.5, 2, &current, &history);
+        let snapshot = TrendCohesionEvaluator::evaluate(11.5, 2, &current, &history, &rules());
 
         assert_eq!(snapshot.status, TrendCohesionStatus::Forming);
         assert!(!snapshot.gate_passed);
@@ -385,7 +397,7 @@ mod tests {
         let history = vec![mock_packet(vec!["A"]), mock_packet(vec!["A", "B"])];
         let current = vec!["A".to_string(), "C".to_string()];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history);
+        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history, &rules());
 
         assert_eq!(snapshot.topology, TrendCohesionTopology::SingleLeader);
     }
@@ -398,7 +410,7 @@ mod tests {
         ];
         let current = vec!["A".to_string(), "B".to_string(), "E".to_string()];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history);
+        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history, &rules());
 
         assert_eq!(snapshot.topology, TrendCohesionTopology::FragmentedLeaders);
     }

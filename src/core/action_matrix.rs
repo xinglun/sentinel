@@ -41,6 +41,8 @@ pub struct AssetActionDecision {
     #[serde(default)]
     pub unified_position_intent: crate::core::position_intent::UnifiedPositionIntent,
     #[serde(default)]
+    pub breakout: crate::core::breakout_detection::BreakoutSnapshot,
+    #[serde(default)]
     pub is_core_fact: bool,
     #[serde(default)]
     pub has_position_fact: bool,

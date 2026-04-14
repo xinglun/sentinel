@@ -148,6 +148,32 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
     }
     card.push('\n');
 
+    card.push_str(&format!("### {}\n\n", pres.breakout_summary.title));
+    if pres.breakout_summary.items.is_empty() {
+        if let Some(note) = &pres.breakout_summary.empty_note {
+            card.push_str(&format!("> {}\n", note));
+        }
+    } else {
+        for item in &pres.breakout_summary.items {
+            card.push_str(&format!("- {} · {}\n", item.symbol, item.status_label));
+            card.push_str(&format!(
+                "   {} · {} {} · {} {}\n",
+                item.reason,
+                dict.breakout.strength_label,
+                item.strength_value,
+                dict.breakout.quality_label,
+                item.quality_value
+            ));
+            if let Some(risk) = &item.failed_risk_value {
+                card.push_str(&format!(
+                    "   {} {}\n",
+                    dict.breakout.failed_risk_label, risk
+                ));
+            }
+        }
+    }
+    card.push('\n');
+
     let top_actions_title = if d.action_status_value.contains("NO TRADE") {
         dict.decision.candidate_watchlist.clone()
     } else {
@@ -380,6 +406,32 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
         for item in &pres.exit_summary.items {
             card.push_str(&format!("• {} · {}\n", item.symbol, item.intent_label));
             card.push_str(&format!("  {}\n", item.reason));
+        }
+    }
+    card.push('\n');
+
+    card.push_str(&format!("<b>{}</b>\n\n", pres.breakout_summary.title));
+    if pres.breakout_summary.items.is_empty() {
+        if let Some(note) = &pres.breakout_summary.empty_note {
+            card.push_str(&format!("<i>{}</i>\n", note));
+        }
+    } else {
+        for item in &pres.breakout_summary.items {
+            card.push_str(&format!("• {} · {}\n", item.symbol, item.status_label));
+            card.push_str(&format!(
+                "  <i>{} · {} {} · {} {}</i>\n",
+                item.reason,
+                dict.breakout.strength_label,
+                item.strength_value,
+                dict.breakout.quality_label,
+                item.quality_value
+            ));
+            if let Some(risk) = &item.failed_risk_value {
+                card.push_str(&format!(
+                    "  <i>{} {}</i>\n",
+                    dict.breakout.failed_risk_label, risk
+                ));
+            }
         }
     }
     card.push('\n');

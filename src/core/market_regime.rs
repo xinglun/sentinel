@@ -440,6 +440,8 @@ mod tests {
                 core_breakdown_avg_deviation: -5.0,
                 core_breakdown_breadth_floor: 0.0,
             },
+            trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
+            breakout: crate::config::ParsedBreakoutRules::default(),
         }
     }
 

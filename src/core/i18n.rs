@@ -29,6 +29,22 @@ pub struct DisplayDictionary {
     pub asset_states: AssetStateDictionary,
     pub market_summaries: MarketSummaryDictionary,
     pub trend_cohesion: TrendCohesionDictionary,
+    pub breakout: BreakoutDictionary,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct BreakoutDictionary {
+    pub no_breakout: String,
+    pub emerging_breakout: String,
+    pub confirmed_breakout: String,
+    pub ordinary_rebound: String,
+    pub pullback_repair: String,
+    pub structural_breakout: String,
+    pub failed_breakout_risk: String,
+    pub strength_label: String,
+    pub quality_label: String,
+    pub failed_risk_label: String,
+    pub empty_note: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -210,6 +226,7 @@ pub struct StateDictionary {
 pub struct HeaderDictionary {
     pub decision_summary: String,
     pub position_handling: String,
+    pub breakout_detection: String,
     pub top_actions: String,
     pub monitoring_signals: String,
     pub market_summary: String,
@@ -334,6 +351,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             headers: HeaderDictionary {
                 decision_summary: "🚫 决策结论".to_string(),
                 position_handling: "📉 持仓处理建议".to_string(),
+                breakout_detection: "🚀 突破识别".to_string(),
                 top_actions: "🎯 核心操作".to_string(),
                 monitoring_signals: "📡 监控信号".to_string(),
                 market_summary: "🌍 市场摘要".to_string(),
@@ -444,6 +462,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                     weak_leadership: "持续领涨强度不足 (领涨: {} 只)".to_string(),
                 },
             },
+            breakout: BreakoutDictionary {
+                no_breakout: "无突破".to_string(),
+                emerging_breakout: "突破萌芽".to_string(),
+                confirmed_breakout: "结构突破".to_string(),
+                ordinary_rebound: "普通反弹".to_string(),
+                pullback_repair: "回撤修复".to_string(),
+                structural_breakout: "主动领涨突破".to_string(),
+                failed_breakout_risk: "假突破风险".to_string(),
+                strength_label: "突破强度".to_string(),
+                quality_label: "突破质量".to_string(),
+                failed_risk_label: "失败风险".to_string(),
+                empty_note: "当前未识别到主动领涨式突破。".to_string(),
+            },
         },
         Language::EnUs => DisplayDictionary {
             actions: ActionDictionary {
@@ -524,6 +555,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             headers: HeaderDictionary {
                 decision_summary: "🚫 Decision Summary".to_string(),
                 position_handling: "📉 Position Handling".to_string(),
+                breakout_detection: "🚀 Breakout Detection".to_string(),
                 top_actions: "🎯 Top Actions".to_string(),
                 monitoring_signals: "📡 Monitoring Signals".to_string(),
                 market_summary: "🌍 Market Summary".to_string(),
@@ -640,6 +672,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                     weak_leadership: "Leadership quality remains weak (Leaders: {})".to_string(),
                 },
             },
+            breakout: BreakoutDictionary {
+                no_breakout: "No Breakout".to_string(),
+                emerging_breakout: "Emerging Breakout".to_string(),
+                confirmed_breakout: "Confirmed Breakout".to_string(),
+                ordinary_rebound: "Ordinary rebound".to_string(),
+                pullback_repair: "Pullback repair".to_string(),
+                structural_breakout: "Leadership-style breakout".to_string(),
+                failed_breakout_risk: "Failed breakout risk".to_string(),
+                strength_label: "Strength".to_string(),
+                quality_label: "Quality".to_string(),
+                failed_risk_label: "Failure Risk".to_string(),
+                empty_note: "No leadership-style breakout is currently detected.".to_string(),
+            },
         },
         Language::JaJp => DisplayDictionary {
             actions: ActionDictionary {
@@ -719,6 +764,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             headers: HeaderDictionary {
                 decision_summary: "🚫 行動判断".to_string(),
                 position_handling: "📉 ポジション処理提案".to_string(),
+                breakout_detection: "🚀 突破認識".to_string(),
                 top_actions: "🎯 主要アクション".to_string(),
                 monitoring_signals: "📡 監視シグナル".to_string(),
                 market_summary: "🌍 市場サマリー".to_string(),
@@ -828,6 +874,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                     unstable_rotation: "主線ローテーションが不安定 (品質: {:.0})".to_string(),
                     weak_leadership: "持続的リーダーシップ不足 (リーダー: {}銘柄)".to_string(),
                 },
+            },
+            breakout: BreakoutDictionary {
+                no_breakout: "突破未成立".to_string(),
+                emerging_breakout: "突破初動".to_string(),
+                confirmed_breakout: "構造的突破".to_string(),
+                ordinary_rebound: "通常反発".to_string(),
+                pullback_repair: "押し目修復".to_string(),
+                structural_breakout: "主導突破".to_string(),
+                failed_breakout_risk: "失敗突破リスク".to_string(),
+                strength_label: "突破強度".to_string(),
+                quality_label: "突破品質".to_string(),
+                failed_risk_label: "失敗リスク".to_string(),
+                empty_note: "現時点で主導的な突破は検出されていない。".to_string(),
             },
         },
     }

@@ -7,6 +7,7 @@ use crate::core::asset_state::{AssetState, AssetStateMachine};
 use crate::core::portfolio_policy::PortfolioPolicy;
 
 use crate::core::action_matrix::ActionMatrix;
+use crate::core::breakout_detection::BreakoutEvaluator;
 use crate::core::decision::DecisionPacket;
 use crate::core::participation::ParticipationReadiness;
 use crate::core::trend_cohesion::TrendCohesionEvaluator;
@@ -93,6 +94,7 @@ impl Engine {
             participation.core_tier_streak,
             &current_top_tier,
             history,
+            &rules.trend_cohesion,
         );
         let active_trend_gate_passed = trend_cohesion.gate_passed;
 
@@ -212,6 +214,14 @@ impl Engine {
                 &exit_decision,
                 active_trend_gate_passed,
             );
+            let breakout = BreakoutEvaluator::evaluate(
+                f,
+                &asset_state_snapshot,
+                state_streak,
+                top_tier_streak,
+                prev_asset_snapshot.map(|s| s.state),
+                &rules.breakout,
+            );
 
             decision.prev_action = prev_asset_decision.map(|a| a.action);
             decision.action_changed = decision
@@ -220,6 +230,7 @@ impl Engine {
                 .unwrap_or(true);
             decision.exit_decision = exit_decision;
             decision.position_intent = final_intent;
+            decision.breakout = breakout;
             decision.unified_position_intent =
                 crate::core::position_intent::UnifiedIntentSynthesizer::synthesize(
                     final_intent,

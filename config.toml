@@ -1,139 +1,175 @@
-version = 1
+version = 1 # 配置版本号
 
 [output]
-# 支持 "zh-cn" (默认), "en-us", "ja-jp"
-language = "zh-cn" 
-timezone = "Asia/Tokyo"
-format = "markdown"
-save_to = "./reports"
-weight_kind = "portfolio" # portfolio, cap, risk
+language = "zh-cn"         # 报表语言，可选 "zh-cn" / "en-us" / "ja-jp"
+timezone = "Asia/Tokyo"    # 输出使用的时区
+format = "markdown"        # 主要归档格式
+save_to = "./reports"      # 报表输出目录
+weight_kind = "portfolio"  # 权重口径，可选 portfolio / cap / risk
 
 [telegram]
-enabled = false
-# bot_token 和 chat_id 建议通过环境变量(TELEGRAM_BOT_TOKEN)提供，以保障安全
-bot_token = ""
-chat_id = ""
+enabled = false            # Telegram 推送总开关；若环境变量提供 token，则运行时会自动启用
+bot_token = ""             # Telegram Bot Token，建议改用环境变量 TELEGRAM_BOT_TOKEN 提供
+chat_id = ""               # Telegram Chat ID，建议改用环境变量 TELEGRAM_CHAT_ID 提供
 
 [futu]
-opend_ip = "127.0.0.1"      # Moomoo/Futu OpenD 运行的本地 IP
-opend_port = 11111          # Moomoo/Futu OpenD 使用的 TCP 端口
-trd_env = 1                 # 0: 真实实盘 (Real), 1: 模拟炒股环境 (Simulate)
-market = 2                  # 交易市场 (1: HK, 2: US, 3: SH, 4: SZ)
-# 注意：交易账户 ID 和交易解锁密码应通过环境变量 FUTU_ACC_ID 和 FUTU_UNLOCK_PASSWORD_MD5 配置，防止泄露。
+opend_ip = "127.0.0.1"     # Moomoo/Futu OpenD 的本地 IP
+opend_port = 11111         # Moomoo/Futu OpenD 的 TCP 端口
+trd_env = 1                # 交易环境，0=真实实盘，1=模拟盘
+market = 2                 # 市场编号，1=HK，2=US，3=SH，4=SZ
 
 [trading]
-enabled = false             # 算法自动交易总开关，默认关闭请手动开启
-global_budget = 100000.0    # 全局自动交易预算上限 (等值美元/港币，视主账号而定)
+enabled = false            # 自动交易总开关，默认关闭
+global_budget = 100000.0   # 自动交易全局预算上限
+
 [rules.trend]
-lookback_days = 20
-flat_threshold_pct = 0.5 # [-0.5%, +0.5%] 区间视为平盘
+lookback_days = 20         # 趋势识别回看天数
+flat_threshold_pct = 0.5   # 平盘阈值，[-0.5%, +0.5%] 视为平盘
 
 [rules.deviation_bands]
-# 阶梯式下限阈值 (>= 则命中)
-overheat_2 = 30.0   
-overheat_1 = 15.0   
-cruise     = 5.0    
-optimal    = -5.0   
-pullback   = -15.0  
-fear_1     = -25.0  
+overheat_2 = 30.0          # 极端过热区阈值，>= 即命中
+overheat_1 = 15.0          # 过热区阈值，>= 即命中
+cruise = 5.0               # 巡航区阈值，>= 即命中
+optimal = -5.0             # 最优区阈值，>= 即命中
+pullback = -15.0           # 回撤区阈值，>= 即命中
+fear_1 = -25.0             # 恐慌区第一档阈值，>= 即命中
 
 [rules.actions]
-# 默认全局文案。适用于常规个股：
-overheat_2 = "【利确】警惕极端背驰，大幅增加现金储备 (Cash 50%+)"
-overheat_1 = "【部分利确】买入减半，分批锁定利润 (Cash 30%+)"
-cruise     = "【定投】趋势延续，按计划持续买入 (Cash 10%)"
-optimal    = "【效率定投】极优仓位，保持高效配置 (Cash 5%)"
-pullback   = "【回撤买入】趋势内回调，适度补仓 (Cash 0%)"
-fear_1     = "【极度恐慌 🛡️】使用备用资金进行防御性逆势部署 (Exemption)"
-fear_2     = "【极度恐慌 🆘】回归概率极大，果断部署现金 (Exemption)"
-regime_forming = "【观察期】：引力结构尚未形成，暂不参与"
+overheat_2 = "【利确】警惕极端背驰，大幅增加现金储备 (Cash 50%+)"        # 极端过热时的默认动作文案
+overheat_1 = "【部分利确】买入减半，分批锁定利润 (Cash 30%+)"              # 过热时的默认动作文案
+cruise = "【定投】趋势延续，按计划持续买入 (Cash 10%)"                     # 巡航状态的默认动作文案
+optimal = "【效率定投】极优仓位，保持高效配置 (Cash 5%)"                   # 最优状态的默认动作文案
+pullback = "【回撤买入】趋势内回调，适度补仓 (Cash 0%)"                    # 回撤状态的默认动作文案
+fear_1 = "【极度恐慌 🛡️】使用备用资金进行防御性逆势部署 (Exemption)"       # 恐慌状态第一档文案
+fear_2 = "【极度恐慌 🆘】回归概率极大，果断部署现金 (Exemption)"            # 恐慌状态第二档文案
+regime_forming = "【观察期】：引力结构尚未形成，暂不参与"                  # 主状态仍在形成中的默认文案
 
 [rules.sizing_multipliers]
-optimal = 1.0
-cruise = 1.0
-pullback = 0.5
-fear_1 = 1.5
-fear_2 = 2.0
-overheat_1 = 0.5
-overheat_2 = 0.0
-DEFEND = 0.0
-fear_downtrend = 0.0
-CAUTION = 0.0
+optimal = 1.0              # 最优状态的仓位倍率
+cruise = 1.0               # 巡航状态的仓位倍率
+pullback = 0.5             # 回撤状态的仓位倍率
+fear_1 = 1.5               # 恐慌第一档的仓位倍率
+fear_2 = 2.0               # 恐慌第二档的仓位倍率
+overheat_1 = 0.5           # 过热第一档的仓位倍率
+overheat_2 = 0.0           # 极端过热时禁止新增风险
+DEFEND = 0.0               # 防守状态的仓位倍率
+fear_downtrend = 0.0       # 下跌恐慌豁免场景的仓位倍率
+CAUTION = 0.0              # 谨慎状态的仓位倍率
 
+[rules.trend_cohesion]
+history_window_days = 2                 # 回看多少个历史 packet 来判断 leader 重复和成员 churn
+stability_norm_max = 15.0               # stability 分数归一化上限，仅影响 cohesion score 映射
+continuity_norm_max = 4                 # continuity 天数归一化上限，仅影响 cohesion score 映射
+severe_stability_threshold = 8.0        # 低于该稳定性时，主线更容易被判为严重碎片化
+severe_continuity_threshold = 2         # 低于该连续性时，主线更容易被判为严重碎片化
+severe_compactness_threshold = 45.0     # 候选紧凑度低于该值时，视为严重发散
+severe_rotation_threshold = 35.0        # 轮动质量低于该值时，视为严重无序切换
+severe_leadership_threshold = 45.0      # 领涨质量低于该值时，视为缺乏领导者
+severe_cohesion_threshold = 45.0        # cohesion 总分低于该值时，直接偏向 NotFormed
+gate_stability_threshold = 10.0         # 主线 Gate 的稳定性硬门槛
+gate_continuity_threshold = 3           # 主线 Gate 的连续性硬门槛
+directional_max_candidates = 4          # 主导方向收敛时允许的最大候选数量
+directional_leadership_threshold = 60.0 # 主导方向收敛所需的最小领涨质量
+directional_rotation_threshold = 45.0   # 主导方向收敛所需的最小轮动质量
+directional_compactness_threshold = 60.0 # 主导方向收敛所需的最小候选紧凑度
+topology_single_max_candidates = 3      # 识别“单主线”时允许的最大候选数量
+topology_single_min_compactness = 65.0  # 识别“单主线”时要求的最小候选紧凑度
+topology_single_min_rotation = 30.0     # 识别“单主线”时要求的最小轮动质量
+cohesive_score_threshold = 75.0         # 通过硬条件后，升级为 Cohesive 所需的最小总分
 
-[[watchlist]]
-symbol = "TSLA"
-market = "US"
-owner_ma_days = 120
-leash_ma_days = 20
-deviation_basis = "owner"
-enable = true
-trade_enabled = true       # 允许 Sentinel 对这只股票发出自动买卖指令
-trade_amount = 5000.0      # 触发买点时（如 pullback, optimal），单笔购入基础金额 (USD)
-
-[[watchlist]]
-symbol = "PLTR"
-market = "US"
-owner_ma_days = 60
-leash_ma_days = 20
-deviation_basis = "owner"
-enable = true
-
-[[watchlist]]
-symbol = "GOOG"
-market = "US"
-owner_ma_days = 120
-leash_ma_days = 20
-deviation_basis = "owner"
-enable = true
-
-[[watchlist]]
-symbol = "NVDA"
-market = "US"
-owner_ma_days = 60
-leash_ma_days = 20
-deviation_basis = "owner"
-enable = true
-
-[[watchlist]]
-symbol = "MSFT"
-market = "US"
-owner_ma_days = 120
-leash_ma_days = 20
-deviation_basis = "owner"
-enable = true
+[rules.breakout]
+confirmed_trend_age_threshold = 8       # 结构性突破确认所需的最小趋势年龄
+confirmed_top_tier_streak_threshold = 3 # 结构性突破确认所需的最小 top tier 连续天数
+confirmed_zscore_threshold = 1.2        # 结构性突破确认所需的最小 z-score
+confirmed_min_slope = 0.0               # 结构性突破确认所需的最小 slope
+confirmed_min_curvature = -0.2          # 结构性突破确认所需的最小 curvature
+emerging_trend_age_threshold = 5        # 突破萌芽所需的最小趋势年龄
+emerging_top_tier_streak_threshold = 1  # 突破萌芽所需的最小 top tier 连续天数
+emerging_zscore_threshold = 0.5         # 突破萌芽所需的最小 z-score
+emerging_min_slope = 0.0                # 突破萌芽所需的最小 slope
+failed_breakout_curvature_threshold = -0.5 # 假突破风险判定的 curvature 下限
+failed_breakout_slope_threshold = 0.0   # 假突破风险判定的 slope 下限
+failed_breakout_display_threshold = 55.0 # 失败突破风险高于该值时才在展示层显式输出
 
 [[watchlist]]
-symbol = "FIG"
-market = "US"
-owner_ma_days = 120
-leash_ma_days = 20
-deviation_basis = "owner"
-enable = true
+symbol = "TSLA"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 120        # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准，可选 owner / leash
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+trade_amount = 5000.0      # 触发买点时的基础下单金额
 
 [[watchlist]]
-symbol = "U"
-market = "US"
-owner_ma_days = 60
-leash_ma_days = 20
-deviation_basis = "owner"
-enable = true
+symbol = "PLTR"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 60         # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
 
 [[watchlist]]
-symbol = "ISRG"
-market = "US"
-owner_ma_days = 120        # ISRG 走势稳健，120日线（半年线）适合作为长期主引力基准
-leash_ma_days = 20         # 20日线作为短期动能牵引
-deviation_basis = "owner"  # 观测基于长期的超买/超卖偏离度
-enable = true              # 开启监控
-trade_enabled = false      # 观察仓：关闭自动交易，仅做监控和信号预警
+symbol = "GOOG"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 120        # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
 
 [[watchlist]]
-symbol = "SPY"
-weight = 10.0
-market = "US"
-owner_ma_days = 200
-leash_ma_days = 20
-deviation_basis = "leash"
-enable = true
+symbol = "NVDA"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 60         # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
 
+[[watchlist]]
+symbol = "MSFT"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 120        # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+
+[[watchlist]]
+symbol = "FIG"             # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 120        # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+
+[[watchlist]]
+symbol = "U"               # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 60         # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "owner"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+
+[[watchlist]]
+symbol = "ISRG"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 120        # 半年线作为长期主引力基准
+leash_ma_days = 20         # 20 日线作为短期动能牵引
+deviation_basis = "owner"  # 基于长期主引力观察超买/超卖偏离
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+
+[[watchlist]]
+symbol = "SPY"             # 标的代码
+weight = 10.0              # 组合权重
+market = "US"              # 所属市场
+owner_ma_days = 200        # 主引力均线周期
+leash_ma_days = 20         # 牵引均线周期
+deviation_basis = "leash"  # 偏离度基准
+enable = true              # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭

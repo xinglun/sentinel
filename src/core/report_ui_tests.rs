@@ -32,6 +32,8 @@ fn mock_config() -> AppConfig {
             core_assets: None,
             min_state_duration: None,
             inertia: None,
+            trend_cohesion: None,
+            breakout: None,
         },
         watchlist: vec![],
     }
@@ -283,6 +285,14 @@ mod tests {
                 ],
                 ..Default::default()
             },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![
+                    "Stability score (7.5) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
             ..Default::default()
         };
 
@@ -309,6 +319,8 @@ mod tests {
         assert!(card.contains("候选池过于发散"));
         assert!(card.contains("主线轮动不稳定"));
         assert!(card.contains("持续领涨强度不足"));
+        assert_eq!(card.matches("稳定性不足").count(), 1);
+        assert_eq!(card.matches("连续性不足").count(), 1);
     }
 
     #[test]
@@ -692,5 +704,305 @@ mod tests {
         assert!(card.contains("### 📉 持仓处理建议"));
         assert!(card.contains("> 当前无持仓，无需处理。"));
         assert!(card.contains("> 未触发任何退出条件。"));
+    }
+
+    #[test]
+    fn test_breakout_section_renders_evidence_without_buy_language() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "PLTR".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout,
+                        breakout_strength: 81.0,
+                        breakout_quality: 77.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "TSLA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 33.0,
+                        breakout_quality: 39.0,
+                        failed_breakout_risk: 66.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("### 🚀 突破识别"));
+        assert!(report.markdown_body.contains("- PLTR · 结构突破"));
+        assert!(report.markdown_body.contains("主动领涨突破"));
+        assert!(report.markdown_body.contains("失败风险 66"));
+        assert!(!report.markdown_body.contains("BUY"));
+        assert!(!report.markdown_body.contains("加仓"));
+        assert!(report.telegram_html_body.contains("<b>🚀 突破识别</b>"));
+    }
+
+    #[test]
+    fn test_breakout_section_renders_ordinary_rebound_as_visible_evidence() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![AssetActionDecision {
+                symbol: "QQQ".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout_strength: 27.0,
+                    breakout_quality: 29.0,
+                    reasons: vec![crate::core::breakout_detection::BreakoutReason::OrdinaryRebound],
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("### 🚀 突破识别"));
+        assert!(report.markdown_body.contains("- QQQ · 无突破"));
+        assert!(report.markdown_body.contains("普通反弹"));
+        assert!(report.telegram_html_body.contains("<b>🚀 突破识别</b>"));
+        assert!(report.telegram_html_body.contains("QQQ · 无突破"));
+        assert!(report.telegram_html_body.contains("普通反弹"));
+    }
+
+    #[test]
+    fn test_breakout_section_renders_all_categories_in_english_final_report() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "QQQ".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 24.0,
+                        breakout_quality: 28.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "TSLA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 35.0,
+                        breakout_quality: 42.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::PullbackRepair,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "PLTR".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout,
+                        breakout_strength: 81.0,
+                        breakout_quality: 77.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 31.0,
+                        breakout_quality: 38.0,
+                        failed_breakout_risk: 66.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("### 🚀 Breakout Detection"));
+        assert!(report.markdown_body.contains("QQQ · No Breakout"));
+        assert!(report.markdown_body.contains("Ordinary rebound"));
+        assert!(report.markdown_body.contains("TSLA · No Breakout"));
+        assert!(report.markdown_body.contains("Pullback repair"));
+        assert!(report.markdown_body.contains("PLTR · Confirmed Breakout"));
+        assert!(report.markdown_body.contains("Leadership-style breakout"));
+        assert!(report.markdown_body.contains("NVDA · No Breakout"));
+        assert!(report.markdown_body.contains("Failure Risk 66"));
+        assert!(report
+            .telegram_html_body
+            .contains("<b>🚀 Breakout Detection</b>"));
+        assert!(report.telegram_html_body.contains("QQQ · No Breakout"));
+        assert!(report.telegram_html_body.contains("Ordinary rebound"));
+        assert!(report.telegram_html_body.contains("Pullback repair"));
+        assert!(report
+            .telegram_html_body
+            .contains("PLTR · Confirmed Breakout"));
+        assert!(report
+            .telegram_html_body
+            .contains("Leadership-style breakout"));
+        assert!(report.telegram_html_body.contains("Failure Risk 66"));
+    }
+
+    #[test]
+    fn test_breakout_section_renders_all_categories_in_japanese_final_report() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "QQQ".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 24.0,
+                        breakout_quality: 28.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "TSLA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 35.0,
+                        breakout_quality: 42.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::PullbackRepair,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "PLTR".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout,
+                        breakout_strength: 81.0,
+                        breakout_quality: 77.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        breakout_strength: 31.0,
+                        breakout_quality: 38.0,
+                        failed_breakout_risk: 66.0,
+                        reasons: vec![
+                            crate::core::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::core::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        ],
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let lang = config
+            .output
+            .language
+            .unwrap_or(crate::core::i18n::Language::JaJp);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("### 🚀 突破認識"));
+        assert!(report.markdown_body.contains("QQQ · 突破未成立"));
+        assert!(report.markdown_body.contains("通常反発"));
+        assert!(report.markdown_body.contains("TSLA · 突破未成立"));
+        assert!(report.markdown_body.contains("押し目修復"));
+        assert!(report.markdown_body.contains("PLTR · 構造的突破"));
+        assert!(report.markdown_body.contains("主導突破"));
+        assert!(report.markdown_body.contains("NVDA · 突破未成立"));
+        assert!(report.markdown_body.contains("失敗リスク 66"));
+        assert!(report.telegram_html_body.contains("<b>🚀 突破認識</b>"));
+        assert!(report.telegram_html_body.contains("QQQ · 突破未成立"));
+        assert!(report.telegram_html_body.contains("通常反発"));
+        assert!(report.telegram_html_body.contains("押し目修復"));
+        assert!(report.telegram_html_body.contains("PLTR · 構造的突破"));
+        assert!(report.telegram_html_body.contains("主導突破"));
+        assert!(report.telegram_html_body.contains("失敗リスク 66"));
     }
 }

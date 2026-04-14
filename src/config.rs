@@ -80,6 +80,8 @@ pub struct RulesConfig {
     pub core_assets: Option<Vec<String>>,
     pub min_state_duration: Option<usize>,
     pub inertia: Option<InertiaConfig>,
+    pub trend_cohesion: Option<TrendCohesionRulesConfig>,
+    pub breakout: Option<BreakoutRulesConfig>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -97,6 +99,47 @@ pub struct InertiaConfig {
 pub struct TrendConfig {
     pub lookback_days: usize,
     pub flat_threshold_pct: f64,
+}
+
+#[derive(Debug, Deserialize, Clone, Default)]
+#[serde(deny_unknown_fields)]
+pub struct TrendCohesionRulesConfig {
+    pub history_window_days: Option<usize>,
+    pub stability_norm_max: Option<f64>,
+    pub continuity_norm_max: Option<usize>,
+    pub severe_stability_threshold: Option<f64>,
+    pub severe_continuity_threshold: Option<usize>,
+    pub severe_compactness_threshold: Option<f64>,
+    pub severe_rotation_threshold: Option<f64>,
+    pub severe_leadership_threshold: Option<f64>,
+    pub severe_cohesion_threshold: Option<f64>,
+    pub gate_stability_threshold: Option<f64>,
+    pub gate_continuity_threshold: Option<usize>,
+    pub directional_max_candidates: Option<usize>,
+    pub directional_leadership_threshold: Option<f64>,
+    pub directional_rotation_threshold: Option<f64>,
+    pub directional_compactness_threshold: Option<f64>,
+    pub topology_single_max_candidates: Option<usize>,
+    pub topology_single_min_compactness: Option<f64>,
+    pub topology_single_min_rotation: Option<f64>,
+    pub cohesive_score_threshold: Option<f64>,
+}
+
+#[derive(Debug, Deserialize, Clone, Default)]
+#[serde(deny_unknown_fields)]
+pub struct BreakoutRulesConfig {
+    pub confirmed_trend_age_threshold: Option<usize>,
+    pub confirmed_top_tier_streak_threshold: Option<usize>,
+    pub confirmed_zscore_threshold: Option<f64>,
+    pub confirmed_min_slope: Option<f64>,
+    pub confirmed_min_curvature: Option<f64>,
+    pub emerging_trend_age_threshold: Option<usize>,
+    pub emerging_top_tier_streak_threshold: Option<usize>,
+    pub emerging_zscore_threshold: Option<f64>,
+    pub emerging_min_slope: Option<f64>,
+    pub failed_breakout_curvature_threshold: Option<f64>,
+    pub failed_breakout_slope_threshold: Option<f64>,
+    pub failed_breakout_display_threshold: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, Clone, Default)]
@@ -132,6 +175,8 @@ pub struct ParsedRules {
     pub sizing_multipliers: Option<HashMap<String, f64>>,
     pub core_assets: Vec<String>,
     pub inertia: ParsedInertia,
+    pub trend_cohesion: ParsedTrendCohesionRules,
+    pub breakout: ParsedBreakoutRules,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -141,6 +186,90 @@ pub struct ParsedInertia {
     pub core_breakdown_k: usize,
     pub core_breakdown_avg_deviation: f64,
     pub core_breakdown_breadth_floor: f64,
+}
+
+#[derive(Debug, Clone)]
+pub struct ParsedTrendCohesionRules {
+    pub history_window_days: usize,
+    pub stability_norm_max: f64,
+    pub continuity_norm_max: usize,
+    pub severe_stability_threshold: f64,
+    pub severe_continuity_threshold: usize,
+    pub severe_compactness_threshold: f64,
+    pub severe_rotation_threshold: f64,
+    pub severe_leadership_threshold: f64,
+    pub severe_cohesion_threshold: f64,
+    pub gate_stability_threshold: f64,
+    pub gate_continuity_threshold: usize,
+    pub directional_max_candidates: usize,
+    pub directional_leadership_threshold: f64,
+    pub directional_rotation_threshold: f64,
+    pub directional_compactness_threshold: f64,
+    pub topology_single_max_candidates: usize,
+    pub topology_single_min_compactness: f64,
+    pub topology_single_min_rotation: f64,
+    pub cohesive_score_threshold: f64,
+}
+
+impl Default for ParsedTrendCohesionRules {
+    fn default() -> Self {
+        Self {
+            history_window_days: 2,
+            stability_norm_max: 15.0,
+            continuity_norm_max: 4,
+            severe_stability_threshold: 8.0,
+            severe_continuity_threshold: 2,
+            severe_compactness_threshold: 45.0,
+            severe_rotation_threshold: 35.0,
+            severe_leadership_threshold: 45.0,
+            severe_cohesion_threshold: 45.0,
+            gate_stability_threshold: 10.0,
+            gate_continuity_threshold: 3,
+            directional_max_candidates: 4,
+            directional_leadership_threshold: 60.0,
+            directional_rotation_threshold: 45.0,
+            directional_compactness_threshold: 60.0,
+            topology_single_max_candidates: 3,
+            topology_single_min_compactness: 65.0,
+            topology_single_min_rotation: 30.0,
+            cohesive_score_threshold: 75.0,
+        }
+    }
+}
+
+#[derive(Debug, Clone)]
+pub struct ParsedBreakoutRules {
+    pub confirmed_trend_age_threshold: usize,
+    pub confirmed_top_tier_streak_threshold: usize,
+    pub confirmed_zscore_threshold: f64,
+    pub confirmed_min_slope: f64,
+    pub confirmed_min_curvature: f64,
+    pub emerging_trend_age_threshold: usize,
+    pub emerging_top_tier_streak_threshold: usize,
+    pub emerging_zscore_threshold: f64,
+    pub emerging_min_slope: f64,
+    pub failed_breakout_curvature_threshold: f64,
+    pub failed_breakout_slope_threshold: f64,
+    pub failed_breakout_display_threshold: f64,
+}
+
+impl Default for ParsedBreakoutRules {
+    fn default() -> Self {
+        Self {
+            confirmed_trend_age_threshold: 8,
+            confirmed_top_tier_streak_threshold: 3,
+            confirmed_zscore_threshold: 1.2,
+            confirmed_min_slope: 0.0,
+            confirmed_min_curvature: -0.2,
+            emerging_trend_age_threshold: 5,
+            emerging_top_tier_streak_threshold: 1,
+            emerging_zscore_threshold: 0.5,
+            emerging_min_slope: 0.0,
+            failed_breakout_curvature_threshold: -0.5,
+            failed_breakout_slope_threshold: 0.0,
+            failed_breakout_display_threshold: 55.0,
+        }
+    }
 }
 
 impl AppConfig {
@@ -259,6 +388,111 @@ impl AppConfig {
                         .unwrap_or(0.0),
                 }
             },
+            trend_cohesion: {
+                let tc = self.rules.trend_cohesion.as_ref();
+                let defaults = ParsedTrendCohesionRules::default();
+                ParsedTrendCohesionRules {
+                    history_window_days: tc
+                        .and_then(|c| c.history_window_days)
+                        .unwrap_or(defaults.history_window_days),
+                    stability_norm_max: tc
+                        .and_then(|c| c.stability_norm_max)
+                        .unwrap_or(defaults.stability_norm_max),
+                    continuity_norm_max: tc
+                        .and_then(|c| c.continuity_norm_max)
+                        .unwrap_or(defaults.continuity_norm_max),
+                    severe_stability_threshold: tc
+                        .and_then(|c| c.severe_stability_threshold)
+                        .unwrap_or(defaults.severe_stability_threshold),
+                    severe_continuity_threshold: tc
+                        .and_then(|c| c.severe_continuity_threshold)
+                        .unwrap_or(defaults.severe_continuity_threshold),
+                    severe_compactness_threshold: tc
+                        .and_then(|c| c.severe_compactness_threshold)
+                        .unwrap_or(defaults.severe_compactness_threshold),
+                    severe_rotation_threshold: tc
+                        .and_then(|c| c.severe_rotation_threshold)
+                        .unwrap_or(defaults.severe_rotation_threshold),
+                    severe_leadership_threshold: tc
+                        .and_then(|c| c.severe_leadership_threshold)
+                        .unwrap_or(defaults.severe_leadership_threshold),
+                    severe_cohesion_threshold: tc
+                        .and_then(|c| c.severe_cohesion_threshold)
+                        .unwrap_or(defaults.severe_cohesion_threshold),
+                    gate_stability_threshold: tc
+                        .and_then(|c| c.gate_stability_threshold)
+                        .unwrap_or(defaults.gate_stability_threshold),
+                    gate_continuity_threshold: tc
+                        .and_then(|c| c.gate_continuity_threshold)
+                        .unwrap_or(defaults.gate_continuity_threshold),
+                    directional_max_candidates: tc
+                        .and_then(|c| c.directional_max_candidates)
+                        .unwrap_or(defaults.directional_max_candidates),
+                    directional_leadership_threshold: tc
+                        .and_then(|c| c.directional_leadership_threshold)
+                        .unwrap_or(defaults.directional_leadership_threshold),
+                    directional_rotation_threshold: tc
+                        .and_then(|c| c.directional_rotation_threshold)
+                        .unwrap_or(defaults.directional_rotation_threshold),
+                    directional_compactness_threshold: tc
+                        .and_then(|c| c.directional_compactness_threshold)
+                        .unwrap_or(defaults.directional_compactness_threshold),
+                    topology_single_max_candidates: tc
+                        .and_then(|c| c.topology_single_max_candidates)
+                        .unwrap_or(defaults.topology_single_max_candidates),
+                    topology_single_min_compactness: tc
+                        .and_then(|c| c.topology_single_min_compactness)
+                        .unwrap_or(defaults.topology_single_min_compactness),
+                    topology_single_min_rotation: tc
+                        .and_then(|c| c.topology_single_min_rotation)
+                        .unwrap_or(defaults.topology_single_min_rotation),
+                    cohesive_score_threshold: tc
+                        .and_then(|c| c.cohesive_score_threshold)
+                        .unwrap_or(defaults.cohesive_score_threshold),
+                }
+            },
+            breakout: {
+                let bo = self.rules.breakout.as_ref();
+                let defaults = ParsedBreakoutRules::default();
+                ParsedBreakoutRules {
+                    confirmed_trend_age_threshold: bo
+                        .and_then(|c| c.confirmed_trend_age_threshold)
+                        .unwrap_or(defaults.confirmed_trend_age_threshold),
+                    confirmed_top_tier_streak_threshold: bo
+                        .and_then(|c| c.confirmed_top_tier_streak_threshold)
+                        .unwrap_or(defaults.confirmed_top_tier_streak_threshold),
+                    confirmed_zscore_threshold: bo
+                        .and_then(|c| c.confirmed_zscore_threshold)
+                        .unwrap_or(defaults.confirmed_zscore_threshold),
+                    confirmed_min_slope: bo
+                        .and_then(|c| c.confirmed_min_slope)
+                        .unwrap_or(defaults.confirmed_min_slope),
+                    confirmed_min_curvature: bo
+                        .and_then(|c| c.confirmed_min_curvature)
+                        .unwrap_or(defaults.confirmed_min_curvature),
+                    emerging_trend_age_threshold: bo
+                        .and_then(|c| c.emerging_trend_age_threshold)
+                        .unwrap_or(defaults.emerging_trend_age_threshold),
+                    emerging_top_tier_streak_threshold: bo
+                        .and_then(|c| c.emerging_top_tier_streak_threshold)
+                        .unwrap_or(defaults.emerging_top_tier_streak_threshold),
+                    emerging_zscore_threshold: bo
+                        .and_then(|c| c.emerging_zscore_threshold)
+                        .unwrap_or(defaults.emerging_zscore_threshold),
+                    emerging_min_slope: bo
+                        .and_then(|c| c.emerging_min_slope)
+                        .unwrap_or(defaults.emerging_min_slope),
+                    failed_breakout_curvature_threshold: bo
+                        .and_then(|c| c.failed_breakout_curvature_threshold)
+                        .unwrap_or(defaults.failed_breakout_curvature_threshold),
+                    failed_breakout_slope_threshold: bo
+                        .and_then(|c| c.failed_breakout_slope_threshold)
+                        .unwrap_or(defaults.failed_breakout_slope_threshold),
+                    failed_breakout_display_threshold: bo
+                        .and_then(|c| c.failed_breakout_display_threshold)
+                        .unwrap_or(defaults.failed_breakout_display_threshold),
+                }
+            },
         }
     }
 }
@@ -315,5 +549,56 @@ mod tests {
     #[test]
     fn test_missing_action_for_band() {
         // AppConfig::load uses a path, so we can't test it directly easily, but we can write a quick wrapper to test the logic exactly.
+    }
+
+    #[test]
+    fn test_parsed_rules_exposes_trend_cohesion_and_breakout_defaults_and_overrides() {
+        let toml_str = r#"
+            version = 1
+
+            [output]
+            timezone = "Asia/Tokyo"
+            format = "markdown"
+            save_to = "./reports"
+
+            [rules.trend]
+            lookback_days = 20
+            flat_threshold_pct = 0.5
+
+            [rules.deviation_bands]
+            optimal = -5.0
+
+            [rules.actions]
+            optimal = "买入"
+
+            [rules.trend_cohesion]
+            history_window_days = 4
+            gate_stability_threshold = 11.0
+            directional_max_candidates = 5
+
+            [rules.breakout]
+            confirmed_zscore_threshold = 1.5
+            failed_breakout_display_threshold = 70.0
+
+            [[watchlist]]
+            symbol = "TSLA"
+            market = "US"
+            owner_ma_days = 120
+            leash_ma_days = 20
+            deviation_basis = "owner"
+            enable = true
+        "#;
+
+        let config: AppConfig = toml::from_str(toml_str).expect("should parse");
+        let rules = config.get_parsed_rules();
+
+        assert_eq!(rules.trend_cohesion.history_window_days, 4);
+        assert_eq!(rules.trend_cohesion.gate_stability_threshold, 11.0);
+        assert_eq!(rules.trend_cohesion.directional_max_candidates, 5);
+        assert_eq!(rules.trend_cohesion.cohesive_score_threshold, 75.0);
+
+        assert_eq!(rules.breakout.confirmed_zscore_threshold, 1.5);
+        assert_eq!(rules.breakout.failed_breakout_display_threshold, 70.0);
+        assert_eq!(rules.breakout.emerging_trend_age_threshold, 5);
     }
 }

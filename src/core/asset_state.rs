@@ -500,6 +500,8 @@ mod tests {
                 core_breakdown_avg_deviation: -5.0,
                 core_breakdown_breadth_floor: 0.0,
             },
+            trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
+            breakout: crate::config::ParsedBreakoutRules::default(),
         };
 
         let f = mock_asset_features("AAPL", 2, 0.0, 0.0);
@@ -525,6 +527,8 @@ mod tests {
                 core_breakdown_avg_deviation: -5.0,
                 core_breakdown_breadth_floor: 0.0,
             },
+            trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
+            breakout: crate::config::ParsedBreakoutRules::default(),
         };
 
         let f = mock_asset_features("AAPL", 10, 0.5, 6.0);

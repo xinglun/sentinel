@@ -111,6 +111,35 @@ pub struct ExitDecisionSummaryViewModel {
     pub items: Vec<ExitDecisionItemViewModel>,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum BreakoutDisplayStatus {
+    #[default]
+    NoBreakout,
+    EmergingBreakout,
+    ConfirmedBreakout,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct BreakoutItemViewModel {
+    pub symbol: String,
+    pub status: BreakoutDisplayStatus,
+    pub status_label: String,
+    pub reason: String,
+    pub strength_value: String,
+    pub quality_value: String,
+    #[serde(default)]
+    pub failed_risk_value: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct BreakoutSummaryViewModel {
+    pub title: String,
+    #[serde(default)]
+    pub empty_note: Option<String>,
+    #[serde(default)]
+    pub items: Vec<BreakoutItemViewModel>,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PresentationPacket {
     pub date_str: String,
@@ -124,6 +153,8 @@ pub struct PresentationPacket {
     pub top_actions: Vec<TopActionViewModel>,
     #[serde(default)]
     pub exit_summary: ExitDecisionSummaryViewModel,
+    #[serde(default)]
+    pub breakout_summary: BreakoutSummaryViewModel,
     #[serde(default)]
     pub tactical_buckets: Vec<TacticalBucketViewModel>,
     #[serde(default)]

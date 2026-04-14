@@ -629,6 +629,8 @@ mod tests {
                 core_assets: None,
                 min_state_duration: None,
                 inertia: None,
+                trend_cohesion: None,
+                breakout: None,
             },
             watchlist: ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF"]
                 .into_iter()

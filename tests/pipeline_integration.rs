@@ -71,6 +71,8 @@ fn create_mock_rules() -> ParsedRules {
             core_breakdown_avg_deviation: -5.0,
             core_breakdown_breadth_floor: 0.0,
         },
+        trend_cohesion: stock_sentinel::config::ParsedTrendCohesionRules::default(),
+        breakout: stock_sentinel::config::ParsedBreakoutRules::default(),
     }
 }
 
