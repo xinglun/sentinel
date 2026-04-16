@@ -44,6 +44,7 @@ async fn test_full_9_asset_archival_package() {
         Vec::new(),
         false,
         stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        None,
     );
 
     layer.save_packet(&packet).unwrap();
@@ -91,8 +92,19 @@ async fn test_full_9_asset_archival_package() {
     layer.save_telemetry(&telemetry_row).unwrap();
 
     // 7. Transitions (state_transitions.csv & state_transitions.jsonl)
+    let prev_packet = packet.clone(); // Use same packet as mock prev
+    let mut curr_packet = packet.clone();
+    curr_packet.transition_log = Some(
+        stock_sentinel::core::transition_log::StateTransitionLog::compare(
+            Some(&prev_packet),
+            &curr_packet,
+        ),
+    );
+
     let logger = TransitionLogger::new(&save_dir);
-    logger.log_transition(None, &packet.market_regime).unwrap();
+    logger
+        .log_transition(curr_packet.transition_log.as_ref().unwrap())
+        .unwrap();
 
     // --- VERIFICATION ---
     let expected_files = vec![

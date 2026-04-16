@@ -66,27 +66,30 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
-      - name: Fetch Historical Telemetry (Optional)
+      - name: Restore Historical Reports Context (Optional)
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          rm -rf reports
           mkdir -p reports
           
-          # Try to steal telemetry.csv from historical records (depth=1 is enough for tip)
+          # Restore the full reports/ tree from the data branch so weekly backtests do not
+          # delete daily archival history or append-only audit logs when syncing with --delete.
           if git fetch --depth=1 origin refs/heads/data:refs/remotes/origin/data; then
-            echo "Data branch exists. Fetching telemetry.csv..."
-            if git cat-file -e origin/data:reports/telemetry.csv 2>/dev/null; then
-              git show origin/data:reports/telemetry.csv > reports/telemetry.csv
-              echo "✅ telemetry.csv restored from data branch ($(wc -l < reports/telemetry.csv) lines)"
+            echo "Data branch exists. Restoring reports/ context..."
+            if git cat-file -e origin/data:reports 2>/dev/null; then
+              git archive --format=tar origin/data reports | tar -xf -
+              REPORT_FILE_COUNT="$(find reports -type f | wc -l | tr -d ' ')"
+              echo "✅ reports/ restored from data branch (${REPORT_FILE_COUNT} files)"
             else
-              echo "⚠️ telemetry.csv not found in data branch"
+              echo "⚠️ reports/ not found in data branch"
             fi
           else
-            echo "⚠️ Could not fetch data branch (branch missing OR auth/network issue). Will continue with empty telemetry.csv."
+            echo "⚠️ Could not fetch data branch (branch missing OR auth/network issue). Will continue with empty reports/ context."
           fi
 
-          # Fail-safe: if the file still doesn't exist, create a dummy header so Rust doesn't panic
+          # Fail-safe: if telemetry.csv still doesn't exist, create a dummy header so Rust doesn't panic.
           if [ ! -f reports/telemetry.csv ]; then
             echo "timestamp,date,provider,market_state,risk_overlay,system_confidence,stability_score,dominance_margin,potential_energy,regime_age,up_count,flat_count,down_count,total_count,up_weight,flat_weight,down_weight,total_weight,config_hash,data_quality_status" > reports/telemetry.csv
             echo "⚠️ Created empty telemetry.csv with headers to prevent Rust panic."

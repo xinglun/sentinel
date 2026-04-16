@@ -42,9 +42,9 @@ pub struct StateMachineMetrics {
     pub evaluated_asset_days: usize,
     pub breakout_eligible_asset_days: usize,
     pub trend_gate_blocked_days: usize,
-    pub trend_status_not_formed_days: usize,
+    pub trend_status_dispersed_days: usize,
     pub trend_status_forming_days: usize,
-    pub trend_status_cohesive_days: usize,
+    pub trend_status_formed_days: usize,
     pub topology_no_leader_days: usize,
     pub topology_single_leader_days: usize,
     pub topology_fragmented_leaders_days: usize,
@@ -228,14 +228,14 @@ fn run_core_simulation(
             sm_metrics.trend_gate_blocked_days += 1;
         }
         match current_packet.trend_cohesion.status {
-            crate::core::trend_cohesion::TrendCohesionStatus::NotFormed => {
-                sm_metrics.trend_status_not_formed_days += 1;
+            crate::core::trend_cohesion::TrendCohesionStatus::Dispersed => {
+                sm_metrics.trend_status_dispersed_days += 1;
             }
             crate::core::trend_cohesion::TrendCohesionStatus::Forming => {
                 sm_metrics.trend_status_forming_days += 1;
             }
-            crate::core::trend_cohesion::TrendCohesionStatus::Cohesive => {
-                sm_metrics.trend_status_cohesive_days += 1;
+            crate::core::trend_cohesion::TrendCohesionStatus::Formed => {
+                sm_metrics.trend_status_formed_days += 1;
             }
         }
         match current_packet.trend_cohesion.topology {
@@ -510,10 +510,10 @@ fn run_core_simulation(
         (sm_metrics.trend_gate_blocked_days as f64 / days.max(1.0)) * 100.0
     ));
     summary.push_str(&format!(
-        "- **Trend Status**: NotFormed={} | Forming={} | Cohesive={}\n",
-        sm_metrics.trend_status_not_formed_days,
+        "- **Trend Status**: Dispersed={} | Forming={} | Formed={}\n",
+        sm_metrics.trend_status_dispersed_days,
         sm_metrics.trend_status_forming_days,
-        sm_metrics.trend_status_cohesive_days
+        sm_metrics.trend_status_formed_days
     ));
     summary.push_str(&format!(
         "- **Topology**: NoLeader={} | SingleLeader={} | FragmentedLeaders={}\n",
@@ -599,9 +599,9 @@ fn run_core_simulation(
         (sm_metrics.trend_gate_blocked_days as f64 / days.max(1.0)) * 100.0
     ));
     sm_md.push_str(&format!(
-        "| Trend Status: NotFormed | {} | {:.1}% |\n",
-        sm_metrics.trend_status_not_formed_days,
-        (sm_metrics.trend_status_not_formed_days as f64 / days.max(1.0)) * 100.0
+        "| Trend Status: Dispersed | {} | {:.1}% |\n",
+        sm_metrics.trend_status_dispersed_days,
+        (sm_metrics.trend_status_dispersed_days as f64 / days.max(1.0)) * 100.0
     ));
     sm_md.push_str(&format!(
         "| Trend Status: Forming | {} | {:.1}% |\n",
@@ -609,9 +609,9 @@ fn run_core_simulation(
         (sm_metrics.trend_status_forming_days as f64 / days.max(1.0)) * 100.0
     ));
     sm_md.push_str(&format!(
-        "| Trend Status: Cohesive | {} | {:.1}% |\n",
-        sm_metrics.trend_status_cohesive_days,
-        (sm_metrics.trend_status_cohesive_days as f64 / days.max(1.0)) * 100.0
+        "| Trend Status: Formed | {} | {:.1}% |\n",
+        sm_metrics.trend_status_formed_days,
+        (sm_metrics.trend_status_formed_days as f64 / days.max(1.0)) * 100.0
     ));
     sm_md.push_str(&format!(
         "| Topology: NoLeader | {} | {:.1}% |\n",

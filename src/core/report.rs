@@ -41,6 +41,118 @@ fn generate_markdown_report(pres: &PresentationPacket) -> String {
     ));
     card.push_str(&format!("> {}\n\n", pres.macro_display.summary));
 
+    if let Some(evidence) = &pres.transition_evidence {
+        if evidence.has_significant_change || evidence.no_trade_persists {
+            let te_dict = &dict.transition_evidence;
+            card.push_str(&format!("### {}\n\n", te_dict.title));
+            if evidence.no_trade_persists {
+                card.push_str(&format!("> {}\n", te_dict.no_trade_persists));
+            }
+            if let Some(m) = &evidence.market_state_change {
+                card.push_str(&format!("- **{}**: {}\n", te_dict.market_state_change, m));
+            }
+            if let Some(r) = &evidence.risk_overlay_change {
+                card.push_str(&format!("- **{}**: {}\n", te_dict.risk_overlay_change, r));
+            }
+            if evidence.participation_gate_change.is_some()
+                || evidence.participation_unmet_diff.is_some()
+            {
+                let status_text = evidence
+                    .participation_gate_change
+                    .as_ref()
+                    .cloned()
+                    .unwrap_or_else(|| {
+                        if evidence.participation_gate_passed {
+                            te_dict.gate_pass.clone()
+                        } else {
+                            te_dict.gate_fail.clone()
+                        }
+                    });
+                card.push_str(&format!(
+                    "- **{}**: {}\n",
+                    te_dict.participation_gate_change, status_text
+                ));
+                if let Some(diff) = &evidence.participation_unmet_diff {
+                    if !diff.added.is_empty() {
+                        card.push_str(&format!(
+                            "  - {}: {}\n",
+                            te_dict.new_blockers,
+                            diff.added.join(", ")
+                        ));
+                    }
+                    if !diff.removed.is_empty() {
+                        card.push_str(&format!(
+                            "  - {}: {}\n",
+                            te_dict.resolved_conditions,
+                            diff.removed.join(", ")
+                        ));
+                    }
+                    if !diff.persisting.is_empty() {
+                        card.push_str(&format!(
+                            "  - {}: {}\n",
+                            te_dict.persisting_blockers,
+                            diff.persisting.join(", ")
+                        ));
+                    }
+                }
+            }
+            if evidence.trend_cohesion_gate_change.is_some() || evidence.trend_unmet_diff.is_some()
+            {
+                let status_text = evidence
+                    .trend_cohesion_gate_change
+                    .as_ref()
+                    .cloned()
+                    .unwrap_or_else(|| {
+                        if evidence.trend_cohesion_gate_passed {
+                            te_dict.gate_pass.clone()
+                        } else {
+                            te_dict.gate_fail.clone()
+                        }
+                    });
+                card.push_str(&format!(
+                    "- **{}**: {}\n",
+                    te_dict.trend_cohesion_gate_change, status_text
+                ));
+                if let Some(diff) = &evidence.trend_unmet_diff {
+                    if !diff.added.is_empty() {
+                        card.push_str(&format!(
+                            "  - {}: {}\n",
+                            te_dict.new_blockers,
+                            diff.added.join(", ")
+                        ));
+                    }
+                    if !diff.removed.is_empty() {
+                        card.push_str(&format!(
+                            "  - {}: {}\n",
+                            te_dict.resolved_conditions,
+                            diff.removed.join(", ")
+                        ));
+                    }
+                    if !diff.persisting.is_empty() {
+                        card.push_str(&format!(
+                            "  - {}: {}\n",
+                            te_dict.persisting_blockers,
+                            diff.persisting.join(", ")
+                        ));
+                    }
+                }
+            }
+            if let Some(s) = &evidence.trend_cohesion_status_change {
+                card.push_str(&format!("- **{}**: {}\n", te_dict.trend_status_change, s));
+            }
+            if let Some(tp) = &evidence.trend_cohesion_topology_change {
+                card.push_str(&format!("- **{}**: {}\n", te_dict.topology_change, tp));
+            }
+            if !evidence.breakout_changes.is_empty() {
+                card.push_str(&format!("- **{}**:\n", te_dict.breakout_changes));
+                for b in &evidence.breakout_changes {
+                    card.push_str(&format!("  - {}\n", b));
+                }
+            }
+            card.push('\n');
+        }
+    }
+
     let d = &pres.decision_summary;
     card.push_str(&format!("**{}**\n\n", d.section_title));
     if is_no_trade {
@@ -302,6 +414,118 @@ fn generate_telegram_html_report(pres: &PresentationPacket) -> String {
         pres.macro_display.bias_label
     ));
     card.push_str(&format!("<i>{}</i>\n\n", pres.macro_display.summary));
+
+    if let Some(evidence) = &pres.transition_evidence {
+        if evidence.has_significant_change || evidence.no_trade_persists {
+            let te_dict = &dict.transition_evidence;
+            card.push_str(&format!("<b>{}</b>\n", te_dict.title));
+            if evidence.no_trade_persists {
+                card.push_str(&format!("<i>{}</i>\n", te_dict.no_trade_persists));
+            }
+            if let Some(m) = &evidence.market_state_change {
+                card.push_str(&format!("• {}: {}\n", te_dict.market_state_change, m));
+            }
+            if let Some(r) = &evidence.risk_overlay_change {
+                card.push_str(&format!("• {}: {}\n", te_dict.risk_overlay_change, r));
+            }
+            if evidence.participation_gate_change.is_some()
+                || evidence.participation_unmet_diff.is_some()
+            {
+                let status_text = evidence
+                    .participation_gate_change
+                    .as_ref()
+                    .cloned()
+                    .unwrap_or_else(|| {
+                        if evidence.participation_gate_passed {
+                            te_dict.gate_pass.clone()
+                        } else {
+                            te_dict.gate_fail.clone()
+                        }
+                    });
+                card.push_str(&format!(
+                    "• {}: {}\n",
+                    te_dict.participation_gate_change, status_text
+                ));
+                if let Some(diff) = &evidence.participation_unmet_diff {
+                    if !diff.added.is_empty() {
+                        card.push_str(&format!(
+                            "  <i>• {}: {}</i>\n",
+                            te_dict.new_blockers,
+                            diff.added.join(", ")
+                        ));
+                    }
+                    if !diff.removed.is_empty() {
+                        card.push_str(&format!(
+                            "  <i>• {}: {}</i>\n",
+                            te_dict.resolved_conditions,
+                            diff.removed.join(", ")
+                        ));
+                    }
+                    if !diff.persisting.is_empty() {
+                        card.push_str(&format!(
+                            "  <i>• {}: {}</i>\n",
+                            te_dict.persisting_blockers,
+                            diff.persisting.join(", ")
+                        ));
+                    }
+                }
+            }
+            if evidence.trend_cohesion_gate_change.is_some() || evidence.trend_unmet_diff.is_some()
+            {
+                let status_text = evidence
+                    .trend_cohesion_gate_change
+                    .as_ref()
+                    .cloned()
+                    .unwrap_or_else(|| {
+                        if evidence.trend_cohesion_gate_passed {
+                            te_dict.gate_pass.clone()
+                        } else {
+                            te_dict.gate_fail.clone()
+                        }
+                    });
+                card.push_str(&format!(
+                    "• {}: {}\n",
+                    te_dict.trend_cohesion_gate_change, status_text
+                ));
+                if let Some(diff) = &evidence.trend_unmet_diff {
+                    if !diff.added.is_empty() {
+                        card.push_str(&format!(
+                            "  <i>• {}: {}</i>\n",
+                            te_dict.new_blockers,
+                            diff.added.join(", ")
+                        ));
+                    }
+                    if !diff.removed.is_empty() {
+                        card.push_str(&format!(
+                            "  <i>• {}: {}</i>\n",
+                            te_dict.resolved_conditions,
+                            diff.removed.join(", ")
+                        ));
+                    }
+                    if !diff.persisting.is_empty() {
+                        card.push_str(&format!(
+                            "  <i>• {}: {}</i>\n",
+                            te_dict.persisting_blockers,
+                            diff.persisting.join(", ")
+                        ));
+                    }
+                }
+            }
+            if let Some(s) = &evidence.trend_cohesion_status_change {
+                card.push_str(&format!("• {}: {}\n", te_dict.trend_status_change, s));
+            }
+            if let Some(tp) = &evidence.trend_cohesion_topology_change {
+                card.push_str(&format!("• {}: {}\n", te_dict.topology_change, tp));
+            }
+            if !evidence.breakout_changes.is_empty() {
+                card.push_str(&format!("• {}:\n", te_dict.breakout_changes));
+                for b in &evidence.breakout_changes {
+                    card.push_str(&format!("  - <i>{}</i>\n", b));
+                }
+            }
+            card.push('\n');
+        }
+    }
 
     let d = &pres.decision_summary;
     card.push_str(&format!("<b>{}</b>\n\n", d.section_title));

@@ -268,7 +268,7 @@ mod tests {
                 ..Default::default()
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
                 topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 7.5,
@@ -319,8 +319,8 @@ mod tests {
         assert!(card.contains("候选池过于发散"));
         assert!(card.contains("主线轮动不稳定"));
         assert!(card.contains("持续领涨强度不足"));
-        assert_eq!(card.matches("稳定性不足").count(), 1);
-        assert_eq!(card.matches("连续性不足").count(), 1);
+        assert_eq!(card.matches("市场稳定性不足").count(), 1);
+        assert_eq!(card.matches("核心资产持续性不足").count(), 1);
     }
 
     #[test]
@@ -1274,5 +1274,266 @@ mod tests {
         assert!(report.telegram_html_body.contains("NVDA · 突破未成立"));
         assert!(report.telegram_html_body.contains("失敗リスク 82"));
         assert!(!report.telegram_html_body.contains("QQQ · 突破未成立"));
+    }
+    #[test]
+    fn test_transition_evidence_rendering_zh_cn() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::DEFENSIVE,
+                risk_overlay: RiskOverlay::BROKEN,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        // Compute transition log
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let report = generate_refined_report(
+            &std::sync::Arc::new(config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        let md = report.archival_markdown;
+        // Verify localized section title
+        assert!(md.contains("🔄 状态转移证据"));
+        // Verify localized state change (Ignition -> 启动期, Defensive -> 保命期)
+        assert!(md.contains("保命期 -> 启动期"));
+        assert!(md.contains("结构防御 -> 风险正常"));
+        assert!(md.contains("未达标 -> 达标"));
+        // Ensure NO debug enum strings are present
+        assert!(!md.contains("DEFENSIVE"));
+        assert!(!md.contains("IGNITION"));
+    }
+
+    #[test]
+    fn test_no_trade_persistence_explanation_en_us() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        let report = generate_refined_report(
+            &std::sync::Arc::new(config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        let md = report.archival_markdown;
+        assert!(md.contains("🔄 State Transition Evidence"));
+        // Verify persistent explanation
+        assert!(md.contains("NO TRADE Persists"));
+    }
+
+    #[test]
+    fn test_transition_evidence_rendering_ja_jp() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::DEFENSIVE,
+                risk_overlay: RiskOverlay::BROKEN,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: true,
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Forming,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        // Compute transition log
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(Language::JaJp);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::JaJp,
+        );
+
+        let report = generate_refined_report(
+            &std::sync::Arc::new(config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        let md = report.archival_markdown;
+        // Verify localized section title
+        assert!(md.contains("🔄 状態遷移エビデンス"));
+        // Verify localized state change
+        // defensive -> ignition maps to 守備期 -> 始動期
+        assert!(md.contains("守備期 -> 始動期"));
+        assert!(md.contains("不適合 -> 適合"));
+        assert!(md.contains("分散 -> 形成中"));
+        // Verify topology change is rendered
+        assert!(
+            md.contains("主導不在 -> 形成中")
+                || md.contains("主線構造の変化")
+                || md.contains("主導不在")
+        );
+    }
+
+    #[test]
+    fn test_audit_grade_reason_diff_rendering() {
+        use crate::core::i18n::Language;
+        use crate::core::participation::ParticipationReadiness;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{TrendCohesionGateCondition, TrendCohesionSnapshot};
+
+        let language = Language::ZhCn;
+        let prev = DecisionPacket {
+            participation: ParticipationReadiness {
+                reasons: vec!["A".to_string(), "B".to_string()],
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                unmet_conditions: vec![
+                    TrendCohesionGateCondition::StabilityThreshold,
+                    TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            participation: ParticipationReadiness {
+                reasons: vec!["B".to_string(), "C".to_string()],
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                unmet_conditions: vec![
+                    TrendCohesionGateCondition::ContinuityThreshold,
+                    TrendCohesionGateCondition::DirectionalCohesion,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        // Compute transition log
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(language);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            language,
+        );
+
+        let report = generate_refined_report(
+            &std::sync::Arc::new(config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        let md = report.archival_markdown;
+
+        // Participation Gate Checks (Chinese)
+        assert!(md.contains("新增阻碍因素: C"));
+        assert!(md.contains("已修复条件: A"));
+        assert!(md.contains("持续阻碍因素: B"));
+
+        // Trend Gate Checks (Chinese)
+        // ContinuityThreshold is persisting -> 核心资产持续性不足
+        // StabilityThreshold is resolved -> 市场稳定性不足
+        // DirectionalCohesion is added -> 主导方向分散或领导者缺失
+        assert!(md.contains("新增阻碍因素: 主导方向分散或领导者缺失"));
+        assert!(md.contains("已修复条件: 市场稳定性不足"));
+        assert!(md.contains("核心资产持续性不足"));
     }
 }

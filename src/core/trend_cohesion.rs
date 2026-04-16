@@ -6,9 +6,9 @@ use std::collections::HashSet;
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum TrendCohesionStatus {
     #[default]
-    NotFormed,
+    Dispersed,
     Forming,
-    Cohesive,
+    Formed,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
@@ -146,7 +146,7 @@ impl TrendCohesionEvaluator {
             .clamp(0.0, 100.0);
 
         let no_candidates = candidate_count == 0;
-        let severe_fragmentation = no_candidates
+        let _severe_fragmentation = no_candidates
             || stability_score < cfg.severe_stability_threshold
             || continuity_streak < cfg.severe_continuity_threshold
             || candidate_compactness_score < cfg.severe_compactness_threshold
@@ -197,11 +197,10 @@ impl TrendCohesionEvaluator {
             TrendCohesionTopology::FragmentedLeaders
         };
 
-        let status = if severe_fragmentation {
-            gate_passed = false;
-            TrendCohesionStatus::NotFormed
+        let status = if !gate_passed {
+            TrendCohesionStatus::Dispersed
         } else if gate_passed && cohesion_score >= cfg.cohesive_score_threshold {
-            TrendCohesionStatus::Cohesive
+            TrendCohesionStatus::Formed
         } else {
             TrendCohesionStatus::Forming
         };
@@ -250,7 +249,7 @@ mod tests {
 
         assert_eq!(snapshot.candidate_count, 3);
         assert_eq!(snapshot.leader_count, 2); // A and B repeat
-        assert_eq!(snapshot.status, TrendCohesionStatus::Cohesive);
+        assert_eq!(snapshot.status, TrendCohesionStatus::Formed);
         assert_eq!(snapshot.topology, TrendCohesionTopology::FragmentedLeaders);
         assert!(snapshot.cohesion_score >= 75.0);
         assert!(snapshot.leader_quality_score >= 60.0);
@@ -266,7 +265,7 @@ mod tests {
         let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history, &rules());
 
         assert_eq!(snapshot.rotation_quality_score, 0.0);
-        assert_eq!(snapshot.status, TrendCohesionStatus::NotFormed);
+        assert_eq!(snapshot.status, TrendCohesionStatus::Dispersed);
         assert_eq!(snapshot.topology, TrendCohesionTopology::NoLeader);
         assert!(snapshot
             .unmet_conditions
@@ -284,7 +283,7 @@ mod tests {
         let current = vec!["A".to_string(), "B".to_string()];
 
         let snap_low_stab = TrendCohesionEvaluator::evaluate(8.0, 3, &current, &[], &rules());
-        assert_eq!(snap_low_stab.status, TrendCohesionStatus::NotFormed);
+        assert_eq!(snap_low_stab.status, TrendCohesionStatus::Dispersed);
         assert_eq!(snap_low_stab.topology, TrendCohesionTopology::NoLeader);
 
         let snap_dispersed = TrendCohesionEvaluator::evaluate(
@@ -301,7 +300,7 @@ mod tests {
             &[],
             &rules(),
         );
-        assert_eq!(snap_dispersed.status, TrendCohesionStatus::NotFormed);
+        assert_eq!(snap_dispersed.status, TrendCohesionStatus::Dispersed);
         assert_eq!(snap_dispersed.topology, TrendCohesionTopology::NoLeader);
         assert!(snap_dispersed
             .unmet_conditions
@@ -380,7 +379,7 @@ mod tests {
 
         let snapshot = TrendCohesionEvaluator::evaluate(11.5, 2, &current, &history, &rules());
 
-        assert_eq!(snapshot.status, TrendCohesionStatus::Forming);
+        assert_eq!(snapshot.status, TrendCohesionStatus::Dispersed);
         assert!(!snapshot.gate_passed);
         assert!(snapshot.cohesion_score >= 45.0);
         assert!(snapshot.cohesion_score < 75.0);

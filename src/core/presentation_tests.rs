@@ -158,7 +158,7 @@ mod tests {
                 ..Default::default()
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
                 topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 1.1,
@@ -230,7 +230,7 @@ mod tests {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
                 topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 7.5,
@@ -259,7 +259,7 @@ mod tests {
             Language::EnUs,
         );
 
-        assert_eq!(pres.decision_summary.trend_cohesion_value, "Not Formed");
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "Dispersed");
         assert_eq!(pres.decision_summary.trend_topology_value, "No Leader");
         assert!(pres
             .decision_summary
@@ -301,7 +301,7 @@ mod tests {
                 ..Default::default()
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::core::trend_cohesion::TrendCohesionStatus::NotFormed,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
                 topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 7.5,
@@ -334,7 +334,7 @@ mod tests {
             .decision_summary
             .unmet_conditions
             .iter()
-            .any(|r| r.contains("连续性不足")));
+            .any(|r| r.contains("核心资产持续性不足")));
     }
 
     #[test]
@@ -342,7 +342,7 @@ mod tests {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::core::trend_cohesion::TrendCohesionStatus::Forming,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Formed,
                 topology: crate::core::trend_cohesion::TrendCohesionTopology::FragmentedLeaders,
                 gate_passed: false,
                 ..Default::default()
@@ -359,7 +359,7 @@ mod tests {
             Language::JaJp,
         );
 
-        assert_eq!(pres.decision_summary.trend_cohesion_value, "主線形成中");
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "形成済み");
         assert_eq!(pres.decision_summary.trend_topology_value, "多主導分散");
     }
 

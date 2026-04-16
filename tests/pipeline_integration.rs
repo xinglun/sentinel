@@ -142,6 +142,7 @@ async fn test_pipeline_bullish_path() {
         top_tier.clone(),
         false,
         stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        None,
     );
     let prev_packet2 = DecisionPacket::new(
         prev_features.date,
@@ -156,6 +157,7 @@ async fn test_pipeline_bullish_path() {
         top_tier.clone(),
         false,
         stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        None,
     );
 
     let packet = Engine::run_daily_pipeline(

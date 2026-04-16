@@ -141,6 +141,30 @@ pub struct BreakoutSummaryViewModel {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct UnmetDiffViewModel {
+    pub added: Vec<String>,
+    pub removed: Vec<String>,
+    pub persisting: Vec<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct StateTransitionViewModel {
+    pub has_significant_change: bool,
+    pub no_trade_persists: bool,
+    pub market_state_change: Option<String>,
+    pub risk_overlay_change: Option<String>,
+    pub participation_gate_change: Option<String>,
+    pub trend_cohesion_gate_change: Option<String>,
+    pub participation_gate_passed: bool,
+    pub trend_cohesion_gate_passed: bool,
+    pub participation_unmet_diff: Option<UnmetDiffViewModel>,
+    pub trend_unmet_diff: Option<UnmetDiffViewModel>,
+    pub trend_cohesion_status_change: Option<String>,
+    pub trend_cohesion_topology_change: Option<String>,
+    pub breakout_changes: Vec<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PresentationPacket {
     pub date_str: String,
     #[serde(default = "default_language")]
@@ -165,6 +189,8 @@ pub struct PresentationPacket {
     pub notices: Vec<String>,
     #[serde(default)]
     pub data_alert: Option<DataAlertViewModel>,
+    #[serde(default)]
+    pub transition_evidence: Option<StateTransitionViewModel>,
     // For the terminal table and archival markdown
     pub terminal_rows: Vec<TerminalRowViewModel>,
     pub state_code: String,

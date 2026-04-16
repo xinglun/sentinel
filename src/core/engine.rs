@@ -263,7 +263,7 @@ impl Engine {
         // Append any remaining (should be none)
         final_decisions.extend(asset_decisions);
 
-        let packet = DecisionPacket::new(
+        let mut packet = DecisionPacket::new(
             market_features.date,
             market_features,
             market_regime,
@@ -273,7 +273,12 @@ impl Engine {
             current_top_tier,
             trend_gate_changed,
             trend_cohesion,
+            None,
         );
+
+        let transition_log =
+            crate::core::transition_log::StateTransitionLog::compare(prev_packet, &packet);
+        packet.transition_log = Some(transition_log);
 
         Ok(packet)
     }

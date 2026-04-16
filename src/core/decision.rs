@@ -3,6 +3,7 @@ use crate::core::features::MarketFeatures;
 use crate::core::market_regime::MarketRegimeSnapshot;
 use crate::core::participation::ParticipationReadiness;
 use crate::core::portfolio_policy::PortfolioPolicy;
+use crate::core::transition_log::StateTransitionLog;
 use crate::core::trend_cohesion::TrendCohesionSnapshot;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
@@ -21,6 +22,7 @@ pub struct DecisionPacket {
     pub trend_gate_changed: bool,
     #[serde(default)]
     pub trend_cohesion: TrendCohesionSnapshot,
+    pub transition_log: Option<StateTransitionLog>,
 }
 
 impl Default for DecisionPacket {
@@ -35,6 +37,7 @@ impl Default for DecisionPacket {
             top_tier_symbols: Vec::new(),
             trend_gate_changed: false,
             trend_cohesion: TrendCohesionSnapshot::default(),
+            transition_log: None,
         }
     }
 }
@@ -51,6 +54,7 @@ impl DecisionPacket {
         top_tier_symbols: Vec<String>,
         trend_gate_changed: bool,
         trend_cohesion: TrendCohesionSnapshot,
+        transition_log: Option<StateTransitionLog>,
     ) -> Self {
         Self {
             date,
@@ -62,6 +66,7 @@ impl DecisionPacket {
             top_tier_symbols,
             trend_gate_changed,
             trend_cohesion,
+            transition_log,
         }
     }
 }

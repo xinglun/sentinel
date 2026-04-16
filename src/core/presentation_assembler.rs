@@ -8,7 +8,7 @@ use crate::core::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
     ExitDisplayIntent, MacroDisplayContext, PresentationPacket, RiskOpportunitySummaryViewModel,
-    SignalSummaryViewModel,
+    SignalSummaryViewModel, StateTransitionViewModel, UnmetDiffViewModel,
 };
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
@@ -417,8 +417,210 @@ impl PresentationAssembler {
             risk_opportunities,
             notices,
             data_alert,
+            transition_evidence: Self::build_transition_evidence(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
+        }
+    }
+
+    fn build_transition_evidence(
+        packet: &DecisionPacket,
+        dict: &DisplayDictionary,
+    ) -> Option<StateTransitionViewModel> {
+        let log = packet.transition_log.as_ref()?;
+
+        let mut breakout_changes = Vec::new();
+        for b in &log.breakout_changes {
+            let status_part = if b.status_changed {
+                format!(
+                    "{} -> {}",
+                    Self::map_breakout_status(b.from_status, dict),
+                    Self::map_breakout_status(b.to_status, dict)
+                )
+            } else {
+                Self::map_breakout_status(b.to_status, dict)
+            };
+            let risk_part = if b.risk_changed {
+                dict.transition_evidence.risk_changed_suffix.clone()
+            } else {
+                String::new()
+            };
+            breakout_changes.push(format!("{}: {}{}", b.symbol, status_part, risk_part));
+        }
+
+        Some(StateTransitionViewModel {
+            has_significant_change: log.market_state.changed
+                || log.risk_overlay.changed
+                || log.participation_gate.from != log.participation_gate.to
+                || log.participation_gate.unmet_conditions_changed
+                || log.trend_cohesion_gate.from != log.trend_cohesion_gate.to
+                || log.trend_cohesion_gate.unmet_conditions_changed
+                || log.trend_cohesion_status.changed
+                || log.trend_cohesion_topology.changed
+                || !log.breakout_changes.is_empty(),
+            no_trade_persists: log.no_trade_persists,
+            market_state_change: if log.market_state.changed {
+                Some(format!(
+                    "{} -> {}",
+                    Self::map_market_state(log.market_state.from, dict),
+                    Self::map_market_state(log.market_state.to, dict)
+                ))
+            } else {
+                None
+            },
+            risk_overlay_change: if log.risk_overlay.changed {
+                Some(format!(
+                    "{} -> {}",
+                    Self::map_risk_overlay(log.risk_overlay.from, dict),
+                    Self::map_risk_overlay(log.risk_overlay.to, dict)
+                ))
+            } else {
+                None
+            },
+            participation_gate_change: if log.participation_gate.from != log.participation_gate.to {
+                Some(format!(
+                    "{} -> {}",
+                    Self::map_gate(log.participation_gate.from, dict),
+                    Self::map_gate(log.participation_gate.to, dict)
+                ))
+            } else {
+                None
+            },
+            participation_gate_passed: log.participation_gate.to,
+            trend_cohesion_gate_change: if log.trend_cohesion_gate.from
+                != log.trend_cohesion_gate.to
+            {
+                Some(format!(
+                    "{} -> {}",
+                    Self::map_gate(log.trend_cohesion_gate.from, dict),
+                    Self::map_gate(log.trend_cohesion_gate.to, dict)
+                ))
+            } else {
+                None
+            },
+            trend_cohesion_gate_passed: log.trend_cohesion_gate.to,
+            trend_cohesion_status_change: if log.trend_cohesion_status.changed {
+                Some(format!(
+                    "{} -> {}",
+                    Self::map_trend_status(log.trend_cohesion_status.from, dict),
+                    Self::map_trend_status(log.trend_cohesion_status.to, dict)
+                ))
+            } else {
+                None
+            },
+            trend_cohesion_topology_change: if log.trend_cohesion_topology.changed {
+                Some(format!(
+                    "{} -> {}",
+                    Self::map_topology(log.trend_cohesion_topology.from, dict),
+                    Self::map_topology(log.trend_cohesion_topology.to, dict)
+                ))
+            } else {
+                None
+            },
+            participation_unmet_diff: Self::map_unmet_diff(&log.participation_gate, false, dict),
+            trend_unmet_diff: Self::map_unmet_diff(&log.trend_cohesion_gate, true, dict),
+            breakout_changes,
+        })
+    }
+
+    fn map_unmet_diff(
+        diff: &crate::core::transition_log::GateTransition,
+        is_trend: bool,
+        dict: &DisplayDictionary,
+    ) -> Option<UnmetDiffViewModel> {
+        if diff.added.is_empty() && diff.removed.is_empty() && diff.persisting.is_empty() {
+            return None;
+        }
+
+        let map_fn = |s: &String| {
+            if is_trend {
+                match s.as_str() {
+                    "StabilityThreshold" => dict.trend_cohesion.unmet.stability_threshold.clone(),
+                    "ContinuityThreshold" => dict.trend_cohesion.unmet.continuity_threshold.clone(),
+                    "DirectionalCohesion" => dict.trend_cohesion.unmet.directional_cohesion.clone(),
+                    "HighCandidateDispersion" => {
+                        dict.trend_cohesion.unmet.high_candidate_dispersion.clone()
+                    }
+                    "UnstableRotation" => dict.trend_cohesion.unmet.unstable_rotation.clone(),
+                    "WeakLeadership" => dict.trend_cohesion.unmet.weak_leadership.clone(),
+                    _ => s.clone(),
+                }
+            } else {
+                s.clone()
+            }
+        };
+
+        Some(UnmetDiffViewModel {
+            added: diff.added.iter().map(map_fn).collect(),
+            removed: diff.removed.iter().map(map_fn).collect(),
+            persisting: diff.persisting.iter().map(map_fn).collect(),
+        })
+    }
+
+    fn map_market_state(state: MarketState, dict: &DisplayDictionary) -> String {
+        match state {
+            MarketState::ESTABLISHED | MarketState::CONFIRMED => {
+                dict.market_stages.established.clone()
+            }
+            MarketState::DEFENSIVE => dict.market_stages.defensive.clone(),
+            MarketState::IGNITION | MarketState::NEWBORN => dict.market_stages.ignition.clone(),
+            _ => dict.market_stages.neutral.clone(),
+        }
+    }
+
+    fn map_risk_overlay(risk: RiskOverlay, dict: &DisplayDictionary) -> String {
+        match risk {
+            RiskOverlay::NORMAL => dict.risks.normal.clone(),
+            RiskOverlay::DECELERATING => dict.risks.mixed.clone(),
+            _ => dict.risks.defensive.clone(),
+        }
+    }
+
+    fn map_breakout_status(
+        status: crate::core::breakout_detection::BreakoutStatus,
+        dict: &DisplayDictionary,
+    ) -> String {
+        use crate::core::breakout_detection::BreakoutStatus;
+        match status {
+            BreakoutStatus::NoBreakout => dict.breakout.no_breakout.clone(),
+            BreakoutStatus::EmergingBreakout => dict.breakout.emerging_breakout.clone(),
+            BreakoutStatus::ConfirmedBreakout => dict.breakout.confirmed_breakout.clone(),
+        }
+    }
+
+    fn map_trend_status(
+        status: crate::core::trend_cohesion::TrendCohesionStatus,
+        dict: &DisplayDictionary,
+    ) -> String {
+        use crate::core::trend_cohesion::TrendCohesionStatus;
+        match status {
+            TrendCohesionStatus::Formed => dict.trend_cohesion.formed.clone(),
+            TrendCohesionStatus::Forming => dict.trend_cohesion.forming.clone(),
+            TrendCohesionStatus::Dispersed => dict.trend_cohesion.dispersed.clone(),
+        }
+    }
+
+    fn map_topology(
+        topology: crate::core::trend_cohesion::TrendCohesionTopology,
+        dict: &DisplayDictionary,
+    ) -> String {
+        use crate::core::trend_cohesion::TrendCohesionTopology;
+        match topology {
+            TrendCohesionTopology::NoLeader => dict.trend_cohesion.topology_no_leader.clone(),
+            TrendCohesionTopology::SingleLeader => {
+                dict.trend_cohesion.topology_single_leader.clone()
+            }
+            TrendCohesionTopology::FragmentedLeaders => {
+                dict.trend_cohesion.topology_fragmented_leaders.clone()
+            }
+        }
+    }
+
+    fn map_gate(passed: bool, dict: &DisplayDictionary) -> String {
+        if passed {
+            dict.transition_evidence.gate_pass.clone()
+        } else {
+            dict.transition_evidence.gate_fail.clone()
         }
     }
 
@@ -853,14 +1055,14 @@ impl PresentationAssembler {
         };
 
         let trend_cohesion_value = match packet.trend_cohesion.status {
-            crate::core::trend_cohesion::TrendCohesionStatus::NotFormed => {
-                dict.trend_cohesion.not_formed.clone()
+            crate::core::trend_cohesion::TrendCohesionStatus::Dispersed => {
+                dict.trend_cohesion.dispersed.clone()
             }
             crate::core::trend_cohesion::TrendCohesionStatus::Forming => {
                 dict.trend_cohesion.forming.clone()
             }
-            crate::core::trend_cohesion::TrendCohesionStatus::Cohesive => {
-                dict.trend_cohesion.cohesive.clone()
+            crate::core::trend_cohesion::TrendCohesionStatus::Formed => {
+                dict.trend_cohesion.formed.clone()
             }
         };
 

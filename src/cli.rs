@@ -345,8 +345,9 @@ async fn run_pipeline(
         if should_persist_history {
             persistence.save_packet(&packet)?;
             persistence.save_daily_packet(&packet)?;
-            let _ = transition_logger
-                .log_transition(prev_packet.map(|p| &p.market_regime), &packet.market_regime);
+            if let Some(log) = &packet.transition_log {
+                let _ = transition_logger.log_transition(log);
+            }
         }
 
         // 2. Rendering (Presentation Model -> Final Outputs)
