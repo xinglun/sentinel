@@ -483,7 +483,7 @@ fn run_core_simulation(
     }
     summary.push_str("\n## 2. Regime Performance Audit\n| State | Signals | Hit Rate | Avg 20d | Max DD |\n|---|---|---|---|---|\n");
     let mut reg_vec: Vec<_> = regime_tracking.into_iter().collect();
-    reg_vec.sort_by(|a, b| b.1.total_signals.cmp(&a.1.total_signals));
+    reg_vec.sort_by_key(|b| std::cmp::Reverse(b.1.total_signals));
     for (state, s) in reg_vec {
         if s.total_signals > 0 {
             summary.push_str(&format!(

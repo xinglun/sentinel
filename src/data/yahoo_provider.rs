@@ -109,7 +109,7 @@ async fn fetch_once(
         })
         .collect();
 
-    bars.sort_by(|a, b| a.date.cmp(&b.date));
+    bars.sort_by_key(|a| a.date);
 
     // Calculate accurate total_trading_days using firstTradeDate from metadata
     let mut total_trading_days = bars.len();

@@ -44,16 +44,14 @@ pub async fn run() -> Result<()> {
             "daemon" | "trade" => command = "daemon",
             "radar" => command = "radar",
             "review" => command = "review",
-            "--provider" => {
-                if i + 1 < args.len() {
-                    let p = args[i + 1].to_lowercase();
-                    if p == "futu" {
-                        provider_type = ProviderType::Futu;
-                    } else if p == "yahoo" {
-                        provider_type = ProviderType::Yahoo;
-                    }
-                    i += 1;
+            "--provider" if i + 1 < args.len() => {
+                let p = args[i + 1].to_lowercase();
+                if p == "futu" {
+                    provider_type = ProviderType::Futu;
+                } else if p == "yahoo" {
+                    provider_type = ProviderType::Yahoo;
                 }
+                i += 1;
             }
             _ => {}
         }
