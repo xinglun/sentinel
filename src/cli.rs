@@ -616,6 +616,7 @@ mod tests {
                 save_to: save_to.display().to_string(),
                 weight_kind: Some("equal".to_string()),
                 language: Some(Language::ZhCn),
+                compact_transition_evidence_in_no_trade: true,
             },
             telegram: None,
             futu: None,

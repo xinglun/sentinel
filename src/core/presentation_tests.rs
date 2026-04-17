@@ -18,6 +18,7 @@ fn mock_config(lang: Language) -> AppConfig {
             save_to: "/tmp".to_string(),
             weight_kind: Some("equal".to_string()),
             language: Some(lang),
+            compact_transition_evidence_in_no_trade: true,
         },
         telegram: None,
         futu: None,
@@ -335,6 +336,394 @@ mod tests {
             .unmet_conditions
             .iter()
             .any(|r| r.contains("核心资产持续性不足")));
+    }
+
+    // Compatibility behavior matrix (input -> expected display):
+    // - reason_codes=empty, raw has threshold templates, evidence=stability+continuity:
+    //   suppress both raw templates, add structured threshold reasons (then dedup by unmet gate)
+    // - reason_codes=empty, raw has threshold templates, evidence=stability only:
+    //   suppress stability raw only; keep continuity raw (do not over-suppress)
+    // - reason_codes=non-empty, raw/code order mismatch:
+    //   never index-bind semantics; keep raw as Unknown and codes as structured evidence
+    // - reason_codes length != reasons length:
+    //   preserve all raw reasons; preserve code-only tails
+    #[test]
+    fn test_legacy_readiness_fallback_preserves_unknown_reasons_without_prefix_parsing() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                stability_ready: false,
+                core_tier_streak_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "stability signal weakened".to_string(),
+                    "continuity not long enough".to_string(),
+                ],
+                reason_codes: vec![],
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 6.4,
+                continuity_streak: 1,
+                // No explicit stability/continuity unmet evidence on purpose:
+                // fallback should not fabricate those reasons.
+                unmet_conditions: vec![],
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                // Intentionally different to ensure fallback is not driven by this field.
+                stability_score: 2.2,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("stability signal weakened")));
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("continuity not long enough")));
+        assert!(!pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("6.4 < 10")));
+    }
+
+    #[test]
+    fn test_legacy_fallback_keeps_extra_unknown_reason_with_threshold_evidence() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![
+                    "legacy stability reason".to_string(),
+                    "legacy continuity reason".to_string(),
+                    "session overlap risk increased".to_string(),
+                ],
+                reason_codes: vec![],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("session overlap risk increased")));
+    }
+
+    #[test]
+    fn test_legacy_fallback_keeps_one_or_two_unknown_reasons_with_threshold_evidence() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![
+                    "pre-open auction noise elevated".to_string(),
+                    "news dispersion still unresolved".to_string(),
+                ],
+                reason_codes: vec![],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("pre-open auction noise elevated")));
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("news dispersion still unresolved")));
+    }
+
+    #[test]
+    fn test_reason_codes_path_keeps_trailing_unpaired_raw_reasons() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (7.0) below threshold (10.0)".to_string(),
+                    "manual analyst override requested".to_string(),
+                ],
+                reason_codes: vec![
+                    crate::core::participation::ParticipationReasonCode::StabilityBelowThreshold,
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("manual analyst override requested")));
+    }
+
+    #[test]
+    fn test_reason_codes_path_does_not_misbind_raw_reason_by_index() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "manual note: opening auction imbalance".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                reason_codes: vec![
+                    crate::core::participation::ParticipationReasonCode::StabilityBelowThreshold,
+                    crate::core::participation::ParticipationReasonCode::CoreTierStreakBelowThreshold,
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("manual note: opening auction imbalance")));
+    }
+
+    #[test]
+    fn test_continuity_reason_and_compact_value_use_single_canonical_source() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 5,
+                reasons: vec!["Core Tier streak (5) below threshold (3)".to_string()],
+                reason_codes: vec![
+                    crate::core::participation::ParticipationReasonCode::CoreTierStreakBelowThreshold,
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.0,
+                continuity_streak: 2,
+                // Keep unmet empty to avoid redundancy filtering so reason text remains visible.
+                unmet_conditions: vec![],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert_eq!(pres.decision_summary.compact_continuity_value, "2");
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("2d < 3d")));
+        assert!(!pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("5d < 3d")));
+    }
+
+    #[test]
+    fn test_legacy_fallback_keeps_first_day_or_set_changed_with_threshold_evidence() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![
+                    "First day of session (no history)".to_string(),
+                    "Stability score (7.0) below threshold (10.0)".to_string(),
+                ],
+                reason_codes: vec![],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("First day of session (no history)")));
+    }
+
+    #[test]
+    fn test_legacy_fallback_single_side_evidence_does_not_suppress_other_template() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![
+                    "Stability score (7.0) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                reason_codes: vec![],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                gate_passed: false,
+                stability_score: 7.0,
+                continuity_streak: 1,
+                // Only stability evidence exists.
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+
+        // Stability template may be suppressed/replaced, but continuity template must remain.
+        assert!(pres
+            .decision_summary
+            .readiness_reasons
+            .iter()
+            .any(|r| r.contains("Core Tier streak (1) below threshold (3)")));
     }
 
     #[test]
@@ -797,7 +1186,7 @@ mod tests {
         assert_eq!(pres.breakout_summary.title, "🚀 Breakout Detection");
         assert_eq!(pres.breakout_summary.items.len(), 1);
         let item = &pres.breakout_summary.items[0];
-        assert_eq!(item.status_label, "Emerging Breakout");
+        assert_eq!(item.status_label, "Emerging Breakout (Day 1)");
         assert_eq!(item.reason, "Leadership-style breakout");
         assert_eq!(item.failed_risk_value.as_deref(), Some("61"));
     }
@@ -949,7 +1338,10 @@ mod tests {
 
         assert_eq!(pres.breakout_summary.items.len(), 2);
         assert_eq!(pres.breakout_summary.items[0].symbol, "GOOG");
-        assert_eq!(pres.breakout_summary.items[0].status_label, "突破萌芽");
+        assert_eq!(
+            pres.breakout_summary.items[0].status_label,
+            "突破萌芽（第1天）"
+        );
         assert_eq!(pres.breakout_summary.items[1].symbol, "NVDA");
         assert_eq!(pres.breakout_summary.items[1].status_label, "无突破");
         assert_eq!(pres.breakout_summary.items[1].reason, "假突破风险");

@@ -86,6 +86,8 @@ impl Engine {
             market_features.stability_score,
             &current_top_tier,
             history,
+            rules.trend_cohesion.gate_stability_threshold,
+            rules.trend_cohesion.gate_continuity_threshold,
         );
 
         // 8. Trend Cohesion Snapshot (NEW V2 Gate) moved up to supersede readiness constraints

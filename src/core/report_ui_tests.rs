@@ -1,4 +1,4 @@
-use crate::config::{AppConfig, OutputConfig, RulesConfig, TrendConfig};
+use crate::config::{AppConfig, OutputConfig, RulesConfig, TrendCohesionRulesConfig, TrendConfig};
 use crate::core::action_matrix::AssetActionDecision;
 use crate::core::asset_state::{AssetState, AssetStateSnapshot};
 use crate::core::decision::DecisionPacket;
@@ -6,7 +6,7 @@ use crate::core::exit::PositionIntent;
 use crate::core::market_regime::{MarketRegimeSnapshot, MarketState, RiskOverlay};
 use crate::core::presentation_assembler::PresentationAssembler;
 use crate::core::report::generate_refined_report;
-use chrono::Utc;
+use chrono::{NaiveDate, Utc};
 use std::collections::{BTreeMap, HashMap};
 
 fn mock_config() -> AppConfig {
@@ -18,6 +18,7 @@ fn mock_config() -> AppConfig {
             save_to: "/tmp".to_string(),
             weight_kind: Some("equal".to_string()),
             language: Some(crate::core::i18n::Language::ZhCn),
+            compact_transition_evidence_in_no_trade: true,
         },
         telegram: None,
         futu: None,
@@ -48,6 +49,111 @@ fn mock_config_with_language(language: crate::core::i18n::Language) -> AppConfig
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs;
+    use std::path::PathBuf;
+
+    fn no_trade_snapshot_packet() -> DecisionPacket {
+        DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 1, 15).unwrap(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (1.1) below threshold (10.0)".to_string(),
+                    "Core Tier streak (1) below threshold (3)".to_string(),
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 1.1,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
+                ],
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                system_confidence: 52.0,
+                stability_score: 1.1,
+                regime_age: 1,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "GOOG".into(),
+                asset_state: AssetStateSnapshot {
+                    symbol: "GOOG".into(),
+                    state: AssetState::FORMING,
+                    ..Default::default()
+                },
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout_strength: 62.0,
+                    breakout_quality: 100.0,
+                    reasons: vec![
+                        crate::core::breakout_detection::BreakoutReason::StructuralBreakout,
+                    ],
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::HOLD,
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["GOOG".into()],
+            ..Default::default()
+        }
+    }
+
+    fn build_no_trade_report(
+        language: crate::core::i18n::Language,
+    ) -> crate::core::report::ReportResult {
+        let config = mock_config_with_language(language);
+        let pres = PresentationAssembler::assemble(
+            &no_trade_snapshot_packet(),
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            language,
+        );
+        generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap()
+    }
+
+    fn snapshot_path(file_name: &str) -> PathBuf {
+        PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("src/core/snapshots")
+            .join(file_name)
+    }
+
+    fn assert_snapshot(file_name: &str, actual: &str) {
+        let path = snapshot_path(file_name);
+        let normalized_actual = actual.replace("\r\n", "\n");
+        let update = std::env::var("UPDATE_SNAPSHOTS").as_deref() == Ok("1");
+
+        if update {
+            if let Some(parent) = path.parent() {
+                fs::create_dir_all(parent).unwrap();
+            }
+            fs::write(&path, normalized_actual).unwrap();
+            return;
+        }
+
+        let expected = fs::read_to_string(&path).unwrap_or_else(|_| {
+            panic!(
+                "snapshot file missing: {} (run with UPDATE_SNAPSHOTS=1 once)",
+                path.display()
+            )
+        });
+        assert_eq!(expected.replace("\r\n", "\n"), normalized_actual);
+    }
 
     #[test]
     fn test_telegram_v3_ui_established() {
@@ -260,6 +366,1002 @@ mod tests {
     }
 
     #[test]
+    fn test_compact_no_trade_reasons_do_not_render_na_ratios_on_data_missing() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec!["AAPL".to_string()],
+            crate::core::i18n::Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(!report.markdown_body.contains("N/A/10"));
+        assert!(!report.markdown_body.contains("N/A/3"));
+        assert!(!report.telegram_html_body.contains("N/A/10"));
+        assert!(!report.telegram_html_body.contains("N/A/3"));
+    }
+
+    #[test]
+    fn test_compact_no_trade_reasons_use_configured_thresholds() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (7.5) below threshold (11.0)".to_string(),
+                    "Core Tier streak (1) below threshold (4)".to_string(),
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 7.5,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
+                ],
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                stability_score: 7.5,
+                regime_age: 1,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        config.rules.trend_cohesion = Some(TrendCohesionRulesConfig {
+            gate_stability_threshold: Some(11.0),
+            gate_continuity_threshold: Some(4),
+            ..Default::default()
+        });
+
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("稳定性 7.5/11"));
+        assert!(report.markdown_body.contains("连续性 1/4"));
+        assert!(report.telegram_html_body.contains("稳定性 7.5/11"));
+        assert!(report.telegram_html_body.contains("连续性 1/4"));
+    }
+
+    #[test]
+    fn test_legacy_no_trade_reasons_preserve_unknown_reason_text() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                stability_ready: false,
+                core_tier_streak_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "score drifted lower".to_string(),
+                    "streak still too short".to_string(),
+                ],
+                reason_codes: vec![],
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 8.8,
+                continuity_streak: 1,
+                // Only directional evidence is present, so fallback should not invent
+                // stability/continuity threshold reasons from legacy bool flags.
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
+                ],
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                // Intentionally different to ensure report uses trend_cohesion source.
+                stability_score: 1.9,
+                regime_age: 1,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut config = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        config.output.compact_transition_evidence_in_no_trade = false;
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::EnUs,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("score drifted lower"));
+        assert!(report.markdown_body.contains("streak still too short"));
+        assert!(!report.markdown_body.contains("8.8 < 10"));
+        assert!(!report.markdown_body.contains("1d < 3d"));
+        assert!(report.telegram_html_body.contains("score drifted lower"));
+    }
+
+    #[test]
+    fn test_reason_codes_path_preserves_extra_unpaired_reasons_in_report() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                core_tier_streak: 1,
+                reasons: vec![
+                    "Stability score (8.0) below threshold (10.0)".to_string(),
+                    "exchange halt probability elevated".to_string(),
+                ],
+                reason_codes: vec![
+                    crate::core::participation::ParticipationReasonCode::StabilityBelowThreshold,
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 8.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![],
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut config = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        config.output.compact_transition_evidence_in_no_trade = false;
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::EnUs,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report
+            .markdown_body
+            .contains("exchange halt probability elevated"));
+        assert!(report
+            .telegram_html_body
+            .contains("exchange halt probability elevated"));
+    }
+
+    #[test]
+    fn test_legacy_cn_threshold_template_is_suppressed_when_structured_evidence_exists() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec!["稳定性不足（< 10.0）".to_string()],
+                reason_codes: vec![],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 8.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        config.output.compact_transition_evidence_in_no_trade = false;
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert_eq!(
+            report.markdown_body.matches("稳定性不足（< 10.0）").count(),
+            0
+        );
+        assert!(report.markdown_body.contains("市场稳定性不足"));
+    }
+
+    #[test]
+    fn test_legacy_cn_single_side_evidence_keeps_other_threshold_template() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![
+                    "稳定性不足（< 10.0）".to_string(),
+                    "连续性不足（1d < 3d）".to_string(),
+                ],
+                reason_codes: vec![],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 8.0,
+                continuity_streak: 1,
+                // Only stability evidence exists.
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        config.output.compact_transition_evidence_in_no_trade = false;
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        // Stability template suppressed by explicit stability evidence.
+        assert_eq!(
+            report.markdown_body.matches("稳定性不足（< 10.0）").count(),
+            0
+        );
+        // Continuity template must not be over-suppressed without continuity evidence.
+        assert!(report.markdown_body.contains("连续性不足（1d < 3d）"));
+    }
+
+    #[test]
+    fn test_first_day_like_custom_reason_is_not_over_suppressed() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec!["初日寄り付き後の板が薄い".to_string()],
+                reason_codes: vec![
+                    crate::core::participation::ParticipationReasonCode::FirstDayOfSession,
+                ],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 8.0,
+                continuity_streak: 1,
+                unmet_conditions: vec![],
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        config.output.compact_transition_evidence_in_no_trade = false;
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::JaJp,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.markdown_body.contains("初日寄り付き後の板が薄い"));
+        assert!(report
+            .telegram_html_body
+            .contains("初日寄り付き後の板が薄い"));
+    }
+
+    #[test]
+    fn test_legacy_threshold_template_matcher_table_driven() {
+        struct Case {
+            reason: &'static str,
+            unmet: Vec<crate::core::trend_cohesion::TrendCohesionGateCondition>,
+            should_suppress: bool,
+        }
+
+        // Compatibility matcher matrix (input -> expected display):
+        // - Canonical threshold templates should be suppressed when matching evidence exists.
+        // - Symbol variants (< / ＜ / ≤ / ≦) should behave consistently.
+        // - Non-template or prefixed free text should never be over-suppressed.
+        let cases = vec![
+            Case {
+                reason: "稳定性不足（< 10.0）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "稳定性不足（＜10.0）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "稳定性不足（≤10.0）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "安定性不足(≦10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "连续性不足（1d < 3d）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "連続性不足（1日 ≤ 3日）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) <= threshold (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "STABILITY SCORE(8.0)<=THRESHOLD(10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) <= THR (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) <= threshold (10.0).",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) <= threshold (10.0)!",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) ＜ threshold (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) ＜ threshold (10.0)。",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) ＜＝ threshold (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "Stability score (8.0) <＝ threshold (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "稳定性不足（<10.0）。",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "連続性不足（1日≤3日）！",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                should_suppress: true,
+            },
+            Case {
+                reason: "备注：稳定性不足但先观察，不立即处理",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "连续性不足（等待确认）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "盘中提示：稳定性不足（<10.0）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "稳定性不足但需结合成交量<均值判断",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "稳定性不足（需结合成交量变化）并结合<均值判断",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "稳定性不足（备注<阈值，先观察）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "連続性不足（出来高≤基準なので様子見）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "連続性不足（注記≤閾値で監視）",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "Stability score (comment: < avg volume) keep watching",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "Stability score (note) <= threshold (watch)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "Stability score (8.0) <= thrash (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "Stability score (8.0) = threshold (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+            Case {
+                reason: "Stability score (8.0) <== threshold (10.0)",
+                unmet: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                ],
+                should_suppress: false,
+            },
+        ];
+
+        for case in cases {
+            let packet = DecisionPacket {
+                date: Utc::now().date_naive(),
+                market_regime: MarketRegimeSnapshot {
+                    market_state: MarketState::IGNITION,
+                    risk_overlay: RiskOverlay::NORMAL,
+                    ..Default::default()
+                },
+                participation: crate::core::participation::ParticipationReadiness {
+                    participation_ready: false,
+                    reasons: vec![case.reason.to_string()],
+                    reason_codes: vec![],
+                    ..Default::default()
+                },
+                trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                    gate_passed: false,
+                    status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                    topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                    stability_score: 8.0,
+                    continuity_streak: 1,
+                    unmet_conditions: case.unmet,
+                    ..Default::default()
+                },
+                assets: vec![AssetActionDecision {
+                    symbol: "AAPL".into(),
+                    ..Default::default()
+                }],
+                ..Default::default()
+            };
+
+            let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+            config.output.compact_transition_evidence_in_no_trade = false;
+            let pres = PresentationAssembler::assemble(
+                &packet,
+                &config.get_parsed_rules(),
+                &HashMap::new(),
+                vec![],
+                crate::core::i18n::Language::ZhCn,
+            );
+            let report =
+                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+                    .unwrap();
+
+            if case.should_suppress {
+                assert!(
+                    !report.markdown_body.contains(case.reason),
+                    "expected suppression for reason: {}",
+                    case.reason
+                );
+            } else {
+                assert!(
+                    report.markdown_body.contains(case.reason),
+                    "expected preserve for reason: {}",
+                    case.reason
+                );
+            }
+        }
+    }
+
+    fn report_markdown_contains_reason(
+        reason: &str,
+        unmet: Vec<crate::core::trend_cohesion::TrendCohesionGateCondition>,
+        language: crate::core::i18n::Language,
+    ) -> bool {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            participation: crate::core::participation::ParticipationReadiness {
+                participation_ready: false,
+                reasons: vec![reason.to_string()],
+                reason_codes: vec![],
+                ..Default::default()
+            },
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 8.0,
+                continuity_streak: 1,
+                unmet_conditions: unmet,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "AAPL".into(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut config = mock_config_with_language(language);
+        config.output.compact_transition_evidence_in_no_trade = false;
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            language,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        report.markdown_body.contains(reason)
+    }
+
+    #[test]
+    fn test_legacy_threshold_matcher_property_like_valid_templates_suppress() {
+        let comparators = [
+            "<",
+            "<=",
+            "＜",
+            "＜=",
+            "＜＝",
+            "<＝",
+            "≤",
+            "≦",
+            "below",
+            "under",
+            "less than",
+        ];
+        let tokens = ["threshold", "thresh", "thr", "limit"];
+        let punctuations = ["", ".", "!", "。", "！", "？"];
+        for comparator in comparators {
+            for token in tokens {
+                for punct in punctuations {
+                    let reason = format!(
+                        "Stability score (8.0) {} {} (10.0){}",
+                        comparator, token, punct
+                    );
+                    assert!(
+                        !report_markdown_contains_reason(
+                            &reason,
+                            vec![
+                                crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                            ],
+                            crate::core::i18n::Language::ZhCn,
+                        ),
+                        "expected suppression for generated english template: {}",
+                        reason
+                    );
+                }
+            }
+        }
+
+        let localized_cases = vec![
+            (
+                "稳定性不足",
+                "<10.0",
+                crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+            ),
+            (
+                "安定性不足",
+                "<10.0",
+                crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+            ),
+            (
+                "连续性不足",
+                "1d<3d",
+                crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+            ),
+            (
+                "連続性不足",
+                "1日≤3日",
+                crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+            ),
+        ];
+        for (prefix, payload, gate) in localized_cases {
+            for punct in punctuations {
+                let reason = format!("{}（{}）{}", prefix, payload, punct);
+                assert!(
+                    !report_markdown_contains_reason(
+                        &reason,
+                        vec![gate],
+                        crate::core::i18n::Language::ZhCn,
+                    ),
+                    "expected suppression for generated localized template: {}",
+                    reason
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn test_legacy_threshold_matcher_property_like_custom_or_invalid_templates_preserved() {
+        let invalid_english = vec![
+            "Stability score (8.0) = threshold (10.0)",
+            "Stability score (8.0) == threshold (10.0)",
+            "Stability score (8.0) <== threshold (10.0)",
+            "Stability score (8.0) ‹ threshold (10.0)",
+            "Stability score (8.0) ❮ threshold (10.0)",
+            "Stability score (8.0) > threshold (10.0)",
+            "Stability score (8.0) ＞ threshold (10.0)",
+            "Stability score (8.0) <= threshold注释 (10.0)",
+            "Stability score (8.0) <= thr備考 (10.0)",
+            "Stability score (8.0) <= thrash (10.0)",
+            "Stability score (note) <= threshold (watch)",
+        ];
+        for reason in invalid_english {
+            assert!(
+                report_markdown_contains_reason(
+                    reason,
+                    vec![
+                        crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    ],
+                    crate::core::i18n::Language::ZhCn,
+                ),
+                "expected preserve for invalid/custom english reason: {}",
+                reason
+            );
+        }
+
+        let custom_localized = vec![
+            "稳定性不足（备注<阈值，先观察）",
+            "連続性不足（注記≤閾値で監視）",
+            "稳定性不足（等待确认）",
+        ];
+        for reason in custom_localized {
+            assert!(
+                report_markdown_contains_reason(
+                    reason,
+                    vec![
+                        crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                        crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    ],
+                    crate::core::i18n::Language::ZhCn,
+                ),
+                "expected preserve for custom localized reason: {}",
+                reason
+            );
+        }
+    }
+
+    #[test]
+    fn test_legacy_threshold_matcher_property_like_multilang_smoke() {
+        let suppress_reason = "Stability score (8.0) <= threshold (10.0)";
+        let preserve_reason = "Stability score (note) <= threshold (watch)";
+        let unmet =
+            vec![crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold];
+
+        for language in [
+            crate::core::i18n::Language::EnUs,
+            crate::core::i18n::Language::JaJp,
+        ] {
+            assert!(
+                !report_markdown_contains_reason(suppress_reason, unmet.clone(), language),
+                "expected suppression in language {:?}",
+                language
+            );
+            assert!(
+                report_markdown_contains_reason(preserve_reason, unmet.clone(), language),
+                "expected preservation in language {:?}",
+                language
+            );
+        }
+    }
+
+    #[test]
+    fn test_legacy_threshold_matcher_fuzz_like_randomized_variants() {
+        fn next_u64(state: &mut u64) -> u64 {
+            // xorshift64* (deterministic, fast, no extra deps)
+            *state ^= *state >> 12;
+            *state ^= *state << 25;
+            *state ^= *state >> 27;
+            state.wrapping_mul(0x2545F4914F6CDD1D)
+        }
+        fn pick<'a>(state: &mut u64, items: &'a [&'a str]) -> &'a str {
+            let idx = (next_u64(state) as usize) % items.len();
+            items[idx]
+        }
+
+        let comparators_valid = [
+            "<",
+            "<=",
+            "<＝",
+            "＜",
+            "＜=",
+            "＜＝",
+            "≤",
+            "≦",
+            "⩽",
+            "﹤",
+            "below",
+            "under",
+            "less than",
+        ];
+        let tokens_valid = ["threshold", "thresh", "thr", "limit"];
+        let suffixes = ["", ".", "!", "?", "。", "！", "？", "｡", "﹒", "﹗", "﹖"];
+        let spaces = ["", " ", "\t", "\n", "\u{3000}"];
+
+        let mut seed = 0xC0FFEE_u64;
+        let families = vec![
+            (
+                "Stability score",
+                "(8.0)",
+                "(10.0)",
+                vec![crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold],
+            ),
+            (
+                "Core Tier streak",
+                "(1)",
+                "(3)",
+                vec![crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold],
+            ),
+        ];
+        for (prefix, lhs, rhs, unmet) in families {
+            for _ in 0..120 {
+                let cmp = pick(&mut seed, &comparators_valid);
+                let tok = pick(&mut seed, &tokens_valid);
+                let suf = pick(&mut seed, &suffixes);
+                let s1 = pick(&mut seed, &spaces);
+                let s2 = pick(&mut seed, &spaces);
+                let s3 = pick(&mut seed, &spaces);
+                let s4 = pick(&mut seed, &spaces);
+                let s5 = pick(&mut seed, &spaces);
+
+                let reason = format!(
+                    "{prefix}{s1}{lhs}{s2}{cmp}{s3}{tok}{s4}{rhs}{s5}{suf}",
+                    prefix = prefix,
+                    lhs = lhs,
+                    rhs = rhs,
+                    s1 = s1,
+                    s2 = s2,
+                    cmp = cmp,
+                    s3 = s3,
+                    tok = tok,
+                    s4 = s4,
+                    s5 = s5,
+                    suf = suf
+                );
+                assert!(
+                    !report_markdown_contains_reason(
+                        &reason,
+                        unmet.clone(),
+                        crate::core::i18n::Language::ZhCn,
+                    ),
+                    "expected suppression for randomized template: {}",
+                    reason
+                );
+            }
+        }
+
+        let comparators_invalid = ["=", "==", "<==", ">", "＞", ">=", "＞＝"];
+        let tokens_invalid = [
+            "thrash",
+            "watch",
+            "comment",
+            "memo",
+            "threshold注释",
+            "thr備考",
+        ];
+        let invalid_families = vec![
+            (
+                "Stability score",
+                "(8.0)",
+                "(10.0)",
+                vec![crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold],
+            ),
+            (
+                "Core Tier streak",
+                "(1)",
+                "(3)",
+                vec![crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold],
+            ),
+        ];
+        for (prefix, lhs, rhs, unmet) in invalid_families {
+            for _ in 0..90 {
+                let cmp = pick(&mut seed, &comparators_invalid);
+                let tok = pick(&mut seed, &tokens_invalid);
+                let suf = pick(&mut seed, &suffixes);
+                let reason = format!("{prefix} {lhs} {cmp} {tok} {rhs}{suf}");
+                assert!(
+                    report_markdown_contains_reason(
+                        &reason,
+                        unmet.clone(),
+                        crate::core::i18n::Language::ZhCn,
+                    ),
+                    "expected preserve for randomized non-template: {}",
+                    reason
+                );
+            }
+        }
+    }
+
+    #[test]
     fn test_trend_cohesion_gate_renders_extended_unmet_conditions() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
@@ -287,10 +1389,16 @@ mod tests {
             },
             participation: crate::core::participation::ParticipationReadiness {
                 participation_ready: false,
+                core_tier_streak: 1,
                 reasons: vec![
                     "Stability score (7.5) below threshold (10.0)".to_string(),
                     "Core Tier streak (1) below threshold (3)".to_string(),
                 ],
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                stability_score: 7.5,
+                regime_age: 1,
                 ..Default::default()
             },
             ..Default::default()
@@ -312,15 +1420,32 @@ mod tests {
             .unwrap()
             .markdown_body;
 
-        assert!(card.contains("主线形成条件"));
-        assert!(card.contains("当前未满足项"));
+        assert!(card.contains("未就绪原因"));
         assert!(card.contains("主线结构"));
         assert!(card.contains("无主线"));
-        assert!(card.contains("候选池过于发散"));
-        assert!(card.contains("主线轮动不稳定"));
-        assert!(card.contains("持续领涨强度不足"));
-        assert_eq!(card.matches("市场稳定性不足").count(), 1);
-        assert_eq!(card.matches("核心资产持续性不足").count(), 1);
+        let parsed_rules = config.get_parsed_rules();
+        let stability_threshold = if (parsed_rules.trend_cohesion.gate_stability_threshold
+            - parsed_rules.trend_cohesion.gate_stability_threshold.round())
+        .abs()
+            < f64::EPSILON
+        {
+            format!(
+                "{:.0}",
+                parsed_rules.trend_cohesion.gate_stability_threshold
+            )
+        } else {
+            parsed_rules
+                .trend_cohesion
+                .gate_stability_threshold
+                .to_string()
+        };
+        assert!(card.contains(&format!("稳定性 7.5/{}", stability_threshold)));
+        assert!(card.contains(&format!(
+            "连续性 1/{}",
+            parsed_rules.trend_cohesion.gate_continuity_threshold
+        )));
+        assert!(!card.contains("主线形成条件"));
+        assert!(!card.contains("当前未满足项"));
     }
 
     #[test]
@@ -1106,6 +2231,7 @@ mod tests {
 
         assert!(report.markdown_body.contains("### 🚀 突破识别"));
         assert!(report.markdown_body.contains("GOOG · 突破萌芽"));
+        assert!(report.markdown_body.contains("GOOG · 突破萌芽（第1天）"));
         assert!(report.markdown_body.contains("NVDA · 无突破"));
         assert!(report.markdown_body.contains("假突破风险"));
         assert!(report.markdown_body.contains("失败风险 82"));
@@ -1114,6 +2240,9 @@ mod tests {
         assert!(!report.markdown_body.contains("普通反弹"));
         assert!(!report.markdown_body.contains("回撤修复"));
         assert!(report.telegram_html_body.contains("GOOG · 突破萌芽"));
+        assert!(report
+            .telegram_html_body
+            .contains("GOOG · 突破萌芽（第1天）"));
         assert!(report.telegram_html_body.contains("NVDA · 无突破"));
         assert!(report.telegram_html_body.contains("假突破风险"));
         assert!(report.telegram_html_body.contains("失败风险 82"));
@@ -1187,6 +2316,9 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         assert!(report.markdown_body.contains("GOOG · Emerging Breakout"));
+        assert!(report
+            .markdown_body
+            .contains("GOOG · Emerging Breakout (Day 1)"));
         assert!(report.markdown_body.contains("NVDA · No Breakout"));
         assert!(report.markdown_body.contains("Failure Risk"));
         assert!(report.markdown_body.contains("Failure Risk 82"));
@@ -1195,6 +2327,9 @@ mod tests {
         assert!(report
             .telegram_html_body
             .contains("GOOG · Emerging Breakout"));
+        assert!(report
+            .telegram_html_body
+            .contains("GOOG · Emerging Breakout (Day 1)"));
         assert!(report.telegram_html_body.contains("NVDA · No Breakout"));
         assert!(report.telegram_html_body.contains("Failure Risk 82"));
         assert!(!report.telegram_html_body.contains("QQQ · No Breakout"));
@@ -1266,11 +2401,15 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         assert!(report.markdown_body.contains("GOOG · 突破初動"));
+        assert!(report.markdown_body.contains("GOOG · 突破初動（1日目）"));
         assert!(report.markdown_body.contains("NVDA · 突破未成立"));
         assert!(report.markdown_body.contains("失敗リスク 82"));
         assert!(!report.markdown_body.contains("QQQ · 突破未成立"));
         assert!(!report.markdown_body.contains("通常反発"));
         assert!(report.telegram_html_body.contains("GOOG · 突破初動"));
+        assert!(report
+            .telegram_html_body
+            .contains("GOOG · 突破初動（1日目）"));
         assert!(report.telegram_html_body.contains("NVDA · 突破未成立"));
         assert!(report.telegram_html_body.contains("失敗リスク 82"));
         assert!(!report.telegram_html_body.contains("QQQ · 突破未成立"));
@@ -1318,14 +2457,8 @@ mod tests {
             Language::ZhCn,
         );
 
-        let report = generate_refined_report(
-            &std::sync::Arc::new(config),
-            &pres,
-            0.0,
-            &HashMap::new(),
-            &HashMap::new(),
-        )
-        .unwrap();
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md = report.archival_markdown;
         // Verify localized section title
@@ -1371,14 +2504,8 @@ mod tests {
             Language::EnUs,
         );
 
-        let report = generate_refined_report(
-            &std::sync::Arc::new(config),
-            &pres,
-            0.0,
-            &HashMap::new(),
-            &HashMap::new(),
-        )
-        .unwrap();
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md = report.archival_markdown;
         assert!(md.contains("🔄 State Transition Evidence"));
@@ -1437,14 +2564,8 @@ mod tests {
             Language::JaJp,
         );
 
-        let report = generate_refined_report(
-            &std::sync::Arc::new(config),
-            &pres,
-            0.0,
-            &HashMap::new(),
-            &HashMap::new(),
-        )
-        .unwrap();
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md = report.archival_markdown;
         // Verify localized section title
@@ -1512,15 +2633,10 @@ mod tests {
             language,
         );
 
-        let report = generate_refined_report(
-            &std::sync::Arc::new(config),
-            &pres,
-            0.0,
-            &HashMap::new(),
-            &HashMap::new(),
-        )
-        .unwrap();
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
+        let md_compact = report.markdown_body.clone();
         let md = report.archival_markdown;
 
         // Participation Gate Checks (Chinese)
@@ -1535,5 +2651,132 @@ mod tests {
         assert!(md.contains("新增阻碍因素: 主导方向分散或领导者缺失"));
         assert!(md.contains("已修复条件: 市场稳定性不足"));
         assert!(md.contains("核心资产持续性不足"));
+        assert!(!md.contains("{:.1}"));
+        assert!(!md.contains("{:.0}"));
+        assert!(!md.contains("当前: {} 天"));
+        assert!(!md.contains("当前: {} 只"));
+        assert!(!md.contains("领涨: {} 只"));
+
+        // User-facing markdown should keep transition evidence compact under NO TRADE.
+        assert!(md_compact.contains("🔄 状态转移证据"));
+        assert!(!md_compact.contains("新增阻碍因素: C"));
+        assert!(md_compact.contains("未就绪原因"));
+        let parsed_rules = config.get_parsed_rules();
+        let stability_threshold = if (parsed_rules.trend_cohesion.gate_stability_threshold
+            - parsed_rules.trend_cohesion.gate_stability_threshold.round())
+        .abs()
+            < f64::EPSILON
+        {
+            format!(
+                "{:.0}",
+                parsed_rules.trend_cohesion.gate_stability_threshold
+            )
+        } else {
+            parsed_rules
+                .trend_cohesion
+                .gate_stability_threshold
+                .to_string()
+        };
+        assert!(md_compact.contains(&format!("/{}", stability_threshold)));
+        assert!(md_compact.contains(&format!(
+            "/{}",
+            parsed_rules.trend_cohesion.gate_continuity_threshold
+        )));
+        let decision_idx = md_compact.find("### 禁止动作（NO TRADE）").unwrap();
+        let breakout_idx = md_compact.find("### 🚀 突破识别").unwrap();
+        let transition_idx = md_compact.find("### 🔄 状态转移证据").unwrap();
+        assert!(decision_idx < breakout_idx);
+        assert!(breakout_idx < transition_idx);
+    }
+
+    #[test]
+    fn test_transition_evidence_can_be_expanded_in_no_trade_via_config() {
+        use crate::core::i18n::Language;
+        use crate::core::participation::ParticipationReadiness;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{TrendCohesionGateCondition, TrendCohesionSnapshot};
+
+        let prev = DecisionPacket {
+            participation: ParticipationReadiness {
+                reasons: vec!["A".to_string(), "B".to_string()],
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                unmet_conditions: vec![
+                    TrendCohesionGateCondition::StabilityThreshold,
+                    TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            participation: ParticipationReadiness {
+                reasons: vec!["B".to_string(), "C".to_string()],
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                unmet_conditions: vec![
+                    TrendCohesionGateCondition::ContinuityThreshold,
+                    TrendCohesionGateCondition::DirectionalCohesion,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let mut config = mock_config_with_language(Language::ZhCn);
+        config.output.compact_transition_evidence_in_no_trade = false;
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        let md = report.markdown_body;
+        assert!(md.contains("新增阻碍因素: C"));
+        assert!(md.contains("新增阻碍因素: 主导方向分散或领导者缺失"));
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_zh_cn_markdown() {
+        let report = build_no_trade_report(crate::core::i18n::Language::ZhCn);
+        assert_snapshot("no_trade_zh_cn.md", &report.markdown_body);
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_zh_cn_html() {
+        let report = build_no_trade_report(crate::core::i18n::Language::ZhCn);
+        assert_snapshot("no_trade_zh_cn.html.txt", &report.telegram_html_body);
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_en_us_markdown() {
+        let report = build_no_trade_report(crate::core::i18n::Language::EnUs);
+        assert_snapshot("no_trade_en_us.md", &report.markdown_body);
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_en_us_html() {
+        let report = build_no_trade_report(crate::core::i18n::Language::EnUs);
+        assert_snapshot("no_trade_en_us.html.txt", &report.telegram_html_body);
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_ja_jp_markdown() {
+        let report = build_no_trade_report(crate::core::i18n::Language::JaJp);
+        assert_snapshot("no_trade_ja_jp.md", &report.markdown_body);
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_ja_jp_html() {
+        let report = build_no_trade_report(crate::core::i18n::Language::JaJp);
+        assert_snapshot("no_trade_ja_jp.html.txt", &report.telegram_html_body);
     }
 }

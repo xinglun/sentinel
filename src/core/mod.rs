@@ -19,6 +19,7 @@ pub mod report;
 pub mod run_status;
 pub mod runtime_mode;
 pub mod telemetry;
+pub mod threshold_format;
 pub mod trader_agent;
 pub mod transition_log;
 

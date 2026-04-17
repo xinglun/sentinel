@@ -68,6 +68,8 @@ pub struct DecisionSummaryViewModel {
     pub summary: String,
     pub readiness_reasons_label: String,
     pub readiness_reasons: Vec<String>,
+    pub compact_stability_value: String,
+    pub compact_continuity_value: String,
     pub candidate_only_note: Option<String>,
     pub market_board_label: String,
     pub market_board_value: String,

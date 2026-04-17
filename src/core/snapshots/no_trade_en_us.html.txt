@@ -1,0 +1,63 @@
+<b>🌍 Market Summary</b>
+
+<b>Market State</b>: Ignition | <b>Bias</b>: No Trade Window
+
+<i>Watch candidates</i>
+
+<b>🚫 Decision Summary</b>
+
+<b>NO TRADE</b>
+
+<i>Any discretionary trade would violate system rules.</i>
+
+Trend Cohesion：Dispersed
+Trend Topology：No Leader
+State：Ignition Unconfirmed
+Action：No Trading
+New Entry Cap · 0%
+
+
+<b>Readiness Reasons</b>:
+• <i>Stability 1.1/10</i>
+• <i>Streak 1/3</i>
+• <i>No Leader</i>
+
+Battleboard · Watch 1 | Hold 0 | Defend 0
+Opportunity · No clear opportunity
+Risk · No immediate risk
+
+<i>Existing holdings may drift naturally; no new entries are allowed.</i>
+
+<i>Candidates only, not executable trade targets.</i>
+
+<b>🚀 Breakout Detection</b>
+
+• GOOG · Emerging Breakout (Day 1)
+  <i>Leadership-style breakout · Strength 62 · Quality 100</i>
+
+<b>📉 Position Handling</b>
+
+No open positions require action.
+No exit conditions were triggered.
+
+<b>👀 Candidate Watchlist</b>
+
+• GOOG · Forming
+  <i>Blocked · Forming: Awaiting strength confirmation</i>
+
+<b>📡 Monitoring Signals</b>
+
+• <b>Participation</b>: Not Ready · Streak 1d
+• <b>Stability</b>: 1.1
+<i>Confidence 52 · Streak 1d · Regime Age 1d · Net Flow Stable ·</i>
+
+<b>🧭 Tactical Buckets</b>
+
+• <b>Watchlist (1)</b>: GOOG
+
+<b>⚠️ Risk & Opportunity</b>
+
+<i><b>Opportunity</b>: No clear opportunity
+<b>Risk</b>: No immediate risk</i>
+
+⚠️ Ignition phase: Candidates only, await continuity.

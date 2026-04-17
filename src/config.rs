@@ -6,6 +6,10 @@ use std::path::Path;
 
 use crate::core::i18n::Language;
 
+fn default_true() -> bool {
+    true
+}
+
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct AppConfig {
@@ -33,6 +37,8 @@ pub struct OutputConfig {
     pub save_to: String,
     pub weight_kind: Option<String>,
     pub language: Option<Language>,
+    #[serde(default = "default_true")]
+    pub compact_transition_evidence_in_no_trade: bool,
 }
 
 #[derive(Debug, Deserialize, Clone)]

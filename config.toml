@@ -6,6 +6,7 @@ timezone = "Asia/Tokyo"    # 输出使用的时区
 format = "markdown"        # 主要归档格式
 save_to = "./reports"      # 报表输出目录
 weight_kind = "portfolio"  # 权重口径，可选 portfolio / cap / risk
+compact_transition_evidence_in_no_trade = true # NO TRADE 时前台是否压缩“状态转移证据”展开（归档仍保留完整细节）
 
 [telegram]
 enabled = false            # Telegram 推送总开关；若环境变量提供 token，则运行时会自动启用

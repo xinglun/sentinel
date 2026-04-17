@@ -24,6 +24,7 @@ struct OutputConfig {
     timezone: String, // 例: "Asia/Tokyo"
     format: String,   // "markdown", "json"
     save_to: String,  // "./reports"
+    compact_transition_evidence_in_no_trade: bool, // NO TRADE 前台是否压缩状态转移证据
 }
 
 struct RulesConfig {
@@ -147,6 +148,20 @@ struct WatchlistEntry {
 4. 展示阈值必须与领域阈值分离，避免为了前台观感反向污染领域语义
 
 本原则的目的不是减少信息，而是避免在 `NO TRADE` 场景下把用户重新拉回“挑票模式”。
+
+#### 3.4 `NO TRADE` 前台信息层级契约（执行优先）
+
+为保证执行速度与一致性，前台展示（`markdown_body` / `telegram_html_body`）在 `NO TRADE` 场景下采用固定层级：
+
+1. 决策层：`NO TRADE` + `新开仓上限 · 0%`
+2. 简化原因层：`稳定性 x/10`、`连续性 x/3`、`主线结构`
+3. 观察重点层：`Breakout Detection`（包含 breakout 时间感，如 `第1天`）
+4. 证据层：`状态转移证据` 后置展示（可紧凑）
+
+说明：
+
+1. 归档输出（`archival_markdown`）保留完整证据，不做信息删减。
+2. 前台是否压缩 `NO TRADE` 证据展开由 `output.compact_transition_evidence_in_no_trade` 控制。
 
 ### 1.2 基礎データレイヤー (Market Data)
 APIから取得した生の時系列データです。

@@ -4,13 +4,16 @@ use crate::core::display::{DisplayAdapter, DisplayContext, DisplayIntent};
 use crate::core::exit::AssetExitState;
 use crate::core::i18n::{get_dictionary, DisplayDictionary, Language};
 use crate::core::market_regime::{MarketState, RiskOverlay};
+use crate::core::participation::ParticipationReasonCode;
 use crate::core::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
     ExitDisplayIntent, MacroDisplayContext, PresentationPacket, RiskOpportunitySummaryViewModel,
     SignalSummaryViewModel, StateTransitionViewModel, UnmetDiffViewModel,
 };
+use crate::core::threshold_format::format_threshold_value;
 use std::cmp::Ordering;
+use std::collections::BTreeSet;
 use std::collections::{HashMap, HashSet};
 
 pub struct PresentationAssembler;
@@ -357,8 +360,14 @@ impl PresentationAssembler {
             opportunity_snapshot_value: risk_opportunity_summary.opportunity_value.clone(),
             risk_snapshot_value: risk_opportunity_summary.risk_value.clone(),
         };
-        let decision_summary =
-            Self::build_decision_summary(packet, is_data_missing, state, &dict, &battleboard);
+        let decision_summary = Self::build_decision_summary(
+            packet,
+            rules,
+            is_data_missing,
+            state,
+            &dict,
+            &battleboard,
+        );
         let exit_summary = Self::build_exit_summary(
             packet,
             positions,
@@ -367,7 +376,7 @@ impl PresentationAssembler {
             is_ready,
             &dict,
         );
-        let breakout_summary = Self::build_breakout_summary(packet, rules, &dict);
+        let breakout_summary = Self::build_breakout_summary(packet, rules, &dict, lang);
 
         let mut notices = Vec::new();
         if !is_data_missing && !is_ready {
@@ -517,8 +526,13 @@ impl PresentationAssembler {
             } else {
                 None
             },
-            participation_unmet_diff: Self::map_unmet_diff(&log.participation_gate, false, dict),
-            trend_unmet_diff: Self::map_unmet_diff(&log.trend_cohesion_gate, true, dict),
+            participation_unmet_diff: Self::map_unmet_diff(
+                &log.participation_gate,
+                false,
+                packet,
+                dict,
+            ),
+            trend_unmet_diff: Self::map_unmet_diff(&log.trend_cohesion_gate, true, packet, dict),
             breakout_changes,
         })
     }
@@ -526,34 +540,51 @@ impl PresentationAssembler {
     fn map_unmet_diff(
         diff: &crate::core::transition_log::GateTransition,
         is_trend: bool,
+        packet: &DecisionPacket,
         dict: &DisplayDictionary,
     ) -> Option<UnmetDiffViewModel> {
         if diff.added.is_empty() && diff.removed.is_empty() && diff.persisting.is_empty() {
             return None;
         }
 
-        let map_fn = |s: &String| {
+        let map_fn = |s: &str| {
             if is_trend {
-                match s.as_str() {
-                    "StabilityThreshold" => dict.trend_cohesion.unmet.stability_threshold.clone(),
-                    "ContinuityThreshold" => dict.trend_cohesion.unmet.continuity_threshold.clone(),
+                match s {
+                    "StabilityThreshold" => dict.trend_cohesion.unmet.stability_threshold.replace(
+                        "{:.1}",
+                        &format!("{:.1}", packet.trend_cohesion.stability_score),
+                    ),
+                    "ContinuityThreshold" => dict
+                        .trend_cohesion
+                        .unmet
+                        .continuity_threshold
+                        .replace("{}", &packet.trend_cohesion.continuity_streak.to_string()),
                     "DirectionalCohesion" => dict.trend_cohesion.unmet.directional_cohesion.clone(),
-                    "HighCandidateDispersion" => {
-                        dict.trend_cohesion.unmet.high_candidate_dispersion.clone()
-                    }
-                    "UnstableRotation" => dict.trend_cohesion.unmet.unstable_rotation.clone(),
-                    "WeakLeadership" => dict.trend_cohesion.unmet.weak_leadership.clone(),
-                    _ => s.clone(),
+                    "HighCandidateDispersion" => dict
+                        .trend_cohesion
+                        .unmet
+                        .high_candidate_dispersion
+                        .replace("{}", &packet.trend_cohesion.candidate_count.to_string()),
+                    "UnstableRotation" => dict.trend_cohesion.unmet.unstable_rotation.replace(
+                        "{:.0}",
+                        &format!("{:.0}", packet.trend_cohesion.rotation_quality_score),
+                    ),
+                    "WeakLeadership" => dict
+                        .trend_cohesion
+                        .unmet
+                        .weak_leadership
+                        .replace("{}", &packet.trend_cohesion.leader_count.to_string()),
+                    _ => s.to_string(),
                 }
             } else {
-                s.clone()
+                s.to_string()
             }
         };
 
         Some(UnmetDiffViewModel {
-            added: diff.added.iter().map(map_fn).collect(),
-            removed: diff.removed.iter().map(map_fn).collect(),
-            persisting: diff.persisting.iter().map(map_fn).collect(),
+            added: diff.added.iter().map(|s| map_fn(s)).collect(),
+            removed: diff.removed.iter().map(|s| map_fn(s)).collect(),
+            persisting: diff.persisting.iter().map(|s| map_fn(s)).collect(),
         })
     }
 
@@ -846,6 +877,7 @@ impl PresentationAssembler {
         packet: &DecisionPacket,
         rules: &crate::config::ParsedRules,
         dict: &DisplayDictionary,
+        lang: Language,
     ) -> BreakoutSummaryViewModel {
         use crate::core::breakout_detection::{BreakoutReason, BreakoutStatus};
         let is_no_trade = !packet.trend_cohesion.gate_passed;
@@ -884,11 +916,17 @@ impl PresentationAssembler {
                     BreakoutStatus::EmergingBreakout => BreakoutDisplayStatus::EmergingBreakout,
                     BreakoutStatus::ConfirmedBreakout => BreakoutDisplayStatus::ConfirmedBreakout,
                 };
-                let status_label = match breakout.status {
+                let base_status_label = match breakout.status {
                     BreakoutStatus::NoBreakout => dict.breakout.no_breakout.clone(),
                     BreakoutStatus::EmergingBreakout => dict.breakout.emerging_breakout.clone(),
                     BreakoutStatus::ConfirmedBreakout => dict.breakout.confirmed_breakout.clone(),
                 };
+                let status_label = Self::format_breakout_status_with_age(
+                    &base_status_label,
+                    breakout.status,
+                    breakout.breakout_age,
+                    lang,
+                );
                 let reason = if is_no_trade
                     && breakout.status == BreakoutStatus::NoBreakout
                     && has_high_failed_risk
@@ -944,8 +982,29 @@ impl PresentationAssembler {
         }
     }
 
+    fn format_breakout_status_with_age(
+        base_label: &str,
+        status: crate::core::breakout_detection::BreakoutStatus,
+        breakout_age: usize,
+        lang: Language,
+    ) -> String {
+        use crate::core::breakout_detection::BreakoutStatus;
+        match status {
+            BreakoutStatus::NoBreakout => base_label.to_string(),
+            BreakoutStatus::EmergingBreakout | BreakoutStatus::ConfirmedBreakout => {
+                let day = breakout_age.max(1);
+                match lang {
+                    Language::ZhCn => format!("{}（第{}天）", base_label, day),
+                    Language::EnUs => format!("{} (Day {})", base_label, day),
+                    Language::JaJp => format!("{}（{}日目）", base_label, day),
+                }
+            }
+        }
+    }
+
     fn build_decision_summary(
         packet: &DecisionPacket,
+        rules: &ParsedRules,
         is_data_missing: bool,
         state: MarketState,
         dict: &DisplayDictionary,
@@ -1042,12 +1101,41 @@ impl PresentationAssembler {
         let readiness_reasons = if is_data_missing {
             vec![dict.market_summaries.data_missing.clone()]
         } else if not_ready {
-            packet
-                .participation
-                .reasons
-                .iter()
-                .map(|reason| Self::localize_participation_reason(reason, dict))
-                .filter(|reason| !Self::is_redundant_readiness_reason(reason, packet, dict))
+            let reason_entries: Vec<(ParticipationReasonCode, String)> =
+                if packet.participation.reason_codes.is_empty() {
+                    Self::infer_legacy_reason_entries(packet)
+                } else {
+                    let mut entries: Vec<(ParticipationReasonCode, String)> = Vec::new();
+                    let code_set: BTreeSet<ParticipationReasonCode> =
+                        packet.participation.reason_codes.iter().copied().collect();
+
+                    // Preserve raw reasons as unknown evidence and avoid index binding.
+                    // Suppress only known machine-template lines when equivalent
+                    // structured threshold evidence already exists.
+                    for reason in &packet.participation.reasons {
+                        if Self::should_suppress_raw_reason_with_codes(reason, &code_set) {
+                            continue;
+                        }
+                        entries.push((ParticipationReasonCode::Unknown, reason.clone()));
+                    }
+
+                    // Keep structured reasons from codes (deduplicated, stable order).
+                    let mut seen_codes = HashSet::new();
+                    for code in &packet.participation.reason_codes {
+                        if seen_codes.insert(*code) {
+                            entries.push((*code, String::new()));
+                        }
+                    }
+
+                    entries
+                };
+
+            reason_entries
+                .into_iter()
+                .filter(|(code, _)| !Self::is_redundant_readiness_reason(*code, packet))
+                .map(|(code, raw)| {
+                    Self::localize_participation_reason(code, raw.as_str(), packet, rules, dict)
+                })
                 .filter(|reason| !reason.is_empty())
                 .collect()
         } else {
@@ -1153,6 +1241,16 @@ impl PresentationAssembler {
             summary,
             readiness_reasons_label: dict.decision.readiness_reasons.clone(),
             readiness_reasons,
+            compact_stability_value: if is_data_missing {
+                "N/A".to_string()
+            } else {
+                format!("{:.1}", packet.trend_cohesion.stability_score)
+            },
+            compact_continuity_value: if is_data_missing {
+                "N/A".to_string()
+            } else {
+                Self::canonical_continuity_streak(packet).to_string()
+            },
             candidate_only_note: if not_ready && !is_data_missing {
                 Some(dict.decision.candidate_only_note.clone())
             } else {
@@ -1175,23 +1273,284 @@ impl PresentationAssembler {
         }
     }
 
-    fn localize_participation_reason(reason: &str, dict: &DisplayDictionary) -> String {
-        if reason.starts_with("Stability score") {
-            format!("{}不足（< 10.0）", dict.signals.stability)
-        } else if reason.starts_with("Core Tier streak") {
-            let streak = reason
-                .split('(')
-                .nth(1)
-                .and_then(|s| s.split(')').next())
-                .unwrap_or("0");
-            format!("{}不足（{}d < 3d）", dict.signals.continuity, streak)
-        } else if reason.starts_with("Core Tier set changed")
-            || reason.starts_with("First day of session")
-        {
-            String::new()
-        } else {
-            reason.to_string()
+    fn localize_participation_reason(
+        reason_code: ParticipationReasonCode,
+        raw_reason: &str,
+        packet: &DecisionPacket,
+        rules: &ParsedRules,
+        dict: &DisplayDictionary,
+    ) -> String {
+        match reason_code {
+            ParticipationReasonCode::StabilityBelowThreshold => {
+                let stability_now = format!("{:.1}", packet.trend_cohesion.stability_score);
+                let stability_threshold =
+                    format_threshold_value(rules.trend_cohesion.gate_stability_threshold);
+                format!(
+                    "{} {} < {}",
+                    dict.signals.stability, stability_now, stability_threshold
+                )
+            }
+            ParticipationReasonCode::CoreTierStreakBelowThreshold => {
+                let streak = Self::canonical_continuity_streak(packet);
+                format!(
+                    "{} {}d < {}d",
+                    dict.signals.continuity, streak, rules.trend_cohesion.gate_continuity_threshold
+                )
+            }
+            ParticipationReasonCode::CoreTierSetChanged
+            | ParticipationReasonCode::FirstDayOfSession => String::new(),
+            ParticipationReasonCode::Unknown => raw_reason.to_string(),
         }
+    }
+
+    fn infer_legacy_reason_entries(
+        packet: &DecisionPacket,
+    ) -> Vec<(ParticipationReasonCode, String)> {
+        let mut inferred = Vec::new();
+        let has_stability_evidence = packet
+            .trend_cohesion
+            .unmet_conditions
+            .contains(&crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold);
+        let has_continuity_evidence = packet.trend_cohesion.unmet_conditions.contains(
+            &crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+        );
+
+        // Preserve legacy raw evidence by default.
+        // Suppress only threshold templates that are explicitly covered by gate evidence.
+        // This prevents one-sided evidence from accidentally suppressing the other reason.
+        for reason in &packet.participation.reasons {
+            if Self::should_suppress_raw_reason_with_gate_evidence(
+                reason,
+                has_stability_evidence,
+                has_continuity_evidence,
+            ) {
+                continue;
+            }
+            inferred.push((ParticipationReasonCode::Unknown, reason.clone()));
+        }
+
+        // Add structured reasons only when we have explicit gate evidence.
+        // Avoid relying on legacy boolean fields, which may default to false in old payloads.
+        if has_stability_evidence {
+            inferred.push((
+                ParticipationReasonCode::StabilityBelowThreshold,
+                String::new(),
+            ));
+        }
+        if has_continuity_evidence {
+            inferred.push((
+                ParticipationReasonCode::CoreTierStreakBelowThreshold,
+                String::new(),
+            ));
+        }
+
+        inferred
+    }
+
+    fn should_suppress_raw_reason_with_codes(
+        reason: &str,
+        code_set: &BTreeSet<ParticipationReasonCode>,
+    ) -> bool {
+        (code_set.contains(&ParticipationReasonCode::StabilityBelowThreshold)
+            && Self::is_legacy_stability_machine_reason(reason))
+            || (code_set.contains(&ParticipationReasonCode::CoreTierStreakBelowThreshold)
+                && Self::is_legacy_continuity_machine_reason(reason))
+    }
+
+    fn should_suppress_raw_reason_with_gate_evidence(
+        reason: &str,
+        has_stability_evidence: bool,
+        has_continuity_evidence: bool,
+    ) -> bool {
+        (has_stability_evidence && Self::is_legacy_stability_machine_reason(reason))
+            || (has_continuity_evidence && Self::is_legacy_continuity_machine_reason(reason))
+    }
+
+    fn is_legacy_stability_machine_reason(reason: &str) -> bool {
+        Self::matches_legacy_english_threshold_machine_reason(reason, "Stability score (")
+            || Self::matches_legacy_localized_threshold_machine_reason(reason, "稳定性不足")
+            || Self::matches_legacy_localized_threshold_machine_reason(reason, "安定性不足")
+    }
+
+    fn is_legacy_continuity_machine_reason(reason: &str) -> bool {
+        Self::matches_legacy_english_threshold_machine_reason(reason, "Core Tier streak (")
+            || Self::matches_legacy_localized_threshold_machine_reason(reason, "连续性不足")
+            || Self::matches_legacy_localized_threshold_machine_reason(reason, "連続性不足")
+    }
+
+    fn matches_legacy_english_threshold_machine_reason(reason: &str, prefix: &str) -> bool {
+        let normalized: String = reason.chars().filter(|ch| !ch.is_whitespace()).collect();
+        let normalized_lower = normalized.to_ascii_lowercase();
+        let normalized_lower = Self::trim_trailing_sentence_punctuation(&normalized_lower);
+        let prefix_lower = prefix.to_ascii_lowercase().replace(' ', "");
+        if !normalized_lower.starts_with(&prefix_lower) {
+            return false;
+        }
+        if !normalized_lower.ends_with(')') {
+            return false;
+        }
+        let close_pos = normalized_lower.find(')').unwrap_or(0);
+        if close_pos + 1 >= normalized_lower.len() {
+            return false;
+        }
+        let current_payload = &normalized_lower[prefix_lower.len()..close_pos];
+        if !Self::contains_digit(current_payload) {
+            return false;
+        }
+        let after_current = &normalized_lower[close_pos + 1..];
+        let after_current = after_current.strip_prefix(':').unwrap_or(after_current);
+        let after_current = after_current.strip_prefix("is").unwrap_or(after_current);
+        let Some(token_segment) = Self::strip_leading_comparator_segment(after_current) else {
+            return false;
+        };
+        let token_segment = token_segment.strip_prefix(':').unwrap_or(token_segment);
+        let has_threshold_token = Self::starts_with_ascii_word_token(token_segment, "threshold")
+            || Self::starts_with_ascii_word_token(token_segment, "thresh")
+            || Self::starts_with_ascii_word_token(token_segment, "thr")
+            || Self::starts_with_ascii_word_token(token_segment, "limit");
+        if !has_threshold_token {
+            return false;
+        }
+        let Some((_, right_after_open)) = token_segment.split_once('(') else {
+            return false;
+        };
+        let Some((threshold_payload, _)) = right_after_open.split_once(')') else {
+            return false;
+        };
+        Self::contains_digit(threshold_payload)
+    }
+
+    fn matches_legacy_localized_threshold_machine_reason(reason: &str, prefix: &str) -> bool {
+        let normalized: String = reason.chars().filter(|ch| !ch.is_whitespace()).collect();
+        let normalized = Self::trim_trailing_sentence_punctuation(&normalized);
+        let starts_with_prefix = normalized.starts_with(&(prefix.to_string() + "（"))
+            || normalized.starts_with(&(prefix.to_string() + "("));
+        if !starts_with_prefix || !Self::contains_threshold_operator(normalized) {
+            return false;
+        }
+        // Require closing bracket to avoid suppressing free-form notes that merely start
+        // with the same prefix and mention threshold symbols later in text.
+        if !(normalized.ends_with('）') || normalized.ends_with(')')) {
+            return false;
+        }
+
+        // Restrict to threshold-like payloads inside brackets.
+        // Examples: "<10.0", "1d<3d", "1日≤3日".
+        let after_open = normalized
+            .split_once('（')
+            .map(|(_, right)| right)
+            .or_else(|| normalized.split_once('(').map(|(_, right)| right));
+        let Some(after_open) = after_open else {
+            return false;
+        };
+        let payload = after_open
+            .rsplit_once('）')
+            .map(|(left, _)| left)
+            .or_else(|| after_open.rsplit_once(')').map(|(left, _)| left));
+        let Some(payload) = payload else {
+            return false;
+        };
+        if !Self::is_structured_threshold_payload(payload) {
+            return false;
+        }
+        true
+    }
+
+    fn contains_threshold_operator(normalized_reason: &str) -> bool {
+        normalized_reason.contains('<')
+            || normalized_reason.contains('＜')
+            || normalized_reason.contains('≤')
+            || normalized_reason.contains('≦')
+    }
+
+    fn contains_digit(text: &str) -> bool {
+        text.chars()
+            .any(|c| c.is_ascii_digit() || ('０'..='９').contains(&c))
+    }
+
+    fn starts_with_ascii_word_token(text: &str, token: &str) -> bool {
+        if !text.starts_with(token) {
+            return false;
+        }
+        let next = text[token.len()..].chars().next();
+        !next.is_some_and(|c| c.is_alphanumeric() || c == '_')
+    }
+
+    fn strip_leading_comparator_segment(text: &str) -> Option<&str> {
+        if let Some(rest) = text.strip_prefix("below") {
+            return Some(rest);
+        }
+        if let Some(rest) = text.strip_prefix("under") {
+            return Some(rest);
+        }
+        if let Some(rest) = text.strip_prefix("lessthan") {
+            return Some(rest);
+        }
+        let mut iter = text.char_indices();
+        let (_, first) = iter.next()?;
+        if Self::is_direct_less_or_equal_symbol(first) {
+            let consumed = first.len_utf8();
+            return Some(&text[consumed..]);
+        }
+        if !Self::is_strict_less_symbol(first) {
+            return None;
+        }
+        if let Some((idx, second)) = iter.next() {
+            if Self::is_equal_symbol(second) {
+                return Some(&text[idx + second.len_utf8()..]);
+            }
+        }
+        Some(&text[first.len_utf8()..])
+    }
+
+    fn trim_trailing_sentence_punctuation(input: &str) -> &str {
+        input.trim_end_matches(Self::is_sentence_terminal_punctuation)
+    }
+
+    fn is_sentence_terminal_punctuation(ch: char) -> bool {
+        matches!(
+            ch,
+            '.' | '!' | '?' | '。' | '！' | '？' | '｡' | '．' | '﹒' | '﹗' | '﹖'
+        )
+    }
+
+    fn is_strict_less_symbol(ch: char) -> bool {
+        matches!(ch, '<' | '＜' | '﹤')
+    }
+
+    fn is_direct_less_or_equal_symbol(ch: char) -> bool {
+        matches!(ch, '≤' | '≦' | '⩽')
+    }
+
+    fn is_equal_symbol(ch: char) -> bool {
+        matches!(ch, '=' | '＝' | '﹦')
+    }
+
+    fn canonical_continuity_streak(packet: &DecisionPacket) -> usize {
+        // Prefer trend gate streak to keep ratio displays and reason text on one source of truth.
+        // Fall back to participation streak for partially populated legacy payloads.
+        let trend = packet.trend_cohesion.continuity_streak;
+        if trend > 0 {
+            trend
+        } else {
+            packet.participation.core_tier_streak
+        }
+    }
+
+    fn is_structured_threshold_payload(payload: &str) -> bool {
+        if !Self::contains_threshold_operator(payload) || !Self::contains_digit(payload) {
+            return false;
+        }
+        // Keep matcher conservative: allow only concise machine-template tokens
+        // so custom notes with natural language are preserved.
+        payload.chars().all(|ch| {
+            ch.is_ascii_digit()
+                || ('０'..='９').contains(&ch)
+                || matches!(
+                    ch,
+                    '<' | '＜' | '≤' | '≦' | '.' | '．' | '+' | '-' | 'd' | 'D' | '日' | '天'
+                )
+        })
     }
 
     fn localize_breakout_reason(
@@ -1214,17 +1573,16 @@ impl PresentationAssembler {
     }
 
     fn is_redundant_readiness_reason(
-        localized_reason: &str,
+        reason_code: ParticipationReasonCode,
         packet: &DecisionPacket,
-        dict: &DisplayDictionary,
     ) -> bool {
         let unmet_conditions = &packet.trend_cohesion.unmet_conditions;
 
-        (localized_reason.contains(&dict.signals.stability)
+        (reason_code == ParticipationReasonCode::StabilityBelowThreshold
             && unmet_conditions.contains(
                 &crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
             ))
-            || (localized_reason.contains(&dict.signals.continuity)
+            || (reason_code == ParticipationReasonCode::CoreTierStreakBelowThreshold
                 && unmet_conditions.contains(
                     &crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ))

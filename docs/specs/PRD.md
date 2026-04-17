@@ -87,6 +87,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 timezone = "Asia/Tokyo"
 format = "markdown"
 save_to = "./reports"
+compact_transition_evidence_in_no_trade = true # NO TRADE 时前台压缩状态转移证据，归档仍保留完整细节
 
 [rules.trend]
 lookback_days = 20
