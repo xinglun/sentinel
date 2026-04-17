@@ -222,6 +222,7 @@ impl Engine {
                 state_streak,
                 top_tier_streak,
                 prev_asset_snapshot.map(|s| s.state),
+                prev_asset_decision.map(|a| &a.breakout),
                 &rules.breakout,
             );
 
