@@ -208,10 +208,6 @@ fn generate_markdown_report(
 
     if compact_no_trade_presentation {
         card.push_str(&render_breakout_summary(pres, &dict, RenderMode::Markdown));
-        if !detailed_transition && !transition_block.is_empty() {
-            card.push_str(&transition_block);
-            card.push('\n');
-        }
         card.push_str(&render_exit_summary(pres, RenderMode::Markdown));
     } else {
         card.push_str(&render_exit_summary(pres, RenderMode::Markdown));
@@ -230,6 +226,10 @@ fn generate_markdown_report(
         is_no_trade,
         RenderMode::Markdown,
     ));
+    if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
+        card.push('\n');
+        card.push_str(&transition_block);
+    }
 
     card
 }
@@ -385,10 +385,6 @@ fn generate_telegram_html_report(
 
     if compact_no_trade_presentation {
         card.push_str(&render_breakout_summary(pres, &dict, RenderMode::Html));
-        if !detailed_transition && !transition_block.is_empty() {
-            card.push_str(&transition_block);
-            card.push('\n');
-        }
         card.push_str(&render_exit_summary(pres, RenderMode::Html));
     } else {
         card.push_str(&render_exit_summary(pres, RenderMode::Html));
@@ -407,6 +403,10 @@ fn generate_telegram_html_report(
         is_no_trade,
         RenderMode::Html,
     ));
+    if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
+        card.push('\n');
+        card.push_str(&transition_block);
+    }
 
     card
 }

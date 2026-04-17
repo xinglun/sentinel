@@ -49,6 +49,10 @@ fn mock_config_with_language(language: crate::core::i18n::Language) -> AppConfig
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::core::i18n::{get_dictionary, Language};
+    use crate::core::participation::ParticipationReadiness;
+    use crate::core::transition_log::StateTransitionLog;
+    use crate::core::trend_cohesion::{TrendCohesionGateCondition, TrendCohesionSnapshot};
     use std::fs;
     use std::path::PathBuf;
 
@@ -125,6 +129,78 @@ mod tests {
             language,
         );
         generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap()
+    }
+
+    fn build_no_trade_transition_report(
+        language: crate::core::i18n::Language,
+    ) -> crate::core::report::ReportResult {
+        let curr = no_trade_transition_order_packet();
+        let config = mock_config_with_language(language);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            language,
+        );
+        generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap()
+    }
+
+    fn no_trade_transition_order_packet() -> DecisionPacket {
+        let prev = no_trade_snapshot_packet();
+        let mut curr = no_trade_snapshot_packet();
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+        curr
+    }
+
+    fn no_trade_transition_reason_diff_packet() -> DecisionPacket {
+        let prev = DecisionPacket {
+            participation: ParticipationReadiness {
+                reasons: vec!["A".to_string(), "B".to_string()],
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                unmet_conditions: vec![
+                    TrendCohesionGateCondition::StabilityThreshold,
+                    TrendCohesionGateCondition::ContinuityThreshold,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            participation: ParticipationReadiness {
+                reasons: vec!["B".to_string(), "C".to_string()],
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                unmet_conditions: vec![
+                    TrendCohesionGateCondition::ContinuityThreshold,
+                    TrendCohesionGateCondition::DirectionalCohesion,
+                ],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+        curr
+    }
+
+    fn assert_no_trade_html_execution_order(language: Language, html: &str) {
+        let dict = get_dictionary(language);
+        let decision_marker = format!("<b>{}</b>", dict.decision.no_trade);
+        let breakout_marker = format!("<b>{}</b>", dict.headers.breakout_detection);
+        let watch_marker = format!("<b>{}</b>", dict.decision.candidate_watchlist);
+        let transition_marker = format!("<b>{}</b>", dict.transition_evidence.title);
+
+        let decision_idx = html.find(&decision_marker).unwrap();
+        let breakout_idx = html.find(&breakout_marker).unwrap();
+        let watch_idx = html.find(&watch_marker).unwrap();
+        let transition_idx = html.find(&transition_marker).unwrap();
+        assert!(decision_idx < breakout_idx);
+        assert!(breakout_idx < watch_idx);
+        assert!(watch_idx < transition_idx);
     }
 
     fn snapshot_path(file_name: &str) -> PathBuf {
@@ -2585,45 +2661,8 @@ mod tests {
 
     #[test]
     fn test_audit_grade_reason_diff_rendering() {
-        use crate::core::i18n::Language;
-        use crate::core::participation::ParticipationReadiness;
-        use crate::core::transition_log::StateTransitionLog;
-        use crate::core::trend_cohesion::{TrendCohesionGateCondition, TrendCohesionSnapshot};
-
         let language = Language::ZhCn;
-        let prev = DecisionPacket {
-            participation: ParticipationReadiness {
-                reasons: vec!["A".to_string(), "B".to_string()],
-                ..Default::default()
-            },
-            trend_cohesion: TrendCohesionSnapshot {
-                unmet_conditions: vec![
-                    TrendCohesionGateCondition::StabilityThreshold,
-                    TrendCohesionGateCondition::ContinuityThreshold,
-                ],
-                ..Default::default()
-            },
-            ..Default::default()
-        };
-
-        let mut curr = DecisionPacket {
-            participation: ParticipationReadiness {
-                reasons: vec!["B".to_string(), "C".to_string()],
-                ..Default::default()
-            },
-            trend_cohesion: TrendCohesionSnapshot {
-                unmet_conditions: vec![
-                    TrendCohesionGateCondition::ContinuityThreshold,
-                    TrendCohesionGateCondition::DirectionalCohesion,
-                ],
-                ..Default::default()
-            },
-            ..Default::default()
-        };
-
-        // Compute transition log
-        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
-
+        let curr = no_trade_transition_reason_diff_packet();
         let config = mock_config_with_language(language);
         let pres = PresentationAssembler::assemble(
             &curr,
@@ -2637,6 +2676,7 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md_compact = report.markdown_body.clone();
+        let html_compact = report.telegram_html_body.clone();
         let md = report.archival_markdown;
 
         // Participation Gate Checks (Chinese)
@@ -2684,49 +2724,19 @@ mod tests {
         )));
         let decision_idx = md_compact.find("### 禁止动作（NO TRADE）").unwrap();
         let breakout_idx = md_compact.find("### 🚀 突破识别").unwrap();
+        let watch_idx = md_compact.find("### 👀 候选观察名单").unwrap();
         let transition_idx = md_compact.find("### 🔄 状态转移证据").unwrap();
         assert!(decision_idx < breakout_idx);
-        assert!(breakout_idx < transition_idx);
+        assert!(breakout_idx < watch_idx);
+        assert!(watch_idx < transition_idx);
+
+        // Telegram HTML should preserve the same execution-first ordering.
+        assert_no_trade_html_execution_order(Language::ZhCn, &html_compact);
     }
 
     #[test]
     fn test_transition_evidence_can_be_expanded_in_no_trade_via_config() {
-        use crate::core::i18n::Language;
-        use crate::core::participation::ParticipationReadiness;
-        use crate::core::transition_log::StateTransitionLog;
-        use crate::core::trend_cohesion::{TrendCohesionGateCondition, TrendCohesionSnapshot};
-
-        let prev = DecisionPacket {
-            participation: ParticipationReadiness {
-                reasons: vec!["A".to_string(), "B".to_string()],
-                ..Default::default()
-            },
-            trend_cohesion: TrendCohesionSnapshot {
-                unmet_conditions: vec![
-                    TrendCohesionGateCondition::StabilityThreshold,
-                    TrendCohesionGateCondition::ContinuityThreshold,
-                ],
-                ..Default::default()
-            },
-            ..Default::default()
-        };
-
-        let mut curr = DecisionPacket {
-            participation: ParticipationReadiness {
-                reasons: vec!["B".to_string(), "C".to_string()],
-                ..Default::default()
-            },
-            trend_cohesion: TrendCohesionSnapshot {
-                unmet_conditions: vec![
-                    TrendCohesionGateCondition::ContinuityThreshold,
-                    TrendCohesionGateCondition::DirectionalCohesion,
-                ],
-                ..Default::default()
-            },
-            ..Default::default()
-        };
-        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
-
+        let curr = no_trade_transition_reason_diff_packet();
         let mut config = mock_config_with_language(Language::ZhCn);
         config.output.compact_transition_evidence_in_no_trade = false;
         let pres = PresentationAssembler::assemble(
@@ -2754,6 +2764,47 @@ mod tests {
     fn test_no_trade_snapshot_zh_cn_html() {
         let report = build_no_trade_report(crate::core::i18n::Language::ZhCn);
         assert_snapshot("no_trade_zh_cn.html.txt", &report.telegram_html_body);
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_breakout_age_displays_day_one_in_zh_cn() {
+        let report = build_no_trade_report(crate::core::i18n::Language::ZhCn);
+        assert!(report.markdown_body.contains("GOOG · 突破萌芽（第1天）"));
+        assert!(report
+            .telegram_html_body
+            .contains("GOOG · 突破萌芽（第1天）"));
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_breakout_age_displays_day_one_in_en_us() {
+        let report = build_no_trade_report(crate::core::i18n::Language::EnUs);
+        assert!(report
+            .markdown_body
+            .contains("GOOG · Emerging Breakout (Day 1)"));
+        assert!(report
+            .telegram_html_body
+            .contains("GOOG · Emerging Breakout (Day 1)"));
+    }
+
+    #[test]
+    fn test_no_trade_snapshot_breakout_age_displays_day_one_in_ja_jp() {
+        let report = build_no_trade_report(crate::core::i18n::Language::JaJp);
+        assert!(report.markdown_body.contains("GOOG · 突破初動（1日目）"));
+        assert!(report
+            .telegram_html_body
+            .contains("GOOG · 突破初動（1日目）"));
+    }
+
+    #[test]
+    fn test_no_trade_html_execution_order_in_en_us() {
+        let report = build_no_trade_transition_report(Language::EnUs);
+        assert_no_trade_html_execution_order(Language::EnUs, &report.telegram_html_body);
+    }
+
+    #[test]
+    fn test_no_trade_html_execution_order_in_ja_jp() {
+        let report = build_no_trade_transition_report(Language::JaJp);
+        assert_no_trade_html_execution_order(Language::JaJp, &report.telegram_html_body);
     }
 
     #[test]

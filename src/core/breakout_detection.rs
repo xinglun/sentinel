@@ -40,6 +40,7 @@ impl BreakoutEvaluator {
         state_streak: usize,
         top_tier_streak: usize,
         previous_state: Option<AssetState>,
+        previous_breakout: Option<&BreakoutSnapshot>,
         cfg: &ParsedBreakoutRules,
     ) -> BreakoutSnapshot {
         let z = features.z_score.unwrap_or(0.0);
@@ -123,11 +124,29 @@ impl BreakoutEvaluator {
             reasons.push(BreakoutReason::FailedBreakoutRisk);
         }
 
+        let breakout_age = if matches!(status, BreakoutStatus::NoBreakout) {
+            0
+        } else if previous_breakout
+            .map(|b| {
+                matches!(
+                    b.status,
+                    BreakoutStatus::EmergingBreakout | BreakoutStatus::ConfirmedBreakout
+                )
+            })
+            .unwrap_or(false)
+        {
+            previous_breakout
+                .map(|b| b.breakout_age.max(1) + 1)
+                .unwrap_or(1)
+        } else {
+            1
+        };
+
         BreakoutSnapshot {
             status,
             breakout_eligible,
             breakout_strength: strength,
-            breakout_age: top_tier_streak.max(features.trend_age),
+            breakout_age,
             breakout_quality: quality,
             failed_breakout_risk,
             reasons,
@@ -172,9 +191,11 @@ mod tests {
             3,
             3,
             Some(AssetState::CRUISE),
+            None,
             &rules(),
         );
         assert_eq!(snapshot.status, BreakoutStatus::ConfirmedBreakout);
+        assert_eq!(snapshot.breakout_age, 1);
         assert!(snapshot
             .reasons
             .contains(&BreakoutReason::StructuralBreakout));
@@ -191,9 +212,11 @@ mod tests {
             2,
             1,
             Some(AssetState::FORMING),
+            None,
             &rules(),
         );
         assert_eq!(snapshot.status, BreakoutStatus::EmergingBreakout);
+        assert_eq!(snapshot.breakout_age, 1);
     }
 
     #[test]
@@ -206,9 +229,11 @@ mod tests {
             1,
             0,
             Some(AssetState::CRUISE),
+            None,
             &rules(),
         );
         assert_eq!(snapshot.status, BreakoutStatus::NoBreakout);
+        assert_eq!(snapshot.breakout_age, 0);
         assert!(snapshot.reasons.contains(&BreakoutReason::PullbackRepair));
     }
 
@@ -224,9 +249,11 @@ mod tests {
             1,
             0,
             None,
+            None,
             &rules(),
         );
         assert_eq!(snapshot.status, BreakoutStatus::NoBreakout);
+        assert_eq!(snapshot.breakout_age, 0);
         assert!(snapshot.reasons.contains(&BreakoutReason::OrdinaryRebound));
     }
 
@@ -241,6 +268,7 @@ mod tests {
             1,
             0,
             Some(AssetState::OPTIMAL),
+            None,
             &rules(),
         );
         assert!(snapshot.failed_breakout_risk >= 55.0);
@@ -257,6 +285,7 @@ mod tests {
             1,
             0,
             None,
+            None,
             &rules(),
         );
         assert!(uptrend_snapshot.breakout_eligible);
@@ -269,6 +298,7 @@ mod tests {
             1,
             0,
             Some(AssetState::CRUISE),
+            None,
             &rules(),
         );
         assert!(breakdown_snapshot.breakout_eligible);
@@ -286,8 +316,55 @@ mod tests {
             1,
             0,
             None,
+            None,
             &rules(),
         );
         assert!(!snapshot.breakout_eligible);
+    }
+
+    #[test]
+    fn test_breakout_age_increments_when_breakout_persists() {
+        let previous_breakout = BreakoutSnapshot {
+            status: BreakoutStatus::EmergingBreakout,
+            breakout_age: 5,
+            ..Default::default()
+        };
+        let snapshot = BreakoutEvaluator::evaluate(
+            &mock_features(),
+            &mock_state(AssetState::OPTIMAL),
+            3,
+            3,
+            Some(AssetState::CRUISE),
+            Some(&previous_breakout),
+            &rules(),
+        );
+        assert!(matches!(
+            snapshot.status,
+            BreakoutStatus::EmergingBreakout | BreakoutStatus::ConfirmedBreakout
+        ));
+        assert_eq!(snapshot.breakout_age, 6);
+    }
+
+    #[test]
+    fn test_breakout_age_resets_to_one_on_new_breakout_episode() {
+        let previous_breakout = BreakoutSnapshot {
+            status: BreakoutStatus::NoBreakout,
+            breakout_age: 17,
+            ..Default::default()
+        };
+        let snapshot = BreakoutEvaluator::evaluate(
+            &mock_features(),
+            &mock_state(AssetState::CRUISE),
+            3,
+            2,
+            Some(AssetState::FORMING),
+            Some(&previous_breakout),
+            &rules(),
+        );
+        assert!(matches!(
+            snapshot.status,
+            BreakoutStatus::EmergingBreakout | BreakoutStatus::ConfirmedBreakout
+        ));
+        assert_eq!(snapshot.breakout_age, 1);
     }
 }
