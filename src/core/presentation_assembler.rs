@@ -429,6 +429,10 @@ impl PresentationAssembler {
             transition_evidence: Self::build_transition_evidence(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
+            market_state_rendered: packet
+                .market_state
+                .as_ref()
+                .map(|ms| crate::core::market_state::renderer::MarketStateRenderer::render(ms)),
         }
     }
 

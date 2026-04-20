@@ -38,6 +38,7 @@ async fn test_full_9_asset_archival_package() {
         date_naive,
         features,
         market,
+        None,
         policy,
         vec![],
         stock_sentinel::core::participation::ParticipationReadiness::default(),

@@ -128,14 +128,33 @@ impl ExecutionGate {
                 if s == TradeSide::Buy && is_circuit_breaker_active {
                     audits.push(GatedAudit {
                         symbol: asset.symbol.clone(),
-                        action: asset.action,
+                        action: asset.action.clone(),
                         passed: false,
                         blocked_by: Some("CircuitBreaker".to_string()),
-                        details: audit_details,
+                        details: audit_details.clone(),
                         is_liquidation: false,
                         is_trim: false,
                     });
                     continue;
+                }
+
+                if s == TradeSide::Buy {
+                    if let Some(market_state) = &packet.market_state {
+                        if let crate::core::market_state::models::ActionStatus::NoTrade(_) =
+                            &market_state.action_status
+                        {
+                            audits.push(GatedAudit {
+                                symbol: asset.symbol.clone(),
+                                action: asset.action.clone(),
+                                passed: false,
+                                blocked_by: Some("MarketStateNoTrade".to_string()),
+                                details: audit_details.clone(),
+                                is_liquidation: false,
+                                is_trim: false,
+                            });
+                            continue;
+                        }
+                    }
                 }
 
                 if !trading_config.enabled {
@@ -296,6 +315,7 @@ mod tests {
             chrono::Utc::now().date_naive(),
             crate::core::features::MarketFeatures::default(),
             regime,
+            None,
             PortfolioPolicy {
                 risk_assets_mode: RiskAssetsMode::NEUTRAL,
                 target_exposure_min: 0.0,

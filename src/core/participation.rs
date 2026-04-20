@@ -98,6 +98,7 @@ mod tests {
             NaiveDate::from_ymd_opt(2023, 1, 1).unwrap(),
             MarketFeatures::default(),
             MarketRegimeSnapshot::default(),
+            None,
             PortfolioPolicy::default(),
             Vec::new(),
             ParticipationReadiness {

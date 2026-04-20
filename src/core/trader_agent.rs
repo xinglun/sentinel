@@ -549,6 +549,7 @@ mod tests {
             chrono::NaiveDate::from_ymd_opt(2023, 1, 1).unwrap(),
             market_features,
             market,
+            None,
             policy,
             assets,
             crate::core::participation::ParticipationReadiness::default(),

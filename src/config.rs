@@ -88,6 +88,7 @@ pub struct RulesConfig {
     pub inertia: Option<InertiaConfig>,
     pub trend_cohesion: Option<TrendCohesionRulesConfig>,
     pub breakout: Option<BreakoutRulesConfig>,
+    pub market_state_engine: Option<MarketStateEngineConfig>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -151,6 +152,14 @@ pub struct BreakoutRulesConfig {
 
 #[derive(Debug, Deserialize, Clone, Default)]
 #[serde(deny_unknown_fields)]
+pub struct MarketStateEngineConfig {
+    pub continuity_threshold: Option<usize>,
+    pub stability_threshold: Option<f64>,
+    pub min_followers_threshold: Option<usize>,
+}
+
+#[derive(Debug, Deserialize, Clone, Default)]
+#[serde(deny_unknown_fields)]
 pub struct WatchlistEntry {
     pub symbol: String,
     pub weight: Option<f64>,
@@ -184,6 +193,7 @@ pub struct ParsedRules {
     pub inertia: ParsedInertia,
     pub trend_cohesion: ParsedTrendCohesionRules,
     pub breakout: ParsedBreakoutRules,
+    pub market_state_engine: ParsedMarketStateEngineConfig,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -193,6 +203,23 @@ pub struct ParsedInertia {
     pub core_breakdown_k: usize,
     pub core_breakdown_avg_deviation: f64,
     pub core_breakdown_breadth_floor: f64,
+}
+
+#[derive(Debug, Clone)]
+pub struct ParsedMarketStateEngineConfig {
+    pub continuity_threshold: usize,
+    pub stability_threshold: f64,
+    pub min_followers_threshold: usize,
+}
+
+impl Default for ParsedMarketStateEngineConfig {
+    fn default() -> Self {
+        Self {
+            continuity_threshold: 2,
+            stability_threshold: 5.5,
+            min_followers_threshold: 1,
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -503,6 +530,21 @@ impl AppConfig {
                     failed_breakout_no_trade_display_threshold: bo
                         .and_then(|c| c.failed_breakout_no_trade_display_threshold)
                         .unwrap_or(defaults.failed_breakout_no_trade_display_threshold),
+                }
+            },
+            market_state_engine: {
+                let ms = self.rules.market_state_engine.as_ref();
+                let defaults = ParsedMarketStateEngineConfig::default();
+                ParsedMarketStateEngineConfig {
+                    continuity_threshold: ms
+                        .and_then(|c| c.continuity_threshold)
+                        .unwrap_or(defaults.continuity_threshold),
+                    stability_threshold: ms
+                        .and_then(|c| c.stability_threshold)
+                        .unwrap_or(defaults.stability_threshold),
+                    min_followers_threshold: ms
+                        .and_then(|c| c.min_followers_threshold)
+                        .unwrap_or(defaults.min_followers_threshold),
                 }
             },
         }

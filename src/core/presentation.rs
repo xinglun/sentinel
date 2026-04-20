@@ -196,6 +196,7 @@ pub struct PresentationPacket {
     // For the terminal table and archival markdown
     pub terminal_rows: Vec<TerminalRowViewModel>,
     pub state_code: String,
+    pub market_state_rendered: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
