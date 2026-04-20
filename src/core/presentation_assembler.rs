@@ -432,7 +432,7 @@ impl PresentationAssembler {
             market_state_rendered: packet
                 .market_state
                 .as_ref()
-                .map(|ms| crate::core::market_state::renderer::MarketStateRenderer::render(ms)),
+                .map(crate::core::market_state::renderer::MarketStateRenderer::render),
         }
     }
 

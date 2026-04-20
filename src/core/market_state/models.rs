@@ -1,16 +1,11 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub enum LifecycleState {
+    #[default]
     Startup,
     Transition,
     Ready,
-}
-
-impl Default for LifecycleState {
-    fn default() -> Self {
-        LifecycleState::Startup
-    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

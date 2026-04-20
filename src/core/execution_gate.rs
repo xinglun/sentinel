@@ -128,7 +128,7 @@ impl ExecutionGate {
                 if s == TradeSide::Buy && is_circuit_breaker_active {
                     audits.push(GatedAudit {
                         symbol: asset.symbol.clone(),
-                        action: asset.action.clone(),
+                        action: asset.action,
                         passed: false,
                         blocked_by: Some("CircuitBreaker".to_string()),
                         details: audit_details.clone(),
@@ -145,7 +145,7 @@ impl ExecutionGate {
                         {
                             audits.push(GatedAudit {
                                 symbol: asset.symbol.clone(),
-                                action: asset.action.clone(),
+                                action: asset.action,
                                 passed: false,
                                 blocked_by: Some("MarketStateNoTrade".to_string()),
                                 details: audit_details.clone(),
