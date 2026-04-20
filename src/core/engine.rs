@@ -266,10 +266,36 @@ impl Engine {
         // Append any remaining (should be none)
         final_decisions.extend(asset_decisions);
 
+        let current_breakouts: Vec<String> = final_decisions
+            .iter()
+            .filter(|d| {
+                matches!(
+                    d.breakout.status,
+                    crate::core::breakout_detection::BreakoutStatus::EmergingBreakout
+                        | crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout
+                )
+            })
+            .map(|d| d.symbol.clone())
+            .collect();
+
+        let has_mainline = matches!(
+            trend_cohesion.status,
+            crate::core::trend_cohesion::TrendCohesionStatus::Formed
+        );
+
+        let market_state = crate::core::market_state::engine::DecisionEngine::process(
+            &rules.market_state_engine,
+            &market_features,
+            has_mainline,
+            &current_breakouts,
+            prev_packet,
+        );
+
         let mut packet = DecisionPacket::new(
             market_features.date,
             market_features,
             market_regime,
+            Some(market_state),
             portfolio_policy,
             final_decisions,
             participation,

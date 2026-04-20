@@ -206,12 +206,31 @@ fn generate_markdown_report(
     }
     card.push_str("\n\n");
 
+    let breakout_section = pres
+        .market_state_rendered
+        .as_ref()
+        .map(|s| {
+            let formatted = s
+                .replace("🌍 マーケット状態サマリー", "### 🌍 マーケット状態サマリー")
+                .replace(
+                    "🚫 意思決定: 禁止アクション（NO TRADE）",
+                    "### 🚫 意思決定: 禁止アクション（NO TRADE）",
+                )
+                .replace(
+                    "✅ 意思決定: 参加許可（TRADE ALLOWED）",
+                    "### ✅ 意思決定: 参加許可（TRADE ALLOWED）",
+                )
+                .replace("🚀 ブレイクアウト識別", "### 🚀 ブレイクアウト識別");
+            format!("{}\n\n", formatted)
+        })
+        .unwrap_or_else(|| render_breakout_summary(pres, &dict, RenderMode::Markdown));
+
     if compact_no_trade_presentation {
-        card.push_str(&render_breakout_summary(pres, &dict, RenderMode::Markdown));
+        card.push_str(&breakout_section);
         card.push_str(&render_exit_summary(pres, RenderMode::Markdown));
     } else {
         card.push_str(&render_exit_summary(pres, RenderMode::Markdown));
-        card.push_str(&render_breakout_summary(pres, &dict, RenderMode::Markdown));
+        card.push_str(&breakout_section);
     }
 
     card.push_str(&render_top_actions_section(
@@ -383,12 +402,37 @@ fn generate_telegram_html_report(
     }
     card.push('\n');
 
+    let breakout_section = pres
+        .market_state_rendered
+        .as_ref()
+        .map(|s| {
+            // For HTML telegram report, replacing some markdown features with HTML tags if needed.
+            // But since telegram supports some markdown inside its HTML parser or just basic layout,
+            // we'll apply a minimal tag conversion to keep it consistent.
+            let formatted = s
+                .replace(
+                    "🌍 マーケット状態サマリー",
+                    "<b>🌍 マーケット状態サマリー</b>",
+                )
+                .replace(
+                    "🚫 意思決定: 禁止アクション（NO TRADE）",
+                    "<b>🚫 意思決定: 禁止アクション（NO TRADE）</b>",
+                )
+                .replace(
+                    "✅ 意思決定: 参加許可（TRADE ALLOWED）",
+                    "<b>✅ 意思決定: 参加許可（TRADE ALLOWED）</b>",
+                )
+                .replace("🚀 ブレイクアウト識別", "<b>🚀 ブレイクアウト識別</b>");
+            format!("{}\n\n", formatted)
+        })
+        .unwrap_or_else(|| render_breakout_summary(pres, &dict, RenderMode::Html));
+
     if compact_no_trade_presentation {
-        card.push_str(&render_breakout_summary(pres, &dict, RenderMode::Html));
+        card.push_str(&breakout_section);
         card.push_str(&render_exit_summary(pres, RenderMode::Html));
     } else {
         card.push_str(&render_exit_summary(pres, RenderMode::Html));
-        card.push_str(&render_breakout_summary(pres, &dict, RenderMode::Html));
+        card.push_str(&breakout_section);
     }
 
     card.push_str(&render_top_actions_section(
@@ -899,12 +943,12 @@ fn render_transition_block(
                 RenderMode::Markdown => block.push_str(&format!(
                     "- **{}**: {}\n",
                     te_dict.breakout_changes,
-                    evidence.breakout_changes.len()
+                    evidence.breakout_changes.join(", ")
                 )),
                 RenderMode::Html => block.push_str(&format!(
                     "• {}: {}\n",
                     te_dict.breakout_changes,
-                    evidence.breakout_changes.len()
+                    evidence.breakout_changes.join(", ")
                 )),
             }
         } else {

@@ -1,6 +1,7 @@
 use crate::core::action_matrix::AssetActionDecision;
 use crate::core::features::MarketFeatures;
 use crate::core::market_regime::MarketRegimeSnapshot;
+use crate::core::market_state::models::MarketStateOutput;
 use crate::core::participation::ParticipationReadiness;
 use crate::core::portfolio_policy::PortfolioPolicy;
 use crate::core::transition_log::StateTransitionLog;
@@ -13,6 +14,7 @@ pub struct DecisionPacket {
     pub date: NaiveDate,
     pub market_features: MarketFeatures,
     pub market_regime: MarketRegimeSnapshot,
+    pub market_state: Option<MarketStateOutput>,
     pub portfolio_policy: PortfolioPolicy,
     pub assets: Vec<AssetActionDecision>,
     #[serde(default)]
@@ -31,6 +33,7 @@ impl Default for DecisionPacket {
             date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
             market_features: Default::default(),
             market_regime: Default::default(),
+            market_state: None,
             portfolio_policy: Default::default(),
             assets: Vec::new(),
             participation: Default::default(),
@@ -48,6 +51,7 @@ impl DecisionPacket {
         date: NaiveDate,
         market_features: MarketFeatures,
         market_regime: MarketRegimeSnapshot,
+        market_state: Option<MarketStateOutput>,
         portfolio_policy: PortfolioPolicy,
         assets: Vec<AssetActionDecision>,
         participation: ParticipationReadiness,
@@ -60,6 +64,7 @@ impl DecisionPacket {
             date,
             market_features,
             market_regime,
+            market_state,
             portfolio_policy,
             assets,
             participation,

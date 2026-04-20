@@ -73,6 +73,7 @@ fn create_mock_rules() -> ParsedRules {
         },
         trend_cohesion: stock_sentinel::config::ParsedTrendCohesionRules::default(),
         breakout: stock_sentinel::config::ParsedBreakoutRules::default(),
+        market_state_engine: Default::default(),
     }
 }
 
@@ -133,6 +134,7 @@ async fn test_pipeline_bullish_path() {
         NaiveDate::from_ymd_opt(2022, 12, 30).unwrap(),
         MarketFeatures::default(),
         prev_market.clone(),
+        None,
         PortfolioPolicy::from_market_regime(&prev_market),
         vec![],
         ParticipationReadiness {
@@ -148,6 +150,7 @@ async fn test_pipeline_bullish_path() {
         prev_features.date,
         prev_features,
         prev_market.clone(),
+        None,
         PortfolioPolicy::from_market_regime(&prev_market),
         vec![],
         ParticipationReadiness {

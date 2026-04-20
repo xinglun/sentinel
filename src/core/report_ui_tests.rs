@@ -35,6 +35,7 @@ fn mock_config() -> AppConfig {
             inertia: None,
             trend_cohesion: None,
             breakout: None,
+            market_state_engine: None,
         },
         watchlist: vec![],
     }

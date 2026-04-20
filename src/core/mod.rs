@@ -10,6 +10,7 @@ pub mod features;
 pub mod i18n;
 pub mod ledger;
 pub mod market_regime;
+pub mod market_state;
 pub mod notify;
 pub mod participation;
 pub mod persistence;

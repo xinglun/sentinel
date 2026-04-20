@@ -631,6 +631,7 @@ mod tests {
                 inertia: None,
                 trend_cohesion: None,
                 breakout: None,
+                market_state_engine: None,
             },
             watchlist: ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF"]
                 .into_iter()

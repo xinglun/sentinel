@@ -72,6 +72,7 @@ fn test_kill_switch_behavior_in_execution_gate() {
         chrono::Utc::now().date_naive(),
         MarketFeatures::default(),
         market.clone(),
+        None,
         PortfolioPolicy::from_market_regime(&market),
         assets,
         stock_sentinel::core::participation::ParticipationReadiness::default(),
