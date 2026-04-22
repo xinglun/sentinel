@@ -428,23 +428,23 @@ impl PresentationAssembler {
         let log = packet.transition_log.as_ref()?;
 
         let mut breakout_changes = Vec::new();
+        let mut structural_breakout_symbols = HashSet::<String>::new();
         for b in &log.breakout_changes {
-            let status_part = if b.status_changed {
-                format!(
-                    "{} -> {}",
-                    Self::map_breakout_status(b.from_status, dict),
-                    Self::map_breakout_status(b.to_status, dict)
-                )
-            } else {
-                Self::map_breakout_status(b.to_status, dict)
-            };
-            let risk_part = if b.risk_changed {
-                dict.transition_evidence.risk_changed_suffix.clone()
-            } else {
-                String::new()
-            };
-            breakout_changes.push(format!("{}: {}{}", b.symbol, status_part, risk_part));
+            if !b.status_changed {
+                continue;
+            }
+            structural_breakout_symbols.insert(b.symbol.clone());
+            breakout_changes.push(Self::format_structural_breakout_change(b, dict));
         }
+
+        if !breakout_changes.is_empty() && packet.assets.len() > structural_breakout_symbols.len() {
+            breakout_changes.push(
+                dict.transition_evidence
+                    .breakout_others_no_structural_change
+                    .clone(),
+            );
+        }
+        let has_structural_breakout_change = !breakout_changes.is_empty();
 
         Some(StateTransitionViewModel {
             has_significant_change: log.market_state.changed
@@ -453,7 +453,7 @@ impl PresentationAssembler {
                 || log.trend_cohesion_gate.unmet_conditions_changed
                 || log.trend_cohesion_status.changed
                 || log.trend_cohesion_topology.changed
-                || !log.breakout_changes.is_empty(),
+                || has_structural_breakout_change,
             no_trade_persists: log.no_trade_persists,
             market_state_change: if log.market_state.changed {
                 Some(format!(
@@ -506,6 +506,44 @@ impl PresentationAssembler {
             trend_unmet_diff: Self::map_unmet_diff(&log.trend_cohesion_gate, packet, dict),
             breakout_changes,
         })
+    }
+
+    fn format_structural_breakout_change(
+        b: &crate::core::transition_log::BreakoutTransition,
+        dict: &DisplayDictionary,
+    ) -> String {
+        use crate::core::breakout_detection::BreakoutStatus;
+
+        let format_template = |template: &str, symbol: &str, status: &str| {
+            template
+                .replace("{symbol}", symbol)
+                .replace("{status}", status)
+        };
+
+        if b.from_status == BreakoutStatus::NoBreakout && b.to_status != BreakoutStatus::NoBreakout
+        {
+            return format_template(
+                &dict.transition_evidence.breakout_added,
+                &b.symbol,
+                &Self::map_breakout_status(b.to_status, dict),
+            );
+        }
+
+        if b.from_status != BreakoutStatus::NoBreakout && b.to_status == BreakoutStatus::NoBreakout
+        {
+            return format_template(
+                &dict.transition_evidence.breakout_removed,
+                &b.symbol,
+                &Self::map_breakout_status(b.from_status, dict),
+            );
+        }
+
+        format!(
+            "{}: {} -> {}",
+            b.symbol,
+            Self::map_breakout_status(b.from_status, dict),
+            Self::map_breakout_status(b.to_status, dict)
+        )
     }
 
     fn map_unmet_diff(

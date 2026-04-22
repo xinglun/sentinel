@@ -2261,6 +2261,163 @@ mod tests {
     }
 
     #[test]
+    fn test_transition_evidence_breakout_changes_focus_on_structural_deltas() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "GOOG".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        failed_breakout_risk: 0.0,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        failed_breakout_risk: 0.0,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "U".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        failed_breakout_risk: 0.0,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "GOOG".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                        failed_breakout_risk: 61.0,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        failed_breakout_risk: 82.0,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "U".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        failed_breakout_risk: 73.0,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let md = report.archival_markdown;
+
+        assert!(md.contains("**关键变化**"));
+        assert!(md.contains("GOOG：新增突破萌芽"));
+        assert!(md.contains("其余资产：无结构变化"));
+    }
+
+    #[test]
+    fn test_transition_evidence_not_shown_for_breakout_risk_only_change() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "NVDA".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                    failed_breakout_risk: 10.0,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "NVDA".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                    failed_breakout_risk: 82.0,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let md = report.archival_markdown;
+        assert!(md.contains("🔄 状态转移证据"));
+        assert!(!md.contains("关键变化"));
+        assert!(!md.contains("NVDA："));
+    }
+
+    #[test]
     fn test_audit_grade_reason_diff_rendering() {
         let language = Language::ZhCn;
         let curr = no_trade_transition_reason_diff_packet();
