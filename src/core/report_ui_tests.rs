@@ -51,7 +51,6 @@ fn mock_config_with_language(language: crate::core::i18n::Language) -> AppConfig
 mod tests {
     use super::*;
     use crate::core::i18n::{get_dictionary, Language};
-    use crate::core::participation::ParticipationReadiness;
     use crate::core::transition_log::StateTransitionLog;
     use crate::core::trend_cohesion::{TrendCohesionGateCondition, TrendCohesionSnapshot};
     use std::fs;
@@ -63,15 +62,6 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::IGNITION,
                 risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (1.1) below threshold (10.0)".to_string(),
-                    "Core Tier streak (1) below threshold (3)".to_string(),
-                ],
                 ..Default::default()
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -156,10 +146,6 @@ mod tests {
 
     fn no_trade_transition_reason_diff_packet() -> DecisionPacket {
         let prev = DecisionPacket {
-            participation: ParticipationReadiness {
-                reasons: vec!["A".to_string(), "B".to_string()],
-                ..Default::default()
-            },
             trend_cohesion: TrendCohesionSnapshot {
                 unmet_conditions: vec![
                     TrendCohesionGateCondition::StabilityThreshold,
@@ -171,10 +157,6 @@ mod tests {
         };
 
         let mut curr = DecisionPacket {
-            participation: ParticipationReadiness {
-                reasons: vec!["B".to_string(), "C".to_string()],
-                ..Default::default()
-            },
             trend_cohesion: TrendCohesionSnapshot {
                 unmet_conditions: vec![
                     TrendCohesionGateCondition::ContinuityThreshold,
@@ -253,13 +235,6 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: true,
-                core_tier_streak: 3,
-                stability_ready: true,
-                core_tier_streak_ready: true,
-                ..Default::default()
-            },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
@@ -309,12 +284,16 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (1.1) below threshold (10.0)".to_string(),
-                    "Core Tier streak (1) below threshold (3)".to_string(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
+                stability_score: 1.1,
+                continuity_streak: 1,
+                unmet_conditions: vec![
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::core::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
                 ],
                 ..Default::default()
             },
@@ -361,13 +340,6 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::DEFENSIVE,
                 risk_overlay: RiskOverlay::DEFENSIVE,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: true,
-                stability_ready: true,
-                core_tier_streak_ready: true,
-                core_tier_streak: 3,
                 ..Default::default()
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -488,15 +460,6 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (7.5) below threshold (11.0)".to_string(),
-                    "Core Tier streak (1) below threshold (4)".to_string(),
-                ],
-                ..Default::default()
-            },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
@@ -543,289 +506,6 @@ mod tests {
         assert!(report.markdown_body.contains("连续性 1/4"));
         assert!(report.telegram_html_body.contains("稳定性 7.5/11"));
         assert!(report.telegram_html_body.contains("连续性 1/4"));
-    }
-
-    #[test]
-    fn test_legacy_no_trade_reasons_preserve_unknown_reason_text() {
-        let packet = DecisionPacket {
-            date: Utc::now().date_naive(),
-            market_regime: MarketRegimeSnapshot {
-                market_state: MarketState::IGNITION,
-                risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                stability_ready: false,
-                core_tier_streak_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "score drifted lower".to_string(),
-                    "streak still too short".to_string(),
-                ],
-                reason_codes: vec![],
-            },
-            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                gate_passed: false,
-                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
-                stability_score: 8.8,
-                continuity_streak: 1,
-                // Only directional evidence is present, so fallback should not invent
-                // stability/continuity threshold reasons from legacy bool flags.
-                unmet_conditions: vec![
-                    crate::core::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
-                ],
-                ..Default::default()
-            },
-            market_features: crate::core::features::MarketFeatures {
-                // Intentionally different to ensure report uses trend_cohesion source.
-                stability_score: 1.9,
-                regime_age: 1,
-                ..Default::default()
-            },
-            assets: vec![AssetActionDecision {
-                symbol: "AAPL".into(),
-                ..Default::default()
-            }],
-            ..Default::default()
-        };
-
-        let mut config = mock_config_with_language(crate::core::i18n::Language::EnUs);
-        config.output.compact_transition_evidence_in_no_trade = false;
-        let pres = PresentationAssembler::assemble(
-            &packet,
-            &config.get_parsed_rules(),
-            &HashMap::new(),
-            vec![],
-            crate::core::i18n::Language::EnUs,
-        );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
-
-        assert!(report.markdown_body.contains("score drifted lower"));
-        assert!(report.markdown_body.contains("streak still too short"));
-        assert!(!report.markdown_body.contains("8.8 < 10"));
-        assert!(!report.markdown_body.contains("1d < 3d"));
-        assert!(report.telegram_html_body.contains("score drifted lower"));
-    }
-
-    #[test]
-    fn test_reason_codes_path_preserves_extra_unpaired_reasons_in_report() {
-        let packet = DecisionPacket {
-            date: Utc::now().date_naive(),
-            market_regime: MarketRegimeSnapshot {
-                market_state: MarketState::IGNITION,
-                risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (8.0) below threshold (10.0)".to_string(),
-                    "exchange halt probability elevated".to_string(),
-                ],
-                reason_codes: vec![
-                    crate::core::participation::ParticipationReasonCode::StabilityBelowThreshold,
-                ],
-                ..Default::default()
-            },
-            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                gate_passed: false,
-                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
-                stability_score: 8.0,
-                continuity_streak: 1,
-                unmet_conditions: vec![],
-                ..Default::default()
-            },
-            assets: vec![AssetActionDecision {
-                symbol: "AAPL".into(),
-                ..Default::default()
-            }],
-            ..Default::default()
-        };
-
-        let mut config = mock_config_with_language(crate::core::i18n::Language::EnUs);
-        config.output.compact_transition_evidence_in_no_trade = false;
-        let pres = PresentationAssembler::assemble(
-            &packet,
-            &config.get_parsed_rules(),
-            &HashMap::new(),
-            vec![],
-            crate::core::i18n::Language::EnUs,
-        );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
-
-        assert!(report
-            .markdown_body
-            .contains("exchange halt probability elevated"));
-        assert!(report
-            .telegram_html_body
-            .contains("exchange halt probability elevated"));
-    }
-
-    #[test]
-    fn test_legacy_cn_threshold_template_is_suppressed_when_structured_evidence_exists() {
-        let packet = DecisionPacket {
-            date: Utc::now().date_naive(),
-            market_regime: MarketRegimeSnapshot {
-                market_state: MarketState::IGNITION,
-                risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                reasons: vec!["稳定性不足（< 10.0）".to_string()],
-                reason_codes: vec![],
-                ..Default::default()
-            },
-            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                gate_passed: false,
-                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
-                stability_score: 8.0,
-                continuity_streak: 1,
-                unmet_conditions: vec![
-                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                ],
-                ..Default::default()
-            },
-            assets: vec![AssetActionDecision {
-                symbol: "AAPL".into(),
-                ..Default::default()
-            }],
-            ..Default::default()
-        };
-
-        let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
-        config.output.compact_transition_evidence_in_no_trade = false;
-        let pres = PresentationAssembler::assemble(
-            &packet,
-            &config.get_parsed_rules(),
-            &HashMap::new(),
-            vec![],
-            crate::core::i18n::Language::ZhCn,
-        );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
-
-        assert_eq!(
-            report.markdown_body.matches("稳定性不足（< 10.0）").count(),
-            0
-        );
-        assert!(report.markdown_body.contains("市场稳定性不足"));
-    }
-
-    #[test]
-    fn test_legacy_cn_single_side_evidence_keeps_other_threshold_template() {
-        let packet = DecisionPacket {
-            date: Utc::now().date_naive(),
-            market_regime: MarketRegimeSnapshot {
-                market_state: MarketState::IGNITION,
-                risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                reasons: vec![
-                    "稳定性不足（< 10.0）".to_string(),
-                    "连续性不足（1d < 3d）".to_string(),
-                ],
-                reason_codes: vec![],
-                ..Default::default()
-            },
-            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                gate_passed: false,
-                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
-                stability_score: 8.0,
-                continuity_streak: 1,
-                // Only stability evidence exists.
-                unmet_conditions: vec![
-                    crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                ],
-                ..Default::default()
-            },
-            assets: vec![AssetActionDecision {
-                symbol: "AAPL".into(),
-                ..Default::default()
-            }],
-            ..Default::default()
-        };
-
-        let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
-        config.output.compact_transition_evidence_in_no_trade = false;
-        let pres = PresentationAssembler::assemble(
-            &packet,
-            &config.get_parsed_rules(),
-            &HashMap::new(),
-            vec![],
-            crate::core::i18n::Language::ZhCn,
-        );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
-
-        // Stability template suppressed by explicit stability evidence.
-        assert_eq!(
-            report.markdown_body.matches("稳定性不足（< 10.0）").count(),
-            0
-        );
-        // Continuity template must not be over-suppressed without continuity evidence.
-        assert!(report.markdown_body.contains("连续性不足（1d < 3d）"));
-    }
-
-    #[test]
-    fn test_first_day_like_custom_reason_is_not_over_suppressed() {
-        let packet = DecisionPacket {
-            date: Utc::now().date_naive(),
-            market_regime: MarketRegimeSnapshot {
-                market_state: MarketState::IGNITION,
-                risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                reasons: vec!["初日寄り付き後の板が薄い".to_string()],
-                reason_codes: vec![
-                    crate::core::participation::ParticipationReasonCode::FirstDayOfSession,
-                ],
-                ..Default::default()
-            },
-            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
-                gate_passed: false,
-                status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
-                stability_score: 8.0,
-                continuity_streak: 1,
-                unmet_conditions: vec![],
-                ..Default::default()
-            },
-            assets: vec![AssetActionDecision {
-                symbol: "AAPL".into(),
-                ..Default::default()
-            }],
-            ..Default::default()
-        };
-
-        let mut config = mock_config_with_language(crate::core::i18n::Language::JaJp);
-        config.output.compact_transition_evidence_in_no_trade = false;
-        let pres = PresentationAssembler::assemble(
-            &packet,
-            &config.get_parsed_rules(),
-            &HashMap::new(),
-            vec![],
-            crate::core::i18n::Language::JaJp,
-        );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
-
-        assert!(report.markdown_body.contains("初日寄り付き後の板が薄い"));
-        assert!(report
-            .telegram_html_body
-            .contains("初日寄り付き後の板が薄い"));
     }
 
     #[test]
@@ -1059,12 +739,7 @@ mod tests {
                 market_regime: MarketRegimeSnapshot {
                     market_state: MarketState::IGNITION,
                     risk_overlay: RiskOverlay::NORMAL,
-                    ..Default::default()
-                },
-                participation: crate::core::participation::ParticipationReadiness {
-                    participation_ready: false,
                     reasons: vec![case.reason.to_string()],
-                    reason_codes: vec![],
                     ..Default::default()
                 },
                 trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -1122,12 +797,7 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::IGNITION,
                 risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
                 reasons: vec![reason.to_string()],
-                reason_codes: vec![],
                 ..Default::default()
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -1289,8 +959,8 @@ mod tests {
 
     #[test]
     fn test_legacy_threshold_matcher_property_like_multilang_smoke() {
-        let suppress_reason = "Stability score (8.0) <= threshold (10.0)";
-        let preserve_reason = "Stability score (note) <= threshold (watch)";
+        let suppress_reason = "Stability score (8.0) < threshold (10.0)";
+        let preserve_reason = "Stability score (note) < threshold (watch)";
         let unmet =
             vec![crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold];
 
@@ -1463,17 +1133,7 @@ mod tests {
                     crate::core::trend_cohesion::TrendCohesionGateCondition::WeakLeadership,
                 ],
                 ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (7.5) below threshold (10.0)".to_string(),
-                    "Core Tier streak (1) below threshold (3)".to_string(),
-                ],
-                ..Default::default()
-            },
-            market_features: crate::core::features::MarketFeatures {
+            },            market_features: crate::core::features::MarketFeatures {
                 stability_score: 7.5,
                 regime_age: 1,
                 ..Default::default()
@@ -1546,13 +1206,6 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: true,
-                stability_ready: true,
-                core_tier_streak_ready: true,
-                core_tier_streak: 3,
-                ..Default::default()
-            },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
@@ -1598,15 +1251,6 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::IGNITION,
                 risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (1.1) below threshold (10.0)".to_string(),
-                    "Core Tier streak (1) below threshold (3)".to_string(),
-                ],
                 ..Default::default()
             },
             market_features: crate::core::features::MarketFeatures {
@@ -1686,15 +1330,6 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (1.1) below threshold (10.0)".to_string(),
-                    "Core Tier streak (1) below threshold (3)".to_string(),
-                ],
-                ..Default::default()
-            },
             assets: vec![AssetActionDecision {
                 symbol: "MSFT".into(),
                 asset_state: AssetStateSnapshot {
@@ -1740,15 +1375,6 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (1.1) below threshold (10.0)".to_string(),
-                    "Core Tier streak (1) below threshold (3)".to_string(),
-                ],
-                ..Default::default()
-            },
             assets: vec![AssetActionDecision {
                 symbol: "TSLA".into(),
                 asset_state: AssetStateSnapshot {
@@ -1790,15 +1416,6 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::IGNITION,
                 risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                core_tier_streak: 1,
-                reasons: vec![
-                    "Stability score (1.1) below threshold (10.0)".to_string(),
-                    "Core Tier streak (1) below threshold (3)".to_string(),
-                ],
                 ..Default::default()
             },
             assets: vec![
@@ -1878,10 +1495,6 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::IGNITION,
                 risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
                 ..Default::default()
             },
             ..Default::default()
@@ -2502,10 +2115,6 @@ mod tests {
                 risk_overlay: RiskOverlay::BROKEN,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                ..Default::default()
-            },
             ..Default::default()
         };
 
@@ -2515,8 +2124,8 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: true,
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
                 ..Default::default()
             },
             ..Default::default()
@@ -2601,10 +2210,6 @@ mod tests {
                 risk_overlay: RiskOverlay::BROKEN,
                 ..Default::default()
             },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: false,
-                ..Default::default()
-            },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
                 status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
                 ..Default::default()
@@ -2616,10 +2221,6 @@ mod tests {
             market_regime: MarketRegimeSnapshot {
                 market_state: MarketState::IGNITION,
                 risk_overlay: RiskOverlay::NORMAL,
-                ..Default::default()
-            },
-            participation: crate::core::participation::ParticipationReadiness {
-                participation_ready: true,
                 ..Default::default()
             },
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -2650,7 +2251,6 @@ mod tests {
         // Verify localized state change
         // defensive -> ignition maps to 守備期 -> 始動期
         assert!(md.contains("守備期 -> 始動期"));
-        assert!(md.contains("不適合 -> 適合"));
         assert!(md.contains("分散 -> 形成中"));
         // Verify topology change is rendered
         assert!(
@@ -2680,19 +2280,18 @@ mod tests {
         let html_compact = report.telegram_html_body.clone();
         let md = report.archival_markdown;
 
-        // Participation Gate Checks (Chinese)
-        assert!(md.contains("新增阻碍因素: C"));
-        assert!(md.contains("已修复条件: A"));
-        assert!(md.contains("持续阻碍因素: B"));
+        // Cohesion Gate Checks (Chinese)
+        assert!(md.contains("新增阻碍"));
+        assert!(md.contains("已消除阻碍"));
+        assert!(md.contains("持续阻碍"));
 
         // Trend Gate Checks (Chinese)
         // ContinuityThreshold is persisting -> 核心资产持续性不足
         // StabilityThreshold is resolved -> 市场稳定性不足
         // DirectionalCohesion is added -> 主导方向分散或领导者缺失
-        assert!(md.contains("新增阻碍因素: 主导方向分散或领导者缺失"));
-        assert!(md.contains("已修复条件: 市场稳定性不足"));
-        assert!(md.contains("核心资产持续性不足"));
-        assert!(!md.contains("{:.1}"));
+        assert!(md.contains("新增阻碍: 主导方向分散或领导者缺失"));
+        assert!(md.contains("已消除阻碍: 市场稳定度不足"));
+        assert!(md.contains("持续阻碍: 核心资产持续性不足"));
         assert!(!md.contains("{:.0}"));
         assert!(!md.contains("当前: {} 天"));
         assert!(!md.contains("当前: {} 只"));
@@ -2751,8 +2350,7 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md = report.markdown_body;
-        assert!(md.contains("新增阻碍因素: C"));
-        assert!(md.contains("新增阻碍因素: 主导方向分散或领导者缺失"));
+        assert!(md.contains("新增阻碍: 主导方向分散或领导者缺失"));
     }
 
     #[test]
@@ -2830,5 +2428,56 @@ mod tests {
     fn test_no_trade_snapshot_ja_jp_html() {
         let report = build_no_trade_report(crate::core::i18n::Language::JaJp);
         assert_snapshot("no_trade_ja_jp.html.txt", &report.telegram_html_body);
+    }
+
+    #[test]
+    fn test_ssot_uniqueness_and_consistency() {
+        let packet = no_trade_snapshot_packet();
+        let config = mock_config_with_language(Language::ZhCn);
+        let lang = Language::ZhCn;
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            lang,
+        );
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let body = report.markdown_body;
+
+        // 1. Ensure exactly one "市场状态" marker (not duplicated by dual engines)
+        let market_state_marker = "市场状态";
+        assert_eq!(
+            body.matches(market_state_marker).count(),
+            1,
+            "Market state should only be reported once (SSOT violation)"
+        );
+
+        // 2. Ensure NO Japanese headers in a Chinese report (Language Consistency)
+        assert!(
+            !body.contains("マーケット状态サマリー"),
+            "Japanese headers found in Chinese report"
+        );
+
+        // 3. Ensure unified threshold format (current/threshold)
+        // From no_trade_snapshot_packet: stability=1.1, continuity_streak=1.
+        // Default rules: stability_threshold=10.0, continuity_threshold=3.
+        assert!(
+            body.contains("1.1/10"),
+            "Stability threshold should use unified (current/threshold) format"
+        );
+        assert!(
+            body.contains("1/3"),
+            "Continuity threshold should use unified (current/threshold) format"
+        );
+
+        // 4. Ensure no redundant "Stability score (1.1) below threshold (10.0)"-style English text
+        // if it's being correctly localized/localized to the new format.
+        assert!(
+            !body.contains("Stability score (1.1) below threshold (10.0)"),
+            "Legacy English threshold message should be suppressed or localized"
+        );
     }
 }

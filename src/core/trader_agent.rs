@@ -552,7 +552,6 @@ mod tests {
             None,
             policy,
             assets,
-            crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
             false,
             crate::core::trend_cohesion::TrendCohesionSnapshot::default(),

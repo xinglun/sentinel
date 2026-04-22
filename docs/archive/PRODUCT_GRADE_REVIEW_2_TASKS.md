@@ -1,33 +1,37 @@
-# Product-Grade Review 2: Actionable Tasks
+---
+author: Ray
+---
 
-This document tracks the remedial actions required to solve the findings from the second Product-Grade Review.
+# プロダクトグレードレビュー 2：実行タスクリスト (Product-Grade Review 2: Actionable Tasks)
 
-## P0: Failure Semantics Hardening (Safety & Integrity)
+本ドキュメントは、第2回プロダクトグレードレビューの結果に基づき、必要とされる改善アクションを追跡するためのものです。
 
-- [ ] **Hard Exit on Critical Failures**: 
-    - Ensure `archival`, `notification`, and `execution` stages can propagate errors that force a non-zero exit code in `cli.rs` when appropriate.
-- [ ] **Prohibit Silent `get_funds()` Downgrade**:
-    - If `get_funds()` fails, the system must bubble up the error and stop, rather than defaulting to an empty/fake account state.
-- [ ] **TraderAgent Error Propagation**:
-    - Refactor `TraderAgent` to return a structured error/result if *any* single `place_order` fails, ensuring `run_status.json` reflects the true execution integrity.
-- [ ] **Workflow run_status Validation**:
-    - Update `daily_radar.yml` to treat `run_status_[DATE].json` as a mandatory output and potentially add a check step.
+## P0：失敗セマンティクスの堅牢化（安全性と整合性）
 
-## P1: Diagnostic & Telemetry Realism
+- [ ] **致命的な失敗時のハードエグジット (Hard Exit)**: 
+    - `archival`（アーカイブ）、`notification`（通知）、および `execution`（実行）の各ステージで、適切に `cli.rs` でゼロ以外の終了コードを強制できるエラー伝播を確実にする。
+- [ ] **サイレントな `get_funds()` 降格の禁止**:
+    - `get_funds()` が失敗した場合、空の、または偽のアカウント状態をデフォルトにするのではなく、システムはエラーを上位に伝え、停止しなければならない。
+- [ ] **TraderAgent のエラー伝播**:
+    - 単一の `place_order` が失敗した場合でも、`TraderAgent` が構造化されたエラー/結果を返すようにリファクタリングし、`run_status.json` が真の実行整合性を反映するようにする。
+- [ ] **ワークフローの `run_status` バリデーション**:
+    - `daily_radar.yml` を更新し、`run_status_[DATE].json` を必須の出力として扱い、必要に応じてチェックステップを追加する。
 
-- [ ] **Real-world Telemetry `data_quality_status`**:
-    - Link `data_quality_status` in `telemetry.rs` to the actual `fetch_failures` count (e.g., "OK", "DEGRADED", "FAILED").
-- [ ] **Finer-grained `run_status` Stats**:
-    - Include more detailed execution statistics in the outcome JSON (e.g., specific symbols failed, count of succeeded/failed orders).
-- [ ] **Standardized Failure Reasons**:
-    - Align error message formats across Telegram, Archival Markdown, and Execution Gate for easier log searching.
+## P1：診断とテレメトリの現実化
 
-## P2: Documentation Governance
+- [ ] **実世界のテレメトリ `data_quality_status`**:
+    - `telemetry.rs` 内の `data_quality_status` を、実際の `fetch_failures`（取得失敗数）カウントにリンクさせる（例："OK"、"DEGRADED"、"FAILED"）。
+- [ ] **より詳細な `run_status` 統計**:
+    - 実行結果の JSON に、より詳細な統計を含める（例：失敗した特定のシンボル、成功/失敗した注文の数）。
+- [ ] **標準化された失敗理由**:
+    - Telegram、アーカイブ Markdown、および実行ゲートの間でエラーメッセージの形式を統一し、ログの検索を容易にする。
 
-- [ ] **Clean up `architecture_design.md`**:
-    - Remove legacy fields (`bear_mode`, `caution_ma_days`, etc.).
-    - Update schema counts (20-column telemetry).
-- [ ] **Clean up `hosting_spec.md`**:
-    - Align with current multi-branch deployment and artifact retention policy.
-- [ ] **Unified Vocabulary Audit**:
-    - Ensure all docs use consistent terms for Market State and Execution Modes.
+## P2：ドキュメントガバナンス
+
+- [ ] **`architecture_design.md` のクリーンアップ**:
+    - レガシーなフィールド（`bear_mode`、`caution_ma_days` など）を削除する。
+    - スキーマのカウントを更新する（20カラムのテレメトリなど）。
+- [ ] **`hosting_spec.md` のクリーンアップ**:
+    - 現在のマルチブランチデプロイおよびアーティファクト保持ポリシーと整合させる。
+- [ ] **用語の統一監査**:
+    - すべてのドキュメントで、市場状態（Market State）および実行モード（Execution Modes）に対して一貫した用語が使用されていることを確認する。

@@ -1,198 +1,202 @@
-# Sentinel 状态机改造测试清单
+---
+author: Ray
+---
 
-## 1. 市场状态机
+# Sentinel 状態機改造テストチェックリスト
 
-### T1 非防御性回调不允许直接 reset
+## 1. 市場状態機 (Market Regime State Machine)
 
-场景：
+### T1 防御的でない押し目における直接リセットの禁止
 
-1. 前态 `ESTABLISHED`
-2. `confidence / flow / stability` 变弱
-3. 核心资产仍未崩坏
+シナリオ：
 
-期望：
+1. 現在の状態：`ESTABLISHED`
+2. `confidence / flow / stability` が弱体化。
+3. コア資産群はまだ崩壊していない。
 
-1. 允许降级到 `EARLY_CONFIRMATION`
-2. 不允许直接回到 `IGNITION`
+期待結果：
 
-### T2 单级降级约束
+1. `EARLY_CONFIRMATION` への降格を許可する。
+2. `IGNITION` への直接復帰を禁止する。
 
-场景：
+### T2 段階的降格の制約
 
-1. 前态 `CONFIRMED`
-2. 普通回调
+シナリオ：
 
-期望：
+1. 現在の状態：`CONFIRMED`
+2. 通常の押し目（調整）。
 
-1. 只能到 `ESTABLISHED`
-2. 不允许跳到 `NEWBORN`
+期待結果：
 
-### T3 Reset Gate 通过
+1. `ESTABLISHED` への遷移のみを許可する。
+2. `NEWBORN` への飛び級降格を禁止する。
 
-场景：
+### T3 Reset Gate の通過
 
-以下全部成立：
+シナリオ：
+
+以下がすべて成立：
 
 1. `TrendDominant == false`
 2. `Structural < 25`
-3. `Stability < 10` 连续 3 天
+3. `Stability < 10` が3日間連続。
 4. `Flow <= 0`
 5. `CoreAssetsBreakdown == true`
 
-期望：
+期待結果：
 
-1. 允许 reset 到 `IGNITION`
+1. `IGNITION` へのリセットを許可する。
 
-### T4 Reset Gate 被阻断
+### T4 Reset Gate によるブロック
 
-场景：
+シナリオ：
 
-1. 上述条件缺 1 项或多项
+1. 上記条件のうち、1項目以上が欠けている。
 
-期望：
+期待結果：
 
-1. 不允许 reset
-2. 结构化日志中记录 `blocked_reset`
+1. リセットを禁止する。
+2. 構造化ログに `blocked_reset` を記録する。
 
-### T5 Defensive Override
+### T5 Defensive Override (防御的オーバーライド)
 
-场景：
+シナリオ：
 
-1. 满足明确防御触发
+1. 明確な防御的トリガーが成立。
 
-期望：
+期待結果：
 
-1. 任意状态可直接进入 `DEFENSIVE`
-2. 不受 `max_step` 或 duration lock 阻断
+1. 任意の状態から直接 `DEFENSIVE` への突入を許可する。
+2. `max_step` 制約や duration lock（期間ロック）に阻害されないこと。
 
-## 2. Duration Lock
+## 2. Duration Lock (期間ロック)
 
-### T6 升级时间锁
+### T6 昇格タイムロック
 
-场景：
+シナリオ：
 
-1. 状态刚进入某生命周期
-2. 未满足最小停留时间
+1. 状態があるライフサイクルに入った直後。
+2. 最小滞在時間（Minimum Stay Time）を満たしていない。
 
-期望：
+期待結果：
 
-1. 不允许继续升级
+1. さらなる昇格を禁止する。
 
-### T7 防抖不能阻断防御
+### T7 チャタリング防止が防御を阻害しないことの確認
 
-场景：
+シナリオ：
 
-1. 虽处于锁定窗口
-2. 但明确触发 `DEFENSIVE`
+1. ロック期間中（ウィンドウ内）。
+2. しかし、明確に `DEFENSIVE` トリガーが成立。
 
-期望：
+期待結果：
 
-1. 仍直接进入 `DEFENSIVE`
+1. 依然として直接 `DEFENSIVE` に突入すること。
 
-## 3. Core Assets
+## 3. Core Assets (コア資産)
 
-### T8 Core Assets 配置生效
+### T8 Core Assets 設定の有効性
 
-场景：
+シナリオ：
 
-1. 自定义 `core_assets` 配置
+1. カスタムの `core_assets` を設定。
 
-期望：
+期待結果：
 
-1. `CoreAssetsBreakdown` 使用配置集，而非硬编码 symbol
+1. `CoreAssetsBreakdown` の判定が、ハードコードされたシンボルではなく、設定された集合を使用すること。
 
-### T9 核心资产未崩坏时禁止 reset
+### T9 コア資産が崩壊していない場合のリセット禁止
 
-场景：
+シナリオ：
 
-1. 普通信号走弱
-2. 核心资产仍保持主结构
+1. 通常のシグナルが弱体化。
+2. コア資産群は依然として主構造を維持。
 
-期望：
+期待結果：
 
-1. 不允许 reset 到 `IGNITION`
+1. `IGNITION` へのリセットを禁止する。
 
-## 4. 个股恢复
+## 4. 個別銘柄の復帰
 
-### T10 禁止一步洗白
+### T10 一足飛びの「潔白化」の禁止
 
-场景：
+シナリオ：
 
-1. 前态 `DEFEND`
-2. 单日价格/偏离改善
+1. 現在の状態：`DEFEND`
+2. 単日の価格/乖離（Deviation）が改善。
 
-期望：
+期待結果：
 
-1. 不允许直接变成 `OPTIMAL`
+1. 直接 `OPTIMAL` になることを禁止する。
 
-### T11 阶梯恢复路径
+### T11 段階的復帰パス
 
-场景：
+シナリオ：
 
-1. `DEFEND`
-2. 连续满足恢复条件
+1. 現在の状態：`DEFEND`
+2. 復帰条件を連続して満たしている。
 
-期望：
+期待結果：
 
 1. `DEFEND -> CAUTION`
 2. `CAUTION -> CRUISE`
 3. `CRUISE -> OPTIMAL`
 
-### T12 Cooldown 生效
+### T12 Cooldown (クールダウン) の有効性
 
-场景：
+シナリオ：
 
-1. 恢复信号满足
-2. 但 cooldown 未到
+1. 復帰シグナルが成立。
+2. しかし、クールダウン期間が未了。
 
-期望：
+期待結果：
 
-1. 不允许升级
+1. 状態のアップグレード（昇格）を禁止する。
 
-### T13 Historical Penalty 生效
+### T13 Historical Penalty (歴史的ペナルティ) の有効性
 
-场景：
+シナリオ：
 
-1. 最近 20 日内出现过 `DEFEND`
-2. 短期结构改善
+1. 直近20日以内に `DEFEND` が発生。
+2. 短期的な構造が改善。
 
-期望：
+期待結果：
 
-1. 默认 `max_state = CRUISE`
-2. 不允许直接进入 `OPTIMAL`
+1. デフォルトで `max_state = CRUISE` に制限する。
+2. 直接 `OPTIMAL` に入ることを禁止する。
 
-### T14 FORMING 保护
+### T14 FORMING (形成中) 資産の保護
 
-场景：
+シナリオ：
 
-1. `FORMING` 资产
-2. 市场状态改善或 reset
+1. `FORMING` 状態の資産。
+2. 市場状態の改善またはリセット。
 
-期望：
+期待結果：
 
-1. 不会被自动抬升为强状态
+1. 市場に引きずられて自動的に強気状態へ引き上げられないこと。
 
-## 5. 日志与报告一致性
+## 5. ログとレポートの一貫性
 
-### T15 State Transition Log 完整性
+### T15 State Transition Log の完全性
 
-期望最少字段：
+期待される最小フィールド：
 
-1. `from`
-2. `to`
-3. `blocked_reset`
-4. `core_assets_breakdown`
-5. `reasons`
+1. `from` (遷移前)
+2. `to` (遷移後)
+3. `blocked_reset` (リセット阻害フラグ)
+4. `core_assets_breakdown` (コア資産崩壊フラグ)
+5. `reasons` (理由)
 
-### T16 Telegram / 报告一致性
+### T16 Telegram / レポートの一貫性
 
-同一批资产必须共享同一套 bucket：
+同一の資産群が同一のバケット（Bucket）を共有しなければならない：
 
 1. `Top Actions`
-2. `战术分区`
-3. `风险与机会`
+2. `戦術分区 (Tactical Summary)`
+3. `リスクと機会`
 
-期望：
+期待結果：
 
-1. 不出现 “Top Actions 里的机会标的不在机会区”
-2. 不出现 “防御资产同时出现在机会区”
+1. 「Top Actions にある機会銘柄が、機会エリアに存在しない」という事態が発生しないこと。
+2. 「防御資産が同時に機会エリアに表示される」という事態が発生しないこと。

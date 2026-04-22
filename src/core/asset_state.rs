@@ -22,7 +22,7 @@ pub struct AssetStateSnapshot {
     pub state: AssetState,
     pub reasons: Vec<String>,
     pub recovery_streak: usize,
-    pub last_defend_age: usize, // Days since last DEFEND state
+    pub last_defend_age: usize, // 最後に DEFEND 状態になってからの経過日数
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
@@ -35,8 +35,8 @@ pub struct AssetStrengthMemory {
     pub rolling_strength_rank: f64,
     pub top_tier_locked: bool,
     pub promotion_capped: bool,
-    pub consecutive_optimal_signal_history: usize, // Signal was OPTIMAL consecutively in history
-    pub consecutive_non_optimal_signal_history: usize, // Signal was NOT OPTIMAL consecutively in history
+    pub consecutive_optimal_signal_history: usize, // 履歴においてシグナルが連続して OPTIMAL であった回数
+    pub consecutive_non_optimal_signal_history: usize, // 履歴においてシグナルが連続して OPTIMAL でなかった回数
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
@@ -65,7 +65,7 @@ impl AssetStateMachine {
 
         let mut recovery_streak = prev_snapshot.map(|s| s.recovery_streak).unwrap_or(0);
         let mut last_defend_age = prev_snapshot.map(|s| s.last_defend_age + 1).unwrap_or(100);
-        // 1. Check for forming stage based on trend age or historical data (from roadmap)
+        // 1. トレンドの経過日数または過去のデータに基づき、形成段階（FORMING）かどうかをチェック（ロードマップより）
         if features.trend_age < 5 {
             return AssetStateSnapshot {
                 symbol: features.symbol.clone(),
@@ -79,14 +79,14 @@ impl AssetStateMachine {
             };
         }
 
-        // 2. Logic based on Deviation Bands (from Rules)
+        // 2. 乖離率バンドに基づくロジック（ルールより）
         let dev = features.deviation.unwrap_or(0.0);
         let _z = features.z_score.unwrap_or(0.0);
 
         let mut matched_band = if rules.sorted_bands.is_empty() {
             "cruise".to_string()
         } else {
-            // Default to the lowest band (last in sorted_bands) if deviation is very low
+            // 乖離率が非常に低い場合、デフォルトで最も低いバンド（sorted_bands の最後）を使用する
             rules.sorted_bands.last().unwrap().0.clone()
         };
 
@@ -97,8 +97,8 @@ impl AssetStateMachine {
             }
         }
 
-        // Map band names to internal states
-        // Roadmap convention: overheat -> OVERHEAT, optimal -> OPTIMAL, pullback -> PULLBACK, etc.
+        // バンド名を内部状態にマッピング
+        // ロードマップの慣例: overheat -> OVERHEAT, optimal -> OPTIMAL, pullback -> PULLBACK など
         let mut state = match matched_band.to_lowercase().as_str() {
             n if n.contains("overheat") => AssetState::OVERHEAT,
             n if n.contains("optimal") => AssetState::OPTIMAL,
@@ -111,8 +111,8 @@ impl AssetStateMachine {
 
         reasons.push(format!("Matched band: {} (dev: {:.2})", matched_band, dev));
 
-        // 3. Z-Score Calibration (Hardening Finding #3)
-        // If z-score is deep negative but deviation is in a 'buying' area, ensure it's PULLBACK
+        // 3. Zスコアのキャリブレーション（Hardening Finding #3）
+        // Zスコアが大幅にマイナスだが乖離率が「買い」領域にある場合、確実に PULLBACK とする
         if _z < -2.0 && (state == AssetState::CRUISE || state == AssetState::OPTIMAL) {
             state = AssetState::PULLBACK;
             reasons.push(format!(
@@ -120,7 +120,7 @@ impl AssetStateMachine {
                 _z
             ));
         } else if _z < -3.0 {
-            // Truly extreme drop might still be DEFEND if it breaks structural support
+            // 構造的なサポートラインを割り込むような真に極端な下落は、依然として DEFEND となる可能性がある
             state = AssetState::DEFEND;
             reasons.push(format!("Z-Score ({:.2}) extreme structural break", _z));
         }
@@ -130,10 +130,10 @@ impl AssetStateMachine {
             .unwrap_or(AssetState::FORMING);
         let mut next_state = state;
 
-        // 3. Inertia & Step-up Cooldown (only for recovery)
+        // 3. 慣性 ＆ ステップアップ・クールダウン（リカバリー時のみ）
         if Self::is_recovery(prev_state, next_state) {
             recovery_streak += 1;
-            last_defend_age = 100; // Reset defend age on recovery sign? Or keep it?
+            last_defend_age = 100; // リカバリーの兆候が見られた際に defend age をリセットするか、保持するか？
             if !Self::is_recovery_allowed(prev_state, next_state, recovery_streak) {
                 let clamped_state = Self::step_recovery(prev_state);
                 reasons.push(format!("[Inertia:BlockedRecovery] Step-up from {:?} to {:?} blocked by cooldown (streak: {}). Clamped to {:?}", prev_state, next_state, recovery_streak, clamped_state));
@@ -143,7 +143,7 @@ impl AssetStateMachine {
             recovery_streak = 0;
         }
 
-        // --- 4. Historical Penalty (20-day window) ---
+        // --- 4. 過去のペナルティ (20日間のウィンドウ) ---
         if last_defend_age < 20 && Self::is_strong_state(next_state) {
             reasons.push(format!(
                 "[Inertia:Penalty] Recent DEFEND event (age: {}) caps state at CRUISE.",
@@ -152,7 +152,7 @@ impl AssetStateMachine {
             next_state = AssetState::CRUISE;
         }
 
-        // --- 5. Memory Layer: Top Tier Lock & Promotion Cap ---
+        // --- 5. メモリレイヤー: トップティア・ロック ＆ プロモーション・キャップ ---
         if let Some(mem) = memory_decision {
             if let Some(min) = mem.min_state {
                 if Self::state_rank(next_state) < Self::state_rank(min) {
@@ -173,7 +173,7 @@ impl AssetStateMachine {
                 }
             }
 
-            // --- 6. State Transition Friction ---
+            // --- 6. 状態遷移の摩擦 ---
             if mem.downgrade_friction
                 && Self::state_rank(next_state) < Self::state_rank(AssetState::OPTIMAL)
             {
@@ -190,7 +190,7 @@ impl AssetStateMachine {
                 next_state = AssetState::CRUISE;
             }
 
-            // Sync reasons from memory layer
+            // メモリレイヤーから理由を同期
             for r in &mem.reasons {
                 reasons.push(format!("[Memory:Context] {}", r));
             }
@@ -229,7 +229,7 @@ impl AssetStateMachine {
         let mut signal_break_optimal = false;
         let mut signal_break_non_optimal = false;
 
-        // history is oldest first, so we reverse to iterate from latest
+        // 履歴は古い順なので、最新から反復するために逆順にする
         for (i, packet) in history.iter().rev().enumerate() {
             if let Some((rank, asset_decision)) = packet
                 .assets
@@ -240,7 +240,7 @@ impl AssetStateMachine {
                 let dev = asset_decision.deviation.unwrap_or(0.0);
                 let is_opt_signal = dev >= optimal_threshold;
 
-                // Friction counters (consecutive from latest historical entry)
+                // 摩擦カウンター（最新の履歴エントリからの連続回数）
                 if is_opt_signal && !signal_break_optimal {
                     consecutive_optimal_signal_history += 1;
                 } else {
@@ -274,7 +274,7 @@ impl AssetStateMachine {
                     }
                 }
             } else {
-                // If asset not found in that day's history, break consecutive counters
+                // その日の履歴にアセットが見つからない場合、連続カウンターを中断
                 signal_break_optimal = true;
                 signal_break_non_optimal = true;
             }
@@ -283,7 +283,7 @@ impl AssetStateMachine {
         let rolling_strength_rank = if rank_count > 0 {
             rank_sum / rank_count as f64
         } else {
-            10.0 // Default to a middle-to-low rank if no history
+            10.0 // 履歴がない場合は、中〜低ランクをデフォルトにする
         };
 
         AssetStrengthMemory {
@@ -311,7 +311,7 @@ impl AssetStateMachine {
         let mut max_state = None;
 
         let raw_score = current.deviation.unwrap_or(0.0);
-        // rolling_rank_score: 1.0 rank -> 100 points, 10.0 rank -> 0 points.
+        // rolling_rank_score: 1.0 rank -> 100 ポイント, 10.0 rank -> 0 ポイント
         let memory_score = (100.0 - (memory.rolling_strength_rank - 1.0) * 10.0).clamp(0.0, 100.0);
         let adjusted_score = raw_score * 0.7 + memory_score * 0.3;
 
@@ -338,7 +338,7 @@ impl AssetStateMachine {
             }
         }
 
-        // --- State Transition Friction ---
+        // --- 状態遷移の摩擦 ---
         let optimal_threshold = rules
             .sorted_bands
             .iter()
@@ -351,23 +351,23 @@ impl AssetStateMachine {
         let mut upgrade_friction = false;
 
         if let Some(prev) = prev_state {
-            // Downgrade Friction: OPTIMAL -> < OPTIMAL needs 2d failure
+            // 下落摩擦: OPTIMAL -> < OPTIMAL は2日間の失敗が必要
             if prev == AssetState::OPTIMAL
                 && !current_is_opt
                 && memory.consecutive_non_optimal_signal_history == 0
             {
-                // This is the 1st day of failing optimal threshold
+                // これは最適な閾値を下回った初日
                 downgrade_friction = true;
                 // Reason will be handled in compute_state for visibility
             }
 
-            // Upgrade Friction: <= CRUISE -> OPTIMAL needs 3d success
+            // 上昇摩擦: <= CRUISE -> OPTIMAL は3日間の成功が必要
             if Self::state_rank(prev) <= Self::state_rank(AssetState::CRUISE)
                 && current_is_opt
                 && memory.consecutive_optimal_signal_history < 2
             {
-                // History has 0 or 1 consecutive optimal days. Today being success makes it 1 or 2 total.
-                // We need '>= 2' in history (so today is the 3rd) to allow it.
+                // 履歴に0回または1回の連続成功。本日成功すれば合計で1回または2回となる。
+                // 許可するには履歴に '>= 2' （本日が3回目）が必要。
                 upgrade_friction = true;
                 // Reason will be handled in compute_state for visibility
             }
@@ -421,17 +421,17 @@ impl AssetStateMachine {
     }
 
     fn is_recovery_allowed(from: AssetState, to: AssetState, streak: usize) -> bool {
-        // DEFEND -> CAUTION needs 3 days
+        // DEFEND -> CAUTION は3日間必要
         if from == AssetState::DEFEND && streak < 3 {
             return false;
         }
-        // CAUTION -> CRUISE needs 2 days (as per final spec)
+        // CAUTION -> CRUISE は2日間必要（最終仕様に準拠）
         if from == AssetState::CAUTION && streak < 2 {
             return false;
         }
-        // CRUISE -> OPTIMAL is handled by standard logic but could add more here
+        // CRUISE -> OPTIMAL は標準ロジックで処理されるが、ここに追加も可能
 
-        // General: forbid skipping levels
+        // 全般: レベルの飛び越しを禁止
         let rank_diff = Self::state_rank(to) as i32 - Self::state_rank(from) as i32;
         rank_diff <= 1
     }
@@ -453,7 +453,7 @@ impl AssetStateMachine {
             AssetState::PULLBACK => 3,
             AssetState::OPTIMAL => 4,
             AssetState::OVERHEAT => 5,
-            AssetState::FORMING => 0, // Forming is like base state
+            AssetState::FORMING => 0, // FORMING はベース状態と同様
         }
     }
 }
@@ -813,7 +813,7 @@ mod tests {
         assert_eq!(s.state, AssetState::CRUISE);
         assert!(s.reasons.iter().any(|r| r.contains("Friction:Block")));
 
-        // Now test Day 3 (2 days of success in history)
+        // Day 3 をテスト（履歴に2日間の成功がある状態）
         let mut history_v2 = history.clone();
         let asset_dec_2 = AssetActionDecision {
             symbol: "MOVER".to_string(),

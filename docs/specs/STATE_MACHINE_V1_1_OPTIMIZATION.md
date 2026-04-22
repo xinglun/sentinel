@@ -1,59 +1,63 @@
-# Sentinel 状态机 V1.1 优化方案
+---
+author: Ray
+---
+
+# Sentinel 状態機 V1.1 最適化プラン
 
 ## 1. 目的
 
-V1.0 已完成以下能力：
+V1.0 において、以下の機能が完了しました：
 
-1. `reset gate`
-2. `single-step downgrade`
-3. `duration lock`
-4. `soft reset`
-5. `asset recovery ladder`
-6. `transition_audit`
+1. `reset gate` (リセット・ゲート)
+2. `single-step downgrade` (単一ステップ降格)
+3. `duration lock` (期間ロック)
+4. `soft reset` (ソフトリセット)
+5. `asset recovery ladder` (個別資産復帰ラダー)
+6. `transition_audit` (遷移監査)
 
-V1.1 的目标不是继续加指标，而是把以下抽象进一步做实：
+V1.1 の目標は、さらに指標を増やすことではなく、以下の抽象概念をより堅牢に実装することです：
 
-1. `TrendDominant == false` 不再依赖单一代理指标
-2. `CoreAssetsBreakdown` 从简化启发式升级为复合判定
-3. 状态机解释层和判定层继续解耦
-4. 审计与报告对“为什么没 reset / 为什么被阻断”给出更稳定的结构化输出
-
----
-
-## 2. 本轮优化范围
-
-### 2.1 核心方向
-
-本轮只做三件事：
-
-1. 实现 `TrendDominant` 复合判定
-2. 升级 `CoreAssetsBreakdown` 判定
-3. 扩展状态迁移审计输出
-
-### 2.2 明确不做
-
-本轮不做：
-
-1. 新增技术指标
-2. 调整策略参数来“掩盖”状态机问题
-3. 修改 Telegram 样式
-4. 修改执行层风控逻辑
+1. `TrendDominant == false` を、単一の代理指標に依存させないようにする。
+2. `CoreAssetsBreakdown` を、単純なヒューリスティックから「複合判定」にアップグレードする。
+3. 状態機の「説明層」と「判定層」のデカップリングをさらに進める。
+4. 監査ログとレポートにおいて、「なぜリセットされなかったのか / なぜ阻害されたのか」について、より安定した構造化出力を提供する。
 
 ---
 
-## 3. V1.1 核心设计
+## 2. 本フェーズの最適化範囲
 
-### 3.1 TrendDominant 复合判定
+### 2.1 核心的な方向性
 
-当前实现：
+本フェーズでは以下の3点のみを実施します：
 
-1. `check_reset_gate()` 使用 `dominance_margin <= 0.0` 作为 `TrendDominant == false` 的代理
+1. `TrendDominant` 複合判定の実装。
+2. `CoreAssetsBreakdown` 判定のアップグレード。
+3. 状態遷移監査（Transition Audit）出力の拡張。
 
-V1.1 目标：
+### 2.2 非目標 (Out of Scope)
 
-引入显式的 `trend_dominant` 复合判定函数，而不是单一阈值代理。
+本フェーズでは以下のことは行いません：
 
-建议定义：
+1. 新たなテクニカル指標の追加。
+2. 状態機の問題を「隠蔽」するための戦略パラメータの調整。
+3. Telegram のスタイルの変更。
+4. 執行層のリスク管理ロジックの変更。
+
+---
+
+## 3. V1.1 コア設計
+
+### 3.1 TrendDominant 複合判定
+
+現状の実装：
+
+1. `check_reset_gate()` において、`dominance_margin <= 0.0` を `TrendDominant == false` の代理指標として使用。
+
+V1.1 の目標：
+
+単一のしきい値による代理ではなく、明示的な `trend_dominant` 複合判定関数を導入します。
+
+推奨定義：
 
 ```text
 trend_dominant = (
@@ -63,29 +67,29 @@ trend_dominant = (
 )
 ```
 
-可选增强：
+オプションの強化案：
 
-1. 引入 `up_count / down_count` 的 breadth 约束
-2. 引入 `flow_acceleration` 的方向约束
+1. `up_count / down_count` によるブレ幅（Breadth）制約の導入。
+2. `flow_acceleration` による方向制約の導入。
 
-要求：
+要件：
 
-1. `TrendDominant` 必须是显式字段或显式函数结果
-2. `reset gate` 不能再直接消费单一代理值
+1. `TrendDominant` は、明示的なフィールドまたは明示的な関数の結果であること。
+2. `reset gate` は、もはや単一の代理値を直接消費してはならない。
 
-### 3.2 CoreAssetsBreakdown 复合判定
+### 3.2 CoreAssetsBreakdown 複合判定
 
-当前实现：
+現状の実装：
 
-1. `TrendStatus::Down`
-2. 或 `deviation < -5.0`
-3. 且损坏核心资产数量超过 50%
+1. `TrendStatus::Down` である。
+2. または、`deviation < -5.0` である。
+3. かつ、損壊しているコア資産の数が 50% を超えている。
 
-V1.1 目标：
+V1.1 の目標：
 
-将 `CoreAssetsBreakdown` 升级成配置化复合判定。
+`CoreAssetsBreakdown` を、設定可能な複合判定にアップグレードします。
 
-建议定义：
+推奨定義：
 
 ```text
 core_assets_breakdown = (
@@ -95,21 +99,21 @@ core_assets_breakdown = (
 )
 ```
 
-建议配置项：
+推奨される設定項目：
 
-1. `breakdown_k`
-2. `breakdown_avg_deviation`
-3. `breakdown_breadth_floor`
+1. `breakdown_k` (損壊資産数しきい値)
+2. `breakdown_avg_deviation` (コア平均乖離しきい値)
+3. `breakdown_breadth_floor` (コア騰落幅フロア)
 
-要求：
+要件：
 
-1. `core_assets` 继续来自配置
-2. breakdown 阈值也必须来自配置
-3. 默认值可以内置，但不能只写死在代码里
+1. `core_assets` は引き続き設定（Config）から取得すること。
+2. 崩壊（Breakdown）しきい値も設定から取得すること。
+3. デフォルト値を内蔵することは可能だが、コード内にハードコードするだけにしてはならない。
 
-### 3.3 Transition Audit 扩展
+### 3.3 Transition Audit の拡張
 
-当前 `transition_audit` 已有：
+現在の `transition_audit` に含まれる項目：
 
 1. `from`
 2. `to`
@@ -118,7 +122,7 @@ core_assets_breakdown = (
 5. `core_breakdown`
 6. `duration_locked`
 
-V1.1 建议扩展：
+V1.1 における拡張推奨項目：
 
 1. `trend_dominant`
 2. `reset_gate_passed`
@@ -126,35 +130,35 @@ V1.1 建议扩展：
 4. `soft_reset_applied`
 5. `defensive_override`
 
-要求：
+要件：
 
-1. 审计字段优先结构化
-2. `reasons` 继续保留，但不作为唯一真相来源
+1. 監査フィールドは、構造化データを優先すること。
+2. `reasons`（理由）は引き続き保持するが、唯一の「真実のソース」として扱わないこと。
 
 ---
 
-## 4. 具体实现建议
+## 4. 具体的な実装案
 
-### 4.1 文件落点
+### 4.1 ファイル配置
 
 1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs)
-   - 增加 `trend_dominant`
-   - 升级 `core_assets_breakdown`
+   - `trend_dominant` の追加。
+   - `core_assets_breakdown` のアップグレード。
 
 2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
-   - `check_reset_gate()` 改为消费显式 `trend_dominant`
-   - 扩展 `transition_audit`
+   - `check_reset_gate()` を、明示的な `trend_dominant` を消費するように変更。
+   - `transition_audit` の拡張。
 
 3. [config.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/config.rs)
-   - 增加 `core_assets_breakdown` 阈值配置
-   - 增加 `trend_dominant` 判定阈值配置
+   - `core_assets_breakdown` のしきい値設定の追加。
+   - `trend_dominant` 判定のしきい値設定の追加。
 
 4. [IMPLEMENTATION_WALKTHROUGH.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/architecture/IMPLEMENTATION_WALKTHROUGH.md)
-   - 同步更新为 V1.1 审计与判定语义
+   - V1.1 の監査および判定セマンティクスに合わせて同期更新。
 
-### 4.2 建议配置结构
+### 4.2 推奨設定構造
 
-建议在 `rules` 下增加：
+`rules` の下に以下を追加することを推奨します：
 
 ```toml
 [rules.inertia]
@@ -165,47 +169,47 @@ core_breakdown_avg_deviation = -5.0
 core_breakdown_breadth_floor = 0.0
 ```
 
-说明：
+説明：
 
-1. 不要求名字完全一致
-2. 但配置必须允许后续实验和回测
+1. キーの名前が完全に一致している必要はありません。
+2. ただし、設定によって将来の実験やバックテストが可能でなければなりません。
 
 ---
 
-## 5. 验收标准
+## 5. 承認基準
 
 ### 5.1 TrendDominant
 
-必须满足：
+以下を満たさなければなりません：
 
-1. `TrendDominant` 不再由单一代理值直接表达
-2. `reset gate` 使用显式的 `trend_dominant` 结果
+1. `TrendDominant` が、もはや単一の代理値によって直接表現されていないこと。
+2. `reset gate` が、明示的な `trend_dominant` の結果を使用していること。
 
 ### 5.2 CoreAssetsBreakdown
 
-必须满足：
+以下を満たさなければなりません：
 
-1. `CoreAssetsBreakdown` 依赖配置阈值
-2. 不再只依赖“超过一半资产是 Down”
+1. `CoreAssetsBreakdown` が、設定されたしきい値に依存していること。
+2. もはや「半分以上の資産が Down である」ことだけに依存していないこと。
 
 ### 5.3 Transition Audit
 
-必须满足：
+以下を満たさなければなりません：
 
-1. 可以结构化解释：
-   - 为什么没 reset
-   - 为什么被 duration lock 拦住
-   - 为什么进入 `DEFENSIVE`
+1. 以下の理由を構造化されたデータで説明できること：
+   - なぜリセットされなかったのか。
+   - なぜ duration lock によって阻害されたのか。
+   - なぜ `DEFENSIVE` に突入したのか。
 
-### 5.4 基线
+### 5.4 ベースライン
 
-必须通过：
+以下にパスしなければなりません：
 
 1. `cargo test -q`
 2. `cargo clippy --all-targets --all-features -- -D warnings`
 
 ---
 
-## 6. 一句话要求
+## 6. 一言要求
 
-V1.1 不是继续扩展规则，而是把 `TrendDominant` 和 `CoreAssetsBreakdown` 从“代理启发式”升级成“明确的可配置复合判定”。 
+V1.1 は、ルールをさらに拡張することではありません。`TrendDominant` と `CoreAssetsBreakdown` を「代理ヒューリスティック」から「明示的で設定可能な複合判定」へとアップグレードすることです。

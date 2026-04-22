@@ -1,12 +1,16 @@
-# Sentinel Exit Decision Layer 任务单
+---
+author: Ray
+---
 
-## 1. 目标
+# Sentinel 退出意思決定層 (Exit Decision Layer) タスクリスト
 
-本任务用于为 Sentinel 新增独立的卖出决策层：
+## 1. 目標
+
+本タスクは、Sentinel に独立した売却意思決定層を追加することを目的としています：
 
 **Exit Decision Layer**
 
-当前系统已经具备：
+現在のシステムには以下の要素がすでに備わっています：
 
 1. `Market Regime`
 2. `Participation Readiness`
@@ -14,52 +18,52 @@
 4. `ActionMatrix`
 5. `ExecutionGate`
 
-但当前卖出语义仍不够独立，容易被混入：
+しかし、現在の売却セマンティクス（意味論）はまだ十分に独立しておらず、以下の要素と混同されやすい状態です：
 
-1. 买入映射逻辑
-2. 报告文案逻辑
-3. 局部资产状态解释
+1. 買入マッピングロジック
+2. レポート文言ロジック
+3. 局所的な資産状態の解釈
 
-本任务目标不是优化买点，而是显式回答：
+本タスクの目標は、買いポイントの最適化ではなく、以下の問いに明示的に答えることです：
 
-1. 什么时候必须退出
-2. 什么时候应该减仓
-3. 什么时候只是停止加仓
-4. 什么时候只做利润管理
-
----
-
-## 2. 设计原则
-
-### 2.1 卖出不是买入的反面
-
-买入是在判断：
-
-1. 现在能不能开始承担风险
-
-卖出是在判断：
-
-1. 现在是不是必须停止承担这类风险
-
-因此：
-
-1. 退出逻辑不能继续堆进 `ActionMatrix`
-2. 退出优先级必须高于买入映射
-
-### 2.2 Exit Gate 的职责
-
-Exit Decision Layer 必须负责：
-
-1. 识别硬风险并强制退出
-2. 识别主线掉队并触发减仓
-3. 识别市场级降温并统一收手
-4. 识别过热并执行利润管理
+1. いつ完全に退出（Exit）すべきか
+2. いつ減配（Trim）すべきか
+3. いつ加倉（追加買い）を停止すべきか
+4. いつ利益管理のみを行うべきか
 
 ---
 
-## 3. 建议执行顺序
+## 2. 設計原則
 
-建议将引擎流程调整为：
+### 2.1 売却は買入の反対ではない
+
+買入の判断基準：
+
+1. 今、リスクを取り始めることができるか？
+
+売却の判断基準：
+
+1. 今、この種のリスクを取ることを停止しなければならないか？
+
+したがって：
+
+1. 退出ロジックを `ActionMatrix` に詰め込み続けてはならない。
+2. 退出の優先順位は買入マッピングよりも高くなければならない。
+
+### 2.2 Exit Gate の責務
+
+Exit Decision Layer は以下の責任を負わなければなりません：
+
+1. ハードリスク（致命的リスク）を識別し、強制退出を命じる。
+2. 主軸からの脱落を識別し、減配をトリガーする。
+3. 市場レベルの冷え込みを識別し、一律に手を引く。
+4. 過熱を識別し、利益管理を実行する。
+
+---
+
+## 3. 推奨される実行順序
+
+エンジンのプロセスを以下のように調整することを推奨します：
 
 ```text
 Raw Signals
@@ -72,30 +76,30 @@ Raw Signals
 → Execution
 ```
 
-关键原则：
+重要な原則：
 
-1. 先判断要不要撤
-2. 再判断还能不能加
+1. まず撤退すべきかどうかを判断する。
+2. 次にまだ追加できるかどうかを判断する。
 
 ---
 
-## 4. 新增概念
+## 4. 新規概念
 
 ### 4.1 Position Intent
 
-建议统一输出：
+以下の出力を一元化することを推奨します：
 
 ```text
 position_intent
-- ADD
-- HOLD
-- TRIM
-- EXIT
+- ADD (加倉/新規)
+- HOLD (保持)
+- TRIM (減配)
+- EXIT (清算/退出)
 ```
 
-### 4.2 Exit 元信息
+### 4.2 Exit メタ情報
 
-建议新增结构：
+以下の構造体を新規追加することを推奨します：
 
 ```rust
 pub struct ExitDecision {
@@ -106,119 +110,118 @@ pub struct ExitDecision {
 }
 ```
 
-建议枚举：
+推奨される列挙型：
 
 ```rust
 pub enum AssetExitState {
     None,
-    DefensiveExit,
-    StrengthLoss,
-    ParticipationExit,
-    OverheatProfitTake,
+    DefensiveExit,        // 防御的退出
+    StrengthLoss,         // 強さの喪失
+    ParticipationExit,    // 参加条件未達による退出
+    OverheatProfitTake,   // 過熱による利食い
 }
 ```
 
 ---
 
-## 5. 优先级规则
+## 5. 優先順位ルール
 
-同一资产可能同时出现多个信号，必须按统一优先级覆盖：
+同一資産において複数のシグナルが同時に発生した場合、統一された優先順位で上書きする必要があります：
 
 ```text
 EXIT > TRIM > HOLD > ADD
 ```
 
-强制要求：
+強制要件：
 
-1. `Exit intent always overrides add intent`
+1. `Exit intent always overrides add intent` (退出意図は常に加倉意図を上書きする)
 
-也就是说：
+つまり：
 
-1. 如果某资产同时满足 `ADD` 与 `TRIM`
-2. 必须以 `TRIM` 为准
+1. ある資産が `ADD` と `TRIM` の両方の条件を満たす場合
+2. 必ず `TRIM` を優先する。
 
 ---
 
-## 6. 第一版规则
+## 6. 第1版ルール
 
-首版只做结构化卖出，不做复杂盈亏管理。
+初版では構造化された売却のみを行い、複雑な損益管理は行いません。
 
-### Rule 1: Defensive Exit
+### Rule 1: Defensive Exit (防御的退出)
 
 条件：
 
 1. `asset_state == DEFEND`
-2. 或 `risk_overlay == DEFENSIVE`
-3. 或已存在明确硬风险信号
+2. または `risk_overlay == DEFENSIVE`
+3. または明確なハードリスクシグナルがすでに存在する場合
 
-动作：
+アクション：
 
 1. `position_intent = EXIT`
 
-说明：
+説明：
 
-1. 这是保命层
-2. 不等待 2-3 天确认
-3. 先活下来，再讲后续
+1. これは「命を守る」レイヤーです。
+2. 2〜3日の確認期間を待たず、即座に実行します。
+3. まず生き残り、その後について考えます。
 
-### Rule 2: Strength Loss Exit
+### Rule 2: Strength Loss Exit (強さの喪失による退出)
 
 条件：
 
-1. `asset_out_of_top_tier_streak >= 3`
-2. 或 `(asset_state from OPTIMAL/CRUISE -> CAUTION) persists >= 2d`
+1. `asset_out_of_top_tier_streak >= 3` (トップ層からの脱落が3日以上)
+2. または `(asset_state が OPTIMAL/CRUISE -> CAUTION へ遷移) が 2日以上持続`
 
-动作：
+アクション：
 
 1. `position_intent = TRIM`
 
-说明：
+説明：
 
-1. 这是主线管理层
-2. 目的不是宣判失败
-3. 而是把仓位让给更强资产
+1. これは「主軸管理」レイヤーです。
+2. 目的は失敗を宣告することではなく、より強い資産にポジションを譲ることです。
 
-### Rule 3: Participation Exit
+### Rule 3: Participation Exit (参加解除による退出)
 
 条件：
 
-1. `participation_ready` 发生 `true -> false`
+1. `participation_ready` が `true -> false` に変化
 
-动作：
+アクション：
 
-1. 禁止新买
-2. 弱资产 `TRIM`
-3. 核心强资产 `HOLD / FREEZE`
+1. 新規買いの禁止。
+2. 弱い資産は `TRIM`。
+3. コアな強い資産は `HOLD / FREEZE`。
 
-说明：
+説明：
 
-1. 市场门关了
-2. 先停手，再分类处理
-3. 不等于全清仓
+1. 「市場の門」が閉じました。
+2. まず手を止め、その後で分類処理を行います。
+3. 全ポジションの清算を意味するわけではありません。
 
-### Rule 4: Overheat Profit-Take
+### Rule 4: Overheat Profit-Take (過熱による利食い)
 
 条件：
 
 1. `asset_state == OVERHEAT`
 
-动作：
+アクション：
 
 1. `position_intent = TRIM`
-2. `take_profit_mode = partial`
+2. `take_profit_mode = partial` (部分利食い)
 
-说明：
+説明：
 
-1. 只减，不清
-2. 这是利润管理，不是趋势反转判断
+1. 減らすだけで、清算はしません。
+2. これは利益管理であり、トレンド転換の判断ではありません。
 
 ---
 
-## 7. 需要新增的数据原语
+## 7. 追加が必要なデータプリミティブ
 
-不要从 UI 倒推退出逻辑，应该持久化系统原语。
+UI から逆算して退出ロジックを組むのではなく、システムのプリミティブ（基本要素）を永続化すべきです。
 
-建议 `DecisionPacket` 至少新增或明确暴露：
+`DecisionPacket` に少なくとも以下の項目を追加、または明示的に露出させることを推奨します：
 
 1. `top_tier_symbols`
 2. `participation`
@@ -228,7 +231,7 @@ EXIT > TRIM > HOLD > ADD
 6. `asset_state_streak`
 7. `risk_overlay`
 
-建议补充：
+さらに以下を補完することを推奨します：
 
 1. `asset_previous_state`
 2. `asset_exit_blockers`
@@ -236,19 +239,19 @@ EXIT > TRIM > HOLD > ADD
 用途：
 
 1. `asset_previous_state`
-   - 用于判断 `OPTIMAL/CRUISE -> CAUTION`
+   - `OPTIMAL/CRUISE -> CAUTION` への変化を判断するために使用。
 2. `asset_exit_blockers`
-   - 用于解释为什么这次没有触发 exit
+   - なぜ今回退出がトリガーされなかったのかを説明するために使用。
 
 ---
 
-## 8. 建议代码落点
+## 8. 推奨されるコードの配置
 
-建议新增：
+以下の新規追加を推奨します：
 
 1. [exit.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/exit.rs)
 
-并在以下位置接入：
+そして以下の場所で接続します：
 
 1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
 2. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
@@ -258,111 +261,111 @@ EXIT > TRIM > HOLD > ADD
 
 ### 8.1 Engine
 
-负责：
+担当：
 
-1. 在 asset ranking 完成后计算 exit decisions
-2. 将 exit 结果与 action mapping 统一收敛
-3. 形成最终 `position_intent`
+1. 資産ランキング完了後、exit decisions を計算する。
+2. exit の結果と action mapping を一元的に収束させる。
+3. 最終的な `position_intent` を形成する。
 
 ### 8.2 ActionMatrix
 
-职责收缩为：
+責務を以下に縮小：
 
-1. 负责买入/持有的基础映射
-2. 不负责定义退出规则
-3. 最终结果受 Exit Layer 覆盖
+1. 買い増し/保持の基礎的なマッピングを担当。
+2. 退出ルールの定義は担当しない。
+3. 最終結果は Exit Layer によって上書きされる。
 
 ### 8.3 ExecutionGate
 
-负责消费：
+以下の消費を担当：
 
 1. `position_intent`
 
-而不是继续直接猜测：
+以下の直接的な推測を停止：
 
 1. `ACCUMULATE / REDUCE / HOLD`
 
 ---
 
-## 9. 开发任务拆解
+## 9. 開発タスクの分解
 
-### P0-1 新增 ExitDecision 模块
+### P0-1 ExitDecision モジュールの新規追加
 
-任务要求：
+任務要件：
 
-1. 新建 `exit.rs`
-2. 定义：
+1. `exit.rs` を新規作成。
+2. 以下を定義：
    - `PositionIntent`
    - `AssetExitState`
    - `ExitDecision`
-3. 实现首版 4 条规则
+3. 第1版の4つのルールを実装。
 
-### P0-2 扩展 DecisionPacket / 资产决策结构
+### P0-2 DecisionPacket / 資産意思決定構造の拡張
 
-任务要求：
+任務要件：
 
-1. 将 exit 结果写入 `DecisionPacket`
-2. 对每个资产记录 exit 相关字段
-3. 保证历史包可追踪 streak / previous state / exit intent
+1. exit の結果を `DecisionPacket` に書き込む。
+2. 各資産に対して exit 関連のフィールドを記録。
+3. 履歴パッケージで streak / previous state / exit intent が追跡可能であることを保証。
 
-### P0-3 Engine 接入统一决策顺序
+### P0-3 Engine への統一意思決定順序の導入
 
-任务要求：
+任務要件：
 
-1. 先算 participation
-2. 再算 asset state / ranking
-3. 再算 exit decisions
-4. 最后合并成 `position_intent`
+1. まず participation を計算。
+2. 次に asset state / ranking を計算。
+3. さらに exit decisions を計算。
+4. 最後に `position_intent` にマージ。
 
-### P1-1 ExecutionGate 消费 position_intent
+### P1-1 ExecutionGate での position_intent 消費
 
-任务要求：
+任務要件：
 
-1. `ADD` -> 买入路径
-2. `TRIM` -> 减仓路径
-3. `EXIT` -> 清仓或强制退出路径
-4. `HOLD` -> 无交易
+1. `ADD` -> 買入パス
+2. `TRIM` -> 減配パス
+3. `EXIT` -> 清算または強制退出パス
+4. `HOLD` -> 取引なし
 
-### P1-2 报告层补齐退出诊断
+### P1-2 報告層への退出診断の追加
 
-任务要求：
+任務要件：
 
-1. 显示：
-   - 哪些资产被 `TRIM`
-   - 哪些资产被 `EXIT`
-   - 原因是什么
-2. 区分：
-   - 保命退出
-   - 掉队减仓
-   - 市场降温减仓
-   - 过热止盈
+1. 以下を表示：
+   - どの資産が `TRIM` されたか
+   - どの資産が `EXIT` されたか
+   - その理由は何か
+2. 以下を区別：
+   - 命を守る退出 (Defensive)
+   - 脱落による減配 (Strength Loss)
+   - 市場の冷え込みによる減配 (Participation)
+   - 過熱による利食い (Profit-Take)
 
-### P1-3 文档与 schema 更新
+### P1-3 ドキュメントとスキーマの更新
 
-任务要求：
+任務要件：
 
-1. 更新 [DECISION_PACKET_SCHEMA.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/DECISION_PACKET_SCHEMA.md)
-2. 如有必要，更新：
+1. [DECISION_PACKET_SCHEMA.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/DECISION_PACKET_SCHEMA.md) を更新。
+2. 必要に応じて以下を更新：
    - `ACTION_MATRIX.md`
    - `STATE_MACHINE_HOME_SUMMARY.md`
 
 ---
 
-## 10. 测试清单
+## 10. テストリスト
 
-至少补以下测试：
+少なくとも以下のテストを補完してください：
 
-1. `DEFEND` 当天必须触发 `EXIT`
-2. 连续 3 天掉出 `Top Tier` 必须触发 `TRIM`
-3. `participation_ready true -> false` 后禁止新买
-4. `OVERHEAT` 只部分减仓，不全清
-5. 强资产在市场转冷时不应与弱资产同样处理
-6. 强资产仅掉队 1 天，不应触发 `TRIM`
-7. 弱资产刚回到 Top Tier 1 天，不应解除历史惩罚
-8. `EXIT` 与 `ADD` 冲突时，必须以 `EXIT` 为准
-9. `TRIM` 与 `ADD` 冲突时，必须以 `TRIM` 为准
+1. `DEFEND` の日は必ず `EXIT` がトリガーされること。
+2. 3日連続で `Top Tier` から脱落した場合、必ず `TRIM` がトリガーされること。
+3. `participation_ready true -> false` 後は新規買いが禁止されること。
+4. `OVERHEAT` は部分的な減配のみを行い、全清算はしないこと。
+5. 強い資産は市場が冷え込んだ際、弱い資産と同じ扱いを受けてはならないこと。
+6. 強い資産が1日だけ脱落した場合、`TRIM` をトリガーしてはならないこと。
+7. 弱い資産が Top Tier に戻って1日目では、歴史的なペナルティを解除してはならないこと。
+8. `EXIT` と `ADD` が衝突した場合、必ず `EXIT` を優先すること。
+9. `TRIM` と `ADD` が衝突した場合、必ず `TRIM` を優先すること。
 
-建议落点：
+推奨されるテストの配置場所：
 
 1. `src/core/exit.rs`
 2. `tests/pipeline_integration.rs`
@@ -371,58 +374,58 @@ EXIT > TRIM > HOLD > ADD
 
 ---
 
-## 11. 验收标准
+## 11. 完了基準
 
-本任务完成后，系统必须满足：
+本タスク完了後、システムは以下の条件を満たさなければなりません：
 
-1. 卖出逻辑拥有独立层，不再混在 `ActionMatrix`
-2. `position_intent` 已成为统一执行原语
-3. `EXIT > TRIM > HOLD > ADD` 有明确覆盖规则
-4. 系统能区分：
-   - 保命退出
-   - 结构减仓
-   - 市场级去风险
-   - 过热止盈
-5. 报告层能解释为什么要卖，而不是只展示结果
-
----
-
-## 12. 非目标
-
-本轮不做：
-
-1. 浮盈回撤模型
-2. ATR 止盈
-3. 成本线止盈
-4. 分批止盈策略优化
-5. 更复杂的盈亏归因系统
-
-本轮只做：
-
-**让卖出系统先具备结构正确性。**
+1. 売却ロジックが独立した層を持ち、`ActionMatrix` と混在していないこと。
+2. `position_intent` が統一された実行プリミティブ（原語）となっていること。
+3. `EXIT > TRIM > HOLD > ADD` の明確な上書きルールが有効であること。
+4. システムが以下を区別できること：
+   - 命を守る退出
+   - 構造的な減配
+   - 市場レベルのリスク回避
+   - 過熱による利食い
+5. 報告層が結果だけでなく、「なぜ売るのか」を説明できること。
 
 ---
 
-## 13. 建议开发顺序
+## 12. 非目標 (Out of Scope)
 
-建议开发按以下顺序提交：
+本フェーズでは以下は行いません：
 
-1. `exit.rs` + 数据结构
-2. `DecisionPacket` / schema 扩展
-3. `engine.rs` 决策顺序接入
-4. `execution_gate.rs` 消费 `position_intent`
-5. `report.rs` 增加退出解释
-6. 完整测试
+1. 含み益のドローダウンモデル。
+2. ATR 利食い。
+3. コストライン（買値）利食い。
+4. 分割利食い戦略の最適化。
+5. より複雑な損益帰属システム。
+
+本フェーズで行うのは：
+
+**売却システムに「構造的な正しさ」をまず備えさせることです。**
 
 ---
 
-## 14. 完成定义
+## 13. 推奨される開発順序
 
-当以下条件全部满足时，本任务视为完成：
+以下の順序でコミットすることを推奨します：
 
-1. 已存在独立 `Exit Decision Layer`
-2. 每个资产都有明确 `position_intent`
-3. 退出优先级覆盖规则已生效
-4. 买入和卖出不再在 `ActionMatrix` 中互相污染
-5. 所有核心退出路径均有测试覆盖
-6. 报告层能清楚解释“为什么该收手”
+1. `exit.rs` + データ構造
+2. `DecisionPacket` / スキーマ拡張
+3. `engine.rs` への意思決定順序の導入
+4. `execution_gate.rs` での `position_intent` 消費
+5. `report.rs` への退出説明の追加
+6. 完璧なテスト
+
+---
+
+## 14. 完了の定義
+
+以下の条件がすべて満たされたとき、本タスクは完了と見なされます：
+
+1. 独立した `Exit Decision Layer` が存在すること。
+2. すべての資産に明確な `position_intent` が付与されていること。
+3. 退出の優先順位上書きルールが機能していること。
+4. 買入と売却が `ActionMatrix` 内で互いに汚染し合っていないこと。
+5. すべてのコアな退出パスにテストカバレッジが存在すること。
+6. 報告層が「なぜ手を引くべきか」を明確に説明できること。

@@ -1,57 +1,61 @@
-# Sentinel Rich Display Context 任务单
+---
+author: Ray
+---
 
-## 1. 目标
+# Sentinel リッチ展示コンテキスト (Rich Display Context) タスクリスト
 
-本任务用于在现有 `DisplayAdapter` 基础上继续推进展示语义的精细化。
+## 1. 目標
 
-当前系统已经完成：
+本タスクは、既存の `DisplayAdapter` をベースに、展示セマンティクス（表示上の意味論）のさらなる精細化を推進することを目的としています。
 
-1. `display_intent` 与旧 `AssetAction` 解耦
-2. `HOLD / OBSERVE` 由 `has_position` 驱动
-3. Telegram / CLI / Tactical Summary 共用同一展示原语
+現在のシステムで完了している事項：
 
-但当前展示上下文仍然偏粗：
+1. `display_intent` と旧 `AssetAction` のデカップリング。
+2. `HOLD / OBSERVE` が `has_position`（ポジションの有無）によって駆動される。
+3. Telegram / CLI / Tactical Summary が同一の展示プリミティブを共有している。
 
-1. 只有 `has_position`
-2. 仍不足以表达：
-   - 有仓但已掉队
-   - 无仓但高优先候选
-   - 核心持仓 vs 边缘持仓
-   - 市场未 ready 下的候选资产
+しかし、現在の展示コンテキストは依然として粗い状態です：
 
-本轮目标是：
+1. `has_position` しか情報がない。
+2. 以下の状態を表現するには不十分：
+   - ポジションはあるが、すでに勢いが衰えている（脱落）。
+   - ポジションはないが、優先度の高い候補である。
+   - コアな持ち分（Core Holding） vs 周辺的な持ち分（Edge Holding）。
+   - 市場が Ready でない状態での候補資産。
 
-**把展示语义从单一事实驱动，升级为 richer display context 驱动。**
+本フェーズの目標は以下の通りです：
+
+**展示セマンティクスを「単一の事実駆動」から「よりリッチな展示コンテキスト (Richer Display Context) 駆動」へとアップグレードする。**
 
 ---
 
-## 2. 为什么要做这一层
+## 2. なぜこの層が必要なのか
 
-当前：
+現状：
 
-1. `has_position = true` -> 往往显示 `HOLD`
-2. `has_position = false` -> 往往显示 `OBSERVE`
+1. `has_position = true` -> 多くの場合 `HOLD` と表示。
+2. `has_position = false` -> 多くの場合 `OBSERVE` と表示。
 
-这已经比旧版好很多，但还不够。
+これは旧バージョンより大幅に改善されていますが、まだ不十分です。
 
-因为实际展示语义至少有 4 种不同对象：
+なぜなら、実際の展示セマンティクスには、少なくとも4つの異なる対象が存在するからです：
 
-1. 核心持仓
-2. 非核心但仍持有
-3. 无仓候选
-4. 已经掉队、应收缩战线
+1. コアな持ち分 (Core Holding)
+2. コアではないが、依然として保持している銘柄 (Non-Core Holding)
+3. ポジションのない候補 (Candidate Only)
+4. すでに勢いが衰え、戦線を縮小すべき銘柄 (Laggard)
 
-如果展示层不能区分这些状态：
+もし展示層がこれらの状態を区別できない場合：
 
-1. 用户看到的 UI 会太平
-2. 解释力会下降
-3. 后续 Web / App 多端也难以统一表达
+1. ユーザーが見る UI が単調（フラット）になる。
+2. 説明力が低下する。
+3. 将来的な Web / App などのマルチデバイス展開において、統一した表現が難しくなる。
 
 ---
 
-## 3. 设计目标
+## 3. 設計目標
 
-新增一层更明确的展示上下文，例如：
+より明確な展示コンテキストレイヤーを新規追加します。例：
 
 ```rust
 pub struct DisplayContext {
@@ -63,76 +67,76 @@ pub struct DisplayContext {
 }
 ```
 
-最低要求：
+最低限必要な要件：
 
 1. `has_position`
 2. `is_core_holding`
 3. `is_candidate_only`
 
-推荐补充：
+推奨される補完項目：
 
 1. `is_top_tier`
 2. `participation_ready`
 
 ---
 
-## 4. 核心语义定义
+## 4. 核心となるセマンティクスの定義
 
-### 4.1 Core Holding
+### 4.1 Core Holding (コアな持ち分)
 
-定义建议：
+定義の推奨案：
 
-1. 当前有持仓
-2. 且仍位于 Top Tier / 核心持仓集合
+1. 現在ポジションを保有している。
+2. かつ、依然として Top Tier / コア持ち分集合に含まれている。
 
-### 4.2 Candidate Only
+### 4.2 Candidate Only (候補のみ)
 
-定义建议：
+定義の推奨案：
 
-1. 当前无持仓
-2. 但仍位于候选核心集合
-3. 主要用于显示 `OBSERVE`
+1. 現在ポジションを保有していない。
+2. しかし、依然として候補のコア集合に含まれている。
+3. 主に `OBSERVE` と表示するために使用される。
 
-### 4.3 Non-Core Holding
+### 4.3 Non-Core Holding (非コアな持ち分)
 
-定义建议：
+定義の推奨案：
 
-1. 当前有持仓
-2. 但已不在核心集合
+1. 現在ポジションを保有している。
+2. しかし、すでにコア集合からは外れている。
 
-该类资产不应与 `Core Holding` 同样展示。
+この種の資産は、`Core Holding` と同じようには展示されるべきではありません。
 
 ---
 
-## 5. DisplayIntent 第二阶段规则
+## 5. DisplayIntent 第2段階ルール
 
-建议首版规则：
+推奨される初版ルール：
 
 1. `PositionIntent::ADD -> DisplayIntent::ADD`
 2. `PositionIntent::TRIM -> DisplayIntent::TRIM`
 3. `PositionIntent::EXIT -> DisplayIntent::EXIT`
-4. `PositionIntent::HOLD` 时：
+4. `PositionIntent::HOLD` の場合：
    - `is_core_holding == true` -> `DisplayIntent::HOLD`
    - `is_candidate_only == true` -> `DisplayIntent::OBSERVE`
-   - `has_position == true && !is_core_holding` -> 仍显示 `HOLD`，但允许附加弱化标签
+   - `has_position == true && !is_core_holding` -> 引き続き `HOLD` と表示するが、弱体化タグの付加を許可する。
    - `has_position == false && !is_candidate_only` -> `DisplayIntent::OBSERVE`
 
 注意：
 
-1. 本轮先不新增更多 intent 枚举
-2. 先通过 richer context 提升解释力
+1. 本フェーズでは、これ以上の intent 列挙型の新規追加は行いません。
+2. まずはリッチなコンテキストを通じて説明力を向上させます。
 
 ---
 
-## 6. 建议输出扩展
+## 6. 推奨される出力の拡張
 
-建议在资产级决策结果中新增：
+資産レベルの意思決定結果に以下を新規追加することを推奨します：
 
 1. `display_context`
 2. `display_tags`
 3. `display_notes`
 
-例如：
+例：
 
 ```rust
 pub struct DisplayContext {
@@ -148,122 +152,118 @@ pub struct DisplayContext {
 pub display_tags: Vec<String>
 ```
 
-建议标签示例：
+推奨されるタグの例：
 
-1. `Core Holding`
-2. `Candidate`
-3. `Non-Core Holding`
-4. `Participation Blocked`
+1. `Core Holding` (コア持ち分)
+2. `Candidate` (候補)
+3. `Non-Core Holding` (周辺持ち分)
+4. `Participation Blocked` (参加制限中)
 
 ---
 
-## 7. 建议代码落点
+## 7. 推奨されるコードの配置
 
-继续使用：
+引き続き以下を使用します：
 
 1. [display.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/display.rs)
 
-并在以下位置接入：
+そして以下の場所で接続します：
 
 1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
 2. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
 3. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
 
-### 7.1 Engine
+### 7.1 Engine の責務
 
-负责：
+1. `DisplayContext` の生成。
+2. `display_intent` の生成。
+3. オプションの展示タグの生成。
 
-1. 生成 `DisplayContext`
-2. 生成 `display_intent`
-3. 生成可选展示标签
+### 7.2 Report の責務
 
-### 7.2 Report
-
-负责：
-
-1. 消费 `display_intent`
-2. 可选择展示 `display_tags`
-3. 不再自行推断上下文
+1. `display_intent` の消費。
+2. オプションで `display_tags` を表示。
+3. 展示コンテキストの独自推論を停止。
 
 ---
 
-## 8. 开发任务拆解
+## 8. 開発タスクの分解
 
-### P0-1 新增 DisplayContext
+### P0-1 DisplayContext の新規追加
 
-任务要求：
+任務要件：
 
-1. 定义 `DisplayContext`
-2. 持久化进资产级决策结构
-3. 为历史兼容增加 `serde(default)`
+1. `DisplayContext` を定義。
+2. 資産レベルの意思決定構造体に永続化。
+3. 過去との互換性のために `serde(default)` を追加。
 
-### P0-2 在 Engine 中生成 richer display context
+### P0-2 Engine におけるリッチな展示コンテキストの生成
 
-任务要求：
+任務要件：
 
-1. 基于持仓、Top Tier、Participation 状态生成 `DisplayContext`
-2. 不再只依赖 `has_position`
+1. ポジション、Top Tier、Participation 状態に基づいて `DisplayContext` を生成。
+2. もはや `has_position` だけに依存しない。
 
-### P0-3 DisplayAdapter 消费 DisplayContext
+### P0-3 DisplayAdapter による DisplayContext の消費への変更
 
-任务要求：
+任務要件：
 
-1. `derive_display_intent(...)` 输入改为 `DisplayContext`
-2. 不再只接收单个布尔值
+1. `derive_display_intent(...)` の入力を `DisplayContext` に変更。
+2. 単一のブール値のみを受け取るのを停止。
 
-### P1-1 报告层增加轻量标签
+### P1-1 報告層への軽量タグの追加
 
-任务要求：
+任務要件：
 
-1. 在 Top Actions 或原因中可选展示：
+1. Top Actions または理由欄において、以下のタグをオプションで表示：
    - `Core`
    - `Candidate`
    - `Blocked`
-2. 保持报告简洁，不要过度信息化
+2. 報告書は簡潔に保ち、過剰な情報化を避けること。
 
-### P1-2 UI / 回归测试
+### P1-2 UI / 回帰テスト
 
-任务要求：
+任務要件：
 
-1. 覆盖 Core Holding
-2. 覆盖 Candidate Only
-3. 覆盖 Non-Core Holding
-4. 覆盖 Participation blocked candidate
+1. Core Holding シナリオのカバー。
+2. Candidate Only シナリオのカバー。
+3. Non-Core Holding シナリオのカバー。
+4. Participation blocked candidate シナリオのカバー。
 
 ---
 
-## 9. 测试清单
+## 9. テストリスト
 
-至少补以下测试：
+少なくとも以下のテストを補完してください：
 
 1. `has_position=true && is_core_holding=true` -> `HOLD`
 2. `has_position=false && is_candidate_only=true` -> `OBSERVE`
-3. `has_position=true && is_core_holding=false` -> 保持 `HOLD`，但有弱化标签
-4. `participation_ready=false && candidate_only=true` -> 仍显示 `OBSERVE`，并带 blocked 语义
-5. Telegram Top Actions / 战术分区 / 风险机会 共用同一上下文口径
+3. `has_position=true && is_core_holding=false` -> `HOLD` を維持するが、弱体化タグが付与されること。
+4. `participation_ready=false && candidate_only=true` -> 引き続き `OBSERVE` と表示され、blocked セマンティクスを伴うこと。
+5. Telegram Top Actions / Tactical Summary / 期待・機会セクションで同一のコンテキスト基準を共有していること。
 
 ---
 
-## 10. 验收标准
+## 10. 完了基準
 
-本任务完成后，系统必须满足：
+本タスク完了後、システムは以下の条件を満たさなければなりません：
 
-1. `display_intent` 不再只依赖 `has_position`
-2. 展示层能区分核心持仓、候选资产、非核心持仓
-3. 报告解释力提升，但不重新引入旧 `action` 依赖
-4. 所有展示模块继续共享统一的 DisplayAdapter 输出
+1. `display_intent` が `has_position` だけに依存していないこと。
+2. 展示層が、コア持ち分、候補資産、周辺持ち分を区別できていること。
+3. 報告書の説明力が向上し、かつ旧 `action` への依存が再導入されていないこと。
+4. すべての展示モジュールが引き続き、統一された DisplayAdapter の出力を共有していること。
 
 ---
 
-## 11. 非目标
+## 11. 非目標 (Out of Scope)
 
-本轮不做：
+本フェーズでは以下のことは行いません：
 
-1. UI 美化
-2. 新增更多执行意图
-3. Web / App 组件开发
-4. 复杂标签系统
+1. UI の美化。
+2. 執行意図（Execution Intent）のさらなる追加。
+3. Web / App コンポーネントの開発。
+4. 複雑なタグシステムの構築。
 
-本轮只做：
+本フェーズで行うのは以下のことのみです：
 
-**让展示上下文从“单一事实”升级为“结构化事实”。**
+**展示コンテキストを「単一の事実」から「構造化された事実」へとアップグレードすること。**

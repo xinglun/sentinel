@@ -23,8 +23,8 @@ pub enum AssetExitState {
     DefensiveExit,
     /// Asset dropped out of main strength group
     StrengthLoss,
-    /// Market participation gate closed
-    ParticipationExit,
+    /// Market trend cohesion lost
+    CohesionExit,
     /// Volcano state - profit taking
     OverheatProfitTake,
 }
@@ -103,7 +103,7 @@ impl ExitDecision {
                 intent = PositionIntent::HOLD;
                 reasons.push("Trend Gate Closed: freezing core asset".to_string());
             }
-            exit_state = AssetExitState::ParticipationExit;
+            exit_state = AssetExitState::CohesionExit;
         }
 
         // Rule 4: Overheat Profit-Take
@@ -178,7 +178,7 @@ mod tests {
     }
 
     #[test]
-    fn test_participation_loss() {
+    fn test_cohesion_loss() {
         // Market ready -> not ready triggers TRIM for non-core
         let decision = ExitDecision::compute(
             "AAPL",
@@ -191,7 +191,7 @@ mod tests {
             true,  // Was true
         );
         assert_eq!(decision.position_intent, PositionIntent::TRIM);
-        assert_eq!(decision.asset_exit_state, AssetExitState::ParticipationExit);
+        assert_eq!(decision.asset_exit_state, AssetExitState::CohesionExit);
 
         // Core assets should stay in HOLD/FREEZE
         let decision_core = ExitDecision::compute(

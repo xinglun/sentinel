@@ -1,105 +1,109 @@
-# Exit Decision Summary 任务文档
+---
+author: Ray
+---
 
-## 1. 目标
+# 退出意思決定サマリー (Exit Decision Summary) タスクリスト
 
-本任务不是重做退出系统，而是把已经存在于底层的 `ExitDecision` 提升到和 `NO TRADE` 同级别的前台结论层。
+## 1. 目標
 
-当前系统已经能明确回答：
+本タスクは退出システムを作り直すことではなく、下層にすでに存在する `ExitDecision` を、`NO TRADE` と同レベルの「フロントエンド結論層」に引き上げることを目的としています。
 
-1. 今天能不能新开仓
-2. 当前是否处于 `NO TRADE`
-3. 新开仓上限是多少
+現在のシステムですでに明確に回答できていること：
 
-但还不能在报表第一屏明确回答：
+1. 今日、新規開倉（エントリー）できるか。
+2. 現在、`NO TRADE` 状態にあるか。
+3. 新規エントリーの上限はいくらか。
 
-1. 已有持仓该继续持有还是减仓
-2. 是否已经触发退出
-3. 当前的“不允许买入”是否同时意味着“需要卖出”
+しかし、レポートの「ファーストビュー（第一屏）」でまだ明確に回答できていないこと：
 
-本轮目标是补齐这一层：
+1. 既存の持分（ポジション）を継続保有すべきか、それとも減配すべきか。
+2. すでに退出がトリガーされているか。
+3. 現在の「買入不許可」が、同時に「売却の必要性」を意味しているか。
 
-> 让报表不仅能说“不能买”，还能明确说“要不要卖 / 减仓 / 持有”。
+本フェーズの目標は、このレイヤーを補完することです：
+
+> レポートで「買えない」と言うだけでなく、「売るべきか / 減配すべきか / 保持すべきか」を明確に伝えられるようにする。
 
 ---
 
-## 2. 背景问题
+## 2. 背景と課題
 
-当前 Telegram / Markdown 战情板已经具备：
+現在、Telegram / Markdown の戦況ボードには以下の要素が備わっています：
 
-1. `NO TRADE` 行为禁令
-2. 候选观察名单
-3. 监控信号
-4. 战术分区
-5. 风险与机会
+1. `NO TRADE` 行動禁止命令
+2. 候補監視リスト
+3. 監視シグナル
+4. 戦術パーティション
+5. リスクと機会
 
-但“已有持仓处理建议”仍然缺席。
+しかし、「既存持分の処理提案」がいまだに欠落しています。
 
-这会导致一个典型问题：
+これにより、以下のような典型的な問題が発生します：
 
-1. 系统能阻止错误买入
-2. 但不能明确指导已有仓位是 `HOLD`、`TRIM` 还是 `EXIT`
+1. システムは誤った買入を阻止できる。
+2. しかし、既存のポジションが `HOLD`、`TRIM`、または `EXIT` のいずれであるべきかを明確に指導できない。
 
-从产品角度看，这意味着：
+製品の観点から見ると、これは以下を意味します：
 
-1. `Entry Gate` 已经闭环
-2. `Exit Gate` 仍停留在底层语义，未进入 front page
+1. `Entry Gate` はすでにクローズドループ化（完結）している。
+2. `Exit Gate` はいまだに下層のセマンティクスに留まっており、フロントページ（ファーストビュー）に反映されていない。
 
 ---
 
-## 3. 设计原则
+## 3. 設計原則
 
-### 3.1 ExitDecisionSummary 必须与 NO_TRADE 解耦
+### 3.1 ExitDecisionSummary は NO_TRADE とデカップリング（分離）させる
 
-必须明确：
+以下のことを明確にする必要があります：
 
-1. `NO TRADE` 只表示禁止主动开新仓
-2. `NO TRADE` 不等于必须全部卖出
-3. `ExitDecisionSummary` 单独决定已有持仓如何处理
+1. `NO TRADE` は、能動的な新規エントリーの禁止のみを意味する。
+2. `NO TRADE` は、全売却が必須であることを意味しない。
+3. `ExitDecisionSummary` が、既存持分の処理方法を個別に決定する。
 
-也就是说：
+つまり：
 
-| 场景 | 允许买入 | 允许继续持有 | 允许减仓/退出 |
+| シナリオ | 買入許可 | 継続保有許可 | 減配/退出許可 |
 |---|---|---|---|
-| `NO TRADE` | 否 | 是 | 是 |
-| `DEFENSIVE` | 否 | 视标的而定 | 是 |
-| `ACCUMULATE` | 是 | 是 | 是 |
+| `NO TRADE` | 否 | 可 | 可 |
+| `DEFENSIVE` | 否 | 対象による | 可 |
+| `ACCUMULATE` | 可 | 可 | 可 |
 
-### 3.2 最小闭环优先
+### 3.2 最小クローズドループ優先
 
-首版不要引入复杂止盈、成本线、ATR 或盈亏回撤逻辑。
+初版では、複雑な利食い、コストライン（買値）、ATR、または損益ドローダウンロジックを導入しません。
 
-只做 4 条核心规则：
+以下の4つのコアルールのみを実装します：
 
 1. `DEFEND -> EXIT`
-2. `掉出核心 >= 3d -> TRIM`
-3. `participation true -> false` 时：
-   - 强资产 `HOLD`
-   - 弱资产 `TRIM`
+2. `コア圏からの脱落が3日以上 -> TRIM`
+3. `participation` が `true -> false` に変化した時：
+   - 強い資産：`HOLD`
+   - 弱い資産：`TRIM`
 4. `OVERHEAT -> TRIM`
 
-### 3.3 report.rs 只渲染
+### 3.3 report.rs はレンダリングのみを行う
 
-退出判断必须全部由 `PresentationAssembler` 基于底层事实生成。
+退出の判断は、すべて `PresentationAssembler` が下層の事実に基づいて生成しなければなりません。
 
-`report.rs` 只能渲染：
+`report.rs` は以下のレンダリングのみを行います：
 
-1. 标题
-2. 状态标签
-3. 退出建议
-4. 原因
+1. タイトル
+2. 状態タグ
+3. 退出提案
+4. 理由
 
-不得新增退出逻辑判断。
+退出ロジックの判断を `report.rs` に新規追加してはなりません。
 
 ---
 
-## 4. 数据模型改动
+## 4. データモデルの変更
 
-### 4.1 新增 ExitDecisionSummaryViewModel
+### 4.1 ExitDecisionSummaryViewModel の新規追加
 
-文件：
+ファイル：
 [presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation.rs)
 
-建议新增：
+以下の新規追加を推奨します：
 
 ```rust
 pub struct ExitDecisionSummaryViewModel {
@@ -115,98 +119,80 @@ pub struct ExitDecisionItemViewModel {
 }
 
 pub enum ExitDisplayIntent {
-    Hold,
-    Trim,
-    Exit,
-    Watch,
+    Hold,  // 継続保有
+    Trim,  // 減配
+    Exit,  // 退出
+    Watch, // 監視（売却条件未達だが注視が必要）
 }
 ```
 
-说明：
+説明：
 
 1. `Hold`
-   表示已有持仓继续持有
-
+   既存ポジションの継続保有を示す。
 2. `Trim`
-   表示已有持仓减仓
-
+   既存ポジションの減配（部分売却）を示す。
 3. `Exit`
-   表示已有持仓退出
-
+   既存ポジションからの退出（全売却）を示す。
 4. `Watch`
-   表示未触发卖出条件，但仍需关注
+   売却条件は満たしていないが、引き続き注視が必要であることを示す。
 
-### 4.2 PresentationPacket 扩展
+### 4.2 PresentationPacket の拡張
 
-在 `PresentationPacket` 中新增：
+`PresentationPacket` に以下を追加します：
 
 ```rust
 pub exit_summary: Option<ExitDecisionSummaryViewModel>,
 ```
 
-要求：
+要件：
 
-1. 没有已有持仓或没有可展示项时可为 `None`
-2. 有持仓处理建议时必须出现在第一屏
+1. 既存持分がない場合、または表示すべき項目がない場合は `None` とすることができる。
+2. ポジション処理提案がある場合は、必ずファーストビュー（第一屏）に表示させる。
 
 ---
 
-## 5. PresentationAssembler 组装规则
+## 5. PresentationAssembler の組み立てルール
 
-文件：
+ファイル：
 [presentation_assembler.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation_assembler.rs)
 
-### 5.1 输入事实来源
+### 5.1 入力ソース（事実の源泉）
 
-Assembler 必须基于已有领域事实和决策输出构造 `ExitDecisionSummary`，不得自行猜测新的交易规则。
+Assembler は、既存のドメイン事実と意思決定出力に基づいて `ExitDecisionSummary` を構築しなければなりません。独自の新しい取引ルールを推測してはなりません。
 
-可用输入包括：
+利用可能な入力には以下が含まれます：
 
 1. `asset.exit_decision`
 2. `asset.position_intent`
 3. `asset.display_context.has_position`
 4. `asset.display_context.is_core_holding`
 5. `participation_ready`
-6. 资产状态与 streak 信息
+6. 資産状態と streak（連続性）情報
 
-### 5.2 首版规则
+### 5.2 第1版のルール
 
-首版最小规则固定为：
+初版の最小ルールは以下に固定します：
 
 1. `DEFEND -> EXIT`
 2. `asset_out_of_top_tier_streak >= 3 -> TRIM`
-3. `participation_ready` 从 `true -> false`：
+3. `participation_ready` が `true -> false` へ変化：
    - `is_core_holding == true -> HOLD`
-   - 否则 `TRIM`
+   - それ以外 -> `TRIM`
 4. `OVERHEAT -> TRIM`
-5. 其他已有持仓但未触发退出规则 -> `WATCH` 或 `HOLD`
+5. その他、ポジションはあるが退出ルールに抵触しないもの -> `WATCH` または `HOLD`
 
-### 5.3 和 NO_TRADE 的关系
+### 5.3 NO_TRADE との関係
 
-必须明确：
+以下のことを明確にします：
 
-1. `NO TRADE` 场景下仍然允许 `HOLD`
-2. `NO TRADE` 场景下仍然可能出现 `TRIM`
-3. `NO TRADE` 场景下不能把所有资产一律输出成 `EXIT`
+1. `NO TRADE` シナリオ下でも `HOLD` は許可される。
+2. `NO TRADE` シナリオ下でも `TRIM` が発生する可能性がある。
+3. `NO TRADE` シナリオ下で、すべての資産を一律に `EXIT` と出力してはならない。
 
-### 5.4 推荐输出样式
+### 5.4 推奨される出力スタイル
 
-中文：
-
-```text
-### 📉 持仓处理建议
-
-- NVDA · 持有
-  结构未破坏，继续持有
-
-- TSLA · 观察
-  回撤中，尚未触发减仓
-
-- FIG · 减仓
-  已掉出核心区超过 3 天
-```
-
-日文：
+日本語：
 
 ```text
 ### 📉 ポジション処理提案
@@ -223,12 +209,12 @@ Assembler 必须基于已有领域事实和决策输出构造 `ExitDecisionSumma
 
 ---
 
-## 6. i18n 词典要求
+## 6. i18n 辞書の要件
 
-文件：
+ファイル：
 [i18n.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/i18n.rs)
 
-至少新增以下字段：
+少なくとも以下のフィールドを追加します：
 
 ```rust
 exit_summary_title
@@ -244,83 +230,83 @@ exit_reason_hold_core
 exit_reason_watch_pullback
 ```
 
-要求：
+要件：
 
-1. 中英日三语必须完整
-2. 不允许在 `report.rs` 中硬编码退出原因
-3. 原因必须是产品语言，而不是底层调试语句
+1. 中・英・日の3言語すべてを完備すること。
+2. `report.rs` 内で退出理由をハードコードすることを禁止する。
+3. 理由は「製品としての言語」であるべきで、下層のデバッグ文であってはならない。
 
 ---
 
-## 7. report.rs 渲染要求
+## 7. report.rs のレンダリング要件
 
-文件：
+ファイル：
 [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
 
-新增区块：
+新規セクションの追加：
 
 ```text
-### 📉 持仓处理建议
+### 📉 ポジション処理提案
 ```
 
-放置顺序固定为：
+配置順序は以下に固定します：
 
-1. 市场摘要
-2. 决策结论
-3. 持仓处理建议
-4. 候选观察名单 / 主要动作
-5. 监控信号
-6. 战术分区
-7. 风险与机会
+1. 市場サマリー
+2. 意思決定の結論
+3. ポジション処理提案
+4. 候補監視リスト / 主要アクション
+5. 監視シグナル
+6. 戦術パーティション
+7. リスクと機会
 
-要求：
+要件：
 
-1. `report.rs` 只渲染 `exit_summary`
-2. 不得在 `report.rs` 中重新判断 `HOLD / TRIM / EXIT / WATCH`
-3. `NO TRADE` 场景下允许同时出现：
-   - `禁止动作（NO TRADE）`
-   - `持仓处理建议`
+1. `report.rs` は `exit_summary` のレンダリングのみを行う。
+2. `report.rs` 内で `HOLD / TRIM / EXIT / WATCH` を再判断してはならない。
+3. `NO TRADE` シナリオ下で以下が同時に表示されることを許可する：
+   - `行動禁止（NO TRADE）`
+   - `ポジション処理提案`
 
 ---
 
-## 8. 验收标准
+## 8. 完了基準
 
-### 8.1 功能验收
+### 8.1 機能検証
 
-第一屏必须能同时表达：
+ファーストビューで以下を同時に表現できていること：
 
-1. 是否允许买入
-2. 已有持仓是否需要卖出 / 减仓 / 持有
+1. 買入が許可されているか。
+2. 既存ポジションの売却 / 減配 / 保持が必要か。
 
-也就是说：
+つまり：
 
-1. `NO TRADE` 不得被误解成“全部卖出”
-2. `ExitDecisionSummary` 不得缺席
-3. 必须区分：
+1. `NO TRADE` が「全売却」と誤解されないこと。
+2. `ExitDecisionSummary` が欠落していないこと。
+3. 以下の区別がついていること：
    - `HOLD`
    - `TRIM`
    - `EXIT`
    - `WATCH`
 
-### 8.2 结构验收
+### 8.2 構造検証
 
-必须满足：
+以下の条件を満たすこと：
 
-1. `PresentationAssembler` 是唯一退出建议组装层
-2. `report.rs` 只渲染，不新增退出逻辑
-3. `DecisionPacket` 仍保持纯领域事实，不新增展示字段回写
+1. `PresentationAssembler` が退出提案を組み立てる唯一のレイヤーであること。
+2. `report.rs` はレンダリングのみを行い、退出ロジックを新規追加していないこと。
+3. `DecisionPacket` は純粋なドメイン事実を維持し、展示用フィールドの書き戻しを行わないこと。
 
-### 8.3 语义验收
+### 8.3 セマンティクス（意味論）検証
 
-必须满足：
+以下の条件を満たすこと：
 
-1. `NO TRADE` 仍然表示禁止主动开新仓
-2. `HOLD` / `TRIM` / `EXIT` 表示已有持仓处理
-3. 两者不得混淆
+1. `NO TRADE` は引き続き、能動的な新規エントリーの禁止を意味すること。
+2. `HOLD` / `TRIM` / `EXIT` は既存ポジションの処理を意味すること。
+3. 両者が混同されないこと。
 
-### 8.4 质量门
+### 8.4 品質ゲート
 
-必须通过：
+以下をパスすること：
 
 1. `cargo fmt`
 2. `cargo test --quiet`
@@ -328,11 +314,11 @@ exit_reason_watch_pullback
 
 ---
 
-## 9. 测试要求
+## 9. テスト要件
 
 ### 9.1 Presentation Tests
 
-至少补齐：
+少なくとも以下のケースを補完すること：
 
 1. `DEFEND -> EXIT`
 2. `out_of_top_tier_streak >= 3 -> TRIM`
@@ -342,40 +328,40 @@ exit_reason_watch_pullback
 
 ### 9.2 Report UI Tests
 
-至少补齐：
+少なくとも以下のケースを補完すること：
 
-1. 第一屏同时出现：
-   - `禁止动作（NO TRADE）`
-   - `持仓处理建议`
-2. `NO TRADE` 场景下不得把所有资产都渲染成 `卖出`
-3. `HOLD / TRIM / EXIT / WATCH` 的本地化文案正确
+1. ファーストビューに以下が同時に出現すること：
+   - `行動禁止（NO TRADE）`
+   - `ポジション処理提案`
+2. `NO TRADE` シナリオ下で、すべての資産が `売却` とレンダリングされないこと。
+3. `HOLD / TRIM / EXIT / WATCH` のローカライズ文言が正しいこと。
 
-### 9.3 多语言回归测试
+### 9.3 多言語回帰テスト
 
-至少覆盖：
+少なくとも以下をカバーすること：
 
 1. `zh-cn`
 2. `ja-jp`
 3. `en-us`
 
-并验证：
+そして以下を検証すること：
 
-1. 标题存在
-2. 意图标签存在
-3. 原因文案不回退成英文调试文本
+1. タイトルが存在すること。
+2. 意図（Intent）タグが存在すること。
+3. 理由の文言が英語のデバッグテキストにフォールバックしていないこと。
 
 ---
 
-## 10. 非目标
+## 10. 非目標 (Out of Scope)
 
-本轮不做以下事情：
+本フェーズでは以下のことは行いません：
 
-1. 不引入 ATR、成本线、浮盈回撤等复杂止盈
-2. 不修改 `Market Regime`
-3. 不修改 `ParticipationReadiness`
-4. 不修改 `ActionMatrix`
-5. 不重做 `ExitDecision` 底层规则体系
+1. ATR、コストライン、含み益ドローダウンなどの複雑な利食いロジックの導入。
+2. `Market Regime` の変更。
+3. `ParticipationReadiness` の変更。
+4. `ActionMatrix` の変更。
+5. `ExitDecision` の下層ルール体系の再構築。
 
-本轮只做：
+本フェーズで行うのは：
 
-> 把已有退出语义提升到和 `NO TRADE` 同级别的展示结论层。
+> 既存の退出セマンティクスを、`NO TRADE` と同レベルの「展示結論層」に引き上げることです。

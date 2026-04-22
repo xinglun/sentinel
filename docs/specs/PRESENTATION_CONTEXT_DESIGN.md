@@ -1,21 +1,26 @@
-# 展示语义真正独立化设计 (Presentation Context Isolation)
+---
+author: Ray
+---
 
-## 1. 核心矛盾
-当前的 `DisplayAdapter` 虽然隔离了代码位置，但其核心逻辑 `derive_display_intent` 仍然依赖 `AssetAction` 来判断是 `HOLD`（持有）还是 `OBSERVE`（观察）。
-这种实现仍然是基于“底层信号名”的推测，而不是基于“业务事实”（有没有持仓）的陈述。
+# 展示セマンティクスの真の独立化設計 (Presentation Context Isolation)
 
-## 2. 展示上下文原语 (Presentation Context)
+## 1. 核心となる矛盾
 
-我们将引入显式的展示上下文，用于指导 `DisplayAdapter` 进行翻译。
+現在の `DisplayAdapter` は、コードの配置場所こそ隔離されていますが、そのコアロジックである `derive_display_intent` は依然として `AssetAction` に依存して、それが `HOLD`（保持）なのか `OBSERVE`（観察）なのかを判断しています。
+この実装は依然として「低レイヤーのシグナル名」に基づく推測であり、「ビジネス上の事実」（ポジションを保有しているか否か）に基づく記述ではありません。
 
-| 字段 | 定义 | 生成时机 |
+## 2. 展示コンテキストプリミティブ (Presentation Context)
+
+`DisplayAdapter` の翻訳をガイドするために、明示的な展示コンテキストを導入します。
+
+| フィールド | 定義 | 生成タイミング |
 | :--- | :--- | :--- |
-| **`has_position`** | 账户中是否实际持有该资产。 | 引擎管道根据 `positions` 实时生成。 |
-| **`is_candidate`** | 是否仅为入库观察对象（无历史持仓）。 | 引擎管道根据持仓历史/状态生成。 |
+| **`has_position`** | 口座内で実際に当該資産を保有しているか。 | エンジンパイプラインが `positions` に基づきリアルタイム生成。 |
+| **`is_candidate`** | 単なるウォッチリスト（入庫）観察対象か（過去の保有なし）。 | エンジンパイプラインが保有履歴/状態に基づき生成。 |
 
-## 3. 逻辑重塑 (Rule Refactoring)
+## 3. ロジックの再構築 (Rule Refactoring)
 
-`DisplayAdapter` 唯一的输入将是 `(PositionIntent, PresentationContext)`：
+`DisplayAdapter` の唯一の入力は `(PositionIntent, PresentationContext)` となります：
 
 - **PositionIntent::ADD** -> `DisplayIntent::ADD`
 - **PositionIntent::TRIM** -> `DisplayIntent::TRIM`
@@ -24,21 +29,22 @@
     - `has_position == true` -> `DisplayIntent::HOLD`
     - `has_position == false` -> `DisplayIntent::OBSERVE`
 
-## 4. 数据结构变更
+## 4. データ構造の変更
 
 ```rust
 pub struct AssetActionDecision {
-    // ... 执行层字段 ...
+    // ... 執行層フィールド ...
     pub position_intent: PositionIntent,
     
-    // ... 展示层原语 ...
+    // ... 展示層プリミティブ ...
     pub has_position: bool,      // NEW
     pub is_candidate: bool,     // NEW
     pub display_intent: DisplayIntent,
 }
 ```
 
-## 5. 收益
-- **真正解耦**：即使未来 `AssetAction` 重命名或废弃，展示层逻辑依然稳固。
-- **语义明确**：UI 展示直接映射到“账户事实”，而不是“信号推断”。
-- **测试友好**：可以通过模拟 `has_position=true` 来强制测试“持有”标签，而无需构造复杂的指标信号。
+## 5. メリット
+
+- **真のデカップリング**: 将来的に `AssetAction` がリネームまたは廃止されたとしても、展示層のロジックは影響を受けません。
+- **セマンティクスの明確化**: UI 表示が「シグナルの推論」ではなく「口座の事実」に直接マッピングされます。
+- **テストの容易性**: 複雑な指標シグナルを構築することなく、`has_position=true` をモックするだけで「保持」ラベルのテストを強制的に行うことができます。

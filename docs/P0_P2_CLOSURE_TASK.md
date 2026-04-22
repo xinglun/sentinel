@@ -1,29 +1,33 @@
-# Sentinel: Moomoo OpenAPI Integration Closure (P0-P2)
+---
+author: Ray
+---
 
-This document serves as the final task list and completion record for the Moomoo OpenAPI Hardening phase.
+# Sentinel: Moomoo OpenAPI 統合完了 (P0-P2)
 
-## 1. P0: Reliability & Semantic Trust
-- [x] **Trading Kill Switch**: Implemented `ExecutionMode` gate in `cli.rs`.
-- [x] **Config Integrity**: Applied `#[serde(deny_unknown_fields)]` to all config models.
-- [x] **Telemetry Standard**: 20-column fixed schema with `config_hash`.
-- [x] **Structured Outcomes**: `run_status_[DATE].json` with stage-level status.
+本ドキュメントは、Moomoo OpenAPI 堅牢化フェーズの最終タスクリストおよび完了記録です。
 
-## 2. P1: Lifecycle & Authority
-- [x] **Order Lifecycle Closure**: Full polling and status confirmation (Filled, Cancelled, etc).
-- [x] **Quote Preflight**: Hard gate on market permissions and subscription quotas.
-- [x] **Failure Classification**: Structural error mapping (Insufficient funds, timeout, etc).
+## 1. P0: 信頼性とセマンティックな信頼
+- [x] **取引キルスイッチ**: `cli.rs` に `ExecutionMode` ゲートを実装。
+- [x] **設定の整合性**: すべての設定モデルに `#[serde(deny_unknown_fields)]` を適用。
+- [x] **テレメトリ標準**: `config_hash` を含む 20 列の固定スキーマ。
+- [x] **構造化された成果物**: ステージレベルのステータスを含む `run_status_[DATE].json`。
 
-## 3. P2: Capacity & Control
-- [x] **Capacity Check**: Integrated `GetMaxTrdQty` before submission.
-- [x] **Order Cancellation**: Programmatic `cancel_order` with dual confirmation.
-- [x] **Position Reconciliation**: Authoritative loop between broker positions and local ledger.
-    - [x] **Force-Gate**: Mismatches in Live mode trigger exit error.
+## 2. P1: ライフサイクルと権限
+- [x] **注文ライフサイクルの完結**: 完全なポーリングと状態確認（約定、キャンセルなど）。
+- [x] **相場前チェック**: 市場権限および購読クォータに対するハードゲート。
+- [x] **失敗の分類**: 構造化されたエラーマッピング（資金不足、タイムアウトなど）。
 
-## 4. Final Verification
-- [x] **Zero Warning**: No Clippy warnings in the entire repository.
-- [x] **26 Tests Green**: All automated unit and integration tests passing.
-- [x] **Product-Grade UI**: V4 logic unification and aesthetic hardening complete.
-- [x] **Audit Complete**: All 9+ asset types (logs/json/csv) confirmed in output.
+## 3. P2: キャパシティと制御
+- [x] **キャパシティチェック**: 注文提出前に `GetMaxTrdQty` を統合。
+- [x] **注文キャンセル**: 二重確認を伴うプログラムによる `cancel_order`。
+- [x] **ポジション照合**: ブローカーのポジションとローカル元帳の間の権威あるループ。
+    - [x] **強制ゲート**: Live モードでの不一致は終了エラーをトリガー。
+
+## 4. 最終検証
+- [x] **警告ゼロ**: リポジトリ全体で Clippy の警告なし。
+- [x] **26 テスト合格**: すべての自動ユニットテストおよび統合テストが合格。
+- [x] **プロダクトグレードの UI**: V4 ロジックの統合と外観の堅牢化が完了。
+- [x] **監査完了**: 9種類以上のアセットタイプ（ログ/json/csv）が出力されていることを確認。
 
 ---
-**Status: FINISHED & CLOSED (2026-03-21)**
+**ステータス: 完了 & 終了 (2026-03-21)**

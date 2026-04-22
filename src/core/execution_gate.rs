@@ -325,7 +325,6 @@ mod tests {
                 allow_new_risk: true,
             },
             assets,
-            crate::core::participation::ParticipationReadiness::default(),
             Vec::new(),
             false,
             crate::core::trend_cohesion::TrendCohesionSnapshot::default(),

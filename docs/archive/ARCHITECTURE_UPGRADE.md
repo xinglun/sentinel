@@ -1,8 +1,12 @@
-# Sentinel 2.0: Architecture Elevation Guide
+---
+author: Ray
+---
 
-本文档对 Sentinel 决策引擎的四层架构模式进行了深度定义。系统已从早期的“线性功能堆砌”演进为以 `DecisionPacket` 为核心事实源（Source of Truth）的模型驱动架构。
+# Sentinel 2.0: アーキテクチャ昇格ガイド (Architecture Elevation Guide)
 
-## 1. 领域边界图 (Domain Map)
+本ドキュメントでは、Sentinel 意思決定エンジンの4層アーキテクチャパターンを詳細に定義します。システムは初期の「線形な機能の積み上げ」から、`DecisionPacket` を唯一の真実のソース（Source of Truth）とするモデル駆動型アーキテクチャへと進化しました。
+
+## 1. ドメイン境界図 (Domain Map)
 
 ```mermaid
 graph TD
@@ -37,7 +41,7 @@ graph TD
     style Engine fill:#bbf,stroke:#333
 ```
 
-## 2. 调用时序图 (Call Sequence)
+## 2. 呼び出しシーケンス図 (Call Sequence)
 
 ```mermaid
 sequenceDiagram
@@ -63,19 +67,19 @@ sequenceDiagram
     deactivate Exec
 ```
 
-## 3. 重构优先级清单 (Refactoring Priority)
+## 3. 重構築優先度リスト (Refactoring Priority)
 
-### P0: 核心收口 (Kernel Tightening)
-- [x] **engine.rs 纯粹化**：完全移除了 `run_daily_pipeline` 中的手工补全。
-- [x] **market_regime.rs 语义闭环**：通过提前 `recalibrate` 消除了 `CONFIRMED` 状态判定的 1 天滞后，实现了真正的 T+0 决策。
+### P0: カーネルの締め付け (Kernel Tightening)
+- [x] **engine.rs の純粋化**: `run_daily_pipeline` 内の手動による補完ロジックを完全に削除。
+- [x] **market_regime.rs のセマンティック閉ループ**: `recalibrate` を前倒しすることで `CONFIRMED` 状態判定の1日の遅延を解消し、真の T+0 意思決定を実現。
 
-### P1: 配置与执行硬化 (Config & Execution Hardening)
-- [x] **配置一致性**：恢复了 `weight` 及交易控制字段，确保核心特征计算与 `config.toml` 的生产权重完全对齐。
-- [x] **实盘链路打通**：在 `cli.rs` 中完整接通了 `FutuTrader` 实盘执行器，告别了 Daemon 模式下的 Mock 依赖。
+### P1: 設定と執行の堅牢化 (Config & Execution Hardening)
+- [x] **設定の一貫性**: `weight` および取引制御フィールドを復旧し、コア特徴の計算が `config.toml` の生産ウェイトと完全に整合することを保証。
+- [x] **実盤リンクの開通**: `cli.rs` において `FutuTrader` 実盤執行器を完全に接続し、Daemon モードにおける Mock 依存から脱却。
 
-### P2: 增强交付 (Enhanced Delivery)
-- [x] **稳定模板化**：基于 `DecisionPacket` 建立了结构化的渲染契约，`report.rs` 已成为纯粹的下游消费者。
-- [x] **预算门禁修正**：修正了 `ExecutionGate` 的预算检查顺序，确保在 `AGGRESSIVE` 放大模式下依然严守 `max_daily_budget`。
+### P2: デリバリーの強化 (Enhanced Delivery)
+- [x] **安定したテンプレート化**: `DecisionPacket` に基づく構造化されたレンダリング契約を確立。`report.rs` は純粋な下流コンシューマーへ進化。
+- [x] **予算ゲートの修正**: `ExecutionGate` の予算チェック順序を修正し、`AGGRESSIVE`（拡大）モード下でも `max_daily_budget` を厳守することを保証。
 
-### P3: 系统纯净化 (System Purification)
-- [x] **零告警交付**：消除了全量编译告警（0 warnings），实现了从内核到适配器层的逻辑极致纯净。
+### P3: システムの純浄化 (System Purification)
+- [x] **警告ゼロのデリバリー**: 全量コンパイル時の警告を排除（0 warnings）。カーネルからアダプター層に至るまで、ロジックの極限の純粋さを実現。

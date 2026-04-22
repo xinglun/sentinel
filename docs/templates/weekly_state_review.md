@@ -1,45 +1,49 @@
-# Weekly State Machine Review (V1.3 Observation)
+---
+author: Ray
+---
 
-**Review Period**: 202X-MM-DD to 202X-MM-DD
+# 状態機週間レビュー (V1.3 観察期)
 
-## 1. Weekly Metrics Summary
+**レビュー期間**: 202X-MM-DD 〜 202X-MM-DD
 
-| Date | From -> To | Reset (C/B) | Soft Reset | Duration Lock | Recon Mismatches | Preflight Status |
+## 1. 週間指標サマリー
+
+| 日付 | 状態遷移 (From -> To) | リセット (C/B) | Soft Reset | Duration Lock | 照合不一致 | プリフライト状況 |
 |---|---|---|---|---|---|---|
-| Mon | | | | | | |
-| Tue | | | | | | |
-| Wed | | | | | | |
-| Thu | | | | | | |
-| Fri | | | | | | |
+| 月 | | | | | | |
+| 火 | | | | | | |
+| 水 | | | | | | |
+| 木 | | | | | | |
+| 金 | | | | | | |
 
-*C: Confirmed, B: Blocked*
+*C: 確認済み (Confirmed), B: ブロック (Blocked)*
 
-## 2. Key Observations & Anomalies
+## 2. 主要な観察事項と異常値
 
-### Anomaly 1: [Short Title]
-- **Date**: 
-- **Symptoms**: 
-- **Audit Explanation**: 
-- **Assessment**: (Rational / Sensitive / Error)
+### 異常 1: [短いタイトル]
+- **発生日**: 
+- **症状**: 
+- **監査ログによる説明**: 
+- **評価**: (合理的 / 過敏 / エラー)
 
-### Anomaly 2: [Short Title]
-- **Date**: 
-- **Symptoms**: 
-- **Audit Explanation**: 
-- **Assessment**: (Rational / Sensitive / Error)
+### 異常 2: [短いタイトル]
+- **発生日**: 
+- **症状**: 
+- **監査ログによる説明**: 
+- **評価**: (合理的 / 過敏 / エラー)
 
-## 3. Feedback on V1.1/V1.2 Logic
+## 3. V1.1/V1.2 ロジックへのフィードバック
 
-### Conservative / Aggressive Balance
-- [ ] Assets recovering too slowly?
-- [ ] Assets recovering too quickly?
-- [ ] Excessive defensive overrides?
+### 保守と攻撃のバランス
+- [ ] 資産の回復が遅すぎるか？
+- [ ] 資産の回復が速すぎるか？
+- [ ] 防御的オーバーライドが過剰ではないか？
 
-### Structural Integrity
-- [ ] Any "ignored" breakdowns that should have triggered?
-- [ ] Any "false" breakdowns that were too sensitive?
+### 構造的な整合性
+- [ ] トリガーされるべきだった「無視された Breakdown」はあるか？
+- [ ] 感度が高すぎた「誤った Breakdown」はあるか？
 
-## 4. Proposed Adjustments for V1.4 (if any)
-*Note: Only propose after 2-4 weeks of data.*
+## 4. V1.4 に向けた調整案（もしあれば）
+*注意: 2〜4 週間のデータを蓄積した後にのみ提案してください。*
 
 - 

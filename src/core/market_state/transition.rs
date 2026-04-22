@@ -101,7 +101,7 @@ impl StateTransitionManager {
             }
         };
 
-        // Note: Even if we are in transition state, we block trading if not Ready.
+        // 注意: 遷移状態（Transition）であっても、準備完了（Ready）でなければ取引をブロックする。
         let action_status = if is_ready {
             ActionStatus::Participate
         } else {

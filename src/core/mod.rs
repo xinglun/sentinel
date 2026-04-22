@@ -12,7 +12,6 @@ pub mod ledger;
 pub mod market_regime;
 pub mod market_state;
 pub mod notify;
-pub mod participation;
 pub mod persistence;
 pub mod portfolio_policy;
 pub mod position_intent;

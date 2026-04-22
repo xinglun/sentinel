@@ -1,52 +1,56 @@
-# Product-Grade Implementation Plan
+---
+author: Ray
+---
 
-## Purpose
+# プロダクトグレード実装計画 (Product-Grade Implementation Plan)
 
-This document refines the product-grade audit tasks into implementation-level guidance.
+## 目的
 
-It is intended to answer four questions for each priority band:
+本ドキュメントは、プロダクトグレード監査タスクを実装レベルのガイダンスへと詳細化したものです。
 
-1. what to change
-2. where to change it
-3. how to structure the change
-4. how to verify it
+各優先度バンドにおいて、以下の4つの問いに答えることを目的としています：
 
-This is not a roadmap deck. It is a build plan for engineers.
+1. 何を変更するか
+2. どこを変更するか
+3. 変更をどのように構造化するか
+4. どのように検証するか
 
-## Guiding Principles
+これは単なるロードマップのプレゼン資料ではなく、エンジニアのための構築計画です。
 
-1. Prefer explicit runtime contracts over implicit assumptions
-2. Prefer typed boundaries over primitive argument drift
-3. Prefer one source of truth for archive contracts and config semantics
-4. Prefer structured failure outcomes over log-only failure handling
+## 指針
+
+1. 暗黙の想定よりも、明示的な実行時契約（Runtime Contracts）を優先する。
+2. プリミティブな引数の散乱よりも、型定義された境界（Typed Boundaries）を優先する。
+3. アーカイブ契約と構成セマンティクス（設定の意味）について、単一の真実のソース（SSOT）を優先する。
+4. ログのみの失敗処理よりも、構造化された失敗結果（Failure Outcomes）を優先する。
 
 ## P0
 
-### P0-1: Make `trading.enabled` a Real Hard Kill Switch
+### P0-1: `trading.enabled` を真のハードキルスイッチにする
 
-#### Target State
+#### ターゲット状態
 
-When `[trading].enabled = false`:
+`[trading].enabled = false` の場合：
 
-1. decision pipeline still runs
-2. archive package still writes
-3. Telegram may still send
-4. no live order dispatch happens
-5. audit trail explicitly records that execution was disabled
+1. 意思決定パイプラインは引き続き実行される。
+2. アーカイブパッケージは引き続き書き込まれる。
+3. Telegram 通知は引き続き送信されてもよい。
+4. 実盤注文の送信は一切行われない。
+5. 監査トレールに、執行が無効化されたことが明示的に記録される。
 
-#### Current Problem
+#### 現状の問題点
 
-The runtime distinguishes `radar` vs `daemon`, but not strongly enough between:
+実行時において `radar` と `daemon` は区別されていますが、以下の区別が十分に強力ではありません：
 
-1. live mode
-2. dry-run mode
-3. disabled-trading mode
+1. 実盤モード (Live)
+2. ドライランモード (Dry-Run)
+3. 取引無効モード (Disabled-Trading)
 
-#### Design Change
+#### 設計変更
 
-Introduce an explicit execution mode model.
+明示的な実行モードモデル（Execution Mode Model）を導入します。
 
-Suggested enum:
+推奨される列挙型（Enum）：
 
 ```rust
 pub enum ExecutionMode {
@@ -56,160 +60,157 @@ pub enum ExecutionMode {
 }
 ```
 
-#### Implementation
+#### 実装方法
 
-1. Add `ExecutionMode` in a runtime-facing module such as:
+1. 以下のような実行時に参照されるモジュールに `ExecutionMode` を追加する：
    - `src/core/runtime_mode.rs`
-   - or inside `src/cli.rs` if kept local initially
-2. Derive it from:
-   - CLI command
-   - `trading.enabled`
-   - selected provider
-3. Replace boolean `execute_trades` branching with `ExecutionMode`
-4. Pass this mode through the main pipeline and include it in:
-   - audit logs
-   - run status
-   - optional report metadata
+   - または、最初は局所的に保つ場合は `src/cli.rs` 内。
+2. 以下の要素からモードを導出する：
+   - CLI コマンド
+   - `trading.enabled` の設定値
+   - 選択されたプロバイダー
+3. ブール値による `execute_trades` の分岐を `ExecutionMode` に置き換える。
+4. このモードをメインパイプラインに渡し、以下に含める：
+   - 監査ログ
+   - 実行ステータス（Run Status）
+   - 任意のレポートメタデータ
 
-#### Concrete Code Changes
+#### 具体的なコード変更
 
-1. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
-   - replace `execute_trades: bool`
-   - resolve `ExecutionMode` once near startup
-   - block `TraderAgent::execute_signals()` unless mode is `Live`
-2. [execution_gate.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/execution_gate.rs)
-   - add audit reason `TradingDisabled`
-   - optionally include mode in `GatedAudit.details`
-3. [trader_agent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/trader_agent.rs)
-   - assume caller has already authorized live execution
-   - do not own policy decisions
+1. `src/cli.rs`
+   - `execute_trades: bool` を置き換える。
+   - 起動時の早い段階で `ExecutionMode` を解決する。
+   - モードが `Live` でない限り、`TraderAgent::execute_signals()` をブロックする。
+2. `src/core/execution_gate.rs`
+   - 監査理由 `TradingDisabled` を追加する。
+   - 必要に応じて `GatedAudit.details` にモードを含める。
+3. `src/core/trader_agent.rs`
+   - 呼び出し元が既に実盤執行を許可しているものと想定する。
+   - ポリシー決定（執行すべきか否か）をこのモジュールで持たないようにする。
 
-#### Validation
+#### 検証方法
 
-1. Add one integration test for `daemon + trading.enabled = false`
-2. Assert:
-   - no placed orders
-   - audits written
-   - report still generated
+1. `daemon + trading.enabled = false` の統合テストを追加する。
+2. 以下を表明（Assert）する：
+   - 注文が送信されていないこと。
+   - 監査ログが書き込まれていること。
+   - レポートが引き続き生成されていること。
 
 ---
 
-### P0-2: Eliminate Config-Behavior Drift
+### P0-2: 設定と挙動の乖離（Config-Behavior Drift）を排除する
 
-#### Target State
+#### ターゲット状態
 
-Every config field must be one of:
+すべての構成フィールドは、以下のいずれかでなければなりません：
 
-1. used by runtime
-2. explicitly rejected
-3. documented as reserved and not user-settable
+1. 実行時に使用されている。
+2. 明示的に拒否されている。
+3. 予約済みであり、ユーザー設定不可であることがドキュメント化されている。
 
-Nothing else.
+それ以外は認められません。
 
-#### Current Problem
+#### 現状の問題点
 
-The repo currently mixes:
+現在、リポジトリ内には以下のものが混在しています：
 
-1. active config fields
-2. legacy fields still present in docs or sample config
-3. fields silently ignored by `serde`
+1. アクティブな構成フィールド
+2. ドキュメントやサンプル設定に残っているレガシーなフィールド
+3. `serde` によってサイレントに無視されているフィールド
 
-This is product-dangerous because operators will trust settings that do nothing.
+これはプロダクトとして危険です。なぜなら、オペレーターは何もしない設定を信頼してしまうからです。
 
-#### Design Change
+#### 設計変更
 
-Adopt a strict schema boundary.
+厳格なスキーマ境界（Strict Schema Boundary）を採用します。
 
-Recommended approach:
+推奨されるアプローチ：
 
-1. Add `#[serde(deny_unknown_fields)]` to top-level config structs that represent user-edited config
-2. Remove legacy fields from `config.toml`
-3. Update docs to only describe live fields
+1. ユーザーが編集する構成を表すトップレベルの構成構造体に `#[serde(deny_unknown_fields)]` を追加する。
+2. `config.toml` からレガシーなフィールドを削除する。
+3. ドキュメントを、実際に生きているフィールドのみを記述するように更新する。
 
-If a legacy field must be preserved temporarily, parse it explicitly and mark it deprecated.
+レガシーなフィールドを一時的に保持する必要がある場合は、明示的にパースし、非推奨（Deprecated）としてマークします。
 
-#### Implementation
+#### 実装方法
 
-1. Audit runtime-consumed fields:
+1. 実行時に消費されるフィールドを監査する：
    - `AppConfig`
    - `OutputConfig`
    - `RulesConfig`
    - `WatchlistEntry`
-2. Build a config-field matrix:
-   - field name
-   - declared in code
-   - present in `config.toml`
-   - referenced in runtime
-   - documented in PRD
-3. Decide field-by-field:
-   - restore behavior
-   - delete field
-   - deprecate field with explicit startup error
+2. 構成フィールドマトリックスを構築する：
+   - フィールド名
+   - コード内での宣言有無
+   - `config.toml` 内での存在有無
+   - 実行時の参照有無
+   - PRD でのドキュメント化有無
+3. フィールドごとに以下を決定する：
+   - 挙動を復元する
+   - フィールドを削除する
+   - 明示的な起動時エラーを伴う非推奨化を行う
 
-#### Concrete Code Changes
+#### 具体的なコード変更
 
-1. [config.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/config.rs)
-   - add strict serde handling where appropriate
-   - add post-parse validation for mutually dependent fields
-2. [config.toml](/Users/sei-rinn/dev/workspace_rust/sentinel/config.toml)
-   - remove no-op fields
-   - or align to real runtime support
-3. [PRD.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/PRD.md)
-4. [IMPLEMENTATION_WALKTHROUGH.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/architecture/IMPLEMENTATION_WALKTHROUGH.md)
+1. `src/config.rs`
+   - 適切な箇所に厳格な `serde` ハンドリングを追加する。
+   - 相互に依存するフィールドに対して、パース後のバリデーションを追加する。
+2. `config.toml`
+   - 何もしない（No-op）フィールドを削除する。
+   - または、実際の実行時サポートに合わせる。
+3. `docs/specs/PRD.md`
+4. `docs/architecture/IMPLEMENTATION_WALKTHROUGH.md`
 
-#### Suggested Output Artifact
+#### 推奨される成果物
 
-Create a one-time internal matrix:
-
+一回限りの内部マトリックスを作成します：
 `docs/CONFIG_FIELD_MATRIX.md`
 
-Columns:
+列構成：
+1. フィールド名
+2. config（設定ファイル）
+3. runtime（実行時）
+4. docs（ドキュメント）
+5. アクション（対応内容）
 
-1. field
-2. config
-3. runtime
-4. docs
-5. action
+#### 検証方法
 
-#### Validation
-
-1. Unknown config field should fail parse if not supported
-2. Docs and sample config should not mention dead fields
-3. Add tests for:
-   - unknown field rejection
-   - missing required field rejection
-   - deprecated field rejection if chosen
+1. サポートされていない未知の構成フィールドがある場合、パースに失敗することを確認する。
+2. ドキュメントやサンプル設定に、使われていないフィールドが記載されていないことを確認する。
+3. 以下のテストを追加する：
+   - 未知のフィールドの拒否
+   - 必須フィールドの欠落の拒否
+   - （採用した場合）非推奨フィールドの拒否
 
 ---
 
-### P0-3: Upgrade `telemetry.csv` into a Trustworthy Research Contract
+### P0-3: `telemetry.csv` を信頼できる研究契約（Research Contract）へとアップグレードする
 
-#### Target State
+#### ターゲット状態
 
-`telemetry.csv` must have:
+`telemetry.csv` は以下を備えていなければなりません：
 
-1. a documented schema
-2. stable semantics
-3. enough context for longitudinal research
+1. ドキュメント化されたスキーマ
+2. 安定したセマンティクス（意味）
+3. 長期的な研究に十分なコンテキスト
 
-#### Current Problem
+#### 現状の問題点
 
-Today the file exists and is workflow-enforced, but its semantic contract is underdefined and narrower than the research promise around it.
+現在、ファイルは存在しワークフローでも強制されていますが、そのセマンティックな契約が未定義であり、想定されている研究用途に対して内容が不十分です。
 
-#### Design Change
+#### 設計変更
 
-Promote telemetry from “convenience append” to “declared schema”.
+テレメトリを「便宜上の追記」から「宣言されたスキーマ」へと昇格させます。
 
-Two options exist:
+2つの選択肢があります：
+1. 最小限のテレメトリと、それに合わせた限定的なドキュメント。
+2. 研究グレードのテレメトリと、より豊かな出力。
 
-1. minimal telemetry, narrow docs
-2. research telemetry, richer output
+プロダクトグレードの運用には、2番目の選択肢を推奨します。
 
-For product-grade operation, the second option is recommended.
+#### 推奨されるスキーマ
 
-#### Recommended Schema
-
-Suggested columns:
+推奨される列：
 
 1. `timestamp`
 2. `date`
@@ -232,16 +233,16 @@ Suggested columns:
 19. `config_hash`
 20. `data_quality_status`
 
-If CSV width is a concern, the minimal acceptable addition is:
+CSV の横幅が懸念される場合、最低限受け入れ可能な追加フィールドは以下です：
 
 1. `timestamp`
 2. `market_state`
 3. `risk_overlay`
 4. `config_hash`
 
-#### Implementation
+#### 実装方法
 
-1. Introduce a telemetry row struct:
+1. テレメトリ行の構造体を導入する：
 
 ```rust
 #[derive(Serialize)]
@@ -250,54 +251,53 @@ pub struct TelemetryRow {
 }
 ```
 
-2. Build the row from:
+2. 以下の要素から行を構築する：
    - `DecisionPacket`
-   - runtime context
-   - config hash
-   - provider type
-3. Move CSV header definition into one place
-4. Make workflow validation aware of the finalized schema only if lightweight inspection is acceptable
+   - 実行時のコンテキスト
+   - 設定のハッシュ値
+   - プロバイダーのタイプ
+3. CSV ヘッダーの定義を1箇所にまとめる。
+4. 軽量な検査で十分な場合、確定したスキーマをワークフローのバリデーションに反映させる。
 
-#### Concrete Code Changes
+#### 具体的なコード変更
 
-1. [persistence.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/persistence.rs)
-   - replace raw inline formatting with typed row serialization
-2. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
-   - pass provider/mode/config hash inputs
-3. optionally add:
+1. `src/core/persistence.rs`
+   - 生のインラインフォーマットを、型定義された行のシリアライズに置き換える。
+2. `src/cli.rs`
+   - プロバイダー、モード、構成ハッシュなどの入力を渡すようにする。
+3. オプションで以下を追加：
    - `src/core/telemetry.rs`
 
-#### Validation
+#### 検証方法
 
-1. Telemetry header is deterministic
-2. Added fields are non-empty when expected
-3. Historical append behavior remains correct
-4. One test verifies schema header and one row content
+1. テレメトリのヘッダーが決定論的であること。
+2. 追加されたフィールドが、想定される場合に空でないこと。
+3. 過去データへの追記挙動が引き続き正しいこと。
+4. スキーマヘッダーと1行分の内容を検証するテストを追加する。
 
 ---
 
-### P0-4: Stop Swallowing Core Failures
+### P0-4: コアな失敗の放置（Swallowing）を止める
 
-#### Target State
+#### ターゲット状態
 
-A completed run must have an explicit outcome summary for:
+完了した実行には、以下の項目について明示的な結果サマリー（Outcome Summary）がなければなりません：
 
-1. decisioning
-2. archival
-3. notification
-4. execution
+1. 意思決定（Decisioning）
+2. アーカイブ（Archival）
+3. 通知（Notification）
+4. 執行（Execution）
 
-#### Current Problem
+#### 現状の問題点
 
-The system still logs and ignores certain failures.
+システムは依然として特定の失敗をログに記録するだけで無視しています。
+これは開発ツールとしては許容されますが、プロダクトグレードの運用としては不適切です。
 
-That is acceptable for developer tooling, but not for product-grade operation.
+#### 設計変更
 
-#### Design Change
+構造化された実行結果（Structured Run Outcomes）を導入します。
 
-Introduce structured run outcomes.
-
-Suggested types:
+推奨される型：
 
 ```rust
 pub enum DeliveryStatus {
@@ -313,125 +313,119 @@ pub struct RunOutcome {
 }
 ```
 
-#### Implementation
+#### 実装方法
 
-1. Treat archival failure as fatal
-2. Treat notification failure as non-fatal but persistent
-3. Treat execution failure as non-fatal to archival, but persistent and visible
-4. Write a structured run status artifact
+1. アーカイブの失敗を致命的（Fatal）として扱う。
+2. 通知の失敗を非致命的だが永続的な記録として扱う。
+3. 執行の失敗をアーカイブに対しては非致命的とするが、永続的かつ可視化されたものとして扱う。
+4. 構造化された実行ステータス成果物を書き出す。
 
-Suggested artifact:
-
+推奨される成果物：
 `run_status_[DATE].json`
-
-or
-
+または
 `run_status.jsonl`
 
-#### Concrete Code Changes
+#### 具体的なコード変更
 
-1. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
-   - collect stage results
-   - stop ignoring Telegram failures
-2. [trader_agent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/trader_agent.rs)
-   - return per-trade result summary, not just `Result<()>`
-3. [persistence.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/persistence.rs)
-   - add `save_run_status(...)`
+1. `src/cli.rs`
+   - 各ステージの結果を収集する。
+   - Telegram の失敗の無視を止める。
+2. `src/core/trader_agent.rs`
+   - 単なる `Result<()>` ではなく、トレードごとの結果サマリーを返すようにする。
+3. `src/core/persistence.rs`
+   - `save_run_status(...)` を追加する。
 
-#### Validation
+#### 検証方法
 
-1. Notification failure becomes visible in an artifact
-2. Trade placement failure becomes visible in an artifact
-3. Run result can be audited post hoc without reading raw console output
+1. 通知の失敗が成果物で可視化されること。
+2. 注文執行の失敗が成果物で可視化されること。
+3. 生のコンソール出力を読まずに、実行結果を後から監査できること。
 
 ## P1
 
-### P1-1: Add True Runtime Integration Tests
+### P1-1: 真の実行時統合テストを追加する
 
-#### Target State
+#### ターゲット状態
 
-At least one test should exercise the real dry-run runtime path, not just persistence helpers.
+少なくとも1つのテストが、単なる永続化ヘルパーではなく、実際のドライラン実行パスを網羅していること。
 
-#### Design Change
+#### 設計変更
 
-Create a test-only runtime harness that injects:
+以下の要素を注入（Inject）するテスト専用の実行ハーネスを作成します：
 
-1. fixture provider
-2. temp output dir
-3. deterministic config
+1. フィクスチャ（固定データ）プロバイダー
+2. 一時的な出力ディレクトリ
+3. 決定論的な構成（Config）
 
-#### Implementation
+#### 実装方法
 
-1. Extract the runtime body behind a testable function if needed:
+1. 必要に応じて、実行本体をテスト可能な関数の背後に抽出する：
 
 ```rust
 async fn run_pipeline_with_context(...)
 ```
 
-2. Inject fake provider data
-3. Assert on real produced files
+2. 偽のプロバイダーデータを注入する。
+3. 実際に生成されたファイルを表明（Assert）する。
 
-#### Concrete Code Changes
+#### 具体的なコード変更
 
-1. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
+1. `src/cli.rs`
 2. `tests/runtime_pipeline_integration.rs`
 
-#### Validation
+#### 検証方法
 
-1. One dry-run runtime test
-2. One disabled-trading daemon test
-3. One failure-path test for archival failure if feasible
+1. ドライラン実行テストを1つ。
+2. 取引が無効化された daemon テストを1つ。
+3. 可能であれば、アーカイブ失敗時の失敗パスのテストを1つ。
 
 ---
 
-### P1-2: Add a Shared Archive Contract Source
+### P1-2: 共有アーカイブ契約ソースを追加する
 
-#### Target State
+#### ターゲット状態
 
-The required daily asset list should be defined once and reused everywhere.
+毎日必須となる資産リストを一度だけ定義し、あらゆる場所で再利用すること。
 
-#### Design Change
+#### 設計変更
 
-Create a shared constant or contract file.
+共有の定数または契約ファイルを作成します。
 
-Suggested options:
+推奨される選択肢：
+1. テストで使用される Rust の定数リスト。
+2. `docs/` または `scripts/` 配下の JSON マニフェスト。
+3. ワークフローで使用される、シェルから読み取り可能なファイル。
 
-1. Rust constant list used by tests
-2. JSON manifest under `docs/` or `scripts/`
-3. shell-readable file used by workflow
-
-Recommended:
-
+推奨：
 `scripts/archive_contract.txt`
+（必須のアーティファクトパターンを1行に1つ記述）
 
-One line per required artifact pattern.
+#### 実装方法
 
-#### Implementation
+1. 以下を更新する：
+   - ワークフローの検証ロジック
+   - 統合テスト
+   - オペレーター向けドキュメント
+2. コピペされた必須ファイルリストを削減する。
 
-1. Update:
-   - workflow validation
-   - integration test
-   - operator docs
-2. Reduce copy-pasted required file lists
+#### 検証方法
 
-#### Validation
-
-1. Daily workflow and tests use the same required asset set
-2. Contract changes happen in one place
+1. 毎日のワークフローとテストが、同じ必須資産セットを使用していること。
+2. 契約の変更が1箇所で行えること。
 
 ---
 
-### P1-3: Strengthen Execution Safety Semantics
+### P1-3: 執行安全セマンティクスの強化
 
-#### Target State
+#### ターゲット状態
 
-Every non-executed trade candidate should have an auditable reason.
+執行されなかったすべての取引候補に、監査可能な理由があること。
 
-#### Design Change
+#### 設計変更
 
-Extend gate and execution reason taxonomy.
+ゲートおよび執行理由のタクソノミー（分類体系）を拡張します。
 
-Suggested reason set:
+推奨される理由セット：
 
 1. `TradingDisabled`
 2. `ProviderNotLiveCapable`
@@ -444,71 +438,70 @@ Suggested reason set:
 9. `BrokerReject`
 10. `TransportError`
 
-#### Implementation
+#### 実装方法
 
-1. Formalize reason enum or string constants
-2. Use the same taxonomy in:
-   - gate audits
-   - execution logs
-   - run status
+1. 理由の列挙型または文字列定数を正式に定義する。
+2. 以下のすべてで同じ分類体系を使用する：
+   - ゲート監査
+   - 執行ログ
+   - 実行ステータス（Run Status）
 
-#### Validation
+#### 検証方法
 
-1. At least one test per new reason category where applicable
-2. Audit logs become easier to aggregate historically
+1. 該当する場合、新しい理由カテゴリごとに少なくとも1つのテストを追加する。
+2. 監査ログの歴史的な集計を容易にする。
 
 ## P2
 
-### P2-1: Upgrade Telegram into Product-Grade Operator Messaging
+### P2-1: Telegram をプロダクトグレードのオペレーター通知へとアップグレードする
 
-#### Target State
+#### ターゲット状態
 
-Telegram should answer, at a glance:
+Telegram を一目見るだけで、以下の問いに答えられること：
 
-1. what state the market is in
-2. what the portfolio posture is
-3. what the top actionable names are
-4. whether there is a warning condition
+1. 市場はどのような状態か。
+2. ポートフォリオの姿勢はどのようなものか。
+3. 上位のアクション可能な銘柄は何か。
+4. 警告条件が発生しているか。
 
-#### Design Change
+#### 設計変更
 
-Separate message composition from packet construction.
+メッセージの構成とパケットの構築を分離します。
 
-Do not keep Telegram summary logic buried inside `DecisionPacket::new()`.
+Telegram のサマリーロジックを `DecisionPacket::new()` 内に埋め込んだままにしないでください。
 
-Recommended split:
+推奨される分割：
+1. `DecisionPacket` は事実に基づく状態を保持する。
+2. `report.rs` または専用の `telegram.rs` がオペレーター向けのメッセージをレンダリングする。
 
-1. `DecisionPacket` stores factual state
-2. `report.rs` or a dedicated `telegram.rs` renders operator messaging
+#### 実装方法
 
-#### Implementation
+推奨されるメッセージセクション：
 
-Suggested message sections:
+1. 見出し（Headline）
+2. 市場状態 ＋ オーバーレイ
+3. ポートフォリオモード ＋ 目標エクスポージャー
+4. 上位3つのアクション可能なティッカー
+5. 防御的状態やデータの鮮度が古い場合の警告行
 
-1. headline
-2. market state + overlay
-3. portfolio mode + target exposure
-4. top 3 actionable symbols
-5. warning line if defensive or data stale
+#### 検証方法
 
-#### Validation
-
-1. Snapshot test for Telegram rendering
-2. Mobile-readable output under common cases
+1. Telegram レンダリングのスナップショットテスト。
+2. 一般的なケースにおけるモバイルでの可読性の確認。
 
 ---
 
-### P2-2: Add Product-Facing Run Status
+### P2-2: プロダクト向けの実行ステータス（Run Status）を追加する
 
-#### Target State
+#### ターゲット状態
 
-Operators should be able to answer “did the system really complete correctly today?” from one artifact.
+オペレーターが、1つの成果物から「システムは今日本当に正しく完了したか？」という問いに答えられること。
 
-#### Design Change
+#### 設計変更
 
-Persist one concise run-status object per run.
+1回の実行につき、1つの簡潔な実行ステータスオブジェクトを永続化します。
 
-Suggested schema:
+推奨されるスキーマ：
 
 ```json
 {
@@ -521,62 +514,58 @@ Suggested schema:
 }
 ```
 
-#### Implementation
+#### 実装方法
 
-1. Define a typed struct
-2. Save after the pipeline completes or aborts
-3. Include it in operator docs, not necessarily in daily workflow gating
+1. 型定義された構造体を定義する。
+2. パイプラインが完了または中断した後に保存する。
+3. オペレーター向けドキュメントに含める（毎日のワークフローのゲートには必ずしも含めなくてよい）。
 
-#### Validation
+#### 検証方法
 
-1. One file exists per run
-2. Failures are visible without opening raw logs
+1. 1回の実行につき1つのファイルが存在すること。
+2. 生のログを開かずに失敗を確認できること。
 
-## Recommended Delivery Sequence
+## 推奨されるデリバリー順序
 
-### Phase A
+### フェーズ A
 
 1. P0-1
 2. P0-2
 
-Reason:
+理由：
+これらはセマンティックな信頼性（Semantic Trust）の問題です。可観測性を高める前に、まずこれらを修正してください。
 
-These are semantic trust issues. Fix them before adding more observability.
-
-### Phase B
+### フェーズ B
 
 1. P0-3
 2. P0-4
 
-Reason:
+理由：
+設定と執行のセマンティクスが信頼できるようになったら、データ契約と失敗のセマンティクスも信頼できるものにします。
 
-Once config and execution semantics are trustworthy, make the data contract and failure semantics trustworthy too.
-
-### Phase C
+### フェーズ C
 
 1. P1-1
 2. P1-2
 3. P1-3
 
-Reason:
+理由：
+次に、実行時の保護を強化し、将来の乖離（Drift）を抑制します。
 
-Now strengthen runtime protection and reduce future drift.
-
-### Phase D
+### フェーズ D
 
 1. P2-1
 2. P2-2
 
-Reason:
+理由：
+コアシステムが信頼できるようになった後に初めて、オペレーター向けの磨き込み（Polish）を拡張します。
 
-Only after the core system is trustworthy should operator-facing polish be expanded.
+## 最終的な完了の定義 (Definition of Done)
 
-## Final Definition of Done
+本実装計画は、以下の条件が満たされた場合に完了したものとみなされます：
 
-This implementation plan is complete only when:
-
-1. execution can be globally disabled with zero ambiguity
-2. config and docs no longer lie to the operator
-3. telemetry is a stable research contract
-4. failures are structured and reviewable
-5. runtime integration tests cover the real product path
+1. 執行を一切の曖昧さなくグローバルに無効化できること。
+2. 設定セマンティクスとドキュメントの内容がオペレーターを欺かないこと。
+3. テレメトリが安定した研究契約（Research Contract）となっていること。
+4. 失敗が構造化され、レビュー可能であること。
+5. 実行時統合テストが実際のプロダクトパスを網羅していること。

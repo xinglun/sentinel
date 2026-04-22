@@ -1,71 +1,75 @@
-# Sentinel 状态机惯性加固规范 (STATE_MACHINE_INERTIA_HARDENING.md)
+---
+author: Ray
+---
+
+# Sentinel 状態機慣性強化仕様 (STATE_MACHINE_INERTIA_HARDENING.md)
 
 ## 1. 目的
 
-本规范用于修正以下问题：
+本仕様書は、以下の問題を修正するために策定されました：
 
-1. 市场状态在正常回调中被过度重置为 `IGNITION`。
-2. `stability` / `regime_age` 在非崩坏场景下被清零，导致趋势生命周期失真。
-3. 个股状态缺乏历史惯性，弱资产可能在短期局部反弹后被错误恢复为 `OPTIMAL`。
-4. Telegram / 报告层出现“市场重启”与“个股仍强/突然转强”并存的逻辑冲突。
+1. 市場状態（Market Regime）が、通常の押し目において過剰に `IGNITION` へリセットされてしまう。
+2. `stability` / `regime_age` が、トレンド崩壊以外のシナリオでもゼロクリアされ、トレンドのライフサイクルが歪んでしまう。
+3. 個別銘柄の状態（Asset State）に歴史的慣性が欠けており、弱い資産が短期的な反発だけで誤って `OPTIMAL` に復帰してしまう。
+4. Telegram やレポート層において、「市場の再起動」と「個別銘柄の強気継続/急転換」が共存するというロジックの不整合が発生している。
 
-本规范是对现有 [TRANSITION_RULES.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/TRANSITION_RULES.md) 和 [STATE_DEFINITIONS.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/STATE_DEFINITIONS.md) 的加固补充。
+本仕様は、既存の [TRANSITION_RULES.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/TRANSITION_RULES.md) および [STATE_DEFINITIONS.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/STATE_DEFINITIONS.md) を補完し、強化するものです。
 
-## 2. 给开发的修正规格
+## 2. 開発用修正スペック
 
-### 2.1 核心目标
+### 2.1 コア目標
 
-状态机必须满足以下行为约束：
+状態機は以下の振る舞い制約を満たさなければなりません：
 
-1. 趋势可以减弱，但不会一夜归零。
-2. `IGNITION` 只能表示“新趋势刚启动”，不能被用作普通回调的默认降级状态。
-3. `ESTABLISHED` / `EARLY_CONFIRMATION` 的回调应优先表现为“降级”而不是“重启”。
-4. 个股状态必须具备恢复门槛；历史弱资产不能在单日局部改善后直接恢复为 `OPTIMAL`。
+1. トレンドは減衰することはあっても、一夜にしてゼロになることはない。
+2. `IGNITION` は「新トレンドの初期始動」のみを意味し、通常の押し目におけるデフォルトの降格先として使用してはならない。
+3. `ESTABLISHED` / `EARLY_CONFIRMATION` からの調整は、原則として「再起動 (Restart)」ではなく「降格 (Downgrade)」として表現する。
+4. 個別銘柄の状態には復帰しきい値を設ける。過去に弱かった資産が、単日の局所的な改善で直接 `OPTIMAL` に復帰することを禁止する。
 
-### 2.2 必须实现的修正
+### 2.2 実装必須の修正事項
 
-1. 为市场状态机增加 `reset gate`。
-   - 不满足严格 reset 条件时，禁止回到 `IGNITION`。
-2. 为生命周期增加“阶梯式降级”规则。
-   - 默认只允许单级降级，不允许跨级归零。
-3. 为个股状态增加“恢复路径”。
-   - `DEFEND -> OPTIMAL` 必须拆成多步恢复。
-4. 为近期弱资产增加“历史惩罚”。
-   - 最近处于 `DEFEND` / `CAUTION` 的资产必须经过额外确认窗口。
-5. 对 `stability` / `age` 的 reset 增加保护。
-   - 非硬 reset 场景下，`regime_age` 不得回到 `1`。
+1. 市場状態機への `reset gate`（リセット・ゲート）の追加。
+   - 厳格なリセット条件を満たさない限り、`IGNITION` への復帰を禁止する。
+2. ライフサイクルへの「段階的降格」ルールの導入。
+   - デフォルトでは1段階ずつの降格のみを許可し、一足飛びのゼロリセットを禁止する。
+3. 個別銘柄状態への「復帰パス (Recovery Path)」の導入。
+   - `DEFEND -> OPTIMAL` のような復帰は、複数ステップに分解しなければならない。
+4. 直近の弱気資産に対する「歴史的ペナルティ」の導入。
+   - 最近 `DEFEND` / `CAUTION` だった資産は、追加の確認ウィンドウを通過しなければならない。
+5. `stability` / `age` のリセットに対する保護。
+   - ハードリセット・シナリオ以外では、`regime_age` が `1` に戻ってはならない。
 
-### 2.3 代码落点建议
+### 2.3 コード配置の推奨
 
-1. 市场状态机：
+1. 市場状態機：
    - [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
-2. 个股状态与动作联动：
-   - `asset_state` 相关模块
+2. 個別銘柄状態とアクションの連動：
+   - `asset_state` 関連モジュール
    - [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
-3. 报告层诊断输出：
+3. 報告層の診断出力：
    - [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
-   - `market_regime.reasons` 中需要明确记录：
-     - 为什么降级
-     - 为什么没有 reset
-     - 为什么个股恢复被拦截
+   - `market_regime.reasons` に以下の理由を明記すること：
+     - なぜ降格したのか
+     - なぜリセットされなかったのか（慣性によるブロック）
+     - なぜ個別銘柄の復帰が阻止されたのか
 
-### 2.4 验收标准
+### 2.4 承認基準
 
-以下场景必须通过测试：
+以下のシナリオがテストをパスしなければなりません：
 
-1. `ESTABLISHED` 在中等回调中降级为 `EARLY_CONFIRMATION`，而不是 `IGNITION`。
-2. `EARLY_CONFIRMATION` 在回调中降级为 `NEWBORN`，而不是 `IGNITION`。
-3. 只有满足严格 reset 条件时，生命周期才允许回到 `IGNITION`。
-4. 最近 20 个交易日内出现过 `DEFEND` 的资产，不能在单日改善后直接变成 `OPTIMAL`。
-5. `DEFEND -> CAUTION -> CRUISE -> OPTIMAL` 的恢复路径必须被单元测试覆盖。
+1. `ESTABLISHED` 状態が、中程度の押し目において `IGNITION` ではなく `EARLY_CONFIRMATION` へ降格すること。
+2. `EARLY_CONFIRMATION` が、押し目において `IGNITION` ではなく `NEWBORN` へ降格すること。
+3. 厳格なリセット条件を満たした場合のみ、ライフサイクルが `IGNITION` に戻ること。
+4. 直近20取引日以内に `DEFEND` が発生した資産は、単日の改善で直接 `OPTIMAL` になってはならない。
+5. `DEFEND -> CAUTION -> CRUISE -> OPTIMAL` の復帰パスがユニットテストでカバーされていること。
 
 ---
 
-## 3. 具体状态迁移规则
+## 3. 具体的な状態遷移ルール
 
-### 3.1 市场状态升级规则
+### 3.1 市場状態の昇格ルール
 
-沿用现有升级主路径：
+既存の昇格パスを継続使用します：
 
 1. `NONE -> IGNITION`
 2. `IGNITION -> NEWBORN`
@@ -73,55 +77,55 @@
 4. `EARLY_CONFIRMATION -> ESTABLISHED`
 5. `ESTABLISHED -> CONFIRMED`
 
-升级逻辑保持“慢确认”原则，不是本次改动重点。
+昇格ロジックは引き続き「遅い確認（Slow Confirmation）」の原則に従います。これは今回の変更の重点ではありません。
 
-### 3.2 市场状态降级规则
+### 3.2 市場状態の降格ルール
 
-默认采用阶梯式降级：
+デフォルトで段階的降格を採用します：
 
 1. `CONFIRMED -> ESTABLISHED`
 2. `ESTABLISHED -> EARLY_CONFIRMATION`
 3. `EARLY_CONFIRMATION -> NEWBORN`
 4. `NEWBORN -> IGNITION`
-5. `ANY -> DEFENSIVE` 仅保留给硬风险触发
+5. `ANY -> DEFENSIVE` （ハードリスク・トリガー時のみ）
 
-### 3.3 允许直接进入 `DEFENSIVE` 的条件
+### 3.3 `DEFENSIVE` への直接突入が許可される条件
 
-以下条件保留快速逃生优先级：
+以下の条件では、高速脱出の優先順位を維持します：
 
 1. `system_confidence < 50`
-2. 核心资产群集体跌入 `DEFEND / CAUTION`
-3. `risk_overlay` 达到 `DEFENSIVE / BROKEN`
-4. 结构性破坏已明确，不属于普通回调
+2. コア資産群が揃って `DEFEND / CAUTION` に転落
+3. `risk_overlay` が `DEFENSIVE / BROKEN` に達した
+4. 構造的な破壊が明確であり、通常の押し目ではないと判断される場合
 
-### 3.4 Reset Gate：允许回到 `IGNITION` 的严格条件
+### 3.4 Reset Gate：`IGNITION` への復帰を許可する厳格な条件
 
-从 `EARLY_CONFIRMATION / ESTABLISHED / CONFIRMED` 回到 `IGNITION`，必须同时满足：
+`EARLY_CONFIRMATION / ESTABLISHED / CONFIRMED` から `IGNITION` に戻るには、以下のすべてを同時に満たさなければなりません：
 
-1. `TrendDominant == false` 或等价主趋势判定失效
+1. `TrendDominant == false` または同等の主トレンド判定が失効。
 2. `stability_structural < 25`
-3. `stability_score < 10` 连续 `3` 天
+3. `stability_score < 10` が `3` 日間継続。
 4. `flow_acceleration <= 0`
-5. 核心资产群不再维持主升结构
+5. コア資産群がもはや上昇構造を維持していない。
 
-任一条件不满足：
+いずれかの条件を満たさない場合：
 
-1. 禁止 reset
-2. 只能执行阶梯式降级
+1. リセットを禁止する。
+2. 段階的降格のみを執行する。
 
-### 3.5 Age / Stability 保护规则
+### 3.5 Age / Stability 保護ルール
 
-1. 只有在通过 `reset gate` 后，`regime_age` 才允许重置为 `1`。
-2. 普通降级时：
-   - `regime_age` 允许延续
-   - 或按规则做“软回退”，但不得归零
-3. `stability_score` 不允许因为生命周期降级而直接清零，除非：
-   - 进入 `DEFENSIVE`
-   - 或通过 `reset gate`
+1. `reset gate` を通過した場合のみ、`regime_age` を `1` にリセットすることを許可する。
+2. 通常の降格時：
+   - `regime_age` の継続を許可する。
+   - または、ルールに従った「ソフトな後退（Soft Rollback）」を行うが、ゼロにはしない。
+3. `stability_score` は、ライフサイクルの降格のみを理由にゼロクリアしてはならない。ただし、以下の場合を除く：
+   - `DEFENSIVE` に突入した場合。
+   - または、`reset gate` を通過した場合。
 
-### 3.6 建议的诊断标签
+### 3.6 推奨される診断タグ
 
-为了便于 Telegram / 审计解释，建议在 `market_regime.reasons` 中加入标准化标签：
+Telegram や監査レポートでの説明を容易にするため、`market_regime.reasons` に標準化されたタグを追加することを推奨します：
 
 1. `DowngradeOnly`
 2. `ResetBlockedByInertia`
@@ -131,100 +135,96 @@
 
 ---
 
-## 4. 个股恢复门槛规则
+## 4. 個別銘柄の復帰しきい値ルール
 
-### 4.1 恢复路径
+### 4.1 復帰パス (Recovery Path)
 
-禁止以下一步到位恢复：
+以下の「一足飛びの復帰」を禁止します：
 
 1. `DEFEND -> OPTIMAL`
 2. `DEFEND -> PULLBACK`
 3. `CAUTION -> OPTIMAL`
 
-建议的恢复路径为：
+推奨される復帰パス：
 
 1. `DEFEND -> CAUTION`
 2. `CAUTION -> CRUISE`
 3. `CRUISE -> PULLBACK / OPTIMAL`
 
-### 4.2 DEFEND 恢复门槛
+### 4.2 DEFEND 復帰しきい値
 
-`DEFEND -> CAUTION` 至少需要：
+`DEFEND -> CAUTION` には、少なくとも以下が必要です：
 
-1. 长周期破坏条件解除
-2. 关键均线斜率不再继续恶化
-3. 连续 `N=3` 天未再次触发 `DEFEND`
+1. 長期周期の破壊条件が解除されていること。
+2. 主要移動平均線の傾きがそれ以上悪化していないこと。
+3. `N=3` 日間連続して、再度 `DEFEND` がトリガーされていないこと。
 
-### 4.3 CAUTION 恢复门槛
+### 4.3 CAUTION 復帰しきい値
 
-`CAUTION -> CRUISE` 至少需要：
+`CAUTION -> CRUISE` には、少なくとも以下が必要です：
 
-1. 重新站回核心引力带
-2. 波动收敛
-3. 连续 `N=3~5` 天结构稳定
+1. コア引力帯（Gravity Band）への再突入。
+2. ボラティリティの収束。
+3. `N=3~5` 日間連続した構造の安定。
 
-### 4.4 CRUISE 恢复为强状态的门槛
+### 4.4 CRUISE から強気状態への復帰しきい値
 
-`CRUISE -> PULLBACK / OPTIMAL` 至少需要：
+`CRUISE -> PULLBACK / OPTIMAL` には、少なくとも以下が必要です：
 
-1. 趋势斜率重新转正
-2. Owner/Leash 结构恢复一致
-3. 不能存在近期 `DEFEND` 未解锁惩罚
+1. トレンドの傾きが再びプラスに転じていること。
+2. Owner/Leash 構造の整合性が回復していること。
+3. 直近の `DEFEND` による未解除のペナルティが存在しないこと。
 
-### 4.5 历史惩罚规则
+### 4.5 歴史的ペナルティルール
 
-若资产在最近 `20` 个交易日内曾处于 `DEFEND`：
+資産が直近 `20` 取引日以内に `DEFEND` 状態だった場合：
 
-1. 默认上限锁定为 `CAUTION / CRUISE`
-2. 只有在满足额外恢复窗口后，才允许进入 `PULLBACK / OPTIMAL`
-3. 建议额外恢复窗口：
-   - 连续 `5` 天结构稳定
-   - 长周期斜率恢复
-   - 无新的破位事件
+1. デフォルトの上限を `CAUTION / CRUISE` にロックする。
+2. 追加の復帰ウィンドウを満たした場合のみ、`PULLBACK / OPTIMAL` への突入を許可する。
+3. 推奨される追加復帰ウィンドウ：
+   - 5日間連続した構造の安定。
+   - 長期周期の傾きの回復。
+   - 新たな支持線割れイベントが発生していないこと。
 
-### 4.6 FORMING 资产限制
+### 4.6 FORMING (形成中) 資産の制限
 
-`FORMING` 资产不得因为市场状态 reset 而被自动抬升为强状态。
+`FORMING` 資産は、市場状態のリセットによって自動的に強気状態へ引き上げられてはなりません。
 
-1. `FORMING` 只能保持 `FORMING / OBSERVE`
-2. 需要单独满足结构成熟条件后，才允许进入正常个股状态机
+1. `FORMING` は `FORMING / OBSERVE` を維持しなければならない。
+2. 個別に構造の成熟条件を満たした後にのみ、通常の個別銘柄状態機への突入を許可する。
 
-### 4.7 报告层一致性要求
+### 4.7 レポート層の一貫性要件
 
-以下输出必须共享同一套个股 bucket 结果：
+以下の出力は、同一の個別銘柄バケット（Bucket）結果を共有しなければなりません：
 
 1. `Top Actions`
-2. `战术分区`
-3. `风险与机会`
+2. `戦術分区 (Tactical Summary)`
+3. `リスクと機会`
 
-如果某资产被标为：
+ある資産が以下のようにマークされている場合：
 
 1. `DEFEND / CAUTION`
-   - 不得同时进入“机会”或“加仓区”
+   - 同時に「機会（Opportunity）」や「加筆エリア（ADD）」に入ってはならない。
 2. `OPTIMAL / PULLBACK`
-   - 不得在同一条消息中被归入“防御区”
+   - 同一のメッセージ内で「防御エリア（DEFEND）」に分類されてはならない。
 
 ---
 
-## 5. 测试清单
+## 5. テストリスト
 
-建议新增或强化以下测试：
+以下のテストを新規追加または強化することを推奨します：
 
-1. `ESTABLISHED` 回调不直接 reset 到 `IGNITION`
-2. `EARLY_CONFIRMATION` 回调只降级到 `NEWBORN`
-3. 满足全部 reset gate 条件时才允许 `IGNITION`
-4. `DEFEND` 资产单日反弹后不能直达 `OPTIMAL`
-5. `DEFEND` 资产经过多日修复后可按路径恢复
-6. Telegram 输出中：
-   - `Top Actions`
-   - `战术分区`
-   - `风险与机会`
-   使用同一套 bucket
+1. `ESTABLISHED` からの調整が直接 `IGNITION` にリセットされないこと。
+2. `EARLY_CONFIRMATION` からの調整が `NEWBORN` への降格に留まること。
+3. すべての `reset gate` 条件を満たした場合にのみ `IGNITION` を許可すること。
+4. `DEFEND` 資産が単日の反発で `OPTIMAL` に到達できないこと。
+5. `DEFEND` 資産が数日間の修復期間を経て、パス通りに復帰できること。
+6. Telegram 出力において、`Top Actions`、`戦術分区`、`リスクと機会` が同一のバケットを使用していること。
 
 ---
 
-## 6. 一句话规则
+## 6. 一言ルール (The Golden Rule)
 
-趋势可以减弱，但不会一夜消失。  
-状态可以降级，但不能轻易归零。  
-弱资产可以修复，但不能瞬间洗白。
+トレンドは減衰しても、一夜にして消え去ることはない。  
+状態は降格しても、容易にゼロにリセットされることはない。  
+弱い資産は修復できても、瞬時に「潔白」になることはない。

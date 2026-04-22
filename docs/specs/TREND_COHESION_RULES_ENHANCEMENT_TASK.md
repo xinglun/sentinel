@@ -1,222 +1,211 @@
-# Trend Cohesion Rules Enhancement Task
+---
+author: Ray
+---
 
-## Goal
+# トレンド凝集性ルール強化タスク (Trend Cohesion Rules Enhancement Task)
 
-Upgrade the current `Trend Cohesion Gate` from a static threshold gate into a more realistic
-"leadership consensus" evaluator.
+## 目標
 
-This round is not about changing `NO TRADE`, `Participation Gate`, or `Exit Gate`.
-It is specifically about improving the quality of the underlying `Trend Cohesion` rules so the
-system can better distinguish:
+現在の `Trend Cohesion Gate`（トレンド凝集性ゲート）を、静的なしきい値ゲートから、より現実に即した「リーダーシップのコンセンサス」評価器へとアップグレードします。
 
-- random candidate dispersion
-- weak early attempts
-- real emerging leadership
-- genuinely cohesive primary trends
+本フェーズでは、`NO TRADE`、`Participation Gate`、または `Exit Gate` の変更は行いません。
+具体的には、基盤となる `Trend Cohesion` ルールの品質を向上させ、システムが以下の状態をより適切に区別できるようにすることに焦点を当てます：
 
-The target outcome is:
+- ランダムな候補の分散
+- 脆弱な初期の試み
+- 真に台頭しつつあるリーダーシップ
+- 真に凝集した主要トレンド
 
-1. `Trend Cohesion` keeps its current role as an independent third gate.
-2. Its internal rule quality improves from simple thresholding to a more market-realistic
-   structure assessment.
-3. The report can explain not only that the primary trend is absent, but also why it is weak,
-   fragmented, or becoming coherent.
+目標とする成果は以下の通りです：
 
-## Current Limitation
+1. `Trend Cohesion` は、引き続き独立した第3のゲートとしての役割を維持する。
+2. 内部ルールの品質を、単純なしきい値処理から、より市場の実態に即した構造評価へと向上させる。
+3. 主要トレンドが存在しない場合、単に存在しないと表示するだけでなく、なぜ弱いのか、断片化しているのか、あるいは一貫性を持ち始めているのかをレポートで説明できるようにする。
 
-The current implementation already evaluates:
+## 現在の制限事項
 
-- stability
-- continuity streak
-- candidate count
-- repeated leaders
-- continuity quality
+現在の実装では、すでに以下の項目を評価しています：
 
-This is good enough for v1/v2 safety, but it still has several limitations:
+- 安定性 (Stability)
+- 継続性の連続記録 (Continuity Streak)
+- 候補数 (Candidate Count)
+- 繰り返されるリーダー (Repeated Leaders)
+- 継続の品質 (Continuity Quality)
 
-1. It does not distinguish "repeating" leaders from "dominant" leaders.
-2. It treats candidate compactness as a proxy for cohesion, but does not explicitly measure
-   leadership concentration quality.
-3. It does not separate healthy rotation from unstable churn strongly enough.
-4. It can say `NotFormed`, `Forming`, or `Cohesive`, but the underlying score model is still too
-   coarse for future evolution.
+これらは V1/V2 の安全性確保には十分ですが、依然としていくつかの制限があります：
 
-## Scope
+1. 「単に再登場した」リーダーと、「ドミナント（支配的）な」リーダーを区別していない。
+2. 候補銘柄のコンパクトさを凝集性の代理指標としているが、リーダーシップの集中度を明示的に測定していない。
+3. 健全なローテーションと、不安定な入れ替わり（チャーン）を十分に区別していない。
+4. `NotFormed`、`Forming`、`Cohesive` と出力できるが、その根拠となるスコアモデルが次世代の進化には粗すぎる。
 
-This round should introduce a stronger rule system while preserving the current architecture:
+## スコープ
 
-- domain layer computes structure
-- `DecisionPacket` stores structured output
-- `PresentationAssembler` localizes and summarizes it
-- `report.rs` only renders
+現在のアーキテクチャを維持しつつ、より強力なルールシステムを導入します：
 
-Do not:
+- ドメイン層が構造を計算する。
+- `DecisionPacket` が構造化された出力を保存する。
+- `PresentationAssembler` がそれをローカライズ（多言語化）し、要約する。
+- `report.rs` はレンダリングのみを行う。
 
-- collapse `Trend Cohesion` back into `Participation Gate`
-- use report-layer heuristics
-- reintroduce free-text reasons in the domain layer
-- expand this task into sector/theme classification unless strictly necessary for the chosen score
+以下のことは行わないでください：
 
-## Implementation Plan
+- `Trend Cohesion` を `Participation Gate` に統合し直すこと。
+- レポート層でヒューリスティック（推論）を使用すること。
+- ドメイン層にフリーテキストの理由を再導入すること。
+- スコア算出に厳密に必要でない限り、セクター/テーマ分類までタスクを広げること。
 
-### 1. Add a structured score model
+## 実装計画
 
-In `src/core/trend_cohesion.rs`, extend the snapshot with:
+### 1. 構造化スコアモデルの追加
 
-- `cohesion_score: f64`
-- `leader_quality_score: f64`
-- `rotation_quality_score: f64`
-- `candidate_compactness_score: f64`
+`src/core/trend_cohesion.rs` において、スナップショットを以下のように拡張します：
 
-These should be domain metrics, not presentation strings.
+- `cohesion_score: f64` (凝集性スコア)
+- `leader_quality_score: f64` (リーダー品質スコア)
+- `rotation_quality_score: f64` (ローテーション品質スコア)
+- `candidate_compactness_score: f64` (候補のコンパクトさスコア)
 
-The purpose is not to create a black-box score, but to expose the components that determine
-whether leadership is real or noisy.
+これらは表示用の文字列ではなく、ドメインメトリクス（数値指標）である必要があります。
 
-### 2. Strengthen leadership evaluation
+目的はブラックボックスなスコアを作ることではなく、リーダーシップが本物かノイズかを決定する構成要素を明示することにあります。
 
-Add a stricter `Leader Quality` concept.
+### 2. リーダーシップ評価の強化
 
-At minimum, distinguish:
+より厳格な「リーダー品質 (Leader Quality)」の概念を導入します。
 
-- repeated leaders that merely reappear
-- leaders that repeatedly occupy the top cohort and dominate a compact candidate pool
+最低限、以下を区別してください：
 
-Expected direction:
+- 単に再登場しただけのリーダー。
+- 継続的に上位集団（Top Cohort）を占め、コンパクトな候補プールを支配しているリーダー。
 
-- higher score if a small subset of names persists across the recent window
-- lower score if today’s top tier is large, unstable, or leader identity keeps changing
+期待される方向性：
 
-### 3. Strengthen rotation/churn evaluation
+- 直近のウィンドウにおいて、少数の特定の銘柄が持続している場合はスコアを高くする。
+- 本日の上位集団が肥大化している、不安定である、またはリーダーの顔ぶれが頻繁に変わる場合はスコアを低くする。
 
-Current continuity quality is based on overlap and coarse churn.
+### 3. ローテーション/チャーン評価の強化
 
-Enhance it so the model can distinguish:
+現在の継続の品質は、重複度（Overlap）と粗いチャーンに基づいています。
 
-- healthy rotation inside a still-coherent structure
-- unstable reshuffling where no leadership remains intact
+モデルが以下を区別できるように強化します：
 
-This should remain deterministic and explainable.
+- 依然として一貫した構造内での健全なローテーション。
+- リーダーシップが維持されず、バラバラに入れ替わっている不安定なチャーン。
 
-### 4. Strengthen candidate compactness
+これは常に決定的（Deterministic）かつ説明可能である必要があります。
 
-Candidate count alone is too blunt.
+### 4. 候補のコンパクトさの強化
 
-Add a better compactness measure that reflects whether the candidate pool is:
+候補数だけでは判断材料として不十分です。
 
-- tight and leadership-driven
-- moderate but still readable
-- wide and noisy
+候補プールが以下のいずれであるかを反映した、より優れたコンパクトさの測定指標を追加します：
 
-### 5. Derive final status from score + hard conditions
+- タイトでリーダーシップ主導。
+- 中程度だが依然として読み取り可能。
+- 広範に分散しておりノイズが多い。
 
-Keep the 3 final states:
+### 5. スコアとハード条件からの最終ステータスの導出
 
-- `NotFormed`
-- `Forming`
-- `Cohesive`
+最終的な3つの状態は維持します：
 
-But derive them from:
+- `NotFormed` (未形成)
+- `Forming` (形成中)
+- `Cohesive` (凝集済み)
 
-- hard minimum conditions
-- structural sub-scores
-- final cohesion score
+ただし、これらを以下から導出するようにします：
 
-Recommended design:
+- ハードな最小条件。
+- 構造的なサブスコア。
+- 最終的な凝集性スコア。
 
-- hard fail conditions still prevent `Cohesive`
-- `Forming` should represent "some structure exists, but not enough to trust"
-- `Cohesive` should mean "leadership is compact, repeated, and stable enough to follow"
+推奨される設計：
 
-### 6. Preserve structured reason codes
+- ハードな失敗条件は、依然として `Cohesive` への移行を阻止する。
+- `Forming` は、「何らかの構造は存在するが、信頼するには不十分」な状態を表す。
+- `Cohesive` は、「リーダーシップがコンパクトで、反復されており、追随するのに十分なほど安定している」ことを意味する。
 
-Do not return free text from the domain layer.
+### 6. 構造化された理由コードの維持
 
-If new reasons are needed, extend the condition enum with structured variants and localize them in
-`i18n.rs`.
+ドメイン層からフリーテキストを返さないでください。
 
-### 7. Presentation layer output
+新しい理由が必要な場合は、条件（Condition）列挙型を構造化されたバリアントで拡張し、`i18n.rs` でローカライズしてください。
 
-`PresentationAssembler` should continue to provide:
+### 7. プレゼンテーション層の出力
 
-- `Primary Trend`
-- current status
-- formation conditions
-- unmet conditions
+`PresentationAssembler` は、引き続き以下を提供しなければなりません：
 
-Additionally, if useful and low-noise, it may expose one short summary of the structural quality,
-for example:
+- `Primary Trend` (主要トレンド)
+- 現在のステータス
+- 形成条件 (Formation Conditions)
+- 未達の条件 (Unmet Conditions)
 
-- "leaders are repeating but still fragmented"
-- "candidate pool remains too dispersed"
+さらに、有用でノイズが少ない場合は、構造的な品質に関する短い要約を1つ表示してもよいでしょう。例：
 
-This must still be driven by structured fields, not ad hoc strings.
+- 「リーダーは再登場しているが、依然として断片化している」
+- 「候補プールが依然として分散しすぎている」
 
-## Guardrails
+これも、アドホックな文字列ではなく、構造化されたフィールドによって駆動される必要があります。
 
-The following must remain true after the enhancement:
+## ガードレール
 
-1. `Trend Cohesion` must remain independent from `Participation Gate`.
-2. `Trend Cohesion` must not become synonymous with:
-   - bullishness
-   - defensiveness
+強化後も、以下の事項が守られていなければなりません：
+
+1. `Trend Cohesion` は `Participation Gate` から独立していなければならない。
+2. `Trend Cohesion` が以下の言葉の同義語になってはならない：
+   - 強気 (Bullishness)
+   - 防御的 (Defensiveness)
    - `NO TRADE`
-3. `NO TRADE` may still happen when `Trend Cohesion` is weak, but the two systems must remain
-   conceptually separate.
-4. `report.rs` must not compute any cohesion logic.
-5. Domain reasons must remain structured and localizable.
+3. `Trend Cohesion` が弱いときに `NO TRADE` が発生することはあるが、両システムは概念的に分離されていなければならない。
+4. `report.rs` で凝集性ロジックを計算してはならない。
+5. ドメインの理由は、構造化され、ローカライズ可能でなければならない。
 
-## Acceptance Criteria
+## 承認基準
 
-This round is complete only if all of the following are true:
+以下のすべてが満たされた場合にのみ、本フェーズは完了とみなされます：
 
-1. `Trend CohesionSnapshot` contains richer structural metrics than the current v2 version.
-2. The system can distinguish:
-   - highly dispersed noise
-   - partially forming leadership
-   - truly cohesive leadership
-3. `NotFormed`, `Forming`, and `Cohesive` are no longer driven only by coarse thresholds.
-4. Domain reasons remain enum-based and presentation-localized.
-5. `DecisionPacket` continues to carry the structured snapshot.
-6. `PresentationAssembler` and `report.rs` keep current architectural boundaries.
+1. `Trend CohesionSnapshot` に、現在の V2 バージョンよりもリッチな構造メトリクスが含まれている。
+2. システムが以下を区別できる：
+   - 高度に分散したノイズ
+   - 部分的に形成されつつあるリーダーシップ
+   - 真に凝集したリーダーシップ
+3. `NotFormed`、`Forming`、`Cohesive` が、粗いしきい値だけで駆動されなくなる。
+4. ドメインの理由が列挙型ベースであり、プレゼンテーション層でローカライズされている。
+5. `DecisionPacket` が引き続き構造化されたスナップショットを保持している。
+6. `PresentationAssembler` と `report.rs` が現在のアーキテクチャ境界を維持している。
 
-## Required Tests
+## 必要なテスト
 
-At minimum, add or update:
+少なくとも以下を追加または更新してください：
 
-1. unit tests for `TrendCohesionEvaluator`
-   - fragmented candidates
-   - repeated leaders with weak compactness
-   - compact repeating leaders with sufficient continuity
-   - healthy rotation vs destructive churn
-
+1. `TrendCohesionEvaluator` のユニットテスト
+   - 断片化した候補
+   - コンパクトさを欠く再登場リーダー
+   - 十分な継続性を持つコンパクトな再登場リーダー
+   - 健全なローテーション vs 破壊的なチャーン
 2. `presentation_tests`
-   - localized rendering of any new reason codes
-   - correct summary/status mapping for `NotFormed`, `Forming`, `Cohesive`
-
+   - 新しい理由コードのローカライズされたレンダリング
+   - `NotFormed`、`Forming`、`Cohesive` への正しいサマリー/ステータスマッピング
 3. `report_ui_tests`
-   - final rendered trend status remains correct
-   - no report-layer recomputation
-
-4. multi-language regression tests
+   - 最終的にレンダリングされたトレンドステータスが正しいこと
+   - レポート層での再計算が行われていないこと
+4. 多言語リグレッションテスト
    - `zh-cn`
    - `en-us`
    - `ja-jp`
 
-## Quality Gates
+## クオリティゲート
 
-All of the following must pass:
+以下のすべてにパスしなければなりません：
 
 - `cargo fmt`
 - `cargo test --quiet`
 - `cargo clippy --all-targets --all-features -- -D warnings`
 
-## Hard Review Standard
+## 厳格な審査基準
 
-This task is not accepted just because the report shows a more sophisticated trend label.
+単にレポートにより洗練されたトレンドラベルが表示されるようになっただけでは、本タスクは承認されません。
 
-It is accepted only if the system gains a meaningfully better and still explainable model of
-whether leadership is actually forming.
+リーダーシップが実際に形成されているかどうかについて、意味のある改善がなされ、かつ説明可能なモデルがシステムに導入された場合にのみ承認されます。
 
-If the new implementation only renames the current thresholds or hides the same heuristic behind a
-single score, it does not count as complete.
+単に現在のしきい値の名前を変えたり、同じヒューリスティックを単一のスコアの背後に隠したりしただけの代物は、完了とはみなされません。

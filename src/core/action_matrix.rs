@@ -59,7 +59,7 @@ pub struct AssetActionDecision {
 pub struct ActionMatrix;
 
 impl ActionMatrix {
-    // Clippy: Too many arguments (9/7), but this is a core mapping function.
+    // Clippy: 引数が多すぎますが (9/7)、これはコアのマッピング関数です。
     #[allow(clippy::too_many_arguments)]
     pub fn decide(
         regime: &MarketRegimeSnapshot,
@@ -75,21 +75,21 @@ impl ActionMatrix {
         trade_amount: f64,
         config_multiplier: f64,
     ) -> AssetActionDecision {
-        // Roadmap Section 2: Action Matrix Mapping (Hardened 1:1)
+        // Roadmap Section 2: アクションマトリックス・マッピング (Hardened 1:1)
         let (action, matrix_reason) = match (regime.market_state, asset_state.state) {
-            // Priority 1: Overheat is universal
+            // 優先度 1: オーバーヒートは普遍的
             (_, AssetState::OVERHEAT) => (
                 AssetAction::REDUCE,
                 "Matrix: Overheat absolute risk reduction",
             ),
 
-            // Priority 2: Forming is universal
+            // 優先度 2: 形成中 (Forming) は普遍的
             (_, AssetState::FORMING) => (
                 AssetAction::OBSERVE,
                 "Matrix: Asset in formation, no action",
             ),
 
-            // Matrix Mapping
+            // マトリックス・マッピング
             (crate::core::market_regime::MarketState::IGNITION, s) => match s {
                 AssetState::OPTIMAL => (
                     AssetAction::ACCUMULATE,
@@ -179,7 +179,7 @@ impl ActionMatrix {
             },
         };
 
-        // Trend Cohesion Gate: active buying is blocked until a followable leader structure exists.
+        // トレンド凝集ゲート: 追随可能なリーダー構造が存在するまで、能動的な買いはブロックされます。
         let (action, matrix_reason) = if !trend_gate_passed && action == AssetAction::ACCUMULATE {
             let downgraded_action = if asset_state.state == AssetState::OPTIMAL {
                 AssetAction::OBSERVE
@@ -289,9 +289,9 @@ mod tests {
         let asset = mock_asset(AssetState::OPTIMAL);
         let policy = PortfolioPolicy::from_market_regime(&regime);
 
-        // Case 1: Trend gate not passed
+        // ケース 1: トレンドゲートを通過していない場合
         let features = crate::core::features::MarketFeatures {
-            stability_score: 15.0, // Stability OK
+            stability_score: 15.0, // 安定性は OK
             ..Default::default()
         };
         let decision = ActionMatrix::decide(
@@ -303,7 +303,7 @@ mod tests {
             .iter()
             .any(|r| r.contains("trend cohesion gate not passed")));
 
-        // Case 2: Trend gate passed
+        // ケース 2: トレンドゲートを通過した場合
         let decision2 = ActionMatrix::decide(
             &regime, &features, true, &policy, &asset, None, None, 150.0, true, 1000.0, 1.0,
         );

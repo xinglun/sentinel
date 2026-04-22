@@ -1,292 +1,286 @@
-# Project Audit
+---
+author: Ray
+---
 
-## Scope
-This audit evaluates the current Sentinel project across five dimensions:
+# プロジェクト監査 (Project Audit)
 
-1. Technical framework rationality
-2. Code quality
-3. Test coverage
-4. Performance
-5. Functional completeness
+## 範囲 (Scope)
 
-The goal is not to restate the roadmap. The goal is to identify what is already structurally sound, what is still fragile, and what should be fixed next.
+本監査では、現在の Sentinel プロジェクトを以下の 5 つの次元で評価します：
 
-## Executive Summary
+1. 技術フレームワークの合理性
+2. コード品質
+3. テストカバレッジ
+4. パフォーマンス
+5. 機能の完全性
 
-### Overall Assessment
+目標は、ロードマップを再唱えることではなく、何がすでに構造的に健全であり、何がいまだに脆弱であり、次に何を修正すべきかを特定することです。
 
-| Dimension | Assessment | Notes |
+## エグゼクティブサマリー (Executive Summary)
+
+### 全体評価
+
+| 次元 | 評価 | 備考 |
 |---|---|---|
-| Technical framework | Good | Four-layer architecture is now recognizable and mostly coherent |
-| Code quality | Fair to good | `cargo check` and `cargo test` are green, but `clippy` still shows avoidable debt |
-| Test coverage | Moderate at best | Unit tests exist, but integration and workflow coverage are thin |
-| Performance | Adequate for daily use | Daily radar is likely IO-bound; backtest is the clear compute bottleneck |
-| Functional completeness | Strong for decision support | Daily Telegram + archival + backtest loop is in place |
+| 技術フレームワーク | 優 (Good) | 4層アーキテクチャが認識可能になり、ほぼ一貫している |
+| コード品質 | 良 (Fair to good) | `cargo check` と `cargo test` はパスしているが、`clippy` には依然として回避可能な負債がある |
+| テストカバレッジ | 可 (Moderate at best) | ユニットテストは存在するが、統合テストやワークフローのカバレッジが不十分 |
+| パフォーマンス | 妥当 (Adequate) | Daily Radar は IO バウンドと思われる。バックテストが計算のボトルネックであることは明らか |
+| 機能の完全性 | 強 (Strong) | Daily Telegram + アーカイブ + バックテストのループが確立されている |
 
-### Current Position
+### 現在の立ち位置
 
-Sentinel has already crossed the line from "analysis script" into "decision system prototype".
+Sentinel は「分析スクリプト」から「意思決定システムプロトタイプ」への境界線をすでに越えています。
 
-It is suitable now for:
+現在のシステムは以下に適しています：
 
-1. Daily market observation
-2. Telegram delivery
-3. Persistent archival to `reports/` and the `data` branch
-4. Small to medium strategy iteration loops
+1. 日次の市場観測
+2. Telegram での配信
+3. `reports/` および `data` ブランチへの永続的なアーカイブ
+4. 小〜中規模の戦略イテレーションループ
 
-It is not yet at the standard of a high-reliability automated trading production system.
+高信頼性の自動取引プロダクションシステムの基準にはまだ達していません。
 
-## Detailed Evaluation
+## 詳細評価
 
-### 1. Technical Framework Rationality
+### 1. 技術フレームワークの合理性
 
-The framework is directionally correct.
+フレームワークの方向性は正しいです。
 
-Strengths:
+強み：
 
-1. `DecisionPacket` is the system boundary and source of truth, which is the right center of gravity.
-2. The application is logically split into:
-   - Shell / orchestration
-   - Decision kernel
-   - Delivery and audit
-   - Execution adapters
-3. The dual-provider model is pragmatic:
-   - Yahoo for CI and stateless scheduled runs
-   - Futu for local daemon and execution contexts
-4. Daily archival and GitHub Actions are now aligned with the runtime outputs.
+1. `DecisionPacket` がシステムの境界であり、信頼できる唯一の情報源（SSOT）となっている。これは正しい重心の置き方である。
+2. アプリケーションが以下のように論理的に分割されている：
+   - シェル / オーケストレーション
+   - 意思決定カーネル
+   - 配信と監査
+   - 実行アダプター
+3. デュアルプロバイダーモデルが実用的である：
+   - Yahoo：CI やステートレスなスケジュール実行用
+   - Futu：ローカルデーモンや実行コンテキスト用
+4. 日次のアーカイブと GitHub Actions が、ランタイム出力と整合している。
 
-Weaknesses:
+弱み：
 
-1. `src/cli.rs` still carries too much orchestration, execution-context assembly, archival, and reporting flow.
-2. Some rule semantics still live in implementation-heavy modules instead of cleaner domain contracts.
-3. Backtest shares the engine, which is correct, but the evaluation layer is still simplistic.
+1. `src/cli.rs` が依然としてオーケストレーション、実行コンテキストの組み立て、アーカイブ、レポートフローの責務を抱えすぎている。
+2. 一部のルールセマンティクスが、クリーンなドメインコントラクトではなく、実装の重いモジュール内に存在している。
+3. バックテストがエンジンを共有している点は正しいが、評価レイヤーがまだ単純すぎる。
 
-Assessment: `8/10`
+評価：`8/10`
 
-### 2. Code Quality
+### 2. コード品質
 
-The codebase is materially better structured than a typical prototype, but not yet "strictly clean".
+コードベースは典型的なプロトタイプよりも大幅に構造化されていますが、まだ「厳密にクリーン」ではありません。
 
-Strengths:
+強み：
 
-1. Modules have clear intent.
-2. Runtime state, regime state, policy, action mapping, and persistence are separated.
-3. The code compiles and tests pass.
+1. モジュールの意図が明確である。
+2. ランタイム状態、レジーム状態、ポリシー、アクションマッピング、永続化が分離されている。
+3. コードがコンパイルされ、テストがパスする。
 
-Weaknesses:
+弱み：
 
-1. `cargo clippy --all-targets --all-features` still reports several warnings.
-2. There are still signs of tactical patching and uneven flow structure.
-3. Some invariants are enforced by assumption instead of explicit type or validation boundaries.
+1. `cargo clippy --all-targets --all-features` が依然として複数の警告を報告する。
+2. 戦術的なパッチ当てや、フロー構造の不均一な箇所が見受けられる。
+3. 一部の不変条件（Invariants）が、明示的な型やバリデーション境界ではなく、前提条件として強制されている。
 
-Examples:
+例：
 
-1. `trading` is still hard-unwrapped in the main pipeline:
+1. `trading` がメインパイプラインで依然としてハードにアンラップされている：
    [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs):233
-2. `ActionMatrix::decide()` still has too many raw arguments:
+2. `ActionMatrix::decide()` の引数が依然として多すぎる：
    [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs):39
-3. Persistence still uses `filter_map(Result::ok).last()` on lines input:
+3. 永続化層で、行入力に対して `filter_map(Result::ok).last()` を使用している：
    [persistence.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/persistence.rs):45
 
-Assessment: `7/10`
+評価：`7/10`
 
-### 3. Test Coverage
+### 3. テストカバレッジ
 
-Coverage is enough to protect local refactors, but not enough to certify production behavior.
+カバレッジはローカルでのリファクタリングを保護するには十分ですが、本番環境での動作を保証するには不十分です。
 
-Covered:
+カバー済み：
 
-1. Config parsing
-2. Basic regime transitions
-3. Selected action-matrix behavior
-4. Asset-state rules
-5. Persistence roundtrip
-6. Basic trader dispatch
+1. 設定（Config）のパース
+2. 基本的なレジーム遷移
+3. 選択されたアクションマトリックスの振る舞い
+4. 資産状態ルール
+5. 永続化のラウンドトリップ
+6. 基本的なトレーダーディスパッチ
 
-Gaps:
+欠落：
 
-1. No end-to-end test for `Engine::run_daily_pipeline()`
-2. No integration test for the full archival package
-3. No systematic budget/gate boundary testing
-4. No workflow-equivalent output validation test
-5. No adapter contract test for Futu execution
+1. `Engine::run_daily_pipeline()` のエンドツーエンドテストがない
+2. アーカイブパッケージ全体の統合テストがない
+3. 予算（Budget）/ ゲート境界の体系的なテストがない
+4. ワークフローと同等の出力バリデーションテストがない
+5. Futu 実行用のアダプターコントラクトテストがない
 
-Assessment: `5.5/10`
+評価：`5.5/10`
 
-### 4. Performance
+### 4. パフォーマンス
 
-There is no formal benchmark suite yet, so only structural performance assessment is possible.
+正式なベンチマークスイートがまだないため、構造的なパフォーマンス評価のみ可能です。
 
-Current judgment:
+現在の判断：
 
-1. Daily radar is likely acceptable because the critical path is dominated by external market-data IO.
-2. Backtest is the main performance concern.
-3. Feature extraction has repeated calculations that will compound under replay workloads.
+1. Daily Radar は、クリティカルパスが外部市場データの IO に支配されているため、おそらく許容範囲内である。
+2. バックテストが主なパフォーマンス上の懸念事項である。
+3. 特徴量抽出において、リプレイワークロード下で複利的に増加する重複計算がある。
 
-Notable hotspots:
+顕著なホットスポット：
 
-1. Repeated trend recomputation for `trend_age`:
+1. `trend_age` のための繰り返されるトレンド再計算：
    [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs):194
-2. Historical percentile computation over long windows:
+2. 長いウィンドウにわたる履歴パーセンタイル計算：
    [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs):212
-3. Daily history slicing and repeated forward-window scans in backtest:
+3. バックテストにおける日次履歴スライシングと、繰り返される前方ウィンドウのスキャン：
    [backtest.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/backtest.rs):72
 
-Assessment: `6/10`
+評価：`6/10`
 
-### 5. Functional Evaluation
+### 5. 機能評価
 
-From a decision-support perspective, functionality is already strong.
+意思決定支援の観点からは、機能性はすでに強力です。
 
-Working capabilities:
+動作している機能：
 
-1. Multi-provider market data
-2. Market regime state machine
-3. Asset execution state machine
-4. Action matrix
-5. Portfolio risk gating
-6. Telegram delivery
-7. Daily archival package
-8. Weekly backtest calibration
+1. マルチプロバイダー市場データ
+2. 市場レジーム状態マシン
+3. 資産実行状態マシン
+4. アクションマトリックス
+5. ポートフォリオリスクゲート
+6. Telegram 配信
+7. 日次アーカイブパッケージ
+8. 週次バックテスト校正
 
-Remaining limitations:
+残っている制限事項：
 
-1. Telegram remains a compact summary, not a dense research-grade daily brief.
-2. Backtest output is useful but still shallow for parameter experiments and attribution.
-3. Execution reliability is not yet at the standard of production trade operations.
-4. Data-quality logging exists, but there is no automatic quality scoring or escalation loop.
+1. Telegram は依然としてコンパクトなサマリーであり、高密度の研究グレードの日次ブリーフではない。
+2. バックテストの出力は有用だが、パラメータ実験やアトリビューション（要因分析）としてはまだ浅い。
+3. 実行の信頼性は、本番の取引運用の基準にはまだ達していない。
+4. データ品質ログは存在するが、自動的な品質スコアリングやエスカレーションループはない。
 
-Assessment: `8/10`
+評価：`8/10`
 
-## Risk Register
+## リスク登録 (Risk Register)
 
-### Operational Risks
+### 運用リスク
 
-1. CI success still depends on provider availability, network stability, and secrets correctness.
-2. Futu execution remains environment-sensitive and should not be treated as fully hardened trade infrastructure.
+1. CI の成功は、プロバイダーの可用性、ネットワークの安定性、およびシークレットの正確性に依然として依存している。
+2. Futu 実行は環境に敏感であり、完全に堅牢化された取引インフラとして扱うべきではない。
 
-### Engineering Risks
+### エンジニアリングリスク
 
-1. `cli.rs` remains a concentration point for future complexity.
-2. Backtest performance will degrade as the watchlist or history window grows.
-3. Incomplete integration test coverage raises regression risk in archival and execution paths.
+1. `cli.rs` が将来の複雑性の集中ポイントであり続けている。
+2. ウォッチリストや履歴ウィンドウが拡大するにつれ、バックテストのパフォーマンスが低下する。
+3. 統合テストのカバレッジ不足により、アーカイブおよび実行パスにおけるデグレードのリスクが高まっている。
 
-## Remediation Plan
+## 改善計画 (Remediation Plan)
 
-The next wave of work should be managed in three bands: `P0`, `P1`, `P2`.
+次の作業の波は、`P0`、`P1`、`P2` の 3 つの帯域で管理されるべきです。
 
 ### P0
 
-These are the highest-value items because they reduce production risk directly.
+これらは本番リスクを直接軽減するため、最も価値の高い項目です。
 
-1. Add integration tests for the full decision pipeline
-   - Target: `Engine::run_daily_pipeline()`
-   - Validate: feature extraction, regime transition, policy derivation, action matrix output
-
-2. Add integration tests for the archival package
-   - Validate that a successful dry-run produces the expected daily files under `save_to`
-   - Validate failure behavior when required archival writes fail
-
-3. Add execution-gate boundary tests
-   - Cases:
+1. フル意思決定パイプラインの統合テストの追加
+   - 目標：`Engine::run_daily_pipeline()`
+   - 検証：特徴量抽出、レジーム遷移、ポリシー派生、アクションマトリックス出力
+2. アーカイブパッケージの統合テストの追加
+   - 検証：ドライランの成功により、`save_to` 下に期待される日次ファイルが生成されること
+   - 検証：必要なアーカイブ書き込みが失敗したときの動作
+3. 実行ゲート境界テストの追加
+   - ケース：
      - `max_daily_budget`
      - `global_budget`
      - `buying_power`
-     - circuit-breaker / defensive overlay
-   - Validate both accepted trades and blocked trades
-
-4. Remove unsafe runtime assumptions from the main pipeline
-   - Replace hard `unwrap()` on trading config with explicit validation and typed failure
-   - Current risk point:
+     - サーキットブレーカー / 防御的オーバーレイ
+   - 検証：承認された取引とブロックされた取引の両方
+4. メインパイプラインからの安全でないランタイム前提の削除
+   - 取引設定におけるハードな `unwrap()` を、明示的なバリデーションと型付けされた失敗に置き換える
+   - 現在のリスクポイント：
      [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs):233
+5. 厳格な Lint ベースラインの確立
+   - `cargo clippy --all-targets --all-features` をグリーンにする
+   - これは、長期的な保守性にとって `cargo check` がグリーンであるだけでは不十分なため、重要である
 
-5. Establish a strict lint baseline
-   - `cargo clippy --all-targets --all-features` should be green
-   - This is important because `cargo check` green is not enough for long-term maintainability
+#### P0 検収
 
-#### P0 Acceptance
-
-1. `cargo check`, `cargo test`, and `cargo clippy --all-targets --all-features` all pass
-2. Full pipeline integration tests exist
-3. Archival package completeness is test-covered
-4. Budget and exposure gates are boundary-tested
+1. `cargo check`、`cargo test`、および `cargo clippy --all-targets --all-features` がすべてパスする
+2. フルパイプラインの統合テストが存在する
+3. アーカイブパッケージの完全性がテストでカバーされている
+4. 予算とエクスポージャーのゲートが境界テストされている
 
 ### P1
 
-These items improve maintainability and replay scalability.
+これらの項目は保守性とリプレイのスケーラビリティを向上させます。
 
-1. Slim down `src/cli.rs`
-   - Extract archive orchestration
-   - Extract execution-context assembly
-   - Keep `cli` focused on argument routing and high-level pipeline assembly
+1. `src/cli.rs` のスリム化
+   - アーカイブのオーケストレーションを抽出
+   - 実行コンテキストの組み立てを抽出
+   - `cli` を引数のルーティングと高レベルのパイプライン組み立てに集中させる
+2. `ActionMatrix::decide()` のリファクタリング
+   - 現在の多すぎる引数を、単一の型付けされた入力構造体に置き換える
+   - 生のプリミティブ結合を削減する
+3. 特徴量抽出ホットスポットの最適化
+   - トレンドの繰り返し再計算を削減
+   - 可能な限りローリング計算を再利用
+   - リプレイワークロードにおけるパーセンタイル計算戦略を再検討
+4. バックテストのリプレイループと前方リターン評価の最適化
+   - 日次スライスの繰り返しクローンを回避
+   - 可能な場合は日付でバーをインデックス化
+   - 前方リターンのルックアップやドローダウンウィンドウのための繰り返し線形スキャンを削減
+5. 永続化の堅牢性向上
+   - IO エラーに対して脆弱な行イテレーションパターンを置き換える
+   - 長期間保持される JSONL 資産に対して明示的なスキーマ期待値を追加
 
-2. Refactor `ActionMatrix::decide()`
-   - Replace the current many-argument function with a single typed input struct
-   - Reduce raw primitive coupling
+#### P1 検収
 
-3. Optimize feature extraction hotspots
-   - Reduce repeated trend recomputation
-   - Reuse rolling computations where possible
-   - Revisit percentile computation strategy for replay workloads
-
-4. Optimize backtest slicing and forward-return evaluation
-   - Avoid repeated full-history cloning
-   - Pre-index bars by date
-   - Reduce repeated linear scans
-
-5. Improve persistence robustness
-   - Replace line iteration patterns that are fragile under IO errors
-   - Add explicit schema expectations for long-lived JSONL assets
-
-#### P1 Acceptance
-
-1. `cli.rs` is materially smaller and narrower in responsibility
-2. Backtest runtime improves measurably on the same input window
-3. Feature extraction cost drops under replay load
-4. Action-matrix API is easier to maintain and extend
+1. `cli.rs` が実質的に小さくなり、責務が限定される
+2. 同じ入力ウィンドウでのバックテスト実行時間が大幅に改善される
+3. リプレイ負荷下での特徴量抽出コストが低下する
+4. Action-matrix API が保守・拡張しやすくなる
 
 ### P2
 
-These items improve operator usability and research depth.
+これらの項目はオペレーターの使いやすさと研究の深さを向上させます。
 
-1. Upgrade Telegram output
-   - Preserve brevity
-   - Increase information density
-   - Include clearer state, policy, and top asset-action explanations
+1. Telegram 出力のアップグレード
+   - 簡潔さを維持
+   - 情報密度を向上
+   - より明確な状態、ポリシー、および上位の資産アクションの説明を含める
+2. バックテストレポートの深化
+   - 比較実験の出力を追加
+   - レジーム持続期間の統計を追加
+   - アクションレベルのアトリビューションビューを追加
+3. データ取得への品質スコアリングの追加
+   - `data_quality_log.jsonl` を受動的なログから能動的な診断に変換
+4. 実行観測性の強化
+   - 構造化された注文ステータスの照合（Reconciliation）
+   - 失敗の分類（Taxonomy）
+   - リトライ / 中断レポート
 
-2. Strengthen backtest reporting
-   - Add comparative experiment outputs
-   - Add regime-duration summaries
-   - Add action-level attribution views
+#### P2 検収
 
-3. Add quality scoring on data ingestion
-   - Turn `data_quality_log.jsonl` from passive logging into active diagnostics
+1. Telegram がノイズにならずにより情報量が増える
+2. バックテスト出力が、単なる物語のレビューではなく、実際のパラメータイテレーションをサポートする
+3. データ品質を体系的に判断できる
+4. 実行失敗が観測可能かつ分類可能である
 
-4. Add stronger execution observability
-   - Structured order-status reconciliation
-   - Failure taxonomy
-   - Retry/abort reporting
+## 推奨される順序
 
-#### P2 Acceptance
+1. 新しい戦略の複雑さを追加する前に `P0` を完了させる
+2. バックテストやウォッチリストの幅を広げる前に `P1` に移行する
+3. オペレーターの体験と研究の生産性を向上させるために `P2` を使用する
 
-1. Telegram is more informative without becoming noisy
-2. Backtest output supports real parameter iteration, not just narrative review
-3. Data quality can be judged systematically
-4. Execution failures are observable and classifiable
+## 最終判断
 
-## Recommended Sequence
+Sentinel は強力な移行状態にあります：
 
-1. Finish `P0` before adding new strategy complexity
-2. Move to `P1` before scaling backtest or watchlist breadth
-3. Use `P2` to improve operator experience and research productivity
+1. アーキテクチャは概ね正しい
+2. コア機能はすでに有用である
+3. アーカイブと配信のループが効果的に配置されている
+4. 次のボトルネックは製品のギャップではなく、エンジニアリングの堅牢化のギャップである
 
-## Final Judgment
-
-Sentinel is in a strong transitional state:
-
-1. The architecture is largely correct
-2. The core functionality is already useful
-3. The archival and delivery loops are effectively in place
-4. The next bottlenecks are not product gaps, but engineering hardening gaps
-
-The project should now be managed as a hardening-and-scaling effort, not as a greenfield strategy rewrite.
+プロジェクトは今、グリーンの戦略の書き換えとしてではなく、堅牢化とスケーリングの取り組みとして管理されるべきです。

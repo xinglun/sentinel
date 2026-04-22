@@ -206,24 +206,7 @@ fn generate_markdown_report(
     }
     card.push_str("\n\n");
 
-    let breakout_section = pres
-        .market_state_rendered
-        .as_ref()
-        .map(|s| {
-            let formatted = s
-                .replace("🌍 マーケット状態サマリー", "### 🌍 マーケット状態サマリー")
-                .replace(
-                    "🚫 意思決定: 禁止アクション（NO TRADE）",
-                    "### 🚫 意思決定: 禁止アクション（NO TRADE）",
-                )
-                .replace(
-                    "✅ 意思決定: 参加許可（TRADE ALLOWED）",
-                    "### ✅ 意思決定: 参加許可（TRADE ALLOWED）",
-                )
-                .replace("🚀 ブレイクアウト識別", "### 🚀 ブレイクアウト識別");
-            format!("{}\n\n", formatted)
-        })
-        .unwrap_or_else(|| render_breakout_summary(pres, &dict, RenderMode::Markdown));
+    let breakout_section = render_breakout_summary(pres, &dict, RenderMode::Markdown);
 
     if compact_no_trade_presentation {
         card.push_str(&breakout_section);
@@ -402,30 +385,7 @@ fn generate_telegram_html_report(
     }
     card.push('\n');
 
-    let breakout_section = pres
-        .market_state_rendered
-        .as_ref()
-        .map(|s| {
-            // For HTML telegram report, replacing some markdown features with HTML tags if needed.
-            // But since telegram supports some markdown inside its HTML parser or just basic layout,
-            // we'll apply a minimal tag conversion to keep it consistent.
-            let formatted = s
-                .replace(
-                    "🌍 マーケット状態サマリー",
-                    "<b>🌍 マーケット状態サマリー</b>",
-                )
-                .replace(
-                    "🚫 意思決定: 禁止アクション（NO TRADE）",
-                    "<b>🚫 意思決定: 禁止アクション（NO TRADE）</b>",
-                )
-                .replace(
-                    "✅ 意思決定: 参加許可（TRADE ALLOWED）",
-                    "<b>✅ 意思決定: 参加許可（TRADE ALLOWED）</b>",
-                )
-                .replace("🚀 ブレイクアウト識別", "<b>🚀 ブレイクアウト識別</b>");
-            format!("{}\n\n", formatted)
-        })
-        .unwrap_or_else(|| render_breakout_summary(pres, &dict, RenderMode::Html));
+    let breakout_section = render_breakout_summary(pres, &dict, RenderMode::Html);
 
     if compact_no_trade_presentation {
         card.push_str(&breakout_section);
@@ -635,7 +595,7 @@ fn render_post_actions_sections(
             out.push_str(&format!("**{}**\n\n", dict.headers.monitoring_signals));
             out.push_str(&format!(
                 "- **{}**: {}\n- **{}**: {}\n",
-                s.participation_label, s.participation_value, s.stability_label, s.stability_value,
+                s.cohesion_label, s.cohesion_value, s.stability_label, s.stability_value,
             ));
             out.push_str(&format!(
                 "> {} {} · {} {} · {} {} · {} {}\n",
@@ -653,7 +613,7 @@ fn render_post_actions_sections(
             out.push_str(&format!("<b>{}</b>\n\n", dict.headers.monitoring_signals));
             out.push_str(&format!(
                 "• <b>{}</b>: {}\n• <b>{}</b>: {}\n",
-                s.participation_label, s.participation_value, s.stability_label, s.stability_value,
+                s.cohesion_label, s.cohesion_value, s.stability_label, s.stability_value,
             ));
             out.push_str(&format!(
                 "<i>{} {} · {} {} · {} {} · {} {}</i>\n",
@@ -827,52 +787,6 @@ fn render_transition_block(
         }
     }
 
-    if evidence.participation_gate_change.is_some() || evidence.participation_unmet_diff.is_some() {
-        let status_text = evidence
-            .participation_gate_change
-            .as_ref()
-            .cloned()
-            .unwrap_or_else(|| {
-                if evidence.participation_gate_passed {
-                    te_dict.gate_pass.clone()
-                } else {
-                    te_dict.gate_fail.clone()
-                }
-            });
-        match mode {
-            RenderMode::Markdown => block.push_str(&format!(
-                "- **{}**: {}\n",
-                te_dict.participation_gate_change, status_text
-            )),
-            RenderMode::Html => block.push_str(&format!(
-                "• {}: {}\n",
-                te_dict.participation_gate_change, status_text
-            )),
-        }
-        if !compact_transition {
-            if let Some(diff) = &evidence.participation_unmet_diff {
-                render_transition_diff(
-                    &mut block,
-                    te_dict.new_blockers.as_str(),
-                    &diff.added,
-                    mode,
-                );
-                render_transition_diff(
-                    &mut block,
-                    te_dict.resolved_conditions.as_str(),
-                    &diff.removed,
-                    mode,
-                );
-                render_transition_diff(
-                    &mut block,
-                    te_dict.persisting_blockers.as_str(),
-                    &diff.persisting,
-                    mode,
-                );
-            }
-        }
-    }
-
     if evidence.trend_cohesion_gate_change.is_some() || evidence.trend_unmet_diff.is_some() {
         let status_text = evidence
             .trend_cohesion_gate_change
@@ -899,19 +813,19 @@ fn render_transition_block(
             if let Some(diff) = &evidence.trend_unmet_diff {
                 render_transition_diff(
                     &mut block,
-                    te_dict.new_blockers.as_str(),
+                    te_dict.gate_unmet_added.as_str(),
                     &diff.added,
                     mode,
                 );
                 render_transition_diff(
                     &mut block,
-                    te_dict.resolved_conditions.as_str(),
+                    te_dict.gate_unmet_removed.as_str(),
                     &diff.removed,
                     mode,
                 );
                 render_transition_diff(
                     &mut block,
-                    te_dict.persisting_blockers.as_str(),
+                    te_dict.gate_unmet_persisting.as_str(),
                     &diff.persisting,
                     mode,
                 );

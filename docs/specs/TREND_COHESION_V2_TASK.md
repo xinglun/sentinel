@@ -1,72 +1,76 @@
-# Trend Cohesion V2 Task
+---
+author: Ray
+---
 
-## 1. Goal
+# トレンド凝集性 V2 タスク (Trend Cohesion V2 Task)
 
-Add a second-generation `Trend Cohesion` layer that no longer treats “candidate count + stability + continuity” as the full definition of a tradable main trend.
+## 1. 目標
 
-V2 must answer a stricter question:
+「候補銘柄数 + 安定性 + 継続性」を単なる取引可能なメイン・トレンドの定義として扱うのではなく、第2世代の `Trend Cohesion`（トレンド凝集性）レイヤーを追加します。
 
-> Is there a **coherent, followable primary trend** in the market right now?
+V2 は、より厳格な問いに回答しなければなりません：
 
-This is an upgrade of explanation quality, not a rewrite of trading rules.
+> 今の市場に、**コヒーレント（一貫性のある）で追随可能な主要トレンド**は存在するか？
 
-The system already answers:
+これは説明の質（Explanation Quality）のアップグレードであり、取引ルールの書き換えではありません。
 
-- whether the market may be participated in
-- whether new positions are forbidden
-- whether existing positions should be held / trimmed / exited
+システムはすでに以下の問いに回答しています：
 
-V2 adds an explicit answer to:
+- 市場に参加してよいか (Participation Readiness)。
+- 新規ポジションは禁止されているか。
+- 既存ポジションを保持 / 削減 / 決済すべきか。
 
-- whether a real primary trend exists
-- whether leaders are converging into a stable, followable structure
+V2 は、以下に対する明示的な回答を追加します：
 
-## 2. Non-Goals
+- 真の主要トレンド（Primary Trend）が存在するかどうか。
+- リーダー銘柄群が、安定して追随可能な構造へと収束（Convergence）しているかどうか。
 
-This task must **not**:
+## 2. 非目標
 
-- change `ParticipationReadiness` thresholds
-- change `NO TRADE` semantics
-- change `ExitDecision`
-- change `ActionMatrix`
-- change execution behavior
-- introduce sector/theme NLP or external classification systems in v2
+本タスクにおいて、以下を変更しては**なりません**：
 
-This is a diagnostics and structural-quality upgrade, not a rule expansion for buying or selling.
+- `ParticipationReadiness` の閾値。
+- `NO TRADE` のセマンティクス。
+- `ExitDecision` (手仕舞い判定)。
+- `ActionMatrix` (アクション・マトリクス)。
+- 実行動作。
+- セクター/テーマに関する NLP や外部分類システムの導入。
 
-## 3. Current Problem
+これは診断機能と構造的品質のアップグレードであり、売買ルールの拡張ではありません。
 
-Current `TrendCohesionStatus::evaluate(...)` is a light proxy:
+## 3. 現在の問題点
 
-- participation ready or not
-- stability score
-- continuity streak
-- top-tier count
+現在の `TrendCohesionStatus::evaluate(...)` は簡易的なプロキシ（代理指標）にすぎません：
 
-That is good enough for V1 messaging, but too weak for V2 because it cannot distinguish:
+- 参加準備ができているか。
+- 安定性スコア。
+- 継続性ストレーク（日数）。
+- トップ層（Top-tier）の銘柄数。
 
-1. a small but internally inconsistent candidate set
-2. a dispersed watchlist with no clear leaders
-3. a stable leader set that is actually converging
-4. a short-lived restart that looks cleaner than it really is
+これらは V1 のメッセージングとしては十分ですが、V2 としては不十分です。なぜなら、以下の状態を区別できないからです：
 
-In short:
+1. 候補銘柄セットは小さいが、内部的な一貫性（Inconsistency）がない。
+2. ウォッチリストが分散しており、明確なリーダーが存在しない。
+3. 実際に収束しつつある、安定したリーダー銘柄セット。
+4. 実際よりも綺麗に見えるだけの、短命な再スタート（Restart）。
 
-V1 detects “is the market obviously not ready?”
+要約すると：
 
-V2 should detect “is there a primary trend worth following?”
+V1 は「市場は明らかに準備不足か？」を検知します。
 
-## 4. Required Output
+V2 は「追随する価値のある主要トレンドは存在するか？」を検知すべきです。
 
-Keep the existing enum shape for display simplicity:
+## 4. 必要な出力
 
-- `NotFormed`
-- `Forming`
-- `Cohesive`
+表示の簡潔さを保つため、既存の列挙型（Enum）の形状は維持します：
 
-But add structured factors behind it.
+- `NotFormed` (未形成)
+- `Forming` (形成中)
+- `Cohesive` (収束/凝集済み)
 
-Introduce a new domain struct:
+ただし、その背後に構造化された要因（Factors）を追加します。
+
+新しいドメイン構造体を導入します：
 
 ```rust
 pub struct TrendCohesionSnapshot {
@@ -80,231 +84,229 @@ pub struct TrendCohesionSnapshot {
 }
 ```
 
-`DecisionPacket` should store the full snapshot, not just the enum.
+`DecisionPacket` は列挙型だけでなく、この完全なスナップショットを保存する必要があります。
 
-## 5. V2 Evaluation Model
+## 5. V2 評価モデル
 
-### 5.1 Inputs
+### 5.1 入力
 
-V2 may use only data already available in the domain layer:
+V2 では、ドメイン層ですでに利用可能なデータのみを使用します：
 
 - `participation.participation_ready`
 - `participation.core_tier_streak`
 - `market_features.stability_score`
-- current `top_tier_symbols`
-- recent decision history packets
-- asset-level `unified_position_intent`
-- asset-level state snapshots
+- 現在の `top_tier_symbols`
+- 直近の意思決定履歴パケット (Decision History Packets)
+- アセットレベルの `unified_position_intent`
+- アセットレベルの状態スナップショット
 
-Do not add external market taxonomy in V2.
+V2 で外部の市場タクソノミー（分類学）を追加しないでください。
 
-### 5.2 Derived Factors
+### 5.2 派生要因
 
-V2 should compute at least these factors:
+V2 は、少なくとも以下の要因を計算する必要があります：
 
-1. `candidate_count`
-   number of current top-tier symbols
+1. `candidate_count` (候補銘柄数)
+   現在のトップ層銘柄の数。
 
-2. `leader_count`
-   number of symbols that are both:
-   - in current top tier
-   - and repeatedly present in recent history window
+2. `leader_count` (リーダー銘柄数)
+   以下の両方を満たす銘柄の数：
+   - 現在のトップ層に含まれている。
+   - 直近の履歴ウィンドウにおいて繰り返し出現している。
 
-3. `leader_concentration_score`
-   higher when a small number of repeating leaders dominate recent top-tier composition
+3. `leader_concentration_score` (リーダー集中スコア)
+   少数の反復するリーダーが直近のトップ層構成を支配している場合に高くなります。
 
-4. `continuity_quality_score`
-   higher when the recent top-tier set changes slowly instead of churning daily
+4. `continuity_quality_score` (継続性品質スコア)
+   直近のトップ層セットが毎日入れ替わる（Churn）のではなく、ゆっくりと変化する場合に高くなります。
 
-5. `dispersion_score`
-   higher when the candidate pool is too wide and leadership is fragmented
+5. `dispersion_score` (分散スコア)
+   候補プールが広すぎて、リーダーシップが断片化（Fragmented）している場合に高くなります。
 
-### 5.3 Suggested First-Cut Heuristics
+### 5.3 推奨される初期ヒューリスティック
 
-Use a recent history window of 3 trading days for V2.
+V2 では、直近 3 取引日の履歴ウィンドウを使用します。
 
-Suggested initial logic:
+推奨される初期ロジック：
 
-- `NotFormed`
-  when any of the following is true:
+- `NotFormed` (未形成)
+  以下のいずれかが真である場合：
   - `stability_score < 10.0`
   - `core_tier_streak < 2`
   - `candidate_count == 0`
   - `candidate_count >= 6`
-  - recent top-tier membership churn is high
-  - repeated leaders are absent
+  - 直近のトップ層メンバーの入れ替わりが激しい。
+  - 反復するリーダーが存在しない。
 
-- `Cohesive`
-  when all of the following are true:
+- `Cohesive` (収束)
+  以下のすべてが真である場合：
   - `participation_ready == true`
   - `stability_score >= 10.0`
   - `core_tier_streak >= 3`
   - `candidate_count <= 4`
-  - at least 2 repeating leaders persist across the recent window
-  - membership churn is low
+  - 直近のウィンドウを通じて、少なくとも 2 つの反復リーダーが存続している。
+  - メンバーの入れ替わりが少ない。
 
-- `Forming`
-  everything between the two
+- `Forming` (形成中)
+  上記二つの中間すべて。
 
-This is intentionally conservative.
+これは意図的に保守的な設計です。
 
-## 6. Architectural Requirements
+## 6. アーキテクチャ要件
 
-### 6.1 Domain Layer
+### 6.1 ドメイン層
 
-Add:
+追加：
 
 - `src/core/trend_cohesion.rs`
 
-V2 should expose:
+V2 は以下を公開（Expose）する必要があります：
 
 - `TrendCohesionStatus`
 - `TrendCohesionSnapshot`
 - `TrendCohesionEvaluator`
 
-### 6.2 Decision Layer
+### 6.2 意思決定層 (Decision Layer)
 
-Update:
+更新：
 
 - `src/core/decision.rs`
 
-Replace the current scalar field with:
+現在のスカラフィールドを以下に置き換えます：
 
 ```rust
 pub trend_cohesion: TrendCohesionSnapshot
 ```
 
-Compatibility:
+互換性：
 
-- add `#[serde(default)]`
-- preserve legacy packet loading
+- `#[serde(default)]` を追加。
+- レガシー・パケットの読み込みを維持。
 
-### 6.3 Engine / Domain Assembly
+### 6.3 エンジン / ドメイン・アセンブリ
 
-Update:
+更新：
 
 - `src/core/engine.rs`
 
-The engine should compute the snapshot from domain facts and recent history.
+エンジンは、ドメインの事実と直近の履歴からスナップショットを計算します。
+ここでは最終的な表示用テキストを計算しないでください。
 
-Do not compute final display text here.
+### 6.4 プレゼンテーション層
 
-### 6.4 Presentation Layer
-
-Update:
+更新：
 
 - `src/core/presentation.rs`
 - `src/core/presentation_assembler.rs`
 - `src/core/i18n.rs`
 
-Presentation should derive:
+プレゼンテーション層は以下を派生させます：
 
-- `主线状态 / Primary Trend / 主線状態`
-- localized value:
-  - `主线未形成`
-  - `主线形成中`
-  - `主线已收敛`
-- optional short explanation based on reasons
+- `主線状態 / Primary Trend / 主線状態`
+- ローカライズされた値：
+  - `主線未形成`
+  - `主線形成中`
+  - `主線已収斂`
+- 理由（Reasons）に基づくオプションの短い説明。
 
-### 6.5 Report Layer
+### 6.5 レポート層
 
-Update:
+更新：
 
 - `src/core/report.rs`
 
-`report.rs` must continue to render only.
+`report.rs` は引き続き「レンダリング専用」でなければなりません。
+以下を表示することができます：
 
-It may display:
+- トレンド凝集性ラベル。
+- トレンド凝集性の値。
+- オプションの 1 行説明。
 
-- trend cohesion label
-- trend cohesion value
-- optional one-line explanation
+レポート層自体で凝集性を評価してはなりません。
 
-It must not evaluate cohesion by itself.
+## 7. 必要な動作
 
-## 7. Required Behavior
+### 7.1 現在の典型的な `NO TRADE` 再スタート時
 
-### 7.1 For Current Typical `NO TRADE` Restart
-
-For a state like:
+以下のような状態の場合：
 
 - `stability = 1.5`
 - `continuity = 1d`
 - `candidate_count = 8+`
 - `participation_ready = false`
 
-the report must explicitly show:
+レポートは明示的に以下を表示しなければなりません：
 
-- `主线状态: 主线未形成`
+- `主線状態: 主線未形成`
 
-### 7.2 Important Semantic Separation
+### 7.2 重要なセマンティックの分離
 
-V2 must not collapse these concepts:
+V2 では、以下の概念を混同（Collapse）してはなりません：
 
-- `NO TRADE`
-- `DEFENSIVE`
-- `Trend Not Formed`
+- `NO TRADE` (取引禁止)
+- `DEFENSIVE` (防御的姿勢)
+- `Trend Not Formed` (トレンド未形成)
 
-They are different:
+これらはそれぞれ異なります：
 
-- `NO TRADE` = do not open new positions
-- `DEFENSIVE` = market/risk posture
-- `Trend Not Formed` = no coherent followable primary trend exists
+- `NO TRADE` = 新規ポジションを建てない。
+- `DEFENSIVE` = 市場/リスクの姿勢。
+- `Trend Not Formed` = 一貫して追随可能な主要トレンドが存在しない。
 
-## 8. Tests Required
+## 8. 必要なテスト
 
-### 8.1 Domain Tests
+### 8.1 ドメイン・テスト
 
-Add `trend_cohesion` tests covering:
+以下をカバーする `trend_cohesion` テストを追加してください：
 
-1. low stability + 1d continuity + dispersed candidates -> `NotFormed`
-2. ready + stable + persistent leaders + low churn -> `Cohesive`
-3. intermediate case -> `Forming`
+1. 低安定性 + 1日の継続性 + 分散した候補 -> `NotFormed`
+2. 準備完了 + 安定 + 存続するリーダー + 低入れ替わり -> `Cohesive`
+3. 中間ケース -> `Forming`
 
-### 8.2 History-Aware Tests
+### 8.2 履歴を考慮したテスト
 
-Add tests using recent packets to verify:
+直近のパケットを使用して以下を検証するテストを追加してください：
 
-1. leader repetition improves cohesion
-2. top-tier churn degrades cohesion
+1. リーダーの反復出現が凝集性を向上させること。
+2. トップ層の頻繁な入れ替わりが凝集性を低下させること。
 
-### 8.3 Presentation Tests
+### 8.3 プレゼンテーション・テスト
 
-Add:
+追加：
 
-- zh/en/ja localized output tests
-- `DecisionSummaryViewModel` includes trend cohesion field
+- zh/en/ja ローカライズ出力テスト。
+- `DecisionSummaryViewModel` にトレンド凝集性フィールドが含まれていることの確認。
 
-### 8.4 UI Tests
+### 8.4 UI テスト
 
-Add final render tests asserting that:
+最終的なレンダリングテストで以下をアサートしてください：
 
-1. `NO TRADE + weak restart` shows `主线未形成`
-2. the trend label is visible in report output
-3. report text does not require the user to infer cohesion manually from candidate count alone
+1. `NO TRADE + 弱い再スタート` の場合に `主線未形成` と表示されること。
+2. レポート出力にトレンドラベルが表示されていること。
+3. レポートのテキストが、ユーザーに対して候補銘柄数のみから手動で凝集性を推論させるようになっていないこと。
 
-## 9. Acceptance Criteria
+## 9. 承認基準
 
-This task is complete only if all of the following are true:
+以下のすべてが真である場合にのみ、本タスクは完了とみなされます：
 
-1. `Trend Cohesion` is a real domain snapshot, not only a display string
-2. `DecisionPacket` stores the structured snapshot
-3. `PresentationAssembler` renders a localized “Primary Trend” line
-4. the common weak-restart scenario explicitly displays `主线未形成`
-5. `report.rs` does not compute cohesion
-6. legacy packet loading still works
-7. `cargo fmt` passes
-8. `cargo test --quiet` passes
-9. `cargo clippy --all-targets --all-features -- -D warnings` passes
+1. `Trend Cohesion` が単なる表示文字列ではなく、本物のドメイン・スナップショットになっている。
+2. `DecisionPacket` が構造化されたスナップショットを保存している。
+3. `PresentationAssembler` がローカライズされた「主要トレンド」行をレンダリングしている。
+4. 一般的な「弱い再スタート」シナリオで明示的に `主線未形成` と表示される。
+5. `report.rs` が凝集性を計算していない。
+6. レガシー・パケットの読み込みが引き続き機能する。
+7. `cargo fmt` にパスする。
+8. `cargo test --quiet` にパスする。
+9. `cargo clippy --all-targets --all-features -- -D warnings` にパスする。
 
-## 10. Final Principle
+## 10. 最終原則
 
-V2 is successful when the system no longer merely says:
+V2 の成功とは、システムが単に：
 
-- “do not trade”
+- 「取引するな (do not trade)」
 
-but can also explicitly say:
+と言うだけではなく、明示的に：
 
-- “there is no coherent primary trend to follow yet”
+- 「まだ追随すべき一貫した主要トレンドが存在しない」
 
-That distinction is the entire point of this upgrade.
+と言えるようになることです。この区別こそが、本アップグレードの全目的です。

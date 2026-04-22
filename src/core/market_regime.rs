@@ -69,7 +69,7 @@ pub struct MarketRegimeStateMachine {
 }
 
 impl MarketRegimeStateMachine {
-    /// Computes the next regime snapshot and calibrated age based on previous context.
+    /// 以前のコンテキストに基づいて、次のレジームスナップショットと校正された経過日数を計算します。
     pub fn transition(
         prev_snapshot: Option<&MarketRegimeSnapshot>,
         features: &mut MarketFeatures,
@@ -85,17 +85,17 @@ impl MarketRegimeStateMachine {
 
         let sm = Self::new(initial_lifecycle, initial_risk);
 
-        // Hardening: Use current_potential_age (the age it WOULD be today if state remains)
-        // for transition logic to eliminate the 1-day lag in backtests.
+        // ハーデニング: バックテストにおける1日の遅延を解消するため、
+        // 状態が維持された場合に「今日」到達するであろう経過日数（current_potential_age）を遷移ロジックに使用します。
         let current_potential_age = prev_age + 1;
 
-        // CRITICAL: Recalibrate maturity metrics based on potential age BEFORE decision
-        // to ensure transitions like ESTABLISHED -> CONFIRMED happen on the correct day.
+        // 重要: 判定の前にポテンシャルな経過日数に基づいて成熟度メトリクスを再校正します。
+        // これにより、ESTABLISHED -> CONFIRMED などの遷移が正しい日に発生することを保証します。
         features.recalibrate(current_potential_age);
         let (next_snapshot, next_age) =
             sm.compute_next_state(features, current_potential_age, prev_snapshot, rules);
 
-        // Final recalibration if state changed or soft reset occurred
+        // 状態が変化した、またはソフトリセットが発生した場合の最終的な再校正
         features.recalibrate(next_age);
 
         (next_snapshot, next_age)
@@ -125,7 +125,7 @@ impl MarketRegimeStateMachine {
             low_stability_streak = 0;
         }
 
-        // --- 1. Risk Overlay Logic (Downgrade priority) ---
+        // --- 1. リスク・オーバーレイ・ロジック（ダウングレード優先） ---
         if features.system_confidence < 50.0 {
             next_risk = RiskOverlay::DEFENSIVE;
             reasons.push(format!(
@@ -140,10 +140,10 @@ impl MarketRegimeStateMachine {
             ));
         }
 
-        // --- 2. Draft Target Lifecycle (Upgrade & Downgrade Evaluation) ---
+        // --- 2. ターゲット・ライフサイクルのドラフト（アップグレードおよびダウングレードの評価） ---
         let mut target_lifecycle = self.current_lifecycle;
 
-        // 2.1 Potential Upgrades
+        // 2.1 アップグレードの可能性
         match self.current_lifecycle {
             LifecycleState::NONE => {
                 if features.stability_structural > 0.0 {
@@ -176,7 +176,7 @@ impl MarketRegimeStateMachine {
             LifecycleState::CONFIRMED => {}
         }
 
-        // 2.2 Potential Downgrades (based on indicator deterioration)
+        // 2.2 ダウングレードの可能性（インジケーターの悪化に基づく）
         let indicator_cap = if features.system_confidence < 55.0 || features.core_assets_breakdown {
             LifecycleState::IGNITION
         } else if features.system_confidence < 65.0 {
@@ -190,14 +190,14 @@ impl MarketRegimeStateMachine {
         if self.lifecycle_rank(indicator_cap) < self.lifecycle_rank(target_lifecycle) {
             target_lifecycle = indicator_cap;
             reasons.push(format!(
-                "Indicators suggest downgrade to {:?}",
+                "インジケーターが {:?} へのダウングレードを示唆しています",
                 target_lifecycle
             ));
         }
 
         let mut next_lifecycle = target_lifecycle;
 
-        // --- 3. Inertia Layer: Duration Lock, Downgrade & Reset Gates ---
+        // --- 3. 慣性レイヤー（Inertia Layer）: 期間ロック、ダウングレードおよびリセット・ゲート ---
         let mut is_downgrade_clamped = false;
         let mut reset_gate_passed = false;
         let mut soft_reset_applied = false;
@@ -215,45 +215,50 @@ impl MarketRegimeStateMachine {
         let is_defensive_override = next_risk == RiskOverlay::DEFENSIVE;
 
         if next_lifecycle != self.current_lifecycle {
-            // 3.1 Duration Lock (Applies to upgrades and resets, exempting NONE and defensive overrides)
+            // 3.1 期間ロック（アップグレードとリセットに適用。NONE およびディフェンシブ・オーバーライドは対象外）
             if (is_upgrade || is_reset)
                 && !is_defensive_override
                 && self.current_lifecycle != LifecycleState::NONE
                 && prev_duration < rules.inertia.min_state_duration
             {
-                let change_type = if is_upgrade { "Upgrade" } else { "Reset" };
+                let change_type = if is_upgrade {
+                    "アップグレード"
+                } else {
+                    "リセット"
+                };
                 next_lifecycle = self.current_lifecycle;
                 duration_locked = true;
-                reasons.push(format!("[Inertia:DurationLock] {} from {:?} blocked. Min duration {} days not met (current: {}).", change_type, self.current_lifecycle, rules.inertia.min_state_duration, prev_duration));
+                reasons.push(format!("[慣性:期間ロック] {:?} からの {} がブロックされました。最低継続日数 {} 日を満たしていません（現在: {} 日）。", self.current_lifecycle, change_type, rules.inertia.min_state_duration, prev_duration));
             }
 
             if is_downgrade {
-                // Check for Reset Gate (Attempt to go to IGNITION)
+                // リセット・ゲートのチェック（IGNITION への移行試行）
                 if next_lifecycle == LifecycleState::IGNITION
                     && self.current_lifecycle != LifecycleState::NEWBORN
                 {
                     let reset_allowed = is_defensive_override
                         || self.check_reset_gate(features, low_stability_streak, &mut reasons);
                     if !reset_allowed {
-                        // Blocked Reset: Use Downgrade Gate (Max 1 step)
+                        // ブロックされたリセット: ダウングレード・ゲートを使用（最大1ステップ）
                         next_lifecycle = self.step_downgrade(self.current_lifecycle);
                         is_reset_blocked = true;
                         reasons.push(format!(
-                            "[Inertia:BlockedReset] Reset denied by gate. Step-down to {:?}",
+                            "[慣性:リセットブロック] ゲートによりリセットが拒否されました。{:?} へステップダウンします。",
                             next_lifecycle
                         ));
                     } else {
                         reset_gate_passed = true;
                         reasons.push(
-                            "[Inertia:ResetConfirmed] All reset gate conditions met.".to_string(),
+                            "[慣性:リセット確定] すべてのリセット・ゲート条件を満たしました。"
+                                .to_string(),
                         );
                     }
                 } else if self.is_multi_step_downgrade(self.current_lifecycle, next_lifecycle) {
-                    // Normal multi-step downgrade blocked
+                    // 通常のマルチステップ・ダウングレードをブロック
                     let original_target = next_lifecycle;
                     next_lifecycle = self.step_downgrade(self.current_lifecycle);
                     is_downgrade_clamped = true;
-                    reasons.push(format!("[Gate:Downgrade] Multi-step downgrade ({:?} -> {:?}) blocked. Clipped to {:?}", self.current_lifecycle, original_target, next_lifecycle));
+                    reasons.push(format!("[ゲート:ダウングレード] マルチステップ・ダウングレード（{:?} -> {:?}）がブロックされました。{:?} に制限されました。", self.current_lifecycle, original_target, next_lifecycle));
                 }
             }
         }
@@ -266,18 +271,18 @@ impl MarketRegimeStateMachine {
                 if next_lifecycle == LifecycleState::IGNITION {
                     next_age = 1;
                 } else {
-                    // Soft Reset: Reduce age by 30% instead of resetting to 1
+                    // ソフトリセット: 経過日数を1にリセットする代わりに30%削減
                     next_age = (regime_age as f64 * 0.7).max(1.0) as usize;
                     soft_reset_applied = true;
                     reasons.push(format!(
-                        "[Inertia:SoftReset] Age reduced to {} during downgrade",
+                        "[慣性:ソフトリセット] ダウングレード中に経過日数が {} に削減されました",
                         next_age
                     ));
                 }
             }
         }
 
-        // --- 5. Composite State Mapping (Section 4.2 in Roadmap) ---
+        // --- 5. 複合状態マッピング（Roadmap 4.2節を参照） ---
         let market_state = match next_risk {
             RiskOverlay::DEFENSIVE | RiskOverlay::BROKEN => MarketState::DEFENSIVE,
             RiskOverlay::NORMAL | RiskOverlay::DECELERATING => match next_lifecycle {
@@ -367,22 +372,24 @@ impl MarketRegimeStateMachine {
         let c5 = features.core_assets_breakdown;
 
         if !c1 {
-            reasons.push("[Inertia:GateFail] Trend is dominant".to_string());
+            reasons.push("[慣性:ゲート失敗] トレンドが支配的（Dominant）です".to_string());
         }
         if !c2 {
-            reasons.push("[Inertia:GateFail] Structural stability >= 25".to_string());
+            reasons.push("[慣性:ゲート失敗] 構造的安定性が 25 未満ではありません".to_string());
         }
         if !c3 {
             reasons.push(format!(
-                "[Inertia:GateFail] Stability streak ({}) < 3",
+                "[慣性:ゲート失敗] 安定性ストリーク（{}）が 3 未満です",
                 streak
             ));
         }
         if !c4 {
-            reasons.push("[Inertia:GateFail] Flow acceleration > 0".to_string());
+            reasons.push(
+                "[慣性:ゲート失敗] フロー加速（Flow acceleration）が 0 を超えています".to_string(),
+            );
         }
         if !c5 {
-            reasons.push("[Inertia:GateFail] Core assets still intact".to_string());
+            reasons.push("[慣性:ゲート失敗] コア資産がまだ健全です".to_string());
         }
 
         c1 && c2 && c3 && c4 && c5
@@ -484,23 +491,23 @@ mod tests {
         let rules = mock_rules(); // min_duration = 3
         let sm = MarketRegimeStateMachine::new(LifecycleState::IGNITION, RiskOverlay::NORMAL);
 
-        // Day 1 in IGNITION (duration = 1)
+        // IGNITION 1日目 (duration = 1)
         let prev = MarketRegimeSnapshot {
             lifecycle_state: LifecycleState::IGNITION,
             duration_in_state: 1,
             ..Default::default()
         };
 
-        // Try to upgrade to NEWBORN
+        // NEWBORN へのアップグレードを試行
         let f = mock_features(65.0, 0.5, 0.1);
         let (s, _) = sm.compute_next_state(&f, 6, Some(&prev), &rules);
 
-        // Should be LOCKED in IGNITION
+        // IGNITION にロックされるべき
         assert_eq!(s.lifecycle_state, LifecycleState::IGNITION);
         assert!(s.duration_in_state == 2);
         assert!(s.transition_audit.as_ref().unwrap().duration_locked);
 
-        // Day 3 in IGNITION (duration = 3)
+        // IGNITION 3日目 (duration = 3)
         let prev3 = MarketRegimeSnapshot {
             lifecycle_state: LifecycleState::IGNITION,
             duration_in_state: 3,
@@ -508,7 +515,7 @@ mod tests {
         };
         let (s3, _) = sm.compute_next_state(&f, 8, Some(&prev3), &rules);
 
-        // Should be UNLOCKED
+        // ロックが解除されるべき
         assert_eq!(s3.lifecycle_state, LifecycleState::NEWBORN);
         assert!(s3.duration_in_state == 1);
         assert!(!s3.transition_audit.as_ref().unwrap().duration_locked);
@@ -519,26 +526,26 @@ mod tests {
         let rules = mock_rules(); // min_duration = 3
         let sm = MarketRegimeStateMachine::new(LifecycleState::ESTABLISHED, RiskOverlay::NORMAL);
 
-        // Day 1 in ESTABLISHED (duration = 1)
+        // ESTABLISHED 1日目 (duration = 1)
         let prev = MarketRegimeSnapshot {
             lifecycle_state: LifecycleState::ESTABLISHED,
             duration_in_state: 1,
             ..Default::default()
         };
 
-        // 1. Try to Reset (to IGNITION) because of confidence drop (but not defensive yet)
-        let f_reset = mock_features(52.0, 0.5, 0.5); // < 55 means reset to IGNITION
+        // 1. 信頼度の低下によりリセット（IGNITION へ）を試行（ただし、まだディフェンシブではない）
+        let f_reset = mock_features(52.0, 0.5, 0.5); // < 55 は IGNITION へのリセットを意味する
         let (s_reset, _) = sm.compute_next_state(&f_reset, 30, Some(&prev), &rules);
 
-        // Should be LOCKED in ESTABLISHED (Reset blocked)
+        // ESTABLISHED にロックされるべき（リセットがブロックされる）
         assert_eq!(s_reset.lifecycle_state, LifecycleState::ESTABLISHED);
         assert!(s_reset.transition_audit.as_ref().unwrap().duration_locked);
 
-        // 2. Try to Reset with Defensive Override (confidence < 50)
-        let f_defensive = mock_features(48.0, 0.5, 0.5); // < 50 means DEFENSIVE risk
+        // 2. ディフェンシブ・オーバーライドを伴うリセットを試行（信頼度 < 50）
+        let f_defensive = mock_features(48.0, 0.5, 0.5); // < 50 は DEFENSIVE リスクを意味する
         let (s_def, _) = sm.compute_next_state(&f_defensive, 30, Some(&prev), &rules);
 
-        // Should NOT be locked by duration (Defensive override takes priority)
+        // 期間によってロックされるべきではない（ディフェンシブ・オーバーライドが優先される）
         assert_eq!(s_def.lifecycle_state, LifecycleState::IGNITION);
         assert_eq!(s_def.risk_overlay, RiskOverlay::DEFENSIVE);
         assert!(!s_def.transition_audit.as_ref().unwrap().duration_locked);

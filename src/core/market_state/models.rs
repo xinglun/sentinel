@@ -10,7 +10,7 @@ pub enum LifecycleState {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ActionStatus {
-    NoTrade(Vec<String>), // List of reasons why trading is blocked
+    NoTrade(Vec<String>), // 取引がブロックされている理由のリスト
     Participate,
 }
 

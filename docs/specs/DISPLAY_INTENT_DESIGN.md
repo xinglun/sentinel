@@ -1,40 +1,44 @@
-# 展示语义收口设计说明 (PositionIntent vs DisplayIntent)
+---
+author: Ray
+---
 
-## 1. 背景与现状
-当前系统已引入 `PositionIntent` (ADD/HOLD/TRIM/EXIT) 作为统一执行原语。但在展示层（Telegram/Terminal），“持有”与“观察”的区分仍被迫依赖底层的旧 `AssetAction`。
-这导致 `report.rs` 中存在大量零散的匹配逻辑，展示层职责不够纯粹。
+# 表示セマンティクス収束の設計説明 (PositionIntent vs DisplayIntent)
 
-## 2. 职责边界定义 (Core Concept)
+## 1. 背景と現状
+現在のシステムでは、統一された実行原語として `PositionIntent` (ADD/HOLD/TRIM/EXIT) が導入されています。しかし、表示レイヤー（Telegram/Terminal）において、「保持（HOLD）」と「観察（OBSERVE）」の区別はいまだに古い下層の `AssetAction` に依存せざるを得ない状況です。
+これにより、`report.rs` 内に大量の断片的なマッチングロジックが存在し、表示レイヤーの責任が純粋ではなくなっています。
 
-| 维度 | PositionIntent (执行语义) | DisplayIntent (展示语义) |
+## 2. 責任境界の定義 (Core Concept)
+
+| 次元 | PositionIntent (実行セマンティクス) | DisplayIntent (表示セマンティクス) |
 | :--- | :--- | :--- |
-| **定义者** | Exit Decision Layer | UI Adaptation Layer (Engine/Report) |
-| **关注点** | **“我该买多少/卖多少？”** | **“我该给用户看什么？”** |
-| **枚举值** | ADD, HOLD, TRIM, EXIT | ADD, HOLD, OBSERVE, TRIM, EXIT |
-| **逻辑重点** | 优先级覆盖（EXIT > ADD） | 身份转换（HOLD intent -> “持有” or “观察”） |
-| **消费者** | ExecutionGate, TraderAgent | Telegram, Report, Dashboard |
+| **定義者** | Exit Decision Layer | UI Adaptation Layer (Engine/Report) |
+| **関心事** | **「いくら買うべきか/売るべきか？」** | **「ユーザーに何を見せるべきか？」** |
+| **列挙値** | ADD, HOLD, TRIM, EXIT | ADD, HOLD, OBSERVE, TRIM, EXIT |
+| **ロジックの重点** | 優先度の上書き（EXIT > ADD） | 属性の変換（HOLD intent -> 「保持」 or 「観察」） |
+| **消費者** | ExecutionGate, TraderAgent | Telegram, Report, Dashboard |
 
-## 3. 生成规则 (Mapping Rules)
+## 3. 生成ルール (Mapping Rules)
 
 ```rust
 pub enum DisplayIntent {
-    ADD,      // 对应执行 ADD 且表现为加仓
-    HOLD,     // 对应执行 HOLD 且已在持仓中
-    OBSERVE,  // 对应执行 HOLD 且不在持仓中 (观察状态)
-    TRIM,     // 对应执行 TRIM
-    EXIT,     // 对应执行 EXIT
+    ADD,      // 実行アクションが ADD であり、買い増しとして表現される
+    HOLD,     // 実行アクションが HOLD であり、すでにポジションを保有している
+    OBSERVE,  // 実行アクションが HOLD であり、ポジションを保有していない (観察状態)
+    TRIM,     // 実行アクションが TRIM
+    EXIT,     // 実行アクションが EXIT
 }
 ```
 
-**映射逻辑建议：**
-1. If `PositionIntent == TRIM` -> `DisplayIntent::TRIM`
-2. If `PositionIntent == EXIT` -> `DisplayIntent::EXIT`
-3. If `PositionIntent == ADD` -> `DisplayIntent::ADD`
-4. If `PositionIntent == HOLD`:
-   - If `AssetAction == ACCUMULATE/HOLD` -> `DisplayIntent::HOLD`
-   - Else -> `DisplayIntent::OBSERVE`
+**マッピングロジックの推奨案：**
+1. もし `PositionIntent == TRIM` ならば -> `DisplayIntent::TRIM`
+2. もし `PositionIntent == EXIT` ならば -> `DisplayIntent::EXIT`
+3. もし `PositionIntent == ADD` ならば -> `DisplayIntent::ADD`
+4. もし `PositionIntent == HOLD` ならば：
+   - `AssetAction == ACCUMULATE/HOLD` かつポジション保有中ならば -> `DisplayIntent::HOLD`
+   - それ以外ならば -> `DisplayIntent::OBSERVE`
 
-## 4. 实施影响
-- **DecisionPacket**: 增加 `display_intent` 字段。
-- **Engine**: 在完成 Intent 合并后，立即计算 `display_intent` 并填充。
-- **Report**: 彻底删除对 `action` 的匹配，仅根据 `display_intent` 进行分桶和标签打印。
+## 4. 実施による影響
+- **DecisionPacket**: `display_intent` フィールドを追加します。
+- **Engine**: Intent の合成を完了した後、直ちに `display_intent` を計算して格納します。
+- **Report**: `action` に対するマッチングを完全に削除し、`display_intent` に基づいてバケット分けとラベル表示を行うようにします。

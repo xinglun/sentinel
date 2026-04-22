@@ -48,7 +48,7 @@
 
 **📡 Monitoring Signals**
 
-- **Participation**: Not Ready · Streak 1d
+- **Cohesion**: Not Ready · Streak 1d
 - **Stability**: 1.1
 > Confidence 52 · Streak 1d · Regime Age 1d · Net Flow Stable ·
 

@@ -14,7 +14,7 @@ pub struct DisplayContext {
     #[serde(default)]
     pub is_top_tier: bool,
     #[serde(default)]
-    pub participation_ready: bool,
+    pub cohesion_ready: bool,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Default)]
@@ -95,7 +95,7 @@ impl DisplayAdapter {
         for asset in assets {
             if (asset.display_intent == DisplayIntent::ADD
                 || (asset.display_context.is_candidate_only
-                    && asset.display_context.participation_ready))
+                    && asset.display_context.cohesion_ready))
                 && matches!(
                     asset.asset_state.state,
                     crate::core::asset_state::AssetState::PULLBACK
@@ -144,7 +144,7 @@ impl DisplayAdapter {
         ctx: &DisplayContext,
         dict: &crate::core::i18n::DisplayDictionary,
     ) -> Option<String> {
-        if ctx.is_candidate_only && !ctx.participation_ready {
+        if ctx.is_candidate_only && !ctx.cohesion_ready {
             Some(dict.asset_tags.blocked.clone())
         } else if ctx.is_core_holding {
             Some(dict.asset_tags.core.clone())

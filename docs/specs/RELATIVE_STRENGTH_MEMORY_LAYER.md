@@ -1,127 +1,131 @@
-# Relative Strength Memory Layer
+---
+author: Ray
+---
 
-## 1. 模块设计目标
+# 相対強度記憶レイヤー (Relative Strength Memory Layer)
 
-本模块的目标不是重新定义市场状态机，而是修正资产层在排序与状态提升上的“短视化”问题。
+## 1. モジュール設計目標
 
-当前系统已经具备：
+本モジュールの目標は、市場状態機（Market State Machine）を再定義することではなく、資産層におけるランキングと状態昇格の「短視眼化（近視眼的な判断）」という問題を修正することにあります。
 
-1. `Market InertiaLayer`
-2. `Reset Gate`
-3. `Downgrade Gate`
-4. `Duration Lock`
+現在のシステムには以下の要素がすでに備わっています：
 
-但资产层仍然存在一个明显缺口：
+1. `Market InertiaLayer` (市場慣性レイヤー)
+2. `Reset Gate` (リセットゲート)
+3. `Downgrade Gate` (降格ゲート)
+4. `Duration Lock` (継続期間ロック)
 
-1. 更偏重横截面快照
-2. 更容易把“短期整洁”误判为“持续更强”
-3. 更容易把“持续强者的短期波动”误判成状态劣化
+しかし、資産層には依然として明白な欠落（ギャップ）が存在します：
 
-本模块要解决的核心问题是：
+1. 横断面（クロスセクション）のスナップショットを過重視している。
+2. 「短期的な見た目の綺麗さ」を「持続的な強さ」と誤認しやすい。
+3. 「持続的な強者の短期的な変動」を状態の劣化と誤認しやすい。
 
-1. 防止强者被短期波动踢出核心区
-2. 防止弱者因短期整洁而快速上位
-3. 让资产状态排序从“单日结构评分”升级为“当前结构 + 时间连续性”的组合判断
+本モジュールが解決すべき核心的な問題は以下の通りです：
 
-一句话：
+1. 強者が短期的な変動によってコア領域から追い出されるのを防ぐ。
+2. 弱者が短期的な見た目の改善によって急速に上位に食い込むのを防ぐ。
+3. 資産状態のランキングを「単日の構造スコア」から「現在の構造 ＋ 時間的連続性」の複合判断へとアップグレードする。
 
-**Relative Strength Memory Layer 用来保护持续强者，抑制短期假修复。**
+一言で言えば：
+
+**Relative Strength Memory Layer は、持続的な強者を保護し、短期的な偽の回復（Fake Recovery）を抑制するために使用されます。**
 
 ---
 
-## 2. 模块边界
+## 2. モジュール境界
 
-本模块只负责资产层的时间连续性，不负责市场层的 regime 判定。
+本モジュールは資産層の時間的連続性のみを担当し、市場層のレジーム（Regime）判定は担当しません。
 
-### 2.1 它负责什么
+### 2.1 担当範囲
 
-1. 资产相对强度的短中期记忆
-2. 资产 Top Tier 的状态保护
-3. 弱资产提升的时间成本与上限约束
-4. 资产排序时的时间连续性补偿
+1. 資産の相対強度の短・中期的な記憶。
+2. 資産 Top Tier（トップ層）の状態保護。
+3. 弱い資産の昇格における時間コストと上限の制約。
+4. 資産ランキング時の時間的連続性による補正。
 
-### 2.2 它不负责什么
+### 2.2 担当外範囲
 
-1. 不负责 `MarketState` 判定
-2. 不负责 `Reset Gate`
-3. 不负责 `DEFENSIVE` 风险覆盖
-4. 不负责 Telegram 文案
-5. 不直接决定交易动作
+1. `MarketState` の判定。
+2. `Reset Gate` の処理。
+3. `DEFENSIVE` リスクのカバー。
+4. Telegram の文言生成。
+5. 取引アクションの直接的な決定。
 
-### 2.3 层级位置
+### 2.3 階層位置
 
-建议放在：
+以下の配置を推奨します：
 
-1. `RawSignalLayer`
-2. `RelativeStrengthMemoryLayer`
-3. `AssetState Decision`
-4. `ActionMatrix`
+1. `RawSignalLayer` (生シグナルレイヤー)
+2. `RelativeStrengthMemoryLayer` (本レイヤー)
+3. `AssetState Decision` (資産状態決定)
+4. `ActionMatrix` (アクションマトリックス)
 
-也就是说，它是资产状态机的输入增强层，不是动作层。
+つまり、これは資産状態機の「入力強化レイヤー」であり、アクションレイヤーではありません。
 
 ---
 
-## 3. 最小规则集
+## 3. 最小ルールセット
 
-V1 版本只落最小规则，不做复杂因子。
+V1 バージョンでは最小限のルールのみを実装し、複雑な因子は導入しません。
 
-## 3.1 Top Tier Lock
+### 3.1 Top Tier Lock (トップ層ロック)
 
-如果某资产在过去 `10` 个交易日中：
+ある資産が過去 `10` 取引日において：
 
-1. 有至少 `6` 天位于强度前 `3`
+1. 少なくとも `6` 日間、強度ランキング上位 `3` 位以内に入っている場合
 
-则：
+その場合：
 
 1. `min_state = CRUISE`
 
-含义：
+意味：
 
-1. 持续强者不能因为一次短期回调直接掉到 `OBSERVE`
-2. 这是一种“最低状态保护”
+1. 持続的な強者は、一度の短期的な押し目（プルバック）によって直接 `OBSERVE` まで落ちることはありません。
+2. これは一種の「最低状態保護」です。
 
-目标：
+目標：
 
-1. 保护 `NVDA / GOOG / SPY` 这类持续强资产
-
----
-
-## 3.2 Weak Asset Promotion Cap
-
-如果某资产在过去 `20` 个交易日内满足任一条件：
-
-1. 曾进入 `DEFEND`
-2. 多数天低于 `CRUISE`
-
-则：
-
-1. 默认 `max_state = CRUISE`
-
-除非满足额外解除条件，才允许提升到 `OPTIMAL`。
-
-目标：
-
-1. 防止长期弱资产因为 1-2 天“横截面更干净”就直接上位
+1. `NVDA / GOOG / SPY` のような持続的な強資産を保護すること。
 
 ---
 
-## 3.3 Promotion Unlock Conditions
+### 3.2 Weak Asset Promotion Cap (弱資産昇格上限)
 
-对受 `Promotion Cap` 限制的资产，解除限制前至少需要满足：
+ある資産が過去 `20` 取引日内において、以下のいずれかの条件を満たす場合：
 
-1. 长周期结构恢复
-2. 波动收敛
-3. 连续 `N` 天状态稳定
+1. `DEFEND` に入ったことがある。
+2. 大部分の日で `CRUISE` 未満であった。
 
-V1 可以先复用现有资产恢复条件，不新增复杂特征。
+その場合：
+
+1. デフォルトで `max_state = CRUISE`
+
+追加の解除条件を満たさない限り、`OPTIMAL` への昇格は許可されません。
+
+目標：
+
+1. 長期的な弱資産が、1〜2日の「横断面での見た目の良さ」だけで直接上位に食い込むのを防ぐこと。
 
 ---
 
-## 3.4 Rolling Strength Memory
+### 3.3 Promotion Unlock Conditions (昇格解除条件)
 
-资产最终排序不再只看“当前结构分”。
+`Promotion Cap` の制限を受けている資産について、制限を解除するには少なくとも以下の条件を満たす必要があります：
 
-建议最小实现：
+1. 長周期の構造の回復。
+2. ボラティリティの収束。
+3. 連続 `N` 日間の状態の安定。
+
+V1 では、複雑な新規特徴量は導入せず、既存の資産回復条件を再利用します。
+
+---
+
+### 3.4 Rolling Strength Memory (ローリング強度記憶)
+
+資産の最終ランキングは、もはや「現在の構造スコア」だけでは決まりません。
+
+推奨される最小実装：
 
 ```text
 memory_adjusted_score =
@@ -129,38 +133,38 @@ memory_adjusted_score =
   + rolling_strength_rank_score * 0.3
 ```
 
-其中：
+ここで：
 
 1. `current_structure_score`
-   - 继续使用现有资产状态输入
+   - 既存の資産状態入力を引き続き使用します。
 2. `rolling_strength_rank_score`
-   - 由过去 5-10 天的相对强度名次转换而来
+   - 過去 5〜10 日間の相対強度順位から変換された値です。
 
-V1 目标不是追求完美，而是让排序具备时间连续性。
+V1 の目標は完璧を追求することではなく、ランキングに時間的連続性を持たせることにあります。
 
 ---
 
-## 3.5 No Instant Redemption
+### 3.5 No Instant Redemption (即時復権の禁止)
 
-禁止以下模式：
+以下のパターンを禁止します：
 
 1. `DEFEND -> OPTIMAL`
 2. `OBSERVE -> OPTIMAL`
 3. `FORMING -> OPTIMAL`
 
-除非通过现有的资产恢复阶梯，并满足 memory layer 的解除条件。
+既存の資産回復ステップを通過し、かつ memory layer の解除条件を満たす必要があります。
 
-目标：
+目標：
 
-1. 防止“空气票”或“刚恢复资产”直接进入核心区
+1. 「実体のない（スカスカな）銘柄」や「回復したばかりの資産」が直接コア領域に入るのを防ぐこと。
 
 ---
 
-## 4. 数据结构草案
+## 4. データ構造案
 
-## 4.1 AssetStrengthMemory
+### 4.1 AssetStrengthMemory
 
-建议新增：
+新規追加を推奨：
 
 ```rust
 pub struct AssetStrengthMemory {
@@ -174,28 +178,28 @@ pub struct AssetStrengthMemory {
 }
 ```
 
-说明：
+説明：
 
 1. `top3_days_last_10`
-   - 过去 10 天中进入 Top 3 的次数
+   - 過去10日間で Top 3 に入った回数。
 2. `top5_days_last_10`
-   - 作为辅助字段，可用于后续扩展
+   - 補助フィールドとして将来の拡張に使用可能。
 3. `defend_days_last_20`
-   - 用于弱资产惩罚
+   - 弱資産へのペナルティ判定に使用。
 4. `below_cruise_days_last_20`
-   - 用于判断长期弱结构
+   - 長期的な弱い構造の判断に使用。
 5. `rolling_strength_rank`
-   - 滚动相对强度分
+   - ローリング相対強度スコア。
 6. `top_tier_locked`
-   - 是否触发 Top Tier Lock
+   - Top Tier Lock がトリガーされているか。
 7. `promotion_capped`
-   - 是否触发弱资产提升上限
+   - 弱資産昇格上限がトリガーされているか。
 
 ---
 
-## 4.2 AssetStrengthDecision
+### 4.2 AssetStrengthDecision
 
-建议在资产状态机输入前产生一个中间结果：
+資産状態機の入力前に生成される中間結果：
 
 ```rust
 pub struct AssetStrengthDecision {
@@ -211,23 +215,23 @@ pub struct AssetStrengthDecision {
 
 用途：
 
-1. 用于最终排序
-2. 用于状态上下限裁剪
-3. 用于报告与调试解释
+1. 最終的なランキングに使用。
+2. 状態の上下限クリッピング（切り詰め）に使用。
+3. レポートおよびデバッグ用の説明に使用。
 
 ---
 
-## 4.3 挂接位置建议
+### 4.3 接続位置の推奨
 
-建议不要把这层塞进 `ActionMatrix`。
+このレイヤーを `ActionMatrix` に詰め込まないようにしてください。
 
-更合理的位置：
+より合理的な配置場所：
 
 1. `features / asset feature aggregation`
-2. `asset_state.rs` 之前
-3. 或 `asset_state.rs` 内部作为独立 helper
+2. `asset_state.rs` の直前
+3. または `asset_state.rs` 内部の独立したヘルパーとして
 
-推荐接口方向：
+推奨インターフェースの方向性：
 
 1. `compute_asset_strength_memory(...)`
 2. `apply_strength_memory(...)`
@@ -235,9 +239,9 @@ pub struct AssetStrengthDecision {
 
 ---
 
-## 5. 接口草案
+## 5. インターフェース案
 
-## 5.1 计算 Memory
+### 5.1 Memory の計算
 
 ```rust
 pub fn compute_asset_strength_memory(
@@ -246,18 +250,18 @@ pub fn compute_asset_strength_memory(
 ) -> AssetStrengthMemory
 ```
 
-输入：
+入力：
 
 1. symbol
-2. 最近 10-20 天的资产历史快照
+2. 直近 10〜20 日間の資産履歴スナップショット
 
-输出：
+出力：
 
-1. 该资产的相对强度记忆结构
+1. 当該資産の相対強度記憶構造体
 
 ---
 
-## 5.2 生成 Memory Decision
+### 5.2 Memory Decision の生成
 
 ```rust
 pub fn build_asset_strength_decision(
@@ -266,16 +270,16 @@ pub fn build_asset_strength_decision(
 ) -> AssetStrengthDecision
 ```
 
-输出：
+出力：
 
-1. 当前结构分
-2. memory 调整分
-3. 状态上下限
-4. 原因列表
+1. 現在の構造スコア
+2. memory 調整スコア
+3. 状態の上下限
+4. 理由リスト
 
 ---
 
-## 5.3 状态裁剪
+### 5.3 状態のクリッピング (Clamp)
 
 ```rust
 pub fn clamp_asset_state_with_memory(
@@ -284,14 +288,14 @@ pub fn clamp_asset_state_with_memory(
 ) -> AssetState
 ```
 
-逻辑：
+ロジック：
 
-1. 若命中 `min_state`，则不允许低于该状态
-2. 若命中 `max_state`，则不允许高于该状态
+1. `min_state` にヒットした場合、その状態を下回ることを禁止する。
+2. `max_state` にヒットした場合、その状態を上回ることを禁止する。
 
 ---
 
-## 5.4 排序增强
+### 5.4 ランキング強化
 
 ```rust
 pub fn rank_assets_with_memory(
@@ -300,57 +304,57 @@ pub fn rank_assets_with_memory(
 ) -> Vec<RankedAsset>
 ```
 
-逻辑：
+ロジック：
 
-1. 排序时使用 `adjusted_score`
-2. 不再只依赖当前横截面
+1. ランキング時に `adjusted_score` を使用する。
+2. もはや現在の横断面だけに依存しない。
 
 ---
 
-## 6. 给开发的实施说明
+## 6. 開発への実施説明
 
-这轮不要改 `MarketRegime`。  
-也不要动 Telegram 结构。  
-更不要继续调参数掩盖资产层排序问题。
+今回、`MarketRegime` は変更しないでください。
+Telegram の構造も動かさないでください。
+ましてや、パラメータを調整して資産層のランキング問題を隠蔽しようとしないでください。
 
-### 6.1 实施顺序
+### 6.1 実施順序
 
-1. 先补 `AssetStrengthMemory` 数据结构
-2. 再补 `compute_asset_strength_memory()`
-3. 再补 `AssetStrengthDecision`
-4. 最后才把它接入资产状态裁剪和排序
+1. まず `AssetStrengthMemory` データ構造を実装する。
+2. 次に `compute_asset_strength_memory()` を実装する。
+3. 次に `AssetStrengthDecision` を実装する。
+4. 最後に、資産状態のクリッピングとランキングに接続する。
 
-### 6.2 本轮最小交付
+### 6.2 今回の最小納品物
 
-必须完成：
+以下の完了が必須です：
 
 1. `Top Tier Lock`
 2. `Weak Asset Promotion Cap`
 3. `rolling_strength_rank` 最小版
-4. 状态上下限裁剪
-5. 结构化原因输出
+4. 状態の上下限クリッピング
+5. 構造化された理由出力
 
-本轮不要做：
+今回行わないこと：
 
-1. 不要加新因子
-2. 不要加复杂机器学习评分
-3. 不要改动作矩阵
-4. 不要改 Telegram 大结构
+1. 新しい因子の追加。
+2. 複雑な機械学習スコアリングの追加。
+3. アクションマトリックスの変更。
+4. Telegram の大構造の変更。
 
-### 6.3 验收标准
+### 6.3 完了基準
 
-至少补以下测试：
+少なくとも以下のテストを補完してください：
 
-1. 持续强者不会因单日波动直接掉到 `OBSERVE`
-2. 过去 20 天内弱势资产不会直接升到 `OPTIMAL`
-3. `FORMING` 资产不会借短期整洁直接上位
-4. 排序从纯横截面变成“当前 + 时间连续性”
-5. 原因日志中能清楚看到：
+1. 持続的な強者が、単日の変動で直接 `OBSERVE` まで落ちないこと。
+2. 過去20日間で劣勢だった資産が、直接 `OPTIMAL` まで昇格しないこと。
+3. `FORMING`（形成中）の資産が、短期的な見た目の良さだけで直接上位に食い込まないこと。
+4. ランキングが純粋な横断面から「現在 ＋ 時間的連続性」へと変化していること。
+5. 理由ログにおいて以下が明確に確認できること：
    - `top_tier_locked`
    - `promotion_capped`
    - `memory_adjusted_score`
 
-### 6.4 给开发的最终一句
+### 6.4 開発への最終メッセージ
 
-这轮不是继续修市场状态机。  
-这轮是在资产层补“相对强度记忆”，防止强者被短期波动踢出，也防止弱者因短期整洁上位。
+本タスクは市場状態機のさらなる修正ではありません。
+資産層に「相対強度記憶」を補完し、強者が短期的な変動で追い出されるのを防ぎ、また弱者が短期的な見た目の改善だけで上位に入るのを防ぐためのものです。

@@ -32,9 +32,61 @@ jobs:
 
       - name: Check Formatting
         run: cargo fmt --all -- --check
+
+      - name: Check Audit Doc Consistency
+        run: bash scripts/check_audit_docs.sh
         
       - name: Check Warnings (Clippy)
-        run: cargo clippy -- -D warnings
+        run: cargo clippy --all-targets -- -D warnings
 
       - name: Run Unit Tests
-        run: cargo test --bin stock-sentinel
+        run: cargo test
+
+  audit-daily-guard:
+    name: Audit Daily Guard
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Detect audit_daily related changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            audit_daily:
+              - 'src/cli.rs'
+              - 'src/core/transition_log.rs'
+              - 'src/config.rs'
+              - 'README.md'
+              - 'docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md'
+              - 'tests/audit_daily_cli_integration.rs'
+              - 'tests/snapshots/audit_daily_*.txt'
+              - 'scripts/check_audit_docs.sh'
+
+      - name: Setup Rust Toolchain
+        if: steps.changes.outputs.audit_daily == 'true'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+
+      - name: Cache Dependencies
+        if: steps.changes.outputs.audit_daily == 'true'
+        uses: Swatinem/rust-cache@v2
+
+      - name: Run audit_daily specialized tests
+        if: steps.changes.outputs.audit_daily == 'true'
+        run: |
+          cargo test audit_daily_
+          cargo test --test audit_daily_cli_integration
+
+      - name: Check audit docs consistency
+        if: steps.changes.outputs.audit_daily == 'true'
+        run: bash scripts/check_audit_docs.sh
+
+      - name: Skip guard when unrelated
+        if: steps.changes.outputs.audit_daily != 'true'
+        run: echo "No audit_daily related file changes detected; guard skipped."

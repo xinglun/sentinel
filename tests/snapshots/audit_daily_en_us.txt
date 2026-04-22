@@ -1,0 +1,28 @@
+# Audit Daily (2026-04-22)
+
+1. Gate Summary
+- Status: NO TRADE
+- Duration: 2 days
+- Top 3 blockers:
+- Low continuity (2)
+- Low stability (2)
+- No mainline (1)
+
+2. Transition Summary
+- State changed today: No
+- Risk overlay changed today: No
+- Mainline status changed today: No
+
+3. Breakout Summary
+- New breakout: GOOG
+- Continued breakout: None
+- Removed breakout: None
+
+4. Streak Metrics
+- Current NO TRADE streak: 2 days
+- Current missing-mainline streak: 2 days
+- Recent NO TRADE segment type: Continuous segment
+- Methodology: streaks are calculated by log continuity (weekends auto-bridged)
+
+5. Audit One-liner
+- NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; today's breakout: GOOG (new); mainline status: Not formed.
