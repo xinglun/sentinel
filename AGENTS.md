@@ -204,3 +204,8 @@ cargo clippy --all-targets -- -D warnings
 ```
 
 推荐顺序：`fmt -> test -> clippy`。
+
+补充说明：
+
+- `cargo test` **不会**覆盖 Clippy 规则检查；例如 `clippy::unnecessary_sort_by` 这类 lint 只会在 `cargo clippy` 阶段报错。
+- 因此不可用“测试全绿”替代 Clippy，必须单独执行并通过 `cargo clippy --all-targets -- -D warnings`。
