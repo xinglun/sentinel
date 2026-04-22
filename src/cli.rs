@@ -637,7 +637,7 @@ fn load_transition_audit_days(
         }
     }
 
-    raw_entries.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));
+    raw_entries.sort_by_key(|a| a.timestamp);
     Ok(group_audit_days(raw_entries))
 }
 
@@ -1045,11 +1045,11 @@ fn group_audit_days(entries: Vec<TransitionAuditEntry>) -> Vec<TransitionAuditDa
     let mut days = grouped
         .into_iter()
         .map(|(date, mut events)| {
-            events.sort_by(|a, b| a.timestamp.cmp(&b.timestamp));
+            events.sort_by_key(|a| a.timestamp);
             TransitionAuditDay { date, events }
         })
         .collect::<Vec<_>>();
-    days.sort_by(|a, b| a.date.cmp(&b.date));
+    days.sort_by_key(|a| a.date);
     days
 }
 

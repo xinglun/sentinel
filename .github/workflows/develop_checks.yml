@@ -73,6 +73,10 @@ jobs:
         with:
           components: clippy, rustfmt
 
+      - name: Install Protoc (Required for Futu)
+        if: steps.changes.outputs.audit_daily == 'true'
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
       - name: Cache Dependencies
         if: steps.changes.outputs.audit_daily == 'true'
         uses: Swatinem/rust-cache@v2
