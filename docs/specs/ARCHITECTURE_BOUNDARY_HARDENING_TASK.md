@@ -1,10 +1,14 @@
-# Sentinel Architecture Boundary Hardening 任务单
+---
+author: Ray
+---
 
-## 1. 目标
+# Sentinel アーキテクチャ境界の強化タスク (ARCHITECTURE_BOUNDARY_HARDENING_TASK.md)
 
-本任务不是新增策略能力，而是收紧当前工程的模块边界，避免继续出现“规则能跑，但职责越来越糊”的演化风险。
+## 1. 目標
 
-当前系统已经完成：
+本タスクは新しい戦略機能の追加ではなく、現在のエンジニアリングにおけるモジュール境界を強化し、「ルールは動くが、責務が曖昧になる」という進化リスクを回避することを目的としています。
+
+現在のシステムですでに完了しているもの：
 
 1. `Market Regime`
 2. `Participation Readiness`
@@ -14,82 +18,82 @@
 6. `Display Adapter`
 7. `Execution Gate`
 
-但当前工程出现了 3 个新的架构问题：
+しかし、現在のプロジェクトにおいて3つの新しいアーキテクチャ上の問題が発生しています：
 
-1. `ExitDecision` 已经越界到买入语义
-2. `Engine` 过胖，直接承担展示层派生逻辑
-3. `DecisionPacket` 同时承载结构化事实与旧式 Telegram 文案，形成双轨语义源
+1. `ExitDecision` が買い（Entry）のセマンティクスまで侵食している。
+2. `Engine` が肥大化し、展示層の派生ロジックを直接負担している。
+3. `DecisionPacket` が構造化された事実と旧式の Telegram 文言を同時に保持し、二重のセマンティックソースを形成している。
 
-本任务目标是：
+本タスクの目標は以下の通りです：
 
-1. 让退出层重新只负责“是否必须收手”
-2. 让引擎回到纯编排角色
-3. 让展示语义从核心决策包中解耦
-4. 为后续继续扩策略、扩展示端保留清晰边界
+1. 退出層を「撤退すべきかどうか」のみを担当するように戻す。
+2. エンジンを純粋なオーケストレーションの役割に戻す。
+3. 展示セマンティクスをコア意思決定パッケージから解耦（デカップリング）する。
+4. 将来的な戦略の拡張や展示端の追加に備え、明確な境界を維持する。
 
 ---
 
-## 2. 当前架构问题
+## 2. 現在のアーキテクチャ上の問題
 
-### 2.1 ExitDecision 越界
+### 2.1 ExitDecision の越境
 
-当前 `ExitDecision::compute()` 不只输出 `EXIT / TRIM / HOLD`，还会在安全条件下回落为 `ADD`。
+現在の `ExitDecision::compute()` は `EXIT / TRIM / HOLD` を出力するだけでなく、安全な条件下で `ADD` にフォールバックします。
 
-这导致：
+これにより：
 
-1. 退出层开始表达 entry 许可
-2. `ActionMatrix` 与 `ExitDecision` 共同拥有买入语义
-3. 最终 `position_intent` 需要在 `Engine` 再做一次合成
+1. 退出層がエントリー（Entry）の許可を表現し始めている。
+2. `ActionMatrix` と `ExitDecision` の両方が買いのセマンティクスを保持している。
+3. 最終的な `position_intent` を `Engine` で再度合成する必要がある。
 
-结果：
+結果：
 
-1. 边界不清
-2. 调试困难
-3. 后续再加规则时容易出现冲突
+1. 境界が不明瞭。
+2. デバッグが困難。
+3. 将来的にルールを追加した際に衝突が発生しやすい。
 
-### 2.2 Engine 过胖
+### 2.2 Engine の肥大化
 
-当前 `Engine` 同时负责：
+現在、`Engine` は以下のすべてを担当しています：
 
-1. 特征提取
-2. 市场状态推进
-3. 资产状态计算
-4. 排名
-5. 参与许可
-6. 退出决策
-7. 最终意图合成
+1. 特徴抽出
+2. 市場状態の推進
+3. 資産状態の計算
+4. ランキング
+5. 参加許可
+6. 退出意思決定
+7. 最終意図の合成
 8. `DisplayContext`
 9. `DisplayIntent`
 
-这意味着：
+これは以下を意味します：
 
-1. 决策变化要改 `engine.rs`
-2. 展示变化也要改 `engine.rs`
-3. 引擎成为新的“神文件”
+1. 意思決定の変化で `engine.rs` を修正する必要がある。
+2. 表示の変化でも `engine.rs` を修正する必要がある。
+3. エンジンが新しい「神ファイル（God File）」化している。
 
-### 2.3 DecisionPacket 双轨语义源
+### 2.3 DecisionPacket の二重セマンティックソース
 
-当前 `DecisionPacket` 同时保存：
+現在、`DecisionPacket` は以下を同時に保存しています：
 
-1. 结构化事实：`market_regime / participation / assets / display_*`
-2. 旧式文案输入：`telegram.headline / summary / bias`
+1. 構造化された事実: `market_regime / participation / assets / display_*`
+2. 旧式の文言入力: `telegram.headline / summary / bias`
 
-这会导致：
+これにより：
 
-1. 测试里可以手工塞 `telegram`
-2. 运行时又会根据结构化字段重新组织报表
-3. 同一语义存在两套来源
+1. テストで `telegram` を手動で設定できてしまう。
+2. 実行時に構造化フィールドに基づいてレポートが再構成される。
+3. 同一のセマンティクスに対して2つのソースが存在する。
 
-长期风险：
+長期的なリスク：
 
-1. 报表层和数据层漂移
-2. 测试只验证字符串，不验证真实结构化链路
+1. レポート層とデータ層の乖離。
+2. テストが文字列のみを検証し、実際の構造化データの連鎖を検証しなくなる。
 
 ---
 
-## 3. 目标边界
+## 3. 目標とする境界
 
-期望的职责分层如下：
+期待される責務レイヤーは以下の通りです：
 
 ```text
 Raw Data
@@ -104,32 +108,31 @@ Raw Data
 → Report / Execution
 ```
 
-核心原则：
+コア原則：
 
-1. 退出层不负责买入许可
-2. 引擎只编排，不做展示解释
-3. 报表消费 presentation output，不消费半成品语义
+1. 退出層は買いの許可を担当しない。
+2. エンジンはオーケストレーションのみを行い、展示の解釈は行わない。
+3. レポートは presentation output を消費し、作りかけのセマンティクスを消費しない。
 
 ---
 
-## 4. 本轮改造范围
+## 4. 本改造の範囲
 
-### P0-1 收紧 ExitDecision 边界
+### P0-1 ExitDecision 境界の強化
 
-要求：
+要件：
 
-1. `ExitDecision` 不再返回 `ADD`
-2. `ExitDecision` 只表达：
+1. `ExitDecision` は `ADD` を返さない。
+2. `ExitDecision` は以下のみを表現する：
    - `EXIT`
    - `TRIM`
-   - `NONE` 或等价“无退出动作”
-3. 最终 `ADD / HOLD` 仅由：
+   - `NONE` または同等の「退出アクションなし」
+3. 最終的な `ADD / HOLD` は以下の要素によってのみ決定される：
    - `ActionMatrix`
    - `ParticipationReadiness`
    - Intent synthesis
-   共同决定
 
-建议重构：
+推奨されるリファクタリング：
 
 ```rust
 pub enum ExitIntent {
@@ -139,159 +142,159 @@ pub enum ExitIntent {
 }
 ```
 
-或保留 `PositionIntent`，但强制限制 `ExitDecision` 只允许输出：
+または `PositionIntent` を維持しつつ、`ExitDecision` が出力できるものを以下に強制的に制限します：
 
 1. `EXIT`
 2. `TRIM`
 3. `HOLD`
 
-严禁在退出层生成 `ADD`。
+退出層で `ADD` を生成することは厳禁です。
 
-### P0-2 新增独立 Intent Synthesizer
+### P0-2 独立した Intent Synthesizer の新設
 
-不要继续在 `engine.rs` 里手写最终 intent 合成。
+`engine.rs` 内で最終的な intent 合成をハードコードし続けるのをやめます。
 
-建议新增：
+新規追加案：
 
 1. `src/core/intent.rs`
-2. 或 `src/core/intent_synthesizer.rs`
+2. または `src/core/intent_synthesizer.rs`
 
-职责：
+責務：
 
-1. 接收 `ActionMatrix` 基础动作
-2. 接收 `ParticipationReadiness`
-3. 接收 `ExitDecision`
-4. 输出唯一的 `position_intent`
+1. `ActionMatrix` の基礎アクションを受け取る。
+2. `ParticipationReadiness` を受け取る。
+3. `ExitDecision` を受け取る。
+4. 唯一の `position_intent` を出力する。
 
-优先级明确为：
+優先順位は以下のように明確化します：
 
 ```text
 EXIT > TRIM > HOLD > ADD
 ```
 
-### P0-3 把展示上下文派生从 Engine 挪出
+### P0-3 展示コンテキスト派生ロジックの分離
 
-建议新增独立 presentation assembler，例如：
+独立した presentation assembler を追加することを推奨します：
 
 1. `src/core/presentation.rs`
 
-职责：
+責務：
 
-1. 根据领域事实生成 `DisplayContext`
-2. 调用 `DisplayAdapter` 生成 `DisplayIntent`
-3. 生成展示层需要的 view models
+1. ドメインの事実に基づいて `DisplayContext` を生成する。
+2. `DisplayAdapter` を呼び出して `DisplayIntent` を生成する。
+3. 展示層が必要とする view models を生成する。
 
-`engine.rs` 不应继续直接构造：
+`engine.rs` は以下を直接構築すべきではありません：
 
 1. `DisplayContext`
 2. `DisplayIntent`
 
-### P0-4 收紧 DecisionPacket 语义
+### P0-4 DecisionPacket セマンティクスの強化
 
-本轮不强制删除 `telegram`，但必须明确降级其职责。
+本フェーズで `telegram` を強制的に削除はしませんが、その責務を明確に降格させます。
 
-要求：
+要件：
 
-1. `telegram` 不再被视为核心语义源
-2. `DecisionPacket` 的结构化字段是唯一真相源
-3. `telegram` 若保留，只能作为：
-   - legacy compatibility
-   - 最小摘要输入
+1. `telegram` をコアなセマンティックソースと見なさない。
+2. `DecisionPacket` の構造化フィールドを唯一の「真実のソース（SSOT）」とする。
+3. `telegram` を保持する場合、それは以下としてのみ機能する：
+   - レガシー互換性
+   - 最小限のサマリー入力
 
-建议：
+推奨：
 
-1. 在文档中标记 `telegram` 为 legacy summary layer
-2. 增加注释，禁止后续将策略语义继续塞入 `telegram`
+1. ドキュメント内で `telegram` を legacy summary layer としてマークする。
+2. 戦略セマンティクスを今後 `telegram` に詰め込むことを禁止するコメントを追加する。
 
 ---
 
-## 5. 建议模块落点
+## 5. 推奨されるモジュールの配置
 
-建议新增或调整如下：
+以下のように新規追加または調整を推奨します：
 
 1. [intent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/intent.rs)
-   - 统一合成最终 `position_intent`
+   - 最終的な `position_intent` の合成を一元化。
 
 2. [presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation.rs)
-   - 生成 `DisplayContext`
-   - 生成 `DisplayIntent`
-   - 生成面向 report 的 presentation data
+   - `DisplayContext` の生成。
+   - `DisplayIntent` の生成。
+   - レポート向け展示データの生成。
 
 3. [exit.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/exit.rs)
-   - 收敛为纯退出决策
+   - 純粋な退出意思決定に収束。
 
 4. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
-   - 只负责 orchestration
+   - オーケストレーションのみを担当。
 
 5. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
-   - 标注 `telegram` 的 legacy 定位
+   - `telegram` のレガシー位置付けを明記。
 
 ---
 
-## 6. 执行顺序
+## 6. 実行順序
 
 ### Step 1
 
-先做 `ExitDecision` 边界收紧。
+まず `ExitDecision` の境界強化を行います。
 
-验收：
+検証項目：
 
-1. `exit.rs` 中不再出现“默认 ADD”语义
-2. 退出层单测仍覆盖 defensive / strength loss / participation / overheat
+1. `exit.rs` 内から「デフォルト ADD」のセマンティクスが消失していること。
+2. 退出層の単体テストが引き続き defensive / strength loss / participation / overheat をカバーしていること。
 
 ### Step 2
 
-新增独立 intent synthesis 模块。
+独立した intent synthesis モジュールを新規追加します。
 
-验收：
+検証項目：
 
-1. `engine.rs` 不再手写 `EXIT > TRIM > HOLD > ADD` 合成逻辑
-2. intent 合成规则有独立测试
+1. `engine.rs` で `EXIT > TRIM > HOLD > ADD` の合成ロジックを直接記述していないこと。
+2. intent 合成ルールに独立したテストが存在すること。
 
 ### Step 3
 
-将 `DisplayContext / DisplayIntent` 派生挪入 presentation 模块。
+`DisplayContext / DisplayIntent` の派生ロジックを presentation モジュールに移動します。
 
-验收：
+検証項目：
 
-1. `engine.rs` 不再直接 new `DisplayContext`
-2. `engine.rs` 不再直接调用 `DisplayAdapter::derive_display_intent`
+1. `engine.rs` が直接 `DisplayContext` を生成していないこと。
+2. `engine.rs` が直接 `DisplayAdapter::derive_display_intent` を呼び出していないこと。
 
 ### Step 4
 
-收紧 `DecisionPacket` 语义，并更新 schema / 文档。
+`DecisionPacket` のセマンティクスを強化し、schema およびドキュメントを更新します。
 
-验收：
+検証項目：
 
-1. `telegram` 的定位被显式标明
-2. `DECISION_PACKET_SCHEMA.md` 完整记录结构化字段优先级
-
----
-
-## 7. 非目标
-
-本轮不要做以下事情：
-
-1. 不修改 `Market Regime` 阈值
-2. 不修改 `ParticipationReadiness` 判定规则
-3. 不修改 `AssetState` 分类标准
-4. 不改交易接入层
-5. 不改 Telegram 视觉样式
-6. 不新增复杂策略信号
+1. `telegram` の位置付けが明示的に示されていること。
+2. `DECISION_PACKET_SCHEMA.md` に構造化フィールドの優先順位が完全に記録されていること。
 
 ---
 
-## 8. 测试要求
+## 7. 非目標 (Out of Scope)
 
-至少补以下测试：
+本フェーズでは以下のことは行いません：
 
-1. `ExitDecision` 不会再输出 `ADD`
-2. `IntentSynthesizer` 在各种组合下输出唯一正确的 `position_intent`
-3. `PresentationAssembler` 生成的 `DisplayContext / DisplayIntent` 与旧逻辑一致
-4. 旧历史包仍可反序列化
-5. `DecisionPacket` 结构化字段优先时，report 输出不依赖手工伪造 `telegram`
+1. `Market Regime` の閾値の変更。
+2. `ParticipationReadiness` 判定ルールの変更。
+3. `AssetState` 分類基準の変更。
+4. 取引接続層の変更。
+5. Telegram のビジュアルスタイルの変更。
+6. 新しい複雑な戦略シグナルの追加。
 
-建议新增：
+---
+
+## 8. テスト要件
+
+少なくとも以下のテストを補完してください：
+
+1. `ExitDecision` が `ADD` を出力しなくなったことの確認。
+2. `IntentSynthesizer` が様々な組み合わせにおいて唯一正しい `position_intent` を出力することの確認。
+3. `PresentationAssembler` が生成する `DisplayContext / DisplayIntent` が旧ロジックと一致することの確認。
+4. 旧バージョンの履歴パッケージが引き続きデシリアライズ可能であることの確認。
+5. `DecisionPacket` の構造化フィールドが優先される際、レポート出力が手動で偽造された `telegram` に依存しないことの確認。
+
+推奨される新規テストケース：
 
 1. `test_exit_decision_never_promotes_add`
 2. `test_intent_synthesizer_priority`
@@ -300,36 +303,36 @@ EXIT > TRIM > HOLD > ADD
 
 ---
 
-## 9. 验收标准
+## 9. 完了基準
 
-本任务完成，必须同时满足：
+以下の条件をすべて満たした場合に本タスク完了と見なします：
 
-1. `ExitDecision` 不再拥有 entry 语义
-2. `Engine` 不再直接承担展示层派生
-3. `position_intent` 由独立模块统一合成
-4. `DecisionPacket` 的结构化字段成为唯一真相源
-5. 全量测试通过
+1. `ExitDecision` がエントリー（Entry）セマンティクスを保持していないこと。
+2. `Engine` が展示層の派生を直接担当していないこと。
+3. `position_intent` が独立したモジュールで一元的に合成されていること。
+4. `DecisionPacket` の構造化フィールドが唯一の真実のソースとなっていること。
+5. 全量テストがパスすること。
 
-如果只是“代码挪位置”但职责仍未收紧，不算完成。
+単に「コードを移動させた」だけで責務が強化されていない場合は、完了とは見なしません。
 
 ---
 
-## 10. 给开发的明确指令
+## 10. 開発者への指示
 
-请按本任务单实施，不要扩 scope。本轮目标不是新增策略，而是做边界治理。
+本タスクリストに従って実施し、スコープを広げないでください。本フェーズの目標は戦略の追加ではなく、境界の統治（Governance）です。
 
-执行顺序：
+実行順序：
 
-1. 先收紧 `ExitDecision`
-2. 再抽出 `IntentSynthesizer`
-3. 再抽出 `PresentationAssembler`
-4. 最后收紧 `DecisionPacket` 的语义定位与文档
+1. まず `ExitDecision` を強化する。
+2. 次に `IntentSynthesizer` を抽出する。
+3. さらに `PresentationAssembler` を抽出する。
+4. 最後に `DecisionPacket` のセマンティックな位置付けとドキュメントを強化する。
 
-交付要求：
+納品要件：
 
-1. 每一步尽量独立提交
-2. 不要把边界治理和视觉/文案修改混在一起
-3. 提交时附测试结果
-4. 若发现现有 UI 测试过度依赖 legacy `telegram`，应同步修正为依赖结构化字段
+1. 各ステップを可能な限り独立してコミットすること。
+2. 境界統治とビジュアル/文言の修正を混在させないこと。
+3. コミット時にテスト結果を添付すること。
+4. 既存の UI テストがレガシーな `telegram` に過度に依存している場合は、構造化フィールドに依存するように修正すること。
 
-验收以第 8 节和第 9 节为准；没有把职责边界真正收紧，不算完成。
+検証は第8節および第9節に基づきます。責務の境界が真に強化されていない限り、完了とは認められません。

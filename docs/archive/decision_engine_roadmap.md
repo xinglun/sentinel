@@ -1,35 +1,39 @@
-# Sentinel 决策引擎重构路线图
+---
+author: Ray
+---
 
-## 1. 文档目的
+# Sentinel 意思決定エンジン重構築ロードマップ
 
-本文档定义 Sentinel 从“会说话的仪表盘”演进为“决策引擎”的最终态架构、模块边界、阶段任务、依赖关系与验收标准。
+## 1. ドキュメントの目的
 
-本文档关注的是策略内核，不包含 Figma、Dashboard 等展示层目标。最终对外输出仍以 Telegram 为主，同时保留机器可读的 JSON 产物用于回放、告警和后续自动化。
+本ドキュメントでは、Sentinel が「話すダッシュボード」から「意思決定エンジン」へと進化するための最終的なアーキテクチャ、モジュール境界、フェーズごとのタスク、依存関係、および検収基準を定義します。
 
-## 2. 北极星目标
+本ドキュメントは戦略カーネル（コアロジック）に焦点を当てており、Figma や Dashboard などの表示レイヤーの目標は含まれません。最終的な外部出力は引き続き Telegram をメインとしつつ、再生（リプレイ）、アラート、および将来の自動化のために、マシンリーダーブルな JSON 成果物を保持します。
 
-Sentinel 最终必须每天稳定回答以下问题：
+## 2. 北極星指標 (North Star Goals)
 
-1. 市场当前处于什么状态。
-2. 当前状态允许做什么，不允许做什么。
-3. 组合层面的目标仓位、节奏和风险约束是什么。
-4. 每只资产当前处于什么执行状态。
-5. 市场状态和个股状态组合后，最终动作是什么。
-6. 如果状态发生迁移，迁移的触发条件和原因是什么。
+Sentinel は最終的に、毎日以下の問いに対して安定して回答できなければなりません：
 
-最终系统的核心输出不是解读文案，而是一个确定性的 `decision_packet.json`，Telegram 文本只是该决策包的消费层之一。
+1. 市場は現在どのような状態にあるか。
+2. 現在の状態において、何が許可され、何が禁止されているか。
+3. ポートフォリオレベルの目標ポジション、ペース、およびリスク制約は何か。
+4. 各資産の現在の執行状態は何か。
+5. 市場状態と個別資産状態を組み合わせた後の最終的なアクションは何か。
+6. 状態遷移が発生した場合、そのトリガー条件と原因は何か。
 
-## 3. 设计原则
+最終的なシステムのコア出力は、解釈文案ではなく、確定的な `decision_packet.json` です。Telegram のテキストは、この意思決定パケットのコンシューマー（消費レイヤー）の一つに過ぎません。
 
-1. 先判断市场状态，再决定个股动作。
-2. 升级慢，降级快。
-3. 动作由状态决定，不由情绪决定。
-4. 个股强弱必须服从市场状态。
-5. 不预测，只响应结构变化。
-6. Telegram 是输出通道，不是策略逻辑承载层。
-7. 回测必须复用与实盘相同的决策管线。
+## 3. 設計原則
 
-## 4. 最终态架构
+1. 市場状態を先に判定し、その後に個別資産のアクションを決定する。
+2. 昇格は遅く、降格は速く。
+3. アクションは状態によって決定し、感情によって決定しない。
+4. 個別資産の強弱は市場状態に従わなければならない。
+5. 予測せず、構造の変化にのみ対応する。
+6. Telegram は出力チャネルであり、戦略ロジックの担い手ではない。
+7. バックテストは、実盤と全く同じ意思決定パイプラインを再利用しなければならない。
+
+## 4. 最終態アーキテクチャ
 
 ```text
 Data Providers
@@ -42,20 +46,20 @@ Data Providers
   -> Telegram Renderer / JSON Persistence / Backtest Replay / Trading Hooks
 ```
 
-### 4.1 目标分层
+### 4.1 目標レイヤー
 
 1. `Data Layer`
-   输入行情、情绪、持仓、历史状态。
+   市場価格、センチメント、持株、過去の状態履歴を入力。
 2. `Feature Layer`
-   统一产出市场特征与个股特征，不做决策。
+   市場特徴と個別資産特徴を統一的に算出。ここでは意思決定は行わない。
 3. `Decision Layer`
-   包含市场状态机、组合策略、个股执行状态、动作矩阵。
+   市場状態機、ポートフォリオポリシー、個別資産執行状態、アクションマトリックスを含む。
 4. `Delivery Layer`
-   负责 Telegram、JSON、transition log、backtest 输出。
+   Telegram、JSON、遷移ログ（transition log）、バックテスト出力を担当。
 
-### 4.2 市场状态模型
+### 4.2 市場状態モデル
 
-对外第一版采用 6 个主状态：
+対外的な最初のバージョンでは、以下の 6 つのメイン状態を採用します：
 
 1. `IGNITION`
 2. `NEWBORN`
@@ -64,22 +68,22 @@ Data Providers
 5. `CONFIRMED`
 6. `DEFENSIVE`
 
-对内建议采用双层表示，避免后续扩展时把所有语义挤在一个枚举里：
+対内（内部実装）では、将来の拡張時にすべてのセマンティクスが一つの列挙型に詰め込まれるのを避けるため、2層表現を推奨します：
 
 1. `lifecycle_state`
    `IGNITION / NEWBORN / EARLY_CONFIRMATION / ESTABLISHED / CONFIRMED`
 2. `risk_overlay`
    `NORMAL / DECELERATING / DEFENSIVE / BROKEN`
 
-对外展示时，将内部双层状态映射为主状态和附加标签，例如：
+対外表示時には、内部の2層状態をメイン状態と付加タグにマッピングします。例：
 
 1. `ESTABLISHED + NORMAL -> ESTABLISHED`
 2. `ESTABLISHED + DECELERATING -> ESTABLISHED (Decelerating)`
 3. `ANY + DEFENSIVE/BROKEN -> DEFENSIVE`
 
-### 4.3 个股状态模型
+### 4.3 個別資産状態モデル
 
-个股执行状态保留为独立子状态机：
+個別資産の執行状態は、独立したサブ状態機として維持されます：
 
 1. `OPTIMAL`
 2. `CRUISE`
@@ -89,11 +93,11 @@ Data Providers
 6. `DEFEND`
 7. `FORMING`
 
-个股状态不直接决定最终动作，必须经过市场状态与组合策略约束后，再由动作矩阵产出执行结果。
+個別資産の状態は最終的なアクションを直接決定しません。必ず市場状態とポートフォリオポリシーの制約を経た後、アクションマトリックスによって執行結果が算出されます。
 
-## 5. 核心输出契约
+## 5. コア出力契約
 
-最终输出以 `decision_packet.json` 为准，建议结构如下：
+最終的な出力は `decision_packet.json` を正とし、以下の構造を推奨します：
 
 ```json
 {
@@ -143,52 +147,52 @@ Data Providers
 }
 ```
 
-JSON 是主产物，Telegram 文本必须从该结构渲染，禁止在渲染阶段补做策略判断。
+JSON がメインの成果物であり、Telegram テキストはこの構造からレンダリングされなければなりません。レンダリング段階で追加の戦略判断を行うことは禁止されます。
 
-## 6. 模块设计
+## 6. モジュール設計
 
-| 模块 | 责任 | 主要输入 | 主要输出 | 上游依赖 |
+| モジュール | 責任 | 主要入力 | 主要出力 | 上流依存 |
 | --- | --- | --- | --- | --- |
-| `src/core/features.rs` | 统一提取市场与个股特征 | 行情、情绪、历史 telemetry、持仓 | `MarketFeatures`、`AssetFeatures` | `data/*`、`ledger` |
-| `src/core/market_regime.rs` | 市场状态识别与迁移 | `MarketFeatures`、前序状态历史 | `MarketRegimeSnapshot` | `features` |
-| `src/core/portfolio_policy.rs` | 组合层策略约束 | `MarketRegimeSnapshot` | `PortfolioPolicy` | `market_regime` |
-| `src/core/asset_state.rs` | 个股状态识别 | `AssetFeatures` | `AssetStateSnapshot` | `features` |
-| `src/core/action_matrix.rs` | 市场状态 × 个股状态 -> 动作 | `MarketRegimeSnapshot`、`PortfolioPolicy`、`AssetStateSnapshot` | `AssetActionDecision` | `market_regime`、`portfolio_policy`、`asset_state` |
-| `src/core/decision.rs` | 聚合最终决策包 | 全部上游结果 | `DecisionPacket` | 所有决策模块 |
-| `src/core/report.rs` | Telegram 与 Markdown 渲染 | `DecisionPacket` | Telegram 文本、Markdown | `decision` |
-| `src/core/transition_log.rs` | 迁移日志持久化 | `DecisionPacket`、历史状态 | `transition_log.jsonl`、`state_transitions.csv` | `decision` |
-| `src/backtest.rs` | 决策回放与指标评估 | 历史行情、同一决策管线 | 回测报告、迁移矩阵、策略指标 | `decision` |
-| `src/cli.rs` | 管线装配与命令入口 | 配置、provider、持久化路径 | 执行结果 | 全部模块 |
+| `src/core/features.rs` | 市場と個別資産の特徴を統一的に抽出 | 価格、センチメント、過去テレメトリ、持株 | `MarketFeatures`, `AssetFeatures` | `data/*`, `ledger` |
+| `src/core/market_regime.rs` | 市場状態の識別と遷移 | `MarketFeatures`, 前回の状態履歴 | `MarketRegimeSnapshot` | `features` |
+| `src/core/portfolio_policy.rs` | ポートフォリオレベルの戦略制約 | `MarketRegimeSnapshot` | `PortfolioPolicy` | `market_regime` |
+| `src/core/asset_state.rs` | 個別資産状態の識別 | `AssetFeatures` | `AssetStateSnapshot` | `features` |
+| `src/core/action_matrix.rs` | 市場状態 × 個別資産状態 -> アクション | `MarketRegimeSnapshot`, `PortfolioPolicy`, `AssetStateSnapshot` | `AssetActionDecision` | `market_regime`, `portfolio_policy`, `asset_state` |
+| `src/core/decision.rs` | 最終意思決定パケットの集約 | すべての上流結果 | `DecisionPacket` | 全意思決定モジュール |
+| `src/core/report.rs` | Telegram と Markdown のレンダリング | `DecisionPacket` | Telegram 文本, Markdown | `decision` |
+| `src/core/transition_log.rs` | 遷移ログの永続化 | `DecisionPacket`, 状態履歴 | `transition_log.jsonl`, `state_transitions.csv` | `decision` |
+| `src/backtest.rs` | 意思決定の再生と指標評価 | 履歴データ、同一意思決定パイプライン | 回測報告, 遷移行列, 戦略指標 | `decision` |
+| `src/cli.rs` | パイプラインのアセンブリとエントリ | 設定, provider, 永続化パス | 執行結果 | 全モジュール |
 
-## 7. 模块依赖与实现顺序
+## 7. モジュール依存関係と実装順序
 
-### 7.1 强依赖链
+### 7.1 強依存チェーン
 
-1. `features.rs` 是整个系统的数据底座。
-2. `market_regime.rs` 必须建立在 `MarketFeatures` 之上。
-3. `portfolio_policy.rs` 必须建立在 `MarketRegimeSnapshot` 之上。
-4. `asset_state.rs` 与 `market_regime.rs` 可以并行开发，但 `action_matrix.rs` 必须等待两者完成。
-5. `decision.rs` 必须等全部决策模块完成后接入。
-6. `report.rs` 与 `backtest.rs` 必须改为消费 `DecisionPacket`，不能继续各自维护一套策略推理。
+1. `features.rs` はシステム全体のデータ基盤である。
+2. `market_regime.rs` は必ず `MarketFeatures` の上に構築されなければならない。
+3. `portfolio_policy.rs` は必ず `MarketRegimeSnapshot` の上に構築されなければならない。
+4. `asset_state.rs` と `market_regime.rs` は並行開発可能だが、`action_matrix.rs` は両方の完了を待つ必要がある。
+5. `decision.rs` はすべての意思決定モジュールが完了した後に組み込まなければならない。
+6. `report.rs` と `backtest.rs` は `DecisionPacket` を消費するように変更しなければならず、それぞれが独自の戦略推論を維持し続けることはできない。
 
-### 7.2 现有代码的重构方向
+### 7.2 既存コードの重構築方向
 
-1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
-   现有个股状态逻辑逐步拆到 `asset_state.rs`，保留指标计算部分到 `features.rs`。
-2. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
-   现有 `GravityHealth` 与 `CapitalPosture` 的宏观决策逻辑迁出，报告模块只负责消费决策结果。
-3. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
-   改为明确的 pipeline orchestrator。
-4. [backtest.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/backtest.rs)
-   从“状态统计器”升级为“状态机回放实验室”。
+1. `engine.rs`
+   現在の個別資産状態ロジックを段階的に `asset_state.rs` に切り出し、指標計算部分は `features.rs` に保持する。
+2. `report.rs`
+   現在の `GravityHealth` と `CapitalPosture` のマクロ意思決定ロジックを遷出させ、報告モジュールは意思決定結果の消費のみを担当するようにする。
+3. `cli.rs`
+   明確な pipeline orchestrator へと変更する。
+4. `backtest.rs`
+   「状態統計器」から「状態機再生ラボ」へとアップグレードする。
 
-## 8. 分阶段任务拆解
+## 8. フェーズ別タスク分解
 
-### Phase 0: 规格冻结
+### Phase 0: 規格凍結
 
-**目标**
+**目標**
 
-冻结状态定义、迁移规则、动作矩阵与决策包契约。
+状態定義、遷移ルール、アクションマトリックス、および意思決定パケットの契約を凍結する。
 
 **交付物**
 
@@ -198,90 +202,90 @@ JSON 是主产物，Telegram 文本必须从该结构渲染，禁止在渲染阶
 4. `docs/archive/decision_engine_roadmap.md`
 5. `decision_packet` schema 草案
 
-**依赖**
+**依存**
 
-无。
+なし。
 
-**验收标准**
+**検収基準**
 
-1. 每个市场状态都有明确定义、允许动作、禁止动作、升级条件、降级条件。
-2. 每个个股状态在所有市场状态下都有唯一动作映射。
-3. `decision_packet` 字段定义完整，没有“以后再补”的关键空洞。
+1. すべての市場状態に、明確な定義、許可アクション、禁止アクション、昇格条件、降格条件があること。
+2. すべての個別資産状態が、すべての市場状態において一意のアクションマッピングを持っていること。
+3. `decision_packet` のフィールド定義が完全であり、後回しにされた重要な欠落がないこと。
 
-### Phase 1: 特征层重建
+### Phase 1: 特徴層の再構築
 
-**目标**
+**目標**
 
-把宏观和个股的特征提取从报告与状态判断中剥离出来。
+マクロおよび個別資産の特徴抽出を、報告や状態判断から分離する。
 
 **交付物**
 
 1. `src/core/features.rs`
-2. `MarketFeatures`、`AssetFeatures` 数据结构
-3. 历史状态读取接口，用于迁移判定与 regime age 计算
+2. `MarketFeatures`, `AssetFeatures` データ構造
+3. 遷移判定および regime age 計算のための過去状態読み込みインターフェース
 
-**依赖**
+**依存**
 
 Phase 0。
 
-**验收标准**
+**検収基準**
 
-1. 同样输入下，特征计算结果稳定且可复现。
-2. Radar 与 Backtest 复用同一套特征提取函数。
-3. 单元测试覆盖关键特征：`stability`、`structural`、`maturity`、`flow_acceleration`、`dominance_margin`。
+1. 同一の入力に対して、特徴計算結果が安定し再現可能であること。
+2. Radar と Backtest が全く同じ特徴抽出関数を再利用していること。
+3. 主要な特徴（`stability`, `structural`, `maturity`, `flow_acceleration`, `dominance_margin`）に対してユニットテストがカバーされていること。
 
-### Phase 2: 市场状态机
+### Phase 2: 市場状態機
 
-**目标**
+**目標**
 
-实现确定性的市场状态识别、升级和降级机制。
+確定的な市場状態の識別、昇格、および降格メカニズムを実装する。
 
 **交付物**
 
 1. `src/core/market_regime.rs`
 2. `MarketRegimeSnapshot`
-3. 状态迁移原因生成器
-4. 连续天数确认和快速降级规则
+3. 状態遷移理由生成器
+4. 連続日数確認および迅速な降格ルール
 
-**依赖**
+**依存**
 
 Phase 1。
 
-**验收标准**
+**検収基準**
 
-1. 支持 `IGNITION -> NEWBORN -> EARLY_CONFIRMATION -> ESTABLISHED -> CONFIRMED` 升级路径。
-2. 支持 `ANY -> DEFENSIVE` 快速降级。
-3. 支持连续天数规则，例如 “跌破阈值 2 天后降级”。
-4. 对每次状态变化都能产出结构化原因列表。
-5. 测试覆盖升级、降级、边界值、抖动抑制。
+1. `IGNITION -> NEWBORN -> EARLY_CONFIRMATION -> ESTABLISHED -> CONFIRMED` の昇格パスをサポートしていること。
+2. `ANY -> DEFENSIVE` の迅速な降格をサポートしていること。
+3. 「閾値を割り込んで2日後に降格」などの連続日数ルールをサポートしていること。
+4. 各状態変化に対して構造化された理由リストを出力できること。
+5. 昇格、降格、境界値、チャタリング抑制に対してテストがカバーされていること。
 
-### Phase 3: 组合策略引擎
+### Phase 3: ポートフォリオポリシーエンジン
 
-**目标**
+**目標**
 
-把“市场状态”转换为“组合层约束”。
+「市場状態」を「ポートフォリオレベルの制約」に変換する。
 
 **交付物**
 
 1. `src/core/portfolio_policy.rs`
 2. `PortfolioPolicy`
-3. 各状态下的 exposure、允许动作、禁止动作规则
+3. 各状態における exposure（露出）、許可アクション、禁止アクションルール
 
-**依赖**
+**依存**
 
 Phase 2。
 
-**验收标准**
+**検収基準**
 
-1. 每个市场状态都能产出目标仓位区间。
-2. 每个市场状态都能明确 `allow_chase`、`allow_pullback_buy`、`allow_new_risk`。
-3. `DEFENSIVE` 状态下，组合约束可直接冻结风险资产动作。
+1. 各市場状態に対して、目標ポジション区間を出力できること。
+2. 各市場状態に対して、`allow_chase`, `allow_pullback_buy`, `allow_new_risk` を明確に定義できること。
+3. `DEFENSIVE` 状態において、ポートフォリオ制約がリスク資産のアクションを直接凍結できること。
 
-### Phase 4: 个股执行状态与动作矩阵
+### Phase 4: 個別資産執行状態とアクションマトリックス
 
-**目标**
+**目標**
 
-把个股识别与最终动作解耦，形成标准动作矩阵。
+個別資産の識別を最終アクションからデカップリングし、標準的なアクションマトリックスを形成する。
 
 **交付物**
 
@@ -290,151 +294,151 @@ Phase 2。
 3. `AssetStateSnapshot`
 4. `AssetActionDecision`
 
-**依赖**
+**依存**
 
-Phase 1、Phase 2、Phase 3。
+Phase 1, Phase 2, Phase 3。
 
-**验收标准**
+**検収基準**
 
-1. 个股状态机与市场状态机解耦。
-2. 动作矩阵对所有 `market_state × asset_state` 组合都是完备的。
-3. 每个资产最终动作只能来自动作矩阵，不能在报告层额外改写。
-4. 动作结果至少包含 `ACCUMULATE / HOLD / REDUCE / FREEZE / AVOID / OBSERVE`。
+1. 個別資産状態機が市場状態機からデカップリングされていること。
+2. アクションマトリックスがすべての `market_state × asset_state` の組み合わせに対して完備していること。
+3. 各資産の最終アクションがアクションマトリックスからのみ取得され、報告レイヤーで追加の書き換えが行われないこと。
+4. アクション結果に少なくとも `ACCUMULATE / HOLD / REDUCE / FREEZE / AVOID / OBSERVE` が含まれていること。
 
-### Phase 5: 决策包与 Telegram 输出重构
+### Phase 5: 意思決定パケットと Telegram 出力の重構築
 
-**目标**
+**目標**
 
-以 `DecisionPacket` 作为唯一事实源，重写输出链路。
+`DecisionPacket` を唯一の事実源（SSOT）として、出力パイプラインを書き換える。
 
 **交付物**
 
 1. `src/core/decision.rs`
 2. `DecisionPacket`
-3. `report.rs` 重构为纯渲染模块
-4. 每日 `decision_packet.json`
-5. 由决策包直接生成的 Telegram 文本
+3. 純粋なレンダリングモジュールとしての `report.rs` の重構築
+4. 毎日の `decision_packet.json`
+5. 意思決定パケットから直接生成される Telegram テキスト
 
-**依赖**
+**依存**
 
-Phase 2、Phase 3、Phase 4。
+Phase 2, Phase 3, Phase 4。
 
-**验收标准**
+**検収基準**
 
-1. Telegram 输出不再自行推断策略，只渲染 `DecisionPacket`。
-2. JSON 与 Telegram 的核心结论一致。
-3. 每日主输出文件包含市场状态、组合策略、资产动作、迁移原因。
+1. Telegram 出力が独自の戦略推論を行わず、`DecisionPacket` をレンダリングするだけであること。
+2. JSON と Telegram の核となる結論が一致していること。
+3. 毎日のメイン出力ファイルに、市場状態、ポートフォリオポリシー、資産アクション、遷移理由が含まれていること。
 
-### Phase 6: 状态持久化与迁移日志
+### Phase 6: 状態永続化と遷移ログ
 
-**目标**
+**目標**
 
-让系统具备可追溯、可回放、可审计能力。
+システムに追跡、再生（リプレイ）、および監査能力を持たせる。
 
 **交付物**
 
 1. `src/core/transition_log.rs`
 2. `transition_log.jsonl`
 3. `state_transitions.csv`
-4. 扩展后的 `telemetry.csv`
+4. 拡張された `telemetry.csv`
 
-**依赖**
-
-Phase 5。
-
-**验收标准**
-
-1. 任意一天都可追溯前一状态、当前状态、迁移原因。
-2. `telemetry.csv` 可支持后续迁移回放和 regime age 计算。
-3. 日志结构可以直接供 backtest/replay 读取。
-
-### Phase 7: 回测与回放框架重构
-
-**目标**
-
-让回测验证“状态机质量”和“动作约束效果”，而不只是单点状态胜率。
-
-**交付物**
-
-1. `backtest.rs` 改造为复用 `DecisionPacket` 管线
-2. 市场状态迁移矩阵
-3. 状态持续时间统计
-4. 降级响应速度统计
-5. 组合暴露与回撤对比指标
-
-**依赖**
-
-Phase 5、Phase 6。
-
-**验收标准**
-
-1. Backtest 与 Radar 使用同一决策逻辑。
-2. 能输出状态迁移频率、平均持续时间、升级/降级滞后。
-3. 能衡量 `DEFENSIVE` 触发后对回撤的抑制效果。
-
-### Phase 8: 交易接入与执行门禁
-
-**目标**
-
-将决策引擎结果安全接到自动交易代理，但保持 Telegram 仍是主要对外输出。
-
-**交付物**
-
-1. `trader_agent` 接入 `DecisionPacket`
-2. 动作到交易指令的门禁规则
-3. 风险预算、单日预算、状态级熔断
-
-**依赖**
+**依存**
 
 Phase 5。
 
-**验收标准**
+**検収基準**
 
-1. 交易代理不能绕过组合策略和动作矩阵。
-2. `DEFENSIVE` 状态下禁止新增风险暴露。
-3. 自动交易可以关闭，但 Telegram 输出不受影响。
+1. どの日付においても、前の状態、現在の状態、遷移理由を遡れること。
+2. `telemetry.csv` が将来の遷移リプレイや regime age 計算をサポートしていること。
+3. ログ構造が backtest/replay から直接読み込み可能であること。
 
-## 9. 阶段性里程碑
+### Phase 7: バックテストと再生フレームワークの重構築
 
-| 里程碑 | 意义 | 完成标准 |
+**目標**
+
+バックテストで「単一ポイントの状態勝率」だけでなく、「状態機の品質」と「アクション制約の効果」を検証できるようにする。
+
+**交付物**
+
+1. `DecisionPacket` パイプラインを再利用するように改造された `backtest.rs`
+2. 市場状態遷移行列
+3. 状態持続時間の統計
+4. 降格レスポンス速度の統計
+5. ポートフォリオエクスポージャーとドローダウンの比較指標
+
+**依存**
+
+Phase 5, Phase 6。
+
+**検収基準**
+
+1. Backtest と Radar が同一の意思決定ロジックを使用していること。
+2. 状態遷移頻度、平均持続時間、昇格/降格のラグを出力できること。
+3. `DEFENSIVE` 発動後のドローダウン抑制効果を測定できること。
+
+### Phase 8: 取引接続と執行ゲート
+
+**目標**
+
+意思決定エンジンの結果を自動取引エージェントに安全に接続する。ただし、Telegram が引き続き主要な対外出力であることを維持する。
+
+**交付物**
+
+1. `DecisionPacket` に接続された `trader_agent`
+2. アクションから取引指示へのゲートルール
+3. リスク予算、単日予算、状態レベルのサーキットブレーカー
+
+**依存**
+
+Phase 5。
+
+**検収基準**
+
+1. 取引エージェントがポートフォリオポリシーとアクションマトリックスをバイパスできないこと。
+2. `DEFENSIVE` 状態において新規のリスクエクスポージャーの追加が禁止されていること。
+3. 自動取引をオフにしても Telegram 出力に影響を与えないこと。
+
+## 9. 段階的マイルストーン
+
+| マイルストーン | 意義 | 完了基準 |
 | --- | --- | --- |
-| M1 | Sentinel 能定义市场状态 | Phase 0-2 完成 |
-| M2 | Sentinel 能定义组合约束 | Phase 3 完成 |
-| M3 | Sentinel 能给出统一动作 | Phase 4 完成 |
-| M4 | Sentinel 成为真正决策引擎 | Phase 5 完成 |
-| M5 | Sentinel 具备可追溯能力 | Phase 6 完成 |
-| M6 | Sentinel 具备可验证能力 | Phase 7 完成 |
-| M7 | Sentinel 可安全联动交易 | Phase 8 完成 |
+| M1 | Sentinel が市場状態を定義できる | Phase 0-2 完了 |
+| M2 | Sentinel がポートフォリオ制約を定義できる | Phase 3 完了 |
+| M3 | Sentinel が統一されたアクションを提示できる | Phase 4 完了 |
+| M4 | Sentinel が真の意思決定エンジンになる | Phase 5 完了 |
+| M5 | Sentinel が追跡能力を持つ | Phase 6 完了 |
+| M6 | Sentinel が検証能力を持つ | Phase 7 完了 |
+| M7 | Sentinel が安全に取引連携できる | Phase 8 完了 |
 
-## 10. 全局验收标准
+## 10. 全体検収基準
 
-以下条件同时满足，才可认为决策引擎重构完成：
+以下の条件がすべて満たされたとき、意思決定エンジンの重構築が完了したとみなされます：
 
-1. 日报主产物是 `decision_packet.json`，Telegram 由其渲染。
-2. 报告模块不再承担策略判断。
-3. 所有资产最终动作均由动作矩阵决定。
-4. 所有市场迁移都有结构化原因。
-5. Radar、Backtest、Telegram、Trading 复用同一套决策管线。
-6. `DEFENSIVE` 的降级触发速度显著快于升级速度。
-7. 历史回放可以复原任意交易日的状态、策略与动作。
+1. 日報のメイン成果物が `decision_packet.json` であり、Telegram はそれによってレンダリングされている。
+2. 報告モジュールが戦略判断を一切担っていない。
+3. すべての資産の最終アクションがアクションマトリックスによって決定されている。
+4. すべての市場遷移に構造化された理由がある。
+5. Radar, Backtest, Telegram, Trading が同一の意思決定パイプラインを再利用している。
+6. `DEFENSIVE` の降格トリガー速度が昇格速度よりも明らかに速い。
+7. 歴史的リプレイによって、任意の取引日の状態、戦略、およびアクションを復元できる。
 
-## 11. 非目标
+## 11. 非目標
 
-以下内容不属于当前路线图的主要目标：
+以下の内容は現在のロードマップの主要な目標ではありません：
 
-1. Figma 设计稿或 Dashboard 前端。
-2. 复杂机器学习分类器替代规则状态机。
-3. 先做视觉美化再反推策略逻辑。
-4. 在状态机未完成前直接扩充自动交易复杂度。
+1. Figma デザイン案や Dashboard フロントエンド。
+2. 複雑な機械学習分類器によるルールベース状態機の代替。
+3. 戦略ロジックを検討する前にビジュアルを美化すること。
+4. 状態機が未完成の状態で自動取引の複雑さを直接拡張すること。
 
-## 12. 当前推荐执行顺序
+## 12. 推奨される執行順序
 
-如果按结果优先推进，建议实际开发顺序如下：
+結果を優先して進める場合、実際の開発順序は以下を推奨します：
 
-1. 先完成 Phase 0，把状态定义、迁移规则、动作矩阵和决策包字段冻结。
-2. 再完成 Phase 1 和 Phase 2，先让系统能稳定判断市场状态。
-3. 然后完成 Phase 3 和 Phase 4，把“状态”真正变成“动作约束”。
-4. 再做 Phase 5 和 Phase 6，把 Telegram 和持久化接上统一决策包。
-5. 最后做 Phase 7 和 Phase 8，用同一内核做回测与交易门禁。
+1. まず Phase 0 を完了し、状態定義、遷移ルール、アクションマトリックス、および意思決定パケットのフィールドを凍結する。
+2. 次に Phase 1 と Phase 2 を完了し、システムが市場状態を安定して判断できるようにする。
+3. その後、Phase 3 と Phase 4 を完了し、「状態」を真の「アクション制約」に変える。
+4. 次に Phase 5 と Phase 6 を完了し、Telegram と永続化を統一された意思決定パケットに接続する。
+5. 最後に Phase 7 と Phase 8 を完了し、同一のカーネルを用いてバックテストと取引ゲートを行う。
 
-在这个顺序下，Telegram 输出不会被削弱，只会从“解释结果”升级成“表达决策”。
+この順序であれば、Telegram の出力が弱まることなく、「結果の解釈」から「意思決定の表明」へとアップグレードされます。

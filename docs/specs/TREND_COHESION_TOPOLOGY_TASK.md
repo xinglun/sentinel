@@ -1,145 +1,145 @@
-# Trend Cohesion Topology Task
+---
+author: Ray
+---
 
-## Goal
+# トレンド凝集性トポロジー・タスク (Trend Cohesion Topology Task)
 
-Enhance the existing `Trend Cohesion Gate` with an explicit structural topology layer so the
-system can distinguish:
+## 目標
 
-- `NO_LEADER`
-- `SINGLE_LEADER`
-- `FRAGMENTED_LEADERS`
+既存の `Trend Cohesion Gate`（トレンド凝集性ゲート）に明示的な「構造トポロジーレイヤー」を強化し、システムが以下の状態を区別できるようにします：
 
-This is not a new gate. The gate already exists.
-This round adds structural interpretation on top of the existing gate so the system can explain
-whether the current market lacks leadership entirely, has a single emerging leader, or contains
-multiple competing leaders.
+- `NO_LEADER` (リーダー不在)
+- `SINGLE_LEADER` (単一リーダー)
+- `FRAGMENTED_LEADERS` (断片化したリーダー群)
 
-## Problem
+これは新しいゲートを作るタスクではありません。ゲートはすでに存在しています。
+本フェーズでは、既存のゲートの上に「構造的解釈（Structural Interpretation）」を追加し、現在の市場がリーダーシップを完全に欠いているのか、単一のリーダーが台頭しつつあるのか、あるいは複数の競合するリーダーが存在するのかをシステムが説明できるようにします。
 
-The current system already tells the user:
+## 問題点
 
-- whether participation is allowed
-- whether the primary trend is formed
-- which gate conditions are still unmet
+現在のシステムは、すでにユーザーに対して以下を伝えています：
 
-But it still does not explicitly distinguish between:
+- 参加が許可されているかどうか (Participation Gate)。
+- 主要トレンドが形成されているかどうか (Primary Trend Formed)。
+- どのゲート条件がまだ満たされていないか。
 
-1. no credible leadership at all
-2. one clear leader beginning to emerge
-3. multiple leaders competing without convergence
+しかし、以下の状態を明示的に区別できていません：
 
-Those are all different trading situations, even when the final outcome is still `NO TRADE`.
+1. 信頼できるリーダーシップが全く存在しない。
+2. 1つの明確なリーダーが台頭し始めている。
+3. 収束することなく、複数のリーダーが競合している。
 
-## Scope
+これらは、最終的な判定が `NO TRADE` であったとしても、取引上のシチュエーションとしては全く異なるものです。
 
-This round should:
+## スコープ
 
-1. add a structured topology enum to the domain layer
-2. store it in `TrendCohesionSnapshot`
-3. localize it in `PresentationAssembler`
-4. render it in the report
+本フェーズで実施すべきこと：
 
-This round must not:
+1. ドメイン層に構造化されたトポロジー列挙型を追加する。
+2. それを `TrendCohesionSnapshot` に保存する。
+3. `PresentationAssembler` でローカライズ（多言語化）する。
+4. レポートにレンダリングする。
 
-- redefine `Trend Cohesion Gate`
-- turn topology into a trading action
-- mix topology with bullish/bearish direction
-- recompute topology inside `report.rs`
+本フェーズで実施してはならないこと：
 
-## Required Domain Change
+- `Trend Cohesion Gate` を再定義すること。
+- トポロジーを直接的な取引アクション（Trading Action）に変換すること。
+- トポロジーを強気/弱気の方向性と混同すること。
+- `report.rs` の内部でトポロジーを再計算すること。
 
-In `src/core/trend_cohesion.rs`, add:
+## 必要なドメイン層の変更
+
+`src/core/trend_cohesion.rs` に以下を追加します：
 
 - `TrendCohesionTopology`
   - `NoLeader`
   - `SingleLeader`
   - `FragmentedLeaders`
 
-And add it to `TrendCohesionSnapshot`.
+そして、これを `TrendCohesionSnapshot` に追加します。
 
-## Required Rule Semantics
+## 必要なルールのセマンティクス
 
-Topology must answer:
+トポロジーは以下の問いに回答しなければなりません：
 
-- Is there no leader?
-- Is there one dominant emerging leader?
-- Are there multiple leaders competing without convergence?
+- リーダーは不在か？
+- 1つの支配的な、台頭しつつあるリーダーが存在するか？
+- 収束することなく、複数のリーダーが競合しているか？
 
-Suggested signal inputs:
+推奨されるシグナル入力：
 
-- `leader_count`
-- `candidate_count`
-- `leader_quality_score`
-- `rotation_quality_score`
-- `candidate_compactness_score`
+- `leader_count` (リーダー数)
+- `candidate_count` (候補数)
+- `leader_quality_score` (リーダー品質スコア)
+- `rotation_quality_score` (ローテーション品質スコア)
+- `candidate_compactness_score` (候補のコンパクトさスコア)
 
-### Hard semantic rule
+### 厳格なセマンティックルール
 
-`TrendCohesionTopology` must not be treated as:
+`TrendCohesionTopology` を以下のものとして扱ってはなりません：
 
-- a market direction label
-- a risk regime
-- a trading permission
+- 市場の方向性ラベル
+- リスクレジーム (Risk Regime)
+- 取引の許可 (Trading Permission)
 
-It is a structural description only.
+これはあくまで「構造的な記述」に限定されます。
 
-## Presentation Requirements
+## 表示要件
 
-`PresentationAssembler` must generate:
+`PresentationAssembler` は以下を生成しなければなりません：
 
-- `主线结构 / Trend Topology / 主線構造`
-- localized value:
+- `主線構造 / Trend Topology / 主線構造`
+- ローカライズされた値：
   - `无主线 / No Leader / 主導不在`
   - `单主线 / Single Leader / 単一主導`
   - `多主线分散 / Fragmented Leaders / 多主導分散`
 
-`report.rs` must render the topology alongside the existing `Primary Trend` status.
+`report.rs` は、既存の `Primary Trend` ステータスと並べてトポロジーをレンダリングしなければなりません。
 
-## Acceptance Criteria
+## 承認基準
 
-The task is complete only if:
+以下のすべてが満たされた場合にのみ、本タスクは完了とみなされます：
 
-1. `TrendCohesionSnapshot` carries a structured topology enum.
-2. The system explicitly distinguishes:
-   - no leader
-   - single leader
-   - fragmented leaders
-3. The rendered report shows the topology label and value.
-4. Topology remains independent from:
+1. `TrendCohesionSnapshot` が構造化されたトポロジー列挙型を保持している。
+2. システムが以下を明示的に区別できている：
+   - リーダー不在
+   - 単一リーダー
+   - 断片化したリーダー群
+3. レンダリングされたレポートに、トポロジーのラベルと値が表示されている。
+4. トポロジーが以下から独立している：
    - `NO TRADE`
    - `DEFENSIVE`
-   - bullish/bearish direction
-5. `report.rs` remains render-only.
+   - 強気/弱気の方向性
+5. `report.rs` は引き続きレンダリング専用である。
 
-## Required Tests
+## 必要なテスト
 
-At minimum, add:
+少なくとも以下を追加してください：
 
-1. `trend_cohesion` unit tests for:
-   - no leader
-   - single leader
-   - fragmented leaders
-2. `presentation_tests` for localized topology labels/values
-3. `report_ui_tests` for final rendered topology output
-4. multi-language regression coverage
+1. `trend_cohesion` のユニットテスト
+   - リーダー不在ケース
+   - 単一リーダーケース
+   - 断片化したリーダー群ケース
+2. ローカライズされたトポロジーラベル/値に関する `presentation_tests`
+3. 最終的にレンダリングされるトポロジー出力に関する `report_ui_tests`
+4. 多言語リグレッション・カバレッジ
 
-## Quality Gates
+## クオリティゲート
 
-All of the following must pass:
+以下のすべてにパスしなければなりません：
 
 - `cargo fmt`
 - `cargo test --quiet`
 - `cargo clippy --all-targets --all-features -- -D warnings`
 
-## Hard Review Standard
+## 厳格な審査基準
 
-This task is not accepted just because the report shows one more line.
+単にレポートに一行追加されただけでは、本タスクは承認されません。
 
-It is accepted only if the system gains a real ability to distinguish:
+システムが以下の状態を実際に区別できるようになり、かつそれが説明可能になった場合にのみ承認されます：
 
-- there is nothing to follow
-- one leader is emerging
-- multiple leaders are competing
+- 追随すべきものが何もない状態。
+- 1つのリーダーが台頭しつつある状態。
+- 複数のリーダーが競合している状態。
 
-If the report still collapses all of those states into a generic “not formed”, the task is not
-complete.
+もしレポートにおいて、これらの状態が依然として一般的な「未形成 (not formed)」に集約されてしまっている場合、タスクは完了とはみなされません。

@@ -1,4 +1,5 @@
 ---
+author: Ray
 tags: [strategy, philosophy, evaluation, rust]
 keywords: [owner-leash-dog, strategy, evaluation, sentinel]
 ---
@@ -79,7 +80,3 @@ keywords: [owner-leash-dog, strategy, evaluation, sentinel]
 * ただ1つの「最強パラメータ」を選ぶのではなく、「保守的（低ボラティリティ）」「バランス（総合最適）」「攻撃的（強いReversion）」の3セットの最適解を見つけ、マクロの `CAPITAL STATE` に応じて使い分けることを推奨します。
 
 ---
-
-## Author
-
-Ray

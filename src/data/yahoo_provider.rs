@@ -1,5 +1,6 @@
 use anyhow::{anyhow, Result};
 use chrono::{NaiveDate, TimeZone, Utc};
+use std::borrow::Cow;
 use std::time::Duration;
 use time::{Duration as TimeDuration, OffsetDateTime};
 use tokio::time::sleep;
@@ -13,14 +14,12 @@ pub struct DailyBar {
     pub volume: Option<f64>,
 }
 
-use std::borrow::Cow;
-
 #[derive(Debug, Clone)]
 pub struct TickerHistory<'a> {
     #[allow(dead_code)]
     pub symbol: String,
     pub bars: Cow<'a, [DailyBar]>,
-    // The estimated total trading days since IPO/First Trade Date
+    // IPO/初取引日以降の推定累計取引日数
     pub total_trading_days: usize,
     #[allow(dead_code)]
     pub latest_quote_timestamp: Option<i64>,
@@ -74,7 +73,7 @@ async fn fetch_once(
     let response = match provider.get_quote_history(symbol, start, end).await {
         Ok(res) => res,
         Err(_) => {
-            // Fallback for new listings or short-history symbols like "FIG"
+            // 新規上場銘柄や "FIG" のような履歴が短い銘柄のためのフォールバック
             provider
                 .get_quote_range(symbol, "1d", "max")
                 .await
@@ -93,7 +92,7 @@ async fn fetch_once(
         .filter_map(|q| {
             let timestamp = q.timestamp as i64;
 
-            // Cut data outside requested range or future dates
+            // 要求された範囲外または未来の日付のデータをカットする
             if timestamp > end_ts {
                 return None;
             }
@@ -111,17 +110,17 @@ async fn fetch_once(
 
     bars.sort_by_key(|a| a.date);
 
-    // Calculate accurate total_trading_days using firstTradeDate from metadata
+    // メタデータの firstTradeDate を使用して正確な total_trading_days を計算する
     let mut total_trading_days = bars.len();
     if let Ok(meta) = response.metadata() {
         if let Some(first_trade) = meta.first_trade_date {
             let now = OffsetDateTime::now_utc().unix_timestamp();
             let elapsed_seconds = now - first_trade as i64;
             if elapsed_seconds > 0 {
-                let elapsed_days = elapsed_seconds / 86400; // calendar days
-                                                            // Approximate trading days (minus weekends/holidays) = elapsed_days * 252 / 365
+                let elapsed_days = elapsed_seconds / 86400; // カレンダー日数
+                                                            // 推定取引日数（週末・祝日を除く） = elapsed_days * 252 / 365
                 let estimated_trading_days = (elapsed_days as f64 * (252.0 / 365.25)) as usize;
-                // Use the highest of the two (in case the fetch downloaded more than estimated)
+                // 両者のうち大きい方を使用する（フェッチしたデータが推定より多い場合に備えて）
                 total_trading_days = std::cmp::max(total_trading_days, estimated_trading_days);
             }
         }

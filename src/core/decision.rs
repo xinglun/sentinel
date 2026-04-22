@@ -2,7 +2,6 @@ use crate::core::action_matrix::AssetActionDecision;
 use crate::core::features::MarketFeatures;
 use crate::core::market_regime::MarketRegimeSnapshot;
 use crate::core::market_state::models::MarketStateOutput;
-use crate::core::participation::ParticipationReadiness;
 use crate::core::portfolio_policy::PortfolioPolicy;
 use crate::core::transition_log::StateTransitionLog;
 use crate::core::trend_cohesion::TrendCohesionSnapshot;
@@ -17,8 +16,6 @@ pub struct DecisionPacket {
     pub market_state: Option<MarketStateOutput>,
     pub portfolio_policy: PortfolioPolicy,
     pub assets: Vec<AssetActionDecision>,
-    #[serde(default)]
-    pub participation: ParticipationReadiness,
     pub top_tier_symbols: Vec<String>,
     #[serde(default, alias = "participation_changed")]
     pub trend_gate_changed: bool,
@@ -36,7 +33,6 @@ impl Default for DecisionPacket {
             market_state: None,
             portfolio_policy: Default::default(),
             assets: Vec::new(),
-            participation: Default::default(),
             top_tier_symbols: Vec::new(),
             trend_gate_changed: false,
             trend_cohesion: TrendCohesionSnapshot::default(),
@@ -54,7 +50,6 @@ impl DecisionPacket {
         market_state: Option<MarketStateOutput>,
         portfolio_policy: PortfolioPolicy,
         assets: Vec<AssetActionDecision>,
-        participation: ParticipationReadiness,
         top_tier_symbols: Vec<String>,
         trend_gate_changed: bool,
         trend_cohesion: TrendCohesionSnapshot,
@@ -67,7 +62,6 @@ impl DecisionPacket {
             market_state,
             portfolio_policy,
             assets,
-            participation,
             top_tier_symbols,
             trend_gate_changed,
             trend_cohesion,

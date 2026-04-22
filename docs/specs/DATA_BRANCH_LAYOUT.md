@@ -1,39 +1,43 @@
-# Data Branch Layout Standard
+---
+author: Ray
+---
 
-本文件定义 `data` 分支的目标目录结构、命名规则和验收口径。
+# データブランチのレイアウト標準 (DATA_BRANCH_LAYOUT.md)
 
-## 1. 目标与战略价值 (Goal & Strategic Value)
+本ドキュメントは、`data` ブランチの目標とするディレクトリ構造、命名規則、および検収基準を定義します。
 
-`data` 分支不仅是观测产物的存储库，更是系统的**核心研究资产**。其长期积累的数据主要用于以下场景：
+## 1. 目標と戦略的価値 (Goal & Strategic Value)
 
-1. **长期观测积累**：记录资本结构的连续时间序列，形成不可篡改的历史档案。
-2. **模型校正与参数评估**：为后续的参数扫描 (Parameter Sweep)、状态机稳定性分析及 Regime 迁移统计提供基础数据。
-3. **回放分析与再训练**：支持对历史决策进行复盘回放，并为未来可能的模型再训练提供结构化数据集。
+`data` ブランチは単なる観測成果物のストレージではなく、システムの**コア研究資産**です。長期的に蓄積されたデータは、主に以下のシナリオで使用されます：
 
-**本次升级的核心逻辑**：
-目标本身（长期积累、未来研究）完全没有改变。改变的是**归档标准与工程严谨性**。
-- **旧版**：侧重于简单的“记录”（`.json`, `.md`）。
-- **新版**：侧重于“可研究的工程数据集”（`decision_packet`, `run_status`, `portfolio_snapshot`, `execution_log` 等）。
+1. **長期観測の蓄積**: 資本構造の連続的な時系列を記録し、改ざん不可能な歴史的アーカイブを形成します。
+2. **モデルの校正とパラメータ評価**: 後続のパラメータスキャン (Parameter Sweep)、状態マシンの安定性分析、および Regime 遷移統計のための基礎データを提供します。
+3. **リプレイ分析と再学習**: 過去の意思決定の振り返りリプレイをサポートし、将来のモデル再学習のための構造化されたデータセットを提供します。
 
-一句话原则：**同一个研究目标，以更工程化、更具透明度的方式落地。**
+**今回のアップデートのコアロジック**:
+目標そのもの（長期蓄積、将来の研究）は一切変わっていません。変わったのは**アーカイブ標準とエンジニアリングの厳密さ**です。
+- **旧版**: 単純な「記録」（`.json`, `.md`）に重点を置いていました。
+- **新版**: 「研究可能なエンジニアリングデータセット」（`decision_packet`, `run_status`, `portfolio_snapshot`, `execution_log` など）に重点を置いています。
 
-## 2. Scope
+一言で言えば：**「同じ研究目標を、よりエンジニアリング的で透明性の高い方法で実現する」**ということです。
 
-本标准适用于：
+## 2. 適用範囲 (Scope)
 
-1. `daily_radar.yml` 每日归档产物
-2. `weekly_backtest.yml` 每周回测产物
-3. `reports/` 与 `backtest/` 的长期保留结构
+本標準は以下に適用されます：
 
-## 2. Core Rule
+1. `daily_radar.yml` 毎日のアーカイブ成果物
+2. `weekly_backtest.yml` 毎週のバックテスト成果物
+3. `reports/` および `backtest/` の長期保持構造
 
-`reports/` 中所有“单日资产”必须使用同一个日期键：
+## 3. コアルール (Core Rule)
+
+`reports/` 内のすべての「単一日の資産」は、同じ日付キーを使用しなければなりません：
 
 1. `packet.date`
-2. 即市场数据所属日期
-3. 不是 workflow 运行当天日期
+2. つまり、市場データが属する日付
+3. ワークフローが実行された当日ではない
 
-这意味着以下文件必须共享同一个 `YYYY-MM-DD`：
+これは、以下のファイルが同じ `YYYY-MM-DD` を共有しなければならないことを意味します：
 
 1. `YYYY-MM-DD.md`
 2. `decision_packet_YYYY-MM-DD.json`
@@ -41,7 +45,7 @@
 4. `account_snapshot_YYYY-MM-DD.json`
 5. `run_status_YYYY-MM-DD.json`
 
-## 3. Target Layout
+## 4. 目標レイアウト (Target Layout)
 
 ```text
 data branch
@@ -66,70 +70,70 @@ data branch
 └── README.md
 ```
 
-## 4. File Semantics
+## 5. ファイルのセマンティクス (File Semantics)
 
-### Daily dated files
+### 日付付きファイル (Daily dated files)
 
 1. `YYYY-MM-DD.md`
-   - 人读版每日归档报告
+   - 人間が読める形式の日次アーカイブレポート。
 
 2. `decision_packet_YYYY-MM-DD.json`
-   - 当日单一事实源决策包
+   - 当日の「単一の真実（SSOT）」となる意思決定パッケージ。
 
 3. `portfolio_snapshot_YYYY-MM-DD.json`
-   - 当日组合持仓和浮盈快照
+   - 当日のポートフォリオ持分と含み損益のスナップショット。
 
 4. `account_snapshot_YYYY-MM-DD.json`
-   - 当日账户资金与购买力快照
+   - 当日のアカウント資金と購買力のスナップショット。
 
 5. `run_status_YYYY-MM-DD.json`
-   - 当日运行健康快照
-   - 记录 `decisioning / archival / notification / execution`
+   - 当日の実行状態（ヘルス）のスナップショット。
+   - `decisioning / archival / notification / execution` を記録。
 
-### Append-only files
+### 追記型ファイル (Append-only files)
 
 1. `decision_history.jsonl`
-   - 决策历史主轴
+   - 意思決定履歴のタイムライン。
 
 2. `state_transitions.csv`
-   - 市场状态迁移表格版
+   - 市場状態の遷移（テーブル版）。
 
 3. `state_transitions.jsonl`
-   - 市场状态迁移结构化版
+   - 市場状態の遷移（構造化版）。
 
 4. `execution_gate_log.jsonl`
-   - 风控网关通过/拦截审计
+   - リスクコントロールゲートの通過/遮断の監査ログ。
 
 5. `data_quality_log.jsonl`
-   - 数据抓取质量日志
+   - データ取得品質のログ。
 
 6. `telemetry.csv`
-   - 研究级时间序列观测数据
+   - 研究レベルの時系列観測データ。
 
 7. `ledger.csv`
-   - 成交账本
+   - 取引帳簿。
 
-### Auxiliary file
+### 補助ファイル (Auxiliary file)
 
 1. `freshness.json`
-   - workflow freshness gate 辅助文件
-   - 不是核心研究资产
+   - ワークフローの鮮度（freshness gate）補助ファイル。
+   - コア研究資産ではありません。
 
-## 5. Legacy Files
+## 6. レガシーファイル (Legacy Files)
 
-以下文件属于旧命名体系，不应继续生成：
+以下のファイルは旧命名体系に属しており、今後生成されるべきではありません：
 
 1. `reports/YYYY-MM-DD.json`
 
-处理原则：
+取り扱い原則：
 
-1. 历史遗留文件可保留或一次性清理
-2. 当前代码和 workflow 不再依赖它们
-3. 新归档标准一律使用 `decision_packet_YYYY-MM-DD.json`
+1. 過去の遺留ファイルは保持するか、一括クリーンアップできます。
+2. 現在のコードおよびワークフローはそれらに依存しません。
+3. 新しいアーカイブ標準では、一律に `decision_packet_YYYY-MM-DD.json` を使用します。
 
-## 6. Validation Rules
+## 7. バリデーションルール (Validation Rules)
 
-`daily_radar.yml` 每次运行后必须至少验证以下文件非空：
+`daily_radar.yml` は実行のたびに、少なくとも以下のファイルが空でないことを検証しなければなりません：
 
 1. `reports/YYYY-MM-DD.md`
 2. `reports/decision_packet_YYYY-MM-DD.json`
@@ -143,8 +147,8 @@ data branch
 10. `reports/run_status_YYYY-MM-DD.json`
 11. `reports/telemetry.csv`
 
-## 7. Operational Notes
+## 8. 運用の注意点 (Operational Notes)
 
-1. 如果 `reports/` 中出现 `run_status` 日期和 `decision_packet` 日期不一致，视为归档命名异常。
-2. 如果 `reports/` 中重新出现 `YYYY-MM-DD.json`，视为旧产物回归。
-3. `backtest/` 是每周节奏，不应混入每日 `reports/` 资产。
+1. `reports/` 内で `run_status` の日付と `decision_packet` の日付が一致しない場合、アーカイブの命名異常とみなします。
+2. `reports/` 内に再び `YYYY-MM-DD.json` が現れた場合、旧成果物の回帰とみなします。
+3. `backtest/` は週単位のリズムであり、日次の `reports/` 資産と混ぜないでください。

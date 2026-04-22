@@ -9,15 +9,14 @@ use crate::core::portfolio_policy::PortfolioPolicy;
 use crate::core::action_matrix::ActionMatrix;
 use crate::core::breakout_detection::BreakoutEvaluator;
 use crate::core::decision::DecisionPacket;
-use crate::core::participation::ParticipationReadiness;
 use crate::core::trend_cohesion::TrendCohesionEvaluator;
 use anyhow::Result;
 
 pub struct Engine;
 
 impl Engine {
-    /// Runs the complete modular decision pipeline for a set of assets.
-    /// Returns a deterministic DecisionPacket based on current features and optional previous session context.
+    /// 一連のアセットに対して、完全なモジュール式意思決定パイプラインを実行する。
+    /// 現在の特徴量およびオプションの前回セッションコンテキストに基づき、決定論的な DecisionPacket を返す。
     pub fn run_daily_pipeline<'a>(
         ticker_histories: &[(TickerHistory<'a>, &WatchlistEntry)],
         rules: &ParsedRules,
@@ -30,13 +29,13 @@ impl Engine {
 
         let prev_packet = history.last();
 
-        // 0. Extract Previous Context
+        // 0. 以前のコンテキストを抽出
         let _prev_state = prev_packet.map(|p| p.market_regime.market_state);
         let prev_age = prev_packet
             .map(|p| p.market_features.regime_age)
             .unwrap_or(0);
 
-        // 1. Feature Layer: Asset Features
+        // 1. 特徴量レイヤー：アセット特徴量
         let mut asset_features = Vec::new();
         for (history, entry) in ticker_histories {
             let f = AssetFeatures::compute(history, entry, rules);
@@ -44,11 +43,11 @@ impl Engine {
             asset_features.push(f);
         }
 
-        // 2. Market Features (Initial - using prev_packet for context)
+        // 2. 市場特徴量（初期値 - prev_packet をコンテキストとして使用）
         let mut market_features =
             MarketFeatures::compute(&asset_features, prev_age, prev_packet, rules);
 
-        // 3. Market Regime State Machine (Consolidated Transition)
+        // 3. 市場レジーム状態マシン（統合された遷移）
         let (market_regime, _) = MarketRegimeStateMachine::transition(
             prev_packet.map(|p| &p.market_regime),
             &mut market_features,
@@ -56,10 +55,10 @@ impl Engine {
             rules,
         );
 
-        // 4. Portfolio Policy
+        // 4. ポートフォリオポリシー
         let portfolio_policy = PortfolioPolicy::from_market_regime(&market_regime);
 
-        // 5. Relative Strength Memory Layer (NEW V1.3)
+        // 5. 相対力指標メモリレイヤー (NEW V1.3)
         let mut memory_decisions = std::collections::HashMap::new();
         for f in &asset_features {
             let prev_asset_snapshot = prev_packet
@@ -76,24 +75,14 @@ impl Engine {
             memory_decisions.insert(f.symbol.clone(), decision);
         }
 
-        // 6. Memory-Adjusted Ranking (Moved up for Readiness)
+        // 6. メモリ調整済みランキング（Readiness のために上位へ移動）
         let ranked_symbols =
             AssetStateMachine::rank_assets_with_memory(&asset_features, &memory_decisions);
         let current_top_tier: Vec<String> = ranked_symbols.iter().take(3).cloned().collect();
 
-        // 7. Participation Readiness (Legacy)
-        let participation = ParticipationReadiness::compute(
-            market_features.stability_score,
-            &current_top_tier,
-            history,
-            rules.trend_cohesion.gate_stability_threshold,
-            rules.trend_cohesion.gate_continuity_threshold,
-        );
-
-        // 8. Trend Cohesion Snapshot (NEW V2 Gate) moved up to supersede readiness constraints
+        // 7. トレンド凝集スナップショット (統合 SSOT)
         let trend_cohesion = TrendCohesionEvaluator::evaluate(
             market_features.stability_score,
-            participation.core_tier_streak,
             &current_top_tier,
             history,
             &rules.trend_cohesion,
@@ -105,7 +94,7 @@ impl Engine {
             .unwrap_or(false);
         let trend_gate_changed = prev_trend_gate_passed != active_trend_gate_passed;
 
-        // 6. Asset Execution State & Action Matrix
+        // 8. アセット実行状態 ＆ アクションマトリックス
         let mut asset_decisions = Vec::new();
         for f in &asset_features {
             let prev_asset_decision =
@@ -118,7 +107,7 @@ impl Engine {
             let asset_state_snapshot =
                 AssetStateMachine::compute_state(f, rules, prev_asset_snapshot, memory_decision);
 
-            // Streak Calculations
+            // ストリーク計算
             let is_in_top_tier = current_top_tier.contains(&f.symbol);
             let (state_streak, top_tier_streak, out_of_top_tier_streak) = match prev_asset_decision
             {
@@ -147,7 +136,7 @@ impl Engine {
                 ),
             };
 
-            // Get per-asset constraints from watchlist entry
+            // ウォッチリストのエントリからアセットごとの制約を取得
             let (_h, entry) = ticker_histories
                 .iter()
                 .find(|(h, _)| h.symbol == f.symbol)
@@ -157,7 +146,7 @@ impl Engine {
 
             let state_name = format!("{:?}", asset_state_snapshot.state).to_lowercase();
 
-            // Tiered Multiplier Selection
+            // 段階的マルチプライヤーの選択
             let mut action_key = state_name.clone();
             if asset_state_snapshot.state == AssetState::OVERHEAT {
                 action_key = if f.z_score.unwrap_or(0.0) >= 2.5 {
@@ -168,7 +157,7 @@ impl Engine {
             } else if asset_state_snapshot.state == AssetState::CAUTION
                 || asset_state_snapshot.state == AssetState::DEFEND
             {
-                // Heuristic for fear tiers if needed, for now use fear_1/2 if present or fallback to state name
+                // 必要に応じて恐怖ティアのヒューリスティックを適用。現状は fear_1/2 があれば使用し、なければ状態名にフォールバック。
                 action_key = if f.z_score.unwrap_or(0.0) <= -2.0 {
                     "fear_2".to_string()
                 } else if f.z_score.unwrap_or(0.0) <= -1.0 {
@@ -198,7 +187,7 @@ impl Engine {
                 config_multiplier,
             );
 
-            // Exit Decision Integration
+            // 決済判断の統合
             let exit_decision = crate::core::exit::ExitDecision::compute(
                 &f.symbol,
                 asset_state_snapshot.state,
@@ -210,7 +199,7 @@ impl Engine {
                 prev_trend_gate_passed,
             );
 
-            // [P0-2] Synthesize PositionIntent (Isolated Lexicon)
+            // [P0-2] PositionIntent の合成（独立した用語集）
             let final_intent = crate::core::intent_synthesizer::IntentSynthesizer::synthesize(
                 decision.action,
                 &exit_decision,
@@ -243,11 +232,11 @@ impl Engine {
                     asset_state_snapshot.state,
                 )
                 .intent;
-            // Record domain facts for downstream presentation assembly
+            // 下流のプレゼンテーション組み立てのためにドメインファクトを記録
             decision.is_core_fact = rules.core_assets.contains(&decision.symbol);
             decision.has_position_fact = positions.contains_key(&decision.symbol);
 
-            // Note: DisplayContext and DisplayIntent will be populated by PresentationAssembler at export time.
+            // 注意: DisplayContext および DisplayIntent は、エクスポート時に PresentationAssembler によって設定される。
             decision.previous_state = prev_asset_snapshot.map(|s| s.state);
             decision.state_streak = state_streak;
             decision.top_tier_streak = top_tier_streak;
@@ -256,14 +245,14 @@ impl Engine {
             asset_decisions.push(decision);
         }
 
-        // 9. Reorder based on ranking
+        // 9. ランキングに基づいて並べ替え
         let mut final_decisions = Vec::with_capacity(asset_decisions.len());
         for symbol in ranked_symbols {
             if let Some(pos) = asset_decisions.iter().position(|d| d.symbol == symbol) {
                 final_decisions.push(asset_decisions.remove(pos));
             }
         }
-        // Append any remaining (should be none)
+        // 残りのものを追加（通常は存在しないはず）
         final_decisions.extend(asset_decisions);
 
         let current_breakouts: Vec<String> = final_decisions
@@ -298,7 +287,6 @@ impl Engine {
             Some(market_state),
             portfolio_policy,
             final_decisions,
-            participation,
             current_top_tier,
             trend_gate_changed,
             trend_cohesion,

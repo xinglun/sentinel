@@ -1,4 +1,5 @@
 ---
+author: Ray
 tags: [architecture, design, technical, rust]
 keywords: [data-structures, concurrency, error-handling, logic]
 ---
@@ -24,7 +25,7 @@ struct OutputConfig {
     timezone: String, // 例: "Asia/Tokyo"
     format: String,   // "markdown", "json"
     save_to: String,  // "./reports"
-    compact_transition_evidence_in_no_trade: bool, // NO TRADE 前台是否压缩状态转移证据
+    compact_transition_evidence_in_no_trade: bool, // NO TRADE 時、フロントエンドで状態遷移の証拠を圧縮するかどうか
 }
 
 struct RulesConfig {
@@ -57,111 +58,111 @@ struct WatchlistEntry {
     - **Persistence**: Daily JSON, `run_status_YYYY-MM-DD.json`, `telemetry.csv` (20列 序参量データセット) の追記保存。
 6.  **Backtest (`backtest.rs`)**: 歴史的な価格データを用いて全ロジックをシミュレート。Calibration Error や Alpha 分離度をレポート。
 
-#### 3.1 不可绕过原则 (Non-Bypass Principle)
+#### 3.1 非バイパス原則 (Non-Bypass Principle)
 
-本系统中的任何模块都不得绕过 `NO TRADE`、`Participation Gate`、`Trend Cohesion Gate` 或 `Exit Gate` 直接生成最终交易动作。
+本システムのいかなるモジュールも、`NO TRADE`、`Participation Gate`、`Trend Cohesion Gate`、または `Exit Gate` をバイパスして最終的な取引アクションを直接生成してはなりません。
 
-系统必须始终遵循以下顺序：
+システムは常に以下の順序に従う必要があります：
 
 ```text
-状态判断
-→ Gate 约束
-→ 最终动作
-→ 展示输出 / 执行输出
+状態判定
+→ Gate 制約
+→ 最終アクション
+→ 表示出力 / 実行出力
 ```
 
-这意味着：
+これは以下のことを意味します：
 
-1. `NO TRADE` 只表示禁止主动开新仓，不等于强制清仓
-2. `Participation Gate` 负责回答“市场参与条件是否成熟”
-3. `Trend Cohesion Gate` 负责回答“是否存在可跟随主线”
-4. `Exit Gate` 负责回答“已有持仓是否需要收缩或退出”
-5. 展示层不得改写与 Gate 冲突的最终动作
+1. `NO TRADE` は新規のポジション構築を禁止することのみを意味し、強制的な全決済を意味するものではありません。
+2. `Participation Gate` は「市場への参加条件が整っているか」という問いに答える責任を負います。
+3. `Trend Cohesion Gate` は「追随可能なメインライン（主導権）構造が存在するか」という問いに答える責任を負います。
+4. `Exit Gate` は「既存のポジションを縮小または撤退させる必要があるか」という問いに答える責任を負います。
+5. 表示レイヤーは、Gate と競合する最終アクションを書き換えてはなりません。
 
-以下实现被视为违规：
+以下の実装は違反とみなされます：
 
-1. 某个“强信号”直接触发买入
-2. 某个“个股特别好”直接允许加仓
-3. 展示层或临时规则绕过 Gate 改写最终动作
-4. Gate 未通过时仍输出 `ADD / ACCUMULATE`
-5. `Trend Cohesion Gate` 未通过时仍输出 `ADD / ACCUMULATE`
-6. `Exit Gate` 已触发时仍保留 `ADD` 或其他进攻性表达
+1. 特定の「強いシグナル」が直接買いをトリガーする。
+2. 「特定の銘柄が非常に良い」という理由で直接加筆を許可する。
+3. 表示レイヤーまたは一時的なルールが Gate をバイパスして最終アクションを書き換える。
+4. Gate を通過していないにもかかわらず、`ADD / ACCUMULATE` を出力する。
+5. `Trend Cohesion Gate` を通過していないにもかかわらず、`ADD / ACCUMULATE` を出力する。
+6. `Exit Gate` がトリガーされているにもかかわらず、`ADD` やその他の攻撃的な表現を保持する。
 
-本原则是系统级约束，不属于某一轮任务的临时规则。任何“例外买入”“特批加仓”“高优先级捷径”都视为破坏系统一致性的违规实现。
+本原則はシステムレベルの制約であり、特定のタスクの一時的なルールではありません。「例外的な買い」「特別許可された加筆」「高優先度のショートカット」はいずれもシステムの一貫性を破壊する違反実装とみなされます。
 
-#### 3.2 当前三层 Gate 与意图层
+#### 3.2 現在の3層 Gate と意図レイヤー
 
-当前系统的动作约束已明确分为三层 Gate：
+現在のシステムのアクション制約は、明確に以下の3つの Gate に分かれています：
 
 1. `Participation Gate`
-   - 由 `ParticipationReadiness` 计算
-   - 回答“市场参与条件是否成熟”
-   - 属于市场参与条件判断，不直接承担主线识别职责
+   - `ParticipationReadiness` によって計算されます。
+   - 「市場への参加条件が整っているか」に答えます。
+   - 市場参加条件の判定であり、メインラインの識別責任は直接負いません。
 
 2. `Trend Cohesion Gate`
-   - 由 `TrendCohesionEvaluator` 计算
-   - 回答“当前是否存在可跟随的主线结构”
-   - 其 `gate_passed` 进入底层动作链，直接约束主动加仓/建仓类动作
-   - 同时输出 `status`、`topology`、`formation_conditions` 与 `unmet_conditions`
+   - `TrendCohesionEvaluator` によって計算されます。
+   - 「現在、追随可能なメインライン構造が存在するか」に答えます。
+   - その `gate_passed` は下層のアクションチェーンに入り、能動的な加筆/ポジション構築アクションを直接制約します。
+   - 同時に `status`、`topology`、`formation_conditions`、および `unmet_conditions` を出力します。
 
 3. `Exit Gate`
-   - 由 `ExitDecision` 计算
-   - 回答“已有持仓应当 HOLD / TRIM / EXIT”
-   - 与 `NO TRADE` 解耦，`NO TRADE` 不等于必须卖出
+   - `ExitDecision` によって計算されます。
+   - 「既存のポジションを HOLD / TRIM / EXIT すべきか」に答えます。
+   - `NO TRADE` とは分離されており、`NO TRADE` は必ずしも売却を意味しません。
 
-在 Gate 之后，系统再进入统一动作层：
+Gate の後、システムは統一されたアクションレイヤーに入ります：
 
-- `Position Intent`
-  - 执行层意图：`ADD / HOLD / TRIM / EXIT`
-- `Unified Position Intent`
-  - 展示层统一动作原语：`ADD / HOLD / TRIM / EXIT / WATCH`
-  - 负责把 Entry/Exit 结果收敛成单一最终动作语言
+- `Position Intent`（実行レイヤーの意図）
+  - `ADD / HOLD / TRIM / EXIT`
+- `Unified Position Intent`（表示レイヤーの統一アクション原語）
+  - `ADD / HOLD / TRIM / EXIT / WATCH`
+  - Entry/Exit の結果を単一の最終アクション言語に収束させる責任を負います。
 
-此外，`Trend Cohesion Topology` 负责区分主线结构类型：
+さらに、`Trend Cohesion Topology` はメインライン構造のタイプを区別します：
 
 - `NO_LEADER`
 - `SINGLE_LEADER`
 - `FRAGMENTED_LEADERS`
 
-它属于结构解释层增强，不等于交易方向判断，也不等于新的交易动作。
+これは構造解釈レイヤーの強化であり、取引方向の判定や新しい取引アクションと同義ではありません。
 
-#### 3.3 `NO TRADE` 场景下的 Breakout 展示原则
+#### 3.3 `NO TRADE` シナリオにおける Breakout 表示原則
 
-`Breakout Detection` 在系统中属于结构证据层，而不是交易动作层。尤其在 `NO TRADE` 场景下，其展示目标必须从“提示可能的机会”收敛为“服务观察与告警”。
+`Breakout Detection` はシステムにおいて構造的証拠レイヤーに属し、取引アクションレイヤーには属しません。特に `NO TRADE` シナリオでは、その表示目標は「可能性のあるチャンスの提示」から「監視とアラートへのサービス」へと収束させる必要があります。
 
-这意味着：
+これは以下のことを意味します：
 
-1. `Breakout Summary` 的语义目标是 **观察 / 告警**，不是 **建议 / 排序**
-2. `Breakout Detection` 不得通过展示语气削弱上方的 `NO TRADE / 主线未形成 / 无主线` 主结论
-3. `NO TRADE` 场景下，只允许以下对象作为 breakout 主项展开：
+1. `Breakout Summary` のセマンティック目標は **監視 / アラート** であり、**提案 / ランキング** ではありません。
+2. `Breakout Detection` は、表示の語気によって上位の `NO TRADE / メインライン未形成 / メインラインなし` という主結論を弱めてはなりません。
+3. `NO TRADE` シナリオでは、以下のオブジェクトのみを breakout の主項目として展開することを許可します：
    - `EMERGING_BREAKOUT`
    - `CONFIRMED_BREAKOUT`
-   - 高失败风险异常个体
-4. `NO_BREAKOUT + 普通反弹 / 回撤修复` 在 `NO TRADE` 场景下默认不得展开成长列表
-5. 若某个 `NO_BREAKOUT` 个体在 `NO TRADE` 下仍被保留展示，其原因必须是高失败风险，且前台应优先显示风险解释，而不是中性描述
+   - 失敗リスクが高い異常個体
+4. `NO_BREAKOUT + 通常の反発 / 押し目修復` は、`NO TRADE` シナリオではデフォルトで長いリストとして展開してはなりません。
+5. もしある `NO_BREAKOUT` 個体が `NO TRADE` 下で表示保持される場合、その理由は高い失敗リスクである必要があり、フロントエンドでは中立的な記述ではなくリスクの説明を優先的に表示すべきです。
 
-实现边界要求如下：
+実装境界の要件は以下の通りです：
 
-1. `BreakoutEvaluator` 继续只负责领域分类，不直接承担展示降噪职责
-2. `NO TRADE` 下的 breakout 降噪必须在 `PresentationAssembler` 中完成
-3. `report.rs` 只渲染 breakout 结果，不新增展示判断
-4. 展示阈值必须与领域阈值分离，避免为了前台观感反向污染领域语义
+1. `BreakoutEvaluator` は引き続きドメイン分類のみを担当し、表示のノイズ除去責任を直接負いません。
+2. `NO TRADE` 下の breakout ノイズ除去は、`PresentationAssembler` で完了させる必要があります。
+3. `report.rs` は breakout の結果をレンダリングするのみで、新しい表示判定を追加してはなりません。
+4. 表示閾値はドメイン閾値と分離し、フロントエンドの外観のためにドメインセマンティクスを逆流汚染することを避ける必要があります。
 
-本原则的目的不是减少信息，而是避免在 `NO TRADE` 场景下把用户重新拉回“挑票模式”。
+本原則の目的は情報を減らすことではなく、`NO TRADE` シナリオにおいてユーザーを「銘柄選びモード」に引き戻すことを避けることにあります。
 
-#### 3.4 `NO TRADE` 前台信息层级契约（执行优先）
+#### 3.4 `NO TRADE` フロントエンド情報階層契約（実行優先）
 
-为保证执行速度与一致性，前台展示（`markdown_body` / `telegram_html_body`）在 `NO TRADE` 场景下采用固定层级：
+実行速度と一貫性を保証するため、`NO TRADE` シナリオにおけるフロントエンド表示（`markdown_body` / `telegram_html_body`）は固定された階層を採用します：
 
-1. 决策层：`NO TRADE` + `新开仓上限 · 0%`
-2. 简化原因层：`稳定性 x/10`、`连续性 x/3`、`主线结构`
-3. 观察重点层：`Breakout Detection`（包含 breakout 时间感，如 `第1天`）
-4. 证据层：`状态转移证据` 后置展示（可紧凑）
+1. 意思決定レイヤー：`NO TRADE` + `新規ポジション上限 · 0%`
+2. 簡略化された原因レイヤー：`安定性 x/10`、`連続性 x/3`、`メインライン構造`
+3. 監視重点レイヤー：`Breakout Detection`（`第1日` などの経過時間を含む）
+4. 証拠レイヤー：`状態遷移の証拠` を後方に配置（圧縮表示可）
 
-说明：
+説明：
 
-1. 归档输出（`archival_markdown`）保留完整证据，不做信息删减。
-2. 前台是否压缩 `NO TRADE` 证据展开由 `output.compact_transition_evidence_in_no_trade` 控制。
+1. アーカイブ出力（`archival_markdown`）は完全な証拠を保持し、情報の削除は行いません。
+2. フロントエンドで `NO TRADE` 証拠の展開を圧縮するかどうかは、`output.compact_transition_evidence_in_no_trade` によって制御されます。
 
 ### 1.2 基礎データレイヤー (Market Data)
 APIから取得した生の時系列データです。
@@ -181,7 +182,7 @@ struct TickerHistory {
 struct GravityHealth {
     up_count: usize,
     flat_count: usize,
-    total_count: usize, // watchlist_size
+    total_count: usize, // ウォッチリストのサイズ
     up_weight: f64,
     flat_weight: f64,
     down_weight: f64,
@@ -190,7 +191,7 @@ struct GravityHealth {
     global_potential_energy: f64,
     trend_alloc_weight: f64,
     reversion_alloc_weight: f64,
-    config_hash: String, // 参数宇宙隔离标识
+    config_hash: String, // パラメータ宇宙の隔離識別子
 }
 ```
 
@@ -228,16 +229,11 @@ enum TrendStatus { Up, Down, Flat, Unknown }
 | **新規上場銘柄等のデータ不足** | 履歴データが50本しかないが、設定が `owner_ma_days=120` | MA計算は `None` を返す。トレンドは `Unknown`、乖離率は `None` とし、最終ステータス欄に「データ不足」と表示する。ランタイムエラーは発生させない。 |
 | **祝休日・週末の実行** | 当日の新しいK線データが存在しない | 「今日は何日か」を強制せず、取得できた `bars.last()` をそのまま使用する。レポートヘッダーにはデータの最終取引日（Trade Date）を表示する。 |
 | **無状態 V-Shape Recovery**| 暴落から急回復した場合のフラッピング | 外部の JSON に状態を保存せず、推論時に過去60日間の MA を再計算するサンドボックス（Simulation）を実行。`recover_days` の連続条件を満たした場合のみ安全状態に復帰する。 |
-| **重力極端値 (Confidence 计算)** | 異なる銘柄が同じ DEFEND に落ちる | `dev_z_score` (価格がMAから何標準偏差離れているか) と `owner_ma_slope_pct` (下落の加速度)、`curvature` (二階微分による拐点) を用い、システムの確信度を 0~100% でスコアリングし出力する。 |
+| **重力極端値 (Confidence 計算)** | 異なる銘柄が同じ DEFEND に落ちる | `dev_z_score` (価格がMAから何標準偏差離れているか) と `owner_ma_slope_pct` (下落の加速度)、`curvature` (二階微分による拐点) を用い、システムの確信度を 0~100% でスコアリングし出力する。 |
 | **銘柄の取引停止・上場廃止** | 空の配列を取得、または最終データが数年前のもの | `bars.last().date` が現在の日付から7日以上離れている場合、システムは `[STALE] データが古い` という警告を表示する。 |
 | **構成ステータス名の欠落** | `bands` に `fear_3` があるが `actions` に文案がない | 起動時の `config::load()` フェーズで検証を行い、キーが一致しない場合はプログラムを panic させ、設定エラーを通知する（Fail Fast 原則）。 |
 | **極端な暴落による下限突破** | 乖離率が -50% で、設定した最低閾値 `fear_1: -25%` を下回る | 最下層の閾値状態を使用する（最後の要素にフォールバック）。 |
-| **极端恐慌与下山模式** | - | (Logic consolidated into MarketRegime and PortfolioPolicy in major refactor) |
+| **極端な恐慌と下山モード** | - | (ロジックは大規模なリファクタリングにより MarketRegime と PortfolioPolicy に統合されました) |
 
 ## 3. 並列モデルの提案
 50銘柄程度の取得であれば、`tokio` を使用した並列リクエストによりネットワークI/Oの待機時間を大幅に短縮できます。`futures::stream::StreamExt` の `buffer_unordered(10)` などを使用し、Yahoo Finance APIへの過度な負荷を避けるため、最大並列数を10程度に制限することを推奨します。
----
-
-## Author
-
-Ray

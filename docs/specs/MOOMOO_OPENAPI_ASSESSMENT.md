@@ -1,144 +1,148 @@
-# Moomoo OpenAPI Assessment
+---
+author: Ray
+---
 
-## 1. Purpose
+# Moomoo OpenAPI アセスメント (Moomoo OpenAPI Assessment)
 
-本文档定义 moomoo OpenAPI 对 Sentinel 的实际意义、当前官方能力边界，以及当前工程的实现完成度。
+## 1. 目的
 
-本文件用于回答三个问题：
+本ドキュメントは、moomoo OpenAPI が Sentinel にとってもつ実際の意義、現在の公式機能の境界、および現在のプロジェクトにおける実装の完了度を定義します。
 
-1. 官方能力是否支持 Sentinel 当前方向
-2. 当前代码已经实现到什么程度
-3. 距离“稳定生产交易接入层”还差什么
+本ファイルは、以下の3つの問いに答えるために用意されています：
 
-## 2. Primary Sources
+1. 公式機能が Sentinel の現在の方向性をサポートしているか。
+2. 現在のコードがどの程度実装されているか。
+3. 「安定した本番取引接続レイヤー」を構築するために何が不足しているか。
+
+## 2. 主なソース (Primary Sources)
 
 1. [OpenAPI Introduction](https://openapi.moomoo.com/moomoo-api-doc/en/intro/intro.html)
 2. [Authorities and Limitations](https://openapi.moomoo.com/futu-api-doc/en/intro/authority.html)
 3. [Place Orders](https://openapi.moomoo.com/moomoo-api-doc/en/trade/place-order.html)
 4. [Subscribe and Unsubscribe](https://openapi.moomoo.com/moomoo-api-doc/en/quote/sub.html)
 
-## 3. High-Level Conclusion
+## 3. ハイレベルな結論 (High-Level Conclusion)
 
-结论很明确：
+結論は明確です：
 
-1. Sentinel 接入 moomoo/OpenD 做美股行情与交易，方向成立
-2. 当前工程已经实现了最核心的交易骨架
-3. 但当前仍应被定义为“已接通核心链路”，不是“已完成全部生产级 broker integration hardening”
+1. moomoo/OpenD を使用して米国株の相場取得および取引を行う Sentinel の方向性は成立しています。
+2. 現在のプロジェクトにおいて、最もコアとなる取引の骨組みはすでに実装されています。
+3. ただし、現時点では「コア経路の開通済み」と定義すべきであり、「すべての本番級ブローカー統合の強化（Hardening）が完了した」わけではありません。
 
-## 4. Official Capability Summary
+## 4. 公式機能のサマリー
 
-### 4.1 Architecture
+### 4.1 アーキテクチャ
 
-官方 OpenAPI 由两部分组成：
+公式 OpenAPI は2つの部分で構成されています：
 
 1. `OpenD`
-   - 本地或云端运行的网关进程
-   - 通过 TCP 暴露协议接口
+   - ローカルまたはクラウドで実行されるゲートウェイプロセス。
+   - TCP を介してプロトコルインターフェースを公開。
 2. `moomoo API`
-   - 官方 SDK
-   - 支持 Python / Java / C# / C++ / JavaScript
-   - 非官方语言也可直接对接协议
+   - 公式 SDK。
+   - Python / Java / C# / C++ / JavaScript をサポート。
+   - 非公式言語でもプロトコルを直接叩くことで対応可能。
 
-这与 Sentinel 当前的 `FutuClient -> OpenD -> moomoo` 架构一致。
+これは Sentinel の現在の `FutuClient -> OpenD -> moomoo` アーキテクチャと一致しています。
 
-### 4.2 Functional Scope
+### 4.2 機能範囲
 
-OpenAPI 的两大能力：
+OpenAPI の2大機能：
 
-1. `Quotation`
-   - 实时订阅
-   - 快照
-   - 历史 K 线
-   - Tick / Order Book 等
-2. `Trading`
-   - Paper Trading
-   - Live Trading
+1. `Quotation` (相場)
+   - リアルタイムサブスクリプション。
+   - スナップショット。
+   - 履歴 K 線（チャートデータ）。
+   - Tick / Order Book など。
+2. `Trading` (取引)
+   - Paper Trading (デモ取引)。
+   - Live Trading (本番取引)。
 
-### 4.3 Market Scope Relevant to Sentinel
+### 4.3 Sentinel に関連する市場範囲
 
-对 Sentinel 当前目标最重要的结论：
+Sentinel の現在の目標において最も重要な結論：
 
-1. 美股股票 / ETF：支持行情、模拟交易、实盘交易
-2. 美股期权：支持
-3. 日本股票：当前对 moomoo users 不支持
+1. 米国株 / ETF：相場、デモ取引、本番取引をサポート。
+2. 米国株オプション：サポート。
+3. 日本株：現在、moomoo ユーザーに対しては未サポート。
 
-因此：
+したがって：
 
-1. Sentinel 当前以美股为核心目标是正确的
-2. 不应把当前接入口径误扩展为“已支持日股自动交易”
+1. Sentinel が現在米国株を核心目標としているのは正しい選択です。
+2. 現在の接続状況を「日本株の自動取引をサポート済み」と誤解して拡張すべきではありません。
 
-## 5. Official Constraints That Matter
+## 5. 重要な公式制約事項
 
-### 5.1 Account and Authority
+### 5.1 アカウントと権限
 
-官方限制：
+公式の制限：
 
-1. 需要先开通对应市场的交易业务账户
-2. 行情权限和市场权限不是天然全开
-3. 不同市场、不同数据类型需要对应 authority
+1. 対応する市場の取引業務アカウントを事前に開設する必要があります。
+2. 相場権限と市場権限は、最初からすべて開放されているわけではありません。
+3. 市場やデータタイプごとに、対応する権限（Authority）が必要です。
 
-工程意义：
+プロジェクト上の意義：
 
-1. 代码接好不等于账号就可用
-2. 上线前必须做 account/authority preflight
+1. コードがつながっていることと、アカウントが使用可能であることは別物です。
+2. 本番稼働前に、必ずアカウント/権限の Preflight（事前チェック）を行う必要があります。
 
-### 5.2 Rate Limits
+### 5.2 レート制限 (Rate Limits)
 
-官方明确指出，交易接口存在限频。
+公式には、取引インターフェースに頻度制限が存在することが明記されています。
 
-以 `Place Order` 为例：
+`Place Order` を例にとると：
 
-1. 同一 `acc_id` 下 30 秒最多 15 次请求
-2. 两次连续请求间隔不能小于 0.02 秒
+1. 同一 `acc_id` 下で 30秒間に最大 15回のリクエストまで。
+2. 連続する2回のリクエスト間隔は 0.02秒以上である必要があります。
 
-工程意义：
+プロジェクト上の意義：
 
-1. 日频/低频策略暂时问题不大
-2. 未来批量下单或事件驱动模式必须增加限流保护
+1. 日次/低頻度戦略においては、現時点では大きな問題にはなりません。
+2. 将来的に一括発注やイベント駆動型モードを導入する場合、レート制限保護を追加する必要があります。
 
-### 5.3 Quotas
+### 5.3 クォータ (Quotas)
 
-官方明确指出：
+公式の制限：
 
-1. 实时订阅有 quota
-2. 历史 K 线也有 quota
+1. リアルタイムサブスクリプションにクォータ（割り当て制限）があります。
+2. 履歴 K 線取得にもクォータがあります。
 
-工程意义：
+プロジェクト上の意義：
 
-1. watchlist 扩大或高频重复拉历史数据时需要关注额度
-2. 后续若启用订阅接口，必须增加 quota awareness
+1. watchlist の拡大や、履歴データの高頻度な重複取得を行う際は、残りのクォータに注意する必要があります。
+2. 将来的にサブスクリプションインターフェースを有効化する場合、クォータを認識（Quota awareness）する機能が必要です。
 
-### 5.4 Trading Session Constraints
+### 5.4 取引セッションの制約
 
-官方明确指出：
+公式の制限：
 
-1. Live account 交易前需要 unlock
-2. Paper trading 不需要 unlock
-3. US 24-hour trading 有订单类型限制
+1. Live アカウントでの取引前に `unlock`（ロック解除）が必要です。
+2. Paper trading では `unlock` は不要です。
+3. 米国株 24時間取引には注文タイプの制限があります。
 
-工程意义：
+プロジェクト上の意義：
 
-1. Sentinel 当前的 `ExecutionMode + trd_env + unlock_trade` 设计方向正确
-2. 后续如果扩到盘前盘后/夜盘，不能继续默认当前订单逻辑
+1. Sentinel の現在の `ExecutionMode + trd_env + unlock_trade` の設計方向は正しいです。
+2. プレマーケット/アフターマーケット/夜間取引に拡張する場合、現在の注文ロジックをデフォルトとして使い続けることはできません。
 
-## 6. Sentinel Implementation Status
+## 6. Sentinel の実装状況
 
-### 6.1 Already Implemented
+### 6.1 実装済み
 
-当前工程已具备：
+現在のプロジェクトには以下の機能が備わっています：
 
-1. OpenD TCP 连接
-2. 历史 K 线拉取
-3. 交易解锁与权限前置检查 (P1-2)
-4. 资金查询与购买力校验
-5. 订单全生命周期闭环 (P1-1Filled/Partial/etc)
-6. 模拟/实盘切换
-7. 撤单/取消接口与二次确认 (P2-2)
-8. 持仓查询与柜台对账 (P2-3 Authoritative Reconciliation)
-9. 失败语义结构化分类 (P1-3)
-10. 运行审计与 run_status_[DATE].json
+1. OpenD TCP 接続。
+2. 履歴 K 線取得。
+3. 取引ロック解除と権限の事前チェック (P1-2)。
+4. 資金照会と購買力検証。
+5. 注文の全ライフサイクルのクローズドループ化 (P1-1: Filled/Partial など)。
+6. デモ/本番の切り替え。
+7. 注文取消（キャンセル）インターフェースと二次確認 (P2-2)。
+8. 持分照会とカウンター照合 (P2-3: Authoritative Reconciliation)。
+9. 失敗セマンティクスの構造化分類 (P1-3)。
+10. 実行監査と `run_status_[DATE].json`。
 
-对应代码：
+対応するコード：
 
 1. `src/adapters/futu/client.rs`
 2. `src/adapters/futu/provider.rs`
@@ -147,56 +151,56 @@ OpenAPI 的两大能力：
 5. `src/core/execution_gate.rs`
 6. `src/core/trader_agent.rs`
 
-### 6.2 Not Yet Fully Implemented
+### 6.2 未実装（または不完全）
 
-以下能力仍未落地到生产主链：
+以下の能力は、本番のメインチェーンにはまだ導入されていません：
 
-1. 订阅式实时行情主链 (Qot_Sub)
-2. 逐笔成交/盘口数据流
-3. 全自动持仓纠偏（当前仅能发现偏差并拦截，不支持自动平仓修正）
+1. サブスクリプション方式のリアルタイム相場メインチェーン (Qot_Sub)。
+2. 歩み値（Tick）/ 板情報データストリーム。
+3. 全自動のポジション修正（現在は乖離を発見し遮断するのみで、自動反対売買による修正は未サポート）。
 
-## 7. Capability Matrix
+## 7. 機能マトリックス (Capability Matrix)
 
-| Capability | Official Support | Sentinel Status | Assessment |
+| 機能 | 公式サポート | Sentinel 状態 | 評価 |
 | --- | --- | --- | --- |
-| OpenD gateway | Yes | Implemented | Ready |
-| Historical daily K-line | Yes | Implemented | Ready |
-| Account funds | Yes | Implemented | Ready |
-| Unlock trade | Yes | Implemented | Ready |
-| Place order | Yes | Implemented | Ready |
-| Paper/Live switch | Yes | Implemented | Ready |
-| Quote subscriptions | Yes | Not in main path | Pending |
-| Order book / tick stream | Yes | Not in main path | Pending |
-| Order status reconciliation| Yes | Implemented | Ready |
-| Position reconciliation | Yes | Implemented | Ready |
-| Modify/cancel order | Yes | Implemented | Ready |
-| Authority preflight | Required | Implemented | Ready |
-| Rate limiting | Required | Implemented (1s) | Ready (Low-freq) |
-| Quota awareness | Required | Implemented (Preflight)| Ready |
+| OpenD ゲートウェイ | あり | 実装済み | Ready |
+| 履歴日次 K 線 | あり | 実装済み | Ready |
+| アカウント資金 | あり | 実装済み | Ready |
+| 取引ロック解除 | あり | 実装済み | Ready |
+| 注文執行 (Place order) | あり | 実装済み | Ready |
+| デモ/本番切り替え | あり | 実装済み | Ready |
+| 相場サブスクリプション | あり | メインパス未導入 | Pending |
+| 板情報 / 歩み値ストリーム | あり | メインパス未導入 | Pending |
+| 注文状態の照合 | あり | 実装済み | Ready |
+| ポジションの照合 | あり | 実装済み | Ready |
+| 注文変更/取消 | あり | 実装済み | Ready |
+| 権限 Preflight | 必要 | 実装済み | Ready |
+| レート制限対応 | 必要 | 実装済み (1秒) | Ready (低頻度) |
+| クォータ認識 | 必要 | 実装済み (Preflight)| Ready |
 
-## 8. Product Boundary
+## 8. 製品の境界 (Product Boundary)
 
-当前对外可成立的产品边界是：
+現在、外部に対して成立しうる製品の境界は以下の通りです：
 
-1. 基于 moomoo/OpenD 的美股日频观测
-2. 基于 moomoo/OpenD 的美股模拟交易
-3. 基于 moomoo/OpenD 的美股低频/日频实盘执行，具备完整的持仓校验与审计闭环
+1. moomoo/OpenD に基づく米国株の日次観測。
+2. moomoo/OpenD に基づく米国株のデモ取引。
+3. moomoo/OpenD に基づく米国株の低頻度/日次本番執行（持分検証と監査のクローズドループを完備）。
 
-当前不应对外宣称：
+現在、外部に対して以下のことを公表すべきではありません：
 
-1. 日本股票自动交易已支持
-2. 高频交易已支持
-3. 实时订阅（Qot_Sub）驱动策略已完成（当前仍为 RADAR 轮询模式）
+1. 日本株の自動取引をサポート済みであること。
+2. 高頻度取引をサポート済みであること。
+3. リアルタイムサブスクリプション（Qot_Sub）駆動の戦略が完了していること（現在は依然として RADAR ポーリングモードです）。
 
-## 9. Engineering Decision
+## 9. エンジニアリング上の意思決定
 
-当前建议将 moomoo/OpenAPI 集成定义为：
+現在、moomoo/OpenAPI 統合を以下のように定義することを推奨します：
 
-1. `Core execution layer hardened`
-2. `Initial production-grade integration completed for low-frequency trading`
+1. `Core execution layer hardened` (コア実行層の強化済み)
+2. `Initial production-grade integration completed for low-frequency trading` (低頻度取引向けの初期プロダクト級統合の完了)
 
-这意味着：
+これは以下を意味します：
 
-1. 接入层已具备足够的防御性（风控门禁、对账、撤单二次确认）
-2. 现有架构支持日频/低频规模的实盘部署
-3. 未来若切换至秒级/高频，需开启 P3 阶段的实时订阅架构升级
+1. 接続レイヤーが十分な防御性（リスク管理ゲート、照合、取消の二次確認）を備えていること。
+2. 現行のアーキテクチャで日次/低頻度規模の本番運用をサポート可能であること。
+3. 将来的に秒単位/高頻度に切り替える場合は、P3 段階のリアルタイムサブスクリプションアーキテクチャへのアップグレードを開始する必要があること。

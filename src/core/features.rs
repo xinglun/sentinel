@@ -66,13 +66,13 @@ pub struct MarketFeatures {
     pub dominance_margin: f64,
     pub system_confidence: f64,
     pub trend_dominant: bool,
-    /// Unit: 0..100. (Structural / 50 * Temporal). 0-15 is Fragile.
+    /// 単位: 0..100。 (構造的スコア / 50 * 時間的スコア)。 0-15 は脆弱（Fragile）と見なされる。
     pub stability_score: f64,
     pub stability_structural: f64,
     pub stability_temporal: f64,
     pub trend_maturity: f64,
     pub universe_integrity: f64,
-    pub flow_acceleration: Option<f64>, // EMA of dominance margin delta
+    pub flow_acceleration: Option<f64>, // Dominance Margin デルタの EMA
     pub regime_age: usize,
     pub any_pullback_occurred: bool,
     pub core_assets_breakdown: bool,
@@ -261,8 +261,8 @@ impl AssetFeatures {
 
         let mut trend_age = 1;
         if last_idx > rules.trend.lookback_days {
-            // OPTIMIZATION: Use pre-calculated MAs for the whole search range
-            let search_start = last_idx.saturating_sub(500); // Caps search to 500 bars for performance
+            // 最適化: 検索範囲全体に対して事前に計算された移動平均（MA）を使用する
+            let search_start = last_idx.saturating_sub(500); // パフォーマンスのため検索を500バーに制限
             let mas = calculate_ma_many(
                 &history.bars,
                 entry.owner_ma_days,
@@ -300,10 +300,10 @@ impl AssetFeatures {
                 None
             }
         }) {
-            let lookback_bars = 1260; // 5 years
+            let lookback_bars = 1260; // 5年間（252日 * 5）
             let start_sim = last_idx.saturating_sub(lookback_bars);
 
-            // OPTIMIZATION: Use bulk MA calculation O(N) instead of O(N*W)
+            // 最適化: O(N*W) ではなく、一括 MA 計算 O(N) を使用する
             let mas = calculate_ma_many(&history.bars, entry.owner_ma_days, start_sim..=last_idx);
             let mut historical_devs = Vec::with_capacity(mas.len());
 
@@ -456,7 +456,7 @@ impl MarketFeatures {
         let core_assets_breakdown = if rules.core_assets.is_empty() {
             false
         } else {
-            // V1.1 Spec: Composite breakdown logic using configurable thresholds
+            // V1.1 仕様: 設定可能な閾値を使用した複合的なブレイクダウン・ロジック
             let core_count = assets
                 .iter()
                 .filter(|a| rules.core_assets.contains(&a.symbol))
@@ -504,7 +504,7 @@ impl MarketFeatures {
             .map(|p| p.market_features.any_pullback_occurred)
             .unwrap_or(false);
         if !any_pullback_occurred {
-            // Heuristic: If confidence is high but many assets are in short-term dip, call it a pullback
+            // ヒューリスティック: 信頼度は高いが、多くの資産が短期的な押し目にある場合、それをプルバック（Pullback）と呼ぶ
             let pullback_proxy = assets
                 .iter()
                 .filter(|s| s.trend_status == TrendStatus::Up && s.z_score.unwrap_or(0.0) < -1.0)
@@ -581,9 +581,9 @@ mod tests {
     fn test_composite_trend_dominant() {
         let rules = mock_rules();
 
-        // Case 1: dominance_margin > 0 but up_weight < down_weight
-        // We simulate assets: 1 Up (weight 1.0), 2 Down (weight 0.6 each) -> dominance_margin = (1.0 - 0.6*0.5)/2.2 ... wait
-        // Let's just mock AssetFeatures directly.
+        // ケース 1: dominance_margin > 0 だが up_weight < down_weight
+        // 資産をシミュレート: 1つは Up (weight 1.0)、2つは Down (各 weight 0.6) -> dominance_margin = (1.0 - 0.6*0.5)/2.2 ...
+        // AssetFeatures を直接モックする。
         let a1 = AssetFeatures {
             symbol: "AAPL".to_string(),
             trend_status: TrendStatus::Up,
@@ -610,7 +610,7 @@ mod tests {
     fn test_configurable_breakdown() {
         let mut rules = mock_rules();
         rules.core_assets = vec!["AAPL".to_string(), "MSFT".to_string()];
-        rules.inertia.core_breakdown_k = 1; // Any one core asset breakdown triggers it
+        rules.inertia.core_breakdown_k = 1; // いずれか1つのコア資産の崩壊でトリガーされる
 
         let a1 = AssetFeatures {
             symbol: "AAPL".to_string(),
@@ -628,10 +628,10 @@ mod tests {
         let assets = vec![a1, a2];
         let f = MarketFeatures::compute(&assets, 10, None, &rules);
 
-        // AAPL is broken (Down & dev -6 < -5)
+        // AAPL が崩壊している (Down かつ偏差 -6 < -5)
         assert!(f.core_assets_breakdown);
 
-        // Now change rules to require 2 broken
+        // 2つの崩壊を必要とするようにルールを変更する
         rules.inertia.core_breakdown_k = 2;
         let f2 = MarketFeatures::compute(&assets, 10, None, &rules);
         assert!(!f2.core_assets_breakdown);

@@ -47,7 +47,7 @@ No exit conditions were triggered.
 
 <b>📡 Monitoring Signals</b>
 
-• <b>Participation</b>: Not Ready · Streak 1d
+• <b>Cohesion</b>: Not Ready · Streak 1d
 • <b>Stability</b>: 1.1
 <i>Confidence 52 · Streak 1d · Regime Age 1d · Net Flow Stable ·</i>
 

@@ -1,68 +1,72 @@
-# 多端展示组件语义标准 (DISPLAY_COMPONENT_STANDARD.md)
+---
+author: Ray
+---
 
-本规范定义了 Sentinel 决策包如何转化为高层 UI 组件语义，确保跨端（Telegram, CLI, Web/App）表达的一致性。
+# 多端表示コンポーネント・セマンティック標準 (DISPLAY_COMPONENT_STANDARD.md)
 
-## 1. Top Action 组件语义
+本仕様は、Sentinel の意思決定パッケージがどのように高レベルの UI コンポーネント・セマンティクスに変換されるかを定義し、クロスプラットフォーム（Telegram, CLI, Web/App）での表現の一貫性を確保します。
 
-Top Action 是系统最重要的决策输出，反映了对核心资产的立即建议。
+## 1. Top Action コンポーネント・セマンティクス
 
-### ViewModel 结构 (精简版)
-- **`title`**: 标的代码 (e.g., "NVDA")。
-- **`primary_label`**: 主动作文案 (e.g., "加仓", "持有", "清仓")。
-- **`indicator`**: 状态图标 (e.g., "🟢", "◎", "🔴")。
-- **`secondary_area`**: 次行细节（显示变更标签、最高优先级 Context Tag 及诊断理由）。
+Top Action はシステムで最も重要な意思決定の出力であり、コア資産に対する即時の提案を反映します。
 
-### 表达映射原则
-- **信息分层 (Hierarchy)**:
-    - **主行 (Minimal)**: 必须仅包含 `{Symbol} {Label} {Icon} {State}`，确保首屏重心在于“决策结论”。
-    - **次行 (Decluttered)**: 采用 `({变更·标签}) | {诊断理由}` 格式。
-    - **细节行 (Optional)**: 采用 `└ {Reason}` 格式展示详细解释。
-- **Icon 映射**:
+### ViewModel 構造 (簡略版)
+- **`title`**: 銘柄コード (例: "NVDA")。
+- **`primary_label`**: 主アクション文言 (例: "買い増し", "保持", "清算")。
+- **`indicator`**: 状態アイコン (例: "🟢", "◎", "🔴")。
+- **`secondary_area`**: サブ情報（変更タグ、最高優先度の Context Tag、および診断理由を表示）。
+
+### 表現マッピングの原則
+- **階層化 (Hierarchy)**:
+    - **メイン行 (Minimal)**: `{Symbol} {Label} {Icon} {State}` のみを含め、ファーストビューの重心が「意思決定の結論」にあることを保証します。
+    - **サブ行 (Decluttered)**: `({変更·タグ}) | {診断理由}` の形式を採用します。
+    - **詳細行 (Optional)**: `└ {Reason}` 形式で詳細な説明を表示します。
+- **アイコンのマッピング**:
     - ADD -> 🟢
     - HOLD -> ◎
     - OBSERVE -> △
     - TRIM -> 🟠
     - EXIT -> 🔴
-- **Tag 优先级**: `Blocked` > `Core` > `Candidate` (仅保留一个最高级标签)。
+- **タグの優先順位**: `Blocked` > `Core` > `Candidate` (最高位のタグを1つのみ保持)。
 
-## 2. Tactical Summary (战术分区) 组件语义
+## 2. Tactical Summary (戦術パーティション) コンポーネント・セマンティクス
 
-用于将所有监控资产按“意图分桶”。
+すべての監視資産を「意図バケット」ごとに分類するために使用されます。
 
-### ViewModel 结构
-- **`bucket_id`**: 枚举 (ACCUMULATE, HOLDINGS, WATCHLIST, ACTIONS)。
-- **`display_name`**: 产品化名称 (e.g., "加仓区", "持有区", "观察区", "收缩区")。
-- **`items`**: 包含标的代码的列表。
+### ViewModel 構造
+- **`bucket_id`**: 列挙型 (ACCUMULATE, HOLDINGS, WATCHLIST, ACTIONS)。
+- **`display_name`**: 製品化された名称 (例: "買い増しエリア", "保有エリア", "観察エリア", "収縮エリア")。
+- **`items`**: 銘柄コードを含むリスト。
 
-### 准入与排序
-- **加仓区**: `DisplayIntent::ADD`。
-- **持有区**: `DisplayIntent::HOLD`。
-- **观察区**: 所有的 `DisplayIntent::OBSERVE` 行为。
-- **收缩区**: 所有的减仓/退出（TRIM, EXIT）行为。
+### 承認とソート
+- **買い増しエリア**: `DisplayIntent::ADD`。
+- **保有エリア**: `DisplayIntent::HOLD`。
+- **観察エリア**: すべての `DisplayIntent::OBSERVE` 行動。
+- **収縮エリア**: すべての減配/撤退（TRIM, EXIT）行動。
 
-## 3. Risk & Opportunity (风险与机会) 组件语义
+## 3. Risk & Opportunity (リスクと機会) コンポーネント・セマンティクス
 
-提取系统通过诊断发现的极端情况。采用统一的“标的 + 触发词”口径。
+システムが診断を通じて発見した極端な状況を抽出します。統一された「銘柄 + トリガーワード」の形式を採用します。
 
-## 4. Monitoring Signals (监控信号) 组件语义
+## 4. Monitoring Signals (監視シグナル) コンポーネント・セマンティクス
 
-报告的监控版块必须完全中文化，避免暴露底层工程术语。
+レポートの監視セクションは完全に日本語化し、下層のエンジニアリング用語を露出させないようにします。
 
-- **Confidence** -> **信心指数** (高/中/低)
-- **Stability** -> **稳定性** (稳定/纠结/脆弱)
-- **Participation** -> **参与状态** (已就绪/未就绪)
-- **Streak** -> **连续性** (e.g., "连续 3天")
-- **Regime Age** -> **周期长度**
-- **Flow** -> **资金流向**
+- **Confidence** -> **信頼指数** (高/中/低)
+- **Stability** -> **安定性** (安定/不安定/脆弱)
+- **Participation** -> **参加状態** (準備完了/未完了)
+- **Streak** -> **連続性** (例: "3日連続")
+- **Regime Age** -> **周期の長さ**
+- **Flow** -> **資金流向**
 
-## 5. 变更维护原则 (Maintenance Principles)
+## 5. 変更メンテナンス原則 (Maintenance Principles)
 
-为了防止“实现变了、契约没变”的回归，任何涉及展示语义的修改必须遵循 **“三位一体同步 (Trinity Sync)”**：
+「実装は変わったが契約が変わっていない」という回帰を防ぐため、表示セマンティクスに関わる修正は必ず **「三位一体同期 (Trinity Sync)」** に従う必要があります：
 
 > [!IMPORTANT]
-> 1. **代码同步**: 更新 `DisplayAdapter` (`display.rs`) 的 ViewModel 转换逻辑。
-> 2. **断言同步**: 修正 `report_ui_tests.rs` 中的所有相关字符串断言。
-> 3. **规范同步**: 在本核心规范 (`DISPLAY_COMPONENT_STANDARD.md`) 中同步更新格式定义。
+> 1. **コードの同期**: `DisplayAdapter` (`display.rs`) の ViewModel 変換ロジックを更新します。
+> 2. **アサーションの同期**: `report_ui_tests.rs` 内のすべての関連する文字列アサーションを修正します。
+> 3. **仕様の同期**: 本コア仕様 (`DISPLAY_COMPONENT_STANDARD.md`) 内のフォーマット定義を更新します。
 
 ---
-**禁止修改渲染符号而保持旧有测试断言，这会导致标准化语义发生事实性漂移。**
+**レンダリング記号を変更しながら古いテストアサーションを保持することは禁止されています。これは、標準化されたセマンティクスの事実上のドリフトを引き起こします。**

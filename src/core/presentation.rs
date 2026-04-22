@@ -28,8 +28,8 @@ pub struct SignalSummaryViewModel {
     pub confidence_value: String,
     pub stability_label: String,
     pub stability_value: String,
-    pub participation_label: String,
-    pub participation_value: String,
+    pub cohesion_label: String,
+    pub cohesion_value: String,
     pub continuity_label: String,
     pub continuity_value: String,
     pub regime_age_label: String,
@@ -155,11 +155,8 @@ pub struct StateTransitionViewModel {
     pub no_trade_persists: bool,
     pub market_state_change: Option<String>,
     pub risk_overlay_change: Option<String>,
-    pub participation_gate_change: Option<String>,
     pub trend_cohesion_gate_change: Option<String>,
-    pub participation_gate_passed: bool,
     pub trend_cohesion_gate_passed: bool,
-    pub participation_unmet_diff: Option<UnmetDiffViewModel>,
     pub trend_unmet_diff: Option<UnmetDiffViewModel>,
     pub trend_cohesion_status_change: Option<String>,
     pub trend_cohesion_topology_change: Option<String>,
@@ -196,7 +193,6 @@ pub struct PresentationPacket {
     // For the terminal table and archival markdown
     pub terminal_rows: Vec<TerminalRowViewModel>,
     pub state_code: String,
-    pub market_state_rendered: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

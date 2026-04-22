@@ -128,7 +128,6 @@ async fn test_pipeline_bullish_path() {
         stability_structural: 100.0,
         ..Default::default()
     };
-    use stock_sentinel::core::participation::ParticipationReadiness;
     let top_tier = vec!["MSFT".to_string(), "AAPL".to_string()];
     let prev_packet1 = DecisionPacket::new(
         NaiveDate::from_ymd_opt(2022, 12, 30).unwrap(),
@@ -137,13 +136,13 @@ async fn test_pipeline_bullish_path() {
         None,
         PortfolioPolicy::from_market_regime(&prev_market),
         vec![],
-        ParticipationReadiness {
-            core_tier_streak: 1,
-            ..Default::default()
-        },
         top_tier.clone(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot {
+            gate_passed: true,
+            continuity_streak: 1,
+            ..Default::default()
+        },
         None,
     );
     let prev_packet2 = DecisionPacket::new(
@@ -153,13 +152,13 @@ async fn test_pipeline_bullish_path() {
         None,
         PortfolioPolicy::from_market_regime(&prev_market),
         vec![],
-        ParticipationReadiness {
-            core_tier_streak: 2,
-            ..Default::default()
-        },
         top_tier.clone(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot {
+            gate_passed: true,
+            continuity_streak: 2,
+            ..Default::default()
+        },
         None,
     );
 

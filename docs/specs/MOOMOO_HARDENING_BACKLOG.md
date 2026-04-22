@@ -1,92 +1,96 @@
-# Moomoo Hardening Backlog
+---
+author: Ray
+---
 
-## 1. Purpose
+# Moomoo 強化バックログ (Moomoo Hardening Backlog)
 
-本文件记录 Sentinel 在 moomoo/OpenD 接入层剩余的硬化任务。
+## 1. 目的
 
-当前状态不是“未接入”，而是：
+本ドキュメントは、Sentinel における moomoo/OpenD 接続レイヤーの残存する強化タスクを記録します。
 
-1. 核心交易链路已接通
-2. DryRun / Live 基础模式已成立
-3. 但 broker integration 仍有若干生产级增强项未完成
+現在の状態は「未接続」ではなく、以下の通りです：
 
-本 backlog 只关注接入层，不重复策略层任务。
+1. コアとなる取引経路は開通済み。
+2. DryRun / Live の基礎モードが成立。
+3. ただし、ブローカー統合（Broker Integration）において、いくつかのプロダクト級の強化項目が未完了。
 
-## 2. Current Position
+本バックログは接続レイヤーのみに焦点を当て、戦略レイヤーのタスクは重複させません。
 
-截至当前版本，已完成：
+## 2. 現状 (Current Position)
 
-1. OpenD 连接
-2. 历史 K 线拉取
-3. 交易解锁与行情权限 Preflight (P1-2)
-4. 资金查询与容量校验 (P2-1)
-5. 订单生命周期闭环与状态回查 (P1-1)
-6. 自动化撤单与二次确认 (P2-2)
-7. Authoritative Position Reconciliation (P2-3)
-8. 运行审计与失败语义结构化 (P1-3)
-9. Telegram V4 逻辑统一与视觉硬化 (Product Grade)
+現バージョンまでに完了しているもの：
 
-剩余任务主要是：
+1. OpenD 接続。
+2. 履歴 K 線（チャートデータ）の取得。
+3. 取引ロック解除および相場権限 Preflight (P1-2)。
+4. 資金照会およびキャパシティチェック (P2-1)。
+5. 注文ライフサイクルのクローズドループ化と状態再照会 (P1-1)。
+6. 自動注文取消（キャンセル）と二次確認 (P2-2)。
+7. 権威あるポジション照合（Authoritative Position Reconciliation）(P2-3)。
+8. 実行監査と失敗セマンティクスの構造化 (P1-3)。
+9. Telegram V4 ロジックの統一とビジュアルの強化 (Product Grade)。
 
-1. 订单生命周期闭环 (P1-1) [DONE]
-2. 行情权限自检 (P1-2) [DONE]
-3. broker-side reconciliation (P2-2 -> P2-3) [DONE]
-4. 限流与 quota awareness (P2-1) [DONE]
-5. 撤单接口与二次确认 (P2-2) [DONE]
+残存する主なタスク：
 
-## 3. Priority Model
+1. 注文ライフサイクルのクローズドループ化 (P1-1) [完了]
+2. 相場権限のセルフチェック (P1-2) [完了]
+3. ブローカー側との照合 (P2-2 -> P2-3) [完了]
+4. レート制限とクォータ（Quota）の認識 (P2-1) [完了]
+5. 注文取消インターフェースと二次確認 (P2-2) [完了]
+
+## 3. 優先度モデル
 
 ### P1
 
-高价值硬化项。  
-不阻断当前日频低频使用，但直接影响生产可靠性。
+高価値な強化項目。  
+現在の低頻度な日次利用を阻害することはないが、本番環境の信頼性に直接影響するもの。
 
 ### P2
 
-增强项。  
-用于提升扩展性、可观测性和未来实时化能力。
+拡張項目。  
+拡張性、観測可能性、および将来的なリアルタイム化能力を向上させるためのもの。
 
-## 4. P1 - Hardened Features (Completed)
+## 4. P1 - 強化機能（完了済み）
 
-### P1-1: Order Lifecycle Closure [FINISHED]
+### P1-1: 注文ライフサイクルのクローズドループ化 [完了]
 
-**Problem**
+**課題**
 
-当前订单成功更多表示 “submitted to broker”，而不是完整生命周期闭环。
+現在の注文成功は、完全なライフサイクルの完結ではなく、「ブローカーへの提出完了」に近い意味を持っています。
 
-系统尚未结构化处理：
+システムは以下の状態を構造的に処理できていませんでした：
 
-1. `Filled`
-2. `Partially Filled`
-3. `Cancelled`
-4. `Rejected`
-5. `Expired`
+1. `Filled` (約定)
+2. `Partially Filled` (一部約定)
+3. `Cancelled` (取消済み)
+4. `Rejected` (拒否)
+5. `Expired` (期限切れ)
 
-**Why It Matters**
+**重要性**
 
-如果没有订单生命周期闭环：
+注文ライフサイクルが完結していないと：
 
-1. `ledger` 可能与 broker 实际状态偏离
-2. `run_status` 只能记录提交结果，不能记录最终结果
-3. 执行归因会失真
+1. `ledger`（台帳）がブローカーの実体状態から乖離する可能性がある。
+2. `run_status` が提出結果のみを記録し、最終結果を記録できない。
+3. 実行結果の帰属（アトリビューション）が歪む。
 
-**Task**
+**タスク**
 
-1. 增加 broker-side 订单状态查询能力
-2. 在下单后引入状态确认或轮询机制
-3. 将最终状态写入结构化审计
-4. 明确本地 `ledger` 与 broker 结果的同步规则
+1. ブローカー側の注文状態照会機能の追加。
+2. 下注（発注）後の状態確認またはポーリングメカニズムの導入。
+3. 最終状態を構造化された監査ログに書き込む。
+4. ローカルの `ledger` とブローカー結果の同期ルールを明確化。
 
-**Suggested Output**
+**推奨される出力**
 
-新增或扩展：
+以下を新規追加または拡張：
 
 1. `TradeExecutionAudit`
 2. `ExecutionSummary`
 3. `ledger.csv`
 4. `run_status_[DATE].json`
 
-建议记录字段：
+記録すべきフィールド：
 
 1. `symbol`
 2. `side`
@@ -98,136 +102,133 @@
 8. `avg_fill_price`
 9. `broker_error`
 
-**Acceptance Criteria**
+**完了基準**
 
-1. 每笔订单不只记录 `Submitted`
-2. `run_status` 可反映最终订单状态
-3. `ledger` 与 broker 状态不一致时有显式标记
-4. 至少有一组集成测试覆盖：
-   - success
-   - partial fill / partial failure
-   - reject / cancel
+1. 各注文が `Submitted` だけでなくそれ以降の状態も記録すること。
+2. `run_status` が最終的な注文状態を反映できること。
+3. `ledger` とブローカーの状態が不一致の場合に明示的なフラグが立つこと。
+4. 少なくとも以下のケースをカバーする統合テストが存在すること：
+   - 成功 (Success)
+   - 一部約定 / 一部失敗 (Partial fill / failure)
+   - 拒否 / 取消 (Reject / Cancel)
 
-### P1-2: Quote Authority Preflight [FINISHED]
+### P1-2: 相場権限 Preflight (権限自検) [完了]
 
-**Problem**
+**課題**
 
-当前尚未在启动阶段自动检查 watchlist 对应的行情权限。
+起動フェーズにおいて、watchlist に対応する相場権限を自動的にチェックする機能が欠落していました。
 
-**Why It Matters**
+**重要性**
 
-如果缺少 quote right：
+相場権限（Quote Right）が不足していると：
 
-1. 运行时会在 fetch 阶段失败
-2. 操作员无法区分“网络问题”和“权限问题”
-3. Live 模式下可能在无效数据条件下运行
+1. 実行時のデータ取得フェーズで失敗する。
+2. オペレーターが「ネットワーク問題」と「権限問題」を区別できない。
+3. Live モードにおいて、無効なデータ条件下で実行されるリスクがある。
 
-**Task**
+**タスク**
 
-1. 启动时检查当前账户/环境的行情权限
-2. 检查 watchlist 涉及市场是否在权限范围内
-3. 明确权限不足时的行为：
-   - **降级为观察模式 (Neutral)**：只记录信号，不触发订单。
-   - **禁止进入 Live**：在启动阶段若关键市场权限缺失，直接阻断运行。
-   - 记录结构化原因到 `run_status.json`。
+1. 起動時に現在の仮想通貨口座/環境の相場権限をチェック。
+2. watchlist に含まれる市場が権限範囲内にあるかをチェック。
+3. 権限不足時の挙動を明確化：
+   - **監視モードへの降格 (Neutral)**: シグナルのみを記録し、注文はトリガーしない。
+   - **Live モードへの進入禁止**: 起動時に重要な市場権限が不足している場合、実行を直接遮断する。
+   - 構造化された原因を `run_status.json` に記録。
 
-**Suggested Output**
+**推奨される出力**
 
-建议新增：
+以下の新規追加を推奨：
 
 1. `quote_authority_status`
 2. `preflight_result`
-3. `run_status` 中的权限摘要
+3. `run_status` 内の権限サマリー
 
-**Acceptance Criteria**
+**完了基準**
 
-1. 若 watchlist 中存在无权限市场或数据类型，系统能明确报出
-2. 不能出现“权限不足但静默继续 live execution”
-3. 失败原因必须结构化落盘
+1. watchlist 内に無権限の市場またはデータタイプが存在する場合、システムが明確に報告できること。
+2. 「権限不足のまま黙って live execution を継続する」ことがないこと。
+3. 失敗原因が構造化されて保存されること。
 
-### P1-3: Order Failure Classification [FINISHED]
+### P1-3: 注文失敗の分類 [完了]
 
-**Problem**
+**課題**
 
-当前失败虽然能记录，但其原因（Reason）较为笼统，难以直接用于自动化恢复或快速运维诊断。
+失敗は記録できるものの、その原因（Reason）が抽象的であり、自動復旧や迅速な運用診断に直接活用しにくい状態でした。
 
-**Task**
+**タスク**
 
-1. 将 `PlaceOrder` 错误细分并结构化：
-   - `INSUFFICIENT_FUNDS` (资金不足)
-   - `EXCEEDS_BUDGET` (超出 Sentinel 内部预算)
-   - `INVALID_PRICE` (价格档位/Tick 不符)
-   - `MARKET_CLOSED` (非交易时段)
-   - `PERMISSIONS_DENIED` (权限或协议未签署)
-2. 在 `TradeExecutionAudit` 中增加错误代码或枚举。
+1. `PlaceOrder` エラーを細分化し、構造化する：
+   - `INSUFFICIENT_FUNDS` (資金不足)
+   - `EXCEEDS_BUDGET` (Sentinel 内部予算超過)
+   - `INVALID_PRICE` (価格帯/Tick の不一致)
+   - `MARKET_CLOSED` (取引時間外)
+   - `PERMISSIONS_DENIED` (権限または同意書未署名)
+2. `TradeExecutionAudit` にエラーコードまたは列挙型を追加。
 
-**Acceptance Criteria**
+**完了基準**
 
-1. 常见的交易失败能映射到明确的业务分类。
-2. 运维日志能通过错误类型快速过滤。
+1. 一般的な取引失敗が明確なビジネス分類にマッピングされていること。
+2. 運用ログからエラータイプで迅速にフィルタリングできること。
 
-## 5. P2 - Hardened Features (Completed)
+## 5. P2 - 強化機能（完了済み）
 
-### P2-1: Unified Rate Limiter [FINISHED]
+### P2-1: 統一レートリミッター (Unified Rate Limiter) [完了]
 
-**Problem**
-当前仅有交易执行路径上的 1 秒 sleep，属于保守节流，基础限流已达成。
+**課題**
+取引実行パス上のみに 1秒の sleep がありましたが、保守的なスロットリングが導入され、基礎的なレート制限が達成されました。
 
-### P2-2: Order Cancellation & Absolute Closure [FINISHED]
+### P2-2: 注文取消と絶対的な完結 [完了]
 
-**Problem**
-当前订单在超时或异常时需要可靠的撤单机制，防止意外成交。
-**Task**
-1. 实现了 `cancel_order` 接口。
-2. 实现了撤单后的二次状态确认逻辑，确保 broker 已执行。
+**課題**
+タイムアウトや異常発生時に、意図しない約定を防ぐための信頼できる注文取消メカニズムが必要でした。
+**タスク**
+1. `cancel_order` インターフェースを実装。
+2. 取消後の二次状態確認ロジックを実装し、ブローカー側で実行されたことを保証。
 
-### P2-3: Authoritative Position Reconciliation [FINISHED]
+### P2-3: 権威あるポジション照合 (Authoritative Position Reconciliation) [完了]
 
-**Problem**
-当前组合快照高度依赖本地 `ledger`，可能产生数据漂移。
-**Task**
-1. 实现了基于柜台真实持仓的 `reconcile_positions` 逻辑。
-2. 实现了 Live 模式下的强制持仓对账门禁。
+**課題**
+ポートフォリオのスナップショットがローカルの `ledger` に過度に依存しており、データの乖離が発生する可能性がありました。
+**タスク**
+1. 証券会社のリアルタイムな持分に基づく `reconcile_positions` ロジックを実装。
+2. Live モードにおいて、持分照合を必須とするゲートキーパー機能を実装。
 
-### P2-4: Product Boundary Documentation [FINISHED]
+### P2-4: 製品境界のドキュメント化 [完了]
 
-**Problem**
+**課題**
+境界を明確に記述しないと、チームが「現在はすべての市場とすべての取引モードをサポートしている」と誤解するリスクがありました。
 
-如果不明确写清边界，团队可能误以为当前已支持全部市场和全部交易模式。
+**タスク**
 
-**Task**
+仕様ドキュメントにおいて以下を明確化：
 
-在规范文档中明确：
+1. 現在の生産目標は米国株であること。
+2. 現在、日本株の自動取引はサポートしていないこと。
+3. 高頻度/リアルタイムなイベント駆動型取引は未完了であること。
 
-1. 当前生产目标为美股
-2. 当前不支持日本股票自动交易
-3. 当前未完成高频/实时事件驱动交易
+**完了基準**
 
-**Acceptance Criteria**
+1. README と specs の記述内容が一致していること。
+2. 「実装の限界を超えた能力の誇張」がないこと。
 
-1. README 与 specs 口径一致
-2. 不再出现“能力外延大于实现边界”的描述
+## 6. P3 - 将来の拡張
 
+### P3-1: サブスクリプションベースの相場パス (Qot_Sub)
+**課題**: 現在のメインチェーンは依然として batch/radar 方式であり、OpenAPI のリアルタイムサブスクリプションの利点を活用できていません。  
+**ステータス**: 保留中。
 
-## 6. P3 - Future Expansion
+### P3-2: ポートフォリオ全体での安全性と損切り (Stop Loss)
+**タスク**: 全体の含み損益と市場価値を監視し、緊急清算シグナルに対応します。  
+**ステータス**: 保留中。
 
-### P3-1: Subscription-based Quote Path (Qot_Sub)
-**Problem**
-当前主链仍然是 batch/radar 方式，没有进入 OpenAPI 的实时订阅优势。  
-**Status**: Pending.
+## 7. ガバナンスに関する注意
 
-### P3-2: Portfolio-wide Safety & Stop Loss
-**Task**: Monitor total unrealized P/L and market value for emergency liquidation signals.  
-**Status**: Pending.
+本ファイルは `specs/` に属し、moomoo 接続レイヤーの強化の過程と将来の拡張計画を記録したものです。  
+本ファイルには現在以下が含まれています：
+1. **実装済み機能 (P1/P2)**: エンジニアリング監査の証拠。
+2. **将来の拡張タスク (P3)**: 今後の反復（イテレーション）のガイド。
 
-## 7. Governance Note
-
-本文件属于 `specs/`，记录了 moomoo 接入层的硬化历程与未来扩展规划。  
-本文件当前包含：
-1. **已落地特性 (P1/P2)**：作为工程审计证据。
-2. **未来扩展任务 (P3)**：作为后续迭代指南。
-
-如果其中任务完成，应同步更新：
+タスクが完了した場合、以下を同期して更新する必要があります：
 
 1. `MOOMOO_OPENAPI_ASSESSMENT.md`
 2. `MOOMOO_INTEGRATION_CHECKLIST.md`

@@ -36,6 +36,8 @@ pub struct TrendCohesionSnapshot {
     pub status: TrendCohesionStatus,
     pub topology: TrendCohesionTopology,
     pub gate_passed: bool,
+    pub stability_ready: bool,
+    pub continuity_ready: bool,
     pub stability_score: f64,
     pub continuity_streak: usize,
     pub candidate_count: usize,
@@ -52,7 +54,6 @@ pub struct TrendCohesionEvaluator;
 impl TrendCohesionEvaluator {
     pub fn evaluate(
         stability_score: f64,
-        continuity_streak: usize,
         current_top_tier: &[String],
         history: &[DecisionPacket],
         cfg: &ParsedTrendCohesionRules,
@@ -60,7 +61,18 @@ impl TrendCohesionEvaluator {
         let candidate_count = current_top_tier.len();
         let mut unmet_conditions = Vec::new();
 
-        // 1. Gather a configurable recent history window from persisted packets.
+        // 1. ストリーク（継続性）の計算
+        let continuity_streak = if let Some(prev) = history.last() {
+            if !prev.top_tier_symbols.is_empty() && prev.top_tier_symbols == current_top_tier {
+                prev.trend_cohesion.continuity_streak + 1
+            } else {
+                1
+            }
+        } else {
+            1
+        };
+
+        // 2. 永続化されたパケットから、設定可能な直近の履歴ウィンドウを収集。
         let recent_packets: Vec<&DecisionPacket> =
             history.iter().rev().take(cfg.history_window_days).collect();
         let past_top_tiers: Vec<&[String]> = recent_packets
@@ -68,7 +80,7 @@ impl TrendCohesionEvaluator {
             .map(|p| p.top_tier_symbols.as_slice())
             .collect();
 
-        // 2. Identify repeating leaders (in current top tier AND in at least 1 prior packet).
+        // 3. 繰り返されるリーダーを特定（現在のトップティアに含まれ、かつ以前のパケットにも少なくとも1回含まれるもの）。
         let mut leader_count = 0;
         let mut past_symbols: HashSet<&str> = HashSet::new();
         for tier in &past_top_tiers {
@@ -83,17 +95,17 @@ impl TrendCohesionEvaluator {
             }
         }
 
-        // Leadership concentration proxy: repeated leaders within the active candidate set.
+        // リーダーシップ集中プロキシ: アクティブな候補セット内で繰り返されるリーダー。
         let repeated_leader_ratio = if candidate_count > 0 {
             leader_count as f64 / candidate_count as f64
         } else {
             0.0
         };
 
-        // Rotation quality (Jaccard similarity with yesterday, if yesterday exists)
+        // ローテーション品質 (昨日とのジャッカード係数、昨日が存在する場合)
         let mut rotation_quality_score = 0.0;
         if let Some(yesterday_tier) = past_top_tiers.first() {
-            // past_top_tiers[0] is the most recent past since we `rev`
+            // `rev` しているため past_top_tiers[0] が直近の過去。
             let current_set: HashSet<&str> = current_top_tier.iter().map(|s| s.as_str()).collect();
             let prev_set: HashSet<&str> = yesterday_tier.iter().map(|s| s.as_str()).collect();
 
@@ -104,7 +116,7 @@ impl TrendCohesionEvaluator {
                 rotation_quality_score = (intersection as f64 / union as f64) * 100.0;
             }
         } else if candidate_count > 0 {
-            // First day with candidates: not enough history to validate churn, keep neutral.
+            // 候補がある初日：チャーンを検証するための十分な履歴がないため、ニュートラルに保つ。
             rotation_quality_score = 50.0;
         } else {
             rotation_quality_score = 0.0;
@@ -145,16 +157,6 @@ impl TrendCohesionEvaluator {
             + candidate_compactness_score * 0.15)
             .clamp(0.0, 100.0);
 
-        let no_candidates = candidate_count == 0;
-        let _severe_fragmentation = no_candidates
-            || stability_score < cfg.severe_stability_threshold
-            || continuity_streak < cfg.severe_continuity_threshold
-            || candidate_compactness_score < cfg.severe_compactness_threshold
-            || (!past_top_tiers.is_empty()
-                && rotation_quality_score < cfg.severe_rotation_threshold)
-            || (candidate_count > 0 && leader_quality_score < cfg.severe_leadership_threshold)
-            || cohesion_score < cfg.severe_cohesion_threshold;
-
         let mut gate_passed = true;
         let directional_passed = candidate_count > 0
             && candidate_count <= cfg.directional_max_candidates
@@ -162,11 +164,14 @@ impl TrendCohesionEvaluator {
             && rotation_quality_score >= cfg.directional_rotation_threshold
             && candidate_compactness_score >= cfg.directional_compactness_threshold;
 
-        if stability_score < cfg.gate_stability_threshold {
+        let stability_ready = stability_score >= cfg.gate_stability_threshold;
+        let continuity_ready = continuity_streak >= cfg.gate_continuity_threshold;
+
+        if !stability_ready {
             unmet_conditions.push(TrendCohesionGateCondition::StabilityThreshold);
             gate_passed = false;
         }
-        if continuity_streak < cfg.gate_continuity_threshold {
+        if !continuity_ready {
             unmet_conditions.push(TrendCohesionGateCondition::ContinuityThreshold);
             gate_passed = false;
         }
@@ -185,7 +190,7 @@ impl TrendCohesionEvaluator {
             unmet_conditions.push(TrendCohesionGateCondition::WeakLeadership);
         }
 
-        let topology = if no_candidates || leader_count == 0 {
+        let topology = if candidate_count == 0 || leader_count == 0 {
             TrendCohesionTopology::NoLeader
         } else if candidate_count <= cfg.topology_single_max_candidates
             && leader_count == 1
@@ -209,6 +214,8 @@ impl TrendCohesionEvaluator {
             status,
             topology,
             gate_passed,
+            stability_ready,
+            continuity_ready,
             stability_score,
             continuity_streak,
             candidate_count,
@@ -237,18 +244,24 @@ mod tests {
         }
     }
 
+    fn mock_packet_with_streak(symbols: Vec<&str>, streak: usize) -> DecisionPacket {
+        let mut p = mock_packet(symbols);
+        p.trend_cohesion.continuity_streak = streak;
+        p
+    }
+
     #[test]
     fn test_history_leader_repetition() {
+        let current_symbols = vec!["A".to_string(), "B".to_string(), "C".to_string()];
         let history = vec![
             mock_packet(vec!["A", "B", "C"]),
-            mock_packet(vec!["A", "B", "D"]),
+            mock_packet_with_streak(vec!["A", "B", "C"], 2),
         ];
-        let current = vec!["A".to_string(), "B".to_string(), "E".to_string()];
-
-        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history, &rules());
+        let current = current_symbols;
+        let snapshot = TrendCohesionEvaluator::evaluate(15.0, &current, &history, &rules());
 
         assert_eq!(snapshot.candidate_count, 3);
-        assert_eq!(snapshot.leader_count, 2); // A and B repeat
+        assert_eq!(snapshot.leader_count, 3); // A, B, C 全てが繰り返される
         assert_eq!(snapshot.status, TrendCohesionStatus::Formed);
         assert_eq!(snapshot.topology, TrendCohesionTopology::FragmentedLeaders);
         assert!(snapshot.cohesion_score >= 75.0);
@@ -258,11 +271,11 @@ mod tests {
     #[test]
     fn test_churn_degrades_cohesion() {
         let history = vec![
-            mock_packet(vec!["X", "Y"]), // Yesterday
+            mock_packet(vec!["X", "Y"]), // 昨日
         ];
-        let current = vec!["A".to_string(), "B".to_string(), "C".to_string()]; // Today (total change)
+        let current = vec!["A".to_string(), "B".to_string(), "C".to_string()]; // 今日 (全入れ替え)
 
-        let snapshot = TrendCohesionEvaluator::evaluate(15.0, 3, &current, &history, &rules());
+        let snapshot = TrendCohesionEvaluator::evaluate(15.0, &current, &history, &rules());
 
         assert_eq!(snapshot.rotation_quality_score, 0.0);
         assert_eq!(snapshot.status, TrendCohesionStatus::Dispersed);
@@ -282,13 +295,12 @@ mod tests {
     fn test_not_formed_heuristics() {
         let current = vec!["A".to_string(), "B".to_string()];
 
-        let snap_low_stab = TrendCohesionEvaluator::evaluate(8.0, 3, &current, &[], &rules());
+        let snap_low_stab = TrendCohesionEvaluator::evaluate(8.0, &current, &[], &rules());
         assert_eq!(snap_low_stab.status, TrendCohesionStatus::Dispersed);
         assert_eq!(snap_low_stab.topology, TrendCohesionTopology::NoLeader);
 
         let snap_dispersed = TrendCohesionEvaluator::evaluate(
             15.0,
-            3,
             &[
                 "A".to_string(),
                 "B".to_string(),
@@ -309,12 +321,11 @@ mod tests {
 
     #[test]
     fn test_gate_conditions() {
-        // Test stability failure only
+        // 安定性のみの失敗をテスト
         let snap1 = TrendCohesionEvaluator::evaluate(
-            9.0, // Failed stability
-            3,
-            &["A".to_string(), "B".to_string()], // Directional ok if it had history... wait, without history leader count is 0
-            &[],                                 // Fails directional cohesion
+            9.0,                                 // 安定性失敗
+            &["A".to_string(), "B".to_string()], // 履歴がないためリーダー数は 0
+            &[],                                 // 指向性凝集 (Directional cohesion) に失敗
             &rules(),
         );
         assert!(snap1
@@ -325,7 +336,7 @@ mod tests {
             .contains(&TrendCohesionGateCondition::DirectionalCohesion));
         assert!(!snap1.gate_passed);
 
-        // Test continuity failure only
+        // 継続性のみの失敗をテスト
         let history = vec![
             mock_packet(vec!["A", "B", "C"]),
             mock_packet(vec!["A", "B", "D"]),
@@ -333,9 +344,8 @@ mod tests {
         let current = vec!["A".to_string(), "B".to_string()];
 
         let snap2 = TrendCohesionEvaluator::evaluate(
-            15.0,     // Passed stability
-            2,        // Failed continuity
-            &current, // Passed directional cohesion (candidates <= 4, leaders=2, quality=100%)
+            15.0,     // 安定性通過
+            &current, // 指向性凝集を通過 (候補数 <= 4, リーダー=2, 品質=100%)
             &history,
             &rules(),
         );
@@ -351,12 +361,15 @@ mod tests {
             .contains(&TrendCohesionGateCondition::DirectionalCohesion));
         assert!(!snap2.gate_passed);
 
-        // Gate passes when all are true
+        // すべて真の時にゲートを通過
+        let history_pass = vec![
+            mock_packet(vec!["A", "B"]),
+            mock_packet_with_streak(vec!["A", "B"], 2),
+        ];
         let snap3 = TrendCohesionEvaluator::evaluate(
-            15.0,     // Passed stability
-            3,        // Passed continuity
-            &current, // Passed directional cohesion
-            &history,
+            15.0,     // 安定性通過
+            &current, // 指向性凝集通過
+            &history_pass,
             &rules(),
         );
         assert!(snap3.unmet_conditions.is_empty());
@@ -377,7 +390,7 @@ mod tests {
             "F".to_string(),
         ];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(11.5, 2, &current, &history, &rules());
+        let snapshot = TrendCohesionEvaluator::evaluate(11.5, &current, &history, &rules());
 
         assert_eq!(snapshot.status, TrendCohesionStatus::Dispersed);
         assert!(!snapshot.gate_passed);
@@ -396,7 +409,7 @@ mod tests {
         let history = vec![mock_packet(vec!["A"]), mock_packet(vec!["A", "B"])];
         let current = vec!["A".to_string(), "C".to_string()];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history, &rules());
+        let snapshot = TrendCohesionEvaluator::evaluate(12.0, &current, &history, &rules());
 
         assert_eq!(snapshot.topology, TrendCohesionTopology::SingleLeader);
     }
@@ -409,7 +422,7 @@ mod tests {
         ];
         let current = vec!["A".to_string(), "B".to_string(), "E".to_string()];
 
-        let snapshot = TrendCohesionEvaluator::evaluate(12.0, 3, &current, &history, &rules());
+        let snapshot = TrendCohesionEvaluator::evaluate(12.0, &current, &history, &rules());
 
         assert_eq!(snapshot.topology, TrendCohesionTopology::FragmentedLeaders);
     }

@@ -1,43 +1,48 @@
-# 展示适配层设计说明 (Display Adapter Design)
+---
+author: Ray
+---
 
-## 1. 概念界定 (Boundary Definition)
+# 表示アダプター層の設計説明 (Display Adapter Design)
 
-为了实现展示逻辑与核心引擎的解耦，我们引入三个层级的概念：
+## 1. 概念の定義 (Boundary Definition)
 
-| 概念 | 定义 | 归属 | 核心职责 |
+表示ロジックとコアエンジンのデカップリングを実現するために、3つの階層概念を導入します：
+
+| 概念 | 定義 | 帰属 | 主な責任 |
 | :--- | :--- | :--- | :--- |
-| **PositionIntent** | 执行意图 | `exit.rs` | **“怎么做”**。确定交易方向（买、卖、持、清）。 |
-| **DisplayIntent** | 展示意图 | `display.rs` | **“怎么看”**。将执行动作转换为用户可理解的分类（加仓、持有、观察、减仓、退出）。 |
-| **DisplayBucket** | 展示分区/布局 | `display.rs` | **“放哪看”**。决定标的在报表中的物理位置（加仓区、防御区、观察区）。 |
+| **PositionIntent** | 実行意図 | `exit.rs` | **「どうするか」**。取引の方向（買い、売り、保持、決済）を決定します。 |
+| **DisplayIntent** | 表示意図 | `display.rs` | **「どう見せるか」**。実行アクションをユーザーが理解可能な分類（買い増し、保持、観察、減配、撤退）に変換します。 |
+| **DisplayBucket** | 表示バケット/レイアウト | `display.rs` | **「どこで見せるか」**。銘柄をレポート内の物理的な位置（買い増しエリア、防御エリア、観察エリア）に振り分けます。 |
 
-## 2. 职责迁移 (Responsibilities)
+## 2. 責任の移譲 (Responsibilities)
 
-- **`engine.rs`**: 不再感知 `DisplayIntent` 的具体映射细节。它只负责将参与度、排名、退出决策合成为 `PositionIntent`。
-- **`display.rs` (NEW)**: 
-  - 封装 `DisplayIntent` 的生成逻辑（Input: `PositionIntent` + `AssetAction` + `HoldingStatus`）。
-  - 封装资产分桶逻辑（Categorization）。
-  - 提供统一的展示标签（Labels）。
-- **`report.rs`**: 纯粹作为模板渲染器。它直接消费 `DisplayAdapter` 处理好的分桶数据和标签，不进行任何推断。
+- **`engine.rs`**: `DisplayIntent` の具体的なマッピング詳細を認識しなくなります。関与度、ランキング、撤退の意思決定を `PositionIntent` に合成する責任のみを負います。
+- **`display.rs` (新規)**: 
+  - `DisplayIntent` の生成ロジックをカプセル化します（入力: `PositionIntent` + `AssetAction` + `HoldingStatus`）。
+  - 資産のバケット分け（カテゴライズ）ロジックをカプセル化します。
+  - 統一された表示ラベル（Labels）を提供します。
+- **`report.rs`**: 純粋なテンプレートレンダラーとなります。`DisplayAdapter` によって処理されたバケットデータとラベルを直接消費し、いかなる推論も行いません。
 
-## 3. 接口预览 (Interface)
+## 3. インターフェースのプレビュー (Interface)
 
 ```rust
 pub struct DisplayAdapter;
 
 impl DisplayAdapter {
-    /// 基于执行意图、基础动作及持仓状态，计算展示意图
+    /// 実行意図、基礎アクション、および持分状態に基づいて、表示意図を計算します
     pub fn compute_display_intent(
         pos_intent: PositionIntent,
         base_action: AssetAction,
         is_held: bool,
     ) -> DisplayIntent;
 
-    /// 统一资产分桶逻辑
+    /// 資産のバケット分けロジックを統一します
     pub fn categorize(decisions: &[AssetActionDecision]) -> DisplayBuckets;
 }
 ```
 
-## 4. 收益
-- **高内聚**：所有 UI 展示文案和规则集中一处。
-- **易测试**：可以独立测试 `OBSERVE` 与 `HOLD` 的分离逻辑，无需启动完整引擎。
-- **一致性**：Telegram 与终端报告共享同一套适配逻辑，杜绝口径差异。
+## 4. 収益
+
+- **高凝集**: すべての UI 表示文言とルールが一箇所に集中します。
+- **テストの容易性**: `OBSERVE` と `HOLD` の分離ロジックを、フルエンジンを起動することなく独立してテストできます。
+- **一貫性**: Telegram とターミナルレポートが同じアダプターロジックを共有し、表示の食い違いを根絶します。

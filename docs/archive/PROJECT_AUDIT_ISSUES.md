@@ -1,61 +1,65 @@
-# Project Audit Issues
+---
+author: Ray
+---
 
-This document converts the audit findings into executable issue tickets.
+# プロジェクト監査イシュー (Project Audit Issues)
 
-Each issue is written to be directly usable for task tracking.
+本ドキュメントは、監査結果を実行可能なイシューチケットに変換したものです。
+
+各イシューは、タスク追跡に直接使用できるように記述されています。
 
 ## P0
 
-### P0-1: Add End-to-End Pipeline Integration Tests
+### P0-1: エンドツーエンドのパイプライン統合テストの追加
 
-**Goal**
+**目標**
 
-Protect the full decision pipeline from regression.
+意思決定パイプライン全体をデグレード（先祖返り）から保護する。
 
-**Why**
+**背景**
 
-The project has unit tests, but no integration test that proves `Engine::run_daily_pipeline()` still produces a coherent `DecisionPacket`.
+プロジェクトにはユニットテストは存在しますが、`Engine::run_daily_pipeline()` が依然として一貫した `DecisionPacket` を生成することを証明する統合テストがありません。
 
-**Scope**
+**範囲**
 
-1. Add integration-style tests around:
-   - feature extraction
-   - market regime transition
-   - portfolio policy derivation
-   - asset-state computation
-   - action-matrix output
-2. Use deterministic fixture histories instead of live providers.
-3. Verify final `DecisionPacket` fields, not just intermediate states.
+1. 以下の項目を網羅する統合スタイルのテストを追加する：
+   - 特徴量抽出 (Feature extraction)
+   - 市場レジーム遷移 (Market regime transition)
+   - ポートフォリオポリシー派生 (Portfolio policy derivation)
+   - 資産状態の計算 (Asset-state computation)
+   - アクションマトリックス出力 (Action-matrix output)
+2. ライブプロバイダーの代わりに、決定論的なフィクスチャ履歴を使用する。
+3. 中間状態だけでなく、最終的な `DecisionPacket` のフィールドを検証する。
 
-**Suggested Files**
+**推奨されるファイル**
 
-1. New test module under `src/core/engine.rs` or `tests/pipeline_integration.rs`
-2. Reusable fixtures under `tests/fixtures/` if needed
+1. `src/core/engine.rs` 内の新しいテストモジュール、または `tests/pipeline_integration.rs`
+2. 必要に応じて `tests/fixtures/` 下の再利用可能なフィクスチャ
 
-**Acceptance Criteria**
+**検収基準**
 
-1. At least one bullish-path integration test exists
-2. At least one defensive-path integration test exists
-3. Tests validate final `DecisionPacket.market_regime`, `portfolio_policy`, and selected `assets[*].action`
+1. 少なくとも 1 つの強気パス（Bullish-path）の統合テストが存在すること。
+2. 少なくとも 1 つの防御パス（Defensive-path）の統合テストが存在すること。
+3. テストが、最終的な `DecisionPacket.market_regime`、`portfolio_policy`、および選択された `assets[*].action` を検証していること。
 
-**Dependencies**
+**依存関係**
 
-None
+なし
 
-### P0-2: Add Archival Package Integration Tests
+### P0-2: アーカイブパッケージの統合テストの追加
 
-**Goal**
+**目標**
 
-Guarantee that a successful run produces the expected daily archival package.
+実行に成功した際、期待される日次アーカイブパッケージが生成されることを保証する。
 
-**Why**
+**背景**
 
-Daily archival is now a product requirement, not a side effect.
+日次アーカイブは現在、副作用ではなく製品要件となっています。
 
-**Scope**
+**範囲**
 
-1. Add tests covering dry-run archival output in `save_to`
-2. Verify required files are created:
+1. `save_to` でのドライランアーカイブ出力をカバーするテストを追加する。
+2. 必要なファイルが作成されることを検証する：
    - `decision_history.jsonl`
    - `decision_packet_[DATE].json`
    - `state_transitions.csv`
@@ -65,128 +69,128 @@ Daily archival is now a product requirement, not a side effect.
    - `account_snapshot_[DATE].json`
    - `data_quality_log.jsonl`
    - `[DATE].md`
-3. Verify write failure propagates as an error for required assets
+3. 必須の資産に対して書き込み失敗がエラーとして伝播することを検証する。
 
-**Suggested Files**
+**推奨されるファイル**
 
-1. New test module near [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
-2. Or `tests/archival_integration.rs`
+1. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs) 付近の新しいテストモジュール
+2. または `tests/archival_integration.rs`
 
-**Acceptance Criteria**
+**検収基準**
 
-1. A dry-run path creates the full daily archive package
-2. Missing write permissions or invalid output path causes testable failure
-3. No required archival asset is silently skipped
+1. ドライランパスが完全な日次アーカイブパッケージを作成すること。
+2. 書き込み権限の欠如や無効な出力パスが、テスト可能な失敗を引き起こすこと。
+3. 必要なアーカイブ資産がサイレントにスキップされないこと。
 
-**Dependencies**
+**依存関係**
 
-P0-1 is helpful but not required
+P0-1 があると役立つが、必須ではない。
 
-### P0-3: Add ExecutionGate Boundary Matrix Tests
+### P0-3: ExecutionGate 境界マトリイステストの追加
 
-**Goal**
+**目標**
 
-Make the risk gate trustworthy under edge conditions.
+リスクゲートをエッジケース下でも信頼できるものにする。
 
-**Why**
+**背景**
 
-`ExecutionGate` is now a hard control point for:
+`ExecutionGate` は現在、以下の項目の厳格なコントロールポイントとなっています：
 
-1. daily budget
-2. total exposure
-3. buying power
-4. risk overlay
+1. 日次予算 (daily budget)
+2. 総エクスポージャー (total exposure)
+3. 購買力 (buying power)
+4. リスクオーバーレイ (risk overlay)
 
-This must be explicitly tested.
+これを明示的にテストする必要があります。
 
-**Scope**
+**範囲**
 
-1. Add tests for:
-   - passes under neutral conditions
-   - blocks on `max_daily_budget`
-   - blocks on `global_budget`
-   - blocks on `buying_power`
-   - blocks buy-side trades under defensive/broken regimes
-   - handles `config_multiplier` and policy multiplier correctly
-2. Validate both:
+1. 以下のテストを追加する：
+   - 中立的な条件下でのパス
+   - `max_daily_budget` によるブロック
+   - `global_budget` によるブロック
+   - `buying_power` によるブロック
+   - 防御的/故障レジーム下での買い側取引のブロック
+   - `config_multiplier` とポリシー倍率の正しい処理
+2. 以下の両方を検証する：
    - `ExecutionResult.trades`
    - `ExecutionResult.audits`
 
-**Suggested Files**
+**推奨されるファイル**
 
-1. New tests in [execution_gate.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/execution_gate.rs)
+1. [execution_gate.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/execution_gate.rs) 内の新しいテスト
 
-**Acceptance Criteria**
+**検収基準**
 
-1. All blocking reasons are individually tested
-2. At least one test validates multiple candidate trades competing for budget
-3. Audit payloads are asserted, not just trade count
+1. すべてのブロック理由が個別にテストされていること。
+2. 少なくとも 1 つのテストで、複数の候補取引が予算を争うケースを検証していること。
+3. 取引数だけでなく、監査（Audit）ペイロードが表明（Assert）されていること。
 
-**Dependencies**
+**依存関係**
 
-None
+なし
 
-### P0-4: Remove Unsafe Runtime Assumptions in Main Pipeline
+### P0-4: メインパイプラインからの安全でないランタイム前提の削除
 
-**Goal**
+**目標**
 
-Replace hidden runtime assumptions with explicit validation.
+隠れたランタイム前提を明示的なバリデーションに置き換える。
 
-**Why**
+**背景**
 
-The current pipeline still hard-unwraps trading config:
+現在のパイプラインは、取引設定を依然としてハードにアンラップ（unwrap）しています：
 
 [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs):233
 
-That is acceptable only if validation is enforced before runtime. Today that assumption is implicit.
+これは、実行前にバリデーションが強制されている場合にのみ許容されます。現在、その前提は暗黙的なものです。
 
-**Scope**
+**範囲**
 
-1. Remove `unwrap()` from the runtime path
-2. Add explicit config validation at startup
-3. Return typed or at least contextual errors for:
-   - missing `[trading]`
-   - malformed provider/trading combinations
-   - execution mode without required config
+1. ランタイムパスから `unwrap()` を削除する。
+2. 起動時に明示的な設定バリデーションを追加する。
+3. 以下のケースに対して型付けされたエラー、または少なくともコンテキストのあるエラーを返す：
+   - `[trading]` セクションの欠落
+   - 不正なプロバイダー/取引の組み合わせ
+   - 必要な設定がない実行モード
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [config.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/config.rs)
 2. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. No panic path remains for missing trading config
-2. Invalid config fails early with a readable error
-3. Tests cover invalid config cases
+1. 取引設定の欠落によるパニックパスが残っていないこと。
+2. 無効な設定が読み取り可能なエラーとともに早期に失敗すること。
+3. テストが無効な設定ケースをカバーしていること。
 
-**Dependencies**
+**依存関係**
 
-None
+なし
 
-### P0-5: Enforce a Clean Clippy Baseline
+### P0-5: クリーンな Clippy ベースラインの強制
 
-**Goal**
+**目標**
 
-Move from "compiles" to "maintainably clean".
+「コンパイルが通る」から「保守可能でクリーン」な状態へ移行する。
 
-**Why**
+**背景**
 
-`cargo check` is green, but `cargo clippy --all-targets --all-features` still reports avoidable issues.
+`cargo check` はパスしていますが、`cargo clippy --all-targets --all-features` は依然として回避可能な問題を報告しています。
 
-**Scope**
+**範囲**
 
-1. Fix current `clippy` findings that are real quality signals, including:
+1. 本質的な品質シグナルである現在の `clippy` の指摘事項を修正する：
    - identity map
    - `clone_on_copy`
    - manual clamp
    - `lines().filter_map(Result::ok)`
    - bool assert comparison
-   - formatting-related cleanup
-2. Do not rename business enums purely to satisfy acronym lint if that hurts the domain language
-3. Add targeted `#[allow(...)]` only where the domain naming is intentional
+   - フォーマット関連のクリーンアップ
+2. ドメイン言語を損なう場合、頭字語（Acronym）の Lint を満たすためだけにビジネス Enum の名前を変更しない。
+3. ドメイン名が意図的である場合に限り、対象を絞った `#[allow(...)]` を追加する。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
 2. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs)
@@ -194,314 +198,314 @@ Move from "compiles" to "maintainably clean".
 4. [portfolio_policy.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/portfolio_policy.rs)
 5. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. `cargo clippy --all-targets --all-features` passes
-2. Any remaining lint allow-list is intentional and documented
+1. `cargo clippy --all-targets --all-features` がパスすること。
+2. 残っている Lint の Allow リストが意図的であり、文書化されていること。
 
-**Dependencies**
+**依存関係**
 
-None
+なし
 
 ## P1
 
-### P1-1: Slim Down cli.rs
+### P1-1: cli.rs のスリム化
 
-**Goal**
+**目標**
 
-Reduce the orchestration hotspot.
+オーケストレーションのホットスポットを削減する。
 
-**Why**
+**背景**
 
-`cli.rs` still owns too much:
+`cli.rs` が依然として多くの責務を持ちすぎています：
 
-1. config routing
-2. provider selection
-3. data fetch fan-out
-4. archival orchestration
-5. execution context assembly
-6. report delivery
+1. 設定のルーティング
+2. プロバイダーの選択
+3. データ取得のファンアウト
+4. アーカイブのオーケストレーション
+5. 実行コンテキストの組み立て
+6. レポートの配信
 
-**Scope**
+**範囲**
 
-1. Extract archival orchestration into a dedicated service/module
-2. Extract execution context assembly into a dedicated helper or module
-3. Keep `cli` focused on:
-   - command routing
-   - top-level run mode dispatch
+1. アーカイブのオーケストレーションを専用のサービス/モジュールに抽出する。
+2. 実行コンテキストの組み立てを専用のヘルパーまたはモジュールに抽出する。
+3. `cli` を以下の項目に集中させる：
+   - コマンドのルーティング
+   - トップレベルの実行モードのディスパッチ
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
-2. New module such as `src/core/runtime_pipeline.rs` or `src/core/archive_service.rs`
+2. `src/core/runtime_pipeline.rs` や `src/core/archive_service.rs` などの新しいモジュール
 
-**Acceptance Criteria**
+**検収基準**
 
-1. `cli.rs` becomes materially smaller
-2. Main pipeline responsibilities are split into named units
-3. Behavior remains unchanged
+1. `cli.rs` が実質的に小さくなること。
+2. メインパイプラインの責務が名前付きのユニットに分割されること。
+3. 動作が変わらないこと。
 
-**Dependencies**
+**依存関係**
 
-P0-1 and P0-2 should land first
+P0-1 および P0-2 が先に完了していること。
 
-### P1-2: Refactor ActionMatrix API
+### P1-2: ActionMatrix API のリファクタリング
 
-**Goal**
+**目標**
 
-Make action derivation easier to extend and safer to maintain.
+アクションの派生を拡張しやすく、保守しやすくする。
 
-**Why**
+**背景**
 
-`ActionMatrix::decide()` currently takes too many primitive arguments.
+`ActionMatrix::decide()` が現在、あまりにも多くのプリミティブな引数を取っています。
 
-**Scope**
+**範囲**
 
-1. Replace the current argument list with a typed input struct
-2. Group market context, asset context, and execution config separately
-3. Preserve current behavior
+1. 現在の引数リストを、型付けされた入力構造体に置き換える。
+2. 市場コンテキスト、資産コンテキスト、および実行設定を個別にグループ化する。
+3. 現在の振る舞いを維持する。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
 2. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. `ActionMatrix::decide()` no longer takes a long primitive argument list
-2. Existing behavior remains test-covered
-3. New API makes future matrix extension easier
+1. `ActionMatrix::decide()` が長いプリミティブ引数リストを取らなくなること。
+2. 既存の振る舞いがテストでカバーされたままであること。
+3. 新しい API により、将来のマトリックス拡張が容易になること。
 
-**Dependencies**
+**依存関係**
 
-P0-1 and P0-3
+P0-1 および P0-3
 
-### P1-3: Optimize Feature Extraction Hotspots
+### P1-3: 特徴量抽出ホットスポットの最適化
 
-**Goal**
+**目標**
 
-Reduce repeated computation cost in replay-heavy workloads.
+リプレイ負荷の高いワークロードにおいて、繰り返される計算コストを削減する。
 
-**Why**
+**背景**
 
-Feature computation currently performs repeated work for:
+特徴量計算において、以下の項目で現在重複した作業が行われています：
 
-1. trend-age derivation
-2. long-window percentile estimation
+1. トレンド期間（trend-age）の派生
+2. 長いウィンドウでのパーセンタイル推定
 
-**Scope**
+**範囲**
 
-1. Reduce repeated trend recomputation
-2. Reuse rolling MA or cached series where practical
-3. Revisit percentile computation strategy to avoid repeated full-window scanning
+1. トレンドの繰り返し再計算を削減する。
+2. 実用的な範囲で、ローリング MA やキャッシュされたシリーズを再利用する。
+3. フルウィンドウのスキャンを繰り返さないように、パーセンタイル計算戦略を再検討する。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. Feature extraction remains behaviorally equivalent
-2. Replay runtime improves measurably on the same sample dataset
-3. New implementation is covered by tests
+1. 特徴量抽出が動作的に同等であることを維持すること。
+2. 同じサンプルデータセットにおいて、リプレイの実行時間が大幅に改善すること。
+3. 新しい実装がテストでカバーされていること。
 
-**Dependencies**
+**依存関係**
 
 P0-1
 
-### P1-4: Optimize Backtest Replay Loop
+### P1-4: バックテストのリプレイループの最適化
 
-**Goal**
+**目標**
 
-Make backtest scale better with more assets and longer windows.
+より多くの資産やより長いウィンドウに対して、バックテストのスケーラビリティを向上させる。
 
-**Why**
+**背景**
 
-Current backtest repeatedly slices and scans history in ways that will not scale.
+現在のバックテストは、スケーリングしない方法で履歴のスライシングやスキャンを繰り返しています。
 
-**Scope**
+**範囲**
 
-1. Reduce repeated cloning of daily slices
-2. Pre-index bars by date where useful
-3. Avoid repeated linear scans for forward return lookup and drawdown windows
+1. 日次スライスの繰り返しクローンを削減する。
+2. 有用な場合は、日付ごとにバーをプリインデックス化する。
+3. 前方リターンのルックアップやドローダウンウィンドウのための線形スキャンの繰り返しを回避する。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [backtest.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/backtest.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. Backtest runtime is measurably improved on the same dataset
-2. Output remains equivalent or differences are explicitly explained
-3. No regression in summary generation
+1. 同じデータセットにおいて、バックテストの実行時間が大幅に改善すること。
+2. 出力が同等であることを維持するか、差異が明示的に説明されていること。
+3. サマリー生成にデグレードがないこと。
 
-**Dependencies**
+**依存関係**
 
-P1-3 is helpful but not required
+P1-3 があると役立つが、必須ではない。
 
-### P1-5: Harden Persistence Read Patterns
+### P1-5: 永続化の読み込みパターンの堅牢化
 
-**Goal**
+**目標**
 
-Reduce fragility in long-lived archival assets.
+長期間保持されるアーカイブ資産の脆弱性を低減する。
 
-**Why**
+**背景**
 
-Some persistence patterns are functional but not ideal for long-term reliability.
+一部の永続化パターンは機能していますが、長期的な信頼性には理想的ではありません。
 
-**Scope**
+**範囲**
 
-1. Improve JSONL read behavior for latest-packet loading
-2. Add clearer corruption handling for malformed last-line history
-3. Define expectations for append-only archive files
+1. 最新パケット読み込み時の JSONL の読み取り動作を改善する。
+2. 破損した末尾行の履歴に対して、より明確な破損処理を追加する。
+3. 追記型（Append-only）アーカイブファイルの期待値を定義する。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [persistence.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/persistence.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. Latest-packet loading handles malformed tails gracefully
-2. JSONL append/read semantics are documented
-3. Tests cover malformed-history cases
+1. 最新パケットの読み込みにおいて、破損した末尾を適切に処理できること。
+2. JSONL の追記/読み取りセマンティクスが文書化されていること。
+3. テストが破損した履歴ケースをカバーしていること。
 
-**Dependencies**
+**依存関係**
 
 P0-2
 
 ## P2
 
-### P2-1: Upgrade Telegram Output Template
+### P2-1: Telegram 出力テンプレートのアップグレード
 
-**Goal**
+**目標**
 
-Increase decision density without making Telegram noisy.
+Telegram を騒がしくすることなく、意思決定密度を高める。
 
-**Why**
+**背景**
 
-Current Telegram output is concise but still closer to a lightweight summary than a high-signal operator brief.
+現在の Telegram 出力は簡潔ですが、高シグナルのオペレーターブリーフというよりは、軽量なサマリーに近いものです。
 
-**Scope**
+**範囲**
 
-1. Keep the message short
-2. Improve information hierarchy:
-   - market state
-   - portfolio mode
-   - top actionable assets
-   - key warning if defensive
-3. Keep archival markdown richer than Telegram
+1. メッセージを短く保つ。
+2. 情報の階層構造を改善する：
+   - 市場状態
+   - ポートフォリオモード
+   - 上位のアクション可能な資産
+   - 防御的な場合の主要な警告
+3. アーカイブ Markdown を Telegram よりもリッチに保つ。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
 2. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. Telegram remains readable on mobile
-2. Message contains clear state + policy + top actions
-3. Archival markdown remains the richer artifact
+1. Telegram がモバイルで読みやすいままであること。
+2. メッセージに明確な状態 + ポリシー + 上位のアクションが含まれていること。
+3. アーカイブ Markdown がよりリッチな資産であり続けること。
 
-**Dependencies**
+**依存関係**
 
-P0 complete
+P0 の完了
 
-### P2-2: Deepen Backtest Reporting
+### P2-2: バックテストレポートの深化
 
-**Goal**
+**目標**
 
-Turn backtest output into a real iteration tool.
+バックテストの出力を、実際のイテレーションツールにする。
 
-**Why**
+**背景**
 
-The current summary is useful, but still too shallow for systematic strategy tuning.
+現在のサマリーは有用ですが、体系的な戦略調整にはまだ不十分です。
 
-**Scope**
+**範囲**
 
-1. Add regime-duration statistics
-2. Add action-level attribution
-3. Add clearer confidence-bucket reporting
-4. Prepare summary format for comparing runs over time
+1. レジーム持続期間の統計を追加する。
+2. アクションレベルのアトリビューションを追加する。
+3. より明確な信頼度バケット（Confidence-bucket）レポートを追加する。
+4. 実行結果を時系列で比較するためのサマリー形式を準備する。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [backtest.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/backtest.rs)
-2. `backtest/summary.md` generator logic
+2. `backtest/summary.md` の生成ロジック
 
-**Acceptance Criteria**
+**検収基準**
 
-1. Backtest output supports parameter iteration
-2. Summary is easier to compare across runs
-3. Attribution is more actionable than simple hit rate
+1. バックテストの出力がパラメータイテレーションをサポートしていること。
+2. サマリーを実行間で比較しやすくなっていること。
+3. アトリビューションが単純な的中率（Hit rate）よりも実用的であること。
 
-**Dependencies**
+**依存関係**
 
 P1-4
 
-### P2-3: Turn Data Quality Logs into Diagnostics
+### P2-3: データ品質ログの診断への変換
 
-**Goal**
+**目標**
 
-Move from passive logging to active data-quality assessment.
+受動的なログ記録から、能動的なデータ品質評価へ移行する。
 
-**Why**
+**背景**
 
-`data_quality_log.jsonl` exists, but it is still mostly a raw audit trail.
+`data_quality_log.jsonl` は存在しますが、依然として主に生の監査トレイルに留まっています。
 
-**Scope**
+**範囲**
 
-1. Add quality scoring or severity levels
-2. Flag stale, sparse, or partial histories
-3. Surface data-quality issues in archival or Telegram summaries where appropriate
+1. 品質スコアリングまたは重要度レベルを追加する。
+2. 鮮度が低い、疎である、または不完全な履歴にフラグを立てる。
+3. 適切な場合に、アーカイブまたは Telegram のサマリーにデータ品質問題を表面化させる。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [cli.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/cli.rs)
 2. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
 
-**Acceptance Criteria**
+**検収基準**
 
-1. Data-quality logs become interpretable without manual inspection
-2. Severe data-quality problems are visible to the operator
+1. データ品質ログが手動検査なしで解釈可能になること。
+2. 重大なデータ品質問題がオペレーターに見えるようになること。
 
-**Dependencies**
+**依存関係**
 
 P0-2
 
-### P2-4: Add Stronger Execution Observability
+### P2-4: 実行観測性の強化
 
-**Goal**
+**目標**
 
-Make the execution path auditable under real operational failures.
+実際の運用上の失敗下で、実行パスを監査可能にする。
 
-**Why**
+**背景**
 
-The system now has gating and snapshots, but not a full execution observability loop.
+システムは現在ゲートとスナップショットを備えていますが、完全な実行観測性ループはまだありません。
 
-**Scope**
+**範囲**
 
-1. Add structured execution-failure taxonomy
-2. Add order-status reconciliation hooks
-3. Improve reporting of execution success vs broker failure
+1. 構造化された実行失敗の分類（Taxonomy）を追加する。
+2. 注文ステータスの照合（Reconciliation）フックを追加する。
+3. 実行の成功とブローカー側の失敗の報告を改善する。
 
-**Suggested Files**
+**推奨されるファイル**
 
 1. [trader_agent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/trader_agent.rs)
 2. [ledger.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/ledger.rs)
 3. [trade/trader.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/trade/trader.rs)
-4. Futu adapter modules under `src/adapters/futu/`
+4. `src/adapters/futu/` 下の Futu アダプターモジュール
 
-**Acceptance Criteria**
+**検収基準**
 
-1. Order failures are structurally logged
-2. Broker-side rejection and local gate rejection are distinguishable
-3. Execution outcomes can be audited over time
+1. 注文の失敗が構造的にログ記録されること。
+2. ブローカー側の拒否とローカルゲートの拒否が区別できること。
+3. 実行結果を長期にわたって監査できること。
 
-**Dependencies**
+**依存関係**
 
 P0-3
 
-## Suggested Execution Order
+## 推奨される実行順序
 
 1. P0-1
 2. P0-3
@@ -518,10 +522,10 @@ P0-3
 13. P2-3
 14. P2-4
 
-## Definition of Done
+## 完了の定義
 
-This audit issue list should be considered complete only when:
+この監査イシューリストは、以下の場合に完了とみなされます：
 
-1. `P0` is green in code, tests, and lint
-2. `P1` removes the main maintainability and replay bottlenecks
-3. `P2` improves operator quality without destabilizing the core pipeline
+1. `P0` がコード、テスト、および Lint においてグリーンである。
+2. `P1` が主要な保守性とリプレイのボトルネックを解消している。
+3. `P2` がコアパイプラインを不安定にすることなく、オペレーターの品質を向上させている。

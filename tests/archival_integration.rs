@@ -41,7 +41,6 @@ async fn test_full_9_asset_archival_package() {
         None,
         policy,
         vec![],
-        stock_sentinel::core::participation::ParticipationReadiness::default(),
         Vec::new(),
         false,
         stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),

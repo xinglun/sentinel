@@ -1,21 +1,25 @@
-# Sentinel 动作矩阵 (ACTION_MATRIX.md)
+---
+author: Ray
+---
 
-## 1. 核心动作定义
+# Sentinel アクションマトリックス (ACTION_MATRIX.md)
 
-| 动作名称 | 语义描述 | 组合层约束 |
+## 1. コアアクションの定義
+
+| アクション名 | セマンティック記述 | ポートフォリオレベルの制約 |
 | --- | --- | --- |
-| `ACCUMULATE` | 分批买入/加仓 | 允许新增暴露，通常在 `PULLBACK` 或 `IGNITION` 时执行 |
-| `HOLD` | 继续持有 | 不主动增仓，也不减仓 |
-| `REDUCE` | 部分卖出/减仓 | 在 `OVERHEAT` 或 `CAUTION` 时启动，锁定利润或控制风险 |
-| `FREEZE` | 冻结动作 | 禁止一切买入，仅允许持有或清算 |
-| `AVOID` | 避险/观望 | 不持仓，不建仓 |
-| `OBSERVE` | 观察期 | 结构未明，暂不动作 |
+| `ACCUMULATE` | 分割買い / 買い増し | 新規エクスポージャーの追加を許可。通常、`PULLBACK` または `IGNITION` 時に実行。 |
+| `HOLD` | 継続保持 | 能動的な買い増しも売却も行わない。 |
+| `REDUCE` | 部分売却 / 減配 | `OVERHEAT` または `CAUTION` 時に起動。利益の確定またはリスクコントロールを行う。 |
+| `FREEZE` | 凍結アクション | すべての買いを禁止。保持または清算のみを許可。 |
+| `AVOID` | 回避 / 傍観 | ポジションを持たず、新規構築も行わない。 |
+| `OBSERVE` | 観察期 | 構造が不明確であり、一時的にアクションを行わない。 |
 
 ---
 
-## 2. 状态矩阵映射 (Market Regime x Asset State)
+## 2. 状態マトリックスのマッピング (Market Regime x Asset State)
 
-| 市场状态 \ 个股状态 | `OPTIMAL` | `CRUISE` | `PULLBACK` | `CAUTION` | `OVERHEAT` | `DEFEND` | `FORMING` |
+| 市場状態 \ 個別銘柄状態 | `OPTIMAL` | `CRUISE` | `PULLBACK` | `CAUTION` | `OVERHEAT` | `DEFEND` | `FORMING` |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `IGNITION` | `ACCUM` | `HOLD` | `HOLD` | `AVOID` | `REDUCE` | `AVOID` | `OBSERVE` |
 | `NEWBORN` | `ACCUM` | `HOLD` | `ACCUM` | `HOLD` | `REDUCE` | `AVOID` | `OBSERVE` |
@@ -24,19 +28,19 @@
 | `CONFIRMED` | `HOLD` | `HOLD` | `HOLD` | `REDUCE` | `REDUCE` | `REDUCE` | `OBSERVE` |
 | `DEFENSIVE` | `FREEZE` | `FREEZE` | `AVOID` | `AVOID` | `REDUCE` | `AVOID` | `OBSERVE` |
 
-### 2.1 动作优先级
-1. `DEFENSIVE` 市场状态具有最高优先级，可覆盖（Override）所有个股层面的买入动作。
-2. `OVERHEAT` 个股状态在所有市场状态下都优先触发 `REDUCE`。
-3. `FORMING` 始终映射为 `OBSERVE`。
+### 2.1 アクションの優先順位
+1. `DEFENSIVE` 市場状態は最高優先度を持ち、個別銘柄レベルのすべての買いアクションを上書き（Override）します。
+2. `OVERHEAT` 個別銘柄状態は、すべての市場状態において優先的に `REDUCE` をトリガーします。
+3. `FORMING` は常に `OBSERVE` にマッピングされます。
 
 ---
 
-## 3. 仓位缩放系数 (Sizing Multipliers)
+## 3. ポジションサイジング係数 (Sizing Multipliers)
 
-| 动作 | 默认系数 | 说明 |
+| アクション | デフォルト係数 | 説明 |
 | --- | --- | --- |
-| `ACCUMULATE` | 1.0 | 标准加仓单元 |
-| `HOLD` | 1.0 | 维持当前权重 |
-| `REDUCE` | 0.5 | 减仓 50% 或减至目标权重 |
-| `FREEZE` | 0.0 | 禁止新增买入 |
-| `AVOID` | 0.0 | 清仓或不参与 |
+| `ACCUMULATE` | 1.0 | 標準的な加筆（買い増し）ユニット。 |
+| `HOLD` | 1.0 | 現在のウェイトを維持。 |
+| `REDUCE` | 0.5 | 50% 削減、または目標ウェイトまで削減。 |
+| `FREEZE` | 0.0 | 新規の買い増しを禁止。 |
+| `AVOID` | 0.0 | 清算または不参加。 |

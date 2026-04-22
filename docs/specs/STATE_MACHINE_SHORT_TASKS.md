@@ -1,52 +1,56 @@
-# Sentinel 状态机改造短任务单
+---
+author: Ray
+---
 
-## P0
+# Sentinel 状態機改造ショートタスクリスト
 
-### P0-1 实现 InertiaLayer
+## P0 (最優先)
 
-目标：
+### P0-1 InertiaLayer (慣性層) の実装
 
-1. 在原始信号和状态判定之间增加惯性层
-2. 将 `reset gate`、`downgrade gate`、`duration lock`、`defensive override` 集中实现
+目標：
 
-修改范围：
+1. 生のシグナルと状態判定の間に「慣性層」を追加する。
+2. `reset gate`、`downgrade gate`、`duration lock`、`defensive override` を集中実装する。
+
+修正範囲：
 
 1. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
-2. 相关配置加载路径
+2. 関連する設定のロードパス。
 
-验收：
+承認基準：
 
-1. 非防御性回调不再直接 reset 到 `IGNITION`
-2. `ANY -> DEFENSIVE` 仍保持最高优先级
+1. 防御的でない通常の押し目において、直接 `IGNITION` へリセットされないこと。
+2. `ANY -> DEFENSIVE` は引き続き最高優先度を維持すること。
 
-### P0-2 固化 Reset Gate
+### P0-2 Reset Gate (リセット・ゲート) の固め
 
-目标：
+目標：
 
-只有满足以下全部条件，才允许 `IGNITION` reset：
+以下のすべての条件を満たした場合にのみ、`IGNITION` へのリセットを許可する：
 
 1. `TrendDominant == false`
 2. `Structural < 25`
-3. `Stability < 10` 连续 3 天
+3. `Stability < 10` が3日間連続。
 4. `Flow <= 0`
 5. `CoreAssetsBreakdown == true`
 
-验收：
+承認基準：
 
-1. `ESTABLISHED -> IGNITION` 必须是稀有且可解释事件
-2. `market_regime.reasons` 中必须留下 reset/blocked-reset 原因
+1. `ESTABLISHED -> IGNITION` が稀であり、かつ説明可能なイベントであること。
+2. `market_regime.reasons` にリセットまたはリセット・ブロックの理由が記録されること。
 
-### P0-3 阶梯式降级
+### P0-3 段階的降格 (Step Downgrade)
 
-目标：
+目標：
 
-普通生命周期降级最多单级：
+通常のライフサイクル降格は最大1段階に制限する：
 
 1. `CONFIRMED -> ESTABLISHED`
 2. `ESTABLISHED -> EARLY_CONFIRMATION`
 3. `EARLY_CONFIRMATION -> NEWBORN`
 
-禁止：
+禁止事項：
 
 1. `ESTABLISHED -> IGNITION`
 2. `CONFIRMED -> NEWBORN`
@@ -55,100 +59,100 @@
 
 1. `ANY -> DEFENSIVE`
 
-验收：
+承認基準：
 
-1. 正常回调只会单级降级
-2. 结构破坏仍可直接进入 `DEFENSIVE`
+1. 通常の押し目では、1段階ずつの降格が行われること。
+2. 構造的破壊時には、依然として直接 `DEFENSIVE` に突入できること。
 
 ## P1
 
-### P1-1 Duration Lock
+### P1-1 Duration Lock (期間ロック)
 
-目标：
+目標：
 
-1. 升级和 reset 必须受时间锁保护
-2. 防御性降级不受阻断
+1. 昇格とリセットをタイムロック（時間による保護）で保護する。
+2. 防御的な降格は阻害しない。
 
-建议实现：
+推奨される実装：
 
 1. `min_upgrade_duration`
 2. `soft_downgrade_lock`
 3. `hard_defensive_override`
 
-验收：
+承認基準：
 
-1. 不再出现“今天 reset，明天恢复”的抖动
-2. 不会把防抖做成风险迟钝
+1. 「今日リセットして明日復帰する」といったチャタリング（ジッタ）が発生しないこと。
+2. チャタリング防止が、リスクに対する鈍感さに繋がらないこと。
 
-### P1-2 Core Assets 配置化
+### P1-2 Core Assets (コア資産) の構成化
 
-目标：
+目標：
 
-1. `core_assets` 从代码常量提升为配置
-2. `CoreAssetsBreakdown` 判定依赖配置，而非 symbol 硬编码
+1. `core_assets` をコード内の定数から設定ファイル（Config）へ引き上げる。
+2. `CoreAssetsBreakdown` の判定を、シンボルのハードコードではなく設定に依存させる。
 
-验收：
+承認基準：
 
-1. `core_assets` 可在配置中定义
-2. `reset gate` 使用配置化核心资产集合
+1. `core_assets` が設定ファイルで定義可能であること。
+2. `reset gate` が設定されたコア資産集合を使用していること。
 
-### P1-3 State Transition Log
+### P1-3 State Transition Log (状態遷移ログ)
 
-目标：
+目標：
 
-结构化记录每次状态变化与阻断原因。
+状態の変化と、それを阻害（ブロック）した理由を構造化して記録する。
 
-最少字段：
+最小限のフィールド：
 
-1. `from`
-2. `to`
-3. `blocked_reset`
-4. `core_assets_breakdown`
-5. `reasons`
+1. `from` (遷移前)
+2. `to` (遷移後)
+3. `blocked_reset` (リセットがブロックされたか)
+4. `core_assets_breakdown` (コア資産の崩壊フラグ)
+5. `reasons` (理由)
 
-验收：
+承認基準：
 
-1. 可以定位“为什么没降级 / 为什么没 reset / 为什么进入防御”
+1. 「なぜ降格しなかったのか / なぜリセットされなかったのか / なぜ防御に入ったのか」を特定できること。
 
 ## P2
 
-### P2-1 个股恢复门槛
+### P2-1 個別銘柄の復帰しきい値
 
-目标：
+目標：
 
-强制个股恢复路径：
+個別銘柄の復帰パスを強制する：
 
 `DEFEND -> CAUTION -> CRUISE -> OPTIMAL`
 
-验收：
+承認基準：
 
-1. 不允许 `DEFEND -> OPTIMAL`
-2. 每一步都要经过 cooldown
+1. `DEFEND -> OPTIMAL` のような飛び級を許可しないこと。
+2. 各ステップでクールダウン期間を経過すること。
 
-### P2-2 Historical Penalty
+### P2-2 Historical Penalty (歴史的ペナルティ)
 
-目标：
+目標：
 
-最近 20 日内曾处于 `DEFEND` 的资产：
+直近20日以内に `DEFEND` 状態だった資産：
 
-1. 默认 `max_state = CRUISE`
-2. 满足额外结构确认后才可解除限制
+1. デフォルトの `max_state = CRUISE` とする。
+2. 追加の構造確認を満たした後にのみ、制限を解除する。
 
-验收：
+承認基準：
 
-1. 弱资产不能单日洗白
+1. 弱い資産が単日で「潔白」になれないこと。
 
-### P2-3 FORMING 保护
+### P2-3 FORMING (形成中) 資産の保護
 
-目标：
+目標：
 
-`FORMING` 资产不能因市场 reset 或市场改善被自动抬升为强状态。
+`FORMING` 資産が、市場のリセットや市場環境の改善によって自動的に強気状態へ引き上げられないようにする。
 
-验收：
+承認基準：
 
-1. `FORMING` 只能在满足独立结构成熟条件后进入正常状态机
+1. `FORMING` は、個別の構造成熟条件を満たした後にのみ、通常の状態機に突入すること。
 
-## 交付顺序
+## デリバリー（実施）順序
 
 1. `P0-1`
 2. `P0-2`

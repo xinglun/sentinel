@@ -1,70 +1,83 @@
-# Stock Sentinel 自动观测系统
-# GitHub Actions 托管运行要求说明书
+---
+author: Ray
+---
 
-## 一、目标
-将 Stock Sentinel 部署到 GitHub Actions，实现完全无人值守的自动观测运行环境，确保系统可以长期、稳定、连续地执行以下核心任务：
+# Stock Sentinel 自動観測システム
+# GitHub Actions ホスティング実行要件仕様書 (hosting_spec.md)
 
-### 每日自动执行：
-1. 获取股票市场数据
-2. 运行资本引力观测引擎
-3. 生成观测报告（Markdown）
-4. 记录观测数据（telemetry.csv）
-5. 推送 Telegram 通知
-6. 将观测数据永久保存到 GitHub Repository
+## 1. 目標
 
-**最终目标是建立：长期连续、不可篡改、可追溯的资本结构时间序列数据库（系统的核心资产）。**
+Stock Sentinel を GitHub Actions にデプロイし、完全に無人化された自動観測実行環境を実現します。これにより、システムが長期的、安定、かつ連続的に以下のコアタスクを実行できるようにします：
 
-*   **GitHub Actions 运行分支**：`main`
-*   **观测数据提交分支**：`data` (使用 Git Worktree 隔离)
+### デイリー自動実行項目：
+1. 市場データの取得
+2. 資本重力観測エンジンの実行
+3. 観測レポート（Markdown）の生成
+4. 観測データの記録（telemetry.csv）
+5. Telegram 通知の送信
+6. 観測データの GitHub リポジトリへの永久保存
 
-## 二、运行频率要求
-GitHub Actions 必须支持：
+**最終目標：** 長期的かつ連続的で、改ざん不可能かつ追跡可能な「資本構造時系列データベース（システムのコア資産）」を構築すること。
 
-1.  **每日自动运行**
-    *   **日本时间**：22:30 JST
-    *   **对应 UTC**：13:30 UTC
-    *   **逻辑**：美股收盘后数据稳定，避免盘中噪音。
+- **GitHub Actions 実行ブランチ**: `main`
+- **観測データ提出ブランチ**: `data` (Git Worktree を使用して隔離)
 
-2.  **允许手动运行**
-    *   **触发方式**：GitHub 页面点击 `Run workflow`。
-    *   **用途**：调试、参数调整验证、临时观测。
-    *   **要求**：手动运行数据必须与自动运行同样记录至 `telemetry.csv`（依赖 timestamp 区分）。
+## 2. 実行頻度要件
 
-## 三、运行环境要求
-*   **操作系统**：Ubuntu Latest
-*   **Rust 环境**：Stable toolchain，支持 `cargo build --release` 和 `cargo run --release`。
+GitHub Actions は以下の実行モードをサポートしなければなりません：
 
-## 四、执行程序要求
-*   **执行指令**：`cargo run --release`
-*   **禁止使用 debug 模式**：确保 release 模式与研究数据保持一致，保证观测结果可复现。
+1. **デイリー自動実行**
+   - **実行時間**: 22:30 JST (13:30 UTC)
+   - **ロジック**: 米国市場閉場後のデータが安定したタイミングで実行し、日中ノイズを回避します。
 
-每次运行必须保存并提交到 `data` 分支：
-*   **目录**：`/reports/`
-*   **核心资产**：
-    *   `telemetry.csv`：多维时间序列（必须持续追加）。
-    *   `run_status_YYYY-MM-DD.json`：机器可读的运行健康快照（P0 校验项）。
-    *   `YYYY-MM-DD.md`：人类可读的归档报告。
-    *   `decision_packet_YYYY-MM-DD.json`：单一事实源决策包。
-    *   `portfolio_snapshot_YYYY-MM-DD.json`：组合暴露快照。
-    *   `account_snapshot_YYYY-MM-DD.json`：账户资金快照。
-    *   `state_transitions.csv` / `state_transitions.jsonl`：市场状态迁移日志。
-    *   `execution_gate_log.jsonl`：执行门禁审计。
-    *   `data_quality_log.jsonl`：数据质量日志。
+2. **手動実行の許可**
+   - **トリガー**: GitHub UI 上の `Run workflow` ボタン。
+   - **用途**: デバッグ、パラメータ調整の検証、臨時観測。
+   - **要件**: 手動実行データも自動実行と同様に `telemetry.csv` に記録されること（タイムスタンプで区別）。
 
-每次运行后必须自动推送至 `data` 分支。禁止直接提交至 `main` 分支以保持代码与数据的物理隔离。
-**目的**：将 GitHub Repository 作为永久观测档案库。
+## 3. 実行環境要件
 
-## 七、Telegram 通知要求
-*   **Secret 管理**：必须从 GitHub Secrets 读取 `TELEGRAM_BOT_TOKEN` 和 `TELEGRAM_CHAT_ID`。
-*   **禁止行为**：禁止将敏感 Token 写入代码仓库。
+- **オペレーティングシステム**: Ubuntu Latest
+- **Rust 環境**: Stable toolchain。`cargo build --release` および `cargo run --release` をサポート。
 
-## 八、参数宇宙隔离要求
-`telemetry.csv` 必须保留 `config_hash`，确保未来参数变更后，历史数据仍然可区分。这是量化研究的关键基础。
+## 4. 実行バイナリ要件
 
-## 九、运行失败处理要求
-*   如果执行失败，GitHub 必须标记为 `Failed` 以提醒系统异常，禁止静默失败。
+- **実行コマンド**: `cargo run --release`
+- **デバッグモードの禁止**: 研究データとの一貫性を保ち、観測結果の再現性を保証するため、必ず release モードを使用します。
 
-## 十、Repository 标准结构
+## 5. アーカイブ要件
+
+毎回の実行結果は必ず `data` ブランチに保存・コミットされる必要があります：
+
+- **ディレクトリ**: `/reports/`
+- **コア資産**:
+  - `telemetry.csv`: 多次元時系列データ（継続的に追記）。
+  - `run_status_YYYY-MM-DD.json`: マシンリーダブルな実行ヘルス快照（P0 検証項目）。
+  - `YYYY-MM-DD.md`: 人間が読める形式のアーカイブ報告書。
+  - `decision_packet_YYYY-MM-DD.json`: 単一の真実（SSOT）となる意思決定パッケージ。
+  - `portfolio_snapshot_YYYY-MM-DD.json`: ポートフォリオ・エクスポージャーのスナップショット。
+  - `account_snapshot_YYYY-MM-DD.json`: アカウント資金のスナップショット。
+  - `state_transitions.csv` / `state_transitions.jsonl`: 市場状態遷移ログ。
+  - `execution_gate_log.jsonl`: 実行ゲート監査ログ。
+  - `data_quality_log.jsonl`: データ品質ログ。
+
+実行後は必ず自動的に `data` ブランチへプッシュします。コードとデータの物理的隔離を維持するため、`main` ブランチへの直接コミットは禁止します。
+
+## 6. Telegram 通知要件
+
+- **シークレット管理**: `TELEGRAM_BOT_TOKEN` および `TELEGRAM_CHAT_ID` は GitHub Secrets から読み取らなければなりません。
+- **禁止事項**: 機密性の高いトークンをコードベースに直接書き込むことを厳禁します。
+
+## 7. パラメータ宇宙の隔離要件
+
+`telemetry.csv` は必ず `config_hash` を保持し、将来パラメータが変更された後でも歴史的データが区別できるようにしなければなりません。これは量化研究における重要な基礎です。
+
+## 8. 実行失敗時の処理
+
+- 実行が失敗した場合、GitHub Actions は `Failed` としてマークされ、異常を通知しなければなりません。サイレント・フェイル（静かな失敗）は禁止します。
+
+## 9. リポジトリの標準構造
+
 ```text
 stock-sentinel/ (main branch)
 ├── .github/workflows/daily_radar.yml
@@ -91,17 +104,14 @@ stock-sentinel/ (data branch)
     └── freshness.json
 ```
 
-## 十一、最终目标定义
-Stock Sentinel GitHub Actions 托管运行的最终目标不是自动交易或预测市场，而是**建立完整、连续、可信的资本结构观测历史**。
+## 10. 最終目標の定義
 
-## 十二、核心哲学
-> 这不是 CI/CD。
-> 
-> 这是把你的资本望远镜放进轨道，让它每天自动看宇宙。
-> 
-> 人类负责思考。机器负责观测。时间负责证明一切。
+Stock Sentinel の GitHub Actions ホスティングの最終目標は、自動取引や市場予測ではなく、**「完全かつ連続的で信頼できる資本構造の観測履歴」を確立すること**です。
 
----
+## 11. コア哲学
 
-## Author
-Ray
+> これは単なる CI/CD ではありません。
+>
+> これは、あなたの「資本望遠鏡」を軌道に乗せ、毎日自動的に宇宙を観測させる仕組みです。
+>
+> 人間が思考し、機械が観測し、時間がすべてを証明します。
