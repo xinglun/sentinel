@@ -1,18 +1,18 @@
 {
-  "as_of_date": "2026-04-22",
-  "avg_confidence": 50.29069835774098,
-  "avg_stability": 0.9867571401092713,
+  "as_of_date": "2026-04-23",
+  "avg_confidence": 49.695586904228975,
+  "avg_stability": 0.9570015674336713,
   "data_status": "OK",
   "days_analyzed": 1,
-  "generated_at": "2026-04-23T00:08:06.183066577+09:00",
+  "generated_at": "2026-04-24T00:18:36.394237221+09:00",
   "include_current_packet": true,
-  "latest_market_state": "IGNITION",
-  "latest_risk_overlay": "NORMAL",
+  "latest_market_state": "DEFENSIVE",
+  "latest_risk_overlay": "DEFENSIVE",
   "market_state_counts": {
-    "IGNITION": 1
+    "DEFENSIVE": 1
   },
   "risk_overlay_counts": {
-    "NORMAL": 1
+    "DEFENSIVE": 1
   },
   "trend_cohesion_ready_days": 0
 }
