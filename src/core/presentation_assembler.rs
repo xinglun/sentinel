@@ -454,6 +454,39 @@ impl PresentationAssembler {
             );
         }
         let has_structural_breakout_change = !breakout_changes.is_empty();
+        let scout_continuity = if !log.trend_cohesion_gate.to {
+            Some(format!(
+                "{}/{}",
+                log.scout_days_without_expansion,
+                log.scout_abort_days.max(1)
+            ))
+        } else {
+            None
+        };
+        let scout_expansion = if !log.trend_cohesion_gate.to {
+            Some(
+                match log.breakout_active_count {
+                    0 => dict.transition_evidence.scout_expansion_none.as_str(),
+                    1 => dict.transition_evidence.scout_expansion_single.as_str(),
+                    _ => dict.transition_evidence.scout_expansion_multi.as_str(),
+                }
+                .to_string(),
+            )
+        } else {
+            None
+        };
+        let scout_reset = if !log.trend_cohesion_gate.to {
+            Some(
+                if log.scout_reset_triggered {
+                    dict.transition_evidence.yes.as_str()
+                } else {
+                    dict.transition_evidence.no.as_str()
+                }
+                .to_string(),
+            )
+        } else {
+            None
+        };
 
         Some(StateTransitionViewModel {
             has_significant_change: log.market_state.changed
@@ -514,6 +547,9 @@ impl PresentationAssembler {
             },
             trend_unmet_diff: Self::map_unmet_diff(&log.trend_cohesion_gate, packet, dict),
             breakout_changes,
+            scout_continuity,
+            scout_expansion,
+            scout_reset,
         })
     }
 

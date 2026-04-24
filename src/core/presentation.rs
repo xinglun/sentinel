@@ -161,6 +161,12 @@ pub struct StateTransitionViewModel {
     pub trend_cohesion_status_change: Option<String>,
     pub trend_cohesion_topology_change: Option<String>,
     pub breakout_changes: Vec<String>,
+    #[serde(default)]
+    pub scout_continuity: Option<String>,
+    #[serde(default)]
+    pub scout_expansion: Option<String>,
+    #[serde(default)]
+    pub scout_reset: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

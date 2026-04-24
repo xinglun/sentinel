@@ -2418,6 +2418,141 @@ mod tests {
     }
 
     #[test]
+    fn test_transition_evidence_renders_scout_status_only_in_transition_block() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "GOOG".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "GOOG".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let html = report.telegram_html_body;
+
+        assert!(html.contains("<b>🔄 状态转移证据</b>"));
+        assert!(html.contains("侦察状态"));
+        assert!(html.contains("breakout 连续性: 1/3"));
+        assert!(html.contains("扩散: 单点"));
+        assert!(html.contains("reset: 否"));
+    }
+
+    #[test]
+    fn test_transition_evidence_renders_scout_status_in_en_and_ja() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "GOOG".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "GOOG".into(),
+                breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                    status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config_en = mock_config_with_language(Language::EnUs);
+        let pres_en = PresentationAssembler::assemble(
+            &curr,
+            &config_en.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        let report_en =
+            generate_refined_report(&config_en, &pres_en, 0.0, &HashMap::new(), &HashMap::new())
+                .unwrap();
+        let html_en = report_en.telegram_html_body;
+        assert!(html_en.contains("<b>🔄 State Transition Evidence</b>"));
+        assert!(html_en.contains("Scout Status"));
+        assert!(html_en.contains("breakout continuity: 1/3"));
+        assert!(html_en.contains("expansion: single"));
+        assert!(html_en.contains("reset: no"));
+
+        let config_ja = mock_config_with_language(Language::JaJp);
+        let pres_ja = PresentationAssembler::assemble(
+            &curr,
+            &config_ja.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::JaJp,
+        );
+        let report_ja =
+            generate_refined_report(&config_ja, &pres_ja, 0.0, &HashMap::new(), &HashMap::new())
+                .unwrap();
+        let html_ja = report_ja.telegram_html_body;
+        assert!(html_ja.contains("<b>🔄 状態遷移エビデンス</b>"));
+        assert!(html_ja.contains("偵察状態"));
+        assert!(html_ja.contains("breakout 連続性: 1/3"));
+        assert!(html_ja.contains("拡散: 単一"));
+        assert!(html_ja.contains("reset: なし"));
+    }
+
+    #[test]
     fn test_audit_grade_reason_diff_rendering() {
         let language = Language::ZhCn;
         let curr = no_trade_transition_reason_diff_packet();
