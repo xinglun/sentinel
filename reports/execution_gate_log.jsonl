@@ -61,3 +61,12 @@
 {"action":"AVOID","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"ISRG"}
 {"action":"AVOID","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"TSLA"}
 {"action":"FREEZE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"FIG"}
+{"action":"FREEZE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"U"}
+{"action":"FREEZE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"NVDA"}
+{"action":"FREEZE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"GOOG"}
+{"action":"FREEZE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"SPY"}
+{"action":"FREEZE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"PLTR"}
+{"action":"AVOID","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"MSFT"}
+{"action":"OBSERVE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"ISRG"}
+{"action":"AVOID","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"TSLA"}
+{"action":"FREEZE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"FIG"}
