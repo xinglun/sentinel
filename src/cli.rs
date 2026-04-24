@@ -708,6 +708,19 @@ fn build_audit_daily_report(
     } else {
         text.status_no_trade
     };
+    let no_trade_mode = opportunity_mode_label(today_latest.log.opportunity_mode.to, language);
+    let scout_days_without_expansion = today_latest.log.scout_days_without_expansion;
+    let scout_abort_days = today_latest.log.scout_abort_days.max(1);
+    let scout_streak_text = if today_latest.log.opportunity_mode.to
+        == crate::core::transition_log::OpportunityMode::NoTradeScout
+    {
+        format!(
+            "{} / {} {}",
+            scout_days_without_expansion, scout_abort_days, text.day_unit
+        )
+    } else {
+        text.none.to_string()
+    };
     let gate_streak = consecutive_streak(days, target_idx, |log| {
         log.trend_cohesion_gate.to == gate_is_ready
     });
@@ -742,6 +755,14 @@ fn build_audit_daily_report(
             .any(|e| e.log.trend_cohesion_status.changed),
         language,
     );
+    let transition_mode_change = yes_no(
+        today.events.iter().any(|e| e.log.opportunity_mode.changed),
+        language,
+    );
+    let transition_scout_reset = yes_no(
+        today.events.iter().any(|e| e.log.scout_reset_triggered),
+        language,
+    );
 
     let blocker_text = if gate_is_ready || top_blockers.is_empty() {
         text.none.to_string()
@@ -761,6 +782,7 @@ fn build_audit_daily_report(
         &blocker_text,
         &breakout_text,
         mainline_text,
+        no_trade_mode,
     );
 
     let mut out = String::new();
@@ -773,8 +795,16 @@ fn build_audit_daily_report(
     out.push_str(&format!("1. {}\n", text.section_gate));
     out.push_str(&format!("- {}: {}\n", text.label_status, gate_status));
     out.push_str(&format!(
+        "- {}: {}\n",
+        text.label_no_trade_mode, no_trade_mode
+    ));
+    out.push_str(&format!(
         "- {}: {} {}\n",
         text.label_duration, gate_streak, text.day_unit
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        text.label_scout_streak, scout_streak_text
     ));
     out.push_str(&format!("- {}:\n", text.label_top_blockers));
     if top_blockers.is_empty() {
@@ -801,6 +831,14 @@ fn build_audit_daily_report(
     out.push_str(&format!(
         "- {}: {}\n",
         text.label_trend_change, transition_trend_change
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        text.label_mode_change, transition_mode_change
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        text.label_scout_reset, transition_scout_reset
     ));
 
     out.push_str(&format!("\n3. {}\n", text.section_breakout));
@@ -850,10 +888,14 @@ struct AuditDailyText {
     section_one_liner: &'static str,
     label_status: &'static str,
     label_duration: &'static str,
+    label_no_trade_mode: &'static str,
+    label_scout_streak: &'static str,
     label_top_blockers: &'static str,
     label_state_change: &'static str,
     label_risk_change: &'static str,
     label_trend_change: &'static str,
+    label_mode_change: &'static str,
+    label_scout_reset: &'static str,
     label_breakout_new: &'static str,
     label_breakout_continued: &'static str,
     label_breakout_removed: &'static str,
@@ -868,6 +910,9 @@ struct AuditDailyText {
     segment_continuous: &'static str,
     status_no_trade: &'static str,
     status_ready: &'static str,
+    mode_cold: &'static str,
+    mode_scout: &'static str,
+    mode_ready: &'static str,
     day_unit: &'static str,
 }
 
@@ -882,10 +927,14 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_one_liner: "审计一句话",
             label_status: "状态",
             label_duration: "持续天数",
+            label_no_trade_mode: "NO TRADE 分层",
+            label_scout_streak: "侦察未扩散计数",
             label_top_blockers: "最主要阻碍因子 Top 3",
             label_state_change: "今天是否有状态变化",
             label_risk_change: "今天是否有 risk overlay 变化",
             label_trend_change: "今天是否有主线状态变化",
+            label_mode_change: "今天是否有 NO TRADE 分层变化",
+            label_scout_reset: "今天是否触发侦察 reset",
             label_breakout_new: "新增 breakout",
             label_breakout_continued: "延续 breakout",
             label_breakout_removed: "消失 breakout",
@@ -900,6 +949,9 @@ fn audit_text(language: Language) -> AuditDailyText {
             segment_continuous: "连续段",
             status_no_trade: "NO TRADE",
             status_ready: "READY",
+            mode_cold: "初级（无信号）",
+            mode_scout: "侦察态（有信号未验证）",
+            mode_ready: "READY（可执行）",
             day_unit: "天",
         },
         Language::EnUs => AuditDailyText {
@@ -911,10 +963,14 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_one_liner: "Audit One-liner",
             label_status: "Status",
             label_duration: "Duration",
+            label_no_trade_mode: "NO TRADE tier",
+            label_scout_streak: "Scout non-expansion counter",
             label_top_blockers: "Top 3 blockers",
             label_state_change: "State changed today",
             label_risk_change: "Risk overlay changed today",
             label_trend_change: "Mainline status changed today",
+            label_mode_change: "NO TRADE tier changed today",
+            label_scout_reset: "Scout reset triggered today",
             label_breakout_new: "New breakout",
             label_breakout_continued: "Continued breakout",
             label_breakout_removed: "Removed breakout",
@@ -930,6 +986,9 @@ fn audit_text(language: Language) -> AuditDailyText {
             segment_continuous: "Continuous segment",
             status_no_trade: "NO TRADE",
             status_ready: "READY",
+            mode_cold: "Cold (no signal)",
+            mode_scout: "Scout (signal unverified)",
+            mode_ready: "READY (executable)",
             day_unit: "days",
         },
         Language::JaJp => AuditDailyText {
@@ -941,10 +1000,14 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_one_liner: "監査ワンライン要約",
             label_status: "状態",
             label_duration: "継続日数",
+            label_no_trade_mode: "NO TRADE レイヤー",
+            label_scout_streak: "偵察未拡散カウント",
             label_top_blockers: "主要阻害要因 Top 3",
             label_state_change: "本日の状態変化",
             label_risk_change: "本日の risk overlay 変化",
             label_trend_change: "本日の主線状態変化",
+            label_mode_change: "本日の NO TRADE レイヤー変化",
+            label_scout_reset: "本日の偵察 reset 発生",
             label_breakout_new: "新規 breakout",
             label_breakout_continued: "継続 breakout",
             label_breakout_removed: "消失 breakout",
@@ -959,8 +1022,23 @@ fn audit_text(language: Language) -> AuditDailyText {
             segment_continuous: "連続区間",
             status_no_trade: "NO TRADE",
             status_ready: "READY",
+            mode_cold: "初級（シグナルなし）",
+            mode_scout: "偵察（シグナル未検証）",
+            mode_ready: "READY（実行可）",
             day_unit: "日",
         },
+    }
+}
+
+fn opportunity_mode_label(
+    mode: crate::core::transition_log::OpportunityMode,
+    language: Language,
+) -> &'static str {
+    let text = audit_text(language);
+    match mode {
+        crate::core::transition_log::OpportunityMode::NoTradeCold => text.mode_cold,
+        crate::core::transition_log::OpportunityMode::NoTradeScout => text.mode_scout,
+        crate::core::transition_log::OpportunityMode::Ready => text.mode_ready,
     }
 }
 
@@ -1231,19 +1309,20 @@ fn build_audit_sentence(
     blocker_text: &str,
     breakout_text: &str,
     mainline_text: &str,
+    no_trade_mode: &str,
 ) -> String {
     match language {
         Language::ZhCn => format!(
-            "{} 连续第 {} 天；主因：{}；今日 breakout：{}；主线状态：{}。",
-            gate_status, gate_streak, blocker_text, breakout_text, mainline_text
+            "{} 连续第 {} 天；主因：{}；NO TRADE 分层：{}；今日 breakout：{}；主线状态：{}。",
+            gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
         Language::EnUs => format!(
-            "{} day {} in a row; primary blockers: {}; today's breakout: {}; mainline status: {}.",
-            gate_status, gate_streak, blocker_text, breakout_text, mainline_text
+            "{} day {} in a row; primary blockers: {}; NO TRADE tier: {}; today's breakout: {}; mainline status: {}.",
+            gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
         Language::JaJp => format!(
-            "{} 連続 {} 日目；主因：{}；本日の breakout：{}；主線状態：{}。",
-            gate_status, gate_streak, blocker_text, breakout_text, mainline_text
+            "{} 連続 {} 日目；主因：{}；NO TRADE レイヤー：{}；本日の breakout：{}；主線状態：{}。",
+            gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
     }
 }
@@ -1512,7 +1591,12 @@ mod tests {
                 },
                 "trend_cohesion_status": {"from":"Dispersed","to":"Dispersed","changed": false},
                 "trend_cohesion_topology": {"from":"NoLeader","to":"NoLeader","changed": false},
-                "breakout_changes": []
+                "breakout_changes": [],
+                "opportunity_mode": {"from":"NoTradeCold","to":"NoTradeCold","changed": false},
+                "scout_days_without_expansion": 0,
+                "scout_abort_days": 3,
+                "scout_reset_triggered": false,
+                "breakout_active_count": 0
             }))
             .unwrap(),
         };
@@ -1535,7 +1619,12 @@ mod tests {
                 "trend_cohesion_topology": {"from":"NoLeader","to":"NoLeader","changed": false},
                 "breakout_changes": [
                     {"symbol":"GOOG","from_status":"NoBreakout","to_status":"EmergingBreakout","status_changed":true,"risk_changed":false}
-                ]
+                ],
+                "opportunity_mode": {"from":"NoTradeCold","to":"NoTradeScout","changed": true},
+                "scout_days_without_expansion": 1,
+                "scout_abort_days": 3,
+                "scout_reset_triggered": false,
+                "breakout_active_count": 1
             }))
             .unwrap(),
         };

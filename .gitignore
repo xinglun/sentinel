@@ -6,3 +6,4 @@ reports/
 backtest/
 .env
 telemetry.csv
+.aider*

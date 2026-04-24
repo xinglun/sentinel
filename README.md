@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Stock Sentinel README
+description: Stock Sentinel の概要、運用コマンド、監査サマリー運用を説明するトップガイド。
+key: readme
 ---
 
 # 🐕 Stock Sentinel (Capital Physics Engine)
@@ -77,8 +80,8 @@ cargo run -- review
 ### 6. 日次監査サマリー (Audit Daily)
 `state_transitions.jsonl` を監査用途で集約し、以下の5項目を固定フォーマットで出力します。
 
-1. Gate サマリー（NO TRADE / READY、継続日数、主な阻害因子）
-2. Transition サマリー（市場状態・リスクオーバーレイ・主線状態の変化有無）
+1. Gate サマリー（NO TRADE / READY、NO TRADE レイヤー、継続日数、主な阻害因子）
+2. Transition サマリー（市場状態・リスクオーバーレイ・主線状態・NO TRADE レイヤーの変化有無）
 3. Breakout サマリー（新規 / 継続 / 消失）
 4. 連続セグメント統計（NO TRADE と主線欠如の連続長）
 5. 監査ワンライン要約
@@ -86,6 +89,8 @@ cargo run -- review
 補足:
 - 連続セグメントは**ログ連続ベース**で計算し、週末は自動的に連結されます。
 - `--date` / `--days` の不正指定はデフォルトにフォールバックせず、CLI はエラー終了します。
+- `NO TRADE` は `初級（シグナルなし）` / `偵察（シグナル未検証）` の2層で監査されます。
+- `rules.market_state_engine.scout_abort_days` 日の間に breakout が 2 銘柄以上へ拡散しない場合、偵察は自動 reset されます。
 
 基本実行：
 ```bash

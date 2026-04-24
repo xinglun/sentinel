@@ -1,3 +1,4 @@
+use crate::config::ParsedRules;
 use crate::core::breakout_detection::BreakoutStatus;
 use crate::core::decision::DecisionPacket;
 use crate::core::market_regime::{MarketState, RiskOverlay};
@@ -36,6 +37,14 @@ pub struct BreakoutTransition {
     pub risk_changed: bool,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, Default, PartialEq, Eq)]
+pub enum OpportunityMode {
+    #[default]
+    NoTradeCold,
+    NoTradeScout,
+    Ready,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
 pub struct StateTransitionLog {
     pub no_trade_persists: bool,
@@ -45,6 +54,16 @@ pub struct StateTransitionLog {
     pub trend_cohesion_status: StatusTransition<TrendCohesionStatus>,
     pub trend_cohesion_topology: StatusTransition<TrendCohesionTopology>,
     pub breakout_changes: Vec<BreakoutTransition>,
+    #[serde(default)]
+    pub opportunity_mode: StatusTransition<OpportunityMode>,
+    #[serde(default)]
+    pub scout_days_without_expansion: usize,
+    #[serde(default)]
+    pub scout_abort_days: usize,
+    #[serde(default)]
+    pub scout_reset_triggered: bool,
+    #[serde(default)]
+    pub breakout_active_count: usize,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
@@ -54,6 +73,8 @@ pub struct TransitionAuditSummary {
     pub trend_gate_changed: bool,
     pub trend_unmet_changed: bool,
     pub breakout_change_count: usize,
+    pub opportunity_mode_changed: bool,
+    pub scout_reset_triggered: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -78,10 +99,12 @@ impl TransitionAuditRecord {
                 != transition.trend_cohesion_gate.to,
             trend_unmet_changed: transition.trend_cohesion_gate.unmet_conditions_changed,
             breakout_change_count: transition.breakout_changes.len(),
+            opportunity_mode_changed: transition.opportunity_mode.changed,
+            scout_reset_triggered: transition.scout_reset_triggered,
         };
 
         Self {
-            schema_version: 2,
+            schema_version: 3,
             event_type: "state_transition".to_string(),
             timestamp: now.to_rfc3339(),
             date: now.date_naive().to_string(),
@@ -94,6 +117,23 @@ impl TransitionAuditRecord {
 
 impl StateTransitionLog {
     pub fn compare(prev: Option<&DecisionPacket>, curr: &DecisionPacket) -> Self {
+        let defaults = crate::config::ParsedMarketStateEngineConfig::default();
+        Self::compare_with_abort_days(prev, curr, defaults.scout_abort_days)
+    }
+
+    pub fn compare_with_rules(
+        prev: Option<&DecisionPacket>,
+        curr: &DecisionPacket,
+        rules: &ParsedRules,
+    ) -> Self {
+        Self::compare_with_abort_days(prev, curr, rules.market_state_engine.scout_abort_days)
+    }
+
+    fn compare_with_abort_days(
+        prev: Option<&DecisionPacket>,
+        curr: &DecisionPacket,
+        scout_abort_days: usize,
+    ) -> Self {
         let no_trade_prev = prev.map(|p| !p.trend_cohesion.gate_passed).unwrap_or(true);
         let no_trade_curr = !curr.trend_cohesion.gate_passed;
 
@@ -183,6 +223,62 @@ impl StateTransitionLog {
             }
         }
 
+        let prev_breakout_active_count = prev
+            .map(|p| {
+                p.assets
+                    .iter()
+                    .filter(|a| a.breakout.status != BreakoutStatus::NoBreakout)
+                    .count()
+            })
+            .unwrap_or(0);
+        let breakout_active_count = curr
+            .assets
+            .iter()
+            .filter(|a| a.breakout.status != BreakoutStatus::NoBreakout)
+            .count();
+        let breakout_expanded = breakout_active_count >= 2;
+        let has_new_breakout_event = breakout_changes
+            .iter()
+            .any(|b| b.from_status == BreakoutStatus::NoBreakout && b.status_changed);
+        let has_expansion_event =
+            breakout_expanded && breakout_active_count > prev_breakout_active_count;
+        let prev_log = prev.and_then(|p| p.transition_log.as_ref());
+        let prev_mode = prev_log
+            .map(|log| log.opportunity_mode.to)
+            .unwrap_or_default();
+        let prev_scout_days = prev_log
+            .map(|log| log.scout_days_without_expansion)
+            .unwrap_or(0);
+        let scout_entry_signal = has_new_breakout_event || has_expansion_event;
+        let mut mode_to = if curr.trend_cohesion.gate_passed {
+            OpportunityMode::Ready
+        } else if (scout_entry_signal || prev_mode == OpportunityMode::NoTradeScout)
+            && breakout_active_count > 0
+        {
+            OpportunityMode::NoTradeScout
+        } else {
+            OpportunityMode::NoTradeCold
+        };
+        let mut scout_days_without_expansion = 0usize;
+        let mut scout_reset_triggered = false;
+        let effective_abort_days = scout_abort_days.max(1);
+        if mode_to == OpportunityMode::NoTradeScout {
+            if breakout_expanded {
+                scout_days_without_expansion = 0;
+            } else {
+                scout_days_without_expansion = if prev_mode == OpportunityMode::NoTradeScout {
+                    prev_scout_days.saturating_add(1)
+                } else {
+                    1
+                };
+                if scout_days_without_expansion >= effective_abort_days {
+                    mode_to = OpportunityMode::NoTradeCold;
+                    scout_days_without_expansion = 0;
+                    scout_reset_triggered = true;
+                }
+            }
+        }
+
         Self {
             no_trade_persists: no_trade_prev && no_trade_curr,
             market_state,
@@ -191,6 +287,15 @@ impl StateTransitionLog {
             trend_cohesion_status,
             trend_cohesion_topology,
             breakout_changes,
+            opportunity_mode: StatusTransition {
+                from: prev_mode,
+                to: mode_to,
+                changed: prev_mode != mode_to,
+            },
+            scout_days_without_expansion,
+            scout_abort_days: effective_abort_days,
+            scout_reset_triggered,
+            breakout_active_count,
         }
     }
 
@@ -228,7 +333,7 @@ pub struct TransitionLogger {
 }
 
 impl TransitionLogger {
-    const CSV_HEADER: &'static str = "Timestamp,No_Trade_Persists,Market_State_From,Market_State_To,Risk_Overlay_From,Risk_Overlay_To,Trend_Gate_From,Trend_Gate_To,Trend_Status_From,Trend_Status_To,Topology_From,Topology_To,Trend_New_Unmet,Trend_Resolved_Unmet,Trend_Stay_Unmet,Breakout_1,Breakout_2,Breakout_3,Breakout_Summary";
+    const CSV_HEADER: &'static str = "Timestamp,No_Trade_Persists,Opportunity_Mode_From,Opportunity_Mode_To,Scout_Days_Without_Expansion,Scout_Abort_Days,Scout_Reset_Triggered,Breakout_Active_Count,Market_State_From,Market_State_To,Risk_Overlay_From,Risk_Overlay_To,Trend_Gate_From,Trend_Gate_To,Trend_Status_From,Trend_Status_To,Topology_From,Topology_To,Trend_New_Unmet,Trend_Resolved_Unmet,Trend_Stay_Unmet,Breakout_1,Breakout_2,Breakout_3,Breakout_Summary";
 
     pub fn new(save_dir: &Path) -> Self {
         Self {
@@ -293,9 +398,15 @@ impl TransitionLogger {
 
         writeln!(
             file,
-            "{},{},{:?},{:?},{:?},{:?},{},{},{:?},{:?},{:?},{:?},\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
+            "{},{},{:?},{:?},{},{},{},{},{:?},{:?},{:?},{:?},{},{},{:?},{:?},{:?},{:?},\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\",\"{}\"",
             Local::now().to_rfc3339(),
             log.no_trade_persists,
+            log.opportunity_mode.from,
+            log.opportunity_mode.to,
+            log.scout_days_without_expansion,
+            log.scout_abort_days,
+            log.scout_reset_triggered,
+            log.breakout_active_count,
             log.market_state.from,
             log.market_state.to,
             log.risk_overlay.from,
@@ -498,7 +609,7 @@ mod tests {
         let line = jsonl.lines().next().unwrap();
         let record: TransitionAuditRecord = serde_json::from_str(line).unwrap();
 
-        assert_eq!(record.schema_version, 2);
+        assert_eq!(record.schema_version, 3);
         assert_eq!(record.event_type, "state_transition");
         assert_eq!(record.transition, log);
         assert_eq!(record.legacy_log, log);
@@ -510,6 +621,135 @@ mod tests {
             record.summary.breakout_change_count,
             record.transition.breakout_changes.len()
         );
+        assert_eq!(
+            record.summary.opportunity_mode_changed,
+            record.transition.opportunity_mode.changed
+        );
+        assert_eq!(
+            record.summary.scout_reset_triggered,
+            record.transition.scout_reset_triggered
+        );
+    }
+
+    #[test]
+    fn test_opportunity_mode_switches_to_scout_when_breakout_appears_under_no_trade() {
+        let prev = mock_packet(MarketState::IGNITION, false);
+        let mut curr = mock_packet(MarketState::IGNITION, false);
+        curr.assets.push(AssetActionDecision {
+            symbol: "GOOG".to_string(),
+            breakout: BreakoutSnapshot {
+                status: BreakoutStatus::EmergingBreakout,
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+
+        let log = StateTransitionLog::compare(Some(&prev), &curr);
+        assert_eq!(log.opportunity_mode.to, OpportunityMode::NoTradeScout);
+        assert_eq!(log.scout_days_without_expansion, 1);
+        assert!(!log.scout_reset_triggered);
+    }
+
+    #[test]
+    fn test_opportunity_mode_resets_to_cold_when_scout_expires_without_expansion() {
+        let mut prev = mock_packet(MarketState::IGNITION, false);
+        prev.transition_log = Some(StateTransitionLog {
+            opportunity_mode: StatusTransition {
+                from: OpportunityMode::NoTradeCold,
+                to: OpportunityMode::NoTradeScout,
+                changed: true,
+            },
+            scout_days_without_expansion: 2,
+            scout_abort_days: 3,
+            ..Default::default()
+        });
+        let mut curr = mock_packet(MarketState::IGNITION, false);
+        curr.assets.push(AssetActionDecision {
+            symbol: "GOOG".to_string(),
+            breakout: BreakoutSnapshot {
+                status: BreakoutStatus::EmergingBreakout,
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+
+        let log = StateTransitionLog::compare(Some(&prev), &curr);
+        assert_eq!(log.opportunity_mode.from, OpportunityMode::NoTradeScout);
+        assert_eq!(log.opportunity_mode.to, OpportunityMode::NoTradeCold);
+        assert!(log.scout_reset_triggered);
+        assert_eq!(log.scout_days_without_expansion, 0);
+    }
+
+    #[test]
+    fn test_opportunity_mode_does_not_reenter_scout_after_reset_without_new_signal() {
+        let mut prev = mock_packet(MarketState::IGNITION, false);
+        prev.assets.push(AssetActionDecision {
+            symbol: "GOOG".to_string(),
+            breakout: BreakoutSnapshot {
+                status: BreakoutStatus::EmergingBreakout,
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+        prev.transition_log = Some(StateTransitionLog {
+            opportunity_mode: StatusTransition {
+                from: OpportunityMode::NoTradeScout,
+                to: OpportunityMode::NoTradeCold,
+                changed: true,
+            },
+            scout_days_without_expansion: 0,
+            scout_abort_days: 3,
+            scout_reset_triggered: true,
+            breakout_active_count: 1,
+            ..Default::default()
+        });
+        let mut curr = mock_packet(MarketState::IGNITION, false);
+        curr.assets.push(AssetActionDecision {
+            symbol: "GOOG".to_string(),
+            breakout: BreakoutSnapshot {
+                status: BreakoutStatus::EmergingBreakout,
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+
+        let log = StateTransitionLog::compare(Some(&prev), &curr);
+        assert_eq!(log.opportunity_mode.from, OpportunityMode::NoTradeCold);
+        assert_eq!(log.opportunity_mode.to, OpportunityMode::NoTradeCold);
+        assert!(!log.scout_reset_triggered);
+        assert_eq!(log.scout_days_without_expansion, 0);
+    }
+
+    #[test]
+    fn test_opportunity_mode_drops_to_cold_when_breakout_disappears() {
+        let mut prev = mock_packet(MarketState::IGNITION, false);
+        prev.assets.push(AssetActionDecision {
+            symbol: "GOOG".to_string(),
+            breakout: BreakoutSnapshot {
+                status: BreakoutStatus::EmergingBreakout,
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+        prev.transition_log = Some(StateTransitionLog {
+            opportunity_mode: StatusTransition {
+                from: OpportunityMode::NoTradeCold,
+                to: OpportunityMode::NoTradeScout,
+                changed: true,
+            },
+            scout_days_without_expansion: 1,
+            scout_abort_days: 3,
+            breakout_active_count: 1,
+            ..Default::default()
+        });
+
+        let curr = mock_packet(MarketState::IGNITION, false);
+        let log = StateTransitionLog::compare(Some(&prev), &curr);
+        assert_eq!(log.opportunity_mode.from, OpportunityMode::NoTradeScout);
+        assert_eq!(log.opportunity_mode.to, OpportunityMode::NoTradeCold);
+        assert_eq!(log.breakout_active_count, 0);
+        assert_eq!(log.scout_days_without_expansion, 0);
+        assert!(!log.scout_reset_triggered);
     }
 
     #[test]

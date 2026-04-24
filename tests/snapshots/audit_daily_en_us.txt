@@ -2,7 +2,9 @@
 
 1. Gate Summary
 - Status: NO TRADE
+- NO TRADE tier: Scout (signal unverified)
 - Duration: 2 days
+- Scout non-expansion counter: 1 / 3 days
 - Top 3 blockers:
 - Low continuity (2)
 - Low stability (2)
@@ -12,6 +14,8 @@
 - State changed today: No
 - Risk overlay changed today: No
 - Mainline status changed today: No
+- NO TRADE tier changed today: Yes
+- Scout reset triggered today: No
 
 3. Breakout Summary
 - New breakout: GOOG
@@ -25,4 +29,4 @@
 - Methodology: streaks are calculated by log continuity (weekends auto-bridged)
 
 5. Audit One-liner
-- NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; today's breakout: GOOG (new); mainline status: Not formed.
+- NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; NO TRADE tier: Scout (signal unverified); today's breakout: GOOG (new); mainline status: Not formed.

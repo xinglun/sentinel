@@ -293,8 +293,11 @@ impl Engine {
             None,
         );
 
-        let transition_log =
-            crate::core::transition_log::StateTransitionLog::compare(prev_packet, &packet);
+        let transition_log = crate::core::transition_log::StateTransitionLog::compare_with_rules(
+            prev_packet,
+            &packet,
+            rules,
+        );
         packet.transition_log = Some(transition_log);
 
         Ok(packet)
