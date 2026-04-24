@@ -750,7 +750,10 @@ fn render_transition_block(
     let Some(evidence) = &pres.transition_evidence else {
         return block;
     };
-    if !(evidence.has_significant_change || evidence.no_trade_persists) {
+    let has_scout_status = evidence.scout_continuity.is_some()
+        || evidence.scout_expansion.is_some()
+        || evidence.scout_reset.is_some();
+    if !(evidence.has_significant_change || evidence.no_trade_persists || has_scout_status) {
         return block;
     }
 
@@ -878,6 +881,40 @@ fn render_transition_block(
                     for b in &evidence.breakout_changes {
                         block.push_str(&format!("  - <i>{}</i>\n", b));
                     }
+                }
+            }
+        }
+    }
+    if has_scout_status {
+        match mode {
+            RenderMode::Markdown => {
+                block.push_str(&format!("- **{}**:\n", te_dict.scout_status));
+                if let Some(value) = &evidence.scout_continuity {
+                    block.push_str(&format!("  - {}: {}\n", te_dict.scout_continuity, value));
+                }
+                if let Some(value) = &evidence.scout_expansion {
+                    block.push_str(&format!("  - {}: {}\n", te_dict.scout_expansion, value));
+                }
+                if let Some(value) = &evidence.scout_reset {
+                    block.push_str(&format!("  - {}: {}\n", te_dict.scout_reset, value));
+                }
+            }
+            RenderMode::Html => {
+                block.push_str(&format!("• {}:\n", te_dict.scout_status));
+                if let Some(value) = &evidence.scout_continuity {
+                    block.push_str(&format!(
+                        "  - <i>{}: {}</i>\n",
+                        te_dict.scout_continuity, value
+                    ));
+                }
+                if let Some(value) = &evidence.scout_expansion {
+                    block.push_str(&format!(
+                        "  - <i>{}: {}</i>\n",
+                        te_dict.scout_expansion, value
+                    ));
+                }
+                if let Some(value) = &evidence.scout_reset {
+                    block.push_str(&format!("  - <i>{}: {}</i>\n", te_dict.scout_reset, value));
                 }
             }
         }
