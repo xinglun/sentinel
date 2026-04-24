@@ -156,6 +156,7 @@ pub struct MarketStateEngineConfig {
     pub continuity_threshold: Option<usize>,
     pub stability_threshold: Option<f64>,
     pub min_followers_threshold: Option<usize>,
+    pub scout_abort_days: Option<usize>,
 }
 
 #[derive(Debug, Deserialize, Clone, Default)]
@@ -210,6 +211,7 @@ pub struct ParsedMarketStateEngineConfig {
     pub continuity_threshold: usize,
     pub stability_threshold: f64,
     pub min_followers_threshold: usize,
+    pub scout_abort_days: usize,
 }
 
 impl Default for ParsedMarketStateEngineConfig {
@@ -218,6 +220,7 @@ impl Default for ParsedMarketStateEngineConfig {
             continuity_threshold: 2,
             stability_threshold: 5.5,
             min_followers_threshold: 1,
+            scout_abort_days: 3,
         }
     }
 }
@@ -545,6 +548,9 @@ impl AppConfig {
                     min_followers_threshold: ms
                         .and_then(|c| c.min_followers_threshold)
                         .unwrap_or(defaults.min_followers_threshold),
+                    scout_abort_days: ms
+                        .and_then(|c| c.scout_abort_days)
+                        .unwrap_or(defaults.scout_abort_days),
                 }
             },
         }
@@ -630,6 +636,9 @@ mod tests {
             gate_stability_threshold = 11.0
             directional_max_candidates = 5
 
+            [rules.market_state_engine]
+            scout_abort_days = 5
+
             [rules.breakout]
             confirmed_zscore_threshold = 1.5
             failed_breakout_display_threshold = 70.0
@@ -651,6 +660,7 @@ mod tests {
         assert_eq!(rules.trend_cohesion.gate_stability_threshold, 11.0);
         assert_eq!(rules.trend_cohesion.directional_max_candidates, 5);
         assert_eq!(rules.trend_cohesion.cohesive_score_threshold, 75.0);
+        assert_eq!(rules.market_state_engine.scout_abort_days, 5);
 
         assert_eq!(rules.breakout.confirmed_zscore_threshold, 1.5);
         assert_eq!(rules.breakout.failed_breakout_display_threshold, 70.0);

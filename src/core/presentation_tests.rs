@@ -511,6 +511,10 @@ mod tests {
         ];
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -565,6 +569,10 @@ mod tests {
 
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -639,6 +647,252 @@ mod tests {
                 .diagnostic
                 .as_deref()
                 .is_some_and(|d| d.contains("信号转弱，暂不加仓") && !d.contains("Matched band"))));
+    }
+
+    #[test]
+    fn test_no_trade_candidate_watchlist_excludes_defend_only_assets() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::core::market_regime::MarketRegimeSnapshot {
+                market_state: crate::core::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::core::market_regime::RiskOverlay::DEFENSIVE,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "NVDA".into(),
+                has_position_fact: true,
+                asset_state: AssetStateSnapshot {
+                    symbol: "NVDA".into(),
+                    state: AssetState::DEFEND,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::EXIT,
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::EXIT,
+                    asset_exit_state: AssetExitState::DefensiveExit,
+                    reasons: vec![],
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert!(pres.decision_summary.is_no_trade);
+        assert_eq!(
+            pres.decision_summary.market_board_value,
+            "观察 0 | 持有 0 | 收缩 1"
+        );
+        assert!(pres.top_actions.is_empty());
+    }
+
+    #[test]
+    fn test_no_trade_candidate_watchlist_excludes_defend_only_assets_outside_defensive_state() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::core::market_regime::MarketRegimeSnapshot {
+                market_state: crate::core::market_regime::MarketState::IGNITION,
+                risk_overlay: crate::core::market_regime::RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "FIG".into(),
+                has_position_fact: true,
+                asset_state: AssetStateSnapshot {
+                    symbol: "FIG".into(),
+                    state: AssetState::DEFEND,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::EXIT,
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::EXIT,
+                    asset_exit_state: AssetExitState::DefensiveExit,
+                    reasons: vec![],
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert!(pres.decision_summary.is_no_trade);
+        assert_eq!(
+            pres.decision_summary.market_board_value,
+            "观察 0 | 持有 0 | 收缩 1"
+        );
+        assert!(pres.top_actions.is_empty());
+    }
+
+    #[test]
+    fn test_risk_snapshot_aggregates_same_reason_peers() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::core::market_regime::MarketRegimeSnapshot {
+                market_state: crate::core::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::core::market_regime::RiskOverlay::DEFENSIVE,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "HOT".into(),
+                    has_position_fact: false,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "HOT".into(),
+                        state: AssetState::OVERHEAT,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "NVDA".into(),
+                        state: AssetState::DEFEND,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::EXIT,
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::EXIT,
+                        asset_exit_state: AssetExitState::DefensiveExit,
+                        reasons: vec![],
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "SPY".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "SPY".into(),
+                        state: AssetState::DEFEND,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::EXIT,
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::EXIT,
+                        asset_exit_state: AssetExitState::DefensiveExit,
+                        reasons: vec![],
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert!(pres
+            .risk_opportunity_summary
+            .risk_value
+            .contains("结构性风险: 激活保命层强制退出"));
+        assert!(pres
+            .risk_opportunity_summary
+            .risk_value
+            .contains("其余1标的同类风险"));
+        assert!(pres.risk_opportunity_summary.risk_value.contains("NVDA"));
+        assert!(!pres.risk_opportunity_summary.risk_value.contains("HOT"));
+    }
+
+    #[test]
+    fn test_risk_snapshot_peer_suffix_is_localized_in_en_and_ja() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::core::market_regime::MarketRegimeSnapshot {
+                market_state: crate::core::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::core::market_regime::RiskOverlay::DEFENSIVE,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "HOT".into(),
+                    has_position_fact: false,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "HOT".into(),
+                        state: AssetState::OVERHEAT,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "NVDA".into(),
+                        state: AssetState::DEFEND,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::EXIT,
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::EXIT,
+                        asset_exit_state: AssetExitState::DefensiveExit,
+                        reasons: vec![],
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "SPY".into(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "SPY".into(),
+                        state: AssetState::DEFEND,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::EXIT,
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::EXIT,
+                        asset_exit_state: AssetExitState::DefensiveExit,
+                        reasons: vec![],
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+        let config_en = mock_config(Language::EnUs);
+        let pres_en = PresentationAssembler::assemble(
+            &packet,
+            &config_en.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        assert!(pres_en
+            .risk_opportunity_summary
+            .risk_value
+            .contains("plus 1 peers with same risk"));
+
+        let config_ja = mock_config(Language::JaJp);
+        let pres_ja = PresentationAssembler::assemble(
+            &packet,
+            &config_ja.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::JaJp,
+        );
+        assert!(pres_ja
+            .risk_opportunity_summary
+            .risk_value
+            .contains("他1銘柄も同種リスク"));
     }
 
     #[test]

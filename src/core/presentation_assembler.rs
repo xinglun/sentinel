@@ -224,38 +224,47 @@ impl PresentationAssembler {
         };
         let mut selected_refs = Vec::new();
 
-        if state == MarketState::DEFENSIVE {
-            for r in &defend_refs {
+        if !is_ready {
+            for r in &watch_refs {
                 if selected_refs.len() >= limit {
                     break;
                 }
                 selected_refs.push(*r);
             }
-        }
-        for r in &acc_refs {
-            if selected_refs.len() >= limit {
-                break;
+        } else {
+            if state == MarketState::DEFENSIVE {
+                for r in &defend_refs {
+                    if selected_refs.len() >= limit {
+                        break;
+                    }
+                    selected_refs.push(*r);
+                }
             }
-            selected_refs.push(*r);
-        }
-        for r in &hold_refs {
-            if selected_refs.len() >= limit {
-                break;
-            }
-            selected_refs.push(*r);
-        }
-        for r in &watch_refs {
-            if selected_refs.len() >= limit {
-                break;
-            }
-            selected_refs.push(*r);
-        }
-        if state != MarketState::DEFENSIVE {
-            for r in &defend_refs {
+            for r in &acc_refs {
                 if selected_refs.len() >= limit {
                     break;
                 }
                 selected_refs.push(*r);
+            }
+            for r in &hold_refs {
+                if selected_refs.len() >= limit {
+                    break;
+                }
+                selected_refs.push(*r);
+            }
+            for r in &watch_refs {
+                if selected_refs.len() >= limit {
+                    break;
+                }
+                selected_refs.push(*r);
+            }
+            if state != MarketState::DEFENSIVE {
+                for r in &defend_refs {
+                    if selected_refs.len() >= limit {
+                        break;
+                    }
+                    selected_refs.push(*r);
+                }
             }
         }
 
@@ -337,11 +346,11 @@ impl PresentationAssembler {
             .find(|item| item.kind == dict.decision.opportunity)
             .map(|item| format!("{} · {}", item.symbol, item.reason))
             .unwrap_or_else(|| dict.decision.no_opportunity.clone());
-        let risk_value = risk_opportunities
+        let risk_items = risk_opportunities
             .iter()
-            .find(|item| item.kind == dict.decision.risk)
-            .map(|item| format!("{} · {}", item.symbol, item.reason))
-            .unwrap_or_else(|| dict.decision.no_risk.clone());
+            .filter(|item| item.kind == dict.decision.risk)
+            .collect::<Vec<_>>();
+        let risk_value = Self::summarize_primary_risk(&risk_items, &dict);
         let risk_opportunity_summary = RiskOpportunitySummaryViewModel {
             opportunity_label: dict.decision.opportunity.clone(),
             opportunity_value,
@@ -1327,6 +1336,55 @@ impl PresentationAssembler {
             dict.breakout.failed_breakout_risk.clone()
         } else {
             dict.breakout.ordinary_rebound.clone()
+        }
+    }
+
+    fn summarize_primary_risk(
+        risk_items: &[&crate::core::display::RiskOpportunityViewModel],
+        dict: &DisplayDictionary,
+    ) -> String {
+        if risk_items.is_empty() {
+            return dict.decision.no_risk.clone();
+        }
+
+        let mut grouped: HashMap<String, (usize, usize, String)> = HashMap::new();
+        for (idx, item) in risk_items.iter().enumerate() {
+            let entry = grouped.entry(item.reason.clone()).or_insert_with(|| {
+                (
+                    0,
+                    idx,
+                    item.symbol.clone(), // 初出銘柄を主銘柄候補として保持
+                )
+            });
+            entry.0 += 1;
+        }
+
+        let mut best_reason = String::new();
+        let mut best_count = 0usize;
+        let mut best_first_idx = usize::MAX;
+        let mut best_symbol = String::new();
+        for (reason, (count, first_idx, symbol)) in grouped {
+            let better = count > best_count
+                || (count == best_count
+                    && (first_idx < best_first_idx
+                        || (first_idx == best_first_idx && reason < best_reason)));
+            if better {
+                best_reason = reason;
+                best_count = count;
+                best_first_idx = first_idx;
+                best_symbol = symbol;
+            }
+        }
+
+        let same_reason_peers = best_count.saturating_sub(1);
+        if same_reason_peers == 0 {
+            format!("{} · {}", best_symbol, best_reason)
+        } else {
+            let peer_text = dict
+                .decision
+                .risk_peer_suffix
+                .replace("{count}", &same_reason_peers.to_string());
+            format!("{} · {}{}", best_symbol, best_reason, peer_text)
         }
     }
 }

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 週間状態レビュー・ランブック
+description: 週間レビューと audit_daily 監査運用の標準手順を定義するランブック。
+key: weekly-state-review-runbook
 ---
 
 # 週間状態レビュー・ランブック (Weekly State Review Runbook)
@@ -133,6 +136,12 @@ cargo run -- review
 3. breakout は新規・継続・消失のどれか。
 4. `NO TRADE` は連続セグメントか、途中で reset しているか。
 5. gate を最も阻害している条件は何か（Top 3）。
+
+`NO TRADE` 時は監査レイヤーを以下で解釈します：
+1. `初級（シグナルなし）`
+2. `偵察（シグナル未検証）`
+
+偵察中は、`rules.market_state_engine.scout_abort_days` 日以内に breakout が 2 銘柄以上へ拡散しない場合、偵察は自動 reset されます。
 
 **コマンド（コードワークスペース）:**
 ```bash
