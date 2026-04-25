@@ -2472,7 +2472,7 @@ mod tests {
         assert!(html.contains("<b>🔄 状态转移证据</b>"));
         assert!(html.contains("侦察状态"));
         assert!(html.contains("breakout 连续性: 1/3"));
-        assert!(html.contains("扩散: 单点"));
+        assert!(html.contains("扩散: 无（单资产）"));
         assert!(html.contains("reset: 否"));
     }
 
@@ -2530,7 +2530,7 @@ mod tests {
         assert!(html_en.contains("<b>🔄 State Transition Evidence</b>"));
         assert!(html_en.contains("Scout Status"));
         assert!(html_en.contains("breakout continuity: 1/3"));
-        assert!(html_en.contains("expansion: single"));
+        assert!(html_en.contains("expansion: none (single asset)"));
         assert!(html_en.contains("reset: no"));
 
         let config_ja = mock_config_with_language(Language::JaJp);
@@ -2548,7 +2548,7 @@ mod tests {
         assert!(html_ja.contains("<b>🔄 状態遷移エビデンス</b>"));
         assert!(html_ja.contains("偵察状態"));
         assert!(html_ja.contains("breakout 連続性: 1/3"));
-        assert!(html_ja.contains("拡散: 単一"));
+        assert!(html_ja.contains("拡散: なし（単一資産）"));
         assert!(html_ja.contains("reset: なし"));
     }
 
