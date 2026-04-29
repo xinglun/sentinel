@@ -1,11 +1,11 @@
 # Weekly State Review (Auto)
 
-- As of: 2026-04-28
+- As of: 2026-04-29
 - Status: using current market decision
 - Latest headline: 启动期 | 无交易窗口
 - Days analyzed: 1
-- Avg confidence: 52.4
-- Avg stability: 1.0
+- Avg confidence: 52.0
+- Avg stability: 0.9
 - Trend cohesion ready days: 0
 
 ## Market State Counts

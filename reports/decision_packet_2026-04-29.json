@@ -1,0 +1,736 @@
+{
+  "date": "2026-04-29",
+  "market_features": {
+    "date": "2026-04-29",
+    "up_count": 3,
+    "flat_count": 0,
+    "down_count": 6,
+    "total_count": 9,
+    "up_weight": 12.0,
+    "flat_weight": 0.0,
+    "down_weight": 6.0,
+    "total_weight": 18.0,
+    "gravity_strength": -1.958543110541243,
+    "potential_energy": 1.6727595598254417,
+    "dominance_margin": 0.47602745058003354,
+    "system_confidence": 52.04059033899736,
+    "trend_dominant": false,
+    "stability_score": 0.9353628502832014,
+    "stability_structural": 18.70725700566403,
+    "stability_temporal": 2.5,
+    "trend_maturity": 0.025,
+    "universe_integrity": 1.0,
+    "flow_acceleration": null,
+    "regime_age": 1,
+    "any_pullback_occurred": false,
+    "core_assets_breakdown": false
+  },
+  "market_regime": {
+    "market_state": "IGNITION",
+    "lifecycle_state": "IGNITION",
+    "risk_overlay": "NORMAL",
+    "reasons": [],
+    "low_stability_streak": 1,
+    "duration_in_state": 1,
+    "transition_audit": {
+      "from": "NONE",
+      "to": "IGNITION",
+      "is_reset_blocked": false,
+      "is_downgrade_clamped": false,
+      "core_breakdown": false,
+      "duration_locked": false,
+      "trend_dominant": false,
+      "reset_gate_passed": false,
+      "indicator_cap": "IGNITION",
+      "soft_reset_applied": false,
+      "defensive_override": false
+    }
+  },
+  "market_state": {
+    "lifecycle": "Transition",
+    "action_status": {
+      "NoTrade": [
+        "連続性不足（1 < 2）",
+        "安定性不足（0.9 < 5.5）",
+        "主線未形成"
+      ]
+    },
+    "breakout_changes": [
+      {
+        "symbol": "GOOG",
+        "status": "New"
+      }
+    ],
+    "stability": 0.9353628502832014,
+    "continuity_days": 1,
+    "has_mainline": false
+  },
+  "portfolio_policy": {
+    "target_exposure_min": 0.1,
+    "target_exposure_max": 0.3,
+    "allow_chase": false,
+    "allow_pullback_buy": true,
+    "allow_new_risk": true,
+    "risk_assets_mode": "NEUTRAL"
+  },
+  "assets": [
+    {
+      "symbol": "U",
+      "price": 25.704999923706055,
+      "asset_state": {
+        "symbol": "U",
+        "state": "OVERHEAT",
+        "reasons": [
+          "Matched band: overheat_1 (dev: 18.94)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "REDUCE",
+      "reasons": [
+        "Matched band: overheat_1 (dev: 18.94)",
+        "Matrix: Overheat absolute risk reduction"
+      ],
+      "deviation": 18.939928165088222,
+      "z_score": 1.3329093147997704,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 0.5,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "TRIM",
+        "asset_exit_state": "OverheatProfitTake",
+        "reasons": [
+          "Overheat: partial profit taking"
+        ]
+      },
+      "position_intent": "TRIM",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Trim",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": false,
+        "breakout_strength": 61.872223996572316,
+        "breakout_age": 0,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 55.0,
+        "reasons": [
+          "OrdinaryRebound",
+          "FailedBreakoutRisk"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 1,
+      "out_of_top_tier_streak": 0
+    },
+    {
+      "symbol": "NVDA",
+      "price": 210.77999877929688,
+      "asset_state": {
+        "symbol": "NVDA",
+        "state": "FORMING",
+        "reasons": [
+          "Trend age (4) < 5 (FORMING protection)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "OBSERVE",
+      "reasons": [
+        "Trend age (4) < 5 (FORMING protection)",
+        "Matrix: Asset in formation, no action"
+      ],
+      "deviation": 13.198123178788123,
+      "z_score": 2.2302167488872815,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 75.80708521457872,
+        "breakout_age": 0,
+        "breakout_quality": 72.0,
+        "failed_breakout_risk": 10.0,
+        "reasons": [
+          "OrdinaryRebound"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 1,
+      "out_of_top_tier_streak": 0
+    },
+    {
+      "symbol": "GOOG",
+      "price": 349.6300048828125,
+      "asset_state": {
+        "symbol": "GOOG",
+        "state": "CRUISE",
+        "reasons": [
+          "Matched band: cruise (dev: 11.60)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: cruise (dev: 11.60)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": 11.595560109807304,
+      "z_score": 2.0717691044013913,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "EmergingBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 82.58303211953445,
+        "breakout_age": 1,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 10.0,
+        "reasons": [
+          "StructuralBreakout"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 1,
+      "out_of_top_tier_streak": 0
+    },
+    {
+      "symbol": "SPY",
+      "price": 710.7999877929688,
+      "asset_state": {
+        "symbol": "SPY",
+        "state": "OPTIMAL",
+        "reasons": [
+          "Matched band: optimal (dev: 2.71)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "OBSERVE",
+      "reasons": [
+        "Matched band: optimal (dev: 2.71)",
+        "Matrix: trend cohesion gate not passed"
+      ],
+      "deviation": 2.7096371637540067,
+      "z_score": 1.894467444445048,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 46.727550983437574,
+        "breakout_age": 0,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 10.0,
+        "reasons": [
+          "OrdinaryRebound"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    },
+    {
+      "symbol": "MSFT",
+      "price": 424.7250061035156,
+      "asset_state": {
+        "symbol": "MSFT",
+        "state": "OPTIMAL",
+        "reasons": [
+          "Matched band: optimal (dev: -3.12)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "OBSERVE",
+      "reasons": [
+        "Matched band: optimal (dev: -3.12)",
+        "Matrix: trend cohesion gate not passed"
+      ],
+      "deviation": -3.123338174735895,
+      "z_score": -0.3034597347666985,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 0.0,
+        "breakout_age": 0,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 55.0,
+        "reasons": [
+          "OrdinaryRebound",
+          "FailedBreakoutRisk"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    },
+    {
+      "symbol": "PLTR",
+      "price": 136.375,
+      "asset_state": {
+        "symbol": "PLTR",
+        "state": "PULLBACK",
+        "reasons": [
+          "Matched band: pullback (dev: -5.07)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: pullback (dev: -5.07)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -5.071826819596883,
+      "z_score": -0.8332523574711134,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 0.5,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 0.0,
+        "breakout_age": 0,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 55.0,
+        "reasons": [
+          "PullbackRepair",
+          "FailedBreakoutRisk"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    },
+    {
+      "symbol": "TSLA",
+      "price": 373.0299987792969,
+      "asset_state": {
+        "symbol": "TSLA",
+        "state": "PULLBACK",
+        "reasons": [
+          "Matched band: pullback (dev: -10.22)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: pullback (dev: -10.22)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -10.217206753328146,
+      "z_score": -1.2421566345801853,
+      "trade_enabled": false,
+      "trade_amount": 5000.0,
+      "config_multiplier": 0.5,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 0.0,
+        "breakout_age": 0,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 55.0,
+        "reasons": [
+          "PullbackRepair",
+          "FailedBreakoutRisk"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    },
+    {
+      "symbol": "ISRG",
+      "price": 450.9949951171875,
+      "asset_state": {
+        "symbol": "ISRG",
+        "state": "PULLBACK",
+        "reasons": [
+          "Matched band: pullback (dev: -12.90)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: pullback (dev: -12.90)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -12.897558259663674,
+      "z_score": -1.519690339240674,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 0.5,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 0.0,
+        "breakout_age": 0,
+        "breakout_quality": 36.0,
+        "failed_breakout_risk": 55.0,
+        "reasons": [
+          "PullbackRepair",
+          "FailedBreakoutRisk"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    },
+    {
+      "symbol": "FIG",
+      "price": 16.875,
+      "asset_state": {
+        "symbol": "FIG",
+        "state": "CRUISE",
+        "reasons": [
+          "Matched band: fear_1 (dev: -42.98)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 100
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: fear_1 (dev: -42.98)",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": -42.98063470551469,
+      "z_score": -1.6315433982603538,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": null,
+      "action_changed": true,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "display_context": {
+        "has_position": false,
+        "is_core_holding": false,
+        "is_candidate_only": false,
+        "is_top_tier": false,
+        "cohesion_ready": false
+      },
+      "display_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 0.0,
+        "breakout_age": 0,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 55.0,
+        "reasons": [
+          "OrdinaryRebound",
+          "FailedBreakoutRisk"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": null,
+      "state_streak": 1,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 1
+    }
+  ],
+  "top_tier_symbols": [
+    "U",
+    "NVDA",
+    "GOOG"
+  ],
+  "trend_gate_changed": false,
+  "trend_cohesion": {
+    "status": "Dispersed",
+    "topology": "NoLeader",
+    "gate_passed": false,
+    "stability_ready": false,
+    "continuity_ready": false,
+    "stability_score": 0.9353628502832014,
+    "continuity_streak": 1,
+    "candidate_count": 3,
+    "leader_count": 0,
+    "cohesion_score": 28.770725700566402,
+    "leader_quality_score": 12.0,
+    "rotation_quality_score": 50.0,
+    "candidate_compactness_score": 80.0,
+    "unmet_conditions": [
+      "stability_threshold",
+      "continuity_threshold",
+      "directional_cohesion",
+      "weak_leadership"
+    ]
+  },
+  "transition_log": {
+    "no_trade_persists": true,
+    "market_state": {
+      "from": "IGNITION",
+      "to": "IGNITION",
+      "changed": true
+    },
+    "risk_overlay": {
+      "from": "NORMAL",
+      "to": "NORMAL",
+      "changed": true
+    },
+    "trend_cohesion_gate": {
+      "from": false,
+      "to": false,
+      "unmet_conditions_changed": true,
+      "added": [
+        "WeakLeadership",
+        "ContinuityThreshold",
+        "StabilityThreshold",
+        "DirectionalCohesion"
+      ],
+      "removed": [],
+      "persisting": []
+    },
+    "trend_cohesion_status": {
+      "from": "Dispersed",
+      "to": "Dispersed",
+      "changed": true
+    },
+    "trend_cohesion_topology": {
+      "from": "NoLeader",
+      "to": "NoLeader",
+      "changed": true
+    },
+    "breakout_changes": [
+      {
+        "symbol": "U",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      },
+      {
+        "symbol": "NVDA",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      },
+      {
+        "symbol": "GOOG",
+        "from_status": "NoBreakout",
+        "to_status": "EmergingBreakout",
+        "status_changed": true,
+        "risk_changed": true
+      },
+      {
+        "symbol": "SPY",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      },
+      {
+        "symbol": "MSFT",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      },
+      {
+        "symbol": "PLTR",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      },
+      {
+        "symbol": "TSLA",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      },
+      {
+        "symbol": "ISRG",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      },
+      {
+        "symbol": "FIG",
+        "from_status": "NoBreakout",
+        "to_status": "NoBreakout",
+        "status_changed": false,
+        "risk_changed": true
+      }
+    ],
+    "opportunity_mode": {
+      "from": "NoTradeCold",
+      "to": "NoTradeScout",
+      "changed": true
+    },
+    "scout_days_without_expansion": 1,
+    "scout_abort_days": 3,
+    "scout_reset_triggered": false,
+    "breakout_active_count": 1
+  }
+}
