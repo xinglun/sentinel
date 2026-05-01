@@ -120,6 +120,7 @@ impl TrendRecognitionEvidence {
             let capex_weight = 2.0;
             let earnings_weight = 1.5;
             let order_weight = 1.0;
+            let follow_through_weight = 1.2;
 
             if s.records.is_empty() {
                 // レコードがない場合は既存のフラグを1.0として扱う（後方互換性）
@@ -138,6 +139,8 @@ impl TrendRecognitionEvidence {
                 conviction_score +=
                     earnings_weight * s.max_confidence(EvidenceType::EarningsValidation);
                 conviction_score += order_weight * s.max_confidence(EvidenceType::OrderVisibility);
+                conviction_score +=
+                    follow_through_weight * s.max_confidence(EvidenceType::FollowThrough);
             }
 
             // イベントからの経過日数による線形減衰 (T+1=100%, T+5=20%, T+6+=10%)

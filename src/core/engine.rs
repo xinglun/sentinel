@@ -366,6 +366,33 @@ impl Engine {
             }
         }
 
+        // --- Phase 5-B: Automated Price Action Evidence Ingestion ---
+        for d in &packet.assets {
+            let is_core = rules.core_assets.contains(&d.symbol);
+            let is_breakout = matches!(
+                d.breakout.status,
+                crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout
+                    | crate::core::breakout_detection::BreakoutStatus::EmergingBreakout
+            );
+
+            if is_core && is_breakout {
+                substantive.records.push(AutomatedEvidenceRecord {
+                    source: EvidenceSourceType::PriceAction,
+                    evidence_type: EvidenceType::FollowThrough,
+                    confidence: if d.breakout.status
+                        == crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout
+                    {
+                        0.8
+                    } else {
+                        0.4
+                    },
+                    description: format!("Automated Price Action: {} breakout detected", d.symbol),
+                    timestamp_days_ago: 0,
+                });
+            }
+        }
+        // -----------------------------------------------------------
+
         // 経過日数を全レコードに反映（手動タグの場合）
         let days = substantive.event_days_since;
         for r in &mut substantive.records {
