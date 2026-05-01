@@ -329,6 +329,7 @@ mod tests {
             false,
             crate::core::trend_cohesion::TrendCohesionSnapshot::default(),
             None,
+            None,
         )
     }
 

@@ -291,13 +291,40 @@ impl Engine {
             trend_gate_changed,
             trend_cohesion,
             None,
+            None,
         );
 
-        let transition_log = crate::core::transition_log::StateTransitionLog::compare_with_rules(
-            prev_packet,
-            &packet,
-            rules,
+        let mut transition_log =
+            crate::core::transition_log::StateTransitionLog::compare_with_rules(
+                prev_packet,
+                &packet,
+                rules,
+            );
+
+        let mut confirmed_count = 0;
+        let mut emerging_count = 0;
+        for d in &packet.assets {
+            match d.breakout.status {
+                crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout => {
+                    confirmed_count += 1
+                }
+                crate::core::breakout_detection::BreakoutStatus::EmergingBreakout => {
+                    emerging_count += 1
+                }
+                _ => {}
+            }
+        }
+
+        let evidence = crate::core::trend_cohesion::TrendRecognitionEvidence::compute(
+            confirmed_count,
+            emerging_count,
+            transition_log.scout_days_without_expansion,
+            transition_log.scout_abort_days,
         );
+
+        packet.trend_recognition = Some(evidence.clone());
+        transition_log.trend_recognition = Some(evidence);
+
         packet.transition_log = Some(transition_log);
 
         Ok(packet)

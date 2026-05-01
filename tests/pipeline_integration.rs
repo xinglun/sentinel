@@ -144,6 +144,7 @@ async fn test_pipeline_bullish_path() {
             ..Default::default()
         },
         None,
+        None,
     );
     let prev_packet2 = DecisionPacket::new(
         prev_features.date,
@@ -159,6 +160,7 @@ async fn test_pipeline_bullish_path() {
             continuity_streak: 2,
             ..Default::default()
         },
+        None,
         None,
     );
 
