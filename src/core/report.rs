@@ -919,6 +919,52 @@ fn render_transition_block(
             }
         }
     }
+
+    if evidence.trend_recognition_state.is_some() {
+        let tr_dict = &dict.trend_recognition;
+        match mode {
+            RenderMode::Markdown => {
+                block.push_str(&format!("- **{}**:\n", tr_dict.title));
+                if let Some(value) = &evidence.trend_recognition_state {
+                    block.push_str(&format!("  - {}: {}\n", tr_dict.continuation_state, value));
+                }
+                if let Some(value) = &evidence.trend_recognition_diffusion_score {
+                    block.push_str(&format!("  - {}: {:.2}\n", tr_dict.diffusion_score, value));
+                }
+                if let Some(value) = &evidence.trend_recognition_lag_state {
+                    block.push_str(&format!("  - {}: {}\n", tr_dict.lag_state, value));
+                }
+                if let Some(value) = &evidence.trend_recognition_single_asset_decay {
+                    block.push_str(&format!("  - {}: {}\n", tr_dict.single_asset_decay, value));
+                }
+            }
+            RenderMode::Html => {
+                block.push_str(&format!("• {}:\n", tr_dict.title));
+                if let Some(value) = &evidence.trend_recognition_state {
+                    block.push_str(&format!(
+                        "  - <i>{}: {}</i>\n",
+                        tr_dict.continuation_state, value
+                    ));
+                }
+                if let Some(value) = &evidence.trend_recognition_diffusion_score {
+                    block.push_str(&format!(
+                        "  - <i>{}: {:.2}</i>\n",
+                        tr_dict.diffusion_score, value
+                    ));
+                }
+                if let Some(value) = &evidence.trend_recognition_lag_state {
+                    block.push_str(&format!("  - <i>{}: {}</i>\n", tr_dict.lag_state, value));
+                }
+                if let Some(value) = &evidence.trend_recognition_single_asset_decay {
+                    block.push_str(&format!(
+                        "  - <i>{}: {}</i>\n",
+                        tr_dict.single_asset_decay, value
+                    ));
+                }
+            }
+        }
+    }
+
     block.push('\n');
     block
 }

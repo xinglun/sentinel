@@ -556,6 +556,7 @@ mod tests {
             false,
             crate::core::trend_cohesion::TrendCohesionSnapshot::default(),
             None,
+            None,
         );
 
         let trading_config = config_arc.trading.as_ref().unwrap();

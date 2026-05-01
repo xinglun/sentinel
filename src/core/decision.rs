@@ -4,7 +4,7 @@ use crate::core::market_regime::MarketRegimeSnapshot;
 use crate::core::market_state::models::MarketStateOutput;
 use crate::core::portfolio_policy::PortfolioPolicy;
 use crate::core::transition_log::StateTransitionLog;
-use crate::core::trend_cohesion::TrendCohesionSnapshot;
+use crate::core::trend_cohesion::{TrendCohesionSnapshot, TrendRecognitionEvidence};
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
@@ -22,6 +22,8 @@ pub struct DecisionPacket {
     #[serde(default)]
     pub trend_cohesion: TrendCohesionSnapshot,
     pub transition_log: Option<StateTransitionLog>,
+    #[serde(default)]
+    pub trend_recognition: Option<TrendRecognitionEvidence>,
 }
 
 impl Default for DecisionPacket {
@@ -37,6 +39,7 @@ impl Default for DecisionPacket {
             trend_gate_changed: false,
             trend_cohesion: TrendCohesionSnapshot::default(),
             transition_log: None,
+            trend_recognition: None,
         }
     }
 }
@@ -54,6 +57,7 @@ impl DecisionPacket {
         trend_gate_changed: bool,
         trend_cohesion: TrendCohesionSnapshot,
         transition_log: Option<StateTransitionLog>,
+        trend_recognition: Option<TrendRecognitionEvidence>,
     ) -> Self {
         Self {
             date,
@@ -66,6 +70,7 @@ impl DecisionPacket {
             trend_gate_changed,
             trend_cohesion,
             transition_log,
+            trend_recognition,
         }
     }
 }

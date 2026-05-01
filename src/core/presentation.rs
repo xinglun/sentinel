@@ -167,6 +167,14 @@ pub struct StateTransitionViewModel {
     pub scout_expansion: Option<String>,
     #[serde(default)]
     pub scout_reset: Option<String>,
+    #[serde(default)]
+    pub trend_recognition_state: Option<String>,
+    #[serde(default)]
+    pub trend_recognition_diffusion_score: Option<f64>,
+    #[serde(default)]
+    pub trend_recognition_lag_state: Option<String>,
+    #[serde(default)]
+    pub trend_recognition_single_asset_decay: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
