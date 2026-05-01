@@ -90,11 +90,89 @@ jobs:
             echo "⚠️ Created empty telemetry.csv with headers to prevent Rust panic."
           fi
 
+      - name: Collect Evidence (non-blocking)
+        env:
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          EVIDENCE_DAYS: "7"
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          STATUS_PATH="reports/evidence_collection_status_latest.json"
+          export STATUS_PATH
+
+          write_status() {
+            export EVIDENCE_STATUS="$1"
+            export EVIDENCE_REASON="${2:-}"
+            python - <<'PY'
+          import json
+          import os
+
+          symbols = [s for s in os.environ.get("EVIDENCE_SYMBOLS", "").split(",") if s]
+          payload = {
+              "status": os.environ["EVIDENCE_STATUS"],
+              "reason": os.environ.get("EVIDENCE_REASON") or None,
+              "symbols": symbols,
+              "days": int(os.environ.get("EVIDENCE_DAYS", "7")),
+          }
+          with open(os.environ["STATUS_PATH"], "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+              f.write("\n")
+          PY
+          }
+
+          trap 'code=$?; write_status "failed" "unexpected evidence collection step error (exit ${code})"; echo "⚠️ Evidence collection failed before completion but radar will continue."; exit 0' ERR
+
+          EVIDENCE_SYMBOLS="$(python - <<'PY'
+          import tomllib
+
+          with open("config.toml", "rb") as f:
+              config = tomllib.load(f)
+
+          symbols = [
+              item["symbol"]
+              for item in config.get("watchlist", [])
+              if item.get("enable", True) and item.get("symbol")
+          ]
+          print(",".join(symbols))
+          PY
+          )"
+          export EVIDENCE_SYMBOLS
+
+          if [ -z "${EVIDENCE_SYMBOLS}" ]; then
+            write_status "skipped" "watchlist symbols are empty"
+            echo "ℹ️ Evidence collection skipped: watchlist symbols are empty."
+            exit 0
+          fi
+
+          if [ -z "${FINNHUB_API_KEY:-}" ]; then
+            write_status "skipped" "FINNHUB_API_KEY is not configured"
+            echo "ℹ️ Evidence collection skipped: FINNHUB_API_KEY is not configured."
+            exit 0
+          fi
+
+          OUTPUT_FILE="$(mktemp)"
+          set +e
+          cargo run --release -- collect-evidence --symbols "${EVIDENCE_SYMBOLS}" --days "${EVIDENCE_DAYS}" >"${OUTPUT_FILE}" 2>&1
+          EXIT_CODE=$?
+          set -e
+          cat "${OUTPUT_FILE}"
+
+          if [ "${EXIT_CODE}" -eq 0 ]; then
+            write_status "succeeded" ""
+            echo "✅ Evidence collection completed."
+          else
+            REASON="$(tail -n 20 "${OUTPUT_FILE}" | tr '\n' ' ' | cut -c1-1000)"
+            write_status "failed" "${REASON}"
+            echo "⚠️ Evidence collection failed but radar will continue."
+          fi
+
       - name: Run Sentinel Radar
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: |
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
@@ -169,6 +247,7 @@ jobs:
             "reports/account_snapshot_${DATE_JST}.json"
             "reports/data_quality_log.jsonl"
             "reports/run_status_${DATE_JST}.json"
+            "reports/evidence_collection_status_latest.json"
             "reports/weekly_state_metrics.json"
             "reports/weekly_state_review_auto.md"
             "reports/telemetry.csv"
