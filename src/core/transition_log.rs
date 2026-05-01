@@ -2,7 +2,9 @@ use crate::config::ParsedRules;
 use crate::core::breakout_detection::BreakoutStatus;
 use crate::core::decision::DecisionPacket;
 use crate::core::market_regime::{MarketState, RiskOverlay};
-use crate::core::trend_cohesion::{TrendCohesionStatus, TrendCohesionTopology};
+use crate::core::trend_cohesion::{
+    TrendCohesionStatus, TrendCohesionTopology, TrendRecognitionEvidence,
+};
 use anyhow::{Context, Result};
 use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
@@ -64,6 +66,8 @@ pub struct StateTransitionLog {
     pub scout_reset_triggered: bool,
     #[serde(default)]
     pub breakout_active_count: usize,
+    #[serde(default)]
+    pub trend_recognition: Option<TrendRecognitionEvidence>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
@@ -296,6 +300,7 @@ impl StateTransitionLog {
             scout_abort_days: effective_abort_days,
             scout_reset_triggered,
             breakout_active_count,
+            trend_recognition: curr.trend_recognition.clone(),
         }
     }
 

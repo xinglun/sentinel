@@ -12,6 +12,62 @@ pub enum TrendCohesionStatus {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum TrendContinuationState {
+    #[default]
+    None,
+    EarlyLeader,
+    LeaderConfirmedFollowersLagging,
+    Broadening,
+    Mature,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
+pub struct TrendRecognitionEvidence {
+    pub state: TrendContinuationState,
+    pub diffusion_score: f64,
+    pub lag_state: bool,
+    pub single_asset_decay_day: usize,
+    pub single_asset_decay_max: usize,
+}
+
+impl TrendRecognitionEvidence {
+    /// 現在のブレイクアウト状況とスカウト状態から、トレンド認識エビデンスを計算する。
+    pub fn compute(
+        confirmed_count: usize,
+        emerging_count: usize,
+        scout_days: usize,
+        scout_abort_days: usize,
+    ) -> Self {
+        let active_count = confirmed_count + emerging_count;
+        let diffusion_score = (confirmed_count as f64 * 1.0) + (emerging_count as f64 * 0.5);
+
+        let state = if active_count == 0 {
+            TrendContinuationState::None
+        } else if active_count == 1 {
+            if confirmed_count == 1 {
+                TrendContinuationState::LeaderConfirmedFollowersLagging
+            } else {
+                TrendContinuationState::EarlyLeader
+            }
+        } else if emerging_count > 0 {
+            TrendContinuationState::Broadening
+        } else {
+            TrendContinuationState::Mature
+        };
+
+        let lag_state = state == TrendContinuationState::LeaderConfirmedFollowersLagging;
+
+        Self {
+            state,
+            diffusion_score,
+            lag_state,
+            single_asset_decay_day: scout_days,
+            single_asset_decay_max: scout_abort_days,
+        }
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum TrendCohesionTopology {
     #[default]
     NoLeader,
@@ -425,5 +481,75 @@ mod tests {
         let snapshot = TrendCohesionEvaluator::evaluate(12.0, &current, &history, &rules());
 
         assert_eq!(snapshot.topology, TrendCohesionTopology::FragmentedLeaders);
+    }
+
+    // --- Phase 4: Runtime Stability & Replay Validation ---
+
+    #[test]
+    fn test_diffusion_score_sensitivity() {
+        // 0:0 -> 0.0
+        let ev0 = TrendRecognitionEvidence::compute(0, 0, 0, 3);
+        assert_eq!(ev0.diffusion_score, 0.0);
+        assert_eq!(ev0.state, TrendContinuationState::None);
+
+        // 0:1 (Emerging only) -> 0.5
+        let ev1 = TrendRecognitionEvidence::compute(0, 1, 0, 3);
+        assert_eq!(ev1.diffusion_score, 0.5);
+        assert_eq!(ev1.state, TrendContinuationState::EarlyLeader);
+
+        // 1:0 (Confirmed only) -> 1.0
+        let ev2 = TrendRecognitionEvidence::compute(1, 0, 0, 3);
+        assert_eq!(ev2.diffusion_score, 1.0);
+        assert_eq!(
+            ev2.state,
+            TrendContinuationState::LeaderConfirmedFollowersLagging
+        );
+        assert!(ev2.lag_state);
+
+        // 1:1 (Leader + Follower) -> 1.5
+        let ev3 = TrendRecognitionEvidence::compute(1, 1, 0, 3);
+        assert_eq!(ev3.diffusion_score, 1.5);
+        assert_eq!(ev3.state, TrendContinuationState::Broadening);
+        assert!(!ev3.lag_state);
+
+        // 2:0 (Two Confirmed) -> 2.0
+        let ev4 = TrendRecognitionEvidence::compute(2, 0, 0, 3);
+        assert_eq!(ev4.diffusion_score, 2.0);
+        assert_eq!(ev4.state, TrendContinuationState::Mature);
+    }
+
+    #[test]
+    fn test_replay_scenario_diffusion_path() {
+        // Day 1: Early Leader (Emerging)
+        let day1 = TrendRecognitionEvidence::compute(0, 1, 1, 3);
+        assert_eq!(day1.state, TrendContinuationState::EarlyLeader);
+        assert_eq!(day1.single_asset_decay_day, 1);
+
+        // Day 2: Leader Confirmed (Followers Lagging)
+        let day2 = TrendRecognitionEvidence::compute(1, 0, 2, 3);
+        assert_eq!(
+            day2.state,
+            TrendContinuationState::LeaderConfirmedFollowersLagging
+        );
+        assert_eq!(day2.single_asset_decay_day, 2);
+
+        // Day 3: Diffusion (Broadening) - Reset Decay
+        // 注意: Reset されるのは transition_log 側だが、Evidence に渡される scout_days が 0 になることを検証
+        let day3 = TrendRecognitionEvidence::compute(1, 1, 0, 3);
+        assert_eq!(day3.state, TrendContinuationState::Broadening);
+        assert_eq!(day3.single_asset_decay_day, 0);
+    }
+
+    #[test]
+    fn test_audit_snapshot_consistency_no_drift() {
+        // 状態が維持されている間、diffusion_score が不変であることを確認
+        let ev_a = TrendRecognitionEvidence::compute(1, 1, 0, 3);
+        let ev_b = TrendRecognitionEvidence::compute(1, 1, 0, 3);
+        assert_eq!(ev_a, ev_b);
+
+        // 境界値テスト: Confirmed が増えても Emerging がいれば Broadening
+        let ev_c = TrendRecognitionEvidence::compute(2, 1, 0, 3);
+        assert_eq!(ev_c.state, TrendContinuationState::Broadening);
+        assert_eq!(ev_c.diffusion_score, 2.5);
     }
 }
