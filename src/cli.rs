@@ -902,6 +902,7 @@ fn build_audit_daily_report(
             .template_trend_recognition
             .replace("{state}", state_label)
             .replace("{score}", &format!("{:.2}", evidence.diffusion_score))
+            .replace("{conviction}", &format!("{:.2}", evidence.conviction_score))
             .replace("{lag_state}", lag_label);
 
         out.push_str(&format!("{}\n", formatted));
@@ -985,7 +986,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "侦察态（有信号未验证）",
             mode_ready: "READY（可执行）",
             day_unit: "天",
-            template_trend_recognition: "- 趋势识别质量: {state}; 扩散评分 {score}; 滞后状态 {lag_state}",
+            template_trend_recognition: "- 趋势识别质量: {state}; 扩散评分 {score}; 确信度 {conviction}; 滞后状态 {lag_state}",
         },
         Language::EnUs => AuditDailyText {
             title: "Audit Daily",
@@ -1023,7 +1024,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "Scout (signal unverified)",
             mode_ready: "READY (executable)",
             day_unit: "days",
-            template_trend_recognition: "- Trend Recognition Quality: {state}; Diffusion Score {score}; Lag State {lag_state}",
+            template_trend_recognition: "- Trend Recognition Quality: {state}; Diffusion Score {score}; Conviction Score {conviction}; Lag State {lag_state}",
         },
         Language::JaJp => AuditDailyText {
             title: "Audit Daily",
@@ -1060,7 +1061,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "偵察（シグナル未検証）",
             mode_ready: "READY（実行可）",
             day_unit: "日",
-            template_trend_recognition: "- トレンド認識品質: {state}; 拡散スコア {score}; 遅行状態 {lag_state}",
+            template_trend_recognition: "- トレンド認識品質: {state}; 拡散スコア {score}; 確信度 {conviction}; 遅行状態 {lag_state}",
         },
     }
 }
@@ -1584,6 +1585,7 @@ mod tests {
                     enable: true,
                     trade_enabled: Some(false),
                     trade_amount: None,
+                    event_tags: None,
                 })
                 .collect(),
         }
@@ -1665,7 +1667,14 @@ mod tests {
                     "diffusion_score": 0.45,
                     "lag_state": true,
                     "single_asset_decay_day": 1,
-                    "single_asset_decay_max": 2
+                    "single_asset_decay_max": 2,
+                    "conviction_score": 0.45,
+                    "substantive": {
+                        "capex_payoff_signal": false,
+                        "earnings_validation": false,
+                        "order_visibility": false,
+                        "event_days_since": 0
+                    }
                 }
             }))
             .unwrap(),

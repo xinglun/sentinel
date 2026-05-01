@@ -30,4 +30,4 @@
 
 5. Audit One-liner
 - NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; NO TRADE tier: Scout (signal unverified); today's breakout: GOOG (new); mainline status: Not formed.
-- Trend Recognition Quality: Early Leader; Diffusion Score 0.45; Lag State Leading formed / Lagging
+- Trend Recognition Quality: Early Leader; Diffusion Score 0.45; Conviction Score 0.45; Lag State Leading formed / Lagging

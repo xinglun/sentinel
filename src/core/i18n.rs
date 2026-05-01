@@ -86,12 +86,16 @@ pub struct TrendRecognitionDictionary {
     pub diffusion_score: String,
     pub lag_state: String,
     pub single_asset_decay: String,
+    pub conviction_score: String,
     pub state_none: String,
     pub state_early_leader: String,
     pub state_leader_confirmed_followers_lagging: String,
     pub state_broadening: String,
     pub state_mature: String,
     pub lag_alert: String,
+    pub capex_payoff: String,
+    pub earnings_validation: String,
+    pub order_visibility: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -565,6 +569,10 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 state_broadening: "扩散初期".to_string(),
                 state_mature: "成熟共振".to_string(),
                 lag_alert: "先行成立・追随迟缓".to_string(),
+                conviction_score: "确信度".to_string(),
+                capex_payoff: "AI 投入产出验证 (Capex Payoff)".to_string(),
+                earnings_validation: "业绩实质性确认 (Earnings Quality)".to_string(),
+                order_visibility: "订单能见度提升 (Order Visibility)".to_string(),
             },
         },
         Language::EnUs => DisplayDictionary {
@@ -816,6 +824,10 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 state_broadening: "Broadening".to_string(),
                 state_mature: "Mature".to_string(),
                 lag_alert: "Leading formed / Lagging".to_string(),
+                conviction_score: "Conviction Score".to_string(),
+                capex_payoff: "Capex Payoff Validated".to_string(),
+                earnings_validation: "Earnings Quality Confirmed".to_string(),
+                order_visibility: "Order Visibility High".to_string(),
             },
         },
         Language::JaJp => DisplayDictionary {
@@ -1063,6 +1075,10 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 state_broadening: "拡散初期".to_string(),
                 state_mature: "成熟共振".to_string(),
                 lag_alert: "先行成立・追随遅延".to_string(),
+                conviction_score: "確信度".to_string(),
+                capex_payoff: "AI 投資回収の検証 (Capex Payoff)".to_string(),
+                earnings_validation: "業績の実質的裏付け (Earnings Quality)".to_string(),
+                order_visibility: "受注見通しの改善 (Order Visibility)".to_string(),
             },
         },
     }

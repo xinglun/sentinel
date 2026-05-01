@@ -315,11 +315,39 @@ impl Engine {
             }
         }
 
+        // 実体的な証拠（Substantive Evidence）の集計
+        let mut substantive = crate::core::trend_cohesion::SubstantiveEvidence::default();
+        for d in &packet.assets {
+            // アセット特徴量からイベントシグナルを確認
+            if let Some(f) = asset_features.iter().find(|af| af.symbol == d.symbol) {
+                for signal in &f.event_signals {
+                    match signal.as_str() {
+                        "capex_payoff:true" => substantive.capex_payoff_signal = true,
+                        "earnings_validation:true" => substantive.earnings_validation = true,
+                        "order_visibility:true" => substantive.order_visibility = true,
+                        _ => {
+                            // イベント経過日数のパース（例: "event_days:3"）
+                            if let Some(stripped) = signal.strip_prefix("event_days:") {
+                                if let Ok(days) = stripped.parse::<usize>() {
+                                    substantive.event_days_since = days;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         let evidence = crate::core::trend_cohesion::TrendRecognitionEvidence::compute(
             confirmed_count,
             emerging_count,
             transition_log.scout_days_without_expansion,
             transition_log.scout_abort_days,
+            if substantive != crate::core::trend_cohesion::SubstantiveEvidence::default() {
+                Some(substantive)
+            } else {
+                None
+            },
         );
 
         packet.trend_recognition = Some(evidence.clone());

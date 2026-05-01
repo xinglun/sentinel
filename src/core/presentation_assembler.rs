@@ -497,6 +497,8 @@ impl PresentationAssembler {
         });
         let trend_recognition_diffusion_score =
             log.trend_recognition.as_ref().map(|tr| tr.diffusion_score);
+        let trend_recognition_conviction_score =
+            log.trend_recognition.as_ref().map(|tr| tr.conviction_score);
         let trend_recognition_lag_state = log.trend_recognition.as_ref().and_then(|tr| {
             if tr.lag_state {
                 Some(dict.trend_recognition.lag_alert.clone())
@@ -511,6 +513,22 @@ impl PresentationAssembler {
                 tr.single_asset_decay_max.max(1)
             )
         });
+        let mut substantive_signals = Vec::new();
+        if let Some(sub) = log
+            .trend_recognition
+            .as_ref()
+            .and_then(|tr| tr.substantive.as_ref())
+        {
+            if sub.capex_payoff_signal {
+                substantive_signals.push(dict.trend_recognition.capex_payoff.clone());
+            }
+            if sub.earnings_validation {
+                substantive_signals.push(dict.trend_recognition.earnings_validation.clone());
+            }
+            if sub.order_visibility {
+                substantive_signals.push(dict.trend_recognition.order_visibility.clone());
+            }
+        }
 
         Some(StateTransitionViewModel {
             has_significant_change: log.market_state.changed
@@ -519,7 +537,8 @@ impl PresentationAssembler {
                 || log.trend_cohesion_gate.unmet_conditions_changed
                 || log.trend_cohesion_status.changed
                 || log.trend_cohesion_topology.changed
-                || has_structural_breakout_change,
+                || has_structural_breakout_change
+                || !substantive_signals.is_empty(),
             no_trade_persists: log.no_trade_persists,
             market_state_change: if log.market_state.changed {
                 Some(format!(
@@ -576,8 +595,10 @@ impl PresentationAssembler {
             scout_reset,
             trend_recognition_state,
             trend_recognition_diffusion_score,
+            trend_recognition_conviction_score,
             trend_recognition_lag_state,
             trend_recognition_single_asset_decay,
+            substantive_signals,
         })
     }
 

@@ -172,6 +172,7 @@ pub struct WatchlistEntry {
     pub enable: bool,
     pub trade_enabled: Option<bool>,
     pub trade_amount: Option<f64>,
+    pub event_tags: Option<Vec<String>>,
 }
 
 #[derive(Debug, Deserialize, PartialEq, Eq, Clone, Default)]

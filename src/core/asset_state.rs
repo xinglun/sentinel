@@ -479,6 +479,7 @@ mod tests {
             trend_age,
             deviation_percentile: None,
             weight: 1.0,
+            event_signals: Vec::new(),
         }
     }
 

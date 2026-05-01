@@ -91,6 +91,7 @@ async fn test_pipeline_bullish_path() {
         enable: true,
         trade_enabled: Some(true),
         trade_amount: Some(1000.0),
+        event_tags: None,
     };
 
     let history2 = create_mock_history("MSFT", 150.0, 60, 0.002);
@@ -104,6 +105,7 @@ async fn test_pipeline_bullish_path() {
         enable: true,
         trade_enabled: Some(true),
         trade_amount: Some(1000.0),
+        event_tags: None,
     };
 
     let rules = create_mock_rules();
@@ -221,6 +223,7 @@ async fn test_pipeline_bearish_path() {
         enable: true,
         trade_enabled: Some(true),
         trade_amount: Some(1000.0),
+        event_tags: None,
     };
 
     let rules = create_mock_rules();
@@ -242,6 +245,7 @@ async fn test_pipeline_age_continuity() {
         symbol: "AAPL".to_string(),
         owner_ma_days: 20,
         leash_ma_days: 10,
+        event_tags: None,
         ..Default::default()
     };
     let histories = vec![(history, &entry)];

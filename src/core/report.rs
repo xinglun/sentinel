@@ -935,6 +935,16 @@ fn render_transition_block(
                 if let Some(value) = &evidence.trend_recognition_diffusion_score {
                     block.push_str(&format!("  - {}: {:.2}\n", tr_dict.diffusion_score, value));
                 }
+                if let Some(value) = &evidence.trend_recognition_conviction_score {
+                    block.push_str(&format!("  - {}: {:.2}\n", tr_dict.conviction_score, value));
+                }
+                if !evidence.substantive_signals.is_empty() {
+                    block.push_str(&format!(
+                        "  - {}: {}\n",
+                        tr_dict.title,
+                        evidence.substantive_signals.join(", ")
+                    ));
+                }
                 if let Some(value) = &evidence.trend_recognition_lag_state {
                     block.push_str(&format!("  - {}: {}\n", tr_dict.lag_state, value));
                 }
@@ -954,6 +964,19 @@ fn render_transition_block(
                     block.push_str(&format!(
                         "  - <i>{}: {:.2}</i>\n",
                         tr_dict.diffusion_score, value
+                    ));
+                }
+                if let Some(value) = &evidence.trend_recognition_conviction_score {
+                    block.push_str(&format!(
+                        "  - <i>{}: {:.2}</i>\n",
+                        tr_dict.conviction_score, value
+                    ));
+                }
+                if !evidence.substantive_signals.is_empty() {
+                    block.push_str(&format!(
+                        "  - <i>{}: {}</i>\n",
+                        tr_dict.title,
+                        evidence.substantive_signals.join(", ")
                     ));
                 }
                 if let Some(value) = &evidence.trend_recognition_lag_state {

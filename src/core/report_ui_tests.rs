@@ -2168,9 +2168,11 @@ mod tests {
         curr.trend_recognition = Some(TrendRecognitionEvidence {
             state: TrendContinuationState::LeaderConfirmedFollowersLagging,
             diffusion_score: 0.45,
+            conviction_score: 0.0,
             lag_state: true,
             single_asset_decay_day: 3,
             single_asset_decay_max: 5,
+            substantive: None,
         });
 
         curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
@@ -2211,9 +2213,11 @@ mod tests {
         curr.trend_recognition = Some(TrendRecognitionEvidence {
             state: TrendContinuationState::Broadening,
             diffusion_score: 0.65,
+            conviction_score: 0.0,
             lag_state: false,
             single_asset_decay_day: 0,
             single_asset_decay_max: 5,
+            substantive: None,
         });
 
         curr.transition_log = Some(StateTransitionLog::compare(None, &curr));

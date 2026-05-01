@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Stock Sentinel 要件およびアーキテクチャドキュメント (PRD)
+description: システムの背景、コアコンセプト（飼い主と犬のモデル）、および各レイヤーのアーキテクチャ定義。
+key: prd-core-spec
 tags: [prd, requirements, architecture, rules]
 keywords: [owner-leash-dog, strategy, implementation, rust]
 ---
@@ -24,6 +27,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
     * **曲率 (Curvature / 2nd Derivative)**: 飼い主の歩く速度の変化（加速/減速）。最早期の底打ち（Early Recovery）を検知します。
     * **置信度 (Confidence)**: 上記の物理指標群のベクトルが一致している度合い（0〜100%）。
     * **相対優位性差 (Dominance Margin)**: 序参量（Order Parameter）。Trend Ratio と Reversion Ratio の差分。資本体制の物理的な「統治安定度」を記述します。
+* **実体的な証拠 (Substantive Evidence)**: 価格アクション（テクニカル）の背景にある実質的な裏付け（AI投資回収、決算検証、受注見通しなど）。トレンド認識の確信度（Conviction）を定量化する。
 
 ## 2. 核心機能の要件と入出力
 
@@ -38,6 +42,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 2. **指標計算**: 日々の `owner_ma`、`leash_ma`、および `deviation`（乖離率）を計算します。さらに、Z-Score や、MA斜率・曲率などの物理パラメータを計算します。
 3. **トレンド判定 (Trend)**: 当日とN日前（例：20日前）の飼い主MAの値を比較し、Up / Down / Flatを判定します。
 4. **状態推論 (State Machine)**: `deviation` がどの範囲に収まるかを判定し、物理パラメータの収束度合いから「置信度 (Confidence)」を算出し、最終アクション（Action）と `reason_code` を生成します。
+5. **トレンド認識補強 (Trend Recognition Enforcement)**: 価格アクションの拡散状況と、実体的な証拠（Substantive Evidence）を統合してトレンド段階を識別します。実体証拠に基づく確信度（Conviction Score）は、イベント発生後の経過日数に応じて線形減衰（T+1〜T+5）を適用し、織り込み済み効果を排除します。
 
 ### 2.3 出力：多角的な表示とプッシュ通知
 1. **テキスト形式 Markdown レポート**: 絵文字やテーブルレイアウトを使用したレポートを生成します（`./reports` に保存）。

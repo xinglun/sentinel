@@ -22,12 +22,22 @@ pub enum TrendContinuationState {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
+pub struct SubstantiveEvidence {
+    pub capex_payoff_signal: bool, // AI 投資回収の検証
+    pub earnings_validation: bool, // 決算による裏付け
+    pub order_visibility: bool,    // 受注の見通し
+    pub event_days_since: usize,   // イベントからの経過日数
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
 pub struct TrendRecognitionEvidence {
     pub state: TrendContinuationState,
     pub diffusion_score: f64,
+    pub conviction_score: f64,
     pub lag_state: bool,
     pub single_asset_decay_day: usize,
     pub single_asset_decay_max: usize,
+    pub substantive: Option<SubstantiveEvidence>,
 }
 
 impl TrendRecognitionEvidence {
@@ -37,9 +47,35 @@ impl TrendRecognitionEvidence {
         emerging_count: usize,
         scout_days: usize,
         scout_abort_days: usize,
+        substantive: Option<SubstantiveEvidence>,
     ) -> Self {
         let active_count = confirmed_count + emerging_count;
-        let diffusion_score = (confirmed_count as f64 * 1.0) + (emerging_count as f64 * 0.5);
+        let base_diffusion_score = (confirmed_count as f64 * 1.0) + (emerging_count as f64 * 0.5);
+
+        // 実体的な証拠に基づく確信度の計算
+        let mut conviction_score = 0.0;
+        if let Some(ref s) = substantive {
+            if s.capex_payoff_signal {
+                conviction_score += 2.0;
+            }
+            if s.earnings_validation {
+                conviction_score += 1.5;
+            }
+            if s.order_visibility {
+                conviction_score += 1.0;
+            }
+            // イベントからの経過日数による線形減衰 (T+1=100%, T+5=20%, T+6+=10%)
+            let multiplier = if s.event_days_since <= 1 {
+                1.0
+            } else if s.event_days_since <= 5 {
+                1.0 - (s.event_days_since - 1) as f64 * 0.2
+            } else {
+                0.1 // 低ウェイトを維持
+            };
+            conviction_score *= multiplier;
+        }
+
+        let diffusion_score = base_diffusion_score + conviction_score;
 
         let state = if active_count == 0 {
             TrendContinuationState::None
@@ -60,9 +96,11 @@ impl TrendRecognitionEvidence {
         Self {
             state,
             diffusion_score,
+            conviction_score,
             lag_state,
             single_asset_decay_day: scout_days,
             single_asset_decay_max: scout_abort_days,
+            substantive,
         }
     }
 }
@@ -488,17 +526,17 @@ mod tests {
     #[test]
     fn test_diffusion_score_sensitivity() {
         // 0:0 -> 0.0
-        let ev0 = TrendRecognitionEvidence::compute(0, 0, 0, 3);
+        let ev0 = TrendRecognitionEvidence::compute(0, 0, 0, 3, None);
         assert_eq!(ev0.diffusion_score, 0.0);
         assert_eq!(ev0.state, TrendContinuationState::None);
 
         // 0:1 (Emerging only) -> 0.5
-        let ev1 = TrendRecognitionEvidence::compute(0, 1, 0, 3);
+        let ev1 = TrendRecognitionEvidence::compute(0, 1, 0, 3, None);
         assert_eq!(ev1.diffusion_score, 0.5);
         assert_eq!(ev1.state, TrendContinuationState::EarlyLeader);
 
         // 1:0 (Confirmed only) -> 1.0
-        let ev2 = TrendRecognitionEvidence::compute(1, 0, 0, 3);
+        let ev2 = TrendRecognitionEvidence::compute(1, 0, 0, 3, None);
         assert_eq!(ev2.diffusion_score, 1.0);
         assert_eq!(
             ev2.state,
@@ -507,13 +545,13 @@ mod tests {
         assert!(ev2.lag_state);
 
         // 1:1 (Leader + Follower) -> 1.5
-        let ev3 = TrendRecognitionEvidence::compute(1, 1, 0, 3);
+        let ev3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
         assert_eq!(ev3.diffusion_score, 1.5);
         assert_eq!(ev3.state, TrendContinuationState::Broadening);
         assert!(!ev3.lag_state);
 
         // 2:0 (Two Confirmed) -> 2.0
-        let ev4 = TrendRecognitionEvidence::compute(2, 0, 0, 3);
+        let ev4 = TrendRecognitionEvidence::compute(2, 0, 0, 3, None);
         assert_eq!(ev4.diffusion_score, 2.0);
         assert_eq!(ev4.state, TrendContinuationState::Mature);
     }
@@ -521,12 +559,12 @@ mod tests {
     #[test]
     fn test_replay_scenario_diffusion_path() {
         // Day 1: Early Leader (Emerging)
-        let day1 = TrendRecognitionEvidence::compute(0, 1, 1, 3);
+        let day1 = TrendRecognitionEvidence::compute(0, 1, 1, 3, None);
         assert_eq!(day1.state, TrendContinuationState::EarlyLeader);
         assert_eq!(day1.single_asset_decay_day, 1);
 
         // Day 2: Leader Confirmed (Followers Lagging)
-        let day2 = TrendRecognitionEvidence::compute(1, 0, 2, 3);
+        let day2 = TrendRecognitionEvidence::compute(1, 0, 2, 3, None);
         assert_eq!(
             day2.state,
             TrendContinuationState::LeaderConfirmedFollowersLagging
@@ -535,7 +573,7 @@ mod tests {
 
         // Day 3: Diffusion (Broadening) - Reset Decay
         // 注意: Reset されるのは transition_log 側だが、Evidence に渡される scout_days が 0 になることを検証
-        let day3 = TrendRecognitionEvidence::compute(1, 1, 0, 3);
+        let day3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
         assert_eq!(day3.state, TrendContinuationState::Broadening);
         assert_eq!(day3.single_asset_decay_day, 0);
     }
@@ -543,13 +581,68 @@ mod tests {
     #[test]
     fn test_audit_snapshot_consistency_no_drift() {
         // 状態が維持されている間、diffusion_score が不変であることを確認
-        let ev_a = TrendRecognitionEvidence::compute(1, 1, 0, 3);
-        let ev_b = TrendRecognitionEvidence::compute(1, 1, 0, 3);
+        let ev_a = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
+        let ev_b = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
         assert_eq!(ev_a, ev_b);
 
         // 境界値テスト: Confirmed が増えても Emerging がいれば Broadening
-        let ev_c = TrendRecognitionEvidence::compute(2, 1, 0, 3);
+        let ev_c = TrendRecognitionEvidence::compute(2, 1, 0, 3, None);
         assert_eq!(ev_c.state, TrendContinuationState::Broadening);
         assert_eq!(ev_c.diffusion_score, 2.5);
+    }
+
+    #[test]
+    fn test_substantive_conviction_diffusion() {
+        // AI Payoff (+2.0) + Earnings (+1.5) = +3.5
+        let substantive = SubstantiveEvidence {
+            capex_payoff_signal: true,
+            earnings_validation: true,
+            order_visibility: false,
+            event_days_since: 1,
+        };
+
+        // Leader confirmed (1.0) + Conviction (3.5) = 4.5
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive));
+        assert_eq!(ev.conviction_score, 3.5);
+        assert_eq!(ev.diffusion_score, 4.5);
+        assert_eq!(
+            ev.state,
+            TrendContinuationState::LeaderConfirmedFollowersLagging
+        );
+
+        // 拡散発生時 (Confirmed + Emerging = 1.5) + Conviction (3.5) = 5.0
+        let ev_diffused =
+            TrendRecognitionEvidence::compute(1, 1, 0, 3, Some(ev.substantive.unwrap()));
+        assert_eq!(ev_diffused.diffusion_score, 5.0);
+    }
+
+    #[test]
+    fn test_event_follow_through_window() {
+        let mut substantive = SubstantiveEvidence {
+            capex_payoff_signal: true,
+            earnings_validation: false,
+            order_visibility: false,
+            event_days_since: 1,
+        };
+
+        // Day 1: Conviction = 2.0 (100%)
+        let ev1 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive.clone()));
+        assert!((ev1.conviction_score - 2.0).abs() < 1e-10);
+
+        // Day 3: Conviction = 2.0 * 0.6 = 1.2 (Linear decay: 1.0 - (3-1)*0.2 = 0.6)
+        substantive.event_days_since = 3;
+        let ev3 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive.clone()));
+        assert!((ev3.conviction_score - 1.2).abs() < 1e-10);
+
+        // Day 5: Conviction = 2.0 * 0.2 = 0.4 (Linear decay: 1.0 - (5-1)*0.2 = 0.2)
+        substantive.event_days_since = 5;
+        let ev5 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive.clone()));
+        assert!((ev5.conviction_score - 0.4).abs() < 1e-10);
+
+        // Day 6: Maintain low weight (10%) -> 2.0 * 0.1 = 0.2
+        substantive.event_days_since = 6;
+        let ev6 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive));
+        assert!((ev6.conviction_score - 0.2).abs() < 1e-10);
+        assert!((ev6.diffusion_score - 1.2).abs() < 1e-10); // 1.0 (Confirmed) + 0.2 (Conviction)
     }
 }
