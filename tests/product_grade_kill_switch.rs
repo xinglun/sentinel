@@ -79,6 +79,7 @@ fn test_kill_switch_behavior_in_execution_gate() {
         false,
         stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
         None,
+        None,
     );
 
     // 3. Gate the packet

@@ -1145,4 +1145,103 @@ mod tests {
             .iter()
             .any(|item| item.symbol == "QQQ" || item.symbol == "TSLA"));
     }
+
+    #[test]
+    fn test_trend_recognition_evidence_mapping() {
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{TrendContinuationState, TrendRecognitionEvidence};
+
+        let mut curr = DecisionPacket::default();
+        curr.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::LeaderConfirmedFollowersLagging,
+            diffusion_score: 0.45,
+            lag_state: true,
+            single_asset_decay_day: 3,
+            single_asset_decay_max: 5,
+        });
+
+        // Compute transition log to carry the evidence
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let transition = pres.transition_evidence.as_ref().unwrap();
+        assert_eq!(
+            transition.trend_recognition_state.as_deref(),
+            Some("单点确立/整体滞后")
+        );
+        assert_eq!(transition.trend_recognition_diffusion_score, Some(0.45));
+        assert_eq!(
+            transition.trend_recognition_lag_state.as_deref(),
+            Some("先行成立・追随迟缓")
+        );
+        assert_eq!(
+            transition.trend_recognition_single_asset_decay.as_deref(),
+            Some("3/5")
+        );
+    }
+
+    #[test]
+    fn test_single_asset_decay_reset_logic_simulation() {
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{TrendContinuationState, TrendRecognitionEvidence};
+
+        // 1. Single asset breakout persists
+        let prev = DecisionPacket {
+            trend_recognition: Some(TrendRecognitionEvidence {
+                state: TrendContinuationState::EarlyLeader,
+                diffusion_score: 0.2,
+                lag_state: false,
+                single_asset_decay_day: 2,
+                single_asset_decay_max: 5,
+            }),
+            ..Default::default()
+        };
+
+        // 2. Broadening occurs (Multiple assets), decay should reset/change
+        let curr = DecisionPacket {
+            trend_recognition: Some(TrendRecognitionEvidence {
+                state: TrendContinuationState::Broadening,
+                diffusion_score: 0.6,
+                lag_state: false,
+                single_asset_decay_day: 0, // Reset
+                single_asset_decay_max: 5,
+            }),
+            ..Default::default()
+        };
+
+        let log = StateTransitionLog::compare(Some(&prev), &curr);
+
+        let config = mock_config(Language::JaJp);
+
+        // We need to inject the log into assemble logic or just check the VM mapping
+        let mut curr_with_log = curr.clone();
+        curr_with_log.transition_log = Some(log);
+
+        let pres = PresentationAssembler::assemble(
+            &curr_with_log,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::JaJp,
+        );
+
+        let transition = pres.transition_evidence.as_ref().unwrap();
+        assert_eq!(
+            transition.trend_recognition_state.as_deref(),
+            Some("拡散初期")
+        );
+        assert_eq!(transition.trend_recognition_diffusion_score, Some(0.6));
+        assert_eq!(
+            transition.trend_recognition_single_asset_decay.as_deref(),
+            Some("0/5")
+        );
+    }
 }

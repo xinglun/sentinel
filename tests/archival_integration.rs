@@ -45,6 +45,7 @@ async fn test_full_9_asset_archival_package() {
         false,
         stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
         None,
+        None,
     );
 
     layer.save_packet(&packet).unwrap();

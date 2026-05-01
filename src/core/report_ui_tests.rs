@@ -2159,6 +2159,84 @@ mod tests {
     }
 
     #[test]
+    fn test_trend_recognition_report_rendering_zh_cn() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{TrendContinuationState, TrendRecognitionEvidence};
+
+        let mut curr = DecisionPacket::default();
+        curr.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::LeaderConfirmedFollowersLagging,
+            diffusion_score: 0.45,
+            lag_state: true,
+            single_asset_decay_day: 3,
+            single_asset_decay_max: 5,
+        });
+
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        let md = report.archival_markdown;
+        assert!(md.contains("🎯 趋势特征识别"));
+        assert!(md.contains("进展阶段: 单点确立/整体滞后"));
+        assert!(md.contains("扩散度: 0.45"));
+        assert!(md.contains("滞后预警: 先行成立・追随迟缓"));
+        assert!(md.contains("单极突破衰减: 3/5"));
+
+        let html = report.telegram_html_body;
+        assert!(html.contains("🎯 趋势特征识别"));
+        assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
+    }
+
+    #[test]
+    fn test_trend_recognition_report_rendering_ja_jp() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{TrendContinuationState, TrendRecognitionEvidence};
+
+        let mut curr = DecisionPacket::default();
+        curr.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::Broadening,
+            diffusion_score: 0.65,
+            lag_state: false,
+            single_asset_decay_day: 0,
+            single_asset_decay_max: 5,
+        });
+
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        let config = mock_config_with_language(Language::JaJp);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::JaJp,
+        );
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        let md = report.archival_markdown;
+        assert!(md.contains("🎯 トレンド特徴認識"));
+        assert!(md.contains("進行段階: 拡散初期"));
+        assert!(md.contains("ブレイクアウト拡散度: 0.65"));
+        assert!(!md.contains("追随遅延")); // lag_state is false, should not appear in simplified output if logic holds
+        assert!(md.contains("単独突破の連続日数: 0/5"));
+    }
+
+    #[test]
     fn test_no_trade_persistence_explanation_en_us() {
         use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
