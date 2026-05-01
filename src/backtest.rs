@@ -212,6 +212,7 @@ fn run_core_simulation(
             &daily_histories,
             parsed_rules,
             effective_window,
+            &[],
             &std::collections::HashMap::new(),
         )?;
 

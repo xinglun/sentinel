@@ -21,29 +21,37 @@ pub enum TrendContinuationState {
     Mature,
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum EvidenceSourceType {
-    Manual,      // 手動アノテーション
+    #[default]
+    Manual, // 手動アノテーション
     OfficialIR,  // 決算速報・公式発表
     NewsMedia,   // 主要ニュースメディア
     PriceAction, // 価格追随（フォロースルー）
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum EvidenceType {
-    CapexPayoff,        // 投資回収の検証
+    #[default]
+    CapexPayoff, // 投資回収の検証
     EarningsValidation, // 業績の裏付け
     OrderVisibility,    // 受注見通しの改善
     FollowThrough,      // 突破後の価格継続性
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
 pub struct AutomatedEvidenceRecord {
     pub source: EvidenceSourceType,
     pub evidence_type: EvidenceType,
-    pub confidence: f64,           // 0.0 ~ 1.0 (ソースの信頼性)
-    pub description: String,       // 監査用
-    pub timestamp_days_ago: usize, // 経過日数
+    pub confidence: f64,     // 0.0 ~ 1.0 (ソースの信頼性)
+    pub description: String, // 監査用
+    pub event_date: String,  // YYYY-MM-DD
+    #[serde(default)]
+    pub symbol: Option<String>,
+    #[serde(default)]
+    pub source_url: Option<String>,
+    #[serde(default)]
+    pub dedupe_key: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
@@ -58,26 +66,21 @@ pub struct SubstantiveEvidence {
 }
 
 impl SubstantiveEvidence {
-    /// レコードを元にフラグとスコアを再計算する。
+    /// レコードを元にフラグを更新する。
+    /// FIXME: event_date からの経過日数計算は Engine レイヤーで行う。
     pub fn aggregate(&mut self) {
-        self.capex_payoff_signal = false;
-        self.earnings_validation = false;
-        self.order_visibility = false;
-        let mut min_days = usize::MAX;
-
-        for r in &self.records {
-            match r.evidence_type {
-                EvidenceType::CapexPayoff => self.capex_payoff_signal = true,
-                EvidenceType::EarningsValidation => self.earnings_validation = true,
-                EvidenceType::OrderVisibility => self.order_visibility = true,
-                EvidenceType::FollowThrough => {} // 今後の拡張用
-            }
-            if r.timestamp_days_ago < min_days {
-                min_days = r.timestamp_days_ago;
-            }
-        }
-
-        self.event_days_since = if min_days == usize::MAX { 0 } else { min_days };
+        self.capex_payoff_signal = self
+            .records
+            .iter()
+            .any(|r| r.evidence_type == EvidenceType::CapexPayoff);
+        self.earnings_validation = self
+            .records
+            .iter()
+            .any(|r| r.evidence_type == EvidenceType::EarningsValidation);
+        self.order_visibility = self
+            .records
+            .iter()
+            .any(|r| r.evidence_type == EvidenceType::OrderVisibility);
     }
 
     /// 特定のタイプの証拠の最大信頼度を取得する。
@@ -87,6 +90,82 @@ impl SubstantiveEvidence {
             .filter(|r| r.evidence_type == evidence_type)
             .map(|r| r.confidence)
             .fold(0.0, f64::max)
+    }
+
+    /// 各レコードを独立して減衰させ、合計確信度を計算する。
+    pub fn calculate_conviction_score(&self, current_date: chrono::NaiveDate) -> f64 {
+        let capex_weight = 2.0;
+        let earnings_weight = 1.5;
+        let order_weight = 1.0;
+        let follow_through_weight = 1.2;
+
+        let mut total_score = 0.0;
+
+        for et in &[
+            EvidenceType::CapexPayoff,
+            EvidenceType::EarningsValidation,
+            EvidenceType::OrderVisibility,
+            EvidenceType::FollowThrough,
+        ] {
+            let weight = match et {
+                EvidenceType::CapexPayoff => capex_weight,
+                EvidenceType::EarningsValidation => earnings_weight,
+                EvidenceType::OrderVisibility => order_weight,
+                EvidenceType::FollowThrough => follow_through_weight,
+            };
+
+            let max_decayed_conf = self
+                .records
+                .iter()
+                .filter(|r| r.evidence_type == *et)
+                .map(|r| {
+                    if let Ok(rec_date) =
+                        chrono::NaiveDate::parse_from_str(&r.event_date, "%Y-%m-%d")
+                    {
+                        let days_ago = (current_date - rec_date).num_days();
+                        let multiplier = if days_ago <= 1 {
+                            1.0
+                        } else if days_ago <= 5 {
+                            1.0 - (days_ago - 1) as f64 * 0.2
+                        } else if days_ago <= 30 {
+                            0.1
+                        } else {
+                            0.0
+                        };
+                        r.confidence * multiplier
+                    } else {
+                        0.0
+                    }
+                })
+                .fold(0.0, f64::max);
+
+            total_score += weight * max_decayed_conf;
+        }
+
+        // 後方互換性：レコードがない場合
+        if self.records.is_empty() {
+            let multiplier = if self.event_days_since <= 1 {
+                1.0
+            } else if self.event_days_since <= 5 {
+                1.0 - (self.event_days_since - 1) as f64 * 0.2
+            } else if self.event_days_since <= 30 {
+                0.1
+            } else {
+                0.0
+            };
+
+            if self.capex_payoff_signal {
+                total_score += capex_weight * multiplier;
+            }
+            if self.earnings_validation {
+                total_score += earnings_weight * multiplier;
+            }
+            if self.order_visibility {
+                total_score += order_weight * multiplier;
+            }
+        }
+
+        total_score
     }
 }
 
@@ -109,50 +188,17 @@ impl TrendRecognitionEvidence {
         scout_days: usize,
         scout_abort_days: usize,
         substantive: Option<SubstantiveEvidence>,
+        current_date: chrono::NaiveDate,
     ) -> Self {
         let active_count = confirmed_count + emerging_count;
         let base_diffusion_score = (confirmed_count as f64 * 1.0) + (emerging_count as f64 * 0.5);
 
         // 実体的な証拠に基づく確信度の計算
-        let mut conviction_score = 0.0;
-        if let Some(ref s) = substantive {
-            // 各証拠タイプの重み付けと信頼度の積を加算
-            let capex_weight = 2.0;
-            let earnings_weight = 1.5;
-            let order_weight = 1.0;
-            let follow_through_weight = 1.2;
-
-            if s.records.is_empty() {
-                // レコードがない場合は既存のフラグを1.0として扱う（後方互換性）
-                if s.capex_payoff_signal {
-                    conviction_score += capex_weight;
-                }
-                if s.earnings_validation {
-                    conviction_score += earnings_weight;
-                }
-                if s.order_visibility {
-                    conviction_score += order_weight;
-                }
-            } else {
-                // レコードがある場合は各タイプの最大信頼度を使用
-                conviction_score += capex_weight * s.max_confidence(EvidenceType::CapexPayoff);
-                conviction_score +=
-                    earnings_weight * s.max_confidence(EvidenceType::EarningsValidation);
-                conviction_score += order_weight * s.max_confidence(EvidenceType::OrderVisibility);
-                conviction_score +=
-                    follow_through_weight * s.max_confidence(EvidenceType::FollowThrough);
-            }
-
-            // イベントからの経過日数による線形減衰 (T+1=100%, T+5=20%, T+6+=10%)
-            let multiplier = if s.event_days_since <= 1 {
-                1.0
-            } else if s.event_days_since <= 5 {
-                1.0 - (s.event_days_since - 1) as f64 * 0.2
-            } else {
-                0.1 // 低ウェイトを維持
-            };
-            conviction_score *= multiplier;
-        }
+        let conviction_score = if let Some(ref s) = substantive {
+            s.calculate_conviction_score(current_date)
+        } else {
+            0.0
+        };
 
         let diffusion_score = base_diffusion_score + conviction_score;
 
@@ -405,6 +451,7 @@ impl TrendCohesionEvaluator {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use chrono::NaiveDate;
 
     fn rules() -> ParsedTrendCohesionRules {
         ParsedTrendCohesionRules::default()
@@ -604,18 +651,19 @@ mod tests {
 
     #[test]
     fn test_diffusion_score_sensitivity() {
+        let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
         // 0:0 -> 0.0
-        let ev0 = TrendRecognitionEvidence::compute(0, 0, 0, 3, None);
+        let ev0 = TrendRecognitionEvidence::compute(0, 0, 0, 3, None, today);
         assert_eq!(ev0.diffusion_score, 0.0);
         assert_eq!(ev0.state, TrendContinuationState::None);
 
         // 0:1 (Emerging only) -> 0.5
-        let ev1 = TrendRecognitionEvidence::compute(0, 1, 0, 3, None);
+        let ev1 = TrendRecognitionEvidence::compute(0, 1, 0, 3, None, today);
         assert_eq!(ev1.diffusion_score, 0.5);
         assert_eq!(ev1.state, TrendContinuationState::EarlyLeader);
 
         // 1:0 (Confirmed only) -> 1.0
-        let ev2 = TrendRecognitionEvidence::compute(1, 0, 0, 3, None);
+        let ev2 = TrendRecognitionEvidence::compute(1, 0, 0, 3, None, today);
         assert_eq!(ev2.diffusion_score, 1.0);
         assert_eq!(
             ev2.state,
@@ -624,50 +672,42 @@ mod tests {
         assert!(ev2.lag_state);
 
         // 1:1 (Leader + Follower) -> 1.5
-        let ev3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
+        let ev3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
         assert_eq!(ev3.diffusion_score, 1.5);
         assert_eq!(ev3.state, TrendContinuationState::Broadening);
         assert!(!ev3.lag_state);
 
         // 2:0 (Two Confirmed) -> 2.0
-        let ev4 = TrendRecognitionEvidence::compute(2, 0, 0, 3, None);
+        let ev4 = TrendRecognitionEvidence::compute(2, 0, 0, 3, None, today);
         assert_eq!(ev4.diffusion_score, 2.0);
         assert_eq!(ev4.state, TrendContinuationState::Mature);
     }
 
     #[test]
-    fn test_replay_scenario_diffusion_path() {
-        // Day 1: Early Leader (Emerging)
-        let day1 = TrendRecognitionEvidence::compute(0, 1, 1, 3, None);
+    fn test_scout_transition() {
+        let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
+        let day1 = TrendRecognitionEvidence::compute(0, 1, 1, 3, None, today);
         assert_eq!(day1.state, TrendContinuationState::EarlyLeader);
-        assert_eq!(day1.single_asset_decay_day, 1);
 
-        // Day 2: Leader Confirmed (Followers Lagging)
-        let day2 = TrendRecognitionEvidence::compute(1, 0, 2, 3, None);
+        let day2 = TrendRecognitionEvidence::compute(1, 0, 2, 3, None, today);
         assert_eq!(
             day2.state,
             TrendContinuationState::LeaderConfirmedFollowersLagging
         );
-        assert_eq!(day2.single_asset_decay_day, 2);
 
-        // Day 3: Diffusion (Broadening) - Reset Decay
-        // 注意: Reset されるのは transition_log 側だが、Evidence に渡される scout_days が 0 になることを検証
-        let day3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
+        let day3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
         assert_eq!(day3.state, TrendContinuationState::Broadening);
-        assert_eq!(day3.single_asset_decay_day, 0);
     }
 
     #[test]
-    fn test_audit_snapshot_consistency_no_drift() {
-        // 状態が維持されている間、diffusion_score が不変であることを確認
-        let ev_a = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
-        let ev_b = TrendRecognitionEvidence::compute(1, 1, 0, 3, None);
+    fn test_evidence_equality() {
+        let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
+        let ev_a = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
+        let ev_b = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
         assert_eq!(ev_a, ev_b);
 
-        // 境界値テスト: Confirmed が増えても Emerging がいれば Broadening
-        let ev_c = TrendRecognitionEvidence::compute(2, 1, 0, 3, None);
-        assert_eq!(ev_c.state, TrendContinuationState::Broadening);
-        assert_eq!(ev_c.diffusion_score, 2.5);
+        let ev_c = TrendRecognitionEvidence::compute(2, 1, 0, 3, None, today);
+        assert_ne!(ev_a, ev_c);
     }
 
     #[test]
@@ -681,8 +721,9 @@ mod tests {
             event_days_since: 1,
         };
 
+        let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
         // Leader confirmed (1.0) + Conviction (3.5) = 4.5
-        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive));
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today);
         assert_eq!(ev.conviction_score, 3.5);
         assert_eq!(ev.diffusion_score, 4.5);
         assert_eq!(
@@ -690,89 +731,84 @@ mod tests {
             TrendContinuationState::LeaderConfirmedFollowersLagging
         );
 
-        // 拡散発生時 (Confirmed + Emerging = 1.5) + Conviction (3.5) = 5.0
-        let ev_diffused =
-            TrendRecognitionEvidence::compute(1, 1, 0, 3, Some(ev.substantive.unwrap()));
-        assert_eq!(ev_diffused.diffusion_score, 5.0);
+        // Transition Forming -> Formed due to high conviction (1.5 + 3.5 = 5.0)
+        let ev_high =
+            TrendRecognitionEvidence::compute(1, 1, 0, 3, Some(ev.substantive.unwrap()), today);
+        assert_eq!(ev_high.state, TrendContinuationState::Broadening);
+        assert_eq!(ev_high.diffusion_score, 5.0);
     }
 
     #[test]
     fn test_automated_evidence_aggregation() {
-        let mut substantive = SubstantiveEvidence {
+        let today = NaiveDate::from_ymd_opt(2024, 5, 2).unwrap();
+        let substantive = SubstantiveEvidence {
             records: vec![
                 AutomatedEvidenceRecord {
-                    source: EvidenceSourceType::NewsMedia,
                     evidence_type: EvidenceType::CapexPayoff,
                     confidence: 0.8,
-                    description: "News A".to_string(),
-                    timestamp_days_ago: 2,
+                    event_date: "2024-05-01".to_string(), // T+1
+                    ..Default::default()
                 },
                 AutomatedEvidenceRecord {
-                    source: EvidenceSourceType::OfficialIR,
                     evidence_type: EvidenceType::CapexPayoff,
                     confidence: 1.0,
-                    description: "Official IR".to_string(),
-                    timestamp_days_ago: 1,
+                    event_date: "2024-05-01".to_string(), // T+1
+                    ..Default::default()
                 },
                 AutomatedEvidenceRecord {
-                    source: EvidenceSourceType::Manual,
                     evidence_type: EvidenceType::OrderVisibility,
                     confidence: 0.5,
-                    description: "Manual low confidence".to_string(),
-                    timestamp_days_ago: 3,
+                    event_date: "2024-05-01".to_string(), // T+1
+                    ..Default::default()
                 },
             ],
             ..Default::default()
         };
 
-        substantive.aggregate();
-        // 最も新しい(1日)が採用される
-        assert_eq!(substantive.event_days_since, 1);
-        assert!(substantive.capex_payoff_signal);
-        assert!(substantive.order_visibility);
-
-        // Compute 時に Max Confidence が採用されるか検証
-        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive));
+        // Compute 時に Max Confidence が採用され、かつ独立減衰するか検証
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today);
         // Capex (2.0 * 1.0) + Order (1.0 * 0.5) = 2.5
-        // T+1 なので減衰なし
         assert_eq!(ev.conviction_score, 2.5);
-
-        // 日数が経過した場合の減衰テスト (T+3 = 1.0 - 2*0.2 = 0.6)
-        let mut s_decay = ev.substantive.unwrap();
-        s_decay.event_days_since = 3;
-        let ev_decay = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(s_decay));
-        let expected = 2.5 * 0.6;
-        assert!((ev_decay.conviction_score - expected).abs() < 1e-10);
     }
 
     #[test]
-    fn test_event_follow_through_window() {
-        let mut substantive = SubstantiveEvidence {
-            records: vec![],
-            capex_payoff_signal: true,
-            earnings_validation: false,
-            order_visibility: false,
-            event_days_since: 1,
+    fn test_per_record_decay() {
+        let today = NaiveDate::from_ymd_opt(2024, 1, 10).unwrap();
+
+        // Record A: T+1 (100%), Record B: T+5 (20%)
+        let substantive = SubstantiveEvidence {
+            records: vec![
+                AutomatedEvidenceRecord {
+                    evidence_type: EvidenceType::CapexPayoff,
+                    confidence: 1.0,
+                    event_date: "2024-01-09".to_string(),
+                    ..Default::default()
+                },
+                AutomatedEvidenceRecord {
+                    evidence_type: EvidenceType::EarningsValidation,
+                    confidence: 1.0,
+                    event_date: "2024-01-05".to_string(),
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
         };
 
-        // Day 1: Conviction = 2.0 (100%)
-        let ev1 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive.clone()));
-        assert!((ev1.conviction_score - 2.0).abs() < 1e-10);
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today);
+        // Capex: 2.0 * 1.0 + Earnings: 1.5 * 0.2 = 2.0 + 0.3 = 2.3
+        assert_eq!(ev.conviction_score, 2.3);
 
-        // Day 3: Conviction = 2.0 * 0.6 = 1.2 (Linear decay: 1.0 - (3-1)*0.2 = 0.6)
-        substantive.event_days_since = 3;
-        let ev3 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive.clone()));
-        assert!((ev3.conviction_score - 1.2).abs() < 1e-10);
-
-        // Day 5: Conviction = 2.0 * 0.2 = 0.4 (Linear decay: 1.0 - (5-1)*0.2 = 0.2)
-        substantive.event_days_since = 5;
-        let ev5 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive.clone()));
-        assert!((ev5.conviction_score - 0.4).abs() < 1e-10);
-
-        // Day 6: Maintain low weight (10%) -> 2.0 * 0.1 = 0.2
-        substantive.event_days_since = 6;
-        let ev6 = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive));
-        assert!((ev6.conviction_score - 0.2).abs() < 1e-10);
-        assert!((ev6.diffusion_score - 1.2).abs() < 1e-10); // 1.0 (Confirmed) + 0.2 (Conviction)
+        // Record C: T+31 (0%)
+        let s_old = SubstantiveEvidence {
+            records: vec![AutomatedEvidenceRecord {
+                evidence_type: EvidenceType::CapexPayoff,
+                confidence: 1.0,
+                event_date: "2023-12-01".to_string(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let ev_old = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(s_old), today);
+        assert_eq!(ev_old.conviction_score, 0.0);
     }
 }

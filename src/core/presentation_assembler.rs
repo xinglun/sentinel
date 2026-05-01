@@ -514,6 +514,7 @@ impl PresentationAssembler {
             )
         });
         let mut substantive_signals = Vec::new();
+        let mut substantive_details = Vec::new();
         if let Some(sub) = log
             .trend_recognition
             .as_ref()
@@ -527,6 +528,37 @@ impl PresentationAssembler {
             }
             if sub.order_visibility {
                 substantive_signals.push(dict.trend_recognition.order_visibility.clone());
+            }
+
+            for record in &sub.records {
+                let source_label = match record.source {
+                    crate::core::trend_cohesion::EvidenceSourceType::Manual => {
+                        &dict.trend_recognition.source_manual
+                    }
+                    crate::core::trend_cohesion::EvidenceSourceType::OfficialIR => {
+                        &dict.trend_recognition.source_official_ir
+                    }
+                    crate::core::trend_cohesion::EvidenceSourceType::NewsMedia => {
+                        &dict.trend_recognition.source_news_media
+                    }
+                    crate::core::trend_cohesion::EvidenceSourceType::PriceAction => {
+                        &dict.trend_recognition.source_price_action
+                    }
+                };
+                let symbol_part = record
+                    .symbol
+                    .as_ref()
+                    .map(|s| format!("[{}] ", s))
+                    .unwrap_or_default();
+                let url_part = record
+                    .source_url
+                    .as_ref()
+                    .map(|u| format!(" ({})", u))
+                    .unwrap_or_default();
+                substantive_details.push(format!(
+                    "{} {}{} (Conf: {:.1}){}",
+                    source_label, symbol_part, record.description, record.confidence, url_part
+                ));
             }
         }
 
@@ -599,6 +631,7 @@ impl PresentationAssembler {
             trend_recognition_lag_state,
             trend_recognition_single_asset_decay,
             substantive_signals,
+            substantive_details,
         })
     }
 

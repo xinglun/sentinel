@@ -1,0 +1,4 @@
+SANTA CLARA, Calif. — NVIDIA today reported revenue for the second quarter.
+The company noted that "order visibility" remains high through the next fiscal year
+as cloud service providers continue to scale out their Blackwell-based clusters.
+"Demand is outstripping supply," said Jensen Huang.

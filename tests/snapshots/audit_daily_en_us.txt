@@ -22,12 +22,15 @@
 - Continued breakout: None
 - Removed breakout: None
 
-4. Streak Metrics
+4. Substantive Evidence
+- None
+
+5. Streak Metrics
 - Current NO TRADE streak: 2 days
 - Current missing-mainline streak: 2 days
 - Recent NO TRADE segment type: Continuous segment
 - Methodology: streaks are calculated by log continuity (weekends auto-bridged)
 
-5. Audit One-liner
+6. Audit One-liner
 - NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; NO TRADE tier: Scout (signal unverified); today's breakout: GOOG (new); mainline status: Not formed.
 - Trend Recognition Quality: Early Leader; Diffusion Score 0.45; Conviction Score 0.45; Lag State Leading formed / Lagging

@@ -25,6 +25,13 @@ pub struct AppConfig {
 
     pub rules: RulesConfig,
     pub watchlist: Vec<WatchlistEntry>,
+    pub sec: Option<SecConfig>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct SecConfig {
+    pub user_agent: String,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -196,6 +203,7 @@ pub struct ParsedRules {
     pub trend_cohesion: ParsedTrendCohesionRules,
     pub breakout: ParsedBreakoutRules,
     pub market_state_engine: ParsedMarketStateEngineConfig,
+    pub sec: Option<SecConfig>,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -313,6 +321,32 @@ impl Default for ParsedBreakoutRules {
 }
 
 impl AppConfig {
+    /// 設定の妥当性を検証する。
+    pub fn validate(&self) -> Result<()> {
+        if let Some(sec) = &self.sec {
+            if sec.user_agent.is_empty() {
+                return Err(anyhow!(
+                    "SEC User-Agent is empty. Required format: 'Company Name <email@example.com>'"
+                ));
+            }
+            // 厳格な形式チェック: 'Company Name <email@example.com>' 形式を強制する
+            // 1. スペースが含まれている（会社名がある）
+            // 2. '<' と '>' で囲まれたメールアドレスが含まれている
+            let ua = &sec.user_agent;
+            let has_space = ua.contains(' ');
+            let has_brackets = ua.contains('<') && ua.ends_with('>');
+            let has_at = ua.contains('@');
+
+            if !has_space || !has_brackets || !has_at {
+                return Err(anyhow!(
+                    "SEC User-Agent format invalid: '{}'. Expected 'Company Name <email@example.com>'",
+                    sec.user_agent
+                ));
+            }
+        }
+        Ok(())
+    }
+
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Self> {
         // Load .env file variables into environment if it exists.
         // Variables already present in the environment will not be overridden.
@@ -365,6 +399,15 @@ impl AppConfig {
             }
         }
 
+        // Environment variable overrides for SEC
+        if let Ok(ua) = std::env::var("SEC_USER_AGENT") {
+            if let Some(ref mut sec) = config.sec {
+                sec.user_agent = ua;
+            } else {
+                config.sec = Some(SecConfig { user_agent: ua });
+            }
+        }
+
         if config.trading.is_none() {
             config.trading = Some(TradingConfig {
                 enabled: false,
@@ -388,6 +431,8 @@ impl AppConfig {
                 ));
             }
         }
+        // 全体的な整合性チェック
+        config.validate()?;
 
         Ok(config)
     }
@@ -554,6 +599,7 @@ impl AppConfig {
                         .unwrap_or(defaults.scout_abort_days),
                 }
             },
+            sec: self.sec.clone(),
         }
     }
 }
@@ -670,5 +716,78 @@ mod tests {
             82.0
         );
         assert_eq!(rules.breakout.emerging_trend_age_threshold, 5);
+    }
+
+    #[test]
+    fn test_sec_config_validation() {
+        let mut config = AppConfig {
+            version: 1,
+            output: OutputConfig {
+                format: "table".to_string(),
+                language: None,
+                timezone: "UTC".to_string(),
+                save_to: "output".to_string(),
+                weight_kind: None,
+                compact_transition_evidence_in_no_trade: true,
+            },
+            telegram: None,
+            futu: None,
+            finnhub: None,
+            trading: None,
+            provider: None,
+            rules: RulesConfig {
+                trend: TrendConfig::default(),
+                deviation_bands: BTreeMap::new(),
+                actions: HashMap::new(),
+                sizing_multipliers: None,
+                core_assets: None,
+                min_state_duration: None,
+                inertia: None,
+                trend_cohesion: None,
+                breakout: None,
+                market_state_engine: None,
+            },
+            watchlist: vec![],
+            sec: None,
+        };
+
+        // No SEC config is OK
+        assert!(config.validate().is_ok());
+
+        // Empty UA
+        config.sec = Some(SecConfig {
+            user_agent: "".to_string(),
+        });
+        assert!(config.validate().is_err());
+
+        // Invalid format (no space or no @)
+        config.sec = Some(SecConfig {
+            user_agent: "InvalidUA".to_string(),
+        });
+        assert!(config.validate().is_err());
+
+        // Valid format with brackets (Strictly required now)
+        config.sec = Some(SecConfig {
+            user_agent: "Sample Company <admin@example.com>".to_string(),
+        });
+        assert!(config.validate().is_ok());
+
+        // Invalid: no brackets (even with space and @)
+        config.sec = Some(SecConfig {
+            user_agent: "Sample Company admin@example.com".to_string(),
+        });
+        assert!(config.validate().is_err());
+
+        // Invalid: no space
+        config.sec = Some(SecConfig {
+            user_agent: "<admin@example.com>".to_string(),
+        });
+        assert!(config.validate().is_err());
+
+        // Invalid: no @
+        config.sec = Some(SecConfig {
+            user_agent: "Sample Company <admin>".to_string(),
+        });
+        assert!(config.validate().is_err());
     }
 }

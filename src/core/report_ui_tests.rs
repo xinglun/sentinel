@@ -23,6 +23,7 @@ fn mock_config() -> AppConfig {
         telegram: None,
         futu: None,
         finnhub: None,
+        sec: None,
         trading: None,
         provider: None,
         rules: RulesConfig {

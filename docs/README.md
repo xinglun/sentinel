@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: ドキュメントガイド (Docs README)
+description: Sentinel プロジェクトのドキュメント構造、ディレクトリ構成、および閲覧順序の案内。
+key: docs-index
 ---
 
 # ドキュメントガイド

@@ -179,6 +179,8 @@ pub struct StateTransitionViewModel {
     pub trend_recognition_single_asset_decay: Option<String>,
     #[serde(default)]
     pub substantive_signals: Vec<String>,
+    #[serde(default)]
+    pub substantive_details: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

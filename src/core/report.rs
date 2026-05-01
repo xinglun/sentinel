@@ -941,9 +941,14 @@ fn render_transition_block(
                 if !evidence.substantive_signals.is_empty() {
                     block.push_str(&format!(
                         "  - {}: {}\n",
-                        tr_dict.title,
+                        tr_dict.substantive_evidence,
                         evidence.substantive_signals.join(", ")
                     ));
+                }
+                if !evidence.substantive_details.is_empty() {
+                    for detail in &evidence.substantive_details {
+                        block.push_str(&format!("    - {}\n", detail));
+                    }
                 }
                 if let Some(value) = &evidence.trend_recognition_lag_state {
                     block.push_str(&format!("  - {}: {}\n", tr_dict.lag_state, value));
@@ -975,9 +980,14 @@ fn render_transition_block(
                 if !evidence.substantive_signals.is_empty() {
                     block.push_str(&format!(
                         "  - <i>{}: {}</i>\n",
-                        tr_dict.title,
+                        tr_dict.substantive_evidence,
                         evidence.substantive_signals.join(", ")
                     ));
+                }
+                if !evidence.substantive_details.is_empty() {
+                    for detail in &evidence.substantive_details {
+                        block.push_str(&format!("    - <i>{}</i>\n", detail));
+                    }
                 }
                 if let Some(value) = &evidence.trend_recognition_lag_state {
                     block.push_str(&format!("  - <i>{}: {}</i>\n", tr_dict.lag_state, value));

@@ -450,6 +450,7 @@ mod tests {
             trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
             breakout: crate::config::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
+            sec: None,
         }
     }
 

@@ -96,6 +96,11 @@ pub struct TrendRecognitionDictionary {
     pub capex_payoff: String,
     pub earnings_validation: String,
     pub order_visibility: String,
+    pub source_manual: String,
+    pub source_official_ir: String,
+    pub source_news_media: String,
+    pub source_price_action: String,
+    pub substantive_evidence: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -573,6 +578,11 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 capex_payoff: "AI 投入产出验证 (Capex Payoff)".to_string(),
                 earnings_validation: "业绩实质性确认 (Earnings Quality)".to_string(),
                 order_visibility: "订单能见度提升 (Order Visibility)".to_string(),
+                source_manual: "📝 手动标注".to_string(),
+                source_official_ir: "🏢 官方 IR".to_string(),
+                source_news_media: "📰 媒体新闻".to_string(),
+                source_price_action: "📈 价格行为".to_string(),
+                substantive_evidence: "实质性证据".to_string(),
             },
         },
         Language::EnUs => DisplayDictionary {
@@ -828,6 +838,11 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 capex_payoff: "Capex Payoff Validated".to_string(),
                 earnings_validation: "Earnings Quality Confirmed".to_string(),
                 order_visibility: "Order Visibility High".to_string(),
+                source_manual: "📝 Manual Tag".to_string(),
+                source_official_ir: "🏢 Official IR".to_string(),
+                source_news_media: "📰 News Media".to_string(),
+                source_price_action: "📈 Price Action".to_string(),
+                substantive_evidence: "Substantive Evidence".to_string(),
             },
         },
         Language::JaJp => DisplayDictionary {
@@ -1079,6 +1094,11 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 capex_payoff: "AI 投資回収の検証 (Capex Payoff)".to_string(),
                 earnings_validation: "業績の実質的裏付け (Earnings Quality)".to_string(),
                 order_visibility: "受注見通しの改善 (Order Visibility)".to_string(),
+                source_manual: "📝 手動タグ".to_string(),
+                source_official_ir: "🏢 公式 IR".to_string(),
+                source_news_media: "📰 ニュース".to_string(),
+                source_price_action: "📈 価格アクション".to_string(),
+                substantive_evidence: "実体的証拠".to_string(),
             },
         },
     }

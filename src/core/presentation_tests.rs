@@ -38,6 +38,7 @@ fn mock_config(lang: Language) -> AppConfig {
             market_state_engine: None,
         },
         watchlist: vec![],
+        sec: None,
     }
 }
 
