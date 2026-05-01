@@ -753,7 +753,11 @@ fn render_transition_block(
     let has_scout_status = evidence.scout_continuity.is_some()
         || evidence.scout_expansion.is_some()
         || evidence.scout_reset.is_some();
-    if !(evidence.has_significant_change || evidence.no_trade_persists || has_scout_status) {
+    if !(evidence.has_significant_change
+        || evidence.no_trade_persists
+        || has_scout_status
+        || evidence.trend_recognition_state.is_some())
+    {
         return block;
     }
 
