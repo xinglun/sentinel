@@ -30,6 +30,8 @@ use crate::data::provider::MarketDataProvider;
 use crate::adapters::futu::client::FutuClient;
 use crate::adapters::futu::provider::FutuProvider;
 
+const EVIDENCE_COLLECTION_STATUS_FILE: &str = "evidence_collection_status_latest.json";
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 enum ProviderType {
     Yahoo,
@@ -571,6 +573,52 @@ fn telegram_delivery_precheck(
     }
 }
 
+fn parse_evidence_collection_status(
+    value: &serde_json::Value,
+) -> crate::core::run_status::DeliveryStatus {
+    let status = value
+        .get("status")
+        .and_then(|v| v.as_str())
+        .unwrap_or("skipped");
+    match status {
+        "succeeded" => crate::core::run_status::DeliveryStatus::Succeeded,
+        "failed" => crate::core::run_status::DeliveryStatus::Failed {
+            reason: value
+                .get("reason")
+                .and_then(|v| v.as_str())
+                .unwrap_or("evidence collection failed")
+                .to_string(),
+        },
+        _ => crate::core::run_status::DeliveryStatus::Skipped,
+    }
+}
+
+fn load_latest_evidence_collection_status(
+    save_dir: &std::path::Path,
+) -> crate::core::run_status::DeliveryStatus {
+    let path = save_dir.join(EVIDENCE_COLLECTION_STATUS_FILE);
+    let Ok(raw) = std::fs::read_to_string(path) else {
+        return crate::core::run_status::DeliveryStatus::Skipped;
+    };
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(&raw) else {
+        return crate::core::run_status::DeliveryStatus::Failed {
+            reason: "invalid evidence collection status JSON".to_string(),
+        };
+    };
+    parse_evidence_collection_status(&value)
+}
+
+fn load_run_evidence_collection_status(
+    save_dir: &std::path::Path,
+    date: NaiveDate,
+) -> Option<crate::core::run_status::DeliveryStatus> {
+    let path = save_dir.join(format!("run_status_{}.json", date));
+    let raw = std::fs::read_to_string(path).ok()?;
+    let value = serde_json::from_str::<serde_json::Value>(&raw).ok()?;
+    let status = value.get("evidence_collection")?;
+    serde_json::from_value::<crate::core::run_status::DeliveryStatus>(status.clone()).ok()
+}
+
 async fn run_pipeline(
     app_config: config::AppConfig,
     _provider_type: ProviderType,
@@ -619,6 +667,7 @@ async fn run_pipeline(
     let mut outcome = crate::core::run_status::RunOutcome {
         date: chrono::Local::now().date_naive().to_string(),
         timestamp: chrono::Local::now().to_rfc3339(),
+        evidence_collection: load_latest_evidence_collection_status(&save_dir),
         ..Default::default()
     };
 
@@ -1000,7 +1049,16 @@ fn run_audit_daily(
     };
 
     let target_idx = resolve_target_index(&days, target_date, language)?;
-    let report = build_audit_daily_report(&days, target_idx, window_days.max(1), language);
+    let evidence_collection_status =
+        load_run_evidence_collection_status(&save_dir, days[target_idx].date)
+            .unwrap_or(crate::core::run_status::DeliveryStatus::Skipped);
+    let report = build_audit_daily_report_with_evidence_status(
+        &days,
+        target_idx,
+        window_days.max(1),
+        language,
+        Some(&evidence_collection_status),
+    );
     println!("{}", report);
     Ok(())
 }
@@ -1081,11 +1139,22 @@ fn resolve_target_index(
     }
 }
 
+#[cfg(test)]
 fn build_audit_daily_report(
     days: &[TransitionAuditDay],
     target_idx: usize,
     window_days: usize,
     language: Language,
+) -> String {
+    build_audit_daily_report_with_evidence_status(days, target_idx, window_days, language, None)
+}
+
+fn build_audit_daily_report_with_evidence_status(
+    days: &[TransitionAuditDay],
+    target_idx: usize,
+    window_days: usize,
+    language: Language,
+    evidence_collection_status: Option<&crate::core::run_status::DeliveryStatus>,
 ) -> String {
     let text = audit_text(language);
     let today = &days[target_idx];
@@ -1307,6 +1376,13 @@ fn build_audit_daily_report(
     ));
 
     out.push_str(&format!("\n4. {}\n", text.section_substantive));
+    if let Some(status) = evidence_collection_status {
+        out.push_str(&format!(
+            "- {}: {}\n",
+            text.label_evidence_collection,
+            format_delivery_status(status, language)
+        ));
+    }
     if substantive_summaries.is_empty() {
         out.push_str(&format!("- {}\n", text.none));
     } else {
@@ -1385,6 +1461,7 @@ struct AuditDailyText {
     label_breakout_new: &'static str,
     label_breakout_continued: &'static str,
     label_breakout_removed: &'static str,
+    label_evidence_collection: &'static str,
     label_no_trade_streak: &'static str,
     label_mainline_missing_streak: &'static str,
     label_recent_shape: &'static str,
@@ -1426,6 +1503,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_new: "新增 breakout",
             label_breakout_continued: "延续 breakout",
             label_breakout_removed: "消失 breakout",
+            label_evidence_collection: "证据采集状态",
             label_no_trade_streak: "当前 NO TRADE 连续段长度",
             label_mainline_missing_streak: "当前主线缺失连续段长度",
             label_recent_shape: "最近一段 NO TRADE 形态",
@@ -1464,6 +1542,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_new: "New breakout",
             label_breakout_continued: "Continued breakout",
             label_breakout_removed: "Removed breakout",
+            label_evidence_collection: "Evidence collection status",
             label_no_trade_streak: "Current NO TRADE streak",
             label_mainline_missing_streak: "Current missing-mainline streak",
             label_recent_shape: "Recent NO TRADE segment type",
@@ -1503,6 +1582,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_new: "新規 breakout",
             label_breakout_continued: "継続 breakout",
             label_breakout_removed: "消失 breakout",
+            label_evidence_collection: "証拠収集状態",
             label_no_trade_streak: "現在の NO TRADE 連続日数",
             label_mainline_missing_streak: "現在の主線欠如連続日数",
             label_recent_shape: "直近 NO TRADE 区間の形態",
@@ -1541,6 +1621,29 @@ fn yes_no(flag: bool, language: Language) -> &'static str {
         text.yes
     } else {
         text.no
+    }
+}
+
+fn format_delivery_status(
+    status: &crate::core::run_status::DeliveryStatus,
+    language: Language,
+) -> String {
+    match status {
+        crate::core::run_status::DeliveryStatus::Succeeded => match language {
+            Language::ZhCn => "成功".to_string(),
+            Language::EnUs => "succeeded".to_string(),
+            Language::JaJp => "成功".to_string(),
+        },
+        crate::core::run_status::DeliveryStatus::Skipped => match language {
+            Language::ZhCn => "跳过".to_string(),
+            Language::EnUs => "skipped".to_string(),
+            Language::JaJp => "スキップ".to_string(),
+        },
+        crate::core::run_status::DeliveryStatus::Failed { reason } => match language {
+            Language::ZhCn => format!("失败 ({})", reason),
+            Language::EnUs => format!("failed ({})", reason),
+            Language::JaJp => format!("失敗 ({})", reason),
+        },
     }
 }
 
@@ -1921,7 +2024,8 @@ async fn run_review(_config: &crate::config::AppConfig) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::{
-        build_audit_daily_report, parse_transition_audit_entry, run_pipeline,
+        build_audit_daily_report, build_audit_daily_report_with_evidence_status,
+        load_latest_evidence_collection_status, parse_transition_audit_entry, run_pipeline,
         should_persist_decision_history, telegram_delivery_precheck, ProviderType,
         TransitionAuditDay, TransitionAuditEntry,
     };
@@ -2179,6 +2283,57 @@ mod tests {
     }
 
     #[test]
+    fn evidence_collection_status_sidecar_is_loaded_for_run_status() {
+        let tmp = tempdir().unwrap();
+        fs::write(
+            tmp.path().join(super::EVIDENCE_COLLECTION_STATUS_FILE),
+            r#"{"status":"failed","reason":"network timeout"}"#,
+        )
+        .unwrap();
+
+        let status = load_latest_evidence_collection_status(tmp.path());
+        assert_eq!(
+            status,
+            DeliveryStatus::Failed {
+                reason: "network timeout".to_string()
+            }
+        );
+    }
+
+    #[test]
+    fn audit_daily_renders_evidence_collection_status() {
+        let days = sample_audit_days();
+        let report_zh = build_audit_daily_report_with_evidence_status(
+            &days,
+            1,
+            14,
+            Language::ZhCn,
+            Some(&DeliveryStatus::Succeeded),
+        );
+        assert!(report_zh.contains("- 证据采集状态: 成功"));
+
+        let report_en = build_audit_daily_report_with_evidence_status(
+            &days,
+            1,
+            14,
+            Language::EnUs,
+            Some(&DeliveryStatus::Failed {
+                reason: "missing key".to_string(),
+            }),
+        );
+        assert!(report_en.contains("- Evidence collection status: failed (missing key)"));
+
+        let report_ja = build_audit_daily_report_with_evidence_status(
+            &days,
+            1,
+            14,
+            Language::JaJp,
+            Some(&DeliveryStatus::Skipped),
+        );
+        assert!(report_ja.contains("- 証拠収集状態: スキップ"));
+    }
+
+    #[test]
     fn persists_normal_runs_and_skips_diagnostic_only_runs() {
         assert!(should_persist_decision_history(3, 0));
         assert!(should_persist_decision_history(3, 2));
@@ -2293,6 +2448,11 @@ mod tests {
     #[tokio::test]
     async fn partial_fetch_failure_preserves_history_and_real_market_state() {
         let tmp = tempdir().unwrap();
+        fs::write(
+            tmp.path().join(super::EVIDENCE_COLLECTION_STATUS_FILE),
+            r#"{"status":"succeeded","reason":null}"#,
+        )
+        .unwrap();
         let config = mock_config(tmp.path());
         let provider: Arc<dyn MarketDataProvider> = Arc::new(PartialSuccessProvider);
 
@@ -2383,6 +2543,10 @@ mod tests {
 
         let run_status: serde_json::Value =
             serde_json::from_str(&std::fs::read_to_string(run_status_path).unwrap()).unwrap();
+        assert_eq!(
+            run_status["evidence_collection"],
+            serde_json::Value::String("succeeded".to_string())
+        );
         assert_ne!(
             run_status["state_machine"]["to_state"],
             serde_json::Value::String("DATA_UNAVAILABLE".to_string())

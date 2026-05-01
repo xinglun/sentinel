@@ -62,6 +62,7 @@ data branch
 │   ├── portfolio_snapshot_YYYY-MM-DD.json
 │   ├── account_snapshot_YYYY-MM-DD.json
 │   ├── run_status_YYYY-MM-DD.json
+│   ├── evidence_collection_status_latest.json
 │   ├── decision_history.jsonl
 │   ├── evidence_records.jsonl
 │   ├── state_transitions.csv
@@ -92,7 +93,7 @@ data branch
 
 5. `run_status_YYYY-MM-DD.json`
    - 当日の実行状態（ヘルス）のスナップショット。
-   - `decisioning / archival / notification / execution` を記録。
+   - `decisioning / evidence_collection / archival / notification / execution` を記録。
 
 ### 追記型ファイル (Append-only files)
 
@@ -127,6 +128,11 @@ data branch
    - ワークフローの鮮度（freshness gate）補助ファイル。
    - コア研究資産ではありません。
 
+2. `evidence_collection_status_latest.json`
+   - `daily_radar.yml` の前段で実行した証拠収集ジョブの最新状態。
+   - `succeeded / failed / skipped` のみを記録し、失敗しても radar 本体の実行は止めません。
+   - 取引判断ではなく、`run_status` と `audit_daily` の監査情報としてのみ使用します。
+
 ## 6. レガシーファイル (Legacy Files)
 
 以下のファイルは旧命名体系に属しており、今後生成されるべきではありません：
@@ -153,7 +159,8 @@ data branch
 8. `reports/account_snapshot_YYYY-MM-DD.json`
 9. `reports/data_quality_log.jsonl`
 10. `reports/run_status_YYYY-MM-DD.json`
-11. `reports/telemetry.csv`
+11. `reports/evidence_collection_status_latest.json`
+12. `reports/telemetry.csv`
 
 `reports/evidence_records.jsonl` は実体的証拠がない日には空であることが正当なため、存在確認のみを行い、非空は強制しません。
 
