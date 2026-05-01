@@ -22,12 +22,17 @@
 - Continued breakout: None
 - Removed breakout: None
 
-4. Streak Metrics
+4. Substantive Evidence
+- [GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)
+- [GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)
+- [GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)
+
+5. Streak Metrics
 - Current NO TRADE streak: 2 days
 - Current missing-mainline streak: 2 days
 - Recent NO TRADE segment type: Continuous segment
 - Methodology: streaks are calculated by log continuity (weekends auto-bridged)
 
-5. Audit One-liner
+6. Audit One-liner
 - NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; NO TRADE tier: Scout (signal unverified); today's breakout: GOOG (new); mainline status: Not formed.
-- Trend Recognition Quality: Early Leader; Diffusion Score 0.45; Lag State Leading formed / Lagging
+- Trend Recognition Quality: Early Leader; Diffusion Score 0.45; Conviction Score 0.45; Lag State Leading formed / Lagging

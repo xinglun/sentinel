@@ -497,6 +497,8 @@ impl PresentationAssembler {
         });
         let trend_recognition_diffusion_score =
             log.trend_recognition.as_ref().map(|tr| tr.diffusion_score);
+        let trend_recognition_conviction_score =
+            log.trend_recognition.as_ref().map(|tr| tr.conviction_score);
         let trend_recognition_lag_state = log.trend_recognition.as_ref().and_then(|tr| {
             if tr.lag_state {
                 Some(dict.trend_recognition.lag_alert.clone())
@@ -511,6 +513,60 @@ impl PresentationAssembler {
                 tr.single_asset_decay_max.max(1)
             )
         });
+        let mut substantive_signals = Vec::new();
+        let mut substantive_details = Vec::new();
+        if let Some(sub) = log
+            .trend_recognition
+            .as_ref()
+            .and_then(|tr| tr.substantive.as_ref())
+        {
+            if sub.capex_payoff_signal {
+                substantive_signals.push(dict.trend_recognition.capex_payoff.clone());
+            }
+            if sub.earnings_validation {
+                substantive_signals.push(dict.trend_recognition.earnings_validation.clone());
+            }
+            if sub.order_visibility {
+                substantive_signals.push(dict.trend_recognition.order_visibility.clone());
+            }
+
+            for record in &sub.records {
+                let source_label = match record.source {
+                    crate::core::trend_cohesion::EvidenceSourceType::Manual => {
+                        &dict.trend_recognition.source_manual
+                    }
+                    crate::core::trend_cohesion::EvidenceSourceType::OfficialIR => {
+                        &dict.trend_recognition.source_official_ir
+                    }
+                    crate::core::trend_cohesion::EvidenceSourceType::NewsMedia => {
+                        &dict.trend_recognition.source_news_media
+                    }
+                    crate::core::trend_cohesion::EvidenceSourceType::PriceAction => {
+                        &dict.trend_recognition.source_price_action
+                    }
+                };
+                let symbol_part = record
+                    .symbol
+                    .as_ref()
+                    .map(|s| format!("[{}] ", s))
+                    .unwrap_or_default();
+                let url_part = record
+                    .source_url
+                    .as_ref()
+                    .map(|u| format!(" ({})", u))
+                    .unwrap_or_default();
+                substantive_details.push(format!(
+                    "{} {}[{}] [{:?}] {} (Conf: {:.1}){}",
+                    source_label,
+                    symbol_part,
+                    record.event_date,
+                    record.evidence_type,
+                    record.description,
+                    record.confidence,
+                    url_part
+                ));
+            }
+        }
 
         Some(StateTransitionViewModel {
             has_significant_change: log.market_state.changed
@@ -519,7 +575,8 @@ impl PresentationAssembler {
                 || log.trend_cohesion_gate.unmet_conditions_changed
                 || log.trend_cohesion_status.changed
                 || log.trend_cohesion_topology.changed
-                || has_structural_breakout_change,
+                || has_structural_breakout_change
+                || !substantive_signals.is_empty(),
             no_trade_persists: log.no_trade_persists,
             market_state_change: if log.market_state.changed {
                 Some(format!(
@@ -576,8 +633,11 @@ impl PresentationAssembler {
             scout_reset,
             trend_recognition_state,
             trend_recognition_diffusion_score,
+            trend_recognition_conviction_score,
             trend_recognition_lag_state,
             trend_recognition_single_asset_decay,
+            substantive_signals,
+            substantive_details,
         })
     }
 

@@ -1,13 +1,13 @@
 use super::models::{ActionStatus, LifecycleState, StateTransition};
-use crate::config::ParsedMarketStateEngineConfig;
+use crate::config::ParsedMarketStateEngineRules;
 use crate::core::features::MarketFeatures;
 
 pub struct StateTransitionManager {
-    config: ParsedMarketStateEngineConfig,
+    config: ParsedMarketStateEngineRules,
 }
 
 impl StateTransitionManager {
-    pub fn new(config: ParsedMarketStateEngineConfig) -> Self {
+    pub fn new(config: ParsedMarketStateEngineRules) -> Self {
         Self { config }
     }
 

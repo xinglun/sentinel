@@ -1,6 +1,6 @@
 use super::models::{BreakoutChange, BreakoutStatus, MarketStateOutput};
 use super::transition::StateTransitionManager;
-use crate::config::ParsedMarketStateEngineConfig;
+use crate::config::ParsedMarketStateEngineRules;
 use crate::core::decision::DecisionPacket;
 use crate::core::features::MarketFeatures;
 
@@ -8,7 +8,7 @@ pub struct DecisionEngine;
 
 impl DecisionEngine {
     pub fn process(
-        config: &ParsedMarketStateEngineConfig,
+        config: &ParsedMarketStateEngineRules,
         features: &MarketFeatures,
         has_mainline: bool,
         current_breakouts: &[String],

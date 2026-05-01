@@ -15,10 +15,16 @@ use crate::core::ledger::Ledger;
 use crate::core::persistence::PersistenceLayer;
 use crate::core::transition_log::TransitionLogger;
 
+use crate::core::evidence_ingestion::{
+    EvidenceExtractor, FinnhubFetcher, FixtureFetcher, RuleBasedExtractor, SECEDGARFetcher,
+    SourceFetcher, WebFetcher,
+};
+use crate::core::evidence_store::EvidenceStore;
 use crate::core::i18n::Language;
 use crate::core::notify;
 use crate::core::presentation_assembler::PresentationAssembler;
 use crate::core::report;
+use crate::core::trend_cohesion::{AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType};
 use crate::data::provider::MarketDataProvider;
 
 use crate::adapters::futu::client::FutuClient;
@@ -44,6 +50,19 @@ pub async fn run() -> Result<()> {
         _ => ProviderType::Yahoo,
     };
 
+    let mut evidence_symbol: Option<String> = None;
+    let mut evidence_symbols: Vec<String> = Vec::new();
+    let mut evidence_type_str: String = "capex".to_string();
+    let mut evidence_confidence: f64 = 1.0;
+    let mut evidence_description: String = "Manual ingestion via CLI".to_string();
+    let mut evidence_url: Option<String> = None;
+    let mut evidence_date_arg: Option<String> = None;
+    let mut evidence_source_type_str: String = "official".to_string();
+    let mut evidence_dry_run: bool = false;
+    let mut evidence_days: usize = 3;
+    let mut evidence_source_provider: String = "finnhub".to_string();
+    let mut evidence_arg_error: Option<String> = None;
+
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -52,6 +71,9 @@ pub async fn run() -> Result<()> {
             "radar" => command = "radar",
             "review" => command = "review",
             "audit_daily" | "transition_audit_summary" => command = "audit_daily",
+            "ingest-evidence" => command = "ingest-evidence",
+            "ingest-evidence-url" => command = "ingest-evidence-url",
+            "collect-evidence" => command = "collect-evidence",
             "--provider" if i + 1 < args.len() => {
                 let p = args[i + 1].to_lowercase();
                 if p == "futu" {
@@ -61,27 +83,83 @@ pub async fn run() -> Result<()> {
                 }
                 i += 1;
             }
+            "--symbol" if i + 1 < args.len() => {
+                evidence_symbol = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--symbols" if i + 1 < args.len() => {
+                evidence_symbols = args[i + 1]
+                    .split(',')
+                    .map(|s| s.trim().to_string())
+                    .collect();
+                i += 1;
+            }
+            "--type" if i + 1 < args.len() => {
+                evidence_type_str = args[i + 1].clone();
+                i += 1;
+            }
+            "--confidence" => {
+                if i + 1 >= args.len() || args[i + 1].starts_with("--") {
+                    evidence_arg_error = Some("Missing value for --confidence".to_string());
+                } else {
+                    match args[i + 1].parse::<f64>() {
+                        Ok(value) => evidence_confidence = value,
+                        Err(_) => {
+                            evidence_arg_error =
+                                Some(format!("Invalid confidence value: {}", args[i + 1]));
+                        }
+                    }
+                    i += 1;
+                }
+            }
+            "--desc" if i + 1 < args.len() => {
+                evidence_description = args[i + 1].clone();
+                i += 1;
+            }
+            "--url" if i + 1 < args.len() => {
+                evidence_url = Some(args[i + 1].clone());
+                i += 1;
+            }
             "--date" => {
                 if i + 1 >= args.len() || args[i + 1].starts_with("--") {
                     audit_arg_error = Some(audit_error_missing_date(audit_language).to_string());
+                    evidence_arg_error = Some("Missing value for --date".to_string());
                 } else {
                     audit_date_arg = Some(args[i + 1].clone());
+                    evidence_date_arg = Some(args[i + 1].clone());
                     i += 1;
                 }
             }
             "--days" => {
                 if i + 1 >= args.len() || args[i + 1].starts_with("--") {
                     audit_arg_error = Some(audit_error_missing_days(audit_language).to_string());
+                    evidence_arg_error = Some("Missing value for --days".to_string());
                 } else {
                     match args[i + 1].parse::<usize>() {
-                        Ok(days) if days > 0 => audit_days = days,
+                        Ok(days) if days > 0 => {
+                            audit_days = days;
+                            evidence_days = days;
+                        }
                         _ => {
                             audit_arg_error =
-                                Some(audit_error_invalid_days(audit_language).to_string())
+                                Some(audit_error_invalid_days(audit_language).to_string());
+                            evidence_arg_error =
+                                Some(format!("Invalid days value: {}", args[i + 1]));
                         }
                     }
                     i += 1;
                 }
+            }
+            "--source_type" if i + 1 < args.len() => {
+                evidence_source_type_str = args[i + 1].clone();
+                i += 1;
+            }
+            "--dry-run" => {
+                evidence_dry_run = true;
+            }
+            "--source" if i + 1 < args.len() => {
+                evidence_source_provider = args[i + 1].to_lowercase();
+                i += 1;
             }
             _ => {}
         }
@@ -142,20 +220,314 @@ pub async fn run() -> Result<()> {
                 audit_language,
             )?;
         }
+        "ingest-evidence" => {
+            if let Some(err) = evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
+            let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+            let store = EvidenceStore::new(&save_dir);
+            let _ = store.cleanup_old_records(retention_days);
+
+            // エビデンスタイプの検証
+            let et = match evidence_type_str.as_str() {
+                "capex" => EvidenceType::CapexPayoff,
+                "earnings" => EvidenceType::EarningsValidation,
+                "order" => EvidenceType::OrderVisibility,
+                "follow_through" => EvidenceType::FollowThrough,
+                _ => return Err(anyhow!("Invalid evidence type: {}", evidence_type_str)),
+            };
+
+            // 日付の検証と正規化
+            let final_date = if let Some(ref d) = evidence_date_arg {
+                if NaiveDate::parse_from_str(d, "%Y-%m-%d").is_err() {
+                    return Err(anyhow!("Invalid date format: {}. Use YYYY-MM-DD", d));
+                }
+                d.clone()
+            } else {
+                chrono::Local::now().format("%Y-%m-%d").to_string()
+            };
+
+            // 信頼度の検証
+            if !(0.0..=1.0).contains(&evidence_confidence) {
+                return Err(anyhow!(
+                    "Confidence must be between 0.0 and 1.0. Got: {}",
+                    evidence_confidence
+                ));
+            }
+
+            let record = AutomatedEvidenceRecord {
+                source: EvidenceSourceType::Manual,
+                evidence_type: et,
+                confidence: evidence_confidence,
+                description: evidence_description,
+                event_date: final_date.clone(),
+                symbol: evidence_symbol.clone(),
+                source_url: evidence_url,
+                dedupe_key: format!(
+                    "CLI:Manual:{}:{}:{}",
+                    evidence_symbol.as_deref().unwrap_or("GLOBAL"),
+                    evidence_type_str,
+                    final_date
+                ),
+            };
+
+            let count = store.save_records(&[record])?;
+            if count > 0 {
+                println!("Successfully ingested {} evidence record.", count);
+            } else {
+                println!("Evidence record already exists (deduplicated).");
+            }
+        }
+        "ingest-evidence-url" => {
+            if let Some(err) = evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            let symbol = evidence_symbol.ok_or_else(|| anyhow!("--symbol is required"))?;
+            let url = evidence_url.ok_or_else(|| anyhow!("--url is required"))?;
+
+            let st = match evidence_source_type_str.as_str() {
+                "official" => EvidenceSourceType::OfficialIR,
+                "news" => EvidenceSourceType::NewsMedia,
+                _ => {
+                    return Err(anyhow!(
+                        "Invalid source type: {}. Use 'official' or 'news'",
+                        evidence_source_type_str
+                    ))
+                }
+            };
+
+            // Fetcher の動的選択
+            let fetcher: Box<dyn SourceFetcher> = if url == "finnhub" {
+                let api_key = app_config.finnhub.as_ref()
+                    .map(|f| f.finnhub_api_key.clone())
+                    .ok_or_else(|| anyhow!("Finnhub API key is not configured. Set FINNHUB_API_KEY env or config.toml"))?;
+                Box::new(FinnhubFetcher::new(api_key))
+            } else if url.starts_with("sec://") {
+                let user_agent = app_config.sec.as_ref()
+                    .map(|s| s.user_agent.clone())
+                    .ok_or_else(|| anyhow!("SEC user_agent is not configured. Set SEC_USER_AGENT env or config.toml"))?;
+                Box::new(SECEDGARFetcher::new(user_agent))
+            } else if url.starts_with("http://") || url.starts_with("https://") {
+                Box::new(WebFetcher)
+            } else {
+                Box::new(FixtureFetcher::new("."))
+            };
+
+            let doc = fetcher
+                .fetch(&url, &symbol, st, evidence_days)
+                .await
+                .context("Failed to fetch source document")?;
+
+            let extractor = RuleBasedExtractor::new();
+            let records = extractor.extract(&doc);
+
+            if evidence_dry_run {
+                println!("--- Dry Run: Extracted Evidence ---");
+                println!("Source: {}", url);
+                println!("Symbol: {}", symbol);
+                if records.is_empty() {
+                    println!("No evidence found.");
+                }
+                for (i, r) in records.iter().enumerate() {
+                    println!(
+                        "[{}] Type: {:?}, Confidence: {:.2}, Date: {}",
+                        i + 1,
+                        r.evidence_type,
+                        r.confidence,
+                        r.event_date
+                    );
+                    println!("    Desc: {}", r.description);
+                    if let Some(ref url) = r.source_url {
+                        println!("    URL:  {}", url);
+                    }
+                }
+                return Ok(());
+            }
+
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
+            let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+            let store = EvidenceStore::new(&save_dir);
+            let _ = store.cleanup_old_records(retention_days);
+
+            // Dedupe key の生成と保存
+            let mut records_to_save = records;
+            for r in records_to_save.iter_mut() {
+                r.dedupe_key = format!(
+                    "AUTO:{:?}:{:?}:{}:{}:{}",
+                    r.source,
+                    r.evidence_type,
+                    r.symbol.as_deref().unwrap_or("GLOBAL"),
+                    r.event_date,
+                    r.source_url.as_deref().unwrap_or("NO_URL")
+                );
+            }
+
+            let count = store.save_records(&records_to_save)?;
+            if count > 0 {
+                println!(
+                    "Successfully ingested {} automated evidence records.",
+                    count
+                );
+            } else {
+                println!("Evidence record already exists (deduplicated).");
+            }
+        }
+        "collect-evidence" => {
+            if let Some(err) = evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            if evidence_symbols.is_empty() {
+                return Err(anyhow!("--symbols is required (comma separated)"));
+            }
+
+            println!("--- Batch Evidence Collection ---");
+            println!("Symbols: {:?}", evidence_symbols);
+            println!("Window:  {} days", evidence_days);
+
+            let api_key_opt = app_config
+                .finnhub
+                .as_ref()
+                .map(|f| f.finnhub_api_key.clone());
+
+            let fetcher: Box<dyn SourceFetcher> = if evidence_source_provider == "sec" {
+                let user_agent = app_config.sec.as_ref()
+                    .map(|s| s.user_agent.clone())
+                    .ok_or_else(|| anyhow!("SEC user_agent is not configured. Set SEC_USER_AGENT env or config.toml"))?;
+                Box::new(SECEDGARFetcher::new(user_agent))
+            } else {
+                match api_key_opt {
+                    Some(key) => Box::new(FinnhubFetcher::new(key)),
+                    None if evidence_dry_run => {
+                        println!("  [INFO] Finnhub API key not found. Falling back to Fixture mode for dry-run.");
+                        Box::new(FixtureFetcher::new("."))
+                    }
+                    None => {
+                        return Err(anyhow!(
+                        "Finnhub API key is not configured. Set FINNHUB_API_KEY env or config.toml"
+                    ))
+                    }
+                }
+            };
+
+            let extractor = RuleBasedExtractor::new();
+            let mut all_extracted_records = Vec::new();
+            let mut success_count = 0;
+            let mut failure_count = 0;
+
+            for symbol in &evidence_symbols {
+                println!("Fetching for {}...", symbol);
+                // Dry-run で Key がない場合は symbol 自身をファイル名として FixtureFetcher に探させる
+                let fetch_url = if app_config.finnhub.is_none() && evidence_dry_run {
+                    symbol
+                } else {
+                    "finnhub"
+                };
+
+                match fetcher
+                    .fetch(
+                        fetch_url,
+                        symbol,
+                        if evidence_source_provider == "sec" {
+                            EvidenceSourceType::OfficialIR
+                        } else {
+                            EvidenceSourceType::NewsMedia
+                        },
+                        evidence_days,
+                    )
+                    .await
+                {
+                    Ok(doc) => {
+                        let records = extractor.extract(&doc);
+                        println!("  -> Extracted {} records", records.len());
+                        all_extracted_records.extend(records);
+                        success_count += 1;
+                    }
+                    Err(e) => {
+                        eprintln!("  [ERROR] Failed to fetch for {}: {}", symbol, e);
+                        failure_count += 1;
+                    }
+                }
+            }
+
+            println!("\n--- Batch Collection Summary ---");
+            println!("Processed: {} symbols", evidence_symbols.len());
+            println!("Success:   {} symbols", success_count);
+            println!("Failure:   {} symbols", failure_count);
+
+            if evidence_dry_run {
+                println!("\n--- Dry Run: Extracted Evidence Summary ---");
+                if all_extracted_records.is_empty() {
+                    println!("No evidence found in batch.");
+                }
+                for (i, r) in all_extracted_records.iter().enumerate() {
+                    let date_str = r.event_date.as_str();
+                    println!(
+                        "[{}] {}: {:?} ({:.2}) | Date: {}",
+                        i + 1,
+                        r.symbol.as_deref().unwrap_or("GLOBAL"),
+                        r.evidence_type,
+                        r.confidence,
+                        date_str
+                    );
+                    println!("    Desc: {}", r.description);
+                    if let Some(ref url) = r.source_url {
+                        println!("    URL:  {}", url);
+                    }
+                }
+                return Ok(());
+            }
+
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
+            let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+            let store = EvidenceStore::new(&save_dir);
+            let _ = store.cleanup_old_records(retention_days);
+
+            for r in all_extracted_records.iter_mut() {
+                r.dedupe_key = format!(
+                    "AUTO:{:?}:{:?}:{}:{}:{}",
+                    r.source,
+                    r.evidence_type,
+                    r.symbol.as_deref().unwrap_or("GLOBAL"),
+                    r.event_date,
+                    r.source_url.as_deref().unwrap_or("NO_URL")
+                );
+            }
+
+            let count = store.save_records(&all_extracted_records)?;
+            println!(
+                "\nSuccessfully ingested {} batch evidence records to store.",
+                count
+            );
+        }
         _ => {
+            let is_trading_enabled = app_config
+                .trading
+                .as_ref()
+                .map(|t| t.enabled)
+                .unwrap_or(false);
+            let mode = if is_trading_enabled {
+                crate::core::runtime_mode::ExecutionMode::Live
+            } else {
+                crate::core::runtime_mode::ExecutionMode::DryRun
+            };
             let futu_addr = if let Some(futu_cfg) = &app_config.futu {
                 format!("{}:{}", futu_cfg.opend_ip, futu_cfg.opend_port)
             } else {
                 "127.0.0.1:11111".to_string()
             };
             let provider = get_provider(provider_type, &futu_addr).await;
-            run_pipeline(
-                app_config,
-                provider_type,
-                provider,
-                crate::core::runtime_mode::ExecutionMode::Disabled,
-            )
-            .await?;
+            run_pipeline(app_config, provider_type, provider, mode).await?;
         }
     }
     Ok(())
@@ -215,7 +587,10 @@ async fn run_pipeline(
 
     let persistence = PersistenceLayer::new(&save_dir);
     let transition_logger = TransitionLogger::new(&save_dir);
+    let evidence_store = EvidenceStore::new(&save_dir);
+
     let history = persistence.load_recent_packets(20).unwrap_or_default();
+    let all_evidence = evidence_store.load_all().unwrap_or_default();
     let prev_packet = history.last();
 
     let mut ticker_histories = Vec::new();
@@ -254,7 +629,13 @@ async fn run_pipeline(
         let should_persist_history =
             should_persist_decision_history(ticker_histories.len(), failed_symbols.len());
         let packet = if !ticker_histories.is_empty() {
-            match Engine::run_daily_pipeline(&ticker_histories, &rules_arc, &history, &positions) {
+            match Engine::run_daily_pipeline(
+                &ticker_histories,
+                &rules_arc,
+                &history,
+                &all_evidence,
+                &positions,
+            ) {
                 Ok(p) => {
                     outcome.decisioning = crate::core::run_status::DeliveryStatus::Succeeded;
                     p
@@ -281,6 +662,13 @@ async fn run_pipeline(
                 ..Default::default()
             }
         };
+
+        // Persist any newly generated evidence (FollowThrough, etc.)
+        if let Some(ref recognition) = packet.trend_recognition {
+            if let Some(ref substantive) = recognition.substantive {
+                let _ = evidence_store.save_records(&substantive.records);
+            }
+        }
 
         // 1. Semantic Assembly (Facts -> Presentation Model)
         let lang = config_arc
@@ -779,6 +1167,62 @@ fn build_audit_daily_report(
     };
     let breakout_text = summarize_breakout_sentence(&breakout_today, language);
     let mainline_text = trend_status_label(today_latest.log.trend_cohesion_status.to, language);
+
+    let substantive_summaries = {
+        let mut summaries = Vec::new();
+        let mut seen_keys = std::collections::HashSet::new();
+        for event in &today.events {
+            if let Some(ref rec) = event.log.trend_recognition {
+                if let Some(ref substantive) = rec.substantive {
+                    for record in &substantive.records {
+                        let key = if record.dedupe_key.is_empty() {
+                            format!(
+                                "{:?}:{:?}:{:?}:{}:{}:{}",
+                                record.source,
+                                record.evidence_type,
+                                record.symbol,
+                                record.event_date,
+                                record.source_url.as_deref().unwrap_or("NO_URL"),
+                                record.description
+                            )
+                        } else {
+                            record.dedupe_key.clone()
+                        };
+                        if seen_keys.insert(key) {
+                            let symbol_part = record
+                                .symbol
+                                .as_ref()
+                                .map(|s| format!("[{}] ", s))
+                                .unwrap_or_default();
+                            let date_part = format!("[{}] ", record.event_date);
+                            let type_part = format!("[{:?}] ", record.evidence_type);
+                            let conf_part = format!("(conf:{:.2}) ", record.confidence);
+                            let source_part = format!("[{:?}] ", record.source);
+
+                            let url_part = record
+                                .source_url
+                                .as_ref()
+                                .map(|u| format!(" ({})", u))
+                                .unwrap_or_default();
+
+                            summaries.push(format!(
+                                "- {}{}{}{}{}{}{}",
+                                symbol_part,
+                                date_part,
+                                type_part,
+                                conf_part,
+                                source_part,
+                                record.description,
+                                url_part
+                            ));
+                        }
+                    }
+                }
+            }
+        }
+        summaries
+    };
+
     let audit_sentence = build_audit_sentence(
         language,
         gate_status,
@@ -862,7 +1306,16 @@ fn build_audit_daily_report(
         format_symbols(&breakout_today.removed_symbols, language)
     ));
 
-    out.push_str(&format!("\n4. {}\n", text.section_streaks));
+    out.push_str(&format!("\n4. {}\n", text.section_substantive));
+    if substantive_summaries.is_empty() {
+        out.push_str(&format!("- {}\n", text.none));
+    } else {
+        for summary in substantive_summaries {
+            out.push_str(&format!("{}\n", summary));
+        }
+    }
+
+    out.push_str(&format!("\n5. {}\n", text.section_streaks));
     out.push_str(&format!(
         "- {}: {} {}\n",
         text.label_no_trade_streak, no_trade_streak, text.day_unit
@@ -877,7 +1330,7 @@ fn build_audit_daily_report(
     ));
     out.push_str(&format!("- {}\n", text.methodology_note));
 
-    out.push_str(&format!("\n5. {}\n", text.section_one_liner));
+    out.push_str(&format!("\n6. {}\n", text.section_one_liner));
     out.push_str(&format!("- {}\n", audit_sentence));
 
     if let Some(evidence) = &today_latest.log.trend_recognition {
@@ -902,6 +1355,7 @@ fn build_audit_daily_report(
             .template_trend_recognition
             .replace("{state}", state_label)
             .replace("{score}", &format!("{:.2}", evidence.diffusion_score))
+            .replace("{conviction}", &format!("{:.2}", evidence.conviction_score))
             .replace("{lag_state}", lag_label);
 
         out.push_str(&format!("{}\n", formatted));
@@ -916,6 +1370,7 @@ struct AuditDailyText {
     section_transition: &'static str,
     section_breakout: &'static str,
     section_streaks: &'static str,
+    section_substantive: &'static str,
     section_one_liner: &'static str,
     label_status: &'static str,
     label_duration: &'static str,
@@ -956,6 +1411,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_transition: "Transition 摘要",
             section_breakout: "Breakout 摘要",
             section_streaks: "连续段统计",
+            section_substantive: "实体证据摘要",
             section_one_liner: "审计一句话",
             label_status: "状态",
             label_duration: "持续天数",
@@ -985,7 +1441,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "侦察态（有信号未验证）",
             mode_ready: "READY（可执行）",
             day_unit: "天",
-            template_trend_recognition: "- 趋势识别质量: {state}; 扩散评分 {score}; 滞后状态 {lag_state}",
+            template_trend_recognition: "- 趋势识别质量: {state}; 扩散评分 {score}; 确信度 {conviction}; 滞后状态 {lag_state}",
         },
         Language::EnUs => AuditDailyText {
             title: "Audit Daily",
@@ -993,6 +1449,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_transition: "Transition Summary",
             section_breakout: "Breakout Summary",
             section_streaks: "Streak Metrics",
+            section_substantive: "Substantive Evidence",
             section_one_liner: "Audit One-liner",
             label_status: "Status",
             label_duration: "Duration",
@@ -1023,7 +1480,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "Scout (signal unverified)",
             mode_ready: "READY (executable)",
             day_unit: "days",
-            template_trend_recognition: "- Trend Recognition Quality: {state}; Diffusion Score {score}; Lag State {lag_state}",
+            template_trend_recognition: "- Trend Recognition Quality: {state}; Diffusion Score {score}; Conviction Score {conviction}; Lag State {lag_state}",
         },
         Language::JaJp => AuditDailyText {
             title: "Audit Daily",
@@ -1031,6 +1488,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_transition: "Transition サマリー",
             section_breakout: "Breakout サマリー",
             section_streaks: "連続区間統計",
+            section_substantive: "実体的な証拠サマリー",
             section_one_liner: "監査ワンライン要約",
             label_status: "状態",
             label_duration: "継続日数",
@@ -1060,7 +1518,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "偵察（シグナル未検証）",
             mode_ready: "READY（実行可）",
             day_unit: "日",
-            template_trend_recognition: "- トレンド認識品質: {state}; 拡散スコア {score}; 遅行状態 {lag_state}",
+            template_trend_recognition: "- トレンド認識品質: {state}; 拡散スコア {score}; 確信度 {conviction}; 遅行状態 {lag_state}",
         },
     }
 }
@@ -1584,8 +2042,10 @@ mod tests {
                     enable: true,
                     trade_enabled: Some(false),
                     trade_amount: None,
+                    event_tags: None,
                 })
                 .collect(),
+            sec: None,
         }
     }
 
@@ -1665,7 +2125,43 @@ mod tests {
                     "diffusion_score": 0.45,
                     "lag_state": true,
                     "single_asset_decay_day": 1,
-                    "single_asset_decay_max": 2
+                    "single_asset_decay_max": 2,
+                    "conviction_score": 0.45,
+                    "substantive": {
+                        "capex_payoff_signal": false,
+                        "earnings_validation": false,
+                        "order_visibility": false,
+                        "event_days_since": 0,
+                        "records": [
+                            {
+                                "source": "OfficialIR",
+                                "evidence_type": "EarningsValidation",
+                                "confidence": 0.95,
+                                "description": "Earnings beat expectations by 15%",
+                                "event_date": "2026-04-22",
+                                "symbol": "GOOG",
+                                "source_url": "https://example.com/ir/goog"
+                            },
+                            {
+                                "source": "NewsMedia",
+                                "evidence_type": "CapexPayoff",
+                                "confidence": 0.80,
+                                "description": "Cloud division shows strong ROI",
+                                "event_date": "2026-04-21",
+                                "symbol": "GOOG",
+                                "source_url": "https://news.example.com/goog-cloud"
+                            },
+                            {
+                                "source": "OfficialIR",
+                                "evidence_type": "EarningsValidation",
+                                "confidence": 0.90,
+                                "description": "Earnings beat expectations by 15%",
+                                "event_date": "2026-04-21",
+                                "symbol": "GOOG",
+                                "source_url": "https://example.com/ir/goog-followup"
+                            }
+                        ]
+                    }
                 }
             }))
             .unwrap(),
@@ -2018,8 +2514,9 @@ mod tests {
         assert!(report.contains("1. Gate 摘要"));
         assert!(report.contains("2. Transition 摘要"));
         assert!(report.contains("3. Breakout 摘要"));
-        assert!(report.contains("4. 连续段统计"));
-        assert!(report.contains("5. 审计一句话"));
+        assert!(report.contains("4. 实体证据摘要"));
+        assert!(report.contains("5. 连续段统计"));
+        assert!(report.contains("6. 审计一句话"));
         assert!(report.contains("口径: 连续段按日志连续计算（周末自动衔接）"));
         assert!(report.contains("NO TRADE 连续第 2 天；主因："));
         assert!(report.contains("；今日 breakout：GOOG（新增）；主线状态：未形成。"));
@@ -2058,8 +2555,9 @@ mod tests {
         assert!(report.contains("1. Gate Summary"));
         assert!(report.contains("2. Transition Summary"));
         assert!(report.contains("3. Breakout Summary"));
-        assert!(report.contains("4. Streak Metrics"));
-        assert!(report.contains("5. Audit One-liner"));
+        assert!(report.contains("4. Substantive Evidence"));
+        assert!(report.contains("5. Streak Metrics"));
+        assert!(report.contains("6. Audit One-liner"));
         assert!(report.contains("Methodology: streaks are calculated by log continuity"));
         assert!(report.contains("NO TRADE day 1 in a row; primary blockers:"));
         assert!(report.contains("today's breakout: GOOG (new); mainline status: Not formed."));
@@ -2098,8 +2596,9 @@ mod tests {
         assert!(report.contains("1. Gate サマリー"));
         assert!(report.contains("2. Transition サマリー"));
         assert!(report.contains("3. Breakout サマリー"));
-        assert!(report.contains("4. 連続区間統計"));
-        assert!(report.contains("5. 監査ワンライン要約"));
+        assert!(report.contains("4. 実体的な証拠サマリー"));
+        assert!(report.contains("5. 連続区間統計"));
+        assert!(report.contains("6. 監査ワンライン要約"));
         assert!(report.contains("口径: 連続区間はログ連続で計算（週末は自動連結）"));
         assert!(report.contains("NO TRADE 連続 1 日目；主因："));
         assert!(report.contains("本日の breakout：GOOG（新規）；主線状態：未形成。"));
@@ -2126,19 +2625,31 @@ mod tests {
     #[test]
     fn audit_daily_contract_contains_one_liner_and_methodology_lines() {
         let report_zh = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::ZhCn);
-        assert!(report_zh.contains("5. 审计一句话"));
+        assert!(report_zh.contains("4. 实体证据摘要"));
+        assert!(report_zh.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
+        assert!(report_zh.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
+        assert!(report_zh.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
+        assert!(report_zh.contains("6. 审计一句话"));
         assert!(report_zh.contains("NO TRADE 连续第 2 天；主因："));
         assert!(report_zh.contains("口径: 连续段按日志连续计算（周末自动衔接）"));
 
         let report_en = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::EnUs);
-        assert!(report_en.contains("5. Audit One-liner"));
+        assert!(report_en.contains("4. Substantive Evidence"));
+        assert!(report_en.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
+        assert!(report_en.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
+        assert!(report_en.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
+        assert!(report_en.contains("6. Audit One-liner"));
         assert!(report_en.contains("NO TRADE day 2 in a row; primary blockers:"));
         assert!(report_en.contains(
             "Methodology: streaks are calculated by log continuity (weekends auto-bridged)"
         ));
 
         let report_ja = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::JaJp);
-        assert!(report_ja.contains("5. 監査ワンライン要約"));
+        assert!(report_ja.contains("4. 実体的な証拠サマリー"));
+        assert!(report_ja.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
+        assert!(report_ja.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
+        assert!(report_ja.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
+        assert!(report_ja.contains("6. 監査ワンライン要約"));
         assert!(report_ja.contains("NO TRADE 連続 2 日目；主因："));
         assert!(report_ja.contains("口径: 連続区間はログ連続で計算（週末は自動連結）"));
     }

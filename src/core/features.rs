@@ -28,6 +28,7 @@ pub struct AssetFeatures {
     pub trend_age: usize,
     pub deviation_percentile: Option<f64>,
     pub weight: f64,
+    pub event_signals: Vec<String>,
 }
 
 impl Default for AssetFeatures {
@@ -46,6 +47,7 @@ impl Default for AssetFeatures {
             trend_age: 0,
             deviation_percentile: None,
             weight: 1.0,
+            event_signals: Vec::new(),
         }
     }
 }
@@ -337,6 +339,7 @@ impl AssetFeatures {
             trend_age,
             deviation_percentile,
             weight: entry.weight.unwrap_or(1.0),
+            event_signals: entry.event_tags.clone().unwrap_or_default(),
         }
     }
 }
@@ -574,6 +577,7 @@ mod tests {
             trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
             breakout: crate::config::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
+            sec: None,
         }
     }
 

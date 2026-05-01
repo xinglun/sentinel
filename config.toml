@@ -23,6 +23,30 @@ market = 2                 # 市场编号，1=HK，2=US，3=SH，4=SZ
 enabled = false            # 自动交易总开关，默认关闭
 global_budget = 100000.0   # 自动交易全局预算上限
 
+# --- Phase 6: Evidence Ingestion (本格稼働対応) ---
+
+[sec]
+# SEC EDGAR 访问配置
+# 必须遵循 "Company Name <email@example.com>" 格式以符合 SEC 访问政策。
+# 建议通过环境变量 SEC_USER_AGENT 提供以保持隐私。
+user_agent = "Ray Sentinel <xing_lun@hotmail.com>"
+
+[finnhub]
+# Finnhub 访问配置
+# 建议通过环境变量 FINNHUB_API_KEY 提供。
+finnhub_api_key = "d6gp00hr01qg85gvhl00d6gp00hr01qg85gvhl0g"
+
+[rules.market_state_engine]
+# 证据摄取与计算规则
+# 证据的时间衰减半衰期或线性衰减参数（天）
+evidence_decay_days = 5
+evidence_retention_days = 3650
+# 证据对确信度得分的基础贡献权重（按类型）
+# 格式：type = weight (0.0 - 5.0)
+capex_payoff_weight = 2.0
+earnings_validation_weight = 1.5
+order_visibility_weight = 1.0
+
 [rules.trend]
 lookback_days = 20         # 趋势识别回看天数
 flat_threshold_pct = 0.5   # 平盘阈值，[-0.5%, +0.5%] 视为平盘
@@ -67,12 +91,6 @@ severe_compactness_threshold = 45.0     # 候选紧凑度低于该值时，视�
 severe_rotation_threshold = 35.0        # 轮动质量低于该值时，视为严重无序切换
 severe_leadership_threshold = 45.0      # 领涨质量低于该值时，视为缺乏领导者
 severe_cohesion_threshold = 45.0        # cohesion 总分低于该值时，直接偏向 NotFormed
-gate_stability_threshold = 10.0         # 主线 Gate 的稳定性硬门槛
-gate_continuity_threshold = 3           # 主线 Gate 的连续性硬门槛
-directional_max_candidates = 4          # 主导方向收敛时允许的最大候选数量
-directional_leadership_threshold = 60.0 # 主导方向收敛所需的最小领涨质量
-directional_rotation_threshold = 45.0   # 主导方向收敛所需的最小轮动质量
-directional_compactness_threshold = 60.0 # 主导方向收敛所需的最小候选紧凑度
 topology_single_max_candidates = 3      # 识别“单主线”时允许的最大候选数量
 topology_single_min_compactness = 65.0  # 识别“单主线”时要求的最小候选紧凑度
 topology_single_min_rotation = 30.0     # 识别“单主线”时要求的最小轮动质量

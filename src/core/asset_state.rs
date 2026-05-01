@@ -479,6 +479,7 @@ mod tests {
             trend_age,
             deviation_percentile: None,
             weight: 1.0,
+            event_signals: Vec::new(),
         }
     }
 
@@ -503,6 +504,7 @@ mod tests {
             trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
             breakout: crate::config::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
+            sec: None,
         };
 
         let f = mock_asset_features("AAPL", 2, 0.0, 0.0);
@@ -531,6 +533,7 @@ mod tests {
             trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
             breakout: crate::config::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
+            sec: None,
         };
 
         let f = mock_asset_features("AAPL", 10, 0.5, 6.0);

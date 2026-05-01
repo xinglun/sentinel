@@ -172,9 +172,15 @@ pub struct StateTransitionViewModel {
     #[serde(default)]
     pub trend_recognition_diffusion_score: Option<f64>,
     #[serde(default)]
+    pub trend_recognition_conviction_score: Option<f64>,
+    #[serde(default)]
     pub trend_recognition_lag_state: Option<String>,
     #[serde(default)]
     pub trend_recognition_single_asset_decay: Option<String>,
+    #[serde(default)]
+    pub substantive_signals: Vec<String>,
+    #[serde(default)]
+    pub substantive_details: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

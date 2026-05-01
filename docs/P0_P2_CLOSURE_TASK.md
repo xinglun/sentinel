@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Moomoo OpenAPI 統合完了 (P0-P2)
+description: OpenAPI 堅牢化フェーズの最終タスクリストおよび完了記録。
+key: moomoo-p0-p2-closure
 ---
 
 # Sentinel: Moomoo OpenAPI 統合完了 (P0-P2)

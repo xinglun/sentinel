@@ -22,12 +22,17 @@
 - 延续 breakout: 无
 - 消失 breakout: 无
 
-4. 连续段统计
+4. 实体证据摘要
+- [GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)
+- [GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)
+- [GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)
+
+5. 连续段统计
 - 当前 NO TRADE 连续段长度: 2 天
 - 当前主线缺失连续段长度: 2 天
 - 最近一段 NO TRADE 形态: 连续段
 - 口径: 连续段按日志连续计算（周末自动衔接）
 
-5. 审计一句话
+6. 审计一句话
 - NO TRADE 连续第 2 天；主因：连续性不足 / 稳定性不足 / 无主线；NO TRADE 分层：侦察态（有信号未验证）；今日 breakout：GOOG（新增）；主线状态：未形成。
-- 趋势识别质量: 初步领涨; 扩散评分 0.45; 滞后状态 先行成立・追随迟缓
+- 趋势识别质量: 初步领涨; 扩散评分 0.45; 确信度 0.45; 滞后状态 先行成立・追随迟缓
