@@ -85,7 +85,7 @@ impl EvidenceStore {
             .collect())
     }
 
-    /// 古いレコード（デフォルト30日以上）をクリーンアップする。
+    /// 指定された保持期間を超えた古いレコードをクリーンアップする。
     pub fn cleanup_old_records(&self, max_age_days: i64) -> Result<usize> {
         if !self.path.exists() {
             return Ok(0);

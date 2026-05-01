@@ -121,7 +121,7 @@ impl TransitionAuditRecord {
 
 impl StateTransitionLog {
     pub fn compare(prev: Option<&DecisionPacket>, curr: &DecisionPacket) -> Self {
-        let defaults = crate::config::ParsedMarketStateEngineConfig::default();
+        let defaults = crate::config::ParsedMarketStateEngineRules::default();
         Self::compare_with_abort_days(prev, curr, defaults.scout_abort_days)
     }
 

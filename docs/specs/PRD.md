@@ -42,7 +42,7 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 2. **指標計算**: 日々の `owner_ma`、`leash_ma`、および `deviation`（乖離率）を計算します。さらに、Z-Score や、MA斜率・曲率などの物理パラメータを計算します。
 3. **トレンド判定 (Trend)**: 当日とN日前（例：20日前）の飼い主MAの値を比較し、Up / Down / Flatを判定します。
 4. **状態推論 (State Machine)**: `deviation` がどの範囲に収まるかを判定し、物理パラメータの収束度合いから「置信度 (Confidence)」を算出し、最終アクション（Action）と `reason_code` を生成します。
-5. **トレンド認識補強 (Trend Recognition Enforcement)**: 価格アクションの拡散状況と、実体的な証拠（Substantive Evidence）を統合してトレンド段階を識別します。実体証拠に基づく確信度（Conviction Score）は、イベント発生後の経過日数に応じて線形減衰（T+1〜T+5）を適用し、織り込み済み効果を排除します。
+5. **トレンド認識補強 (Trend Recognition Enforcement)**: 価格アクションの拡散状況と、実体的な証拠（Substantive Evidence）を統合してトレンド段階を識別します。実体証拠に基づく確信度（Conviction Score）は、T+1 を 100%、T+2〜T+5 を日次 20% 減衰、T+6 以降を 10% の長期記憶として扱い、短期の織り込み済み効果と長期の構造的裏付けを分離します。
 
 ### 2.3 出力：多角的な表示とプッシュ通知
 1. **テキスト形式 Markdown レポート**: 絵文字やテーブルレイアウトを使用したレポートを生成します（`./reports` に保存）。

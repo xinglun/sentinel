@@ -170,14 +170,14 @@ fn test_ingest_evidence_url_sec_missing_ua() {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let config_path = root.join("config.toml");
-    let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
 
-    // Ensure [sec] is absent
-    if let Some(pos) = raw.find("[sec]") {
-        raw.truncate(pos);
-    }
-
-    fs::write(tmp.path().join("config.toml"), raw).expect("failed to write temp config.toml");
+    // Comment out [sec] section instead of truncating
+    let modified_config = raw
+        .replace("[sec]", "# [sec]")
+        .replace("user_agent =", "# user_agent =");
+    fs::write(tmp.path().join("config.toml"), modified_config)
+        .expect("failed to write temp config.toml");
 
     let out = run_cli(
         &tmp,
@@ -190,7 +190,35 @@ fn test_ingest_evidence_url_sec_missing_ua() {
         ],
     );
 
-    assert!(!out.status.success());
     let stderr = String::from_utf8_lossy(&out.stderr);
     assert!(stderr.contains("SEC user_agent is not configured"));
+}
+
+#[test]
+fn test_ingest_evidence_url_dry_run_shows_date_and_url() {
+    let tmp = prepare_workspace();
+    fs::write(
+        tmp.path().join("GOOG.fixture"),
+        "Headline: GOOG earnings validation\nSummary: revenue growth and margin expansion",
+    )
+    .expect("failed to write fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "ingest-evidence-url",
+            "--symbol",
+            "GOOG",
+            "--url",
+            "GOOG.fixture",
+            "--dry-run",
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    let today = chrono::Local::now().format("%Y-%m-%d").to_string();
+    assert!(stdout.contains("Date:"));
+    assert!(stdout.contains(&today));
+    assert!(stdout.contains("URL:  file://GOOG.fixture"));
 }

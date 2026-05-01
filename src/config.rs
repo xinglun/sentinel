@@ -71,7 +71,8 @@ pub struct FutuConfig {
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct FinnhubConfig {
-    pub api_key: String,
+    #[serde(alias = "api_key")]
+    pub finnhub_api_key: String,
 }
 
 #[allow(dead_code)]
@@ -164,6 +165,12 @@ pub struct MarketStateEngineConfig {
     pub stability_threshold: Option<f64>,
     pub min_followers_threshold: Option<usize>,
     pub scout_abort_days: Option<usize>,
+    // Phase 6: 証拠レイヤー設定
+    pub evidence_decay_days: Option<u32>,
+    pub evidence_retention_days: Option<u32>,
+    pub capex_payoff_weight: Option<f64>,
+    pub earnings_validation_weight: Option<f64>,
+    pub order_visibility_weight: Option<f64>,
 }
 
 #[derive(Debug, Deserialize, Clone, Default)]
@@ -201,8 +208,8 @@ pub struct ParsedRules {
     pub core_assets: Vec<String>,
     pub inertia: ParsedInertia,
     pub trend_cohesion: ParsedTrendCohesionRules,
+    pub market_state_engine: ParsedMarketStateEngineRules,
     pub breakout: ParsedBreakoutRules,
-    pub market_state_engine: ParsedMarketStateEngineConfig,
     pub sec: Option<SecConfig>,
 }
 
@@ -216,20 +223,31 @@ pub struct ParsedInertia {
 }
 
 #[derive(Debug, Clone)]
-pub struct ParsedMarketStateEngineConfig {
+pub struct ParsedMarketStateEngineRules {
     pub continuity_threshold: usize,
     pub stability_threshold: f64,
     pub min_followers_threshold: usize,
     pub scout_abort_days: usize,
+    // Phase 6: 証拠レイヤーの計算ルール
+    pub evidence_decay_days: u32,
+    pub evidence_retention_days: u32,
+    pub capex_payoff_weight: f64,
+    pub earnings_validation_weight: f64,
+    pub order_visibility_weight: f64,
 }
 
-impl Default for ParsedMarketStateEngineConfig {
+impl Default for ParsedMarketStateEngineRules {
     fn default() -> Self {
         Self {
             continuity_threshold: 2,
             stability_threshold: 5.5,
             min_followers_threshold: 1,
             scout_abort_days: 3,
+            evidence_decay_days: 5,
+            evidence_retention_days: 3650,
+            capex_payoff_weight: 2.0,
+            earnings_validation_weight: 1.5,
+            order_visibility_weight: 1.0,
         }
     }
 }
@@ -329,15 +347,29 @@ impl AppConfig {
                     "SEC User-Agent is empty. Required format: 'Company Name <email@example.com>'"
                 ));
             }
-            // 厳格な形式チェック: 'Company Name <email@example.com>' 形式を強制する
-            // 1. スペースが含まれている（会社名がある）
-            // 2. '<' と '>' で囲まれたメールアドレスが含まれている
             let ua = &sec.user_agent;
-            let has_space = ua.contains(' ');
-            let has_brackets = ua.contains('<') && ua.ends_with('>');
-            let has_at = ua.contains('@');
+            let open = ua.find('<');
+            let close = ua.rfind('>');
+            let strict_format = if let (Some(open), Some(close)) = (open, close) {
+                let company = ua[..open].trim();
+                let email = ua[open + 1..close].trim();
+                let mut parts = email.split('@');
+                let local = parts.next().unwrap_or_default();
+                let domain = parts.next().unwrap_or_default();
 
-            if !has_space || !has_brackets || !has_at {
+                close == ua.len() - 1
+                    && company.contains(' ')
+                    && !company.is_empty()
+                    && !local.is_empty()
+                    && !domain.is_empty()
+                    && domain.contains('.')
+                    && parts.next().is_none()
+                    && !email.contains(['<', '>', ' '])
+            } else {
+                false
+            };
+
+            if !strict_format {
                 return Err(anyhow!(
                     "SEC User-Agent format invalid: '{}'. Expected 'Company Name <email@example.com>'",
                     sec.user_agent
@@ -392,10 +424,12 @@ impl AppConfig {
 
         // Environment variable overrides for Finnhub
         if let Ok(key) = std::env::var("FINNHUB_API_KEY") {
-            if let Some(ref mut fh) = config.finnhub {
-                fh.api_key = key;
+            if let Some(finnhub) = &mut config.finnhub {
+                finnhub.finnhub_api_key = key;
             } else {
-                config.finnhub = Some(FinnhubConfig { api_key: key });
+                config.finnhub = Some(FinnhubConfig {
+                    finnhub_api_key: key,
+                });
             }
         }
 
@@ -582,21 +616,36 @@ impl AppConfig {
                 }
             },
             market_state_engine: {
-                let ms = self.rules.market_state_engine.as_ref();
-                let defaults = ParsedMarketStateEngineConfig::default();
-                ParsedMarketStateEngineConfig {
-                    continuity_threshold: ms
-                        .and_then(|c| c.continuity_threshold)
+                let m = self.rules.market_state_engine.as_ref();
+                let defaults = ParsedMarketStateEngineRules::default();
+                ParsedMarketStateEngineRules {
+                    continuity_threshold: m
+                        .and_then(|x| x.continuity_threshold)
                         .unwrap_or(defaults.continuity_threshold),
-                    stability_threshold: ms
-                        .and_then(|c| c.stability_threshold)
+                    stability_threshold: m
+                        .and_then(|x| x.stability_threshold)
                         .unwrap_or(defaults.stability_threshold),
-                    min_followers_threshold: ms
-                        .and_then(|c| c.min_followers_threshold)
+                    min_followers_threshold: m
+                        .and_then(|x| x.min_followers_threshold)
                         .unwrap_or(defaults.min_followers_threshold),
-                    scout_abort_days: ms
-                        .and_then(|c| c.scout_abort_days)
+                    scout_abort_days: m
+                        .and_then(|x| x.scout_abort_days)
                         .unwrap_or(defaults.scout_abort_days),
+                    evidence_decay_days: m
+                        .and_then(|x| x.evidence_decay_days)
+                        .unwrap_or(defaults.evidence_decay_days),
+                    evidence_retention_days: m
+                        .and_then(|x| x.evidence_retention_days)
+                        .unwrap_or(defaults.evidence_retention_days),
+                    capex_payoff_weight: m
+                        .and_then(|x| x.capex_payoff_weight)
+                        .unwrap_or(defaults.capex_payoff_weight),
+                    earnings_validation_weight: m
+                        .and_then(|x| x.earnings_validation_weight)
+                        .unwrap_or(defaults.earnings_validation_weight),
+                    order_visibility_weight: m
+                        .and_then(|x| x.order_visibility_weight)
+                        .unwrap_or(defaults.order_visibility_weight),
                 }
             },
             sec: self.sec.clone(),
@@ -708,6 +757,9 @@ mod tests {
         assert_eq!(rules.trend_cohesion.directional_max_candidates, 5);
         assert_eq!(rules.trend_cohesion.cohesive_score_threshold, 75.0);
         assert_eq!(rules.market_state_engine.scout_abort_days, 5);
+        assert_eq!(rules.market_state_engine.evidence_decay_days, 5);
+        assert_eq!(rules.market_state_engine.evidence_retention_days, 3650);
+        assert_eq!(rules.market_state_engine.order_visibility_weight, 1.0);
 
         assert_eq!(rules.breakout.confirmed_zscore_threshold, 1.5);
         assert_eq!(rules.breakout.failed_breakout_display_threshold, 70.0);
@@ -787,6 +839,18 @@ mod tests {
         // Invalid: no @
         config.sec = Some(SecConfig {
             user_agent: "Sample Company <admin>".to_string(),
+        });
+        assert!(config.validate().is_err());
+
+        // Invalid: email must be fully inside brackets
+        config.sec = Some(SecConfig {
+            user_agent: "Sample Company <admin>@example.com>".to_string(),
+        });
+        assert!(config.validate().is_err());
+
+        // Invalid: domain must look like an email domain
+        config.sec = Some(SecConfig {
+            user_agent: "Sample Company <admin@example>".to_string(),
         });
         assert!(config.validate().is_err());
     }

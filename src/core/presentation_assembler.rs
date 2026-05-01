@@ -556,8 +556,14 @@ impl PresentationAssembler {
                     .map(|u| format!(" ({})", u))
                     .unwrap_or_default();
                 substantive_details.push(format!(
-                    "{} {}{} (Conf: {:.1}){}",
-                    source_label, symbol_part, record.description, record.confidence, url_part
+                    "{} {}[{}] [{:?}] {} (Conf: {:.1}){}",
+                    source_label,
+                    symbol_part,
+                    record.event_date,
+                    record.evidence_type,
+                    record.description,
+                    record.confidence,
+                    url_part
                 ));
             }
         }

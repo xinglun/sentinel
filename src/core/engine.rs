@@ -324,10 +324,11 @@ impl Engine {
         let mut min_days = usize::MAX;
 
         // 1. 歴史的な証拠レコードの読み込み
+        let evidence_retention_days = rules.market_state_engine.evidence_retention_days as i64;
         for rec in evidence_history {
             if let Ok(rec_date) = chrono::NaiveDate::parse_from_str(&rec.event_date, "%Y-%m-%d") {
                 let days_ago = (current_date - rec_date).num_days();
-                if (0..=30).contains(&days_ago) {
+                if (0..=evidence_retention_days).contains(&days_ago) {
                     substantive.records.push(rec.clone());
                     if (days_ago as usize) < min_days {
                         min_days = days_ago as usize;
@@ -470,6 +471,7 @@ impl Engine {
                 None
             },
             current_date,
+            &rules.market_state_engine,
         );
 
         packet.trend_recognition = Some(evidence.clone());

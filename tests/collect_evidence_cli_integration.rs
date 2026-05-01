@@ -65,9 +65,14 @@ fn test_collect_evidence_dry_run_fallback_no_key() {
     let config_path = root.join("config.toml");
     let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
 
-    // Remove finnhub section to simulate missing key
-    if let Some(pos) = raw.find("[finnhub]") {
-        raw.truncate(pos);
+    // Remove finnhub section to simulate missing key (robustly)
+    if let Some(start) = raw.find("[finnhub]") {
+        let rest = &raw[start..];
+        if let Some(next_section) = rest[1..].find("[") {
+            raw.replace_range(start..start + next_section + 1, "");
+        } else {
+            raw.truncate(start);
+        }
     }
 
     // Ensure save_to points to the temp dir
@@ -105,10 +110,16 @@ fn test_collect_evidence_sec_missing_ua() {
     let config_path = root.join("config.toml");
     let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
 
-    // Ensure [sec] is absent
-    if let Some(pos) = raw.find("[sec]") {
-        raw.truncate(pos);
+    // Remove sec section and UA to simulate missing UA (robustly)
+    if let Some(start) = raw.find("[sec]") {
+        let rest = &raw[start..];
+        if let Some(next_section) = rest[1..].find("[") {
+            raw.replace_range(start..start + next_section + 1, "");
+        } else {
+            raw.truncate(start);
+        }
     }
+    raw = raw.replace("SEC_USER_AGENT", "LEGACY_UA");
 
     fs::write(tmp.path().join("config.toml"), raw).expect("failed to write temp config.toml");
 

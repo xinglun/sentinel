@@ -83,21 +83,17 @@ impl SubstantiveEvidence {
             .any(|r| r.evidence_type == EvidenceType::OrderVisibility);
     }
 
-    /// 特定のタイプの証拠の最大信頼度を取得する。
-    pub fn max_confidence(&self, evidence_type: EvidenceType) -> f64 {
-        self.records
-            .iter()
-            .filter(|r| r.evidence_type == evidence_type)
-            .map(|r| r.confidence)
-            .fold(0.0, f64::max)
-    }
-
     /// 各レコードを独立して減衰させ、合計確信度を計算する。
-    pub fn calculate_conviction_score(&self, current_date: chrono::NaiveDate) -> f64 {
-        let capex_weight = 2.0;
-        let earnings_weight = 1.5;
-        let order_weight = 1.0;
+    pub fn calculate_conviction_score(
+        &self,
+        current_date: chrono::NaiveDate,
+        rules: &crate::config::ParsedMarketStateEngineRules,
+    ) -> f64 {
+        let capex_weight = rules.capex_payoff_weight;
+        let earnings_weight = rules.earnings_validation_weight;
+        let order_weight = rules.order_visibility_weight;
         let follow_through_weight = 1.2;
+        let decay_days = rules.evidence_decay_days.max(2) as f64;
 
         let mut total_score = 0.0;
 
@@ -123,14 +119,18 @@ impl SubstantiveEvidence {
                         chrono::NaiveDate::parse_from_str(&r.event_date, "%Y-%m-%d")
                     {
                         let days_ago = (current_date - rec_date).num_days();
+                        // Phase 5-A 減衰モデル:
+                        // T+1: 100% (1.0)
+                        // T+2..T+5: 日次 20% 減衰 (0.8, 0.6, 0.4, 0.2)
+                        // T+6+: 10% (0.1) 固定 (長期記憶)
                         let multiplier = if days_ago <= 1 {
                             1.0
-                        } else if days_ago <= 5 {
-                            1.0 - (days_ago - 1) as f64 * 0.2
-                        } else if days_ago <= 30 {
-                            0.1
+                        } else if (days_ago as f64) <= decay_days {
+                            // デフォルトの T+5 では T+2 -> 0.8, T+5 -> 0.2。
+                            let progress = (days_ago as f64 - 1.0) / (decay_days - 1.0);
+                            1.0 - progress * 0.8
                         } else {
-                            0.0
+                            0.1
                         };
                         r.confidence * multiplier
                     } else {
@@ -148,21 +148,21 @@ impl SubstantiveEvidence {
                 1.0
             } else if self.event_days_since <= 5 {
                 1.0 - (self.event_days_since - 1) as f64 * 0.2
-            } else if self.event_days_since <= 30 {
-                0.1
             } else {
-                0.0
+                0.1
             };
 
+            let mut legacy_score = 0.0;
             if self.capex_payoff_signal {
-                total_score += capex_weight * multiplier;
+                legacy_score += capex_weight;
             }
             if self.earnings_validation {
-                total_score += earnings_weight * multiplier;
+                legacy_score += earnings_weight;
             }
             if self.order_visibility {
-                total_score += order_weight * multiplier;
+                legacy_score += order_weight;
             }
+            total_score = legacy_score * multiplier;
         }
 
         total_score
@@ -189,13 +189,14 @@ impl TrendRecognitionEvidence {
         scout_abort_days: usize,
         substantive: Option<SubstantiveEvidence>,
         current_date: chrono::NaiveDate,
+        rules: &crate::config::ParsedMarketStateEngineRules,
     ) -> Self {
         let active_count = confirmed_count + emerging_count;
         let base_diffusion_score = (confirmed_count as f64 * 1.0) + (emerging_count as f64 * 0.5);
 
         // 実体的な証拠に基づく確信度の計算
         let conviction_score = if let Some(ref s) = substantive {
-            s.calculate_conviction_score(current_date)
+            s.calculate_conviction_score(current_date, rules)
         } else {
             0.0
         };
@@ -457,6 +458,17 @@ mod tests {
         ParsedTrendCohesionRules::default()
     }
 
+    fn default_rules() -> crate::config::ParsedMarketStateEngineRules {
+        crate::config::ParsedMarketStateEngineRules {
+            capex_payoff_weight: 2.0,
+            earnings_validation_weight: 1.5,
+            order_visibility_weight: 1.0,
+            evidence_decay_days: 5,
+            evidence_retention_days: 3650,
+            ..Default::default()
+        }
+    }
+
     fn mock_packet(symbols: Vec<&str>) -> DecisionPacket {
         DecisionPacket {
             top_tier_symbols: symbols.into_iter().map(|s| s.to_string()).collect(),
@@ -652,18 +664,19 @@ mod tests {
     #[test]
     fn test_diffusion_score_sensitivity() {
         let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
+        let rules = default_rules();
         // 0:0 -> 0.0
-        let ev0 = TrendRecognitionEvidence::compute(0, 0, 0, 3, None, today);
+        let ev0 = TrendRecognitionEvidence::compute(0, 0, 0, 3, None, today, &rules);
         assert_eq!(ev0.diffusion_score, 0.0);
         assert_eq!(ev0.state, TrendContinuationState::None);
 
         // 0:1 (Emerging only) -> 0.5
-        let ev1 = TrendRecognitionEvidence::compute(0, 1, 0, 3, None, today);
+        let ev1 = TrendRecognitionEvidence::compute(0, 1, 0, 3, None, today, &rules);
         assert_eq!(ev1.diffusion_score, 0.5);
         assert_eq!(ev1.state, TrendContinuationState::EarlyLeader);
 
         // 1:0 (Confirmed only) -> 1.0
-        let ev2 = TrendRecognitionEvidence::compute(1, 0, 0, 3, None, today);
+        let ev2 = TrendRecognitionEvidence::compute(1, 0, 0, 3, None, today, &rules);
         assert_eq!(ev2.diffusion_score, 1.0);
         assert_eq!(
             ev2.state,
@@ -672,13 +685,13 @@ mod tests {
         assert!(ev2.lag_state);
 
         // 1:1 (Leader + Follower) -> 1.5
-        let ev3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
+        let ev3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today, &rules);
         assert_eq!(ev3.diffusion_score, 1.5);
         assert_eq!(ev3.state, TrendContinuationState::Broadening);
         assert!(!ev3.lag_state);
 
         // 2:0 (Two Confirmed) -> 2.0
-        let ev4 = TrendRecognitionEvidence::compute(2, 0, 0, 3, None, today);
+        let ev4 = TrendRecognitionEvidence::compute(2, 0, 0, 3, None, today, &rules);
         assert_eq!(ev4.diffusion_score, 2.0);
         assert_eq!(ev4.state, TrendContinuationState::Mature);
     }
@@ -686,32 +699,35 @@ mod tests {
     #[test]
     fn test_scout_transition() {
         let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
-        let day1 = TrendRecognitionEvidence::compute(0, 1, 1, 3, None, today);
+        let rules = default_rules();
+        let day1 = TrendRecognitionEvidence::compute(0, 1, 1, 3, None, today, &rules);
         assert_eq!(day1.state, TrendContinuationState::EarlyLeader);
 
-        let day2 = TrendRecognitionEvidence::compute(1, 0, 2, 3, None, today);
+        let day2 = TrendRecognitionEvidence::compute(1, 0, 2, 3, None, today, &rules);
         assert_eq!(
             day2.state,
             TrendContinuationState::LeaderConfirmedFollowersLagging
         );
 
-        let day3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
+        let day3 = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today, &rules);
         assert_eq!(day3.state, TrendContinuationState::Broadening);
     }
 
     #[test]
     fn test_evidence_equality() {
         let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
-        let ev_a = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
-        let ev_b = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today);
+        let rules = default_rules();
+        let ev_a = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today, &rules);
+        let ev_b = TrendRecognitionEvidence::compute(1, 1, 0, 3, None, today, &rules);
         assert_eq!(ev_a, ev_b);
 
-        let ev_c = TrendRecognitionEvidence::compute(2, 1, 0, 3, None, today);
+        let ev_c = TrendRecognitionEvidence::compute(2, 1, 0, 3, None, today, &rules);
         assert_ne!(ev_a, ev_c);
     }
 
     #[test]
     fn test_substantive_conviction_diffusion() {
+        let rules = default_rules();
         // AI Payoff (+2.0) + Earnings (+1.5) = +3.5
         let substantive = SubstantiveEvidence {
             records: vec![],
@@ -723,7 +739,7 @@ mod tests {
 
         let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
         // Leader confirmed (1.0) + Conviction (3.5) = 4.5
-        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today);
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today, &rules);
         assert_eq!(ev.conviction_score, 3.5);
         assert_eq!(ev.diffusion_score, 4.5);
         assert_eq!(
@@ -732,8 +748,15 @@ mod tests {
         );
 
         // Transition Forming -> Formed due to high conviction (1.5 + 3.5 = 5.0)
-        let ev_high =
-            TrendRecognitionEvidence::compute(1, 1, 0, 3, Some(ev.substantive.unwrap()), today);
+        let ev_high = TrendRecognitionEvidence::compute(
+            1,
+            1,
+            0,
+            3,
+            Some(ev.substantive.unwrap()),
+            today,
+            &rules,
+        );
         assert_eq!(ev_high.state, TrendContinuationState::Broadening);
         assert_eq!(ev_high.diffusion_score, 5.0);
     }
@@ -741,6 +764,7 @@ mod tests {
     #[test]
     fn test_automated_evidence_aggregation() {
         let today = NaiveDate::from_ymd_opt(2024, 5, 2).unwrap();
+        let rules = default_rules();
         let substantive = SubstantiveEvidence {
             records: vec![
                 AutomatedEvidenceRecord {
@@ -765,50 +789,52 @@ mod tests {
             ..Default::default()
         };
 
-        // Compute 時に Max Confidence が採用され、かつ独立減衰するか検証
-        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today);
-        // Capex (2.0 * 1.0) + Order (1.0 * 0.5) = 2.5
-        assert_eq!(ev.conviction_score, 2.5);
+        // Record A: 2024-05-01 (T+1), Record B: 2024-05-01 (T+1)
+        // Capex: 2.0 * 1.0 + Order: 1.0 * 0.5 = 2.5
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today, &rules);
+        assert!((ev.conviction_score - 2.5).abs() < 1e-10);
     }
 
     #[test]
     fn test_per_record_decay() {
-        let today = NaiveDate::from_ymd_opt(2024, 1, 10).unwrap();
+        let rules = default_rules();
+        let today = NaiveDate::from_ymd_opt(2024, 1, 31).unwrap();
 
-        // Record A: T+1 (100%), Record B: T+5 (20%)
-        let substantive = SubstantiveEvidence {
+        // Test tiered decay: T+1 (100%), T+5 (20%), T+6+ (10%)
+        let s = SubstantiveEvidence {
             records: vec![
                 AutomatedEvidenceRecord {
                     evidence_type: EvidenceType::CapexPayoff,
                     confidence: 1.0,
-                    event_date: "2024-01-09".to_string(),
+                    event_date: "2024-01-30".to_string(), // T+1 -> 1.0
                     ..Default::default()
                 },
                 AutomatedEvidenceRecord {
                     evidence_type: EvidenceType::EarningsValidation,
                     confidence: 1.0,
-                    event_date: "2024-01-05".to_string(),
+                    event_date: "2024-01-26".to_string(), // T+5 -> 0.2
                     ..Default::default()
                 },
             ],
             ..Default::default()
         };
 
-        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive), today);
-        // Capex: 2.0 * 1.0 + Earnings: 1.5 * 0.2 = 2.0 + 0.3 = 2.3
-        assert_eq!(ev.conviction_score, 2.3);
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(s), today, &rules);
+        // 2.0 * 1.0 + 1.5 * 0.2 = 2.0 + 0.3 = 2.3
+        assert!((ev.conviction_score - 2.3).abs() < 1e-10);
 
-        // Record C: T+31 (0%)
+        // Test long-term memory: T+31 -> 10%
         let s_old = SubstantiveEvidence {
             records: vec![AutomatedEvidenceRecord {
                 evidence_type: EvidenceType::CapexPayoff,
                 confidence: 1.0,
-                event_date: "2023-12-01".to_string(),
+                event_date: "2023-12-01".to_string(), // T+61 -> 0.1
                 ..Default::default()
             }],
             ..Default::default()
         };
-        let ev_old = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(s_old), today);
-        assert_eq!(ev_old.conviction_score, 0.0);
+        let ev_old = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(s_old), today, &rules);
+        // 2.0 * 1.0 * 0.1 = 0.2
+        assert!((ev_old.conviction_score - 0.2).abs() < 1e-10);
     }
 }

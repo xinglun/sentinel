@@ -225,9 +225,13 @@ pub async fn run() -> Result<()> {
                 return Err(anyhow!("{}", err));
             }
 
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
             let store = EvidenceStore::new(&save_dir);
-            let _ = store.cleanup_old_records(30);
+            let _ = store.cleanup_old_records(retention_days);
 
             // エビデンスタイプの検証
             let et = match evidence_type_str.as_str() {
@@ -300,7 +304,7 @@ pub async fn run() -> Result<()> {
             // Fetcher の動的選択
             let fetcher: Box<dyn SourceFetcher> = if url == "finnhub" {
                 let api_key = app_config.finnhub.as_ref()
-                    .map(|f| f.api_key.clone())
+                    .map(|f| f.finnhub_api_key.clone())
                     .ok_or_else(|| anyhow!("Finnhub API key is not configured. Set FINNHUB_API_KEY env or config.toml"))?;
                 Box::new(FinnhubFetcher::new(api_key))
             } else if url.starts_with("sec://") {
@@ -331,19 +335,27 @@ pub async fn run() -> Result<()> {
                 }
                 for (i, r) in records.iter().enumerate() {
                     println!(
-                        "[{}] Type: {:?}, Confidence: {:.2}",
+                        "[{}] Type: {:?}, Confidence: {:.2}, Date: {}",
                         i + 1,
                         r.evidence_type,
-                        r.confidence
+                        r.confidence,
+                        r.event_date
                     );
                     println!("    Desc: {}", r.description);
+                    if let Some(ref url) = r.source_url {
+                        println!("    URL:  {}", url);
+                    }
                 }
                 return Ok(());
             }
 
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
             let store = EvidenceStore::new(&save_dir);
-            let _ = store.cleanup_old_records(30);
+            let _ = store.cleanup_old_records(retention_days);
 
             // Dedupe key の生成と保存
             let mut records_to_save = records;
@@ -380,7 +392,10 @@ pub async fn run() -> Result<()> {
             println!("Symbols: {:?}", evidence_symbols);
             println!("Window:  {} days", evidence_days);
 
-            let api_key_opt = app_config.finnhub.as_ref().map(|f| f.api_key.clone());
+            let api_key_opt = app_config
+                .finnhub
+                .as_ref()
+                .map(|f| f.finnhub_api_key.clone());
 
             let fetcher: Box<dyn SourceFetcher> = if evidence_source_provider == "sec" {
                 let user_agent = app_config.sec.as_ref()
@@ -453,21 +468,30 @@ pub async fn run() -> Result<()> {
                     println!("No evidence found in batch.");
                 }
                 for (i, r) in all_extracted_records.iter().enumerate() {
+                    let date_str = r.event_date.as_str();
                     println!(
-                        "[{}] {}: {:?} ({:.2})",
+                        "[{}] {}: {:?} ({:.2}) | Date: {}",
                         i + 1,
                         r.symbol.as_deref().unwrap_or("GLOBAL"),
                         r.evidence_type,
-                        r.confidence
+                        r.confidence,
+                        date_str
                     );
                     println!("    Desc: {}", r.description);
+                    if let Some(ref url) = r.source_url {
+                        println!("    URL:  {}", url);
+                    }
                 }
                 return Ok(());
             }
 
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
             let store = EvidenceStore::new(&save_dir);
-            let _ = store.cleanup_old_records(30);
+            let _ = store.cleanup_old_records(retention_days);
 
             for r in all_extracted_records.iter_mut() {
                 r.dedupe_key = format!(
@@ -1151,24 +1175,45 @@ fn build_audit_daily_report(
             if let Some(ref rec) = event.log.trend_recognition {
                 if let Some(ref substantive) = rec.substantive {
                     for record in &substantive.records {
-                        let key = format!(
-                            "{:?}:{:?}:{:?}:{}",
-                            record.source, record.evidence_type, record.symbol, record.description
-                        );
+                        let key = if record.dedupe_key.is_empty() {
+                            format!(
+                                "{:?}:{:?}:{:?}:{}:{}:{}",
+                                record.source,
+                                record.evidence_type,
+                                record.symbol,
+                                record.event_date,
+                                record.source_url.as_deref().unwrap_or("NO_URL"),
+                                record.description
+                            )
+                        } else {
+                            record.dedupe_key.clone()
+                        };
                         if seen_keys.insert(key) {
                             let symbol_part = record
                                 .symbol
                                 .as_ref()
                                 .map(|s| format!("[{}] ", s))
                                 .unwrap_or_default();
+                            let date_part = format!("[{}] ", record.event_date);
+                            let type_part = format!("[{:?}] ", record.evidence_type);
+                            let conf_part = format!("(conf:{:.2}) ", record.confidence);
+                            let source_part = format!("[{:?}] ", record.source);
+
                             let url_part = record
                                 .source_url
                                 .as_ref()
                                 .map(|u| format!(" ({})", u))
                                 .unwrap_or_default();
+
                             summaries.push(format!(
-                                "- {}{}{}",
-                                symbol_part, record.description, url_part
+                                "- {}{}{}{}{}{}{}",
+                                symbol_part,
+                                date_part,
+                                type_part,
+                                conf_part,
+                                source_part,
+                                record.description,
+                                url_part
                             ));
                         }
                     }
@@ -2086,7 +2131,36 @@ mod tests {
                         "capex_payoff_signal": false,
                         "earnings_validation": false,
                         "order_visibility": false,
-                        "event_days_since": 0
+                        "event_days_since": 0,
+                        "records": [
+                            {
+                                "source": "OfficialIR",
+                                "evidence_type": "EarningsValidation",
+                                "confidence": 0.95,
+                                "description": "Earnings beat expectations by 15%",
+                                "event_date": "2026-04-22",
+                                "symbol": "GOOG",
+                                "source_url": "https://example.com/ir/goog"
+                            },
+                            {
+                                "source": "NewsMedia",
+                                "evidence_type": "CapexPayoff",
+                                "confidence": 0.80,
+                                "description": "Cloud division shows strong ROI",
+                                "event_date": "2026-04-21",
+                                "symbol": "GOOG",
+                                "source_url": "https://news.example.com/goog-cloud"
+                            },
+                            {
+                                "source": "OfficialIR",
+                                "evidence_type": "EarningsValidation",
+                                "confidence": 0.90,
+                                "description": "Earnings beat expectations by 15%",
+                                "event_date": "2026-04-21",
+                                "symbol": "GOOG",
+                                "source_url": "https://example.com/ir/goog-followup"
+                            }
+                        ]
                     }
                 }
             }))
@@ -2552,12 +2626,18 @@ mod tests {
     fn audit_daily_contract_contains_one_liner_and_methodology_lines() {
         let report_zh = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::ZhCn);
         assert!(report_zh.contains("4. 实体证据摘要"));
+        assert!(report_zh.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
+        assert!(report_zh.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
+        assert!(report_zh.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
         assert!(report_zh.contains("6. 审计一句话"));
         assert!(report_zh.contains("NO TRADE 连续第 2 天；主因："));
         assert!(report_zh.contains("口径: 连续段按日志连续计算（周末自动衔接）"));
 
         let report_en = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::EnUs);
         assert!(report_en.contains("4. Substantive Evidence"));
+        assert!(report_en.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
+        assert!(report_en.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
+        assert!(report_en.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
         assert!(report_en.contains("6. Audit One-liner"));
         assert!(report_en.contains("NO TRADE day 2 in a row; primary blockers:"));
         assert!(report_en.contains(
@@ -2566,6 +2646,9 @@ mod tests {
 
         let report_ja = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::JaJp);
         assert!(report_ja.contains("4. 実体的な証拠サマリー"));
+        assert!(report_ja.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
+        assert!(report_ja.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
+        assert!(report_ja.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
         assert!(report_ja.contains("6. 監査ワンライン要約"));
         assert!(report_ja.contains("NO TRADE 連続 2 日目；主因："));
         assert!(report_ja.contains("口径: 連続区間はログ連続で計算（週末は自動連結）"));

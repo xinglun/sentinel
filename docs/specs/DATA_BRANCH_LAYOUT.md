@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: データブランチのレイアウト標準
+description: data ブランチに保存する日次・週次成果物の配置、命名規則、検収基準を定義する。
+key: data-branch-layout
 ---
 
 # データブランチのレイアウト標準 (DATA_BRANCH_LAYOUT.md)
@@ -60,6 +63,7 @@ data branch
 │   ├── account_snapshot_YYYY-MM-DD.json
 │   ├── run_status_YYYY-MM-DD.json
 │   ├── decision_history.jsonl
+│   ├── evidence_records.jsonl
 │   ├── state_transitions.csv
 │   ├── state_transitions.jsonl
 │   ├── execution_gate_log.jsonl
@@ -95,22 +99,26 @@ data branch
 1. `decision_history.jsonl`
    - 意思決定履歴のタイムライン。
 
-2. `state_transitions.csv`
+2. `evidence_records.jsonl`
+   - 実体的証拠の構造化レコード。
+   - 手動注入、外部ソース抽出、価格フォロースルーなどを `dedupe_key` 付きで保持する。
+
+3. `state_transitions.csv`
    - 市場状態の遷移（テーブル版）。
 
-3. `state_transitions.jsonl`
+4. `state_transitions.jsonl`
    - 市場状態の遷移（構造化版）。
 
-4. `execution_gate_log.jsonl`
+5. `execution_gate_log.jsonl`
    - リスクコントロールゲートの通過/遮断の監査ログ。
 
-5. `data_quality_log.jsonl`
+6. `data_quality_log.jsonl`
    - データ取得品質のログ。
 
-6. `telemetry.csv`
+7. `telemetry.csv`
    - 研究レベルの時系列観測データ。
 
-7. `ledger.csv`
+8. `ledger.csv`
    - 取引帳簿。
 
 ### 補助ファイル (Auxiliary file)
@@ -146,6 +154,8 @@ data branch
 9. `reports/data_quality_log.jsonl`
 10. `reports/run_status_YYYY-MM-DD.json`
 11. `reports/telemetry.csv`
+
+`reports/evidence_records.jsonl` は実体的証拠がない日には空であることが正当なため、存在確認のみを行い、非空は強制しません。
 
 ## 8. 運用の注意点 (Operational Notes)
 

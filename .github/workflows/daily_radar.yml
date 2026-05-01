@@ -180,8 +180,12 @@ jobs:
               exit 1
             fi
           done
+
+          # Evidence records are append-only but can legitimately be empty
+          # on days with no extracted substantive evidence.
+          touch "reports/evidence_records.jsonl"
           
-          echo "✅ All 10 archival assets verified."
+          echo "✅ Required archival assets verified."
 
           
           # 2. Freshness Gate Logic

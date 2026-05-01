@@ -42,6 +42,8 @@ key: substantive-evidence
 - **T+2..T+5**: 日次 20% 減衰 (T+5 で 20% = `base_score * 0.2`)
 - **T+6+**: 10% (`base_score * 0.1`)。低ウェイトを維持し、長期的な記憶として証拠を保持する。
 
+保存期間は `rules.market_state_engine.evidence_retention_days` で制御する。既定値は 3650 日であり、T+6+ の長期記憶を実運用パイプラインでも維持する。
+
 ## 意思決定への影響
 
 - **非汚染原則**: 実体的な証拠は `Evidence Layer` にのみ影響し、`Decision Layer (Gate)` を反転（逆流）させない。

@@ -2163,7 +2163,10 @@ mod tests {
     fn test_trend_recognition_report_rendering_zh_cn() {
         use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
-        use crate::core::trend_cohesion::{TrendContinuationState, TrendRecognitionEvidence};
+        use crate::core::trend_cohesion::{
+            AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
+            TrendContinuationState, TrendRecognitionEvidence,
+        };
 
         let mut curr = DecisionPacket::default();
         curr.trend_recognition = Some(TrendRecognitionEvidence {
@@ -2173,7 +2176,20 @@ mod tests {
             lag_state: true,
             single_asset_decay_day: 3,
             single_asset_decay_max: 5,
-            substantive: None,
+            substantive: Some(SubstantiveEvidence {
+                records: vec![AutomatedEvidenceRecord {
+                    source: EvidenceSourceType::OfficialIR,
+                    evidence_type: EvidenceType::EarningsValidation,
+                    confidence: 0.95,
+                    description: "Earnings beat expectations by 15%".to_string(),
+                    event_date: "2026-04-22".to_string(),
+                    symbol: Some("GOOG".to_string()),
+                    source_url: Some("https://example.com/ir/goog".to_string()),
+                    dedupe_key: "test:goog:earnings:2026-04-22".to_string(),
+                }],
+                earnings_validation: true,
+                ..Default::default()
+            }),
         });
 
         curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
@@ -2196,10 +2212,15 @@ mod tests {
         assert!(md.contains("扩散度: 0.45"));
         assert!(md.contains("滞后预警: 先行成立・追随迟缓"));
         assert!(md.contains("单极突破衰减: 3/5"));
+        assert!(md.contains("[2026-04-22] [EarningsValidation]"));
+        assert!(md.contains("Earnings beat expectations by 15%"));
+        assert!(md.contains("https://example.com/ir/goog"));
 
         let html = report.telegram_html_body;
         assert!(html.contains("🎯 趋势特征识别"));
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
+        assert!(html.contains("[2026-04-22] [EarningsValidation]"));
+        assert!(html.contains("https://example.com/ir/goog"));
         // Verify that the transition evidence block is rendered even if it's just trend recognition
         assert!(md.contains("🔄 状态转移证据"));
     }
@@ -2243,6 +2264,68 @@ mod tests {
         assert!(md.contains("単独突破の連続日数: 0/5"));
         // Verify that the transition evidence block is rendered even if it's just trend recognition
         assert!(md.contains("🔄 状態遷移エビデンス"));
+    }
+
+    #[test]
+    fn test_trend_recognition_substantive_details_render_in_en_and_ja() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{
+            AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
+            TrendContinuationState, TrendRecognitionEvidence,
+        };
+
+        let mut curr = DecisionPacket::default();
+        curr.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::Broadening,
+            diffusion_score: 0.65,
+            conviction_score: 0.95,
+            lag_state: false,
+            single_asset_decay_day: 0,
+            single_asset_decay_max: 5,
+            substantive: Some(SubstantiveEvidence {
+                records: vec![AutomatedEvidenceRecord {
+                    source: EvidenceSourceType::OfficialIR,
+                    evidence_type: EvidenceType::EarningsValidation,
+                    confidence: 0.95,
+                    description: "Earnings beat expectations by 15%".to_string(),
+                    event_date: "2026-04-22".to_string(),
+                    symbol: Some("GOOG".to_string()),
+                    source_url: Some("https://example.com/ir/goog".to_string()),
+                    dedupe_key: "test:goog:earnings:2026-04-22".to_string(),
+                }],
+                earnings_validation: true,
+                ..Default::default()
+            }),
+        });
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        for language in [Language::EnUs, Language::JaJp] {
+            let config = mock_config_with_language(language);
+            let pres = PresentationAssembler::assemble(
+                &curr,
+                &config.get_parsed_rules(),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let report =
+                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+                    .unwrap();
+
+            assert!(report
+                .telegram_html_body
+                .contains("[2026-04-22] [EarningsValidation]"));
+            assert!(report
+                .telegram_html_body
+                .contains("Earnings beat expectations by 15%"));
+            assert!(report
+                .telegram_html_body
+                .contains("https://example.com/ir/goog"));
+            assert!(report
+                .archival_markdown
+                .contains("[2026-04-22] [EarningsValidation]"));
+        }
     }
 
     #[test]
