@@ -317,14 +317,42 @@ impl Engine {
 
         // 実体的な証拠（Substantive Evidence）の集計
         let mut substantive = crate::core::trend_cohesion::SubstantiveEvidence::default();
+        use crate::core::trend_cohesion::{
+            AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType,
+        };
+
         for d in &packet.assets {
             // アセット特徴量からイベントシグナルを確認
             if let Some(f) = asset_features.iter().find(|af| af.symbol == d.symbol) {
                 for signal in &f.event_signals {
                     match signal.as_str() {
-                        "capex_payoff:true" => substantive.capex_payoff_signal = true,
-                        "earnings_validation:true" => substantive.earnings_validation = true,
-                        "order_visibility:true" => substantive.order_visibility = true,
+                        "capex_payoff:true" => {
+                            substantive.records.push(AutomatedEvidenceRecord {
+                                source: EvidenceSourceType::Manual,
+                                evidence_type: EvidenceType::CapexPayoff,
+                                confidence: 1.0,
+                                description: "Manual annotation".to_string(),
+                                timestamp_days_ago: 0,
+                            });
+                        }
+                        "earnings_validation:true" => {
+                            substantive.records.push(AutomatedEvidenceRecord {
+                                source: EvidenceSourceType::Manual,
+                                evidence_type: EvidenceType::EarningsValidation,
+                                confidence: 1.0,
+                                description: "Manual annotation".to_string(),
+                                timestamp_days_ago: 0,
+                            });
+                        }
+                        "order_visibility:true" => {
+                            substantive.records.push(AutomatedEvidenceRecord {
+                                source: EvidenceSourceType::Manual,
+                                evidence_type: EvidenceType::OrderVisibility,
+                                confidence: 1.0,
+                                description: "Manual annotation".to_string(),
+                                timestamp_days_ago: 0,
+                            });
+                        }
                         _ => {
                             // イベント経過日数のパース（例: "event_days:3"）
                             if let Some(stripped) = signal.strip_prefix("event_days:") {
@@ -337,6 +365,17 @@ impl Engine {
                 }
             }
         }
+
+        // 経過日数を全レコードに反映（手動タグの場合）
+        let days = substantive.event_days_since;
+        for r in &mut substantive.records {
+            if r.source == EvidenceSourceType::Manual {
+                r.timestamp_days_ago = days;
+            }
+        }
+
+        // フラグの集計
+        substantive.aggregate();
 
         let evidence = crate::core::trend_cohesion::TrendRecognitionEvidence::compute(
             confirmed_count,

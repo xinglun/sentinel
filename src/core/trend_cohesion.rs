@@ -21,12 +21,73 @@ pub enum TrendContinuationState {
     Mature,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+pub enum EvidenceSourceType {
+    Manual,      // 手動アノテーション
+    OfficialIR,  // 決算速報・公式発表
+    NewsMedia,   // 主要ニュースメディア
+    PriceAction, // 価格追随（フォロースルー）
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+pub enum EvidenceType {
+    CapexPayoff,        // 投資回収の検証
+    EarningsValidation, // 業績の裏付け
+    OrderVisibility,    // 受注見通しの改善
+    FollowThrough,      // 突破後の価格継続性
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
+pub struct AutomatedEvidenceRecord {
+    pub source: EvidenceSourceType,
+    pub evidence_type: EvidenceType,
+    pub confidence: f64,           // 0.0 ~ 1.0 (ソースの信頼性)
+    pub description: String,       // 監査用
+    pub timestamp_days_ago: usize, // 経過日数
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
 pub struct SubstantiveEvidence {
-    pub capex_payoff_signal: bool, // AI 投資回収の検証
-    pub earnings_validation: bool, // 決算による裏付け
-    pub order_visibility: bool,    // 受注の見通し
-    pub event_days_since: usize,   // イベントからの経過日数
+    #[serde(default)]
+    pub records: Vec<AutomatedEvidenceRecord>,
+    // 以下のフィールドは後方互換性と高速アクセスのために維持（集計ロジックによって更新される）
+    pub capex_payoff_signal: bool,
+    pub earnings_validation: bool,
+    pub order_visibility: bool,
+    pub event_days_since: usize,
+}
+
+impl SubstantiveEvidence {
+    /// レコードを元にフラグとスコアを再計算する。
+    pub fn aggregate(&mut self) {
+        self.capex_payoff_signal = false;
+        self.earnings_validation = false;
+        self.order_visibility = false;
+        let mut min_days = usize::MAX;
+
+        for r in &self.records {
+            match r.evidence_type {
+                EvidenceType::CapexPayoff => self.capex_payoff_signal = true,
+                EvidenceType::EarningsValidation => self.earnings_validation = true,
+                EvidenceType::OrderVisibility => self.order_visibility = true,
+                EvidenceType::FollowThrough => {} // 今後の拡張用
+            }
+            if r.timestamp_days_ago < min_days {
+                min_days = r.timestamp_days_ago;
+            }
+        }
+
+        self.event_days_since = if min_days == usize::MAX { 0 } else { min_days };
+    }
+
+    /// 特定のタイプの証拠の最大信頼度を取得する。
+    pub fn max_confidence(&self, evidence_type: EvidenceType) -> f64 {
+        self.records
+            .iter()
+            .filter(|r| r.evidence_type == evidence_type)
+            .map(|r| r.confidence)
+            .fold(0.0, f64::max)
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
@@ -55,15 +116,30 @@ impl TrendRecognitionEvidence {
         // 実体的な証拠に基づく確信度の計算
         let mut conviction_score = 0.0;
         if let Some(ref s) = substantive {
-            if s.capex_payoff_signal {
-                conviction_score += 2.0;
+            // 各証拠タイプの重み付けと信頼度の積を加算
+            let capex_weight = 2.0;
+            let earnings_weight = 1.5;
+            let order_weight = 1.0;
+
+            if s.records.is_empty() {
+                // レコードがない場合は既存のフラグを1.0として扱う（後方互換性）
+                if s.capex_payoff_signal {
+                    conviction_score += capex_weight;
+                }
+                if s.earnings_validation {
+                    conviction_score += earnings_weight;
+                }
+                if s.order_visibility {
+                    conviction_score += order_weight;
+                }
+            } else {
+                // レコードがある場合は各タイプの最大信頼度を使用
+                conviction_score += capex_weight * s.max_confidence(EvidenceType::CapexPayoff);
+                conviction_score +=
+                    earnings_weight * s.max_confidence(EvidenceType::EarningsValidation);
+                conviction_score += order_weight * s.max_confidence(EvidenceType::OrderVisibility);
             }
-            if s.earnings_validation {
-                conviction_score += 1.5;
-            }
-            if s.order_visibility {
-                conviction_score += 1.0;
-            }
+
             // イベントからの経過日数による線形減衰 (T+1=100%, T+5=20%, T+6+=10%)
             let multiplier = if s.event_days_since <= 1 {
                 1.0
@@ -595,6 +671,7 @@ mod tests {
     fn test_substantive_conviction_diffusion() {
         // AI Payoff (+2.0) + Earnings (+1.5) = +3.5
         let substantive = SubstantiveEvidence {
+            records: vec![],
             capex_payoff_signal: true,
             earnings_validation: true,
             order_visibility: false,
@@ -617,8 +694,58 @@ mod tests {
     }
 
     #[test]
+    fn test_automated_evidence_aggregation() {
+        let mut substantive = SubstantiveEvidence {
+            records: vec![
+                AutomatedEvidenceRecord {
+                    source: EvidenceSourceType::NewsMedia,
+                    evidence_type: EvidenceType::CapexPayoff,
+                    confidence: 0.8,
+                    description: "News A".to_string(),
+                    timestamp_days_ago: 2,
+                },
+                AutomatedEvidenceRecord {
+                    source: EvidenceSourceType::OfficialIR,
+                    evidence_type: EvidenceType::CapexPayoff,
+                    confidence: 1.0,
+                    description: "Official IR".to_string(),
+                    timestamp_days_ago: 1,
+                },
+                AutomatedEvidenceRecord {
+                    source: EvidenceSourceType::Manual,
+                    evidence_type: EvidenceType::OrderVisibility,
+                    confidence: 0.5,
+                    description: "Manual low confidence".to_string(),
+                    timestamp_days_ago: 3,
+                },
+            ],
+            ..Default::default()
+        };
+
+        substantive.aggregate();
+        // 最も新しい(1日)が採用される
+        assert_eq!(substantive.event_days_since, 1);
+        assert!(substantive.capex_payoff_signal);
+        assert!(substantive.order_visibility);
+
+        // Compute 時に Max Confidence が採用されるか検証
+        let ev = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(substantive));
+        // Capex (2.0 * 1.0) + Order (1.0 * 0.5) = 2.5
+        // T+1 なので減衰なし
+        assert_eq!(ev.conviction_score, 2.5);
+
+        // 日数が経過した場合の減衰テスト (T+3 = 1.0 - 2*0.2 = 0.6)
+        let mut s_decay = ev.substantive.unwrap();
+        s_decay.event_days_since = 3;
+        let ev_decay = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(s_decay));
+        let expected = 2.5 * 0.6;
+        assert!((ev_decay.conviction_score - expected).abs() < 1e-10);
+    }
+
+    #[test]
     fn test_event_follow_through_window() {
         let mut substantive = SubstantiveEvidence {
+            records: vec![],
             capex_payoff_signal: true,
             earnings_validation: false,
             order_visibility: false,
