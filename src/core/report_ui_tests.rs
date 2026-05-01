@@ -2197,6 +2197,8 @@ mod tests {
         let html = report.telegram_html_body;
         assert!(html.contains("🎯 趋势特征识别"));
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
+        // Verify that the transition evidence block is rendered even if it's just trend recognition
+        assert!(md.contains("🔄 状态转移证据"));
     }
 
     #[test]
@@ -2234,6 +2236,8 @@ mod tests {
         assert!(md.contains("ブレイクアウト拡散度: 0.65"));
         assert!(!md.contains("追随遅延")); // lag_state is false, should not appear in simplified output if logic holds
         assert!(md.contains("単独突破の連続日数: 0/5"));
+        // Verify that the transition evidence block is rendered even if it's just trend recognition
+        assert!(md.contains("🔄 状態遷移エビデンス"));
     }
 
     #[test]
