@@ -488,6 +488,30 @@ impl PresentationAssembler {
             None
         };
 
+        let trend_recognition_state = log.trend_recognition.as_ref().map(|tr| match tr.state {
+            crate::core::trend_cohesion::TrendContinuationState::None => dict.trend_recognition.state_none.clone(),
+            crate::core::trend_cohesion::TrendContinuationState::EarlyLeader => dict.trend_recognition.state_early_leader.clone(),
+            crate::core::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => dict.trend_recognition.state_leader_confirmed_followers_lagging.clone(),
+            crate::core::trend_cohesion::TrendContinuationState::Broadening => dict.trend_recognition.state_broadening.clone(),
+            crate::core::trend_cohesion::TrendContinuationState::Mature => dict.trend_recognition.state_mature.clone(),
+        });
+        let trend_recognition_diffusion_score =
+            log.trend_recognition.as_ref().map(|tr| tr.diffusion_score);
+        let trend_recognition_lag_state = log.trend_recognition.as_ref().and_then(|tr| {
+            if tr.lag_state {
+                Some(dict.trend_recognition.lag_alert.clone())
+            } else {
+                None
+            }
+        });
+        let trend_recognition_single_asset_decay = log.trend_recognition.as_ref().map(|tr| {
+            format!(
+                "{}/{}",
+                tr.single_asset_decay_day,
+                tr.single_asset_decay_max.max(1)
+            )
+        });
+
         Some(StateTransitionViewModel {
             has_significant_change: log.market_state.changed
                 || log.risk_overlay.changed
@@ -550,6 +574,10 @@ impl PresentationAssembler {
             scout_continuity,
             scout_expansion,
             scout_reset,
+            trend_recognition_state,
+            trend_recognition_diffusion_score,
+            trend_recognition_lag_state,
+            trend_recognition_single_asset_decay,
         })
     }
 

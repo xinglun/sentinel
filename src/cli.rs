@@ -512,6 +512,10 @@ fn persist_weekly_state_outputs(
         "avg_confidence": avg_confidence,
         "avg_stability": avg_stability,
         "trend_cohesion_ready_days": trend_cohesion_ready_days,
+        // SEMANTIC SHIFT WARNING: 'participation_ready_days' now outputs 'trend_cohesion_ready_days'.
+        // Downstream scripts reading this key will get cohesion gate semantics instead of original participation semantics.
+        // This key is retained strictly for backward compatibility to prevent script failures.
+        "participation_ready_days": trend_cohesion_ready_days,
         "market_state_counts": market_state_counts,
         "risk_overlay_counts": risk_overlay_counts,
     });
@@ -876,6 +880,33 @@ fn build_audit_daily_report(
     out.push_str(&format!("\n5. {}\n", text.section_one_liner));
     out.push_str(&format!("- {}\n", audit_sentence));
 
+    if let Some(evidence) = &today_latest.log.trend_recognition {
+        let dict = crate::core::i18n::get_dictionary(language);
+        let tr_dict = &dict.trend_recognition;
+
+        let state_label = match evidence.state {
+            crate::core::trend_cohesion::TrendContinuationState::None => &tr_dict.state_none,
+            crate::core::trend_cohesion::TrendContinuationState::EarlyLeader => &tr_dict.state_early_leader,
+            crate::core::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => &tr_dict.state_leader_confirmed_followers_lagging,
+            crate::core::trend_cohesion::TrendContinuationState::Broadening => &tr_dict.state_broadening,
+            crate::core::trend_cohesion::TrendContinuationState::Mature => &tr_dict.state_mature,
+        };
+
+        let lag_label = if evidence.lag_state {
+            &tr_dict.lag_alert
+        } else {
+            text.none
+        };
+
+        let formatted = text
+            .template_trend_recognition
+            .replace("{state}", state_label)
+            .replace("{score}", &format!("{:.2}", evidence.diffusion_score))
+            .replace("{lag_state}", lag_label);
+
+        out.push_str(&format!("{}\n", formatted));
+    }
+
     out
 }
 
@@ -914,6 +945,7 @@ struct AuditDailyText {
     mode_scout: &'static str,
     mode_ready: &'static str,
     day_unit: &'static str,
+    template_trend_recognition: &'static str,
 }
 
 fn audit_text(language: Language) -> AuditDailyText {
@@ -953,6 +985,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "侦察态（有信号未验证）",
             mode_ready: "READY（可执行）",
             day_unit: "天",
+            template_trend_recognition: "- 趋势识别质量: {state}; 扩散评分 {score}; 滞后状态 {lag_state}",
         },
         Language::EnUs => AuditDailyText {
             title: "Audit Daily",
@@ -990,6 +1023,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "Scout (signal unverified)",
             mode_ready: "READY (executable)",
             day_unit: "days",
+            template_trend_recognition: "- Trend Recognition Quality: {state}; Diffusion Score {score}; Lag State {lag_state}",
         },
         Language::JaJp => AuditDailyText {
             title: "Audit Daily",
@@ -1026,6 +1060,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             mode_scout: "偵察（シグナル未検証）",
             mode_ready: "READY（実行可）",
             day_unit: "日",
+            template_trend_recognition: "- トレンド認識品質: {state}; 拡散スコア {score}; 遅行状態 {lag_state}",
         },
     }
 }
@@ -1624,7 +1659,14 @@ mod tests {
                 "scout_days_without_expansion": 1,
                 "scout_abort_days": 3,
                 "scout_reset_triggered": false,
-                "breakout_active_count": 1
+                "breakout_active_count": 1,
+                "trend_recognition": {
+                    "state": "EarlyLeader",
+                    "diffusion_score": 0.45,
+                    "lag_state": true,
+                    "single_asset_decay_day": 1,
+                    "single_asset_decay_max": 2
+                }
             }))
             .unwrap(),
         };

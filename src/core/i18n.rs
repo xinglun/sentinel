@@ -31,6 +31,7 @@ pub struct DisplayDictionary {
     pub trend_cohesion: TrendCohesionDictionary,
     pub breakout: BreakoutDictionary,
     pub transition_evidence: TransitionEvidenceDictionary,
+    pub trend_recognition: TrendRecognitionDictionary,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
@@ -76,6 +77,21 @@ pub struct BreakoutDictionary {
     pub quality_label: String,
     pub failed_risk_label: String,
     pub empty_note: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TrendRecognitionDictionary {
+    pub title: String,
+    pub continuation_state: String,
+    pub diffusion_score: String,
+    pub lag_state: String,
+    pub single_asset_decay: String,
+    pub state_none: String,
+    pub state_early_leader: String,
+    pub state_leader_confirmed_followers_lagging: String,
+    pub state_broadening: String,
+    pub state_mature: String,
+    pub lag_alert: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -537,6 +553,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 yes: "是".to_string(),
                 no: "否".to_string(),
             },
+            trend_recognition: TrendRecognitionDictionary {
+                title: "🎯 趋势特征识别".to_string(),
+                continuation_state: "进展阶段".to_string(),
+                diffusion_score: "扩散度".to_string(),
+                lag_state: "滞后预警".to_string(),
+                single_asset_decay: "单极突破衰减".to_string(),
+                state_none: "无特征".to_string(),
+                state_early_leader: "初步领涨".to_string(),
+                state_leader_confirmed_followers_lagging: "单点确立/整体滞后".to_string(),
+                state_broadening: "扩散初期".to_string(),
+                state_mature: "成熟共振".to_string(),
+                lag_alert: "先行成立・追随迟缓".to_string(),
+            },
         },
         Language::EnUs => DisplayDictionary {
             actions: ActionDictionary {
@@ -775,6 +804,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 yes: "yes".to_string(),
                 no: "no".to_string(),
             },
+            trend_recognition: TrendRecognitionDictionary {
+                title: "🎯 Trend Recognition".to_string(),
+                continuation_state: "Continuation State".to_string(),
+                diffusion_score: "Diffusion Score".to_string(),
+                lag_state: "Lag Alert".to_string(),
+                single_asset_decay: "Single Asset Decay".to_string(),
+                state_none: "None".to_string(),
+                state_early_leader: "Early Leader".to_string(),
+                state_leader_confirmed_followers_lagging: "Leader Confirmed / Followers Lagging".to_string(),
+                state_broadening: "Broadening".to_string(),
+                state_mature: "Mature".to_string(),
+                lag_alert: "Leading formed / Lagging".to_string(),
+            },
         },
         Language::JaJp => DisplayDictionary {
             actions: ActionDictionary {
@@ -1008,6 +1050,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 scout_expansion_multi: "複数".to_string(),
                 yes: "あり".to_string(),
                 no: "なし".to_string(),
+            },
+            trend_recognition: TrendRecognitionDictionary {
+                title: "🎯 トレンド特徴認識".to_string(),
+                continuation_state: "進行段階".to_string(),
+                diffusion_score: "ブレイクアウト拡散度".to_string(),
+                lag_state: "追随遅延".to_string(),
+                single_asset_decay: "単独突破の連続日数".to_string(),
+                state_none: "特徴なし".to_string(),
+                state_early_leader: "初期主導".to_string(),
+                state_leader_confirmed_followers_lagging: "先行成立・追随遅延".to_string(),
+                state_broadening: "拡散初期".to_string(),
+                state_mature: "成熟共振".to_string(),
+                lag_alert: "先行成立・追随遅延".to_string(),
             },
         },
     }
