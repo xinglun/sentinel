@@ -93,7 +93,6 @@ impl SubstantiveEvidence {
         let earnings_weight = rules.earnings_validation_weight;
         let order_weight = rules.order_visibility_weight;
         let follow_through_weight = 1.2;
-        let decay_days = rules.evidence_decay_days.max(2) as f64;
 
         let mut total_score = 0.0;
 
@@ -119,15 +118,16 @@ impl SubstantiveEvidence {
                         chrono::NaiveDate::parse_from_str(&r.event_date, "%Y-%m-%d")
                     {
                         let days_ago = (current_date - rec_date).num_days();
-                        // Phase 5-A 減衰モデル:
-                        // T+1: 100% (1.0)
-                        // T+2..T+5: 日次 20% 減衰 (0.8, 0.6, 0.4, 0.2)
-                        // T+6+: 10% (0.1) 固定 (長期記憶)
+                        let decay_limit = rules.evidence_decay_days as f64;
                         let multiplier = if days_ago <= 1 {
                             1.0
-                        } else if (days_ago as f64) <= decay_days {
-                            // デフォルトの T+5 では T+2 -> 0.8, T+5 -> 0.2。
-                            let progress = (days_ago as f64 - 1.0) / (decay_days - 1.0);
+                        } else if (days_ago as f64) <= decay_limit {
+                            // T+1=100%, T=decay_limit时=20%
+                            let progress = if decay_limit > 1.0 {
+                                (days_ago as f64 - 1.0) / (decay_limit - 1.0)
+                            } else {
+                                1.0
+                            };
                             1.0 - progress * 0.8
                         } else {
                             0.1

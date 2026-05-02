@@ -528,10 +528,16 @@ fn render_top_actions_section(
     }
 
     for (i, vm) in pres.top_actions.iter().enumerate() {
+        let no_trade_secondary_desc =
+            if is_no_trade && vm.secondary_desc == dict.asset_states.optimal {
+                format!("{} ({})", vm.secondary_desc, dict.asset_tags.candidate)
+            } else {
+                vm.secondary_desc.clone()
+            };
         match mode {
             RenderMode::Markdown => {
                 if is_no_trade {
-                    out.push_str(&format!("- {} · {}\n", vm.symbol, vm.secondary_desc));
+                    out.push_str(&format!("- {} · {}\n", vm.symbol, no_trade_secondary_desc));
                 } else {
                     out.push_str(&format!(
                         "{}. {} **{}** - {}\n",
@@ -544,7 +550,7 @@ fn render_top_actions_section(
             }
             RenderMode::Html => {
                 if is_no_trade {
-                    out.push_str(&format!("• {} · {}\n", vm.symbol, vm.secondary_desc));
+                    out.push_str(&format!("• {} · {}\n", vm.symbol, no_trade_secondary_desc));
                 } else {
                     out.push_str(&format!(
                         "{}. {} <b>{}</b> - {}\n",
