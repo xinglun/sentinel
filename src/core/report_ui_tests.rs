@@ -1368,6 +1368,74 @@ mod tests {
     }
 
     #[test]
+    fn test_no_trade_optimal_candidate_uses_candidate_qualified_label() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "SPY".into(),
+                asset_state: AssetStateSnapshot {
+                    symbol: "SPY".into(),
+                    state: AssetState::OPTIMAL,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::ADD,
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["SPY".into()],
+            ..Default::default()
+        };
+
+        let config_zh = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let pres_zh = PresentationAssembler::assemble(
+            &packet,
+            &config_zh.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::ZhCn,
+        );
+        let report_zh =
+            generate_refined_report(&config_zh, &pres_zh, 0.0, &HashMap::new(), &HashMap::new())
+                .unwrap();
+        assert!(report_zh
+            .telegram_html_body
+            .contains("SPY · 最优 (候选标的)"));
+
+        let config_en = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        let pres_en = PresentationAssembler::assemble(
+            &packet,
+            &config_en.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::EnUs,
+        );
+        let report_en =
+            generate_refined_report(&config_en, &pres_en, 0.0, &HashMap::new(), &HashMap::new())
+                .unwrap();
+        assert!(report_en
+            .telegram_html_body
+            .contains("SPY · Optimal (Candidate)"));
+
+        let config_ja = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let pres_ja = PresentationAssembler::assemble(
+            &packet,
+            &config_ja.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            crate::core::i18n::Language::JaJp,
+        );
+        let report_ja =
+            generate_refined_report(&config_ja, &pres_ja, 0.0, &HashMap::new(), &HashMap::new())
+                .unwrap();
+        assert!(report_ja.telegram_html_body.contains("SPY · 最適 (候補)"));
+    }
+
+    #[test]
     fn test_no_trade_pullback_reason_avoids_core_priority_hint() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
