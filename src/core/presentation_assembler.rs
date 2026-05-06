@@ -995,10 +995,16 @@ impl PresentationAssembler {
         ExitDecisionSummaryViewModel {
             title: dict.headers.position_handling.clone(),
             empty_note: if items.is_empty() {
-                Some(format!(
-                    "{}\n{}",
-                    dict.reasons.position_none, dict.reasons.position_none_no_trigger
-                ))
+                Some(
+                    [
+                        dict.reasons.position_none.as_str(),
+                        dict.reasons.position_none_no_trigger.as_str(),
+                    ]
+                    .into_iter()
+                    .filter(|line| !line.is_empty())
+                    .collect::<Vec<_>>()
+                    .join("\n"),
+                )
             } else {
                 None
             },

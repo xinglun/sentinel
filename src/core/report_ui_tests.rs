@@ -1546,12 +1546,12 @@ mod tests {
             .unwrap()
             .markdown_body;
 
-        assert!(card.contains("### 📉 持仓处理建议"));
+        assert!(card.contains("### 📉 风险处置建议"));
         assert!(card.contains("- NVDA · 持有"));
         assert!(card.contains("- FIG · 退出"));
         assert!(!card.contains("- NVDA · 卖出"));
         let decision_idx = card.find("### 禁止动作（NO TRADE）").unwrap();
-        let exit_idx = card.find("### 📉 持仓处理建议").unwrap();
+        let exit_idx = card.find("### 📉 风险处置建议").unwrap();
         let watch_idx = card.find("### 👀 候选观察名单").unwrap();
         assert!(decision_idx < exit_idx);
         assert!(exit_idx < watch_idx);
@@ -1585,9 +1585,10 @@ mod tests {
             .unwrap()
             .markdown_body;
 
-        assert!(card.contains("### 📉 持仓处理建议"));
-        assert!(card.contains("> 当前无持仓，无需处理。"));
-        assert!(card.contains("> 未触发任何退出条件。"));
+        assert!(card.contains("### 📉 风险处置建议"));
+        assert!(card.contains("> 未触发减仓或退出条件。"));
+        assert!(!card.contains("当前无持仓"));
+        assert!(!card.contains("未触发任何退出条件。"));
     }
 
     #[test]
@@ -2277,7 +2278,7 @@ mod tests {
         let md = report.archival_markdown;
         assert!(md.contains("🎯 趋势特征识别"));
         assert!(md.contains("进展阶段: 单点确立/整体滞后"));
-        assert!(md.contains("扩散度: 0.45"));
+        assert!(md.contains("趋势扩散分: 0.45"));
         assert!(md.contains("滞后预警: 先行成立・追随迟缓"));
         assert!(md.contains("单极突破衰减: 3/5"));
         assert!(md.contains("[2026-04-22] [EarningsValidation]"));
@@ -2328,7 +2329,7 @@ mod tests {
         let md = report.archival_markdown;
         assert!(md.contains("🎯 トレンド特徴認識"));
         assert!(md.contains("進行段階: 拡散初期"));
-        assert!(md.contains("ブレイクアウト拡散度: 0.65"));
+        assert!(md.contains("トレンド拡散スコア: 0.65"));
         assert!(!md.contains("追随遅延")); // lag_state is false, should not appear in simplified output if logic holds
         assert!(md.contains("単独突破の連続日数: 0/5"));
         // Verify that the transition evidence block is rendered even if it's just trend recognition
