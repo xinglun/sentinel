@@ -424,7 +424,10 @@ impl AppConfig {
 
         // Environment variable overrides for Finnhub
         if let Ok(key) = std::env::var("FINNHUB_API_KEY") {
-            if let Some(finnhub) = &mut config.finnhub {
+            if key.trim().is_empty() {
+                // 空文字の環境変数は設定ファイルを上書きしない。
+                // CI で未設定 Secret が空文字として注入されるケースを吸収する。
+            } else if let Some(finnhub) = &mut config.finnhub {
                 finnhub.finnhub_api_key = key;
             } else {
                 config.finnhub = Some(FinnhubConfig {
@@ -435,7 +438,10 @@ impl AppConfig {
 
         // Environment variable overrides for SEC
         if let Ok(ua) = std::env::var("SEC_USER_AGENT") {
-            if let Some(ref mut sec) = config.sec {
+            if ua.trim().is_empty() {
+                // 空文字の環境変数は設定ファイルを上書きしない。
+                // CI で未設定 Secret が空文字として注入されるケースを吸収する。
+            } else if let Some(ref mut sec) = config.sec {
                 sec.user_agent = ua;
             } else {
                 config.sec = Some(SecConfig { user_agent: ua });
