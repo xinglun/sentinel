@@ -212,10 +212,10 @@ mod tests {
             .as_deref()
             .unwrap_or_default()
             .contains("候補観測"));
-        assert_eq!(pres.exit_summary.title, "📉 ポジション処理提案");
+        assert_eq!(pres.exit_summary.title, "📉 リスク処置提案");
         assert_eq!(
             pres.exit_summary.empty_note.as_deref(),
-            Some("現在処理対象の保有ポジションなし。\n現時点で発動している終了条件はない。")
+            Some("減資または終了条件は発動していない。")
         );
     }
 
@@ -485,7 +485,7 @@ mod tests {
             Language::EnUs,
         );
 
-        assert_eq!(pres.exit_summary.title, "📉 Position Handling");
+        assert_eq!(pres.exit_summary.title, "📉 Risk Handling");
         assert!(pres
             .exit_summary
             .items
