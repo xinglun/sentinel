@@ -2287,8 +2287,9 @@ mod tests {
         let html = report.telegram_html_body;
         assert!(html.contains("🎯 趋势特征识别"));
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
-        assert!(html.contains("[2026-04-22] [EarningsValidation]"));
-        assert!(html.contains("https://example.com/ir/goog"));
+        assert!(html.contains("实质性证据: 业绩实质性确认"));
+        assert!(!html.contains("[2026-04-22] [EarningsValidation]"));
+        assert!(!html.contains("https://example.com/ir/goog"));
         // Verify that the transition evidence block is rendered even if it's just trend recognition
         assert!(md.contains("🔄 状态转移证据"));
     }
@@ -2381,18 +2382,25 @@ mod tests {
                 generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
                     .unwrap();
 
-            assert!(report
+            assert!(report.telegram_html_body.contains("Earnings Quality"));
+            assert!(!report
                 .telegram_html_body
                 .contains("[2026-04-22] [EarningsValidation]"));
-            assert!(report
+            assert!(!report
                 .telegram_html_body
                 .contains("Earnings beat expectations by 15%"));
-            assert!(report
+            assert!(!report
                 .telegram_html_body
                 .contains("https://example.com/ir/goog"));
             assert!(report
                 .archival_markdown
                 .contains("[2026-04-22] [EarningsValidation]"));
+            assert!(report
+                .archival_markdown
+                .contains("Earnings beat expectations by 15%"));
+            assert!(report
+                .archival_markdown
+                .contains("https://example.com/ir/goog"));
         }
     }
 
