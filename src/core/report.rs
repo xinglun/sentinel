@@ -990,11 +990,6 @@ fn render_transition_block(
                         evidence.substantive_signals.join(", ")
                     ));
                 }
-                if !evidence.substantive_details.is_empty() {
-                    for detail in &evidence.substantive_details {
-                        block.push_str(&format!("    - <i>{}</i>\n", detail));
-                    }
-                }
                 if let Some(value) = &evidence.trend_recognition_lag_state {
                     block.push_str(&format!("  - <i>{}: {}</i>\n", tr_dict.lag_state, value));
                 }
