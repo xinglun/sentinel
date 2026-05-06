@@ -37,6 +37,7 @@ fn sanitize_telegram_html(message_text: &str) -> String {
     .replace(CLOSE_ITALIC, "</i>")
 }
 
+#[cfg(test)]
 fn build_payload(config: &TelegramConfig, message_text: &str) -> TelegramPayload {
     TelegramPayload {
         chat_id: config.chat_id.clone(),
@@ -44,6 +45,60 @@ fn build_payload(config: &TelegramConfig, message_text: &str) -> TelegramPayload
         parse_mode: "HTML".to_string(),
         disable_web_page_preview: true,
     }
+}
+
+fn chunk_telegram_html_message(message_text: &str, max_len: usize) -> Vec<String> {
+    if message_text.len() <= max_len {
+        return vec![message_text.to_string()];
+    }
+
+    let mut chunks = Vec::new();
+    let mut current = String::new();
+
+    for line in message_text.split('\n') {
+        let candidate_len = if current.is_empty() {
+            line.len()
+        } else {
+            current.len() + 1 + line.len()
+        };
+
+        if candidate_len <= max_len {
+            if !current.is_empty() {
+                current.push('\n');
+            }
+            current.push_str(line);
+            continue;
+        }
+
+        if !current.is_empty() {
+            chunks.push(current);
+            current = String::new();
+        }
+
+        if line.len() <= max_len {
+            current.push_str(line);
+            continue;
+        }
+
+        let mut start = 0;
+        while start < line.len() {
+            let mut end = (start + max_len).min(line.len());
+            while !line.is_char_boundary(end) {
+                end -= 1;
+            }
+            if end == start {
+                break;
+            }
+            chunks.push(line[start..end].to_string());
+            start = end;
+        }
+    }
+
+    if !current.is_empty() {
+        chunks.push(current);
+    }
+
+    chunks
 }
 
 pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) -> Result<()> {
@@ -60,19 +115,35 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
         "https://api.telegram.org/bot{}/sendMessage",
         config.bot_token
     );
-    let payload = build_payload(config, message_text);
-
+    let sanitized = sanitize_telegram_html(message_text);
+    let chunks = chunk_telegram_html_message(&sanitized, 3800);
     let client = Client::new();
-    let res = client
-        .post(&url)
-        .json(&payload)
-        .send()
-        .await
-        .map_err(|e| anyhow!("Failed to send Telegram request: {}", e))?;
 
-    if !res.status().is_success() {
-        let err_text = res.text().await.unwrap_or_default();
-        return Err(anyhow!("Telegram API returned an error: {}", err_text));
+    let total_chunks = chunks.len();
+    for (index, chunk) in chunks.into_iter().enumerate() {
+        let text = if total_chunks > 1 {
+            format!("<i>Part {}/{}</i>\n\n{}", index + 1, total_chunks, chunk)
+        } else {
+            chunk
+        };
+        let payload = TelegramPayload {
+            chat_id: config.chat_id.clone(),
+            text,
+            parse_mode: "HTML".to_string(),
+            disable_web_page_preview: true,
+        };
+
+        let res = client
+            .post(&url)
+            .json(&payload)
+            .send()
+            .await
+            .map_err(|e| anyhow!("Failed to send Telegram request: {}", e))?;
+
+        if !res.status().is_success() {
+            let err_text = res.text().await.unwrap_or_default();
+            return Err(anyhow!("Telegram API returned an error: {}", err_text));
+        }
     }
 
     println!(
@@ -84,7 +155,7 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
 
 #[cfg(test)]
 mod tests {
-    use super::{build_payload, sanitize_telegram_html};
+    use super::{build_payload, chunk_telegram_html_message, sanitize_telegram_html};
     use crate::config::TelegramConfig;
 
     #[test]
@@ -119,5 +190,45 @@ mod tests {
 
         assert!(sanitized.contains("<b>headline</b>"));
         assert!(sanitized.contains("stability &lt; 10.0"));
+    }
+
+    #[test]
+    fn telegram_chunking_splits_long_message() {
+        let text = "a".repeat(9000);
+        let chunks = chunk_telegram_html_message(&text, 3800);
+        assert_eq!(chunks.len(), 3);
+        assert!(chunks.iter().all(|c| c.len() <= 3800));
+        assert_eq!(chunks.concat().len(), 9000);
+    }
+
+    #[test]
+    fn telegram_chunking_keeps_line_blocks_when_possible() {
+        let text = format!(
+            "{}\n{}\n{}",
+            "a".repeat(2000),
+            "b".repeat(2000),
+            "c".repeat(2000)
+        );
+        let chunks = chunk_telegram_html_message(&text, 3800);
+        assert_eq!(chunks.len(), 3);
+        assert!(chunks.iter().all(|c| c.len() <= 3800));
+        assert_eq!(chunks.join("\n"), text);
+    }
+
+    #[test]
+    fn telegram_chunk_prefix_fits_inside_api_limit() {
+        let text = "a".repeat(7601);
+        let chunks = chunk_telegram_html_message(&text, 3700);
+        let total_chunks = chunks.len();
+        let rendered: Vec<String> = chunks
+            .into_iter()
+            .enumerate()
+            .map(|(index, chunk)| {
+                format!("<i>Part {}/{}</i>\n\n{}", index + 1, total_chunks, chunk)
+            })
+            .collect();
+
+        assert!(total_chunks > 1);
+        assert!(rendered.iter().all(|chunk| chunk.len() <= 4096));
     }
 }
