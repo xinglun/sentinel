@@ -1,0 +1,30 @@
+{
+  "date": "2026-05-05",
+  "timestamp": "2026-05-06T13:15:28.060820868+09:00",
+  "preflight": null,
+  "decisioning": "succeeded",
+  "evidence_collection": "succeeded",
+  "archival": "skipped",
+  "notification": {
+    "failed": {
+      "reason": "Telegram API returned an error: {\"ok\":false,\"error_code\":400,\"description\":\"Bad Request: text is too long\"}"
+    }
+  },
+  "execution": "skipped",
+  "reconciliation": "skipped",
+  "reconciliation_report": null,
+  "state_machine": {
+    "from_state": "IGNITION",
+    "to_state": "IGNITION",
+    "reset_confirmed": false,
+    "reset_blocked": false,
+    "soft_reset_applied": false,
+    "duration_locked": false,
+    "defensive_override": false,
+    "core_breakdown": false,
+    "reconciliation_mismatch_count": 0,
+    "preflight_failed": false
+  },
+  "data_quality": "",
+  "execution_details": null
+}
