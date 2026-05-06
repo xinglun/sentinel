@@ -10,7 +10,7 @@
     "flat_weight": 0.0,
     "down_weight": 6.0,
     "total_weight": 18.0,
-    "gravity_strength": -1.3989783754803233,
+    "gravity_strength": -1.3989783754803236,
     "potential_energy": 1.9176052902425391,
     "dominance_margin": 0.4848961237859217,
     "system_confidence": 50.47067544304808,
@@ -644,9 +644,9 @@
       "unmet_conditions_changed": true,
       "added": [
         "WeakLeadership",
+        "ContinuityThreshold",
         "StabilityThreshold",
-        "DirectionalCohesion",
-        "ContinuityThreshold"
+        "DirectionalCohesion"
       ],
       "removed": [],
       "persisting": []

@@ -1,15 +1,11 @@
 {
   "date": "2026-05-05",
-  "timestamp": "2026-05-06T13:15:28.060820868+09:00",
+  "timestamp": "2026-05-06T13:42:36.714825022+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "evidence_collection": "succeeded",
   "archival": "skipped",
-  "notification": {
-    "failed": {
-      "reason": "Telegram API returned an error: {\"ok\":false,\"error_code\":400,\"description\":\"Bad Request: text is too long\"}"
-    }
-  },
+  "notification": "succeeded",
   "execution": "skipped",
   "reconciliation": "skipped",
   "reconciliation_report": null,
