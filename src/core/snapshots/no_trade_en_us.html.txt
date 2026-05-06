@@ -35,10 +35,9 @@ Risk · No immediate risk
 • GOOG · Emerging Breakout (Day 1)
   <i>Leadership-style breakout · Strength 62 · Quality 100</i>
 
-<b>📉 Position Handling</b>
+<b>📉 Risk Handling</b>
 
-No open positions require action.
-No exit conditions were triggered.
+No trim or exit conditions were triggered.
 
 <b>👀 Candidate Watchlist</b>
 
