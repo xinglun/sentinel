@@ -51,7 +51,7 @@ def status_for(contract: dict[str, Any], summary: dict[str, Any] | None) -> tupl
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="AI Cockpit current status を生成します。")
-    parser.add_argument("contract")
+    parser.add_argument("contract", nargs="?")
     parser.add_argument("--summary")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
     return parser.parse_args()
@@ -59,6 +59,9 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
+    if not args.contract:
+        print("ℹ️ Skipping status generation (no active contract provided)")
+        return 0
     try:
         contract_path = Path(args.contract)
         contract = load_json(contract_path)

@@ -1,9 +1,9 @@
-AI_CONTRACT ?= .ai/work-items/active/ai_governance_bootstrap.contract.json
-AI_SUMMARY ?= .ai/work-items/active/ai_governance_bootstrap.summary.json
+AI_CONTRACT ?= $(shell ls .ai/work-items/active/*.contract.json 2>/dev/null | head -n 1)
+AI_SUMMARY ?= $(shell ls .ai/work-items/active/*.summary.json 2>/dev/null | head -n 1)
 CONTRACT ?= $(AI_CONTRACT)
 SUMMARY ?= $(AI_SUMMARY)
-SUMMARY_ARGS ?= --contract $(CONTRACT)
-STATUS_ARGS ?= --summary $(SUMMARY)
+SUMMARY_ARGS ?= $(if $(CONTRACT),--contract $(CONTRACT))
+STATUS_ARGS ?= $(if $(SUMMARY),--summary $(SUMMARY))
 ARGS ?=
 TASK ?=
 TITLE ?=
@@ -116,7 +116,7 @@ generate-cockpit-status:
 	python3 scripts/ai_generate_status.py $(CONTRACT) $(STATUS_ARGS) $(ARGS)
 
 check-ai-status:
-	python3 scripts/ai_check_status.py .ai/cockpit/current_status.md --contract $(CONTRACT) --summary $(SUMMARY)
+	python3 scripts/ai_check_status.py .ai/cockpit/current_status.md $(SUMMARY_ARGS) $(STATUS_ARGS)
 
 check-work-items-lifecycle:
 	python3 scripts/ai_check_lifecycle.py

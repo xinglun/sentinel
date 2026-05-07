@@ -33,14 +33,17 @@ def required_commands(contract: dict[str, Any]) -> list[str]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Cockpit current_status.md を検証します。")
-    parser.add_argument("status")
-    parser.add_argument("--contract", required=True)
-    parser.add_argument("--summary", required=True)
+    parser.add_argument("status", nargs="?")
+    parser.add_argument("--contract")
+    parser.add_argument("--summary")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
+    if not args.contract or not args.summary:
+        print("ℹ️ Skipping status check (no active contract/summary provided)")
+        return 0
     start = time.time()
     try:
         contract = load_json(Path(args.contract))

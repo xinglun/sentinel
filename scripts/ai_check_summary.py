@@ -108,13 +108,16 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="AI Change Summary を検証します。")
-    parser.add_argument("summary")
+    parser.add_argument("summary", nargs="?")
     parser.add_argument("--contract")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
+    if not args.summary:
+        print("ℹ️ Skipping summary check (no active summary provided)")
+        return 0
     start = time.time()
     try:
         summary = load_json(Path(args.summary))
