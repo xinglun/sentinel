@@ -1,0 +1,222 @@
+{
+  "workItemId": "ai-governance-bootstrap",
+  "contractPath": ".ai/work-items/archive/2026/ai_governance_bootstrap.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/README.md",
+      "reason": "Sentinel の AI governance 入口を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "AI Cockpit の推奨コマンドを Makefile target に統一した。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "AI Cockpit の check catalog に Guard Check を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "本 Work Item の状態を生成する。"
+    },
+    {
+      "path": ".ai/guards/backtrack_policy.yaml",
+      "reason": "Backtrack Guard の report-only policy を追加した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Work Item Contract template の verification を Makefile target に統一した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/ai_change_summary.example.json",
+      "reason": "AI Change Summary template の verification 例を Makefile target に統一した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai_governance_bootstrap.contract.json",
+      "reason": "本 task の scope、acceptance、verification を固定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai_governance_bootstrap.summary.json",
+      "reason": "本 task の変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Work Item Contract の最低限の整合性を検証する script を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "AI Change Summary と Contract の対応を検証する script を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "無宣言な test / snapshot / i18n / work-item evidence 後退を report-only で検出する script を追加した。"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Contract と Summary から Cockpit current status を生成する script を追加した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "リスク分類と構造強度の三語表示文言を追加した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "状態遷移 ViewModel にリスク分類と構造強度の field を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "リスク分類、構造強度、価格確認の表示用集約を追加した。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Telegram / Markdown の状態遷移ブロックにリスク分類と構造強度を描画した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "ViewModel mapping 契約を拡張した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram と archival Markdown の境界、三語表示、価格確認の保持を固定した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "ai-start / ai-finish / guard check を含む統一 entrypoint に更新した。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/SKILL.md",
+      "reason": "IDE 固有 path を除去し、Codex / Gemini / Antigravity 前提の Skill 手順に更新した。"
+    },
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "CI の Rust / audit checks と AI governance checks を Makefile target 経由に統一した。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "daily radar の evidence collection と radar 実行を Makefile target 経由に統一した。"
+    },
+    {
+      "path": ".github/workflows/weekly_backtest.yml",
+      "reason": "weekly backtest 実行を Makefile target 経由に統一した。"
+    },
+    {
+      "path": "README.md",
+      "reason": "日常運用コマンド例を Makefile target に統一した。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Codex / Antigravity 向けに AI Cockpit 強制プロトコルを追加し、品質ゲートを Makefile target に統一した。"
+    },
+    {
+      "path": "docs/specs/DEVELOPMENT_PROTOCOL.md",
+      "reason": "開発プロトコルのベースラインチェックを Makefile target に統一し、front matter を補完した。"
+    },
+    {
+      "path": "GEMINI.md",
+      "reason": "Gemini 向けに AGENTS.md と同じ AI Cockpit / Makefile 実行規則を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "実 diff が Work Item Contract の scope / outOfScope に合っていることを検証する script を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "reason": "Cockpit current_status.md が Contract / Summary / required checks と一致することを検証する script を追加した。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Work Item Contract / Summary skeleton を作成する helper を追加した。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Work Item finish checks を Makefile 経由で実行する helper を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_guards.py",
+      "reason": "file ownership / boundary guard を検証する script を追加した。"
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "Sentinel 用 file ownership manifest を追加した。"
+    },
+    {
+      "path": ".ai/guards/file_boundary.yaml",
+      "reason": "Sentinel 用 generated / manual / runtime boundary manifest を追加した。"
+    },
+    {
+      "path": ".ai/guards/ai_review_policy.yaml",
+      "reason": "AI review checklist 対象を定義する report-only policy を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ai_governance_bootstrap.contract.json",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/README.md",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/cockpit/README.md",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/cockpit/checks.yaml",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/work-items/_templates/work_item_contract.example.json",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/guards/file_ownership.yaml",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/guards/file_boundary.yaml",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/guards/ai_review_policy.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_governance_bootstrap.summary.json CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json SUMMARY=.ai/work-items/active/ai_governance_bootstrap.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json SUMMARY=.ai/work-items/active/ai_governance_bootstrap.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "AI governance 入口、Makefile、CI、AGENTS / GEMINI、Skill、scope guard、status check、ownership / boundary guard、report 表示層を同一 diff に含むため横断範囲は広い。ただし runtime Gate / engine / cli / config は scope 外として変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 開発実行プロトコル
+description: Stock Sentinel のコードブランチ、実行成果物、品質ゲート、マージ運用を定義する。
+key: development-protocol
 ---
 
 # 開発実行プロトコル (Development Protocol)
@@ -31,9 +34,9 @@ author: Ray
 ## 3. ベースラインチェック要件
 
 実行成果物のクリーンアップ完了後、以下のベースラインチェックを実行してください：
-- `cargo test`
-- `cargo clippy --all-targets --all-features -- -D warnings`
-- `cargo fmt --all -- --check`
+- `make test`
+- `make clippy`
+- `make fmt-check`
 
 ## 4. コミットおよびマージフロー
 

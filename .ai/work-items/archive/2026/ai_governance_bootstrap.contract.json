@@ -1,0 +1,144 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-governance-bootstrap",
+  "mode": "code",
+  "title": "Sentinel AI ガバナンス最小 Cockpit 導入",
+  "scope": [
+    ".ai/**",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_generate_status.py",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs",
+    "Makefile",
+    "skills/sentinel-ai-cockpit/SKILL.md",
+    ".github/workflows/develop_checks.yml",
+    ".github/workflows/daily_radar.yml",
+    ".github/workflows/weekly_backtest.yml",
+    "README.md",
+    "AGENTS.md",
+    "docs/specs/DEVELOPMENT_PROTOCOL.md",
+    "GEMINI.md",
+    "scripts/ai_check_scope.py",
+    "scripts/ai_check_status.py",
+    "scripts/ai_start.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_check_guards.py",
+    ".ai/guards/file_ownership.yaml",
+    ".ai/guards/file_boundary.yaml",
+    ".ai/guards/ai_review_policy.yaml"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/cli.rs",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/README.md",
+      "reason": "AI governance の構成と Work Item lifecycle の参考元。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/cockpit/README.md",
+      "reason": "Cockpit の状態モデルと Contract / Summary 運用の参考元。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/cockpit/checks.yaml",
+      "reason": "check catalog の構成を Sentinel 向けに軽量化するための参考元。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Work Item Contract の最小 schema 参考元。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Sentinel 用の .ai/ ディレクトリが作成され、Cockpit、guards、work-items の役割が日本語で説明されている。",
+    "Work Item Contract と AI Change Summary の template が存在する。",
+    "Contract、Summary、Backtrack、Cockpit status を検証または生成する scripts が存在する。",
+    "Backtrack Guard は report-only とし、取引判断、Gate、レポート生成ロジックを変更しない。",
+    "今回の trend/risk 表示変更は Contract scope に含まれ、検証結果が Summary に記録される。",
+    "Makefile に AI governance と Rust quality gate の統一 command entrypoint がある。",
+    "skills/sentinel-ai-cockpit/SKILL.md に Sentinel 用の実行手順と required checks が定義されている。",
+    "Makefile が Rust 品質ゲート、AI governance、daily radar、weekly backtest、evidence collection の標準入口になっている。",
+    "GitHub Actions は Rust / audit / runtime command を直接 cargo / script で呼ばず、Makefile target 経由で実行する。",
+    "README、AGENTS、開発プロトコル、AI Cockpit の command 例は Makefile target を標準入口としている。",
+    "AGENTS.md により、Codex / Antigravity 上の AI Agent が Cockpit / Work Item Contract を必須入口として扱う規則がある。",
+    "GEMINI.md により、Gemini が同じ Cockpit / Work Item Contract / Makefile gate を参照できる。",
+    "IDE 専用 rule directory は作成せず、AGENTS.md / GEMINI.md / skills / .ai に集約する。",
+    "Scope Guard が実 diff と Contract scope / outOfScope の対応を検証する。",
+    "Cockpit Status Check が current_status.md と Contract / Summary / required checks の一致を検証する。",
+    "develop CI は make check-ai を実行し、Contract / Summary / Scope / Status を検証する。",
+    "make ai-start TASK=<task> で Work Item skeleton を作成できる。",
+    "make ai-finish TASK=<task> で Work Item の finish checks を実行できる。",
+    "Sentinel 用 file ownership / boundary / AI review policy guard が存在する。",
+    "Guard Check は forbidden write / runtime artifact を失敗させ、restricted write を warning report として記録する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_governance_bootstrap.summary.json CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json SUMMARY=.ai/work-items/active/ai_governance_bootstrap.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_governance_bootstrap.contract.json SUMMARY=.ai/work-items/active/ai_governance_bootstrap.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": ".ai/ と scripts/ai_*.py を削除し、今回の表示層変更を revert する。"
+}

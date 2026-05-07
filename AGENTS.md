@@ -1,7 +1,7 @@
 ---
 author: Ray
 title: Global User Rules
-description: Codex repository-wide language, documentation, and commit rules.
+description: Codex / Antigravity repository-wide language, documentation, AI Cockpit, and commit rules.
 key: global-user-rules
 ---
 
@@ -198,14 +198,54 @@ git commit -m "feat: ユーザープロフィール編集機能を追加"
 每次提交前，至少执行以下命令并通过：
 
 ```bash
-cargo fmt --all -- --check
-cargo test
-cargo clippy --all-targets -- -D warnings
+make fmt-check
+make test
+make clippy
 ```
 
-推荐顺序：`fmt -> test -> clippy`。
+推荐顺序：`make fmt-check -> make test -> make clippy`。
 
 补充说明：
 
-- `cargo test` **不会**覆盖 Clippy 规则检查；例如 `clippy::unnecessary_sort_by` 这类 lint 只会在 `cargo clippy` 阶段报错。
-- 因此不可用“测试全绿”替代 Clippy，必须单独执行并通过 `cargo clippy --all-targets -- -D warnings`。
+- `make test` **不会**覆盖 Clippy 规则检查；例如 `clippy::unnecessary_sort_by` 这类 lint 只会在 `make clippy` 阶段报错。
+- 因此不可用“测试全绿”替代 Clippy，必须单独执行并通过 `make clippy`。
+---
+
+## 8. AI Cockpit 強制プロトコル（Codex / Antigravity）
+
+Codex または Antigravity 上の AI Agent が code、test、docs、CI、`.ai`、`skills`、`Makefile` を変更する場合、`.ai/cockpit/` を作業入口として扱う。
+
+Work Item 化の基準は、AI が関与したかではなく、repo diff と review / audit の必要性があるかで判断する。質問への回答、説明、比較、diff を伴わない臨時調査は Work Item にしない。
+
+次の path や種別を変更する場合、AI Agent は臨時 prompt として扱わず、Cockpit / Work Item Contract を必須として扱う。
+
+- `src/**`、`tests/**` などの code / test
+- `docs/**`、`README.md`、`AGENTS.md`、`GEMINI.md` などの設計・運用文書
+- `scripts/**`、`Makefile` などの checker / command entrypoint
+- `.github/workflows/**` などの CI
+- `.ai/guards/**`、`.ai/cockpit/**`、`.ai/work-items/**` などの guard / cockpit / work item
+- `skills/**` などの Skill / AI 実行手順
+
+必須手順：
+
+1. `.ai/cockpit/README.md` で状態定義と作業可否の判断を確認する。
+2. 現在 task の `.ai/work-items/active/<task>.contract.json` を確認する。存在しない場合は `.ai/work-items/_templates/work_item_contract.example.json` を基準に作成する。
+3. Work Item Contract の `mode`、`unknowns`、`notCodable`、`scope`、`outOfScope`、`acceptance`、`verification` を確認する。
+4. `notCodable: true` または `unknowns` が残っている場合、production code を変更せず、調査、TODO 整理、または blocker 記録に限定する。
+5. coding する場合は `mode: code`、`notCodable: false`、`unknowns: []` を確認し、`scope` に含まれる範囲だけを変更する。
+6. 作業後は `.ai/work-items/active/<task>.summary.json` を更新し、Contract の required checks を `make` 経由で実行する。
+7. 必須 check が失敗した状態で `ready_for_review` と報告しない。
+
+標準コマンド：
+
+```bash
+make check-ai-contract CONTRACT=.ai/work-items/active/<task>.contract.json
+make check-ai-scope CONTRACT=.ai/work-items/active/<task>.contract.json
+make check-ai-backtrack
+make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
+make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
+make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
+make quality
+```
+
+Skill と Cockpit の内容が衝突する場合は、Work Item Contract の `scope`、`outOfScope`、`unknowns`、`notCodable`、`verification` を優先し、必要なら作業を止めて blocker として報告する。

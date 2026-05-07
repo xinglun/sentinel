@@ -1,0 +1,27 @@
+{
+  "workItemId": "example-task",
+  "contractPath": ".ai/work-items/active/example-task.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/core/example.rs",
+      "reason": "Work Item Contract の acceptance に合わせて実装した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/example-task.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make test",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "限定的な変更であり、既存 contract test で保護される。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

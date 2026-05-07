@@ -1,0 +1,60 @@
+# Sentinel の AI Work Item で利用する共通 check catalog。
+
+version: 1
+
+checks:
+  rustFmt:
+    command: make fmt-check
+    purpose: Rust formatting contract を確認する。
+
+  rustTest:
+    command: make test
+    purpose: unit / integration / doc test を通す。
+
+  rustClippy:
+    command: make clippy
+    purpose: warning を許容しない静的検査を通す。
+
+  auditDocs:
+    command: make audit-docs
+    purpose: audit_daily ドキュメント契約を確認する。
+
+  diffCheck:
+    command: make diff-check
+    purpose: whitespace と patch 形式の問題を検出する。
+
+  aiWorkItem:
+    commandTemplate: make check-ai-contract CONTRACT={contractPath}
+    purpose: Work Item Contract の必須項目と coding 可否を確認する。
+
+
+  aiScope:
+    commandTemplate: make check-ai-scope CONTRACT={contractPath}
+    purpose: 実 diff が Work Item Contract の scope / outOfScope に合っていることを確認する。
+
+  aiGuards:
+    command: make check-ai-guards
+    purpose: file ownership / boundary guard を検証する。forbidden は失敗し、restricted は warning report とする。
+
+  aiSummary:
+    commandTemplate: make check-ai-change-summary SUMMARY={summaryPath} CONTRACT={contractPath}
+    purpose: AI Change Summary と Contract の対応を確認する。
+
+  aiBacktrack:
+    command: make check-ai-backtrack
+    purpose: test / snapshot / i18n / Work Item evidence の無宣言な後退を report-only で検出する。
+
+  aiStatus:
+    commandTemplate: make generate-cockpit-status CONTRACT={contractPath} SUMMARY={summaryPath}
+    purpose: Cockpit current status を生成する。
+
+
+  aiStatusCheck:
+    commandTemplate: make check-ai-status CONTRACT={contractPath} SUMMARY={summaryPath}
+    purpose: current_status.md が Contract / Summary と一致し、required checks が passed と表示されることを確認する。
+
+selectionRules:
+  - Contract の verification を最優先する。
+  - `src/core/report.rs`、`src/core/presentation_assembler.rs`、`src/core/i18n.rs` を変更した場合は report UI / i18n 系 test を含める。
+  - `src/cli.rs`、`src/core/transition_log.rs`、audit_daily snapshot を変更した場合は audit_daily 専用 test を含める。
+  - test、snapshot、i18n、`.ai/work-items/**` を変更した場合は Backtrack Guard を実行する。

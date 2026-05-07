@@ -41,17 +41,17 @@ Stock Sentinelは、市場の変動を「物理的な観測」として捉え、
 ### 2. 日常の観測 (Daily Radar)
 毎日の終値確定後、以下のコマンドで現在の「資本の天気」を確認します。通常、GitHub Actions によって夜間に実行されます。
 ```bash
-cargo run -- radar
+make radar
 ```
 ローカルで強制的に Moomoo から相場を取得する場合は、以下の引数を追加します。
 ```bash
-cargo run -- radar --provider futu --opend 127.0.0.1:11111
+make radar RADAR_ARGS="--provider futu --opend 127.0.0.1:11111"
 ```
 
 ### 3. 常駐取引デーモン (Daemon Mode) & 自動取引
 全自動取引向けに設計されたモードです。起動後、TCPセッションを持続的に管理し、`KeepAlive` ハートビートと `[trading]` ロジックの評価を自動的に行います。
 ```bash
-cargo run -- daemon --provider futu
+make daemon DAEMON_ARGS="--provider futu"
 ```
 
 **実盤スイッチの説明 (Simulated vs Real Trading):**
@@ -66,14 +66,14 @@ Sentinel は、**安全な自動取引サンドボックス**を備えていま�
 ### 4. 歴史的検証 (Backtest Mode)
 過去のデータを用いて、システムの「目盛り（Calibration）」と「アルファ分離」を検証します。
 ```bash
-cargo run -- backtest
+make backtest
 ```
 - `./backtest/summary.md` に詳細なレポートが出力されます。
 
 ### 5. 週次レビュー (Metrics Review)
 直近7日間の状態マシンのパフォーマンス指標を収集・集計し、人間による復習のための定量的根拠を提供します。週末や復習が必要な時に実行します。
 ```bash
-cargo run -- review
+make review
 ```
 - `./reports/weekly_state_metrics.json` に集計指標が出力されます。
 
@@ -94,22 +94,22 @@ cargo run -- review
 
 基本実行：
 ```bash
-cargo run -- audit_daily
+make audit-daily
 ```
 
 期間を指定：
 ```bash
-cargo run -- audit_daily --days 30
+make audit-daily AUDIT_DAILY_ARGS="--days 30"
 ```
 
 対象日を指定（YYYY-MM-DD）：
 ```bash
-cargo run -- audit_daily --date 2026-04-22 --days 30
+make audit-daily AUDIT_DAILY_ARGS="--date 2026-04-22 --days 30"
 ```
 
 エイリアスコマンド：
 ```bash
-cargo run -- transition_audit_summary --days 30
+make transition-audit-summary TRANSITION_AUDIT_ARGS="--days 30"
 ```
 
 言語切り替え（`config.toml` の `output.language`）:

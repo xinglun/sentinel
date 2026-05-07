@@ -1,0 +1,92 @@
+# Sentinel の AI Agent が変更前に参照する file ownership manifest。
+# YAML の subset（pattern: の下に owner / aiWrite / reason）だけを使う。
+
+src/core/engine.rs:
+  owner: decision-engine
+  aiWrite: restricted
+  reason: daily pipeline と evidence / trend / report 接続の中心。
+
+src/core/trend_cohesion.rs:
+  owner: trend-engine
+  aiWrite: restricted
+  reason: trend recognition と conviction score の意味論を保持する SSOT。
+
+src/core/presentation_assembler.rs:
+  owner: presentation
+  aiWrite: allowed_with_contract
+  reason: report ViewModel の集約境界。
+
+src/core/report.rs:
+  owner: presentation
+  aiWrite: allowed_with_contract
+  reason: Telegram / Markdown rendering の出力契約。
+
+src/core/i18n.rs:
+  owner: i18n
+  aiWrite: allowed_with_contract
+  reason: 三語表示文言の SSOT。
+
+src/cli.rs:
+  owner: cli
+  aiWrite: restricted
+  reason: audit_daily / ingestion / radar command の入口。
+
+src/config.rs:
+  owner: config
+  aiWrite: restricted
+  reason: runtime config と env validation の入口。
+
+.github/workflows/**:
+  owner: ci
+  aiWrite: restricted
+  reason: CI / data branch / scheduled run の SSOT。
+
+Makefile:
+  owner: command-entrypoint
+  aiWrite: restricted
+  reason: local / CI / AI 共通 command entrypoint。
+
+AGENTS.md:
+  owner: ai-rules
+  aiWrite: restricted
+  reason: Codex / Antigravity の repository rule。
+
+GEMINI.md:
+  owner: ai-rules
+  aiWrite: restricted
+  reason: Gemini の repository rule。
+
+skills/**:
+  owner: ai-skills
+  aiWrite: allowed_with_contract
+  reason: AI Agent の実行手順。
+
+.ai/guards/**:
+  owner: ai-config
+  aiWrite: restricted
+  reason: AI guard manifest の SSOT。
+
+.ai/work-items/**:
+  owner: task-contract
+  aiWrite: allowed_with_contract
+  reason: Work Item Contract / Summary の証跡。
+
+.ai/**:
+  owner: ai-config
+  aiWrite: restricted
+  reason: AI governance の機械可読設定。
+
+config.toml:
+  owner: local-config
+  aiWrite: forbidden
+  reason: local secrets / runtime config を含む可能性がある。
+
+reports/**:
+  owner: runtime-artifact
+  aiWrite: forbidden
+  reason: 実行成果物は data branch に分離する。
+
+target/**:
+  owner: build-artifact
+  aiWrite: forbidden
+  reason: build / generated report artifact。

@@ -1,0 +1,35 @@
+# AI coding 中の無宣言な後退を検出する report-only policy。
+
+version: 1
+
+reportOnly: true
+
+watch:
+  deletedTests:
+    patterns:
+      - "src/**/*test*.rs"
+      - "tests/**/*.rs"
+    severity: warning
+    reason: テスト削除は機能回帰を隠す可能性がある。
+
+  deletedSnapshots:
+    patterns:
+      - "tests/snapshots/**"
+      - "src/**/snapshots/**"
+    severity: warning
+    reason: snapshot 削除は表示契約の後退につながる。
+
+  i18nKeyRemoval:
+    patterns:
+      - "src/core/i18n.rs"
+    severity: warning
+    reason: 多言語 key の削除は Telegram / Markdown 出力の回帰につながる。
+
+  workItemEvidenceRemoval:
+    patterns:
+      - ".ai/work-items/**"
+    severity: warning
+    reason: Contract / Summary の証跡削除は review 可能性を下げる。
+
+output:
+  json: target/ai_backtrack_report.json
