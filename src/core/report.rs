@@ -762,7 +762,8 @@ fn render_transition_block(
     if !(evidence.has_significant_change
         || evidence.no_trade_persists
         || has_scout_status
-        || evidence.trend_recognition_state.is_some())
+        || evidence.trend_recognition_state.is_some()
+        || !evidence.strategic_context.is_empty())
     {
         return block;
     }
@@ -941,6 +942,24 @@ fn render_transition_block(
                 }
                 if let Some(value) = &evidence.scout_reset {
                     block.push_str(&format!("  - <i>{}: {}</i>\n", te_dict.scout_reset, value));
+                }
+            }
+        }
+    }
+
+    if !evidence.strategic_context.is_empty() {
+        let tr_dict = &dict.trend_recognition;
+        match mode {
+            RenderMode::Markdown => {
+                block.push_str(&format!("- **{}**:\n", tr_dict.strategic_context_title));
+                for line in &evidence.strategic_context {
+                    block.push_str(&format!("  - {}\n", line));
+                }
+            }
+            RenderMode::Html => {
+                block.push_str(&format!("• {}:\n", tr_dict.strategic_context_title));
+                for line in &evidence.strategic_context {
+                    block.push_str(&format!("  - <i>{}</i>\n", line));
                 }
             }
         }

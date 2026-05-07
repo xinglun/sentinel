@@ -185,6 +185,8 @@ pub struct StateTransitionViewModel {
     pub substantive_signals: Vec<String>,
     #[serde(default)]
     pub substantive_details: Vec<String>,
+    #[serde(default)]
+    pub strategic_context: Vec<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

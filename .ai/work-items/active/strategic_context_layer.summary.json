@@ -1,0 +1,101 @@
+{
+  "workItemId": "strategic_context_layer",
+  "contractPath": ".ai/work-items/active/strategic_context_layer.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/strategic_context_layer.contract.json",
+      "reason": "Work Item Contract を戦略文脈レイヤー実装向けに確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/strategic_context_layer.summary.json",
+      "reason": "AI Change Summary を戦略文脈レイヤー実装向けに更新した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "Strategic Context の ViewModel フィールドを追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "実体的証拠から表示専用の戦略文脈を構築するようにした。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Telegram / Markdown の状態遷移証拠に Strategic Context を表示するようにした。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "Strategic Context の方向文言を長期安定の中立表現へ調整した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "ViewModel の Strategic Context 中立表現契約を固定した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram / Markdown の三言語 Strategic Context 中立表現を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/i18n.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/strategic_context_layer.summary.json CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json SUMMARY=.ai/work-items/active/strategic_context_layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json SUMMARY=.ai/work-items/active/strategic_context_layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "表示レイヤーに限定するが、Telegram の主要文言に触れるため三言語 UI test で固定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}
