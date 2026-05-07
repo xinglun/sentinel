@@ -1,0 +1,106 @@
+{
+  "contractVersion": 1,
+  "workItemId": "strategic_context_layer",
+  "mode": "code",
+  "title": "戦略文脈レイヤーの表示契約",
+  "scope": [
+    ".ai/work-items/active/strategic_context_layer.contract.json",
+    ".ai/work-items/active/strategic_context_layer.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/market_regime.rs",
+    "src/core/execution_gate.rs",
+    "src/core/trader_agent.rs",
+    "src/cli.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "既存の Risk / Trend Evidence ViewModel 生成経路。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Telegram / Markdown の状態遷移証拠レンダリング経路。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "三言語表示の SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Strategic Context は表示専用で、Gate / Engine / 取引判断を変更しない。",
+    "実体的証拠がある場合、Telegram / Markdown に長期方向・証拠継続性・証拠カバレッジ・戦術状態を表示する。",
+    "NO TRADE と戦略方向の強化が同時に表現できる。",
+    "三言語 zh/en/ja の表示契約をテストで固定する。",
+    "既存の trend recognition / structural strength 表示契約を壊さない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/strategic_context_layer.summary.json CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json SUMMARY=.ai/work-items/active/strategic_context_layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/strategic_context_layer.contract.json SUMMARY=.ai/work-items/active/strategic_context_layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
