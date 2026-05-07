@@ -2302,7 +2302,8 @@ mod tests {
         assert!(html.contains("🎯 趋势特征识别"));
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
         assert!(html.contains("实质性证据: 业绩实质性确认"));
-        assert!(html.contains("结构强度: 已观察 (1 类证据 / 1 条记录 / 1 条价格确认)"));
+        assert!(html.contains("结构强度: 已观察 (1 类证据 / 1 条价格确认)"));
+        assert!(!html.contains("条记录"));
         assert!(!html.contains("FollowThrough"));
         assert!(!html.contains("[2026-04-22] [EarningsValidation]"));
         assert!(!html.contains("https://example.com/ir/goog"));
@@ -2420,7 +2421,8 @@ mod tests {
                     assert!(report.telegram_html_body.contains("Structural Strength"));
                     assert!(report
                         .telegram_html_body
-                        .contains("Observed (1 evidence type / 1 record / 1 price confirmation)"));
+                        .contains("Observed (1 evidence type / 1 price confirmation)"));
+                    assert!(!report.telegram_html_body.contains("1 record"));
                 }
                 Language::JaJp => {
                     assert!(report.telegram_html_body.contains("リスク分類"));
@@ -2428,7 +2430,8 @@ mod tests {
                     assert!(report.telegram_html_body.contains("構造強度"));
                     assert!(report
                         .telegram_html_body
-                        .contains("観測済み (1 種類の証拠 / 1 件の記録 / 1 件の価格確認)"));
+                        .contains("観測済み (1 種類の証拠 / 1 件の価格確認)"));
+                    assert!(!report.telegram_html_body.contains("1 件の記録"));
                 }
                 Language::ZhCn => unreachable!(),
             }
@@ -2453,7 +2456,7 @@ mod tests {
                     assert!(report.archival_markdown.contains("Structural Strength"));
                     assert!(report
                         .archival_markdown
-                        .contains("Observed (1 evidence type / 1 record / 1 price confirmation)"));
+                        .contains("Observed (1 evidence type / 1 price confirmation)"));
                 }
                 Language::JaJp => {
                     assert!(report.archival_markdown.contains("リスク分類"));
@@ -2461,7 +2464,7 @@ mod tests {
                     assert!(report.archival_markdown.contains("構造強度"));
                     assert!(report
                         .archival_markdown
-                        .contains("観測済み (1 種類の証拠 / 1 件の記録 / 1 件の価格確認)"));
+                        .contains("観測済み (1 種類の証拠 / 1 件の価格確認)"));
                 }
                 Language::ZhCn => unreachable!(),
             }

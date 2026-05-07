@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -108,16 +109,20 @@ def main() -> int:
         print(f"✅ Moved: {target.relative_to(PROJECT_ROOT)}")
 
     obs = create_observability(work_item_id=work_item_id)
-    obs.record(obs._context, event_type="work_item_archived") if False else None # we will emit CHECK_PASSED or custom
-    # Let's use check_passed for consistency, or standard record
     from ai_observability import AiEvent
+
     obs.record(AiEvent(
-        event_type=AiEventType.CHECK_PASSED,  # Overloading CHECK_PASSED, or maybe just info event
+        event_type=AiEventType.CHECK_PASSED,
         level=AiEventLevel.INFO,
         message=f"Work Item archived to {year}",
         check_id="aiArchive",
         fields={"year": year, "files": len(files_to_move)}
     ))
+    subprocess.run(
+        [sys.executable, "scripts/ai_generate_status.py", "--no-active"],
+        cwd=PROJECT_ROOT,
+        check=False,
+    )
     return 0
 
 

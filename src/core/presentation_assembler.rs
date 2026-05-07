@@ -517,7 +517,6 @@ impl PresentationAssembler {
         });
         let mut substantive_signals = Vec::new();
         let mut substantive_details = Vec::new();
-        let mut substantive_record_count = 0;
         let mut price_confirmation_record_count = 0;
         if let Some(sub) = log
             .trend_recognition
@@ -549,18 +548,6 @@ impl PresentationAssembler {
             if has_order_visibility {
                 substantive_signals.push(dict.trend_recognition.order_visibility.clone());
             }
-            substantive_record_count = sub
-                .records
-                .iter()
-                .filter(|record| {
-                    matches!(
-                        record.evidence_type,
-                        EvidenceType::CapexPayoff
-                            | EvidenceType::EarningsValidation
-                            | EvidenceType::OrderVisibility
-                    )
-                })
-                .count();
             price_confirmation_record_count = sub
                 .records
                 .iter()
@@ -607,7 +594,6 @@ impl PresentationAssembler {
         let risk_taxonomy = Self::build_risk_taxonomy(packet, log, dict);
         let structural_strength = Self::build_structural_strength(
             substantive_signals.len(),
-            substantive_record_count,
             price_confirmation_record_count,
             trend_recognition_conviction_score,
             dict,
@@ -737,7 +723,6 @@ impl PresentationAssembler {
 
     fn build_structural_strength(
         substantive_signal_count: usize,
-        substantive_record_count: usize,
         price_confirmation_record_count: usize,
         conviction_score: Option<f64>,
         dict: &DisplayDictionary,
@@ -765,17 +750,6 @@ impl PresentationAssembler {
                     substantive_signal_count,
                     &tr.structural_strength_type_unit_singular,
                     &tr.structural_strength_type_unit,
-                )
-            ));
-        }
-        if substantive_record_count > 0 {
-            parts.push(format!(
-                "{} {}",
-                substantive_record_count,
-                Self::count_unit(
-                    substantive_record_count,
-                    &tr.structural_strength_record_unit_singular,
-                    &tr.structural_strength_record_unit,
                 )
             ));
         }

@@ -9,33 +9,12 @@ TASK ?=
 TITLE ?=
 MODE ?= investigate
 RADAR_ARGS ?=
-TASK ?=
-TITLE ?=
-MODE ?= investigate
 DAEMON_ARGS ?=
-TASK ?=
-TITLE ?=
-MODE ?= investigate
 BACKTEST_ARGS ?=
-TASK ?=
-TITLE ?=
-MODE ?= investigate
 REVIEW_ARGS ?=
-TASK ?=
-TITLE ?=
-MODE ?= investigate
 AUDIT_DAILY_ARGS ?=
-TASK ?=
-TITLE ?=
-MODE ?= investigate
 TRANSITION_AUDIT_ARGS ?=
-TASK ?=
-TITLE ?=
-MODE ?= investigate
 COLLECT_EVIDENCE_ARGS ?=
-TASK ?=
-TITLE ?=
-MODE ?= investigate
 
 .PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack \
@@ -124,7 +103,22 @@ check-work-items-lifecycle:
 archive-work-item:
 	python3 scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
 
-check-ai: check-ai-contract check-ai-scope check-ai-guards check-ai-backtrack check-ai-change-summary generate-cockpit-status check-ai-status check-work-items-lifecycle
+check-ai:
+	@if [ -n "$(CONTRACT)" ]; then \
+		"$${MAKE:-make}" check-ai-contract CONTRACT="$(CONTRACT)" && \
+		"$${MAKE:-make}" check-ai-scope CONTRACT="$(CONTRACT)" && \
+		"$${MAKE:-make}" check-ai-guards && \
+		"$${MAKE:-make}" check-ai-backtrack && \
+		"$${MAKE:-make}" check-ai-change-summary SUMMARY="$(SUMMARY)" CONTRACT="$(CONTRACT)" && \
+		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
+		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
+		"$${MAKE:-make}" check-work-items-lifecycle; \
+	else \
+		python3 scripts/ai_generate_status.py --no-active && \
+		"$${MAKE:-make}" check-ai-guards && \
+		"$${MAKE:-make}" check-ai-backtrack && \
+		"$${MAKE:-make}" check-work-items-lifecycle; \
+	fi
 
 ai-start:
 	python3 scripts/ai_start.py --task $(TASK) --title "$(TITLE)" --mode $(MODE)
