@@ -1,0 +1,106 @@
+{
+  "workItemId": "observability_status_and_report_compact",
+  "contractPath": ".ai/work-items/archive/2026/observability_status_and_report_compact.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/observability_status_and_report_compact.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/observability_status_and_report_compact.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "archive 後に no active Work Item status を生成するように更新した。"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "active Work Item がない状態を current_status.md に生成できるようにした。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "active Work Item がない通常状態でも make check-ai / make quality が通るようにした。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "構造強度の主表示から raw evidence record count を除外した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram から raw record count を除外し、archival details を保持する契約を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/observability_status_and_report_compact.contract.json",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/lib/core/observability",
+    "Makefile",
+    "scripts/ai_generate_status.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observability_status_and_report_compact.summary.json CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json SUMMARY=.ai/work-items/active/observability_status_and_report_compact.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json SUMMARY=.ai/work-items/active/observability_status_and_report_compact.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status ARGS=\"--no-active --output target/ai_no_active_status.md\"",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai CONTRACT= SUMMARY=",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "AI Cockpit の状態生成と Telegram 表示契約に触れるため、status check と UI test で固定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

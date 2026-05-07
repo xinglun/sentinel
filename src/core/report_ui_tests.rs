@@ -2287,6 +2287,9 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md = report.archival_markdown;
+        assert!(md.contains("🧭 战略背景"));
+        assert!(md.contains("长期方向: 结构证据观察中"));
+        assert!(md.contains("战术状态: NO TRADE，等待结构扩散"));
         assert!(md.contains("🎯 趋势特征识别"));
         assert!(md.contains("进展阶段: 单点确立/整体滞后"));
         assert!(md.contains("趋势扩散分: 0.45"));
@@ -2299,10 +2302,14 @@ mod tests {
         assert!(md.contains("Breakout follow-through persisted"));
 
         let html = report.telegram_html_body;
+        assert!(html.contains("🧭 战略背景"));
+        assert!(html.contains("<i>长期方向: 结构证据观察中</i>"));
+        assert!(html.contains("<i>战术状态: NO TRADE，等待结构扩散</i>"));
         assert!(html.contains("🎯 趋势特征识别"));
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
         assert!(html.contains("实质性证据: 业绩实质性确认"));
-        assert!(html.contains("结构强度: 已观察 (1 类证据 / 1 条记录 / 1 条价格确认)"));
+        assert!(html.contains("结构强度: 已观察 (1 类证据 / 1 条价格确认)"));
+        assert!(!html.contains("条记录"));
         assert!(!html.contains("FollowThrough"));
         assert!(!html.contains("[2026-04-22] [EarningsValidation]"));
         assert!(!html.contains("https://example.com/ir/goog"));
@@ -2413,6 +2420,13 @@ mod tests {
             assert!(report.telegram_html_body.contains("Earnings Quality"));
             match language {
                 Language::EnUs => {
+                    assert!(report.telegram_html_body.contains("Strategic Context"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("Long-Term Direction: Structural evidence under observation"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("Tactical Status: NO TRADE, waiting for structural diffusion"));
                     assert!(report.telegram_html_body.contains("Risk Taxonomy"));
                     assert!(report
                         .telegram_html_body
@@ -2420,15 +2434,24 @@ mod tests {
                     assert!(report.telegram_html_body.contains("Structural Strength"));
                     assert!(report
                         .telegram_html_body
-                        .contains("Observed (1 evidence type / 1 record / 1 price confirmation)"));
+                        .contains("Observed (1 evidence type / 1 price confirmation)"));
+                    assert!(!report.telegram_html_body.contains("1 record"));
                 }
                 Language::JaJp => {
+                    assert!(report.telegram_html_body.contains("戦略文脈"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("長期方向: 構造証拠を観測中"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("戦術状態: NO TRADE、構造拡散待ち"));
                     assert!(report.telegram_html_body.contains("リスク分類"));
                     assert!(report.telegram_html_body.contains("市場構造リスク: NORMAL"));
                     assert!(report.telegram_html_body.contains("構造強度"));
                     assert!(report
                         .telegram_html_body
-                        .contains("観測済み (1 種類の証拠 / 1 件の記録 / 1 件の価格確認)"));
+                        .contains("観測済み (1 種類の証拠 / 1 件の価格確認)"));
+                    assert!(!report.telegram_html_body.contains("1 件の記録"));
                 }
                 Language::ZhCn => unreachable!(),
             }
@@ -2446,6 +2469,10 @@ mod tests {
                 .contains("[2026-04-22] [EarningsValidation]"));
             match language {
                 Language::EnUs => {
+                    assert!(report.archival_markdown.contains("Strategic Context"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("Evidence Coverage: Earnings Quality Confirmed"));
                     assert!(report.archival_markdown.contains("Risk Taxonomy"));
                     assert!(report
                         .archival_markdown
@@ -2453,15 +2480,19 @@ mod tests {
                     assert!(report.archival_markdown.contains("Structural Strength"));
                     assert!(report
                         .archival_markdown
-                        .contains("Observed (1 evidence type / 1 record / 1 price confirmation)"));
+                        .contains("Observed (1 evidence type / 1 price confirmation)"));
                 }
                 Language::JaJp => {
+                    assert!(report.archival_markdown.contains("戦略文脈"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("証拠カバレッジ: 業績の実質的裏付け"));
                     assert!(report.archival_markdown.contains("リスク分類"));
                     assert!(report.archival_markdown.contains("市場構造リスク: NORMAL"));
                     assert!(report.archival_markdown.contains("構造強度"));
                     assert!(report
                         .archival_markdown
-                        .contains("観測済み (1 種類の証拠 / 1 件の記録 / 1 件の価格確認)"));
+                        .contains("観測済み (1 種類の証拠 / 1 件の価格確認)"));
                 }
                 Language::ZhCn => unreachable!(),
             }

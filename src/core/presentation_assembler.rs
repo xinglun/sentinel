@@ -517,7 +517,6 @@ impl PresentationAssembler {
         });
         let mut substantive_signals = Vec::new();
         let mut substantive_details = Vec::new();
-        let mut substantive_record_count = 0;
         let mut price_confirmation_record_count = 0;
         if let Some(sub) = log
             .trend_recognition
@@ -549,18 +548,6 @@ impl PresentationAssembler {
             if has_order_visibility {
                 substantive_signals.push(dict.trend_recognition.order_visibility.clone());
             }
-            substantive_record_count = sub
-                .records
-                .iter()
-                .filter(|record| {
-                    matches!(
-                        record.evidence_type,
-                        EvidenceType::CapexPayoff
-                            | EvidenceType::EarningsValidation
-                            | EvidenceType::OrderVisibility
-                    )
-                })
-                .count();
             price_confirmation_record_count = sub
                 .records
                 .iter()
@@ -607,9 +594,14 @@ impl PresentationAssembler {
         let risk_taxonomy = Self::build_risk_taxonomy(packet, log, dict);
         let structural_strength = Self::build_structural_strength(
             substantive_signals.len(),
-            substantive_record_count,
             price_confirmation_record_count,
             trend_recognition_conviction_score,
+            dict,
+        );
+        let strategic_context = Self::build_strategic_context(
+            &substantive_signals,
+            trend_recognition_conviction_score,
+            log.trend_cohesion_gate.to,
             dict,
         );
 
@@ -622,7 +614,8 @@ impl PresentationAssembler {
                 || log.trend_cohesion_topology.changed
                 || has_structural_breakout_change
                 || !substantive_signals.is_empty()
-                || structural_strength.is_some(),
+                || structural_strength.is_some()
+                || !strategic_context.is_empty(),
             no_trade_persists: log.no_trade_persists,
             market_state_change: if log.market_state.changed {
                 Some(format!(
@@ -686,6 +679,7 @@ impl PresentationAssembler {
             structural_strength,
             substantive_signals,
             substantive_details,
+            strategic_context,
         })
     }
 
@@ -737,7 +731,6 @@ impl PresentationAssembler {
 
     fn build_structural_strength(
         substantive_signal_count: usize,
-        substantive_record_count: usize,
         price_confirmation_record_count: usize,
         conviction_score: Option<f64>,
         dict: &DisplayDictionary,
@@ -768,17 +761,6 @@ impl PresentationAssembler {
                 )
             ));
         }
-        if substantive_record_count > 0 {
-            parts.push(format!(
-                "{} {}",
-                substantive_record_count,
-                Self::count_unit(
-                    substantive_record_count,
-                    &tr.structural_strength_record_unit_singular,
-                    &tr.structural_strength_record_unit,
-                )
-            ));
-        }
         if price_confirmation_record_count > 0 {
             parts.push(format!(
                 "{} {}",
@@ -792,6 +774,47 @@ impl PresentationAssembler {
         }
 
         Some(format!("{} ({})", label, parts.join(" / ")))
+    }
+
+    fn build_strategic_context(
+        substantive_signals: &[String],
+        conviction_score: Option<f64>,
+        gate_passed: bool,
+        dict: &DisplayDictionary,
+    ) -> Vec<String> {
+        if substantive_signals.is_empty() {
+            return Vec::new();
+        }
+
+        let tr = &dict.trend_recognition;
+        let strengthening =
+            substantive_signals.len() >= 3 || conviction_score.unwrap_or(0.0) >= 3.0;
+        let direction = if strengthening {
+            &tr.strategic_direction_strengthening
+        } else {
+            &tr.strategic_direction_observed
+        };
+        let continuity = if strengthening || substantive_signals.len() >= 2 {
+            &tr.strategic_evidence_accumulating
+        } else {
+            &tr.strategic_evidence_initial
+        };
+        let tactical_status = if gate_passed {
+            &tr.strategic_tactical_ready
+        } else {
+            &tr.strategic_tactical_waiting
+        };
+
+        vec![
+            format!("{}: {}", tr.strategic_direction, direction),
+            format!("{}: {}", tr.strategic_evidence_continuity, continuity),
+            format!(
+                "{}: {}",
+                tr.strategic_evidence_coverage,
+                substantive_signals.join(" / ")
+            ),
+            format!("{}: {}", tr.strategic_tactical_status, tactical_status),
+        ]
     }
 
     fn count_unit<'a>(count: usize, singular: &'a str, plural: &'a str) -> &'a str {

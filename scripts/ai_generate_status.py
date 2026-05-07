@@ -54,13 +54,61 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("contract", nargs="?")
     parser.add_argument("--summary")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
+    parser.add_argument("--no-active", action="store_true", help="active Work Item がない状態を生成する。")
     return parser.parse_args()
+
+
+def write_no_active_status(output: Path) -> None:
+    lines = [
+        "---",
+        "author: Ray",
+        "title: AI Cockpit Current Status",
+        "description: 現在の AI Work Item 状態を表示する自動生成ファイル。",
+        "key: ai-cockpit-current-status",
+        "generated: true",
+        "---",
+        "",
+        "# AI Cockpit Current Status",
+        "",
+        "このファイルは `scripts/ai_generate_status.py` で生成する。手書きで更新しない。",
+        "",
+        f"- Generated At: `{datetime.now(timezone.utc).isoformat()}`",
+        "- Task: `none`",
+        "- Mode: `none`",
+        "- State: `no_active_work_item`",
+        "- Contract Path: ``",
+        "- Summary Path: ``",
+        "",
+        "## Blocking",
+        "",
+        "- none",
+        "",
+        "## Required Checks",
+        "",
+        "- none",
+        "",
+        "## Changed Files",
+        "",
+        "- none",
+        "",
+        "## Backtrack",
+        "",
+        "- Status: `not_run`",
+        "",
+        "## Next Action",
+        "",
+        "- create a Work Item with `make ai-start TASK=<task>`",
+    ]
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def main() -> int:
     args = parse_args()
-    if not args.contract:
-        print("ℹ️ Skipping status generation (no active contract provided)")
+    output = Path(args.output)
+    if args.no_active or not args.contract:
+        write_no_active_status(output)
+        print(f"✅ cockpit status generated (no active Work Item): {output}")
         return 0
     try:
         contract_path = Path(args.contract)
@@ -136,7 +184,6 @@ def main() -> int:
 
     lines.extend(["", "## Next Action", "", "- human review / commit decision"])
 
-    output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"✅ cockpit status generated: {output}")

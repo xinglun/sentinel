@@ -1,0 +1,107 @@
+{
+  "contractVersion": 1,
+  "workItemId": "observability_status_and_report_compact",
+  "mode": "code",
+  "title": "AI observability status と Telegram compact 表示",
+  "scope": [
+    ".ai/work-items/active/observability_status_and_report_compact.contract.json",
+    ".ai/work-items/active/observability_status_and_report_compact.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_generate_status.py",
+    "Makefile",
+    "src/core/presentation_assembler.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/cli.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/lib/core/observability",
+      "reason": "TraceContext / Event / Sink 分離の観測設計を参考にする。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "archive 後に active path が残る drift の確認対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "archive 後に current_status.md が存在しない active Work Item を指さない。",
+    "active Work Item がない状態を current_status.md で明示できる。",
+    "Telegram HTML の構造強度は raw evidence record count を表示しない。",
+    "archival Markdown は従来通り詳細 evidence を保持する。",
+    "既存の trend recognition / structural strength tests が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observability_status_and_report_compact.summary.json CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json SUMMARY=.ai/work-items/active/observability_status_and_report_compact.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observability_status_and_report_compact.contract.json SUMMARY=.ai/work-items/active/observability_status_and_report_compact.summary.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status ARGS=\"--no-active --output target/ai_no_active_status.md\"",
+      "required": true
+    },
+    {
+      "command": "make check-ai CONTRACT= SUMMARY=",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、current_status と Telegram 表示を前状態へ戻す。"
+}

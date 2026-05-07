@@ -1227,6 +1227,15 @@ mod tests {
             transition.structural_strength.as_deref(),
             Some("增强中 (3 类证据)")
         );
+        assert_eq!(
+            transition.strategic_context,
+            vec![
+                "长期方向: 长期结构趋势增强".to_string(),
+                "证据持续性: 持续累积".to_string(),
+                "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)".to_string(),
+                "战术状态: NO TRADE，等待结构扩散".to_string(),
+            ]
+        );
     }
 
     #[test]
