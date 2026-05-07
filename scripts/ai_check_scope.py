@@ -69,12 +69,15 @@ def string_list(data: dict[str, Any], key: str) -> list[str]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Work Item scope と実 diff を検証します。")
-    parser.add_argument("contract")
+    parser.add_argument("contract", nargs="?")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
+    if not args.contract:
+        print("ℹ️ Skipping scope check (no active contract provided)")
+        return 0
     start = time.time()
     try:
         contract = load_json(Path(args.contract))

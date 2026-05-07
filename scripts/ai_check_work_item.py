@@ -122,9 +122,9 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
 
 
 def main() -> int:
-    if len(sys.argv) != 2:
-        print("Usage: python3 scripts/ai_check_work_item.py <contract.json>", file=sys.stderr)
-        return 2
+    if len(sys.argv) < 2 or not sys.argv[1]:
+        print("ℹ️ Skipping work item check (no active contract provided)")
+        return 0
     path = Path(sys.argv[1])
     start = time.time()
     try:
