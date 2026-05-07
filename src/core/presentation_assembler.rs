@@ -1,4 +1,5 @@
 use crate::config::ParsedRules;
+use crate::core::asset_state::AssetState;
 use crate::core::decision::DecisionPacket;
 use crate::core::display::{DisplayAdapter, DisplayContext, DisplayIntent};
 use crate::core::exit::AssetExitState;
@@ -10,6 +11,7 @@ use crate::core::presentation::{
     ExitDisplayIntent, MacroDisplayContext, PresentationPacket, RiskOpportunitySummaryViewModel,
     SignalSummaryViewModel, StateTransitionViewModel, UnmetDiffViewModel,
 };
+use crate::core::trend_cohesion::EvidenceType;
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 
@@ -515,20 +517,55 @@ impl PresentationAssembler {
         });
         let mut substantive_signals = Vec::new();
         let mut substantive_details = Vec::new();
+        let mut substantive_record_count = 0;
+        let mut price_confirmation_record_count = 0;
         if let Some(sub) = log
             .trend_recognition
             .as_ref()
             .and_then(|tr| tr.substantive.as_ref())
         {
-            if sub.capex_payoff_signal {
+            let has_capex_payoff = sub.capex_payoff_signal
+                || sub
+                    .records
+                    .iter()
+                    .any(|record| record.evidence_type == EvidenceType::CapexPayoff);
+            let has_earnings_validation = sub.earnings_validation
+                || sub
+                    .records
+                    .iter()
+                    .any(|record| record.evidence_type == EvidenceType::EarningsValidation);
+            let has_order_visibility = sub.order_visibility
+                || sub
+                    .records
+                    .iter()
+                    .any(|record| record.evidence_type == EvidenceType::OrderVisibility);
+
+            if has_capex_payoff {
                 substantive_signals.push(dict.trend_recognition.capex_payoff.clone());
             }
-            if sub.earnings_validation {
+            if has_earnings_validation {
                 substantive_signals.push(dict.trend_recognition.earnings_validation.clone());
             }
-            if sub.order_visibility {
+            if has_order_visibility {
                 substantive_signals.push(dict.trend_recognition.order_visibility.clone());
             }
+            substantive_record_count = sub
+                .records
+                .iter()
+                .filter(|record| {
+                    matches!(
+                        record.evidence_type,
+                        EvidenceType::CapexPayoff
+                            | EvidenceType::EarningsValidation
+                            | EvidenceType::OrderVisibility
+                    )
+                })
+                .count();
+            price_confirmation_record_count = sub
+                .records
+                .iter()
+                .filter(|record| record.evidence_type == EvidenceType::FollowThrough)
+                .count();
 
             for record in &sub.records {
                 let source_label = match record.source {
@@ -567,6 +604,14 @@ impl PresentationAssembler {
                 ));
             }
         }
+        let risk_taxonomy = Self::build_risk_taxonomy(packet, log, dict);
+        let structural_strength = Self::build_structural_strength(
+            substantive_signals.len(),
+            substantive_record_count,
+            price_confirmation_record_count,
+            trend_recognition_conviction_score,
+            dict,
+        );
 
         Some(StateTransitionViewModel {
             has_significant_change: log.market_state.changed
@@ -576,7 +621,8 @@ impl PresentationAssembler {
                 || log.trend_cohesion_status.changed
                 || log.trend_cohesion_topology.changed
                 || has_structural_breakout_change
-                || !substantive_signals.is_empty(),
+                || !substantive_signals.is_empty()
+                || structural_strength.is_some(),
             no_trade_persists: log.no_trade_persists,
             market_state_change: if log.market_state.changed {
                 Some(format!(
@@ -628,6 +674,7 @@ impl PresentationAssembler {
             },
             trend_unmet_diff: Self::map_unmet_diff(&log.trend_cohesion_gate, packet, dict),
             breakout_changes,
+            risk_taxonomy,
             scout_continuity,
             scout_expansion,
             scout_reset,
@@ -636,9 +683,123 @@ impl PresentationAssembler {
             trend_recognition_conviction_score,
             trend_recognition_lag_state,
             trend_recognition_single_asset_decay,
+            structural_strength,
             substantive_signals,
             substantive_details,
         })
+    }
+
+    fn build_risk_taxonomy(
+        packet: &DecisionPacket,
+        log: &crate::core::transition_log::StateTransitionLog,
+        dict: &DisplayDictionary,
+    ) -> Vec<String> {
+        let te = &dict.transition_evidence;
+        let structure_risk = if packet
+            .market_regime
+            .transition_audit
+            .as_ref()
+            .is_some_and(|audit| audit.core_breakdown)
+            || packet.market_regime.risk_overlay == RiskOverlay::BROKEN
+        {
+            &te.risk_collapse
+        } else if matches!(
+            packet.market_regime.risk_overlay,
+            RiskOverlay::DECELERATING | RiskOverlay::DEFENSIVE
+        ) {
+            &te.risk_fragile
+        } else {
+            &te.risk_normal
+        };
+
+        let initiation_volatility = if !log.trend_cohesion_gate.to && log.breakout_active_count > 0
+        {
+            &te.volatility_active
+        } else {
+            &te.volatility_inactive
+        };
+
+        let position_risk = if packet.assets.iter().any(|asset| {
+            asset.asset_state.state == AssetState::OVERHEAT
+                || asset.exit_decision.asset_exit_state == AssetExitState::OverheatProfitTake
+        }) {
+            &te.position_risk_overheated
+        } else {
+            &te.position_risk_normal
+        };
+
+        vec![
+            format!("{}: {}", te.market_structure_risk, structure_risk),
+            format!("{}: {}", te.initiation_volatility, initiation_volatility),
+            format!("{}: {}", te.position_risk, position_risk),
+        ]
+    }
+
+    fn build_structural_strength(
+        substantive_signal_count: usize,
+        substantive_record_count: usize,
+        price_confirmation_record_count: usize,
+        conviction_score: Option<f64>,
+        dict: &DisplayDictionary,
+    ) -> Option<String> {
+        if substantive_signal_count == 0 && price_confirmation_record_count == 0 {
+            return None;
+        }
+
+        let tr = &dict.trend_recognition;
+        let label = if substantive_signal_count >= 3
+            || price_confirmation_record_count >= 2
+            || conviction_score.unwrap_or(0.0) >= 3.0
+        {
+            &tr.structural_strength_strengthening
+        } else {
+            &tr.structural_strength_observed
+        };
+
+        let mut parts = Vec::new();
+        if substantive_signal_count > 0 {
+            parts.push(format!(
+                "{} {}",
+                substantive_signal_count,
+                Self::count_unit(
+                    substantive_signal_count,
+                    &tr.structural_strength_type_unit_singular,
+                    &tr.structural_strength_type_unit,
+                )
+            ));
+        }
+        if substantive_record_count > 0 {
+            parts.push(format!(
+                "{} {}",
+                substantive_record_count,
+                Self::count_unit(
+                    substantive_record_count,
+                    &tr.structural_strength_record_unit_singular,
+                    &tr.structural_strength_record_unit,
+                )
+            ));
+        }
+        if price_confirmation_record_count > 0 {
+            parts.push(format!(
+                "{} {}",
+                price_confirmation_record_count,
+                Self::count_unit(
+                    price_confirmation_record_count,
+                    &tr.structural_strength_price_confirmation_unit_singular,
+                    &tr.structural_strength_price_confirmation_unit,
+                )
+            ));
+        }
+
+        Some(format!("{} ({})", label, parts.join(" / ")))
+    }
+
+    fn count_unit<'a>(count: usize, singular: &'a str, plural: &'a str) -> &'a str {
+        if count == 1 {
+            singular
+        } else {
+            plural
+        }
     }
 
     fn format_structural_breakout_change(

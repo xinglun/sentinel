@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-observability",
+  "mode": "code",
+  "title": "AI 脚手架実行 Observability 導入",
+  "scope": [
+    "scripts/**",
+    ".ai/**",
+    ".github/workflows/**",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "AGENTS.md",
+    "GEMINI.md",
+    "Makefile",
+    "README.md",
+    "docs/specs/DEVELOPMENT_PROTOCOL.md",
+    "skills/**",
+    ".gitignore"
+  ],
+  "outOfScope": [
+    "config.toml",
+    "tests/**",
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/cli.rs"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/lib/core/observability/",
+      "reason": "Observability パターンの参考元。Sink 抽象、構造化イベント、TraceContext の設計を移植する。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "check catalog。イベント種別の定義根拠。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "scripts/ai_observability.py に AiEvent / AiRunContext / AiObservabilitySink / JsonLinesSink / AiObservability が定義されている。",
+    "既存の 9 scripts が AiObservability を通じて構造化イベントを emit する。",
+    "target/ai_observability.jsonl に JSON Lines 形式のイベントが出力される。",
+    "既存の print 出力（✅/❌/⚠️）は維持され、振る舞いが変わらない。",
+    "Sink の失敗が script の exit code に影響しない（report-only）。",
+    "Python 標準ライブラリのみ使用し、追加依存を導入しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_observability.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_observability.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_observability.summary.json CONTRACT=.ai/work-items/active/ai_observability.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_observability.contract.json SUMMARY=.ai/work-items/active/ai_observability.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_observability.contract.json SUMMARY=.ai/work-items/active/ai_observability.summary.json",
+      "required": true
+    },
+    {
+      "command": "python3 -c \"import scripts.ai_observability\"",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "scripts/ai_observability.py を削除し、各 script の observability 関連行を revert する。"
+}

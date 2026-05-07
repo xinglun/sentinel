@@ -31,16 +31,19 @@ jobs:
         uses: Swatinem/rust-cache@v2
 
       - name: Check Formatting
-        run: cargo fmt --all -- --check
+        run: make fmt-check
 
       - name: Check Audit Doc Consistency
-        run: bash scripts/check_audit_docs.sh
+        run: make audit-docs
         
       - name: Check Warnings (Clippy)
-        run: cargo clippy --all-targets -- -D warnings
+        run: make clippy
 
       - name: Run Unit Tests
-        run: cargo test
+        run: make test
+
+      - name: Run AI Governance Checks
+        run: make check-ai
 
   audit-daily-guard:
     name: Audit Daily Guard
@@ -84,12 +87,11 @@ jobs:
       - name: Run audit_daily specialized tests
         if: steps.changes.outputs.audit_daily == 'true'
         run: |
-          cargo test audit_daily_
-          cargo test --test audit_daily_cli_integration
+          make test-audit-daily
 
       - name: Check audit docs consistency
         if: steps.changes.outputs.audit_daily == 'true'
-        run: bash scripts/check_audit_docs.sh
+        run: make audit-docs
 
       - name: Skip guard when unrelated
         if: steps.changes.outputs.audit_daily != 'true'

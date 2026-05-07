@@ -162,6 +162,8 @@ pub struct StateTransitionViewModel {
     pub trend_cohesion_topology_change: Option<String>,
     pub breakout_changes: Vec<String>,
     #[serde(default)]
+    pub risk_taxonomy: Vec<String>,
+    #[serde(default)]
     pub scout_continuity: Option<String>,
     #[serde(default)]
     pub scout_expansion: Option<String>,
@@ -177,6 +179,8 @@ pub struct StateTransitionViewModel {
     pub trend_recognition_lag_state: Option<String>,
     #[serde(default)]
     pub trend_recognition_single_asset_decay: Option<String>,
+    #[serde(default)]
+    pub structural_strength: Option<String>,
     #[serde(default)]
     pub substantive_signals: Vec<String>,
     #[serde(default)]

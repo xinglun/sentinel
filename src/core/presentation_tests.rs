@@ -1149,18 +1149,44 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_evidence_mapping() {
+        use crate::core::asset_state::{AssetState, AssetStateSnapshot};
+        use crate::core::market_regime::{MarketRegimeSnapshot, RiskOverlay};
         use crate::core::transition_log::StateTransitionLog;
-        use crate::core::trend_cohesion::{TrendContinuationState, TrendRecognitionEvidence};
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+        };
 
         let mut curr = DecisionPacket::default();
+        curr.market_regime = MarketRegimeSnapshot {
+            risk_overlay: RiskOverlay::DEFENSIVE,
+            ..Default::default()
+        };
+        curr.assets = vec![AssetActionDecision {
+            symbol: "GOOG".to_string(),
+            asset_state: AssetStateSnapshot {
+                symbol: "GOOG".to_string(),
+                state: AssetState::OVERHEAT,
+                ..Default::default()
+            },
+            exit_decision: ExitDecision {
+                asset_exit_state: AssetExitState::OverheatProfitTake,
+                ..Default::default()
+            },
+            ..Default::default()
+        }];
         curr.trend_recognition = Some(TrendRecognitionEvidence {
             state: TrendContinuationState::LeaderConfirmedFollowersLagging,
             diffusion_score: 0.45,
-            conviction_score: 0.0,
+            conviction_score: 3.4,
             lag_state: true,
             single_asset_decay_day: 3,
             single_asset_decay_max: 5,
-            substantive: None,
+            substantive: Some(SubstantiveEvidence {
+                capex_payoff_signal: true,
+                earnings_validation: true,
+                order_visibility: true,
+                ..Default::default()
+            }),
         });
 
         // Compute transition log to carry the evidence
@@ -1188,6 +1214,18 @@ mod tests {
         assert_eq!(
             transition.trend_recognition_single_asset_decay.as_deref(),
             Some("3/5")
+        );
+        assert_eq!(
+            transition.risk_taxonomy,
+            vec![
+                "市场结构风险: FRAGILE".to_string(),
+                "启动期波动: 无".to_string(),
+                "价格位置风险: OVERHEATED".to_string(),
+            ]
+        );
+        assert_eq!(
+            transition.structural_strength.as_deref(),
+            Some("增强中 (3 类证据)")
         );
     }
 

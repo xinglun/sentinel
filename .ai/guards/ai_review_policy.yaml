@@ -1,0 +1,19 @@
+# AI Review Checklist の提出条件を定義する policy。
+# 現時点では report-only とし、CI fail gate にはしない。
+
+requiredReviewChecklist:
+  stage: report_only
+  reason: AI governance / CI / command entrypoint / decision report 変更は review checklist 対象として扱う。
+  include:
+    - .ai/**
+    - skills/**
+    - AGENTS.md
+    - GEMINI.md
+    - Makefile
+    - .github/workflows/**
+    - src/core/report.rs
+    - src/core/presentation_assembler.rs
+    - src/core/i18n.rs
+  exclude:
+    - .ai/work-items/*review*.json
+    - .ai/work-items/**/*review*.json

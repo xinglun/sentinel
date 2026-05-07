@@ -99,7 +99,7 @@ jobs:
         run: |
           echo "RUN_AT_JST=$(TZ=Asia/Tokyo date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
           echo "REPORT_DATE_JST=$(TZ=Asia/Tokyo date +%Y-%m-%d)" >> $GITHUB_ENV
-          cargo run --release -- backtest
+          make backtest-release
 
       - name: Snapshot Backtest Summary (latest + archive)
         run: |

@@ -895,6 +895,22 @@ fn render_transition_block(
             }
         }
     }
+    if !evidence.risk_taxonomy.is_empty() {
+        match mode {
+            RenderMode::Markdown => {
+                block.push_str(&format!("- **{}**:\n", te_dict.risk_taxonomy));
+                for item in &evidence.risk_taxonomy {
+                    block.push_str(&format!("  - {}\n", item));
+                }
+            }
+            RenderMode::Html => {
+                block.push_str(&format!("• {}:\n", te_dict.risk_taxonomy));
+                for item in &evidence.risk_taxonomy {
+                    block.push_str(&format!("  - <i>{}</i>\n", item));
+                }
+            }
+        }
+    }
     if has_scout_status {
         match mode {
             RenderMode::Markdown => {
@@ -944,6 +960,9 @@ fn render_transition_block(
                 if let Some(value) = &evidence.trend_recognition_conviction_score {
                     block.push_str(&format!("  - {}: {:.2}\n", tr_dict.conviction_score, value));
                 }
+                if let Some(value) = &evidence.structural_strength {
+                    block.push_str(&format!("  - {}: {}\n", tr_dict.structural_strength, value));
+                }
                 if !evidence.substantive_signals.is_empty() {
                     block.push_str(&format!(
                         "  - {}: {}\n",
@@ -981,6 +1000,12 @@ fn render_transition_block(
                     block.push_str(&format!(
                         "  - <i>{}: {:.2}</i>\n",
                         tr_dict.conviction_score, value
+                    ));
+                }
+                if let Some(value) = &evidence.structural_strength {
+                    block.push_str(&format!(
+                        "  - <i>{}: {}</i>\n",
+                        tr_dict.structural_strength, value
                     ));
                 }
                 if !evidence.substantive_signals.is_empty() {

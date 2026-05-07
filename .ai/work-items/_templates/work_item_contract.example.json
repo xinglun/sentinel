@@ -1,0 +1,44 @@
+{
+  "contractVersion": 1,
+  "workItemId": "example-task",
+  "mode": "code",
+  "title": "Example task",
+  "scope": [
+    "src/core/example.rs",
+    "tests/example.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/EXAMPLE.md",
+      "reason": "実装根拠。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "期待される振る舞いがテストで固定されている。"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この task の diff を revert し、関連 test / docs を元に戻す。"
+}

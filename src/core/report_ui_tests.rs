@@ -2246,17 +2246,28 @@ mod tests {
             single_asset_decay_day: 3,
             single_asset_decay_max: 5,
             substantive: Some(SubstantiveEvidence {
-                records: vec![AutomatedEvidenceRecord {
-                    source: EvidenceSourceType::OfficialIR,
-                    evidence_type: EvidenceType::EarningsValidation,
-                    confidence: 0.95,
-                    description: "Earnings beat expectations by 15%".to_string(),
-                    event_date: "2026-04-22".to_string(),
-                    symbol: Some("GOOG".to_string()),
-                    source_url: Some("https://example.com/ir/goog".to_string()),
-                    dedupe_key: "test:goog:earnings:2026-04-22".to_string(),
-                }],
-                earnings_validation: true,
+                records: vec![
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::OfficialIR,
+                        evidence_type: EvidenceType::EarningsValidation,
+                        confidence: 0.95,
+                        description: "Earnings beat expectations by 15%".to_string(),
+                        event_date: "2026-04-22".to_string(),
+                        symbol: Some("GOOG".to_string()),
+                        source_url: Some("https://example.com/ir/goog".to_string()),
+                        dedupe_key: "test:goog:earnings:2026-04-22".to_string(),
+                    },
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::PriceAction,
+                        evidence_type: EvidenceType::FollowThrough,
+                        confidence: 0.80,
+                        description: "Breakout follow-through persisted".to_string(),
+                        event_date: "2026-04-23".to_string(),
+                        symbol: Some("GOOG".to_string()),
+                        source_url: None,
+                        dedupe_key: "test:goog:follow-through:2026-04-23".to_string(),
+                    },
+                ],
                 ..Default::default()
             }),
         });
@@ -2284,11 +2295,15 @@ mod tests {
         assert!(md.contains("[2026-04-22] [EarningsValidation]"));
         assert!(md.contains("Earnings beat expectations by 15%"));
         assert!(md.contains("https://example.com/ir/goog"));
+        assert!(md.contains("[2026-04-23] [FollowThrough]"));
+        assert!(md.contains("Breakout follow-through persisted"));
 
         let html = report.telegram_html_body;
         assert!(html.contains("🎯 趋势特征识别"));
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
         assert!(html.contains("实质性证据: 业绩实质性确认"));
+        assert!(html.contains("结构强度: 已观察 (1 类证据 / 1 条记录 / 1 条价格确认)"));
+        assert!(!html.contains("FollowThrough"));
         assert!(!html.contains("[2026-04-22] [EarningsValidation]"));
         assert!(!html.contains("https://example.com/ir/goog"));
         // Verify that the transition evidence block is rendered even if it's just trend recognition
@@ -2354,16 +2369,28 @@ mod tests {
             single_asset_decay_day: 0,
             single_asset_decay_max: 5,
             substantive: Some(SubstantiveEvidence {
-                records: vec![AutomatedEvidenceRecord {
-                    source: EvidenceSourceType::OfficialIR,
-                    evidence_type: EvidenceType::EarningsValidation,
-                    confidence: 0.95,
-                    description: "Earnings beat expectations by 15%".to_string(),
-                    event_date: "2026-04-22".to_string(),
-                    symbol: Some("GOOG".to_string()),
-                    source_url: Some("https://example.com/ir/goog".to_string()),
-                    dedupe_key: "test:goog:earnings:2026-04-22".to_string(),
-                }],
+                records: vec![
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::OfficialIR,
+                        evidence_type: EvidenceType::EarningsValidation,
+                        confidence: 0.95,
+                        description: "Earnings beat expectations by 15%".to_string(),
+                        event_date: "2026-04-22".to_string(),
+                        symbol: Some("GOOG".to_string()),
+                        source_url: Some("https://example.com/ir/goog".to_string()),
+                        dedupe_key: "test:goog:earnings:2026-04-22".to_string(),
+                    },
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::PriceAction,
+                        evidence_type: EvidenceType::FollowThrough,
+                        confidence: 0.80,
+                        description: "Breakout follow-through persisted".to_string(),
+                        event_date: "2026-04-23".to_string(),
+                        symbol: Some("GOOG".to_string()),
+                        source_url: None,
+                        dedupe_key: "test:goog:follow-through:2026-04-23".to_string(),
+                    },
+                ],
                 earnings_validation: true,
                 ..Default::default()
             }),
@@ -2384,6 +2411,27 @@ mod tests {
                     .unwrap();
 
             assert!(report.telegram_html_body.contains("Earnings Quality"));
+            match language {
+                Language::EnUs => {
+                    assert!(report.telegram_html_body.contains("Risk Taxonomy"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("Market Structure Risk: NORMAL"));
+                    assert!(report.telegram_html_body.contains("Structural Strength"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("Observed (1 evidence type / 1 record / 1 price confirmation)"));
+                }
+                Language::JaJp => {
+                    assert!(report.telegram_html_body.contains("リスク分類"));
+                    assert!(report.telegram_html_body.contains("市場構造リスク: NORMAL"));
+                    assert!(report.telegram_html_body.contains("構造強度"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("観測済み (1 種類の証拠 / 1 件の記録 / 1 件の価格確認)"));
+                }
+                Language::ZhCn => unreachable!(),
+            }
             assert!(!report
                 .telegram_html_body
                 .contains("[2026-04-22] [EarningsValidation]"));
@@ -2396,6 +2444,27 @@ mod tests {
             assert!(report
                 .archival_markdown
                 .contains("[2026-04-22] [EarningsValidation]"));
+            match language {
+                Language::EnUs => {
+                    assert!(report.archival_markdown.contains("Risk Taxonomy"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("Market Structure Risk: NORMAL"));
+                    assert!(report.archival_markdown.contains("Structural Strength"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("Observed (1 evidence type / 1 record / 1 price confirmation)"));
+                }
+                Language::JaJp => {
+                    assert!(report.archival_markdown.contains("リスク分類"));
+                    assert!(report.archival_markdown.contains("市場構造リスク: NORMAL"));
+                    assert!(report.archival_markdown.contains("構造強度"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("観測済み (1 種類の証拠 / 1 件の記録 / 1 件の価格確認)"));
+                }
+                Language::ZhCn => unreachable!(),
+            }
             assert!(report
                 .archival_markdown
                 .contains("Earnings beat expectations by 15%"));

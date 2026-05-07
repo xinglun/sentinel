@@ -1,0 +1,56 @@
+# Sentinel の generated / manual / runtime boundary manifest。
+
+src/**:
+  boundary: production
+  owner: rust-code
+  reason: Production Rust code。
+
+tests/**:
+  boundary: test-contract
+  owner: tests
+  reason: behavior / CLI / integration contract。
+
+.ai/guards/**:
+  boundary: manual_owned
+  owner: ai-config
+  reason: AI guard manifest の SSOT。
+
+.ai/work-items/**:
+  boundary: manual_owned
+  owner: task-contract
+  reason: Work Item Contract / Summary の証跡。
+
+.ai/cockpit/current_status.md:
+  boundary: generated_by_make
+  owner: ai-cockpit
+  reason: make generate-cockpit-status で生成する。
+
+.ai/**:
+  boundary: manual_owned
+  owner: ai-config
+  reason: AI governance 設定。
+
+.github/workflows/**:
+  boundary: manual_owned
+  owner: ci
+  reason: GitHub Actions workflow。
+
+Makefile:
+  boundary: manual_owned
+  owner: command-entrypoint
+  reason: command entrypoint の SSOT。
+
+reports/**:
+  boundary: runtime_artifact
+  owner: data-branch
+  reason: daily radar outputs。code branch に混入させない。
+
+backtest/summary.md:
+  boundary: runtime_artifact
+  owner: data-branch
+  reason: weekly backtest output。code branch に混入させない。
+
+target/**:
+  boundary: generated_local
+  owner: build
+  reason: local build artifact。
