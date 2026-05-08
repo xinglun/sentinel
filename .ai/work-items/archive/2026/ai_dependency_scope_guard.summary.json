@@ -1,0 +1,94 @@
+{
+  "workItemId": "ai_dependency_scope_guard",
+  "contractPath": ".ai/work-items/archive/2026/ai_dependency_scope_guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai_dependency_scope_guard.contract.json",
+      "reason": "Work Item Contract を依存 scope guard 実装向けに確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai_dependency_scope_guard.summary.json",
+      "reason": "AI Change Summary を依存 scope guard 実装向けに更新した。"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "代表的な依存ファイル不足を warning-only で検出する rule を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_dependency_scope.py",
+      "reason": "依存 scope warning の検出を検証する lightweight test を追加した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "test-ai-dependency-scope の make entrypoint を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_check_scope.py",
+    "Makefile",
+    "src/core/presentation.rs",
+    "src/core/i18n.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-dependency-scope",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_dependency_scope_guard.summary.json CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json SUMMARY=.ai/work-items/active/ai_dependency_scope_guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json SUMMARY=.ai/work-items/active/ai_dependency_scope_guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "第一版は warning-only とし、既存 check-ai の阻断条件を増やさず観測から開始する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

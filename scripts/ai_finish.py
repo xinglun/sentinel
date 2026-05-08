@@ -34,6 +34,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="AI Work Item の finish checks を実行します。")
     parser.add_argument("--task", required=True)
     parser.add_argument("--skip-quality", action="store_true", help="重い Rust quality gate を省略する。")
+    parser.add_argument("--archive", action=argparse.BooleanOptionalAction, default=True, help="checks 成功後に Work Item を archive する。")
     return parser.parse_args()
 
 
@@ -72,6 +73,16 @@ def main() -> int:
             return code
         obs.check_passed(check_id=check_id, command=cmd_str, duration_ms=duration)
     print("✅ Work Item finish checks passed")
+    if args.archive:
+        archive_command = ["make", "archive-work-item", f"CONTRACT={contract}"]
+        cmd_str = " ".join(archive_command)
+        obs.check_started(check_id="archive-work-item", command=cmd_str)
+        code, duration = run(archive_command)
+        if code != 0:
+            obs.check_failed(check_id="archive-work-item", command=cmd_str, duration_ms=duration)
+            obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
+            return code
+        obs.check_passed(check_id="archive-work-item", command=cmd_str, duration_ms=duration)
     obs.work_item_finished(result="passed", duration_ms=elapsed_ms(total_start))
     return 0
 

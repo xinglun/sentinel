@@ -1,0 +1,108 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai_retry_circuit_breaker",
+  "mode": "code",
+  "title": "AI retry circuit breaker",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/ai_retry_circuit_breaker.contract.json",
+    ".ai/work-items/active/ai_retry_circuit_breaker.summary.json",
+    "Makefile",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_test_retry_circuit.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Cockpit current_status.md の State 判定を生成する入口。"
+    },
+    {
+      "path": "scripts/ai_observability.py",
+      "reason": "AI check の passed / failed イベントを JSONL に記録する観測基盤。"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "reason": "生成された current_status.md が ready_for_review であることを検証する guard。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "AI scaffold の checker は make 経由で実行する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "同一 Work Item の連続 check_failed イベントが閾値以上の場合、Cockpit State が blocked_by_ai_loop になる。",
+    "check_passed が最新に存在する場合、連続失敗数はリセットされる。",
+    "status_generated などの観測イベントは連続失敗数をリセットしない。",
+    "active Work Item がない場合の current_status.md 生成は既存挙動を維持する。",
+    "retry circuit breaker の専用テストを make 経由で実行できる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_retry_circuit_breaker.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_retry_circuit_breaker.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make test-ai-retry-circuit",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_retry_circuit_breaker.summary.json CONTRACT=.ai/work-items/active/ai_retry_circuit_breaker.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_retry_circuit_breaker.contract.json SUMMARY=.ai/work-items/active/ai_retry_circuit_breaker.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_retry_circuit_breaker.contract.json SUMMARY=.ai/work-items/active/ai_retry_circuit_breaker.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "scripts/ai_generate_status.py、scripts/ai_test_retry_circuit.py、Makefile、およびこの Work Item の diff を revert する。"
+}

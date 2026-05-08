@@ -1,0 +1,111 @@
+{
+  "workItemId": "work_item_archive_flow_hardening",
+  "contractPath": ".ai/work-items/archive/2026/work_item_archive_flow_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+      "reason": "Work Item archive flow hardening 用に scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/work_item_archive_flow_hardening.summary.json",
+      "reason": "実装結果と検証結果を記録する summary を更新した。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "finish checks 成功後に Work Item を archive する option と default flow を追加する。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "archive 成功/失敗 path を lightweight test で検証する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "ai-finish の archive default と専用テスト入口を追加する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "現在の Work Item 状態を自動生成する。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_finish.py",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_check_lifecycle.py",
+    "Makefile"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/work_item_archive_flow_hardening.summary.json CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json SUMMARY=.ai/work-items/active/work_item_archive_flow_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json SUMMARY=.ai/work-items/active/work_item_archive_flow_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "ai-finish の default lifecycle を変更するため、成功/失敗 path を専用テストで固定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "detail": "check-ai-guards は .ai/** 変更を restricted_write warning として記録したが、Cockpit status の自動生成であり Contract scope 内。"
+    },
+    {
+      "path": "Makefile",
+      "detail": "check-ai-guards は Makefile 変更を restricted_write warning として記録したが、ai-finish lifecycle entrypoint の更新であり Contract scope 内。"
+    }
+  ]
+}

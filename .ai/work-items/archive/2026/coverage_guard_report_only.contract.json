@@ -1,0 +1,113 @@
+{
+  "contractVersion": 1,
+  "workItemId": "coverage_guard_report_only",
+  "mode": "code",
+  "title": "Coverage guard report only",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/coverage_guard_report_only.contract.json",
+    ".ai/work-items/active/coverage_guard_report_only.summary.json",
+    "Makefile",
+    "scripts/ai_check_coverage_guard.py",
+    "scripts/ai_test_coverage_guard.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_guards.py",
+      "reason": "AI guard script の report-only pattern と観測イベント出力を参照する。"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "diff から warning report を生成する既存 guard pattern を参照する。"
+    },
+    {
+      "path": "scripts/ai_observability.py",
+      "reason": "coverage guard の check / guard_violation イベントを既存 observability に統合する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "AI scaffold の checker は make 経由で実行する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "src/core/** または src/cli.rs の production code 変更を coverage risk として検出できる。",
+    "同じ diff に tests/** または *_tests.rs の変更がある場合は coverage risk を抑制できる。",
+    "guard は report-only とし、warning があっても exit code 0 を維持する。",
+    "target/ai_coverage_guard_report.json に status / reportOnly / items を出力する。",
+    "check-ai / quality から make 経由で coverage guard が実行される。",
+    "coverage guard の判定ロジックを専用 lightweight test で固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/coverage_guard_report_only.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/coverage_guard_report_only.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make test-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/coverage_guard_report_only.summary.json CONTRACT=.ai/work-items/active/coverage_guard_report_only.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/coverage_guard_report_only.contract.json SUMMARY=.ai/work-items/active/coverage_guard_report_only.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/coverage_guard_report_only.contract.json SUMMARY=.ai/work-items/active/coverage_guard_report_only.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "scripts/ai_check_coverage_guard.py、Makefile、およびこの Work Item の diff を revert する。"
+}
