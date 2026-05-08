@@ -16,6 +16,29 @@ from ai_observability import create_observability, elapsed_ms
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DEPENDENCY_SCOPE_RULES: dict[str, list[str]] = {
+    "src/core/presentation.rs": [
+        "src/core/presentation_assembler.rs",
+        "src/core/report.rs",
+        "src/core/presentation_tests.rs",
+        "src/core/report_ui_tests.rs",
+    ],
+    "src/core/presentation_assembler.rs": [
+        "src/core/presentation_tests.rs",
+        "src/core/report_ui_tests.rs",
+    ],
+    "src/core/report.rs": ["src/core/report_ui_tests.rs"],
+    "src/core/i18n.rs": [
+        "src/core/presentation_tests.rs",
+        "src/core/report_ui_tests.rs",
+    ],
+    "src/core/trend_cohesion.rs": [
+        "src/core/engine.rs",
+        "src/core/transition_log.rs",
+        "src/core/presentation_tests.rs",
+        "src/core/report_ui_tests.rs",
+    ],
+}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -62,6 +85,20 @@ def included(path: str, patterns: list[str]) -> bool:
     return any(matches(pattern, path) for pattern in patterns)
 
 
+def dependency_scope_warnings(paths: list[str], scope: list[str]) -> list[str]:
+    triggers = sorted(set(paths) | set(scope))
+    warnings: list[str] = []
+    for trigger, required_paths in DEPENDENCY_SCOPE_RULES.items():
+        if not included(trigger, triggers):
+            continue
+        missing = [path for path in required_paths if not included(path, scope)]
+        if missing:
+            warnings.append(
+                f"dependency scope warning: {trigger} requires scope entries: {', '.join(missing)}"
+            )
+    return warnings
+
+
 def string_list(data: dict[str, Any], key: str) -> list[str]:
     value = data.get(key, [])
     return [item for item in value if isinstance(item, str)]
@@ -105,6 +142,8 @@ def main() -> int:
         if not included(path, scope):
             issues.append(f"scope に含まれていません: {path}")
 
+    warnings = dependency_scope_warnings(paths, scope)
+
     duration = elapsed_ms(start)
     if issues:
         for issue in issues:
@@ -112,8 +151,20 @@ def main() -> int:
         print(f"❌ scope guard failed: {len(issues)} issue(s)", file=sys.stderr)
         obs.check_failed(check_id="aiScope", duration_ms=duration, detail=f"{len(issues)} issue(s)")
         return 1
+    for warning in warnings:
+        print(f"[warning] {warning}")
+        obs.guard_violation(
+            check_id="aiScopeDependency",
+            severity="warning",
+            path="scope",
+            detail=warning,
+        )
     print(f"✅ scope guard passed: {len(paths)} changed path(s) covered")
-    obs.check_passed(check_id="aiScope", duration_ms=duration, fields={"changedPaths": len(paths)})
+    obs.check_passed(
+        check_id="aiScope",
+        duration_ms=duration,
+        fields={"changedPaths": len(paths), "dependencyWarnings": len(warnings)},
+    )
     return 0
 
 

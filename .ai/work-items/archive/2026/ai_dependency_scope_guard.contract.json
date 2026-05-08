@@ -1,0 +1,107 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai_dependency_scope_guard",
+  "mode": "code",
+  "title": "AI dependency scope guard",
+  "scope": [
+    ".ai/work-items/active/ai_dependency_scope_guard.contract.json",
+    ".ai/work-items/active/ai_dependency_scope_guard.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "scripts/ai_check_scope.py",
+    "scripts/ai_test_dependency_scope.py"
+  ],
+  "outOfScope": [
+    "src/core/**",
+    "src/cli.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "既存の Contract scope guard。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "AI guard 用の make entrypoint。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "依存 scope rule の代表例。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "表示文言変更時の依存 scope rule の代表例。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "依存 scope guard は第一版では warning-only で、check-ai-scope の exit code を失敗にしない。",
+    "Contract scope に代表的な表示レイヤーの trigger file がある場合、関連する assembler / report / tests が scope にないと warning を出す。",
+    "warning は stdout と observability の guard_violation に記録される。",
+    "make test-ai-dependency-scope で不足 scope warning の検出を検証できる。",
+    "既存の check-ai / quality が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make test-ai-dependency-scope",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_dependency_scope_guard.summary.json CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json SUMMARY=.ai/work-items/active/ai_dependency_scope_guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_dependency_scope_guard.contract.json SUMMARY=.ai/work-items/active/ai_dependency_scope_guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

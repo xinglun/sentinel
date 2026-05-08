@@ -16,7 +16,7 @@ AUDIT_DAILY_ARGS ?=
 TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack \
 	generate-cockpit-status check-ai-status ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -40,6 +40,7 @@ help:
 	@printf '%s\n' '  make clippy'
 	@printf '%s\n' '  make diff-check'
 	@printf '%s\n' '  make test-audit-daily'
+	@printf '%s\n' '  make test-ai-dependency-scope'
 	@printf '%s\n' '  make check-rust'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
@@ -73,6 +74,9 @@ diff-check:
 test-audit-daily:
 	cargo test audit_daily_
 	cargo test --test audit_daily_cli_integration
+
+test-ai-dependency-scope:
+	python3 scripts/ai_test_dependency_scope.py
 
 check-rust: fmt-check audit-docs test clippy diff-check
 
