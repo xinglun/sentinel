@@ -1,0 +1,106 @@
+{
+  "contractVersion": 1,
+  "workItemId": "strategic_layer_boundary_contract",
+  "mode": "code",
+  "title": "Strategic layer boundary contract",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+    ".ai/work-items/active/strategic_layer_boundary_contract.summary.json",
+    "src/core/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs",
+    "src/core/report.rs",
+    "src/**/!(report_ui_tests.rs)",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram / Markdown の表示契約を固定する既存 UI 契約テスト。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Strategic Layer の表示行を組み立てる実装。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "三語の Strategic Layer 文言 SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Strategic Layer は NO TRADE 時に「待機 / 構造拡散待ち」の戦術制約を三語で保持する。",
+    "Strategic Layer は長期構造背景を表示しても、buy / add / entry / 加仓 / 买入 / 追い / エントリー等の実行誘導語を含めない。",
+    "Telegram HTML と archival Markdown の両方で boundary 文言を固定する。",
+    "production code は変更せず、表示契約テストのみ追加する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "cargo test test_strategic_layer_no_trade_boundary_is_stable_across_languages",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/strategic_layer_boundary_contract.summary.json CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json SUMMARY=.ai/work-items/active/strategic_layer_boundary_contract.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json SUMMARY=.ai/work-items/active/strategic_layer_boundary_contract.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "src/core/report_ui_tests.rs とこの Work Item の diff を revert する。"
+}
