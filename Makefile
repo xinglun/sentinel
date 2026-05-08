@@ -16,7 +16,7 @@ AUDIT_DAILY_ARGS ?=
 TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -43,6 +43,7 @@ help:
 	@printf '%s\n' '  make test-ai-dependency-scope'
 	@printf '%s\n' '  make test-ai-retry-circuit'
 	@printf '%s\n' '  make test-ai-coverage-guard'
+	@printf '%s\n' '  make test-ai-finish-archive-flow'
 	@printf '%s\n' '  make check-rust'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
@@ -86,6 +87,9 @@ test-ai-retry-circuit:
 
 test-ai-coverage-guard:
 	python3 scripts/ai_test_coverage_guard.py
+
+test-ai-finish-archive-flow:
+	python3 scripts/ai_test_finish_archive_flow.py
 
 check-rust: fmt-check audit-docs test clippy diff-check
 

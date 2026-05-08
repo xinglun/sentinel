@@ -1,0 +1,113 @@
+{
+  "contractVersion": 1,
+  "workItemId": "work_item_archive_flow_hardening",
+  "mode": "code",
+  "title": "Work Item archive flow hardening",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+    ".ai/work-items/active/work_item_archive_flow_hardening.summary.json",
+    "Makefile",
+    "scripts/ai_finish.py",
+    "scripts/ai_test_finish_archive_flow.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "Work Item finish checks の実行入口。"
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "active Work Item を archive/YYYY へ移動し current_status を no_active にする既存実装。"
+    },
+    {
+      "path": "scripts/ai_check_lifecycle.py",
+      "reason": "archive 後の Work Item path consistency を検証する guard。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "ai-finish は make 経由の標準入口。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "make ai-finish TASK=<task> が finish checks 成功後に Work Item を archive/YYYY へ移動する。",
+    "finish checks が失敗した場合、active Work Item は移動されない。",
+    "archive 後に current_status.md が no_active_work_item に更新される。",
+    "summary の contractPath が archive 先へ更新される既存仕様を維持する。",
+    "--no-archive で従来どおり checks のみ実行できる。",
+    "成功/失敗の archive flow を lightweight test で固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/work_item_archive_flow_hardening.summary.json CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json SUMMARY=.ai/work-items/active/work_item_archive_flow_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/work_item_archive_flow_hardening.contract.json SUMMARY=.ai/work-items/active/work_item_archive_flow_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "scripts/ai_finish.py、scripts/ai_test_finish_archive_flow.py、Makefile、およびこの Work Item の diff を revert する。"
+}
