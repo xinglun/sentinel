@@ -2506,6 +2506,102 @@ mod tests {
     }
 
     #[test]
+    fn test_strategic_layer_no_trade_boundary_is_stable_across_languages() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+        };
+
+        fn strategic_section<'a>(body: &'a str, title: &str) -> &'a str {
+            let start = body.find(title).expect("strategic section title");
+            let tail = &body[start..];
+            let end = tail.find("🎯").unwrap_or(tail.len());
+            &tail[..end]
+        }
+
+        let forbidden_execution_terms = [
+            "BUY",
+            "ADD",
+            "ENTRY",
+            "Open Position",
+            "Increase Exposure",
+            "买入",
+            "加仓",
+            "开仓",
+            "追击",
+            "購入",
+            "買い",
+            "買増",
+            "エントリー",
+            "追い",
+        ];
+
+        for (language, title, tactical_line) in [
+            (
+                Language::ZhCn,
+                "🧭 战略背景",
+                "战术状态: NO TRADE，等待结构扩散",
+            ),
+            (
+                Language::EnUs,
+                "🧭 Strategic Context",
+                "Tactical Status: NO TRADE, waiting for structural diffusion",
+            ),
+            (
+                Language::JaJp,
+                "🧭 戦略文脈",
+                "戦術状態: NO TRADE、構造拡散待ち",
+            ),
+        ] {
+            let mut curr = DecisionPacket::default();
+            curr.trend_recognition = Some(TrendRecognitionEvidence {
+                state: TrendContinuationState::EarlyLeader,
+                diffusion_score: 3.90,
+                conviction_score: 3.40,
+                lag_state: false,
+                single_asset_decay_day: 1,
+                single_asset_decay_max: 3,
+                substantive: Some(SubstantiveEvidence {
+                    capex_payoff_signal: true,
+                    earnings_validation: true,
+                    order_visibility: true,
+                    ..Default::default()
+                }),
+            });
+            curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+            let config = mock_config_with_language(language);
+            let pres = PresentationAssembler::assemble(
+                &curr,
+                &config.get_parsed_rules(),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let report =
+                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+                    .unwrap();
+
+            let markdown_section = strategic_section(&report.archival_markdown, title);
+            let telegram_section = strategic_section(&report.telegram_html_body, title);
+            assert!(markdown_section.contains(tactical_line));
+            assert!(telegram_section.contains(tactical_line));
+
+            for term in forbidden_execution_terms {
+                assert!(
+                    !markdown_section.contains(term),
+                    "Strategic Layer markdown must not include execution term: {term}"
+                );
+                assert!(
+                    !telegram_section.contains(term),
+                    "Strategic Layer telegram must not include execution term: {term}"
+                );
+            }
+        }
+    }
+
+    #[test]
     fn test_no_trade_persistence_explanation_en_us() {
         use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;

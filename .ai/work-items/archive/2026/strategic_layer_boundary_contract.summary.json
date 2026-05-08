@@ -1,0 +1,98 @@
+{
+  "workItemId": "strategic_layer_boundary_contract",
+  "contractPath": ".ai/work-items/archive/2026/strategic_layer_boundary_contract.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+      "reason": "Strategic Layer boundary 契約用に scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/strategic_layer_boundary_contract.summary.json",
+      "reason": "実装結果と検証結果を記録する summary を更新した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Strategic Layer が NO TRADE の戦術制約を三語で保持する契約テストを追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "現在の Work Item 状態を自動生成する。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test test_strategic_layer_no_trade_boundary_is_stable_across_languages",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/strategic_layer_boundary_contract.summary.json CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json SUMMARY=.ai/work-items/active/strategic_layer_boundary_contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/strategic_layer_boundary_contract.contract.json SUMMARY=.ai/work-items/active/strategic_layer_boundary_contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示契約テストのみ追加し、production code は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "detail": "check-ai-guards は .ai/** 変更を restricted_write warning として記録する可能性があるが、Cockpit status の自動生成であり Contract scope 内。"
+    }
+  ]
+}
