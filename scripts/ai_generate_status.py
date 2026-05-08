@@ -10,12 +10,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from ai_observability import create_observability
+from ai_observability import DEFAULT_LOG_PATH, create_observability
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
 BACKTRACK_REPORT = PROJECT_ROOT / "target" / "ai_backtrack_report.json"
+DEFAULT_RETRY_THRESHOLD = 5
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -25,8 +26,49 @@ def load_json(path: Path) -> dict[str, Any]:
     return data
 
 
-def status_for(contract: dict[str, Any], summary: dict[str, Any] | None) -> tuple[str, list[str]]:
+def consecutive_failure_count(work_item_id: str, log_path: Path = DEFAULT_LOG_PATH) -> int:
+    """同一 Work Item の最新連続 check_failed 数を返す。"""
+    if not work_item_id or not log_path.exists():
+        return 0
+
+    count = 0
+    try:
+        lines = log_path.read_text(encoding="utf-8").splitlines()
+    except OSError:
+        return 0
+
+    for raw in reversed(lines):
+        try:
+            event = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+        if not isinstance(event, dict) or event.get("workItemId") != work_item_id:
+            continue
+
+        event_type = event.get("eventType")
+        if event_type == "check_failed":
+            count += 1
+            continue
+        if event_type == "check_passed":
+            break
+    return count
+
+
+def status_for(
+    contract: dict[str, Any],
+    summary: dict[str, Any] | None,
+    *,
+    retry_threshold: int = DEFAULT_RETRY_THRESHOLD,
+    observability_log: Path = DEFAULT_LOG_PATH,
+) -> tuple[str, list[str]]:
     blockers: list[str] = []
+    work_item_id = contract.get("workItemId", "")
+    if isinstance(work_item_id, str) and retry_threshold > 0:
+        failures = consecutive_failure_count(work_item_id, observability_log)
+        if failures >= retry_threshold:
+            blockers.append(f"retry circuit breaker: consecutive check failures {failures}/{retry_threshold}")
+            return "blocked_by_ai_loop", blockers
+
     if contract.get("notCodable") is True:
         blockers.append("notCodable: true")
     unknowns = contract.get("unknowns")
@@ -54,6 +96,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("contract", nargs="?")
     parser.add_argument("--summary")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
+    parser.add_argument("--observability-log", default=str(DEFAULT_LOG_PATH))
+    parser.add_argument("--retry-threshold", type=int, default=DEFAULT_RETRY_THRESHOLD)
     parser.add_argument("--no-active", action="store_true", help="active Work Item がない状態を生成する。")
     return parser.parse_args()
 
@@ -119,7 +163,12 @@ def main() -> int:
         print(f"❌ Cockpit status を生成できません: {exc}", file=sys.stderr)
         return 1
 
-    state, blockers = status_for(contract, summary)
+    state, blockers = status_for(
+        contract,
+        summary,
+        retry_threshold=args.retry_threshold,
+        observability_log=Path(args.observability_log),
+    )
     backtrack = load_json(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
     changed_files = summary.get("changedFiles", []) if isinstance(summary, dict) else []
     verification = summary.get("verification", []) if isinstance(summary, dict) else []
