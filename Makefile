@@ -16,8 +16,8 @@ AUDIT_DAILY_ARGS ?=
 TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit \
-	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard \
+	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
 	collect-evidence-release archive-work-item check-work-items-lifecycle
@@ -42,12 +42,14 @@ help:
 	@printf '%s\n' '  make test-audit-daily'
 	@printf '%s\n' '  make test-ai-dependency-scope'
 	@printf '%s\n' '  make test-ai-retry-circuit'
+	@printf '%s\n' '  make test-ai-coverage-guard'
 	@printf '%s\n' '  make check-rust'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-guards'
 	@printf '%s\n' '  make check-ai-change-summary SUMMARY=<summary.json> CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-backtrack'
+	@printf '%s\n' '  make check-ai-coverage-guard'
 	@printf '%s\n' '  make generate-cockpit-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
 	@printf '%s\n' '  make check-ai-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
 	@printf '%s\n' '  make ai-start TASK=<task> TITLE="..."'
@@ -82,6 +84,9 @@ test-ai-dependency-scope:
 test-ai-retry-circuit:
 	python3 scripts/ai_test_retry_circuit.py
 
+test-ai-coverage-guard:
+	python3 scripts/ai_test_coverage_guard.py
+
 check-rust: fmt-check audit-docs test clippy diff-check
 
 check-ai-contract check-ai-work-item:
@@ -98,6 +103,9 @@ check-ai-change-summary:
 
 check-ai-backtrack:
 	python3 scripts/ai_check_backtrack.py
+
+check-ai-coverage-guard:
+	python3 scripts/ai_check_coverage_guard.py
 
 generate-cockpit-status:
 	python3 scripts/ai_generate_status.py $(CONTRACT) $(STATUS_ARGS) $(ARGS)
@@ -117,6 +125,7 @@ check-ai:
 		"$${MAKE:-make}" check-ai-scope CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" check-ai-guards && \
 		"$${MAKE:-make}" check-ai-backtrack && \
+		"$${MAKE:-make}" check-ai-coverage-guard && \
 		"$${MAKE:-make}" check-ai-change-summary SUMMARY="$(SUMMARY)" CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
@@ -125,6 +134,7 @@ check-ai:
 		python3 scripts/ai_generate_status.py --no-active && \
 		"$${MAKE:-make}" check-ai-guards && \
 		"$${MAKE:-make}" check-ai-backtrack && \
+		"$${MAKE:-make}" check-ai-coverage-guard && \
 		"$${MAKE:-make}" check-work-items-lifecycle; \
 	fi
 
