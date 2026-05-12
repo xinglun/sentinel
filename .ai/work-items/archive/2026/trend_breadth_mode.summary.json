@@ -1,0 +1,154 @@
+{
+  "workItemId": "trend_breadth_mode",
+  "contractPath": ".ai/work-items/archive/2026/trend_breadth_mode.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": ".ai/work-items/active/trend_breadth_mode.contract.json",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": ".ai/work-items/active/trend_breadth_mode.summary.json",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/remove_seven_app_references.contract.json",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/remove_seven_app_references.summary.json",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.contract.json",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.summary.json",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/SKILL.md",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/agents/openai.yaml",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": "scripts/ai_observability.py",
+      "reason": "作業開始時点の未提交または Work Item 管理対象。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "Trend Breadth / Strategic Layer 表示契約の変更対象。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "Trend Breadth / Strategic Layer 表示契約の変更対象。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Trend Breadth / Strategic Layer 表示契約の変更対象。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Trend Breadth / Strategic Layer 表示契約の変更対象。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "Trend Breadth / Strategic Layer 表示契約の変更対象。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "PresentationPacket 変更の downstream render 依存確認。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "scripts/ai_observability.py",
+    "skills/sentinel-ai-cockpit/SKILL.md",
+    "src/core/report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trend_breadth_mode.summary.json CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json SUMMARY=.ai/work-items/active/trend_breadth_mode.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json SUMMARY=.ai/work-items/active/trend_breadth_mode.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "市場構造モードは表示層に限定し、Gate / execution へ伝播させない必要がある。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "path": "skills/sentinel-ai-cockpit/**",
+      "detail": "作業開始時点で前回の Skill 変更が未提交だったため、scope に含めて保護する。"
+    },
+    {
+      "path": "scripts/ai_observability.py",
+      "detail": "作業開始時点で商用 project 名 cleanup の未提交変更が残っていたため、scope に含めて保護する。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "detail": "check-ai-scope は src/core/presentation.rs の依存先として src/core/report.rs を警告したため、scope に追加した。"
+    }
+  ]
+}

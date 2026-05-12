@@ -1,0 +1,117 @@
+{
+  "workItemId": "remove_seven_app_references",
+  "contractPath": ".ai/work-items/archive/2026/remove_seven_app_references.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/remove_seven_app_references.contract.json",
+      "reason": "seven_app 参照削除用に scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/remove_seven_app_references.summary.json",
+      "reason": "実装結果と検証結果を記録する summary を更新した。"
+    },
+    {
+      "path": "scripts/ai_observability.py",
+      "reason": "外部商用 project 名を含む説明を current repository に閉じた表現へ置換した。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/SKILL.md",
+      "reason": "作業開始時点の未提交 Skill 変更。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/agents/openai.yaml",
+      "reason": "作業開始時点の未提交 Skill metadata。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "現在の Work Item 状態を自動生成する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.contract.json",
+      "reason": "作業開始時点で存在した sentinel-ai-cockpit Skill Work Item archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.summary.json",
+      "reason": "作業開始時点で存在した sentinel-ai-cockpit Skill Work Item summary archive。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_observability.py",
+    "skills/sentinel-ai-cockpit/SKILL.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "bash -lc \"set +H; ! rg -n 'seven_app|Seven App|workspace_flutter|Flutter seven|seven-app|seven app' . -S --glob '!target/**' --glob '!.git/**'\"",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/remove_seven_app_references.summary.json CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json SUMMARY=.ai/work-items/active/remove_seven_app_references.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json SUMMARY=.ai/work-items/active/remove_seven_app_references.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "固有名削除と未提交 Skill 変更の保持に限定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "path": "skills/sentinel-ai-cockpit/**",
+      "detail": "作業開始時点で前回の Skill 変更が未提交だったため、scope に含めて保護する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "detail": "check-ai-guards は .ai/cockpit/current_status.md の restricted write を report-only warning として検出したが、Cockpit 生成ファイルとして scope 内で管理している。"
+    }
+  ]
+}

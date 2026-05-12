@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """AI 脚手架の構造化観測モジュール。
 
-Flutter seven_app の core/observability パターンを Python に移植し、
-各 AI script に統一的なイベント記録機能を提供する。
+AI Cockpit の各 script に統一的な構造化イベント記録機能を提供する。
 
 設計原則:
 - Python 標準ライブラリのみ使用。

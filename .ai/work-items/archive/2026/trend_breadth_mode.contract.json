@@ -1,0 +1,132 @@
+{
+  "contractVersion": 1,
+  "workItemId": "trend_breadth_mode",
+  "mode": "code",
+  "title": "Trend Breadth Mode",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/trend_breadth_mode.contract.json",
+    ".ai/work-items/active/trend_breadth_mode.summary.json",
+    ".ai/work-items/archive/2026/remove_seven_app_references.contract.json",
+    ".ai/work-items/archive/2026/remove_seven_app_references.summary.json",
+    ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.contract.json",
+    ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.summary.json",
+    "skills/sentinel-ai-cockpit/SKILL.md",
+    "skills/sentinel-ai-cockpit/agents/openai.yaml",
+    "scripts/ai_observability.py",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/execution_gate.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Strategic Layer と StateTransitionViewModel の表示組立対象。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "市場構造モードの三語表示文言。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram / Markdown 表示契約テスト。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "ViewModel 契約テスト。"
+    },
+    {
+      "path": "scripts/ai_observability.py",
+      "reason": "作業開始時点の未提交 cleanup 変更。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/SKILL.md",
+      "reason": "作業開始時点の未提交 Skill 変更。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "PresentationPacket 変更の downstream render 依存確認。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "TrendBreadthMode を表示層で分類し、BROAD_EXPANSION / NARROW_LEADERSHIP / FRAGILE_ROTATION / STRUCTURAL_DEFENSE を表現できる。",
+    "NARROW_LEADERSHIP では Strategic Layer に市場構造モード: 核心資産主導期を表示する。",
+    "NARROW_LEADERSHIP は Engine / Gate / execution / trend_cohesion の入力や判定に使わない。",
+    "NARROW_LEADERSHIP では表示上の保命期表現を構造整理期へ抑制し、NO TRADE / Gate FAIL は維持する。",
+    "三語の Telegram / Markdown 表示契約がテストで固定されている。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trend_breadth_mode.summary.json CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json SUMMARY=.ai/work-items/active/trend_breadth_mode.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trend_breadth_mode.contract.json SUMMARY=.ai/work-items/active/trend_breadth_mode.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "src/core/presentation*.rs、src/core/i18n.rs、関連 Work Item と既存未提交 Skill diff を revert する。"
+}
