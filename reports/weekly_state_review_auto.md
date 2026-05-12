@@ -1,10 +1,10 @@
 # Weekly State Review (Auto)
 
-- As of: 2026-05-11
+- As of: 2026-05-12
 - Status: using current market decision
-- Latest headline: 保命期 | 防守优先
+- Latest headline: 结构整理期 | 无交易窗口
 - Days analyzed: 1
-- Avg confidence: 48.5
+- Avg confidence: 49.9
 - Avg stability: 0.8
 - Trend cohesion ready days: 0
 
