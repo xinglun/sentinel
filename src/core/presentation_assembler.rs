@@ -9,7 +9,7 @@ use crate::core::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
     ExitDisplayIntent, MacroDisplayContext, PresentationPacket, RiskOpportunitySummaryViewModel,
-    SignalSummaryViewModel, StateTransitionViewModel, UnmetDiffViewModel,
+    SignalSummaryViewModel, StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
 };
 use crate::core::trend_cohesion::EvidenceType;
 use std::cmp::Ordering;
@@ -48,12 +48,21 @@ impl PresentationAssembler {
         // 1. Assemble Macro Display Context
         let state = packet.market_regime.market_state;
         let risk = packet.market_regime.risk_overlay;
+        let trend_breadth_mode = Self::classify_trend_breadth_mode(packet);
 
         let (headline, summary, bias) = if is_data_missing {
             (
                 dict.market_stages.data_missing.clone(),
                 dict.market_summaries.data_missing.clone(),
                 dict.market_summaries.bias_neutral.clone(),
+            )
+        } else if state == MarketState::DEFENSIVE
+            && trend_breadth_mode == TrendBreadthMode::NarrowLeadership
+        {
+            (
+                dict.market_stages.structural_consolidation.clone(),
+                dict.market_summaries.structural_consolidation.clone(),
+                dict.market_summaries.bias_ignition.clone(),
             )
         } else {
             match state {
@@ -602,6 +611,7 @@ impl PresentationAssembler {
             &substantive_signals,
             trend_recognition_conviction_score,
             log.trend_cohesion_gate.to,
+            Self::classify_trend_breadth_mode(packet),
             dict,
         );
 
@@ -680,7 +690,103 @@ impl PresentationAssembler {
             substantive_signals,
             substantive_details,
             strategic_context,
+            trend_breadth_mode: Self::classify_trend_breadth_mode(packet),
         })
+    }
+
+    fn classify_trend_breadth_mode(packet: &DecisionPacket) -> TrendBreadthMode {
+        if packet
+            .market_regime
+            .transition_audit
+            .as_ref()
+            .is_some_and(|audit| audit.core_breakdown)
+            || packet.market_regime.risk_overlay == RiskOverlay::BROKEN
+        {
+            return TrendBreadthMode::StructuralDefense;
+        }
+
+        let index_trend_positive = packet.assets.iter().any(|asset| {
+            asset.symbol == "SPY"
+                && matches!(
+                    asset.asset_state.state,
+                    AssetState::OPTIMAL
+                        | AssetState::CRUISE
+                        | AssetState::PULLBACK
+                        | AssetState::OVERHEAT
+                )
+        });
+        let leadership_symbols = ["MSFT", "GOOG", "NVDA"];
+        let leadership_count = packet
+            .assets
+            .iter()
+            .filter(|asset| {
+                leadership_symbols.contains(&asset.symbol.as_str())
+                    && matches!(
+                        asset.asset_state.state,
+                        AssetState::OPTIMAL
+                            | AssetState::CRUISE
+                            | AssetState::PULLBACK
+                            | AssetState::OVERHEAT
+                    )
+            })
+            .count();
+        let up_ratio = if packet.market_features.total_count > 0 {
+            packet.market_features.up_count as f64 / packet.market_features.total_count as f64
+        } else {
+            0.0
+        };
+        let substantive_signal_count = packet
+            .trend_recognition
+            .as_ref()
+            .and_then(|tr| tr.substantive.as_ref())
+            .map(Self::substantive_signal_count)
+            .unwrap_or(0);
+        let conviction_score = packet
+            .trend_recognition
+            .as_ref()
+            .map(|tr| tr.conviction_score)
+            .unwrap_or(0.0);
+
+        if up_ratio >= 0.60 && packet.market_features.up_count >= 4 {
+            return TrendBreadthMode::BroadExpansion;
+        }
+
+        if index_trend_positive
+            && leadership_count >= 2
+            && substantive_signal_count >= 2
+            && conviction_score >= 3.0
+        {
+            return TrendBreadthMode::NarrowLeadership;
+        }
+
+        TrendBreadthMode::FragileRotation
+    }
+
+    fn substantive_signal_count(sub: &crate::core::trend_cohesion::SubstantiveEvidence) -> usize {
+        let has_capex_payoff = sub.capex_payoff_signal
+            || sub
+                .records
+                .iter()
+                .any(|record| record.evidence_type == EvidenceType::CapexPayoff);
+        let has_earnings_validation = sub.earnings_validation
+            || sub
+                .records
+                .iter()
+                .any(|record| record.evidence_type == EvidenceType::EarningsValidation);
+        let has_order_visibility = sub.order_visibility
+            || sub
+                .records
+                .iter()
+                .any(|record| record.evidence_type == EvidenceType::OrderVisibility);
+
+        [
+            has_capex_payoff,
+            has_earnings_validation,
+            has_order_visibility,
+        ]
+        .into_iter()
+        .filter(|has_signal| *has_signal)
+        .count()
     }
 
     fn build_risk_taxonomy(
@@ -780,6 +886,7 @@ impl PresentationAssembler {
         substantive_signals: &[String],
         conviction_score: Option<f64>,
         gate_passed: bool,
+        breadth_mode: TrendBreadthMode,
         dict: &DisplayDictionary,
     ) -> Vec<String> {
         if substantive_signals.is_empty() {
@@ -804,8 +911,18 @@ impl PresentationAssembler {
         } else {
             &tr.strategic_tactical_waiting
         };
+        let breadth_mode_label = match breadth_mode {
+            TrendBreadthMode::BroadExpansion => &tr.trend_breadth_broad_expansion,
+            TrendBreadthMode::NarrowLeadership => &tr.trend_breadth_narrow_leadership,
+            TrendBreadthMode::FragileRotation => &tr.trend_breadth_fragile_rotation,
+            TrendBreadthMode::StructuralDefense => &tr.trend_breadth_structural_defense,
+        };
 
         vec![
+            format!(
+                "{}: {}",
+                tr.strategic_market_structure_mode, breadth_mode_label
+            ),
             format!("{}: {}", tr.strategic_direction, direction),
             format!("{}: {}", tr.strategic_evidence_continuity, continuity),
             format!(

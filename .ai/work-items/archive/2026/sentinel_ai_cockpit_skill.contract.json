@@ -1,0 +1,112 @@
+{
+  "contractVersion": 1,
+  "workItemId": "sentinel_ai_cockpit_skill",
+  "mode": "code",
+  "title": "Sentinel AI Cockpit skill",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/sentinel_ai_cockpit_skill.contract.json",
+    ".ai/work-items/active/sentinel_ai_cockpit_skill.summary.json",
+    "skills/sentinel-ai-cockpit/SKILL.md",
+    "skills/sentinel-ai-cockpit/agents/openai.yaml"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    ".github/workflows/**",
+    "Makefile",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "skills/sentinel-ai-cockpit/SKILL.md",
+      "reason": "既存 Sentinel AI Cockpit Skill。"
+    },
+    {
+      "path": "/Users/sei-rinn/.codex/skills/.system/skill-creator/SKILL.md",
+      "reason": "Skill 作成・更新の公式手順。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Sentinel repo の AI Cockpit 強制プロトコル。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Cockpit state と Work Item 操作の repository SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "sentinel-ai-cockpit Skill は投資判断ではなく AI 実行纪律だけを扱う。",
+    "Skill metadata description は code/test/docs/CI/.ai/skills/Makefile 変更時に trigger される文面にする。",
+    "Skill body は Work Item 作成、scope 確認、make quality、make ai-finish、自動archiveまでの最小手順を示す。",
+    "Skill は unknowns/notCodable が残る時に production code を変更しないよう明記する。",
+    "agents/openai.yaml を追加し、Codex UI 用 metadata を提供する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/sentinel_ai_cockpit_skill.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/sentinel_ai_cockpit_skill.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "python3 -c 'from pathlib import Path; s=Path('\\''skills/sentinel-ai-cockpit/SKILL.md'\\'').read_text(); y=Path('\\''skills/sentinel-ai-cockpit/agents/openai.yaml'\\'').read_text(); assert s.startswith('\\''---\\nname: sentinel-ai-cockpit\\n'\\''); assert '\\''description:'\\'' in s.split('\\''---'\\'',2)[1]; assert '\\''make ai-finish TASK=<task>'\\'' in s; assert '\\''Skill を投資判断や売買判断の手順として使わない'\\'' in s; assert '\\''display_name: \\\"Sentinel AI Cockpit\\\"'\\'' in y; assert '\\''$sentinel-ai-cockpit'\\'' in y'",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/sentinel_ai_cockpit_skill.summary.json CONTRACT=.ai/work-items/active/sentinel_ai_cockpit_skill.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/sentinel_ai_cockpit_skill.contract.json SUMMARY=.ai/work-items/active/sentinel_ai_cockpit_skill.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/sentinel_ai_cockpit_skill.contract.json SUMMARY=.ai/work-items/active/sentinel_ai_cockpit_skill.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "skills/sentinel-ai-cockpit とこの Work Item の diff を revert する。"
+}

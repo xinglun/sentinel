@@ -1230,6 +1230,7 @@ mod tests {
         assert_eq!(
             transition.strategic_context,
             vec![
+                "市场结构模式: 脆弱轮动期".to_string(),
                 "长期方向: 长期结构趋势增强".to_string(),
                 "证据持续性: 持续累积".to_string(),
                 "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)".to_string(),

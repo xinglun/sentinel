@@ -149,6 +149,15 @@ pub struct UnmetDiffViewModel {
     pub persisting: Vec<String>,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum TrendBreadthMode {
+    BroadExpansion,
+    NarrowLeadership,
+    #[default]
+    FragileRotation,
+    StructuralDefense,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct StateTransitionViewModel {
     pub has_significant_change: bool,
@@ -187,6 +196,8 @@ pub struct StateTransitionViewModel {
     pub substantive_details: Vec<String>,
     #[serde(default)]
     pub strategic_context: Vec<String>,
+    #[serde(default)]
+    pub trend_breadth_mode: TrendBreadthMode,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

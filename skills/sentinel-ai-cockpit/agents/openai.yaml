@@ -1,0 +1,7 @@
+interface:
+  display_name: "Sentinel AI Cockpit"
+  short_description: "Enforce Sentinel AI work-item discipline"
+  default_prompt: "Use $sentinel-ai-cockpit to make this Sentinel repository change through the Work Item and make quality workflow."
+
+policy:
+  allow_implicit_invocation: true

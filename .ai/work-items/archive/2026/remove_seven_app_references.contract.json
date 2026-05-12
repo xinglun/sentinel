@@ -1,0 +1,104 @@
+{
+  "contractVersion": 1,
+  "workItemId": "remove_seven_app_references",
+  "mode": "code",
+  "title": "Remove seven_app references",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/remove_seven_app_references.contract.json",
+    ".ai/work-items/active/remove_seven_app_references.summary.json",
+    ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.contract.json",
+    ".ai/work-items/archive/2026/sentinel_ai_cockpit_skill.summary.json",
+    "skills/sentinel-ai-cockpit/SKILL.md",
+    "skills/sentinel-ai-cockpit/agents/openai.yaml",
+    "scripts/ai_observability.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_observability.py",
+      "reason": "seven_app 由来の固有名が残っている対象ファイル。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/SKILL.md",
+      "reason": "作業開始時点の未提交 Skill 変更。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "repository 内に seven_app / workspace_flutter / commercial project 固有名が残っていない。",
+    "scripts/ai_observability.py の説明は current repository に閉じた一般表現になっている。",
+    "既存の未提交 sentinel-ai-cockpit Skill 変更を壊さない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "bash -lc \"set +H; ! rg -n 'seven_app|Seven App|workspace_flutter|Flutter seven|seven-app|seven app' . -S --glob '!target/**' --glob '!.git/**'\"",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/remove_seven_app_references.summary.json CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json SUMMARY=.ai/work-items/active/remove_seven_app_references.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/remove_seven_app_references.contract.json SUMMARY=.ai/work-items/active/remove_seven_app_references.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "scripts/ai_observability.py、sentinel-ai-cockpit Skill、関連 Work Item の diff を revert する。"
+}

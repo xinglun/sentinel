@@ -2288,6 +2288,7 @@ mod tests {
 
         let md = report.archival_markdown;
         assert!(md.contains("🧭 战略背景"));
+        assert!(md.contains("市场结构模式: 脆弱轮动期"));
         assert!(md.contains("长期方向: 结构证据观察中"));
         assert!(md.contains("战术状态: NO TRADE，等待结构扩散"));
         assert!(md.contains("🎯 趋势特征识别"));
@@ -2303,6 +2304,7 @@ mod tests {
 
         let html = report.telegram_html_body;
         assert!(html.contains("🧭 战略背景"));
+        assert!(html.contains("<i>市场结构模式: 脆弱轮动期</i>"));
         assert!(html.contains("<i>长期方向: 结构证据观察中</i>"));
         assert!(html.contains("<i>战术状态: NO TRADE，等待结构扩散</i>"));
         assert!(html.contains("🎯 趋势特征识别"));
@@ -2423,6 +2425,9 @@ mod tests {
                     assert!(report.telegram_html_body.contains("Strategic Context"));
                     assert!(report
                         .telegram_html_body
+                        .contains("Market Structure Mode: Fragile Rotation"));
+                    assert!(report
+                        .telegram_html_body
                         .contains("Long-Term Direction: Structural evidence under observation"));
                     assert!(report
                         .telegram_html_body
@@ -2439,6 +2444,9 @@ mod tests {
                 }
                 Language::JaJp => {
                     assert!(report.telegram_html_body.contains("戦略文脈"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("市場構造モード: 脆弱ローテーション期"));
                     assert!(report
                         .telegram_html_body
                         .contains("長期方向: 構造証拠を観測中"));
@@ -2472,6 +2480,9 @@ mod tests {
                     assert!(report.archival_markdown.contains("Strategic Context"));
                     assert!(report
                         .archival_markdown
+                        .contains("Market Structure Mode: Fragile Rotation"));
+                    assert!(report
+                        .archival_markdown
                         .contains("Evidence Coverage: Earnings Quality Confirmed"));
                     assert!(report.archival_markdown.contains("Risk Taxonomy"));
                     assert!(report
@@ -2484,6 +2495,9 @@ mod tests {
                 }
                 Language::JaJp => {
                     assert!(report.archival_markdown.contains("戦略文脈"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("市場構造モード: 脆弱ローテーション期"));
                     assert!(report
                         .archival_markdown
                         .contains("証拠カバレッジ: 業績の実質的裏付け"));
@@ -2598,6 +2612,131 @@ mod tests {
                     "Strategic Layer telegram must not include execution term: {term}"
                 );
             }
+        }
+    }
+
+    #[test]
+    fn test_narrow_leadership_is_displayed_as_structural_consolidation_without_gate_change() {
+        use crate::core::asset_state::{AssetState, AssetStateSnapshot};
+        use crate::core::i18n::Language;
+        use crate::core::presentation::TrendBreadthMode;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
+            TrendRecognitionEvidence,
+        };
+
+        let mut curr = DecisionPacket {
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::DEFENSIVE,
+                risk_overlay: RiskOverlay::DEFENSIVE,
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                up_count: 3,
+                down_count: 6,
+                total_count: 9,
+                system_confidence: 49.0,
+                stability_score: 0.8,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "SPY".to_string(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: "SPY".to_string(),
+                        state: AssetState::CRUISE,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "MSFT".to_string(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: "MSFT".to_string(),
+                        state: AssetState::CRUISE,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "GOOG".to_string(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: "GOOG".to_string(),
+                        state: AssetState::OVERHEAT,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            trend_recognition: Some(TrendRecognitionEvidence {
+                state: TrendContinuationState::EarlyLeader,
+                diffusion_score: 3.90,
+                conviction_score: 3.40,
+                lag_state: false,
+                single_asset_decay_day: 1,
+                single_asset_decay_max: 3,
+                substantive: Some(SubstantiveEvidence {
+                    capex_payoff_signal: true,
+                    earnings_validation: true,
+                    order_visibility: true,
+                    ..Default::default()
+                }),
+            }),
+            ..Default::default()
+        };
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        for (language, expected_regime, forbidden_regime, expected_mode, expected_tactical) in [
+            (
+                Language::ZhCn,
+                "**市场状态**: 结构整理期",
+                "**市场状态**: 保命期",
+                "市场结构模式: 核心资产主导期",
+                "战术状态: NO TRADE，等待结构扩散",
+            ),
+            (
+                Language::EnUs,
+                "**Market State**: Structural Consolidation",
+                "**Market State**: Protect",
+                "Market Structure Mode: Narrow Leadership",
+                "Tactical Status: NO TRADE, waiting for structural diffusion",
+            ),
+            (
+                Language::JaJp,
+                "**市場状態**: 構造整理期",
+                "**市場状態**: 守備期",
+                "市場構造モード: コア資産主導期",
+                "戦術状態: NO TRADE、構造拡散待ち",
+            ),
+        ] {
+            let config = mock_config_with_language(language);
+            let pres = PresentationAssembler::assemble(
+                &curr,
+                &config.get_parsed_rules(),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let transition = pres.transition_evidence.as_ref().unwrap();
+            assert_eq!(
+                transition.trend_breadth_mode,
+                TrendBreadthMode::NarrowLeadership
+            );
+            assert!(!transition.trend_cohesion_gate_passed);
+
+            let report =
+                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+                    .unwrap();
+
+            assert!(report.archival_markdown.contains(expected_regime));
+            assert!(!report.archival_markdown.contains(forbidden_regime));
+            assert!(report.archival_markdown.contains(expected_mode));
+            assert!(report.archival_markdown.contains(expected_tactical));
         }
     }
 
