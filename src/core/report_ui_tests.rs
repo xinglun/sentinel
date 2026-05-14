@@ -2,7 +2,7 @@ use crate::config::{AppConfig, OutputConfig, RulesConfig, TrendCohesionRulesConf
 use crate::core::action_matrix::AssetActionDecision;
 use crate::core::asset_state::{AssetState, AssetStateSnapshot};
 use crate::core::decision::DecisionPacket;
-use crate::core::exit::PositionIntent;
+use crate::core::exit::{AssetExitState, ExitDecision, PositionIntent};
 use crate::core::market_regime::{MarketRegimeSnapshot, MarketState, RiskOverlay};
 use crate::core::presentation_assembler::PresentationAssembler;
 use crate::core::report::generate_refined_report;
@@ -2667,8 +2667,24 @@ mod tests {
                     symbol: "GOOG".to_string(),
                     asset_state: AssetStateSnapshot {
                         symbol: "GOOG".to_string(),
-                        state: AssetState::OVERHEAT,
+                        state: AssetState::CRUISE,
                         ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "NVDA".to_string(),
+                    has_position_fact: true,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "NVDA".to_string(),
+                        state: AssetState::DEFEND,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::EXIT,
+                    exit_decision: ExitDecision {
+                        position_intent: PositionIntent::EXIT,
+                        asset_exit_state: AssetExitState::DefensiveExit,
+                        reasons: vec![],
                     },
                     ..Default::default()
                 },
@@ -2691,13 +2707,21 @@ mod tests {
         };
         curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
 
-        for (language, expected_regime, forbidden_regime, expected_mode, expected_tactical) in [
+        for (
+            language,
+            expected_regime,
+            forbidden_regime,
+            expected_mode,
+            expected_tactical,
+            expected_fragility,
+        ) in [
             (
                 Language::ZhCn,
                 "**市场状态**: 结构整理期",
                 "**市场状态**: 保命期",
                 "市场结构模式: 核心资产主导期",
                 "战术状态: NO TRADE，等待结构扩散",
+                "结构脆弱: 暂停主动进攻，等待扩散恢复",
             ),
             (
                 Language::EnUs,
@@ -2705,6 +2729,7 @@ mod tests {
                 "**Market State**: Protect",
                 "Market Structure Mode: Narrow Leadership",
                 "Tactical Status: NO TRADE, waiting for structural diffusion",
+                "Structural Fragility: pause active offense and wait for diffusion recovery",
             ),
             (
                 Language::JaJp,
@@ -2712,6 +2737,7 @@ mod tests {
                 "**市場状態**: 守備期",
                 "市場構造モード: コア資産主導期",
                 "戦術状態: NO TRADE、構造拡散待ち",
+                "構造脆弱：能動的な攻勢を停止し、拡散回復を待つ",
             ),
         ] {
             let config = mock_config_with_language(language);
@@ -2737,6 +2763,10 @@ mod tests {
             assert!(!report.archival_markdown.contains(forbidden_regime));
             assert!(report.archival_markdown.contains(expected_mode));
             assert!(report.archival_markdown.contains(expected_tactical));
+            assert!(report.archival_markdown.contains(expected_fragility));
+            assert!(!report.archival_markdown.contains("保命层强制退出"));
+            assert!(!report.archival_markdown.contains("Safety layer activated"));
+            assert!(!report.archival_markdown.contains("安全層を発動"));
         }
     }
 

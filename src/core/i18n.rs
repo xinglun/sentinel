@@ -240,6 +240,8 @@ pub struct PortfolioDictionary {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReasonDictionary {
     pub exit_defensive: String,
+    pub exit_structural_fragility: String,
+    pub exit_systemic_collapse: String,
     pub exit_strength_loss: String,
     pub exit_cohesion: String,
     pub exit_overheat: String,
@@ -248,6 +250,8 @@ pub struct ReasonDictionary {
     pub position_trim_strength_loss: String,
     pub position_trim_cohesion: String,
     pub position_exit_defensive: String,
+    pub position_exit_structural_fragility: String,
+    pub position_exit_systemic_collapse: String,
     pub position_trim_overheat: String,
     pub position_watch_pullback: String,
     pub position_watch_no_trigger: String,
@@ -457,6 +461,8 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             },
             reasons: ReasonDictionary {
                 exit_defensive: "🛡️ 结构性风险: 激活保命层强制退出".to_string(),
+                exit_structural_fragility: "结构脆弱: 暂停主动进攻，等待扩散恢复".to_string(),
+                exit_systemic_collapse: "🛡️ 系统性崩塌: 激活保命层强制退出".to_string(),
                 exit_strength_loss: "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
                 exit_cohesion: "🚫 凝聚力失效: 市场结构不满足参与条件".to_string(),
                 exit_overheat: "🌋 偏离过热: 若有持仓则执行利润保护性减仓".to_string(),
@@ -465,6 +471,8 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 position_trim_strength_loss: "已掉出核心区超过 3 天，执行减仓".to_string(),
                 position_trim_cohesion: "趋势凝聚力不足，执行保护性减仓".to_string(),
                 position_exit_defensive: "结构性风险触发，执行退出".to_string(),
+                position_exit_structural_fragility: "结构脆弱，暂停主动进攻".to_string(),
+                position_exit_systemic_collapse: "系统性崩塌，激活保命层强制退出".to_string(),
                 position_trim_overheat: "偏离过热，执行部分止盈".to_string(),
                 position_watch_pullback: "回撤中，尚未触发减仓条件".to_string(),
                 position_watch_no_trigger: "暂未触发卖出条件，继续观察".to_string(),
@@ -751,6 +759,11 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             },
             reasons: ReasonDictionary {
                 exit_defensive: "Defensive Exit: Safety layer activated".to_string(),
+                exit_structural_fragility:
+                    "Structural Fragility: pause active offense and wait for diffusion recovery"
+                        .to_string(),
+                exit_systemic_collapse:
+                    "Systemic Collapse: safety layer activated, force risk exit".to_string(),
                 exit_strength_loss: "Mainline Lag: Structural exit on weakness".to_string(),
                 exit_cohesion: "Cohesion Failure: Market structure unmet".to_string(),
                 exit_overheat: "Overheated: If holding, protect profits".to_string(),
@@ -760,6 +773,10 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                     .to_string(),
                 position_trim_cohesion: "Cohesion Loss: Protecting core position".to_string(),
                 position_exit_defensive: "Defensive risk triggered, exit the position.".to_string(),
+                position_exit_structural_fragility:
+                    "Structural fragility, pause active offense.".to_string(),
+                position_exit_systemic_collapse:
+                    "Systemic collapse, safety layer activated and force risk exit.".to_string(),
                 position_trim_overheat: "Overheated extension, take partial profits.".to_string(),
                 position_watch_pullback: "In pullback, trim conditions not yet triggered."
                     .to_string(),
@@ -1048,6 +1065,8 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
             },
             reasons: ReasonDictionary {
                 exit_defensive: "🛡️ 防御性エグジット：安全装置発動".to_string(),
+                exit_structural_fragility: "構造脆弱：能動的な攻勢を停止し、拡散回復を待つ".to_string(),
+                exit_systemic_collapse: "🛡️ システム崩壊：安全層を発動し、リスクを強制退出".to_string(),
                 exit_strength_loss: "📉 主導権喪失：トレンド崩れによる決済".to_string(),
                 exit_cohesion: "🚫 凝集力失効：市場構造の未達による撤退".to_string(),
                 exit_overheat: "🌋 過熱乖離: 保有時は利益確定売り".to_string(),
@@ -1056,6 +1075,9 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 position_trim_strength_loss: "核心圏離脱が 3 日継続、減資実行".to_string(),
                 position_trim_cohesion: "トレンド凝集力不足、保護的減資".to_string(),
                 position_exit_defensive: "防御条件発動、全決済".to_string(),
+                position_exit_structural_fragility: "構造脆弱、能動的な攻勢を停止".to_string(),
+                position_exit_systemic_collapse:
+                    "システム崩壊、安全層を発動しリスクを強制退出".to_string(),
                 position_trim_overheat: "加熱状態、部分利確を実行".to_string(),
                 position_watch_pullback: "押し目中、まだ減資条件未達".to_string(),
                 position_watch_no_trigger: "まだ売り条件未達、監視継続".to_string(),

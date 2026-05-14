@@ -1,0 +1,103 @@
+{
+  "workItemId": "risk_semantics_split",
+  "contractPath": ".ai/work-items/archive/2026/risk_semantics_split.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/risk_semantics_split.contract.json",
+      "reason": "FRAGILE / COLLAPSE 表示語彙分離の Work Item 契約。"
+    },
+    {
+      "path": ".ai/work-items/active/risk_semantics_split.summary.json",
+      "reason": "実装結果と検証結果を記録。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "FRAGILE / COLLAPSE の三語リスク文言を追加。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "DefensiveExit 表示を構造脆弱とシステム崩壊に分岐。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "ViewModel リスク文言境界を固定。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram / Markdown の FRAGILE 表示契約を三語で固定。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/risk_semantics_split.summary.json CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json SUMMARY=.ai/work-items/active/risk_semantics_split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json SUMMARY=.ai/work-items/active/risk_semantics_split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "リスク語彙だけを分離し、Gate / execution に影響させない必要がある。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "detail": "Gate / Engine / execution は変更せず、DefensiveExit の表示文言のみを risk semantics に応じて切り替えた。"
+    }
+  ]
+}
