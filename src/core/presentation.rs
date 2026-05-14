@@ -158,6 +158,17 @@ pub enum TrendBreadthMode {
     StructuralDefense,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum MarketCyclePosition {
+    EarlyFormation,
+    MidConfirmation,
+    LateAcceptance,
+    CrowdedExpectation,
+    DistributionWarning,
+    #[default]
+    Unknown,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct StateTransitionViewModel {
     pub has_significant_change: bool,
@@ -198,6 +209,8 @@ pub struct StateTransitionViewModel {
     pub strategic_context: Vec<String>,
     #[serde(default)]
     pub trend_breadth_mode: TrendBreadthMode,
+    #[serde(default)]
+    pub market_cycle_position: MarketCyclePosition,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

@@ -8,8 +8,9 @@ use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
-    ExitDisplayIntent, MacroDisplayContext, PresentationPacket, RiskOpportunitySummaryViewModel,
-    SignalSummaryViewModel, StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
+    ExitDisplayIntent, MacroDisplayContext, MarketCyclePosition, PresentationPacket,
+    RiskOpportunitySummaryViewModel, SignalSummaryViewModel, StateTransitionViewModel,
+    TrendBreadthMode, UnmetDiffViewModel,
 };
 use crate::core::trend_cohesion::EvidenceType;
 use std::cmp::Ordering;
@@ -615,7 +616,14 @@ impl PresentationAssembler {
                 ));
             }
         }
-        let risk_taxonomy = Self::build_risk_taxonomy(packet, log, dict);
+        let trend_breadth_mode = Self::classify_trend_breadth_mode(packet);
+        let market_cycle_position = Self::classify_market_cycle_position(
+            packet,
+            trend_breadth_mode,
+            substantive_signals.len(),
+            trend_recognition_conviction_score,
+        );
+        let risk_taxonomy = Self::build_risk_taxonomy(packet, log, market_cycle_position, dict);
         let structural_strength = Self::build_structural_strength(
             substantive_signals.len(),
             price_confirmation_record_count,
@@ -626,7 +634,8 @@ impl PresentationAssembler {
             &substantive_signals,
             trend_recognition_conviction_score,
             log.trend_cohesion_gate.to,
-            Self::classify_trend_breadth_mode(packet),
+            trend_breadth_mode,
+            market_cycle_position,
             dict,
         );
 
@@ -705,7 +714,8 @@ impl PresentationAssembler {
             substantive_signals,
             substantive_details,
             strategic_context,
-            trend_breadth_mode: Self::classify_trend_breadth_mode(packet),
+            trend_breadth_mode,
+            market_cycle_position,
         })
     }
 
@@ -804,9 +814,76 @@ impl PresentationAssembler {
         .count()
     }
 
+    fn classify_market_cycle_position(
+        packet: &DecisionPacket,
+        breadth_mode: TrendBreadthMode,
+        substantive_signal_count: usize,
+        conviction_score: Option<f64>,
+    ) -> MarketCyclePosition {
+        if breadth_mode == TrendBreadthMode::StructuralDefense {
+            return MarketCyclePosition::DistributionWarning;
+        }
+
+        let conviction_score = conviction_score.unwrap_or(0.0);
+        let overheat_count = packet
+            .assets
+            .iter()
+            .filter(|asset| {
+                asset.asset_state.state == AssetState::OVERHEAT
+                    || asset.exit_decision.asset_exit_state == AssetExitState::OverheatProfitTake
+            })
+            .count();
+        let leadership_count = Self::core_leadership_count(packet);
+        let narrow_or_fragile = matches!(
+            breadth_mode,
+            TrendBreadthMode::NarrowLeadership | TrendBreadthMode::FragileRotation
+        );
+
+        if narrow_or_fragile
+            && substantive_signal_count >= 3
+            && conviction_score >= 3.0
+            && (overheat_count > 0 || leadership_count >= 2)
+        {
+            return MarketCyclePosition::CrowdedExpectation;
+        }
+
+        if substantive_signal_count >= 3 || conviction_score >= 3.0 {
+            return MarketCyclePosition::LateAcceptance;
+        }
+
+        if substantive_signal_count >= 2 || breadth_mode == TrendBreadthMode::BroadExpansion {
+            return MarketCyclePosition::MidConfirmation;
+        }
+
+        if substantive_signal_count >= 1 {
+            return MarketCyclePosition::EarlyFormation;
+        }
+
+        MarketCyclePosition::Unknown
+    }
+
+    fn core_leadership_count(packet: &DecisionPacket) -> usize {
+        let leadership_symbols = ["MSFT", "GOOG", "NVDA"];
+        packet
+            .assets
+            .iter()
+            .filter(|asset| {
+                leadership_symbols.contains(&asset.symbol.as_str())
+                    && matches!(
+                        asset.asset_state.state,
+                        AssetState::OPTIMAL
+                            | AssetState::CRUISE
+                            | AssetState::PULLBACK
+                            | AssetState::OVERHEAT
+                    )
+            })
+            .count()
+    }
+
     fn build_risk_taxonomy(
         packet: &DecisionPacket,
         log: &crate::core::transition_log::StateTransitionLog,
+        market_cycle_position: MarketCyclePosition,
         dict: &DisplayDictionary,
     ) -> Vec<String> {
         let te = &dict.transition_evidence;
@@ -843,10 +920,13 @@ impl PresentationAssembler {
             &te.position_risk_normal
         };
 
+        let crowding_risk = Self::map_crowding_risk(market_cycle_position, dict);
+
         vec![
             format!("{}: {}", te.market_structure_risk, structure_risk),
             format!("{}: {}", te.initiation_volatility, initiation_volatility),
             format!("{}: {}", te.position_risk, position_risk),
+            format!("{}: {}", te.crowding_risk, crowding_risk),
         ]
     }
 
@@ -902,6 +982,7 @@ impl PresentationAssembler {
         conviction_score: Option<f64>,
         gate_passed: bool,
         breadth_mode: TrendBreadthMode,
+        market_cycle_position: MarketCyclePosition,
         dict: &DisplayDictionary,
     ) -> Vec<String> {
         if substantive_signals.is_empty() {
@@ -939,6 +1020,21 @@ impl PresentationAssembler {
                 tr.strategic_market_structure_mode, breadth_mode_label
             ),
             format!("{}: {}", tr.strategic_direction, direction),
+            format!(
+                "{}: {}",
+                tr.strategic_cycle_position,
+                Self::map_market_cycle_position(market_cycle_position, dict)
+            ),
+            format!(
+                "{}: {}",
+                tr.strategic_cycle_features,
+                Self::map_market_cycle_features(market_cycle_position, dict)
+            ),
+            format!(
+                "{}: {}",
+                tr.strategic_crowding_risk,
+                Self::map_crowding_risk(market_cycle_position, dict)
+            ),
             format!("{}: {}", tr.strategic_evidence_continuity, continuity),
             format!(
                 "{}: {}",
@@ -947,6 +1043,43 @@ impl PresentationAssembler {
             ),
             format!("{}: {}", tr.strategic_tactical_status, tactical_status),
         ]
+    }
+
+    fn map_market_cycle_position(position: MarketCyclePosition, dict: &DisplayDictionary) -> &str {
+        let tr = &dict.trend_recognition;
+        match position {
+            MarketCyclePosition::EarlyFormation => &tr.cycle_position_early,
+            MarketCyclePosition::MidConfirmation => &tr.cycle_position_mid,
+            MarketCyclePosition::LateAcceptance => &tr.cycle_position_late,
+            MarketCyclePosition::CrowdedExpectation => &tr.cycle_position_crowded,
+            MarketCyclePosition::DistributionWarning => &tr.cycle_position_distribution,
+            MarketCyclePosition::Unknown => &tr.cycle_position_unknown,
+        }
+    }
+
+    fn map_market_cycle_features(position: MarketCyclePosition, dict: &DisplayDictionary) -> &str {
+        let tr = &dict.trend_recognition;
+        match position {
+            MarketCyclePosition::EarlyFormation => &tr.cycle_features_early,
+            MarketCyclePosition::MidConfirmation => &tr.cycle_features_mid,
+            MarketCyclePosition::LateAcceptance => &tr.cycle_features_late,
+            MarketCyclePosition::CrowdedExpectation => &tr.cycle_features_crowded,
+            MarketCyclePosition::DistributionWarning => &tr.cycle_features_distribution,
+            MarketCyclePosition::Unknown => &tr.cycle_features_unknown,
+        }
+    }
+
+    fn map_crowding_risk(position: MarketCyclePosition, dict: &DisplayDictionary) -> &str {
+        let te = &dict.transition_evidence;
+        match position {
+            MarketCyclePosition::CrowdedExpectation | MarketCyclePosition::DistributionWarning => {
+                &te.crowding_risk_active
+            }
+            MarketCyclePosition::LateAcceptance => &te.crowding_risk_watch,
+            MarketCyclePosition::EarlyFormation
+            | MarketCyclePosition::MidConfirmation
+            | MarketCyclePosition::Unknown => &te.crowding_risk_normal,
+        }
     }
 
     fn count_unit<'a>(count: usize, singular: &'a str, plural: &'a str) -> &'a str {
