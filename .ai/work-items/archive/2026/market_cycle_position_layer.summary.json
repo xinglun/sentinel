@@ -1,0 +1,109 @@
+{
+  "workItemId": "market_cycle_position_layer",
+  "contractPath": ".ai/work-items/archive/2026/market_cycle_position_layer.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/market_cycle_position_layer.contract.json",
+      "reason": "Market Cycle Position Layer の実装範囲と境界を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/market_cycle_position_layer.summary.json",
+      "reason": "AI Change Summary を実装結果に合わせて更新した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "MarketCyclePosition を StateTransitionViewModel に追加した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "周期位置、周期特徴、混雑リスクの三語表示文言を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "既存証拠から表示専用の MarketCyclePosition と Crowding Risk を推定し、Strategic Context / Risk Taxonomy に追加した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "周期位置と混雑リスクの ViewModel 契約を固定した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "三語レポートで周期位置と混雑リスクが表示され、NO TRADE 境界が維持されることを固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "user_request",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test core::presentation_tests::tests::test_trend_recognition_evidence_mapping -- --exact --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test strategic_layer -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test narrow_leadership -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market_cycle_position_layer.summary.json CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json SUMMARY=.ai/work-items/active/market_cycle_position_layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json SUMMARY=.ai/work-items/active/market_cycle_position_layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "表示層だけの追加。Gate / execution / trend_cohesion には接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

@@ -1,0 +1,108 @@
+{
+  "contractVersion": 1,
+  "workItemId": "market_cycle_position_layer",
+  "mode": "code",
+  "title": "Market Cycle Position Layerを表示層に追加",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/market_cycle_position_layer.contract.json",
+    ".ai/work-items/active/market_cycle_position_layer.summary.json",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/action_matrix.rs",
+    "src/core/execution_gate.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "src/core/exit.rs",
+    "src/config.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "user_request",
+      "reason": "Market Cycle Position Layer と Crowding Risk を表示層に追加する要求。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Strategic Context と Risk Taxonomy の既存組み立て箇所。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "既存 StateTransitionViewModel の strategic_context / risk_taxonomy 表示契約。変更対象外。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "MarketCyclePosition が Presentation ViewModel に追加され、表示層だけで消費される。",
+    "Strategic Context に周期位置、周期特征、拥挤风险が三語で表示される。",
+    "Risk Taxonomy に Crowding Risk が追加され、崩壊や自動売買を示唆しない。",
+    "Gate、execution、trend_cohesion、action_matrix、trader_agent、engine は変更しない。",
+    "中英日テストで NO TRADE / 実行境界が維持される。"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market_cycle_position_layer.summary.json CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json SUMMARY=.ai/work-items/active/market_cycle_position_layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market_cycle_position_layer.contract.json SUMMARY=.ai/work-items/active/market_cycle_position_layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、MarketCyclePosition と Crowding Risk 表示を元に戻す。"
+}

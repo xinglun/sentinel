@@ -2551,20 +2551,26 @@ mod tests {
             "追い",
         ];
 
-        for (language, title, tactical_line) in [
+        for (language, title, cycle_line, crowding_line, tactical_line) in [
             (
                 Language::ZhCn,
                 "🧭 战略背景",
+                "周期位置: LATE_ACCEPTANCE",
+                "拥挤风险: WATCH",
                 "战术状态: NO TRADE，等待结构扩散",
             ),
             (
                 Language::EnUs,
                 "🧭 Strategic Context",
+                "Cycle Position: LATE_ACCEPTANCE",
+                "Crowding Risk: WATCH",
                 "Tactical Status: NO TRADE, waiting for structural diffusion",
             ),
             (
                 Language::JaJp,
                 "🧭 戦略文脈",
+                "サイクル位置: LATE_ACCEPTANCE",
+                "混雑リスク: WATCH",
                 "戦術状態: NO TRADE、構造拡散待ち",
             ),
         ] {
@@ -2599,6 +2605,10 @@ mod tests {
 
             let markdown_section = strategic_section(&report.archival_markdown, title);
             let telegram_section = strategic_section(&report.telegram_html_body, title);
+            assert!(markdown_section.contains(cycle_line));
+            assert!(telegram_section.contains(cycle_line));
+            assert!(markdown_section.contains(crowding_line));
+            assert!(telegram_section.contains(crowding_line));
             assert!(markdown_section.contains(tactical_line));
             assert!(telegram_section.contains(tactical_line));
 
@@ -2619,7 +2629,7 @@ mod tests {
     fn test_narrow_leadership_is_displayed_as_structural_consolidation_without_gate_change() {
         use crate::core::asset_state::{AssetState, AssetStateSnapshot};
         use crate::core::i18n::Language;
-        use crate::core::presentation::TrendBreadthMode;
+        use crate::core::presentation::{MarketCyclePosition, TrendBreadthMode};
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
@@ -2712,6 +2722,8 @@ mod tests {
             expected_regime,
             forbidden_regime,
             expected_mode,
+            expected_cycle,
+            expected_crowding,
             expected_tactical,
             expected_fragility,
         ) in [
@@ -2720,6 +2732,8 @@ mod tests {
                 "**市场状态**: 结构整理期",
                 "**市场状态**: 保命期",
                 "市场结构模式: 核心资产主导期",
+                "周期位置: CROWDED_EXPECTATION",
+                "拥挤风险: ACTIVE",
                 "战术状态: NO TRADE，等待结构扩散",
                 "结构脆弱: 暂停主动进攻，等待扩散恢复",
             ),
@@ -2728,6 +2742,8 @@ mod tests {
                 "**Market State**: Structural Consolidation",
                 "**Market State**: Protect",
                 "Market Structure Mode: Narrow Leadership",
+                "Cycle Position: CROWDED_EXPECTATION",
+                "Crowding Risk: ACTIVE",
                 "Tactical Status: NO TRADE, waiting for structural diffusion",
                 "Structural Fragility: pause active offense and wait for diffusion recovery",
             ),
@@ -2736,6 +2752,8 @@ mod tests {
                 "**市場状態**: 構造整理期",
                 "**市場状態**: 守備期",
                 "市場構造モード: コア資産主導期",
+                "サイクル位置: CROWDED_EXPECTATION",
+                "混雑リスク: ACTIVE",
                 "戦術状態: NO TRADE、構造拡散待ち",
                 "構造脆弱：能動的な攻勢を停止し、拡散回復を待つ",
             ),
@@ -2753,6 +2771,10 @@ mod tests {
                 transition.trend_breadth_mode,
                 TrendBreadthMode::NarrowLeadership
             );
+            assert_eq!(
+                transition.market_cycle_position,
+                MarketCyclePosition::CrowdedExpectation
+            );
             assert!(!transition.trend_cohesion_gate_passed);
 
             let report =
@@ -2762,6 +2784,8 @@ mod tests {
             assert!(report.archival_markdown.contains(expected_regime));
             assert!(!report.archival_markdown.contains(forbidden_regime));
             assert!(report.archival_markdown.contains(expected_mode));
+            assert!(report.archival_markdown.contains(expected_cycle));
+            assert!(report.archival_markdown.contains(expected_crowding));
             assert!(report.archival_markdown.contains(expected_tactical));
             assert!(report.archival_markdown.contains(expected_fragility));
             assert!(!report.archival_markdown.contains("保命层强制退出"));

@@ -1267,7 +1267,12 @@ mod tests {
                 "市场结构风险: FRAGILE".to_string(),
                 "启动期波动: 无".to_string(),
                 "价格位置风险: OVERHEATED".to_string(),
+                "拥挤风险: ACTIVE".to_string(),
             ]
+        );
+        assert_eq!(
+            transition.market_cycle_position,
+            crate::core::presentation::MarketCyclePosition::CrowdedExpectation
         );
         assert_eq!(
             transition.structural_strength.as_deref(),
@@ -1278,6 +1283,9 @@ mod tests {
             vec![
                 "市场结构模式: 脆弱轮动期".to_string(),
                 "长期方向: 长期结构趋势增强".to_string(),
+                "周期位置: CROWDED_EXPECTATION".to_string(),
+                "周期特征: 预期拥挤 / 核心资产集中 / 好消息钝化风险".to_string(),
+                "拥挤风险: ACTIVE".to_string(),
                 "证据持续性: 持续累积".to_string(),
                 "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)".to_string(),
                 "战术状态: NO TRADE，等待结构扩散".to_string(),
