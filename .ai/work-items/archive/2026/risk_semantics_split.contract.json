@@ -1,0 +1,113 @@
+{
+  "contractVersion": 1,
+  "workItemId": "risk_semantics_split",
+  "mode": "code",
+  "title": "Risk Semantics Split",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/risk_semantics_split.contract.json",
+    ".ai/work-items/active/risk_semantics_split.summary.json",
+    "src/core/i18n.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/execution_gate.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/action_matrix.rs",
+    "src/core/market_regime.rs",
+    "src/core/exit.rs",
+    "src/core/trader_agent.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "risk / exit reason の表示組立箇所。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "FRAGILE / COLLAPSE の三語リスク文言。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "ViewModel のリスク文言契約。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram / Markdown 出力契約。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "FRAGILE 表示では保命層 / 強制退出 / Systemic Collapse 相当の語を使わず、構造脆弱として表示する。",
+    "COLLAPSE / BROKEN / core_breakdown 表示では系统性崩塌 / 保命層 / 強制退出の語を許可する。",
+    "構造整理期 + FRAGILE の Telegram / Markdown 出力で旧 defensive exit 文言が出ない。",
+    "Gate / Engine / execution / trend_cohesion の判定ロジックは変更しない。",
+    "三語の表示契約テストでリスク語彙の境界を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/risk_semantics_split.summary.json CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json SUMMARY=.ai/work-items/active/risk_semantics_split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/risk_semantics_split.contract.json SUMMARY=.ai/work-items/active/risk_semantics_split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "src/core/i18n.rs、src/core/presentation_assembler.rs、関連 tests と Work Item diff を revert する。"
+}

@@ -337,7 +337,12 @@ impl PresentationAssembler {
                 risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
                     kind: dict.decision.opportunity.clone(),
                     symbol: asset.symbol.clone(),
-                    reason: Self::derive_telegram_reason(asset, !is_ready, &dict),
+                    reason: Self::derive_telegram_reason(
+                        asset,
+                        !is_ready,
+                        Self::is_systemic_collapse(packet),
+                        &dict,
+                    ),
                 });
             }
 
@@ -347,7 +352,12 @@ impl PresentationAssembler {
                 risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
                     kind: dict.decision.risk.clone(),
                     symbol: asset.symbol.clone(),
-                    reason: Self::derive_telegram_reason(asset, !is_ready, &dict),
+                    reason: Self::derive_telegram_reason(
+                        asset,
+                        !is_ready,
+                        Self::is_systemic_collapse(packet),
+                        &dict,
+                    ),
                 });
             }
         }
@@ -412,7 +422,12 @@ impl PresentationAssembler {
             }
             .to_string();
 
-            let reason = Self::derive_telegram_reason(asset, !is_ready, &dict);
+            let reason = Self::derive_telegram_reason(
+                asset,
+                !is_ready,
+                Self::is_systemic_collapse(packet),
+                &dict,
+            );
             if !reason.is_empty() {
                 vm.diagnostic = Some(reason);
             } else if let Some(raw_reason) = asset.reasons.first() {
@@ -1094,13 +1109,20 @@ impl PresentationAssembler {
     fn derive_telegram_reason(
         asset: &crate::core::action_matrix::AssetActionDecision,
         is_restrained: bool,
+        is_systemic_collapse: bool,
         dict: &DisplayDictionary,
     ) -> String {
         use crate::core::asset_state::AssetState;
         use crate::core::exit::AssetExitState;
         if asset.exit_decision.asset_exit_state != AssetExitState::None {
             return match asset.exit_decision.asset_exit_state {
-                AssetExitState::DefensiveExit => dict.reasons.exit_defensive.clone(),
+                AssetExitState::DefensiveExit => {
+                    if is_systemic_collapse {
+                        dict.reasons.exit_systemic_collapse.clone()
+                    } else {
+                        dict.reasons.exit_structural_fragility.clone()
+                    }
+                }
                 AssetExitState::StrengthLoss => dict.reasons.exit_strength_loss.clone(),
                 AssetExitState::CohesionExit => dict.reasons.exit_cohesion.clone(),
                 AssetExitState::OverheatProfitTake => dict.reasons.exit_overheat.clone(),
@@ -1196,6 +1218,7 @@ impl PresentationAssembler {
         dict: &DisplayDictionary,
     ) -> ExitDecisionSummaryViewModel {
         let mut items = Vec::new();
+        let is_systemic_collapse = Self::is_systemic_collapse(packet);
 
         for asset in &packet.assets {
             let context = Self::derive_display_context(
@@ -1217,7 +1240,7 @@ impl PresentationAssembler {
                 crate::core::position_intent::UnifiedPositionIntent::Exit => (
                     ExitDisplayIntent::Exit,
                     dict.decision.exit_intent_exit.clone(),
-                    dict.reasons.position_exit_defensive.clone(),
+                    Self::defensive_position_reason(is_systemic_collapse, dict),
                 ),
                 crate::core::position_intent::UnifiedPositionIntent::Trim => {
                     let reason = match asset.exit_decision.asset_exit_state {
@@ -1229,7 +1252,7 @@ impl PresentationAssembler {
                             dict.reasons.position_trim_overheat.clone()
                         }
                         AssetExitState::DefensiveExit => {
-                            dict.reasons.position_exit_defensive.clone()
+                            Self::defensive_position_reason(is_systemic_collapse, dict)
                         }
                         AssetExitState::None => dict.reasons.position_trim_strength_loss.clone(),
                     };
@@ -1310,6 +1333,23 @@ impl PresentationAssembler {
                 None
             },
             items,
+        }
+    }
+
+    fn is_systemic_collapse(packet: &DecisionPacket) -> bool {
+        packet.market_regime.risk_overlay == RiskOverlay::BROKEN
+            || packet
+                .market_regime
+                .transition_audit
+                .as_ref()
+                .is_some_and(|audit| audit.core_breakdown)
+    }
+
+    fn defensive_position_reason(is_systemic_collapse: bool, dict: &DisplayDictionary) -> String {
+        if is_systemic_collapse {
+            dict.reasons.position_exit_systemic_collapse.clone()
+        } else {
+            dict.reasons.position_exit_structural_fragility.clone()
         }
     }
 

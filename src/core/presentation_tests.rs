@@ -805,13 +805,59 @@ mod tests {
         assert!(pres
             .risk_opportunity_summary
             .risk_value
-            .contains("结构性风险: 激活保命层强制退出"));
+            .contains("结构脆弱: 暂停主动进攻，等待扩散恢复"));
+        assert!(!pres
+            .risk_opportunity_summary
+            .risk_value
+            .contains("保命层强制退出"));
         assert!(pres
             .risk_opportunity_summary
             .risk_value
             .contains("其余1标的同类风险"));
         assert!(pres.risk_opportunity_summary.risk_value.contains("NVDA"));
         assert!(!pres.risk_opportunity_summary.risk_value.contains("HOT"));
+    }
+
+    #[test]
+    fn test_risk_snapshot_uses_collapse_language_only_for_systemic_breakdown() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::core::market_regime::MarketRegimeSnapshot {
+                market_state: crate::core::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::core::market_regime::RiskOverlay::BROKEN,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "NVDA".into(),
+                has_position_fact: true,
+                asset_state: AssetStateSnapshot {
+                    symbol: "NVDA".into(),
+                    state: AssetState::DEFEND,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::EXIT,
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::EXIT,
+                    asset_exit_state: AssetExitState::DefensiveExit,
+                    reasons: vec![],
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert!(pres
+            .risk_opportunity_summary
+            .risk_value
+            .contains("系统性崩塌: 激活保命层强制退出"));
     }
 
     #[test]
