@@ -169,6 +169,15 @@ pub enum MarketCyclePosition {
     Unknown,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum HoldingEfficiency {
+    Efficient,
+    #[default]
+    Neutral,
+    TimeCostRising,
+    Overdiscounted,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct StateTransitionViewModel {
     pub has_significant_change: bool,
@@ -202,6 +211,8 @@ pub struct StateTransitionViewModel {
     #[serde(default)]
     pub structural_strength: Option<String>,
     #[serde(default)]
+    pub evidence_quality_summary: Option<String>,
+    #[serde(default)]
     pub substantive_signals: Vec<String>,
     #[serde(default)]
     pub substantive_details: Vec<String>,
@@ -211,6 +222,8 @@ pub struct StateTransitionViewModel {
     pub trend_breadth_mode: TrendBreadthMode,
     #[serde(default)]
     pub market_cycle_position: MarketCyclePosition,
+    #[serde(default)]
+    pub holding_efficiency: HoldingEfficiency,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

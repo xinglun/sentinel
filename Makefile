@@ -15,12 +15,13 @@ REVIEW_ARGS ?=
 AUDIT_DAILY_ARGS ?=
 TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
+RESEARCH_ATTENTION_ARGS ?=
 
 .PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
-	collect-evidence-release archive-work-item check-work-items-lifecycle
+	collect-evidence-release research-attention archive-work-item check-work-items-lifecycle
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
@@ -34,6 +35,7 @@ help:
 	@printf '%s\n' '  make transition-audit-summary TRANSITION_AUDIT_ARGS="..."'
 	@printf '%s\n' '  make collect-evidence COLLECT_EVIDENCE_ARGS="..."'
 	@printf '%s\n' '  make collect-evidence-release COLLECT_EVIDENCE_ARGS="..."'
+	@printf '%s\n' '  make research-attention RESEARCH_ATTENTION_ARGS="..."'
 	@printf '%s\n' '  make fmt-check'
 	@printf '%s\n' '  make audit-docs'
 	@printf '%s\n' '  make test'
@@ -179,3 +181,6 @@ collect-evidence:
 
 collect-evidence-release:
 	cargo run --release -- collect-evidence $(COLLECT_EVIDENCE_ARGS)
+
+research-attention:
+	cargo run -- research-attention $(RESEARCH_ATTENTION_ARGS)

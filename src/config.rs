@@ -26,6 +26,8 @@ pub struct AppConfig {
     pub rules: RulesConfig,
     pub watchlist: Vec<WatchlistEntry>,
     pub sec: Option<SecConfig>,
+    pub research_attention: Option<BTreeMap<String, ResearchAttentionEntry>>,
+    pub asset_thesis: Option<BTreeMap<String, AssetThesisEntry>>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -73,6 +75,52 @@ pub struct FutuConfig {
 pub struct FinnhubConfig {
     #[serde(alias = "api_key")]
     pub finnhub_api_key: String,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CognitiveYield {
+    High,
+    Medium,
+    Low,
+    Degrading,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum AttentionCost {
+    Low,
+    Moderate,
+    High,
+    Draining,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum InformationDensity {
+    Expanding,
+    Active,
+    Stable,
+    Saturated,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct ResearchAttentionEntry {
+    pub cognitive_yield: CognitiveYield,
+    pub attention_cost: AttentionCost,
+    pub information_density: InformationDensity,
+    pub reason: String,
+    pub enable: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct AssetThesisEntry {
+    pub thesis: String,
+    pub observation_focus: Vec<String>,
+    pub invalidation: Vec<String>,
+    pub enable: Option<bool>,
 }
 
 #[allow(dead_code)]
@@ -807,6 +855,8 @@ mod tests {
             },
             watchlist: vec![],
             sec: None,
+            research_attention: None,
+            asset_thesis: None,
         };
 
         // No SEC config is OK

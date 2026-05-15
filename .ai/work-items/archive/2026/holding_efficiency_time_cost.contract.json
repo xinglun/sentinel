@@ -1,0 +1,115 @@
+{
+  "contractVersion": 1,
+  "workItemId": "holding_efficiency_time_cost",
+  "mode": "code",
+  "title": "Holding EfficiencyとTime Costを表示層に追加",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/holding_efficiency_time_cost.contract.json",
+    ".ai/work-items/active/holding_efficiency_time_cost.summary.json",
+    ".ai/work-items/archive/2026/research_attention_daily.contract.json",
+    ".ai/work-items/archive/2026/research_attention_daily.summary.json",
+    "Makefile",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/action_matrix.rs",
+    "src/core/execution_gate.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "src/core/exit.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "user_request",
+      "reason": "好会社でも価格位置と時間コストが上昇する場合を表示層で表現する要求。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Risk Taxonomy と表示用 ViewModel の組み立て箇所。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "三語の表示文言と過熱時診断文言。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "HoldingEfficiency が Presentation ViewModel に追加され、表示層だけで消費される。",
+    "過熱 + LATE/CROWDED 条件で TIME_COST_RISING を Risk Taxonomy に表示する。",
+    "過熱診断文言が、会社品質否定ではなく時間コスト上昇と露出低減の文脈を表す。",
+    "実持仓は読まず、若有持仓/若有超配に相当する条件付き文脈を維持する。",
+    "Engine、Gate、trend_cohesion、action_matrix、trader_agent、exit ロジックは変更しない。",
+    "Research Attention の未提交 baseline 改動は保持し、scope 上で明示する。"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/holding_efficiency_time_cost.summary.json CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json SUMMARY=.ai/work-items/active/holding_efficiency_time_cost.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json SUMMARY=.ai/work-items/active/holding_efficiency_time_cost.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "HoldingEfficiency と時間コスト文言を revert し、Research Attention baseline は別 task の diff として保持する。"
+}

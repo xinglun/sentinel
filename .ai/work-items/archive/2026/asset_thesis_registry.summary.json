@@ -1,0 +1,87 @@
+{
+  "workItemId": "asset_thesis_registry",
+  "contractPath": ".ai/work-items/archive/2026/asset_thesis_registry.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/asset_thesis_registry.contract.json",
+      "reason": "銘柄別観測命題レジストリ導入の Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/asset_thesis_registry.summary.json",
+      "reason": "本 Work Item の変更内容、検証、リスクを記録した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "asset_thesis 設定と AssetThesisEntry を追加し、AppConfig から読み込めるようにした。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "asset-thesis CLI を追加し、銘柄別の観測命題、観測焦点、失効条件を出力できるようにした。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "asset-thesis の通常出力、空設定、Telegram notify 境界を統合テストで固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+    "src/config.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/asset_thesis_registry.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/asset_thesis_registry.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/asset_thesis_registry.summary.json CONTRACT=.ai/work-items/active/asset_thesis_registry.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/asset_thesis_registry.contract.json SUMMARY=.ai/work-items/active/asset_thesis_registry.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/asset_thesis_registry.contract.json SUMMARY=.ai/work-items/active/asset_thesis_registry.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "asset_thesis は独立 CLI 出力に限定した。現時点では report 本体や Gate には接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "既存の Research Attention / Holding Efficiency / Evidence Quality の未コミット差分を scope に含めて検証する。",
+    "asset_thesis は観測理由を説明するだけで、売買指示や実保有管理には使わない。"
+  ]
+}

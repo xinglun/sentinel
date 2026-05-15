@@ -39,6 +39,8 @@ fn mock_config(lang: Language) -> AppConfig {
         },
         watchlist: vec![],
         sec: None,
+        research_attention: None,
+        asset_thesis: None,
     }
 }
 
@@ -596,7 +598,7 @@ mod tests {
             && vm
                 .diagnostic
                 .as_deref()
-                .is_some_and(|d| d.contains("利益確定売り"))));
+                .is_some_and(|d| d.contains("時間コスト"))));
     }
 
     #[test]
@@ -1199,7 +1201,8 @@ mod tests {
         use crate::core::market_regime::{MarketRegimeSnapshot, RiskOverlay};
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
-            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+            AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
+            TrendContinuationState, TrendRecognitionEvidence,
         };
 
         let mut curr = DecisionPacket::default();
@@ -1231,6 +1234,40 @@ mod tests {
                 capex_payoff_signal: true,
                 earnings_validation: true,
                 order_visibility: true,
+                records: vec![
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::OfficialIR,
+                        evidence_type: EvidenceType::CapexPayoff,
+                        confidence: 0.9,
+                        description: "Official capex payoff".to_string(),
+                        event_date: "2026-05-15".to_string(),
+                        ..Default::default()
+                    },
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::Manual,
+                        evidence_type: EvidenceType::EarningsValidation,
+                        confidence: 0.8,
+                        description: "Curated earnings validation".to_string(),
+                        event_date: "2026-05-15".to_string(),
+                        ..Default::default()
+                    },
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::PriceAction,
+                        evidence_type: EvidenceType::FollowThrough,
+                        confidence: 0.7,
+                        description: "Breakout follow-through".to_string(),
+                        event_date: "2026-05-15".to_string(),
+                        ..Default::default()
+                    },
+                    AutomatedEvidenceRecord {
+                        source: EvidenceSourceType::NewsMedia,
+                        evidence_type: EvidenceType::OrderVisibility,
+                        confidence: 0.6,
+                        description: "Media order visibility".to_string(),
+                        event_date: "2026-05-15".to_string(),
+                        ..Default::default()
+                    },
+                ],
                 ..Default::default()
             }),
         });
@@ -1268,6 +1305,7 @@ mod tests {
                 "启动期波动: 无".to_string(),
                 "价格位置风险: OVERHEATED".to_string(),
                 "拥挤风险: ACTIVE".to_string(),
+                "持有效率: TIME_COST_RISING".to_string(),
             ]
         );
         assert_eq!(
@@ -1275,8 +1313,16 @@ mod tests {
             crate::core::presentation::MarketCyclePosition::CrowdedExpectation
         );
         assert_eq!(
+            transition.holding_efficiency,
+            crate::core::presentation::HoldingEfficiency::TimeCostRising
+        );
+        assert_eq!(
             transition.structural_strength.as_deref(),
-            Some("增强中 (3 类证据)")
+            Some("增强中 (3 类证据 / 1 条价格确认)")
+        );
+        assert_eq!(
+            transition.evidence_quality_summary.as_deref(),
+            Some("高质量 1 / 人工/二级 1 / 价格确认 1 / 媒体噪音 1")
         );
         assert_eq!(
             transition.strategic_context,

@@ -1,0 +1,91 @@
+{
+  "workItemId": "daily_calibration_config_sample",
+  "contractPath": ".ai/work-items/archive/2026/daily_calibration_config_sample.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/daily_calibration_config_sample.contract.json",
+      "reason": "日次校正の実設定と実サンプル確認の Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/daily_calibration_config_sample.summary.json",
+      "reason": "本 Work Item の変更内容、検証、リスクを記録した。"
+    },
+    {
+      "path": "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+      "reason": "watchlist 8 銘柄の research_attention と asset_thesis 設定スニペットを追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "実 config に追加されうる research_attention / asset_thesis をテスト fixture から切り離すようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "temp config + daily-calibration sample run",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_calibration_config_sample.summary.json CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json SUMMARY=.ai/work-items/active/daily_calibration_config_sample.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json SUMMARY=.ai/work-items/active/daily_calibration_config_sample.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "config.toml は AI guard の forbidden path のため変更せず、設定スニペットを docs に置いた。実サンプルは一時 config へ注入して確認した。"
+  },
+  "generatedFiles": [
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "実サンプルでは research_attention 8 件、asset_thesis 8 件が読み込まれた。",
+    "ローカル reports/state_transitions.jsonl が存在しないため、日次監査部分は NO AUDIT として表示された。",
+    "config.toml 直接編集は guard で禁止されるため、手動反映用スニペットに切り替えた。"
+  ]
+}

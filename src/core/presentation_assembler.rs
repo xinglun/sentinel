@@ -8,11 +8,11 @@ use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
-    ExitDisplayIntent, MacroDisplayContext, MarketCyclePosition, PresentationPacket,
-    RiskOpportunitySummaryViewModel, SignalSummaryViewModel, StateTransitionViewModel,
-    TrendBreadthMode, UnmetDiffViewModel,
+    ExitDisplayIntent, HoldingEfficiency, MacroDisplayContext, MarketCyclePosition,
+    PresentationPacket, RiskOpportunitySummaryViewModel, SignalSummaryViewModel,
+    StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
 };
-use crate::core::trend_cohesion::EvidenceType;
+use crate::core::trend_cohesion::{EvidenceSourceType, EvidenceType};
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 
@@ -543,6 +543,7 @@ impl PresentationAssembler {
         let mut substantive_signals = Vec::new();
         let mut substantive_details = Vec::new();
         let mut price_confirmation_record_count = 0;
+        let mut evidence_quality_summary = None;
         if let Some(sub) = log
             .trend_recognition
             .as_ref()
@@ -578,6 +579,7 @@ impl PresentationAssembler {
                 .iter()
                 .filter(|record| record.evidence_type == EvidenceType::FollowThrough)
                 .count();
+            evidence_quality_summary = Self::build_evidence_quality_summary(sub, dict);
 
             for record in &sub.records {
                 let source_label = match record.source {
@@ -623,7 +625,13 @@ impl PresentationAssembler {
             substantive_signals.len(),
             trend_recognition_conviction_score,
         );
-        let risk_taxonomy = Self::build_risk_taxonomy(packet, log, market_cycle_position, dict);
+        let holding_efficiency = Self::classify_holding_efficiency(
+            packet,
+            market_cycle_position,
+            substantive_signals.len(),
+        );
+        let risk_taxonomy =
+            Self::build_risk_taxonomy(packet, log, market_cycle_position, holding_efficiency, dict);
         let structural_strength = Self::build_structural_strength(
             substantive_signals.len(),
             price_confirmation_record_count,
@@ -711,11 +719,13 @@ impl PresentationAssembler {
             trend_recognition_lag_state,
             trend_recognition_single_asset_decay,
             structural_strength,
+            evidence_quality_summary,
             substantive_signals,
             substantive_details,
             strategic_context,
             trend_breadth_mode,
             market_cycle_position,
+            holding_efficiency,
         })
     }
 
@@ -880,10 +890,46 @@ impl PresentationAssembler {
             .count()
     }
 
+    fn classify_holding_efficiency(
+        packet: &DecisionPacket,
+        market_cycle_position: MarketCyclePosition,
+        substantive_signal_count: usize,
+    ) -> HoldingEfficiency {
+        if market_cycle_position == MarketCyclePosition::DistributionWarning {
+            return HoldingEfficiency::Neutral;
+        }
+
+        let has_overheat = packet.assets.iter().any(|asset| {
+            asset.asset_state.state == AssetState::OVERHEAT
+                || asset.exit_decision.asset_exit_state == AssetExitState::OverheatProfitTake
+        });
+
+        if has_overheat
+            && matches!(
+                market_cycle_position,
+                MarketCyclePosition::LateAcceptance | MarketCyclePosition::CrowdedExpectation
+            )
+        {
+            return HoldingEfficiency::TimeCostRising;
+        }
+
+        if substantive_signal_count >= 2
+            && matches!(
+                market_cycle_position,
+                MarketCyclePosition::EarlyFormation | MarketCyclePosition::MidConfirmation
+            )
+        {
+            return HoldingEfficiency::Efficient;
+        }
+
+        HoldingEfficiency::Neutral
+    }
+
     fn build_risk_taxonomy(
         packet: &DecisionPacket,
         log: &crate::core::transition_log::StateTransitionLog,
         market_cycle_position: MarketCyclePosition,
+        holding_efficiency: HoldingEfficiency,
         dict: &DisplayDictionary,
     ) -> Vec<String> {
         let te = &dict.transition_evidence;
@@ -921,12 +967,14 @@ impl PresentationAssembler {
         };
 
         let crowding_risk = Self::map_crowding_risk(market_cycle_position, dict);
+        let holding_efficiency = Self::map_holding_efficiency(holding_efficiency, dict);
 
         vec![
             format!("{}: {}", te.market_structure_risk, structure_risk),
             format!("{}: {}", te.initiation_volatility, initiation_volatility),
             format!("{}: {}", te.position_risk, position_risk),
             format!("{}: {}", te.crowding_risk, crowding_risk),
+            format!("{}: {}", te.holding_efficiency, holding_efficiency),
         ]
     }
 
@@ -975,6 +1023,49 @@ impl PresentationAssembler {
         }
 
         Some(format!("{} ({})", label, parts.join(" / ")))
+    }
+
+    fn build_evidence_quality_summary(
+        sub: &crate::core::trend_cohesion::SubstantiveEvidence,
+        dict: &DisplayDictionary,
+    ) -> Option<String> {
+        if sub.records.is_empty() {
+            return None;
+        }
+
+        let mut high_quality = 0;
+        let mut medium_quality = 0;
+        let mut price_confirmation = 0;
+        let mut low_quality = 0;
+
+        for record in &sub.records {
+            match record.source {
+                EvidenceSourceType::OfficialIR => high_quality += 1,
+                EvidenceSourceType::Manual => medium_quality += 1,
+                EvidenceSourceType::PriceAction => price_confirmation += 1,
+                EvidenceSourceType::NewsMedia => low_quality += 1,
+            }
+        }
+
+        let tr = &dict.trend_recognition;
+        let mut parts = Vec::new();
+        if high_quality > 0 {
+            parts.push(format!("{} {}", tr.evidence_quality_high, high_quality));
+        }
+        if medium_quality > 0 {
+            parts.push(format!("{} {}", tr.evidence_quality_medium, medium_quality));
+        }
+        if price_confirmation > 0 {
+            parts.push(format!(
+                "{} {}",
+                tr.evidence_quality_price, price_confirmation
+            ));
+        }
+        if low_quality > 0 {
+            parts.push(format!("{} {}", tr.evidence_quality_low, low_quality));
+        }
+
+        Some(parts.join(" / "))
     }
 
     fn build_strategic_context(
@@ -1079,6 +1170,16 @@ impl PresentationAssembler {
             MarketCyclePosition::EarlyFormation
             | MarketCyclePosition::MidConfirmation
             | MarketCyclePosition::Unknown => &te.crowding_risk_normal,
+        }
+    }
+
+    fn map_holding_efficiency(efficiency: HoldingEfficiency, dict: &DisplayDictionary) -> &str {
+        let te = &dict.transition_evidence;
+        match efficiency {
+            HoldingEfficiency::Efficient => &te.holding_efficiency_efficient,
+            HoldingEfficiency::Neutral => &te.holding_efficiency_neutral,
+            HoldingEfficiency::TimeCostRising => &te.holding_efficiency_time_cost_rising,
+            HoldingEfficiency::Overdiscounted => &te.holding_efficiency_overdiscounted,
         }
     }
 

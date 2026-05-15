@@ -1,0 +1,134 @@
+{
+  "contractVersion": 1,
+  "workItemId": "foundation_roadmap_asset_evidence",
+  "mode": "code",
+  "title": "長期認知基盤ロードマップと証拠品質の導入",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+    ".ai/work-items/active/foundation_roadmap_asset_evidence.summary.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.contract.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.summary.json",
+    ".ai/work-items/archive/2026/research_attention_daily.contract.json",
+    ".ai/work-items/archive/2026/research_attention_daily.summary.json",
+    "Makefile",
+    "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "src/core/exit.rs",
+    "src/core/position_intent.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、Markdown、品質ゲート、AI Cockpit ルール。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item と状態管理の運用ルール。"
+    },
+    {
+      "path": "src/core/trend_cohesion.rs",
+      "reason": "実体的証拠 record と conviction 計算の既存構造。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "表示 ViewModel と表示専用 enum の追加先。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "表示専用の集約・分類ロジック。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Telegram / Markdown 出力境界。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "三言語 Telegram / Markdown 契約テスト。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "表示層 ViewModel 契約テスト。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "Research Attention 設定と AppConfig 互換性。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Research Attention 日次出力の既存 CLI。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "長期認知基盤の全体ロードマップが日本語 Markdown として追加され、Front Matter ルールを満たす。",
+    "証拠品質モデルが表示層に追加され、OfficialIR / Manual / PriceAction / NewsMedia を少なくとも Tier 分類できる。",
+    "Telegram / Markdown の Trend Recognition 表示で証拠品質サマリーを確認できる。",
+    "証拠品質は Gate、Engine、Execution、Action Matrix、Trader Agent に影響しない。",
+    "Research Attention と Holding Efficiency の既存未コミット変更を壊さない。",
+    "三言語の表示契約テストが更新される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/foundation_roadmap_asset_evidence.summary.json CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json SUMMARY=.ai/work-items/active/foundation_roadmap_asset_evidence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json SUMMARY=.ai/work-items/active/foundation_roadmap_asset_evidence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の追加分を revert する。既存の Research Attention / Holding Efficiency diff は別 task の成果として保持する。"
+}
