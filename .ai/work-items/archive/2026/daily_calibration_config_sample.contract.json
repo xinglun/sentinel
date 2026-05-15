@@ -1,0 +1,110 @@
+{
+  "contractVersion": 1,
+  "workItemId": "daily_calibration_config_sample",
+  "mode": "code",
+  "title": "日次校正の実設定と実サンプル確認",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/daily_calibration_config_sample.contract.json",
+    ".ai/work-items/active/daily_calibration_config_sample.summary.json",
+    ".ai/work-items/archive/2026/asset_thesis_registry.contract.json",
+    ".ai/work-items/archive/2026/asset_thesis_registry.summary.json",
+    ".ai/work-items/archive/2026/daily_calibration_questions.contract.json",
+    ".ai/work-items/archive/2026/daily_calibration_questions.summary.json",
+    ".ai/work-items/archive/2026/daily_cognitive_calibration.contract.json",
+    ".ai/work-items/archive/2026/daily_cognitive_calibration.summary.json",
+    ".ai/work-items/archive/2026/foundation_roadmap_asset_evidence.contract.json",
+    ".ai/work-items/archive/2026/foundation_roadmap_asset_evidence.summary.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.contract.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.summary.json",
+    ".ai/work-items/archive/2026/research_attention_daily.contract.json",
+    ".ai/work-items/archive/2026/research_attention_daily.summary.json",
+    "Makefile",
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+    "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "src/core/exit.rs",
+    "src/core/position_intent.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+      "reason": "実 config へ手動反映するための安全な設定スニペット。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration 実行確認対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "research_attention / asset_thesis の実設定スニペットを安全な Markdown として追加する。",
+    "一時 config にスニペットを注入して daily-calibration を実行し、読み込みを確認する。",
+    "config.toml は AI guard の forbidden path として変更しない。",
+    "Gate、Engine、Execution、Action Matrix、Trader Agent には影響しない。",
+    "make quality を通す。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_calibration_config_sample.summary.json CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json SUMMARY=.ai/work-items/active/daily_calibration_config_sample.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_calibration_config_sample.contract.json SUMMARY=.ai/work-items/active/daily_calibration_config_sample.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "日次校正設定スニペットとテスト fixture 修正を revert する。"
+}

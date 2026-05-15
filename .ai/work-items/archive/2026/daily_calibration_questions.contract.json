@@ -1,0 +1,111 @@
+{
+  "contractVersion": 1,
+  "workItemId": "daily_calibration_questions",
+  "mode": "code",
+  "title": "日次校正質問セクションの追加",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/daily_calibration_questions.contract.json",
+    ".ai/work-items/active/daily_calibration_questions.summary.json",
+    ".ai/work-items/archive/2026/asset_thesis_registry.contract.json",
+    ".ai/work-items/archive/2026/asset_thesis_registry.summary.json",
+    ".ai/work-items/archive/2026/daily_cognitive_calibration.contract.json",
+    ".ai/work-items/archive/2026/daily_cognitive_calibration.summary.json",
+    ".ai/work-items/archive/2026/foundation_roadmap_asset_evidence.contract.json",
+    ".ai/work-items/archive/2026/foundation_roadmap_asset_evidence.summary.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.contract.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.summary.json",
+    ".ai/work-items/archive/2026/research_attention_daily.contract.json",
+    ".ai/work-items/archive/2026/research_attention_daily.summary.json",
+    "Makefile",
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+    "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "src/core/exit.rs",
+    "src/core/position_intent.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、Markdown、品質ゲート、AI Cockpit ルール。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration の実装対象。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration 統合テスト。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "daily-calibration に固定の日次校正質問セクションを追加する。",
+    "質問セクションは既存 audit / attention / thesis の情報を要約し、新しい売買判断を生成しない。",
+    "空ログでも非ブロッキングで出力する。",
+    "統合テストで質問セクションと境界を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_calibration_questions.summary.json CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json SUMMARY=.ai/work-items/active/daily_calibration_questions.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json SUMMARY=.ai/work-items/active/daily_calibration_questions.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "daily-calibration の質問セクション追加分を revert する。"
+}

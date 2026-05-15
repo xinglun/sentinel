@@ -1,0 +1,114 @@
+{
+  "contractVersion": 1,
+  "workItemId": "daily_cognitive_calibration",
+  "mode": "code",
+  "title": "日次認知校正レポートの導入",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/daily_cognitive_calibration.contract.json",
+    ".ai/work-items/active/daily_cognitive_calibration.summary.json",
+    ".ai/work-items/archive/2026/asset_thesis_registry.contract.json",
+    ".ai/work-items/archive/2026/asset_thesis_registry.summary.json",
+    ".ai/work-items/archive/2026/foundation_roadmap_asset_evidence.contract.json",
+    ".ai/work-items/archive/2026/foundation_roadmap_asset_evidence.summary.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.contract.json",
+    ".ai/work-items/archive/2026/holding_efficiency_time_cost.summary.json",
+    ".ai/work-items/archive/2026/research_attention_daily.contract.json",
+    ".ai/work-items/archive/2026/research_attention_daily.summary.json",
+    "Makefile",
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+    "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "src/core/exit.rs",
+    "src/core/position_intent.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、Markdown、品質ゲート、AI Cockpit ルール。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item と状態管理の運用ルール。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "audit_daily、research-attention、asset-thesis の既存 CLI。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "日次認知 CLI の統合テスト追加先。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "daily-calibration CLI が日次監査、Research Attention、Asset Thesis を一つの固定フォーマットで出力する。",
+    "daily-calibration は新しい売買判断を生成しない。",
+    "daily-calibration は Gate、Engine、Execution、Action Matrix、Trader Agent に影響しない。",
+    "空設定でも非ブロッキングで境界文言を出す。",
+    "統合テストで通常出力、空設定、Telegram notify 境界を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_cognitive_calibration.summary.json CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json SUMMARY=.ai/work-items/active/daily_cognitive_calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json SUMMARY=.ai/work-items/active/daily_cognitive_calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "daily-calibration CLI とテスト追加分を revert する。既存の未コミット基盤差分は保持する。"
+}

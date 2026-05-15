@@ -982,6 +982,9 @@ fn render_transition_block(
                 if let Some(value) = &evidence.structural_strength {
                     block.push_str(&format!("  - {}: {}\n", tr_dict.structural_strength, value));
                 }
+                if let Some(value) = &evidence.evidence_quality_summary {
+                    block.push_str(&format!("  - {}: {}\n", tr_dict.evidence_quality, value));
+                }
                 if !evidence.substantive_signals.is_empty() {
                     block.push_str(&format!(
                         "  - {}: {}\n",
@@ -1025,6 +1028,12 @@ fn render_transition_block(
                     block.push_str(&format!(
                         "  - <i>{}: {}</i>\n",
                         tr_dict.structural_strength, value
+                    ));
+                }
+                if let Some(value) = &evidence.evidence_quality_summary {
+                    block.push_str(&format!(
+                        "  - <i>{}: {}</i>\n",
+                        tr_dict.evidence_quality, value
                     ));
                 }
                 if !evidence.substantive_signals.is_empty() {

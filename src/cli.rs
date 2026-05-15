@@ -64,6 +64,7 @@ pub async fn run() -> Result<()> {
     let mut evidence_days: usize = 3;
     let mut evidence_source_provider: String = "finnhub".to_string();
     let mut evidence_arg_error: Option<String> = None;
+    let mut research_notify = false;
 
     let mut i = 1;
     while i < args.len() {
@@ -76,6 +77,9 @@ pub async fn run() -> Result<()> {
             "ingest-evidence" => command = "ingest-evidence",
             "ingest-evidence-url" => command = "ingest-evidence-url",
             "collect-evidence" => command = "collect-evidence",
+            "research-attention" => command = "research-attention",
+            "asset-thesis" => command = "asset-thesis",
+            "daily-calibration" => command = "daily-calibration",
             "--provider" if i + 1 < args.len() => {
                 let p = args[i + 1].to_lowercase();
                 if p == "futu" {
@@ -159,6 +163,9 @@ pub async fn run() -> Result<()> {
             "--dry-run" => {
                 evidence_dry_run = true;
             }
+            "--notify" => {
+                research_notify = true;
+            }
             "--source" if i + 1 < args.len() => {
                 evidence_source_provider = args[i + 1].to_lowercase();
                 i += 1;
@@ -221,6 +228,62 @@ pub async fn run() -> Result<()> {
                 audit_days,
                 audit_language,
             )?;
+        }
+        "research-attention" => {
+            let report = build_research_attention_report(&app_config, audit_language);
+            println!("{}", report);
+            if research_notify {
+                match telegram_delivery_precheck(app_config.telegram.as_ref()) {
+                    Ok(tg_cfg) => {
+                        notify::send_telegram_message(tg_cfg, &report).await?;
+                    }
+                    Err(status) => {
+                        return Err(anyhow!(
+                            "Telegram notification is not available for research-attention: {:?}",
+                            status
+                        ));
+                    }
+                }
+            }
+        }
+        "asset-thesis" => {
+            let report = build_asset_thesis_report(&app_config, audit_language);
+            println!("{}", report);
+            if research_notify {
+                match telegram_delivery_precheck(app_config.telegram.as_ref()) {
+                    Ok(tg_cfg) => {
+                        notify::send_telegram_message(tg_cfg, &report).await?;
+                    }
+                    Err(status) => {
+                        return Err(anyhow!(
+                            "Telegram notification is not available for asset-thesis: {:?}",
+                            status
+                        ));
+                    }
+                }
+            }
+        }
+        "daily-calibration" => {
+            let report = build_daily_calibration_report(
+                &app_config,
+                audit_date_arg.as_deref(),
+                audit_days,
+                audit_language,
+            )?;
+            println!("{}", report);
+            if research_notify {
+                match telegram_delivery_precheck(app_config.telegram.as_ref()) {
+                    Ok(tg_cfg) => {
+                        notify::send_telegram_message(tg_cfg, &report).await?;
+                    }
+                    Err(status) => {
+                        return Err(anyhow!(
+                            "Telegram notification is not available for daily-calibration: {:?}",
+                            status
+                        ));
+                    }
+                }
+            }
         }
         "ingest-evidence" => {
             if let Some(err) = evidence_arg_error {
@@ -1061,6 +1124,130 @@ fn run_audit_daily(
     );
     println!("{}", report);
     Ok(())
+}
+
+fn build_daily_calibration_report(
+    app_config: &config::AppConfig,
+    target_date_arg: Option<&str>,
+    window_days: usize,
+    language: Language,
+) -> Result<String> {
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+    let path = save_dir.join("state_transitions.jsonl");
+    let days = load_transition_audit_days(&path, language)?;
+
+    let mut selected_entry: Option<&TransitionAuditEntry> = None;
+    let audit_section = if days.is_empty() {
+        audit_empty_log_message(language).to_string()
+    } else {
+        let target_date = match target_date_arg {
+            Some(raw) => Some(
+                NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+                    .with_context(|| format!("{}: {}", audit_error_parse_date(language), raw))?,
+            ),
+            None => None,
+        };
+        let target_idx = resolve_target_index(&days, target_date, language)?;
+        let evidence_collection_status =
+            load_run_evidence_collection_status(&save_dir, days[target_idx].date)
+                .unwrap_or(crate::core::run_status::DeliveryStatus::Skipped);
+        selected_entry = Some(days[target_idx].latest());
+        build_audit_daily_report_with_evidence_status(
+            &days,
+            target_idx,
+            window_days.max(1),
+            language,
+            Some(&evidence_collection_status),
+        )
+    };
+
+    let mut out = String::new();
+    out.push_str(daily_calibration_title(language));
+    out.push_str("\n\n");
+    out.push_str(daily_calibration_audit_label(language));
+    out.push_str("\n\n");
+    out.push_str(&audit_section);
+    out.push_str("\n\n");
+    out.push_str(daily_calibration_questions_label(language));
+    out.push_str("\n\n");
+    out.push_str(&build_daily_calibration_questions(
+        app_config,
+        selected_entry,
+        language,
+    ));
+    out.push_str("\n\n");
+    out.push_str(daily_calibration_attention_label(language));
+    out.push_str("\n\n");
+    out.push_str(&build_research_attention_report(app_config, language));
+    out.push_str("\n\n");
+    out.push_str(daily_calibration_thesis_label(language));
+    out.push_str("\n\n");
+    out.push_str(&build_asset_thesis_report(app_config, language));
+    out.push_str("\n\n");
+    out.push_str(daily_calibration_boundary(language));
+    Ok(out)
+}
+
+fn build_daily_calibration_questions(
+    app_config: &config::AppConfig,
+    selected_entry: Option<&TransitionAuditEntry>,
+    language: Language,
+) -> String {
+    let attention_count = app_config
+        .research_attention
+        .as_ref()
+        .map(|entries| {
+            entries
+                .values()
+                .filter(|entry| entry.enable.unwrap_or(true))
+                .count()
+        })
+        .unwrap_or(0);
+    let thesis_count = app_config
+        .asset_thesis
+        .as_ref()
+        .map(|entries| {
+            entries
+                .values()
+                .filter(|entry| entry.enable.unwrap_or(true))
+                .count()
+        })
+        .unwrap_or(0);
+    let gate_state = selected_entry
+        .map(|entry| {
+            if entry.log.trend_cohesion_gate.to {
+                "READY"
+            } else {
+                "NO TRADE"
+            }
+        })
+        .unwrap_or("NO AUDIT");
+    let evidence_state = selected_entry
+        .and_then(|entry| entry.log.trend_recognition.as_ref())
+        .map(|tr| {
+            if tr.conviction_score >= 3.0 {
+                daily_calibration_evidence_strong(language)
+            } else if tr.conviction_score > 0.0 {
+                daily_calibration_evidence_observed(language)
+            } else {
+                daily_calibration_evidence_none(language)
+            }
+        })
+        .unwrap_or(daily_calibration_evidence_none(language));
+
+    format!(
+        "{}\n{} {}\n{} {}\n{} {}\n{} {}\n{}",
+        daily_calibration_question_market(language),
+        daily_calibration_question_gate(language),
+        gate_state,
+        daily_calibration_question_evidence(language),
+        evidence_state,
+        daily_calibration_question_attention(language),
+        attention_count,
+        daily_calibration_question_thesis(language),
+        thesis_count,
+        daily_calibration_question_boundary(language),
+    )
 }
 
 fn load_transition_audit_days(
@@ -2017,6 +2204,412 @@ fn audit_daily_usage(language: Language) -> &'static str {
     }
 }
 
+fn build_research_attention_report(app_config: &config::AppConfig, language: Language) -> String {
+    let entries = match &app_config.research_attention {
+        Some(entries) => entries,
+        None => return research_attention_empty(language).to_string(),
+    };
+
+    let mut active_entries: Vec<_> = entries
+        .iter()
+        .filter(|(_, entry)| entry.enable.unwrap_or(true))
+        .collect();
+    active_entries.sort_by_key(|(symbol, _)| symbol.as_str());
+
+    if active_entries.is_empty() {
+        return research_attention_empty(language).to_string();
+    }
+
+    let mut high = Vec::new();
+    let mut medium = Vec::new();
+    let mut low = Vec::new();
+    let mut degrading = Vec::new();
+
+    for (symbol, entry) in active_entries {
+        let line = format_research_attention_item(symbol, entry, language);
+        match entry.cognitive_yield {
+            config::CognitiveYield::High => high.push(line),
+            config::CognitiveYield::Medium => medium.push(line),
+            config::CognitiveYield::Low => low.push(line),
+            config::CognitiveYield::Degrading => degrading.push(line),
+        }
+    }
+
+    let mut out = String::new();
+    out.push_str(research_attention_title(language));
+    out.push_str("\n\n");
+    push_research_attention_section(&mut out, research_attention_high_label(language), &high);
+    push_research_attention_section(&mut out, research_attention_medium_label(language), &medium);
+    push_research_attention_section(&mut out, research_attention_low_label(language), &low);
+    push_research_attention_section(
+        &mut out,
+        research_attention_degrading_label(language),
+        &degrading,
+    );
+    out.push('\n');
+    out.push_str(research_attention_boundary(language));
+    out
+}
+
+fn push_research_attention_section(out: &mut String, title: &str, items: &[String]) {
+    if items.is_empty() {
+        return;
+    }
+    out.push_str(title);
+    out.push_str(":\n");
+    for item in items {
+        out.push_str(item);
+    }
+    out.push('\n');
+}
+
+fn format_research_attention_item(
+    symbol: &str,
+    entry: &config::ResearchAttentionEntry,
+    language: Language,
+) -> String {
+    format!(
+        "• {} · {} {} · {} {}\n  {}\n",
+        symbol,
+        research_attention_density_label(language),
+        information_density_label(entry.information_density),
+        research_attention_cost_label(language),
+        attention_cost_label(entry.attention_cost),
+        entry.reason
+    )
+}
+
+fn research_attention_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "🧠 Research Attention",
+        Language::EnUs => "🧠 Research Attention",
+        Language::JaJp => "🧠 Research Attention",
+    }
+}
+
+fn research_attention_empty(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "🧠 Research Attention\n\n未配置认知观察对象。\n\n边界: 认知收益低不等于股票不好；本报告只管理时间、注意力与认知带宽。"
+        }
+        Language::EnUs => {
+            "🧠 Research Attention\n\nNo research attention entries configured.\n\nBoundary: low cognitive yield does not mean the stock is bad; this report only manages time, attention, and cognitive bandwidth."
+        }
+        Language::JaJp => {
+            "🧠 Research Attention\n\n認知観測対象は未設定です。\n\n境界: 認知收益が低いことは銘柄の否定ではない。このレポートは時間、注意力、認知帯域だけを管理する。"
+        }
+    }
+}
+
+fn research_attention_high_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "HIGH",
+        Language::EnUs => "HIGH",
+        Language::JaJp => "HIGH",
+    }
+}
+
+fn research_attention_medium_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "MEDIUM",
+        Language::EnUs => "MEDIUM",
+        Language::JaJp => "MEDIUM",
+    }
+}
+
+fn research_attention_low_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "LOW / SATURATED",
+        Language::EnUs => "LOW / SATURATED",
+        Language::JaJp => "LOW / SATURATED",
+    }
+}
+
+fn research_attention_degrading_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "DEGRADING",
+        Language::EnUs => "DEGRADING",
+        Language::JaJp => "DEGRADING",
+    }
+}
+
+fn research_attention_density_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "信息密度",
+        Language::EnUs => "Density",
+        Language::JaJp => "情報密度",
+    }
+}
+
+fn research_attention_cost_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "注意力成本",
+        Language::EnUs => "Attention Cost",
+        Language::JaJp => "注意コスト",
+    }
+}
+
+fn research_attention_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "校准边界: 认知收益低 ≠ 股票不好；注意力成本高 ≠ 不值得研究；信息密度低 ≠ 不值得持有。"
+        }
+        Language::EnUs => {
+            "Calibration boundary: low cognitive yield != bad stock; high attention cost != not worth researching; low information density != not worth holding."
+        }
+        Language::JaJp => {
+            "校正境界: 認知收益が低い ≠ 悪い銘柄；注意コストが高い ≠ 研究価値なし；情報密度が低い ≠ 保有価値なし。"
+        }
+    }
+}
+
+fn build_asset_thesis_report(app_config: &config::AppConfig, language: Language) -> String {
+    let entries = match &app_config.asset_thesis {
+        Some(entries) => entries,
+        None => return asset_thesis_empty(language).to_string(),
+    };
+
+    let mut active_entries: Vec<_> = entries
+        .iter()
+        .filter(|(_, entry)| entry.enable.unwrap_or(true))
+        .collect();
+    active_entries.sort_by_key(|(symbol, _)| symbol.as_str());
+
+    if active_entries.is_empty() {
+        return asset_thesis_empty(language).to_string();
+    }
+
+    let mut out = String::new();
+    out.push_str(asset_thesis_title(language));
+    out.push_str("\n\n");
+
+    for (symbol, entry) in active_entries {
+        out.push_str(&format!("• {} · {}\n", symbol, entry.thesis));
+        push_asset_thesis_list(
+            &mut out,
+            asset_thesis_observation_focus_label(language),
+            &entry.observation_focus,
+        );
+        push_asset_thesis_list(
+            &mut out,
+            asset_thesis_invalidation_label(language),
+            &entry.invalidation,
+        );
+        out.push('\n');
+    }
+
+    out.push_str(asset_thesis_boundary(language));
+    out
+}
+
+fn push_asset_thesis_list(out: &mut String, title: &str, items: &[String]) {
+    if items.is_empty() {
+        return;
+    }
+    out.push_str(&format!("  {}:\n", title));
+    for item in items {
+        out.push_str(&format!("  - {}\n", item));
+    }
+}
+
+fn asset_thesis_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "🧭 Asset Thesis Registry",
+        Language::EnUs => "🧭 Asset Thesis Registry",
+        Language::JaJp => "🧭 Asset Thesis Registry",
+    }
+}
+
+fn asset_thesis_empty(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "🧭 Asset Thesis Registry\n\n未配置资产观察命题。\n\n边界: 资产命题只说明为什么观察，不生成买卖指令。"
+        }
+        Language::EnUs => {
+            "🧭 Asset Thesis Registry\n\nNo asset thesis entries configured.\n\nBoundary: asset theses explain why to observe; they do not generate trade instructions."
+        }
+        Language::JaJp => {
+            "🧭 Asset Thesis Registry\n\n銘柄別の観測命題は未設定です。\n\n境界: 銘柄命題は観測理由を説明するだけで、売買指示は生成しない。"
+        }
+    }
+}
+
+fn asset_thesis_observation_focus_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "观察焦点",
+        Language::EnUs => "Observation Focus",
+        Language::JaJp => "観測焦点",
+    }
+}
+
+fn asset_thesis_invalidation_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "失效条件",
+        Language::EnUs => "Invalidation",
+        Language::JaJp => "失効条件",
+    }
+}
+
+fn asset_thesis_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "边界: 观察命题 ≠ 买入理由；命题失效 ≠ 自动卖出。",
+        Language::EnUs => {
+            "Boundary: an observation thesis is not a buy reason; thesis invalidation is not an automatic sell."
+        }
+        Language::JaJp => "境界: 観測命題は買い理由ではない。命題失効は自動売却ではない。",
+    }
+}
+
+fn daily_calibration_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "🧭 Daily Cognitive Calibration",
+        Language::EnUs => "🧭 Daily Cognitive Calibration",
+        Language::JaJp => "🧭 Daily Cognitive Calibration",
+    }
+}
+
+fn daily_calibration_audit_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 1. 今日审计摘要",
+        Language::EnUs => "## 1. Daily Audit Summary",
+        Language::JaJp => "## 1. 日次監査サマリー",
+    }
+}
+
+fn daily_calibration_questions_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 2. 日报校准问题",
+        Language::EnUs => "## 2. Daily Calibration Questions",
+        Language::JaJp => "## 2. 日次校正質問",
+    }
+}
+
+fn daily_calibration_attention_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 3. 认知关注校准",
+        Language::EnUs => "## 3. Research Attention Calibration",
+        Language::JaJp => "## 3. 認知注目の校正",
+    }
+}
+
+fn daily_calibration_thesis_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 4. 资产观察命题",
+        Language::EnUs => "## 4. Asset Observation Theses",
+        Language::JaJp => "## 4. 銘柄別観測命題",
+    }
+}
+
+fn daily_calibration_question_market(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "固定问题: 今天是市场理解变化，还是只是噪音变化？",
+        Language::EnUs => "Fixed question: did market understanding change today, or only noise?",
+        Language::JaJp => "固定質問: 今日変化したのは市場理解か、それともノイズだけか？",
+    }
+}
+
+fn daily_calibration_question_gate(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- 战术状态:",
+        Language::EnUs => "- Tactical state:",
+        Language::JaJp => "- 戦術状態:",
+    }
+}
+
+fn daily_calibration_question_evidence(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- 证据状态:",
+        Language::EnUs => "- Evidence state:",
+        Language::JaJp => "- 証拠状態:",
+    }
+}
+
+fn daily_calibration_question_attention(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- 需校准认知对象数:",
+        Language::EnUs => "- Attention entries to calibrate:",
+        Language::JaJp => "- 校正対象の認知項目数:",
+    }
+}
+
+fn daily_calibration_question_thesis(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- 需复查观察命题数:",
+        Language::EnUs => "- Observation theses to review:",
+        Language::JaJp => "- 再確認する観測命題数:",
+    }
+}
+
+fn daily_calibration_question_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "校准口径: 战术状态、证据状态、认知对象和观察命题只用于复盘，不构成新信号。",
+        Language::EnUs => {
+            "Calibration rule: tactical state, evidence state, attention entries, and observation theses are for review only, not new signals."
+        }
+        Language::JaJp => {
+            "校正口径: 戦術状態、証拠状態、認知項目、観測命題は復盤専用であり、新シグナルではない。"
+        }
+    }
+}
+
+fn daily_calibration_evidence_strong(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "结构证据较强，重点检查价格/扩散是否跟上",
+        Language::EnUs => {
+            "structural evidence is strong; check whether price/diffusion is following"
+        }
+        Language::JaJp => "構造証拠は強い。価格/拡散が追随しているか確認",
+    }
+}
+
+fn daily_calibration_evidence_observed(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已有结构证据，重点检查质量而非数量",
+        Language::EnUs => "structural evidence observed; check quality, not quantity",
+        Language::JaJp => "構造証拠を観測中。数量ではなく品質を確認",
+    }
+}
+
+fn daily_calibration_evidence_none(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "无可用结构证据或审计记录",
+        Language::EnUs => "no usable structural evidence or audit record",
+        Language::JaJp => "利用可能な構造証拠または監査記録なし",
+    }
+}
+
+fn daily_calibration_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "边界: 本日报只校准系统理解、证据质量、认知资源与观察命题；不生成新的交易指令。"
+        }
+        Language::EnUs => {
+            "Boundary: this daily report only calibrates system understanding, evidence quality, cognitive resources, and observation theses; it does not generate new trade instructions."
+        }
+        Language::JaJp => {
+            "境界: この日報はシステム理解、証拠品質、認知資源、観測命題だけを校正し、新しい売買指示は生成しない。"
+        }
+    }
+}
+
+fn information_density_label(value: config::InformationDensity) -> &'static str {
+    match value {
+        config::InformationDensity::Expanding => "EXPANDING",
+        config::InformationDensity::Active => "ACTIVE",
+        config::InformationDensity::Stable => "STABLE",
+        config::InformationDensity::Saturated => "SATURATED",
+    }
+}
+
+fn attention_cost_label(value: config::AttentionCost) -> &'static str {
+    match value {
+        config::AttentionCost::Low => "LOW",
+        config::AttentionCost::Moderate => "MODERATE",
+        config::AttentionCost::High => "HIGH",
+        config::AttentionCost::Draining => "DRAINING",
+    }
+}
+
 async fn run_review(_config: &crate::config::AppConfig) -> Result<()> {
     Ok(())
 }
@@ -2150,6 +2743,8 @@ mod tests {
                 })
                 .collect(),
             sec: None,
+            research_attention: None,
+            asset_thesis: None,
         }
     }
 

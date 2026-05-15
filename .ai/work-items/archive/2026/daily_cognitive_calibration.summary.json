@@ -1,0 +1,81 @@
+{
+  "workItemId": "daily_cognitive_calibration",
+  "contractPath": ".ai/work-items/archive/2026/daily_cognitive_calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/daily_cognitive_calibration.contract.json",
+      "reason": "日次認知校正レポート導入の Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/daily_cognitive_calibration.summary.json",
+      "reason": "本 Work Item の変更内容、検証、リスクを記録した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration CLI を追加し、audit_daily、Research Attention、Asset Thesis を日次で固定フォーマットに統合した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の通常出力、空設定、Telegram notify 境界を統合テストで固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_cognitive_calibration.summary.json CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json SUMMARY=.ai/work-items/active/daily_cognitive_calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_cognitive_calibration.contract.json SUMMARY=.ai/work-items/active/daily_cognitive_calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "daily-calibration は既存レポートを統合するだけで、新しい判断ロジックは生成しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "現在は週報ではなく日報に限定した。",
+    "state_transitions.jsonl がない場合でも非ブロッキングで出力する。"
+  ]
+}

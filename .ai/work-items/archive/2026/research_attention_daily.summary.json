@@ -1,0 +1,109 @@
+{
+  "workItemId": "research_attention_daily",
+  "contractPath": ".ai/work-items/archive/2026/research_attention_daily.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/research_attention_daily.contract.json",
+      "reason": "Research Attention Daily の実装範囲と境界を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/research_attention_daily.summary.json",
+      "reason": "AI Change Summary を実装状況に合わせて更新した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "research-attention の make entrypoint を追加した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "設定駆動の research_attention 動的テーブルと enum を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "research-attention CLI、stdout 出力、--notify による単独 Telegram 送信を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "旁路レポート出力、空設定、--notify 境界の統合テストを追加した。"
+    },
+    {
+      "path": "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+      "reason": "目的、境界、設定、コマンドを文書化した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "AppConfig mock に research_attention: None を追加した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "AppConfig mock に research_attention: None を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "user_request",
+    "src/cli.rs",
+    "src/config.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/research_attention_daily.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/research_attention_daily.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/research_attention_daily.summary.json CONTRACT=.ai/work-items/active/research_attention_daily.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/research_attention_daily.contract.json SUMMARY=.ai/work-items/active/research_attention_daily.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/research_attention_daily.contract.json SUMMARY=.ai/work-items/active/research_attention_daily.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "旁路 CLI と設定だけの追加。主 radar / Gate / Engine / trend_cohesion には接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

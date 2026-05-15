@@ -1,0 +1,79 @@
+{
+  "workItemId": "daily_calibration_questions",
+  "contractPath": ".ai/work-items/archive/2026/daily_calibration_questions.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/daily_calibration_questions.contract.json",
+      "reason": "日次校正質問セクション追加の Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/daily_calibration_questions.summary.json",
+      "reason": "本 Work Item の変更内容、検証、リスクを記録した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration に固定の日次校正質問セクションを追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の質問セクション、件数、境界文言を統合テストで固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_calibration_questions.summary.json CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json SUMMARY=.ai/work-items/active/daily_calibration_questions.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_calibration_questions.contract.json SUMMARY=.ai/work-items/active/daily_calibration_questions.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "質問セクションは復盤用の固定問いであり、売買判断や新規シグナルには接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "state_transitions.jsonl がない場合は NO AUDIT として非ブロッキングに出力する。"
+  ]
+}

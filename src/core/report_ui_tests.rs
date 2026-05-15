@@ -39,6 +39,8 @@ fn mock_config() -> AppConfig {
             market_state_engine: None,
         },
         watchlist: vec![],
+        research_attention: None,
+        asset_thesis: None,
     }
 }
 
@@ -2311,6 +2313,7 @@ mod tests {
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
         assert!(html.contains("实质性证据: 业绩实质性确认"));
         assert!(html.contains("结构强度: 已观察 (1 类证据 / 1 条价格确认)"));
+        assert!(html.contains("证据质量: 高质量 1 / 价格确认 1"));
         assert!(!html.contains("条记录"));
         assert!(!html.contains("FollowThrough"));
         assert!(!html.contains("[2026-04-22] [EarningsValidation]"));
@@ -2440,6 +2443,9 @@ mod tests {
                     assert!(report
                         .telegram_html_body
                         .contains("Observed (1 evidence type / 1 price confirmation)"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("Evidence Quality: High Quality 1 / Price Confirmation 1"));
                     assert!(!report.telegram_html_body.contains("1 record"));
                 }
                 Language::JaJp => {
@@ -2459,6 +2465,9 @@ mod tests {
                     assert!(report
                         .telegram_html_body
                         .contains("観測済み (1 種類の証拠 / 1 件の価格確認)"));
+                    assert!(report
+                        .telegram_html_body
+                        .contains("証拠品質: 高品質 1 / 価格確認 1"));
                     assert!(!report.telegram_html_body.contains("1 件の記録"));
                 }
                 Language::ZhCn => unreachable!(),
@@ -2492,6 +2501,9 @@ mod tests {
                     assert!(report
                         .archival_markdown
                         .contains("Observed (1 evidence type / 1 price confirmation)"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("Evidence Quality: High Quality 1 / Price Confirmation 1"));
                 }
                 Language::JaJp => {
                     assert!(report.archival_markdown.contains("戦略文脈"));
@@ -2507,6 +2519,9 @@ mod tests {
                     assert!(report
                         .archival_markdown
                         .contains("観測済み (1 種類の証拠 / 1 件の価格確認)"));
+                    assert!(report
+                        .archival_markdown
+                        .contains("証拠品質: 高品質 1 / 価格確認 1"));
                 }
                 Language::ZhCn => unreachable!(),
             }
@@ -2629,7 +2644,7 @@ mod tests {
     fn test_narrow_leadership_is_displayed_as_structural_consolidation_without_gate_change() {
         use crate::core::asset_state::{AssetState, AssetStateSnapshot};
         use crate::core::i18n::Language;
-        use crate::core::presentation::{MarketCyclePosition, TrendBreadthMode};
+        use crate::core::presentation::{HoldingEfficiency, MarketCyclePosition, TrendBreadthMode};
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
@@ -2724,6 +2739,7 @@ mod tests {
             expected_mode,
             expected_cycle,
             expected_crowding,
+            expected_holding_efficiency,
             expected_tactical,
             expected_fragility,
         ) in [
@@ -2734,6 +2750,7 @@ mod tests {
                 "市场结构模式: 核心资产主导期",
                 "周期位置: CROWDED_EXPECTATION",
                 "拥挤风险: ACTIVE",
+                "持有效率: NEUTRAL",
                 "战术状态: NO TRADE，等待结构扩散",
                 "结构脆弱: 暂停主动进攻，等待扩散恢复",
             ),
@@ -2744,6 +2761,7 @@ mod tests {
                 "Market Structure Mode: Narrow Leadership",
                 "Cycle Position: CROWDED_EXPECTATION",
                 "Crowding Risk: ACTIVE",
+                "Holding Efficiency: NEUTRAL",
                 "Tactical Status: NO TRADE, waiting for structural diffusion",
                 "Structural Fragility: pause active offense and wait for diffusion recovery",
             ),
@@ -2754,6 +2772,7 @@ mod tests {
                 "市場構造モード: コア資産主導期",
                 "サイクル位置: CROWDED_EXPECTATION",
                 "混雑リスク: ACTIVE",
+                "保有效率: NEUTRAL",
                 "戦術状態: NO TRADE、構造拡散待ち",
                 "構造脆弱：能動的な攻勢を停止し、拡散回復を待つ",
             ),
@@ -2775,6 +2794,7 @@ mod tests {
                 transition.market_cycle_position,
                 MarketCyclePosition::CrowdedExpectation
             );
+            assert_eq!(transition.holding_efficiency, HoldingEfficiency::Neutral);
             assert!(!transition.trend_cohesion_gate_passed);
 
             let report =
@@ -2786,6 +2806,9 @@ mod tests {
             assert!(report.archival_markdown.contains(expected_mode));
             assert!(report.archival_markdown.contains(expected_cycle));
             assert!(report.archival_markdown.contains(expected_crowding));
+            assert!(report
+                .archival_markdown
+                .contains(expected_holding_efficiency));
             assert!(report.archival_markdown.contains(expected_tactical));
             assert!(report.archival_markdown.contains(expected_fragility));
             assert!(!report.archival_markdown.contains("保命层强制退出"));

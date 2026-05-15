@@ -1,0 +1,110 @@
+{
+  "contractVersion": 1,
+  "workItemId": "research_attention_daily",
+  "mode": "code",
+  "title": "Research Attention Daily旁路レポートを追加",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/research_attention_daily.contract.json",
+    ".ai/work-items/active/research_attention_daily.summary.json",
+    "Makefile",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/RESEARCH_ATTENTION_DAILY.md"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/action_matrix.rs",
+    "src/core/execution_gate.rs",
+    "src/core/trader_agent.rs",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "user_request",
+      "reason": "Research Attention を日頻旁路として追加し、主レポートと決策層から分離する要求。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "独立 CLI コマンドと Telegram 任意通知の入口。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "設定駆動の認知リソース項目を追加する場所。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "research-attention コマンドが設定駆動で日次旁路レポートを stdout に出力する。",
+    "--notify 指定時のみ Telegram に単独メッセージを送る。",
+    "主 radar / report / Gate / Engine / trend_cohesion / action_matrix / trader_agent に接続しない。",
+    "認知收益低は株価や投資価値の否定ではないという境界文を出力する。",
+    "Makefile に research-attention entrypoint を追加する。",
+    "CLI 統合テストで出力、空設定、--notify 境界を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/research_attention_daily.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/research_attention_daily.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/research_attention_daily.summary.json CONTRACT=.ai/work-items/active/research_attention_daily.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/research_attention_daily.contract.json SUMMARY=.ai/work-items/active/research_attention_daily.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/research_attention_daily.contract.json SUMMARY=.ai/work-items/active/research_attention_daily.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "research-attention CLI、設定項目、Makefile target、関連 test / docs の diff を revert する。"
+}

@@ -1,0 +1,121 @@
+{
+  "workItemId": "foundation_roadmap_asset_evidence",
+  "contractPath": ".ai/work-items/archive/2026/foundation_roadmap_asset_evidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+      "reason": "長期認知基盤ロードマップと証拠品質導入の Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/foundation_roadmap_asset_evidence.summary.json",
+      "reason": "本 Work Item の変更内容、検証、リスクを記録した。"
+    },
+    {
+      "path": "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+      "reason": "Evidence Quality、Asset Thesis、Holding Efficiency、Weekly Calibration、Signal Attribution の全体開発タスクリストを追加した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "StateTransitionViewModel に evidence_quality_summary を追加した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "証拠品質サマリーの三言語表示文言を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "AutomatedEvidenceRecord の source を表示層で品質分類し、証拠品質サマリーを組み立てる処理を追加した。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Telegram HTML と Markdown の Trend Recognition 区画に証拠品質サマリーを表示するようにした。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "証拠品質サマリーと価格確認件数を ViewModel 契約として固定した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "証拠品質サマリーの zh/en/ja Telegram / Markdown 表示契約を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "src/core/trend_cohesion.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "src/config.rs",
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_trend_recognition_substantive_details_render_in_en_and_ja -- --exact --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_trend_recognition_report_rendering_zh_cn -- --exact --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_trend_recognition_evidence_mapping -- --exact --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/foundation_roadmap_asset_evidence.summary.json CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json SUMMARY=.ai/work-items/active/foundation_roadmap_asset_evidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/foundation_roadmap_asset_evidence.contract.json SUMMARY=.ai/work-items/active/foundation_roadmap_asset_evidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "証拠品質は表示層に限定している。現時点では source による粗い分類であり、Phase 2 以降で asset thesis や証拠本文の品質評価を追加する必要がある。"
+  },
+  "generatedFiles": [
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "既存の Research Attention と Holding Efficiency の未コミット差分が残っているため、本 Work Item はそれらを scope に含めて検証する。",
+    "証拠品質は Gate、Engine、Execution、Action Matrix、Trader Agent には接続していない。"
+  ]
+}

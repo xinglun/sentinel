@@ -1,0 +1,119 @@
+{
+  "workItemId": "holding_efficiency_time_cost",
+  "contractPath": ".ai/work-items/archive/2026/holding_efficiency_time_cost.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/holding_efficiency_time_cost.contract.json",
+      "reason": "Holding Efficiency / Time Cost の実装範囲と境界を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/holding_efficiency_time_cost.summary.json",
+      "reason": "AI Change Summary を task に合わせて初期化した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "HoldingEfficiency を StateTransitionViewModel に追加した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "持有效率の三語文言と過熱時の時間コスト文言を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "表示専用の HoldingEfficiency を推定し、Risk Taxonomy に追加した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "TIME_COST_RISING の ViewModel 契約と過熱文言を固定した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "三語レポート上の Holding Efficiency 表示を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "user_request",
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs",
+    "src/core/report.rs"
+  ],
+  "verification": [
+    {
+      "command": "cargo test narrow_leadership -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_exit_reasons_are_localized_for_participation_and_overheat -- --exact --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_trend_recognition_evidence_mapping -- --exact --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/holding_efficiency_time_cost.summary.json CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json SUMMARY=.ai/work-items/active/holding_efficiency_time_cost.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/holding_efficiency_time_cost.contract.json SUMMARY=.ai/work-items/active/holding_efficiency_time_cost.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "表示層だけの追加。実持仓、Gate、Engine、execution には接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "warning",
+      "detail": "check-ai-guards は restricted_write を report-only として警告した。対象は Makefile / src/cli.rs / src/config.rs / .ai/cockpit/current_status.md。"
+    },
+    {
+      "severity": "warning",
+      "detail": "check-ai-backtrack は i18n 文言変更を report-only として警告した。意図した文言更新であり、削除ではない。"
+    }
+  ]
+}
