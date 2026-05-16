@@ -3065,8 +3065,15 @@ mod tests {
             .unwrap()
             .filter_map(Result::ok)
             .map(|entry| entry.path())
-            .find(|path| path.extension().and_then(|ext| ext.to_str()) == Some("md"))
-            .expect("report should exist for partial-failure runs");
+            .find(|path| {
+                path.extension().and_then(|ext| ext.to_str()) == Some("md")
+                    && path
+                        .file_stem()
+                        .and_then(|stem| stem.to_str())
+                        .and_then(|stem| chrono::NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
+                        .is_some()
+            })
+            .expect("daily report should exist for partial-failure runs");
         let run_status_path = std::fs::read_dir(tmp.path())
             .unwrap()
             .filter_map(Result::ok)

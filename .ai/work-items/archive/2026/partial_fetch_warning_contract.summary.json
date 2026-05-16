@@ -1,0 +1,73 @@
+{
+  "workItemId": "partial_fetch_warning_contract",
+  "contractPath": ".ai/work-items/archive/2026/partial_fetch_warning_contract.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "reason": "部分取得失敗テスト修正の scope と検証条件を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/partial_fetch_warning_contract.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "部分取得失敗テストが任意の Markdown ではなく、日付形式の当日レポートを読むように修正した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の ready 状態を生成した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test cli::tests::partial_fetch_failure_preserves_history_and_real_market_state -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/partial_fetch_warning_contract.summary.json CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json SUMMARY=.ai/work-items/active/partial_fetch_warning_contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json SUMMARY=.ai/work-items/active/partial_fetch_warning_contract.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "runtime は変更せず、テストの対象レポート選択だけを安定化した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "一時ディレクトリ内の任意の .md を読むため、週次レビュー Markdown を拾う可能性があった。"
+  ]
+}
