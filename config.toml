@@ -280,3 +280,12 @@ invalidation = ["収益改善が一時的に終わる", "主要顧客または�
 thesis = "個別銘柄ではなく、市場全体の流動性、指数トレンド、リスクオン/オフの基準線として観測する。"
 observation_focus = ["指数トレンドと breadth の関係", "Mega-cap leadership と市場全体の乖離", "金利、流動性、リスク許容度"]
 invalidation = ["指数が長期トレンドを明確に割り込む", "breadth の悪化がリーダー資産へ波及する", "流動性環境が構造的に悪化する"]
+
+[macro_gravity]
+rate_pressure = "RISING"
+real_yield_pressure = "TIGHT"
+yield_curve = "FLAT"
+credit_stress = "NORMAL"
+liquidity = "NEUTRAL"
+growth_valuation_impact = "COMPRESSING"
+note = "債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。"
