@@ -12,7 +12,12 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
     let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
     let research_start = raw.find("\n[research_attention.");
     let thesis_start = raw.find("\n[asset_thesis.");
-    if let Some(start) = [research_start, thesis_start].into_iter().flatten().min() {
+    let macro_start = raw.find("\n[macro_gravity]");
+    if let Some(start) = [research_start, thesis_start, macro_start]
+        .into_iter()
+        .flatten()
+        .min()
+    {
         raw.truncate(start);
     }
 
@@ -178,6 +183,15 @@ reason = "Physical AI / FSD / 製造自動化は高変化率を維持。"
 thesis = "AI インフラ需要が継続するかを観測する。"
 observation_focus = ["データセンター注文の継続性"]
 invalidation = ["主要クラウドの Capex 減速"]
+
+[macro_gravity]
+rate_pressure = "RISING"
+real_yield_pressure = "TIGHT"
+yield_curve = "FLAT"
+credit_stress = "NORMAL"
+liquidity = "NEUTRAL"
+growth_valuation_impact = "COMPRESSING"
+note = "長期金利は成長株のバリュエーション重力として観測する。"
 "#,
     );
 
@@ -198,7 +212,39 @@ invalidation = ["主要クラウドの Capex 減速"]
     assert!(stdout.contains("TSLA · 信息密度 EXPANDING · 注意力成本 HIGH"));
     assert!(stdout.contains("## 4. 资产观察命题"));
     assert!(stdout.contains("NVDA · AI インフラ需要"));
+    assert!(stdout.contains("## 5. 宏观重力校准"));
+    assert!(stdout.contains("- 利率压力: RISING"));
+    assert!(stdout.contains("- 成长股估值: COMPRESSING"));
+    assert!(stdout.contains("不参与 Gate，不生成交易指令"));
     assert!(stdout.contains("不生成新的交易指令"));
+}
+
+#[test]
+fn macro_gravity_outputs_context_without_trade_signal() {
+    let tmp = prepare_workspace(
+        r#"
+
+[macro_gravity]
+rate_pressure = "RISING"
+real_yield_pressure = "TIGHT"
+yield_curve = "INVERTED"
+credit_stress = "WATCH"
+liquidity = "TIGHT"
+growth_valuation_impact = "COMPRESSING"
+note = "割引率上昇により、好業績でも時間コストが上がる可能性を観測する。"
+"#,
+    );
+
+    let out = run_cli(&tmp, &["daily-calibration"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("🌐 Macro Gravity"));
+    assert!(stdout.contains("- 实际利率: TIGHT"));
+    assert!(stdout.contains("- 信用压力: WATCH"));
+    assert!(stdout.contains("割引率上昇"));
+    assert!(stdout.contains("不参与 Gate"));
+    assert!(!stdout.contains("买入"));
 }
 
 #[test]

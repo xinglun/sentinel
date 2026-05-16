@@ -98,3 +98,16 @@ thesis = "個別銘柄ではなく、市場全体の流動性、指数トレン�
 observation_focus = ["指数トレンドと breadth の関係", "Mega-cap leadership と市場全体の乖離", "金利、流動性、リスク許容度"]
 invalidation = ["指数が長期トレンドを明確に割り込む", "breadth の悪化がリーダー資産へ波及する", "流動性環境が構造的に悪化する"]
 ```
+
+## Macro Gravity 追加例
+
+```toml
+[macro_gravity]
+rate_pressure = "RISING"
+real_yield_pressure = "TIGHT"
+yield_curve = "FLAT"
+credit_stress = "NORMAL"
+liquidity = "NEUTRAL"
+growth_valuation_impact = "COMPRESSING"
+note = "債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。"
+```

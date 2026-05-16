@@ -1,0 +1,123 @@
+{
+  "contractVersion": 1,
+  "workItemId": "macro_gravity_context",
+  "mode": "code",
+  "title": "マクロ重力コンテキストを表示層へ追加",
+  "scope": [
+    ".ai/work-items/active/macro_gravity_context.contract.json",
+    ".ai/work-items/active/macro_gravity_context.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/MACRO_GRAVITY_CONTEXT.md",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+    "src/core/asset_state.rs",
+    "src/core/features.rs",
+    "src/core/market_regime.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "src/config.rs",
+      "reason": "macro_gravity を表示用設定として読み込む。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "戦略背景へ Macro Gravity を組み込む。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration の支線表示へ Macro Gravity を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "CLI 表示契約を固定する。"
+    },
+    {
+      "path": "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+      "reason": "daily-calibration 用の設定片段を Macro Gravity と同期する。"
+    },
+    {
+      "path": "src/core/asset_state.rs",
+      "reason": "ParsedRules に macro_gravity を追加したため、既存 fixture に None を追加する。"
+    },
+    {
+      "path": "src/core/features.rs",
+      "reason": "ParsedRules に macro_gravity を追加したため、既存 fixture に None を追加する。"
+    },
+    {
+      "path": "src/core/market_regime.rs",
+      "reason": "ParsedRules に macro_gravity を追加したため、既存 fixture に None を追加する。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "ParsedRules に macro_gravity を追加したため、既存 fixture に None を追加する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Macro Gravity は設定と表示だけで扱い、Gate / Engine / execution へ接続しない。",
+    "daily-calibration が金利圧力、実質金利、信用、流動性、成長株評価への影響を表示する。",
+    "Telegram/Markdown の戦略背景に Macro Gravity が表示される。",
+    "未設定時は non-blocking で既存出力を壊さない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/macro_gravity_context.summary.json CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json SUMMARY=.ai/work-items/active/macro_gravity_context.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json SUMMARY=.ai/work-items/active/macro_gravity_context.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

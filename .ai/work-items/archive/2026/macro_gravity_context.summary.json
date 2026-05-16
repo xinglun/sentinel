@@ -1,0 +1,133 @@
+{
+  "workItemId": "macro_gravity_context",
+  "contractPath": ".ai/work-items/archive/2026/macro_gravity_context.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/macro_gravity_context.contract.json",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": ".ai/work-items/active/macro_gravity_context.summary.json",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "docs/specs/MACRO_GRAVITY_CONTEXT.md",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Macro Gravity context の実装対象。"
+    },
+    {
+      "path": "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+      "reason": "Macro Gravity の設定片段を追記した。"
+    },
+    {
+      "path": "src/core/asset_state.rs",
+      "reason": "ParsedRules fixture に macro_gravity: None を追加した。"
+    },
+    {
+      "path": "src/core/features.rs",
+      "reason": "ParsedRules fixture に macro_gravity: None を追加した。"
+    },
+    {
+      "path": "src/core/market_regime.rs",
+      "reason": "ParsedRules fixture に macro_gravity: None を追加した。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "ParsedRules fixture に macro_gravity: None を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/config.rs",
+    "src/core/presentation_assembler.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+    "src/core/asset_state.rs",
+    "src/core/features.rs",
+    "src/core/market_regime.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/macro_gravity_context.summary.json CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json SUMMARY=.ai/work-items/active/macro_gravity_context.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/macro_gravity_context.contract.json SUMMARY=.ai/work-items/active/macro_gravity_context.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "表示層と設定だけに限定し、Gate / Engine へ接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "config.toml は guard 対象のため、Macro Gravity の実設定はドキュメント片段へ分離した。"
+  ]
+}

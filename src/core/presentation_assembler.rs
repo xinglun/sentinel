@@ -1,4 +1,7 @@
-use crate::config::ParsedRules;
+use crate::config::{
+    CreditStress, GrowthValuationImpact, LiquidityCondition, MacroGravityConfig, MacroPressure,
+    ParsedRules, YieldCurveState,
+};
 use crate::core::asset_state::AssetState;
 use crate::core::decision::DecisionPacket;
 use crate::core::display::{DisplayAdapter, DisplayContext, DisplayIntent};
@@ -451,7 +454,7 @@ impl PresentationAssembler {
             risk_opportunities,
             notices,
             data_alert,
-            transition_evidence: Self::build_transition_evidence(packet, &dict),
+            transition_evidence: Self::build_transition_evidence(packet, rules, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
         }
@@ -459,6 +462,7 @@ impl PresentationAssembler {
 
     fn build_transition_evidence(
         packet: &DecisionPacket,
+        rules: &ParsedRules,
         dict: &DisplayDictionary,
     ) -> Option<StateTransitionViewModel> {
         let log = packet.transition_log.as_ref()?;
@@ -644,6 +648,7 @@ impl PresentationAssembler {
             log.trend_cohesion_gate.to,
             trend_breadth_mode,
             market_cycle_position,
+            rules.macro_gravity.as_ref(),
             dict,
         );
 
@@ -1074,9 +1079,10 @@ impl PresentationAssembler {
         gate_passed: bool,
         breadth_mode: TrendBreadthMode,
         market_cycle_position: MarketCyclePosition,
+        macro_gravity: Option<&MacroGravityConfig>,
         dict: &DisplayDictionary,
     ) -> Vec<String> {
-        if substantive_signals.is_empty() {
+        if substantive_signals.is_empty() && macro_gravity.is_none() {
             return Vec::new();
         }
 
@@ -1105,7 +1111,7 @@ impl PresentationAssembler {
             TrendBreadthMode::StructuralDefense => &tr.trend_breadth_structural_defense,
         };
 
-        vec![
+        let mut context = vec![
             format!(
                 "{}: {}",
                 tr.strategic_market_structure_mode, breadth_mode_label
@@ -1126,14 +1132,131 @@ impl PresentationAssembler {
                 tr.strategic_crowding_risk,
                 Self::map_crowding_risk(market_cycle_position, dict)
             ),
-            format!("{}: {}", tr.strategic_evidence_continuity, continuity),
-            format!(
+        ];
+
+        if let Some(macro_gravity) =
+            macro_gravity.filter(|macro_gravity| macro_gravity.enable.unwrap_or(true))
+        {
+            context.extend(Self::format_macro_gravity_lines(macro_gravity, dict));
+        }
+
+        if !substantive_signals.is_empty() {
+            context.push(format!(
+                "{}: {}",
+                tr.strategic_evidence_continuity, continuity
+            ));
+            context.push(format!(
                 "{}: {}",
                 tr.strategic_evidence_coverage,
                 substantive_signals.join(" / ")
+            ));
+        }
+        context.push(format!(
+            "{}: {}",
+            tr.strategic_tactical_status, tactical_status
+        ));
+        context
+    }
+
+    fn format_macro_gravity_lines(
+        macro_gravity: &MacroGravityConfig,
+        dict: &DisplayDictionary,
+    ) -> Vec<String> {
+        let tr = &dict.trend_recognition;
+        let parts = [
+            format!(
+                "{} {}",
+                tr.macro_rate_pressure,
+                Self::map_macro_pressure(macro_gravity.rate_pressure, dict)
             ),
-            format!("{}: {}", tr.strategic_tactical_status, tactical_status),
-        ]
+            format!(
+                "{} {}",
+                tr.macro_real_yield_pressure,
+                Self::map_macro_pressure(macro_gravity.real_yield_pressure, dict)
+            ),
+            format!(
+                "{} {}",
+                tr.macro_credit_stress,
+                Self::map_credit_stress(macro_gravity.credit_stress, dict)
+            ),
+            format!(
+                "{} {}",
+                tr.macro_growth_valuation_impact,
+                Self::map_growth_valuation_impact(macro_gravity.growth_valuation_impact, dict)
+            ),
+            format!(
+                "{} {}",
+                tr.macro_liquidity,
+                Self::map_liquidity_condition(macro_gravity.liquidity, dict)
+            ),
+            format!(
+                "{} {}",
+                tr.macro_yield_curve,
+                Self::map_yield_curve_state(macro_gravity.yield_curve, dict)
+            ),
+        ];
+
+        let mut lines = vec![format!(
+            "{}: {}",
+            tr.strategic_macro_gravity,
+            parts.join(" / ")
+        )];
+        if let Some(note) = &macro_gravity.note {
+            lines.push(format!("{}: {}", tr.macro_note, note));
+        }
+        lines.push(format!(
+            "{}: {}",
+            tr.strategic_macro_gravity, tr.macro_boundary
+        ));
+        lines
+    }
+
+    fn map_macro_pressure(pressure: MacroPressure, _dict: &DisplayDictionary) -> &'static str {
+        match pressure {
+            MacroPressure::Falling => "FALLING",
+            MacroPressure::Neutral => "NEUTRAL",
+            MacroPressure::Rising => "RISING",
+            MacroPressure::Tight => "TIGHT",
+        }
+    }
+
+    fn map_yield_curve_state(state: YieldCurveState, _dict: &DisplayDictionary) -> &'static str {
+        match state {
+            YieldCurveState::Normal => "NORMAL",
+            YieldCurveState::Flat => "FLAT",
+            YieldCurveState::Inverted => "INVERTED",
+            YieldCurveState::Steepening => "STEEPENING",
+        }
+    }
+
+    fn map_credit_stress(stress: CreditStress, _dict: &DisplayDictionary) -> &'static str {
+        match stress {
+            CreditStress::Normal => "NORMAL",
+            CreditStress::Watch => "WATCH",
+            CreditStress::Stress => "STRESS",
+        }
+    }
+
+    fn map_liquidity_condition(
+        condition: LiquidityCondition,
+        _dict: &DisplayDictionary,
+    ) -> &'static str {
+        match condition {
+            LiquidityCondition::Loose => "LOOSE",
+            LiquidityCondition::Neutral => "NEUTRAL",
+            LiquidityCondition::Tight => "TIGHT",
+        }
+    }
+
+    fn map_growth_valuation_impact(
+        impact: GrowthValuationImpact,
+        _dict: &DisplayDictionary,
+    ) -> &'static str {
+        match impact {
+            GrowthValuationImpact::Supportive => "SUPPORTIVE",
+            GrowthValuationImpact::Neutral => "NEUTRAL",
+            GrowthValuationImpact::Compressing => "COMPRESSING",
+        }
     }
 
     fn map_market_cycle_position(position: MarketCyclePosition, dict: &DisplayDictionary) -> &str {
