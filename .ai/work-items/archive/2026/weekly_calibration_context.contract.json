@@ -1,0 +1,84 @@
+{
+  "contractVersion": 1,
+  "workItemId": "weekly_calibration_context",
+  "mode": "code",
+  "title": "週次校正へ戦略・マクロ・認知スナップショットを追加",
+  "scope": [
+    ".ai/work-items/active/weekly_calibration_context.contract.json",
+    ".ai/work-items/active/weekly_calibration_context.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "weekly_state_metrics.json と weekly_state_review_auto.md の生成ロジックを更新する。"
+    },
+    {
+      "path": "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+      "reason": "週間レビューで確認すべき新しいスナップショット項目を追記する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "weekly_state_metrics.json に latest_context を追加する。",
+    "latest_context は trend_breadth_mode / market_cycle_position / holding_efficiency / macro_gravity / strategic_context を含む。",
+    "weekly_state_review_auto.md に Strategic Context Snapshot / Macro Gravity Snapshot / Cognitive Calibration Snapshot を追加する。",
+    "スコア、売買判断、Gate 変更を追加しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test cli::tests::partial_fetch_failure_preserves_history_and_real_market_state -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekly_calibration_context.summary.json CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json SUMMARY=.ai/work-items/active/weekly_calibration_context.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json SUMMARY=.ai/work-items/active/weekly_calibration_context.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
