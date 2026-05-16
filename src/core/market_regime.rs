@@ -451,6 +451,7 @@ mod tests {
             breakout: crate::config::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
             sec: None,
+            macro_gravity: None,
         }
     }
 

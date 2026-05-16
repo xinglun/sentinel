@@ -75,6 +75,7 @@ fn create_mock_rules() -> ParsedRules {
         breakout: stock_sentinel::config::ParsedBreakoutRules::default(),
         market_state_engine: Default::default(),
         sec: None,
+        macro_gravity: None,
     }
 }
 

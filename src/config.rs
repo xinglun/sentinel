@@ -28,6 +28,7 @@ pub struct AppConfig {
     pub sec: Option<SecConfig>,
     pub research_attention: Option<BTreeMap<String, ResearchAttentionEntry>>,
     pub asset_thesis: Option<BTreeMap<String, AssetThesisEntry>>,
+    pub macro_gravity: Option<MacroGravityConfig>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -120,6 +121,61 @@ pub struct AssetThesisEntry {
     pub thesis: String,
     pub observation_focus: Vec<String>,
     pub invalidation: Vec<String>,
+    pub enable: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum MacroPressure {
+    Falling,
+    Neutral,
+    Rising,
+    Tight,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum YieldCurveState {
+    Normal,
+    Flat,
+    Inverted,
+    Steepening,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CreditStress {
+    Normal,
+    Watch,
+    Stress,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum LiquidityCondition {
+    Loose,
+    Neutral,
+    Tight,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum GrowthValuationImpact {
+    Supportive,
+    Neutral,
+    Compressing,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct MacroGravityConfig {
+    pub rate_pressure: MacroPressure,
+    pub real_yield_pressure: MacroPressure,
+    pub yield_curve: YieldCurveState,
+    pub credit_stress: CreditStress,
+    pub liquidity: LiquidityCondition,
+    pub growth_valuation_impact: GrowthValuationImpact,
+    pub note: Option<String>,
     pub enable: Option<bool>,
 }
 
@@ -259,6 +315,7 @@ pub struct ParsedRules {
     pub market_state_engine: ParsedMarketStateEngineRules,
     pub breakout: ParsedBreakoutRules,
     pub sec: Option<SecConfig>,
+    pub macro_gravity: Option<MacroGravityConfig>,
 }
 
 #[derive(Debug, Clone, Default)]
@@ -703,6 +760,7 @@ impl AppConfig {
                 }
             },
             sec: self.sec.clone(),
+            macro_gravity: self.macro_gravity.clone(),
         }
     }
 }
@@ -857,6 +915,7 @@ mod tests {
             sec: None,
             research_attention: None,
             asset_thesis: None,
+            macro_gravity: None,
         };
 
         // No SEC config is OK

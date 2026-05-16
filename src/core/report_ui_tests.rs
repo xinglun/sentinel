@@ -41,6 +41,7 @@ fn mock_config() -> AppConfig {
         watchlist: vec![],
         research_attention: None,
         asset_thesis: None,
+        macro_gravity: None,
     }
 }
 
@@ -2410,7 +2411,17 @@ mod tests {
         curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
 
         for language in [Language::EnUs, Language::JaJp] {
-            let config = mock_config_with_language(language);
+            let mut config = mock_config_with_language(language);
+            config.macro_gravity = Some(crate::config::MacroGravityConfig {
+                rate_pressure: crate::config::MacroPressure::Rising,
+                real_yield_pressure: crate::config::MacroPressure::Tight,
+                yield_curve: crate::config::YieldCurveState::Flat,
+                credit_stress: crate::config::CreditStress::Normal,
+                liquidity: crate::config::LiquidityCondition::Neutral,
+                growth_valuation_impact: crate::config::GrowthValuationImpact::Compressing,
+                note: Some("Discount-rate gravity is a context layer only.".to_string()),
+                enable: Some(true),
+            });
             let pres = PresentationAssembler::assemble(
                 &curr,
                 &config.get_parsed_rules(),
@@ -2606,7 +2617,17 @@ mod tests {
             });
             curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
 
-            let config = mock_config_with_language(language);
+            let mut config = mock_config_with_language(language);
+            config.macro_gravity = Some(crate::config::MacroGravityConfig {
+                rate_pressure: crate::config::MacroPressure::Rising,
+                real_yield_pressure: crate::config::MacroPressure::Tight,
+                yield_curve: crate::config::YieldCurveState::Flat,
+                credit_stress: crate::config::CreditStress::Normal,
+                liquidity: crate::config::LiquidityCondition::Neutral,
+                growth_valuation_impact: crate::config::GrowthValuationImpact::Compressing,
+                note: Some("Discount-rate gravity is a context layer only.".to_string()),
+                enable: Some(true),
+            });
             let pres = PresentationAssembler::assemble(
                 &curr,
                 &config.get_parsed_rules(),
@@ -2624,6 +2645,12 @@ mod tests {
             assert!(telegram_section.contains(cycle_line));
             assert!(markdown_section.contains(crowding_line));
             assert!(telegram_section.contains(crowding_line));
+            assert!(markdown_section.contains("RISING"));
+            assert!(telegram_section.contains("RISING"));
+            assert!(markdown_section.contains("COMPRESSING"));
+            assert!(telegram_section.contains("COMPRESSING"));
+            assert!(markdown_section.contains("Discount-rate gravity is a context layer only."));
+            assert!(telegram_section.contains("Discount-rate gravity is a context layer only."));
             assert!(markdown_section.contains(tactical_line));
             assert!(telegram_section.contains(tactical_line));
 

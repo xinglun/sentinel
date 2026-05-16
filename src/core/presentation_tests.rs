@@ -41,6 +41,7 @@ fn mock_config(lang: Language) -> AppConfig {
         sec: None,
         research_attention: None,
         asset_thesis: None,
+        macro_gravity: None,
     }
 }
 

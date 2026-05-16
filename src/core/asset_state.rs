@@ -505,6 +505,7 @@ mod tests {
             breakout: crate::config::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
             sec: None,
+            macro_gravity: None,
         };
 
         let f = mock_asset_features("AAPL", 2, 0.0, 0.0);
@@ -534,6 +535,7 @@ mod tests {
             breakout: crate::config::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
             sec: None,
+            macro_gravity: None,
         };
 
         let f = mock_asset_features("AAPL", 10, 0.5, 6.0);
