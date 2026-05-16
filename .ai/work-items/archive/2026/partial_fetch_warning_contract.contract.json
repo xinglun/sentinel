@@ -1,0 +1,84 @@
+{
+  "contractVersion": 1,
+  "workItemId": "partial_fetch_warning_contract",
+  "mode": "code",
+  "title": "部分取得失敗レポート警告契約を修正",
+  "scope": [
+    ".ai/work-items/active/partial_fetch_warning_contract.contract.json",
+    ".ai/work-items/active/partial_fetch_warning_contract.summary.json",
+    "src/cli.rs",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "src/core/**",
+    "tests/**",
+    "config.toml",
+    "docs/**",
+    ".github/**"
+  ],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "部分取得失敗時のレポート保存先とテスト対象ファイルの契約を確認する。"
+    },
+    {
+      "path": ".ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "reason": "Work Item の実装範囲を定義する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態を機械可読に記録する Cockpit 生成物。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "部分取得失敗テストが当日レポートを明示的に検証する。",
+    "部分取得失敗時に履歴と実市場状態を保持する既存契約を維持する。",
+    "対象テストと品質ゲートが通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test cli::tests::partial_fetch_failure_preserves_history_and_real_market_state -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/partial_fetch_warning_contract.summary.json CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json SUMMARY=.ai/work-items/active/partial_fetch_warning_contract.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/partial_fetch_warning_contract.contract.json SUMMARY=.ai/work-items/active/partial_fetch_warning_contract.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
