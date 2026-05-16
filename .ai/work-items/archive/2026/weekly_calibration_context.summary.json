@@ -1,0 +1,98 @@
+{
+  "workItemId": "weekly_calibration_context",
+  "contractPath": ".ai/work-items/archive/2026/weekly_calibration_context.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/weekly_calibration_context.contract.json",
+      "reason": "Weekly Calibration Upgrade の実装契約。"
+    },
+    {
+      "path": ".ai/work-items/active/weekly_calibration_context.summary.json",
+      "reason": "実装内容と検証結果の記録。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状態生成の対象。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "weekly_state_metrics.json の latest_context と weekly_state_review_auto.md の Snapshot セクションを追加。"
+    },
+    {
+      "path": "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+      "reason": "週間レビューで確認する latest_context と Snapshot セクションを追記。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+    ".ai/cockpit/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test cli::tests::partial_fetch_failure_preserves_history_and_real_market_state -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekly_calibration_context.summary.json CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json SUMMARY=.ai/work-items/active/weekly_calibration_context.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekly_calibration_context.contract.json SUMMARY=.ai/work-items/active/weekly_calibration_context.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "週次出力の読み取り専用 Snapshot 追加に限定し、Gate / execution / scoring へ接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "level": "warning",
+      "detail": "check-ai-guards は src/cli.rs の restricted_write を report-only warning として報告した。Contract scope 内の変更であり、検証は継続可能。"
+    },
+    {
+      "level": "warning",
+      "detail": "check-ai-coverage-guard は src/cli.rs 変更に対する tests/** 差分なしを report-only warning として報告した。src/cli.rs 内の既存 CLI テストへ weekly artifact 契約断言を追加済み。"
+    }
+  ]
+}

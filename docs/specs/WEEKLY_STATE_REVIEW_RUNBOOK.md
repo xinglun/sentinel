@@ -236,6 +236,21 @@ language = "en-us"
 1. まず `weekly_totals` (週間合計) を見ます。
 2. 次に `daily_summaries` (日次要約) を見ます。
 3. 自動ドラフト内の「異常日」を確認します。
+4. `weekly_state_metrics.json -> latest_context` で、直近の戦略・マクロ・認知校正コンテキストを確認します。
+
+`latest_context` は以下の読み取り専用スナップショットを保持します：
+1. `trend_breadth_mode`
+2. `market_cycle_position`
+3. `holding_efficiency`
+4. `macro_gravity`
+5. `strategic_context`
+
+`weekly_state_review_auto.md` には以下の 3 セクションが追加されます：
+1. `Strategic Context Snapshot`
+2. `Macro Gravity Snapshot`
+3. `Cognitive Calibration Snapshot`
+
+これらは状態理解の補助であり、スコア、推奨、売買判断を生成しません。
 
 ### 5.4 ステップ 4：手動レビューファイルの生成
 
