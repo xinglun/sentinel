@@ -1,19 +1,53 @@
 {
-  "as_of_date": "2026-05-15",
-  "avg_confidence": 49.00174976887822,
-  "avg_stability": 1.4515913017969706,
+  "as_of_date": "2026-05-18",
+  "avg_confidence": 49.152918799059044,
+  "avg_stability": 1.948338533521526,
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-05-16T00:18:31.490887421+09:00",
+  "generated_at": "2026-05-19T00:48:09.993492406+09:00",
   "include_current_packet": true,
-  "latest_market_state": "DEFENSIVE",
-  "latest_risk_overlay": "DEFENSIVE",
+  "latest_context": {
+    "cognitive_calibration": {
+      "asset_thesis_entries": 8,
+      "research_attention_entries": 8
+    },
+    "holding_efficiency": "TimeCostRising",
+    "macro_gravity": {
+      "configured": true,
+      "credit_stress": "NORMAL",
+      "growth_valuation_impact": "COMPRESSING",
+      "liquidity": "NEUTRAL",
+      "note": "債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。",
+      "rate_pressure": "RISING",
+      "real_yield_pressure": "TIGHT",
+      "yield_curve": "FLAT"
+    },
+    "market_cycle_position": "CrowdedExpectation",
+    "strategic_context": [
+      "市场结构模式: 核心资产主导期",
+      "长期方向: 长期结构趋势增强",
+      "周期位置: CROWDED_EXPECTATION",
+      "周期特征: 预期拥挤 / 核心资产集中 / 好消息钝化风险",
+      "拥挤风险: ACTIVE",
+      "宏观重力: 利率压力 RISING / 实际利率 TIGHT / 信用压力 NORMAL / 成长股估值 COMPRESSING / 流动性 NEUTRAL / 收益率曲线 FLAT",
+      "备注: 債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。",
+      "宏观重力: 只解释折现率与流动性环境，不生成交易信号",
+      "证据持续性: 持续累积",
+      "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)",
+      "战术状态: NO TRADE，等待结构扩散"
+    ],
+    "trend_breadth_mode": "NarrowLeadership"
+  },
+  "latest_market_state": "IGNITION",
+  "latest_risk_overlay": "NORMAL",
   "market_state_counts": {
-    "DEFENSIVE": 7
+    "DEFENSIVE": 6,
+    "IGNITION": 1
   },
   "participation_ready_days": 0,
   "risk_overlay_counts": {
-    "DEFENSIVE": 7
+    "DEFENSIVE": 6,
+    "NORMAL": 1
   },
   "trend_cohesion_ready_days": 0
 }
