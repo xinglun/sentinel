@@ -1,20 +1,20 @@
 # Weekly State Review (Auto)
 
-- As of: 2026-05-18
+- As of: 2026-05-19
 - Status: using current market decision
 - Latest headline: 启动期 | 无交易窗口
 - Days analyzed: 7
-- Avg confidence: 49.2
-- Avg stability: 1.9
+- Avg confidence: 49.9
+- Avg stability: 2.6
 - Trend cohesion ready days: 0
 
 ## Market State Counts
-- DEFENSIVE: 6
-- IGNITION: 1
+- DEFENSIVE: 5
+- IGNITION: 2
 
 ## Risk Overlay Counts
-- DEFENSIVE: 6
-- NORMAL: 1
+- DEFENSIVE: 5
+- NORMAL: 2
 
 ## Strategic Context Snapshot
 - Trend breadth mode: NarrowLeadership
