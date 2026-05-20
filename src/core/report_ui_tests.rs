@@ -2315,6 +2315,9 @@ mod tests {
         assert!(html.contains("实质性证据: 业绩实质性确认"));
         assert!(html.contains("结构强度: 已观察 (1 类证据 / 1 条价格确认)"));
         assert!(html.contains("证据质量: 高质量 1 / 价格确认 1"));
+        assert!(!html.contains("媒体噪音"));
+        assert!(!html.contains("Media Noise"));
+        assert!(!html.contains("メディアノイズ"));
         assert!(!html.contains("条记录"));
         assert!(!html.contains("FollowThrough"));
         assert!(!html.contains("[2026-04-22] [EarningsValidation]"));
@@ -2457,6 +2460,7 @@ mod tests {
                     assert!(report
                         .telegram_html_body
                         .contains("Evidence Quality: High Quality 1 / Price Confirmation 1"));
+                    assert!(!report.telegram_html_body.contains("Media Noise"));
                     assert!(!report.telegram_html_body.contains("1 record"));
                 }
                 Language::JaJp => {
@@ -2479,6 +2483,7 @@ mod tests {
                     assert!(report
                         .telegram_html_body
                         .contains("証拠品質: 高品質 1 / 価格確認 1"));
+                    assert!(!report.telegram_html_body.contains("メディアノイズ"));
                     assert!(!report.telegram_html_body.contains("1 件の記録"));
                 }
                 Language::ZhCn => unreachable!(),
@@ -2515,6 +2520,7 @@ mod tests {
                     assert!(report
                         .archival_markdown
                         .contains("Evidence Quality: High Quality 1 / Price Confirmation 1"));
+                    assert!(!report.archival_markdown.contains("Media Noise"));
                 }
                 Language::JaJp => {
                     assert!(report.archival_markdown.contains("戦略文脈"));
@@ -2533,6 +2539,7 @@ mod tests {
                     assert!(report
                         .archival_markdown
                         .contains("証拠品質: 高品質 1 / 価格確認 1"));
+                    assert!(!report.archival_markdown.contains("メディアノイズ"));
                 }
                 Language::ZhCn => unreachable!(),
             }

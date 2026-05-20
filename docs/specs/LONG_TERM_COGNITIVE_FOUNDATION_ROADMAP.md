@@ -27,14 +27,15 @@ Sentinel は短期の売買判断を自動化するための仕組みではな�
 - `OfficialIR` を高品質証拠として扱う。
 - `Manual` を人工確認または二次証拠として扱う。
 - `PriceAction` を価格確認として扱う。
-- `NewsMedia` を低品質またはノイズ寄り証拠として扱う。
-- Telegram / Markdown に証拠品質サマリーを表示する。
+- `NewsMedia` は内部記録、debug、audit で追跡可能な source として保持する。
+- Telegram / Markdown の主報告では、説明不能な媒体ノイズ件数を証拠品質サマリーに表示しない。
 - Gate、Engine、Execution には接続しない。
 
 受け入れ条件:
 
 - `502件の記録` がそのまま `502件の高品質証拠` と誤読されない。
-- 高品質、人工/二次、価格確認、メディアノイズを区別できる。
+- 高品質、人工/二次、価格確認を主報告で区別できる。
+- `NewsMedia` 由来の大量件数は、主報告ではなく内部監査または debug でのみ確認できる。
 - 三言語の表示契約テストが存在する。
 
 ### Phase 2: Asset Thesis Registry
