@@ -3,6 +3,8 @@ use crate::core::decision::DecisionPacket;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
+const STRUCTURAL_PERSISTENCE_CONVICTION_THRESHOLD: f64 = 3.0;
+
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum TrendCohesionStatus {
     #[default]
@@ -15,6 +17,7 @@ pub enum TrendCohesionStatus {
 pub enum TrendContinuationState {
     #[default]
     None,
+    StructuralPersistence,
     EarlyLeader,
     LeaderConfirmedFollowersLagging,
     Broadening,
@@ -122,7 +125,7 @@ impl SubstantiveEvidence {
                         let multiplier = if days_ago <= 1 {
                             1.0
                         } else if (days_ago as f64) <= decay_limit {
-                            // T+1=100%, T=decay_limit时=20%
+                            // T+1 は 100%、decay_limit 到達時は 20% まで減衰する。
                             let progress = if decay_limit > 1.0 {
                                 (days_ago as f64 - 1.0) / (decay_limit - 1.0)
                             } else {
@@ -204,7 +207,11 @@ impl TrendRecognitionEvidence {
         let diffusion_score = base_diffusion_score + conviction_score;
 
         let state = if active_count == 0 {
-            TrendContinuationState::None
+            if conviction_score >= STRUCTURAL_PERSISTENCE_CONVICTION_THRESHOLD {
+                TrendContinuationState::StructuralPersistence
+            } else {
+                TrendContinuationState::None
+            }
         } else if active_count == 1 {
             if confirmed_count == 1 {
                 TrendContinuationState::LeaderConfirmedFollowersLagging
@@ -759,6 +766,26 @@ mod tests {
         );
         assert_eq!(ev_high.state, TrendContinuationState::Broadening);
         assert_eq!(ev_high.diffusion_score, 5.0);
+    }
+
+    #[test]
+    fn test_structural_persistence_when_breakout_cools_but_conviction_remains() {
+        let rules = default_rules();
+        let substantive = SubstantiveEvidence {
+            records: vec![],
+            capex_payoff_signal: true,
+            earnings_validation: true,
+            order_visibility: true,
+            event_days_since: 1,
+        };
+
+        let today = NaiveDate::from_ymd_opt(2024, 1, 1).unwrap();
+        let ev = TrendRecognitionEvidence::compute(0, 0, 0, 3, Some(substantive), today, &rules);
+
+        assert_eq!(ev.state, TrendContinuationState::StructuralPersistence);
+        assert_eq!(ev.conviction_score, 4.5);
+        assert_eq!(ev.diffusion_score, 4.5);
+        assert!(!ev.lag_state);
     }
 
     #[test]

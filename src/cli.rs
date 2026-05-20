@@ -1128,8 +1128,7 @@ fn build_weekly_macro_gravity_context(app_config: &config::AppConfig) -> serde_j
         "yield_curve": yield_curve_label(macro_gravity.yield_curve),
         "credit_stress": credit_stress_label(macro_gravity.credit_stress),
         "liquidity": liquidity_condition_label(macro_gravity.liquidity),
-        "growth_valuation_impact": growth_valuation_impact_label(macro_gravity.growth_valuation_impact),
-        "note": macro_gravity.note.as_deref()
+        "growth_valuation_impact": growth_valuation_impact_label(macro_gravity.growth_valuation_impact)
     })
 }
 
@@ -1206,9 +1205,6 @@ fn push_weekly_macro_gravity_snapshot(review: &mut String, app_config: &config::
         "- Growth valuation: {}\n",
         growth_valuation_impact_label(macro_gravity.growth_valuation_impact)
     ));
-    if let Some(note) = &macro_gravity.note {
-        review.push_str(&format!("- Note: {}\n", note));
-    }
     review.push_str("- Boundary: context only; no Gate input or trade instruction.\n");
 }
 
@@ -1773,6 +1769,9 @@ fn build_audit_daily_report_with_evidence_status(
 
         let state_label = match evidence.state {
             crate::core::trend_cohesion::TrendContinuationState::None => &tr_dict.state_none,
+            crate::core::trend_cohesion::TrendContinuationState::StructuralPersistence => {
+                &tr_dict.state_structural_persistence
+            }
             crate::core::trend_cohesion::TrendContinuationState::EarlyLeader => &tr_dict.state_early_leader,
             crate::core::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => &tr_dict.state_leader_confirmed_followers_lagging,
             crate::core::trend_cohesion::TrendContinuationState::Broadening => &tr_dict.state_broadening,
@@ -2673,13 +2672,6 @@ fn build_macro_gravity_report(app_config: &config::AppConfig, language: Language
         macro_gravity_growth_valuation_label(language),
         growth_valuation_impact_label(macro_gravity.growth_valuation_impact)
     ));
-    if let Some(note) = &macro_gravity.note {
-        out.push_str(&format!(
-            "{} {}\n",
-            macro_gravity_note_label(language),
-            note
-        ));
-    }
     out.push('\n');
     out.push_str(macro_gravity_boundary(language));
     out
@@ -2752,14 +2744,6 @@ fn macro_gravity_growth_valuation_label(language: Language) -> &'static str {
         Language::ZhCn => "- 成长股估值:",
         Language::EnUs => "- Growth valuation:",
         Language::JaJp => "- 成長株バリュエーション:",
-    }
-}
-
-fn macro_gravity_note_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "- 备注:",
-        Language::EnUs => "- Note:",
-        Language::JaJp => "- 備考:",
     }
 }
 
