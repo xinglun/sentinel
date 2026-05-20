@@ -1041,14 +1041,13 @@ impl PresentationAssembler {
         let mut high_quality = 0;
         let mut medium_quality = 0;
         let mut price_confirmation = 0;
-        let mut low_quality = 0;
 
         for record in &sub.records {
             match record.source {
                 EvidenceSourceType::OfficialIR => high_quality += 1,
                 EvidenceSourceType::Manual => medium_quality += 1,
                 EvidenceSourceType::PriceAction => price_confirmation += 1,
-                EvidenceSourceType::NewsMedia => low_quality += 1,
+                EvidenceSourceType::NewsMedia => {}
             }
         }
 
@@ -1066,11 +1065,11 @@ impl PresentationAssembler {
                 tr.evidence_quality_price, price_confirmation
             ));
         }
-        if low_quality > 0 {
-            parts.push(format!("{} {}", tr.evidence_quality_low, low_quality));
+        if parts.is_empty() {
+            None
+        } else {
+            Some(parts.join(" / "))
         }
-
-        Some(parts.join(" / "))
     }
 
     fn build_strategic_context(

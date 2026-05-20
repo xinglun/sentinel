@@ -1,0 +1,98 @@
+{
+  "workItemId": "align_media_noise_docs",
+  "contractPath": ".ai/work-items/archive/2026/align_media_noise_docs.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/align_media_noise_docs.contract.json",
+      "reason": "媒体ノイズ非表示方針の文書整合 Contract。"
+    },
+    {
+      "path": ".ai/work-items/active/align_media_noise_docs.summary.json",
+      "reason": "実装内容と検証結果の記録。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状態生成の対象。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/remove_media_noise_main_report.contract.json",
+      "reason": "前段の媒体ノイズ非表示 Work Item のアーカイブ。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/remove_media_noise_main_report.summary.json",
+      "reason": "前段の媒体ノイズ非表示 Work Item のアーカイブ。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "NewsMedia を主報告の evidence_quality_summary から除外。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "表示モデルの品質摘要契約を更新。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "三言語の主報告で媒体ノイズが出ないことを固定。"
+    },
+    {
+      "path": "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+      "reason": "NewsMedia を内部記録 / debug / audit source として扱う方針へ文書を整合。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+    "src/core/presentation_assembler.rs",
+    "src/core/report_ui_tests.rs",
+    ".ai/cockpit/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_trend_recognition_evidence_mapping -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_trend_recognition_report_rendering_zh_cn -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/align_media_noise_docs.summary.json CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json SUMMARY=.ai/work-items/active/align_media_noise_docs.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json SUMMARY=.ai/work-items/active/align_media_noise_docs.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "主報告の媒体ノイズ非表示方針と文書を整合した。Gate / execution / score は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

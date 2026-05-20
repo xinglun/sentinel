@@ -1,0 +1,96 @@
+{
+  "contractVersion": 1,
+  "workItemId": "align_media_noise_docs",
+  "mode": "code",
+  "title": "媒体ノイズ非表示方針の文書整合",
+  "scope": [
+    ".ai/work-items/active/align_media_noise_docs.contract.json",
+    ".ai/work-items/active/align_media_noise_docs.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/remove_media_noise_main_report.contract.json",
+    ".ai/work-items/archive/2026/remove_media_noise_main_report.summary.json",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs",
+    "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md",
+      "reason": "媒体ノイズを主報告に出さない最新方針へ文書を整合する。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "NewsMedia が主報告の evidence_quality_summary から除外されている実装確認。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "三言語主報告で媒体ノイズ非表示が固定されているテスト確認。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "LONG_TERM_COGNITIVE_FOUNDATION_ROADMAP.md が NewsMedia を主報告表示分類として扱わない方針へ更新されている。",
+    "NewsMedia は内部記録、debug、audit で追跡可能な source として説明されている。",
+    "媒体ノイズ数値は主報告 / Telegram に表示しない。",
+    "スコア、売買判断、Gate、実行ロジックに関する変更を行わない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_trend_recognition_evidence_mapping -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_trend_recognition_report_rendering_zh_cn -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/align_media_noise_docs.summary.json CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json SUMMARY=.ai/work-items/active/align_media_noise_docs.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/align_media_noise_docs.contract.json SUMMARY=.ai/work-items/active/align_media_noise_docs.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -1323,7 +1323,7 @@ mod tests {
         );
         assert_eq!(
             transition.evidence_quality_summary.as_deref(),
-            Some("高质量 1 / 人工/二级 1 / 价格确认 1 / 媒体噪音 1")
+            Some("高质量 1 / 人工/二级 1 / 价格确认 1")
         );
         assert_eq!(
             transition.strategic_context,
