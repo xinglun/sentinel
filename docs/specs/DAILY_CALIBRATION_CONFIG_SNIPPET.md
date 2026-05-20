@@ -109,5 +109,6 @@ yield_curve = "FLAT"
 credit_stress = "NORMAL"
 liquidity = "NEUTRAL"
 growth_valuation_impact = "COMPRESSING"
-note = "債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。"
+# note は内部メモ用途。ユーザー向けレポートには直接表示しない。
+# note = "債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。"
 ```

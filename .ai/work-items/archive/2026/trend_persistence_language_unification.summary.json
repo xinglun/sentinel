@@ -1,0 +1,119 @@
+{
+  "workItemId": "trend_persistence_language_unification",
+  "contractPath": ".ai/work-items/archive/2026/trend_persistence_language_unification.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/trend_persistence_language_unification.contract.json",
+      "reason": "トレンド持続記憶と言語統一の Work Item 契約を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/trend_persistence_language_unification.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/core/trend_cohesion.rs",
+      "reason": "短期 breakout が 0 でも実体証拠の確信度が残る場合に STRUCTURAL_PERSISTENCE を返すようにした。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "STRUCTURAL_PERSISTENCE の三言語表示文言を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "構造持続状態を表示へマッピングし、macro gravity の自由記述 note を主報告へ出さないようにした。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "audit_daily の構造持続表示を追加し、daily / weekly 出力から macro gravity note を除外した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "三言語レポートで構造持続状態が表示され、自由記述 note が混入しないことを固定した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration が macro gravity note を直接出力しない契約へ更新した。"
+    },
+    {
+      "path": "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md",
+      "reason": "STRUCTURAL_PERSISTENCE の意味と境界を仕様へ追加した。"
+    },
+    {
+      "path": "docs/specs/MACRO_GRAVITY_CONTEXT.md",
+      "reason": "macro gravity note は内部メモであり、ユーザー向け表示へ出さない方針を明記した。"
+    },
+    {
+      "path": "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+      "reason": "macro gravity note の設定例を内部メモ扱いへ変更した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/trend_persistence_language_unification.contract.json",
+    "src/core/trend_cohesion.rs",
+    "src/core/presentation_assembler.rs",
+    "src/cli.rs",
+    "src/core/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md",
+    "docs/specs/MACRO_GRAVITY_CONTEXT.md",
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::trend_cohesion::tests::test_structural_persistence_when_breakout_cools_but_conviction_remains -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_strategic_layer_no_trade_boundary_is_stable_across_languages -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration macro_gravity_outputs_context_without_trade_signal -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trend_persistence_language_unification.summary.json CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json SUMMARY=.ai/work-items/active/trend_persistence_language_unification.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json SUMMARY=.ai/work-items/active/trend_persistence_language_unification.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示専用の状態追加と自由記述 note の表示抑止であり、Gate / execution / trader には接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

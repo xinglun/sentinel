@@ -89,12 +89,26 @@ Evidence Layer は説明専用とし、意思決定に逆流させない。
 `TrendContinuationState` を新設する。
 
 - `NONE`
+- `STRUCTURAL_PERSISTENCE`
 - `EARLY_LEADER`
 - `LEADER_CONFIRMED_FOLLOWERS_LAGGING`
 - `BROADENING`
 - `MATURE`
 
 用途は監査・説明のみとし、取引許可ロジックへ直接入力しない。
+
+### STRUCTURAL_PERSISTENCE（構造持続 / 戦術冷却）
+
+短期 breakout が 0 へ戻っても、実体的証拠による `conviction_score` が十分に残っている場合は、`NONE` ではなく `STRUCTURAL_PERSISTENCE` として表示する。
+
+- 意味:
+  - 価格行動は一時冷却している。
+  - 構造証拠はまだ消えていない。
+  - 強いトレンドの通常の呼吸と、トレンド消滅を区別する。
+- 境界:
+  - Gate、execution、action_matrix、trader_agent には接続しない。
+  - `STRUCTURAL_PERSISTENCE` は買い判断ではない。
+  - `NO TRADE` と同時に表示され得る。
 
 ## ハード制約
 

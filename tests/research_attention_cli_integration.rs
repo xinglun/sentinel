@@ -242,7 +242,7 @@ note = "割引率上昇により、好業績でも時間コストが上がる可
     assert!(stdout.contains("🌐 Macro Gravity"));
     assert!(stdout.contains("- 实际利率: TIGHT"));
     assert!(stdout.contains("- 信用压力: WATCH"));
-    assert!(stdout.contains("割引率上昇"));
+    assert!(!stdout.contains("割引率上昇"));
     assert!(stdout.contains("不参与 Gate"));
     assert!(!stdout.contains("买入"));
 }

@@ -1,0 +1,114 @@
+{
+  "contractVersion": 1,
+  "workItemId": "trend_persistence_language_unification",
+  "mode": "code",
+  "title": "トレンド持続記憶と言語統一",
+  "scope": [
+    ".ai/work-items/active/trend_persistence_language_unification.contract.json",
+    ".ai/work-items/active/trend_persistence_language_unification.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/trend_cohesion.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report_ui_tests.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md",
+    "docs/specs/MACRO_GRAVITY_CONTEXT.md",
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+    "src/core/engine.rs",
+    "src/core/transition_log.rs"
+  ],
+  "outOfScope": [
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/trend_cohesion.rs",
+      "reason": "短期 breakout 消失時の trend recognition state を調整する。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "マクロ note の主報告混入を止め、表示言語を統一する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily / weekly の macro gravity 出力から自由記述 note を除外する。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "構造持続 / 戦術冷却の三言語表示辞書を追加する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "短期 breakout が 0 でも conviction が十分高い場合、TrendRecognition が None ではなく構造持続 / 戦術冷却として表示される。",
+    "この変更は Gate、execution、trader_agent、action_matrix に接続しない。",
+    "主報告、daily calibration、weekly auto report に config の自由記述 macro note を直接表示しない。",
+    "単一言語レポートに異なる言語の自由記述 note が混入しない。",
+    "関連仕様文書が新しい口径へ更新されている。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test core::trend_cohesion::tests::test_structural_persistence_when_breakout_cools_but_conviction_remains -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_strategic_layer_no_trade_boundary_is_stable_across_languages -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration macro_gravity_outputs_context_without_trade_signal -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trend_persistence_language_unification.summary.json CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json SUMMARY=.ai/work-items/active/trend_persistence_language_unification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trend_persistence_language_unification.contract.json SUMMARY=.ai/work-items/active/trend_persistence_language_unification.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

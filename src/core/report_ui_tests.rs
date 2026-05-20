@@ -2436,6 +2436,12 @@ mod tests {
                 generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
                     .unwrap();
 
+            assert!(!report
+                .telegram_html_body
+                .contains("Discount-rate gravity is a context layer only."));
+            assert!(!report
+                .archival_markdown
+                .contains("Discount-rate gravity is a context layer only."));
             assert!(report.telegram_html_body.contains("Earnings Quality"));
             match language {
                 Language::EnUs => {
@@ -2584,13 +2590,14 @@ mod tests {
             "追い",
         ];
 
-        for (language, title, cycle_line, crowding_line, tactical_line) in [
+        for (language, title, cycle_line, crowding_line, tactical_line, state_line) in [
             (
                 Language::ZhCn,
                 "🧭 战略背景",
                 "周期位置: LATE_ACCEPTANCE",
                 "拥挤风险: WATCH",
                 "战术状态: NO TRADE，等待结构扩散",
+                "进展阶段: 结构延续/战术冷却",
             ),
             (
                 Language::EnUs,
@@ -2598,6 +2605,7 @@ mod tests {
                 "Cycle Position: LATE_ACCEPTANCE",
                 "Crowding Risk: WATCH",
                 "Tactical Status: NO TRADE, waiting for structural diffusion",
+                "Continuation State: Structural Persistence / Tactical Cooldown",
             ),
             (
                 Language::JaJp,
@@ -2605,11 +2613,12 @@ mod tests {
                 "サイクル位置: LATE_ACCEPTANCE",
                 "混雑リスク: WATCH",
                 "戦術状態: NO TRADE、構造拡散待ち",
+                "進行段階: 構造持続 / 戦術冷却",
             ),
         ] {
             let mut curr = DecisionPacket::default();
             curr.trend_recognition = Some(TrendRecognitionEvidence {
-                state: TrendContinuationState::EarlyLeader,
+                state: TrendContinuationState::StructuralPersistence,
                 diffusion_score: 3.90,
                 conviction_score: 3.40,
                 lag_state: false,
@@ -2656,10 +2665,12 @@ mod tests {
             assert!(telegram_section.contains("RISING"));
             assert!(markdown_section.contains("COMPRESSING"));
             assert!(telegram_section.contains("COMPRESSING"));
-            assert!(markdown_section.contains("Discount-rate gravity is a context layer only."));
-            assert!(telegram_section.contains("Discount-rate gravity is a context layer only."));
+            assert!(!markdown_section.contains("Discount-rate gravity is a context layer only."));
+            assert!(!telegram_section.contains("Discount-rate gravity is a context layer only."));
             assert!(markdown_section.contains(tactical_line));
             assert!(telegram_section.contains(tactical_line));
+            assert!(report.archival_markdown.contains(state_line));
+            assert!(report.telegram_html_body.contains(state_line));
 
             for term in forbidden_execution_terms {
                 assert!(

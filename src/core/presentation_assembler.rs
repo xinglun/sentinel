@@ -521,6 +521,7 @@ impl PresentationAssembler {
 
         let trend_recognition_state = log.trend_recognition.as_ref().map(|tr| match tr.state {
             crate::core::trend_cohesion::TrendContinuationState::None => dict.trend_recognition.state_none.clone(),
+            crate::core::trend_cohesion::TrendContinuationState::StructuralPersistence => dict.trend_recognition.state_structural_persistence.clone(),
             crate::core::trend_cohesion::TrendContinuationState::EarlyLeader => dict.trend_recognition.state_early_leader.clone(),
             crate::core::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => dict.trend_recognition.state_leader_confirmed_followers_lagging.clone(),
             crate::core::trend_cohesion::TrendContinuationState::Broadening => dict.trend_recognition.state_broadening.clone(),
@@ -1200,9 +1201,6 @@ impl PresentationAssembler {
             tr.strategic_macro_gravity,
             parts.join(" / ")
         )];
-        if let Some(note) = &macro_gravity.note {
-            lines.push(format!("{}: {}", tr.macro_note, note));
-        }
         lines.push(format!(
             "{}: {}",
             tr.strategic_macro_gravity, tr.macro_boundary
