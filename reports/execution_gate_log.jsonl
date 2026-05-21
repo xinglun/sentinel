@@ -241,3 +241,12 @@
 {"action":"HOLD","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"PLTR"}
 {"action":"HOLD","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"ISRG"}
 {"action":"HOLD","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"FIG"}
+{"action":"REDUCE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"GOOG"}
+{"action":"OBSERVE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"U"}
+{"action":"HOLD","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"NVDA"}
+{"action":"OBSERVE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"SPY"}
+{"action":"OBSERVE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"TSLA"}
+{"action":"OBSERVE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"MSFT"}
+{"action":"OBSERVE","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"PLTR"}
+{"action":"HOLD","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"ISRG"}
+{"action":"HOLD","blocked_by":"DisabledByWatchlist","details":{},"is_liquidation":false,"is_trim":false,"passed":false,"symbol":"FIG"}

@@ -1,20 +1,20 @@
 # Weekly State Review (Auto)
 
-- As of: 2026-05-20
+- As of: 2026-05-21
 - Status: using current market decision
 - Latest headline: 启动期 | 无交易窗口
 - Days analyzed: 7
-- Avg confidence: 50.6
-- Avg stability: 3.4
+- Avg confidence: 51.2
+- Avg stability: 4.3
 - Trend cohesion ready days: 0
 
 ## Market State Counts
-- DEFENSIVE: 4
-- IGNITION: 3
+- DEFENSIVE: 3
+- IGNITION: 4
 
 ## Risk Overlay Counts
-- DEFENSIVE: 4
-- NORMAL: 3
+- DEFENSIVE: 3
+- NORMAL: 4
 
 ## Strategic Context Snapshot
 - Trend breadth mode: NarrowLeadership
@@ -27,7 +27,6 @@
   - 周期特征: 预期拥挤 / 核心资产集中 / 好消息钝化风险
   - 拥挤风险: ACTIVE
   - 宏观重力: 利率压力 RISING / 实际利率 TIGHT / 信用压力 NORMAL / 成长股估值 COMPRESSING / 流动性 NEUTRAL / 收益率曲线 FLAT
-  - 备注: 債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。
   - 宏观重力: 只解释折现率与流动性环境，不生成交易信号
   - 证据持续性: 持续累积
   - 证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)
@@ -41,7 +40,6 @@
 - Credit stress: NORMAL
 - Liquidity: NEUTRAL
 - Growth valuation: COMPRESSING
-- Note: 債券市場は AI / Mega-cap の構造判断ではなく、割引率と時間コストの重力として観測する。
 - Boundary: context only; no Gate input or trade instruction.
 
 ## Cognitive Calibration Snapshot
