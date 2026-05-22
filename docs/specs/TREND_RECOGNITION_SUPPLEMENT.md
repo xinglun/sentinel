@@ -127,6 +127,19 @@ Evidence Layer は説明専用とし、意思決定に逆流させない。
   - `NO TRADE`、entry cap、execution gate を緩和しない。
   - 「主線存在」と「現在攻めてよい」は別概念として扱う。
 
+## 表示上の継続性ステータス化
+
+Telegram / Markdown の主報告では、継続性を `5/3` のような比率で膨張表示しない。比率は監査・内部計算に残し、主報告では状態語に変換する。
+
+- `0`: `none`
+- `1`: `emerging`
+- `2`: `building`
+- `3+`: `sustained`
+
+また、breakout が複数資産へ拡散している場合は、偵察状態の breakout continuity を `0/3` と表示しない。`multi-point` と表示し、単独突破の減衰カウンタも `BROADENING` / `MATURE` では非表示にする。
+
+この変更は表示上の圧縮であり、Gate、trend_cohesion、execution の計算には影響しない。
+
 ## ハード制約
 
 1. `TrendContinuationState` が `MATURE` でも Gate FAIL の場合は必ず `NO TRADE`。

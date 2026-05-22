@@ -1397,7 +1397,7 @@ mod tests {
         assert_eq!(transition.trend_recognition_diffusion_score, Some(0.6));
         assert_eq!(
             transition.trend_recognition_single_asset_decay.as_deref(),
-            Some("0/5")
+            None
         );
     }
 }

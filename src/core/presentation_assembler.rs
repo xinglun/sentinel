@@ -127,6 +127,8 @@ impl PresentationAssembler {
                 _ => dict.states.flow_stable.clone(),
             }
         };
+        let continuity_state =
+            Self::map_continuity_state(packet.trend_cohesion.continuity_streak, &dict);
         let signal_summary = SignalSummaryViewModel {
             confidence_label: dict.signals.confidence.clone(),
             confidence_value: if is_data_missing {
@@ -145,21 +147,21 @@ impl PresentationAssembler {
                 "N/A".to_string()
             } else {
                 format!(
-                    "{} · {} {}d",
+                    "{} · {} {}",
                     if packet.trend_cohesion.gate_passed {
                         dict.states.ready.clone()
                     } else {
                         dict.states.not_ready.clone()
                     },
                     dict.signals.continuity.clone(),
-                    packet.trend_cohesion.continuity_streak
+                    continuity_state
                 )
             },
             continuity_label: dict.signals.continuity.clone(),
             continuity_value: if is_data_missing {
                 "N/A".to_string()
             } else {
-                format!("{}d", packet.trend_cohesion.continuity_streak)
+                continuity_state
             },
             regime_age_label: dict.signals.regime_age.clone(),
             regime_age_value: if is_data_missing {
@@ -486,11 +488,17 @@ impl PresentationAssembler {
         }
         let has_structural_breakout_change = !breakout_changes.is_empty();
         let scout_continuity = if !log.trend_cohesion_gate.to {
-            Some(format!(
-                "{}/{}",
-                log.scout_days_without_expansion,
-                log.scout_abort_days.max(1)
-            ))
+            Some(if log.breakout_active_count >= 2 {
+                dict.transition_evidence
+                    .scout_continuity_multi_point
+                    .clone()
+            } else {
+                format!(
+                    "{}/{}",
+                    log.scout_days_without_expansion,
+                    log.scout_abort_days.max(1)
+                )
+            })
         } else {
             None
         };
@@ -538,13 +546,18 @@ impl PresentationAssembler {
                 None
             }
         });
-        let trend_recognition_single_asset_decay = log.trend_recognition.as_ref().map(|tr| {
-            format!(
-                "{}/{}",
-                tr.single_asset_decay_day,
-                tr.single_asset_decay_max.max(1)
-            )
-        });
+        let trend_recognition_single_asset_decay =
+            log.trend_recognition
+                .as_ref()
+                .and_then(|tr| match tr.state {
+                    crate::core::trend_cohesion::TrendContinuationState::Broadening
+                    | crate::core::trend_cohesion::TrendContinuationState::Mature => None,
+                    _ => Some(format!(
+                        "{}/{}",
+                        tr.single_asset_decay_day,
+                        tr.single_asset_decay_max.max(1)
+                    )),
+                });
         let mut substantive_signals = Vec::new();
         let mut substantive_details = Vec::new();
         let mut price_confirmation_record_count = 0;
@@ -817,6 +830,15 @@ impl PresentationAssembler {
             TrendBreadthMode::BroadExpansion | TrendBreadthMode::NarrowLeadership
         ) && Self::substantive_signal_count(substantive) >= 3
             && trend_recognition.conviction_score >= 3.0
+    }
+
+    fn map_continuity_state(streak: usize, dict: &DisplayDictionary) -> String {
+        match streak {
+            0 => dict.signals.continuity_none.clone(),
+            1 => dict.signals.continuity_emerging.clone(),
+            2 => dict.signals.continuity_building.clone(),
+            _ => dict.signals.continuity_sustained.clone(),
+        }
     }
 
     fn substantive_signal_count(sub: &crate::core::trend_cohesion::SubstantiveEvidence) -> usize {

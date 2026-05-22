@@ -1,0 +1,129 @@
+{
+  "workItemId": "report_continuity_display",
+  "contractPath": ".ai/work-items/archive/2026/report_continuity_display.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/report_continuity_display.contract.json",
+      "reason": "継続性表示の状態化 Work Item 契約を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/report_continuity_display.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "継続性ステータスと multi-point の三言語表示辞書を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "主報告の continuity を状態語へ変換し、multi-point 時の scout continuity を ratio ではなく multi-point にした。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "compact NO TRADE 理由で continuity を ratio に再変換しないようにした。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "continuity 状態化、multi-point 表示、SSOT 境界の契約テストを更新した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "Broadening 時に単独突破減衰を表示しない契約へ更新した。"
+    },
+    {
+      "path": "src/core/snapshots/no_trade_en_us.html.txt",
+      "reason": "英語 HTML スナップショットを continuity 状態表示へ更新した。"
+    },
+    {
+      "path": "src/core/snapshots/no_trade_en_us.md",
+      "reason": "英語 Markdown スナップショットを continuity 状態表示へ更新した。"
+    },
+    {
+      "path": "src/core/snapshots/no_trade_ja_jp.html.txt",
+      "reason": "日本語 HTML スナップショットを continuity 状態表示へ更新した。"
+    },
+    {
+      "path": "src/core/snapshots/no_trade_ja_jp.md",
+      "reason": "日本語 Markdown スナップショットを continuity 状態表示へ更新した。"
+    },
+    {
+      "path": "src/core/snapshots/no_trade_zh_cn.html.txt",
+      "reason": "中国語 HTML スナップショットを continuity 状態表示へ更新した。"
+    },
+    {
+      "path": "src/core/snapshots/no_trade_zh_cn.md",
+      "reason": "中国語 Markdown スナップショットを continuity 状態表示へ更新した。"
+    },
+    {
+      "path": "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md",
+      "reason": "表示上の継続性ステータス化と multi-point 境界を仕様化した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/report_continuity_display.contract.json",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/report_continuity_display.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/report_continuity_display.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_compact_no_trade_continuity_uses_status_not_ratio -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_scout_multi_point_expansion_does_not_render_zero_ratio -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_single_asset_decay_reset_logic_simulation -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/report_continuity_display.summary.json CONTRACT=.ai/work-items/active/report_continuity_display.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/report_continuity_display.contract.json SUMMARY=.ai/work-items/active/report_continuity_display.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/report_continuity_display.contract.json SUMMARY=.ai/work-items/active/report_continuity_display.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示層の圧縮のみであり、engine / Gate / trend_cohesion の計算は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}
