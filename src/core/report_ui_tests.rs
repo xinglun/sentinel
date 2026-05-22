@@ -456,7 +456,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compact_no_trade_reasons_use_configured_thresholds() {
+    fn test_compact_no_trade_continuity_uses_status_not_ratio() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
             market_regime: MarketRegimeSnapshot {
@@ -469,7 +469,7 @@ mod tests {
                 status: crate::core::trend_cohesion::TrendCohesionStatus::Dispersed,
                 topology: crate::core::trend_cohesion::TrendCohesionTopology::NoLeader,
                 stability_score: 7.5,
-                continuity_streak: 1,
+                continuity_streak: 5,
                 unmet_conditions: vec![
                     crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                     crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
@@ -507,9 +507,11 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         assert!(report.markdown_body.contains("稳定性 7.5/11"));
-        assert!(report.markdown_body.contains("连续性 1/4"));
+        assert!(report.markdown_body.contains("连续性 sustained"));
+        assert!(!report.markdown_body.contains("连续性 5/4"));
         assert!(report.telegram_html_body.contains("稳定性 7.5/11"));
-        assert!(report.telegram_html_body.contains("连续性 1/4"));
+        assert!(report.telegram_html_body.contains("连续性 sustained"));
+        assert!(!report.telegram_html_body.contains("连续性 5/4"));
     }
 
     #[test]
@@ -1181,10 +1183,7 @@ mod tests {
                 .to_string()
         };
         assert!(card.contains(&format!("稳定性 7.5/{}", stability_threshold)));
-        assert!(card.contains(&format!(
-            "连续性 1/{}",
-            parsed_rules.trend_cohesion.gate_continuity_threshold
-        )));
+        assert!(card.contains("连续性 emerging"));
         assert!(!card.contains("主线形成条件"));
         assert!(!card.contains("当前未满足项"));
     }
@@ -2479,7 +2478,7 @@ mod tests {
         assert!(md.contains("進行段階: 拡散初期"));
         assert!(md.contains("トレンド拡散スコア: 0.65"));
         assert!(!md.contains("追随遅延")); // lag_state is false, should not appear in simplified output if logic holds
-        assert!(md.contains("単独突破の連続日数: 0/5"));
+        assert!(!md.contains("単独突破の連続日数: 0/5"));
         // Verify that the transition evidence block is rendered even if it's just trend recognition
         assert!(md.contains("🔄 状態遷移エビデンス"));
     }
@@ -3298,6 +3297,84 @@ mod tests {
     }
 
     #[test]
+    fn test_scout_multi_point_expansion_does_not_render_zero_ratio() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+
+        let prev = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "U".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::NoBreakout,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let mut curr = DecisionPacket {
+            trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "NVDA".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "U".into(),
+                    breakout: crate::core::breakout_detection::BreakoutSnapshot {
+                        status: crate::core::breakout_detection::BreakoutStatus::EmergingBreakout,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let html = report.telegram_html_body;
+
+        assert!(html.contains("侦察状态"));
+        assert!(html.contains("breakout 连续性: multi-point"));
+        assert!(html.contains("扩散: 多点"));
+        assert!(!html.contains("breakout 连续性: 0/3"));
+    }
+
+    #[test]
     fn test_transition_evidence_renders_scout_status_in_en_and_ja() {
         use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
@@ -3574,16 +3651,15 @@ mod tests {
             "Japanese headers found in Chinese report"
         );
 
-        // 3. Ensure unified threshold format (current/threshold)
+        // 3. Ensure stability keeps threshold format while continuity uses state labels.
         // From no_trade_snapshot_packet: stability=1.1, continuity_streak=1.
-        // Default rules: stability_threshold=10.0, continuity_threshold=3.
         assert!(
             body.contains("1.1/10"),
             "Stability threshold should use unified (current/threshold) format"
         );
         assert!(
-            body.contains("1/3"),
-            "Continuity threshold should use unified (current/threshold) format"
+            body.contains("连续性 emerging"),
+            "Continuity should use state labels instead of unbounded ratios"
         );
 
         // 4. Ensure no redundant "Stability score (1.1) below threshold (10.0)"-style English text

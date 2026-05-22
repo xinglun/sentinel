@@ -1086,10 +1086,7 @@ fn render_compact_no_trade_reasons(
     }
 
     let stability_display = format_ratio_display(stability.1, stability.2);
-    let continuity_display = format_ratio_display(
-        &extract_first_number(continuity.1).unwrap_or_else(|| continuity.1.to_string()),
-        continuity.2,
-    );
+    let continuity_display = continuity.1.to_string();
     match mode {
         RenderMode::Markdown => {
             out.push_str(&format!("> - {} {}\n", stability.0, stability_display));
@@ -1114,23 +1111,5 @@ fn format_ratio_display(value: &str, denominator: &str) -> String {
         "N/A".to_string()
     } else {
         format!("{}/{}", normalized, denominator)
-    }
-}
-
-fn extract_first_number(input: &str) -> Option<String> {
-    let mut buf = String::new();
-    let mut capturing = false;
-    for ch in input.chars() {
-        if ch.is_ascii_digit() {
-            capturing = true;
-            buf.push(ch);
-        } else if capturing {
-            break;
-        }
-    }
-    if buf.is_empty() {
-        None
-    } else {
-        Some(buf)
     }
 }

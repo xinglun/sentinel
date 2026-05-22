@@ -1,0 +1,114 @@
+{
+  "contractVersion": 1,
+  "workItemId": "report_continuity_display",
+  "mode": "code",
+  "title": "継続性表示の状態化",
+  "scope": [
+    ".ai/work-items/active/report_continuity_display.contract.json",
+    ".ai/work-items/active/report_continuity_display.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md",
+    "src/core/snapshots/no_trade_en_us.html.txt",
+    "src/core/snapshots/no_trade_en_us.md",
+    "src/core/snapshots/no_trade_ja_jp.html.txt",
+    "src/core/snapshots/no_trade_ja_jp.md",
+    "src/core/snapshots/no_trade_zh_cn.html.txt",
+    "src/core/snapshots/no_trade_zh_cn.md"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/report.rs",
+      "reason": "主報告の継続性表示を ratio から状態表現へ変更する。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "signal summary と scout continuity の表示値を組み立てる。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "継続性状態の三言語辞書を追加する。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Telegram / Markdown の表示契約を固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Telegram / Markdown の compact NO TRADE 理由で continuity が 5/3 のような比率ではなく状態表示になる。",
+    "状態は 0=none, 1=emerging, 2=building, 3+=sustained として表示される。",
+    "scout expansion が multi の場合、breakout continuity は 0/3 ではなく multi-point 表示になる。",
+    "audit_daily や engine / Gate の計算は変更しない。",
+    "三言語表示の契約テストがある。",
+    "単独突破の連続日数が multi-point / Broadening で 0/N と表示されない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/report_continuity_display.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/report_continuity_display.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_compact_no_trade_continuity_uses_status_not_ratio -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_scout_multi_point_expansion_does_not_render_zero_ratio -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/report_continuity_display.summary.json CONTRACT=.ai/work-items/active/report_continuity_display.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/report_continuity_display.contract.json SUMMARY=.ai/work-items/active/report_continuity_display.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/report_continuity_display.contract.json SUMMARY=.ai/work-items/active/report_continuity_display.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
