@@ -110,6 +110,23 @@ Evidence Layer は説明専用とし、意思決定に逆流させない。
   - `STRUCTURAL_PERSISTENCE` は買い判断ではない。
   - `NO TRADE` と同時に表示され得る。
 
+## Main Theme Persistence（主線存在と戦術許可の分離）
+
+主線表示は、Gate の通過可否と分離して扱う。AI / Mega-cap の構造証拠が継続し、`TrendBreadthMode` が `NARROW_LEADERSHIP` または `BROAD_EXPANSION` を示す場合、短期的な拡散不足だけを理由に「主線未形成」と断定しない。
+
+- 表示条件:
+  - 実体的証拠が 3 種類以上ある。
+  - `conviction_score >= 3.0`。
+  - 市場構造が `NARROW_LEADERSHIP` または `BROAD_EXPANSION`。
+  - Gate は未通過でもよい。
+- 表示例:
+  - 主線状態: 主線存在（戦術未許可）
+  - 主線構造: コア資産主導
+- 境界:
+  - 主線存在は買い判断ではない。
+  - `NO TRADE`、entry cap、execution gate を緩和しない。
+  - 「主線存在」と「現在攻めてよい」は別概念として扱う。
+
 ## ハード制約
 
 1. `TrendContinuationState` が `MATURE` でも Gate FAIL の場合は必ず `NO TRADE`。

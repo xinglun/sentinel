@@ -1190,6 +1190,123 @@ mod tests {
     }
 
     #[test]
+    fn test_persistent_main_theme_displays_existing_theme_without_gate_permission() {
+        use crate::core::i18n::Language;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendCohesionSnapshot, TrendCohesionStatus, TrendCohesionTopology,
+            TrendContinuationState, TrendRecognitionEvidence,
+        };
+
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            trend_cohesion: TrendCohesionSnapshot {
+                gate_passed: false,
+                status: TrendCohesionStatus::Dispersed,
+                topology: TrendCohesionTopology::NoLeader,
+                stability_score: 7.1,
+                continuity_streak: 4,
+                ..Default::default()
+            },
+            market_features: crate::core::features::MarketFeatures {
+                up_count: 2,
+                down_count: 7,
+                total_count: 9,
+                stability_score: 7.1,
+                system_confidence: 54.0,
+                ..Default::default()
+            },
+            assets: vec![
+                AssetActionDecision {
+                    symbol: "SPY".to_string(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: "SPY".to_string(),
+                        state: AssetState::CRUISE,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "MSFT".to_string(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: "MSFT".to_string(),
+                        state: AssetState::CRUISE,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+                AssetActionDecision {
+                    symbol: "GOOG".to_string(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: "GOOG".to_string(),
+                        state: AssetState::CRUISE,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                },
+            ],
+            trend_recognition: Some(TrendRecognitionEvidence {
+                state: TrendContinuationState::StructuralPersistence,
+                diffusion_score: 3.40,
+                conviction_score: 3.40,
+                lag_state: false,
+                single_asset_decay_day: 0,
+                single_asset_decay_max: 3,
+                substantive: Some(SubstantiveEvidence {
+                    capex_payoff_signal: true,
+                    earnings_validation: true,
+                    order_visibility: true,
+                    ..Default::default()
+                }),
+            }),
+            ..Default::default()
+        };
+
+        for (language, mainline, topology, forbidden) in [
+            (
+                Language::ZhCn,
+                "主线状态：主线存在（战术未许可）",
+                "主线结构：核心资产主导",
+                "主线状态：主线未形成",
+            ),
+            (
+                Language::EnUs,
+                "Trend Cohesion：Main Theme Present (tactical permission not ready)",
+                "Trend Topology：Core Asset Leadership",
+                "Trend Cohesion：Dispersed",
+            ),
+            (
+                Language::JaJp,
+                "主線状態：主線存在（戦術未許可）",
+                "主線構造：コア資産主導",
+                "主線状態：分散",
+            ),
+        ] {
+            let config = mock_config_with_language(language);
+            let pres = PresentationAssembler::assemble(
+                &packet,
+                &config.get_parsed_rules(),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            assert!(!pres.decision_summary.gate_passed);
+
+            let report =
+                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+                    .unwrap();
+            assert!(report.markdown_body.contains(mainline));
+            assert!(report.markdown_body.contains(topology));
+            assert!(!report.markdown_body.contains(forbidden));
+            assert!(report.markdown_body.contains("NO TRADE"));
+        }
+    }
+
+    #[test]
     fn test_report_respects_configured_japanese_language() {
         let assets = vec![AssetActionDecision {
             symbol: "NVDA".into(),
