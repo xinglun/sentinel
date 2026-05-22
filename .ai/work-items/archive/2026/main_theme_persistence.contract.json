@@ -1,0 +1,101 @@
+{
+  "contractVersion": 1,
+  "workItemId": "main_theme_persistence",
+  "mode": "code",
+  "title": "主線持続性の表示修正",
+  "scope": [
+    ".ai/work-items/active/main_theme_persistence.contract.json",
+    ".ai/work-items/active/main_theme_persistence.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md"
+  ],
+  "outOfScope": [
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/market_regime.rs",
+    "src/core/market_state/**",
+    "src/core/engine.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "主線状態の表示値を既存 evidence / breadth から導出する。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "主線存在・戦術未許可の三言語文言を追加する。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "主線存在と NO TRADE の同時表示契約を固定する。"
+    },
+    {
+      "path": "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md",
+      "reason": "主線存在と戦術許可の分離を仕様化する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "AI / core asset evidence が十分に残る Narrow Leadership では、表示上の主線状態が未形成ではなく主線存在・戦術未許可を示す。",
+    "NO TRADE、Gate、execution、action_matrix、trader_agent の挙動は変更しない。",
+    "主線存在は買い判断や bullish 断定として表示しない。",
+    "三言語レポートで主線存在と戦術未許可の文言が固定される。",
+    "関連仕様文書が新しい口径へ更新される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_persistent_main_theme_displays_existing_theme_without_gate_permission -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/main_theme_persistence.summary.json CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json SUMMARY=.ai/work-items/active/main_theme_persistence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json SUMMARY=.ai/work-items/active/main_theme_persistence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

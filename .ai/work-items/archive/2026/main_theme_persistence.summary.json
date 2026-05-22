@@ -1,0 +1,87 @@
+{
+  "workItemId": "main_theme_persistence",
+  "contractPath": ".ai/work-items/archive/2026/main_theme_persistence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/main_theme_persistence.contract.json",
+      "reason": "主線持続性の表示修正 Work Item 契約を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/main_theme_persistence.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "主線存在・戦術未許可とコア資産主導の三言語文言を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Narrow Leadership と十分な構造証拠がある場合、表示上の主線状態を未形成ではなく主線存在として扱うようにした。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "主線存在と NO TRADE が同時に表示され、Gate が未通過のままである契約を固定した。"
+    },
+    {
+      "path": "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md",
+      "reason": "Main Theme Persistence の表示条件と境界を仕様化した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/main_theme_persistence.contract.json",
+    "src/core/presentation_assembler.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "docs/specs/TREND_RECOGNITION_SUPPLEMENT.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_persistent_main_theme_displays_existing_theme_without_gate_permission -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/main_theme_persistence.summary.json CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json SUMMARY=.ai/work-items/active/main_theme_persistence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/main_theme_persistence.contract.json SUMMARY=.ai/work-items/active/main_theme_persistence.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示専用の主線状態補正であり、Gate / execution / trader / action_matrix には接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

@@ -803,6 +803,22 @@ impl PresentationAssembler {
         TrendBreadthMode::FragileRotation
     }
 
+    fn has_persistent_main_theme(packet: &DecisionPacket) -> bool {
+        let Some(trend_recognition) = packet.trend_recognition.as_ref() else {
+            return false;
+        };
+        let Some(substantive) = trend_recognition.substantive.as_ref() else {
+            return false;
+        };
+
+        let trend_breadth_mode = Self::classify_trend_breadth_mode(packet);
+        matches!(
+            trend_breadth_mode,
+            TrendBreadthMode::BroadExpansion | TrendBreadthMode::NarrowLeadership
+        ) && Self::substantive_signal_count(substantive) >= 3
+            && trend_recognition.conviction_score >= 3.0
+    }
+
     fn substantive_signal_count(sub: &crate::core::trend_cohesion::SubstantiveEvidence) -> usize {
         let has_capex_payoff = sub.capex_payoff_signal
             || sub
@@ -2014,27 +2030,37 @@ impl PresentationAssembler {
             }
         });
 
-        let trend_cohesion_value = match packet.trend_cohesion.status {
-            crate::core::trend_cohesion::TrendCohesionStatus::Dispersed => {
-                dict.trend_cohesion.dispersed.clone()
-            }
-            crate::core::trend_cohesion::TrendCohesionStatus::Forming => {
-                dict.trend_cohesion.forming.clone()
-            }
-            crate::core::trend_cohesion::TrendCohesionStatus::Formed => {
-                dict.trend_cohesion.formed.clone()
-            }
-        };
+        let has_persistent_main_theme = Self::has_persistent_main_theme(packet);
+        let trend_cohesion_value =
+            if has_persistent_main_theme && !packet.trend_cohesion.gate_passed {
+                dict.trend_cohesion.persistent_not_ready.clone()
+            } else {
+                match packet.trend_cohesion.status {
+                    crate::core::trend_cohesion::TrendCohesionStatus::Dispersed => {
+                        dict.trend_cohesion.dispersed.clone()
+                    }
+                    crate::core::trend_cohesion::TrendCohesionStatus::Forming => {
+                        dict.trend_cohesion.forming.clone()
+                    }
+                    crate::core::trend_cohesion::TrendCohesionStatus::Formed => {
+                        dict.trend_cohesion.formed.clone()
+                    }
+                }
+            };
 
-        let trend_topology_value = match packet.trend_cohesion.topology {
-            crate::core::trend_cohesion::TrendCohesionTopology::NoLeader => {
-                dict.trend_cohesion.topology_no_leader.clone()
-            }
-            crate::core::trend_cohesion::TrendCohesionTopology::SingleLeader => {
-                dict.trend_cohesion.topology_single_leader.clone()
-            }
-            crate::core::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
-                dict.trend_cohesion.topology_fragmented_leaders.clone()
+        let trend_topology_value = if has_persistent_main_theme {
+            dict.trend_cohesion.topology_core_leadership.clone()
+        } else {
+            match packet.trend_cohesion.topology {
+                crate::core::trend_cohesion::TrendCohesionTopology::NoLeader => {
+                    dict.trend_cohesion.topology_no_leader.clone()
+                }
+                crate::core::trend_cohesion::TrendCohesionTopology::SingleLeader => {
+                    dict.trend_cohesion.topology_single_leader.clone()
+                }
+                crate::core::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
+                    dict.trend_cohesion.topology_fragmented_leaders.clone()
+                }
             }
         };
 
