@@ -4,3 +4,4 @@
 //! Domain を操作し、外部実装の詳細は infrastructure adapter に委譲する。
 
 pub mod evidence;
+pub mod evidence_ingestion;

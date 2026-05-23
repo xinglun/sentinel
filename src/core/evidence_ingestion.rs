@@ -1,39 +1,12 @@
+pub use crate::application::evidence_ingestion::{
+    EvidenceExtractor, SourceDocument, SourceFetcher,
+};
 use crate::core::trend_cohesion::{AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType};
 use async_trait::async_trait;
 use chrono::Local;
 use std::collections::HashMap;
 use std::sync::Arc;
 use tokio::sync::RwLock;
-
-/// 取得したソースドキュメントの表現。
-#[derive(Debug, Clone)]
-pub struct SourceDocument {
-    pub title: String,
-    pub content: String,
-    pub url: String,
-    pub source_type: EvidenceSourceType,
-    pub symbol: String,
-    pub metadata: HashMap<String, String>,
-}
-
-/// ソースを取得するためのトレイト。
-#[async_trait]
-pub trait SourceFetcher {
-    /// 指定されたURLまたは検索条件からドキュメントを取得する。
-    async fn fetch(
-        &self,
-        url: &str,
-        symbol: &str,
-        source_type: EvidenceSourceType,
-        days: usize,
-    ) -> anyhow::Result<SourceDocument>;
-}
-
-/// 証拠を抽出するためのトレイト。
-pub trait EvidenceExtractor {
-    /// ドキュメントから証拠レコードの候補を抽出する。
-    fn extract(&self, doc: &SourceDocument) -> Vec<AutomatedEvidenceRecord>;
-}
 
 /// キーワードベースの抽出エンジン。
 #[derive(Default)]
