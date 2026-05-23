@@ -1,5 +1,7 @@
 use crate::config::ParsedTrendCohesionRules;
 use crate::core::decision::DecisionPacket;
+use crate::domain::evidence::EvidenceDecayPolicy;
+pub use crate::domain::evidence::{AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType};
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
@@ -22,39 +24,6 @@ pub enum TrendContinuationState {
     LeaderConfirmedFollowersLagging,
     Broadening,
     Mature,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
-pub enum EvidenceSourceType {
-    #[default]
-    Manual, // 手動アノテーション
-    OfficialIR,  // 決算速報・公式発表
-    NewsMedia,   // 主要ニュースメディア
-    PriceAction, // 価格追随（フォロースルー）
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
-pub enum EvidenceType {
-    #[default]
-    CapexPayoff, // 投資回収の検証
-    EarningsValidation, // 業績の裏付け
-    OrderVisibility,    // 受注見通しの改善
-    FollowThrough,      // 突破後の価格継続性
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Default)]
-pub struct AutomatedEvidenceRecord {
-    pub source: EvidenceSourceType,
-    pub evidence_type: EvidenceType,
-    pub confidence: f64,     // 0.0 ~ 1.0 (ソースの信頼性)
-    pub description: String, // 監査用
-    pub event_date: String,  // YYYY-MM-DD
-    #[serde(default)]
-    pub symbol: Option<String>,
-    #[serde(default)]
-    pub source_url: Option<String>,
-    #[serde(default)]
-    pub dedupe_key: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
@@ -96,6 +65,7 @@ impl SubstantiveEvidence {
         let earnings_weight = rules.earnings_validation_weight;
         let order_weight = rules.order_visibility_weight;
         let follow_through_weight = 1.2;
+        let decay_policy = EvidenceDecayPolicy::new(rules.evidence_decay_days);
 
         let mut total_score = 0.0;
 
@@ -121,20 +91,7 @@ impl SubstantiveEvidence {
                         chrono::NaiveDate::parse_from_str(&r.event_date, "%Y-%m-%d")
                     {
                         let days_ago = (current_date - rec_date).num_days();
-                        let decay_limit = rules.evidence_decay_days as f64;
-                        let multiplier = if days_ago <= 1 {
-                            1.0
-                        } else if (days_ago as f64) <= decay_limit {
-                            // T+1 は 100%、decay_limit 到達時は 20% まで減衰する。
-                            let progress = if decay_limit > 1.0 {
-                                (days_ago as f64 - 1.0) / (decay_limit - 1.0)
-                            } else {
-                                1.0
-                            };
-                            1.0 - progress * 0.8
-                        } else {
-                            0.1
-                        };
+                        let multiplier = decay_policy.multiplier_for_days_ago(days_ago);
                         r.confidence * multiplier
                     } else {
                         0.0
