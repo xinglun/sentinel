@@ -80,3 +80,84 @@ async fn infrastructure_fetcher_matches_core_reexport_boundary() -> anyhow::Resu
     assert_eq!(via_core.source_type, via_infra.source_type);
     Ok(())
 }
+
+#[tokio::test]
+async fn evidence_collection_use_case_supports_dry_run_without_persistence() -> anyhow::Result<()> {
+    use stock_sentinel::application::evidence_ingestion::{
+        collect_evidence_from_source, CollectEvidenceRequest,
+    };
+
+    let dir = tempfile::tempdir()?;
+    std::fs::write(
+        dir.path().join("dry.txt"),
+        "revenue growth and margin expansion",
+    )?;
+    let base_path = dir.path().to_string_lossy();
+    let fetcher = FixtureFetcher::new(&base_path);
+    let extractor = RuleBasedExtractor::new();
+
+    let outcome = collect_evidence_from_source(
+        &fetcher,
+        &extractor,
+        None,
+        CollectEvidenceRequest {
+            url: "dry.txt".to_string(),
+            symbol: "MSFT".to_string(),
+            source_type: EvidenceSourceType::NewsMedia,
+            days: 1,
+            persist: false,
+            retention_days: Some(30),
+        },
+    )
+    .await?;
+
+    assert_eq!(outcome.saved_count, 0);
+    assert_eq!(outcome.cleanup_count, 0);
+    assert_eq!(outcome.records.len(), 1);
+    assert!(outcome.records[0].dedupe_key.contains("AUTO:"));
+    assert_eq!(outcome.document.symbol, "MSFT");
+    Ok(())
+}
+
+#[tokio::test]
+async fn evidence_collection_use_case_persists_through_repository_port() -> anyhow::Result<()> {
+    use stock_sentinel::application::evidence::EvidenceRepository;
+    use stock_sentinel::application::evidence_ingestion::{
+        collect_evidence_from_source, CollectEvidenceRequest,
+    };
+    use stock_sentinel::core::evidence_store::EvidenceStore;
+
+    let source_dir = tempfile::tempdir()?;
+    std::fs::write(
+        source_dir.path().join("persist.txt"),
+        "backlog and demand outstripping supply",
+    )?;
+    let fetch_base_path = source_dir.path().to_string_lossy();
+    let fetcher = FixtureFetcher::new(&fetch_base_path);
+    let extractor = RuleBasedExtractor::new();
+    let store_dir = tempfile::tempdir()?;
+    let store = EvidenceStore::new(store_dir.path());
+    let repository: &dyn EvidenceRepository = &store;
+
+    let outcome = collect_evidence_from_source(
+        &fetcher,
+        &extractor,
+        Some(repository),
+        CollectEvidenceRequest {
+            url: "persist.txt".to_string(),
+            symbol: "NVDA".to_string(),
+            source_type: EvidenceSourceType::OfficialIR,
+            days: 1,
+            persist: true,
+            retention_days: Some(30),
+        },
+    )
+    .await?;
+
+    assert_eq!(outcome.saved_count, 1);
+    let saved = repository.load_all()?;
+    assert_eq!(saved.len(), 1);
+    assert_eq!(saved[0].evidence_type, EvidenceType::OrderVisibility);
+    assert!(saved[0].dedupe_key.contains("NVDA"));
+    Ok(())
+}

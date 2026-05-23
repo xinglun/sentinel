@@ -15,6 +15,9 @@ use crate::core::ledger::Ledger;
 use crate::core::persistence::PersistenceLayer;
 use crate::core::transition_log::TransitionLogger;
 
+use crate::application::evidence_ingestion::{
+    collect_evidence_from_source, CollectEvidenceRequest,
+};
 use crate::core::evidence_ingestion::{
     EvidenceExtractor, FinnhubFetcher, FixtureFetcher, RuleBasedExtractor, SECEDGARFetcher,
     SourceFetcher, WebFetcher,
@@ -383,22 +386,42 @@ pub async fn run() -> Result<()> {
                 Box::new(FixtureFetcher::new("."))
             };
 
-            let doc = fetcher
-                .fetch(&url, &symbol, st, evidence_days)
-                .await
-                .context("Failed to fetch source document")?;
-
             let extractor = RuleBasedExtractor::new();
-            let records = extractor.extract(&doc);
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
+            let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+            let store = EvidenceStore::new(&save_dir);
+            let repository = if evidence_dry_run {
+                None
+            } else {
+                Some(&store as &dyn crate::application::evidence::EvidenceRepository)
+            };
+            let outcome = collect_evidence_from_source(
+                fetcher.as_ref(),
+                &extractor,
+                repository,
+                CollectEvidenceRequest {
+                    url: url.clone(),
+                    symbol: symbol.clone(),
+                    source_type: st,
+                    days: evidence_days,
+                    persist: !evidence_dry_run,
+                    retention_days: Some(retention_days),
+                },
+            )
+            .await
+            .context("Failed to collect evidence from source")?;
 
             if evidence_dry_run {
                 println!("--- Dry Run: Extracted Evidence ---");
                 println!("Source: {}", url);
                 println!("Symbol: {}", symbol);
-                if records.is_empty() {
+                if outcome.records.is_empty() {
                     println!("No evidence found.");
                 }
-                for (i, r) in records.iter().enumerate() {
+                for (i, r) in outcome.records.iter().enumerate() {
                     println!(
                         "[{}] Type: {:?}, Confidence: {:.2}, Date: {}",
                         i + 1,
@@ -414,32 +437,10 @@ pub async fn run() -> Result<()> {
                 return Ok(());
             }
 
-            let retention_days = app_config
-                .get_parsed_rules()
-                .market_state_engine
-                .evidence_retention_days as i64;
-            let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = EvidenceStore::new(&save_dir);
-            let _ = store.cleanup_old_records(retention_days);
-
-            // Dedupe key の生成と保存
-            let mut records_to_save = records;
-            for r in records_to_save.iter_mut() {
-                r.dedupe_key = format!(
-                    "AUTO:{:?}:{:?}:{}:{}:{}",
-                    r.source,
-                    r.evidence_type,
-                    r.symbol.as_deref().unwrap_or("GLOBAL"),
-                    r.event_date,
-                    r.source_url.as_deref().unwrap_or("NO_URL")
-                );
-            }
-
-            let count = store.save_records(&records_to_save)?;
-            if count > 0 {
+            if outcome.saved_count > 0 {
                 println!(
                     "Successfully ingested {} automated evidence records.",
-                    count
+                    outcome.saved_count
                 );
             } else {
                 println!("Evidence record already exists (deduplicated).");
