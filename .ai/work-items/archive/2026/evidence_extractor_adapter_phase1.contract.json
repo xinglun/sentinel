@@ -1,0 +1,100 @@
+{
+  "contractVersion": 1,
+  "workItemId": "evidence_extractor_adapter_phase1",
+  "mode": "code",
+  "title": "Evidence extractor adapter phase 1",
+  "scope": [
+    ".ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+    ".ai/work-items/active/evidence_extractor_adapter_phase1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/evidence_ingestion.rs",
+    "src/core/evidence_ingestion.rs",
+    "tests/evidence_ingestion_port_integration.rs"
+  ],
+  "outOfScope": [
+    "RuleBasedExtractor の抽出条件変更",
+    "Fetcher 実装移動",
+    "CLI import path 変更",
+    "Evidence record schema 変更",
+    "Gate / report rendering の変更"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Infrastructure adapter の配置ルール。"
+    },
+    {
+      "path": "src/core/evidence_ingestion.rs",
+      "reason": "現在の RuleBasedExtractor 実装元。"
+    },
+    {
+      "path": "src/application/evidence_ingestion.rs",
+      "reason": "Extractor adapter が実装する application port。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "RuleBasedExtractor が infrastructure layer に移動している。",
+    "core::evidence_ingestion::RuleBasedExtractor は re-export で互換維持されている。",
+    "既存 evidence_ingestion tests と port integration tests が通る。",
+    "architecture boundary check と full quality gate が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test evidence_ingestion -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_extractor_adapter_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_extractor_adapter_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_extractor_adapter_phase1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
