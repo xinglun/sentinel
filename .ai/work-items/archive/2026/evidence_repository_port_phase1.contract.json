@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "evidence_repository_port_phase1",
+  "mode": "code",
+  "title": "Evidence repository port phase 1",
+  "scope": [
+    ".ai/work-items/active/evidence_repository_port_phase1.contract.json",
+    ".ai/work-items/active/evidence_repository_port_phase1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/application/mod.rs",
+    "src/application/evidence.rs",
+    "src/core/evidence_store.rs",
+    "tests/evidence_repository_port_integration.rs"
+  ],
+  "outOfScope": [
+    "EvidenceStore の保存形式変更",
+    "CLI / collect-evidence の挙動変更",
+    "外部 API ingestion の変更",
+    "Gate / execution / report rendering の変更"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Application port と infrastructure adapter の依存方向。"
+    },
+    {
+      "path": "src/core/evidence_store.rs",
+      "reason": "現在の evidence persistence 実装。"
+    },
+    {
+      "path": "src/domain/evidence.rs",
+      "reason": "Repository port が扱う domain record 型。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "application layer に EvidenceRepository port が定義されている。",
+    "EvidenceStore が EvidenceRepository port を実装し、既存 API 互換を維持している。",
+    "port 経由で save/load/find/cleanup が動く integration test がある。",
+    "architecture boundary check と full quality gate が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "cargo test --test evidence_repository_port_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test evidence_store -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_repository_port_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_repository_port_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_repository_port_phase1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

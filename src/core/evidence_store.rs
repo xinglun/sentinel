@@ -1,4 +1,5 @@
-use crate::core::trend_cohesion::AutomatedEvidenceRecord;
+use crate::application::evidence::EvidenceRepository;
+use crate::domain::evidence::AutomatedEvidenceRecord;
 use anyhow::{Context, Result};
 use std::collections::HashSet;
 use std::fs::{File, OpenOptions};
@@ -122,6 +123,24 @@ impl EvidenceStore {
         }
 
         Ok(removed_count)
+    }
+}
+
+impl EvidenceRepository for EvidenceStore {
+    fn load_all(&self) -> Result<Vec<AutomatedEvidenceRecord>> {
+        EvidenceStore::load_all(self)
+    }
+
+    fn save_records(&self, new_records: &[AutomatedEvidenceRecord]) -> Result<usize> {
+        EvidenceStore::save_records(self, new_records)
+    }
+
+    fn find_by_symbol(&self, symbol: &str) -> Result<Vec<AutomatedEvidenceRecord>> {
+        EvidenceStore::find_by_symbol(self, symbol)
+    }
+
+    fn cleanup_old_records(&self, max_age_days: i64) -> Result<usize> {
+        EvidenceStore::cleanup_old_records(self, max_age_days)
     }
 }
 
