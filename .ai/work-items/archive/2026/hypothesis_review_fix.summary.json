@@ -1,0 +1,149 @@
+{
+  "workItemId": "hypothesis_review_fix",
+  "contractPath": ".ai/work-items/archive/2026/hypothesis_review_fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/hypothesis_review_fix.contract.json",
+      "reason": "Hypothesis review fix の Work Item 契約を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis_review_fix.summary.json",
+      "reason": "変更内容、検証結果、レビュー指摘への対応を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を Work Item と検証結果に同期した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+      "reason": "前段 Work Item の完了アーカイブを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+      "reason": "前段 Work Item の完了サマリーを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+      "reason": "文書言語修正 Work Item の完了アーカイブを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_doc_language_fix.summary.json",
+      "reason": "文書言語修正 Work Item の完了サマリーを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_boundary_hardening.contract.json",
+      "reason": "Hypothesis 境界強化 Work Item の完了アーカイブを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_boundary_hardening.summary.json",
+      "reason": "Hypothesis 境界強化 Work Item の完了サマリーを保持した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "文書 checker を check-doc-forbidden-terms として公開し、quality に含めた。"
+    },
+    {
+      "path": "scripts/check_doc_forbidden_terms.sh",
+      "reason": "docs 配下 Markdown の中国語売買用語混入を検出する forbidden terms checker として命名した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Hypothesis Layer の独立表示、transition_log 非依存、forbidden terms guard を仕様化した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "Hypothesis summary label と周期整合用の consensus / pricing 文言を中英日で追加した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "Hypothesis Layer の top-level 表示モデルを保持した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "MarketCyclePosition に応じて hypothesis の consensus / pricing を整合させた。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Hypothesis summary を Markdown / Telegram HTML に表示した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "crowded 周期で hypothesis の consensus / pricing が過小表示されないことを固定した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Hypothesis summary の中英日表示を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/hypothesis_review_fix.contract.json",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "Makefile",
+    "docs/specs/HYPOTHESIS_LAYER.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test hypothesis -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_review_fix.summary.json CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_review_fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_review_fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Hypothesis は表示専用のまま維持し、周期位置との表示整合と summary 表示だけを修正した。"
+  },
+  "generatedFiles": [
+    "scripts/check_doc_forbidden_terms.sh"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P2",
+      "detail": "Hypothesis の consensus / pricing が周期位置と矛盾する可能性があった。MarketCyclePosition に応じて crowded / fully priced / overpriced を出すようにした。"
+    },
+    {
+      "severity": "P2",
+      "detail": "Hypothesis summary が表示されていなかった。Markdown / Telegram HTML の中英日で表示するようにした。"
+    },
+    {
+      "severity": "P3",
+      "detail": "文書 checker 名が実態より広く見えた。check-doc-forbidden-terms に改名して責務を明確化した。"
+    }
+  ]
+}

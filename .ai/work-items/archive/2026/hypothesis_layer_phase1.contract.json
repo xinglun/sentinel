@@ -1,0 +1,127 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis_layer_phase1",
+  "mode": "code",
+  "title": "Hypothesis Layer Phase 1",
+  "scope": [
+    ".ai/work-items/active/hypothesis_layer_phase1.contract.json",
+    ".ai/work-items/active/hypothesis_layer_phase1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "docs/specs/HYPOTHESIS_LAYER.md"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/exit.rs",
+    "src/core/market_regime.rs",
+    "src/cli.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "Hypothesis Layer の表示専用 ViewModel を追加する。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "既存 Reality evidence から表示用 hypothesis candidate を組み立てる。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Telegram / Markdown に speculative section を表示する。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "Hypothesis Layer の三言語ラベルを追加する。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "表示境界、speculative notice、Gate 非干渉を契約テストで固定する。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "ViewModel 組み立てと failure risk 必須境界を固定する。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Reality Layer と Hypothesis Layer の境界を仕様化する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis Layer は PresentationPacket / report の表示専用であり、engine / Gate / execution / trader_agent を変更しない。",
+    "Hypothesis Candidate が存在しても NO TRADE と新規建玉上限 0% は変わらない。",
+    "Telegram / Markdown に speculative notice と failure risks が表示される。",
+    "HypothesisConfidence に Confirmed を導入しない。",
+    "failure_risks が空の candidate は表示しない。",
+    "Reality Layer の文案に未来地図、利益移動、候補受益者などの hypothesis 専用語を混ぜない。",
+    "三言語表示の契約テストを追加する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_hypothesis_layer_mapping_requires_failure_risks -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_hypothesis_layer_renders_speculative_notice_without_gate_change -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_hypothesis_layer_is_separated_from_reality_sections -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_layer_phase1.summary.json CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json SUMMARY=.ai/work-items/active/hypothesis_layer_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json SUMMARY=.ai/work-items/active/hypothesis_layer_phase1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

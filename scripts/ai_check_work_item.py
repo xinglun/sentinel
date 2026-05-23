@@ -28,6 +28,7 @@ REQUIRED_FIELDS = (
 )
 ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {"destructiveChangePolicy"}
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
+REQUIRED_VERIFICATION_COMMANDS = ("make fmt-check",)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -77,6 +78,7 @@ def validate_verification(data: dict[str, Any]) -> list[str]:
     values = data.get("verification")
     if not isinstance(values, list) or not values:
         return ["verification は 1 件以上の list にしてください。"]
+    required_commands: set[str] = set()
     for index, item in enumerate(values):
         if not isinstance(item, dict):
             issues.append(f"verification[{index}] は object にしてください。")
@@ -85,6 +87,11 @@ def validate_verification(data: dict[str, Any]) -> list[str]:
             issues.append(f"verification[{index}].command は必須です。")
         if not isinstance(item.get("required"), bool):
             issues.append(f"verification[{index}].required は boolean にしてください。")
+        if item.get("required") is True and non_empty_string(item.get("command")):
+            required_commands.add(item["command"].strip())
+    for command in REQUIRED_VERIFICATION_COMMANDS:
+        if command not in required_commands:
+            issues.append(f"verification に required command が必要です: {command}")
     return issues
 
 

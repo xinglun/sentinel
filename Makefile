@@ -17,7 +17,7 @@ TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
 RESEARCH_ATTENTION_ARGS ?=
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-work-item-contract test-architecture-boundaries \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -38,6 +38,8 @@ help:
 	@printf '%s\n' '  make research-attention RESEARCH_ATTENTION_ARGS="..."'
 	@printf '%s\n' '  make fmt-check'
 	@printf '%s\n' '  make audit-docs'
+	@printf '%s\n' '  make check-doc-forbidden-terms'
+	@printf '%s\n' '  make check-architecture'
 	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make clippy'
 	@printf '%s\n' '  make diff-check'
@@ -46,6 +48,8 @@ help:
 	@printf '%s\n' '  make test-ai-retry-circuit'
 	@printf '%s\n' '  make test-ai-coverage-guard'
 	@printf '%s\n' '  make test-ai-finish-archive-flow'
+	@printf '%s\n' '  make test-ai-work-item-contract'
+	@printf '%s\n' '  make test-architecture-boundaries'
 	@printf '%s\n' '  make check-rust'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
@@ -67,6 +71,12 @@ fmt-check:
 
 audit-docs:
 	bash scripts/check_audit_docs.sh
+
+check-doc-forbidden-terms:
+	bash scripts/check_doc_forbidden_terms.sh
+
+check-architecture:
+	python3 scripts/check_architecture_boundaries.py
 
 test:
 	cargo test
@@ -93,7 +103,13 @@ test-ai-coverage-guard:
 test-ai-finish-archive-flow:
 	python3 scripts/ai_test_finish_archive_flow.py
 
-check-rust: fmt-check audit-docs test clippy diff-check
+test-ai-work-item-contract:
+	python3 scripts/ai_test_work_item_contract.py
+
+test-architecture-boundaries:
+	python3 scripts/ai_test_architecture_boundaries.py
+
+check-rust: fmt-check audit-docs check-doc-forbidden-terms check-architecture test-architecture-boundaries test clippy diff-check
 
 check-ai-contract check-ai-work-item:
 	python3 scripts/ai_check_work_item.py $(CONTRACT)

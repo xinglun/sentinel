@@ -12,6 +12,10 @@
   ],
   "verification": [
     {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
       "command": "make test",
       "result": "passed"
     }

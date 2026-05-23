@@ -1,0 +1,135 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd_clean_architecture_foundation",
+  "mode": "code",
+  "title": "DDD Clean Architecture foundation",
+  "scope": [
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/_templates/ai_change_summary.example.json",
+    ".ai/work-items/active/",
+    ".ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+    ".ai/work-items/active/ddd_clean_architecture_foundation.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_boundary_hardening.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_boundary_hardening.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_review_fix.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_review_fix.summary.json",
+    ".ai/work-items/archive/2026/verification_fmt_required.contract.json",
+    ".ai/work-items/archive/2026/verification_fmt_required.summary.json",
+    "AGENTS.md",
+    "Makefile",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_start.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "scripts/ai_test_work_item_contract.py",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/check_doc_forbidden_terms.sh",
+    "src/application/mod.rs",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "src/domain/mod.rs",
+    "src/infrastructure/mod.rs",
+    "src/interface/mod.rs",
+    "src/lib.rs"
+  ],
+  "outOfScope": [
+    "既存 engine / report / evidence の業務挙動変更",
+    "既存 module の大規模移動",
+    "取引判断、Gate、execution path の仕様変更",
+    "data branch / runtime data の変更"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "AI Cockpit と quality gate の repository rule。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item と Cockpit 状態管理の運用ルール。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "現在の Rust module entrypoint。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "統一 command entrypoint と quality gate。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "既存の display-only layer 設計境界の参考。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "DDD + Clean Architecture の target layering、dependency direction、legacy migration rule が日本語文書で明確化されている。",
+    "新規 target module skeleton が追加され、既存業務挙動を変更しない。",
+    "新規 target directories に対する dependency boundary checker が make 経由で実行できる。",
+    "Architecture checker の正例 / 逆例が script test で固定されている。",
+    "make quality に architecture boundary check とその test が組み込まれている。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd_clean_architecture_foundation.summary.json CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_foundation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_foundation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "DDD/Clean Architecture foundation の追加ファイルと Makefile/lib.rs の差分を revert する。既存 Hypothesis / AI Cockpit 未提交差分は別途保持する。"
+}

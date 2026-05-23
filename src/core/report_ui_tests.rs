@@ -2390,7 +2390,6 @@ mod tests {
                 ..Default::default()
             }),
         });
-
         curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
 
         let config = mock_config_with_language(Language::ZhCn);
@@ -2798,6 +2797,221 @@ mod tests {
                     "Strategic Layer telegram must not include execution term: {term}"
                 );
             }
+        }
+    }
+
+    #[test]
+    fn test_hypothesis_layer_renders_speculative_notice_without_gate_change() {
+        use crate::core::i18n::Language;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
+            TrendRecognitionEvidence,
+        };
+
+        let curr = DecisionPacket {
+            trend_cohesion: TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
+            trend_recognition: Some(TrendRecognitionEvidence {
+                state: TrendContinuationState::StructuralPersistence,
+                diffusion_score: 3.4,
+                conviction_score: 3.4,
+                substantive: Some(SubstantiveEvidence {
+                    capex_payoff_signal: true,
+                    earnings_validation: true,
+                    order_visibility: true,
+                    ..Default::default()
+                }),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+
+        assert!(report.archival_markdown.contains("禁止动作（NO TRADE）"));
+        assert!(report.archival_markdown.contains("新开仓上限 · 0%"));
+        assert!(report.telegram_html_body.contains("未来地图"));
+        assert!(report.telegram_html_body.contains("推测参考"));
+        assert!(report.telegram_html_body.contains("不属于当前事实"));
+        assert!(report.telegram_html_body.contains("不生成交易信号"));
+        assert!(report.telegram_html_body.contains("失败路径"));
+        assert!(report.telegram_html_body.contains("MSFT"));
+        assert!(report
+            .telegram_html_body
+            .contains("AI 利润池可能从 GPU layer 向 cloud / platform layer 扩散"));
+        assert!(report.telegram_html_body.contains("摘要: GPU 需求强度"));
+        assert!(
+            pres.transition_evidence.is_none(),
+            "Hypothesis Layer must not depend on transition_log"
+        );
+    }
+
+    #[test]
+    fn test_hypothesis_layer_is_separated_from_reality_sections() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+        };
+
+        let mut curr = DecisionPacket::default();
+        curr.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::StructuralPersistence,
+            diffusion_score: 3.4,
+            conviction_score: 3.4,
+            substantive: Some(SubstantiveEvidence {
+                capex_payoff_signal: true,
+                earnings_validation: true,
+                order_visibility: true,
+                ..Default::default()
+            }),
+            ..Default::default()
+        });
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let hypothesis_start = report
+            .telegram_html_body
+            .find("未来地图")
+            .expect("hypothesis section");
+        let reality_text = &report.telegram_html_body[..hypothesis_start];
+
+        for term in ["未来地图", "AI 利润池可能", "潜在受益者"] {
+            assert!(
+                !reality_text.contains(term),
+                "Reality section must not include hypothesis-only term: {term}"
+            );
+        }
+        let transition_start = report
+            .telegram_html_body
+            .find("状态转移证据")
+            .expect("transition section");
+        let transition_text = &report.telegram_html_body[transition_start..hypothesis_start];
+        assert!(
+            !transition_text.contains("未来地图"),
+            "Hypothesis Layer must not be nested in transition evidence"
+        );
+    }
+
+    #[test]
+    fn test_hypothesis_without_failure_risks_is_not_rendered() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+        };
+
+        let mut curr = DecisionPacket::default();
+        curr.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::StructuralPersistence,
+            diffusion_score: 3.4,
+            conviction_score: 3.4,
+            substantive: Some(SubstantiveEvidence {
+                capex_payoff_signal: true,
+                earnings_validation: true,
+                order_visibility: true,
+                ..Default::default()
+            }),
+            ..Default::default()
+        });
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        let config = mock_config_with_language(Language::ZhCn);
+        let mut pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        pres.hypothesis_layer.as_mut().unwrap().candidates[0]
+            .failure_risks
+            .clear();
+
+        let report =
+            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        assert!(!report.telegram_html_body.contains("未来地图"));
+        assert!(!report.archival_markdown.contains("未来地图"));
+    }
+
+    #[test]
+    fn test_hypothesis_layer_renders_in_en_and_ja() {
+        use crate::core::i18n::Language;
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+        };
+
+        for (language, title, notice, beneficiary_label, summary_label) in [
+            (
+                Language::EnUs,
+                "Future Map / Hypothesis Layer",
+                "not current facts",
+                "Potential Beneficiaries",
+                "Summary: GPU demand",
+            ),
+            (
+                Language::JaJp,
+                "未来地図 / Hypothesis Layer",
+                "現在の事実ではなく",
+                "潜在的受益者",
+                "要約: GPU 需要",
+            ),
+        ] {
+            let mut curr = DecisionPacket::default();
+            curr.trend_recognition = Some(TrendRecognitionEvidence {
+                state: TrendContinuationState::StructuralPersistence,
+                diffusion_score: 3.4,
+                conviction_score: 3.4,
+                substantive: Some(SubstantiveEvidence {
+                    capex_payoff_signal: true,
+                    earnings_validation: true,
+                    order_visibility: true,
+                    ..Default::default()
+                }),
+                ..Default::default()
+            });
+            curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+            let config = mock_config_with_language(language);
+            let pres = PresentationAssembler::assemble(
+                &curr,
+                &config.get_parsed_rules(),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let report =
+                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
+                    .unwrap();
+
+            assert!(report.telegram_html_body.contains(title));
+            assert!(report.telegram_html_body.contains(notice));
+            assert!(report.telegram_html_body.contains(beneficiary_label));
+            assert!(report.telegram_html_body.contains(summary_label));
+            assert!(
+                report.telegram_html_body.contains("Failure")
+                    || report.telegram_html_body.contains("失敗")
+            );
         }
     }
 

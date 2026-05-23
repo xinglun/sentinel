@@ -68,6 +68,7 @@ def main() -> int:
         "verification": [
             {"command": f"make check-ai-contract CONTRACT={contract_rel}", "required": True},
             {"command": f"make check-ai-scope CONTRACT={contract_rel}", "required": True},
+            {"command": "make fmt-check", "required": True},
             {"command": "make check-ai-backtrack", "required": True},
             {"command": f"make check-ai-change-summary SUMMARY={summary_rel} CONTRACT={contract_rel}", "required": True},
             {"command": f"make generate-cockpit-status CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},

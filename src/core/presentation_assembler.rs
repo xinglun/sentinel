@@ -11,9 +11,11 @@ use crate::core::market_regime::{MarketState, RiskOverlay};
 use crate::core::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
-    ExitDisplayIntent, HoldingEfficiency, MacroDisplayContext, MarketCyclePosition,
-    PresentationPacket, RiskOpportunitySummaryViewModel, SignalSummaryViewModel,
-    StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
+    ExitDisplayIntent, HoldingEfficiency, HypothesisBeneficiaryViewModel,
+    HypothesisCandidateViewModel, HypothesisConfidence, HypothesisEvidenceNodeViewModel,
+    HypothesisFailureRiskViewModel, HypothesisLayerViewModel, MacroDisplayContext,
+    MarketCyclePosition, PresentationPacket, RiskOpportunitySummaryViewModel,
+    SignalSummaryViewModel, StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
 };
 use crate::core::trend_cohesion::{EvidenceSourceType, EvidenceType};
 use std::cmp::Ordering;
@@ -457,6 +459,7 @@ impl PresentationAssembler {
             notices,
             data_alert,
             transition_evidence: Self::build_transition_evidence(packet, rules, &dict),
+            hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
         }
@@ -665,7 +668,6 @@ impl PresentationAssembler {
             rules.macro_gravity.as_ref(),
             dict,
         );
-
         Some(StateTransitionViewModel {
             has_significant_change: log.market_state.changed
                 || log.risk_overlay.changed
@@ -1194,6 +1196,194 @@ impl PresentationAssembler {
             tr.strategic_tactical_status, tactical_status
         ));
         context
+    }
+
+    fn build_hypothesis_layer_from_packet(
+        packet: &DecisionPacket,
+        dict: &DisplayDictionary,
+    ) -> Option<HypothesisLayerViewModel> {
+        let trend_recognition = packet.trend_recognition.as_ref()?;
+        let substantive = trend_recognition.substantive.as_ref()?;
+        let mut substantive_signals = Vec::new();
+        if substantive.capex_payoff_signal
+            || substantive
+                .records
+                .iter()
+                .any(|record| record.evidence_type == EvidenceType::CapexPayoff)
+        {
+            substantive_signals.push(dict.trend_recognition.capex_payoff.clone());
+        }
+        if substantive.earnings_validation
+            || substantive
+                .records
+                .iter()
+                .any(|record| record.evidence_type == EvidenceType::EarningsValidation)
+        {
+            substantive_signals.push(dict.trend_recognition.earnings_validation.clone());
+        }
+        if substantive.order_visibility
+            || substantive
+                .records
+                .iter()
+                .any(|record| record.evidence_type == EvidenceType::OrderVisibility)
+        {
+            substantive_signals.push(dict.trend_recognition.order_visibility.clone());
+        }
+        let breadth_mode = Self::classify_trend_breadth_mode(packet);
+        let market_cycle_position = Self::classify_market_cycle_position(
+            packet,
+            breadth_mode,
+            substantive_signals.len(),
+            Some(trend_recognition.conviction_score),
+        );
+        Self::build_hypothesis_layer(
+            &substantive_signals,
+            Some(trend_recognition.conviction_score),
+            market_cycle_position,
+            dict,
+        )
+    }
+
+    fn build_hypothesis_layer(
+        substantive_signals: &[String],
+        conviction_score: Option<f64>,
+        market_cycle_position: MarketCyclePosition,
+        dict: &DisplayDictionary,
+    ) -> Option<HypothesisLayerViewModel> {
+        let has_capex = substantive_signals
+            .iter()
+            .any(|signal| signal == &dict.trend_recognition.capex_payoff);
+        let has_earnings = substantive_signals
+            .iter()
+            .any(|signal| signal == &dict.trend_recognition.earnings_validation);
+        let has_order = substantive_signals
+            .iter()
+            .any(|signal| signal == &dict.trend_recognition.order_visibility);
+        let enough_reality_evidence =
+            has_capex && (has_earnings || has_order) && conviction_score.unwrap_or(0.0) >= 3.0;
+
+        if !enough_reality_evidence {
+            return None;
+        }
+
+        let candidate = Self::build_profit_pool_migration_hypothesis(market_cycle_position, dict);
+        if candidate.failure_risks.is_empty() {
+            return None;
+        }
+
+        Some(HypothesisLayerViewModel {
+            title: dict.hypothesis.title.clone(),
+            notice: dict.hypothesis.notice.clone(),
+            candidates: vec![candidate],
+        })
+    }
+
+    fn build_profit_pool_migration_hypothesis(
+        market_cycle_position: MarketCyclePosition,
+        dict: &DisplayDictionary,
+    ) -> HypothesisCandidateViewModel {
+        let h = &dict.hypothesis;
+        let (consensus_state, pricing_state) = match market_cycle_position {
+            MarketCyclePosition::CrowdedExpectation => {
+                (h.consensus_crowded.clone(), h.pricing_overpriced.clone())
+            }
+            MarketCyclePosition::LateAcceptance | MarketCyclePosition::DistributionWarning => (
+                h.consensus_consensus.clone(),
+                h.pricing_fully_priced.clone(),
+            ),
+            _ => (
+                h.consensus_emerging.clone(),
+                h.pricing_partially_priced.clone(),
+            ),
+        };
+
+        HypothesisCandidateViewModel {
+            title: h.title_profit_pool_migration.clone(),
+            hypothesis_type: h.type_profit_pool_migration.clone(),
+            summary: h.summary_profit_pool_migration.clone(),
+            consensus_state,
+            pricing_state,
+            confidence: HypothesisConfidence::Developing,
+            confidence_label: h.confidence_developing.clone(),
+            time_horizon: h.horizon_medium_long.clone(),
+            evidence_chain: vec![
+                HypothesisEvidenceNodeViewModel {
+                    label: h.evidence_capex_expansion.clone(),
+                    evidence_type: "CapitalAllocationSignal".to_string(),
+                    strength: h.strength_strong.clone(),
+                    source_layer: h.source_evidence_record.clone(),
+                    note: h.evidence_capex_expansion.clone(),
+                },
+                HypothesisEvidenceNodeViewModel {
+                    label: h.evidence_cost_reduction.clone(),
+                    evidence_type: "CostCurveShift".to_string(),
+                    strength: h.strength_moderate.clone(),
+                    source_layer: h.source_industry_data.clone(),
+                    note: h.evidence_cost_reduction.clone(),
+                },
+                HypothesisEvidenceNodeViewModel {
+                    label: h.evidence_pricing_power.clone(),
+                    evidence_type: "PricingPower".to_string(),
+                    strength: h.strength_moderate.clone(),
+                    source_layer: h.source_industry_data.clone(),
+                    note: h.evidence_pricing_power.clone(),
+                },
+                HypothesisEvidenceNodeViewModel {
+                    label: h.evidence_platform_adoption.clone(),
+                    evidence_type: "PlatformAdoption".to_string(),
+                    strength: h.strength_moderate.clone(),
+                    source_layer: h.source_evidence_record.clone(),
+                    note: h.evidence_platform_adoption.clone(),
+                },
+                HypothesisEvidenceNodeViewModel {
+                    label: h.evidence_revenue_validation.clone(),
+                    evidence_type: "RevenueValidation".to_string(),
+                    strength: h.strength_moderate.clone(),
+                    source_layer: h.source_evidence_record.clone(),
+                    note: h.evidence_revenue_validation.clone(),
+                },
+            ],
+            candidate_beneficiaries: vec![
+                HypothesisBeneficiaryViewModel {
+                    symbol: "MSFT".to_string(),
+                    role: h.beneficiary_primary.clone(),
+                    rationale: h.beneficiary_msft_rationale.clone(),
+                },
+                HypothesisBeneficiaryViewModel {
+                    symbol: "AMZN".to_string(),
+                    role: h.beneficiary_secondary.clone(),
+                    rationale: h.beneficiary_amzn_rationale.clone(),
+                },
+                HypothesisBeneficiaryViewModel {
+                    symbol: "GOOG".to_string(),
+                    role: h.beneficiary_secondary.clone(),
+                    rationale: h.beneficiary_goog_rationale.clone(),
+                },
+            ],
+            failure_risks: vec![
+                HypothesisFailureRiskViewModel {
+                    label: h.failure_capex_delay.clone(),
+                    description: h.failure_capex_delay_desc.clone(),
+                    severity: h.severity_high.clone(),
+                },
+                HypothesisFailureRiskViewModel {
+                    label: h.failure_pricing_competition.clone(),
+                    description: h.failure_pricing_competition_desc.clone(),
+                    severity: h.severity_medium.clone(),
+                },
+                HypothesisFailureRiskViewModel {
+                    label: h.failure_adoption_shortfall.clone(),
+                    description: h.failure_adoption_shortfall_desc.clone(),
+                    severity: h.severity_medium.clone(),
+                },
+                HypothesisFailureRiskViewModel {
+                    label: h.failure_macro_gravity.clone(),
+                    description: h.failure_macro_gravity_desc.clone(),
+                    severity: h.severity_medium.clone(),
+                },
+            ],
+            responsibility_notice: h.responsibility_notice.clone(),
+        }
     }
 
     fn format_macro_gravity_lines(

@@ -227,6 +227,65 @@ pub struct StateTransitionViewModel {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct HypothesisLayerViewModel {
+    pub title: String,
+    pub notice: String,
+    #[serde(default)]
+    pub candidates: Vec<HypothesisCandidateViewModel>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct HypothesisCandidateViewModel {
+    pub title: String,
+    pub hypothesis_type: String,
+    pub summary: String,
+    pub consensus_state: String,
+    pub pricing_state: String,
+    pub confidence: HypothesisConfidence,
+    pub confidence_label: String,
+    pub time_horizon: String,
+    #[serde(default)]
+    pub evidence_chain: Vec<HypothesisEvidenceNodeViewModel>,
+    #[serde(default)]
+    pub candidate_beneficiaries: Vec<HypothesisBeneficiaryViewModel>,
+    #[serde(default)]
+    pub failure_risks: Vec<HypothesisFailureRiskViewModel>,
+    pub responsibility_notice: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum HypothesisConfidence {
+    #[default]
+    Exploratory,
+    Early,
+    Developing,
+    Strengthening,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct HypothesisEvidenceNodeViewModel {
+    pub label: String,
+    pub evidence_type: String,
+    pub strength: String,
+    pub source_layer: String,
+    pub note: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct HypothesisBeneficiaryViewModel {
+    pub symbol: String,
+    pub role: String,
+    pub rationale: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct HypothesisFailureRiskViewModel {
+    pub label: String,
+    pub description: String,
+    pub severity: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PresentationPacket {
     pub date_str: String,
     #[serde(default = "default_language")]
@@ -253,6 +312,8 @@ pub struct PresentationPacket {
     pub data_alert: Option<DataAlertViewModel>,
     #[serde(default)]
     pub transition_evidence: Option<StateTransitionViewModel>,
+    #[serde(default)]
+    pub hypothesis_layer: Option<HypothesisLayerViewModel>,
     // For the terminal table and archival markdown
     pub terminal_rows: Vec<TerminalRowViewModel>,
     pub state_code: String,

@@ -232,6 +232,11 @@ fn generate_markdown_report(
         card.push('\n');
         card.push_str(&transition_block);
     }
+    card.push_str(&render_hypothesis_section(
+        pres.hypothesis_layer.as_ref(),
+        &dict,
+        RenderMode::Markdown,
+    ));
 
     card
 }
@@ -411,6 +416,11 @@ fn generate_telegram_html_report(
         card.push('\n');
         card.push_str(&transition_block);
     }
+    card.push_str(&render_hypothesis_section(
+        pres.hypothesis_layer.as_ref(),
+        &dict,
+        RenderMode::Html,
+    ));
 
     card
 }
@@ -1056,6 +1066,147 @@ fn render_transition_block(
         }
     }
 
+    block.push('\n');
+    block
+}
+
+fn render_hypothesis_section(
+    layer: Option<&crate::core::presentation::HypothesisLayerViewModel>,
+    dict: &DisplayDictionary,
+    mode: RenderMode,
+) -> String {
+    let mut block = String::new();
+    let Some(layer) = layer else {
+        return block;
+    };
+    let candidates: Vec<_> = layer
+        .candidates
+        .iter()
+        .filter(|candidate| !candidate.failure_risks.is_empty())
+        .collect();
+    if candidates.is_empty() {
+        return block;
+    }
+
+    let h = &dict.hypothesis;
+    match mode {
+        RenderMode::Markdown => {
+            block.push_str(&format!("### {}\n\n", layer.title));
+            block.push_str(&format!("  - {}\n", layer.notice));
+            for candidate in candidates {
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    h.hypothesis_label, candidate.title
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.summary_label, candidate.summary
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.status_label, candidate.confidence_label
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.consensus_label, candidate.consensus_state
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.pricing_label, candidate.pricing_state
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.horizon_label, candidate.time_horizon
+                ));
+                block.push_str(&format!("    - {}:\n", h.evidence_chain_label));
+                for evidence in &candidate.evidence_chain {
+                    block.push_str(&format!(
+                        "      - {} · {} · {} · {}\n",
+                        evidence.label,
+                        evidence.evidence_type,
+                        evidence.strength,
+                        evidence.source_layer
+                    ));
+                }
+                block.push_str(&format!("    - {}:\n", h.beneficiaries_label));
+                for beneficiary in &candidate.candidate_beneficiaries {
+                    block.push_str(&format!(
+                        "      - {}: {} / {}\n",
+                        beneficiary.symbol, beneficiary.role, beneficiary.rationale
+                    ));
+                }
+                block.push_str(&format!("    - {}:\n", h.failure_risks_label));
+                for risk in &candidate.failure_risks {
+                    block.push_str(&format!(
+                        "      - {} [{}]: {}\n",
+                        risk.label, risk.severity, risk.description
+                    ));
+                }
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.responsibility_label, candidate.responsibility_notice
+                ));
+            }
+        }
+        RenderMode::Html => {
+            block.push_str(&format!("\n<b>{}</b>\n", layer.title));
+            block.push_str(&format!("  - <i>{}</i>\n", layer.notice));
+            for candidate in candidates {
+                block.push_str(&format!(
+                    "  - <i>{}: {}</i>\n",
+                    h.hypothesis_label, candidate.title
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.summary_label, candidate.summary
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.status_label, candidate.confidence_label
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.consensus_label, candidate.consensus_state
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.pricing_label, candidate.pricing_state
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.horizon_label, candidate.time_horizon
+                ));
+                block.push_str(&format!("    - <i>{}:</i>\n", h.evidence_chain_label));
+                for evidence in &candidate.evidence_chain {
+                    block.push_str(&format!(
+                        "      - <i>{} · {} · {} · {}</i>\n",
+                        evidence.label,
+                        evidence.evidence_type,
+                        evidence.strength,
+                        evidence.source_layer
+                    ));
+                }
+                block.push_str(&format!("    - <i>{}:</i>\n", h.beneficiaries_label));
+                for beneficiary in &candidate.candidate_beneficiaries {
+                    block.push_str(&format!(
+                        "      - <i>{}: {} / {}</i>\n",
+                        beneficiary.symbol, beneficiary.role, beneficiary.rationale
+                    ));
+                }
+                block.push_str(&format!("    - <i>{}:</i>\n", h.failure_risks_label));
+                for risk in &candidate.failure_risks {
+                    block.push_str(&format!(
+                        "      - <i>{} [{}]: {}</i>\n",
+                        risk.label, risk.severity, risk.description
+                    ));
+                }
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.responsibility_label, candidate.responsibility_notice
+                ));
+            }
+        }
+    }
     block.push('\n');
     block
 }

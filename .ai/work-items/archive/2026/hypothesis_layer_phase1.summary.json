@@ -1,0 +1,114 @@
+{
+  "workItemId": "hypothesis_layer_phase1",
+  "contractPath": ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/hypothesis_layer_phase1.contract.json",
+      "reason": "Hypothesis Layer Phase 1 の契約を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis_layer_phase1.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "表示専用の Hypothesis Layer ViewModel と Confirmed を持たない confidence enum を追加した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "既存 Reality evidence から ProfitPoolMigration candidate を表示用に組み立てた。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Telegram / Markdown に speculative notice、証拠チェーン、受益候補、失敗パスを表示した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "Hypothesis Layer の三言語辞書を追加した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "candidate の failure risks 必須と Confirmed 非使用を固定した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Gate 非干渉、speculative notice、Reality / Hypothesis 分離、三言語表示を固定した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Reality Layer と Hypothesis Layer の境界、禁止事項、Phase 1 範囲を仕様化した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/hypothesis_layer_phase1.contract.json",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/i18n.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    "docs/specs/HYPOTHESIS_LAYER.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::presentation_tests::tests::test_hypothesis_layer_mapping_requires_failure_risks -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_hypothesis_layer_renders_speculative_notice_without_gate_change -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test core::report_ui_tests::tests::test_hypothesis_layer_is_separated_from_reality_sections -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test hypothesis -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_layer_phase1.summary.json CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json SUMMARY=.ai/work-items/active/hypothesis_layer_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_layer_phase1.contract.json SUMMARY=.ai/work-items/active/hypothesis_layer_phase1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Hypothesis は表示専用だが、未来仮説の文案が Reality Layer に混入しないよう契約テストで固定した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

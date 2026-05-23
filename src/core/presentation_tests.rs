@@ -1338,6 +1338,59 @@ mod tests {
                 "战术状态: NO TRADE，等待结构扩散".to_string(),
             ]
         );
+        let hypothesis_layer = pres.hypothesis_layer.as_ref().unwrap();
+        assert_eq!(
+            hypothesis_layer.candidates[0].title,
+            "AI 利润池可能从 GPU layer 向 cloud / platform layer 扩散"
+        );
+        assert_eq!(
+            hypothesis_layer.candidates[0].confidence,
+            crate::core::presentation::HypothesisConfidence::Developing
+        );
+        assert_eq!(hypothesis_layer.candidates[0].consensus_state, "crowded");
+        assert_eq!(hypothesis_layer.candidates[0].pricing_state, "overpriced");
+        assert!(!hypothesis_layer.candidates[0].failure_risks.is_empty());
+        assert!(!format!("{:?}", hypothesis_layer.candidates[0].confidence).contains("Confirmed"));
+    }
+
+    #[test]
+    fn test_hypothesis_layer_mapping_requires_failure_risks() {
+        use crate::core::transition_log::StateTransitionLog;
+        use crate::core::trend_cohesion::{
+            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+        };
+
+        let mut curr = DecisionPacket::default();
+        curr.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::StructuralPersistence,
+            diffusion_score: 3.4,
+            conviction_score: 3.4,
+            substantive: Some(SubstantiveEvidence {
+                capex_payoff_signal: true,
+                earnings_validation: true,
+                order_visibility: true,
+                ..Default::default()
+            }),
+            ..Default::default()
+        });
+        curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
+
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &curr,
+            &config.get_parsed_rules(),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let candidate = &pres.hypothesis_layer.as_ref().unwrap().candidates[0];
+        assert!(!candidate.failure_risks.is_empty());
+        assert_eq!(
+            candidate.confidence,
+            crate::core::presentation::HypothesisConfidence::Developing
+        );
+        assert!(!format!("{:?}", candidate.confidence).contains("Confirmed"));
     }
 
     #[test]

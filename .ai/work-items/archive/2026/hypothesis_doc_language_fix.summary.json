@@ -1,0 +1,109 @@
+{
+  "workItemId": "hypothesis_doc_language_fix",
+  "contractPath": ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+      "reason": "文書言語修正の Work Item 契約を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis_doc_language_fix.summary.json",
+      "reason": "変更内容と検証結果を記録する。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "日本語正文中に混入していた中国語表記を修正した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を生成した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+      "reason": "前 Work Item の未提交 archive 変更を同一 diff として scope に含めた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+      "reason": "前 Work Item の未提交 archive 変更を同一 diff として scope に含めた。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "前 Work Item の未提交 Hypothesis Layer 実装変更。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "前 Work Item の未提交 Hypothesis Layer 実装変更。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "前 Work Item の未提交 Hypothesis Layer 実装変更。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "前 Work Item の未提交 Hypothesis Layer テスト変更。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "前 Work Item の未提交 Hypothesis Layer 表示変更。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "前 Work Item の未提交 Hypothesis Layer UI テスト変更。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+    "docs/specs/HYPOTHESIS_LAYER.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "rg -n \"加仓|减仓|加減仓\" docs/specs/HYPOTHESIS_LAYER.md",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_doc_language_fix.summary.json CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_doc_language_fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_doc_language_fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "文書表現の修正のみで、仕様内容と実装は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "audit-docs は README / weekly runbook の固定キーワードだけを検査しており、新規 Markdown の本文言語混入を検出しない。",
+      "impact": "Front matter と既存 audit 契約は通るが、文書正文の中国語混入は人間 review まで残る。"
+    },
+    {
+      "issue": "AI guards は ownership / scope / backtrack 中心で、Markdown 本文の自然言語品質を検査しない。",
+      "impact": "Contract に文書言語 acceptance が明記されていない場合、AI Summary は品質問題を構造的に見落とす。"
+    }
+  ]
+}

@@ -241,6 +241,7 @@ Work Item 化の基準は、AI が関与したかではなく、repo diff と re
 ```bash
 make check-ai-contract CONTRACT=.ai/work-items/active/<task>.contract.json
 make check-ai-scope CONTRACT=.ai/work-items/active/<task>.contract.json
+make fmt-check
 make check-ai-backtrack
 make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
 make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json

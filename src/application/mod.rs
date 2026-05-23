@@ -1,0 +1,4 @@
+//! Sentinel の application layer。
+//!
+//! ユースケース、port trait、application service、transaction boundary を配置する。
+//! Domain を操作し、外部実装の詳細は infrastructure adapter に委譲する。
