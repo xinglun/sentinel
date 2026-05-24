@@ -112,7 +112,7 @@ async fn evidence_collection_use_case_supports_dry_run_without_persistence() -> 
     assert_eq!(outcome.saved_count, 0);
     assert_eq!(outcome.cleanup_count, 0);
     assert_eq!(outcome.records.len(), 1);
-    assert!(outcome.records[0].dedupe_key.contains("AUTO:"));
+    assert!(outcome.records[0].dedupe_key().contains("AUTO:"));
     assert_eq!(outcome.document.symbol, "MSFT");
     Ok(())
 }
@@ -156,7 +156,7 @@ async fn evidence_collection_use_case_persists_through_repository_port() -> anyh
     let saved = repository.load_all()?;
     assert_eq!(saved.len(), 1);
     assert_eq!(saved[0].evidence_type, EvidenceType::OrderVisibility);
-    assert!(saved[0].dedupe_key.contains("NVDA"));
+    assert!(saved[0].dedupe_key().contains("NVDA"));
     Ok(())
 }
 
@@ -203,7 +203,7 @@ async fn evidence_batch_collection_use_case_counts_success_and_failure() -> anyh
     assert_eq!(outcome.failures[0].symbol, "MSFT");
     assert_eq!(outcome.records.len(), 1);
     assert_eq!(outcome.records[0].evidence_type, EvidenceType::CapexPayoff);
-    assert!(outcome.records[0].dedupe_key.contains("GOOG"));
+    assert!(outcome.records[0].dedupe_key().contains("GOOG"));
     Ok(())
 }
 

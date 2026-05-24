@@ -1,0 +1,119 @@
+{
+  "workItemId": "ddd-evidence-dedupe-key-encapsulation",
+  "contractPath": ".ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/domain/evidence.rs",
+      "reason": "dedupe_key のカプセル化、getter 及びコンストラクタ追加。"
+    },
+    {
+      "path": "src/application/evidence_ingestion.rs",
+      "reason": "直接の .dedupe_key への書き込みを generate_auto_dedupe_key() 経由に修正。"
+    },
+    {
+      "path": "src/application/evidence.rs",
+      "reason": "struct literal を constructor 呼び出しに修正。"
+    },
+    {
+      "path": "src/core/engine.rs",
+      "reason": "struct literal を constructor 呼び出しに修正。"
+    },
+    {
+      "path": "src/infrastructure/evidence_ingestion.rs",
+      "reason": "struct literal を constructor 呼び出しに修正。"
+    },
+    {
+      "path": "src/infrastructure/evidence_store.rs",
+      "reason": "テストコード内の struct literal を constructor 呼び出し及び getter 使用に修正。"
+    },
+    {
+      "path": "src/interface/report_ui_tests.rs",
+      "reason": "テストコード内の struct literal を constructor 呼び出しに修正。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "直接の .dedupe_key への参照を getter dedupe_key() 呼び出しに修正。"
+    },
+    {
+      "path": "tests/evidence_domain_integration.rs",
+      "reason": "テストコード内の struct literal を constructor 呼び出しに修正。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "テストコード内の struct literal を constructor 呼び出し及び getter 使用に修正。"
+    },
+    {
+      "path": "src/core/trend_cohesion.rs",
+      "reason": "テストコード内の struct literal を constructor 呼び出しに修正。"
+    },
+    {
+      "path": "src/interface/presentation_tests.rs",
+      "reason": "テストコード内の struct literal を constructor 呼び出しに修正。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "テストコード内の直接の .dedupe_key への参照を getter に修正。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "AI Cockpit Current Status を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+      "reason": "Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json SUMMARY=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json SUMMARY=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "dedupe_key のカプセル化と constructor 呼び出しへの移行であり、ロジック変更はないためリスクは低い。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

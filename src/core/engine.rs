@@ -360,49 +360,48 @@ impl Engine {
                     let mut new_record = None;
                     match signal.as_str() {
                         "capex_payoff:true" => {
-                            new_record = Some(AutomatedEvidenceRecord {
-                                source: EvidenceSourceType::Manual,
-                                evidence_type: EvidenceType::CapexPayoff,
-                                confidence: 1.0,
-                                description: "Manual annotation: Capex Payoff".to_string(),
-                                event_date: record_date_str.clone(),
-                                symbol: Some(d.symbol.clone()),
-                                source_url: None,
-                                dedupe_key: format!(
-                                    "Manual:CapexPayoff:{}:{}",
-                                    d.symbol, record_date_str
-                                ),
-                            });
+                            let dedupe =
+                                format!("Manual:CapexPayoff:{}:{}", d.symbol, record_date_str);
+                            new_record = Some(AutomatedEvidenceRecord::new(
+                                EvidenceSourceType::Manual,
+                                EvidenceType::CapexPayoff,
+                                1.0,
+                                "Manual annotation: Capex Payoff".to_string(),
+                                record_date_str.clone(),
+                                Some(d.symbol.clone()),
+                                None,
+                                dedupe,
+                            ));
                         }
                         "earnings_validation:true" => {
-                            new_record = Some(AutomatedEvidenceRecord {
-                                source: EvidenceSourceType::Manual,
-                                evidence_type: EvidenceType::EarningsValidation,
-                                confidence: 1.0,
-                                description: "Manual annotation: Earnings Validation".to_string(),
-                                event_date: record_date_str.clone(),
-                                symbol: Some(d.symbol.clone()),
-                                source_url: None,
-                                dedupe_key: format!(
-                                    "Manual:EarningsValidation:{}:{}",
-                                    d.symbol, record_date_str
-                                ),
-                            });
+                            let dedupe = format!(
+                                "Manual:EarningsValidation:{}:{}",
+                                d.symbol, record_date_str
+                            );
+                            new_record = Some(AutomatedEvidenceRecord::new(
+                                EvidenceSourceType::Manual,
+                                EvidenceType::EarningsValidation,
+                                1.0,
+                                "Manual annotation: Earnings Validation".to_string(),
+                                record_date_str.clone(),
+                                Some(d.symbol.clone()),
+                                None,
+                                dedupe,
+                            ));
                         }
                         "order_visibility:true" => {
-                            new_record = Some(AutomatedEvidenceRecord {
-                                source: EvidenceSourceType::Manual,
-                                evidence_type: EvidenceType::OrderVisibility,
-                                confidence: 1.0,
-                                description: "Manual annotation: Order Visibility".to_string(),
-                                event_date: record_date_str.clone(),
-                                symbol: Some(d.symbol.clone()),
-                                source_url: None,
-                                dedupe_key: format!(
-                                    "Manual:OrderVisibility:{}:{}",
-                                    d.symbol, record_date_str
-                                ),
-                            });
+                            let dedupe =
+                                format!("Manual:OrderVisibility:{}:{}", d.symbol, record_date_str);
+                            new_record = Some(AutomatedEvidenceRecord::new(
+                                EvidenceSourceType::Manual,
+                                EvidenceType::OrderVisibility,
+                                1.0,
+                                "Manual annotation: Order Visibility".to_string(),
+                                record_date_str.clone(),
+                                Some(d.symbol.clone()),
+                                None,
+                                dedupe,
+                            ));
                         }
                         _ => {}
                     }
@@ -411,7 +410,7 @@ impl Engine {
                         if !substantive
                             .records
                             .iter()
-                            .any(|r| r.dedupe_key == rec.dedupe_key)
+                            .any(|r| r.dedupe_key() == rec.dedupe_key())
                         {
                             substantive.records.push(rec);
                         }
@@ -427,27 +426,28 @@ impl Engine {
                 == crate::core::breakout_detection::BreakoutStatus::ConfirmedBreakout;
 
             if is_core && is_confirmed && d.breakout.breakout_age >= 3 {
-                let rec = AutomatedEvidenceRecord {
-                    source: EvidenceSourceType::PriceAction,
-                    evidence_type: EvidenceType::FollowThrough,
-                    confidence: 0.9,
-                    description: format!(
+                let dedupe = format!(
+                    "PriceAction:FollowThrough:{}:Age{}:{}",
+                    d.symbol, d.breakout.breakout_age, current_date
+                );
+                let rec = AutomatedEvidenceRecord::new(
+                    EvidenceSourceType::PriceAction,
+                    EvidenceType::FollowThrough,
+                    0.9,
+                    format!(
                         "Automated FollowThrough: {} breakout maintained for {} days",
                         d.symbol, d.breakout.breakout_age
                     ),
-                    event_date: current_date.to_string(),
-                    symbol: Some(d.symbol.clone()),
-                    source_url: None,
-                    dedupe_key: format!(
-                        "PriceAction:FollowThrough:{}:Age{}:{}",
-                        d.symbol, d.breakout.breakout_age, current_date
-                    ),
-                };
+                    current_date.to_string(),
+                    Some(d.symbol.clone()),
+                    None,
+                    dedupe,
+                );
 
                 if !substantive
                     .records
                     .iter()
-                    .any(|r| r.dedupe_key == rec.dedupe_key)
+                    .any(|r| r.dedupe_key() == rec.dedupe_key())
                 {
                     substantive.records.push(rec);
                     if 0 < min_days {

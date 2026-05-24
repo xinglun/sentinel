@@ -1236,38 +1236,46 @@ mod tests {
                 earnings_validation: true,
                 order_visibility: true,
                 records: vec![
-                    AutomatedEvidenceRecord {
-                        source: EvidenceSourceType::OfficialIR,
-                        evidence_type: EvidenceType::CapexPayoff,
-                        confidence: 0.9,
-                        description: "Official capex payoff".to_string(),
-                        event_date: "2026-05-15".to_string(),
-                        ..Default::default()
-                    },
-                    AutomatedEvidenceRecord {
-                        source: EvidenceSourceType::Manual,
-                        evidence_type: EvidenceType::EarningsValidation,
-                        confidence: 0.8,
-                        description: "Curated earnings validation".to_string(),
-                        event_date: "2026-05-15".to_string(),
-                        ..Default::default()
-                    },
-                    AutomatedEvidenceRecord {
-                        source: EvidenceSourceType::PriceAction,
-                        evidence_type: EvidenceType::FollowThrough,
-                        confidence: 0.7,
-                        description: "Breakout follow-through".to_string(),
-                        event_date: "2026-05-15".to_string(),
-                        ..Default::default()
-                    },
-                    AutomatedEvidenceRecord {
-                        source: EvidenceSourceType::NewsMedia,
-                        evidence_type: EvidenceType::OrderVisibility,
-                        confidence: 0.6,
-                        description: "Media order visibility".to_string(),
-                        event_date: "2026-05-15".to_string(),
-                        ..Default::default()
-                    },
+                    AutomatedEvidenceRecord::new(
+                        EvidenceSourceType::OfficialIR,
+                        EvidenceType::CapexPayoff,
+                        0.9,
+                        "Official capex payoff".to_string(),
+                        "2026-05-15".to_string(),
+                        None,
+                        None,
+                        String::new(),
+                    ),
+                    AutomatedEvidenceRecord::new(
+                        EvidenceSourceType::Manual,
+                        EvidenceType::EarningsValidation,
+                        0.8,
+                        "Curated earnings validation".to_string(),
+                        "2026-05-15".to_string(),
+                        None,
+                        None,
+                        String::new(),
+                    ),
+                    AutomatedEvidenceRecord::new(
+                        EvidenceSourceType::PriceAction,
+                        EvidenceType::FollowThrough,
+                        0.7,
+                        "Breakout follow-through".to_string(),
+                        "2026-05-15".to_string(),
+                        None,
+                        None,
+                        String::new(),
+                    ),
+                    AutomatedEvidenceRecord::new(
+                        EvidenceSourceType::NewsMedia,
+                        EvidenceType::OrderVisibility,
+                        0.6,
+                        "Media order visibility".to_string(),
+                        "2026-05-15".to_string(),
+                        None,
+                        None,
+                        String::new(),
+                    ),
                 ],
                 ..Default::default()
             }),

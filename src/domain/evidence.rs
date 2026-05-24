@@ -34,7 +34,55 @@ pub struct AutomatedEvidenceRecord {
     #[serde(default)]
     pub source_url: Option<String>,
     #[serde(default)]
-    pub dedupe_key: String,
+    dedupe_key: String,
+}
+
+impl AutomatedEvidenceRecord {
+    /// 新しい実体的証拠レコードを作成する。
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(
+        source: EvidenceSourceType,
+        evidence_type: EvidenceType,
+        confidence: f64,
+        description: String,
+        event_date: String,
+        symbol: Option<String>,
+        source_url: Option<String>,
+        dedupe_key: String,
+    ) -> Self {
+        Self {
+            source,
+            evidence_type,
+            confidence,
+            description,
+            event_date,
+            symbol,
+            source_url,
+            dedupe_key,
+        }
+    }
+
+    /// 重複排除キーの参照を取得する。
+    pub fn dedupe_key(&self) -> &str {
+        &self.dedupe_key
+    }
+
+    /// 自動重複排除キーを生成して設定する。
+    pub fn generate_auto_dedupe_key(&mut self) {
+        self.dedupe_key = format!(
+            "AUTO:{:?}:{:?}:{}:{}:{}",
+            self.source,
+            self.evidence_type,
+            self.symbol.as_deref().unwrap_or("GLOBAL"),
+            self.event_date,
+            self.source_url.as_deref().unwrap_or("NO_URL")
+        );
+    }
+
+    /// 重複排除キーを直接更新する（主にテストまたは手動注入用）。
+    pub fn update_dedupe_key(&mut self, dedupe_key: String) {
+        self.dedupe_key = dedupe_key;
+    }
 }
 
 /// 証拠の時間減衰を表す domain policy。

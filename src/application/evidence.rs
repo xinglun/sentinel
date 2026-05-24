@@ -49,21 +49,22 @@ pub fn ingest_manual_evidence(
         cleanup_count = repository.cleanup_old_records(retention_days)?;
     }
 
-    let record = AutomatedEvidenceRecord {
-        source: EvidenceSourceType::Manual,
+    let dedupe_key = format!(
+        "CLI:Manual:{}:{}:{}",
+        request.symbol.as_deref().unwrap_or("GLOBAL"),
+        request.evidence_type,
+        event_date
+    );
+    let record = AutomatedEvidenceRecord::new(
+        EvidenceSourceType::Manual,
         evidence_type,
-        confidence: request.confidence,
-        description: request.description,
-        event_date: event_date.clone(),
-        symbol: request.symbol.clone(),
-        source_url: request.source_url,
-        dedupe_key: format!(
-            "CLI:Manual:{}:{}:{}",
-            request.symbol.as_deref().unwrap_or("GLOBAL"),
-            request.evidence_type,
-            event_date
-        ),
-    };
+        request.confidence,
+        request.description,
+        event_date.clone(),
+        request.symbol.clone(),
+        request.source_url,
+        dedupe_key,
+    );
 
     let saved_count = repository.save_records(std::slice::from_ref(&record))?;
     Ok(ManualEvidenceIngestionOutcome {

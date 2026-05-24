@@ -751,24 +751,36 @@ mod tests {
         let rules = default_rules();
         let substantive = SubstantiveEvidence {
             records: vec![
-                AutomatedEvidenceRecord {
-                    evidence_type: EvidenceType::CapexPayoff,
-                    confidence: 0.8,
-                    event_date: "2024-05-01".to_string(), // T+1
-                    ..Default::default()
-                },
-                AutomatedEvidenceRecord {
-                    evidence_type: EvidenceType::CapexPayoff,
-                    confidence: 1.0,
-                    event_date: "2024-05-01".to_string(), // T+1
-                    ..Default::default()
-                },
-                AutomatedEvidenceRecord {
-                    evidence_type: EvidenceType::OrderVisibility,
-                    confidence: 0.5,
-                    event_date: "2024-05-01".to_string(), // T+1
-                    ..Default::default()
-                },
+                AutomatedEvidenceRecord::new(
+                    EvidenceSourceType::Manual,
+                    EvidenceType::CapexPayoff,
+                    0.8,
+                    String::new(),
+                    "2024-05-01".to_string(),
+                    None,
+                    None,
+                    String::new(),
+                ),
+                AutomatedEvidenceRecord::new(
+                    EvidenceSourceType::Manual,
+                    EvidenceType::CapexPayoff,
+                    1.0,
+                    String::new(),
+                    "2024-05-01".to_string(),
+                    None,
+                    None,
+                    String::new(),
+                ),
+                AutomatedEvidenceRecord::new(
+                    EvidenceSourceType::Manual,
+                    EvidenceType::OrderVisibility,
+                    0.5,
+                    String::new(),
+                    "2024-05-01".to_string(),
+                    None,
+                    None,
+                    String::new(),
+                ),
             ],
             ..Default::default()
         };
@@ -787,18 +799,26 @@ mod tests {
         // Test tiered decay: T+1 (100%), T+5 (20%), T+6+ (10%)
         let s = SubstantiveEvidence {
             records: vec![
-                AutomatedEvidenceRecord {
-                    evidence_type: EvidenceType::CapexPayoff,
-                    confidence: 1.0,
-                    event_date: "2024-01-30".to_string(), // T+1 -> 1.0
-                    ..Default::default()
-                },
-                AutomatedEvidenceRecord {
-                    evidence_type: EvidenceType::EarningsValidation,
-                    confidence: 1.0,
-                    event_date: "2024-01-26".to_string(), // T+5 -> 0.2
-                    ..Default::default()
-                },
+                AutomatedEvidenceRecord::new(
+                    EvidenceSourceType::Manual,
+                    EvidenceType::CapexPayoff,
+                    1.0,
+                    String::new(),
+                    "2024-01-30".to_string(),
+                    None,
+                    None,
+                    String::new(),
+                ),
+                AutomatedEvidenceRecord::new(
+                    EvidenceSourceType::Manual,
+                    EvidenceType::EarningsValidation,
+                    1.0,
+                    String::new(),
+                    "2024-01-26".to_string(),
+                    None,
+                    None,
+                    String::new(),
+                ),
             ],
             ..Default::default()
         };
@@ -809,12 +829,16 @@ mod tests {
 
         // Test long-term memory: T+31 -> 10%
         let s_old = SubstantiveEvidence {
-            records: vec![AutomatedEvidenceRecord {
-                evidence_type: EvidenceType::CapexPayoff,
-                confidence: 1.0,
-                event_date: "2023-12-01".to_string(), // T+61 -> 0.1
-                ..Default::default()
-            }],
+            records: vec![AutomatedEvidenceRecord::new(
+                EvidenceSourceType::Manual,
+                EvidenceType::CapexPayoff,
+                1.0,
+                String::new(),
+                "2023-12-01".to_string(),
+                None,
+                None,
+                String::new(),
+            )],
             ..Default::default()
         };
         let ev_old = TrendRecognitionEvidence::compute(1, 0, 0, 3, Some(s_old), today, &rules);

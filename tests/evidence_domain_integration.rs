@@ -5,16 +5,16 @@ use stock_sentinel::domain::evidence::EvidenceDecayPolicy;
 
 #[test]
 fn core_reexport_preserves_evidence_record_schema() {
-    let record = AutomatedEvidenceRecord {
-        source: EvidenceSourceType::OfficialIR,
-        evidence_type: EvidenceType::EarningsValidation,
-        confidence: 0.9,
-        description: "official filing".to_string(),
-        event_date: "2026-05-24".to_string(),
-        symbol: Some("MSFT".to_string()),
-        source_url: Some("https://example.com/filing".to_string()),
-        dedupe_key: "MSFT:2026-05-24:earnings".to_string(),
-    };
+    let record = AutomatedEvidenceRecord::new(
+        EvidenceSourceType::OfficialIR,
+        EvidenceType::EarningsValidation,
+        0.9,
+        "official filing".to_string(),
+        "2026-05-24".to_string(),
+        Some("MSFT".to_string()),
+        Some("https://example.com/filing".to_string()),
+        "MSFT:2026-05-24:earnings".to_string(),
+    );
 
     let json = serde_json::to_string(&record).expect("record should serialize");
     assert!(json.contains("EarningsValidation"));

@@ -1520,7 +1520,7 @@ fn build_audit_daily_report_with_evidence_status(
             if let Some(ref rec) = event.log.trend_recognition {
                 if let Some(ref substantive) = rec.substantive {
                     for record in &substantive.records {
-                        let key = if record.dedupe_key.is_empty() {
+                        let key = if record.dedupe_key().is_empty() {
                             format!(
                                 "{:?}:{:?}:{:?}:{}:{}:{}",
                                 record.source,
@@ -1531,7 +1531,7 @@ fn build_audit_daily_report_with_evidence_status(
                                 record.description
                             )
                         } else {
-                            record.dedupe_key.clone()
+                            record.dedupe_key().to_string()
                         };
                         if seen_keys.insert(key) {
                             let symbol_part = record

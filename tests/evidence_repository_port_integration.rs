@@ -9,16 +9,16 @@ fn evidence_store_implements_application_repository_port() -> anyhow::Result<()>
     let store = EvidenceStore::new(dir.path());
     let repo: &dyn EvidenceRepository = &store;
 
-    let record = AutomatedEvidenceRecord {
-        source: EvidenceSourceType::Manual,
-        evidence_type: EvidenceType::CapexPayoff,
-        confidence: 0.8,
-        description: "Capex payoff observed".to_string(),
-        event_date: "2026-05-24".to_string(),
-        symbol: Some("GOOG".to_string()),
-        source_url: None,
-        dedupe_key: "GOOG:2026-05-24:capex".to_string(),
-    };
+    let record = AutomatedEvidenceRecord::new(
+        EvidenceSourceType::Manual,
+        EvidenceType::CapexPayoff,
+        0.8,
+        "Capex payoff observed".to_string(),
+        "2026-05-24".to_string(),
+        Some("GOOG".to_string()),
+        None,
+        "GOOG:2026-05-24:capex".to_string(),
+    );
 
     assert_eq!(repo.save_records(std::slice::from_ref(&record))?, 1);
     assert_eq!(repo.save_records(std::slice::from_ref(&record))?, 0);
@@ -65,7 +65,7 @@ fn manual_evidence_ingestion_use_case_validates_and_persists() -> anyhow::Result
     );
     assert!(outcome
         .record
-        .dedupe_key
+        .dedupe_key()
         .contains("MSFT:earnings:2026-05-24"));
     assert_eq!(repository.load_all()?.len(), 1);
     Ok(())

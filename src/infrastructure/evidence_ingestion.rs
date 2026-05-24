@@ -111,19 +111,19 @@ impl RuleBasedExtractor {
                 confidence = 0.9; // 公式提出書類は信頼度を上げる
             }
 
-            records.push(AutomatedEvidenceRecord {
+            records.push(AutomatedEvidenceRecord::new(
                 source,
-                evidence_type: EvidenceType::CapexPayoff,
+                EvidenceType::CapexPayoff,
                 confidence,
-                description: format!(
+                format!(
                     "Detected CAPEX related keywords in {} ({})",
                     symbol, form_type
                 ),
-                event_date: event_date.to_string(),
-                symbol: Some(symbol.to_string()),
-                source_url: Some(url.to_string()),
-                dedupe_key: String::new(),
-            });
+                event_date.to_string(),
+                Some(symbol.to_string()),
+                Some(url.to_string()),
+                String::new(),
+            ));
         }
 
         // EarningsValidation の判定
@@ -144,19 +144,19 @@ impl RuleBasedExtractor {
                 confidence = 0.90;
             }
 
-            records.push(AutomatedEvidenceRecord {
+            records.push(AutomatedEvidenceRecord::new(
                 source,
-                evidence_type: EvidenceType::EarningsValidation,
+                EvidenceType::EarningsValidation,
                 confidence,
-                description: format!(
+                format!(
                     "Detected earnings related keywords in {} ({})",
                     symbol, form_type
                 ),
-                event_date: event_date.to_string(),
-                symbol: Some(symbol.to_string()),
-                source_url: Some(url.to_string()),
-                dedupe_key: String::new(),
-            });
+                event_date.to_string(),
+                Some(symbol.to_string()),
+                Some(url.to_string()),
+                String::new(),
+            ));
         }
 
         // OrderVisibility の判定
@@ -176,19 +176,19 @@ impl RuleBasedExtractor {
                 confidence = 0.90;
             }
 
-            records.push(AutomatedEvidenceRecord {
+            records.push(AutomatedEvidenceRecord::new(
                 source,
-                evidence_type: EvidenceType::OrderVisibility,
+                EvidenceType::OrderVisibility,
                 confidence,
-                description: format!(
+                format!(
                     "Detected order visibility related keywords in {} ({})",
                     symbol, form_type
                 ),
-                event_date: event_date.to_string(),
-                symbol: Some(symbol.to_string()),
-                source_url: Some(url.to_string()),
-                dedupe_key: String::new(),
-            });
+                event_date.to_string(),
+                Some(symbol.to_string()),
+                Some(url.to_string()),
+                String::new(),
+            ));
         }
     }
 }

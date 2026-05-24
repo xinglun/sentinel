@@ -93,14 +93,7 @@ pub async fn collect_evidence_from_source(
 /// 保存前の自動 evidence dedupe key を application boundary で正規化する。
 pub fn normalize_dedupe_keys(records: &mut [AutomatedEvidenceRecord]) {
     for record in records.iter_mut() {
-        record.dedupe_key = format!(
-            "AUTO:{:?}:{:?}:{}:{}:{}",
-            record.source,
-            record.evidence_type,
-            record.symbol.as_deref().unwrap_or("GLOBAL"),
-            record.event_date,
-            record.source_url.as_deref().unwrap_or("NO_URL")
-        );
+        record.generate_auto_dedupe_key();
     }
 }
 

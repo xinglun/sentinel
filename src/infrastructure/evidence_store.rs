@@ -54,7 +54,10 @@ impl EvidenceStore {
 
         // 現在の全レコードを読み込んで重複チェック
         let existing = self.load_all()?;
-        let mut known_keys: HashSet<String> = existing.into_iter().map(|r| r.dedupe_key).collect();
+        let mut known_keys: HashSet<String> = existing
+            .into_iter()
+            .map(|r| r.dedupe_key().to_string())
+            .collect();
         let mut saved_count = 0;
 
         if let Some(parent) = self.path.parent() {
@@ -68,7 +71,7 @@ impl EvidenceStore {
             .context("Failed to open evidence_records.jsonl for appending")?;
 
         for record in new_records {
-            if known_keys.insert(record.dedupe_key.clone()) {
+            if known_keys.insert(record.dedupe_key().to_string()) {
                 let json = serde_json::to_string(record)?;
                 writeln!(file, "{json}")?;
                 saved_count += 1;
@@ -155,27 +158,27 @@ mod tests {
         let dir = tempdir()?;
         let store = EvidenceStore::new(dir.path());
 
-        let record1 = AutomatedEvidenceRecord {
-            dedupe_key: "key1".to_string(),
-            symbol: Some("AAPL".to_string()),
-            evidence_type: EvidenceType::FollowThrough,
-            source: EvidenceSourceType::PriceAction,
-            confidence: 1.0,
-            event_date: "2024-05-01".to_string(),
-            description: "Breakout".to_string(),
-            source_url: None,
-        };
+        let record1 = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::PriceAction,
+            EvidenceType::FollowThrough,
+            1.0,
+            "Breakout".to_string(),
+            "2024-05-01".to_string(),
+            Some("AAPL".to_string()),
+            None,
+            "key1".to_string(),
+        );
 
-        let record2 = AutomatedEvidenceRecord {
-            dedupe_key: "key2".to_string(),
-            symbol: Some("GOOG".to_string()),
-            evidence_type: EvidenceType::EarningsValidation,
-            source: EvidenceSourceType::Manual,
-            confidence: 0.8,
-            event_date: "2024-05-01".to_string(),
-            description: "Strong earnings".to_string(),
-            source_url: None,
-        };
+        let record2 = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::Manual,
+            EvidenceType::EarningsValidation,
+            0.8,
+            "Strong earnings".to_string(),
+            "2024-05-01".to_string(),
+            Some("GOOG".to_string()),
+            None,
+            "key2".to_string(),
+        );
 
         // Save records
         let saved = store.save_records(&[record1.clone(), record2.clone()])?;
@@ -184,8 +187,8 @@ mod tests {
         // Load all
         let all = store.load_all()?;
         assert_eq!(all.len(), 2);
-        assert_eq!(all[0].dedupe_key, "key1");
-        assert_eq!(all[1].dedupe_key, "key2");
+        assert_eq!(all[0].dedupe_key(), "key1");
+        assert_eq!(all[1].dedupe_key(), "key2");
 
         // Duplicate save
         let saved_again = store.save_records(std::slice::from_ref(&record1))?;
@@ -212,30 +215,29 @@ mod tests {
             .format("%Y-%m-%d")
             .to_string();
 
-        let records = vec![
-            AutomatedEvidenceRecord {
-                source: EvidenceSourceType::Manual,
-                evidence_type: EvidenceType::CapexPayoff,
-                confidence: 1.0,
-                description: "Old".to_string(),
-                event_date: old_date,
-                symbol: Some("AAPL".to_string()),
-                source_url: None,
-                dedupe_key: "old".to_string(),
-            },
-            AutomatedEvidenceRecord {
-                source: EvidenceSourceType::Manual,
-                evidence_type: EvidenceType::CapexPayoff,
-                confidence: 1.0,
-                description: "Recent".to_string(),
-                event_date: recent_date,
-                symbol: Some("AAPL".to_string()),
-                source_url: None,
-                dedupe_key: "recent".to_string(),
-            },
-        ];
+        let record1 = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::Manual,
+            EvidenceType::CapexPayoff,
+            1.0,
+            "Old".to_string(),
+            old_date,
+            Some("AAPL".to_string()),
+            None,
+            "old".to_string(),
+        );
 
-        store.save_records(&records)?;
+        let record2 = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::Manual,
+            EvidenceType::CapexPayoff,
+            1.0,
+            "Recent".to_string(),
+            recent_date,
+            Some("AAPL".to_string()),
+            None,
+            "recent".to_string(),
+        );
+
+        store.save_records(&[record1, record2])?;
         assert_eq!(store.load_all()?.len(), 2);
 
         let removed = store.cleanup_old_records(30)?;
@@ -243,7 +245,7 @@ mod tests {
 
         let remaining = store.load_all()?;
         assert_eq!(remaining.len(), 1);
-        assert_eq!(remaining[0].dedupe_key, "recent");
+        assert_eq!(remaining[0].dedupe_key(), "recent");
 
         Ok(())
     }
@@ -256,17 +258,15 @@ mod tests {
 
         // Write a valid line and an invalid line
         let mut file = File::create(&file_path)?;
-        let valid_record = AutomatedEvidenceRecord {
-            dedupe_key: "valid".to_string(),
-            ..Default::default()
-        };
+        let mut valid_record = AutomatedEvidenceRecord::default();
+        valid_record.update_dedupe_key("valid".to_string());
         writeln!(file, "{}", serde_json::to_string(&valid_record)?)?;
         writeln!(file, "{{ corrupted json }}")?;
         writeln!(file)?; // Empty line
 
         let all = store.load_all()?;
         assert_eq!(all.len(), 1);
-        assert_eq!(all[0].dedupe_key, "valid");
+        assert_eq!(all[0].dedupe_key(), "valid");
 
         Ok(())
     }
@@ -276,20 +276,18 @@ mod tests {
         let dir = tempdir()?;
         let store = EvidenceStore::new(dir.path());
 
-        let first = AutomatedEvidenceRecord {
-            dedupe_key: "same-key".to_string(),
-            symbol: Some("AAPL".to_string()),
-            evidence_type: EvidenceType::FollowThrough,
-            source: EvidenceSourceType::PriceAction,
-            confidence: 0.9,
-            event_date: "2024-05-01".to_string(),
-            description: "First".to_string(),
-            source_url: None,
-        };
-        let duplicate = AutomatedEvidenceRecord {
-            description: "Duplicate".to_string(),
-            ..first.clone()
-        };
+        let first = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::PriceAction,
+            EvidenceType::FollowThrough,
+            0.9,
+            "First".to_string(),
+            "2024-05-01".to_string(),
+            Some("AAPL".to_string()),
+            None,
+            "same-key".to_string(),
+        );
+        let mut duplicate = first.clone();
+        duplicate.description = "Duplicate".to_string();
 
         let saved = store.save_records(&[first, duplicate])?;
         assert_eq!(saved, 1);
