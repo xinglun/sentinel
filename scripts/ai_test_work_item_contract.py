@@ -26,6 +26,11 @@ def assert_equal(actual: object, expected: object, message: str) -> None:
         raise AssertionError(f"{message}: expected={expected!r}, actual={actual!r}")
 
 
+def write_json(path: Path, value: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def minimal_contract(*, include_fmt: bool) -> dict:
     verification = [
         {"command": "make check-ai-backtrack", "required": True},
@@ -98,9 +103,51 @@ def test_ai_start_preflight_failure_creates_no_files(active: Path) -> None:
     )
 
 
+def test_ai_start_cleans_equivalent_archived_residue(root: Path) -> None:
+    active = root / ".ai/work-items/active"
+    archive = root / ".ai/work-items/archive/2026"
+    status = root / ".ai/cockpit/current_status.md"
+    status.parent.mkdir(parents=True, exist_ok=True)
+    status.write_text("- State: `no_active_work_item`\n", encoding="utf-8")
+
+    contract = {"workItemId": "done_task", "mode": "code"}
+    active_contract = active / "done_task.contract.json"
+    archive_contract = archive / "done_task.contract.json"
+    write_json(active_contract, contract)
+    write_json(archive_contract, contract)
+
+    summary = {
+        "workItemId": "done_task",
+        "contractPath": ".ai/work-items/active/done_task.contract.json",
+        "changedFiles": [],
+        "verification": [],
+    }
+    archived_summary = {
+        **summary,
+        "contractPath": ".ai/work-items/archive/2026/done_task.contract.json",
+    }
+    active_summary = active / "done_task.summary.json"
+    archive_summary = archive / "done_task.summary.json"
+    write_json(active_summary, summary)
+    write_json(archive_summary, archived_summary)
+
+    with (
+        patch.object(ai_start, "ACTIVE_DIR", active),
+        patch.object(ai_start, "ARCHIVE_DIR", root / ".ai/work-items/archive"),
+        patch.object(ai_start, "CURRENT_STATUS", status),
+    ):
+        removed = ai_start.cleanup_archived_active_residue()
+
+    assert_equal(removed, 2, "equivalent archived residue should be cleaned")
+    assert_true(not active_contract.exists(), "duplicate contract should be removed")
+    assert_true(not active_summary.exists(), "summary with only contractPath drift should be removed")
+
+
 def main() -> int:
     active = REPO_ROOT / "target" / "ai_work_item_contract_test_active"
+    root = REPO_ROOT / "target" / "ai_work_item_contract_test"
     shutil.rmtree(active, ignore_errors=True)
+    shutil.rmtree(root, ignore_errors=True)
     try:
         test_contract_rejects_missing_fmt()
         print("✅ rejects_missing_fmt")
@@ -110,8 +157,11 @@ def main() -> int:
         print("✅ ai_start_generates_required_fmt")
         test_ai_start_preflight_failure_creates_no_files(active)
         print("✅ ai_start_preflight_failure_creates_no_files")
+        test_ai_start_cleans_equivalent_archived_residue(root)
+        print("✅ ai_start_cleans_equivalent_archived_residue")
     finally:
         shutil.rmtree(active, ignore_errors=True)
+        shutil.rmtree(root, ignore_errors=True)
     print("✅ work item contract tests passed")
     return 0
 

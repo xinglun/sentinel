@@ -1,0 +1,85 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-start-archive-residue-autoclean",
+  "mode": "code",
+  "title": "ai-start の archive 残留自動清理を追加",
+  "scope": [
+    ".ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+    ".ai/work-items/active/ai-start-archive-residue-autoclean.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_start.py",
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Work Item 作成前 preflight の対象。archive 済み active 残留の処理を追加する。"
+    },
+    {
+      "path": "scripts/ai_check_lifecycle.py",
+      "reason": "active / archive duplicate を検出する既存 guard。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "ai_start の lightweight regression tests を追加する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "ai_start preflight は lifecycle check の前に archive 済み active residue を安全に cleanup する。",
+    "contract file は archive 側と完全一致する場合だけ cleanup される。",
+    "summary file は contractPath だけ active/archive 差分として正規化できる場合だけ cleanup される。",
+    "非等価な active residue は cleanup せず、既存 lifecycle check で失敗する。",
+    "safe cleanup の regression test が存在する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "required": true
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-start-archive-residue-autoclean.summary.json CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json SUMMARY=.ai/work-items/active/ai-start-archive-residue-autoclean.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json SUMMARY=.ai/work-items/active/ai-start-archive-residue-autoclean.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
