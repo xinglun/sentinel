@@ -19,9 +19,7 @@ use crate::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
 };
-use crate::core::evidence_ingestion::{
-    FinnhubFetcher, FixtureFetcher, RuleBasedExtractor, SECEDGARFetcher, SourceFetcher, WebFetcher,
-};
+use crate::core::evidence_ingestion::RuleBasedExtractor;
 use crate::core::evidence_store::EvidenceStore;
 use crate::core::i18n::Language;
 use crate::core::notify;
@@ -29,6 +27,7 @@ use crate::core::presentation_assembler::PresentationAssembler;
 use crate::core::report;
 use crate::core::trend_cohesion::{AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType};
 use crate::data::provider::MarketDataProvider;
+use crate::interface::evidence_cli::{build_batch_evidence_fetcher, build_url_evidence_fetcher};
 
 use crate::adapters::futu::client::FutuClient;
 use crate::adapters::futu::provider::FutuProvider;
@@ -369,22 +368,7 @@ pub async fn run() -> Result<()> {
                 }
             };
 
-            // Fetcher の動的選択
-            let fetcher: Box<dyn SourceFetcher> = if url == "finnhub" {
-                let api_key = app_config.finnhub.as_ref()
-                    .map(|f| f.finnhub_api_key.clone())
-                    .ok_or_else(|| anyhow!("Finnhub API key is not configured. Set FINNHUB_API_KEY env or config.toml"))?;
-                Box::new(FinnhubFetcher::new(api_key))
-            } else if url.starts_with("sec://") {
-                let user_agent = app_config.sec.as_ref()
-                    .map(|s| s.user_agent.clone())
-                    .ok_or_else(|| anyhow!("SEC user_agent is not configured. Set SEC_USER_AGENT env or config.toml"))?;
-                Box::new(SECEDGARFetcher::new(user_agent))
-            } else if url.starts_with("http://") || url.starts_with("https://") {
-                Box::new(WebFetcher)
-            } else {
-                Box::new(FixtureFetcher::new("."))
-            };
+            let fetcher = build_url_evidence_fetcher(&app_config, &url)?;
 
             let extractor = RuleBasedExtractor::new();
             let retention_days = app_config
@@ -458,30 +442,11 @@ pub async fn run() -> Result<()> {
             println!("Symbols: {:?}", evidence_symbols);
             println!("Window:  {} days", evidence_days);
 
-            let api_key_opt = app_config
-                .finnhub
-                .as_ref()
-                .map(|f| f.finnhub_api_key.clone());
-
-            let fetcher: Box<dyn SourceFetcher> = if evidence_source_provider == "sec" {
-                let user_agent = app_config.sec.as_ref()
-                    .map(|s| s.user_agent.clone())
-                    .ok_or_else(|| anyhow!("SEC user_agent is not configured. Set SEC_USER_AGENT env or config.toml"))?;
-                Box::new(SECEDGARFetcher::new(user_agent))
-            } else {
-                match api_key_opt {
-                    Some(key) => Box::new(FinnhubFetcher::new(key)),
-                    None if evidence_dry_run => {
-                        println!("  [INFO] Finnhub API key not found. Falling back to Fixture mode for dry-run.");
-                        Box::new(FixtureFetcher::new("."))
-                    }
-                    None => {
-                        return Err(anyhow!(
-                        "Finnhub API key is not configured. Set FINNHUB_API_KEY env or config.toml"
-                    ))
-                    }
-                }
-            };
+            let fetcher = build_batch_evidence_fetcher(
+                &app_config,
+                &evidence_source_provider,
+                evidence_dry_run,
+            )?;
 
             let extractor = RuleBasedExtractor::new();
             let targets = evidence_symbols

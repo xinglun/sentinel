@@ -208,3 +208,85 @@ async fn evidence_batch_collection_use_case_counts_success_and_failure() -> anyh
     assert!(outcome.records[0].dedupe_key.contains("GOOG"));
     Ok(())
 }
+
+#[test]
+fn evidence_cli_batch_fetcher_rejects_missing_finnhub_key_outside_dry_run() -> anyhow::Result<()> {
+    use stock_sentinel::config::AppConfig;
+    use stock_sentinel::interface::evidence_cli::build_batch_evidence_fetcher;
+
+    let config_text = r#"
+version = 1
+provider = "yahoo"
+watchlist = []
+
+[output]
+save_to = "./target/test-output"
+timezone = "Asia/Tokyo"
+format = "markdown"
+
+[rules.trend]
+lookback_days = 20
+flat_threshold_pct = 0.5
+
+[rules.deviation_bands]
+overheat_2 = 30.0
+optimal = -5.0
+
+[rules.actions]
+overheat_2 = "stop"
+optimal = "buy"
+fear = "fear"
+
+[rules.market_state_engine]
+continuity_threshold = 2
+stability_threshold = 5.5
+"#;
+    let config: AppConfig = toml::from_str(config_text)?;
+
+    let error = match build_batch_evidence_fetcher(&config, "finnhub", false) {
+        Ok(_) => anyhow::bail!("missing Finnhub key should fail"),
+        Err(error) => error,
+    };
+    assert!(error
+        .to_string()
+        .contains("Finnhub API key is not configured"));
+    Ok(())
+}
+
+#[test]
+fn evidence_cli_url_fetcher_accepts_fixture_path_without_config() -> anyhow::Result<()> {
+    use stock_sentinel::config::AppConfig;
+    use stock_sentinel::interface::evidence_cli::build_url_evidence_fetcher;
+
+    let config_text = r#"
+version = 1
+provider = "yahoo"
+watchlist = []
+
+[output]
+save_to = "./target/test-output"
+timezone = "Asia/Tokyo"
+format = "markdown"
+
+[rules.trend]
+lookback_days = 20
+flat_threshold_pct = 0.5
+
+[rules.deviation_bands]
+overheat_2 = 30.0
+optimal = -5.0
+
+[rules.actions]
+overheat_2 = "stop"
+optimal = "buy"
+fear = "fear"
+
+[rules.market_state_engine]
+continuity_threshold = 2
+stability_threshold = 5.5
+"#;
+    let config: AppConfig = toml::from_str(config_text)?;
+
+    let _fetcher = build_url_evidence_fetcher(&config, "fixture.txt")?;
+    Ok(())
+}

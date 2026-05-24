@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "evidence_cli_adapter_phase1",
+  "mode": "code",
+  "title": "Evidence CLI adapter phase 1",
+  "scope": [
+    ".ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+    ".ai/work-items/active/evidence_cli_adapter_phase1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/interface/mod.rs",
+    "src/interface/evidence_cli.rs",
+    "src/cli.rs",
+    "tests/evidence_ingestion_port_integration.rs"
+  ],
+  "outOfScope": [
+    "src/domain/**",
+    "src/application/**",
+    "src/infrastructure/**",
+    "src/core/engine.rs",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Interface layer に入出力変換と adapter selection を置く方針を確認する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "evidence fetcher selection の現行実装。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "interface layer の既存入口。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Evidence fetcher selection が src/interface/evidence_cli.rs に移動している。",
+    "CLI は helper を呼び出し、具象 fetcher の分岐を直接持たない。",
+    "dry-run 時の Finnhub key missing fallback は既存挙動を維持する。",
+    "SEC / Finnhub missing config の error message は既存 CLI integration test と互換である。",
+    "fmt、対象 CLI integration test、architecture check、quality が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test collect_evidence_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test --test ingest_evidence_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_cli_adapter_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_cli_adapter_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_cli_adapter_phase1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
