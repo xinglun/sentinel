@@ -1,0 +1,81 @@
+{
+  "contractVersion": 1,
+  "workItemId": "run-status-reader-infrastructure",
+  "mode": "code",
+  "title": "Run status reader を infrastructure へ移動",
+  "scope": [
+    ".ai/work-items/active/run-status-reader-infrastructure.contract.json",
+    ".ai/work-items/active/run-status-reader-infrastructure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/run_status_reader.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI が evidence collection status と run status JSON を直接読み込んでいる現状。"
+    },
+    {
+      "path": "src/application/run_status.rs",
+      "reason": "DeliveryStatus の application contract。"
+    },
+    {
+      "path": "src/infrastructure/persistence.rs",
+      "reason": "run status JSON の保存側 contract。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "evidence collection status latest JSON の読み込みと parse は infrastructure reader に集約される。",
+    "run_status_*.json の evidence_collection 読み込みは infrastructure reader に集約される。",
+    "CLI の audit daily / daily calibration / radar initial outcome behavior は維持される。",
+    "既存の CLI tests が新しい reader 経由で通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::evidence_collection_status_sidecar_is_loaded_for_run_status",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_renders_evidence_collection_status",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/run-status-reader-infrastructure.summary.json CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json SUMMARY=.ai/work-items/active/run-status-reader-infrastructure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json SUMMARY=.ai/work-items/active/run-status-reader-infrastructure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

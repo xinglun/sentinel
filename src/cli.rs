@@ -29,11 +29,12 @@ use crate::infrastructure::notification_factory::{
     send_required_telegram_notification, send_telegram_with_status,
 };
 use crate::infrastructure::radar_runtime_factory::build_radar_runtime_services;
+use crate::infrastructure::run_status_reader::{
+    load_latest_evidence_collection_status, load_run_evidence_collection_status,
+};
 use crate::interface::i18n::Language;
 use crate::interface::presentation_assembler::PresentationAssembler;
 use crate::interface::report;
-
-const EVIDENCE_COLLECTION_STATUS_FILE: &str = "evidence_collection_status_latest.json";
 
 pub async fn run() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -518,52 +519,6 @@ Successfully ingested {} batch evidence records to store.",
         }
     }
     Ok(())
-}
-
-fn parse_evidence_collection_status(
-    value: &serde_json::Value,
-) -> crate::application::run_status::DeliveryStatus {
-    let status = value
-        .get("status")
-        .and_then(|v| v.as_str())
-        .unwrap_or("skipped");
-    match status {
-        "succeeded" => crate::application::run_status::DeliveryStatus::Succeeded,
-        "failed" => crate::application::run_status::DeliveryStatus::Failed {
-            reason: value
-                .get("reason")
-                .and_then(|v| v.as_str())
-                .unwrap_or("evidence collection failed")
-                .to_string(),
-        },
-        _ => crate::application::run_status::DeliveryStatus::Skipped,
-    }
-}
-
-fn load_latest_evidence_collection_status(
-    save_dir: &std::path::Path,
-) -> crate::application::run_status::DeliveryStatus {
-    let path = save_dir.join(EVIDENCE_COLLECTION_STATUS_FILE);
-    let Ok(raw) = std::fs::read_to_string(path) else {
-        return crate::application::run_status::DeliveryStatus::Skipped;
-    };
-    let Ok(value) = serde_json::from_str::<serde_json::Value>(&raw) else {
-        return crate::application::run_status::DeliveryStatus::Failed {
-            reason: "invalid evidence collection status JSON".to_string(),
-        };
-    };
-    parse_evidence_collection_status(&value)
-}
-
-fn load_run_evidence_collection_status(
-    save_dir: &std::path::Path,
-    date: NaiveDate,
-) -> Option<crate::application::run_status::DeliveryStatus> {
-    let path = save_dir.join(format!("run_status_{}.json", date));
-    let raw = std::fs::read_to_string(path).ok()?;
-    let value = serde_json::from_str::<serde_json::Value>(&raw).ok()?;
-    let status = value.get("evidence_collection")?;
-    serde_json::from_value::<crate::application::run_status::DeliveryStatus>(status.clone()).ok()
 }
 
 async fn run_pipeline(
@@ -2815,8 +2770,7 @@ async fn run_review(_config: &crate::config::AppConfig) -> Result<()> {
 mod tests {
     use super::{
         build_audit_daily_report, build_audit_daily_report_with_evidence_status,
-        load_latest_evidence_collection_status, parse_transition_audit_entry, run_pipeline,
-        TransitionAuditDay, TransitionAuditEntry,
+        parse_transition_audit_entry, run_pipeline, TransitionAuditDay, TransitionAuditEntry,
     };
     use crate::application::provider::MarketDataProvider;
     use crate::application::provider::{DailyBar, TickerHistory};
@@ -2827,6 +2781,9 @@ mod tests {
     };
     use crate::core::runtime_mode::ExecutionMode;
     use crate::infrastructure::notification_factory::telegram_delivery_precheck;
+    use crate::infrastructure::run_status_reader::{
+        load_latest_evidence_collection_status, EVIDENCE_COLLECTION_STATUS_FILE,
+    };
     use crate::interface::i18n::Language;
     use anyhow::{anyhow, Result};
     use chrono::{NaiveDate, Utc};
@@ -3079,7 +3036,7 @@ mod tests {
     fn evidence_collection_status_sidecar_is_loaded_for_run_status() {
         let tmp = tempdir().unwrap();
         fs::write(
-            tmp.path().join(super::EVIDENCE_COLLECTION_STATUS_FILE),
+            tmp.path().join(EVIDENCE_COLLECTION_STATUS_FILE),
             r#"{"status":"failed","reason":"network timeout"}"#,
         )
         .unwrap();
@@ -3247,7 +3204,7 @@ mod tests {
     async fn partial_fetch_failure_preserves_history_and_real_market_state() {
         let tmp = tempdir().unwrap();
         fs::write(
-            tmp.path().join(super::EVIDENCE_COLLECTION_STATUS_FILE),
+            tmp.path().join(EVIDENCE_COLLECTION_STATUS_FILE),
             r#"{"status":"succeeded","reason":null}"#,
         )
         .unwrap();

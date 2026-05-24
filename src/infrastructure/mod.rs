@@ -11,5 +11,6 @@ pub mod notification_factory;
 pub mod notify;
 pub mod persistence;
 pub mod radar_runtime_factory;
+pub mod run_status_reader;
 pub mod trader_agent;
 pub mod transition_log;
