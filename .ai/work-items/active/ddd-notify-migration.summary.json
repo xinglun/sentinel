@@ -1,0 +1,86 @@
+{
+  "workItemId": "ddd-notify-migration",
+  "contractPath": ".ai/work-items/active/ddd-notify-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/core/mod.rs",
+      "reason": "notify モジュールの公開を削除。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "notify モジュールを infrastructure 層にて公開。"
+    },
+    {
+      "path": "src/infrastructure/notify.rs",
+      "reason": "core から infrastructure へ移動。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "notify への参照を crate::infrastructure::notify に修正。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-notify-migration.contract.json",
+      "reason": "Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-notify-migration.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ddd-notify-migration.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-notify-migration.summary.json CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json SUMMARY=.ai/work-items/active/ddd-notify-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json SUMMARY=.ai/work-items/active/ddd-notify-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "通知モジュールの配置移動とインポートの修正のみであり、ビジネスロジックへの影響はない。"
+  },
+  "generatedFiles": [
+    "src/infrastructure/notify.rs"
+  ],
+  "destructiveChanges": [
+    {
+      "path": "src/core/notify.rs",
+      "reason": "infrastructure 層へ移動したため削除。"
+    }
+  ],
+  "observedIssues": []
+}

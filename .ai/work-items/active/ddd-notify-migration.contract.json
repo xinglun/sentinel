@@ -1,0 +1,81 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-notify-migration",
+  "mode": "code",
+  "title": "DDD レイヤー修正: 通知モジュール (notify.rs) を infrastructure 層へ移動",
+  "scope": [
+    "src/core/notify.rs",
+    "src/infrastructure/notify.rs",
+    "src/core/mod.rs",
+    "src/infrastructure/mod.rs",
+    "src/cli.rs",
+    ".ai/work-items/active/ddd-notify-migration.contract.json",
+    ".ai/work-items/active/ddd-notify-migration.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/decision.rs",
+    "src/core/asset_state.rs"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "notify.rs が core/ から infrastructure/ へ移動する。",
+    "core/mod.rs から notify モジュールの公開が削除され、infrastructure/mod.rs で公開される。",
+    "cli.rs の import パスが正しく更新される。",
+    "make fmt-check が通る。",
+    "make test が通る。",
+    "make clippy が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-notify-migration.summary.json CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json SUMMARY=.ai/work-items/active/ddd-notify-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-notify-migration.contract.json SUMMARY=.ai/work-items/active/ddd-notify-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

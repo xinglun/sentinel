@@ -20,11 +20,11 @@ use crate::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
 };
-use crate::core::notify;
 use crate::core::trend_cohesion::EvidenceSourceType;
 use crate::data::provider::MarketDataProvider;
 use crate::infrastructure::evidence_ingestion::RuleBasedExtractor;
 use crate::infrastructure::evidence_store::EvidenceStore;
+use crate::infrastructure::notify;
 use crate::interface::evidence_cli::{build_batch_evidence_fetcher, build_url_evidence_fetcher};
 use crate::interface::i18n::Language;
 use crate::interface::presentation_assembler::PresentationAssembler;

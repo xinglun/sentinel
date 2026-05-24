@@ -9,7 +9,7 @@ pub mod features;
 pub mod ledger;
 pub mod market_regime;
 pub mod market_state;
-pub mod notify;
+
 pub mod portfolio_policy;
 pub mod position_intent;
 pub mod run_status;
