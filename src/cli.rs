@@ -716,18 +716,9 @@ async fn run_pipeline(
                 }
             }
         } else {
-            // 100% Fetch Failure Case: Create a diagnostic packet for presentation/reporting only.
-            // This packet must not be treated as a formal market decision.
-            outcome.decisioning = crate::core::run_status::DeliveryStatus::Failed {
-                reason: format!(
-                    "100% data acquisition failure: {} symbols failed",
-                    failed_symbols.len()
-                ),
-            };
-            crate::core::decision::DecisionPacket {
-                date: chrono::Local::now().date_naive(),
-                ..Default::default()
-            }
+            outcome.decisioning =
+                crate::application::radar::build_full_fetch_failure_status(failed_symbols.len());
+            crate::application::radar::build_diagnostic_packet(chrono::Local::now().date_naive())
         };
 
         // Persist any newly generated evidence (FollowThrough, etc.)

@@ -111,6 +111,26 @@ pub fn should_persist_decision_history(successful_fetches: usize, failed_fetches
     successful_fetches > 0 || failed_fetches == 0
 }
 
+/// 100% data acquisition failure 用の diagnostic packet を構築する。
+pub fn build_diagnostic_packet(date: chrono::NaiveDate) -> crate::core::decision::DecisionPacket {
+    crate::core::decision::DecisionPacket {
+        date,
+        ..Default::default()
+    }
+}
+
+/// 100% data acquisition failure 用の decisioning status を構築する。
+pub fn build_full_fetch_failure_status(
+    failed_fetch_count: usize,
+) -> crate::core::run_status::DeliveryStatus {
+    crate::core::run_status::DeliveryStatus::Failed {
+        reason: format!(
+            "100% data acquisition failure: {} symbols failed",
+            failed_fetch_count
+        ),
+    }
+}
+
 /// portfolio snapshot 保存用 payload を構築する。
 pub fn build_portfolio_snapshot(
     date: &str,
@@ -298,6 +318,22 @@ mod tests {
         assert_eq!(account["buying_power_estimate"], 800.0);
         assert_eq!(data_quality["status"], "WARNING");
         assert_eq!(data_quality["failed_symbols"][0], "MSFT");
+    }
+
+    #[test]
+    fn radar_application_boundary_builds_full_failure_diagnostic_output() {
+        let date = chrono::NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
+        let packet = build_diagnostic_packet(date);
+        let status = build_full_fetch_failure_status(9);
+
+        assert_eq!(packet.date, date);
+        assert!(packet.assets.is_empty());
+        assert_eq!(
+            status,
+            crate::core::run_status::DeliveryStatus::Failed {
+                reason: "100% data acquisition failure: 9 symbols failed".to_string()
+            }
+        );
     }
 
     #[test]

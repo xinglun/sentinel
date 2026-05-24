@@ -411,3 +411,20 @@ fn radar_application_state_machine_summary_keeps_run_status_contract() {
     assert_eq!(unavailable.from_state, "ESTABLISHED");
     assert_eq!(unavailable.to_state, "DATA_UNAVAILABLE");
 }
+
+#[test]
+fn radar_application_full_failure_output_is_diagnostic_only() {
+    let date = NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
+    let packet = stock_sentinel::application::radar::build_diagnostic_packet(date);
+    let status = stock_sentinel::application::radar::build_full_fetch_failure_status(9);
+
+    assert_eq!(packet.date, date);
+    assert!(packet.assets.is_empty());
+    assert!(packet.transition_log.is_none());
+    assert_eq!(
+        status,
+        stock_sentinel::core::run_status::DeliveryStatus::Failed {
+            reason: "100% data acquisition failure: 9 symbols failed".to_string()
+        }
+    );
+}
