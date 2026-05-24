@@ -15,6 +15,7 @@ use crate::core::ledger::Ledger;
 use crate::core::persistence::PersistenceLayer;
 use crate::core::transition_log::TransitionLogger;
 
+use crate::application::evidence::{ingest_manual_evidence, ManualEvidenceIngestionRequest};
 use crate::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
@@ -25,7 +26,7 @@ use crate::core::i18n::Language;
 use crate::core::notify;
 use crate::core::presentation_assembler::PresentationAssembler;
 use crate::core::report;
-use crate::core::trend_cohesion::{AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType};
+use crate::core::trend_cohesion::EvidenceSourceType;
 use crate::data::provider::MarketDataProvider;
 use crate::interface::evidence_cli::{build_batch_evidence_fetcher, build_url_evidence_fetcher};
 
@@ -298,54 +299,24 @@ pub async fn run() -> Result<()> {
                 .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
             let store = EvidenceStore::new(&save_dir);
-            let _ = store.cleanup_old_records(retention_days);
-
-            // エビデンスタイプの検証
-            let et = match evidence_type_str.as_str() {
-                "capex" => EvidenceType::CapexPayoff,
-                "earnings" => EvidenceType::EarningsValidation,
-                "order" => EvidenceType::OrderVisibility,
-                "follow_through" => EvidenceType::FollowThrough,
-                _ => return Err(anyhow!("Invalid evidence type: {}", evidence_type_str)),
-            };
-
-            // 日付の検証と正規化
-            let final_date = if let Some(ref d) = evidence_date_arg {
-                if NaiveDate::parse_from_str(d, "%Y-%m-%d").is_err() {
-                    return Err(anyhow!("Invalid date format: {}. Use YYYY-MM-DD", d));
-                }
-                d.clone()
-            } else {
-                chrono::Local::now().format("%Y-%m-%d").to_string()
-            };
-
-            // 信頼度の検証
-            if !(0.0..=1.0).contains(&evidence_confidence) {
-                return Err(anyhow!(
-                    "Confidence must be between 0.0 and 1.0. Got: {}",
-                    evidence_confidence
-                ));
-            }
-
-            let record = AutomatedEvidenceRecord {
-                source: EvidenceSourceType::Manual,
-                evidence_type: et,
-                confidence: evidence_confidence,
-                description: evidence_description,
-                event_date: final_date.clone(),
-                symbol: evidence_symbol.clone(),
-                source_url: evidence_url,
-                dedupe_key: format!(
-                    "CLI:Manual:{}:{}:{}",
-                    evidence_symbol.as_deref().unwrap_or("GLOBAL"),
-                    evidence_type_str,
-                    final_date
-                ),
-            };
-
-            let count = store.save_records(&[record])?;
-            if count > 0 {
-                println!("Successfully ingested {} evidence record.", count);
+            let outcome = ingest_manual_evidence(
+                &store,
+                ManualEvidenceIngestionRequest {
+                    evidence_type: evidence_type_str,
+                    confidence: evidence_confidence,
+                    description: evidence_description,
+                    event_date: evidence_date_arg,
+                    symbol: evidence_symbol,
+                    source_url: evidence_url,
+                    fallback_date: chrono::Local::now().format("%Y-%m-%d").to_string(),
+                    retention_days: Some(retention_days),
+                },
+            )?;
+            if outcome.saved_count > 0 {
+                println!(
+                    "Successfully ingested {} evidence record.",
+                    outcome.saved_count
+                );
             } else {
                 println!("Evidence record already exists (deduplicated).");
             }

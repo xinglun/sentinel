@@ -1,0 +1,87 @@
+{
+  "workItemId": "manual_evidence_ingestion_use_case_phase1",
+  "contractPath": ".ai/work-items/archive/2026/manual_evidence_ingestion_use_case_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/manual_evidence_ingestion_use_case_phase1.contract.json",
+      "reason": "Manual evidence ingestion use case 抽出の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/manual_evidence_ingestion_use_case_phase1.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/application/evidence.rs",
+      "reason": "manual evidence ingestion use case と evidence type / date / confidence validation を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "ingest-evidence の record construction / cleanup / save を application use case 呼び出しへ置き換えた。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "manual evidence ingestion use case の persist と invalid date validation を検証した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+    "src/application/evidence.rs",
+    "src/cli.rs",
+    "tests/ingest_evidence_cli_integration.rs",
+    "tests/evidence_repository_port_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_repository_port_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test ingest_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.summary.json CONTRACT=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.contract.json SUMMARY=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.contract.json SUMMARY=.ai/work-items/active/manual_evidence_ingestion_use_case_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "manual ingest の validation と record construction は application use case に移動し、CLI output 互換は維持した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}
