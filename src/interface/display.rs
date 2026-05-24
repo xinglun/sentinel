@@ -54,12 +54,19 @@ pub struct RiskOpportunityViewModel {
     pub reason: String,
 }
 
+#[derive(Debug, Clone, Copy)]
+pub struct DisplayAssetRef<'a> {
+    pub asset: &'a crate::core::action_matrix::AssetActionDecision,
+    pub context: DisplayContext,
+    pub intent: DisplayIntent,
+}
+
 /// Optimized container using references to avoid redundant cloning during categorization.
 pub struct DisplayBuckets<'a> {
-    pub accumulate: Vec<&'a crate::core::action_matrix::AssetActionDecision>,
-    pub hold: Vec<&'a crate::core::action_matrix::AssetActionDecision>,
-    pub watch: Vec<&'a crate::core::action_matrix::AssetActionDecision>,
-    pub defend: Vec<&'a crate::core::action_matrix::AssetActionDecision>,
+    pub accumulate: Vec<DisplayAssetRef<'a>>,
+    pub hold: Vec<DisplayAssetRef<'a>>,
+    pub watch: Vec<DisplayAssetRef<'a>>,
+    pub defend: Vec<DisplayAssetRef<'a>>,
 }
 
 pub struct DisplayAdapter;
@@ -88,14 +95,14 @@ impl DisplayAdapter {
     }
 
     pub fn derive_risk_opportunity_view_models(
-        assets: &[crate::core::action_matrix::AssetActionDecision],
+        items: &[DisplayAssetRef<'_>],
         dict: &crate::interface::i18n::DisplayDictionary,
     ) -> Vec<RiskOpportunityViewModel> {
         let mut vms = Vec::new();
-        for asset in assets {
-            if (asset.display_intent == DisplayIntent::ADD
-                || (asset.display_context.is_candidate_only
-                    && asset.display_context.cohesion_ready))
+        for item in items {
+            let asset = item.asset;
+            if (item.intent == DisplayIntent::ADD
+                || (item.context.is_candidate_only && item.context.cohesion_ready))
                 && matches!(
                     asset.asset_state.state,
                     crate::core::asset_state::AssetState::PULLBACK
@@ -109,10 +116,8 @@ impl DisplayAdapter {
                 });
             }
 
-            if matches!(
-                asset.display_intent,
-                DisplayIntent::EXIT | DisplayIntent::TRIM
-            ) || asset.asset_state.state == crate::core::asset_state::AssetState::OVERHEAT
+            if matches!(item.intent, DisplayIntent::EXIT | DisplayIntent::TRIM)
+                || asset.asset_state.state == crate::core::asset_state::AssetState::OVERHEAT
             {
                 let state_label = match asset.asset_state.state {
                     crate::core::asset_state::AssetState::PULLBACK => &dict.asset_states.pullback,
@@ -127,10 +132,10 @@ impl DisplayAdapter {
                 vms.push(RiskOpportunityViewModel {
                     kind: "RISK".to_string(),
                     symbol: asset.symbol.clone(),
-                    reason: if asset.display_intent == DisplayIntent::EXIT
-                        || asset.display_intent == DisplayIntent::TRIM
+                    reason: if item.intent == DisplayIntent::EXIT
+                        || item.intent == DisplayIntent::TRIM
                     {
-                        format!("触发 {}", Self::get_label(asset.display_intent, dict))
+                        format!("触发 {}", Self::get_label(item.intent, dict))
                     } else {
                         format!("过度 {}", state_label)
                     },
@@ -157,7 +162,7 @@ impl DisplayAdapter {
 
     /// Categorize assets into buckets using references (O(1) cloning per bucket entry).
     pub fn categorize_refs<'a>(
-        assets: &'a [crate::core::action_matrix::AssetActionDecision],
+        items: impl IntoIterator<Item = DisplayAssetRef<'a>>,
     ) -> DisplayBuckets<'a> {
         let mut buckets = DisplayBuckets {
             accumulate: Vec::new(),
@@ -166,25 +171,24 @@ impl DisplayAdapter {
             defend: Vec::new(),
         };
 
-        for asset in assets {
-            match asset.display_intent {
-                DisplayIntent::ADD => buckets.accumulate.push(asset),
-                DisplayIntent::TRIM | DisplayIntent::EXIT => buckets.defend.push(asset),
-                DisplayIntent::HOLD => buckets.hold.push(asset),
-                DisplayIntent::OBSERVE => buckets.watch.push(asset),
+        for item in items {
+            match item.intent {
+                DisplayIntent::ADD => buckets.accumulate.push(item),
+                DisplayIntent::TRIM | DisplayIntent::EXIT => buckets.defend.push(item),
+                DisplayIntent::HOLD => buckets.hold.push(item),
+                DisplayIntent::OBSERVE => buckets.watch.push(item),
             }
         }
 
-        let sort_fn = |a: &&crate::core::action_matrix::AssetActionDecision,
-                       b: &&crate::core::action_matrix::AssetActionDecision| {
-            let change_cmp =
-                (if b.action_changed { 1 } else { 0 }).cmp(&(if a.action_changed { 1 } else { 0 }));
+        let sort_fn = |a: &DisplayAssetRef<'_>, b: &DisplayAssetRef<'_>| {
+            let change_cmp = (if b.asset.action_changed { 1 } else { 0 })
+                .cmp(&(if a.asset.action_changed { 1 } else { 0 }));
             if change_cmp != Ordering::Equal {
                 return change_cmp;
             }
 
-            let az = a.z_score.unwrap_or(0.0).abs();
-            let bz = b.z_score.unwrap_or(0.0).abs();
+            let az = a.asset.z_score.unwrap_or(0.0).abs();
+            let bz = b.asset.z_score.unwrap_or(0.0).abs();
             bz.partial_cmp(&az).unwrap_or(Ordering::Equal)
         };
 
@@ -198,9 +202,11 @@ impl DisplayAdapter {
 
     pub fn derive_top_action_view_model(
         asset: &crate::core::action_matrix::AssetActionDecision,
+        context: &DisplayContext,
+        intent: DisplayIntent,
         dict: &crate::interface::i18n::DisplayDictionary,
     ) -> TopActionViewModel {
-        let indicator = match asset.display_intent {
+        let indicator = match intent {
             DisplayIntent::ADD => "🟢",
             DisplayIntent::HOLD | DisplayIntent::OBSERVE => "🔵",
             DisplayIntent::TRIM => "🟠",
@@ -210,10 +216,8 @@ impl DisplayAdapter {
         TopActionViewModel {
             symbol: asset.symbol.clone(),
             indicator: indicator.to_string(),
-            primary_label: Self::get_label(asset.display_intent, dict),
-            tags: Self::get_primary_tag(&asset.display_context, dict)
-                .into_iter()
-                .collect(),
+            primary_label: Self::get_label(intent, dict),
+            tags: Self::get_primary_tag(context, dict).into_iter().collect(),
             secondary_desc: match asset.asset_state.state {
                 crate::core::asset_state::AssetState::PULLBACK => &dict.asset_states.pullback,
                 crate::core::asset_state::AssetState::OPTIMAL => &dict.asset_states.optimal,

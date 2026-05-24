@@ -60,6 +60,12 @@ RULES: tuple[LayerRule, ...] = (
             "crate::trade",
         ),
     ),
+    LayerRule(
+        "src/core",
+        (
+            "crate::interface",
+        ),
+    ),
 )
 
 

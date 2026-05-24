@@ -416,20 +416,8 @@ impl PresentationAssembler {
         // 4. Final ViewModel Conversion
         let mut top_vms = Vec::with_capacity(selected_refs.len());
         for (asset, context, intent) in selected_refs {
-            let mut vm = DisplayAdapter::derive_top_action_view_model(asset, &dict);
-            // Overwrite with locally calculated intent/context (avoids needing a clone in step 2)
-            vm.primary_label = DisplayAdapter::get_label(intent, &dict);
-            vm.tags = DisplayAdapter::get_primary_tag(&context, &dict)
-                .into_iter()
-                .collect();
-            vm.indicator = match intent {
-                DisplayIntent::ADD => "🟢",
-                DisplayIntent::HOLD | DisplayIntent::OBSERVE => "🔵",
-                DisplayIntent::TRIM => "🟠",
-                DisplayIntent::EXIT => "🔴",
-            }
-            .to_string();
-
+            let mut vm =
+                DisplayAdapter::derive_top_action_view_model(asset, &context, intent, &dict);
             let reason = Self::derive_telegram_reason(
                 asset,
                 !is_ready,
