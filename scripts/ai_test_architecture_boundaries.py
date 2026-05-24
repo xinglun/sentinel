@@ -81,6 +81,22 @@ def test_core_rejects_interface_dependency() -> None:
         assert violations, "core から interface への依存は検出されるべき"
 
 
+def test_core_rejects_application_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/core/features.rs", "use crate::application::provider::TickerHistory;\n")
+        violations = checker.check_project(root)
+        assert violations, "core から application への依存は検出されるべき"
+
+
+def test_core_rejects_trade_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/core/trader_agent.rs", "use crate::trade::trader::TradeExecutor;\n")
+        violations = checker.check_project(root)
+        assert violations, "core から trade への依存は検出されるべき"
+
+
 def test_config_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -98,6 +114,8 @@ def main() -> int:
         test_interface_rejects_direct_adapter_dependency,
         test_interface_rejects_multiline_infrastructure_dependency,
         test_core_rejects_interface_dependency,
+        test_core_rejects_application_dependency,
+        test_core_rejects_trade_dependency,
         test_config_rejects_interface_dependency,
     ]
     for test in tests:

@@ -1,0 +1,80 @@
+{
+  "contractVersion": 1,
+  "workItemId": "core-boundary-guard-tightening",
+  "mode": "code",
+  "title": "core layer の外層依存 guard を強化",
+  "scope": [
+    ".ai/work-items/active/core-boundary-guard-tightening.contract.json",
+    ".ai/work-items/active/core-boundary-guard-tightening.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "core layer の依存方向 guard を定義している。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture checker の regression tests。"
+    },
+    {
+      "path": "src/core",
+      "reason": "現在 core に外層依存が残っていないことを確認済み。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "src/core は interface だけでなく application / infrastructure / trade / adapters / cli / data への依存も禁止される。",
+    "core から application への dependency regression test が存在する。",
+    "core から trade への dependency regression test が存在する。",
+    "既存 src/core は強化後の architecture boundary check に合格する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/core-boundary-guard-tightening.summary.json CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json SUMMARY=.ai/work-items/active/core-boundary-guard-tightening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json SUMMARY=.ai/work-items/active/core-boundary-guard-tightening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -63,7 +63,14 @@ RULES: tuple[LayerRule, ...] = (
     LayerRule(
         "src/core",
         (
+            "crate::adapters",
+            "crate::application",
+            "crate::backtest",
+            "crate::cli",
+            "crate::data",
+            "crate::infrastructure",
             "crate::interface",
+            "crate::trade",
         ),
     ),
     LayerRule(
