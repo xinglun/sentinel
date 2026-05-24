@@ -1,7 +1,7 @@
+use crate::application::trade_executor::{OrderSide, OrderType, PlaceOrderRequest, TradeExecutor};
 use crate::core::execution_gate::TradeSide;
 use crate::core::ledger::{Ledger, TradeRecord};
 use crate::domain::reconciliation::{PositionMismatch, ReconciliationReport};
-use crate::trade::trader::{OrderSide, OrderType, PlaceOrderRequest, TradeExecutor};
 use anyhow::Result;
 use chrono::Local;
 use std::sync::Arc;
@@ -25,7 +25,7 @@ pub struct TradeExecutionAudit {
     pub order_id: Option<String>,
     pub status: String,
     pub error: Option<String>,
-    pub failure_reason: crate::trade::trader::OrderFailureReason,
+    pub failure_reason: crate::application::trade_executor::OrderFailureReason,
 }
 
 #[derive(Debug)]
@@ -135,10 +135,11 @@ impl TraderAgent {
                         order_id: None,
                         status: "CapacityQueryFailed".to_string(),
                         error: Some(e.to_string()),
-                        failure_reason: crate::trade::trader::OrderFailureReason::Other(
-                            999,
-                            "Capacity query failed".to_string(),
-                        ),
+                        failure_reason:
+                            crate::application::trade_executor::OrderFailureReason::Other(
+                                999,
+                                "Capacity query failed".to_string(),
+                            ),
                     };
                     audits.push(audit);
                     errors.push(format!("Capacity query failed for {}", trade.symbol));
@@ -172,7 +173,7 @@ impl TraderAgent {
                 order_id: None,
                 status: "Pending".to_string(),
                 error: None,
-                failure_reason: crate::trade::trader::OrderFailureReason::None,
+                failure_reason: crate::application::trade_executor::OrderFailureReason::None,
             };
 
             // 3. Narrow lock scope for submission
@@ -201,11 +202,11 @@ impl TraderAgent {
 
                             match status_query {
                                 Ok(details) => match details.status {
-                                    crate::trade::trader::OrderStatus::Filled
-                                    | crate::trade::trader::OrderStatus::PartiallyFilled
-                                    | crate::trade::trader::OrderStatus::Cancelled
-                                    | crate::trade::trader::OrderStatus::Rejected
-                                    | crate::trade::trader::OrderStatus::Failed => {
+                                    crate::application::trade_executor::OrderStatus::Filled
+                                    | crate::application::trade_executor::OrderStatus::PartiallyFilled
+                                    | crate::application::trade_executor::OrderStatus::Cancelled
+                                    | crate::application::trade_executor::OrderStatus::Rejected
+                                    | crate::application::trade_executor::OrderStatus::Failed => {
                                         final_details = Some(details);
                                         break;
                                     }
@@ -295,7 +296,7 @@ impl TraderAgent {
                                     match final_check {
                                         Ok(details)
                                             if details.status
-                                                == crate::trade::trader::OrderStatus::Cancelled =>
+                                                == crate::application::trade_executor::OrderStatus::Cancelled =>
                                         {
                                             println!("🏁 [Trader - CONFIRMED] Order {} is verified CANCELLED at broker.", order_id);
                                             audit.status = "TimedOutCancelledConfirmed".to_string();
@@ -456,9 +457,9 @@ mod tests {
     };
     use crate::core::portfolio_policy::{PortfolioPolicy, RiskAssetsMode};
 
+    use crate::application::trade_executor::MockTradeExecutor;
     use crate::config::AppConfig;
     use crate::core::features::MarketFeatures;
-    use crate::trade::trader::MockTradeExecutor;
     use std::sync::atomic::Ordering;
 
     use tempfile::tempdir;
@@ -793,8 +794,8 @@ mod tests {
 
     #[tokio::test]
     async fn test_trader_agent_reconciliation() {
+        use crate::application::trade_executor::{Position, PositionSide};
         use crate::core::ledger::TradeRecord;
-        use crate::trade::trader::{Position, PositionSide};
         use chrono::Local;
 
         let temp = tempdir().unwrap();
@@ -830,32 +831,34 @@ mod tests {
 
         struct ReconMock;
         #[async_trait::async_trait]
-        impl crate::trade::trader::TradeExecutor for ReconMock {
-            async fn get_account_funds(&self) -> Result<crate::trade::trader::AccountFunds> {
+        impl crate::application::trade_executor::TradeExecutor for ReconMock {
+            async fn get_account_funds(
+                &self,
+            ) -> Result<crate::application::trade_executor::AccountFunds> {
                 unreachable!()
             }
             async fn get_broker_permissions(
                 &self,
-            ) -> Result<crate::trade::trader::BrokerPermissions> {
+            ) -> Result<crate::application::trade_executor::BrokerPermissions> {
                 unreachable!()
             }
             async fn get_tradable_capacity(
                 &self,
                 _: &str,
                 _: f64,
-            ) -> Result<crate::trade::trader::TradableCapacity> {
+            ) -> Result<crate::application::trade_executor::TradableCapacity> {
                 unreachable!()
             }
             async fn place_order(
                 &self,
-                _: crate::trade::trader::PlaceOrderRequest,
-            ) -> Result<crate::trade::trader::PlaceOrderResponse> {
+                _: crate::application::trade_executor::PlaceOrderRequest,
+            ) -> Result<crate::application::trade_executor::PlaceOrderResponse> {
                 unreachable!()
             }
             async fn get_order_status(
                 &self,
                 _: &str,
-            ) -> Result<crate::trade::trader::OrderExecutionDetails> {
+            ) -> Result<crate::application::trade_executor::OrderExecutionDetails> {
                 unreachable!()
             }
             async fn unlock_trade(&self) -> Result<()> {

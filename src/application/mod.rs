@@ -8,3 +8,4 @@ pub mod evidence_ingestion;
 pub mod provider;
 pub mod radar;
 pub mod run_status;
+pub mod trade_executor;
