@@ -694,7 +694,7 @@ async fn run_pipeline(
     let ledger = Arc::new(Ledger::new(save_dir.clone()));
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
-    if !ticker_histories.is_empty() || !failed_symbols.is_empty() {
+    if data_acquisition_summary.should_enter_pipeline_body() {
         let packet = if !ticker_histories.is_empty() {
             match Engine::run_daily_pipeline(
                 &ticker_histories,

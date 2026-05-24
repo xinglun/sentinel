@@ -51,6 +51,11 @@ impl DataAcquisitionSummary {
             DataQualityStatus::Ok
         }
     }
+
+    /// run_pipeline の main body へ進む必要があるかを判定する。
+    pub fn should_enter_pipeline_body(self) -> bool {
+        self.successful_fetches > 0 || self.failed_fetches > 0
+    }
 }
 
 /// Radar run の data acquisition 成功・失敗結果。
@@ -106,6 +111,11 @@ impl<T> DataAcquisitionResult<T> {
     /// data quality log 用の status を返す。
     pub fn data_quality_status(&self) -> DataQualityStatus {
         self.summary().data_quality_status()
+    }
+
+    /// run_pipeline の main body へ進む必要があるかを判定する。
+    pub fn should_enter_pipeline_body(&self) -> bool {
+        self.summary().should_enter_pipeline_body()
     }
 
     pub fn into_parts(self) -> (Vec<T>, Vec<String>) {
@@ -252,6 +262,7 @@ mod tests {
         let summary = DataAcquisitionSummary::new(1, 8);
         assert!(summary.should_persist_decision_history());
         assert!(!summary.is_full_failure());
+        assert!(summary.should_enter_pipeline_body());
     }
 
     #[test]
@@ -259,6 +270,7 @@ mod tests {
         let summary = DataAcquisitionSummary::new(0, 9);
         assert!(!summary.should_persist_decision_history());
         assert!(summary.is_full_failure());
+        assert!(summary.should_enter_pipeline_body());
     }
 
     #[test]
@@ -267,6 +279,7 @@ mod tests {
         assert!(summary.should_persist_decision_history());
         assert!(!summary.is_full_failure());
         assert_eq!(summary.data_quality_status(), DataQualityStatus::Ok);
+        assert!(!summary.should_enter_pipeline_body());
     }
 
     #[test]
@@ -279,6 +292,7 @@ mod tests {
         assert!(result.should_persist_decision_history());
         assert!(!result.is_full_failure());
         assert_eq!(result.data_quality_status(), DataQualityStatus::Warning);
+        assert!(result.should_enter_pipeline_body());
     }
 
     #[test]

@@ -449,3 +449,13 @@ fn radar_application_decision_outcome_keeps_status_mapping() {
         }
     );
 }
+
+#[test]
+fn radar_application_entry_policy_matches_existing_pipeline_body_condition() {
+    use stock_sentinel::application::radar::DataAcquisitionSummary;
+
+    assert!(!DataAcquisitionSummary::new(0, 0).should_enter_pipeline_body());
+    assert!(DataAcquisitionSummary::new(1, 0).should_enter_pipeline_body());
+    assert!(DataAcquisitionSummary::new(1, 8).should_enter_pipeline_body());
+    assert!(DataAcquisitionSummary::new(0, 9).should_enter_pipeline_body());
+}
