@@ -109,6 +109,28 @@ CLI はまだ provider 呼び出し、legacy `Engine` 実行、report rendering�
 
 この境界により、Radar は Big Bang rewrite ではなく、Application use case を厚くしながら CLI を薄くする方向へ進める。
 
+### Radar Migration Checkpoint
+
+現時点の Radar は、Application layer が orchestration policy を保持し、CLI が composition root として外部依存を接続する状態で収束する。
+
+Application layer に移行済みのもの:
+
+- fetch result の成功 / 失敗集約
+- prepared data、pipeline plan、history persistence 判定
+- run context と初期 run status metadata
+- diagnostic / decision outcome / persistence payload builder
+
+CLI に残すもの:
+
+- config loading
+- market data provider の非同期呼び出し
+- `PersistenceLayer`、`Ledger`、`EvidenceStore` の生成
+- legacy `Engine` 実行
+- report rendering と Telegram dispatch
+
+次に進める場合は、`src/application` から `crate::data`、`crate::infrastructure`、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
+この rule は `make test-architecture-boundaries` の regression test で固定する。
+
 ## Architecture Guard
 
 `make check-architecture` は新規 target directories の依存違反を検出する。

@@ -1,0 +1,86 @@
+{
+  "contractVersion": 1,
+  "workItemId": "radar_architecture_closure_review",
+  "mode": "code",
+  "title": "Radar architecture closure review",
+  "scope": [
+    ".ai/work-items/active/radar_architecture_closure_review.contract.json",
+    ".ai/work-items/active/radar_architecture_closure_review.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Radar orchestration 収束後の architecture rule と未移行境界を確認する。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "target layer dependency guard の検査対象を確認する。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture guard regression test の不足を確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Radar orchestration 収束後の残課題が DDD Clean Architecture 文書に明記されている。",
+    "architecture boundary checker が application から data provider への直接依存を検出できる。",
+    "architecture boundary checker test に application -> data dependency regression が追加されている。",
+    "production code と report behavior は変更しない。",
+    "fmt、architecture checks、quality が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_architecture_closure_review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_architecture_closure_review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_architecture_closure_review.summary.json CONTRACT=.ai/work-items/active/radar_architecture_closure_review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_architecture_closure_review.contract.json SUMMARY=.ai/work-items/active/radar_architecture_closure_review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_architecture_closure_review.contract.json SUMMARY=.ai/work-items/active/radar_architecture_closure_review.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

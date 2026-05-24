@@ -44,6 +44,14 @@ def test_application_rejects_infrastructure_dependency() -> None:
         assert violations, "application から infrastructure への依存は検出されるべき"
 
 
+def test_application_rejects_data_provider_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/application/radar.rs", "use crate::data::provider::MarketDataProvider;\n")
+        violations = checker.check_project(root)
+        assert violations, "application から data provider への依存は port 経由にするべき"
+
+
 def test_interface_rejects_direct_adapter_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -57,6 +65,7 @@ def main() -> int:
         test_domain_rejects_outer_dependency,
         test_domain_allows_std_and_self_dependency,
         test_application_rejects_infrastructure_dependency,
+        test_application_rejects_data_provider_dependency,
         test_interface_rejects_direct_adapter_dependency,
     ]
     for test in tests:
