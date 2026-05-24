@@ -690,8 +690,11 @@ async fn run_pipeline(
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if !ticker_histories.is_empty() || !failed_symbols.is_empty() {
-        let should_persist_history =
-            should_persist_decision_history(ticker_histories.len(), failed_symbols.len());
+        let data_acquisition_summary = crate::application::radar::DataAcquisitionSummary::new(
+            ticker_histories.len(),
+            failed_symbols.len(),
+        );
+        let should_persist_history = data_acquisition_summary.should_persist_decision_history();
         let packet = if !ticker_histories.is_empty() {
             match Engine::run_daily_pipeline(
                 &ticker_histories,
@@ -899,10 +902,6 @@ async fn run_pipeline(
         persistence.save_run_status(&outcome)?;
     }
     Ok(())
-}
-
-fn should_persist_decision_history(successful_fetches: usize, failed_fetches: usize) -> bool {
-    successful_fetches > 0 || failed_fetches == 0
 }
 
 fn persist_weekly_state_outputs(
@@ -2922,8 +2921,7 @@ mod tests {
     use super::{
         build_audit_daily_report, build_audit_daily_report_with_evidence_status,
         load_latest_evidence_collection_status, parse_transition_audit_entry, run_pipeline,
-        should_persist_decision_history, telegram_delivery_precheck, ProviderType,
-        TransitionAuditDay, TransitionAuditEntry,
+        telegram_delivery_precheck, ProviderType, TransitionAuditDay, TransitionAuditEntry,
     };
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
@@ -3234,16 +3232,26 @@ mod tests {
 
     #[test]
     fn persists_normal_runs_and_skips_diagnostic_only_runs() {
-        assert!(should_persist_decision_history(3, 0));
-        assert!(should_persist_decision_history(3, 2));
-        assert!(should_persist_decision_history(1, 99));
+        assert!(crate::application::radar::should_persist_decision_history(
+            3, 0
+        ));
+        assert!(crate::application::radar::should_persist_decision_history(
+            3, 2
+        ));
+        assert!(crate::application::radar::should_persist_decision_history(
+            1, 99
+        ));
 
-        assert!(!should_persist_decision_history(0, 5));
+        assert!(!crate::application::radar::should_persist_decision_history(
+            0, 5
+        ));
     }
 
     #[test]
     fn empty_fetch_set_does_not_trigger_diagnostic_skip() {
-        assert!(should_persist_decision_history(0, 0));
+        assert!(crate::application::radar::should_persist_decision_history(
+            0, 0
+        ));
     }
 
     #[test]

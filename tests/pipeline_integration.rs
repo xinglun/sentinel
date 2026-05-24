@@ -278,3 +278,17 @@ async fn test_pipeline_age_continuity() {
     assert_eq!(age2, age1 + 1, "Age should increment by 1 on Day 2");
     assert_eq!(age3, age2 + 1, "Age should increment by 1 on Day 3");
 }
+
+#[test]
+fn radar_application_policy_keeps_partial_fetch_history_persistent() {
+    let summary = stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 8);
+    assert!(summary.should_persist_decision_history());
+    assert!(!summary.is_full_failure());
+}
+
+#[test]
+fn radar_application_policy_blocks_full_fetch_failure_history() {
+    let summary = stock_sentinel::application::radar::DataAcquisitionSummary::new(0, 9);
+    assert!(!summary.should_persist_decision_history());
+    assert!(summary.is_full_failure());
+}
