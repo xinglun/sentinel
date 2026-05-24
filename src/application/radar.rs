@@ -24,6 +24,19 @@ pub struct RadarPipelinePlan {
     pub data_quality_status: DataQualityStatus,
 }
 
+/// pipeline body に入る前の data acquisition 準備結果。
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RadarPreparedData<T> {
+    pub successful_items: Vec<T>,
+    pub failed_symbols: Vec<String>,
+    pub summary: DataAcquisitionSummary,
+    pub plan: RadarPipelinePlan,
+}
+
+/// Radar pipeline orchestration の application use case。
+#[derive(Debug, Default, Clone, Copy)]
+pub struct RadarPipelineUseCase;
+
 /// Radar run の runtime context。
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct RadarRunContext {
@@ -68,6 +81,29 @@ impl DataQualityStatus {
             Self::Ok => "OK",
             Self::Warning => "WARNING",
             Self::Critical => "CRITICAL",
+        }
+    }
+}
+
+impl RadarPipelineUseCase {
+    pub fn new() -> Self {
+        Self
+    }
+
+    /// data acquisition result を pipeline 実行前の policy 付き payload へ変換する。
+    pub fn prepare_data_acquisition<T>(
+        self,
+        data_acquisition: DataAcquisitionResult<T>,
+    ) -> RadarPreparedData<T> {
+        let summary = data_acquisition.summary();
+        let plan = summary.pipeline_plan();
+        let (successful_items, failed_symbols) = data_acquisition.into_parts();
+
+        RadarPreparedData {
+            successful_items,
+            failed_symbols,
+            summary,
+            plan,
         }
     }
 }
@@ -423,6 +459,22 @@ mod tests {
         assert_eq!(
             outcome.evidence_collection,
             crate::core::run_status::DeliveryStatus::Skipped
+        );
+    }
+
+    #[test]
+    fn radar_application_boundary_use_case_prepares_data_acquisition() {
+        let result = DataAcquisitionResult::new(vec!["AAPL"], vec!["MSFT".to_string()]);
+        let prepared = RadarPipelineUseCase::new().prepare_data_acquisition(result);
+
+        assert_eq!(prepared.successful_items, vec!["AAPL"]);
+        assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
+        assert_eq!(prepared.summary, DataAcquisitionSummary::new(1, 1));
+        assert!(prepared.plan.should_persist_history);
+        assert!(prepared.plan.should_enter_pipeline_body);
+        assert_eq!(
+            prepared.plan.data_quality_status,
+            DataQualityStatus::Warning
         );
     }
 

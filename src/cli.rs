@@ -684,10 +684,13 @@ async fn run_pipeline(
     }
     let data_acquisition =
         crate::application::radar::DataAcquisitionResult::new(ticker_histories, failed_symbols);
-    let data_acquisition_summary = data_acquisition.summary();
-    let pipeline_plan = data_acquisition.pipeline_plan();
+    let prepared_data = crate::application::radar::RadarPipelineUseCase::new()
+        .prepare_data_acquisition(data_acquisition);
+    let data_acquisition_summary = prepared_data.summary;
+    let pipeline_plan = prepared_data.plan;
     let should_persist_history = pipeline_plan.should_persist_history;
-    let (ticker_histories, failed_symbols) = data_acquisition.into_parts();
+    let ticker_histories = prepared_data.successful_items;
+    let failed_symbols = prepared_data.failed_symbols;
 
     let mut outcome =
         radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));

@@ -501,3 +501,26 @@ fn radar_application_run_context_builds_initial_status_metadata() {
         stock_sentinel::core::run_status::DeliveryStatus::Skipped
     );
 }
+
+#[test]
+fn radar_pipeline_use_case_prepares_data_acquisition_payload() {
+    let result = stock_sentinel::application::radar::DataAcquisitionResult::new(
+        vec!["NVDA"],
+        vec!["MSFT".to_string()],
+    );
+    let prepared = stock_sentinel::application::radar::RadarPipelineUseCase::new()
+        .prepare_data_acquisition(result);
+
+    assert_eq!(prepared.successful_items, vec!["NVDA"]);
+    assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
+    assert_eq!(
+        prepared.summary,
+        stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 1)
+    );
+    assert!(prepared.plan.should_persist_history);
+    assert!(prepared.plan.should_enter_pipeline_body);
+    assert_eq!(
+        prepared.plan.data_quality_status,
+        stock_sentinel::application::radar::DataQualityStatus::Warning
+    );
+}
