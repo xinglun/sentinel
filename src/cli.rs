@@ -2,31 +2,30 @@ use anyhow::{anyhow, Context, Result};
 
 use chrono::NaiveDate;
 
-use crate::application::evidence::{ingest_manual_evidence, ManualEvidenceIngestionRequest};
-use crate::application::evidence_ingestion::{
+use crate::backtest;
+use crate::config;
+use crate::features::evidence::application::evidence::{
+    ingest_manual_evidence, ManualEvidenceIngestionRequest,
+};
+use crate::features::evidence::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
 };
-use crate::backtest;
-use crate::config;
-use crate::core::trend_cohesion::EvidenceSourceType;
-use crate::infrastructure::evidence_fetcher_factory::{
+use crate::features::evidence::infrastructure::evidence_fetcher_factory::{
     build_batch_evidence_fetcher, build_evidence_extractor, build_evidence_store,
     build_url_evidence_fetcher,
 };
-use crate::infrastructure::market_data_provider_factory::{
+use crate::features::radar::acl::market_data_provider_factory::{
     build_configured_market_data_provider, MarketDataProviderKind as ProviderType,
 };
-use crate::infrastructure::notification_factory::send_required_telegram_notification;
-use crate::infrastructure::radar_pipeline_runner::run_pipeline;
-use crate::infrastructure::run_status_reader::load_run_evidence_collection_status;
-use crate::interface::audit_daily_report::{
+use crate::features::radar::application::policy::trend_cohesion::EvidenceSourceType;
+use crate::features::radar::infrastructure::radar_pipeline_runner::run_pipeline;
+use crate::features::radar::interface::audit_daily_report::{
     audit_daily_usage, audit_empty_log_message, audit_error_parse_date, audit_error_parse_line,
     audit_error_read_file, build_audit_daily_report_with_evidence_status, group_audit_days,
     parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
 };
-use crate::interface::cli_args::{parse_cli_options, CliCommand, CliProviderKind};
-use crate::interface::cognitive_reports::{
+use crate::features::research::interface::cognitive_reports::{
     build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
     daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
     daily_calibration_evidence_none, daily_calibration_evidence_observed,
@@ -37,7 +36,12 @@ use crate::interface::cognitive_reports::{
     daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
     enabled_asset_thesis_count, enabled_research_attention_count,
 };
-use crate::interface::i18n::Language;
+use crate::features::shared::acl::notification_factory::send_required_telegram_notification;
+use crate::features::shared::infrastructure::run_status_reader::load_run_evidence_collection_status;
+use crate::features::shared::interface::cli_args::{
+    parse_cli_options, CliCommand, CliProviderKind,
+};
+use crate::features::shared::interface::i18n::Language;
 
 pub async fn run() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -70,9 +74,9 @@ pub async fn run() -> Result<()> {
                 .map(|t| t.enabled)
                 .unwrap_or(false);
             let mode = if is_trading_enabled {
-                crate::core::runtime_mode::ExecutionMode::Live
+                crate::features::radar::application::policy::runtime_mode::ExecutionMode::Live
             } else {
-                crate::core::runtime_mode::ExecutionMode::DryRun
+                crate::features::radar::application::policy::runtime_mode::ExecutionMode::DryRun
             };
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
             run_pipeline(app_config, provider, mode).await?;
@@ -198,7 +202,7 @@ pub async fn run() -> Result<()> {
             let repository = if options.evidence_dry_run {
                 None
             } else {
-                Some(&store as &dyn crate::application::evidence::EvidenceRepository)
+                Some(&store as &dyn crate::features::evidence::application::evidence::EvidenceRepository)
             };
             let outcome = collect_evidence_from_source(
                 fetcher.as_ref(),
@@ -293,7 +297,7 @@ pub async fn run() -> Result<()> {
             let repository = if options.evidence_dry_run {
                 None
             } else {
-                Some(&store as &dyn crate::application::evidence::EvidenceRepository)
+                Some(&store as &dyn crate::features::evidence::application::evidence::EvidenceRepository)
             };
             let batch_outcome = collect_evidence_batch(
                 fetcher.as_ref(),
@@ -382,9 +386,9 @@ Successfully ingested {} batch evidence records to store.",
                 .map(|t| t.enabled)
                 .unwrap_or(false);
             let mode = if is_trading_enabled {
-                crate::core::runtime_mode::ExecutionMode::Live
+                crate::features::radar::application::policy::runtime_mode::ExecutionMode::Live
             } else {
-                crate::core::runtime_mode::ExecutionMode::DryRun
+                crate::features::radar::application::policy::runtime_mode::ExecutionMode::DryRun
             };
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
             run_pipeline(app_config, provider, mode).await?;
@@ -425,7 +429,7 @@ fn run_audit_daily(
     let target_idx = resolve_target_index(&days, target_date, language)?;
     let evidence_collection_status =
         load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-            .unwrap_or(crate::application::run_status::DeliveryStatus::Skipped);
+            .unwrap_or(crate::features::shared::application::run_status::DeliveryStatus::Skipped);
     let report = build_audit_daily_report_with_evidence_status(
         &days,
         target_idx,
@@ -460,8 +464,9 @@ fn build_daily_calibration_report(
         };
         let target_idx = resolve_target_index(&days, target_date, language)?;
         let evidence_collection_status =
-            load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-                .unwrap_or(crate::application::run_status::DeliveryStatus::Skipped);
+            load_run_evidence_collection_status(&save_dir, days[target_idx].date).unwrap_or(
+                crate::features::shared::application::run_status::DeliveryStatus::Skipped,
+            );
         selected_entry = Some(days[target_idx].latest());
         build_audit_daily_report_with_evidence_status(
             &days,
@@ -582,23 +587,23 @@ async fn run_review(_config: &crate::config::AppConfig) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::run_pipeline;
-    use crate::application::provider::MarketDataProvider;
-    use crate::application::provider::{DailyBar, TickerHistory};
-    use crate::application::run_status::DeliveryStatus;
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
     };
-    use crate::core::runtime_mode::ExecutionMode;
-    use crate::infrastructure::notification_factory::telegram_delivery_precheck;
-    use crate::infrastructure::run_status_reader::{
-        load_latest_evidence_collection_status, EVIDENCE_COLLECTION_STATUS_FILE,
-    };
-    use crate::interface::audit_daily_report::{
+    use crate::features::radar::application::policy::runtime_mode::ExecutionMode;
+    use crate::features::radar::application::provider::MarketDataProvider;
+    use crate::features::radar::application::provider::{DailyBar, TickerHistory};
+    use crate::features::radar::interface::audit_daily_report::{
         build_audit_daily_report, build_audit_daily_report_with_evidence_status,
         consecutive_streak, parse_transition_audit_entry, TransitionAuditDay, TransitionAuditEntry,
     };
-    use crate::interface::i18n::Language;
+    use crate::features::shared::acl::notification_factory::telegram_delivery_precheck;
+    use crate::features::shared::application::run_status::DeliveryStatus;
+    use crate::features::shared::infrastructure::run_status_reader::{
+        load_latest_evidence_collection_status, EVIDENCE_COLLECTION_STATUS_FILE,
+    };
+    use crate::features::shared::interface::i18n::Language;
     use anyhow::{anyhow, Result};
     use chrono::{NaiveDate, Utc};
     use std::borrow::Cow;
@@ -620,7 +625,7 @@ mod tests {
             _symbol: &str,
             _start_date: Option<OffsetDateTime>,
             _end_date: Option<OffsetDateTime>,
-        ) -> Result<crate::application::provider::TickerHistory<'static>> {
+        ) -> Result<crate::features::radar::application::provider::TickerHistory<'static>> {
             Err(anyhow!("synthetic fetch failure"))
         }
     }
@@ -632,7 +637,7 @@ mod tests {
             symbol: &str,
             _start_date: Option<OffsetDateTime>,
             _end_date: Option<OffsetDateTime>,
-        ) -> Result<crate::application::provider::TickerHistory<'static>> {
+        ) -> Result<crate::features::radar::application::provider::TickerHistory<'static>> {
             match symbol {
                 "AAA" => Ok(create_mock_history(symbol, 100.0, 60, 0.002)),
                 _ => Err(anyhow!("synthetic partial fetch failure")),
@@ -899,26 +904,16 @@ mod tests {
 
     #[test]
     fn persists_normal_runs_and_skips_diagnostic_only_runs() {
-        assert!(crate::application::radar::should_persist_decision_history(
-            3, 0
-        ));
-        assert!(crate::application::radar::should_persist_decision_history(
-            3, 2
-        ));
-        assert!(crate::application::radar::should_persist_decision_history(
-            1, 99
-        ));
+        assert!(crate::features::radar::application::radar::should_persist_decision_history(3, 0));
+        assert!(crate::features::radar::application::radar::should_persist_decision_history(3, 2));
+        assert!(crate::features::radar::application::radar::should_persist_decision_history(1, 99));
 
-        assert!(!crate::application::radar::should_persist_decision_history(
-            0, 5
-        ));
+        assert!(!crate::features::radar::application::radar::should_persist_decision_history(0, 5));
     }
 
     #[test]
     fn empty_fetch_set_does_not_trigger_diagnostic_skip() {
-        assert!(crate::application::radar::should_persist_decision_history(
-            0, 0
-        ));
+        assert!(crate::features::radar::application::radar::should_persist_decision_history(0, 0));
     }
 
     #[test]

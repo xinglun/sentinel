@@ -6,7 +6,7 @@ use time::{Duration as TimeDuration, OffsetDateTime};
 use tokio::time::sleep;
 use yahoo_finance_api as yahoo;
 
-use crate::application::provider::{DailyBar, MarketDataProvider, TickerHistory};
+use crate::features::radar::application::provider::{DailyBar, MarketDataProvider, TickerHistory};
 
 pub struct YahooProvider;
 

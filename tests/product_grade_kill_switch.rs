@@ -1,14 +1,16 @@
 use stock_sentinel::config::AppConfig;
-use stock_sentinel::core::action_matrix::{AssetAction, AssetActionDecision};
-use stock_sentinel::core::asset_state::AssetState;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::core::execution_gate::ExecutionGate;
-use stock_sentinel::core::exit::PositionIntent;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::market_regime::{
+use stock_sentinel::features::radar::application::policy::action_matrix::{
+    AssetAction, AssetActionDecision,
+};
+use stock_sentinel::features::radar::application::policy::asset_state::AssetState;
+use stock_sentinel::features::radar::application::policy::decision::DecisionPacket;
+use stock_sentinel::features::radar::application::policy::execution_gate::ExecutionGate;
+use stock_sentinel::features::radar::application::policy::exit::PositionIntent;
+use stock_sentinel::features::radar::application::policy::features::MarketFeatures;
+use stock_sentinel::features::radar::application::policy::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
 };
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
 
 #[test]
 fn test_kill_switch_behavior_in_execution_gate() {
@@ -38,13 +40,14 @@ fn test_kill_switch_behavior_in_execution_gate() {
     let assets = vec![AssetActionDecision {
         symbol: "TEST".to_string(),
         price: 100.0,
-        asset_state: stock_sentinel::core::asset_state::AssetStateSnapshot {
-            symbol: "TEST".to_string(),
-            state: AssetState::OPTIMAL,
-            reasons: vec![],
-            recovery_streak: 0,
-            last_defend_age: 100,
-        },
+        asset_state:
+            stock_sentinel::features::radar::application::policy::asset_state::AssetStateSnapshot {
+                symbol: "TEST".to_string(),
+                state: AssetState::OPTIMAL,
+                reasons: vec![],
+                recovery_streak: 0,
+                last_defend_age: 100,
+            },
         action: AssetAction::ACCUMULATE,
         reasons: vec![],
         deviation: None,
@@ -77,7 +80,7 @@ fn test_kill_switch_behavior_in_execution_gate() {
         assets,
         Vec::new(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        stock_sentinel::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot::default(),
         None,
         None,
     );

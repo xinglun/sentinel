@@ -1,7 +1,7 @@
-use stock_sentinel::core::trend_cohesion::{
+use stock_sentinel::features::evidence::domain::evidence::EvidenceDecayPolicy;
+use stock_sentinel::features::radar::application::policy::trend_cohesion::{
     AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType,
 };
-use stock_sentinel::domain::evidence::EvidenceDecayPolicy;
 
 #[test]
 fn core_reexport_preserves_evidence_record_schema() {

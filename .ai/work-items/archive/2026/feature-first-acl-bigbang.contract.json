@@ -1,0 +1,121 @@
+{
+  "contractVersion": 1,
+  "workItemId": "feature-first-acl-bigbang",
+  "mode": "code",
+  "title": "Feature-first ACL guard を導入",
+  "scope": [
+    ".ai/work-items/active/feature-first-acl-bigbang.contract.json",
+    ".ai/work-items/active/feature-first-acl-bigbang.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/**",
+    "Makefile",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/lib.rs",
+    "src/application/**",
+    "src/domain/**",
+    "src/infrastructure/**",
+    "src/interface/**",
+    "src/features/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.cursor/plans/feature-first-acl_c00945b5.plan.md",
+      "reason": "Feature-first ACL Big-Bang Plan。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "既存の layer-first architecture checker。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "既存 architecture checker regression tests。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "crate root module exports。"
+    },
+    {
+      "path": "src/application",
+      "reason": "feature-first へ移動する application layer modules。"
+    },
+    {
+      "path": "src/infrastructure",
+      "reason": "feature-first へ移動する infrastructure / ACL modules。"
+    },
+    {
+      "path": "src/interface",
+      "reason": "feature-first へ移動する interface modules。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "feature-first physical modules are introduced under src/features.",
+    "radar / evidence / trading / research primary modules are moved or re-exported through feature roots.",
+    "legacy src/application / src/infrastructure / src/interface / src/domain modules become compatibility re-export layers where practical.",
+    ".ai/architecture/feature_acl.yaml declares feature roots, ACL roots, external concrete allowlist, and legacy core constraints.",
+    "architecture checker reads feature ACL manifest and rejects ACL bypass imports.",
+    "architecture checker regression tests cover feature layer, cross-feature, and concrete external leakage cases.",
+    "make check-architecture and make quality include the upgraded hard checker."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "cargo test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/feature-first-acl-bigbang.summary.json CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json SUMMARY=.ai/work-items/active/feature-first-acl-bigbang.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json SUMMARY=.ai/work-items/active/feature-first-acl-bigbang.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/application/**",
+      "src/domain/**",
+      "src/infrastructure/**",
+      "src/interface/**",
+      "src/features/**"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

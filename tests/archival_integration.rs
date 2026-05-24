@@ -1,13 +1,13 @@
 use serde_json::json;
 use std::fs;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::market_regime::{
+use stock_sentinel::features::radar::application::policy::decision::DecisionPacket;
+use stock_sentinel::features::radar::application::policy::features::MarketFeatures;
+use stock_sentinel::features::radar::application::policy::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
 };
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
-use stock_sentinel::infrastructure::persistence::PersistenceLayer;
-use stock_sentinel::infrastructure::transition_log::TransitionLogger;
+use stock_sentinel::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::infrastructure::persistence::PersistenceLayer;
+use stock_sentinel::features::radar::infrastructure::transition_log::TransitionLogger;
 use tempfile::tempdir;
 
 #[tokio::test]
@@ -43,7 +43,7 @@ async fn test_full_9_asset_archival_package() {
         vec![],
         Vec::new(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        stock_sentinel::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot::default(),
         None,
         None,
     );
@@ -68,35 +68,36 @@ async fn test_full_9_asset_archival_package() {
     layer.save_markdown_report("# Report", date_str).unwrap();
 
     // 6. Telemetry (telemetry.csv)
-    let telemetry_row = stock_sentinel::core::telemetry::TelemetryRow {
-        timestamp: "2023-01-01T00:00:00Z".to_string(),
-        date: date_str.to_string(),
-        provider: "mock".to_string(),
-        market_state: packet.market_regime.market_state,
-        risk_overlay: packet.market_regime.risk_overlay,
-        system_confidence: packet.market_features.system_confidence,
-        stability_score: packet.market_features.stability_score,
-        dominance_margin: packet.market_features.dominance_margin,
-        potential_energy: packet.market_features.potential_energy,
-        regime_age: packet.market_features.regime_age,
-        up_count: packet.market_features.up_count,
-        flat_count: packet.market_features.flat_count,
-        down_count: packet.market_features.down_count,
-        total_count: packet.market_features.total_count,
-        up_weight: packet.market_features.up_weight,
-        flat_weight: packet.market_features.flat_weight,
-        down_weight: packet.market_features.down_weight,
-        total_weight: packet.market_features.total_weight,
-        config_hash: "test_hash".to_string(),
-        data_quality_status: "OK".to_string(),
-    };
+    let telemetry_row =
+        stock_sentinel::features::radar::application::policy::telemetry::TelemetryRow {
+            timestamp: "2023-01-01T00:00:00Z".to_string(),
+            date: date_str.to_string(),
+            provider: "mock".to_string(),
+            market_state: packet.market_regime.market_state,
+            risk_overlay: packet.market_regime.risk_overlay,
+            system_confidence: packet.market_features.system_confidence,
+            stability_score: packet.market_features.stability_score,
+            dominance_margin: packet.market_features.dominance_margin,
+            potential_energy: packet.market_features.potential_energy,
+            regime_age: packet.market_features.regime_age,
+            up_count: packet.market_features.up_count,
+            flat_count: packet.market_features.flat_count,
+            down_count: packet.market_features.down_count,
+            total_count: packet.market_features.total_count,
+            up_weight: packet.market_features.up_weight,
+            flat_weight: packet.market_features.flat_weight,
+            down_weight: packet.market_features.down_weight,
+            total_weight: packet.market_features.total_weight,
+            config_hash: "test_hash".to_string(),
+            data_quality_status: "OK".to_string(),
+        };
     layer.save_telemetry(&telemetry_row).unwrap();
 
     // 7. Transitions (state_transitions.csv & state_transitions.jsonl)
     let prev_packet = packet.clone(); // Use same packet as mock prev
     let mut curr_packet = packet.clone();
     curr_packet.transition_log = Some(
-        stock_sentinel::core::transition_log::StateTransitionLog::compare(
+        stock_sentinel::features::radar::application::policy::transition_log::StateTransitionLog::compare(
             Some(&prev_packet),
             &curr_packet,
         ),

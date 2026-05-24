@@ -1,9 +1,11 @@
 use std::collections::HashMap;
-use stock_sentinel::application::evidence_ingestion::{
+use stock_sentinel::features::evidence::acl::evidence_ingestion::{
+    FixtureFetcher, RuleBasedExtractor,
+};
+use stock_sentinel::features::evidence::application::evidence_ingestion::{
     EvidenceExtractor, SourceDocument, SourceFetcher,
 };
-use stock_sentinel::domain::evidence::{EvidenceSourceType, EvidenceType};
-use stock_sentinel::infrastructure::evidence_ingestion::{FixtureFetcher, RuleBasedExtractor};
+use stock_sentinel::features::evidence::domain::evidence::{EvidenceSourceType, EvidenceType};
 
 #[test]
 fn rule_based_extractor_works_through_application_port() {
@@ -25,7 +27,7 @@ fn rule_based_extractor_works_through_application_port() {
 
 #[test]
 fn core_reexport_preserves_source_document_import_path() {
-    let doc = stock_sentinel::application::evidence_ingestion::SourceDocument {
+    let doc = stock_sentinel::features::evidence::application::evidence_ingestion::SourceDocument {
         title: "GOOG capex".to_string(),
         content: "capex payoff".to_string(),
         url: "https://example.com/goog".to_string(),
@@ -81,7 +83,7 @@ async fn infrastructure_fetcher_matches_core_reexport_boundary() -> anyhow::Resu
 
 #[tokio::test]
 async fn evidence_collection_use_case_supports_dry_run_without_persistence() -> anyhow::Result<()> {
-    use stock_sentinel::application::evidence_ingestion::{
+    use stock_sentinel::features::evidence::application::evidence_ingestion::{
         collect_evidence_from_source, CollectEvidenceRequest,
     };
 
@@ -119,11 +121,11 @@ async fn evidence_collection_use_case_supports_dry_run_without_persistence() -> 
 
 #[tokio::test]
 async fn evidence_collection_use_case_persists_through_repository_port() -> anyhow::Result<()> {
-    use stock_sentinel::application::evidence::EvidenceRepository;
-    use stock_sentinel::application::evidence_ingestion::{
+    use stock_sentinel::features::evidence::application::evidence::EvidenceRepository;
+    use stock_sentinel::features::evidence::application::evidence_ingestion::{
         collect_evidence_from_source, CollectEvidenceRequest,
     };
-    use stock_sentinel::infrastructure::evidence_store::EvidenceStore;
+    use stock_sentinel::features::evidence::infrastructure::evidence_store::EvidenceStore;
 
     let source_dir = tempfile::tempdir()?;
     std::fs::write(
@@ -162,7 +164,7 @@ async fn evidence_collection_use_case_persists_through_repository_port() -> anyh
 
 #[tokio::test]
 async fn evidence_batch_collection_use_case_counts_success_and_failure() -> anyhow::Result<()> {
-    use stock_sentinel::application::evidence_ingestion::{
+    use stock_sentinel::features::evidence::application::evidence_ingestion::{
         collect_evidence_batch, BatchCollectEvidenceRequest, BatchEvidenceTarget,
     };
 
@@ -210,7 +212,7 @@ async fn evidence_batch_collection_use_case_counts_success_and_failure() -> anyh
 #[test]
 fn evidence_cli_batch_fetcher_rejects_missing_finnhub_key_outside_dry_run() -> anyhow::Result<()> {
     use stock_sentinel::config::AppConfig;
-    use stock_sentinel::infrastructure::evidence_fetcher_factory::build_batch_evidence_fetcher;
+    use stock_sentinel::features::evidence::infrastructure::evidence_fetcher_factory::build_batch_evidence_fetcher;
 
     let config_text = r#"
 version = 1
@@ -254,7 +256,7 @@ stability_threshold = 5.5
 #[test]
 fn evidence_cli_url_fetcher_accepts_fixture_path_without_config() -> anyhow::Result<()> {
     use stock_sentinel::config::AppConfig;
-    use stock_sentinel::infrastructure::evidence_fetcher_factory::build_url_evidence_fetcher;
+    use stock_sentinel::features::evidence::infrastructure::evidence_fetcher_factory::build_url_evidence_fetcher;
 
     let config_text = r#"
 version = 1

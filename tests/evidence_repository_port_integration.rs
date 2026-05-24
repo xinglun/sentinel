@@ -1,6 +1,8 @@
-use stock_sentinel::application::evidence::EvidenceRepository;
-use stock_sentinel::domain::evidence::{AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType};
-use stock_sentinel::infrastructure::evidence_store::EvidenceStore;
+use stock_sentinel::features::evidence::application::evidence::EvidenceRepository;
+use stock_sentinel::features::evidence::domain::evidence::{
+    AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType,
+};
+use stock_sentinel::features::evidence::infrastructure::evidence_store::EvidenceStore;
 use tempfile::tempdir;
 
 #[test]
@@ -35,10 +37,10 @@ fn evidence_store_implements_application_repository_port() -> anyhow::Result<()>
 
 #[test]
 fn manual_evidence_ingestion_use_case_validates_and_persists() -> anyhow::Result<()> {
-    use stock_sentinel::application::evidence::{
+    use stock_sentinel::features::evidence::application::evidence::{
         ingest_manual_evidence, EvidenceRepository, ManualEvidenceIngestionRequest,
     };
-    use stock_sentinel::domain::evidence::EvidenceType;
+    use stock_sentinel::features::evidence::domain::evidence::EvidenceType;
 
     let dir = tempfile::tempdir()?;
     let store = EvidenceStore::new(dir.path());
@@ -73,7 +75,7 @@ fn manual_evidence_ingestion_use_case_validates_and_persists() -> anyhow::Result
 
 #[test]
 fn manual_evidence_ingestion_use_case_rejects_invalid_date() -> anyhow::Result<()> {
-    use stock_sentinel::application::evidence::{
+    use stock_sentinel::features::evidence::application::evidence::{
         ingest_manual_evidence, EvidenceRepository, ManualEvidenceIngestionRequest,
     };
 

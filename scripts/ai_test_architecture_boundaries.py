@@ -23,17 +23,22 @@ def write(path: Path, body: str) -> None:
 def test_domain_rejects_outer_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        write(root / "src/domain/model.rs", "use crate::core::report::Report;\n")
+        write_feature_manifest(root)
+        write(root / "src/features/radar/domain/model.rs", "use crate::core::report::Report;\n")
         violations = checker.check_project(root)
-        assert violations, "domain から core::report への依存は検出されるべき"
+        assert violations, "feature domain から core::report への依存は検出されるべき"
 
 
 def test_domain_allows_std_and_self_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
-        write(root / "src/domain/model.rs", "use std::collections::BTreeMap;\nuse crate::domain::value::Score;\n")
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/domain/model.rs",
+            "use std::collections::BTreeMap;\nuse crate::features::radar::domain::value::Score;\n",
+        )
         violations = checker.check_project(root)
-        assert not violations, f"domain 内の許可依存で violation が出た: {violations}"
+        assert not violations, f"feature domain 内の許可依存で violation が出た: {violations}"
 
 
 def test_application_rejects_infrastructure_dependency() -> None:
@@ -177,6 +182,187 @@ def test_config_rejects_interface_dependency() -> None:
         assert violations, "config から interface への依存は検出されるべき"
 
 
+def test_removed_crate_domain_rejects_new_imports() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/features/radar/application/use_case.rs", "use crate::domain::market_data::TickerHistory;\n")
+        violations = checker.check_project(root)
+        assert violations, "crate::domain は feature-first 境界外なので検出されるべき"
+
+
+def test_removed_root_application_rejects_new_imports() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(
+            root / "src/features/radar/infrastructure/runner.rs",
+            "use crate::application::radar::RadarPipelineUseCase;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "crate::application は feature-first 境界外なので検出されるべき"
+
+
+def test_removed_root_core_rejects_new_imports() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(
+            root / "src/features/radar/interface/report.rs",
+            "use crate::core::decision::DecisionPacket;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "crate::core は feature-first 境界外なので検出されるべき"
+
+
+def test_removed_root_interface_rejects_new_imports() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(
+            root / "src/features/radar/infrastructure/runner.rs",
+            "use crate::interface::report::generate_refined_report;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "crate::interface は feature-first 境界外なので検出されるべき"
+
+
+def test_removed_root_infrastructure_rejects_new_imports() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(
+            root / "src/features/radar/infrastructure/runner.rs",
+            "use crate::infrastructure::persistence::PersistenceLayer;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "crate::infrastructure は feature-first 境界外なので検出されるべき"
+
+
+def write_feature_manifest(root: Path) -> None:
+    write(
+        root / ".ai/architecture/feature_acl.yaml",
+        "features:\n"
+        "  radar:\n"
+        "    roots:\n"
+        "      domain:\n"
+        "        - src/features/radar/domain\n"
+        "      application:\n"
+        "        - src/features/radar/application\n"
+        "      interface:\n"
+        "        - src/features/radar/interface\n"
+        "      infrastructure:\n"
+        "        - src/features/radar/infrastructure\n"
+        "      acl:\n"
+        "        - src/features/radar/acl\n"
+        "  evidence:\n"
+        "    roots:\n"
+        "      domain:\n"
+        "        - src/features/evidence/domain\n"
+        "      infrastructure:\n"
+        "        - src/features/evidence/infrastructure\n"
+        "      acl:\n"
+        "        - src/features/evidence/acl\n"
+        "externalConcreteImportPrefixes:\n"
+        "  - crate::adapters\n"
+        "concreteTypeNames:\n"
+        "  - FutuClient\n"
+        "  - YahooProvider\n"
+        "  - FinnhubFetcher\n",
+    )
+
+
+def test_feature_application_rejects_adapter_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/application/use_case.rs", "use crate::adapters::yahoo_provider::YahooProvider;\n")
+        violations = checker.check_project(root)
+        assert violations, "feature application から adapter への依存は ACL 経由にするべき"
+
+
+def test_feature_domain_rejects_cross_feature_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/domain/model.rs", "use crate::features::evidence::domain::Evidence;\n")
+        violations = checker.check_project(root)
+        assert violations, "feature domain から別 feature への依存は検出されるべき"
+
+
+def test_feature_interface_rejects_adapter_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/interface/cli.rs", "use crate::adapters::futu::client::FutuClient;\n")
+        violations = checker.check_project(root)
+        assert violations, "feature interface から adapter への依存は検出されるべき"
+
+
+def test_acl_allows_adapter_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/acl/market_data.rs", "use crate::adapters::yahoo_provider::YahooProvider;\n")
+        violations = checker.check_project(root)
+        assert not violations, f"ACL から adapter への依存は許可されるべき: {violations}"
+
+
+def test_infrastructure_allows_acl_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/infrastructure/runtime.rs", "use crate::features::radar::acl::market_data::build;\n")
+        violations = checker.check_project(root)
+        assert not violations, f"infrastructure から同 feature ACL への依存は許可されるべき: {violations}"
+
+
+def test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/infrastructure/runtime.rs",
+            "use crate::features::evidence::infrastructure::evidence_store::EvidenceStore;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "feature infrastructure から別 feature infrastructure への直接依存は検出されるべき"
+
+
+def test_feature_acl_allows_cross_feature_infrastructure_adapter_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/acl/evidence.rs",
+            "use crate::features::evidence::infrastructure::evidence_store::EvidenceStore;\n",
+        )
+        violations = checker.check_project(root)
+        assert not violations, f"ACL 内の cross-feature adapter dependency は許可されるべき: {violations}"
+
+
+def test_non_acl_rejects_futu_client() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/application/use_case.rs", "pub fn build(_: FutuClient) {}\n")
+        violations = checker.check_project(root)
+        assert violations, "非 ACL の FutuClient 型利用は検出されるべき"
+
+
+def test_non_acl_rejects_yahoo_provider() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/application/use_case.rs", "pub fn build() -> YahooProvider { YahooProvider }\n")
+        violations = checker.check_project(root)
+        assert violations, "非 ACL の YahooProvider 型利用は検出されるべき"
+
+
+def test_non_acl_rejects_external_fetcher() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/application/use_case.rs", "pub fn build(_: FinnhubFetcher) {}\n")
+        violations = checker.check_project(root)
+        assert violations, "非 ACL の external fetcher 型利用は検出されるべき"
+
+
 def main() -> int:
     tests = [
         test_domain_rejects_outer_dependency,
@@ -198,6 +384,21 @@ def main() -> int:
         test_cli_rejects_transition_logger_dependency,
         test_cli_rejects_notify_dependency,
         test_config_rejects_interface_dependency,
+        test_removed_crate_domain_rejects_new_imports,
+        test_removed_root_application_rejects_new_imports,
+        test_removed_root_core_rejects_new_imports,
+        test_removed_root_interface_rejects_new_imports,
+        test_removed_root_infrastructure_rejects_new_imports,
+        test_feature_application_rejects_adapter_dependency,
+        test_feature_domain_rejects_cross_feature_dependency,
+        test_feature_interface_rejects_adapter_dependency,
+        test_acl_allows_adapter_dependency,
+        test_infrastructure_allows_acl_dependency,
+        test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency,
+        test_feature_acl_allows_cross_feature_infrastructure_adapter_dependency,
+        test_non_acl_rejects_futu_client,
+        test_non_acl_rejects_yahoo_provider,
+        test_non_acl_rejects_external_fetcher,
     ]
     for test in tests:
         test()

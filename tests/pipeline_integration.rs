@@ -1,16 +1,16 @@
 use chrono::{NaiveDate, Utc};
 use std::collections::HashMap;
 use std::future::{ready, Ready};
-use stock_sentinel::application::provider::{DailyBar, TickerHistory};
 use stock_sentinel::config::{DeviationBasis, ParsedRules, TrendConfig, WatchlistEntry};
-use stock_sentinel::core::action_matrix::AssetAction;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::core::engine::Engine;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::market_regime::{
+use stock_sentinel::features::radar::application::engine::Engine;
+use stock_sentinel::features::radar::application::policy::action_matrix::AssetAction;
+use stock_sentinel::features::radar::application::policy::decision::DecisionPacket;
+use stock_sentinel::features::radar::application::policy::features::MarketFeatures;
+use stock_sentinel::features::radar::application::policy::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
 };
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::application::provider::{DailyBar, TickerHistory};
 
 use std::borrow::Cow;
 
@@ -143,7 +143,7 @@ async fn test_pipeline_bullish_path() {
         vec![],
         top_tier.clone(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot {
+        stock_sentinel::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
             gate_passed: true,
             continuity_streak: 1,
             ..Default::default()
@@ -160,7 +160,7 @@ async fn test_pipeline_bullish_path() {
         vec![],
         top_tier.clone(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot {
+        stock_sentinel::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
             gate_passed: true,
             continuity_streak: 2,
             ..Default::default()
@@ -282,21 +282,23 @@ async fn test_pipeline_age_continuity() {
 
 #[test]
 fn radar_application_policy_keeps_partial_fetch_history_persistent() {
-    let summary = stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 8);
+    let summary =
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 8);
     assert!(summary.should_persist_decision_history());
     assert!(!summary.is_full_failure());
 }
 
 #[test]
 fn radar_application_policy_blocks_full_fetch_failure_history() {
-    let summary = stock_sentinel::application::radar::DataAcquisitionSummary::new(0, 9);
+    let summary =
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(0, 9);
     assert!(!summary.should_persist_decision_history());
     assert!(summary.is_full_failure());
 }
 
 #[test]
 fn radar_application_result_uses_same_persistence_policy() {
-    let result = stock_sentinel::application::radar::DataAcquisitionResult::new(
+    let result = stock_sentinel::features::radar::application::radar::DataAcquisitionResult::new(
         vec!["NVDA"],
         vec!["MSFT".to_string()],
     );
@@ -311,7 +313,7 @@ fn radar_application_result_uses_same_persistence_policy() {
 
 #[test]
 fn radar_application_data_quality_status_keeps_cli_log_contract() {
-    use stock_sentinel::application::radar::DataAcquisitionSummary;
+    use stock_sentinel::features::radar::application::radar::DataAcquisitionSummary;
 
     assert_eq!(
         DataAcquisitionSummary::new(2, 0)
@@ -336,7 +338,7 @@ fn radar_application_data_quality_status_keeps_cli_log_contract() {
 #[test]
 fn radar_application_payload_builders_keep_persistence_schema() {
     use std::collections::HashMap;
-    use stock_sentinel::application::radar::{
+    use stock_sentinel::features::radar::application::radar::{
         build_account_snapshot, build_data_quality_log, build_portfolio_snapshot,
         AccountSnapshotInput, DataAcquisitionSummary,
     };
@@ -388,18 +390,19 @@ fn radar_application_state_machine_summary_keeps_run_status_contract() {
         defensive_override: true,
     };
 
-    let summary = stock_sentinel::application::radar::build_state_machine_summary(
+    let summary = stock_sentinel::features::radar::application::radar::build_state_machine_summary(
         Some(MarketState::IGNITION),
         MarketState::DEFENSIVE,
         Some(&audit),
         true,
     );
-    let unavailable = stock_sentinel::application::radar::build_state_machine_summary(
-        Some(MarketState::ESTABLISHED),
-        MarketState::CONFIRMED,
-        None,
-        false,
-    );
+    let unavailable =
+        stock_sentinel::features::radar::application::radar::build_state_machine_summary(
+            Some(MarketState::ESTABLISHED),
+            MarketState::CONFIRMED,
+            None,
+            false,
+        );
 
     assert_eq!(summary.from_state, "IGNITION");
     assert_eq!(summary.to_state, "DEFENSIVE");
@@ -416,15 +419,16 @@ fn radar_application_state_machine_summary_keeps_run_status_contract() {
 #[test]
 fn radar_application_full_failure_output_is_diagnostic_only() {
     let date = NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
-    let packet = stock_sentinel::application::radar::build_diagnostic_packet(date);
-    let status = stock_sentinel::application::radar::build_full_fetch_failure_status(9);
+    let packet = stock_sentinel::features::radar::application::radar::build_diagnostic_packet(date);
+    let status =
+        stock_sentinel::features::radar::application::radar::build_full_fetch_failure_status(9);
 
     assert_eq!(packet.date, date);
     assert!(packet.assets.is_empty());
     assert!(packet.transition_log.is_none());
     assert_eq!(
         status,
-        stock_sentinel::application::run_status::DeliveryStatus::Failed {
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Failed {
             reason: "100% data acquisition failure: 9 symbols failed".to_string()
         }
     );
@@ -433,19 +437,24 @@ fn radar_application_full_failure_output_is_diagnostic_only() {
 #[test]
 fn radar_application_decision_outcome_keeps_status_mapping() {
     let date = NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
-    let packet = stock_sentinel::application::radar::build_diagnostic_packet(date);
-    let outcome = stock_sentinel::application::radar::build_successful_decision_outcome(packet);
+    let packet = stock_sentinel::features::radar::application::radar::build_diagnostic_packet(date);
+    let outcome =
+        stock_sentinel::features::radar::application::radar::build_successful_decision_outcome(
+            packet,
+        );
     let failed =
-        stock_sentinel::application::radar::build_decisioning_failure_status("engine failed");
+        stock_sentinel::features::radar::application::radar::build_decisioning_failure_status(
+            "engine failed",
+        );
 
     assert_eq!(outcome.packet.date, date);
     assert_eq!(
         outcome.decisioning,
-        stock_sentinel::application::run_status::DeliveryStatus::Succeeded
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Succeeded
     );
     assert_eq!(
         failed,
-        stock_sentinel::application::run_status::DeliveryStatus::Failed {
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Failed {
             reason: "engine failed".to_string()
         }
     );
@@ -453,7 +462,7 @@ fn radar_application_decision_outcome_keeps_status_mapping() {
 
 #[test]
 fn radar_application_entry_policy_matches_existing_pipeline_body_condition() {
-    use stock_sentinel::application::radar::DataAcquisitionSummary;
+    use stock_sentinel::features::radar::application::radar::DataAcquisitionSummary;
 
     assert!(!DataAcquisitionSummary::new(0, 0).should_enter_pipeline_body());
     assert!(DataAcquisitionSummary::new(1, 0).should_enter_pipeline_body());
@@ -463,7 +472,9 @@ fn radar_application_entry_policy_matches_existing_pipeline_body_condition() {
 
 #[test]
 fn radar_application_pipeline_plan_collects_fetch_policies() {
-    use stock_sentinel::application::radar::{DataAcquisitionSummary, DataQualityStatus};
+    use stock_sentinel::features::radar::application::radar::{
+        DataAcquisitionSummary, DataQualityStatus,
+    };
 
     let empty = DataAcquisitionSummary::new(0, 0).pipeline_plan();
     assert!(empty.should_persist_history);
@@ -489,9 +500,13 @@ fn radar_application_run_context_builds_initial_status_metadata() {
     let now = chrono::DateTime::parse_from_rfc3339("2026-05-24T10:15:00+09:00")
         .unwrap()
         .with_timezone(&chrono::Local);
-    let context = stock_sentinel::application::radar::RadarRunContext::new("target/run", now);
-    let outcome = context
-        .initial_run_outcome(stock_sentinel::application::run_status::DeliveryStatus::Skipped);
+    let context = stock_sentinel::features::radar::application::radar::RadarRunContext::new(
+        "target/run",
+        now,
+    );
+    let outcome = context.initial_run_outcome(
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Skipped,
+    );
 
     assert_eq!(context.save_dir(), std::path::Path::new("target/run"));
     assert_eq!(context.date_string(), "2026-05-24");
@@ -499,30 +514,30 @@ fn radar_application_run_context_builds_initial_status_metadata() {
     assert!(outcome.timestamp.contains("2026-05-24T10:15:00"));
     assert_eq!(
         outcome.evidence_collection,
-        stock_sentinel::application::run_status::DeliveryStatus::Skipped
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Skipped
     );
 }
 
 #[test]
 fn radar_pipeline_use_case_prepares_data_acquisition_payload() {
-    let result = stock_sentinel::application::radar::DataAcquisitionResult::new(
+    let result = stock_sentinel::features::radar::application::radar::DataAcquisitionResult::new(
         vec!["NVDA"],
         vec!["MSFT".to_string()],
     );
-    let prepared = stock_sentinel::application::radar::RadarPipelineUseCase::new()
+    let prepared = stock_sentinel::features::radar::application::radar::RadarPipelineUseCase::new()
         .prepare_data_acquisition(result);
 
     assert_eq!(prepared.successful_items, vec!["NVDA"]);
     assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
     assert_eq!(
         prepared.summary,
-        stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 1)
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 1)
     );
     assert!(prepared.plan.should_persist_history);
     assert!(prepared.plan.should_enter_pipeline_body);
     assert_eq!(
         prepared.plan.data_quality_status,
-        stock_sentinel::application::radar::DataQualityStatus::Warning
+        stock_sentinel::features::radar::application::radar::DataQualityStatus::Warning
     );
 }
 
@@ -532,14 +547,15 @@ fn radar_pipeline_use_case_collects_provider_results() {
         (Ok("NVDA-history"), "NVDA".to_string()),
         (Err("fetch failed"), "MSFT".to_string()),
     ];
-    let data_acquisition = stock_sentinel::application::radar::RadarPipelineUseCase::new()
-        .collect_data_acquisition(results);
+    let data_acquisition =
+        stock_sentinel::features::radar::application::radar::RadarPipelineUseCase::new()
+            .collect_data_acquisition(results);
 
     assert_eq!(data_acquisition.successful_items, vec!["NVDA-history"]);
     assert_eq!(data_acquisition.failed_symbols, vec!["MSFT".to_string()]);
     assert_eq!(
         data_acquisition.summary(),
-        stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 1)
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 1)
     );
 }
 
@@ -549,14 +565,14 @@ fn radar_pipeline_use_case_prepares_from_provider_results() {
         (Ok("NVDA-history"), "NVDA".to_string()),
         (Err("fetch failed"), "MSFT".to_string()),
     ];
-    let prepared = stock_sentinel::application::radar::RadarPipelineUseCase::new()
+    let prepared = stock_sentinel::features::radar::application::radar::RadarPipelineUseCase::new()
         .prepare_from_fetch_results(results);
 
     assert_eq!(prepared.successful_items, vec!["NVDA-history"]);
     assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
     assert_eq!(
         prepared.summary,
-        stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 1)
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 1)
     );
     assert!(prepared.plan.should_persist_history);
     assert!(prepared.plan.should_enter_pipeline_body);
@@ -564,7 +580,7 @@ fn radar_pipeline_use_case_prepares_from_provider_results() {
 
 #[tokio::test]
 async fn radar_application_ports_are_infrastructure_free_contracts() {
-    use stock_sentinel::application::radar::{
+    use stock_sentinel::features::radar::application::radar::{
         RadarDecisionHistoryPort, RadarMarketDataPort, RadarNotificationPort,
     };
 

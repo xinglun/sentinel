@@ -11,8 +11,8 @@ use crate::adapters::futu::protocol::generated::qot_common::{
     KlType, QotMarket, RehabType, Security,
 };
 use crate::adapters::futu::protocol::generated::qot_get_history_kl::{C2s, Request, Response};
-use crate::application::provider::MarketDataProvider;
-use crate::application::provider::{DailyBar, TickerHistory};
+use crate::features::radar::application::provider::MarketDataProvider;
+use crate::features::radar::application::provider::{DailyBar, TickerHistory};
 
 pub struct FutuProvider {
     client: Arc<FutuClient>,

@@ -12,7 +12,7 @@ use crate::adapters::futu::protocol::generated::trd_get_position_list;
 use crate::adapters::futu::protocol::generated::trd_modify_order;
 use crate::adapters::futu::protocol::generated::trd_place_order;
 use crate::adapters::futu::protocol::generated::trd_unlock_trade;
-use crate::application::trade_executor::{
+use crate::features::trading::application::trade_executor::{
     AccountFunds, BrokerPermissions, MarketRight, OrderExecutionDetails, OrderFailureReason,
     OrderSide, OrderStatus, OrderType, PlaceOrderRequest, PlaceOrderResponse, Position,
     PositionSide, TradableCapacity, TradeExecutor,

@@ -10,6 +10,21 @@ from typing import Iterable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 IMPORT_START_RE = re.compile(r"^\s*(?:use|pub\s+use)\s+(.+)")
+CONCRETE_TYPE_DEFAULTS = (
+    "FutuClient",
+    "YahooProvider",
+    "FinnhubFetcher",
+    "SECEDGARFetcher",
+    "WebFetcher",
+    "FixtureFetcher",
+)
+REMOVED_CRATE_ROOT_PREFIXES = (
+    "crate::application",
+    "crate::core",
+    "crate::domain",
+    "crate::infrastructure",
+    "crate::interface",
+)
 
 
 @dataclass(frozen=True)
@@ -118,6 +133,108 @@ class Violation:
         )
 
 
+@dataclass(frozen=True)
+class FeatureAclManifest:
+    feature_roots: dict[str, dict[str, tuple[str, ...]]]
+    concrete_import_prefixes: tuple[str, ...]
+    concrete_type_names: tuple[str, ...]
+
+
+FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES: dict[str, tuple[str, ...]] = {
+    "domain": (
+        "crate::adapters",
+        "crate::application",
+        "crate::config",
+        "crate::core",
+        "crate::infrastructure",
+        "crate::interface",
+    ),
+    "application": (
+        "crate::adapters",
+        "crate::infrastructure",
+        "crate::interface",
+    ),
+    "interface": (
+        "crate::adapters",
+    ),
+}
+
+
+def _strip_yaml_value(raw: str) -> str:
+    return raw.strip().strip('"').strip("'")
+
+
+def load_feature_acl_manifest(root: Path = PROJECT_ROOT) -> FeatureAclManifest:
+    """feature ACL manifest を標準 library だけで読み取る。"""
+    path = root / ".ai/architecture/feature_acl.yaml"
+    if not path.exists():
+        return FeatureAclManifest({}, ("crate::adapters",), CONCRETE_TYPE_DEFAULTS)
+
+    feature_roots: dict[str, dict[str, list[str]]] = {}
+    concrete_import_prefixes: list[str] = []
+    concrete_type_names: list[str] = []
+    section_stack: list[tuple[int, str]] = []
+    current_feature: str | None = None
+    current_layer: str | None = None
+    list_target: str | None = None
+
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        indent = len(line) - len(line.lstrip(" "))
+        stripped = line.strip()
+        while section_stack and section_stack[-1][0] >= indent:
+            popped = section_stack.pop()[1]
+            if popped == "feature":
+                current_feature = None
+            if popped == "layer":
+                current_layer = None
+            if popped == "list":
+                list_target = None
+
+        if stripped.startswith("- "):
+            value = _strip_yaml_value(stripped[2:])
+            if current_feature and current_layer and list_target == "roots":
+                feature_roots.setdefault(current_feature, {}).setdefault(current_layer, []).append(value)
+            elif list_target == "concrete_import_prefixes":
+                concrete_import_prefixes.append(value)
+            elif list_target == "concrete_type_names":
+                concrete_type_names.append(value)
+            continue
+
+        key = stripped.split(":", 1)[0]
+        if indent == 2 and key not in {"domain", "adapters", "core"}:
+            current_feature = key
+            feature_roots.setdefault(current_feature, {})
+            section_stack.append((indent, "feature"))
+            continue
+        if current_feature and key in {"domain", "application", "interface", "infrastructure", "acl"}:
+            current_layer = key
+            feature_roots.setdefault(current_feature, {}).setdefault(current_layer, [])
+            section_stack.append((indent, "layer"))
+            list_target = "roots"
+            section_stack.append((indent + 1, "list"))
+            continue
+        if key == "externalConcreteImportPrefixes":
+            list_target = "concrete_import_prefixes"
+            section_stack.append((indent, "list"))
+            continue
+        if key == "concreteTypeNames":
+            list_target = "concrete_type_names"
+            section_stack.append((indent, "list"))
+            continue
+
+    roots = {
+        feature: {layer: tuple(paths) for layer, paths in layers.items()}
+        for feature, layers in feature_roots.items()
+    }
+    return FeatureAclManifest(
+        roots,
+        tuple(concrete_import_prefixes or ("crate::adapters",)),
+        tuple(concrete_type_names or CONCRETE_TYPE_DEFAULTS),
+    )
+
+
 def rust_files(root: Path) -> Iterable[Path]:
     if root.is_file():
         yield root
@@ -130,6 +247,89 @@ def rust_files(root: Path) -> Iterable[Path]:
 
 def normalize_import(raw: str) -> str:
     return raw.strip().replace(" ", "")
+
+
+def relative_posix(path: Path, root: Path) -> str:
+    return path.relative_to(root).as_posix()
+
+
+def path_matches_root(rel_path: str, root: str) -> bool:
+    normalized = root.rstrip("/")
+    return rel_path == normalized or rel_path.startswith(f"{normalized}/")
+
+
+def feature_layer_for_path(rel_path: str, manifest: FeatureAclManifest) -> tuple[str, str] | None:
+    for feature, layers in manifest.feature_roots.items():
+        for layer, roots in layers.items():
+            if any(path_matches_root(rel_path, root) for root in roots):
+                return feature, layer
+    return None
+
+
+def feature_layer_for_import(import_path: str) -> tuple[str, str] | None:
+    parts = import_path.split("::")
+    if len(parts) < 4 or parts[0] != "crate" or parts[1] != "features":
+        return None
+    feature = parts[2]
+    layer = parts[3]
+    if layer not in {"domain", "application", "interface", "infrastructure", "acl"}:
+        return None
+    return feature, layer
+
+
+def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest) -> list[Violation]:
+    rel_path = relative_posix(path, root)
+    feature_layer = feature_layer_for_path(rel_path, manifest)
+    if not feature_layer:
+        return []
+
+    feature, layer = feature_layer
+    violations: list[Violation] = []
+    text = path.read_text(encoding="utf-8")
+    is_acl = layer == "acl"
+    is_infrastructure = layer == "infrastructure"
+
+    for line_no, import_path in imports_from(path):
+        for forbidden in FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES.get(layer, ()):
+            if import_path.startswith(forbidden):
+                violations.append(Violation(path, line_no, import_path, f"feature {layer} forbidden import"))
+
+        imported_feature_layer = feature_layer_for_import(import_path)
+        if imported_feature_layer:
+            imported_feature, imported_layer = imported_feature_layer
+            if imported_feature == "shared":
+                continue
+            if layer == "domain" and imported_feature != feature:
+                violations.append(Violation(path, line_no, import_path, "cross-feature domain dependency"))
+            if layer in {"domain", "application"} and imported_layer in {"interface", "infrastructure", "acl"}:
+                violations.append(Violation(path, line_no, import_path, f"feature {layer} -> {imported_layer}"))
+            if layer != "acl" and imported_feature != feature and imported_layer in {"infrastructure", "acl"}:
+                violations.append(Violation(path, line_no, import_path, "cross-feature concrete dependency"))
+
+        for forbidden in manifest.concrete_import_prefixes:
+            if import_path.startswith(forbidden) and not (is_acl or is_infrastructure):
+                violations.append(Violation(path, line_no, import_path, "non-ACL external concrete import"))
+
+    if not (is_acl or is_infrastructure):
+        for concrete_type in manifest.concrete_type_names:
+            pattern = re.compile(rf"\b{re.escape(concrete_type)}\b")
+            for line_no, line in enumerate(text.splitlines(), start=1):
+                if line.lstrip().startswith("//"):
+                    continue
+                if pattern.search(line):
+                    violations.append(Violation(path, line_no, concrete_type, "non-ACL external concrete type"))
+                    break
+
+    return violations
+
+
+def removed_crate_root_violations(path: Path) -> list[Violation]:
+    violations: list[Violation] = []
+    for line_no, import_path in imports_from(path):
+        for forbidden in REMOVED_CRATE_ROOT_PREFIXES:
+            if import_path.startswith(forbidden):
+                violations.append(Violation(path, line_no, import_path, forbidden))
+    return violations
 
 
 def imports_from(path: Path) -> Iterable[tuple[int, str]]:
@@ -161,6 +361,9 @@ def imports_from(path: Path) -> Iterable[tuple[int, str]]:
 
 def check_project(root: Path = PROJECT_ROOT) -> list[Violation]:
     violations: list[Violation] = []
+    manifest = load_feature_acl_manifest(root)
+    for path in rust_files(root / "src"):
+        violations.extend(removed_crate_root_violations(path))
     for rule in RULES:
         layer_root = root / rule.layer_path
         if not layer_root.exists():
@@ -170,6 +373,10 @@ def check_project(root: Path = PROJECT_ROOT) -> list[Violation]:
                 for forbidden in rule.forbidden_import_prefixes:
                     if import_path.startswith(forbidden):
                         violations.append(Violation(path, line_no, import_path, forbidden))
+    features_root = root / "src/features"
+    if features_root.exists():
+        for path in rust_files(features_root):
+            violations.extend(feature_acl_violations(path, root, manifest))
     return violations
 
 

@@ -8,7 +8,7 @@ key: ddd-clean-architecture-migration
 # DDD Clean Architecture 移行設計
 
 この文書は Sentinel を長期的に健全に拡張するための target architecture を定義する。
-現在の `src/core/**` は実用上の legacy core として扱い、Big Bang rewrite は行わない。新規実装と段階移行はこの文書の依存方向に従う。
+現在の policy kernel は `src/features/radar/application/policy/**` と `src/features/radar/application/engine.rs` に収める。新規実装と段階移行はこの文書の依存方向に従う。
 
 ## 目的
 
@@ -17,14 +17,16 @@ key: ddd-clean-architecture-migration
 - AI Agent が変更してよい範囲を機械的に検証できる状態にする。
 - 既存挙動を壊さず、feature 単位で移行できる architecture seam を作る。
 
-## Target Layers
+## Target Feature Structure
 
 ```text
-src/domain          純粋な業務概念、値オブジェクト、エンティティ、ドメインサービス
-src/application     ユースケース、ポート、トランザクション境界、アプリケーションサービス
-src/interface       CLI / report / Telegram などの入出力変換
-src/infrastructure  外部 API、永続化、通知、時計、ファイルシステムなどの実装
-src/core            既存 legacy core。段階移行中のみ許容する互換層
+src/features/<feature>/domain          feature 固有の業務概念、値オブジェクト、エンティティ、ドメインサービス
+src/features/<feature>/application     ユースケース、ポート、トランザクション境界、アプリケーションサービス
+src/features/<feature>/interface       CLI / report / Telegram などの入出力変換
+src/features/<feature>/infrastructure  外部 API、永続化、通知、時計、ファイルシステムなどの実装
+src/features/<feature>/acl             外部 adapter / raw protocol と feature 内 model の防腐層
+src/features/shared/domain             複数 feature で共有する domain primitive
+src/features/radar/application/policy  既存 policy kernel を含む radar application policy
 ```
 
 ## Dependency Direction
@@ -32,9 +34,11 @@ src/core            既存 legacy core。段階移行中のみ許容する互換
 依存方向は次だけを許可する。
 
 ```text
-interface -> application -> domain
-infrastructure -> application -> domain
-legacy core -> legacy core
+feature interface -> feature application -> feature domain
+feature infrastructure -> feature application -> feature domain
+feature infrastructure -> feature acl -> external adapter
+feature domain -> features/shared/domain
+feature domain -> same feature domain
 ```
 
 Domain は最内層であり、次を参照してはならない。
@@ -63,14 +67,15 @@ Sentinel の主要 bounded context は次とする。
 
 ## Legacy Migration Rule
 
-`src/core/**` はすぐに禁止しない。代わりに次の規則で縮小する。
+root-level legacy layer は再導入しない。代わりに次の規則で縮小する。
 
-1. 新規 domain concept は `src/domain/**` に作る。
-2. 新規 use case は `src/application/**` に作る。
-3. 新規 external adapter は `src/infrastructure/**` に作る。
-4. 新規 output formatting は `src/interface/**` に作る。
-5. legacy module を変更する場合は、Work Item に「なぜまだ legacy 側で変更するか」を記録する。
-6. 移行済み concept は legacy 側へ逆流させない。
+1. 新規 domain concept は `src/features/<feature>/domain/**` に作る。
+2. 複数 feature で共有する primitive は `src/features/shared/domain/**` に作る。
+3. 新規 use case は `src/features/<feature>/application/**` に作る。
+4. 新規 external adapter 連携は `src/features/<feature>/acl/**` または `src/features/<feature>/infrastructure/**` に作る。
+5. 新規 output formatting は `src/features/<feature>/interface/**` に作る。
+6. legacy module を変更する場合は、Work Item に「なぜまだ legacy 側で変更するか」を記録する。
+7. 移行済み concept は legacy 側へ逆流させない。
 
 ## Anti-Corruption Boundary
 
@@ -97,7 +102,7 @@ Radar の段階移行では、CLI から次の policy を Application へ移し�
 - diagnostic packet、decision outcome、state machine summary、persistence payload の組み立て
 
 CLI はまだ provider 呼び出し、legacy `Engine` 実行、report rendering、notification dispatch を保持する。
-これは移行期間の adapter / composition root として許容するが、新しい orchestration policy は `src/application/radar.rs` に追加する。
+これは移行期間の adapter / composition root として許容するが、新しい orchestration policy は `src/features/radar/application/radar.rs` に追加する。
 
 次の領域は今回の migration checkpoint では変更しない。
 
@@ -129,14 +134,14 @@ CLI に残すもの:
 - legacy `Engine` 実行
 - report rendering と Telegram dispatch
 
-次に進める場合は、`src/application` から `crate::data`、`crate::infrastructure`、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
+次に進める場合は、`src/features/<feature>/application` から `crate::data`、root compatibility layer、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
 この rule は `make test-architecture-boundaries` の regression test で固定する。
 port contract は `RadarMarketDataPort`、`RadarDecisionHistoryPort`、`RadarNotificationPort` として application layer に置き、実装接続は別 Work Item で行う。
 
 ## Architecture Guard
 
 `make check-architecture` は新規 target directories の依存違反を検出する。
-既存 `src/core/**` は移行期間のため全面禁止しないが、target directories から legacy presentation / CLI / adapter へ依存することは禁止する。
+root-level `src/core/**` は廃止済みであり、target directories から legacy presentation / CLI / adapter へ依存することは禁止する。
 
 ## Definition of Done
 
