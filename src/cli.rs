@@ -26,22 +26,15 @@ use crate::infrastructure::evidence_fetcher_factory::{
 };
 use crate::infrastructure::evidence_ingestion::RuleBasedExtractor;
 use crate::infrastructure::evidence_store::EvidenceStore;
+use crate::infrastructure::market_data_provider_factory::{
+    build_market_data_provider, MarketDataProviderKind as ProviderType,
+};
 use crate::infrastructure::notify;
 use crate::interface::i18n::Language;
 use crate::interface::presentation_assembler::PresentationAssembler;
 use crate::interface::report;
 
-use crate::adapters::futu::client::FutuClient;
-use crate::adapters::futu::provider::FutuProvider;
-use crate::adapters::yahoo_provider::YahooProvider;
-
 const EVIDENCE_COLLECTION_STATUS_FILE: &str = "evidence_collection_status_latest.json";
-
-#[derive(Debug, Clone, Copy, PartialEq)]
-enum ProviderType {
-    Yahoo,
-    Futu,
-}
 
 pub async fn run() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -207,7 +200,7 @@ pub async fn run() -> Result<()> {
             } else {
                 "127.0.0.1:11111".to_string()
             };
-            let provider = get_provider(provider_type, &futu_addr).await;
+            let provider = build_market_data_provider(provider_type, &futu_addr).await;
             backtest::run_backtest(&app_config, provider.as_ref(), &from_date, &to_date).await?;
         }
         "daemon" => {
@@ -226,7 +219,7 @@ pub async fn run() -> Result<()> {
             } else {
                 "127.0.0.1:11111".to_string()
             };
-            let provider = get_provider(provider_type, &futu_addr).await;
+            let provider = build_market_data_provider(provider_type, &futu_addr).await;
             run_pipeline(app_config, provider_type, provider, mode).await?;
         }
         "review" => {
@@ -551,21 +544,11 @@ Successfully ingested {} batch evidence records to store.",
             } else {
                 "127.0.0.1:11111".to_string()
             };
-            let provider = get_provider(provider_type, &futu_addr).await;
+            let provider = build_market_data_provider(provider_type, &futu_addr).await;
             run_pipeline(app_config, provider_type, provider, mode).await?;
         }
     }
     Ok(())
-}
-
-async fn get_provider(pt: ProviderType, addr: &str) -> Arc<dyn MarketDataProvider> {
-    match pt {
-        ProviderType::Futu => match FutuClient::connect(addr).await {
-            Ok(client) => Arc::new(FutuProvider::new(Arc::new(client))),
-            Err(_) => Arc::new(YahooProvider),
-        },
-        ProviderType::Yahoo => Arc::new(YahooProvider),
-    }
 }
 
 fn telegram_delivery_precheck(
