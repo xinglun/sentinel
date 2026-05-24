@@ -8,4 +8,5 @@ pub mod evidence_ingestion;
 pub mod evidence_store;
 pub mod notify;
 pub mod persistence;
+pub mod trader_agent;
 pub mod transition_log;

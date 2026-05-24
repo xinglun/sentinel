@@ -1,0 +1,89 @@
+{
+  "workItemId": "trader-agent-infrastructure-boundary",
+  "contractPath": ".ai/work-items/archive/2026/trader-agent-infrastructure-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+      "reason": "TraderAgent infrastructure boundary の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/trader-agent-infrastructure-boundary.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/core/mod.rs",
+      "reason": "core layer から trader_agent module export を削除した。"
+    },
+    {
+      "path": "src/core/trader_agent.rs",
+      "reason": "TraderAgent implementation を core layer から削除した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "infrastructure layer に trader_agent module export を追加した。"
+    },
+    {
+      "path": "src/infrastructure/trader_agent.rs",
+      "reason": "broker / trade executor 依存を持つ TraderAgent implementation を infrastructure layer へ移動した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/core/trader_agent.rs",
+    "src/core/mod.rs",
+    "src/infrastructure/mod.rs",
+    "scripts/check_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test trader_agent --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trader-agent-infrastructure-boundary.summary.json CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json SUMMARY=.ai/work-items/active/trader-agent-infrastructure-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json SUMMARY=.ai/work-items/active/trader-agent-infrastructure-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "module path は core::trader_agent から infrastructure::trader_agent へ変わる。repository 内の production code 参照は存在しないことを確認済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "TraderAgent は broker / trade executor 型へ依存していたため、core layer に置くと外部 adapter 依存が混入していた。",
+    "coverage guard は moved core file に対して report-only warning を出した。TraderAgent の既存 unit tests は移動後の infrastructure module で実行済み。"
+  ]
+}
