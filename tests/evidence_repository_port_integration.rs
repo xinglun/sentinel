@@ -1,6 +1,6 @@
 use stock_sentinel::application::evidence::EvidenceRepository;
-use stock_sentinel::core::evidence_store::EvidenceStore;
 use stock_sentinel::domain::evidence::{AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType};
+use stock_sentinel::infrastructure::evidence_store::EvidenceStore;
 use tempfile::tempdir;
 
 #[test]

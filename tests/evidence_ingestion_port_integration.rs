@@ -2,10 +2,8 @@ use std::collections::HashMap;
 use stock_sentinel::application::evidence_ingestion::{
     EvidenceExtractor, SourceDocument, SourceFetcher,
 };
-use stock_sentinel::core::evidence_ingestion::{FixtureFetcher, RuleBasedExtractor};
 use stock_sentinel::domain::evidence::{EvidenceSourceType, EvidenceType};
-use stock_sentinel::infrastructure::evidence_ingestion::FixtureFetcher as InfrastructureFixtureFetcher;
-use stock_sentinel::infrastructure::evidence_ingestion::RuleBasedExtractor as InfrastructureRuleBasedExtractor;
+use stock_sentinel::infrastructure::evidence_ingestion::{FixtureFetcher, RuleBasedExtractor};
 
 #[test]
 fn rule_based_extractor_works_through_application_port() {
@@ -27,7 +25,7 @@ fn rule_based_extractor_works_through_application_port() {
 
 #[test]
 fn core_reexport_preserves_source_document_import_path() {
-    let doc = stock_sentinel::core::evidence_ingestion::SourceDocument {
+    let doc = stock_sentinel::application::evidence_ingestion::SourceDocument {
         title: "GOOG capex".to_string(),
         content: "capex payoff".to_string(),
         url: "https://example.com/goog".to_string(),
@@ -43,7 +41,7 @@ fn core_reexport_preserves_source_document_import_path() {
 #[test]
 fn infrastructure_extractor_matches_core_reexport_boundary() {
     let core_extractor: &dyn EvidenceExtractor = &RuleBasedExtractor::new();
-    let infrastructure_extractor: &dyn EvidenceExtractor = &InfrastructureRuleBasedExtractor::new();
+    let infrastructure_extractor: &dyn EvidenceExtractor = &RuleBasedExtractor::new();
     let doc = SourceDocument {
         title: "NVDA order visibility".to_string(),
         content: "backlog and demand outstripping supply".to_string(),
@@ -66,7 +64,7 @@ async fn infrastructure_fetcher_matches_core_reexport_boundary() -> anyhow::Resu
     let base_path = dir.path().to_string_lossy();
 
     let core_fetcher: &dyn SourceFetcher = &FixtureFetcher::new(&base_path);
-    let infrastructure_fetcher: &dyn SourceFetcher = &InfrastructureFixtureFetcher::new(&base_path);
+    let infrastructure_fetcher: &dyn SourceFetcher = &FixtureFetcher::new(&base_path);
 
     let via_core = core_fetcher
         .fetch("sample.txt", "MSFT", EvidenceSourceType::Manual, 1)
@@ -125,7 +123,7 @@ async fn evidence_collection_use_case_persists_through_repository_port() -> anyh
     use stock_sentinel::application::evidence_ingestion::{
         collect_evidence_from_source, CollectEvidenceRequest,
     };
-    use stock_sentinel::core::evidence_store::EvidenceStore;
+    use stock_sentinel::infrastructure::evidence_store::EvidenceStore;
 
     let source_dir = tempfile::tempdir()?;
     std::fs::write(

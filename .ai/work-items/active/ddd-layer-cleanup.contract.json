@@ -1,0 +1,100 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-layer-cleanup",
+  "mode": "code",
+  "title": "DDD レイヤー修正: core/ 残留物を正しいレイヤーへ移動",
+  "scope": [
+    "src/infrastructure/evidence_store.rs",
+    "src/infrastructure/mod.rs",
+    "src/core/evidence_store.rs",
+    "src/core/evidence_ingestion.rs",
+    "src/core/mod.rs",
+    "src/interface/evidence_cli.rs",
+    "src/interface/mod.rs",
+    "src/domain/evidence.rs",
+    "src/lib.rs",
+    "src/cli.rs",
+    "tests/evidence_ingestion_port_integration.rs",
+    "tests/evidence_repository_port_integration.rs",
+    ".ai/work-items/active/ddd-layer-cleanup.contract.json",
+    ".ai/work-items/active/ddd-layer-cleanup.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/market_regime.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/decision.rs",
+    "src/core/features.rs",
+    "src/core/run_status.rs",
+    "src/core/asset_state.rs",
+    "src/core/breakout_detection.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/persistence.rs",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    "src/backtest.rs",
+    "src/trade/",
+    "src/adapters/"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "core/evidence_store.rs が infrastructure/ へ移動し、既存の import が更新される。",
+    "core/evidence_ingestion.rs の re-export shim が廃止され、interface/evidence_cli.rs が直接 infrastructure を参照する。",
+    "infrastructure/mod.rs が evidence_store を pub mod として公開する。",
+    "make fmt-check が通る。",
+    "make test が通る。",
+    "make clippy が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-layer-cleanup.summary.json CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/active/ddd-layer-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/active/ddd-layer-cleanup.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。core/evidence_store.rs と core/evidence_ingestion.rs を元の場所に戻す。"
+}

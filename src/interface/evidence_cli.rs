@@ -1,6 +1,6 @@
 use crate::application::evidence_ingestion::SourceFetcher;
 use crate::config::AppConfig;
-use crate::core::evidence_ingestion::{
+use crate::infrastructure::evidence_ingestion::{
     FinnhubFetcher, FixtureFetcher, SECEDGARFetcher, WebFetcher,
 };
 use anyhow::{anyhow, Result};

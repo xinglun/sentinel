@@ -4,3 +4,4 @@
 //! Application port を実装し、Domain に実装詳細を漏らしてはならない。
 
 pub mod evidence_ingestion;
+pub mod evidence_store;

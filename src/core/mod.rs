@@ -4,7 +4,6 @@ pub mod breakout_detection;
 pub mod decision;
 pub mod display;
 pub mod engine;
-pub mod evidence_store;
 pub mod execution_gate;
 pub mod exit;
 pub mod features;
@@ -31,7 +30,6 @@ pub mod presentation_assembler;
 #[cfg(test)]
 mod report_ui_tests;
 
-pub mod evidence_ingestion;
 #[cfg(test)]
 mod presentation_tests;
 pub mod trend_cohesion;

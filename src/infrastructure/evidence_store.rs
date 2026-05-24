@@ -147,7 +147,7 @@ impl EvidenceRepository for EvidenceStore {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::trend_cohesion::{EvidenceSourceType, EvidenceType};
+    use crate::domain::evidence::{EvidenceSourceType, EvidenceType};
     use tempfile::tempdir;
 
     #[test]
