@@ -1,0 +1,104 @@
+{
+  "workItemId": "weekly-state-report-interface",
+  "contractPath": ".ai/work-items/archive/2026/weekly-state-report-interface.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/weekly-state-report-interface.contract.json",
+      "reason": "weekly state report extraction の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/weekly-state-report-interface.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cli-report-extraction-interface.contract.json",
+      "reason": "前回未提交の CLI report extraction work item archive を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cli-report-extraction-interface.summary.json",
+      "reason": "前回未提交の CLI report extraction summary archive を維持した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "weekly state metrics / review generation を interface module 経由へ変更し、CLI の report output responsibility をさらに削減した。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "weekly_state_report module を公開した。"
+    },
+    {
+      "path": "src/interface/audit_daily_report.rs",
+      "reason": "前回未提交の audit daily report extraction を維持した。"
+    },
+    {
+      "path": "src/interface/cognitive_reports.rs",
+      "reason": "weekly report でも再利用する cognitive count helper を集約した。"
+    },
+    {
+      "path": "src/interface/weekly_state_report.rs",
+      "reason": "weekly_state_metrics.json と weekly_state_review_auto.md の生成 logic を集約した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/interface/presentation.rs",
+    "src/interface/cognitive_reports.rs",
+    "src/core/decision.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::persists_normal_runs_and_skips_diagnostic_only_runs",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekly-state-report-interface.summary.json CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json SUMMARY=.ai/work-items/active/weekly-state-report-interface.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json SUMMARY=.ai/work-items/active/weekly-state-report-interface.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "weekly report output generation を CLI から interface へ移動した。pipeline integration と persistence-oriented CLI test で behavior を確認済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "run_pipeline が weekly metrics / review の rendering と file output details を直接保持していた。"
+  ]
+}

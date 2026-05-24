@@ -1,0 +1,104 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cli-args-parser-interface",
+  "mode": "code",
+  "title": "CLI args parser を interface へ抽出",
+  "scope": [
+    ".ai/work-items/active/cli-args-parser-interface.contract.json",
+    ".ai/work-items/active/cli-args-parser-interface.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/cli-report-extraction-interface.contract.json",
+    ".ai/work-items/archive/2026/cli-report-extraction-interface.summary.json",
+    ".ai/work-items/archive/2026/weekly-state-report-interface.contract.json",
+    ".ai/work-items/archive/2026/weekly-state-report-interface.summary.json",
+    ".ai/work-items/archive/2026/radar-pipeline-runner-interface.contract.json",
+    ".ai/work-items/archive/2026/radar-pipeline-runner-interface.summary.json",
+    "src/cli.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/radar_pipeline_runner.rs",
+    "src/interface/mod.rs",
+    "src/interface/audit_daily_report.rs",
+    "src/interface/cognitive_reports.rs",
+    "src/interface/weekly_state_report.rs",
+    "src/interface/cli_args.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI entrypoint に argument parsing state machine が残っている。"
+    },
+    {
+      "path": "src/interface/audit_daily_report.rs",
+      "reason": "audit CLI error text を parser から再利用する。"
+    },
+    {
+      "path": "src/infrastructure/market_data_provider_factory.rs",
+      "reason": "parser enum から infrastructure provider kind への mapping を CLI 側で行う。"
+    },
+    {
+      "path": "tests/audit_daily_cli_integration.rs",
+      "reason": "CLI parsing behavior の integration coverage。"
+    },
+    {
+      "path": "tests/collect_evidence_cli_integration.rs",
+      "reason": "evidence CLI parsing behavior の integration coverage。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "CLI argument parsing state は src/interface/cli_args.rs に抽出される。",
+    "src/cli.rs は parsed options を使って command dispatch する。",
+    "interface parser は infrastructure に依存しない。",
+    "audit daily / evidence / research attention CLI behavior を維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test audit_daily_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test --test collect_evidence_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-args-parser-interface.summary.json CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json SUMMARY=.ai/work-items/active/cli-args-parser-interface.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json SUMMARY=.ai/work-items/active/cli-args-parser-interface.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

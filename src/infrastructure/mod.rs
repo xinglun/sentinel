@@ -10,6 +10,7 @@ pub mod market_data_provider_factory;
 pub mod notification_factory;
 pub mod notify;
 pub mod persistence;
+pub mod radar_pipeline_runner;
 pub mod radar_runtime_factory;
 pub mod run_status_reader;
 pub mod trader_agent;

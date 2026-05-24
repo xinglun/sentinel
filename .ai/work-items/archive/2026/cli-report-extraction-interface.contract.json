@@ -1,0 +1,98 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cli-report-extraction-interface",
+  "mode": "code",
+  "title": "CLI report logic を interface へ抽出",
+  "scope": [
+    ".ai/work-items/active/cli-report-extraction-interface.contract.json",
+    ".ai/work-items/active/cli-report-extraction-interface.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/interface/mod.rs",
+    "src/interface/audit_daily_report.rs",
+    "src/interface/cognitive_reports.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI が audit daily rendering と cognitive report rendering を大量に保持している現状。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "interface module の公開入口。"
+    },
+    {
+      "path": "src/interface/i18n.rs",
+      "reason": "report rendering の language contract。"
+    },
+    {
+      "path": "src/application/run_status.rs",
+      "reason": "audit daily に表示する DeliveryStatus contract。"
+    },
+    {
+      "path": "src/core/transition_log.rs",
+      "reason": "audit daily の transition log input contract。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "audit daily report rendering / parsing helpers は CLI から interface module へ抽出される。",
+    "research attention / asset thesis / macro gravity reports は CLI から interface module へ抽出される。",
+    "CLI は command parsing と orchestration を中心に残し、report formatting details を保持しない。",
+    "既存 audit daily snapshots と research attention CLI integration behavior を維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_snapshot_zh_cn",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_snapshot_en_us",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_snapshot_ja_jp",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-report-extraction-interface.summary.json CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json SUMMARY=.ai/work-items/active/cli-report-extraction-interface.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json SUMMARY=.ai/work-items/active/cli-report-extraction-interface.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
