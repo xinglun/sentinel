@@ -660,9 +660,6 @@ async fn run_pipeline(
     let all_evidence = evidence_store.load_all().unwrap_or_default();
     let prev_packet = history.last();
 
-    let mut ticker_histories = Vec::new();
-    let mut failed_symbols = Vec::new();
-
     let fetches = stream::iter(config_arc.watchlist.iter().filter(|w| w.enable))
         .map(|entry| {
             let provider_ref = Arc::clone(&provider);
@@ -675,15 +672,16 @@ async fn run_pipeline(
         })
         .buffer_unordered(10);
 
-    let results: Vec<_> = fetches.collect().await;
-    for (res, entry) in results {
-        match res {
-            Ok(h) => ticker_histories.push((h, entry)),
-            Err(_) => failed_symbols.push(entry.symbol.clone()),
-        }
-    }
-    let data_acquisition =
-        crate::application::radar::DataAcquisitionResult::new(ticker_histories, failed_symbols);
+    let fetch_results = fetches
+        .collect::<Vec<_>>()
+        .await
+        .into_iter()
+        .map(|(result, entry)| {
+            let symbol = entry.symbol.clone();
+            (result.map(|history| (history, entry)), symbol)
+        });
+    let radar_use_case = crate::application::radar::RadarPipelineUseCase::new();
+    let data_acquisition = radar_use_case.collect_data_acquisition(fetch_results);
     let prepared_data = crate::application::radar::RadarPipelineUseCase::new()
         .prepare_data_acquisition(data_acquisition);
     let data_acquisition_summary = prepared_data.summary;

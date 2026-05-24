@@ -90,6 +90,24 @@ impl RadarPipelineUseCase {
         Self
     }
 
+    /// provider fetch の結果列を data acquisition result へ集約する。
+    pub fn collect_data_acquisition<T, E, I>(self, results: I) -> DataAcquisitionResult<T>
+    where
+        I: IntoIterator<Item = (Result<T, E>, String)>,
+    {
+        let mut successful_items = Vec::new();
+        let mut failed_symbols = Vec::new();
+
+        for (result, symbol) in results {
+            match result {
+                Ok(item) => successful_items.push(item),
+                Err(_) => failed_symbols.push(symbol),
+            }
+        }
+
+        DataAcquisitionResult::new(successful_items, failed_symbols)
+    }
+
     /// data acquisition result を pipeline 実行前の policy 付き payload へ変換する。
     pub fn prepare_data_acquisition<T>(
         self,
@@ -476,6 +494,18 @@ mod tests {
             prepared.plan.data_quality_status,
             DataQualityStatus::Warning
         );
+    }
+
+    #[test]
+    fn radar_application_boundary_use_case_collects_fetch_results() {
+        let results: Vec<(Result<&str, &str>, String)> = vec![
+            (Ok("AAPL-history"), "AAPL".to_string()),
+            (Err("timeout"), "MSFT".to_string()),
+        ];
+        let data_acquisition = RadarPipelineUseCase::new().collect_data_acquisition(results);
+
+        assert_eq!(data_acquisition.successful_items, vec!["AAPL-history"]);
+        assert_eq!(data_acquisition.failed_symbols, vec!["MSFT".to_string()]);
     }
 
     #[test]
