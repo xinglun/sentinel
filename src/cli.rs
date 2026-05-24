@@ -6,29 +6,27 @@ use serde_json::json;
 use std::collections::BTreeMap;
 use std::sync::Arc;
 
-use crate::backtest;
-use crate::config;
-use crate::core::engine::Engine;
-use crate::core::execution_gate::ExecutionGate;
-use crate::core::ledger::Ledger;
-use crate::infrastructure::persistence::PersistenceLayer;
-use crate::infrastructure::transition_log::TransitionLogger;
-
 use crate::application::evidence::{ingest_manual_evidence, ManualEvidenceIngestionRequest};
 use crate::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
 };
 use crate::application::provider::MarketDataProvider;
+use crate::backtest;
+use crate::config;
+use crate::core::engine::Engine;
+use crate::core::execution_gate::ExecutionGate;
+use crate::core::ledger::Ledger;
 use crate::core::trend_cohesion::EvidenceSourceType;
 use crate::infrastructure::evidence_fetcher_factory::{
     build_batch_evidence_fetcher, build_evidence_extractor, build_evidence_store,
     build_url_evidence_fetcher,
 };
 use crate::infrastructure::market_data_provider_factory::{
-    build_market_data_provider, MarketDataProviderKind as ProviderType,
+    build_configured_market_data_provider, MarketDataProviderKind as ProviderType,
 };
 use crate::infrastructure::notify;
+use crate::infrastructure::radar_runtime_factory::build_radar_runtime_services;
 use crate::interface::i18n::Language;
 use crate::interface::presentation_assembler::PresentationAssembler;
 use crate::interface::report;
@@ -194,12 +192,7 @@ pub async fn run() -> Result<()> {
                     }
                 }
             }
-            let futu_addr = if let Some(futu_cfg) = &app_config.futu {
-                format!("{}:{}", futu_cfg.opend_ip, futu_cfg.opend_port)
-            } else {
-                "127.0.0.1:11111".to_string()
-            };
-            let provider = build_market_data_provider(provider_type, &futu_addr).await;
+            let provider = build_configured_market_data_provider(provider_type, &app_config).await;
             backtest::run_backtest(&app_config, provider.as_ref(), &from_date, &to_date).await?;
         }
         "daemon" => {
@@ -213,12 +206,7 @@ pub async fn run() -> Result<()> {
             } else {
                 crate::core::runtime_mode::ExecutionMode::DryRun
             };
-            let futu_addr = if let Some(futu_cfg) = &app_config.futu {
-                format!("{}:{}", futu_cfg.opend_ip, futu_cfg.opend_port)
-            } else {
-                "127.0.0.1:11111".to_string()
-            };
-            let provider = build_market_data_provider(provider_type, &futu_addr).await;
+            let provider = build_configured_market_data_provider(provider_type, &app_config).await;
             run_pipeline(app_config, provider, mode).await?;
         }
         "review" => {
@@ -538,12 +526,7 @@ Successfully ingested {} batch evidence records to store.",
             } else {
                 crate::core::runtime_mode::ExecutionMode::DryRun
             };
-            let futu_addr = if let Some(futu_cfg) = &app_config.futu {
-                format!("{}:{}", futu_cfg.opend_ip, futu_cfg.opend_port)
-            } else {
-                "127.0.0.1:11111".to_string()
-            };
-            let provider = build_market_data_provider(provider_type, &futu_addr).await;
+            let provider = build_configured_market_data_provider(provider_type, &app_config).await;
             run_pipeline(app_config, provider, mode).await?;
         }
     }
@@ -628,12 +611,16 @@ async fn run_pipeline(
         std::fs::create_dir_all(save_dir).context("Failed to create output directory")?;
     }
 
-    let persistence = PersistenceLayer::new(save_dir);
-    let transition_logger = TransitionLogger::new(save_dir);
-    let evidence_store = build_evidence_store(save_dir);
+    let runtime_services = build_radar_runtime_services(save_dir);
 
-    let history = persistence.load_recent_packets(20).unwrap_or_default();
-    let all_evidence = evidence_store.load_all().unwrap_or_default();
+    let history = runtime_services
+        .persistence
+        .load_recent_packets(20)
+        .unwrap_or_default();
+    let all_evidence = runtime_services
+        .evidence_store
+        .load_all()
+        .unwrap_or_default();
     let prev_packet = history.last();
 
     let fetches = stream::iter(config_arc.watchlist.iter().filter(|w| w.enable))
@@ -688,7 +675,7 @@ async fn run_pipeline(
                 Err(e) => {
                     outcome.decisioning =
                         crate::application::radar::build_decisioning_failure_status(e.to_string());
-                    persistence.save_run_status(&outcome)?;
+                    runtime_services.persistence.save_run_status(&outcome)?;
                     return Err(e);
                 }
             }
@@ -701,7 +688,9 @@ async fn run_pipeline(
         // Persist any newly generated evidence (FollowThrough, etc.)
         if let Some(ref recognition) = packet.trend_recognition {
             if let Some(ref substantive) = recognition.substantive {
-                let _ = evidence_store.save_records(&substantive.records);
+                let _ = runtime_services
+                    .evidence_store
+                    .save_records(&substantive.records);
             }
         }
 
@@ -735,7 +724,9 @@ async fn run_pipeline(
             buying_power,
             current_exposure,
         );
-        persistence.save_execution_gate_result(&packet, &execution_result)?;
+        runtime_services
+            .persistence
+            .save_execution_gate_result(&packet, &execution_result)?;
 
         let date_str = packet.date.to_string();
         let portfolio_snapshot = crate::application::radar::build_portfolio_snapshot(
@@ -744,7 +735,9 @@ async fn run_pipeline(
             current_exposure,
             &positions,
         );
-        persistence.save_portfolio_snapshot(&portfolio_snapshot, &date_str)?;
+        runtime_services
+            .persistence
+            .save_portfolio_snapshot(&portfolio_snapshot, &date_str)?;
 
         let failed_fetch_count = pres_packet
             .data_alert
@@ -763,7 +756,9 @@ async fn run_pipeline(
                 failed_fetch_count,
             },
         );
-        persistence.save_account_snapshot(&account_snapshot, &date_str)?;
+        runtime_services
+            .persistence
+            .save_account_snapshot(&account_snapshot, &date_str)?;
 
         let failed_symbols_for_log = pres_packet
             .data_alert
@@ -776,7 +771,9 @@ async fn run_pipeline(
             data_acquisition_summary,
             &failed_symbols_for_log,
         );
-        persistence.save_data_quality_log(&data_quality_log)?;
+        runtime_services
+            .persistence
+            .save_data_quality_log(&data_quality_log)?;
 
         outcome.state_machine = Some(crate::application::radar::build_state_machine_summary(
             prev_packet.map(|p| p.market_regime.market_state),
@@ -787,10 +784,10 @@ async fn run_pipeline(
         outcome.date = packet.date.to_string();
 
         if should_persist_history {
-            persistence.save_packet(&packet)?;
-            persistence.save_daily_packet(&packet)?;
+            runtime_services.persistence.save_packet(&packet)?;
+            runtime_services.persistence.save_daily_packet(&packet)?;
             if let Some(log) = &packet.transition_log {
-                let _ = transition_logger.log_transition(log);
+                let _ = runtime_services.transition_logger.log_transition(log);
             }
         }
 
@@ -808,7 +805,8 @@ async fn run_pipeline(
             &prices,
         )?;
 
-        persistence
+        runtime_services
+            .persistence
             .save_markdown_report(&report_result.archival_markdown, &pres_packet.date_str)?;
         persist_weekly_state_outputs(
             save_dir,
@@ -846,7 +844,7 @@ async fn run_pipeline(
             }
             Err(other) => other,
         };
-        persistence.save_run_status(&outcome)?;
+        runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
 }

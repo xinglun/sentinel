@@ -88,6 +88,8 @@ RULES: tuple[LayerRule, ...] = (
             "crate::adapters",
             "crate::infrastructure::evidence_ingestion",
             "crate::infrastructure::evidence_store",
+            "crate::infrastructure::persistence",
+            "crate::infrastructure::transition_log",
             "crate::trade",
         ),
     ),

@@ -9,5 +9,6 @@ pub mod evidence_store;
 pub mod market_data_provider_factory;
 pub mod notify;
 pub mod persistence;
+pub mod radar_runtime_factory;
 pub mod trader_agent;
 pub mod transition_log;

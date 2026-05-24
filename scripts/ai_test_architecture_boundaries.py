@@ -145,6 +145,22 @@ def test_cli_rejects_concrete_evidence_extractor_dependency() -> None:
         assert violations, "CLI から concrete evidence extractor への直接依存は factory 経由にするべき"
 
 
+def test_cli_rejects_persistence_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/cli.rs", "use crate::infrastructure::persistence::PersistenceLayer;\n")
+        violations = checker.check_project(root)
+        assert violations, "CLI から persistence への直接依存は runtime factory 経由にするべき"
+
+
+def test_cli_rejects_transition_logger_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/cli.rs", "use crate::infrastructure::transition_log::TransitionLogger;\n")
+        violations = checker.check_project(root)
+        assert violations, "CLI から transition logger への直接依存は runtime factory 経由にするべき"
+
+
 def test_config_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -170,6 +186,8 @@ def main() -> int:
         test_cli_rejects_trade_dependency,
         test_cli_rejects_concrete_evidence_store_dependency,
         test_cli_rejects_concrete_evidence_extractor_dependency,
+        test_cli_rejects_persistence_dependency,
+        test_cli_rejects_transition_logger_dependency,
         test_config_rejects_interface_dependency,
     ]
     for test in tests:
