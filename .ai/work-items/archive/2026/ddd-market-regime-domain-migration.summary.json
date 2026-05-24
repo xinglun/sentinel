@@ -1,6 +1,6 @@
 {
   "workItemId": "ddd-market-regime-domain-migration",
-  "contractPath": ".ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/ddd-market-regime-domain-migration.contract.json",
   "changedFiles": [
     {
       "path": "src/domain/market_regime.rs",
