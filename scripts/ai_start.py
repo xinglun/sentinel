@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -28,6 +29,19 @@ def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def run_preflight_checks() -> int:
+    checks = [
+        ("lifecycle", PROJECT_ROOT / "scripts" / "ai_check_lifecycle.py"),
+        ("status consistency", PROJECT_ROOT / "scripts" / "ai_check_status_consistency.py"),
+    ]
+    for label, script in checks:
+        result = subprocess.run([sys.executable, str(script)], cwd=PROJECT_ROOT, check=False)
+        if result.returncode != 0:
+            print(f"❌ ai-start preflight failed: {label}", file=sys.stderr)
+            return result.returncode
+    return 0
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="AI Work Item の skeleton を作成します。")
     parser.add_argument("--task", required=True, help="task id。例: risk_taxonomy_refine")
@@ -44,6 +58,10 @@ def main() -> int:
     except ValueError as exc:
         print(f"❌ {exc}", file=sys.stderr)
         return 2
+
+    preflight_code = run_preflight_checks()
+    if preflight_code != 0:
+        return preflight_code
 
     contract_path = ACTIVE_DIR / f"{task}.contract.json"
     summary_path = ACTIVE_DIR / f"{task}.summary.json"

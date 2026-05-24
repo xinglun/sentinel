@@ -1,0 +1,88 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-start-lifecycle-preflight",
+  "mode": "code",
+  "title": "ai-start の lifecycle preflight を追加",
+  "scope": [
+    ".ai/work-items/active/ai-start-lifecycle-preflight.contract.json",
+    ".ai/work-items/active/ai-start-lifecycle-preflight.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_start.py",
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Work Item 作成入口。残留がある状態で新規 active task を作成しないようにする対象。"
+    },
+    {
+      "path": "scripts/ai_check_lifecycle.py",
+      "reason": "active / archive duplicate と no_active_work_item の active 残留を検出する既存 guard。"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "current_status.md と active Work Item 配置の参照整合性を検証する既存 guard。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "ai_start の lightweight regression tests を追加する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "ai_start は既存 skeleton 上書き確認の前に lifecycle / status consistency preflight を実行する。",
+    "preflight が失敗した場合、ai_start は新しい Contract / Summary を作成せず非 0 で終了する。",
+    "preflight が成功した場合、従来どおり Work Item skeleton を作成できる。",
+    "preflight failure の regression test が存在する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-start-lifecycle-preflight.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-start-lifecycle-preflight.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "required": true
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-start-lifecycle-preflight.summary.json CONTRACT=.ai/work-items/active/ai-start-lifecycle-preflight.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-start-lifecycle-preflight.contract.json SUMMARY=.ai/work-items/active/ai-start-lifecycle-preflight.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-start-lifecycle-preflight.contract.json SUMMARY=.ai/work-items/active/ai-start-lifecycle-preflight.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

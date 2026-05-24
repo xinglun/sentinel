@@ -65,6 +65,7 @@ def test_ai_start_generates_required_fmt(active: Path) -> None:
     task = "fmt_generated_contract"
     with (
         patch.object(ai_start, "ACTIVE_DIR", active),
+        patch.object(ai_start, "run_preflight_checks", return_value=0),
         patch.object(sys, "argv", ["ai_start.py", "--task", task, "--mode", "investigate"]),
     ):
         code = ai_start.main()
@@ -78,6 +79,25 @@ def test_ai_start_generates_required_fmt(active: Path) -> None:
     assert_true("make fmt-check" in required, "generated contract should include make fmt-check")
 
 
+def test_ai_start_preflight_failure_creates_no_files(active: Path) -> None:
+    task = "blocked_by_preflight"
+    with (
+        patch.object(ai_start, "ACTIVE_DIR", active),
+        patch.object(ai_start, "run_preflight_checks", return_value=1),
+        patch.object(sys, "argv", ["ai_start.py", "--task", task, "--mode", "investigate"]),
+    ):
+        code = ai_start.main()
+    assert_equal(code, 1, "ai_start should fail when preflight fails")
+    assert_true(
+        not (active / f"{task}.contract.json").exists(),
+        "preflight failure should not create a contract",
+    )
+    assert_true(
+        not (active / f"{task}.summary.json").exists(),
+        "preflight failure should not create a summary",
+    )
+
+
 def main() -> int:
     active = REPO_ROOT / "target" / "ai_work_item_contract_test_active"
     shutil.rmtree(active, ignore_errors=True)
@@ -88,6 +108,8 @@ def main() -> int:
         print("✅ accepts_required_fmt")
         test_ai_start_generates_required_fmt(active)
         print("✅ ai_start_generates_required_fmt")
+        test_ai_start_preflight_failure_creates_no_files(active)
+        print("✅ ai_start_preflight_failure_creates_no_files")
     finally:
         shutil.rmtree(active, ignore_errors=True)
     print("✅ work item contract tests passed")
