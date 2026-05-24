@@ -810,29 +810,12 @@ async fn run_pipeline(
         );
         persistence.save_data_quality_log(&data_quality_log)?;
 
-        let mut sm_summary = crate::core::run_status::StateMachineSummary {
-            from_state: format!(
-                "{:?}",
-                prev_packet
-                    .map(|p| p.market_regime.market_state)
-                    .unwrap_or(crate::core::market_regime::MarketState::IGNITION)
-            ),
-            to_state: if should_persist_history {
-                format!("{:?}", packet.market_regime.market_state)
-            } else {
-                "DATA_UNAVAILABLE".to_string()
-            },
-            ..Default::default()
-        };
-        if let Some(audit) = &packet.market_regime.transition_audit {
-            sm_summary.reset_confirmed = audit.reset_gate_passed;
-            sm_summary.reset_blocked = audit.is_reset_blocked;
-            sm_summary.soft_reset_applied = audit.soft_reset_applied;
-            sm_summary.duration_locked = audit.duration_locked;
-            sm_summary.defensive_override = audit.defensive_override;
-            sm_summary.core_breakdown = audit.core_breakdown;
-        }
-        outcome.state_machine = Some(sm_summary);
+        outcome.state_machine = Some(crate::application::radar::build_state_machine_summary(
+            prev_packet.map(|p| p.market_regime.market_state),
+            packet.market_regime.market_state,
+            packet.market_regime.transition_audit.as_ref(),
+            should_persist_history,
+        ));
         outcome.date = packet.date.to_string();
 
         if should_persist_history {

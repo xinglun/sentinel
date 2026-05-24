@@ -6,7 +6,7 @@ use stock_sentinel::core::decision::DecisionPacket;
 use stock_sentinel::core::engine::Engine;
 use stock_sentinel::core::features::MarketFeatures;
 use stock_sentinel::core::market_regime::{
-    LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
+    LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
 };
 use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
 use stock_sentinel::data::yahoo_provider::{DailyBar, TickerHistory};
@@ -369,4 +369,45 @@ fn radar_application_payload_builders_keep_persistence_schema() {
     assert_eq!(quality["successful_fetches"], 1);
     assert_eq!(quality["failed_symbols"][0], "MSFT");
     assert_eq!(quality["status"], "WARNING");
+}
+
+#[test]
+fn radar_application_state_machine_summary_keeps_run_status_contract() {
+    let audit = MarketTransitionAudit {
+        from: LifecycleState::IGNITION,
+        to: LifecycleState::NEWBORN,
+        is_reset_blocked: true,
+        is_downgrade_clamped: false,
+        core_breakdown: true,
+        duration_locked: true,
+        trend_dominant: false,
+        reset_gate_passed: true,
+        indicator_cap: LifecycleState::NEWBORN,
+        soft_reset_applied: true,
+        defensive_override: true,
+    };
+
+    let summary = stock_sentinel::application::radar::build_state_machine_summary(
+        Some(MarketState::IGNITION),
+        MarketState::DEFENSIVE,
+        Some(&audit),
+        true,
+    );
+    let unavailable = stock_sentinel::application::radar::build_state_machine_summary(
+        Some(MarketState::ESTABLISHED),
+        MarketState::CONFIRMED,
+        None,
+        false,
+    );
+
+    assert_eq!(summary.from_state, "IGNITION");
+    assert_eq!(summary.to_state, "DEFENSIVE");
+    assert!(summary.reset_confirmed);
+    assert!(summary.reset_blocked);
+    assert!(summary.soft_reset_applied);
+    assert!(summary.duration_locked);
+    assert!(summary.defensive_override);
+    assert!(summary.core_breakdown);
+    assert_eq!(unavailable.from_state, "ESTABLISHED");
+    assert_eq!(unavailable.to_state, "DATA_UNAVAILABLE");
 }

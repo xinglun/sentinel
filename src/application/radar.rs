@@ -165,9 +165,42 @@ pub fn build_data_quality_log(
     })
 }
 
+/// run status 用の state machine summary を構築する。
+pub fn build_state_machine_summary(
+    prev_market_state: Option<crate::core::market_regime::MarketState>,
+    current_market_state: crate::core::market_regime::MarketState,
+    transition_audit: Option<&crate::core::market_regime::MarketTransitionAudit>,
+    should_persist_history: bool,
+) -> crate::core::run_status::StateMachineSummary {
+    let mut summary = crate::core::run_status::StateMachineSummary {
+        from_state: format!(
+            "{:?}",
+            prev_market_state.unwrap_or(crate::core::market_regime::MarketState::IGNITION)
+        ),
+        to_state: if should_persist_history {
+            format!("{:?}", current_market_state)
+        } else {
+            "DATA_UNAVAILABLE".to_string()
+        },
+        ..Default::default()
+    };
+
+    if let Some(audit) = transition_audit {
+        summary.reset_confirmed = audit.reset_gate_passed;
+        summary.reset_blocked = audit.is_reset_blocked;
+        summary.soft_reset_applied = audit.soft_reset_applied;
+        summary.duration_locked = audit.duration_locked;
+        summary.defensive_override = audit.defensive_override;
+        summary.core_breakdown = audit.core_breakdown;
+    }
+
+    summary
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::core::market_regime::{LifecycleState, MarketState, MarketTransitionAudit};
     use std::collections::HashMap;
 
     #[test]
@@ -265,5 +298,42 @@ mod tests {
         assert_eq!(account["buying_power_estimate"], 800.0);
         assert_eq!(data_quality["status"], "WARNING");
         assert_eq!(data_quality["failed_symbols"][0], "MSFT");
+    }
+
+    #[test]
+    fn radar_application_boundary_builds_state_machine_summary() {
+        let audit = MarketTransitionAudit {
+            from: LifecycleState::IGNITION,
+            to: LifecycleState::NEWBORN,
+            is_reset_blocked: true,
+            is_downgrade_clamped: false,
+            core_breakdown: true,
+            duration_locked: true,
+            trend_dominant: false,
+            reset_gate_passed: true,
+            indicator_cap: LifecycleState::NEWBORN,
+            soft_reset_applied: true,
+            defensive_override: true,
+        };
+
+        let summary = build_state_machine_summary(
+            Some(MarketState::IGNITION),
+            MarketState::DEFENSIVE,
+            Some(&audit),
+            true,
+        );
+
+        assert_eq!(summary.from_state, "IGNITION");
+        assert_eq!(summary.to_state, "DEFENSIVE");
+        assert!(summary.reset_confirmed);
+        assert!(summary.reset_blocked);
+        assert!(summary.soft_reset_applied);
+        assert!(summary.duration_locked);
+        assert!(summary.defensive_override);
+        assert!(summary.core_breakdown);
+
+        let unavailable = build_state_machine_summary(None, MarketState::ESTABLISHED, None, false);
+        assert_eq!(unavailable.from_state, "IGNITION");
+        assert_eq!(unavailable.to_state, "DATA_UNAVAILABLE");
     }
 }
