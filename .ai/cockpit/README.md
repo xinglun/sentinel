@@ -25,6 +25,7 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 |---|---|
 | `checks.yaml` | Sentinel 向けの共通検証 command catalog。 |
 | `current_status.md` | `scripts/ai_generate_status.py` が生成する現在の状態。 |
+| `status_policy.yaml` | active / no-active status、archive 後の同期、参照整合性の方針。 |
 
 ## 推奨コマンド
 
@@ -36,4 +37,5 @@ make check-ai-backtrack
 make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
 make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
 make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
+make check-ai-status-consistency
 ```

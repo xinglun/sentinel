@@ -19,7 +19,7 @@ RESEARCH_ATTENTION_ARGS ?=
 
 .PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-work-item-contract test-architecture-boundaries \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
-	generate-cockpit-status check-ai-status ai-start ai-finish check-ai quality radar radar-release daemon backtest \
+	generate-cockpit-status check-ai-status check-ai-status-consistency ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
 	collect-evidence-release research-attention archive-work-item check-work-items-lifecycle
 
@@ -59,6 +59,7 @@ help:
 	@printf '%s\n' '  make check-ai-coverage-guard'
 	@printf '%s\n' '  make generate-cockpit-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
 	@printf '%s\n' '  make check-ai-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
+	@printf '%s\n' '  make check-ai-status-consistency'
 	@printf '%s\n' '  make ai-start TASK=<task> TITLE="..."'
 	@printf '%s\n' '  make ai-finish TASK=<task>'
 	@printf '%s\n' '  make check-ai'
@@ -135,6 +136,9 @@ generate-cockpit-status:
 check-ai-status:
 	python3 scripts/ai_check_status.py .ai/cockpit/current_status.md $(SUMMARY_ARGS) $(STATUS_ARGS)
 
+check-ai-status-consistency:
+	python3 scripts/ai_check_status_consistency.py
+
 check-work-items-lifecycle:
 	python3 scripts/ai_check_lifecycle.py
 
@@ -151,9 +155,11 @@ check-ai:
 		"$${MAKE:-make}" check-ai-change-summary SUMMARY="$(SUMMARY)" CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
+		"$${MAKE:-make}" check-ai-status-consistency && \
 		"$${MAKE:-make}" check-work-items-lifecycle; \
 	else \
 		python3 scripts/ai_generate_status.py --no-active && \
+		"$${MAKE:-make}" check-ai-status-consistency && \
 		"$${MAKE:-make}" check-ai-guards && \
 		"$${MAKE:-make}" check-ai-backtrack && \
 		"$${MAKE:-make}" check-ai-coverage-guard && \

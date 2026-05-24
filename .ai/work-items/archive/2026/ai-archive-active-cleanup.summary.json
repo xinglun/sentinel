@@ -1,0 +1,121 @@
+{
+  "workItemId": "ai-archive-active-cleanup",
+  "contractPath": ".ai/work-items/archive/2026/ai-archive-active-cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-archive-active-cleanup.contract.json",
+      "reason": "archive active cleanup の scope / sources / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-archive-active-cleanup.summary.json",
+      "reason": "変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を同期した。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "status_policy.yaml と status consistency check を最小フローへ追記した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "status_policy.yaml と check-ai-status-consistency の入口を追記した。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "status consistency check を共通 check catalog へ追加した。"
+    },
+    {
+      "path": ".ai/cockpit/status_policy.yaml",
+      "reason": "active / no-active status と archive 後の同期方針を機械可読 policy として追加した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-ai-status-consistency target を追加し、check-ai flow へ接続した。"
+    },
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "archive 後に active 残留を除去し、no-active cockpit status 生成と status consistency check の失敗を検出するようにした。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "archive 成功後に lifecycle / status consistency check を追加し、active 残留を finish flow で検出するようにした。"
+    },
+    {
+      "path": "scripts/ai_check_status_consistency.py",
+      "reason": "current_status.md が存在する Contract / Summary または no_active_work_item 状態と一致することを検証する checker を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_lifecycle.py",
+      "reason": "current_status が no_active_work_item のとき active JSON 残留を lifecycle error にした。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "archive 成功後に lifecycle check が実行されることを regression test に追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_check_status_consistency.py",
+    "scripts/ai_check_lifecycle.py",
+    "scripts/ai_test_finish_archive_flow.py",
+    ".ai/cockpit/current_status.md",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/cockpit/status_policy.yaml",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/tools/scripts/check_cockpit_status_consistency.py",
+    "/Users/sei-rinn/dev/workspace_flutter/seven_app/tools/scripts/archive_work_item.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "result": "passed"
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-archive-active-cleanup.summary.json CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-cleanup.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "archive 後の active 残留は cleanup、lifecycle check、status consistency check の三段で検出する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make ai-finish 後に active Work Item JSON が残留し、current_status の no_active_work_item と矛盾する場合があった。"
+  ]
+}

@@ -24,6 +24,8 @@ key: ai-governance-entry
 | `.ai/guards/` | Backtrack Guard などの回帰防止 policy。 |
 | `.ai/work-items/` | Contract、Summary、Review checklist の template と active task。 |
 
+`current_status.md` の active / no-active 表示、archive 後の同期、参照整合性は `.ai/cockpit/status_policy.yaml` を正とします。
+
 ## 運用原則
 
 AI 作業は通常の開発品質を免除しません。複雑な diff を伴う変更では、作業前に Contract を作成し、完了時に Summary と検証結果を残します。
@@ -39,6 +41,7 @@ AI 作業は通常の開発品質を免除しません。複雑な diff を伴�
 5. `.ai/work-items/active/<task>.summary.json` に結果を記録する。
 6. `scripts/ai_check_backtrack.py` を実行し、無宣言な回帰リスクを確認する。
 7. `scripts/ai_generate_status.py` で `.ai/cockpit/current_status.md` を更新する。
+8. `scripts/ai_check_status_consistency.py` で status と Work Item 配置の参照整合性を確認する。
 
 ## 境界
 
