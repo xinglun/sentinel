@@ -292,3 +292,17 @@ fn radar_application_policy_blocks_full_fetch_failure_history() {
     assert!(!summary.should_persist_decision_history());
     assert!(summary.is_full_failure());
 }
+
+#[test]
+fn radar_application_result_uses_same_persistence_policy() {
+    let result = stock_sentinel::application::radar::DataAcquisitionResult::new(
+        vec!["NVDA"],
+        vec!["MSFT".to_string()],
+    );
+    let summary = result.summary();
+
+    assert_eq!(summary.successful_fetches, 1);
+    assert_eq!(summary.failed_fetches, 1);
+    assert!(result.should_persist_decision_history());
+    assert!(!result.is_full_failure());
+}

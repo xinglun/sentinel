@@ -678,6 +678,11 @@ async fn run_pipeline(
             Err(_) => failed_symbols.push(entry.symbol.clone()),
         }
     }
+    let data_acquisition =
+        crate::application::radar::DataAcquisitionResult::new(ticker_histories, failed_symbols);
+    let data_acquisition_summary = data_acquisition.summary();
+    let should_persist_history = data_acquisition.should_persist_decision_history();
+    let (ticker_histories, failed_symbols) = data_acquisition.into_parts();
 
     let mut outcome = crate::core::run_status::RunOutcome {
         date: chrono::Local::now().date_naive().to_string(),
@@ -690,11 +695,6 @@ async fn run_pipeline(
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if !ticker_histories.is_empty() || !failed_symbols.is_empty() {
-        let data_acquisition_summary = crate::application::radar::DataAcquisitionSummary::new(
-            ticker_histories.len(),
-            failed_symbols.len(),
-        );
-        let should_persist_history = data_acquisition_summary.should_persist_decision_history();
         let packet = if !ticker_histories.is_empty() {
             match Engine::run_daily_pipeline(
                 &ticker_histories,
@@ -801,10 +801,10 @@ async fn run_pipeline(
         let data_quality_log = serde_json::json!({
             "timestamp": chrono::Local::now().to_rfc3339(),
             "date": date_str,
-            "successful_fetches": ticker_histories.len(),
-            "failed_fetches": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.len()).unwrap_or(0),
+            "successful_fetches": data_acquisition_summary.successful_fetches,
+            "failed_fetches": data_acquisition_summary.failed_fetches,
             "failed_symbols": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.clone()).unwrap_or_default(),
-            "status": if ticker_histories.is_empty() {
+            "status": if data_acquisition_summary.is_full_failure() {
                 "CRITICAL"
             } else if pres_packet.data_alert.is_some() {
                 "WARNING"
