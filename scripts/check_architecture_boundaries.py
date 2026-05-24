@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Iterable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-IMPORT_RE = re.compile(r"^\s*(?:use|pub\s+use)\s+([^;]+);")
+IMPORT_START_RE = re.compile(r"^\s*(?:use|pub\s+use)\s+(.+)")
 
 
 @dataclass(frozen=True)
@@ -105,13 +105,30 @@ def normalize_import(raw: str) -> str:
 
 
 def imports_from(path: Path) -> Iterable[tuple[int, str]]:
+    pending_import: list[str] = []
+    pending_start = 0
+
     for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         stripped = line.strip()
         if stripped.startswith("//") or stripped.startswith("///") or stripped.startswith("//"):
             continue
-        match = IMPORT_RE.match(line)
+
+        if pending_import:
+            pending_import.append(stripped)
+            if ";" in stripped:
+                yield pending_start, normalize_import(" ".join(pending_import).rstrip(";"))
+                pending_import = []
+                pending_start = 0
+            continue
+
+        match = IMPORT_START_RE.match(line)
         if match:
-            yield line_no, normalize_import(match.group(1))
+            import_body = match.group(1).strip()
+            if ";" in import_body:
+                yield line_no, normalize_import(import_body.rstrip(";"))
+            else:
+                pending_import = [import_body]
+                pending_start = line_no
 
 
 def check_project(root: Path = PROJECT_ROOT) -> list[Violation]:

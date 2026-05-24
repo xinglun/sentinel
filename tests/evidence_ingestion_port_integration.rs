@@ -210,7 +210,7 @@ async fn evidence_batch_collection_use_case_counts_success_and_failure() -> anyh
 #[test]
 fn evidence_cli_batch_fetcher_rejects_missing_finnhub_key_outside_dry_run() -> anyhow::Result<()> {
     use stock_sentinel::config::AppConfig;
-    use stock_sentinel::interface::evidence_cli::build_batch_evidence_fetcher;
+    use stock_sentinel::infrastructure::evidence_fetcher_factory::build_batch_evidence_fetcher;
 
     let config_text = r#"
 version = 1
@@ -254,7 +254,7 @@ stability_threshold = 5.5
 #[test]
 fn evidence_cli_url_fetcher_accepts_fixture_path_without_config() -> anyhow::Result<()> {
     use stock_sentinel::config::AppConfig;
-    use stock_sentinel::interface::evidence_cli::build_url_evidence_fetcher;
+    use stock_sentinel::infrastructure::evidence_fetcher_factory::build_url_evidence_fetcher;
 
     let config_text = r#"
 version = 1

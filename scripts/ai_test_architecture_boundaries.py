@@ -60,6 +60,19 @@ def test_interface_rejects_direct_adapter_dependency() -> None:
         assert violations, "interface から adapter への直接依存は検出されるべき"
 
 
+def test_interface_rejects_multiline_infrastructure_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(
+            root / "src/interface/evidence_cli.rs",
+            "use crate::infrastructure::evidence_ingestion::{\n"
+            "    FinnhubFetcher, FixtureFetcher,\n"
+            "};\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "interface から infrastructure への multi-line use は検出されるべき"
+
+
 def test_core_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -83,6 +96,7 @@ def main() -> int:
         test_application_rejects_infrastructure_dependency,
         test_application_rejects_data_provider_dependency,
         test_interface_rejects_direct_adapter_dependency,
+        test_interface_rejects_multiline_infrastructure_dependency,
         test_core_rejects_interface_dependency,
         test_config_rejects_interface_dependency,
     ]

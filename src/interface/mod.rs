@@ -4,7 +4,6 @@
 //! 業務判断そのものは domain / application へ委譲する。
 
 pub mod display;
-pub mod evidence_cli;
 pub mod i18n;
 pub mod presentation;
 pub mod presentation_assembler;

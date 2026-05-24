@@ -22,10 +22,12 @@ use crate::application::evidence_ingestion::{
 };
 use crate::application::provider::MarketDataProvider;
 use crate::core::trend_cohesion::EvidenceSourceType;
+use crate::infrastructure::evidence_fetcher_factory::{
+    build_batch_evidence_fetcher, build_url_evidence_fetcher,
+};
 use crate::infrastructure::evidence_ingestion::RuleBasedExtractor;
 use crate::infrastructure::evidence_store::EvidenceStore;
 use crate::infrastructure::notify;
-use crate::interface::evidence_cli::{build_batch_evidence_fetcher, build_url_evidence_fetcher};
 use crate::interface::i18n::Language;
 use crate::interface::presentation_assembler::PresentationAssembler;
 use crate::interface::report;
