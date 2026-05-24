@@ -97,6 +97,14 @@ def test_core_rejects_trade_dependency() -> None:
         assert violations, "core から trade への依存は検出されるべき"
 
 
+def test_backtest_rejects_direct_adapter_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/backtest.rs", "use crate::adapters::yahoo_provider::fetch_history;\n")
+        violations = checker.check_project(root)
+        assert violations, "backtest から adapter への直接依存は port 経由にするべき"
+
+
 def test_config_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -116,6 +124,7 @@ def main() -> int:
         test_core_rejects_interface_dependency,
         test_core_rejects_application_dependency,
         test_core_rejects_trade_dependency,
+        test_backtest_rejects_direct_adapter_dependency,
         test_config_rejects_interface_dependency,
     ]
     for test in tests:
