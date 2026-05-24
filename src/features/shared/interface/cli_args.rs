@@ -6,6 +6,7 @@ use crate::features::shared::interface::i18n::Language;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CliCommand {
+    Help,
     Backtest,
     Daemon,
     Radar,
@@ -17,6 +18,7 @@ pub(crate) enum CliCommand {
     ResearchAttention,
     AssetThesis,
     DailyCalibration,
+    GrayRhinoEscalation,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -28,6 +30,7 @@ pub(crate) enum CliProviderKind {
 #[derive(Debug, Clone)]
 pub(crate) struct CliOptions {
     pub command: CliCommand,
+    pub cli_arg_error: Option<String>,
     pub provider: CliProviderKind,
     pub audit_date_arg: Option<String>,
     pub audit_days: usize,
@@ -69,7 +72,8 @@ impl CliProviderKind {
 impl CliOptions {
     fn new(app_config: &config::AppConfig) -> Self {
         Self {
-            command: CliCommand::Radar,
+            command: CliCommand::Help,
+            cli_arg_error: None,
             provider: CliProviderKind::from_config(app_config.provider.as_deref()),
             audit_date_arg: None,
             audit_days: 14,
@@ -99,21 +103,64 @@ pub(crate) fn parse_cli_options(
     audit_language: Language,
 ) -> CliOptions {
     let mut options = CliOptions::new(app_config);
+    let mut command_explicit = false;
+    let mut help_requested = args.len() <= 1;
 
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
-            "backtest" => options.command = CliCommand::Backtest,
-            "daemon" | "trade" => options.command = CliCommand::Daemon,
-            "radar" => options.command = CliCommand::Radar,
-            "review" => options.command = CliCommand::Review,
-            "audit_daily" | "transition_audit_summary" => options.command = CliCommand::AuditDaily,
-            "ingest-evidence" => options.command = CliCommand::IngestEvidence,
-            "ingest-evidence-url" => options.command = CliCommand::IngestEvidenceUrl,
-            "collect-evidence" => options.command = CliCommand::CollectEvidence,
-            "research-attention" => options.command = CliCommand::ResearchAttention,
-            "asset-thesis" => options.command = CliCommand::AssetThesis,
-            "daily-calibration" => options.command = CliCommand::DailyCalibration,
+            "help" | "-h" | "--help" => {
+                options.command = CliCommand::Help;
+                help_requested = true;
+            }
+            "backtest" => {
+                options.command = CliCommand::Backtest;
+                command_explicit = true;
+            }
+            "daemon" | "trade" => {
+                options.command = CliCommand::Daemon;
+                command_explicit = true;
+            }
+            "radar" => {
+                options.command = CliCommand::Radar;
+                command_explicit = true;
+            }
+            "review" => {
+                options.command = CliCommand::Review;
+                command_explicit = true;
+            }
+            "audit_daily" | "transition_audit_summary" => {
+                options.command = CliCommand::AuditDaily;
+                command_explicit = true;
+            }
+            "ingest-evidence" => {
+                options.command = CliCommand::IngestEvidence;
+                command_explicit = true;
+            }
+            "ingest-evidence-url" => {
+                options.command = CliCommand::IngestEvidenceUrl;
+                command_explicit = true;
+            }
+            "collect-evidence" => {
+                options.command = CliCommand::CollectEvidence;
+                command_explicit = true;
+            }
+            "research-attention" => {
+                options.command = CliCommand::ResearchAttention;
+                command_explicit = true;
+            }
+            "asset-thesis" => {
+                options.command = CliCommand::AssetThesis;
+                command_explicit = true;
+            }
+            "daily-calibration" => {
+                options.command = CliCommand::DailyCalibration;
+                command_explicit = true;
+            }
+            "gray-rhino" | "gray-rhino-escalation" => {
+                options.command = CliCommand::GrayRhinoEscalation;
+                command_explicit = true;
+            }
             "--provider" if i + 1 < args.len() => {
                 if let Some(provider) = CliProviderKind::from_arg(&args[i + 1]) {
                     options.provider = provider;
@@ -211,10 +258,20 @@ pub(crate) fn parse_cli_options(
                 options.backtest_to_date = args[i + 1].clone();
                 i += 1;
             }
-            _ => {}
+            unknown => {
+                options.cli_arg_error = Some(format!("Unknown command or option: {}", unknown));
+            }
         }
         i += 1;
     }
 
+    if !command_explicit && !help_requested && options.cli_arg_error.is_none() {
+        options.cli_arg_error = Some("No command specified.".to_string());
+    }
+
     options
+}
+
+pub(crate) fn cli_usage(_language: Language) -> &'static str {
+    "Usage: stock-sentinel <command> [options]\n\nCommands:\n  radar                         Run the daily radar pipeline\n  daemon | trade                Run the trading daemon mode\n  review                        Render the latest review\n  audit_daily                   Render transition audit summary\n  daily-calibration             Render daily cognitive calibration\n  research-attention            Render research attention report\n  asset-thesis                  Render asset thesis registry\n  gray-rhino                    Render Gray Rhino Escalation monitor\n  ingest-evidence               Ingest manual evidence\n  ingest-evidence-url           Collect evidence from one URL\n  collect-evidence              Collect evidence from configured sources\n  backtest                      Run backtest\n  help                          Show this help\n\nOptions:\n  --help, -h                    Show this help\n  --notify                      Send supported sidecar report to Telegram\n  --provider <yahoo|futu>       Select market data provider\n  --date <YYYY-MM-DD>           Select audit/evidence date\n  --days <N>                    Select audit/evidence lookback days\n\nSafety:\n  No command is executed by default. Use `radar` explicitly to run the radar pipeline."
 }

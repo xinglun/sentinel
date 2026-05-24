@@ -75,7 +75,7 @@ fn format_research_attention_item(
         information_density_label(entry.information_density),
         research_attention_cost_label(language),
         attention_cost_label(entry.attention_cost),
-        entry.reason
+        localized_research_reason(entry, language)
     )
 }
 
@@ -187,16 +187,22 @@ pub(crate) fn build_asset_thesis_report(
     out.push_str("\n\n");
 
     for (symbol, entry) in active_entries {
-        out.push_str(&format!("• {} · {}\n", symbol, entry.thesis));
+        out.push_str(&format!(
+            "• {} · {}\n",
+            symbol,
+            localized_asset_thesis(entry, language)
+        ));
+        let observation_focus = localized_asset_observation_focus(entry, language);
         push_asset_thesis_list(
             &mut out,
             asset_thesis_observation_focus_label(language),
-            &entry.observation_focus,
+            &observation_focus,
         );
+        let invalidation = localized_asset_invalidation(entry, language);
         push_asset_thesis_list(
             &mut out,
             asset_thesis_invalidation_label(language),
-            &entry.invalidation,
+            &invalidation,
         );
         out.push('\n');
     }
@@ -238,6 +244,94 @@ fn push_asset_thesis_list(out: &mut String, title: &str, items: &[String]) {
     out.push_str(&format!("  {}:\n", title));
     for item in items {
         out.push_str(&format!("  - {}\n", item));
+    }
+}
+
+fn localized_research_reason(entry: &config::ResearchAttentionEntry, language: Language) -> String {
+    localized_text(
+        &entry.reason,
+        entry.reason_zh.as_deref(),
+        entry.reason_en.as_deref(),
+        entry.reason_ja.as_deref(),
+        language,
+    )
+}
+
+fn localized_asset_thesis(entry: &config::AssetThesisEntry, language: Language) -> String {
+    localized_text(
+        &entry.thesis,
+        entry.thesis_zh.as_deref(),
+        entry.thesis_en.as_deref(),
+        entry.thesis_ja.as_deref(),
+        language,
+    )
+}
+
+fn localized_asset_observation_focus(
+    entry: &config::AssetThesisEntry,
+    language: Language,
+) -> Vec<String> {
+    localized_list(
+        &entry.observation_focus,
+        entry.observation_focus_zh.as_deref(),
+        entry.observation_focus_en.as_deref(),
+        entry.observation_focus_ja.as_deref(),
+        language,
+    )
+}
+
+fn localized_asset_invalidation(
+    entry: &config::AssetThesisEntry,
+    language: Language,
+) -> Vec<String> {
+    localized_list(
+        &entry.invalidation,
+        entry.invalidation_zh.as_deref(),
+        entry.invalidation_en.as_deref(),
+        entry.invalidation_ja.as_deref(),
+        language,
+    )
+}
+
+fn localized_text(
+    legacy_ja_text: &str,
+    zh: Option<&str>,
+    en: Option<&str>,
+    ja: Option<&str>,
+    language: Language,
+) -> String {
+    match language {
+        Language::ZhCn => zh.unwrap_or(localized_config_missing(language)).to_string(),
+        Language::EnUs => en.unwrap_or(localized_config_missing(language)).to_string(),
+        Language::JaJp => ja.unwrap_or(legacy_ja_text).to_string(),
+    }
+}
+
+fn localized_list(
+    legacy_ja_items: &[String],
+    zh: Option<&[String]>,
+    en: Option<&[String]>,
+    ja: Option<&[String]>,
+    language: Language,
+) -> Vec<String> {
+    match language {
+        Language::ZhCn => zh
+            .map(|items| items.to_vec())
+            .unwrap_or_else(|| vec![localized_config_missing(language).to_string()]),
+        Language::EnUs => en
+            .map(|items| items.to_vec())
+            .unwrap_or_else(|| vec![localized_config_missing(language).to_string()]),
+        Language::JaJp => ja
+            .map(|items| items.to_vec())
+            .unwrap_or_else(|| legacy_ja_items.to_vec()),
+    }
+}
+
+fn localized_config_missing(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "用户自定义观察说明未提供中文版本。",
+        Language::EnUs => "User-defined observation text is not provided in English.",
+        Language::JaJp => "ユーザー定義の観測説明は日本語で未提供です。",
     }
 }
 

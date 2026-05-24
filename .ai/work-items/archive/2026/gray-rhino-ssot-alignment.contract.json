@@ -1,0 +1,120 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-ssot-alignment",
+  "mode": "code",
+  "title": "Gray Rhino SSOT 整合",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+    ".ai/work-items/active/gray-rhino-ssot-alignment.summary.json",
+    ".ai/work-items/archive/2026/gray-rhino-escalation-framework.contract.json",
+    ".ai/work-items/archive/2026/gray-rhino-escalation-framework.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/feature_acl.yaml",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/features/research/domain/**",
+    "src/features/research/application/**",
+    "src/features/research/interface/**",
+    "src/features/research/mod.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "tests/audit_daily_cli_integration.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/snapshots/audit_daily_*.txt"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "user request",
+      "reason": "Gray Rhino Escalation Framework の仕様と SSOT 整合要求。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino.rs",
+      "reason": "現行 Gray Rhino 状態判定ロジック。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "現行 Gray Rhino 出力ロジック。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature-first / domain root の checker SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Gray Rhino の repo 内 SSOT 文書が追加され、本文は日本語で front matter を持つ。",
+    "Gray Rhino の domain model / state logic が research/domain に配置される。",
+    "Critical 判定が fallback survivability / single point fragility を含む。",
+    "notes 出力が禁止語・取引指示・人格評価・政治攻撃を通さない。",
+    "CLI / unit tests が SSOT と禁止事項を検証する。",
+    "CLI は --help を表示し、未知 command / 未知 option を radar に fallback しない。",
+    "zh-cn report は未ローカライズの user config text を直接出力しない。",
+    "Audit Daily は本日の evidence collection status と履歴 evidence stock を分けて表示し、fixture path を production report に出さない。",
+    "make quality と ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino --all-targets",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-ssot-alignment.summary.json CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-ssot-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-ssot-alignment.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

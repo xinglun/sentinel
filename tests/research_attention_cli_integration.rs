@@ -13,7 +13,8 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
     let research_start = raw.find("\n[research_attention.");
     let thesis_start = raw.find("\n[asset_thesis.");
     let macro_start = raw.find("\n[macro_gravity]");
-    if let Some(start) = [research_start, thesis_start, macro_start]
+    let rhino_start = raw.find("\n[gray_rhino_escalation]");
+    if let Some(start) = [research_start, thesis_start, macro_start, rhino_start]
         .into_iter()
         .flatten()
         .min()
@@ -32,12 +33,132 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
     tmp
 }
 
+#[test]
+fn gray_rhino_escalation_outputs_structural_monitor_without_trade_signal() {
+    let tmp = prepare_workspace(
+        r#"
+
+[gray_rhino_escalation]
+risk_expansion_rate = "ELEVATED"
+constraint_growth_rate = "LOW"
+dependency_centralization = "HIGH"
+awareness_decay = "HIGH"
+narrative_overconfidence = "ELEVATED"
+single_point_fragility = "MODERATE"
+fallback_survivability_risk = "MODERATE"
+notes = [
+  "Infrastructure concentration continues expanding.",
+  "Market sensitivity to governance risk is declining.",
+  "马上卖出",
+  "Musk 非常危险"
+]
+"#,
+    );
+
+    let out = run_cli(&tmp, &["gray-rhino"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Escalation"));
+    assert!(stdout.contains("State: Normalized"));
+    assert!(stdout.contains("Escalation: Rising"));
+    assert!(stdout.contains("Infrastructure concentration continues expanding."));
+    assert!(stdout.contains("It does not generate trading signals."));
+    assert!(stdout.contains("已抑制违反结构性观察边界的 notes: 2"));
+    assert!(!stdout.contains("马上卖出"));
+    assert!(!stdout.contains("Musk"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("Gate"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_escalation_output_has_zh_en_ja_boundary_notice() {
+    for (language, expected) in [
+        ("zh-cn", "风险扩张速度"),
+        ("en-us", "Risk Expansion Rate"),
+        ("ja-jp", "リスク拡張速度"),
+    ] {
+        let tmp = prepare_workspace(
+            r#"
+
+[gray_rhino_escalation]
+risk_expansion_rate = "ELEVATED"
+constraint_growth_rate = "LOW"
+dependency_centralization = "HIGH"
+awareness_decay = "HIGH"
+narrative_overconfidence = "ELEVATED"
+single_point_fragility = "MODERATE"
+fallback_survivability_risk = "MODERATE"
+"#,
+        );
+        set_output_language(&tmp, language);
+
+        let out = run_cli(&tmp, &["gray-rhino-escalation"]);
+
+        assert!(out.status.success());
+        let stdout = String::from_utf8_lossy(&out.stdout);
+        assert!(stdout.contains("Gray Rhino Escalation"));
+        assert!(stdout.contains(expected));
+        assert!(stdout.contains("It does not generate trading signals."));
+    }
+}
+
 fn run_cli(tmp: &TempDir, args: &[&str]) -> std::process::Output {
     Command::new(env!("CARGO_BIN_EXE_stock-sentinel"))
         .current_dir(tmp.path())
         .args(args)
         .output()
         .expect("failed to execute stock-sentinel")
+}
+
+fn set_output_language(tmp: &TempDir, language: &str) {
+    let config_path = tmp.path().join("config.toml");
+    let raw = fs::read_to_string(&config_path).expect("failed to read temp config.toml");
+    let raw = raw.replace(
+        "language = \"zh-cn\"",
+        &format!("language = \"{language}\""),
+    );
+    fs::write(config_path, raw).expect("failed to update temp config.toml");
+}
+
+#[test]
+fn cli_help_is_explicit_and_does_not_run_radar() {
+    let tmp = prepare_workspace("");
+
+    let out = run_cli(&tmp, &["--help"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Usage: stock-sentinel <command> [options]"));
+    assert!(stdout.contains("No command is executed by default"));
+    assert!(!stdout.contains("Telegram notification skipped"));
+}
+
+#[test]
+fn cli_unknown_command_is_rejected_without_radar_fallback() {
+    let tmp = prepare_workspace("");
+
+    let out = run_cli(&tmp, &["gray-rhnio"]);
+
+    assert!(!out.status.success());
+    let stderr = String::from_utf8_lossy(&out.stderr);
+    assert!(stderr.contains("Unknown command or option: gray-rhnio"));
+    assert!(stderr.contains("Usage: stock-sentinel <command> [options]"));
+    assert!(!stderr.contains("Telegram notification skipped"));
+}
+
+#[test]
+fn cli_without_command_shows_help_without_radar_fallback() {
+    let tmp = prepare_workspace("");
+
+    let out = run_cli(&tmp, &[]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Usage: stock-sentinel <command> [options]"));
+    assert!(!stdout.contains("Telegram notification skipped"));
 }
 
 #[test]
@@ -68,6 +189,8 @@ reason = "AI 収益化の理解が進み、辺際的な情報増分は低下。"
     assert!(stdout.contains("TSLA · 信息密度 EXPANDING · 注意力成本 HIGH"));
     assert!(stdout.contains("MEDIUM:"));
     assert!(stdout.contains("GOOG · 信息密度 STABLE · 注意力成本 LOW"));
+    assert!(stdout.contains("用户自定义观察说明未提供中文版本。"));
+    assert!(!stdout.contains("製造自動化"));
     assert!(stdout.contains("认知收益低 ≠ 股票不好"));
 }
 
@@ -130,11 +253,12 @@ invalidation = ["AI 投資が利益率を継続的に圧迫"]
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("🧭 Asset Thesis Registry"));
-    assert!(stdout.contains("NVDA · AI インフラ需要"));
+    assert!(stdout.contains("NVDA · 用户自定义观察说明未提供中文版本。"));
     assert!(stdout.contains("观察焦点:"));
-    assert!(stdout.contains("データセンター注文の継続性"));
+    assert!(stdout.contains("用户自定义观察说明未提供中文版本。"));
     assert!(stdout.contains("失效条件:"));
-    assert!(stdout.contains("主要クラウドの Capex 減速"));
+    assert!(!stdout.contains("データセンター注文の継続性"));
+    assert!(!stdout.contains("主要クラウドの Capex 減速"));
     assert!(stdout.contains("观察命题 ≠ 买入理由"));
 }
 
@@ -211,7 +335,9 @@ note = "長期金利は成長株のバリュエーション重力として観測
     assert!(stdout.contains("## 3. 认知关注校准"));
     assert!(stdout.contains("TSLA · 信息密度 EXPANDING · 注意力成本 HIGH"));
     assert!(stdout.contains("## 4. 资产观察命题"));
-    assert!(stdout.contains("NVDA · AI インフラ需要"));
+    assert!(stdout.contains("NVDA · 用户自定义观察说明未提供中文版本。"));
+    assert!(!stdout.contains("AI インフラ需要"));
+    assert!(!stdout.contains("データセンター注文の継続性"));
     assert!(stdout.contains("## 5. 宏观重力校准"));
     assert!(stdout.contains("- 利率压力: RISING"));
     assert!(stdout.contains("- 成长股估值: COMPRESSING"));

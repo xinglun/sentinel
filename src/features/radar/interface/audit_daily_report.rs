@@ -207,9 +207,13 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
 
                             let url_part = record
                                 .source_url
-                                .as_ref()
+                                .as_deref()
+                                .filter(|url| !is_fixture_source_url(url))
                                 .map(|u| format!(" ({})", u))
                                 .unwrap_or_default();
+
+                            let description =
+                                format_evidence_description(&record.description, language);
 
                             summaries.push(format!(
                                 "- {}{}{}{}{}{}{}",
@@ -218,7 +222,7 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
                                 type_part,
                                 conf_part,
                                 source_part,
-                                record.description,
+                                description,
                                 url_part
                             ));
                         }
@@ -320,6 +324,7 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
             format_delivery_status(status, language)
         ));
     }
+    out.push_str(&format!("- {}:\n", text.label_evidence_stock));
     if substantive_summaries.is_empty() {
         out.push_str(&format!("- {}\n", text.none));
     } else {
@@ -402,6 +407,7 @@ struct AuditDailyText {
     label_breakout_continued: &'static str,
     label_breakout_removed: &'static str,
     label_evidence_collection: &'static str,
+    label_evidence_stock: &'static str,
     label_no_trade_streak: &'static str,
     label_mainline_missing_streak: &'static str,
     label_recent_shape: &'static str,
@@ -443,7 +449,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_new: "新增 breakout",
             label_breakout_continued: "延续 breakout",
             label_breakout_removed: "消失 breakout",
-            label_evidence_collection: "证据采集状态",
+            label_evidence_collection: "今日证据采集状态",
+            label_evidence_stock: "历史证据存量",
             label_no_trade_streak: "当前 NO TRADE 连续段长度",
             label_mainline_missing_streak: "当前主线缺失连续段长度",
             label_recent_shape: "最近一段 NO TRADE 形态",
@@ -482,7 +489,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_new: "New breakout",
             label_breakout_continued: "Continued breakout",
             label_breakout_removed: "Removed breakout",
-            label_evidence_collection: "Evidence collection status",
+            label_evidence_collection: "Today's evidence collection status",
+            label_evidence_stock: "Historical evidence stock",
             label_no_trade_streak: "Current NO TRADE streak",
             label_mainline_missing_streak: "Current missing-mainline streak",
             label_recent_shape: "Recent NO TRADE segment type",
@@ -522,7 +530,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_new: "新規 breakout",
             label_breakout_continued: "継続 breakout",
             label_breakout_removed: "消失 breakout",
-            label_evidence_collection: "証拠収集状態",
+            label_evidence_collection: "本日の証拠収集状態",
+            label_evidence_stock: "履歴証拠ストック",
             label_no_trade_streak: "現在の NO TRADE 連続日数",
             label_mainline_missing_streak: "現在の主線欠如連続日数",
             label_recent_shape: "直近 NO TRADE 区間の形態",
@@ -598,6 +607,28 @@ fn format_symbols(symbols: &[String], language: Language) -> String {
     } else {
         symbols.join(", ")
     }
+}
+
+fn is_fixture_source_url(url: &str) -> bool {
+    url.contains("tests/fixtures/") || url.contains("tests\\fixtures\\")
+}
+
+fn format_evidence_description(description: &str, language: Language) -> String {
+    if is_fixture_source_url(description) {
+        return match language {
+            Language::ZhCn => "测试 fixture 证据说明已隐藏".to_string(),
+            Language::EnUs => "Test fixture evidence description hidden".to_string(),
+            Language::JaJp => "テスト fixture の証拠説明は非表示".to_string(),
+        };
+    }
+    if description == "Manual ingestion via CLI" {
+        return match language {
+            Language::ZhCn => "通过 CLI 手动录入".to_string(),
+            Language::EnUs => "Manual ingestion via CLI".to_string(),
+            Language::JaJp => "CLI から手動入力".to_string(),
+        };
+    }
+    description.to_string()
 }
 
 fn blocker_label(raw: &str, language: Language) -> String {

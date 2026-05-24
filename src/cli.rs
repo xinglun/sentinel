@@ -36,10 +36,11 @@ use crate::features::research::interface::cognitive_reports::{
     daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
     enabled_asset_thesis_count, enabled_research_attention_count,
 };
+use crate::features::research::interface::gray_rhino_report::build_gray_rhino_escalation_report;
 use crate::features::shared::acl::notification_factory::send_required_telegram_notification;
 use crate::features::shared::infrastructure::run_status_reader::load_run_evidence_collection_status;
 use crate::features::shared::interface::cli_args::{
-    parse_cli_options, CliCommand, CliProviderKind,
+    cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
 use crate::features::shared::interface::i18n::Language;
 
@@ -48,6 +49,13 @@ pub async fn run() -> Result<()> {
     let app_config = config::AppConfig::load("config.toml")?;
     let audit_language = app_config.output.language.unwrap_or(Language::ZhCn);
     let options = parse_cli_options(&args, &app_config, audit_language);
+    if let Some(err) = &options.cli_arg_error {
+        return Err(anyhow!("{}\n\n{}", err, cli_usage(audit_language)));
+    }
+    if options.command == CliCommand::Help {
+        println!("{}", cli_usage(audit_language));
+        return Ok(());
+    }
     let provider_kind = market_data_provider_kind(options.provider);
 
     if options.command == CliCommand::AuditDaily {
@@ -57,6 +65,7 @@ pub async fn run() -> Result<()> {
     }
 
     match options.command {
+        CliCommand::Help => unreachable!("help command returns before dispatch"),
         CliCommand::Backtest => {
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
             backtest::run_backtest(
@@ -129,6 +138,18 @@ pub async fn run() -> Result<()> {
                     app_config.telegram.as_ref(),
                     &report,
                     "daily-calibration",
+                )
+                .await?;
+            }
+        }
+        CliCommand::GrayRhinoEscalation => {
+            let report = build_gray_rhino_escalation_report(&app_config, audit_language);
+            println!("{}", report);
+            if options.research_notify {
+                send_required_telegram_notification(
+                    app_config.telegram.as_ref(),
+                    &report,
+                    "gray-rhino-escalation",
                 )
                 .await?;
             }
@@ -719,6 +740,7 @@ mod tests {
             research_attention: None,
             asset_thesis: None,
             macro_gravity: None,
+            gray_rhino_escalation: None,
         }
     }
 
@@ -879,7 +901,8 @@ mod tests {
             Language::ZhCn,
             Some(&DeliveryStatus::Succeeded),
         );
-        assert!(report_zh.contains("- 证据采集状态: 成功"));
+        assert!(report_zh.contains("- 今日证据采集状态: 成功"));
+        assert!(report_zh.contains("- 历史证据存量:"));
 
         let report_en = build_audit_daily_report_with_evidence_status(
             &days,
@@ -890,7 +913,8 @@ mod tests {
                 reason: "missing key".to_string(),
             }),
         );
-        assert!(report_en.contains("- Evidence collection status: failed (missing key)"));
+        assert!(report_en.contains("- Today's evidence collection status: failed (missing key)"));
+        assert!(report_en.contains("- Historical evidence stock:"));
 
         let report_ja = build_audit_daily_report_with_evidence_status(
             &days,
@@ -899,7 +923,8 @@ mod tests {
             Language::JaJp,
             Some(&DeliveryStatus::Skipped),
         );
-        assert!(report_ja.contains("- 証拠収集状態: スキップ"));
+        assert!(report_ja.contains("- 本日の証拠収集状態: スキップ"));
+        assert!(report_ja.contains("- 履歴証拠ストック:"));
     }
 
     #[test]

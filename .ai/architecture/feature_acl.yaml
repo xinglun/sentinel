@@ -62,6 +62,8 @@ features:
           - src/features/trading/infrastructure/**
   research:
     roots:
+      domain:
+        - src/features/research/domain
       application:
         - src/features/research/application
       interface:

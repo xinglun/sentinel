@@ -1,0 +1,199 @@
+{
+  "workItemId": "gray-rhino-ssot-alignment",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-ssot-alignment.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+      "reason": "SSOT 整合修正の scope / sources / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-ssot-alignment.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "research feature に domain root を追加し、Gray Rhino domain model の配置と checker を一致させた。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態生成により更新された。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray-rhino-escalation-framework.contract.json",
+      "reason": "前段 Gray Rhino 実装 Work Item の archive を保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray-rhino-escalation-framework.summary.json",
+      "reason": "前段 Gray Rhino 実装 Work Item の archive を保持した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "Gray Rhino Escalation Framework の repository 内 SSOT を追加した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "Critical 判定用の入力と user config text の言語別フィールドを追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "help / unknown command guard と audit daily test expectations を更新した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "research domain module を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino.rs",
+      "reason": "Gray Rhino domain model、状態判定、notes 境界ガードを配置した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Gray Rhino report module を公開した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "SSOT に沿う表示項目と notes 抑制表示を追加した。"
+    },
+    {
+      "path": "src/features/research/mod.rs",
+      "reason": "research domain module を feature root に追加した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "no-arg / --help / unknown command を安全に処理する CLI 境界を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "本日の evidence collection status と履歴 evidence stock を分離し、fixture path を出力から隠した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "AppConfig fixture に gray_rhino_escalation 既定値を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "AppConfig fixture に gray_rhino_escalation 既定値を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino CLI、禁止 notes 抑制、zh/en/ja 表示、help / unknown command guard、未ローカライズ config text 非表示を検証した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "Audit Daily の evidence stock label 追加に合わせて snapshot を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "Audit Daily の evidence stock label 追加に合わせて snapshot を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "Audit Daily の evidence stock label 追加に合わせて snapshot を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "user request",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "src/features/research/application/gray_rhino.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    ".ai/architecture/feature_acl.yaml"
+  ],
+  "verification": [
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture && cargo test audit_daily --all-targets && cargo test gray_rhino --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- --help > target/report_check/help.txt && cargo run -- daily-calibration > target/report_check/daily_calibration.txt && cargo run -- gray-rhino > target/report_check/gray_rhino.txt",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino --all-targets && cargo test --test research_attention_cli_integration gray_rhino -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-ssot-alignment.summary.json CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-ssot-alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-ssot-alignment.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Gray Rhino の SSOT、domain 配置、出力ガード、CLI 入口安全性、日報言語境界、evidence 表示境界を修正した。取引・Gate・execution へ接続しないことを維持する。"
+  },
+  "generatedFiles": [
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/domain/gray_rhino.rs",
+    "src/features/research/interface/gray_rhino_report.rs"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "type": "ssot_mismatch",
+      "detail": "前段実装では repo 内 SSOT 文書がなく、Gray Rhino の domain model が application に置かれ、Critical 判定と notes ガードが仕様より弱かった。"
+    },
+    {
+      "type": "guard_warning",
+      "detail": ".ai/architecture/feature_acl.yaml、.ai/cockpit/current_status.md、src/config.rs、src/cli.rs は restricted_write の report-only warning。SSOT / checker / CLI / config 整合のため scope 内で変更した。"
+    },
+    {
+      "type": "cli_boundary",
+      "detail": "以前は no-arg / unknown command が radar に fallback し得たため、help 表示と explicit radar requirement に変更した。"
+    },
+    {
+      "type": "report_language_boundary",
+      "detail": "zh-cn report で未ローカライズの user config text を直接出さず、未提供メッセージに置換するようにした。"
+    }
+  ]
+}

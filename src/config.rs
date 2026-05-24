@@ -27,6 +27,7 @@ pub struct AppConfig {
     pub research_attention: Option<BTreeMap<String, ResearchAttentionEntry>>,
     pub asset_thesis: Option<BTreeMap<String, AssetThesisEntry>>,
     pub macro_gravity: Option<MacroGravityConfig>,
+    pub gray_rhino_escalation: Option<GrayRhinoEscalationConfig>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -122,6 +123,9 @@ pub struct ResearchAttentionEntry {
     pub attention_cost: AttentionCost,
     pub information_density: InformationDensity,
     pub reason: String,
+    pub reason_zh: Option<String>,
+    pub reason_en: Option<String>,
+    pub reason_ja: Option<String>,
     pub enable: Option<bool>,
 }
 
@@ -129,8 +133,17 @@ pub struct ResearchAttentionEntry {
 #[serde(deny_unknown_fields)]
 pub struct AssetThesisEntry {
     pub thesis: String,
+    pub thesis_zh: Option<String>,
+    pub thesis_en: Option<String>,
+    pub thesis_ja: Option<String>,
     pub observation_focus: Vec<String>,
+    pub observation_focus_zh: Option<Vec<String>>,
+    pub observation_focus_en: Option<Vec<String>>,
+    pub observation_focus_ja: Option<Vec<String>>,
     pub invalidation: Vec<String>,
+    pub invalidation_zh: Option<Vec<String>>,
+    pub invalidation_en: Option<Vec<String>>,
+    pub invalidation_ja: Option<Vec<String>>,
     pub enable: Option<bool>,
 }
 
@@ -186,6 +199,29 @@ pub struct MacroGravityConfig {
     pub liquidity: LiquidityCondition,
     pub growth_valuation_impact: GrowthValuationImpact,
     pub note: Option<String>,
+    pub enable: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum GrayRhinoRiskLevel {
+    Low,
+    Moderate,
+    Elevated,
+    High,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct GrayRhinoEscalationConfig {
+    pub risk_expansion_rate: GrayRhinoRiskLevel,
+    pub constraint_growth_rate: GrayRhinoRiskLevel,
+    pub dependency_centralization: GrayRhinoRiskLevel,
+    pub awareness_decay: GrayRhinoRiskLevel,
+    pub narrative_overconfidence: GrayRhinoRiskLevel,
+    pub single_point_fragility: GrayRhinoRiskLevel,
+    pub fallback_survivability_risk: GrayRhinoRiskLevel,
+    pub notes: Option<Vec<String>>,
     pub enable: Option<bool>,
 }
 
@@ -926,6 +962,7 @@ mod tests {
             research_attention: None,
             asset_thesis: None,
             macro_gravity: None,
+            gray_rhino_escalation: None,
         };
 
         // No SEC config is OK
