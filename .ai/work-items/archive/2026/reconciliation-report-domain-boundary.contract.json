@@ -1,0 +1,82 @@
+{
+  "contractVersion": 1,
+  "workItemId": "reconciliation-report-domain-boundary",
+  "mode": "code",
+  "title": "reconciliation report 型を domain へ移動",
+  "scope": [
+    ".ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+    ".ai/work-items/active/reconciliation-report-domain-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/domain/reconciliation.rs",
+    "src/domain/mod.rs",
+    "src/application/run_status.rs",
+    "src/core/trader_agent.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/application/run_status.rs",
+      "reason": "RunOutcome と reconciliation report 型が同居している現状の確認。"
+    },
+    {
+      "path": "src/core/trader_agent.rs",
+      "reason": "core が application::run_status の reconciliation 型へ依存している箇所。"
+    },
+    {
+      "path": "src/domain/mod.rs",
+      "reason": "domain layer の module 公開位置。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "PositionMismatch と ReconciliationReport の canonical definition が domain layer にある。",
+    "application::run_status は既存 import 互換の re-export を維持する。",
+    "src/core/trader_agent.rs は application::run_status に依存しない。",
+    "RunOutcome の JSON schema は ReconciliationReport を引き続き保持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test trader_agent --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test application::run_status --lib",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/reconciliation-report-domain-boundary.summary.json CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json SUMMARY=.ai/work-items/active/reconciliation-report-domain-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json SUMMARY=.ai/work-items/active/reconciliation-report-domain-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

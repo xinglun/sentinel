@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+pub use crate::domain::reconciliation::{PositionMismatch, ReconciliationReport};
+
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]
 pub enum DeliveryStatus {
@@ -17,21 +19,6 @@ pub struct PreflightResult {
     pub sub_quota_used: i32,
     pub sub_quota_total: i32,
     pub market_rights: std::collections::HashMap<String, String>,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct PositionMismatch {
-    pub symbol: String,
-    pub local_qty: f64,
-    pub broker_qty: f64,
-    pub diff: f64,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct ReconciliationReport {
-    pub timestamp: String,
-    pub mismatches: Vec<PositionMismatch>,
-    pub matching_count: usize,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

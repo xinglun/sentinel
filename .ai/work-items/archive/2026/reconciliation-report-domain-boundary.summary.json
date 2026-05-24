@@ -1,0 +1,87 @@
+{
+  "workItemId": "reconciliation-report-domain-boundary",
+  "contractPath": ".ai/work-items/archive/2026/reconciliation-report-domain-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+      "reason": "reconciliation report domain boundary の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/reconciliation-report-domain-boundary.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/domain/reconciliation.rs",
+      "reason": "PositionMismatch / ReconciliationReport の canonical definition を domain layer へ移動した。"
+    },
+    {
+      "path": "src/domain/mod.rs",
+      "reason": "reconciliation module を domain layer に公開した。"
+    },
+    {
+      "path": "src/application/run_status.rs",
+      "reason": "RunOutcome の schema を維持しつつ、reconciliation 型を re-export するようにした。"
+    },
+    {
+      "path": "src/core/trader_agent.rs",
+      "reason": "core が domain reconciliation 型を直接参照するようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/application/run_status.rs",
+    "src/core/trader_agent.rs",
+    "src/domain/mod.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test trader_agent --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test application::run_status --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/reconciliation-report-domain-boundary.summary.json CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json SUMMARY=.ai/work-items/active/reconciliation-report-domain-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/reconciliation-report-domain-boundary.contract.json SUMMARY=.ai/work-items/active/reconciliation-report-domain-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "application::run_status は re-export を維持しており、RunOutcome の JSON field は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "coverage guard は core file 変更に対して report-only warning を出した。既存 trader_agent unit tests と application::run_status test を targeted に実行済み。"
+  ]
+}
