@@ -105,6 +105,30 @@ def test_backtest_rejects_direct_adapter_dependency() -> None:
         assert violations, "backtest から adapter への直接依存は port 経由にするべき"
 
 
+def test_backtest_rejects_infrastructure_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/backtest.rs", "use crate::infrastructure::persistence::PersistenceLayer;\n")
+        violations = checker.check_project(root)
+        assert violations, "backtest から infrastructure への直接依存は検出されるべき"
+
+
+def test_cli_rejects_direct_adapter_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/cli.rs", "use crate::adapters::futu::client::FutuClient;\n")
+        violations = checker.check_project(root)
+        assert violations, "CLI から adapter への直接依存は factory 経由にするべき"
+
+
+def test_cli_rejects_trade_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/cli.rs", "use crate::trade::trader::TradeExecutor;\n")
+        violations = checker.check_project(root)
+        assert violations, "CLI から trade module への直接依存は検出されるべき"
+
+
 def test_config_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -125,6 +149,9 @@ def main() -> int:
         test_core_rejects_application_dependency,
         test_core_rejects_trade_dependency,
         test_backtest_rejects_direct_adapter_dependency,
+        test_backtest_rejects_infrastructure_dependency,
+        test_cli_rejects_direct_adapter_dependency,
+        test_cli_rejects_trade_dependency,
         test_config_rejects_interface_dependency,
     ]
     for test in tests:
