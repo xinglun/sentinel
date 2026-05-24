@@ -1,0 +1,85 @@
+{
+  "workItemId": "ddd-market-regime-domain-migration",
+  "contractPath": ".ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/domain/market_regime.rs",
+      "reason": "市場状態モデルの定義 (MarketState, LifecycleState, RiskOverlay, MarketRegimeSnapshot, MarketTransitionAudit) を追加。"
+    },
+    {
+      "path": "src/domain/mod.rs",
+      "reason": "market_regime モジュールを公開。"
+    },
+    {
+      "path": "src/core/market_regime.rs",
+      "reason": "移行されたモデルを pub use で再エクスポート。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "モデルのインポートパスを src::domain::market_regime へ修正。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "AI Cockpit Current Status を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+      "reason": "Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-market-regime-domain-migration.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ddd-market-regime-domain-migration.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-market-regime-domain-migration.summary.json CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-regime-domain-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-regime-domain-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "市場状態モデルの配置変更とインポート先修正のみであり、リスクは極めて低い。"
+  },
+  "generatedFiles": [
+    "src/domain/market_regime.rs"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

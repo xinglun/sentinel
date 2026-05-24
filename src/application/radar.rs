@@ -382,15 +382,15 @@ pub fn build_data_quality_log(
 
 /// run status 用の state machine summary を構築する。
 pub fn build_state_machine_summary(
-    prev_market_state: Option<crate::core::market_regime::MarketState>,
-    current_market_state: crate::core::market_regime::MarketState,
-    transition_audit: Option<&crate::core::market_regime::MarketTransitionAudit>,
+    prev_market_state: Option<crate::domain::market_regime::MarketState>,
+    current_market_state: crate::domain::market_regime::MarketState,
+    transition_audit: Option<&crate::domain::market_regime::MarketTransitionAudit>,
     should_persist_history: bool,
 ) -> crate::application::run_status::StateMachineSummary {
     let mut summary = crate::application::run_status::StateMachineSummary {
         from_state: format!(
             "{:?}",
-            prev_market_state.unwrap_or(crate::core::market_regime::MarketState::IGNITION)
+            prev_market_state.unwrap_or(crate::domain::market_regime::MarketState::IGNITION)
         ),
         to_state: if should_persist_history {
             format!("{:?}", current_market_state)
@@ -415,7 +415,7 @@ pub fn build_state_machine_summary(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::market_regime::{LifecycleState, MarketState, MarketTransitionAudit};
+    use crate::domain::market_regime::{LifecycleState, MarketState, MarketTransitionAudit};
     use std::collections::HashMap;
 
     #[test]

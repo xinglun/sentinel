@@ -1,66 +1,9 @@
 use crate::config::ParsedRules;
 use crate::core::features::MarketFeatures;
-use serde::{Deserialize, Serialize};
 
-#[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
-pub enum MarketState {
-    #[default]
-    IGNITION,
-    NEWBORN,
-    EARLY_CONFIRMATION,
-    ESTABLISHED,
-    CONFIRMED,
-    DEFENSIVE,
-}
-
-#[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
-pub enum LifecycleState {
-    #[default]
-    NONE,
-    IGNITION,
-    NEWBORN,
-    EARLY_CONFIRMATION,
-    ESTABLISHED,
-    CONFIRMED,
-}
-
-#[allow(non_camel_case_types)]
-#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
-pub enum RiskOverlay {
-    #[default]
-    NORMAL,
-    DECELERATING,
-    DEFENSIVE,
-    BROKEN,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Default)]
-pub struct MarketRegimeSnapshot {
-    pub market_state: MarketState,
-    pub lifecycle_state: LifecycleState,
-    pub risk_overlay: RiskOverlay,
-    pub reasons: Vec<String>,
-    pub low_stability_streak: usize,
-    pub duration_in_state: usize,
-    pub transition_audit: Option<MarketTransitionAudit>,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Default)]
-pub struct MarketTransitionAudit {
-    pub from: LifecycleState,
-    pub to: LifecycleState,
-    pub is_reset_blocked: bool,
-    pub is_downgrade_clamped: bool,
-    pub core_breakdown: bool,
-    pub duration_locked: bool,
-    pub trend_dominant: bool,
-    pub reset_gate_passed: bool,
-    pub indicator_cap: LifecycleState,
-    pub soft_reset_applied: bool,
-    pub defensive_override: bool,
-}
+pub use crate::domain::market_regime::{
+    LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
+};
 
 pub struct MarketRegimeStateMachine {
     pub current_lifecycle: LifecycleState,

@@ -4,3 +4,4 @@
 //! IO、設定読み込み、report rendering、外部 API adapter へ依存してはならない。
 
 pub mod evidence;
+pub mod market_regime;
