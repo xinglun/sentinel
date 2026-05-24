@@ -7,6 +7,7 @@ pub mod evidence_fetcher_factory;
 pub mod evidence_ingestion;
 pub mod evidence_store;
 pub mod market_data_provider_factory;
+pub mod notification_factory;
 pub mod notify;
 pub mod persistence;
 pub mod radar_runtime_factory;

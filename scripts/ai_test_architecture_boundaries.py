@@ -161,6 +161,14 @@ def test_cli_rejects_transition_logger_dependency() -> None:
         assert violations, "CLI から transition logger への直接依存は runtime factory 経由にするべき"
 
 
+def test_cli_rejects_notify_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/cli.rs", "use crate::infrastructure::notify;\n")
+        violations = checker.check_project(root)
+        assert violations, "CLI から notify implementation への直接依存は notification factory 経由にするべき"
+
+
 def test_config_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -188,6 +196,7 @@ def main() -> int:
         test_cli_rejects_concrete_evidence_extractor_dependency,
         test_cli_rejects_persistence_dependency,
         test_cli_rejects_transition_logger_dependency,
+        test_cli_rejects_notify_dependency,
         test_config_rejects_interface_dependency,
     ]
     for test in tests:

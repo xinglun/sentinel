@@ -25,7 +25,9 @@ use crate::infrastructure::evidence_fetcher_factory::{
 use crate::infrastructure::market_data_provider_factory::{
     build_configured_market_data_provider, MarketDataProviderKind as ProviderType,
 };
-use crate::infrastructure::notify;
+use crate::infrastructure::notification_factory::{
+    send_required_telegram_notification, send_telegram_with_status,
+};
 use crate::infrastructure::radar_runtime_factory::build_radar_runtime_services;
 use crate::interface::i18n::Language;
 use crate::interface::presentation_assembler::PresentationAssembler;
@@ -224,34 +226,24 @@ pub async fn run() -> Result<()> {
             let report = build_research_attention_report(&app_config, audit_language);
             println!("{}", report);
             if research_notify {
-                match telegram_delivery_precheck(app_config.telegram.as_ref()) {
-                    Ok(tg_cfg) => {
-                        notify::send_telegram_message(tg_cfg, &report).await?;
-                    }
-                    Err(status) => {
-                        return Err(anyhow!(
-                            "Telegram notification is not available for research-attention: {:?}",
-                            status
-                        ));
-                    }
-                }
+                send_required_telegram_notification(
+                    app_config.telegram.as_ref(),
+                    &report,
+                    "research-attention",
+                )
+                .await?;
             }
         }
         "asset-thesis" => {
             let report = build_asset_thesis_report(&app_config, audit_language);
             println!("{}", report);
             if research_notify {
-                match telegram_delivery_precheck(app_config.telegram.as_ref()) {
-                    Ok(tg_cfg) => {
-                        notify::send_telegram_message(tg_cfg, &report).await?;
-                    }
-                    Err(status) => {
-                        return Err(anyhow!(
-                            "Telegram notification is not available for asset-thesis: {:?}",
-                            status
-                        ));
-                    }
-                }
+                send_required_telegram_notification(
+                    app_config.telegram.as_ref(),
+                    &report,
+                    "asset-thesis",
+                )
+                .await?;
             }
         }
         "daily-calibration" => {
@@ -263,17 +255,12 @@ pub async fn run() -> Result<()> {
             )?;
             println!("{}", report);
             if research_notify {
-                match telegram_delivery_precheck(app_config.telegram.as_ref()) {
-                    Ok(tg_cfg) => {
-                        notify::send_telegram_message(tg_cfg, &report).await?;
-                    }
-                    Err(status) => {
-                        return Err(anyhow!(
-                            "Telegram notification is not available for daily-calibration: {:?}",
-                            status
-                        ));
-                    }
-                }
+                send_required_telegram_notification(
+                    app_config.telegram.as_ref(),
+                    &report,
+                    "daily-calibration",
+                )
+                .await?;
             }
         }
         "ingest-evidence" => {
@@ -531,21 +518,6 @@ Successfully ingested {} batch evidence records to store.",
         }
     }
     Ok(())
-}
-
-fn telegram_delivery_precheck(
-    config: Option<&crate::config::TelegramConfig>,
-) -> Result<&crate::config::TelegramConfig, crate::application::run_status::DeliveryStatus> {
-    match config {
-        Some(cfg) if !cfg.enabled => Err(crate::application::run_status::DeliveryStatus::Skipped),
-        Some(cfg) if cfg.bot_token.is_empty() || cfg.chat_id.is_empty() => {
-            Err(crate::application::run_status::DeliveryStatus::Failed {
-                reason: "Telegram is enabled but bot_token/chat_id is missing".to_string(),
-            })
-        }
-        Some(cfg) => Ok(cfg),
-        None => Err(crate::application::run_status::DeliveryStatus::Skipped),
-    }
 }
 
 fn parse_evidence_collection_status(
@@ -817,33 +789,11 @@ async fn run_pipeline(
             config_arc.as_ref(),
         )?;
 
-        outcome.notification = match telegram_delivery_precheck(config_arc.telegram.as_ref()) {
-            Ok(tg_cfg) => {
-                match notify::send_telegram_message(tg_cfg, &report_result.telegram_html_body).await
-                {
-                    Ok(_) => crate::application::run_status::DeliveryStatus::Succeeded,
-                    Err(err) => {
-                        eprintln!("⚠️ Telegram notification failed: {}", err);
-                        crate::application::run_status::DeliveryStatus::Failed {
-                            reason: err.to_string(),
-                        }
-                    }
-                }
-            }
-            Err(crate::application::run_status::DeliveryStatus::Skipped) => {
-                if config_arc.telegram.is_some() {
-                    eprintln!("ℹ️ Telegram notification skipped: config.telegram.enabled = false");
-                } else {
-                    eprintln!("ℹ️ Telegram notification skipped: telegram config is missing");
-                }
-                crate::application::run_status::DeliveryStatus::Skipped
-            }
-            Err(crate::application::run_status::DeliveryStatus::Failed { reason }) => {
-                eprintln!("⚠️ Telegram notification failed precheck: {}", reason);
-                crate::application::run_status::DeliveryStatus::Failed { reason }
-            }
-            Err(other) => other,
-        };
+        outcome.notification = send_telegram_with_status(
+            config_arc.telegram.as_ref(),
+            &report_result.telegram_html_body,
+        )
+        .await;
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
@@ -2866,7 +2816,7 @@ mod tests {
     use super::{
         build_audit_daily_report, build_audit_daily_report_with_evidence_status,
         load_latest_evidence_collection_status, parse_transition_audit_entry, run_pipeline,
-        telegram_delivery_precheck, TransitionAuditDay, TransitionAuditEntry,
+        TransitionAuditDay, TransitionAuditEntry,
     };
     use crate::application::provider::MarketDataProvider;
     use crate::application::provider::{DailyBar, TickerHistory};
@@ -2876,6 +2826,7 @@ mod tests {
         WatchlistEntry,
     };
     use crate::core::runtime_mode::ExecutionMode;
+    use crate::infrastructure::notification_factory::telegram_delivery_precheck;
     use crate::interface::i18n::Language;
     use anyhow::{anyhow, Result};
     use chrono::{NaiveDate, Utc};

@@ -1,0 +1,101 @@
+{
+  "workItemId": "cli-notification-composition-factory",
+  "contractPath": ".ai/work-items/archive/2026/cli-notification-composition-factory.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cli-notification-composition-factory.contract.json",
+      "reason": "CLI notification composition factory batch の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-notification-composition-factory.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Telegram precheck / send / status mapping を notification factory 経由へ変更した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "notification_factory module を公開した。"
+    },
+    {
+      "path": "src/infrastructure/notification_factory.rs",
+      "reason": "Telegram precheck、required notification、status-returning notification を集約した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "CLI から notify implementation への直接 import を禁止した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "CLI から notify への直接依存を検出する regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/infrastructure/notify.rs",
+    "src/application/run_status.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::telegram_precheck_skips_when_disabled",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::telegram_precheck_fails_when_credentials_missing",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-notification-composition-factory.summary.json CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json SUMMARY=.ai/work-items/active/cli-notification-composition-factory.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json SUMMARY=.ai/work-items/active/cli-notification-composition-factory.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Telegram notification の precheck と status mapping を factory へ移した。既存の required notify と radar status behavior は維持される。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI が notify implementation を直接呼び、Telegram precheck と DeliveryStatus mapping を持っていた。"
+  ]
+}
