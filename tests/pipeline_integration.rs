@@ -541,3 +541,22 @@ fn radar_pipeline_use_case_collects_provider_results() {
         stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 1)
     );
 }
+
+#[test]
+fn radar_pipeline_use_case_prepares_from_provider_results() {
+    let results: Vec<(Result<&str, &str>, String)> = vec![
+        (Ok("NVDA-history"), "NVDA".to_string()),
+        (Err("fetch failed"), "MSFT".to_string()),
+    ];
+    let prepared = stock_sentinel::application::radar::RadarPipelineUseCase::new()
+        .prepare_from_fetch_results(results);
+
+    assert_eq!(prepared.successful_items, vec!["NVDA-history"]);
+    assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
+    assert_eq!(
+        prepared.summary,
+        stock_sentinel::application::radar::DataAcquisitionSummary::new(1, 1)
+    );
+    assert!(prepared.plan.should_persist_history);
+    assert!(prepared.plan.should_enter_pipeline_body);
+}

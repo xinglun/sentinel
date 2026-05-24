@@ -680,10 +680,8 @@ async fn run_pipeline(
             let symbol = entry.symbol.clone();
             (result.map(|history| (history, entry)), symbol)
         });
-    let radar_use_case = crate::application::radar::RadarPipelineUseCase::new();
-    let data_acquisition = radar_use_case.collect_data_acquisition(fetch_results);
     let prepared_data = crate::application::radar::RadarPipelineUseCase::new()
-        .prepare_data_acquisition(data_acquisition);
+        .prepare_from_fetch_results(fetch_results);
     let data_acquisition_summary = prepared_data.summary;
     let pipeline_plan = prepared_data.plan;
     let should_persist_history = pipeline_plan.should_persist_history;

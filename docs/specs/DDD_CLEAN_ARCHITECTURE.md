@@ -85,6 +85,30 @@ Sentinel の主要 bounded context は次とする。
 Strategic Context、Hypothesis Layer、Cognitive Yield、Macro Gravity などの表示専用 layer は、Gate や execution に依存させない。
 表示専用 layer が必要な data は Application で ViewModel input として組み立て、Domain policy を上書きしてはならない。
 
+## Radar Orchestration Boundary
+
+Radar の段階移行では、CLI から次の policy を Application へ移した。
+
+- data acquisition の成功 / 失敗集約
+- pipeline body へ入るかどうかの判定
+- decision history を保存するかどうかの判定
+- data quality status の導出
+- run context の `save_dir`、`date`、`timestamp`、初期 `RunOutcome` 生成
+- diagnostic packet、decision outcome、state machine summary、persistence payload の組み立て
+
+CLI はまだ provider 呼び出し、legacy `Engine` 実行、report rendering、notification dispatch を保持する。
+これは移行期間の adapter / composition root として許容するが、新しい orchestration policy は `src/application/radar.rs` に追加する。
+
+次の領域は今回の migration checkpoint では変更しない。
+
+- `Engine::run_daily_pipeline`
+- `PresentationAssembler`
+- Telegram / Markdown rendering
+- `PersistenceLayer` の実装
+- market data provider trait
+
+この境界により、Radar は Big Bang rewrite ではなく、Application use case を厚くしながら CLI を薄くする方向へ進める。
+
 ## Architecture Guard
 
 `make check-architecture` は新規 target directories の依存違反を検出する。

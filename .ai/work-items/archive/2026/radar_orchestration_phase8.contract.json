@@ -1,0 +1,98 @@
+{
+  "contractVersion": 1,
+  "workItemId": "radar_orchestration_phase8",
+  "mode": "code",
+  "title": "Radar orchestration phase 8",
+  "scope": [
+    ".ai/work-items/active/radar_orchestration_phase8.contract.json",
+    ".ai/work-items/active/radar_orchestration_phase8.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/application/radar.rs",
+    "src/cli.rs",
+    "tests/pipeline_integration.rs",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md"
+  ],
+  "outOfScope": [
+    "src/domain/**",
+    "src/infrastructure/**",
+    "src/core/engine.rs",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Radar orchestration 移行後の境界を文書へ反映する。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "RadarPipelineUseCase の最終 prepare API を整える。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline の data acquisition orchestration 呼び出しを単一 use case call へ寄せる。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "use case single entry contract を integration test で固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "RadarPipelineUseCase に fetch result から prepared data までを返す単一 entrypoint が追加されている。",
+    "CLI は data acquisition orchestration を単一 use case call 経由で利用する。",
+    "Radar orchestration 移行後の境界が DDD Clean Architecture 文書に記録されている。",
+    "既存 report / Telegram / audit behavior は変更しない。",
+    "fmt、pipeline integration、architecture、quality が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test radar_application_boundary -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_orchestration_phase8.summary.json CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase8.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase8.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

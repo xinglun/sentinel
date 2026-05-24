@@ -124,6 +124,15 @@ impl RadarPipelineUseCase {
             plan,
         }
     }
+
+    /// provider fetch の結果列から pipeline 実行前の payload まで一括で構築する。
+    pub fn prepare_from_fetch_results<T, E, I>(self, results: I) -> RadarPreparedData<T>
+    where
+        I: IntoIterator<Item = (Result<T, E>, String)>,
+    {
+        let data_acquisition = self.collect_data_acquisition(results);
+        self.prepare_data_acquisition(data_acquisition)
+    }
 }
 
 impl DataAcquisitionSummary {
@@ -506,6 +515,23 @@ mod tests {
 
         assert_eq!(data_acquisition.successful_items, vec!["AAPL-history"]);
         assert_eq!(data_acquisition.failed_symbols, vec!["MSFT".to_string()]);
+    }
+
+    #[test]
+    fn radar_application_boundary_use_case_prepares_from_fetch_results() {
+        let results: Vec<(Result<&str, &str>, String)> = vec![
+            (Ok("AAPL-history"), "AAPL".to_string()),
+            (Err("timeout"), "MSFT".to_string()),
+        ];
+        let prepared = RadarPipelineUseCase::new().prepare_from_fetch_results(results);
+
+        assert_eq!(prepared.successful_items, vec!["AAPL-history"]);
+        assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
+        assert_eq!(prepared.summary, DataAcquisitionSummary::new(1, 1));
+        assert_eq!(
+            prepared.plan.data_quality_status,
+            DataQualityStatus::Warning
+        );
     }
 
     #[test]
