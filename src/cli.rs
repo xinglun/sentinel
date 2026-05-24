@@ -804,13 +804,7 @@ async fn run_pipeline(
             "successful_fetches": data_acquisition_summary.successful_fetches,
             "failed_fetches": data_acquisition_summary.failed_fetches,
             "failed_symbols": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.clone()).unwrap_or_default(),
-            "status": if data_acquisition_summary.is_full_failure() {
-                "CRITICAL"
-            } else if pres_packet.data_alert.is_some() {
-                "WARNING"
-            } else {
-                "OK"
-            }
+            "status": data_acquisition_summary.data_quality_status().as_str()
         });
         persistence.save_data_quality_log(&data_quality_log)?;
 

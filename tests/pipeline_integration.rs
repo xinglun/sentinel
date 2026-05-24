@@ -305,4 +305,29 @@ fn radar_application_result_uses_same_persistence_policy() {
     assert_eq!(summary.failed_fetches, 1);
     assert!(result.should_persist_decision_history());
     assert!(!result.is_full_failure());
+    assert_eq!(result.data_quality_status().as_str(), "WARNING");
+}
+
+#[test]
+fn radar_application_data_quality_status_keeps_cli_log_contract() {
+    use stock_sentinel::application::radar::DataAcquisitionSummary;
+
+    assert_eq!(
+        DataAcquisitionSummary::new(2, 0)
+            .data_quality_status()
+            .as_str(),
+        "OK"
+    );
+    assert_eq!(
+        DataAcquisitionSummary::new(2, 1)
+            .data_quality_status()
+            .as_str(),
+        "WARNING"
+    );
+    assert_eq!(
+        DataAcquisitionSummary::new(0, 1)
+            .data_quality_status()
+            .as_str(),
+        "CRITICAL"
+    );
 }

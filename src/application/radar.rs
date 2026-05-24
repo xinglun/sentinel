@@ -5,6 +5,24 @@ pub struct DataAcquisitionSummary {
     pub failed_fetches: usize,
 }
 
+/// Radar run の data quality status。
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DataQualityStatus {
+    Ok,
+    Warning,
+    Critical,
+}
+
+impl DataQualityStatus {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Ok => "OK",
+            Self::Warning => "WARNING",
+            Self::Critical => "CRITICAL",
+        }
+    }
+}
+
 impl DataAcquisitionSummary {
     pub fn new(successful_fetches: usize, failed_fetches: usize) -> Self {
         Self {
@@ -21,6 +39,17 @@ impl DataAcquisitionSummary {
     /// すべての取得対象が失敗したかを返す。
     pub fn is_full_failure(self) -> bool {
         self.successful_fetches == 0 && self.failed_fetches > 0
+    }
+
+    /// data quality log 用の status を返す。
+    pub fn data_quality_status(self) -> DataQualityStatus {
+        if self.is_full_failure() {
+            DataQualityStatus::Critical
+        } else if self.failed_fetches > 0 {
+            DataQualityStatus::Warning
+        } else {
+            DataQualityStatus::Ok
+        }
     }
 }
 
@@ -52,6 +81,11 @@ impl<T> DataAcquisitionResult<T> {
     /// すべての取得対象が失敗したかを返す。
     pub fn is_full_failure(&self) -> bool {
         self.summary().is_full_failure()
+    }
+
+    /// data quality log 用の status を返す。
+    pub fn data_quality_status(&self) -> DataQualityStatus {
+        self.summary().data_quality_status()
     }
 
     pub fn into_parts(self) -> (Vec<T>, Vec<String>) {
@@ -87,6 +121,7 @@ mod tests {
         let summary = DataAcquisitionSummary::new(0, 0);
         assert!(summary.should_persist_decision_history());
         assert!(!summary.is_full_failure());
+        assert_eq!(summary.data_quality_status(), DataQualityStatus::Ok);
     }
 
     #[test]
@@ -98,6 +133,7 @@ mod tests {
         assert_eq!(summary.failed_fetches, 1);
         assert!(result.should_persist_decision_history());
         assert!(!result.is_full_failure());
+        assert_eq!(result.data_quality_status(), DataQualityStatus::Warning);
     }
 
     #[test]
@@ -107,5 +143,27 @@ mod tests {
 
         assert_eq!(successful_items, vec!["AAPL"]);
         assert_eq!(failed_symbols, vec!["MSFT".to_string()]);
+    }
+
+    #[test]
+    fn radar_application_boundary_status_matches_existing_policy() {
+        assert_eq!(
+            DataAcquisitionSummary::new(1, 0)
+                .data_quality_status()
+                .as_str(),
+            "OK"
+        );
+        assert_eq!(
+            DataAcquisitionSummary::new(1, 8)
+                .data_quality_status()
+                .as_str(),
+            "WARNING"
+        );
+        assert_eq!(
+            DataAcquisitionSummary::new(0, 9)
+                .data_quality_status()
+                .as_str(),
+            "CRITICAL"
+        );
     }
 }
