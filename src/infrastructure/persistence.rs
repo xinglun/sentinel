@@ -185,7 +185,10 @@ impl PersistenceLayer {
         Ok(())
     }
 
-    pub fn save_run_status(&self, outcome: &crate::core::run_status::RunOutcome) -> Result<()> {
+    pub fn save_run_status(
+        &self,
+        outcome: &crate::application::run_status::RunOutcome,
+    ) -> Result<()> {
         let filename = format!("run_status_{}.json", outcome.date);
         let path = self.save_dir.join(filename);
         let json =

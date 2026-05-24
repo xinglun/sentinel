@@ -98,9 +98,9 @@ impl RadarRunContext {
 
     pub fn initial_run_outcome(
         &self,
-        evidence_collection: crate::core::run_status::DeliveryStatus,
-    ) -> crate::core::run_status::RunOutcome {
-        crate::core::run_status::RunOutcome {
+        evidence_collection: crate::application::run_status::DeliveryStatus,
+    ) -> crate::application::run_status::RunOutcome {
+        crate::application::run_status::RunOutcome {
             date: self.date_string(),
             timestamp: self.timestamp.clone(),
             evidence_collection,
@@ -238,7 +238,7 @@ pub struct AccountSnapshotInput<'a> {
 #[derive(Debug, Clone)]
 pub struct RadarDecisionOutcome {
     pub packet: crate::core::decision::DecisionPacket,
-    pub decisioning: crate::core::run_status::DeliveryStatus,
+    pub decisioning: crate::application::run_status::DeliveryStatus,
 }
 
 impl<T> DataAcquisitionResult<T> {
@@ -295,15 +295,15 @@ pub fn build_successful_decision_outcome(
 ) -> RadarDecisionOutcome {
     RadarDecisionOutcome {
         packet,
-        decisioning: crate::core::run_status::DeliveryStatus::Succeeded,
+        decisioning: crate::application::run_status::DeliveryStatus::Succeeded,
     }
 }
 
 /// decisioning failure 用の status を構築する。
 pub fn build_decisioning_failure_status(
     reason: impl Into<String>,
-) -> crate::core::run_status::DeliveryStatus {
-    crate::core::run_status::DeliveryStatus::Failed {
+) -> crate::application::run_status::DeliveryStatus {
+    crate::application::run_status::DeliveryStatus::Failed {
         reason: reason.into(),
     }
 }
@@ -319,7 +319,7 @@ pub fn build_diagnostic_packet(date: chrono::NaiveDate) -> crate::core::decision
 /// 100% data acquisition failure 用の decisioning status を構築する。
 pub fn build_full_fetch_failure_status(
     failed_fetch_count: usize,
-) -> crate::core::run_status::DeliveryStatus {
+) -> crate::application::run_status::DeliveryStatus {
     build_decisioning_failure_status(format!(
         "100% data acquisition failure: {} symbols failed",
         failed_fetch_count
@@ -386,8 +386,8 @@ pub fn build_state_machine_summary(
     current_market_state: crate::core::market_regime::MarketState,
     transition_audit: Option<&crate::core::market_regime::MarketTransitionAudit>,
     should_persist_history: bool,
-) -> crate::core::run_status::StateMachineSummary {
-    let mut summary = crate::core::run_status::StateMachineSummary {
+) -> crate::application::run_status::StateMachineSummary {
+    let mut summary = crate::application::run_status::StateMachineSummary {
         from_state: format!(
             "{:?}",
             prev_market_state.unwrap_or(crate::core::market_regime::MarketState::IGNITION)
@@ -508,7 +508,8 @@ mod tests {
             .unwrap()
             .with_timezone(&chrono::Local);
         let context = RadarRunContext::new("target/radar-test", now);
-        let outcome = context.initial_run_outcome(crate::core::run_status::DeliveryStatus::Skipped);
+        let outcome =
+            context.initial_run_outcome(crate::application::run_status::DeliveryStatus::Skipped);
 
         assert_eq!(
             context.save_dir(),
@@ -519,7 +520,7 @@ mod tests {
         assert_eq!(outcome.date, "2026-05-24");
         assert_eq!(
             outcome.evidence_collection,
-            crate::core::run_status::DeliveryStatus::Skipped
+            crate::application::run_status::DeliveryStatus::Skipped
         );
     }
 
@@ -610,7 +611,7 @@ mod tests {
         assert!(packet.assets.is_empty());
         assert_eq!(
             status,
-            crate::core::run_status::DeliveryStatus::Failed {
+            crate::application::run_status::DeliveryStatus::Failed {
                 reason: "100% data acquisition failure: 9 symbols failed".to_string()
             }
         );
@@ -627,11 +628,11 @@ mod tests {
         assert!(outcome.packet.assets.is_empty());
         assert_eq!(
             outcome.decisioning,
-            crate::core::run_status::DeliveryStatus::Succeeded
+            crate::application::run_status::DeliveryStatus::Succeeded
         );
         assert_eq!(
             failed,
-            crate::core::run_status::DeliveryStatus::Failed {
+            crate::application::run_status::DeliveryStatus::Failed {
                 reason: "engine failed".to_string()
             }
         );

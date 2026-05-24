@@ -424,7 +424,7 @@ fn radar_application_full_failure_output_is_diagnostic_only() {
     assert!(packet.transition_log.is_none());
     assert_eq!(
         status,
-        stock_sentinel::core::run_status::DeliveryStatus::Failed {
+        stock_sentinel::application::run_status::DeliveryStatus::Failed {
             reason: "100% data acquisition failure: 9 symbols failed".to_string()
         }
     );
@@ -441,11 +441,11 @@ fn radar_application_decision_outcome_keeps_status_mapping() {
     assert_eq!(outcome.packet.date, date);
     assert_eq!(
         outcome.decisioning,
-        stock_sentinel::core::run_status::DeliveryStatus::Succeeded
+        stock_sentinel::application::run_status::DeliveryStatus::Succeeded
     );
     assert_eq!(
         failed,
-        stock_sentinel::core::run_status::DeliveryStatus::Failed {
+        stock_sentinel::application::run_status::DeliveryStatus::Failed {
             reason: "engine failed".to_string()
         }
     );
@@ -490,8 +490,8 @@ fn radar_application_run_context_builds_initial_status_metadata() {
         .unwrap()
         .with_timezone(&chrono::Local);
     let context = stock_sentinel::application::radar::RadarRunContext::new("target/run", now);
-    let outcome =
-        context.initial_run_outcome(stock_sentinel::core::run_status::DeliveryStatus::Skipped);
+    let outcome = context
+        .initial_run_outcome(stock_sentinel::application::run_status::DeliveryStatus::Skipped);
 
     assert_eq!(context.save_dir(), std::path::Path::new("target/run"));
     assert_eq!(context.date_string(), "2026-05-24");
@@ -499,7 +499,7 @@ fn radar_application_run_context_builds_initial_status_metadata() {
     assert!(outcome.timestamp.contains("2026-05-24T10:15:00"));
     assert_eq!(
         outcome.evidence_collection,
-        stock_sentinel::core::run_status::DeliveryStatus::Skipped
+        stock_sentinel::application::run_status::DeliveryStatus::Skipped
     );
 }
 

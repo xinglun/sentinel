@@ -575,48 +575,48 @@ impl MarketDataProvider for YahooProviderAdapter {
 
 fn telegram_delivery_precheck(
     config: Option<&crate::config::TelegramConfig>,
-) -> Result<&crate::config::TelegramConfig, crate::core::run_status::DeliveryStatus> {
+) -> Result<&crate::config::TelegramConfig, crate::application::run_status::DeliveryStatus> {
     match config {
-        Some(cfg) if !cfg.enabled => Err(crate::core::run_status::DeliveryStatus::Skipped),
+        Some(cfg) if !cfg.enabled => Err(crate::application::run_status::DeliveryStatus::Skipped),
         Some(cfg) if cfg.bot_token.is_empty() || cfg.chat_id.is_empty() => {
-            Err(crate::core::run_status::DeliveryStatus::Failed {
+            Err(crate::application::run_status::DeliveryStatus::Failed {
                 reason: "Telegram is enabled but bot_token/chat_id is missing".to_string(),
             })
         }
         Some(cfg) => Ok(cfg),
-        None => Err(crate::core::run_status::DeliveryStatus::Skipped),
+        None => Err(crate::application::run_status::DeliveryStatus::Skipped),
     }
 }
 
 fn parse_evidence_collection_status(
     value: &serde_json::Value,
-) -> crate::core::run_status::DeliveryStatus {
+) -> crate::application::run_status::DeliveryStatus {
     let status = value
         .get("status")
         .and_then(|v| v.as_str())
         .unwrap_or("skipped");
     match status {
-        "succeeded" => crate::core::run_status::DeliveryStatus::Succeeded,
-        "failed" => crate::core::run_status::DeliveryStatus::Failed {
+        "succeeded" => crate::application::run_status::DeliveryStatus::Succeeded,
+        "failed" => crate::application::run_status::DeliveryStatus::Failed {
             reason: value
                 .get("reason")
                 .and_then(|v| v.as_str())
                 .unwrap_or("evidence collection failed")
                 .to_string(),
         },
-        _ => crate::core::run_status::DeliveryStatus::Skipped,
+        _ => crate::application::run_status::DeliveryStatus::Skipped,
     }
 }
 
 fn load_latest_evidence_collection_status(
     save_dir: &std::path::Path,
-) -> crate::core::run_status::DeliveryStatus {
+) -> crate::application::run_status::DeliveryStatus {
     let path = save_dir.join(EVIDENCE_COLLECTION_STATUS_FILE);
     let Ok(raw) = std::fs::read_to_string(path) else {
-        return crate::core::run_status::DeliveryStatus::Skipped;
+        return crate::application::run_status::DeliveryStatus::Skipped;
     };
     let Ok(value) = serde_json::from_str::<serde_json::Value>(&raw) else {
-        return crate::core::run_status::DeliveryStatus::Failed {
+        return crate::application::run_status::DeliveryStatus::Failed {
             reason: "invalid evidence collection status JSON".to_string(),
         };
     };
@@ -626,12 +626,12 @@ fn load_latest_evidence_collection_status(
 fn load_run_evidence_collection_status(
     save_dir: &std::path::Path,
     date: NaiveDate,
-) -> Option<crate::core::run_status::DeliveryStatus> {
+) -> Option<crate::application::run_status::DeliveryStatus> {
     let path = save_dir.join(format!("run_status_{}.json", date));
     let raw = std::fs::read_to_string(path).ok()?;
     let value = serde_json::from_str::<serde_json::Value>(&raw).ok()?;
     let status = value.get("evidence_collection")?;
-    serde_json::from_value::<crate::core::run_status::DeliveryStatus>(status.clone()).ok()
+    serde_json::from_value::<crate::application::run_status::DeliveryStatus>(status.clone()).ok()
 }
 
 async fn run_pipeline(
@@ -847,26 +847,26 @@ async fn run_pipeline(
             Ok(tg_cfg) => {
                 match notify::send_telegram_message(tg_cfg, &report_result.telegram_html_body).await
                 {
-                    Ok(_) => crate::core::run_status::DeliveryStatus::Succeeded,
+                    Ok(_) => crate::application::run_status::DeliveryStatus::Succeeded,
                     Err(err) => {
                         eprintln!("⚠️ Telegram notification failed: {}", err);
-                        crate::core::run_status::DeliveryStatus::Failed {
+                        crate::application::run_status::DeliveryStatus::Failed {
                             reason: err.to_string(),
                         }
                     }
                 }
             }
-            Err(crate::core::run_status::DeliveryStatus::Skipped) => {
+            Err(crate::application::run_status::DeliveryStatus::Skipped) => {
                 if config_arc.telegram.is_some() {
                     eprintln!("ℹ️ Telegram notification skipped: config.telegram.enabled = false");
                 } else {
                     eprintln!("ℹ️ Telegram notification skipped: telegram config is missing");
                 }
-                crate::core::run_status::DeliveryStatus::Skipped
+                crate::application::run_status::DeliveryStatus::Skipped
             }
-            Err(crate::core::run_status::DeliveryStatus::Failed { reason }) => {
+            Err(crate::application::run_status::DeliveryStatus::Failed { reason }) => {
                 eprintln!("⚠️ Telegram notification failed precheck: {}", reason);
-                crate::core::run_status::DeliveryStatus::Failed { reason }
+                crate::application::run_status::DeliveryStatus::Failed { reason }
             }
             Err(other) => other,
         };
@@ -1191,7 +1191,7 @@ fn run_audit_daily(
     let target_idx = resolve_target_index(&days, target_date, language)?;
     let evidence_collection_status =
         load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-            .unwrap_or(crate::core::run_status::DeliveryStatus::Skipped);
+            .unwrap_or(crate::application::run_status::DeliveryStatus::Skipped);
     let report = build_audit_daily_report_with_evidence_status(
         &days,
         target_idx,
@@ -1227,7 +1227,7 @@ fn build_daily_calibration_report(
         let target_idx = resolve_target_index(&days, target_date, language)?;
         let evidence_collection_status =
             load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-                .unwrap_or(crate::core::run_status::DeliveryStatus::Skipped);
+                .unwrap_or(crate::application::run_status::DeliveryStatus::Skipped);
         selected_entry = Some(days[target_idx].latest());
         build_audit_daily_report_with_evidence_status(
             &days,
@@ -1430,7 +1430,7 @@ fn build_audit_daily_report_with_evidence_status(
     target_idx: usize,
     window_days: usize,
     language: Language,
-    evidence_collection_status: Option<&crate::core::run_status::DeliveryStatus>,
+    evidence_collection_status: Option<&crate::application::run_status::DeliveryStatus>,
 ) -> String {
     let text = audit_text(language);
     let today = &days[target_idx];
@@ -1904,21 +1904,21 @@ fn yes_no(flag: bool, language: Language) -> &'static str {
 }
 
 fn format_delivery_status(
-    status: &crate::core::run_status::DeliveryStatus,
+    status: &crate::application::run_status::DeliveryStatus,
     language: Language,
 ) -> String {
     match status {
-        crate::core::run_status::DeliveryStatus::Succeeded => match language {
+        crate::application::run_status::DeliveryStatus::Succeeded => match language {
             Language::ZhCn => "成功".to_string(),
             Language::EnUs => "succeeded".to_string(),
             Language::JaJp => "成功".to_string(),
         },
-        crate::core::run_status::DeliveryStatus::Skipped => match language {
+        crate::application::run_status::DeliveryStatus::Skipped => match language {
             Language::ZhCn => "跳过".to_string(),
             Language::EnUs => "skipped".to_string(),
             Language::JaJp => "スキップ".to_string(),
         },
-        crate::core::run_status::DeliveryStatus::Failed { reason } => match language {
+        crate::application::run_status::DeliveryStatus::Failed { reason } => match language {
             Language::ZhCn => format!("失败 ({})", reason),
             Language::EnUs => format!("failed ({})", reason),
             Language::JaJp => format!("失敗 ({})", reason),
@@ -2896,11 +2896,11 @@ mod tests {
     };
     use crate::application::provider::MarketDataProvider;
     use crate::application::provider::{DailyBar, TickerHistory};
+    use crate::application::run_status::DeliveryStatus;
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
     };
-    use crate::core::run_status::DeliveryStatus;
     use crate::core::runtime_mode::ExecutionMode;
     use crate::interface::i18n::Language;
     use anyhow::{anyhow, Result};

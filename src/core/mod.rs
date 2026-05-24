@@ -12,7 +12,7 @@ pub mod market_state;
 
 pub mod portfolio_policy;
 pub mod position_intent;
-pub mod run_status;
+
 pub mod runtime_mode;
 pub mod telemetry;
 pub mod threshold_format;
