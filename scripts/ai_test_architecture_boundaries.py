@@ -68,6 +68,14 @@ def test_core_rejects_interface_dependency() -> None:
         assert violations, "core から interface への依存は検出されるべき"
 
 
+def test_config_rejects_interface_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write(root / "src/config.rs", "use crate::interface::i18n::Language;\n")
+        violations = checker.check_project(root)
+        assert violations, "config から interface への依存は検出されるべき"
+
+
 def main() -> int:
     tests = [
         test_domain_rejects_outer_dependency,
@@ -76,6 +84,7 @@ def main() -> int:
         test_application_rejects_data_provider_dependency,
         test_interface_rejects_direct_adapter_dependency,
         test_core_rejects_interface_dependency,
+        test_config_rejects_interface_dependency,
     ]
     for test in tests:
         test()

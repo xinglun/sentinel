@@ -1,0 +1,98 @@
+{
+  "contractVersion": 1,
+  "workItemId": "config-language-boundary",
+  "mode": "code",
+  "title": "Config の Language 依存を interface から分離",
+  "scope": [
+    ".ai/work-items/active/config-language-boundary.contract.json",
+    ".ai/work-items/active/config-language-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/config.rs",
+    "src/interface/i18n.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "config loading を interface / report rendering から分離する方針を確認した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "OutputConfig が interface::i18n::Language に依存している移行対象。"
+    },
+    {
+      "path": "src/interface/i18n.rs",
+      "reason": "Language enum の既存 import path を維持するための re-export 対象。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "config -> interface 依存を regression guard 化する対象。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture checker の config -> interface 検出回帰テストを追加する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "`src/config.rs` が `crate::interface` に依存していない。",
+    "既存の `crate::interface::i18n::Language` import path が互換的に利用できる。",
+    "`language = \"zh-cn\" / \"en-us\" / \"ja-jp\"` の config schema が維持されている。",
+    "`make check-architecture` が `src/config.rs` から `crate::interface` への依存を検出できる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/config-language-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/config-language-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/config-language-boundary.summary.json CONTRACT=.ai/work-items/active/config-language-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/config-language-boundary.contract.json SUMMARY=.ai/work-items/active/config-language-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/config-language-boundary.contract.json SUMMARY=.ai/work-items/active/config-language-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

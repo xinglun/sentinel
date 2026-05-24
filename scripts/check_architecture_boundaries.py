@@ -66,6 +66,12 @@ RULES: tuple[LayerRule, ...] = (
             "crate::interface",
         ),
     ),
+    LayerRule(
+        "src/config.rs",
+        (
+            "crate::interface",
+        ),
+    ),
 )
 
 
@@ -85,6 +91,10 @@ class Violation:
 
 
 def rust_files(root: Path) -> Iterable[Path]:
+    if root.is_file():
+        yield root
+        return
+
     for path in root.rglob("*.rs"):
         if "/target/" not in str(path):
             yield path

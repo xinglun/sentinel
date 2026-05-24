@@ -1,10 +1,8 @@
 use anyhow::{anyhow, Result};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
 use std::fs;
 use std::path::Path;
-
-use crate::interface::i18n::Language;
 
 fn default_true() -> bool {
     true
@@ -46,9 +44,21 @@ pub struct OutputConfig {
     pub format: String,
     pub save_to: String,
     pub weight_kind: Option<String>,
-    pub language: Option<Language>,
+    pub language: Option<OutputLanguage>,
     #[serde(default = "default_true")]
     pub compact_transition_evidence_in_no_trade: bool,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum OutputLanguage {
+    #[serde(rename = "zh-cn")]
+    #[default]
+    ZhCn,
+    #[serde(rename = "en-us")]
+    EnUs,
+    #[serde(rename = "ja-jp")]
+    JaJp,
 }
 
 #[derive(Debug, Deserialize, Clone)]
