@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "workItemId": "radar_orchestration_phase4",
+  "mode": "code",
+  "title": "Radar orchestration phase 4",
+  "scope": [
+    ".ai/work-items/active/radar_orchestration_phase4.contract.json",
+    ".ai/work-items/active/radar_orchestration_phase4.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/application/radar.rs",
+    "src/cli.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": [
+    "src/domain/**",
+    "src/infrastructure/**",
+    "src/core/engine.rs",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "CLI orchestration policy を application boundary へ段階移行する方針を確認する。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "Radar pipeline plan の追加先。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline が利用する orchestration policy の現行箇所。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "pipeline plan contract を integration test で固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Application layer に DataAcquisitionSummary 由来の RadarPipelinePlan が追加されている。",
+    "CLI は persist / body entry の policy を RadarPipelinePlan 経由で利用する。",
+    "empty / partial / full failure の既存挙動は維持されている。",
+    "pipeline plan の contract が unit / integration test で固定されている。",
+    "fmt、pipeline integration、architecture、quality が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_orchestration_phase4.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_orchestration_phase4.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test radar_application_boundary -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_orchestration_phase4.summary.json CONTRACT=.ai/work-items/active/radar_orchestration_phase4.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_orchestration_phase4.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase4.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_orchestration_phase4.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase4.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

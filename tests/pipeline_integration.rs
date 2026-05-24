@@ -459,3 +459,26 @@ fn radar_application_entry_policy_matches_existing_pipeline_body_condition() {
     assert!(DataAcquisitionSummary::new(1, 8).should_enter_pipeline_body());
     assert!(DataAcquisitionSummary::new(0, 9).should_enter_pipeline_body());
 }
+
+#[test]
+fn radar_application_pipeline_plan_collects_fetch_policies() {
+    use stock_sentinel::application::radar::{DataAcquisitionSummary, DataQualityStatus};
+
+    let empty = DataAcquisitionSummary::new(0, 0).pipeline_plan();
+    assert!(empty.should_persist_history);
+    assert!(!empty.should_enter_pipeline_body);
+    assert_eq!(empty.data_quality_status, DataQualityStatus::Ok);
+
+    let partial = DataAcquisitionSummary::new(1, 8).pipeline_plan();
+    assert!(partial.should_persist_history);
+    assert!(partial.should_enter_pipeline_body);
+    assert_eq!(partial.data_quality_status, DataQualityStatus::Warning);
+
+    let full_failure = DataAcquisitionSummary::new(0, 9).pipeline_plan();
+    assert!(!full_failure.should_persist_history);
+    assert!(full_failure.should_enter_pipeline_body);
+    assert_eq!(
+        full_failure.data_quality_status,
+        DataQualityStatus::Critical
+    );
+}

@@ -681,7 +681,8 @@ async fn run_pipeline(
     let data_acquisition =
         crate::application::radar::DataAcquisitionResult::new(ticker_histories, failed_symbols);
     let data_acquisition_summary = data_acquisition.summary();
-    let should_persist_history = data_acquisition.should_persist_decision_history();
+    let pipeline_plan = data_acquisition.pipeline_plan();
+    let should_persist_history = pipeline_plan.should_persist_history;
     let (ticker_histories, failed_symbols) = data_acquisition.into_parts();
 
     let mut outcome = crate::core::run_status::RunOutcome {
@@ -694,7 +695,7 @@ async fn run_pipeline(
     let ledger = Arc::new(Ledger::new(save_dir.clone()));
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
-    if data_acquisition_summary.should_enter_pipeline_body() {
+    if pipeline_plan.should_enter_pipeline_body {
         let packet = if !ticker_histories.is_empty() {
             match Engine::run_daily_pipeline(
                 &ticker_histories,

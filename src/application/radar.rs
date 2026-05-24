@@ -13,6 +13,15 @@ pub enum DataQualityStatus {
     Critical,
 }
 
+/// data acquisition 後に CLI が従う pipeline policy。
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct RadarPipelinePlan {
+    pub data_acquisition: DataAcquisitionSummary,
+    pub should_persist_history: bool,
+    pub should_enter_pipeline_body: bool,
+    pub data_quality_status: DataQualityStatus,
+}
+
 impl DataQualityStatus {
     pub fn as_str(self) -> &'static str {
         match self {
@@ -55,6 +64,16 @@ impl DataAcquisitionSummary {
     /// run_pipeline の main body へ進む必要があるかを判定する。
     pub fn should_enter_pipeline_body(self) -> bool {
         self.successful_fetches > 0 || self.failed_fetches > 0
+    }
+
+    /// data acquisition summary から pipeline policy を構築する。
+    pub fn pipeline_plan(self) -> RadarPipelinePlan {
+        RadarPipelinePlan {
+            data_acquisition: self,
+            should_persist_history: self.should_persist_decision_history(),
+            should_enter_pipeline_body: self.should_enter_pipeline_body(),
+            data_quality_status: self.data_quality_status(),
+        }
     }
 }
 
@@ -116,6 +135,11 @@ impl<T> DataAcquisitionResult<T> {
     /// run_pipeline の main body へ進む必要があるかを判定する。
     pub fn should_enter_pipeline_body(&self) -> bool {
         self.summary().should_enter_pipeline_body()
+    }
+
+    /// data acquisition result から pipeline policy を構築する。
+    pub fn pipeline_plan(&self) -> RadarPipelinePlan {
+        self.summary().pipeline_plan()
     }
 
     pub fn into_parts(self) -> (Vec<T>, Vec<String>) {
@@ -286,6 +310,7 @@ mod tests {
     fn radar_application_boundary_result_summarizes_fetch_outcome() {
         let result = DataAcquisitionResult::new(vec!["AAPL"], vec!["MSFT".to_string()]);
         let summary = result.summary();
+        let plan = result.pipeline_plan();
 
         assert_eq!(summary.successful_fetches, 1);
         assert_eq!(summary.failed_fetches, 1);
@@ -293,6 +318,10 @@ mod tests {
         assert!(!result.is_full_failure());
         assert_eq!(result.data_quality_status(), DataQualityStatus::Warning);
         assert!(result.should_enter_pipeline_body());
+        assert_eq!(plan.data_acquisition, summary);
+        assert!(plan.should_persist_history);
+        assert!(plan.should_enter_pipeline_body);
+        assert_eq!(plan.data_quality_status, DataQualityStatus::Warning);
     }
 
     #[test]
@@ -324,6 +353,16 @@ mod tests {
                 .as_str(),
             "CRITICAL"
         );
+    }
+
+    #[test]
+    fn radar_application_boundary_builds_pipeline_plan() {
+        let plan = DataAcquisitionSummary::new(0, 9).pipeline_plan();
+
+        assert_eq!(plan.data_acquisition, DataAcquisitionSummary::new(0, 9));
+        assert!(!plan.should_persist_history);
+        assert!(plan.should_enter_pipeline_body);
+        assert_eq!(plan.data_quality_status, DataQualityStatus::Critical);
     }
 
     #[test]
