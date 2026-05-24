@@ -162,10 +162,16 @@ pub(crate) fn parse_cli_options(
                 command_explicit = true;
             }
             "--provider" if i + 1 < args.len() => {
-                if let Some(provider) = CliProviderKind::from_arg(&args[i + 1]) {
-                    options.provider = provider;
+                match CliProviderKind::from_arg(&args[i + 1]) {
+                    Some(provider) => options.provider = provider,
+                    None => {
+                        options.cli_arg_error = Some(format!("Invalid provider: {}", args[i + 1]));
+                    }
                 }
                 i += 1;
+            }
+            "--provider" => {
+                options.cli_arg_error = Some("Missing value for --provider".to_string());
             }
             "--symbol" if i + 1 < args.len() => {
                 options.evidence_symbol = Some(args[i + 1].clone());

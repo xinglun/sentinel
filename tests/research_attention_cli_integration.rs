@@ -150,6 +150,30 @@ fn cli_unknown_command_is_rejected_without_radar_fallback() {
 }
 
 #[test]
+fn cli_invalid_provider_is_rejected_without_provider_fallback() {
+    let tmp = prepare_workspace("");
+
+    let out = run_cli(&tmp, &["radar", "--provider", "typo"]);
+
+    assert!(!out.status.success());
+    let stderr = String::from_utf8_lossy(&out.stderr);
+    assert!(stderr.contains("Invalid provider: typo"));
+    assert!(stderr.contains("Usage: stock-sentinel <command> [options]"));
+}
+
+#[test]
+fn cli_missing_provider_value_is_rejected() {
+    let tmp = prepare_workspace("");
+
+    let out = run_cli(&tmp, &["radar", "--provider"]);
+
+    assert!(!out.status.success());
+    let stderr = String::from_utf8_lossy(&out.stderr);
+    assert!(stderr.contains("Missing value for --provider"));
+    assert!(stderr.contains("Usage: stock-sentinel <command> [options]"));
+}
+
+#[test]
 fn cli_without_command_shows_help_without_radar_fallback() {
     let tmp = prepare_workspace("");
 

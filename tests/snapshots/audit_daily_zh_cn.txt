@@ -24,9 +24,9 @@
 
 4. 实体证据摘要
 - 历史证据存量:
-- [GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)
-- [GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)
-- [GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)
+- [GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] 原始证据说明未提供中文版本 (https://example.com/ir/goog)
+- [GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] 原始证据说明未提供中文版本 (https://news.example.com/goog-cloud)
+- [GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] 原始证据说明未提供中文版本 (https://example.com/ir/goog-followup)
 
 5. 连续段统计
 - 当前 NO TRADE 连续段长度: 2 天

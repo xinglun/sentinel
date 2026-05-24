@@ -1,0 +1,94 @@
+{
+  "workItemId": "cli-report-boundary-fix",
+  "contractPath": ".ai/work-items/archive/2026/cli-report-boundary-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cli-report-boundary-fix.contract.json",
+      "reason": "CLI / report 境界修正の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-report-boundary-fix.summary.json",
+      "reason": "修正内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "invalid / missing --provider value を明示的な CLI error として扱うようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "zh-cn / ja-jp の Audit Daily で未ローカライズ evidence description を直接出力しないようにした。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Audit Daily の言語境界を検証する unit test assertion を更新した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "invalid / missing --provider が fallback しないことを integration test で固定した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "中国語 report snapshot を未ローカライズ説明の placeholder に更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "日本語 report snapshot を未ローカライズ説明の placeholder に更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "review finding: invalid provider fallback",
+    "review finding: raw evidence description language boundary",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/radar/interface/audit_daily_report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test audit_daily --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-report-boundary-fix.summary.json CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json SUMMARY=.ai/work-items/active/cli-report-boundary-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json SUMMARY=.ai/work-items/active/cli-report-boundary-fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "CLI parser と report rendering の局所修正。make quality で regression を確認済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

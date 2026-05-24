@@ -628,7 +628,11 @@ fn format_evidence_description(description: &str, language: Language) -> String 
             Language::JaJp => "CLI から手動入力".to_string(),
         };
     }
-    description.to_string()
+    match language {
+        Language::ZhCn => "原始证据说明未提供中文版本".to_string(),
+        Language::EnUs => description.to_string(),
+        Language::JaJp => "元の証拠説明は日本語で未提供".to_string(),
+    }
 }
 
 fn blocker_label(raw: &str, language: Language) -> String {

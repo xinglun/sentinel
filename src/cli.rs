@@ -1393,9 +1393,9 @@ mod tests {
     fn audit_daily_contract_contains_one_liner_and_methodology_lines() {
         let report_zh = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::ZhCn);
         assert!(report_zh.contains("4. 实体证据摘要"));
-        assert!(report_zh.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
-        assert!(report_zh.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
-        assert!(report_zh.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
+        assert!(report_zh.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] 原始证据说明未提供中文版本 (https://example.com/ir/goog)"));
+        assert!(report_zh.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] 原始证据说明未提供中文版本 (https://news.example.com/goog-cloud)"));
+        assert!(report_zh.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] 原始证据说明未提供中文版本 (https://example.com/ir/goog-followup)"));
         assert!(report_zh.contains("6. 审计一句话"));
         assert!(report_zh.contains("NO TRADE 连续第 2 天；主因："));
         assert!(report_zh.contains("口径: 连续段按日志连续计算（周末自动衔接）"));
@@ -1413,9 +1413,9 @@ mod tests {
 
         let report_ja = build_audit_daily_report(&sample_audit_days(), 1, 14, Language::JaJp);
         assert!(report_ja.contains("4. 実体的な証拠サマリー"));
-        assert!(report_ja.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog)"));
-        assert!(report_ja.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] Cloud division shows strong ROI (https://news.example.com/goog-cloud)"));
-        assert!(report_ja.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] Earnings beat expectations by 15% (https://example.com/ir/goog-followup)"));
+        assert!(report_ja.contains("[GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] 元の証拠説明は日本語で未提供 (https://example.com/ir/goog)"));
+        assert!(report_ja.contains("[GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] 元の証拠説明は日本語で未提供 (https://news.example.com/goog-cloud)"));
+        assert!(report_ja.contains("[GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] 元の証拠説明は日本語で未提供 (https://example.com/ir/goog-followup)"));
         assert!(report_ja.contains("6. 監査ワンライン要約"));
         assert!(report_ja.contains("NO TRADE 連続 2 日目；主因："));
         assert!(report_ja.contains("口径: 連続区間はログ連続で計算（週末は自動連結）"));
