@@ -1,5 +1,5 @@
-use crate::application::provider::{DailyBar, TickerHistory};
 use crate::config::{DeviationBasis, ParsedRules, WatchlistEntry};
+use crate::domain::market_data::{DailyBar, TickerHistory};
 
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};

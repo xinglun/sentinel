@@ -1,0 +1,96 @@
+{
+  "workItemId": "market-data-domain-boundary",
+  "contractPath": ".ai/work-items/archive/2026/market-data-domain-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/market-data-domain-boundary.contract.json",
+      "reason": "market data domain boundary の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-data-domain-boundary.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/domain/market_data.rs",
+      "reason": "DailyBar / TickerHistory の canonical definition を domain layer へ移動した。"
+    },
+    {
+      "path": "src/domain/mod.rs",
+      "reason": "market_data module を domain layer に公開した。"
+    },
+    {
+      "path": "src/application/provider.rs",
+      "reason": "MarketDataProvider port に型 re-export を残し、既存 import 互換を維持した。"
+    },
+    {
+      "path": "src/core/features.rs",
+      "reason": "core feature calculation が domain market data 型を直接参照するようにした。"
+    },
+    {
+      "path": "src/core/engine.rs",
+      "reason": "core pipeline entry が domain TickerHistory を直接参照するようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/application/provider.rs",
+    "src/core/features.rs",
+    "src/core/engine.rs",
+    "scripts/check_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-data-domain-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-data-domain-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-data-domain-boundary.summary.json CONTRACT=.ai/work-items/active/market-data-domain-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-data-domain-boundary.contract.json SUMMARY=.ai/work-items/active/market-data-domain-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-data-domain-boundary.contract.json SUMMARY=.ai/work-items/active/market-data-domain-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "application::provider は re-export を維持しているため、adapter / CLI / backtest の既存 import 互換は残る。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "targeted cargo test の複数 filter 指定は不正だったため、cargo test --lib で検証し直した。"
+  ]
+}
