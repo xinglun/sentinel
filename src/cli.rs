@@ -12,8 +12,8 @@ use crate::config;
 use crate::core::engine::Engine;
 use crate::core::execution_gate::ExecutionGate;
 use crate::core::ledger::Ledger;
-use crate::core::persistence::PersistenceLayer;
 use crate::core::transition_log::TransitionLogger;
+use crate::infrastructure::persistence::PersistenceLayer;
 
 use crate::application::evidence::{ingest_manual_evidence, ManualEvidenceIngestionRequest};
 use crate::application::evidence_ingestion::{

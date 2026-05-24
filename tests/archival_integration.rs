@@ -5,9 +5,9 @@ use stock_sentinel::core::features::MarketFeatures;
 use stock_sentinel::core::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
 };
-use stock_sentinel::core::persistence::PersistenceLayer;
 use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
 use stock_sentinel::core::transition_log::TransitionLogger;
+use stock_sentinel::infrastructure::persistence::PersistenceLayer;
 use tempfile::tempdir;
 
 #[tokio::test]

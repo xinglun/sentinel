@@ -1,0 +1,92 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-persistence-migration",
+  "mode": "code",
+  "title": "DDD レイヤー修正: core/persistence.rs を infrastructure 層へ移動",
+  "scope": [
+    "src/core/persistence.rs",
+    "src/infrastructure/persistence.rs",
+    "src/infrastructure/mod.rs",
+    "src/core/mod.rs",
+    "src/cli.rs",
+    "tests/archival_integration.rs",
+    ".ai/work-items/active/ddd-persistence-migration.contract.json",
+    ".ai/work-items/active/ddd-persistence-migration.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/market_regime.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/decision.rs",
+    "src/core/features.rs",
+    "src/core/run_status.rs",
+    "src/core/asset_state.rs",
+    "src/core/breakout_detection.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    "src/backtest.rs",
+    "src/trade/",
+    "src/adapters/"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "core/persistence.rs が infrastructure/ へ移動し、既存の import が更新される。",
+    "infrastructure/mod.rs が persistence を pub mod として公開する。",
+    "make fmt-check が通る。",
+    "make test が通る。",
+    "make clippy が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-persistence-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-persistence-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-persistence-migration.summary.json CONTRACT=.ai/work-items/active/ddd-persistence-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-persistence-migration.contract.json SUMMARY=.ai/work-items/active/ddd-persistence-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-persistence-migration.contract.json SUMMARY=.ai/work-items/active/ddd-persistence-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この task の diff を revert し、core/persistence.rs を元の場所に戻す。"
+}
