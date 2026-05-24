@@ -20,8 +20,8 @@ use crate::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
 };
+use crate::application::provider::MarketDataProvider;
 use crate::core::trend_cohesion::EvidenceSourceType;
-use crate::data::provider::MarketDataProvider;
 use crate::infrastructure::evidence_ingestion::RuleBasedExtractor;
 use crate::infrastructure::evidence_store::EvidenceStore;
 use crate::infrastructure::notify;
@@ -568,8 +568,8 @@ impl MarketDataProvider for YahooProviderAdapter {
         s: &str,
         start: Option<OffsetDateTime>,
         end: Option<OffsetDateTime>,
-    ) -> Result<crate::data::yahoo_provider::TickerHistory<'static>> {
-        crate::data::yahoo_provider::fetch_history(s, start, end).await
+    ) -> Result<crate::application::provider::TickerHistory<'static>> {
+        crate::adapters::yahoo_provider::fetch_history(s, start, end).await
     }
 }
 
@@ -2894,14 +2894,14 @@ mod tests {
         load_latest_evidence_collection_status, parse_transition_audit_entry, run_pipeline,
         telegram_delivery_precheck, ProviderType, TransitionAuditDay, TransitionAuditEntry,
     };
+    use crate::application::provider::MarketDataProvider;
+    use crate::application::provider::{DailyBar, TickerHistory};
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
     };
     use crate::core::run_status::DeliveryStatus;
     use crate::core::runtime_mode::ExecutionMode;
-    use crate::data::provider::MarketDataProvider;
-    use crate::data::yahoo_provider::{DailyBar, TickerHistory};
     use crate::interface::i18n::Language;
     use anyhow::{anyhow, Result};
     use chrono::{NaiveDate, Utc};
@@ -2924,7 +2924,7 @@ mod tests {
             _symbol: &str,
             _start_date: Option<OffsetDateTime>,
             _end_date: Option<OffsetDateTime>,
-        ) -> Result<crate::data::yahoo_provider::TickerHistory<'static>> {
+        ) -> Result<crate::application::provider::TickerHistory<'static>> {
             Err(anyhow!("synthetic fetch failure"))
         }
     }
@@ -2936,7 +2936,7 @@ mod tests {
             symbol: &str,
             _start_date: Option<OffsetDateTime>,
             _end_date: Option<OffsetDateTime>,
-        ) -> Result<crate::data::yahoo_provider::TickerHistory<'static>> {
+        ) -> Result<crate::application::provider::TickerHistory<'static>> {
             match symbol {
                 "AAA" => Ok(create_mock_history(symbol, 100.0, 60, 0.002)),
                 _ => Err(anyhow!("synthetic partial fetch failure")),

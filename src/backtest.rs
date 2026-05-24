@@ -1,8 +1,9 @@
+use crate::adapters::yahoo_provider::fetch_history;
+use crate::application::provider::TickerHistory;
 use crate::config::{AppConfig, ParsedRules};
 use crate::core::action_matrix::AssetAction;
 use crate::core::decision::DecisionPacket;
 use crate::core::engine::Engine;
-use crate::data::yahoo_provider::{fetch_history, TickerHistory};
 use anyhow::Result;
 use chrono::NaiveDate;
 use std::borrow::Cow;

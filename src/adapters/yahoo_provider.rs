@@ -1,29 +1,12 @@
 use anyhow::{anyhow, Result};
-use chrono::{NaiveDate, TimeZone, Utc};
+use chrono::{TimeZone, Utc};
 use std::borrow::Cow;
 use std::time::Duration;
 use time::{Duration as TimeDuration, OffsetDateTime};
 use tokio::time::sleep;
 use yahoo_finance_api as yahoo;
 
-#[derive(Debug, Clone)]
-pub struct DailyBar {
-    pub date: NaiveDate,
-    pub close: f64,
-    #[allow(dead_code)]
-    pub volume: Option<f64>,
-}
-
-#[derive(Debug, Clone)]
-pub struct TickerHistory<'a> {
-    #[allow(dead_code)]
-    pub symbol: String,
-    pub bars: Cow<'a, [DailyBar]>,
-    // IPO/初取引日以降の推定累計取引日数
-    pub total_trading_days: usize,
-    #[allow(dead_code)]
-    pub latest_quote_timestamp: Option<i64>,
-}
+use crate::application::provider::{DailyBar, TickerHistory};
 
 pub async fn fetch_history(
     symbol: &str,

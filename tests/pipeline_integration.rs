@@ -1,6 +1,7 @@
 use chrono::{NaiveDate, Utc};
 use std::collections::HashMap;
 use std::future::{ready, Ready};
+use stock_sentinel::application::provider::{DailyBar, TickerHistory};
 use stock_sentinel::config::{DeviationBasis, ParsedRules, TrendConfig, WatchlistEntry};
 use stock_sentinel::core::action_matrix::AssetAction;
 use stock_sentinel::core::decision::DecisionPacket;
@@ -10,7 +11,6 @@ use stock_sentinel::core::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
 };
 use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
-use stock_sentinel::data::yahoo_provider::{DailyBar, TickerHistory};
 
 use std::borrow::Cow;
 

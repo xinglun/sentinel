@@ -1,7 +1,7 @@
+use crate::application::provider::TickerHistory;
 use crate::config::{ParsedRules, WatchlistEntry};
 use crate::core::features::{AssetFeatures, MarketFeatures};
 use crate::core::market_regime::MarketRegimeStateMachine;
-use crate::data::yahoo_provider::TickerHistory;
 
 use crate::core::asset_state::{AssetState, AssetStateMachine};
 use crate::core::portfolio_policy::PortfolioPolicy;

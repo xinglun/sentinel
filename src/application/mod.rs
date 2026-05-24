@@ -5,4 +5,5 @@
 
 pub mod evidence;
 pub mod evidence_ingestion;
+pub mod provider;
 pub mod radar;
