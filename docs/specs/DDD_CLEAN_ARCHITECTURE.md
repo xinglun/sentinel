@@ -119,6 +119,7 @@ Application layer に移行済みのもの:
 - prepared data、pipeline plan、history persistence 判定
 - run context と初期 run status metadata
 - diagnostic / decision outcome / persistence payload builder
+- market data 取得、decision history 永続化、notification dispatch の port contract
 
 CLI に残すもの:
 
@@ -130,6 +131,7 @@ CLI に残すもの:
 
 次に進める場合は、`src/application` から `crate::data`、`crate::infrastructure`、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
 この rule は `make test-architecture-boundaries` の regression test で固定する。
+port contract は `RadarMarketDataPort`、`RadarDecisionHistoryPort`、`RadarNotificationPort` として application layer に置き、実装接続は別 Work Item で行う。
 
 ## Architecture Guard
 

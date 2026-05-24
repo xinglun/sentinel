@@ -1,0 +1,100 @@
+{
+  "contractVersion": 1,
+  "workItemId": "radar_port_contracts",
+  "mode": "code",
+  "title": "Radar port contracts",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/radar_port_contracts.contract.json",
+    ".ai/work-items/active/radar_port_contracts.summary.json",
+    "src/application/radar.rs",
+    "tests/pipeline_integration.rs",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md"
+  ],
+  "outOfScope": [
+    "src/cli.rs",
+    "src/core/**",
+    "src/infrastructure/**",
+    "src/data/**",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Radar の次段階は port trait を先に定義する、と明記されている migration checkpoint。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "Radar orchestration policy と use case の現在位置。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "Radar application boundary の回帰契約。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Radar application layer に market data / persistence / notification など外部接続を表す port contract が定義されている。",
+    "port contract は crate::data / crate::infrastructure / crate::adapters に依存しない。",
+    "既存 CLI や legacy Engine の実行経路は変更しない。",
+    "port contract の型境界が tests/pipeline_integration.rs で固定されている。",
+    "DDD Clean Architecture 文書に port-first migration 方針が追記されている。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_port_contracts.summary.json CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json SUMMARY=.ai/work-items/active/radar_port_contracts.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json SUMMARY=.ai/work-items/active/radar_port_contracts.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

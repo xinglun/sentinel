@@ -1,5 +1,6 @@
 use chrono::{NaiveDate, Utc};
 use std::collections::HashMap;
+use std::future::{ready, Ready};
 use stock_sentinel::config::{DeviationBasis, ParsedRules, TrendConfig, WatchlistEntry};
 use stock_sentinel::core::action_matrix::AssetAction;
 use stock_sentinel::core::decision::DecisionPacket;
@@ -559,4 +560,66 @@ fn radar_pipeline_use_case_prepares_from_provider_results() {
     );
     assert!(prepared.plan.should_persist_history);
     assert!(prepared.plan.should_enter_pipeline_body);
+}
+
+#[tokio::test]
+async fn radar_application_ports_are_infrastructure_free_contracts() {
+    use stock_sentinel::application::radar::{
+        RadarDecisionHistoryPort, RadarMarketDataPort, RadarNotificationPort,
+    };
+
+    struct FixtureMarketDataPort;
+
+    impl RadarMarketDataPort for FixtureMarketDataPort {
+        type History = &'static str;
+        type Error = &'static str;
+        type FetchFuture<'a> = Ready<Result<Self::History, Self::Error>>;
+
+        fn fetch_symbol<'a>(&'a self, symbol: &'a str) -> Self::FetchFuture<'a> {
+            if symbol == "NVDA" {
+                ready(Ok("NVDA-history"))
+            } else {
+                ready(Err("missing symbol"))
+            }
+        }
+    }
+
+    struct FixtureHistoryPort;
+
+    impl RadarDecisionHistoryPort for FixtureHistoryPort {
+        type Packet = &'static str;
+        type Error = &'static str;
+
+        fn save_decision_history(&self, packet: &Self::Packet) -> Result<(), Self::Error> {
+            if packet.is_empty() {
+                Err("empty packet")
+            } else {
+                Ok(())
+            }
+        }
+    }
+
+    struct FixtureNotificationPort;
+
+    impl RadarNotificationPort for FixtureNotificationPort {
+        type Message = &'static str;
+        type Error = &'static str;
+
+        fn send_notification(&self, message: &Self::Message) -> Result<(), Self::Error> {
+            if message.is_empty() {
+                Err("empty message")
+            } else {
+                Ok(())
+            }
+        }
+    }
+
+    let market = FixtureMarketDataPort;
+    let history = FixtureHistoryPort;
+    let notification = FixtureNotificationPort;
+
+    assert!(market.fetch_symbol("NVDA").await.is_ok());
+    assert!(market.fetch_symbol("MSFT").await.is_err());
+    assert!(history.save_decision_history(&"packet").is_ok());
+    assert!(notification.send_notification(&"message").is_ok());
 }

@@ -1,4 +1,38 @@
+use std::future::Future;
 use std::path::{Path, PathBuf};
+
+/// Radar が market data source へ要求する取得 port。
+///
+/// 実装は infrastructure 側に置き、application は fetch の成否だけを扱う。
+pub trait RadarMarketDataPort {
+    type History;
+    type Error;
+    type FetchFuture<'a>: Future<Output = Result<Self::History, Self::Error>> + 'a
+    where
+        Self: 'a;
+
+    fn fetch_symbol<'a>(&'a self, symbol: &'a str) -> Self::FetchFuture<'a>;
+}
+
+/// Radar が decision history 永続化へ要求する repository port。
+///
+/// 永続化先の file / DB / branch は infrastructure 側の責務とする。
+pub trait RadarDecisionHistoryPort {
+    type Packet;
+    type Error;
+
+    fn save_decision_history(&self, packet: &Self::Packet) -> Result<(), Self::Error>;
+}
+
+/// Radar が通知配送へ要求する output port。
+///
+/// Telegram や別 channel の詳細は application から隠蔽する。
+pub trait RadarNotificationPort {
+    type Message;
+    type Error;
+
+    fn send_notification(&self, message: &Self::Message) -> Result<(), Self::Error>;
+}
 
 /// Radar run の data acquisition 結果概要。
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
