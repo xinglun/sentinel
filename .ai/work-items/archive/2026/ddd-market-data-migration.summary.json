@@ -1,6 +1,6 @@
 {
   "workItemId": "ddd-market-data-migration",
-  "contractPath": ".ai/work-items/active/ddd-market-data-migration.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
   "changedFiles": [
     {
       "path": "src/lib.rs",
@@ -51,24 +51,24 @@
       "reason": "TickerHistory と DailyBar のインポート元を application::provider に修正。"
     },
     {
-      "path": ".ai/work-items/active/ddd-market-data-migration.contract.json",
+      "path": ".ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
       "reason": "Work Item Contract を確定した。"
     },
     {
-      "path": ".ai/work-items/active/ddd-market-data-migration.summary.json",
+      "path": ".ai/work-items/archive/2026/ddd-market-data-migration.summary.json",
       "reason": "AI Change Summary を更新した。"
     }
   ],
   "sourcesUsed": [
-    ".ai/work-items/active/ddd-market-data-migration.contract.json"
+    ".ai/work-items/archive/2026/ddd-market-data-migration.contract.json"
   ],
   "verification": [
     {
-      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
       "result": "passed"
     },
     {
-      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
       "result": "passed"
     },
     {
@@ -88,15 +88,15 @@
       "result": "passed"
     },
     {
-      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-market-data-migration.summary.json CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/archive/2026/ddd-market-data-migration.summary.json CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
       "result": "passed"
     },
     {
-      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-data-migration.summary.json",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-market-data-migration.summary.json",
       "result": "passed"
     },
     {
-      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-data-migration.summary.json",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-market-data-migration.summary.json",
       "result": "passed"
     }
   ],
