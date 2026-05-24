@@ -17,7 +17,7 @@ TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
 RESEARCH_ATTENTION_ARGS ?=
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-work-item-contract test-architecture-boundaries \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-architecture-boundaries \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -48,6 +48,7 @@ help:
 	@printf '%s\n' '  make test-ai-retry-circuit'
 	@printf '%s\n' '  make test-ai-coverage-guard'
 	@printf '%s\n' '  make test-ai-finish-archive-flow'
+	@printf '%s\n' '  make test-ai-lifecycle'
 	@printf '%s\n' '  make test-ai-work-item-contract'
 	@printf '%s\n' '  make test-architecture-boundaries'
 	@printf '%s\n' '  make check-rust'
@@ -103,6 +104,9 @@ test-ai-coverage-guard:
 
 test-ai-finish-archive-flow:
 	python3 scripts/ai_test_finish_archive_flow.py
+
+test-ai-lifecycle:
+	python3 scripts/ai_test_lifecycle.py
 
 test-ai-work-item-contract:
 	python3 scripts/ai_test_work_item_contract.py

@@ -15,6 +15,7 @@ from ai_observability import AiEventLevel, AiEventType, create_observability, el
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 WORK_ITEMS_DIR = PROJECT_ROOT / ".ai" / "work-items"
 ACTIVE_DIR = WORK_ITEMS_DIR / "active"
+ARCHIVE_DIR = WORK_ITEMS_DIR / "archive"
 CURRENT_STATUS = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
 
 
@@ -97,6 +98,29 @@ def check_current_status_consistency() -> list[str]:
     return issues
 
 
+def check_active_archive_duplicates() -> list[str]:
+    """同一 Work Item が active と archive に同時存在しないことを確認する。"""
+    issues: list[str] = []
+    if not ACTIVE_DIR.exists() or not ARCHIVE_DIR.exists():
+        return issues
+
+    archive_names = {
+        path.name
+        for path in ARCHIVE_DIR.rglob("*.json")
+        if path.name.endswith((".contract.json", ".summary.json", ".review.json"))
+    }
+    duplicates = sorted(
+        path
+        for path in ACTIVE_DIR.glob("*.json")
+        if path.name.endswith((".contract.json", ".summary.json", ".review.json"))
+        and path.name in archive_names
+    )
+    if duplicates:
+        listed = ", ".join(path.relative_to(PROJECT_ROOT).as_posix() for path in duplicates)
+        issues.append(f"Active Work Item files duplicate archived files: {listed}")
+    return issues
+
+
 def main() -> int:
     start = time.time()
     obs = create_observability()
@@ -108,6 +132,7 @@ def main() -> int:
         if subdir.is_dir() and subdir.name != "_templates":
             issues.extend(check_directory(subdir))
     issues.extend(check_current_status_consistency())
+    issues.extend(check_active_archive_duplicates())
 
     duration = elapsed_ms(start)
 

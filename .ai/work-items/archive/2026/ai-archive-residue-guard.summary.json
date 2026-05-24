@@ -1,0 +1,87 @@
+{
+  "workItemId": "ai-archive-residue-guard",
+  "contractPath": ".ai/work-items/archive/2026/ai-archive-residue-guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-archive-residue-guard.contract.json",
+      "reason": "archive residue guard の scope / sources / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-archive-residue-guard.summary.json",
+      "reason": "変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "lifecycle regression test の Make target と help entry を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_lifecycle.py",
+      "reason": "active と archive に同一 Work Item が同時存在する残留状態を検出するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_lifecycle.py",
+      "reason": "active/archive duplicate と no-active status 残留検出の regression tests を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_check_lifecycle.py",
+    "scripts/ai_test_finish_archive_flow.py",
+    ".ai/cockpit/status_policy.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-lifecycle",
+      "result": "passed"
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-archive-residue-guard.summary.json CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json SUMMARY=.ai/work-items/active/ai-archive-residue-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json SUMMARY=.ai/work-items/active/ai-archive-residue-guard.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "active/archive duplicate は lifecycle check で hard fail する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "archive 後に同一 Work Item の active copy が再出現しても、別の active task がある場合は従来の no_active_work_item check だけでは検出できなかった。"
+  ]
+}
