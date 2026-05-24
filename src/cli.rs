@@ -643,14 +643,18 @@ async fn run_pipeline(
     let parsed_rules = app_config.get_parsed_rules();
     let config_arc = Arc::new(app_config);
     let rules_arc = Arc::new(parsed_rules);
-    let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
+    let radar_context = crate::application::radar::RadarRunContext::new(
+        &config_arc.output.save_to,
+        chrono::Local::now(),
+    );
+    let save_dir = radar_context.save_dir();
     if !save_dir.exists() {
-        std::fs::create_dir_all(&save_dir).context("Failed to create output directory")?;
+        std::fs::create_dir_all(save_dir).context("Failed to create output directory")?;
     }
 
-    let persistence = PersistenceLayer::new(&save_dir);
-    let transition_logger = TransitionLogger::new(&save_dir);
-    let evidence_store = EvidenceStore::new(&save_dir);
+    let persistence = PersistenceLayer::new(save_dir);
+    let transition_logger = TransitionLogger::new(save_dir);
+    let evidence_store = EvidenceStore::new(save_dir);
 
     let history = persistence.load_recent_packets(20).unwrap_or_default();
     let all_evidence = evidence_store.load_all().unwrap_or_default();
@@ -685,14 +689,10 @@ async fn run_pipeline(
     let should_persist_history = pipeline_plan.should_persist_history;
     let (ticker_histories, failed_symbols) = data_acquisition.into_parts();
 
-    let mut outcome = crate::core::run_status::RunOutcome {
-        date: chrono::Local::now().date_naive().to_string(),
-        timestamp: chrono::Local::now().to_rfc3339(),
-        evidence_collection: load_latest_evidence_collection_status(&save_dir),
-        ..Default::default()
-    };
+    let mut outcome =
+        radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
 
-    let ledger = Arc::new(Ledger::new(save_dir.clone()));
+    let ledger = Arc::new(Ledger::new(radar_context.save_dir.clone()));
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if pipeline_plan.should_enter_pipeline_body {
@@ -720,7 +720,7 @@ async fn run_pipeline(
         } else {
             outcome.decisioning =
                 crate::application::radar::build_full_fetch_failure_status(failed_symbols.len());
-            crate::application::radar::build_diagnostic_packet(chrono::Local::now().date_naive())
+            crate::application::radar::build_diagnostic_packet(radar_context.date)
         };
 
         // Persist any newly generated evidence (FollowThrough, etc.)
@@ -796,7 +796,7 @@ async fn run_pipeline(
             .map(|alert| alert.symbols.clone())
             .unwrap_or_default();
         let data_quality_log = crate::application::radar::build_data_quality_log(
-            &chrono::Local::now().to_rfc3339(),
+            &radar_context.timestamp,
             &date_str,
             data_acquisition_summary,
             &failed_symbols_for_log,
@@ -836,7 +836,7 @@ async fn run_pipeline(
         persistence
             .save_markdown_report(&report_result.archival_markdown, &pres_packet.date_str)?;
         persist_weekly_state_outputs(
-            &save_dir,
+            save_dir,
             &history,
             &packet,
             should_persist_history,

@@ -1,3 +1,5 @@
+use std::path::{Path, PathBuf};
+
 /// Radar run の data acquisition 結果概要。
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct DataAcquisitionSummary {
@@ -20,6 +22,44 @@ pub struct RadarPipelinePlan {
     pub should_persist_history: bool,
     pub should_enter_pipeline_body: bool,
     pub data_quality_status: DataQualityStatus,
+}
+
+/// Radar run の runtime context。
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RadarRunContext {
+    pub save_dir: PathBuf,
+    pub date: chrono::NaiveDate,
+    pub timestamp: String,
+}
+
+impl RadarRunContext {
+    pub fn new(save_dir: impl Into<PathBuf>, now: chrono::DateTime<chrono::Local>) -> Self {
+        Self {
+            save_dir: save_dir.into(),
+            date: now.date_naive(),
+            timestamp: now.to_rfc3339(),
+        }
+    }
+
+    pub fn save_dir(&self) -> &Path {
+        &self.save_dir
+    }
+
+    pub fn date_string(&self) -> String {
+        self.date.to_string()
+    }
+
+    pub fn initial_run_outcome(
+        &self,
+        evidence_collection: crate::core::run_status::DeliveryStatus,
+    ) -> crate::core::run_status::RunOutcome {
+        crate::core::run_status::RunOutcome {
+            date: self.date_string(),
+            timestamp: self.timestamp.clone(),
+            evidence_collection,
+            ..Default::default()
+        }
+    }
 }
 
 impl DataQualityStatus {
@@ -363,6 +403,27 @@ mod tests {
         assert!(!plan.should_persist_history);
         assert!(plan.should_enter_pipeline_body);
         assert_eq!(plan.data_quality_status, DataQualityStatus::Critical);
+    }
+
+    #[test]
+    fn radar_application_boundary_builds_run_context() {
+        let now = chrono::DateTime::parse_from_rfc3339("2026-05-24T09:30:00+09:00")
+            .unwrap()
+            .with_timezone(&chrono::Local);
+        let context = RadarRunContext::new("target/radar-test", now);
+        let outcome = context.initial_run_outcome(crate::core::run_status::DeliveryStatus::Skipped);
+
+        assert_eq!(
+            context.save_dir(),
+            std::path::Path::new("target/radar-test")
+        );
+        assert_eq!(context.date_string(), "2026-05-24");
+        assert!(context.timestamp.contains("2026-05-24T09:30:00"));
+        assert_eq!(outcome.date, "2026-05-24");
+        assert_eq!(
+            outcome.evidence_collection,
+            crate::core::run_status::DeliveryStatus::Skipped
+        );
     }
 
     #[test]

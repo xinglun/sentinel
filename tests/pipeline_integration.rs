@@ -482,3 +482,22 @@ fn radar_application_pipeline_plan_collects_fetch_policies() {
         DataQualityStatus::Critical
     );
 }
+
+#[test]
+fn radar_application_run_context_builds_initial_status_metadata() {
+    let now = chrono::DateTime::parse_from_rfc3339("2026-05-24T10:15:00+09:00")
+        .unwrap()
+        .with_timezone(&chrono::Local);
+    let context = stock_sentinel::application::radar::RadarRunContext::new("target/run", now);
+    let outcome =
+        context.initial_run_outcome(stock_sentinel::core::run_status::DeliveryStatus::Skipped);
+
+    assert_eq!(context.save_dir(), std::path::Path::new("target/run"));
+    assert_eq!(context.date_string(), "2026-05-24");
+    assert_eq!(outcome.date, "2026-05-24");
+    assert!(outcome.timestamp.contains("2026-05-24T10:15:00"));
+    assert_eq!(
+        outcome.evidence_collection,
+        stock_sentinel::core::run_status::DeliveryStatus::Skipped
+    );
+}
