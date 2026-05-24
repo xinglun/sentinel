@@ -220,7 +220,7 @@ pub async fn run() -> Result<()> {
                 "127.0.0.1:11111".to_string()
             };
             let provider = build_market_data_provider(provider_type, &futu_addr).await;
-            run_pipeline(app_config, provider_type, provider, mode).await?;
+            run_pipeline(app_config, provider, mode).await?;
         }
         "review" => {
             run_review(&app_config).await?;
@@ -545,7 +545,7 @@ Successfully ingested {} batch evidence records to store.",
                 "127.0.0.1:11111".to_string()
             };
             let provider = build_market_data_provider(provider_type, &futu_addr).await;
-            run_pipeline(app_config, provider_type, provider, mode).await?;
+            run_pipeline(app_config, provider, mode).await?;
         }
     }
     Ok(())
@@ -614,7 +614,6 @@ fn load_run_evidence_collection_status(
 
 async fn run_pipeline(
     app_config: config::AppConfig,
-    _provider_type: ProviderType,
     provider: Arc<dyn MarketDataProvider>,
     _mode: crate::core::runtime_mode::ExecutionMode,
 ) -> Result<()> {
@@ -2870,7 +2869,7 @@ mod tests {
     use super::{
         build_audit_daily_report, build_audit_daily_report_with_evidence_status,
         load_latest_evidence_collection_status, parse_transition_audit_entry, run_pipeline,
-        telegram_delivery_precheck, ProviderType, TransitionAuditDay, TransitionAuditEntry,
+        telegram_delivery_precheck, TransitionAuditDay, TransitionAuditEntry,
     };
     use crate::application::provider::MarketDataProvider;
     use crate::application::provider::{DailyBar, TickerHistory};
@@ -3235,14 +3234,9 @@ mod tests {
         let config = mock_config(tmp.path());
         let provider: Arc<dyn MarketDataProvider> = Arc::new(AlwaysFailProvider);
 
-        run_pipeline(
-            config,
-            ProviderType::Yahoo,
-            provider,
-            ExecutionMode::Disabled,
-        )
-        .await
-        .unwrap();
+        run_pipeline(config, provider, ExecutionMode::Disabled)
+            .await
+            .unwrap();
 
         let today = chrono::Local::now().date_naive().to_string();
         let report_path = tmp.path().join(format!("{}.md", today));
@@ -3312,14 +3306,9 @@ mod tests {
         let config = mock_config(tmp.path());
         let provider: Arc<dyn MarketDataProvider> = Arc::new(PartialSuccessProvider);
 
-        run_pipeline(
-            config,
-            ProviderType::Yahoo,
-            provider,
-            ExecutionMode::Disabled,
-        )
-        .await
-        .unwrap();
+        run_pipeline(config, provider, ExecutionMode::Disabled)
+            .await
+            .unwrap();
 
         let history_path = tmp.path().join("decision_history.jsonl");
         let report_path = std::fs::read_dir(tmp.path())

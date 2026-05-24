@@ -1,0 +1,74 @@
+{
+  "workItemId": "run-pipeline-provider-kind-cleanup",
+  "contractPath": ".ai/work-items/archive/2026/run-pipeline-provider-kind-cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+      "reason": "run_pipeline provider kind cleanup の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline から未使用の provider kind 引数を削除し、呼び出しと tests を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/infrastructure/market_data_provider_factory.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::full_fetch_failure_generates_report_without_persisting_history",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::partial_fetch_failure_preserves_history_and_real_market_state",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json SUMMARY=.ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json SUMMARY=.ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "未使用引数と test callsite の削除のみ。provider selection behavior は provider construction 側に残る。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "run_pipeline が provider composition 用の kind を未使用引数として受け取り続けていた。"
+  ]
+}
