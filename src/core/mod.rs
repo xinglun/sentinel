@@ -15,7 +15,6 @@ pub mod position_intent;
 
 pub mod runtime_mode;
 pub mod telemetry;
-pub mod threshold_format;
 pub mod trader_agent;
 pub mod transition_log;
 

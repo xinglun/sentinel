@@ -9,6 +9,7 @@ pub mod i18n;
 pub mod presentation;
 pub mod presentation_assembler;
 pub mod report;
+pub mod threshold_format;
 
 #[cfg(test)]
 mod presentation_tests;

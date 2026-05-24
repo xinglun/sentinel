@@ -1,7 +1,7 @@
 use crate::config::AppConfig;
-use crate::core::threshold_format::format_threshold_value;
 use crate::interface::i18n::{get_dictionary, DisplayDictionary};
 use crate::interface::presentation::PresentationPacket;
+use crate::interface::threshold_format::format_threshold_value;
 use std::collections::HashMap;
 
 pub struct ReportResult {
