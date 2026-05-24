@@ -58,12 +58,8 @@ def test_success_archives(active: Path) -> None:
     assert_equal(code, 0, "success code")
     assert_true(any(call[:2] == ["make", "archive-work-item"] for call in calls), "archive command should run")
     assert_true(
-        any(call[:2] == ["make", "check-work-items-lifecycle"] for call in calls),
-        "lifecycle check should run after archive",
-    )
-    assert_true(
-        any(call[:2] == ["make", "check-ai-status-consistency"] for call in calls),
-        "status consistency check should run after archive",
+        any(call[:2] == ["make", "ai-preflight"] for call in calls),
+        "ai-preflight should run after archive",
     )
 
 
@@ -74,12 +70,8 @@ def test_failure_does_not_archive(active: Path) -> None:
     assert_equal(code, 1, "failure code")
     assert_true(not any(call[:2] == ["make", "archive-work-item"] for call in calls), "archive command should not run")
     assert_true(
-        not any(call[:2] == ["make", "check-work-items-lifecycle"] for call in calls),
-        "lifecycle check should not run when archive is skipped by failed checks",
-    )
-    assert_true(
-        not any(call[:2] == ["make", "check-ai-status-consistency"] for call in calls),
-        "status consistency check should not run when archive is skipped by failed checks",
+        not any(call[:2] == ["make", "ai-preflight"] for call in calls),
+        "ai-preflight should not run when archive is skipped by failed checks",
     )
 
 
@@ -90,12 +82,8 @@ def test_no_archive_keeps_checks_only(active: Path) -> None:
     assert_equal(code, 0, "no archive code")
     assert_true(not any(call[:2] == ["make", "archive-work-item"] for call in calls), "archive command should be skipped")
     assert_true(
-        not any(call[:2] == ["make", "check-work-items-lifecycle"] for call in calls),
-        "lifecycle check should be skipped when archive is disabled",
-    )
-    assert_true(
-        not any(call[:2] == ["make", "check-ai-status-consistency"] for call in calls),
-        "status consistency check should be skipped when archive is disabled",
+        not any(call[:2] == ["make", "ai-preflight"] for call in calls),
+        "ai-preflight should be skipped when archive is disabled",
     )
 
 

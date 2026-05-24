@@ -83,24 +83,15 @@ def main() -> int:
             obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
             return code
         obs.check_passed(check_id="archive-work-item", command=cmd_str, duration_ms=duration)
-        lifecycle_command = ["make", "check-work-items-lifecycle"]
-        cmd_str = " ".join(lifecycle_command)
-        obs.check_started(check_id="check-work-items-lifecycle", command=cmd_str)
-        code, duration = run(lifecycle_command)
+        preflight_command = ["make", "ai-preflight"]
+        cmd_str = " ".join(preflight_command)
+        obs.check_started(check_id="ai-preflight", command=cmd_str)
+        code, duration = run(preflight_command)
         if code != 0:
-            obs.check_failed(check_id="check-work-items-lifecycle", command=cmd_str, duration_ms=duration)
+            obs.check_failed(check_id="ai-preflight", command=cmd_str, duration_ms=duration)
             obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
             return code
-        obs.check_passed(check_id="check-work-items-lifecycle", command=cmd_str, duration_ms=duration)
-        consistency_command = ["make", "check-ai-status-consistency"]
-        cmd_str = " ".join(consistency_command)
-        obs.check_started(check_id="check-ai-status-consistency", command=cmd_str)
-        code, duration = run(consistency_command)
-        if code != 0:
-            obs.check_failed(check_id="check-ai-status-consistency", command=cmd_str, duration_ms=duration)
-            obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
-            return code
-        obs.check_passed(check_id="check-ai-status-consistency", command=cmd_str, duration_ms=duration)
+        obs.check_passed(check_id="ai-preflight", command=cmd_str, duration_ms=duration)
     obs.work_item_finished(result="passed", duration_ms=elapsed_ms(total_start))
     return 0
 

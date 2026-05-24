@@ -15,8 +15,6 @@ from ai_observability import AiRunContext, create_observability
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
-ARCHIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "archive"
-CURRENT_STATUS = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
 
 
 def slug(value: str) -> str:
@@ -31,64 +29,9 @@ def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def current_status_is_no_active() -> bool:
-    if not CURRENT_STATUS.exists():
-        return False
-    return "- State: `no_active_work_item`" in CURRENT_STATUS.read_text(encoding="utf-8")
-
-
-def archived_counterparts(active_path: Path) -> list[Path]:
-    if not ARCHIVE_DIR.exists():
-        return []
-    return sorted(path for path in ARCHIVE_DIR.rglob(active_path.name) if path.is_file())
-
-
-def equivalent_archived_residue(active_path: Path, archive_path: Path) -> bool:
-    if active_path.name.endswith(".summary.json"):
-        try:
-            active_json = json.loads(active_path.read_text(encoding="utf-8"))
-            archive_json = json.loads(archive_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return False
-        active_json.pop("contractPath", None)
-        archive_json.pop("contractPath", None)
-        return active_json == archive_json
-    return active_path.read_bytes() == archive_path.read_bytes()
-
-
-def cleanup_archived_active_residue() -> int:
-    if not current_status_is_no_active() or not ACTIVE_DIR.exists():
-        return 0
-
-    removed = 0
-    for active_path in sorted(ACTIVE_DIR.glob("*.json")):
-        if not active_path.name.endswith((".contract.json", ".summary.json", ".review.json")):
-            continue
-        counterparts = archived_counterparts(active_path)
-        if len(counterparts) != 1:
-            continue
-        if not equivalent_archived_residue(active_path, counterparts[0]):
-            continue
-        active_path.unlink()
-        removed += 1
-
-    if removed:
-        print(f"✅ ai-start preflight cleaned archived active residue: {removed} file(s)")
-    return removed
-
-
 def run_preflight_checks() -> int:
-    cleanup_archived_active_residue()
-    checks = [
-        ("lifecycle", PROJECT_ROOT / "scripts" / "ai_check_lifecycle.py"),
-        ("status consistency", PROJECT_ROOT / "scripts" / "ai_check_status_consistency.py"),
-    ]
-    for label, script in checks:
-        result = subprocess.run([sys.executable, str(script)], cwd=PROJECT_ROOT, check=False)
-        if result.returncode != 0:
-            print(f"❌ ai-start preflight failed: {label}", file=sys.stderr)
-            return result.returncode
-    return 0
+    result = subprocess.run(["make", "ai-preflight"], cwd=PROJECT_ROOT, check=False)
+    return result.returncode
 
 
 def parse_args() -> argparse.Namespace:

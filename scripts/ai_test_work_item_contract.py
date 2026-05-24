@@ -10,6 +10,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import ai_check_work_item
+import ai_preflight
 import ai_start
 
 
@@ -103,7 +104,7 @@ def test_ai_start_preflight_failure_creates_no_files(active: Path) -> None:
     )
 
 
-def test_ai_start_cleans_equivalent_archived_residue(root: Path) -> None:
+def test_ai_preflight_cleans_equivalent_archived_residue(root: Path) -> None:
     active = root / ".ai/work-items/active"
     archive = root / ".ai/work-items/archive/2026"
     status = root / ".ai/cockpit/current_status.md"
@@ -132,11 +133,11 @@ def test_ai_start_cleans_equivalent_archived_residue(root: Path) -> None:
     write_json(archive_summary, archived_summary)
 
     with (
-        patch.object(ai_start, "ACTIVE_DIR", active),
-        patch.object(ai_start, "ARCHIVE_DIR", root / ".ai/work-items/archive"),
-        patch.object(ai_start, "CURRENT_STATUS", status),
+        patch.object(ai_preflight, "ACTIVE_DIR", active),
+        patch.object(ai_preflight, "ARCHIVE_DIR", root / ".ai/work-items/archive"),
+        patch.object(ai_preflight, "CURRENT_STATUS", status),
     ):
-        removed = ai_start.cleanup_archived_active_residue()
+        removed = ai_preflight.cleanup_archived_active_residue()
 
     assert_equal(removed, 2, "equivalent archived residue should be cleaned")
     assert_true(not active_contract.exists(), "duplicate contract should be removed")
@@ -157,8 +158,8 @@ def main() -> int:
         print("✅ ai_start_generates_required_fmt")
         test_ai_start_preflight_failure_creates_no_files(active)
         print("✅ ai_start_preflight_failure_creates_no_files")
-        test_ai_start_cleans_equivalent_archived_residue(root)
-        print("✅ ai_start_cleans_equivalent_archived_residue")
+        test_ai_preflight_cleans_equivalent_archived_residue(root)
+        print("✅ ai_preflight_cleans_equivalent_archived_residue")
     finally:
         shutil.rmtree(active, ignore_errors=True)
         shutil.rmtree(root, ignore_errors=True)
