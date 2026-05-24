@@ -1,6 +1,6 @@
 {
   "workItemId": "ddd-layer-cleanup",
-  "contractPath": ".ai/work-items/active/ddd-layer-cleanup.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
   "changedFiles": [
     {
       "path": "src/infrastructure/evidence_store.rs",
@@ -31,11 +31,11 @@
       "reason": "core::evidence_store::EvidenceStore を infrastructure::evidence_store::EvidenceStore へ修正した。"
     },
     {
-      "path": ".ai/work-items/active/ddd-layer-cleanup.contract.json",
+      "path": ".ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
       "reason": "Work Item Contract を実際のスコープに合わせて確定した。"
     },
     {
-      "path": ".ai/work-items/active/ddd-layer-cleanup.summary.json",
+      "path": ".ai/work-items/archive/2026/ddd-layer-cleanup.summary.json",
       "reason": "AI Change Summary を更新した。"
     }
   ],
@@ -44,11 +44,11 @@
   ],
   "verification": [
     {
-      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json",
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
       "result": "passed"
     },
     {
-      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json",
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
       "result": "passed"
     },
     {
@@ -68,15 +68,15 @@
       "result": "passed"
     },
     {
-      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-layer-cleanup.summary.json CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json",
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/archive/2026/ddd-layer-cleanup.summary.json CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
       "result": "passed"
     },
     {
-      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/active/ddd-layer-cleanup.summary.json",
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-layer-cleanup.summary.json",
       "result": "passed"
     },
     {
-      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/active/ddd-layer-cleanup.summary.json",
+      "command": "make check-ai-status CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-layer-cleanup.summary.json",
       "result": "passed"
     }
   ],
