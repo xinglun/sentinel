@@ -161,3 +161,50 @@ async fn evidence_collection_use_case_persists_through_repository_port() -> anyh
     assert!(saved[0].dedupe_key.contains("NVDA"));
     Ok(())
 }
+
+#[tokio::test]
+async fn evidence_batch_collection_use_case_counts_success_and_failure() -> anyhow::Result<()> {
+    use stock_sentinel::application::evidence_ingestion::{
+        collect_evidence_batch, BatchCollectEvidenceRequest, BatchEvidenceTarget,
+    };
+
+    let dir = tempfile::tempdir()?;
+    std::fs::write(
+        dir.path().join("ok.txt"),
+        "capex and infrastructure build-out",
+    )?;
+    let base_path = dir.path().to_string_lossy();
+    let fetcher = FixtureFetcher::new(&base_path);
+    let extractor = RuleBasedExtractor::new();
+
+    let outcome = collect_evidence_batch(
+        &fetcher,
+        &extractor,
+        None,
+        BatchCollectEvidenceRequest {
+            targets: vec![
+                BatchEvidenceTarget {
+                    symbol: "GOOG".to_string(),
+                    url: "ok.txt".to_string(),
+                },
+                BatchEvidenceTarget {
+                    symbol: "MSFT".to_string(),
+                    url: "missing.txt".to_string(),
+                },
+            ],
+            source_type: EvidenceSourceType::OfficialIR,
+            days: 1,
+            persist: false,
+            retention_days: Some(30),
+        },
+    )
+    .await?;
+
+    assert_eq!(outcome.success_count, 1);
+    assert_eq!(outcome.failure_count, 1);
+    assert_eq!(outcome.failures[0].symbol, "MSFT");
+    assert_eq!(outcome.records.len(), 1);
+    assert_eq!(outcome.records[0].evidence_type, EvidenceType::CapexPayoff);
+    assert!(outcome.records[0].dedupe_key.contains("GOOG"));
+    Ok(())
+}

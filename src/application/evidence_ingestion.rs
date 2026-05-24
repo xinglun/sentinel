@@ -103,3 +103,100 @@ pub fn normalize_dedupe_keys(records: &mut [AutomatedEvidenceRecord]) {
         );
     }
 }
+
+/// Batch evidence collection の対象。
+#[derive(Debug, Clone)]
+pub struct BatchEvidenceTarget {
+    pub symbol: String,
+    pub url: String,
+}
+
+/// Batch evidence collection use case の入力。
+#[derive(Debug, Clone)]
+pub struct BatchCollectEvidenceRequest {
+    pub targets: Vec<BatchEvidenceTarget>,
+    pub source_type: EvidenceSourceType,
+    pub days: usize,
+    pub persist: bool,
+    pub retention_days: Option<i64>,
+}
+
+/// Symbol 単位の取得失敗情報。
+#[derive(Debug, Clone)]
+pub struct BatchEvidenceFailure {
+    pub symbol: String,
+    pub error: String,
+}
+
+/// Batch evidence collection use case の結果。
+#[derive(Debug, Clone)]
+pub struct BatchCollectEvidenceOutcome {
+    pub records: Vec<AutomatedEvidenceRecord>,
+    pub success_count: usize,
+    pub failure_count: usize,
+    pub failures: Vec<BatchEvidenceFailure>,
+    pub saved_count: usize,
+    pub cleanup_count: usize,
+}
+
+/// 複数 symbol の evidence collection を orchestration する use case。
+pub async fn collect_evidence_batch(
+    fetcher: &dyn SourceFetcher,
+    extractor: &dyn EvidenceExtractor,
+    repository: Option<&dyn EvidenceRepository>,
+    request: BatchCollectEvidenceRequest,
+) -> Result<BatchCollectEvidenceOutcome> {
+    let mut records = Vec::new();
+    let mut success_count = 0;
+    let mut failures = Vec::new();
+
+    for target in &request.targets {
+        match collect_evidence_from_source(
+            fetcher,
+            extractor,
+            None,
+            CollectEvidenceRequest {
+                url: target.url.clone(),
+                symbol: target.symbol.clone(),
+                source_type: request.source_type,
+                days: request.days,
+                persist: false,
+                retention_days: None,
+            },
+        )
+        .await
+        {
+            Ok(outcome) => {
+                records.extend(outcome.records);
+                success_count += 1;
+            }
+            Err(error) => failures.push(BatchEvidenceFailure {
+                symbol: target.symbol.clone(),
+                error: error.to_string(),
+            }),
+        }
+    }
+
+    normalize_dedupe_keys(&mut records);
+
+    let mut cleanup_count = 0;
+    let mut saved_count = 0;
+    if request.persist {
+        let repository = repository.ok_or_else(|| {
+            anyhow!("EvidenceRepository is required when persistence is requested")
+        })?;
+        if let Some(retention_days) = request.retention_days {
+            cleanup_count = repository.cleanup_old_records(retention_days)?;
+        }
+        saved_count = repository.save_records(&records)?;
+    }
+
+    Ok(BatchCollectEvidenceOutcome {
+        records,
+        success_count,
+        failure_count: failures.len(),
+        failures,
+        saved_count,
+        cleanup_count,
+    })
+}

@@ -16,11 +16,11 @@ use crate::core::persistence::PersistenceLayer;
 use crate::core::transition_log::TransitionLogger;
 
 use crate::application::evidence_ingestion::{
-    collect_evidence_from_source, CollectEvidenceRequest,
+    collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
+    BatchEvidenceTarget, CollectEvidenceRequest,
 };
 use crate::core::evidence_ingestion::{
-    EvidenceExtractor, FinnhubFetcher, FixtureFetcher, RuleBasedExtractor, SECEDGARFetcher,
-    SourceFetcher, WebFetcher,
+    FinnhubFetcher, FixtureFetcher, RuleBasedExtractor, SECEDGARFetcher, SourceFetcher, WebFetcher,
 };
 use crate::core::evidence_store::EvidenceStore;
 use crate::core::i18n::Language;
@@ -484,56 +484,90 @@ pub async fn run() -> Result<()> {
             };
 
             let extractor = RuleBasedExtractor::new();
-            let mut all_extracted_records = Vec::new();
-            let mut success_count = 0;
-            let mut failure_count = 0;
+            let targets = evidence_symbols
+                .iter()
+                .map(|symbol| {
+                    println!("Fetching for {}...", symbol);
+                    // Dry-run で Key がない場合は symbol 自身をファイル名として FixtureFetcher に探させる
+                    let url = if app_config.finnhub.is_none() && evidence_dry_run {
+                        symbol.clone()
+                    } else {
+                        "finnhub".to_string()
+                    };
+                    BatchEvidenceTarget {
+                        symbol: symbol.clone(),
+                        url,
+                    }
+                })
+                .collect::<Vec<_>>();
+            let retention_days = app_config
+                .get_parsed_rules()
+                .market_state_engine
+                .evidence_retention_days as i64;
+            let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+            let store = EvidenceStore::new(&save_dir);
+            let repository = if evidence_dry_run {
+                None
+            } else {
+                Some(&store as &dyn crate::application::evidence::EvidenceRepository)
+            };
+            let batch_outcome = collect_evidence_batch(
+                fetcher.as_ref(),
+                &extractor,
+                repository,
+                BatchCollectEvidenceRequest {
+                    targets,
+                    source_type: if evidence_source_provider == "sec" {
+                        EvidenceSourceType::OfficialIR
+                    } else {
+                        EvidenceSourceType::NewsMedia
+                    },
+                    days: evidence_days,
+                    persist: !evidence_dry_run,
+                    retention_days: Some(retention_days),
+                },
+            )
+            .await?;
 
             for symbol in &evidence_symbols {
-                println!("Fetching for {}...", symbol);
-                // Dry-run で Key がない場合は symbol 自身をファイル名として FixtureFetcher に探させる
-                let fetch_url = if app_config.finnhub.is_none() && evidence_dry_run {
-                    symbol
-                } else {
-                    "finnhub"
-                };
-
-                match fetcher
-                    .fetch(
-                        fetch_url,
-                        symbol,
-                        if evidence_source_provider == "sec" {
-                            EvidenceSourceType::OfficialIR
-                        } else {
-                            EvidenceSourceType::NewsMedia
-                        },
-                        evidence_days,
-                    )
-                    .await
+                let record_count = batch_outcome
+                    .records
+                    .iter()
+                    .filter(|r| r.symbol.as_deref() == Some(symbol.as_str()))
+                    .count();
+                if batch_outcome
+                    .failures
+                    .iter()
+                    .any(|failure| failure.symbol == *symbol)
                 {
-                    Ok(doc) => {
-                        let records = extractor.extract(&doc);
-                        println!("  -> Extracted {} records", records.len());
-                        all_extracted_records.extend(records);
-                        success_count += 1;
-                    }
-                    Err(e) => {
-                        eprintln!("  [ERROR] Failed to fetch for {}: {}", symbol, e);
-                        failure_count += 1;
-                    }
+                    continue;
                 }
+                println!("  -> Extracted {} records", record_count);
+            }
+            for failure in &batch_outcome.failures {
+                eprintln!(
+                    "  [ERROR] Failed to fetch for {}: {}",
+                    failure.symbol, failure.error
+                );
             }
 
-            println!("\n--- Batch Collection Summary ---");
+            println!(
+                "
+--- Batch Collection Summary ---"
+            );
             println!("Processed: {} symbols", evidence_symbols.len());
-            println!("Success:   {} symbols", success_count);
-            println!("Failure:   {} symbols", failure_count);
+            println!("Success:   {} symbols", batch_outcome.success_count);
+            println!("Failure:   {} symbols", batch_outcome.failure_count);
 
             if evidence_dry_run {
-                println!("\n--- Dry Run: Extracted Evidence Summary ---");
-                if all_extracted_records.is_empty() {
+                println!(
+                    "
+--- Dry Run: Extracted Evidence Summary ---"
+                );
+                if batch_outcome.records.is_empty() {
                     println!("No evidence found in batch.");
                 }
-                for (i, r) in all_extracted_records.iter().enumerate() {
+                for (i, r) in batch_outcome.records.iter().enumerate() {
                     let date_str = r.event_date.as_str();
                     println!(
                         "[{}] {}: {:?} ({:.2}) | Date: {}",
@@ -551,29 +585,10 @@ pub async fn run() -> Result<()> {
                 return Ok(());
             }
 
-            let retention_days = app_config
-                .get_parsed_rules()
-                .market_state_engine
-                .evidence_retention_days as i64;
-            let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = EvidenceStore::new(&save_dir);
-            let _ = store.cleanup_old_records(retention_days);
-
-            for r in all_extracted_records.iter_mut() {
-                r.dedupe_key = format!(
-                    "AUTO:{:?}:{:?}:{}:{}:{}",
-                    r.source,
-                    r.evidence_type,
-                    r.symbol.as_deref().unwrap_or("GLOBAL"),
-                    r.event_date,
-                    r.source_url.as_deref().unwrap_or("NO_URL")
-                );
-            }
-
-            let count = store.save_records(&all_extracted_records)?;
             println!(
-                "\nSuccessfully ingested {} batch evidence records to store.",
-                count
+                "
+Successfully ingested {} batch evidence records to store.",
+                batch_outcome.saved_count
             );
         }
         _ => {
