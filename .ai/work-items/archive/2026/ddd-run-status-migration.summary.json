@@ -1,6 +1,6 @@
 {
   "workItemId": "ddd-run-status-migration",
-  "contractPath": ".ai/work-items/active/ddd-run-status-migration.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/ddd-run-status-migration.contract.json",
   "changedFiles": [
     {
       "path": "src/core/mod.rs",
