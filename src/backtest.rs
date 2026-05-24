@@ -1,5 +1,4 @@
-use crate::adapters::yahoo_provider::fetch_history;
-use crate::application::provider::TickerHistory;
+use crate::application::provider::{MarketDataProvider, TickerHistory};
 use crate::config::{AppConfig, ParsedRules};
 use crate::core::action_matrix::AssetAction;
 use crate::core::decision::DecisionPacket;
@@ -57,6 +56,7 @@ pub struct StateMachineMetrics {
 
 pub async fn run_backtest(
     config: &AppConfig,
+    provider: &(dyn MarketDataProvider + Send + Sync),
     from_date_str: &str,
     to_date_str: &str,
 ) -> Result<()> {
@@ -88,7 +88,7 @@ pub async fn run_backtest(
     let mut histories = HashMap::new();
     for entry in config.watchlist.iter().filter(|w| w.enable) {
         println!("   Fetching {}...", entry.symbol);
-        if let Ok(hist) = fetch_history(&entry.symbol, from_dt, to_dt).await {
+        if let Ok(hist) = provider.fetch_history(&entry.symbol, from_dt, to_dt).await {
             histories.insert(entry.symbol.clone(), hist);
         }
     }

@@ -6,7 +6,21 @@ use time::{Duration as TimeDuration, OffsetDateTime};
 use tokio::time::sleep;
 use yahoo_finance_api as yahoo;
 
-use crate::application::provider::{DailyBar, TickerHistory};
+use crate::application::provider::{DailyBar, MarketDataProvider, TickerHistory};
+
+pub struct YahooProvider;
+
+#[async_trait::async_trait]
+impl MarketDataProvider for YahooProvider {
+    async fn fetch_history(
+        &self,
+        symbol: &str,
+        start_date: Option<OffsetDateTime>,
+        end_date: Option<OffsetDateTime>,
+    ) -> Result<TickerHistory<'static>> {
+        fetch_history(symbol, start_date, end_date).await
+    }
+}
 
 pub async fn fetch_history(
     symbol: &str,

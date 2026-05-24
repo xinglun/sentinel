@@ -1,0 +1,86 @@
+{
+  "contractVersion": 1,
+  "workItemId": "backtest-market-data-port",
+  "mode": "code",
+  "title": "Backtest の market data 取得を port 経由へ変更",
+  "scope": [
+    ".ai/work-items/active/backtest-market-data-port.contract.json",
+    ".ai/work-items/active/backtest-market-data-port.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/backtest.rs",
+    "src/cli.rs",
+    "src/adapters/yahoo_provider.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/backtest.rs",
+      "reason": "backtest が yahoo adapter を直接参照している現状。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "backtest command と provider composition root。"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "reason": "Yahoo market data adapter implementation。"
+    },
+    {
+      "path": "src/application/provider.rs",
+      "reason": "MarketDataProvider port の定義。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "backtest は adapters::yahoo_provider を直接参照しない。",
+    "backtest の market data 取得は MarketDataProvider port 経由になる。",
+    "Yahoo provider adapter は MarketDataProvider を実装する。",
+    "CLI は composition root として backtest に provider を渡す。",
+    "既存の backtest command behavior を維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib backtest",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/backtest-market-data-port.summary.json CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json SUMMARY=.ai/work-items/active/backtest-market-data-port.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json SUMMARY=.ai/work-items/active/backtest-market-data-port.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

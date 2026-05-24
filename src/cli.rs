@@ -5,7 +5,6 @@ use futures::stream::{self, StreamExt};
 use serde_json::json;
 use std::collections::BTreeMap;
 use std::sync::Arc;
-use time::OffsetDateTime;
 
 use crate::backtest;
 use crate::config;
@@ -34,6 +33,7 @@ use crate::interface::report;
 
 use crate::adapters::futu::client::FutuClient;
 use crate::adapters::futu::provider::FutuProvider;
+use crate::adapters::yahoo_provider::YahooProvider;
 
 const EVIDENCE_COLLECTION_STATUS_FILE: &str = "evidence_collection_status_latest.json";
 
@@ -202,7 +202,13 @@ pub async fn run() -> Result<()> {
                     }
                 }
             }
-            backtest::run_backtest(&app_config, &from_date, &to_date).await?;
+            let futu_addr = if let Some(futu_cfg) = &app_config.futu {
+                format!("{}:{}", futu_cfg.opend_ip, futu_cfg.opend_port)
+            } else {
+                "127.0.0.1:11111".to_string()
+            };
+            let provider = get_provider(provider_type, &futu_addr).await;
+            backtest::run_backtest(&app_config, provider.as_ref(), &from_date, &to_date).await?;
         }
         "daemon" => {
             let is_trading_enabled = app_config
@@ -556,22 +562,9 @@ async fn get_provider(pt: ProviderType, addr: &str) -> Arc<dyn MarketDataProvide
     match pt {
         ProviderType::Futu => match FutuClient::connect(addr).await {
             Ok(client) => Arc::new(FutuProvider::new(Arc::new(client))),
-            Err(_) => Arc::new(YahooProviderAdapter),
+            Err(_) => Arc::new(YahooProvider),
         },
-        ProviderType::Yahoo => Arc::new(YahooProviderAdapter),
-    }
-}
-
-struct YahooProviderAdapter;
-#[async_trait::async_trait]
-impl MarketDataProvider for YahooProviderAdapter {
-    async fn fetch_history(
-        &self,
-        s: &str,
-        start: Option<OffsetDateTime>,
-        end: Option<OffsetDateTime>,
-    ) -> Result<crate::application::provider::TickerHistory<'static>> {
-        crate::adapters::yahoo_provider::fetch_history(s, start, end).await
+        ProviderType::Yahoo => Arc::new(YahooProvider),
     }
 }
 
