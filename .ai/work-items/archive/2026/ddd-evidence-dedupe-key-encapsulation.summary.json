@@ -1,6 +1,6 @@
 {
   "workItemId": "ddd-evidence-dedupe-key-encapsulation",
-  "contractPath": ".ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/ddd-evidence-dedupe-key-encapsulation.contract.json",
   "changedFiles": [
     {
       "path": "src/domain/evidence.rs",
