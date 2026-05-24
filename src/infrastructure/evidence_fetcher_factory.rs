@@ -1,9 +1,19 @@
 use crate::application::evidence_ingestion::SourceFetcher;
 use crate::config::AppConfig;
 use crate::infrastructure::evidence_ingestion::{
-    FinnhubFetcher, FixtureFetcher, SECEDGARFetcher, WebFetcher,
+    FinnhubFetcher, FixtureFetcher, RuleBasedExtractor, SECEDGARFetcher, WebFetcher,
 };
+use crate::infrastructure::evidence_store::EvidenceStore;
 use anyhow::{anyhow, Result};
+use std::path::Path;
+
+pub fn build_evidence_store(save_dir: &Path) -> EvidenceStore {
+    EvidenceStore::new(save_dir)
+}
+
+pub fn build_evidence_extractor() -> RuleBasedExtractor {
+    RuleBasedExtractor::new()
+}
 
 /// 単一 URL ingest 用の fetcher を選択する。
 pub fn build_url_evidence_fetcher(

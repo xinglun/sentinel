@@ -22,10 +22,9 @@ use crate::application::evidence_ingestion::{
 use crate::application::provider::MarketDataProvider;
 use crate::core::trend_cohesion::EvidenceSourceType;
 use crate::infrastructure::evidence_fetcher_factory::{
-    build_batch_evidence_fetcher, build_url_evidence_fetcher,
+    build_batch_evidence_fetcher, build_evidence_extractor, build_evidence_store,
+    build_url_evidence_fetcher,
 };
-use crate::infrastructure::evidence_ingestion::RuleBasedExtractor;
-use crate::infrastructure::evidence_store::EvidenceStore;
 use crate::infrastructure::market_data_provider_factory::{
     build_market_data_provider, MarketDataProviderKind as ProviderType,
 };
@@ -299,7 +298,7 @@ pub async fn run() -> Result<()> {
                 .market_state_engine
                 .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = EvidenceStore::new(&save_dir);
+            let store = build_evidence_store(&save_dir);
             let outcome = ingest_manual_evidence(
                 &store,
                 ManualEvidenceIngestionRequest {
@@ -342,13 +341,13 @@ pub async fn run() -> Result<()> {
 
             let fetcher = build_url_evidence_fetcher(&app_config, &url)?;
 
-            let extractor = RuleBasedExtractor::new();
+            let extractor = build_evidence_extractor();
             let retention_days = app_config
                 .get_parsed_rules()
                 .market_state_engine
                 .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = EvidenceStore::new(&save_dir);
+            let store = build_evidence_store(&save_dir);
             let repository = if evidence_dry_run {
                 None
             } else {
@@ -420,7 +419,7 @@ pub async fn run() -> Result<()> {
                 evidence_dry_run,
             )?;
 
-            let extractor = RuleBasedExtractor::new();
+            let extractor = build_evidence_extractor();
             let targets = evidence_symbols
                 .iter()
                 .map(|symbol| {
@@ -442,7 +441,7 @@ pub async fn run() -> Result<()> {
                 .market_state_engine
                 .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = EvidenceStore::new(&save_dir);
+            let store = build_evidence_store(&save_dir);
             let repository = if evidence_dry_run {
                 None
             } else {
@@ -631,7 +630,7 @@ async fn run_pipeline(
 
     let persistence = PersistenceLayer::new(save_dir);
     let transition_logger = TransitionLogger::new(save_dir);
-    let evidence_store = EvidenceStore::new(save_dir);
+    let evidence_store = build_evidence_store(save_dir);
 
     let history = persistence.load_recent_packets(20).unwrap_or_default();
     let all_evidence = evidence_store.load_all().unwrap_or_default();

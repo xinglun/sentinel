@@ -86,6 +86,8 @@ RULES: tuple[LayerRule, ...] = (
         "src/cli.rs",
         (
             "crate::adapters",
+            "crate::infrastructure::evidence_ingestion",
+            "crate::infrastructure::evidence_store",
             "crate::trade",
         ),
     ),

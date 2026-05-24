@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `scripts/ai_generate_status.py` で生成する。手書きで更新しない。
 
-- Generated At: `2026-05-24T12:25:26.400390+00:00`
+- Generated At: `2026-05-24T12:29:16.134503+00:00`
 - Task: `none`
 - Mode: `none`
 - State: `no_active_work_item`
