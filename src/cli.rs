@@ -703,14 +703,15 @@ async fn run_pipeline(
                 &all_evidence,
                 &positions,
             ) {
-                Ok(p) => {
-                    outcome.decisioning = crate::core::run_status::DeliveryStatus::Succeeded;
-                    p
+                Ok(packet) => {
+                    let decision_outcome =
+                        crate::application::radar::build_successful_decision_outcome(packet);
+                    outcome.decisioning = decision_outcome.decisioning;
+                    decision_outcome.packet
                 }
                 Err(e) => {
-                    outcome.decisioning = crate::core::run_status::DeliveryStatus::Failed {
-                        reason: e.to_string(),
-                    };
+                    outcome.decisioning =
+                        crate::application::radar::build_decisioning_failure_status(e.to_string());
                     persistence.save_run_status(&outcome)?;
                     return Err(e);
                 }

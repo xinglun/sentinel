@@ -73,6 +73,13 @@ pub struct AccountSnapshotInput<'a> {
     pub failed_fetch_count: usize,
 }
 
+/// Radar decisioning の application-level outcome。
+#[derive(Debug, Clone)]
+pub struct RadarDecisionOutcome {
+    pub packet: crate::core::decision::DecisionPacket,
+    pub decisioning: crate::core::run_status::DeliveryStatus,
+}
+
 impl<T> DataAcquisitionResult<T> {
     pub fn new(successful_items: Vec<T>, failed_symbols: Vec<String>) -> Self {
         Self {
@@ -111,6 +118,25 @@ pub fn should_persist_decision_history(successful_fetches: usize, failed_fetches
     successful_fetches > 0 || failed_fetches == 0
 }
 
+/// 正常に生成された decision packet を application outcome へ変換する。
+pub fn build_successful_decision_outcome(
+    packet: crate::core::decision::DecisionPacket,
+) -> RadarDecisionOutcome {
+    RadarDecisionOutcome {
+        packet,
+        decisioning: crate::core::run_status::DeliveryStatus::Succeeded,
+    }
+}
+
+/// decisioning failure 用の status を構築する。
+pub fn build_decisioning_failure_status(
+    reason: impl Into<String>,
+) -> crate::core::run_status::DeliveryStatus {
+    crate::core::run_status::DeliveryStatus::Failed {
+        reason: reason.into(),
+    }
+}
+
 /// 100% data acquisition failure 用の diagnostic packet を構築する。
 pub fn build_diagnostic_packet(date: chrono::NaiveDate) -> crate::core::decision::DecisionPacket {
     crate::core::decision::DecisionPacket {
@@ -123,12 +149,10 @@ pub fn build_diagnostic_packet(date: chrono::NaiveDate) -> crate::core::decision
 pub fn build_full_fetch_failure_status(
     failed_fetch_count: usize,
 ) -> crate::core::run_status::DeliveryStatus {
-    crate::core::run_status::DeliveryStatus::Failed {
-        reason: format!(
-            "100% data acquisition failure: {} symbols failed",
-            failed_fetch_count
-        ),
-    }
+    build_decisioning_failure_status(format!(
+        "100% data acquisition failure: {} symbols failed",
+        failed_fetch_count
+    ))
 }
 
 /// portfolio snapshot 保存用 payload を構築する。
@@ -332,6 +356,27 @@ mod tests {
             status,
             crate::core::run_status::DeliveryStatus::Failed {
                 reason: "100% data acquisition failure: 9 symbols failed".to_string()
+            }
+        );
+    }
+
+    #[test]
+    fn radar_application_boundary_builds_decision_outcome_status() {
+        let date = chrono::NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
+        let packet = build_diagnostic_packet(date);
+        let outcome = build_successful_decision_outcome(packet.clone());
+        let failed = build_decisioning_failure_status("engine failed");
+
+        assert_eq!(outcome.packet.date, packet.date);
+        assert!(outcome.packet.assets.is_empty());
+        assert_eq!(
+            outcome.decisioning,
+            crate::core::run_status::DeliveryStatus::Succeeded
+        );
+        assert_eq!(
+            failed,
+            crate::core::run_status::DeliveryStatus::Failed {
+                reason: "engine failed".to_string()
             }
         );
     }

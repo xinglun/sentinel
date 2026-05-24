@@ -428,3 +428,24 @@ fn radar_application_full_failure_output_is_diagnostic_only() {
         }
     );
 }
+
+#[test]
+fn radar_application_decision_outcome_keeps_status_mapping() {
+    let date = NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
+    let packet = stock_sentinel::application::radar::build_diagnostic_packet(date);
+    let outcome = stock_sentinel::application::radar::build_successful_decision_outcome(packet);
+    let failed =
+        stock_sentinel::application::radar::build_decisioning_failure_status("engine failed");
+
+    assert_eq!(outcome.packet.date, date);
+    assert_eq!(
+        outcome.decisioning,
+        stock_sentinel::core::run_status::DeliveryStatus::Succeeded
+    );
+    assert_eq!(
+        failed,
+        stock_sentinel::core::run_status::DeliveryStatus::Failed {
+            reason: "engine failed".to_string()
+        }
+    );
+}
