@@ -1,0 +1,131 @@
+{
+  "workItemId": "ddd-presentation-interface-migration",
+  "contractPath": ".ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/cli.rs",
+      "reason": "i18n モジュールの移行に伴い、Language と get_dictionary のインポートパスを crate::interface::i18n に修正。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "i18n モジュールの移行に伴い、Language などのインポートパスを修正。"
+    },
+    {
+      "path": "src/core/action_matrix.rs",
+      "reason": "display_context と display_intent のインポートパスを crate::interface::display に修正。"
+    },
+    {
+      "path": "src/core/mod.rs",
+      "reason": "display, i18n, presentation, presentation_assembler, report モジュールの公開を削除。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "display, i18n, presentation, presentation_assembler, report モジュールを interface 層にて公開。"
+    },
+    {
+      "path": "src/interface/display.rs",
+      "reason": "core から interface へ移行したため、内部のモジュール依存関係のパスを修正。"
+    },
+    {
+      "path": "src/interface/i18n.rs",
+      "reason": "core から interface へ移行。"
+    },
+    {
+      "path": "src/interface/presentation.rs",
+      "reason": "core から interface へ移行したため、i18n や display へのインポートパスを修正。"
+    },
+    {
+      "path": "src/interface/presentation_assembler.rs",
+      "reason": "core から interface へ移行したため、presentation や i18n へのインポートパスを修正。"
+    },
+    {
+      "path": "src/interface/presentation_tests.rs",
+      "reason": "core から interface へ移行したため、インポートパスを修正。"
+    },
+    {
+      "path": "src/interface/report.rs",
+      "reason": "core から interface へ移行したため、i18n や presentation へのインポートパスを修正。"
+    },
+    {
+      "path": "src/interface/report_ui_tests.rs",
+      "reason": "core から interface へ移行したため、インポートパスおよび regression snapshot ファイルの読み込みパスを修正。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "移行に伴い、禁止インポートのリストから crate::core::report と crate::core::presentation を削除（crate::interface 全体として禁止されているため包含される）。"
+    },
+    {
+      "path": "src/interface/snapshots/no_trade_en_us.html.txt",
+      "reason": "core から interface へ移行したため移動。"
+    },
+    {
+      "path": "src/interface/snapshots/no_trade_en_us.md",
+      "reason": "core から interface へ移行したため移動。"
+    },
+    {
+      "path": "src/interface/snapshots/no_trade_ja_jp.html.txt",
+      "reason": "core から interface へ移行したため移動。"
+    },
+    {
+      "path": "src/interface/snapshots/no_trade_ja_jp.md",
+      "reason": "core から interface へ移行したため移動。"
+    },
+    {
+      "path": "src/interface/snapshots/no_trade_zh_cn.html.txt",
+      "reason": "core から interface へ移行したため移動。"
+    },
+    {
+      "path": "src/interface/snapshots/no_trade_zh_cn.md",
+      "reason": "core から interface へ移行したため移動。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ddd-presentation-interface-migration.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-presentation-interface-migration.summary.json CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json SUMMARY=.ai/work-items/active/ddd-presentation-interface-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json SUMMARY=.ai/work-items/active/ddd-presentation-interface-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "プレゼンテーション層とUI生成処理の配置移動のみであり、ビジネスロジックへの影響はなく、移動したユニットテストと regression snapshot テストでカバーされる。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

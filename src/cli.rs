@@ -20,15 +20,15 @@ use crate::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
 };
-use crate::core::i18n::Language;
 use crate::core::notify;
-use crate::core::presentation_assembler::PresentationAssembler;
-use crate::core::report;
 use crate::core::trend_cohesion::EvidenceSourceType;
 use crate::data::provider::MarketDataProvider;
 use crate::infrastructure::evidence_ingestion::RuleBasedExtractor;
 use crate::infrastructure::evidence_store::EvidenceStore;
 use crate::interface::evidence_cli::{build_batch_evidence_fetcher, build_url_evidence_fetcher};
+use crate::interface::i18n::Language;
+use crate::interface::presentation_assembler::PresentationAssembler;
+use crate::interface::report;
 
 use crate::adapters::futu::client::FutuClient;
 use crate::adapters::futu::provider::FutuProvider;
@@ -733,7 +733,7 @@ async fn run_pipeline(
         let lang = config_arc
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres_packet =
             PresentationAssembler::assemble(&packet, &rules_arc, &positions, failed_symbols, lang);
 
@@ -880,7 +880,7 @@ fn persist_weekly_state_outputs(
     history: &[crate::core::decision::DecisionPacket],
     current_packet: &crate::core::decision::DecisionPacket,
     include_current_packet: bool,
-    pres_packet: &crate::core::presentation::PresentationPacket,
+    pres_packet: &crate::interface::presentation::PresentationPacket,
     app_config: &config::AppConfig,
 ) -> Result<()> {
     let mut recent_packets: Vec<&crate::core::decision::DecisionPacket> =
@@ -998,7 +998,7 @@ fn persist_weekly_state_outputs(
 }
 
 fn build_weekly_latest_context(
-    pres_packet: &crate::core::presentation::PresentationPacket,
+    pres_packet: &crate::interface::presentation::PresentationPacket,
     app_config: &config::AppConfig,
 ) -> serde_json::Value {
     let trend_breadth_mode = pres_packet
@@ -1056,7 +1056,7 @@ fn build_weekly_macro_gravity_context(app_config: &config::AppConfig) -> serde_j
 
 fn push_weekly_strategic_context_snapshot(
     review: &mut String,
-    pres_packet: &crate::core::presentation::PresentationPacket,
+    pres_packet: &crate::interface::presentation::PresentationPacket,
 ) {
     review.push_str("\n## Strategic Context Snapshot\n");
     if let Some(evidence) = pres_packet.transition_evidence.as_ref() {
@@ -1686,7 +1686,7 @@ fn build_audit_daily_report_with_evidence_status(
     out.push_str(&format!("- {}\n", audit_sentence));
 
     if let Some(evidence) = &today_latest.log.trend_recognition {
-        let dict = crate::core::i18n::get_dictionary(language);
+        let dict = crate::interface::i18n::get_dictionary(language);
         let tr_dict = &dict.trend_recognition;
 
         let state_label = match evidence.state {
@@ -2898,11 +2898,11 @@ mod tests {
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
     };
-    use crate::core::i18n::Language;
     use crate::core::run_status::DeliveryStatus;
     use crate::core::runtime_mode::ExecutionMode;
     use crate::data::provider::MarketDataProvider;
     use crate::data::yahoo_provider::{DailyBar, TickerHistory};
+    use crate::interface::i18n::Language;
     use anyhow::{anyhow, Result};
     use chrono::{NaiveDate, Utc};
     use std::borrow::Cow;

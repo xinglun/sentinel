@@ -44,8 +44,6 @@ RULES: tuple[LayerRule, ...] = (
             "crate::backtest",
             "crate::cli",
             "crate::config",
-            "crate::core::report",
-            "crate::core::presentation",
             "crate::core::notification",
             "crate::data",
             "crate::infrastructure",

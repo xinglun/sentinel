@@ -89,7 +89,7 @@ impl DisplayAdapter {
 
     pub fn derive_risk_opportunity_view_models(
         assets: &[crate::core::action_matrix::AssetActionDecision],
-        dict: &crate::core::i18n::DisplayDictionary,
+        dict: &crate::interface::i18n::DisplayDictionary,
     ) -> Vec<RiskOpportunityViewModel> {
         let mut vms = Vec::new();
         for asset in assets {
@@ -142,7 +142,7 @@ impl DisplayAdapter {
 
     pub fn get_primary_tag(
         ctx: &DisplayContext,
-        dict: &crate::core::i18n::DisplayDictionary,
+        dict: &crate::interface::i18n::DisplayDictionary,
     ) -> Option<String> {
         if ctx.is_candidate_only && !ctx.cohesion_ready {
             Some(dict.asset_tags.blocked.clone())
@@ -198,7 +198,7 @@ impl DisplayAdapter {
 
     pub fn derive_top_action_view_model(
         asset: &crate::core::action_matrix::AssetActionDecision,
-        dict: &crate::core::i18n::DisplayDictionary,
+        dict: &crate::interface::i18n::DisplayDictionary,
     ) -> TopActionViewModel {
         let indicator = match asset.display_intent {
             DisplayIntent::ADD => "🟢",
@@ -227,7 +227,10 @@ impl DisplayAdapter {
         }
     }
 
-    pub fn get_label(intent: DisplayIntent, dict: &crate::core::i18n::DisplayDictionary) -> String {
+    pub fn get_label(
+        intent: DisplayIntent,
+        dict: &crate::interface::i18n::DisplayDictionary,
+    ) -> String {
         match intent {
             DisplayIntent::ADD => dict.actions.accumulate.clone(),
             DisplayIntent::HOLD => dict.actions.hold.clone(),

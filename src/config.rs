@@ -4,7 +4,7 @@ use std::collections::{BTreeMap, HashMap};
 use std::fs;
 use std::path::Path;
 
-use crate::core::i18n::Language;
+use crate::interface::i18n::Language;
 
 fn default_true() -> bool {
     true

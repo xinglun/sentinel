@@ -4,8 +4,8 @@ use crate::core::asset_state::{AssetState, AssetStateSnapshot};
 use crate::core::decision::DecisionPacket;
 use crate::core::exit::{AssetExitState, ExitDecision, PositionIntent};
 use crate::core::market_regime::{MarketRegimeSnapshot, MarketState, RiskOverlay};
-use crate::core::presentation_assembler::PresentationAssembler;
-use crate::core::report::generate_refined_report;
+use crate::interface::presentation_assembler::PresentationAssembler;
+use crate::interface::report::generate_refined_report;
 use chrono::{NaiveDate, Utc};
 use std::collections::{BTreeMap, HashMap};
 
@@ -17,7 +17,7 @@ fn mock_config() -> AppConfig {
             format: "markdown".to_string(),
             save_to: "/tmp".to_string(),
             weight_kind: Some("equal".to_string()),
-            language: Some(crate::core::i18n::Language::ZhCn),
+            language: Some(crate::interface::i18n::Language::ZhCn),
             compact_transition_evidence_in_no_trade: true,
         },
         telegram: None,
@@ -45,7 +45,7 @@ fn mock_config() -> AppConfig {
     }
 }
 
-fn mock_config_with_language(language: crate::core::i18n::Language) -> AppConfig {
+fn mock_config_with_language(language: crate::interface::i18n::Language) -> AppConfig {
     let mut config = mock_config();
     config.output.language = Some(language);
     config
@@ -54,9 +54,9 @@ fn mock_config_with_language(language: crate::core::i18n::Language) -> AppConfig
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::core::i18n::{get_dictionary, Language};
     use crate::core::transition_log::StateTransitionLog;
     use crate::core::trend_cohesion::{TrendCohesionGateCondition, TrendCohesionSnapshot};
+    use crate::interface::i18n::{get_dictionary, Language};
     use std::fs;
     use std::path::PathBuf;
 
@@ -113,8 +113,8 @@ mod tests {
     }
 
     fn build_no_trade_report(
-        language: crate::core::i18n::Language,
-    ) -> crate::core::report::ReportResult {
+        language: crate::interface::i18n::Language,
+    ) -> crate::interface::report::ReportResult {
         let config = mock_config_with_language(language);
         let pres = PresentationAssembler::assemble(
             &no_trade_snapshot_packet(),
@@ -127,8 +127,8 @@ mod tests {
     }
 
     fn build_no_trade_transition_report(
-        language: crate::core::i18n::Language,
-    ) -> crate::core::report::ReportResult {
+        language: crate::interface::i18n::Language,
+    ) -> crate::interface::report::ReportResult {
         let curr = no_trade_transition_order_packet();
         let config = mock_config_with_language(language);
         let pres = PresentationAssembler::assemble(
@@ -192,7 +192,7 @@ mod tests {
 
     fn snapshot_path(file_name: &str) -> PathBuf {
         PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("src/core/snapshots")
+            .join("src/interface/snapshots")
             .join(file_name)
     }
 
@@ -251,7 +251,7 @@ mod tests {
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let prices: HashMap<String, f64> = packet
             .assets
             .iter()
@@ -308,7 +308,7 @@ mod tests {
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -358,7 +358,7 @@ mod tests {
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let prices: HashMap<String, f64> = packet
             .assets
             .iter()
@@ -397,7 +397,7 @@ mod tests {
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let failed_symbols = vec!["AAPL".to_string(), "TSLA".to_string()];
 
         let pres = PresentationAssembler::assemble(
@@ -438,13 +438,13 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
             &HashMap::new(),
             vec!["AAPL".to_string()],
-            crate::core::i18n::Language::ZhCn,
+            crate::interface::i18n::Language::ZhCn,
         );
         let report =
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
@@ -489,7 +489,7 @@ mod tests {
             ..Default::default()
         };
 
-        let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let mut config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         config.rules.trend_cohesion = Some(TrendCohesionRulesConfig {
             gate_stability_threshold: Some(11.0),
             gate_continuity_threshold: Some(4),
@@ -501,7 +501,7 @@ mod tests {
             &config.get_parsed_rules(),
             &HashMap::new(),
             vec![],
-            crate::core::i18n::Language::ZhCn,
+            crate::interface::i18n::Language::ZhCn,
         );
         let report =
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
@@ -764,14 +764,14 @@ mod tests {
                 ..Default::default()
             };
 
-            let mut config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+            let mut config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
             config.output.compact_transition_evidence_in_no_trade = false;
             let pres = PresentationAssembler::assemble(
                 &packet,
                 &config.get_parsed_rules(),
                 &HashMap::new(),
                 vec![],
-                crate::core::i18n::Language::ZhCn,
+                crate::interface::i18n::Language::ZhCn,
             );
             let report =
                 generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
@@ -796,7 +796,7 @@ mod tests {
     fn report_markdown_contains_reason(
         reason: &str,
         unmet: Vec<crate::core::trend_cohesion::TrendCohesionGateCondition>,
-        language: crate::core::i18n::Language,
+        language: crate::interface::i18n::Language,
     ) -> bool {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
@@ -866,7 +866,7 @@ mod tests {
                             vec![
                                 crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                             ],
-                            crate::core::i18n::Language::ZhCn,
+                            crate::interface::i18n::Language::ZhCn,
                         ),
                         "expected suppression for generated english template: {}",
                         reason
@@ -904,7 +904,7 @@ mod tests {
                     !report_markdown_contains_reason(
                         &reason,
                         vec![gate],
-                        crate::core::i18n::Language::ZhCn,
+                        crate::interface::i18n::Language::ZhCn,
                     ),
                     "expected suppression for generated localized template: {}",
                     reason
@@ -935,7 +935,7 @@ mod tests {
                     vec![
                         crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                     ],
-                    crate::core::i18n::Language::ZhCn,
+                    crate::interface::i18n::Language::ZhCn,
                 ),
                 "expected preserve for invalid/custom english reason: {}",
                 reason
@@ -955,7 +955,7 @@ mod tests {
                         crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                         crate::core::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                     ],
-                    crate::core::i18n::Language::ZhCn,
+                    crate::interface::i18n::Language::ZhCn,
                 ),
                 "expected preserve for custom localized reason: {}",
                 reason
@@ -971,8 +971,8 @@ mod tests {
             vec![crate::core::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold];
 
         for language in [
-            crate::core::i18n::Language::EnUs,
-            crate::core::i18n::Language::JaJp,
+            crate::interface::i18n::Language::EnUs,
+            crate::interface::i18n::Language::JaJp,
         ] {
             assert!(
                 !report_markdown_contains_reason(suppress_reason, unmet.clone(), language),
@@ -1064,7 +1064,7 @@ mod tests {
                     !report_markdown_contains_reason(
                         &reason,
                         unmet.clone(),
-                        crate::core::i18n::Language::ZhCn,
+                        crate::interface::i18n::Language::ZhCn,
                     ),
                     "expected suppression for randomized template: {}",
                     reason
@@ -1105,7 +1105,7 @@ mod tests {
                     report_markdown_contains_reason(
                         &reason,
                         unmet.clone(),
-                        crate::core::i18n::Language::ZhCn,
+                        crate::interface::i18n::Language::ZhCn,
                     ),
                     "expected preserve for randomized non-template: {}",
                     reason
@@ -1151,7 +1151,7 @@ mod tests {
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1190,11 +1190,11 @@ mod tests {
 
     #[test]
     fn test_persistent_main_theme_displays_existing_theme_without_gate_permission() {
-        use crate::core::i18n::Language;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendCohesionStatus, TrendCohesionTopology,
             TrendContinuationState, TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
@@ -1334,11 +1334,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let config = mock_config_with_language(crate::interface::i18n::Language::JaJp);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let prices: HashMap<String, f64> = packet
             .assets
             .iter()
@@ -1394,11 +1394,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let config = mock_config_with_language(crate::interface::i18n::Language::JaJp);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1465,11 +1465,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1510,13 +1510,13 @@ mod tests {
             ..Default::default()
         };
 
-        let config_zh = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config_zh = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let pres_zh = PresentationAssembler::assemble(
             &packet,
             &config_zh.get_parsed_rules(),
             &HashMap::new(),
             vec![],
-            crate::core::i18n::Language::ZhCn,
+            crate::interface::i18n::Language::ZhCn,
         );
         let report_zh =
             generate_refined_report(&config_zh, &pres_zh, 0.0, &HashMap::new(), &HashMap::new())
@@ -1525,13 +1525,13 @@ mod tests {
             .telegram_html_body
             .contains("SPY · 最优 (候选标的)"));
 
-        let config_en = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        let config_en = mock_config_with_language(crate::interface::i18n::Language::EnUs);
         let pres_en = PresentationAssembler::assemble(
             &packet,
             &config_en.get_parsed_rules(),
             &HashMap::new(),
             vec![],
-            crate::core::i18n::Language::EnUs,
+            crate::interface::i18n::Language::EnUs,
         );
         let report_en =
             generate_refined_report(&config_en, &pres_en, 0.0, &HashMap::new(), &HashMap::new())
@@ -1540,13 +1540,13 @@ mod tests {
             .telegram_html_body
             .contains("SPY · Optimal (Candidate)"));
 
-        let config_ja = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let config_ja = mock_config_with_language(crate::interface::i18n::Language::JaJp);
         let pres_ja = PresentationAssembler::assemble(
             &packet,
             &config_ja.get_parsed_rules(),
             &HashMap::new(),
             vec![],
-            crate::core::i18n::Language::JaJp,
+            crate::interface::i18n::Language::JaJp,
         );
         let report_ja =
             generate_refined_report(&config_ja, &pres_ja, 0.0, &HashMap::new(), &HashMap::new())
@@ -1578,11 +1578,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1649,11 +1649,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1688,11 +1688,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1751,11 +1751,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1797,11 +1797,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1887,11 +1887,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        let config = mock_config_with_language(crate::interface::i18n::Language::EnUs);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::EnUs);
+            .unwrap_or(crate::interface::i18n::Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -1993,11 +1993,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let config = mock_config_with_language(crate::interface::i18n::Language::JaJp);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::JaJp);
+            .unwrap_or(crate::interface::i18n::Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -2093,11 +2093,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::ZhCn);
+        let config = mock_config_with_language(crate::interface::i18n::Language::ZhCn);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::ZhCn);
+            .unwrap_or(crate::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -2179,11 +2179,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::EnUs);
+        let config = mock_config_with_language(crate::interface::i18n::Language::EnUs);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::EnUs);
+            .unwrap_or(crate::interface::i18n::Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -2264,11 +2264,11 @@ mod tests {
             ..Default::default()
         };
 
-        let config = mock_config_with_language(crate::core::i18n::Language::JaJp);
+        let config = mock_config_with_language(crate::interface::i18n::Language::JaJp);
         let lang = config
             .output
             .language
-            .unwrap_or(crate::core::i18n::Language::JaJp);
+            .unwrap_or(crate::interface::i18n::Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &packet,
             &config.get_parsed_rules(),
@@ -2295,8 +2295,8 @@ mod tests {
     }
     #[test]
     fn test_transition_evidence_rendering_zh_cn() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             market_regime: MarketRegimeSnapshot {
@@ -2349,12 +2349,12 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_report_rendering_zh_cn() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
             TrendContinuationState, TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         let mut curr = DecisionPacket::default();
         curr.trend_recognition = Some(TrendRecognitionEvidence {
@@ -2443,9 +2443,9 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_report_rendering_ja_jp() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{TrendContinuationState, TrendRecognitionEvidence};
+        use crate::interface::i18n::Language;
 
         let mut curr = DecisionPacket::default();
         curr.trend_recognition = Some(TrendRecognitionEvidence {
@@ -2484,12 +2484,12 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_substantive_details_render_in_en_and_ja() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
             TrendContinuationState, TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         let mut curr = DecisionPacket::default();
         curr.trend_recognition = Some(TrendRecognitionEvidence {
@@ -2675,11 +2675,11 @@ mod tests {
 
     #[test]
     fn test_strategic_layer_no_trade_boundary_is_stable_across_languages() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         fn strategic_section<'a>(body: &'a str, title: &str) -> &'a str {
             let start = body.find(title).expect("strategic section title");
@@ -2802,11 +2802,11 @@ mod tests {
 
     #[test]
     fn test_hypothesis_layer_renders_speculative_notice_without_gate_change() {
-        use crate::core::i18n::Language;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
             TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         let curr = DecisionPacket {
             trend_cohesion: TrendCohesionSnapshot {
@@ -2858,11 +2858,11 @@ mod tests {
 
     #[test]
     fn test_hypothesis_layer_is_separated_from_reality_sections() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         let mut curr = DecisionPacket::default();
         curr.trend_recognition = Some(TrendRecognitionEvidence {
@@ -2914,11 +2914,11 @@ mod tests {
 
     #[test]
     fn test_hypothesis_without_failure_risks_is_not_rendered() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         let mut curr = DecisionPacket::default();
         curr.trend_recognition = Some(TrendRecognitionEvidence {
@@ -2955,11 +2955,11 @@ mod tests {
 
     #[test]
     fn test_hypothesis_layer_renders_in_en_and_ja() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
+        use crate::interface::i18n::Language;
 
         for (language, title, notice, beneficiary_label, summary_label) in [
             (
@@ -3018,12 +3018,14 @@ mod tests {
     #[test]
     fn test_narrow_leadership_is_displayed_as_structural_consolidation_without_gate_change() {
         use crate::core::asset_state::{AssetState, AssetStateSnapshot};
-        use crate::core::i18n::Language;
-        use crate::core::presentation::{HoldingEfficiency, MarketCyclePosition, TrendBreadthMode};
         use crate::core::transition_log::StateTransitionLog;
         use crate::core::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
             TrendRecognitionEvidence,
+        };
+        use crate::interface::i18n::Language;
+        use crate::interface::presentation::{
+            HoldingEfficiency, MarketCyclePosition, TrendBreadthMode,
         };
 
         let mut curr = DecisionPacket {
@@ -3194,8 +3196,8 @@ mod tests {
 
     #[test]
     fn test_no_trade_persistence_explanation_en_us() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -3235,8 +3237,8 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_rendering_ja_jp() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             market_regime: MarketRegimeSnapshot {
@@ -3296,8 +3298,8 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_breakout_changes_focus_on_structural_deltas() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -3395,8 +3397,8 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_not_shown_for_breakout_risk_only_change() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -3453,8 +3455,8 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_renders_scout_status_only_in_transition_block() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -3512,8 +3514,8 @@ mod tests {
 
     #[test]
     fn test_scout_multi_point_expansion_does_not_render_zero_ratio() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -3590,8 +3592,8 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_renders_scout_status_in_en_and_ja() {
-        use crate::core::i18n::Language;
         use crate::core::transition_log::StateTransitionLog;
+        use crate::interface::i18n::Language;
 
         let prev = DecisionPacket {
             trend_cohesion: crate::core::trend_cohesion::TrendCohesionSnapshot {
@@ -3759,19 +3761,19 @@ mod tests {
 
     #[test]
     fn test_no_trade_snapshot_zh_cn_markdown() {
-        let report = build_no_trade_report(crate::core::i18n::Language::ZhCn);
+        let report = build_no_trade_report(crate::interface::i18n::Language::ZhCn);
         assert_snapshot("no_trade_zh_cn.md", &report.markdown_body);
     }
 
     #[test]
     fn test_no_trade_snapshot_zh_cn_html() {
-        let report = build_no_trade_report(crate::core::i18n::Language::ZhCn);
+        let report = build_no_trade_report(crate::interface::i18n::Language::ZhCn);
         assert_snapshot("no_trade_zh_cn.html.txt", &report.telegram_html_body);
     }
 
     #[test]
     fn test_no_trade_snapshot_breakout_age_displays_day_one_in_zh_cn() {
-        let report = build_no_trade_report(crate::core::i18n::Language::ZhCn);
+        let report = build_no_trade_report(crate::interface::i18n::Language::ZhCn);
         assert!(report.markdown_body.contains("GOOG · 突破萌芽（第1天）"));
         assert!(report
             .telegram_html_body
@@ -3780,7 +3782,7 @@ mod tests {
 
     #[test]
     fn test_no_trade_snapshot_breakout_age_displays_day_one_in_en_us() {
-        let report = build_no_trade_report(crate::core::i18n::Language::EnUs);
+        let report = build_no_trade_report(crate::interface::i18n::Language::EnUs);
         assert!(report
             .markdown_body
             .contains("GOOG · Emerging Breakout (Day 1)"));
@@ -3791,7 +3793,7 @@ mod tests {
 
     #[test]
     fn test_no_trade_snapshot_breakout_age_displays_day_one_in_ja_jp() {
-        let report = build_no_trade_report(crate::core::i18n::Language::JaJp);
+        let report = build_no_trade_report(crate::interface::i18n::Language::JaJp);
         assert!(report.markdown_body.contains("GOOG · 突破初動（1日目）"));
         assert!(report
             .telegram_html_body
@@ -3812,25 +3814,25 @@ mod tests {
 
     #[test]
     fn test_no_trade_snapshot_en_us_markdown() {
-        let report = build_no_trade_report(crate::core::i18n::Language::EnUs);
+        let report = build_no_trade_report(crate::interface::i18n::Language::EnUs);
         assert_snapshot("no_trade_en_us.md", &report.markdown_body);
     }
 
     #[test]
     fn test_no_trade_snapshot_en_us_html() {
-        let report = build_no_trade_report(crate::core::i18n::Language::EnUs);
+        let report = build_no_trade_report(crate::interface::i18n::Language::EnUs);
         assert_snapshot("no_trade_en_us.html.txt", &report.telegram_html_body);
     }
 
     #[test]
     fn test_no_trade_snapshot_ja_jp_markdown() {
-        let report = build_no_trade_report(crate::core::i18n::Language::JaJp);
+        let report = build_no_trade_report(crate::interface::i18n::Language::JaJp);
         assert_snapshot("no_trade_ja_jp.md", &report.markdown_body);
     }
 
     #[test]
     fn test_no_trade_snapshot_ja_jp_html() {
-        let report = build_no_trade_report(crate::core::i18n::Language::JaJp);
+        let report = build_no_trade_report(crate::interface::i18n::Language::JaJp);
         assert_snapshot("no_trade_ja_jp.html.txt", &report.telegram_html_body);
     }
 

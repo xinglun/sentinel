@@ -1,5 +1,7 @@
-use crate::core::display::{RiskOpportunityViewModel, TacticalBucketViewModel, TopActionViewModel};
-use crate::core::i18n::Language;
+use crate::interface::display::{
+    RiskOpportunityViewModel, TacticalBucketViewModel, TopActionViewModel,
+};
+use crate::interface::i18n::Language;
 use serde::{Deserialize, Serialize};
 
 fn default_language() -> Language {

@@ -1,7 +1,7 @@
 use crate::config::AppConfig;
-use crate::core::i18n::{get_dictionary, DisplayDictionary};
-use crate::core::presentation::PresentationPacket;
 use crate::core::threshold_format::format_threshold_value;
+use crate::interface::i18n::{get_dictionary, DisplayDictionary};
+use crate::interface::presentation::PresentationPacket;
 use std::collections::HashMap;
 
 pub struct ReportResult {
@@ -1071,7 +1071,7 @@ fn render_transition_block(
 }
 
 fn render_hypothesis_section(
-    layer: Option<&crate::core::presentation::HypothesisLayerViewModel>,
+    layer: Option<&crate::interface::presentation::HypothesisLayerViewModel>,
     dict: &DisplayDictionary,
     mode: RenderMode,
 ) -> String {

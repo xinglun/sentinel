@@ -3,9 +3,9 @@ use crate::core::action_matrix::AssetActionDecision;
 use crate::core::asset_state::{AssetState, AssetStateSnapshot};
 use crate::core::decision::DecisionPacket;
 use crate::core::exit::{AssetExitState, ExitDecision, PositionIntent};
-use crate::core::i18n::Language;
-use crate::core::presentation_assembler::PresentationAssembler;
-use crate::core::report::generate_refined_report;
+use crate::interface::i18n::Language;
+use crate::interface::presentation_assembler::PresentationAssembler;
+use crate::interface::report::generate_refined_report;
 use chrono::Utc;
 use std::collections::{BTreeMap, HashMap};
 
@@ -960,7 +960,7 @@ mod tests {
             "state_code": "ESTABLISHED"
         });
 
-        let packet: crate::core::presentation::PresentationPacket =
+        let packet: crate::interface::presentation::PresentationPacket =
             serde_json::from_value(legacy).unwrap();
 
         assert_eq!(packet.language, Language::ZhCn);
@@ -1311,11 +1311,11 @@ mod tests {
         );
         assert_eq!(
             transition.market_cycle_position,
-            crate::core::presentation::MarketCyclePosition::CrowdedExpectation
+            crate::interface::presentation::MarketCyclePosition::CrowdedExpectation
         );
         assert_eq!(
             transition.holding_efficiency,
-            crate::core::presentation::HoldingEfficiency::TimeCostRising
+            crate::interface::presentation::HoldingEfficiency::TimeCostRising
         );
         assert_eq!(
             transition.structural_strength.as_deref(),
@@ -1345,7 +1345,7 @@ mod tests {
         );
         assert_eq!(
             hypothesis_layer.candidates[0].confidence,
-            crate::core::presentation::HypothesisConfidence::Developing
+            crate::interface::presentation::HypothesisConfidence::Developing
         );
         assert_eq!(hypothesis_layer.candidates[0].consensus_state, "crowded");
         assert_eq!(hypothesis_layer.candidates[0].pricing_state, "overpriced");
@@ -1388,7 +1388,7 @@ mod tests {
         assert!(!candidate.failure_risks.is_empty());
         assert_eq!(
             candidate.confidence,
-            crate::core::presentation::HypothesisConfidence::Developing
+            crate::interface::presentation::HypothesisConfidence::Developing
         );
         assert!(!format!("{:?}", candidate.confidence).contains("Confirmed"));
     }

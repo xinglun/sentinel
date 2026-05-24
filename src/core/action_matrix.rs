@@ -35,9 +35,9 @@ pub struct AssetActionDecision {
     #[serde(default)]
     pub position_intent: crate::core::exit::PositionIntent,
     #[serde(default)]
-    pub display_context: crate::core::display::DisplayContext,
+    pub display_context: crate::interface::display::DisplayContext,
     #[serde(default)]
-    pub display_intent: crate::core::display::DisplayIntent,
+    pub display_intent: crate::interface::display::DisplayIntent,
     #[serde(default)]
     pub unified_position_intent: crate::core::position_intent::UnifiedPositionIntent,
     #[serde(default)]

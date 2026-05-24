@@ -4,11 +4,12 @@ use crate::config::{
 };
 use crate::core::asset_state::AssetState;
 use crate::core::decision::DecisionPacket;
-use crate::core::display::{DisplayAdapter, DisplayContext, DisplayIntent};
 use crate::core::exit::AssetExitState;
-use crate::core::i18n::{get_dictionary, DisplayDictionary, Language};
 use crate::core::market_regime::{MarketState, RiskOverlay};
-use crate::core::presentation::{
+use crate::core::trend_cohesion::{EvidenceSourceType, EvidenceType};
+use crate::interface::display::{DisplayAdapter, DisplayContext, DisplayIntent};
+use crate::interface::i18n::{get_dictionary, DisplayDictionary, Language};
+use crate::interface::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
     ExitDisplayIntent, HoldingEfficiency, HypothesisBeneficiaryViewModel,
@@ -17,7 +18,6 @@ use crate::core::presentation::{
     MarketCyclePosition, PresentationPacket, RiskOpportunitySummaryViewModel,
     SignalSummaryViewModel, StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
 };
-use crate::core::trend_cohesion::{EvidenceSourceType, EvidenceType};
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
 
@@ -314,7 +314,7 @@ impl PresentationAssembler {
             if refs.is_empty() {
                 None
             } else {
-                Some(crate::core::display::TacticalBucketViewModel {
+                Some(crate::interface::display::TacticalBucketViewModel {
                     bucket_id,
                     display_name,
                     count: refs.len(),
@@ -342,7 +342,7 @@ impl PresentationAssembler {
                         | crate::core::asset_state::AssetState::OPTIMAL
                 )
             {
-                risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
+                risk_opportunities.push(crate::interface::display::RiskOpportunityViewModel {
                     kind: dict.decision.opportunity.clone(),
                     symbol: asset.symbol.clone(),
                     reason: Self::derive_telegram_reason(
@@ -357,7 +357,7 @@ impl PresentationAssembler {
             if matches!(*intent, DisplayIntent::TRIM | DisplayIntent::EXIT)
                 || asset.asset_state.state == crate::core::asset_state::AssetState::OVERHEAT
             {
-                risk_opportunities.push(crate::core::display::RiskOpportunityViewModel {
+                risk_opportunities.push(crate::interface::display::RiskOpportunityViewModel {
                     kind: dict.decision.risk.clone(),
                     symbol: asset.symbol.clone(),
                     reason: Self::derive_telegram_reason(
@@ -2403,7 +2403,7 @@ impl PresentationAssembler {
     }
 
     fn summarize_primary_risk(
-        risk_items: &[&crate::core::display::RiskOpportunityViewModel],
+        risk_items: &[&crate::interface::display::RiskOpportunityViewModel],
         dict: &DisplayDictionary,
     ) -> String {
         if risk_items.is_empty() {
