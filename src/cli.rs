@@ -770,42 +770,44 @@ async fn run_pipeline(
         persistence.save_execution_gate_result(&packet, &execution_result)?;
 
         let date_str = packet.date.to_string();
-        let portfolio_snapshot = serde_json::json!({
-            "date": date_str,
-            "realized_pl": realized_pl,
-            "current_exposure": current_exposure,
-            "position_count": positions.len(),
-            "positions": positions.iter().map(|(symbol, (qty, avg_price))| {
-                serde_json::json!({
-                    "symbol": symbol,
-                    "qty": qty,
-                    "avg_price": avg_price,
-                    "market_value_estimate": qty * avg_price,
-                })
-            }).collect::<Vec<_>>()
-        });
+        let portfolio_snapshot = crate::application::radar::build_portfolio_snapshot(
+            &date_str,
+            realized_pl,
+            current_exposure,
+            &positions,
+        );
         persistence.save_portfolio_snapshot(&portfolio_snapshot, &date_str)?;
 
-        let account_snapshot = serde_json::json!({
-            "date": date_str,
-            "global_budget": trading_config.global_budget,
-            "max_daily_budget": trading_config.max_daily_budget,
-            "daily_traded": daily_traded,
-            "buying_power_estimate": buying_power,
-            "current_exposure": current_exposure,
-            "realized_pl": realized_pl,
-            "failed_fetch_count": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.len()).unwrap_or(0),
-        });
+        let failed_fetch_count = pres_packet
+            .data_alert
+            .as_ref()
+            .map(|alert| alert.symbols.len())
+            .unwrap_or(0);
+        let account_snapshot = crate::application::radar::build_account_snapshot(
+            crate::application::radar::AccountSnapshotInput {
+                date: &date_str,
+                global_budget: trading_config.global_budget,
+                max_daily_budget: trading_config.max_daily_budget,
+                daily_traded,
+                buying_power,
+                current_exposure,
+                realized_pl,
+                failed_fetch_count,
+            },
+        );
         persistence.save_account_snapshot(&account_snapshot, &date_str)?;
 
-        let data_quality_log = serde_json::json!({
-            "timestamp": chrono::Local::now().to_rfc3339(),
-            "date": date_str,
-            "successful_fetches": data_acquisition_summary.successful_fetches,
-            "failed_fetches": data_acquisition_summary.failed_fetches,
-            "failed_symbols": pres_packet.data_alert.as_ref().map(|alert| alert.symbols.clone()).unwrap_or_default(),
-            "status": data_acquisition_summary.data_quality_status().as_str()
-        });
+        let failed_symbols_for_log = pres_packet
+            .data_alert
+            .as_ref()
+            .map(|alert| alert.symbols.clone())
+            .unwrap_or_default();
+        let data_quality_log = crate::application::radar::build_data_quality_log(
+            &chrono::Local::now().to_rfc3339(),
+            &date_str,
+            data_acquisition_summary,
+            &failed_symbols_for_log,
+        );
         persistence.save_data_quality_log(&data_quality_log)?;
 
         let mut sm_summary = crate::core::run_status::StateMachineSummary {

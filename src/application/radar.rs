@@ -60,6 +60,19 @@ pub struct DataAcquisitionResult<T> {
     pub failed_symbols: Vec<String>,
 }
 
+/// account snapshot 保存用の入力値。
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct AccountSnapshotInput<'a> {
+    pub date: &'a str,
+    pub global_budget: f64,
+    pub max_daily_budget: Option<f64>,
+    pub daily_traded: f64,
+    pub buying_power: f64,
+    pub current_exposure: f64,
+    pub realized_pl: f64,
+    pub failed_fetch_count: usize,
+}
+
 impl<T> DataAcquisitionResult<T> {
     pub fn new(successful_items: Vec<T>, failed_symbols: Vec<String>) -> Self {
         Self {
@@ -98,9 +111,64 @@ pub fn should_persist_decision_history(successful_fetches: usize, failed_fetches
     successful_fetches > 0 || failed_fetches == 0
 }
 
+/// portfolio snapshot 保存用 payload を構築する。
+pub fn build_portfolio_snapshot(
+    date: &str,
+    realized_pl: f64,
+    current_exposure: f64,
+    positions: &std::collections::HashMap<String, (f64, f64)>,
+) -> serde_json::Value {
+    serde_json::json!({
+        "date": date,
+        "realized_pl": realized_pl,
+        "current_exposure": current_exposure,
+        "position_count": positions.len(),
+        "positions": positions.iter().map(|(symbol, (qty, avg_price))| {
+            serde_json::json!({
+                "symbol": symbol,
+                "qty": qty,
+                "avg_price": avg_price,
+                "market_value_estimate": qty * avg_price,
+            })
+        }).collect::<Vec<_>>()
+    })
+}
+
+/// account snapshot 保存用 payload を構築する。
+pub fn build_account_snapshot(input: AccountSnapshotInput<'_>) -> serde_json::Value {
+    serde_json::json!({
+        "date": input.date,
+        "global_budget": input.global_budget,
+        "max_daily_budget": input.max_daily_budget,
+        "daily_traded": input.daily_traded,
+        "buying_power_estimate": input.buying_power,
+        "current_exposure": input.current_exposure,
+        "realized_pl": input.realized_pl,
+        "failed_fetch_count": input.failed_fetch_count,
+    })
+}
+
+/// data quality log 保存用 payload を構築する。
+pub fn build_data_quality_log(
+    timestamp: &str,
+    date: &str,
+    summary: DataAcquisitionSummary,
+    failed_symbols: &[String],
+) -> serde_json::Value {
+    serde_json::json!({
+        "timestamp": timestamp,
+        "date": date,
+        "successful_fetches": summary.successful_fetches,
+        "failed_fetches": summary.failed_fetches,
+        "failed_symbols": failed_symbols,
+        "status": summary.data_quality_status().as_str()
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashMap;
 
     #[test]
     fn radar_application_boundary_persists_when_at_least_one_fetch_succeeds() {
@@ -165,5 +233,37 @@ mod tests {
                 .as_str(),
             "CRITICAL"
         );
+    }
+
+    #[test]
+    fn radar_application_boundary_builds_persistence_payloads() {
+        let mut positions = HashMap::new();
+        positions.insert("NVDA".to_string(), (2.0, 100.0));
+        let portfolio = build_portfolio_snapshot("2026-05-24", 12.5, 200.0, &positions);
+        let account = build_account_snapshot(AccountSnapshotInput {
+            date: "2026-05-24",
+            global_budget: 1000.0,
+            max_daily_budget: Some(250.0),
+            daily_traded: 50.0,
+            buying_power: 800.0,
+            current_exposure: 200.0,
+            realized_pl: 12.5,
+            failed_fetch_count: 1,
+        });
+        let failed_symbols = vec!["MSFT".to_string()];
+        let data_quality = build_data_quality_log(
+            "2026-05-24T00:00:00+09:00",
+            "2026-05-24",
+            DataAcquisitionSummary::new(1, 1),
+            &failed_symbols,
+        );
+
+        assert_eq!(portfolio["date"], "2026-05-24");
+        assert_eq!(portfolio["position_count"], 1);
+        assert_eq!(portfolio["positions"][0]["market_value_estimate"], 200.0);
+        assert_eq!(account["failed_fetch_count"], 1);
+        assert_eq!(account["buying_power_estimate"], 800.0);
+        assert_eq!(data_quality["status"], "WARNING");
+        assert_eq!(data_quality["failed_symbols"][0], "MSFT");
     }
 }

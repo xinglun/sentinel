@@ -331,3 +331,42 @@ fn radar_application_data_quality_status_keeps_cli_log_contract() {
         "CRITICAL"
     );
 }
+
+#[test]
+fn radar_application_payload_builders_keep_persistence_schema() {
+    use std::collections::HashMap;
+    use stock_sentinel::application::radar::{
+        build_account_snapshot, build_data_quality_log, build_portfolio_snapshot,
+        AccountSnapshotInput, DataAcquisitionSummary,
+    };
+
+    let mut positions = HashMap::new();
+    positions.insert("NVDA".to_string(), (2.0, 100.0));
+
+    let portfolio = build_portfolio_snapshot("2026-05-24", 7.5, 200.0, &positions);
+    let account = build_account_snapshot(AccountSnapshotInput {
+        date: "2026-05-24",
+        global_budget: 1000.0,
+        max_daily_budget: Some(300.0),
+        daily_traded: 50.0,
+        buying_power: 800.0,
+        current_exposure: 200.0,
+        realized_pl: 7.5,
+        failed_fetch_count: 1,
+    });
+    let failed_symbols = vec!["MSFT".to_string()];
+    let quality = build_data_quality_log(
+        "2026-05-24T00:00:00+09:00",
+        "2026-05-24",
+        DataAcquisitionSummary::new(1, 1),
+        &failed_symbols,
+    );
+
+    assert_eq!(portfolio["date"], "2026-05-24");
+    assert_eq!(portfolio["positions"][0]["symbol"], "NVDA");
+    assert_eq!(account["max_daily_budget"], 300.0);
+    assert_eq!(account["failed_fetch_count"], 1);
+    assert_eq!(quality["successful_fetches"], 1);
+    assert_eq!(quality["failed_symbols"][0], "MSFT");
+    assert_eq!(quality["status"], "WARNING");
+}
