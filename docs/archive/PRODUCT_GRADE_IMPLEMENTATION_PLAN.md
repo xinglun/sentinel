@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: プロダクトグレード実装計画 (Product-Grade Implementation Plan)
+description: プロダクトグレード実装計画 (Product-Grade Implementation Plan) に関する Sentinel の設計・運用情報。
+key: docs-archive-product-grade-implementation-plan
 ---
 
 # プロダクトグレード実装計画 (Product-Grade Implementation Plan)

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態定義マニュアル (STATE_DEFINITIONS.md)
+description: Sentinel 状態定義マニュアル (STATE_DEFINITIONS.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-state-definitions
 ---
 
 # Sentinel 状態定義マニュアル (STATE_DEFINITIONS.md)

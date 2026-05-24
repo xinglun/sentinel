@@ -75,7 +75,7 @@ impl TraderAgent {
             }
             first = false;
 
-            // Check if we've already acted on this symbol today for the same side to avoid double-trading
+            // 同日・同 symbol・同 side の重複取引を避けるため、既に処理済みか確認する。
             let side_str_upper = format!("{:?}", trade.side).to_uppercase();
             if self.ledger.has_acted_today(&trade.symbol, &side_str_upper) {
                 continue;
@@ -179,7 +179,7 @@ impl TraderAgent {
                     crate::features::trading::application::trade_executor::OrderFailureReason::None,
             };
 
-            // 3. Narrow lock scope for submission
+            // 3. submit 時の lock scope を狭める。
             let submission_result = {
                 let exec = self.executor.lock().await;
                 exec.place_order(req).await
@@ -197,7 +197,7 @@ impl TraderAgent {
                         // --- Polling for Order Status (Lifecycle Closure) ---
                         let mut final_details = None;
                         for attempt in 1..=self.max_poll_attempts {
-                            // Narrow lock scope for EACH status check
+                            // 各 status check の lock scope を狭める。
                             let status_query = {
                                 let exec = self.executor.lock().await;
                                 exec.get_order_status(&order_id).await
@@ -231,7 +231,7 @@ impl TraderAgent {
                                     );
                                 }
                             }
-                            // The lock is released here, allowing other orders to proceed during sleep
+                            // ここで lock を解放し、sleep 中も他の order を進められるようにする。
                             tokio::time::sleep(self.poll_interval).await;
                         }
 
@@ -327,7 +327,7 @@ impl TraderAgent {
                             }
                         }
                     } else {
-                        // Immediate rejection
+                        // 即時 reject。
                         println!(
                             "❌ [Trader - REJECTED] Order rejected by broker for {}: {:?}",
                             trade.symbol, res.failure_reason
@@ -365,15 +365,15 @@ impl TraderAgent {
         })
     }
 
-    /// 执行持仓对账 (P2-3)
-    /// 对比本地 Ledger 导出的理论持仓与 Broker 侧的真实持仓
+    /// position reconciliation を実行する（P2-3）。
+    /// local Ledger 由来の理論 position と broker 側の実 position を比較する。
     pub async fn reconcile_positions(&self) -> Result<ReconciliationReport> {
         println!("🔍 Starting position reconciliation...");
 
-        // 1. 获取本地持仓
+        // 1. local position を取得する。
         let (_, local_positions) = self.ledger.get_portfolio_stats();
 
-        // 2. 获取 Broker 持仓
+        // 2. broker position を取得する。
         let broker_positions = {
             let exec = self.executor.lock().await;
             exec.get_positions().await?
@@ -388,7 +388,7 @@ impl TraderAgent {
             .map(|p| (p.symbol, p.qty))
             .collect();
 
-        // Check local vs broker
+        // local と broker を比較する。
         for (symbol, (local_qty, _)) in local_positions {
             if local_qty == 0.0 {
                 continue;
@@ -409,7 +409,7 @@ impl TraderAgent {
             }
         }
 
-        // Check remaining broker positions (not in local ledger)
+        // local ledger に存在しない broker position を確認する。
         for (symbol, broker_qty) in broker_map {
             if broker_qty == 0.0 {
                 continue;
@@ -579,7 +579,7 @@ mod tests {
             .expect("Preflight should not fail");
         summary.status.expect("Execution should not fail");
 
-        // Verify audit details
+        // audit details を確認する。
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
         assert_eq!(audit.symbol, "AAPL");
@@ -641,7 +641,7 @@ mod tests {
         let save_dir = temp.path().to_path_buf();
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
 
-        // 1. Setup high capacity (current position = 1000)
+        // 1. 十分な capacity を設定する（current position = 1000）。
         {
             let exec = mock_exec.lock().await;
             let mut cap = exec.mock_capacity.lock().await;
@@ -665,7 +665,7 @@ mod tests {
         let summary = agent.execute_signals(vec![trade]).await.unwrap();
         assert!(!summary.audits.is_empty());
 
-        // 3. Verify qty was corrected to 1000.0 (max_sell)
+        // 3. qty が 1000.0（max_sell）へ補正されたことを確認する。
         assert_eq!(summary.audits[0].qty_requested, 1000.0);
     }
 
@@ -675,7 +675,7 @@ mod tests {
         let save_dir = temp.path().to_path_buf();
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
 
-        // 1. Setup capacity (current position = 1000)
+        // 1. capacity を設定する（current position = 1000）。
         {
             let exec = mock_exec.lock().await;
             let mut cap = exec.mock_capacity.lock().await;
@@ -699,7 +699,7 @@ mod tests {
         let summary = agent.execute_signals(vec![trade]).await.unwrap();
         assert!(!summary.audits.is_empty());
 
-        // 3. Verify qty was corrected to 500.0 (50% of max_sell)
+        // 3. qty が 500.0（max_sell の 50%）へ補正されたことを確認する。
         assert_eq!(summary.audits[0].qty_requested, 500.0);
     }
 
@@ -723,15 +723,15 @@ mod tests {
             is_trim: false,
         };
 
-        // Note: MockTradeExecutor currently doesn't fail unless we modify it to handle specific symbols.
-        // Let's implement a symbol-based failure in MockTradeExecutor for testing.
+        // MockTradeExecutor は特定 symbol を扱うようにしない限り失敗しない。
+        // test 用に symbol-based failure を実装する。
 
         let summary = agent.execute_signals(vec![trade]).await.unwrap();
 
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
 
-        // CHECK STATUS & REASON
+        // status と reason を確認する。
         assert_eq!(audit.status, "CapacityQueryFailed");
         assert!(audit
             .error
@@ -739,7 +739,7 @@ mod tests {
             .unwrap()
             .contains("Mock capacity query failure"));
 
-        // VERIFY ORDER WAS NOT PLACED
+        // order が発注されていないことを確認する。
         let count = mock_exec
             .lock()
             .await
@@ -757,11 +757,10 @@ mod tests {
 
         // --- Configure Mock to stay in Submitted status ---
         // By default, MockTradeExecutor returns Filled after 2 queries.
-        // We don't have a direct way to change the "Filled threshold" without modifying Mock,
-        // so let's just assert that it hits the timeout if we mock it to never increment or similar.
-        // Actually, let's keep it simple: Mock already hits Timeout if it doesn't return terminal status.
+        // Mock を変更せずに Filled threshold を直接変える手段はない。
+        // terminal status を返さない場合に Timeout へ到達することだけを確認する。
 
-        // Let's modify MockTradeExecutor::get_order_status to stay Submitted for a specific symbol.
+        // 特定 symbol では MockTradeExecutor::get_order_status が Submitted のままになるようにする。
 
         let ledger = Arc::new(Ledger::new(save_dir.clone()));
         // Accelerated polling: 5 attempts * 1ms = 5ms total "timeout"
@@ -786,10 +785,10 @@ mod tests {
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
 
-        // VERIFY STATUS: Should be confirmed as Cancelled by the final check
+        // status を確認する。最終 check では Cancelled と確認されるべき。
         assert_eq!(audit.status, "TimedOutCancelledConfirmed");
 
-        // VERIFY MOCK STATE: order_id should be in cancelled_orders set
+        // mock state を確認する。order_id は cancelled_orders set に存在するべき。
         let order_id = audit.order_id.as_ref().expect("Order ID should exist");
         let mock = mock_exec.lock().await;
         let cancelled = mock.cancelled_orders.lock().await;
@@ -811,7 +810,7 @@ mod tests {
         let save_dir = temp.path().to_path_buf();
         let ledger = Arc::new(Ledger::new(save_dir.clone()));
 
-        // 1. Setup local ledger: 10 TSLA, 20 AAPL
+        // 1. local ledger に 10 TSLA、20 AAPL を設定する。
         ledger
             .record_trade(TradeRecord {
                 date: Local::now().date_naive(),
@@ -835,7 +834,7 @@ mod tests {
             })
             .unwrap();
 
-        // 2. Setup mock executor: 10 TSLA (Match), 25 AAPL (Mismatch), 5 NVDA (Broker only)
+        // 2. mock executor に 10 TSLA（一致）、25 AAPL（不一致）、5 NVDA（broker のみ）を設定する。
         let _mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
 
         struct ReconMock;
@@ -920,11 +919,11 @@ mod tests {
         let agent = TraderAgent::new(Arc::new(Mutex::new(ReconMock)), ledger);
         let report = agent.reconcile_positions().await.unwrap();
 
-        // 3. Verify
+        // 3. 確認する。
         assert_eq!(report.matching_count, 1); // Only TSLA matches
         assert_eq!(report.mismatches.len(), 2);
 
-        // AAPL Mismatch
+        // AAPL の不一致。
         let aapl = report
             .mismatches
             .iter()
@@ -934,7 +933,7 @@ mod tests {
         assert_eq!(aapl.broker_qty, 25.0);
         assert_eq!(aapl.diff, -5.0);
 
-        // NVDA Broker-only
+        // NVDA は broker のみに存在する。
         let nvda = report
             .mismatches
             .iter()

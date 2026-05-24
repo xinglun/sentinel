@@ -380,7 +380,7 @@ mod tests {
 
         let log = StateTransitionLog::compare(Some(&prev), &curr);
 
-        // Trend Gate
+        // Trend Gate。
         assert_eq!(
             log.trend_cohesion_gate.added,
             vec!["ContinuityThreshold".to_string()]

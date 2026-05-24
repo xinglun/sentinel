@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 状態機週間レビュー (V1.3 観察期)
+description: 状態機週間レビュー (V1.3 観察期) に関する Sentinel の設計・運用情報。
+key: docs-templates-weekly-state-review
 ---
 
 # 状態機週間レビュー (V1.3 観察期)

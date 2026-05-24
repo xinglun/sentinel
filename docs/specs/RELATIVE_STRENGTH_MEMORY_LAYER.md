@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 相対強度記憶レイヤー (Relative Strength Memory Layer)
+description: 相対強度記憶レイヤー (Relative Strength Memory Layer) に関する Sentinel の設計・運用情報。
+key: docs-specs-relative-strength-memory-layer
 ---
 
 # 相対強度記憶レイヤー (Relative Strength Memory Layer)

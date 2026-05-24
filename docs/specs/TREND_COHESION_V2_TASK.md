@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: トレンド凝集性 V2 タスク (Trend Cohesion V2 Task)
+description: トレンド凝集性 V2 タスク (Trend Cohesion V2 Task) に関する Sentinel の設計・運用情報。
+key: docs-specs-trend-cohesion-v2-task
 ---
 
 # トレンド凝集性 V2 タスク (Trend Cohesion V2 Task)

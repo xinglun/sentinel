@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: プロダクトグレード監査タスク (Product-Grade Audit Tasks)
+description: プロダクトグレード監査タスク (Product-Grade Audit Tasks) に関する Sentinel の設計・運用情報。
+key: docs-archive-product-grade-audit-tasks
 ---
 
 # プロダクトグレード監査タスク (Product-Grade Audit Tasks)

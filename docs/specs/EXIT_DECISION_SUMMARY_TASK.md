@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 退出意思決定サマリー (Exit Decision Summary) タスクリスト
+description: 退出意思決定サマリー (Exit Decision Summary) タスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-exit-decision-summary-task
 ---
 
 # 退出意思決定サマリー (Exit Decision Summary) タスクリスト

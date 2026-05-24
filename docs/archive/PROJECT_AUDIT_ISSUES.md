@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: プロジェクト監査イシュー (Project Audit Issues)
+description: プロジェクト監査イシュー (Project Audit Issues) に関する Sentinel の設計・運用情報。
+key: docs-archive-project-audit-issues
 ---
 
 # プロジェクト監査イシュー (Project Audit Issues)

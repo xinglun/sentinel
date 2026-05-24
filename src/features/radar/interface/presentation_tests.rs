@@ -117,7 +117,7 @@ mod tests {
             ..Default::default()
         };
 
-        // Ensure failed_symbols is populated
+        // failed_symbols が設定されていることを確認する。
         let failed = vec!["BLOCKER".to_string()];
         let config = mock_config(Language::ZhCn);
 
@@ -131,12 +131,12 @@ mod tests {
         let report =
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
-        // High: Semantic correctness check
+        // High: semantic の正しさを確認する。
         // It should NOT contain default states like "扩张期" (ESTABLISHED) or "启动期" (IGNITION)
         assert!(!report.markdown_body.contains("扩张期"));
         assert!(!report.markdown_body.contains("启动期"));
 
-        // It SHOULD contain the explicit error semantics
+        // 明示的な error semantics を含む必要がある。
         assert!(report.markdown_body.contains("数据不可用"));
         assert!(report.markdown_body.contains("无数据"));
         assert!(report.markdown_body.contains("N/A"));
@@ -502,7 +502,7 @@ mod tests {
 
     #[test]
     fn test_zero_clone_vm_integrity() {
-        // Verify TopAction selection still works correctly with new reference sorting
+        // 新しい参照 sorting でも TopAction selection が正しく動くことを確認する。
         let assets = vec![
             AssetActionDecision {
                 symbol: "WIN".into(),
@@ -1291,7 +1291,7 @@ mod tests {
             }),
         });
 
-        // Compute transition log to carry the evidence
+        // evidence を運ぶために transition log を計算する。
         curr.transition_log = Some(StateTransitionLog::compare(None, &curr));
 
         let config = mock_config(Language::ZhCn);
@@ -1450,7 +1450,7 @@ mod tests {
 
         let config = mock_config(Language::JaJp);
 
-        // We need to inject the log into assemble logic or just check the VM mapping
+        // assemble logic に log を注入するか、VM mapping だけを確認する。
         let mut curr_with_log = curr.clone();
         curr_with_log.transition_log = Some(log);
 

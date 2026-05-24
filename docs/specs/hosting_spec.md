@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Stock Sentinel 自動観測システム
+description: Stock Sentinel 自動観測システム に関する Sentinel の設計・運用情報。
+key: docs-specs-hosting-spec
 ---
 
 # Stock Sentinel 自動観測システム

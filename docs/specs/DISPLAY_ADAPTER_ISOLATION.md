@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 表示アダプター層の設計説明 (Display Adapter Design)
+description: 表示アダプター層の設計説明 (Display Adapter Design) に関する Sentinel の設計・運用情報。
+key: docs-specs-display-adapter-isolation
 ---
 
 # 表示アダプター層の設計説明 (Display Adapter Design)

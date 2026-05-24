@@ -180,21 +180,21 @@ mod tests {
             "key2".to_string(),
         );
 
-        // Save records
+        // record を保存する。
         let saved = store.save_records(&[record1.clone(), record2.clone()])?;
         assert_eq!(saved, 2);
 
-        // Load all
+        // 全件読み込む。
         let all = store.load_all()?;
         assert_eq!(all.len(), 2);
         assert_eq!(all[0].dedupe_key(), "key1");
         assert_eq!(all[1].dedupe_key(), "key2");
 
-        // Duplicate save
+        // 重複 save。
         let saved_again = store.save_records(std::slice::from_ref(&record1))?;
         assert_eq!(saved_again, 0); // Should be deduped
 
-        // Filter by symbol
+        // symbol で絞り込む。
         let aapl = store.find_by_symbol("AAPL")?;
         assert_eq!(aapl.len(), 1);
         assert_eq!(aapl[0].symbol.as_deref(), Some("AAPL"));
@@ -256,7 +256,7 @@ mod tests {
         let store = EvidenceStore::new(dir.path());
         let file_path = dir.path().join("evidence_records.jsonl");
 
-        // Write a valid line and an invalid line
+        // valid な line と invalid な line を書き込む。
         let mut file = File::create(&file_path)?;
         let mut valid_record = AutomatedEvidenceRecord::default();
         valid_record.update_dedupe_key("valid".to_string());

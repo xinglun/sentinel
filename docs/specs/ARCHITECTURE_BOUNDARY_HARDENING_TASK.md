@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel アーキテクチャ境界の強化タスク (ARCHITECTURE_BOUNDARY_HARDENING_TASK.md)
+description: Sentinel アーキテクチャ境界の強化タスク (ARCHITECTURE_BOUNDARY_HARDENING_TASK.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-architecture-boundary-hardening-task
 ---
 
 # Sentinel アーキテクチャ境界の強化タスク (ARCHITECTURE_BOUNDARY_HARDENING_TASK.md)

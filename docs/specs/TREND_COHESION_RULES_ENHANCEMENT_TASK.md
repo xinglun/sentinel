@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: トレンド凝集性ルール強化タスク (Trend Cohesion Rules Enhancement Task)
+description: トレンド凝集性ルール強化タスク (Trend Cohesion Rules Enhancement Task) に関する Sentinel の設計・運用情報。
+key: docs-specs-trend-cohesion-rules-enhancement-task
 ---
 
 # トレンド凝集性ルール強化タスク (Trend Cohesion Rules Enhancement Task)

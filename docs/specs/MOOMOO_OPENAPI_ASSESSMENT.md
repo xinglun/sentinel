@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Moomoo OpenAPI アセスメント (Moomoo OpenAPI Assessment)
+description: Moomoo OpenAPI アセスメント (Moomoo OpenAPI Assessment) に関する Sentinel の設計・運用情報。
+key: docs-specs-moomoo-openapi-assessment
 ---
 
 # Moomoo OpenAPI アセスメント (Moomoo OpenAPI Assessment)

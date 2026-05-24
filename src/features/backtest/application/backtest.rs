@@ -119,7 +119,7 @@ pub async fn run_backtest(
     let parsed_rules = config.get_parsed_rules();
     let watchlist = config.watchlist.clone();
 
-    // Run Baseline (No Memory/Friction)
+    // baseline（memory / friction なし）を実行する。
     println!("   [1/2] Running Baseline...");
     let baseline_metrics = run_core_simulation(
         &histories,
@@ -130,7 +130,7 @@ pub async fn run_backtest(
         "baseline",
     )?;
 
-    // Run Enhanced (With Memory & Friction)
+    // enhanced（memory / friction あり）を実行する。
     println!("   [2/2] Running Enhanced (V1.4)...");
     let enhanced_metrics = run_core_simulation(
         &histories,
@@ -141,7 +141,7 @@ pub async fn run_backtest(
         "enhanced",
     )?;
 
-    // Generate comparison report
+    // 比較 report を生成する。
     generate_comparison_report(&baseline_metrics, &enhanced_metrics)?;
     publish_primary_backtest_outputs()?;
 
@@ -205,7 +205,7 @@ fn run_core_simulation(
             }
         }
 
-        // Core Decision Pipeline
+        // core decision pipeline。
         let effective_window: &[DecisionPacket] = if use_memory {
             history_window.as_slice()
         } else {
@@ -219,13 +219,13 @@ fn run_core_simulation(
             &std::collections::HashMap::new(),
         )?;
 
-        // Update history window
+        // history window を更新する。
         history_window.push(current_packet.clone());
         if history_window.len() > 20 {
             history_window.remove(0);
         }
 
-        // Metrics...
+        // metrics を集計する。
         sm_metrics.total_days += 1;
         state_history.push(current_packet.market_regime.market_state);
         if !current_packet.trend_cohesion.gate_passed {
@@ -364,7 +364,7 @@ fn run_core_simulation(
             }
         }
 
-        // Top Actions Latency Tracking
+        // top actions latency を追跡する。
         for sym in &raw_top3 {
             raw_top3_first_seen
                 .entry(sym.to_string())
@@ -409,7 +409,7 @@ fn run_core_simulation(
             }
         }
 
-        // Reliability check
+        // reliability を確認する。
         for asset in &current_packet.assets {
             let state_str = format!("{:?}", asset.asset_state.state);
             let reg_entry = regime_tracking.entry(state_str.clone()).or_default();
@@ -467,7 +467,7 @@ fn run_core_simulation(
         prev_packet = Some(current_packet);
     }
 
-    // Write Outputs for this run
+    // この run の output を書き出す。
     let base_dir = format!("backtest/{}", dir_name);
     fs::create_dir_all(&base_dir)?;
 

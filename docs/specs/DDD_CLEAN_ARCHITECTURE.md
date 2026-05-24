@@ -8,7 +8,8 @@ key: ddd-clean-architecture-migration
 # DDD Clean Architecture 移行設計
 
 この文書は Sentinel を長期的に健全に拡張するための target architecture を定義する。
-現在の policy kernel は `src/features/radar/application/policy/**` と `src/features/radar/application/engine.rs` に収める。新規実装と段階移行はこの文書の依存方向に従う。
+実行時 checker の machine-readable SSOT は `.ai/architecture/feature_acl.yaml` であり、この文書はその意図と運用規約を説明する human-readable SSOT として扱う。
+現在の policy kernel は `src/features/radar/application/policy/**` と `src/features/radar/application/engine.rs` に収める。新規実装と段階移行はこの文書と `feature_acl.yaml` の依存方向に従う。
 
 ## 目的
 
@@ -28,6 +29,8 @@ src/features/<feature>/acl             外部 adapter / raw protocol と feature
 src/features/shared/domain             複数 feature で共有する domain primitive
 src/features/radar/application/policy  既存 policy kernel を含む radar application policy
 ```
+
+feature roots、許可される feature 間依存、外部 adapter の ACL 例外は `.ai/architecture/feature_acl.yaml` に定義する。文書と manifest が衝突する場合、checker が読む `feature_acl.yaml` を優先し、この文書を更新する。
 
 ## Dependency Direction
 
@@ -63,19 +66,26 @@ Sentinel の主要 bounded context は次とする。
 | Evidence | substantive evidence、hypothesis evidence、source records |
 | Reporting | Markdown、Telegram、audit daily、weekly review |
 | Calibration | cognitive yield、thesis registry、daily calibration |
+| Research | research attention、asset thesis、macro gravity、gray rhino monitoring |
+| Trading | broker execution、order lifecycle、position reconciliation |
+| Backtest | historical replay、state machine metrics、comparison report |
+| Shared | cross-feature primitive、i18n、run status、notification boundary |
 | Automation | CI、scheduled radar、run status、notification lifecycle |
 
 ## Legacy Migration Rule
 
-root-level legacy layer は再導入しない。代わりに次の規則で縮小する。
+root-level legacy layer は再導入しない。root `src/core/**`、`src/application/**`、`src/interface/**`、`src/infrastructure/**` は active module として扱わない。
+残す必要がある処理は `src/features/<feature>/**` または `src/features/shared/**` に移す。
+代わりに次の規則で縮小する。
 
 1. 新規 domain concept は `src/features/<feature>/domain/**` に作る。
 2. 複数 feature で共有する primitive は `src/features/shared/domain/**` に作る。
 3. 新規 use case は `src/features/<feature>/application/**` に作る。
 4. 新規 external adapter 連携は `src/features/<feature>/acl/**` または `src/features/<feature>/infrastructure/**` に作る。
 5. 新規 output formatting は `src/features/<feature>/interface/**` に作る。
-6. legacy module を変更する場合は、Work Item に「なぜまだ legacy 側で変更するか」を記録する。
+6. legacy module を変更する場合は、Work Item に「なぜまだ legacy 側で変更するか」を記録し、同一 Work Item 内で feature 配下へ移す計画を残す。
 7. 移行済み concept は legacy 側へ逆流させない。
+8. `backtest` も feature として扱い、entrypoint は `src/features/backtest/application/**` に置く。
 
 ## Anti-Corruption Boundary
 
@@ -101,7 +111,7 @@ Radar の段階移行では、CLI から次の policy を Application へ移し�
 - run context の `save_dir`、`date`、`timestamp`、初期 `RunOutcome` 生成
 - diagnostic packet、decision outcome、state machine summary、persistence payload の組み立て
 
-CLI はまだ provider 呼び出し、legacy `Engine` 実行、report rendering、notification dispatch を保持する。
+CLI はまだ provider 呼び出し、`Engine` 実行、report rendering、notification dispatch を保持する。
 これは移行期間の adapter / composition root として許容するが、新しい orchestration policy は `src/features/radar/application/radar.rs` に追加する。
 
 次の領域は今回の migration checkpoint では変更しない。
@@ -131,7 +141,7 @@ CLI に残すもの:
 - config loading
 - market data provider の非同期呼び出し
 - `PersistenceLayer`、`Ledger`、`EvidenceStore` の生成
-- legacy `Engine` 実行
+- `Engine` 実行
 - report rendering と Telegram dispatch
 
 次に進める場合は、`src/features/<feature>/application` から `crate::data`、root compatibility layer、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
@@ -140,8 +150,8 @@ port contract は `RadarMarketDataPort`、`RadarDecisionHistoryPort`、`RadarNot
 
 ## Architecture Guard
 
-`make check-architecture` は新規 target directories の依存違反を検出する。
-root-level `src/core/**` は廃止済みであり、target directories から legacy presentation / CLI / adapter へ依存することは禁止する。
+`make check-architecture` は `.ai/architecture/feature_acl.yaml` を読み、feature-first / ACL の依存違反を検出する。
+root-level `src/core/**`、`src/application/**`、`src/interface/**`、`src/infrastructure/**` は廃止済みであり、target directories から legacy presentation / CLI / adapter へ依存することは禁止する。
 
 ## Definition of Done
 

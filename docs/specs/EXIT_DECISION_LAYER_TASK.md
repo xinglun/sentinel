@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 退出意思決定層 (Exit Decision Layer) タスクリスト
+description: Sentinel 退出意思決定層 (Exit Decision Layer) タスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-exit-decision-layer-task
 ---
 
 # Sentinel 退出意思決定層 (Exit Decision Layer) タスクリスト

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 展示セマンティクスの真の独立化設計 (Presentation Context Isolation)
+description: 展示セマンティクスの真の独立化設計 (Presentation Context Isolation) に関する Sentinel の設計・運用情報。
+key: docs-specs-presentation-context-design
 ---
 
 # 展示セマンティクスの真の独立化設計 (Presentation Context Isolation)

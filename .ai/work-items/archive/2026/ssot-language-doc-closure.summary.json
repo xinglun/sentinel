@@ -1,0 +1,134 @@
+{
+  "workItemId": "ssot-language-doc-closure",
+  "contractPath": ".ai/work-items/archive/2026/ssot-language-doc-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ssot-language-doc-closure.contract.json",
+      "reason": "SSOT / 言語規約収束の scope、acceptance、destructive change policy を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ssot-language-doc-closure.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "repository rule 本文を日本語化し、generated code / snapshot / reports / Skill の例外を明示した。"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "root の backtest output だけを ignore し、src/features/backtest を追跡できるようにした。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "trading / research / backtest の layer roots を実体に合わせて補強した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "status_policy.yaml と ai-finish archive flow に合わせて状態定義と完了手順を更新した。"
+    },
+    {
+      "path": "docs/**/*.md",
+      "reason": "正式 document の front matter を author / title / description / key に揃え、docs index と SSOT 説明を更新した。"
+    },
+    {
+      "path": "src/features/backtest/**",
+      "reason": "root backtest module を feature-first structure の application layer へ移動した。"
+    },
+    {
+      "path": "src/backtest.rs",
+      "reason": "backtest を feature 配下へ移したため root module を廃止した。"
+    },
+    {
+      "path": "src/**/*.rs",
+      "reason": "非生成 code の comment / doc comment を日本語へ収束し、missing layer module を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "SSOT に合わせ、内部 score を通常 report に表示しないようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    "review finding: comment language drift",
+    "review finding: markdown front matter drift",
+    "review finding: SSOT drift",
+    "AGENTS.md",
+    ".ai/architecture/feature_acl.yaml",
+    ".ai/cockpit/status_policy.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ssot-language-doc-closure.summary.json CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json SUMMARY=.ai/work-items/active/ssot-language-doc-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json SUMMARY=.ai/work-items/active/ssot-language-doc-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture && make test-architecture-boundaries",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "広範な docs / comment cleanup と backtest module 移動を含む。cargo test --all-targets と architecture checks は通過済みで、make quality で最終確認する。"
+  },
+  "generatedFiles": [
+    "src/features/backtest/mod.rs",
+    "src/features/backtest/application/mod.rs",
+    "src/features/backtest/interface/mod.rs",
+    "src/features/backtest/domain/mod.rs",
+    "src/features/backtest/infrastructure/mod.rs",
+    "src/features/backtest/acl/mod.rs",
+    "src/features/trading/interface/mod.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/acl/mod.rs"
+  ],
+  "destructiveChanges": [
+    {
+      "path": "src/backtest.rs",
+      "reason": "feature-first structure へ移動し、root-level module を廃止した。"
+    }
+  ],
+  "observedIssues": [
+    {
+      "issue": "make check-docs target does not exist",
+      "resolution": "Contract verification から外し、front matter scan を手元で実施した。"
+    },
+    {
+      "issue": ".gitignore backtest/ ignored src/features/backtest/**",
+      "resolution": "/backtest/ に限定した。"
+    }
+  ]
+}

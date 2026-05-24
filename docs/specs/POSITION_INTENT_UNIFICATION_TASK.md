@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: ポジション意図 (Position Intent) 統合レイヤータスクドキュメント
+description: ポジション意図 (Position Intent) 統合レイヤータスクドキュメント に関する Sentinel の設計・運用情報。
+key: docs-specs-position-intent-unification-task
 ---
 
 # ポジション意図 (Position Intent) 統合レイヤータスクドキュメント

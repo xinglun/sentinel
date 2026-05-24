@@ -279,7 +279,7 @@ mod tests {
             .unwrap()
             .markdown_body;
 
-        // Verify updated layout (report.rs 100% Logic De-bloat version)
+        // 更新後 layout（report.rs logic de-bloat 版）を確認する。
         assert!(card.contains("市场状态"));
         assert!(card.contains("扩张期"));
         assert!(card.contains("NVDA"));
@@ -422,7 +422,7 @@ mod tests {
             .unwrap()
             .markdown_body;
 
-        // Verify new 3-level alert format: 💬 提示: 获取失败 (AAPL, TSLA)
+        // 新しい 3 段階 alert format を確認する。
         assert!(card.contains("💬"));
         assert!(card.contains("提示"));
         assert!(card.contains("获取失败"));
@@ -2357,7 +2357,7 @@ mod tests {
             ..Default::default()
         };
 
-        // Compute transition log
+        // transition log を計算する。
         curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
 
         let config = mock_config_with_language(Language::ZhCn);
@@ -2373,13 +2373,13 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md = report.archival_markdown;
-        // Verify localized section title
+        // localize された section title を確認する。
         assert!(md.contains("🔄 状态转移证据"));
-        // Verify localized state change (Ignition -> 启动期, Defensive -> 保命期)
+        // localize された state change を確認する。
         assert!(md.contains("保命期 -> 启动期"));
         assert!(md.contains("结构防御 -> 风险正常"));
         assert!(md.contains("未达标 -> 达标"));
-        // Ensure NO debug enum strings are present
+        // debug enum string が出力されていないことを確認する。
         assert!(!md.contains("DEFENSIVE"));
         assert!(!md.contains("IGNITION"));
     }
@@ -2474,7 +2474,7 @@ mod tests {
         assert!(!html.contains("FollowThrough"));
         assert!(!html.contains("[2026-04-22] [EarningsValidation]"));
         assert!(!html.contains("https://example.com/ir/goog"));
-        // Verify that the transition evidence block is rendered even if it's just trend recognition
+        // trend recognition だけでも transition evidence block が描画されることを確認する。
         assert!(md.contains("🔄 状态转移证据"));
     }
 
@@ -2517,7 +2517,7 @@ mod tests {
         assert!(md.contains("トレンド拡散スコア: 0.65"));
         assert!(!md.contains("追随遅延")); // lag_state is false, should not appear in simplified output if logic holds
         assert!(!md.contains("単独突破の連続日数: 0/5"));
-        // Verify that the transition evidence block is rendered even if it's just trend recognition
+        // trend recognition だけでも transition evidence block が描画されることを確認する。
         assert!(md.contains("🔄 状態遷移エビデンス"));
     }
 
@@ -3275,7 +3275,7 @@ mod tests {
 
         let md = report.archival_markdown;
         assert!(md.contains("🔄 State Transition Evidence"));
-        // Verify persistent explanation
+        // 永続化される explanation を確認する。
         assert!(md.contains("NO TRADE Persists"));
     }
 
@@ -3310,7 +3310,7 @@ mod tests {
             ..Default::default()
         };
 
-        // Compute transition log
+        // transition log を計算する。
         curr.transition_log = Some(StateTransitionLog::compare(Some(&prev), &curr));
 
         let config = mock_config_with_language(Language::JaJp);
@@ -3326,13 +3326,13 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
 
         let md = report.archival_markdown;
-        // Verify localized section title
+        // localize された section title を確認する。
         assert!(md.contains("🔄 状態遷移エビデンス"));
-        // Verify localized state change
+        // localize された state change を確認する。
         // defensive -> ignition maps to 守備期 -> 始動期
         assert!(md.contains("守備期 -> 始動期"));
         assert!(md.contains("分散 -> 形成中"));
-        // Verify topology change is rendered
+        // topology change が描画されることを確認する。
         assert!(
             md.contains("主導不在 -> 形成中")
                 || md.contains("主線構造の変化")
@@ -3730,12 +3730,12 @@ mod tests {
         let html_compact = report.telegram_html_body.clone();
         let md = report.archival_markdown;
 
-        // Cohesion Gate Checks (Chinese)
+        // Cohesion Gate check（中国語）。
         assert!(md.contains("新增阻碍"));
         assert!(md.contains("已消除阻碍"));
         assert!(md.contains("持续阻碍"));
 
-        // Trend Gate Checks (Chinese)
+        // Trend Gate check（中国語）。
         // ContinuityThreshold is persisting -> 核心资产持续性不足
         // StabilityThreshold is resolved -> 市场稳定性不足
         // DirectionalCohesion is added -> 主导方向分散或领导者缺失
@@ -3747,7 +3747,7 @@ mod tests {
         assert!(!md.contains("当前: {} 只"));
         assert!(!md.contains("领涨: {} 只"));
 
-        // User-facing markdown should keep transition evidence compact under NO TRADE.
+        // user-facing markdown では NO TRADE 時の transition evidence を compact に保つ。
         assert!(md_compact.contains("🔄 状态转移证据"));
         assert!(!md_compact.contains("新增阻碍因素: C"));
         assert!(md_compact.contains("未就绪原因"));
@@ -3780,7 +3780,7 @@ mod tests {
         assert!(breakout_idx < watch_idx);
         assert!(watch_idx < transition_idx);
 
-        // Telegram HTML should preserve the same execution-first ordering.
+        // Telegram HTML でも同じ execution-first ordering を維持する。
         assert_no_trade_html_execution_order(Language::ZhCn, &html_compact);
     }
 
@@ -3906,7 +3906,7 @@ mod tests {
             generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
         let body = report.markdown_body;
 
-        // 1. Ensure exactly one "市场状态" marker (not duplicated by dual engines)
+        // 1. 「市场状态」marker が dual engine で重複しないことを確認する。
         let market_state_marker = "市场状态";
         assert_eq!(
             body.matches(market_state_marker).count(),
@@ -3914,13 +3914,13 @@ mod tests {
             "Market state should only be reported once (SSOT violation)"
         );
 
-        // 2. Ensure NO Japanese headers in a Chinese report (Language Consistency)
+        // 2. 中国語 report に日本語 header が混入しないことを確認する。
         assert!(
             !body.contains("マーケット状态サマリー"),
             "Japanese headers found in Chinese report"
         );
 
-        // 3. Ensure stability keeps threshold format while continuity uses state labels.
+        // 3. stability は threshold format を維持し、continuity は state label を使うことを確認する。
         // From no_trade_snapshot_packet: stability=1.1, continuity_streak=1.
         assert!(
             body.contains("1.1/10"),
@@ -3931,8 +3931,8 @@ mod tests {
             "Continuity should use state labels instead of unbounded ratios"
         );
 
-        // 4. Ensure no redundant "Stability score (1.1) below threshold (10.0)"-style English text
-        // if it's being correctly localized/localized to the new format.
+        // 4. redundant な英語 threshold 文が残らないことを確認する。
+        // 正しく localize され、新 format に揃っていることを確認する。
         assert!(
             !body.contains("Stability score (1.1) below threshold (10.0)"),
             "Legacy English threshold message should be suppressed or localized"

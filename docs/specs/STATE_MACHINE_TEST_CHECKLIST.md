@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機改造テストチェックリスト
+description: Sentinel 状態機改造テストチェックリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-test-checklist
 ---
 
 # Sentinel 状態機改造テストチェックリスト

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: NO_TRADE 強制拘束化タスクリスト (NO_TRADE_HARDENING_TASK.md)
+description: NO_TRADE 強制拘束化タスクリスト (NO_TRADE_HARDENING_TASK.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-no-trade-hardening-task
 ---
 
 # NO_TRADE 強制拘束化タスクリスト (NO_TRADE_HARDENING_TASK.md)

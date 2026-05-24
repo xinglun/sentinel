@@ -46,10 +46,7 @@ pub(crate) fn render_gray_rhino_escalation_markdown(
         "Escalation: {}\n",
         escalation_direction_label(escalation, language)
     ));
-    out.push_str(&format!(
-        "Escalation Score: {}\n\n",
-        escalation.escalation_score()
-    ));
+    out.push('\n');
     out.push_str(observation_label(language));
     out.push('\n');
     out.push_str(&format!(

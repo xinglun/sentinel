@@ -34,9 +34,9 @@ struct BattleboardSnapshot {
 }
 
 impl PresentationAssembler {
-    /// Generate a PresentationPacket from a DecisionPacket.
-    /// Pure function: No mutation of the input packet.
-    /// Optimized: Single-pass enrichment and categorization WITHOUT any cloning of AssetActionDecision.
+    /// DecisionPacket から PresentationPacket を生成する。
+    /// 入力 packet を変更しない純粋関数。
+    /// AssetActionDecision を clone せず、1 回の走査で enrichment と分類を行う。
     pub fn assemble(
         packet: &DecisionPacket,
         rules: &ParsedRules,
@@ -53,7 +53,7 @@ impl PresentationAssembler {
         let top_tier_set: HashSet<&str> = top_tier.iter().map(String::as_str).collect();
         let core_assets_set: HashSet<&str> = core_assets.iter().map(String::as_str).collect();
 
-        // 1. Assemble Macro Display Context
+        // 1. マクロ表示コンテキストを組み立てる。
         let state = packet.market_regime.market_state;
         let risk = packet.market_regime.risk_overlay;
         let trend_breadth_mode = Self::classify_trend_breadth_mode(packet);
@@ -183,7 +183,7 @@ impl PresentationAssembler {
             bias_label: bias,
         };
 
-        // 2. Integrated categorization using references only.
+        // 2. 参照だけを使って統合分類する。
         let mut acc_refs = Vec::new();
         let mut hold_refs = Vec::new();
         let mut watch_refs = Vec::new();
@@ -210,7 +210,7 @@ impl PresentationAssembler {
             }
         }
 
-        // 3. Sorting & Top Actions Selection (Still ZERO duplication of Decision objects)
+        // 3. Decision object を複製せず、並び替えと top action 選択を行う。
         let sort_fn = |a: &(
             &crate::features::radar::application::policy::action_matrix::AssetActionDecision,
             DisplayContext,
@@ -237,7 +237,7 @@ impl PresentationAssembler {
         watch_refs.sort_by(sort_fn);
         defend_refs.sort_by(sort_fn);
 
-        // Selection logic
+        // 選択ロジック。
         let limit = if state == MarketState::DEFENSIVE {
             4
         } else {
@@ -2165,8 +2165,8 @@ impl PresentationAssembler {
             packet.market_regime.reasons.clone()
         };
 
-        // Filter out redundant threshold-based reasons if they are already covered by structured unmet_conditions.
-        // This is a simplified version of the legacy suppression logic to avoid "Legacy" module dependencies.
+        // structured unmet_conditions で表現済みの閾値理由は重複表示しない。
+        // legacy module への依存を避けるため、抑制ロジックを簡略化している。
         readiness_reasons.retain(|reason| {
             let is_stability = reason.contains("稳定性")
                 || reason.contains("安定性")
@@ -2184,8 +2184,8 @@ impl PresentationAssembler {
                     &crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 )
             {
-                // Suppress if it looks like a canonical threshold template (contains comparison operators and numbers)
-                // but preserve if it has custom prefixes or complex technical descriptions like "thrash" or non-standard ops.
+                // 比較演算子と数値を含む標準的な閾値テンプレートは抑制する。
+                // ただし custom prefix や複雑な技術説明を含む場合は保持する。
                 let has_operator = reason.contains("<")
                     || reason.contains("＜")
                     || reason.contains("≤")

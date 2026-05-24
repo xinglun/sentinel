@@ -71,9 +71,9 @@ pub(crate) fn persist_weekly_state_outputs(
         "avg_confidence": avg_confidence,
         "avg_stability": avg_stability,
         "trend_cohesion_ready_days": trend_cohesion_ready_days,
-        // SEMANTIC SHIFT WARNING: 'participation_ready_days' now outputs 'trend_cohesion_ready_days'.
-        // Downstream scripts reading this key will get cohesion gate semantics instead of original participation semantics.
-        // This key is retained strictly for backward compatibility to prevent script failures.
+        // semantic shift warning: 'participation_ready_days' は現在 'trend_cohesion_ready_days' を出力する。
+        // この key を読む downstream script は、従来の participation semantics ではなく cohesion gate semantics を受け取る。
+        // script failure を避けるため、後方互換性のためだけにこの key を維持する。
         "participation_ready_days": trend_cohesion_ready_days,
         "market_state_counts": market_state_counts,
         "risk_overlay_counts": risk_overlay_counts,

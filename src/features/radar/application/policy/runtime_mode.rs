@@ -2,11 +2,11 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ExecutionMode {
-    /// No trading logic or execution (Radar/Observation mode).
+    /// 売買ロジックと execution を行わない（Radar / 観測 mode）。
     Disabled,
-    /// Full logic and archival, but broker execution is bypassed.
+    /// 全ロジックと archive を実行するが、broker execution は bypass する。
     DryRun,
-    /// Full logic, archival, and live order dispatch.
+    /// 全ロジック、archive、live order dispatch を実行する。
     Live,
 }
 

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel Decision Engine: 実装ガイド (Implementation Walkthrough)
+description: Sentinel Decision Engine: 実装ガイド (Implementation Walkthrough) に関する Sentinel の設計・運用情報。
+key: docs-architecture-implementation-walkthrough
 ---
 
 # Sentinel Decision Engine: 実装ガイド (Implementation Walkthrough)

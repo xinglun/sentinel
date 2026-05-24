@@ -24,7 +24,7 @@ impl Ledger {
     pub fn new(save_dir: PathBuf) -> Self {
         let file_path = save_dir.join("ledger.csv");
 
-        // Ensure header exists if file is new
+        // 新規 file の場合は header を作成する。
         if !file_path.exists() {
             if let Some(parent) = file_path.parent() {
                 let _ = std::fs::create_dir_all(parent);
@@ -64,7 +64,7 @@ impl Ledger {
 
         let reader = BufReader::new(file);
         for line in reader.lines().skip(1).flatten() {
-            // Skip header
+            // header を skip する。
             let parts: Vec<&str> = line.split(',').collect();
             if parts.len() >= 7 {
                 let date_str = parts[0];
@@ -80,7 +80,7 @@ impl Ledger {
         false
     }
 
-    /// Get total traded value (buy + sell absolute) today to enforce budget limits.
+    /// budget limit を適用するため、当日の約定金額合計（買い + 売りの絶対値）を返す。
     pub fn get_daily_traded_amount(&self) -> f64 {
         let today = Local::now().date_naive();
         let mut total = 0.0;
@@ -105,8 +105,8 @@ impl Ledger {
         total
     }
 
-    /// Calculate realized P/L and current positions.
-    /// Returns (Realized P/L, HashMap<Symbol, (Qty, AvgPrice)>)
+    /// 実現損益と現在 position を計算する。
+    /// 戻り値は (実現損益, HashMap<Symbol, (Qty, AvgPrice)>)。
     pub fn get_portfolio_stats(&self) -> (f64, std::collections::HashMap<String, (f64, f64)>) {
         let mut realized_pl = 0.0;
         let mut positions: std::collections::HashMap<String, (f64, f64)> =
@@ -134,7 +134,7 @@ impl Ledger {
                     let new_avg = (current_qty * current_avg + qty * price) / new_qty;
                     *entry = (new_qty, new_avg);
                 } else if side == "SELL" {
-                    // Realized P/L calculation: (Sell Price - Avg Cost) * Sold Qty
+                    // 実現損益は (売却価格 - 平均原価) * 売却数量で計算する。
                     realized_pl += (price - current_avg) * qty;
                     let new_qty = current_qty - qty;
                     if new_qty <= 0.0 {

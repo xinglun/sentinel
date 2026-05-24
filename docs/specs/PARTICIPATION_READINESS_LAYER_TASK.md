@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 参加準備レイヤー (Participation Readiness Layer) タスクリスト
+description: Sentinel 参加準備レイヤー (Participation Readiness Layer) タスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-participation-readiness-layer-task
 ---
 
 # Sentinel 参加準備レイヤー (Participation Readiness Layer) タスクリスト

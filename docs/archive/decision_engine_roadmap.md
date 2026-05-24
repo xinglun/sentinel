@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 意思決定エンジン重構築ロードマップ
+description: Sentinel 意思決定エンジン重構築ロードマップ に関する Sentinel の設計・運用情報。
+key: docs-archive-decision-engine-roadmap
 ---
 
 # Sentinel 意思決定エンジン重構築ロードマップ

@@ -4,14 +4,14 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default)]
 pub enum PositionIntent {
-    /// 1. Take all money out
+    /// 1. 全量 exit する。
     EXIT = 4,
-    /// 2. Reduce position size (e.g. 50%)
+    /// 2. position size を削減する（例: 50%）。
     TRIM = 3,
-    /// 3. Stop adding, keep current position
+    /// 3. 追加を止め、現在 position を維持する。
     #[default]
     HOLD = 2,
-    /// 4. Allow adding to position (Forbidden for Exit layer, only for Synthesizer)
+    /// 4. position 追加を許可する（Exit layer では禁止し、Synthesizer 専用）。
     ADD = 1,
 }
 
@@ -19,13 +19,13 @@ pub enum PositionIntent {
 pub enum AssetExitState {
     #[default]
     None,
-    /// Market or Asset structural breakdown
+    /// market または asset の構造的 breakdown。
     DefensiveExit,
-    /// Asset dropped out of main strength group
+    /// asset が主要 strength group から外れた状態。
     StrengthLoss,
-    /// Market trend cohesion lost
+    /// market trend cohesion が失われた状態。
     CohesionExit,
-    /// Volcano state - profit taking
+    /// volcano 状態による利益確定。
     OverheatProfitTake,
 }
 
@@ -52,7 +52,7 @@ impl ExitDecision {
         let mut intent = PositionIntent::HOLD;
         let mut exit_state = AssetExitState::None;
 
-        // Rule 1: Defensive Exit (Highest Priority)
+        // ルール 1: defensive exit（最優先）。
         if current_state == AssetState::DEFEND
             || risk_overlay == RiskOverlay::DEFENSIVE
             || risk_overlay == RiskOverlay::BROKEN
@@ -70,7 +70,7 @@ impl ExitDecision {
             };
         }
 
-        // Rule 2: Strength Loss Exit
+        // ルール 2: strength loss exit。
         if out_of_top_tier_streak >= 3 {
             intent = PositionIntent::TRIM;
             exit_state = AssetExitState::StrengthLoss;
@@ -90,12 +90,12 @@ impl ExitDecision {
             }
         }
 
-        // Rule 3: Trend Cohesion Gate Exit
+        // ルール 3: trend cohesion gate exit。
         if prev_trend_gate_passed && !trend_gate_passed && intent < PositionIntent::TRIM {
-            // Followable leader structure gate closed
-            // For core assets (in top tier), we might just HOLD, but here we simplify to rule requirement
-            // "弱资产 TRIM, 核心强资产 HOLD / FREEZE"
-            // Since this compute is per asset, if out_of_top_tier_streak > 0, it's "weaker"
+            // 追随可能な leader structure gate が閉じた状態。
+            // core asset（top tier）は HOLD 相当だが、ここでは rule 要件へ単純化する。
+            // 弱い asset は TRIM、core の強い asset は HOLD / FREEZE として扱う。
+            // この計算は asset 単位のため、out_of_top_tier_streak > 0 を弱い側とみなす。
             if out_of_top_tier_streak > 0 {
                 intent = PositionIntent::TRIM;
                 reasons.push("Trend Gate Closed: trimming non-core asset".to_string());
@@ -106,7 +106,7 @@ impl ExitDecision {
             exit_state = AssetExitState::CohesionExit;
         }
 
-        // Rule 4: Overheat Profit-Take
+        // ルール 4: overheat profit-take。
         if current_state == AssetState::OVERHEAT && intent < PositionIntent::TRIM {
             intent = PositionIntent::TRIM;
             exit_state = AssetExitState::OverheatProfitTake;
@@ -128,7 +128,7 @@ mod tests {
 
     #[test]
     fn test_defensive_exit_priority() {
-        // Defensive exit should override everything else (highest priority)
+        // defensive exit は最優先で他の判断を上書きする。
         let decision = ExitDecision::compute(
             "AAPL",
             AssetState::DEFEND, // Defensive state
@@ -193,7 +193,7 @@ mod tests {
         assert_eq!(decision.position_intent, PositionIntent::TRIM);
         assert_eq!(decision.asset_exit_state, AssetExitState::CohesionExit);
 
-        // Core assets should stay in HOLD/FREEZE
+        // core asset は HOLD / FREEZE に留める。
         let decision_core = ExitDecision::compute(
             "AAPL",
             AssetState::OPTIMAL,
@@ -228,7 +228,7 @@ mod tests {
 
     #[test]
     fn test_exit_decision_never_contains_add() {
-        // If no exit rules trigger and everything is ready, allow HOLD (Synthesizer handles ADD)
+        // exit rule が発火せず全条件が ready の場合は HOLD を許可する（ADD は Synthesizer が扱う）。
         let decision = ExitDecision::compute(
             "AAPL",
             AssetState::OPTIMAL,

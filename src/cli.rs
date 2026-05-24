@@ -2,7 +2,6 @@ use anyhow::{anyhow, Context, Result};
 
 use chrono::NaiveDate;
 
-use crate::backtest;
 use crate::config;
 use crate::features::evidence::application::evidence::{
     ingest_manual_evidence, ManualEvidenceIngestionRequest,
@@ -68,7 +67,7 @@ pub async fn run() -> Result<()> {
         CliCommand::Help => unreachable!("help command returns before dispatch"),
         CliCommand::Backtest => {
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
-            backtest::run_backtest(
+            crate::features::backtest::application::backtest::run_backtest(
                 &app_config,
                 provider.as_ref(),
                 &options.backtest_from_date,

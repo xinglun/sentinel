@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 多端表示コンポーネント・セマンティック標準 (DISPLAY_COMPONENT_STANDARD.md)
+description: 多端表示コンポーネント・セマンティック標準 (DISPLAY_COMPONENT_STANDARD.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-display-component-standard
 ---
 
 # 多端表示コンポーネント・セマンティック標準 (DISPLAY_COMPONENT_STANDARD.md)

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機 V1.1 最適化プラン
+description: Sentinel 状態機 V1.1 最適化プラン に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-v1-1-optimization
 ---
 
 # Sentinel 状態機 V1.1 最適化プラン

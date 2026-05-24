@@ -36,8 +36,8 @@ impl PersistenceLayer {
         Ok(recent.into_iter().next())
     }
 
-    /// Loads the most recent N packets from the history log.
-    /// Packets are returned in chronological order (oldest first).
+    /// 履歴 log から直近 N 件の packet を読み込む。
+    /// packet は古い順の時系列で返す。
     pub fn load_recent_packets(&self, count: usize) -> Result<Vec<DecisionPacket>> {
         if count == 0 || !self.history_path.exists() {
             return Ok(Vec::new());
@@ -47,9 +47,9 @@ impl PersistenceLayer {
             File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
         let reader = BufReader::new(file);
 
-        // For small history files, we can just read all and take last N.
-        // For very large files, this would need a tail-like implementation.
-        // Given this is a local tool, reading the whole file is usually fine for a few hundred days of history.
+        // 小さな履歴ファイルは全体を読み、末尾 N 件だけを使う。
+        // 非常に大きいファイルでは tail 相当の実装が必要になる。
+        // local tool のため、数百日分なら全読み込みで十分に扱える。
         let lines: Vec<String> = reader.lines().map_while(Result::ok).collect();
 
         let recent_lines = if lines.len() > count {
@@ -260,7 +260,7 @@ mod tests {
         assert_eq!(loaded.market_regime.market_state, MarketState::ESTABLISHED);
         assert_eq!(loaded.date, packet.date);
 
-        // Cleanup
+        // 後片付け。
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 

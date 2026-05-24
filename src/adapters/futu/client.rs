@@ -122,7 +122,7 @@ impl FutuClient {
             });
         }
 
-        // Background loop to multiplex responses
+        // response を multiplex する background loop。
         tokio::spawn(async move {
             while let Some(res) = stream_reader.next().await {
                 match res {
@@ -131,8 +131,8 @@ impl FutuClient {
                         let mut pending = pending_clone.lock().await;
                         if let Some(sender) = pending.remove(&serial) {
                             let _ = sender.send((res_header, res_body));
-                        } else if res_header.n_proto_id == 1004 { // KeepAlive Response
-                             // Silently drop keepalive ACKs to avoid log spam
+                        } else if res_header.n_proto_id == 1004 {
+                            // log spam を避けるため、keepalive ACK は静かに破棄する。
                         } else {
                             println!(
                                 "📩 Unmatched or Push Notification received! ProtoID: {}",

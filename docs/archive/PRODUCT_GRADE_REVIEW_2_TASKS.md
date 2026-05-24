@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: プロダクトグレードレビュー 2：実行タスクリスト (Product-Grade Review 2: Actionable Tasks)
+description: プロダクトグレードレビュー 2：実行タスクリスト (Product-Grade Review 2: Actionable Tasks) に関する Sentinel の設計・運用情報。
+key: docs-archive-product-grade-review-2-tasks
 ---
 
 # プロダクトグレードレビュー 2：実行タスクリスト (Product-Grade Review 2: Actionable Tasks)

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel リッチ展示コンテキスト (Rich Display Context) タスクリスト
+description: Sentinel リッチ展示コンテキスト (Rich Display Context) タスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-rich-display-context-task
 ---
 
 # Sentinel リッチ展示コンテキスト (Rich Display Context) タスクリスト

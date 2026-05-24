@@ -358,7 +358,7 @@ impl AssetStateMachine {
             {
                 // これは最適な閾値を下回った初日
                 downgrade_friction = true;
-                // Reason will be handled in compute_state for visibility
+                // reason は可視化のため compute_state 側で扱う。
             }
 
             // 上昇摩擦: <= CRUISE -> OPTIMAL は3日間の成功が必要
@@ -369,7 +369,7 @@ impl AssetStateMachine {
                 // 履歴に0回または1回の連続成功。本日成功すれば合計で1回または2回となる。
                 // 許可するには履歴に '>= 2' （本日が3回目）が必要。
                 upgrade_friction = true;
-                // Reason will be handled in compute_state for visibility
+                // reason は可視化のため compute_state 側で扱う。
             }
         }
 
@@ -401,7 +401,7 @@ impl AssetStateMachine {
             })
             .collect();
 
-        // Sort by adjusted_score descending
+        // adjusted_score の降順で並び替える。
         ranked.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
 
         ranked.into_iter().map(|(s, _)| s.clone()).collect()
@@ -616,7 +616,7 @@ mod tests {
                     allow_new_risk: true,
                     risk_assets_mode: RiskAssetsMode::NEUTRAL,
                 },
-                assets: vec![asset_dec], // NVDA is at index 0 (Top 1)
+                assets: vec![asset_dec], // NVDA は index 0（Top 1）。
                 ..Default::default()
             };
             history.push(packet);
@@ -635,7 +635,7 @@ mod tests {
         assert_eq!(decision.min_state, Some(AssetState::CRUISE));
 
         let s = AssetStateMachine::compute_state(&f, &rules, None, Some(&decision));
-        // It should be held at OPTIMAL by downgrade friction (first day of failure)
+        // downgrade friction により、failure 初日は OPTIMAL に留まるべき。
         assert_eq!(s.state, AssetState::OPTIMAL);
         assert!(s.reasons.iter().any(|r| r.contains("Friction:Hold")));
     }
@@ -708,7 +708,7 @@ mod tests {
         assert_eq!(decision.max_state, Some(AssetState::CRUISE));
 
         let s = AssetStateMachine::compute_state(&f, &rules, None, Some(&decision));
-        // It shouldn't be above CRUISE (it would be OPTIMAL without memory)
+        // CRUISE を上回らないべき（memory がなければ OPTIMAL になる）。
         assert_eq!(s.state, AssetState::CRUISE);
         assert!(s.reasons.iter().any(|r| r.contains("Promotion Cap")));
     }

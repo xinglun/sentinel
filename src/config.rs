@@ -531,8 +531,8 @@ impl AppConfig {
     }
 
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Self> {
-        // Load .env file variables into environment if it exists.
-        // Variables already present in the environment will not be overridden.
+        // .env file が存在する場合、環境変数へ読み込む。
+        // 既存の環境変数は上書きしない。
         dotenvy::dotenv().ok();
 
         let content =
@@ -541,7 +541,7 @@ impl AppConfig {
         let mut config: AppConfig =
             toml::from_str(&content).map_err(|e| anyhow!("Failed to parse config file: {}", e))?;
 
-        // Environment variable overrides for Telegram
+        // Telegram 設定を環境変数で上書きする。
         if let Some(ref mut tg) = config.telegram {
             if let Ok(token) = std::env::var("TELEGRAM_BOT_TOKEN") {
                 tg.bot_token = token;
@@ -561,7 +561,7 @@ impl AppConfig {
             });
         }
 
-        // Environment variable overrides for Moomoo/Futu API Secrets
+        // Moomoo / Futu API secret を環境変数で上書きする。
         if let Some(ref mut futu) = config.futu {
             if let Ok(acc_str) = std::env::var("FUTU_ACC_ID") {
                 if let Ok(acc_id) = acc_str.parse::<u64>() {
@@ -573,7 +573,7 @@ impl AppConfig {
             }
         }
 
-        // Environment variable overrides for Finnhub
+        // Finnhub 設定を環境変数で上書きする。
         if let Ok(key) = std::env::var("FINNHUB_API_KEY") {
             if key.trim().is_empty() {
                 // 空文字の環境変数は設定ファイルを上書きしない。
@@ -587,7 +587,7 @@ impl AppConfig {
             }
         }
 
-        // Environment variable overrides for SEC
+        // SEC 設定を環境変数で上書きする。
         if let Ok(ua) = std::env::var("SEC_USER_AGENT") {
             if ua.trim().is_empty() {
                 // 空文字の環境変数は設定ファイルを上書きしない。
@@ -636,7 +636,7 @@ impl AppConfig {
             .map(|(k, v)| (k.clone(), *v))
             .collect();
 
-        // Sort thresholds in descending order
+        // threshold を降順に並び替える。
         bands.sort_by(|a, b| b.1.partial_cmp(&a.1).unwrap_or(std::cmp::Ordering::Equal));
 
         ParsedRules {
@@ -862,7 +862,7 @@ mod tests {
 
     #[test]
     fn test_missing_action_for_band() {
-        // AppConfig::load uses a path, so we can't test it directly easily, but we can write a quick wrapper to test the logic exactly.
+        // AppConfig::load は path を受け取るため、wrapper で同じ logic を検証する。
     }
 
     #[test]
@@ -965,7 +965,7 @@ mod tests {
             gray_rhino_escalation: None,
         };
 
-        // No SEC config is OK
+        // SEC config がなくても許容する。
         assert!(config.validate().is_ok());
 
         // Empty UA
@@ -980,7 +980,7 @@ mod tests {
         });
         assert!(config.validate().is_err());
 
-        // Valid format with brackets (Strictly required now)
+        // bracket 付きの正しい形式（現在は必須）。
         config.sec = Some(SecConfig {
             user_agent: "Sample Company <admin@example.com>".to_string(),
         });
@@ -992,7 +992,7 @@ mod tests {
         });
         assert!(config.validate().is_err());
 
-        // Invalid: no space
+        // 不正: space がない。
         config.sec = Some(SecConfig {
             user_agent: "<admin@example.com>".to_string(),
         });
@@ -1004,13 +1004,13 @@ mod tests {
         });
         assert!(config.validate().is_err());
 
-        // Invalid: email must be fully inside brackets
+        // 不正: email は bracket 内に完全に含める必要がある。
         config.sec = Some(SecConfig {
             user_agent: "Sample Company <admin>@example.com>".to_string(),
         });
         assert!(config.validate().is_err());
 
-        // Invalid: domain must look like an email domain
+        // 不正: domain は email domain 形式である必要がある。
         config.sec = Some(SecConfig {
             user_agent: "Sample Company <admin@example>".to_string(),
         });

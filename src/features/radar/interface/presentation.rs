@@ -316,7 +316,7 @@ pub struct PresentationPacket {
     pub transition_evidence: Option<StateTransitionViewModel>,
     #[serde(default)]
     pub hypothesis_layer: Option<HypothesisLayerViewModel>,
-    // For the terminal table and archival markdown
+    // terminal table と archival markdown 用。
     pub terminal_rows: Vec<TerminalRowViewModel>,
     pub state_code: String,
 }

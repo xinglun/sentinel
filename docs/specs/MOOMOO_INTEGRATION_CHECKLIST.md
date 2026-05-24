@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Moomoo 統合チェックリスト
+description: Moomoo 統合チェックリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-moomoo-integration-checklist
 ---
 
 # Moomoo 統合チェックリスト

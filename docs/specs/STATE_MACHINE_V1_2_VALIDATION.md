@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機 V1.2 検証および可観測性プラン
+description: Sentinel 状態機 V1.2 検証および可観測性プラン に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-v1-2-validation
 ---
 
 # Sentinel 状態機 V1.2 検証および可観測性プラン

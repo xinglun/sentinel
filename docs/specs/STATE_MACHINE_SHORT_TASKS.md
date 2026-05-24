@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機改造ショートタスクリスト
+description: Sentinel 状態機改造ショートタスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-short-tasks
 ---
 
 # Sentinel 状態機改造ショートタスクリスト

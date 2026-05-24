@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 🐕 Stock Sentinel - アーキテクチャおよび詳細設計ドキュメント
+description: 🐕 Stock Sentinel - アーキテクチャおよび詳細設計ドキュメント に関する Sentinel の設計・運用情報。
+key: docs-architecture-architecture-design
 tags: [architecture, design, technical, rust]
 keywords: [data-structures, concurrency, error-handling, logic]
 ---

@@ -68,11 +68,13 @@ EscalationScore =
   - constraint_growth_rate
 ```
 
-score は内部の状態判定補助であり、取引信号として表示・利用してはならない。
+score は内部の状態判定補助であり、Markdown / Telegram などの通常出力には表示しない。取引信号として表示・利用してはならない。
 
 `Normalized` は、リスク拡張、感知低下、ナラティブ過信が同時に高まる場合に成立する。
 
 `Critical` は、リスク拡張と依存集中が高く、単一点脆弱性と fallback survivability risk が高まり、制度成熟が追いついていない場合に成立する。
+
+現在の実装では、score が 2 以上で `Visible`、4 以上で `Expanding`、5 以上で `Normalized` の候補になる。`Critical` は score だけでなく、risk expansion、dependency centralization、single point fragility、fallback survivability risk、constraint growth の組み合わせを必須条件とする。
 
 ## 出力境界
 

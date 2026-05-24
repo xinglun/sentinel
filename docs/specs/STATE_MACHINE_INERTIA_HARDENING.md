@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機慣性強化仕様 (STATE_MACHINE_INERTIA_HARDENING.md)
+description: Sentinel 状態機慣性強化仕様 (STATE_MACHINE_INERTIA_HARDENING.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-inertia-hardening
 ---
 
 # Sentinel 状態機慣性強化仕様 (STATE_MACHINE_INERTIA_HARDENING.md)

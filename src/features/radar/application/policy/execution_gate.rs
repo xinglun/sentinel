@@ -42,7 +42,7 @@ pub struct ExecutionResult {
 pub struct ExecutionGate;
 
 impl ExecutionGate {
-    /// Filters and sizes trades from a DecisionPacket based on risk and policy.
+    /// risk と policy に基づき、DecisionPacket から取引候補を抽出して sizing する。
     pub fn gate_packet(
         packet: &DecisionPacket,
         trading_config: &TradingConfig,
@@ -104,7 +104,7 @@ impl ExecutionGate {
 
                 let final_amount = base_amount * policy_multiplier * asset.config_multiplier;
 
-                // Audit capture data
+                // audit に残す入力値を捕捉する。
                 let audit_details = serde_json::json!({
                     "final_amount": final_amount,
                     "available_power": available_power,
@@ -412,7 +412,7 @@ mod tests {
 
         let result = ExecutionGate::gate_packet(&packet, &config, 0.0, 10000.0, 5000.0);
 
-        // Buys are blocked, Sells are allowed
+        // 買いは block し、売りは許可する。
         assert_eq!(result.trades.len(), 1);
         assert_eq!(result.trades[0].symbol, "B");
         assert_eq!(
@@ -433,7 +433,7 @@ mod tests {
 
         let result = ExecutionGate::gate_packet(&packet, &config, 0.0, 1000.0, 5000.0);
 
-        // Sells (REDUCE) shouldn't be blocked by buying power
+        // 売り（REDUCE）は buying power で block しない。
         assert_eq!(result.trades.len(), 1);
         assert_eq!(result.trades[0].symbol, "A");
         assert!(result.audits[0].passed);

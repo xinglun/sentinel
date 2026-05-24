@@ -111,35 +111,35 @@ pub struct OrderExecutionDetails {
     pub status: OrderStatus,
     pub qty_requested: f64,
     pub qty_filled: f64,
-    pub avg_price: f64, // 成交均价
+    pub avg_price: f64, // 約定平均価格。
     pub error_msg: Option<String>,
     pub failure_reason: OrderFailureReason,
 }
 
 #[async_trait]
 pub trait TradeExecutor: Send + Sync {
-    /// 交易解锁 (Moomoo/OpenD specific)
+    /// 取引 unlock を行う（Moomoo / OpenD 固有）。
     async fn unlock_trade(&self) -> Result<()>;
 
-    /// 查询账户资金
+    /// account funds を照会する。
     async fn get_account_funds(&self) -> Result<AccountFunds>;
 
-    /// 下单接口
+    /// 注文を発注する。
     async fn place_order(&self, req: PlaceOrderRequest) -> Result<PlaceOrderResponse>;
 
-    /// 查询订单最终状态 (回查)
+    /// 注文の最終状態を照会する（回查）。
     async fn get_order_status(&self, order_id: &str) -> Result<OrderExecutionDetails>;
 
-    /// 查询行情权限与额度 (P1-2)
+    /// market data 権限と quota を照会する（P1-2）。
     async fn get_broker_permissions(&self) -> Result<BrokerPermissions>;
 
-    /// 查询最大可交易数量 (P2-1). Price is required for Futu calculation.
+    /// 最大取引可能数量を照会する（P2-1）。Futu の計算には price が必要。
     async fn get_tradable_capacity(&self, symbol: &str, price: f64) -> Result<TradableCapacity>;
 
-    /// 撤单接口 (P2-2)
+    /// 注文を取り消す（P2-2）。
     async fn cancel_order(&self, order_id: &str) -> Result<()>;
 
-    /// 查询当前持仓 (P2-3)
+    /// 現在 position を照会する（P2-3）。
     async fn get_positions(&self) -> Result<Vec<Position>>;
 }
 
@@ -261,7 +261,7 @@ impl TradeExecutor for MockTradeExecutor {
         }
 
         if *count < 2 {
-            // First query returns Submitted
+            // 初回照会では Submitted を返す。
             Ok(OrderExecutionDetails {
                 order_id: order_id.to_string(),
                 symbol: "MOCK".to_string(),
@@ -273,7 +273,7 @@ impl TradeExecutor for MockTradeExecutor {
                 failure_reason: OrderFailureReason::None,
             })
         } else {
-            // Subsequent queries return Filled
+            // 2 回目以降の照会では Filled を返す。
             Ok(OrderExecutionDetails {
                 order_id: order_id.to_string(),
                 symbol: "MOCK".to_string(),

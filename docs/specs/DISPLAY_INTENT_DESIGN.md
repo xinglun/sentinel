@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 表示セマンティクス収束の設計説明 (PositionIntent vs DisplayIntent)
+description: 表示セマンティクス収束の設計説明 (PositionIntent vs DisplayIntent) に関する Sentinel の設計・運用情報。
+key: docs-specs-display-intent-design
 ---
 
 # 表示セマンティクス収束の設計説明 (PositionIntent vs DisplayIntent)

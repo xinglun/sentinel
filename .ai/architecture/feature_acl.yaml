@@ -48,6 +48,8 @@ features:
         - src/features/trading/domain
       application:
         - src/features/trading/application
+      interface:
+        - src/features/trading/interface
       infrastructure:
         - src/features/trading/infrastructure
       acl:
@@ -68,14 +70,24 @@ features:
         - src/features/research/application
       interface:
         - src/features/research/interface
+      infrastructure:
+        - src/features/research/infrastructure
+      acl:
+        - src/features/research/acl
     allowedDependencies: []
     externalSystems: {}
   backtest:
     roots:
+      domain:
+        - src/features/backtest/domain
       application:
         - src/features/backtest/application
       interface:
         - src/features/backtest/interface
+      infrastructure:
+        - src/features/backtest/infrastructure
+      acl:
+        - src/features/backtest/acl
     allowedDependencies:
       - radar
     externalSystems: {}

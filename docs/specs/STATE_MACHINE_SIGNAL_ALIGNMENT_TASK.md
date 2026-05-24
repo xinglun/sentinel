@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機シグナル整合性タスクリスト
+description: Sentinel 状態機シグナル整合性タスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-signal-alignment-task
 ---
 
 # Sentinel 状態機シグナル整合性タスクリスト

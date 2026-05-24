@@ -49,7 +49,7 @@ pub struct TacticalBucketViewModel {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RiskOpportunityViewModel {
-    pub kind: String, // "RISK" or "OPPORTUNITY"
+    pub kind: String, // "RISK" または "OPPORTUNITY"。
     pub symbol: String,
     pub reason: String,
 }
@@ -61,7 +61,7 @@ pub struct DisplayAssetRef<'a> {
     pub intent: DisplayIntent,
 }
 
-/// Optimized container using references to avoid redundant cloning during categorization.
+/// 分類中の冗長な clone を避けるため、参照を保持する container。
 pub struct DisplayBuckets<'a> {
     pub accumulate: Vec<DisplayAssetRef<'a>>,
     pub hold: Vec<DisplayAssetRef<'a>>,
@@ -72,7 +72,7 @@ pub struct DisplayBuckets<'a> {
 pub struct DisplayAdapter;
 
 impl DisplayAdapter {
-    /// 基于执行意向（PositionIntent）和结构化展示上下文推导展示语义
+    /// execution intent（PositionIntent）と構造化表示 context から表示 semantics を導出する。
     pub fn derive_display_intent(
         pos_intent: UnifiedPositionIntent,
         context: &DisplayContext,
@@ -160,7 +160,7 @@ impl DisplayAdapter {
         }
     }
 
-    /// Categorize assets into buckets using references (O(1) cloning per bucket entry).
+    /// 参照を使って asset を bucket に分類する（bucket entry ごとの clone は O(1)）。
     pub fn categorize_refs<'a>(
         items: impl IntoIterator<Item = DisplayAssetRef<'a>>,
     ) -> DisplayBuckets<'a> {
