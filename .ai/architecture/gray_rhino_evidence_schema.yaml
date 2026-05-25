@@ -8,6 +8,8 @@ automatedCollectionEnabled: true
 grayRhinoAutoDiscoveryEnabled: true
 candidateDomain: src/features/research/domain/gray_rhino_candidate.rs
 candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs
+candidatePersistenceEnabled: true
+candidateStore: gray_rhino_candidates.jsonl
 candidateScopes:
   - Company
   - Market

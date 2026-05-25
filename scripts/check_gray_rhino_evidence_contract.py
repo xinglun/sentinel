@@ -80,6 +80,8 @@ def main() -> int:
         "grayRhinoAutoDiscoveryEnabled: true",
         "candidateDomain: src/features/research/domain/gray_rhino_candidate.rs",
         "candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs",
+        "candidatePersistenceEnabled: true",
+        "candidateStore: gray_rhino_candidates.jsonl",
         "inlineWatchlistReferenceEnabled: true",
         "manualRegistryPrimaryMechanism: false",
         "autoSourceCollectionCli: collect-gray-rhino-sources",
@@ -151,6 +153,7 @@ def main() -> int:
         "Gray Rhino Inline Reference",
         "collect-gray-rhino-sources",
         "gray_rhino_discovery_runs.jsonl",
+        "gray_rhino_candidates.jsonl",
         "[fred] fred_api_key",
     ]
     for item in doc_required:

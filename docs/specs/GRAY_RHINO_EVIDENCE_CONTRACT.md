@@ -39,6 +39,10 @@ Phase 4-B では `collect-gray-rhino-sources` を source collection entrypoint �
 
 source collection の audit は `gray_rhino_discovery_runs.jsonl` に保存する。audit は provider、dry-run、source count、candidate count、content hash、failure taxonomy を記録するが、trading、Gate、execution、trend、market state を変更してはならない。
 
+Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に append-only で保存する。store は `GrayRhinoCandidate` の scope、kind、subject、state、evidence、watch triggers、source title、observed date を保持し、Daily report は current source scan と persisted candidates を merge / dedupe して `Gray Rhino Inline Reference` に表示する。
+
+`gray_rhino_candidates.jsonl` は構造リスクの観測履歴であり、trade、Gate、execution、trend、market state を変更してはならない。Company candidate は current enabled watchlist に属する場合だけ daily inline reference に表示し、Market candidate は市場側 reference として表示できる。
+
 ## Evidence と Narrative の境界
 
 Gray Rhino evidence は、長期構造リスクに関する外部 source 由来の観測事実でなければならない。

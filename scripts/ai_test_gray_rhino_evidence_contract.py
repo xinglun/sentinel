@@ -83,6 +83,8 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
                 "grayRhinoAutoDiscoveryEnabled: true\n"
                 "candidateDomain: src/features/research/domain/gray_rhino_candidate.rs\n"
                 "candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs\n"
+                "candidatePersistenceEnabled: true\n"
+                "candidateStore: gray_rhino_candidates.jsonl\n"
                 "inlineWatchlistReferenceEnabled: true\n"
                 "manualRegistryPrimaryMechanism: false\n"
                 "autoSourceCollectionCli: collect-gray-rhino-sources\n"

@@ -600,6 +600,35 @@ fn gray_rhino_daily_report_reads_sec_htm_cache() {
 }
 
 #[test]
+fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Expanding","evidence":["Persisted founder voting control candidate."],"watch_triggers":["proxy update"],"source_title":"Persisted SEC proxy","observed_at":"2026-05-25"}
+{"scope":"Company","kind":"GovernanceConcentration","subject":"STALE","state":"Expanding","evidence":["Persisted stale candidate."],"watch_triggers":["proxy update"],"source_title":"Persisted stale proxy","observed_at":"2026-05-25"}
+{"scope":"Market","kind":"LiquidityFragility","subject":"Market","state":"Expanding","evidence":["Persisted liquidity fragility candidate."],"watch_triggers":["credit spread widening"],"source_title":"Persisted FRED macro","observed_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("TSLA / Company / GovernanceConcentration / Expanding"));
+    assert!(stdout.contains("Persisted founder voting control candidate."));
+    assert!(stdout.contains("Market / Market / LiquidityFragility / Expanding"));
+    assert!(stdout.contains("Persisted liquidity fragility candidate."));
+    assert!(!stdout.contains("STALE / Company / GovernanceConcentration"));
+    assert!(stdout.contains("reference only; no trading"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
 fn gray_rhino_source_collection_dry_run_reports_boundary() {
     let tmp = prepare_standard_workspace("en-us");
 

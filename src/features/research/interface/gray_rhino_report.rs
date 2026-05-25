@@ -18,6 +18,10 @@ use crate::features::research::domain::gray_rhino::{
     GrayRhinoAssessment, GrayRhinoEscalation, GrayRhinoEscalationInput, GrayRhinoObservationSource,
     RhinoEscalationState, RiskLevel,
 };
+use crate::features::research::domain::gray_rhino_candidate::{
+    GrayRhinoCandidate, GrayRhinoCandidateScope,
+};
+use crate::features::research::infrastructure::gray_rhino_candidate_store::GrayRhinoCandidateStore;
 use crate::features::research::infrastructure::gray_rhino_evidence_store::GrayRhinoEvidenceStore;
 use crate::features::research::infrastructure::gray_rhino_snapshot_store::GrayRhinoSnapshotStore;
 use crate::features::shared::interface::i18n::Language;
@@ -577,7 +581,7 @@ fn collect_auto_discovered_candidates(
     app_config: &config::AppConfig,
     save_dir: &Path,
     as_of_date: NaiveDate,
-) -> Vec<crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate> {
+) -> Vec<GrayRhinoCandidate> {
     let source_roots = [
         save_dir.join("gray_rhino_sources"),
         save_dir.join("gray_rhino_raw_sources"),
@@ -643,12 +647,27 @@ fn collect_auto_discovered_candidates(
             text,
         }));
     }
+    if let Ok(persisted_candidates) = GrayRhinoCandidateStore::new(save_dir).load_candidates() {
+        candidates.extend(
+            persisted_candidates
+                .into_iter()
+                .filter(|candidate| candidate_in_current_report_scope(candidate, &watch_symbols)),
+        );
+    }
     dedupe_candidates(candidates)
 }
 
-fn dedupe_candidates(
-    candidates: Vec<crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate>,
-) -> Vec<crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate> {
+fn candidate_in_current_report_scope(
+    candidate: &GrayRhinoCandidate,
+    watch_symbols: &[String],
+) -> bool {
+    candidate.scope == GrayRhinoCandidateScope::Market
+        || watch_symbols
+            .iter()
+            .any(|symbol| symbol.eq_ignore_ascii_case(&candidate.subject))
+}
+
+fn dedupe_candidates(candidates: Vec<GrayRhinoCandidate>) -> Vec<GrayRhinoCandidate> {
     let mut seen = BTreeSet::new();
     let mut deduped = Vec::new();
     for candidate in candidates {

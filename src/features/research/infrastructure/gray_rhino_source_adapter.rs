@@ -5,6 +5,7 @@ use crate::features::research::application::governance_source_pipeline::{
 use crate::features::research::application::gray_rhino_discovery::{
     discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
 };
+use crate::features::research::infrastructure::gray_rhino_candidate_store::GrayRhinoCandidateStore;
 use crate::features::research::infrastructure::sec_governance_source_adapter::GovernanceDocumentSourceAdapter;
 use anyhow::{anyhow, Context, Result};
 use chrono::{Duration, NaiveDate};
@@ -114,6 +115,7 @@ async fn collect_sec_sources(
         app_config.sec.as_ref().map(|sec| sec.user_agent.clone()),
         &request.save_dir,
     );
+    let candidate_store = GrayRhinoCandidateStore::new(&request.save_dir);
     let mut outcomes = Vec::new();
     for subject in subjects {
         let collection_request = GovernanceSourceCollectionRequest {
@@ -133,6 +135,7 @@ async fn collect_sec_sources(
                         observed_at: document.observed_at,
                         text: document.content.clone(),
                     });
+                    candidate_store.save_candidates(&candidates)?;
                     outcomes.push(GrayRhinoSourceCollectionOutcome {
                         provider: request.provider,
                         subject: document.subject,
@@ -182,6 +185,7 @@ async fn collect_finnhub_sources(
     let client = reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(20))
         .build()?;
+    let candidate_store = GrayRhinoCandidateStore::new(&request.save_dir);
     let mut outcomes = Vec::new();
     for subject in subjects {
         let url = format!(
@@ -206,6 +210,7 @@ async fn collect_finnhub_sources(
                     observed_at: request.as_of_date,
                     text: content.clone(),
                 });
+                candidate_store.save_candidates(&candidates)?;
                 outcomes.push(GrayRhinoSourceCollectionOutcome {
                     provider: request.provider,
                     subject,
@@ -288,6 +293,7 @@ async fn collect_fred_sources(
         observed_at: request.as_of_date,
         text: content.clone(),
     });
+    GrayRhinoCandidateStore::new(&request.save_dir).save_candidates(&candidates)?;
     Ok(vec![GrayRhinoSourceCollectionOutcome {
         provider: request.provider,
         subject: "Market".to_string(),
