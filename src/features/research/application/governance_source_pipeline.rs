@@ -316,6 +316,8 @@ pub fn extract_governance_concentration_evidence(
                 "succession_disclosure",
                 "succession disclosure",
                 "succession plan",
+                "succession framework",
+                "ceo succession framework",
             ],
         ),
     };
@@ -402,6 +404,8 @@ fn extract_metric_audit_entries(content: &str) -> Vec<GovernanceMetricAuditEntry
                     "succession_disclosure",
                     "succession disclosure",
                     "succession plan",
+                    "succession framework",
+                    "ceo succession framework",
                 ],
             ),
         ),
@@ -481,14 +485,29 @@ fn parse_bool_metric(content: &str, labels: &[&str]) -> Option<bool> {
     for label in labels {
         let normalized_label = label.to_lowercase();
         if let Some(start) = lower.find(&normalized_label) {
-            let tail = lower[start + normalized_label.len()..]
-                .split([';', '\n', '\r'])
-                .next()
-                .unwrap_or("");
-            if tail.contains("false") || tail.contains("no") || tail.contains("not disclosed") {
+            let prefix: String = lower[..start]
+                .chars()
+                .rev()
+                .take(40)
+                .collect::<String>()
+                .chars()
+                .rev()
+                .collect();
+            let tail = lower[start..].split([';', '\n', '\r']).next().unwrap_or("");
+            let context = format!("{prefix}{tail}");
+            if context.contains("false")
+                || context.contains("not disclosed")
+                || context.contains("not have")
+                || context.contains("does not")
+                || context.contains("do not")
+                || context.contains("without")
+                || context.contains(" no ")
+                || context.starts_with("no ")
+            {
                 return Some(false);
             }
-            if tail.contains("true") || tail.contains("yes") || tail.contains("disclosed") {
+            if context.contains("true") || context.contains("yes") || context.contains("disclosed")
+            {
                 return Some(true);
             }
             return Some(true);
@@ -565,6 +584,26 @@ mod tests {
             .iter()
             .any(|metric| metric.metric == "succession_disclosure"
                 && metric.status == GovernanceMetricAuditStatus::Missing));
+    }
+
+    #[test]
+    fn extracts_succession_framework_disclosure_from_sec_text() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "The CEO succession framework developed by our CEO is approved by the Board of Directors.",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.succession_disclosure, Some(true));
+    }
+
+    #[test]
+    fn negated_succession_plan_is_not_positive_disclosure() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "The issuer does not have a succession plan.",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.succession_disclosure, Some(false));
     }
 
     #[test]

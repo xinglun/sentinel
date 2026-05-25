@@ -183,6 +183,12 @@ rejection taxonomy は `MetriclessSource`、`SourceInvalid`、`ExtractionInvalid
 
 正式 evidence store への保存は default では行わない。dry-run の目的は SEC User-Agent、rate limit、network failure、filing selection、field extraction coverage を検証することであり、Gray Rhino escalation state、Gate、execution、trading state を変更しない。
 
+### Phase 3-A: Governance SEC Field Coverage Calibration
+
+本 Work Item の対象。live dry-run audit で欠落した field coverage を、実 SEC filing の文面に対する deterministic label calibration で改善する。
+
+最初の対象は `succession_disclosure` である。`succession framework` と `ceo succession framework` は succession disclosure の evidence として扱う。ただし `not disclosed`、`does not`、`do not`、`without`、`no` などの否定形は positive disclosure として扱わない。
+
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 
 本 Work Item の対象外。dependency graph は動的であるため、GovernanceConcentration sensor が安定してから追加する。
