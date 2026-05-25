@@ -144,6 +144,56 @@ fallback_survivability_risk = "MODERATE"
     }
 }
 
+#[test]
+fn gray_rhino_governance_evidence_ingest_writes_jsonl_without_escalation() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let evidence_path = tmp.path().join("governance_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "GovernanceDocument",
+    "source_title": "Proxy statement",
+    "publisher": "Example issuer",
+    "source_url": "https://example.com/proxy",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.9,
+  "extraction_note": "Proxy statement discloses voting rights.",
+  "structural_fact": "Dual class shares create unequal voting rights.",
+  "metrics": {
+    "founder_voting_power": 61.2,
+    "independent_board_ratio": 0.42,
+    "dual_class_structure": true,
+    "super_voting_rights": true,
+    "succession_disclosure": false
+  }
+}"#,
+    )
+    .expect("failed to write governance evidence fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-governance",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Successfully ingested GovernanceConcentration evidence."));
+    assert!(stdout.contains("Boundary: evidence only"));
+    let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
+        .expect("failed to read gray rhino evidence store");
+    assert!(store.contains("\"category\":\"GovernanceConcentration\""));
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
 fn run_cli(tmp: &TempDir, args: &[&str]) -> std::process::Output {
     Command::new(env!("CARGO_BIN_EXE_stock-sentinel"))
         .current_dir(tmp.path())

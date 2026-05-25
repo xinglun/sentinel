@@ -30,6 +30,20 @@ def test_extract_yaml_list_reads_schema_values() -> None:
     ]
 
 
+def test_extract_yaml_list_reads_nested_governance_metrics() -> None:
+    raw = (
+        "governanceConcentration:\n"
+        "  requiredMetricAtLeastOneOf:\n"
+        "    - founder_voting_power\n"
+        "    - independent_board_ratio\n"
+        "boundaries:\n"
+    )
+    assert checker.extract_yaml_list(raw, "  requiredMetricAtLeastOneOf") == [
+        "founder_voting_power",
+        "independent_board_ratio",
+    ]
+
+
 def test_checker_fails_when_schema_omits_required_category() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -85,6 +99,7 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
 def main() -> int:
     tests = [
         test_extract_yaml_list_reads_schema_values,
+        test_extract_yaml_list_reads_nested_governance_metrics,
         test_checker_fails_when_schema_omits_required_category,
     ]
     for test in tests:

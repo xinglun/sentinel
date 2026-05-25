@@ -1,1 +1,1 @@
-// Research feature の外部 source 防腐層は必要になった時点でここへ追加する。
+pub(crate) mod governance_evidence_store_factory;

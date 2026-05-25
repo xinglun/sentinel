@@ -40,6 +40,7 @@ pub(crate) enum CliCommand {
     AssetThesis,
     DailyCalibration,
     GrayRhinoEscalation,
+    IngestGrayRhinoGovernance,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -68,6 +69,7 @@ pub(crate) struct CliOptions {
     pub evidence_days: usize,
     pub evidence_source_provider: String,
     pub evidence_arg_error: Option<String>,
+    pub governance_evidence_file: Option<String>,
     pub research_notify: bool,
     pub backtest_from_date: String,
     pub backtest_to_date: String,
@@ -111,6 +113,7 @@ impl CliOptions {
             evidence_days: 3,
             evidence_source_provider: "finnhub".to_string(),
             evidence_arg_error: None,
+            governance_evidence_file: None,
             research_notify: false,
             backtest_from_date: "2024-01-01".to_string(),
             backtest_to_date: "2024-02-01".to_string(),
@@ -180,6 +183,10 @@ pub(crate) fn parse_cli_options(
             }
             "gray-rhino" | "gray-rhino-escalation" => {
                 options.command = CliCommand::GrayRhinoEscalation;
+                command_explicit = true;
+            }
+            "ingest-gray-rhino-governance" | "ingest-governance-evidence" => {
+                options.command = CliCommand::IngestGrayRhinoGovernance;
                 command_explicit = true;
             }
             "--provider" if i + 1 < args.len() => {
@@ -277,6 +284,13 @@ pub(crate) fn parse_cli_options(
                 options.evidence_source_provider = args[i + 1].to_lowercase();
                 i += 1;
             }
+            "--file" if i + 1 < args.len() => {
+                options.governance_evidence_file = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--file" => {
+                options.evidence_arg_error = Some("Missing value for --file".to_string());
+            }
             "--from" if i + 1 < args.len() => {
                 options.backtest_from_date = args[i + 1].clone();
                 i += 1;
@@ -300,5 +314,5 @@ pub(crate) fn parse_cli_options(
 }
 
 pub(crate) fn cli_usage(_language: Language) -> &'static str {
-    "Usage: stock-sentinel <command> [options]\n\nCommands:\n  radar                         Run the daily radar pipeline\n  daemon | trade                Run the trading daemon mode\n  review                        Render the latest review\n  audit_daily                   Render transition audit summary\n  daily-calibration             Render daily cognitive calibration\n  research-attention            Render research attention report\n  asset-thesis                  Render asset thesis registry\n  gray-rhino                    Render Gray Rhino Escalation monitor\n  ingest-evidence               Ingest manual evidence\n  ingest-evidence-url           Collect evidence from one URL\n  collect-evidence              Collect evidence from configured sources\n  backtest                      Run backtest\n  help                          Show this help\n\nOptions:\n  --help, -h                    Show this help\n  --notify                      Send supported sidecar report to Telegram\n  --provider <yahoo|futu>       Select market data provider\n  --date <YYYY-MM-DD>           Select audit/evidence date\n  --days <N>                    Select audit/evidence lookback days\n\nSafety:\n  No command is executed by default. Use `radar` explicitly to run the radar pipeline."
+    "Usage: stock-sentinel <command> [options]\n\nCommands:\n  radar                         Run the daily radar pipeline\n  daemon | trade                Run the trading daemon mode\n  review                        Render the latest review\n  audit_daily                   Render transition audit summary\n  daily-calibration             Render daily cognitive calibration\n  research-attention            Render research attention report\n  asset-thesis                  Render asset thesis registry\n  gray-rhino                    Render Gray Rhino Escalation monitor\n  ingest-gray-rhino-governance  Ingest GovernanceConcentration evidence from JSON\n  ingest-evidence               Ingest manual evidence\n  ingest-evidence-url           Collect evidence from one URL\n  collect-evidence              Collect evidence from configured sources\n  backtest                      Run backtest\n  help                          Show this help\n\nOptions:\n  --help, -h                    Show this help\n  --notify                      Send supported sidecar report to Telegram\n  --provider <yahoo|futu>       Select market data provider\n  --date <YYYY-MM-DD>           Select audit/evidence date\n  --days <N>                    Select audit/evidence lookback days\n  --file <PATH>                 Read structured governance evidence JSON\n\nSafety:\n  No command is executed by default. Use `radar` explicitly to run the radar pipeline."
 }

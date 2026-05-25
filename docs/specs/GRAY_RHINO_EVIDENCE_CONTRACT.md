@@ -54,6 +54,16 @@ governance 権限や oversight が単一主体に集中している証拠。
 - founder override power。
 - succession governance。
 
+Phase 3-A では、この category を最初の低ノイズ sensor として実装する。入力は repository-local structured JSON とし、次の構造項目のうち少なくとも 1 つを source から抽出する。
+
+- `founder_voting_power`。
+- `independent_board_ratio`。
+- `dual_class_structure`。
+- `super_voting_rights`。
+- `succession_disclosure`。
+
+許可する source type は `RegulatoryFiling`、`GovernanceDocument`、`CompanyDisclosure`、`OperatorCuratedSource` に限定する。保存先は `gray_rhino_evidence.jsonl` とし、保存された evidence は escalation state、Gate、execution、trading state を変更しない。
+
 ### Dependency Concentration Evidence
 
 business、infrastructure、compute、cloud、launch、supplier、ecosystem などの依存集中を示す証拠。
@@ -141,11 +151,17 @@ collector または adapter は次を満たす必要がある。
 
 ### Phase 2: Gray Rhino Evidence Schema
 
-本 Work Item の対象。evidence category、source contract、quality contract、narrative boundary を定義する。
+完了済み。evidence category、source contract、quality contract、narrative boundary を定義する。
 
-### Phase 3: Automated Evidence Collection
+### Phase 3-A: Governance Concentration Evidence Pipeline
 
-本 Work Item の対象外。schema を満たす collector のみ追加できる。
+本 Work Item の対象。最初の低ノイズ構造 sensor として GovernanceConcentration evidence を repository-local structured JSON から取り込み、contract validation 後に JSONL store へ保存する。
+
+この段階では外部 site の自由解析や AI risk judgment は行わない。目的は machine-readable governance facts の ingestion、source traceability、rejection boundary、deduplication を確立することである。
+
+### Phase 3-B: Dependency Concentration Evidence Pipeline
+
+本 Work Item の対象外。dependency graph は動的であるため、GovernanceConcentration sensor が安定してから追加する。
 
 ### Phase 4: Escalation Detection Engine
 

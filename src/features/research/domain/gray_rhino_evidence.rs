@@ -42,6 +42,25 @@ pub struct GrayRhinoEvidenceRecord {
     pub structural_fact: String,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct GovernanceConcentrationMetrics {
+    pub founder_voting_power: Option<f64>,
+    pub independent_board_ratio: Option<f64>,
+    pub dual_class_structure: Option<bool>,
+    pub super_voting_rights: Option<bool>,
+    pub succession_disclosure: Option<bool>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct GovernanceConcentrationEvidence {
+    pub subject: String,
+    pub source: GrayRhinoSourceReference,
+    pub confidence: f64,
+    pub extraction_note: String,
+    pub structural_fact: String,
+    pub metrics: GovernanceConcentrationMetrics,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GrayRhinoEvidenceRejection {
     MissingSourceReference,
@@ -52,6 +71,9 @@ pub enum GrayRhinoEvidenceRejection {
     ConfidenceOutOfRange,
     NarrativeOnly,
     ForbiddenBoundaryTerm,
+    UnsupportedSourceType,
+    MissingGovernanceMetric,
+    InvalidGovernanceMetric,
 }
 
 impl GrayRhinoEvidenceRecord {
@@ -83,6 +105,58 @@ impl GrayRhinoEvidenceRecord {
             return Err(GrayRhinoEvidenceRejection::ForbiddenBoundaryTerm);
         }
         Ok(())
+    }
+}
+
+impl GovernanceConcentrationEvidence {
+    pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
+        if self.subject.trim().is_empty() {
+            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+        }
+        if !matches!(
+            self.source.source_type,
+            GrayRhinoEvidenceSourceType::RegulatoryFiling
+                | GrayRhinoEvidenceSourceType::GovernanceDocument
+                | GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ) {
+            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
+        }
+        if !self.metrics.has_any_metric() {
+            return Err(GrayRhinoEvidenceRejection::MissingGovernanceMetric);
+        }
+        if !self.metrics.is_valid() {
+            return Err(GrayRhinoEvidenceRejection::InvalidGovernanceMetric);
+        }
+        self.to_record().validate()
+    }
+
+    pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
+        GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: self.source.clone(),
+            confidence: self.confidence,
+            extraction_note: self.extraction_note.clone(),
+            structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl GovernanceConcentrationMetrics {
+    fn has_any_metric(&self) -> bool {
+        self.founder_voting_power.is_some()
+            || self.independent_board_ratio.is_some()
+            || self.dual_class_structure.is_some()
+            || self.super_voting_rights.is_some()
+            || self.succession_disclosure.is_some()
+    }
+
+    fn is_valid(&self) -> bool {
+        self.founder_voting_power
+            .is_none_or(|value| (0.0..=100.0).contains(&value))
+            && self
+                .independent_board_ratio
+                .is_none_or(|value| (0.0..=1.0).contains(&value))
     }
 }
 
@@ -209,6 +283,53 @@ mod tests {
         assert_eq!(
             record.validate(),
             Err(GrayRhinoEvidenceRejection::ForbiddenBoundaryTerm)
+        );
+    }
+
+    #[test]
+    fn governance_evidence_requires_at_least_one_metric() {
+        let evidence = GovernanceConcentrationEvidence {
+            subject: "Example issuer".to_string(),
+            source: source(),
+            confidence: 0.8,
+            extraction_note: "Proxy statement discloses voting structure.".to_string(),
+            structural_fact: "Founder voting control is disclosed.".to_string(),
+            metrics: GovernanceConcentrationMetrics {
+                founder_voting_power: None,
+                independent_board_ratio: None,
+                dual_class_structure: None,
+                super_voting_rights: None,
+                succession_disclosure: None,
+            },
+        };
+
+        assert_eq!(
+            evidence.validate(),
+            Err(GrayRhinoEvidenceRejection::MissingGovernanceMetric)
+        );
+    }
+
+    #[test]
+    fn governance_evidence_projects_to_gray_rhino_record() {
+        let evidence = GovernanceConcentrationEvidence {
+            subject: "Example issuer".to_string(),
+            source: source(),
+            confidence: 0.85,
+            extraction_note: "Proxy statement discloses dual class shares.".to_string(),
+            structural_fact: "Dual class structure grants unequal voting rights.".to_string(),
+            metrics: GovernanceConcentrationMetrics {
+                founder_voting_power: Some(61.2),
+                independent_board_ratio: Some(0.42),
+                dual_class_structure: Some(true),
+                super_voting_rights: Some(true),
+                succession_disclosure: Some(false),
+            },
+        };
+
+        assert_eq!(evidence.validate(), Ok(()));
+        assert_eq!(
+            evidence.to_record().category,
+            GrayRhinoEvidenceCategory::GovernanceConcentration
         );
     }
 }

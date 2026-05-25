@@ -61,6 +61,8 @@ def main() -> int:
         "humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
         "currentObservationSource: ManualConfiguration",
         "automatedCollectionEnabled: false",
+        "governanceEvidencePipelineEnabled: true",
+        "governanceEvidenceStore: gray_rhino_evidence.jsonl",
         "evidence_must_not_set_escalation_state: true",
     }
     for item in required_schema_pairs:
@@ -92,6 +94,8 @@ def main() -> int:
         "Redundancy Evidence",
         "Source Contract",
         "Phase 2: Gray Rhino Evidence Schema",
+        "Phase 3-A: Governance Concentration Evidence Pipeline",
+        "repository-local structured JSON",
         "自動情報収集",
     ]
     for item in doc_required:
@@ -110,7 +114,10 @@ def main() -> int:
             errors.append(f"domain missing schema enum variant `{item}`")
 
     required_domain_terms = [
+        "GovernanceConcentrationEvidence",
+        "GovernanceConcentrationMetrics",
         "MissingSourceReference",
+        "MissingGovernanceMetric",
         "NarrativeOnly",
         "ForbiddenBoundaryTerm",
         "validate(&self)",
@@ -123,6 +130,18 @@ def main() -> int:
         errors.append("application boundary does not expose evidence contract validation")
     if "evaluate_gray_rhino_escalation" in domain:
         errors.append("evidence domain must not evaluate escalation state")
+
+    governance_metrics = set(extract_yaml_list(schema, "  requiredMetricAtLeastOneOf"))
+    for item in governance_metrics:
+        if item not in domain:
+            errors.append(f"governance domain missing metric `{item}`")
+
+    for item in [
+        "phase_3a_governance_concentration_evidence_pipeline: active",
+        "noEscalationStateMutation: true",
+    ]:
+        if item not in schema:
+            errors.append(f"schema missing governance pipeline contract `{item}`")
 
     if errors:
         report(errors)
