@@ -623,6 +623,19 @@ fn collect_auto_discovered_candidates(
                     .map(str::to_string)
             })
             .unwrap_or_else(|| default_subject.clone());
+        let source_is_typed_company_cache = path.components().any(|component| {
+            matches!(
+                component.as_os_str().to_str(),
+                Some("governance" | "narrative")
+            )
+        });
+        if source_is_typed_company_cache
+            && !watch_symbols
+                .iter()
+                .any(|watch_symbol| watch_symbol.eq_ignore_ascii_case(&subject))
+        {
+            continue;
+        }
         candidates.extend(discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
             subject,
             source_title: path_text,
@@ -657,7 +670,7 @@ fn collect_text_files(path: &Path, out: &mut Vec<PathBuf>) {
     if metadata.is_file() {
         if matches!(
             path.extension().and_then(|ext| ext.to_str()),
-            Some("txt" | "md" | "html")
+            Some("txt" | "md" | "html" | "htm")
         ) {
             out.push(path.to_path_buf());
         }

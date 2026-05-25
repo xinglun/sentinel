@@ -668,7 +668,11 @@ async fn run_collect_gray_rhino_sources(
             symbols,
             save_dir: std::path::PathBuf::from(&app_config.output.save_to),
             as_of_date,
-            lookback_days,
+            lookback_days: if provider == GrayRhinoSourceProvider::Sec {
+                lookback_days.max(365)
+            } else {
+                lookback_days
+            },
             dry_run,
         },
     )

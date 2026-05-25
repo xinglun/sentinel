@@ -1,0 +1,82 @@
+{
+  "workItemId": "gray-rhino-real-run-calibration",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-real-run-calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "reason": "SEC htm cache scan と real-run lookback calibration の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-real-run-calibration.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "daily auto discovery が SEC `.htm` cache を読むようにする。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "SEC source collection の既定 lookback を 365 日へ校正する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "SEC `.htm` cache が daily inline reference に出る regression test を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/cli.rs",
+    "reports/gray_rhino_sources/governance/TSLA/tsla-20251231.htm"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_daily_report_reads_sec_htm_cache --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-real-run-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-real-run-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-real-run-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "real-run cache 形式の表示校正に限定し、source collection / daily report の non-signal boundary は維持する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

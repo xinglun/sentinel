@@ -560,6 +560,46 @@ fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
 }
 
 #[test]
+fn gray_rhino_daily_report_reads_sec_htm_cache() {
+    let tmp = prepare_standard_workspace("en-us");
+    let discovery_dir = tmp
+        .path()
+        .join("gray_rhino_sources")
+        .join("governance")
+        .join("TSLA");
+    fs::create_dir_all(&discovery_dir).expect("failed to create discovery dir");
+    fs::write(
+        discovery_dir.join("tsla-proxy.htm"),
+        "The founder controls majority voting power through class B shares. The board is controlled and no independent directors provide effective checks.",
+    )
+    .expect("failed to write htm SEC cache fixture");
+    let stale_dir = tmp
+        .path()
+        .join("gray_rhino_sources")
+        .join("governance")
+        .join("STALE");
+    fs::create_dir_all(&stale_dir).expect("failed to create stale discovery dir");
+    fs::write(
+        stale_dir.join("stale-proxy.htm"),
+        "The founder controls majority voting power through class B shares. The board is controlled and no independent directors provide effective checks.",
+    )
+    .expect("failed to write stale htm SEC cache fixture");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("TSLA / Company / GovernanceConcentration / Expanding"));
+    assert!(!stdout.contains("STALE / Company / GovernanceConcentration"));
+    assert!(stdout.contains("reference only; no trading"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
 fn gray_rhino_source_collection_dry_run_reports_boundary() {
     let tmp = prepare_standard_workspace("en-us");
 
