@@ -1,0 +1,77 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-start-active-status-sync",
+  "mode": "code",
+  "title": "AI start active status sync",
+  "scope": [
+    ".ai/work-items/active/ai-start-active-status-sync.contract.json",
+    ".ai/work-items/active/ai-start-active-status-sync.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_start.py",
+    "scripts/ai_test_start.py",
+    "Makefile"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Work Item 作成直後に cockpit status を active 状態へ同期する入口。"
+    },
+    {
+      "path": "scripts/ai_preflight.py",
+      "reason": "current_status=no_active_work_item かつ active files がある場合に lifecycle check が失敗する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "ai-start は skeleton 作成後に active Work Item の cockpit status を生成する。",
+    "ai-start 直後の ai-preflight が current_status=no_active_work_item を理由に失敗しない。",
+    "archive 後の no_active status と active cleanup flow は維持する。",
+    "回帰テストで status generation command が呼ばれることを固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-start",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-start-active-status-sync.summary.json CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json SUMMARY=.ai/work-items/active/ai-start-active-status-sync.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json SUMMARY=.ai/work-items/active/ai-start-active-status-sync.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "scripts/ai_start.py",
+      "scripts/ai_test_start.py",
+      "Makefile"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -1,0 +1,89 @@
+{
+  "workItemId": "ai-start-active-status-sync",
+  "contractPath": ".ai/work-items/archive/2026/ai-start-active-status-sync.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "reason": "ai-start status sync 修正の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-start-active-status-sync.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "skeleton 作成後に active cockpit status を生成するよう修正した。"
+    },
+    {
+      "path": "scripts/ai_test_start.py",
+      "reason": "ai-start が active status generation を呼ぶことを回帰テストで固定した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "test-ai-start entrypoint を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_start.py",
+    "scripts/ai_preflight.py",
+    "scripts/ai_generate_status.py",
+    "Makefile"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-start",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-start-active-status-sync.summary.json CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json SUMMARY=.ai/work-items/active/ai-start-active-status-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json SUMMARY=.ai/work-items/active/ai-start-active-status-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-start-active-status-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "ai-start は skeleton 作成直後に active status を生成するため、直後の preflight が no_active 状態で誤検出しにくくなる。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/ai-start-active-status-sync.contract.json",
+    ".ai/work-items/active/ai-start-active-status-sync.summary.json",
+    "scripts/ai_test_start.py"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Board Independence Work Item の active copy が commit 後に実在したため手動削除した。archive counterpart は存在していた。",
+    "根本対策として ai-start 後に active cockpit status を生成し、no_active status と active files の一時的不整合を避ける。"
+  ]
+}
