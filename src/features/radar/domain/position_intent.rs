@@ -1,5 +1,5 @@
-use crate::features::radar::application::policy::asset_state::AssetState;
-use crate::features::radar::application::policy::exit::{ExitDecision, PositionIntent};
+use crate::features::radar::domain::asset_state::AssetState;
+use crate::features::radar::domain::exit::{ExitDecision, PositionIntent};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
@@ -112,7 +112,7 @@ impl UnifiedIntentSynthesizer {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::exit::AssetExitState;
+    use crate::features::radar::domain::exit::AssetExitState;
 
     #[test]
     fn test_unified_intent_no_trade_without_position_becomes_watch() {

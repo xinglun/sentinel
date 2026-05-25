@@ -250,14 +250,34 @@ def write_feature_manifest(root: Path) -> None:
         "        - src/features/radar/infrastructure\n"
         "      acl:\n"
         "        - src/features/radar/acl\n"
+        "    allowedDependencies:\n"
+        "      - evidence\n"
         "  evidence:\n"
         "    roots:\n"
         "      domain:\n"
         "        - src/features/evidence/domain\n"
+        "      application:\n"
+        "        - src/features/evidence/application\n"
+        "      interface:\n"
+        "        - src/features/evidence/interface\n"
         "      infrastructure:\n"
         "        - src/features/evidence/infrastructure\n"
         "      acl:\n"
         "        - src/features/evidence/acl\n"
+        "    allowedDependencies: []\n"
+        "  shared:\n"
+        "    roots:\n"
+        "      domain:\n"
+        "        - src/features/shared/domain\n"
+        "      application:\n"
+        "        - src/features/shared/application\n"
+        "      interface:\n"
+        "        - src/features/shared/interface\n"
+        "      infrastructure:\n"
+        "        - src/features/shared/infrastructure\n"
+        "      acl:\n"
+        "        - src/features/shared/acl\n"
+        "    allowedDependencies: []\n"
         "externalConcreteImportPrefixes:\n"
         "  - crate::adapters\n"
         "concreteTypeNames:\n"
@@ -324,7 +344,7 @@ def test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency(
         assert violations, "feature infrastructure から別 feature infrastructure への直接依存は検出されるべき"
 
 
-def test_feature_acl_allows_cross_feature_infrastructure_adapter_dependency() -> None:
+def test_feature_acl_rejects_cross_feature_infrastructure_adapter_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         write_feature_manifest(root)
@@ -333,7 +353,52 @@ def test_feature_acl_allows_cross_feature_infrastructure_adapter_dependency() ->
             "use crate::features::evidence::infrastructure::evidence_store::EvidenceStore;\n",
         )
         violations = checker.check_project(root)
-        assert not violations, f"ACL 内の cross-feature adapter dependency は許可されるべき: {violations}"
+        assert violations, "ACL から別 feature infrastructure への直接依存は検出されるべき"
+
+
+def test_shared_rejects_concrete_feature_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/shared/domain/display.rs", "use crate::features::radar::domain::decision::DecisionPacket;\n")
+        violations = checker.check_project(root)
+        assert violations, "shared から concrete feature への依存は検出されるべき"
+
+
+def test_feature_rejects_dependency_not_in_allowed_dependencies() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/evidence/application/use_case.rs", "use crate::features::radar::domain::decision::DecisionPacket;\n")
+        violations = checker.check_project(root)
+        assert violations, "allowedDependencies にない feature 依存は検出されるべき"
+
+
+def test_feature_application_rejects_filesystem_io() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/application/use_case.rs", "use std::fs::File;\n")
+        violations = checker.check_project(root)
+        assert violations, "application の filesystem IO import は検出されるべき"
+
+
+def test_feature_infrastructure_rejects_interface_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/infrastructure/runner.rs", "use crate::features::radar::interface::report::render;\n")
+        violations = checker.check_project(root)
+        assert violations, "infrastructure から interface への依存は検出されるべき"
+
+
+def test_feature_acl_allows_cross_feature_acl_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/acl/evidence.rs", "use crate::features::evidence::acl::factory::build;\n")
+        violations = checker.check_project(root)
+        assert not violations, f"feature ACL 間の port factory 依存は許可されるべき: {violations}"
 
 
 def test_non_acl_rejects_futu_client() -> None:
@@ -395,7 +460,12 @@ def main() -> int:
         test_acl_allows_adapter_dependency,
         test_infrastructure_allows_acl_dependency,
         test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency,
-        test_feature_acl_allows_cross_feature_infrastructure_adapter_dependency,
+        test_feature_acl_rejects_cross_feature_infrastructure_adapter_dependency,
+        test_shared_rejects_concrete_feature_dependency,
+        test_feature_rejects_dependency_not_in_allowed_dependencies,
+        test_feature_application_rejects_filesystem_io,
+        test_feature_infrastructure_rejects_interface_dependency,
+        test_feature_acl_allows_cross_feature_acl_dependency,
         test_non_acl_rejects_futu_client,
         test_non_acl_rejects_yahoo_provider,
         test_non_acl_rejects_external_fetcher,

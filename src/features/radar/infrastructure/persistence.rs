@@ -1,5 +1,5 @@
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::execution_gate::ExecutionResult;
+use crate::features::radar::application::execution_gate::ExecutionResult;
+use crate::features::radar::domain::decision::DecisionPacket;
 use anyhow::{Context, Result};
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
@@ -150,7 +150,7 @@ impl PersistenceLayer {
 
     pub fn save_telemetry(
         &self,
-        row: &crate::features::radar::application::policy::telemetry::TelemetryRow,
+        row: &crate::features::radar::interface::telemetry::TelemetryRow,
     ) -> Result<()> {
         let path = self.save_dir.join("telemetry.csv");
         let is_new = !path.exists();
@@ -204,13 +204,12 @@ impl PersistenceLayer {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::market_regime::{
+    use crate::features::radar::application::execution_gate::ExecutionResult;
+    use crate::features::radar::domain::action_matrix::AssetActionDecision;
+    use crate::features::radar::domain::market_regime::{
         LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
     };
-    use crate::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
-    use crate::features::radar::application::policy::{
-        action_matrix::AssetActionDecision, execution_gate::ExecutionResult,
-    };
+    use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
     use chrono::NaiveDate;
     use chrono::Utc;
     use std::fs;
@@ -233,12 +232,12 @@ mod tests {
             transition_audit: None,
         };
         let policy = PortfolioPolicy::from_market_regime(&market);
-        let features = crate::features::radar::application::policy::features::MarketFeatures {
+        let features = crate::features::radar::domain::features::MarketFeatures {
             date: Utc::now().date_naive(),
             regime_age: 1,
             potential_energy: 0.5,
             system_confidence: 80.0,
-            ..crate::features::radar::application::policy::features::MarketFeatures::default()
+            ..crate::features::radar::domain::features::MarketFeatures::default()
         };
         let packet = DecisionPacket::new(
             Utc::now().date_naive(),
@@ -249,7 +248,7 @@ mod tests {
             vec![],
             Vec::new(),
             false,
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot::default(),
+            crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot::default(),
             None,
             None,
         );
@@ -306,14 +305,14 @@ mod tests {
         };
         let packet = DecisionPacket::new(
             NaiveDate::from_ymd_opt(2023, 1, 1).unwrap(),
-            crate::features::radar::application::policy::features::MarketFeatures::default(),
+            crate::features::radar::domain::features::MarketFeatures::default(),
             market.clone(),
             None,
             PortfolioPolicy::from_market_regime(&market),
             Vec::<AssetActionDecision>::new(),
             Vec::new(),
             false,
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot::default(),
+            crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot::default(),
             None,
             None,
         );

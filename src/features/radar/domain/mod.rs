@@ -1,1 +1,14 @@
-// 現時点では radar の policy kernel は application/policy に配置する。
+pub mod action_matrix;
+pub mod asset_state;
+pub mod breakout_detection;
+pub mod decision;
+pub mod exit;
+pub mod features;
+pub mod intent_synthesizer;
+pub mod market_regime;
+pub mod market_state;
+pub mod portfolio_policy;
+pub mod position_intent;
+pub mod rules;
+pub mod transition_log;
+pub mod trend_cohesion;

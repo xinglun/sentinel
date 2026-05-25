@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-pub use crate::features::trading::domain::reconciliation::{
-    PositionMismatch, ReconciliationReport,
-};
+pub use crate::features::shared::domain::reconciliation::{PositionMismatch, ReconciliationReport};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "lowercase")]

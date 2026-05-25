@@ -1,4 +1,4 @@
-use crate::features::shared::interface::display::{
+use crate::features::radar::interface::display::{
     RiskOpportunityViewModel, TacticalBucketViewModel, TopActionViewModel,
 };
 use crate::features::shared::interface::i18n::Language;

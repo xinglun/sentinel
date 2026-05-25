@@ -1,15 +1,18 @@
 use crate::config::{ParsedRules, WatchlistEntry};
-use crate::features::radar::application::policy::features::{AssetFeatures, MarketFeatures};
-use crate::features::radar::application::policy::market_regime::MarketRegimeStateMachine;
+use crate::features::radar::domain::features::{AssetFeatures, MarketFeatures};
+use crate::features::radar::domain::market_regime::MarketRegimeStateMachine;
+use crate::features::radar::domain::rules::{
+    ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
+};
 use crate::features::shared::domain::market_data::TickerHistory;
 
-use crate::features::radar::application::policy::asset_state::{AssetState, AssetStateMachine};
-use crate::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
+use crate::features::radar::domain::asset_state::{AssetState, AssetStateMachine};
+use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
 
-use crate::features::radar::application::policy::action_matrix::ActionMatrix;
-use crate::features::radar::application::policy::breakout_detection::BreakoutEvaluator;
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::trend_cohesion::{
+use crate::features::radar::domain::action_matrix::ActionMatrix;
+use crate::features::radar::domain::breakout_detection::BreakoutEvaluator;
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::trend_cohesion::{
     AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, TrendCohesionEvaluator,
 };
 use anyhow::Result;
@@ -23,12 +26,24 @@ impl Engine {
         ticker_histories: &[(TickerHistory<'a>, &WatchlistEntry)],
         rules: &ParsedRules,
         history: &[DecisionPacket],
-        evidence_history: &[crate::features::radar::application::policy::trend_cohesion::AutomatedEvidenceRecord],
+        evidence_history: &[crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord],
         positions: &std::collections::HashMap<String, (f64, f64)>,
     ) -> Result<DecisionPacket> {
         if ticker_histories.is_empty() {
             return Err(anyhow::anyhow!("No ticker history provided for pipeline"));
         }
+
+        let domain_rules = DomainParsedRules::from(rules);
+        let rules = &domain_rules;
+        let domain_entries: Vec<(TickerHistory<'a>, DomainWatchlistEntry)> = ticker_histories
+            .iter()
+            .map(|(history, entry)| (history.clone(), DomainWatchlistEntry::from(*entry)))
+            .collect();
+        let ticker_histories: Vec<(TickerHistory<'a>, &DomainWatchlistEntry)> = domain_entries
+            .iter()
+            .map(|(history, entry)| (history.clone(), entry))
+            .collect();
+        let ticker_histories = ticker_histories.as_slice();
 
         let prev_packet = history.last();
 
@@ -191,24 +206,24 @@ impl Engine {
             );
 
             // 決済判断の統合
-            let exit_decision =
-                crate::features::radar::application::policy::exit::ExitDecision::compute(
-                    &f.symbol,
-                    asset_state_snapshot.state,
-                    prev_asset_snapshot.map(|s| s.state),
-                    state_streak,
-                    out_of_top_tier_streak,
-                    market_regime.risk_overlay,
-                    active_trend_gate_passed,
-                    prev_trend_gate_passed,
-                );
+            let exit_decision = crate::features::radar::domain::exit::ExitDecision::compute(
+                &f.symbol,
+                asset_state_snapshot.state,
+                prev_asset_snapshot.map(|s| s.state),
+                state_streak,
+                out_of_top_tier_streak,
+                market_regime.risk_overlay,
+                active_trend_gate_passed,
+                prev_trend_gate_passed,
+            );
 
             // [P0-2] PositionIntent の合成（独立した用語集）
-            let final_intent = crate::features::radar::application::policy::intent_synthesizer::IntentSynthesizer::synthesize(
-                decision.action,
-                &exit_decision,
-                active_trend_gate_passed,
-            );
+            let final_intent =
+                crate::features::radar::domain::intent_synthesizer::IntentSynthesizer::synthesize(
+                    decision.action,
+                    &exit_decision,
+                    active_trend_gate_passed,
+                );
             let breakout = BreakoutEvaluator::evaluate(
                 f,
                 &asset_state_snapshot,
@@ -228,7 +243,7 @@ impl Engine {
             decision.position_intent = final_intent;
             decision.breakout = breakout;
             decision.unified_position_intent =
-                crate::features::radar::application::policy::position_intent::UnifiedIntentSynthesizer::synthesize(
+                crate::features::radar::domain::position_intent::UnifiedIntentSynthesizer::synthesize(
                     final_intent,
                     &decision.exit_decision,
                     active_trend_gate_passed,
@@ -264,8 +279,8 @@ impl Engine {
             .filter(|d| {
                 matches!(
                     d.breakout.status,
-                    crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout
-                        | crate::features::radar::application::policy::breakout_detection::BreakoutStatus::ConfirmedBreakout
+                    crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout
+                        | crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout
                 )
             })
             .map(|d| d.symbol.clone())
@@ -273,16 +288,17 @@ impl Engine {
 
         let has_mainline = matches!(
             trend_cohesion.status,
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Formed
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed
         );
 
-        let market_state = crate::features::radar::application::policy::market_state::engine::DecisionEngine::process(
-            &rules.market_state_engine,
-            &market_features,
-            has_mainline,
-            &current_breakouts,
-            prev_packet,
-        );
+        let market_state =
+            crate::features::radar::domain::market_state::engine::DecisionEngine::process(
+                &rules.market_state_engine,
+                &market_features,
+                has_mainline,
+                &current_breakouts,
+                prev_packet,
+            );
 
         let mut packet = DecisionPacket::new(
             market_features.date,
@@ -299,7 +315,7 @@ impl Engine {
         );
 
         let mut transition_log =
-            crate::features::radar::application::policy::transition_log::StateTransitionLog::compare_with_rules(
+            crate::features::radar::domain::transition_log::StateTransitionLog::compare_with_rules(
                 prev_packet,
                 &packet,
                 rules,
@@ -309,10 +325,10 @@ impl Engine {
         let mut emerging_count = 0;
         for d in &packet.assets {
             match d.breakout.status {
-                crate::features::radar::application::policy::breakout_detection::BreakoutStatus::ConfirmedBreakout => {
+                crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout => {
                     confirmed_count += 1
                 }
-                crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout => {
+                crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout => {
                     emerging_count += 1
                 }
                 _ => {}
@@ -320,7 +336,8 @@ impl Engine {
         }
 
         // 実体的な証拠（Substantive Evidence）の集計
-        let mut substantive = crate::features::radar::application::policy::trend_cohesion::SubstantiveEvidence::default();
+        let mut substantive =
+            crate::features::radar::domain::trend_cohesion::SubstantiveEvidence::default();
         let current_date = packet.date;
         let mut min_days = usize::MAX;
 
@@ -424,7 +441,7 @@ impl Engine {
         for d in &packet.assets {
             let is_core = rules.core_assets.contains(&d.symbol);
             let is_confirmed = d.breakout.status
-                == crate::features::radar::application::policy::breakout_detection::BreakoutStatus::ConfirmedBreakout;
+                == crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout;
 
             if is_core && is_confirmed && d.breakout.breakout_age >= 3 {
                 let dedupe = format!(
@@ -461,19 +478,23 @@ impl Engine {
         substantive.event_days_since = if min_days == usize::MAX { 0 } else { min_days };
         substantive.aggregate();
 
-        let evidence = crate::features::radar::application::policy::trend_cohesion::TrendRecognitionEvidence::compute(
-            confirmed_count,
-            emerging_count,
-            transition_log.scout_days_without_expansion,
-            transition_log.scout_abort_days,
-            if substantive != crate::features::radar::application::policy::trend_cohesion::SubstantiveEvidence::default() {
-                Some(substantive)
-            } else {
-                None
-            },
-            current_date,
-            &rules.market_state_engine,
-        );
+        let evidence =
+            crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence::compute(
+                confirmed_count,
+                emerging_count,
+                transition_log.scout_days_without_expansion,
+                transition_log.scout_abort_days,
+                if substantive
+                    != crate::features::radar::domain::trend_cohesion::SubstantiveEvidence::default(
+                    )
+                {
+                    Some(substantive)
+                } else {
+                    None
+                },
+                current_date,
+                &rules.market_state_engine,
+            );
 
         packet.trend_recognition = Some(evidence.clone());
         transition_log.trend_recognition = Some(evidence);

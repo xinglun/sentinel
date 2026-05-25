@@ -237,7 +237,7 @@ pub struct AccountSnapshotInput<'a> {
 /// Radar decisioning の application-level outcome。
 #[derive(Debug, Clone)]
 pub struct RadarDecisionOutcome {
-    pub packet: crate::features::radar::application::policy::decision::DecisionPacket,
+    pub packet: crate::features::radar::domain::decision::DecisionPacket,
     pub decisioning: crate::features::shared::application::run_status::DeliveryStatus,
 }
 
@@ -291,7 +291,7 @@ pub fn should_persist_decision_history(successful_fetches: usize, failed_fetches
 
 /// 正常に生成された decision packet を application outcome へ変換する。
 pub fn build_successful_decision_outcome(
-    packet: crate::features::radar::application::policy::decision::DecisionPacket,
+    packet: crate::features::radar::domain::decision::DecisionPacket,
 ) -> RadarDecisionOutcome {
     RadarDecisionOutcome {
         packet,
@@ -311,8 +311,8 @@ pub fn build_decisioning_failure_status(
 /// 100% data acquisition failure 用の diagnostic packet を構築する。
 pub fn build_diagnostic_packet(
     date: chrono::NaiveDate,
-) -> crate::features::radar::application::policy::decision::DecisionPacket {
-    crate::features::radar::application::policy::decision::DecisionPacket {
+) -> crate::features::radar::domain::decision::DecisionPacket {
+    crate::features::radar::domain::decision::DecisionPacket {
         date,
         ..Default::default()
     }

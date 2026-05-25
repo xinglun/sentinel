@@ -811,6 +811,126 @@ impl AppConfig {
     }
 }
 
+impl From<&DeviationBasis> for crate::features::radar::domain::rules::DeviationBasis {
+    fn from(value: &DeviationBasis) -> Self {
+        match value {
+            DeviationBasis::Owner => Self::Owner,
+            DeviationBasis::Leash => Self::Leash,
+        }
+    }
+}
+
+impl From<&TrendConfig> for crate::features::radar::domain::rules::TrendConfig {
+    fn from(value: &TrendConfig) -> Self {
+        Self {
+            lookback_days: value.lookback_days,
+            flat_threshold_pct: value.flat_threshold_pct,
+        }
+    }
+}
+
+impl From<&WatchlistEntry> for crate::features::radar::domain::rules::WatchlistEntry {
+    fn from(value: &WatchlistEntry) -> Self {
+        Self {
+            symbol: value.symbol.clone(),
+            weight: value.weight,
+            market: value.market.clone(),
+            owner_ma_days: value.owner_ma_days,
+            leash_ma_days: value.leash_ma_days,
+            deviation_basis: (&value.deviation_basis).into(),
+            enable: value.enable,
+            trade_enabled: value.trade_enabled,
+            trade_amount: value.trade_amount,
+            event_tags: value.event_tags.clone(),
+        }
+    }
+}
+
+impl From<&ParsedRules> for crate::features::radar::domain::rules::ParsedRules {
+    fn from(value: &ParsedRules) -> Self {
+        Self {
+            trend: (&value.trend).into(),
+            sorted_bands: value.sorted_bands.clone(),
+            actions: value.actions.clone(),
+            sizing_multipliers: value.sizing_multipliers.clone(),
+            core_assets: value.core_assets.clone(),
+            inertia: crate::features::radar::domain::rules::ParsedInertia {
+                min_state_duration: value.inertia.min_state_duration,
+                trend_dominant_min_confidence: value.inertia.trend_dominant_min_confidence,
+                core_breakdown_k: value.inertia.core_breakdown_k,
+                core_breakdown_avg_deviation: value.inertia.core_breakdown_avg_deviation,
+                core_breakdown_breadth_floor: value.inertia.core_breakdown_breadth_floor,
+            },
+            trend_cohesion: crate::features::radar::domain::rules::ParsedTrendCohesionRules {
+                history_window_days: value.trend_cohesion.history_window_days,
+                stability_norm_max: value.trend_cohesion.stability_norm_max,
+                continuity_norm_max: value.trend_cohesion.continuity_norm_max,
+                severe_stability_threshold: value.trend_cohesion.severe_stability_threshold,
+                severe_continuity_threshold: value.trend_cohesion.severe_continuity_threshold,
+                severe_compactness_threshold: value.trend_cohesion.severe_compactness_threshold,
+                severe_rotation_threshold: value.trend_cohesion.severe_rotation_threshold,
+                severe_leadership_threshold: value.trend_cohesion.severe_leadership_threshold,
+                severe_cohesion_threshold: value.trend_cohesion.severe_cohesion_threshold,
+                gate_stability_threshold: value.trend_cohesion.gate_stability_threshold,
+                gate_continuity_threshold: value.trend_cohesion.gate_continuity_threshold,
+                directional_max_candidates: value.trend_cohesion.directional_max_candidates,
+                directional_leadership_threshold: value
+                    .trend_cohesion
+                    .directional_leadership_threshold,
+                directional_rotation_threshold: value.trend_cohesion.directional_rotation_threshold,
+                directional_compactness_threshold: value
+                    .trend_cohesion
+                    .directional_compactness_threshold,
+                topology_single_max_candidates: value.trend_cohesion.topology_single_max_candidates,
+                topology_single_min_compactness: value
+                    .trend_cohesion
+                    .topology_single_min_compactness,
+                topology_single_min_rotation: value.trend_cohesion.topology_single_min_rotation,
+                cohesive_score_threshold: value.trend_cohesion.cohesive_score_threshold,
+            },
+            market_state_engine:
+                crate::features::radar::domain::rules::ParsedMarketStateEngineRules {
+                    continuity_threshold: value.market_state_engine.continuity_threshold,
+                    stability_threshold: value.market_state_engine.stability_threshold,
+                    min_followers_threshold: value.market_state_engine.min_followers_threshold,
+                    scout_abort_days: value.market_state_engine.scout_abort_days,
+                    evidence_decay_days: value.market_state_engine.evidence_decay_days,
+                    evidence_retention_days: value.market_state_engine.evidence_retention_days,
+                    capex_payoff_weight: value.market_state_engine.capex_payoff_weight,
+                    earnings_validation_weight: value
+                        .market_state_engine
+                        .earnings_validation_weight,
+                    order_visibility_weight: value.market_state_engine.order_visibility_weight,
+                },
+            breakout: crate::features::radar::domain::rules::ParsedBreakoutRules {
+                confirmed_trend_age_threshold: value.breakout.confirmed_trend_age_threshold,
+                confirmed_top_tier_streak_threshold: value
+                    .breakout
+                    .confirmed_top_tier_streak_threshold,
+                confirmed_zscore_threshold: value.breakout.confirmed_zscore_threshold,
+                confirmed_min_slope: value.breakout.confirmed_min_slope,
+                confirmed_min_curvature: value.breakout.confirmed_min_curvature,
+                emerging_trend_age_threshold: value.breakout.emerging_trend_age_threshold,
+                emerging_top_tier_streak_threshold: value
+                    .breakout
+                    .emerging_top_tier_streak_threshold,
+                emerging_zscore_threshold: value.breakout.emerging_zscore_threshold,
+                emerging_min_slope: value.breakout.emerging_min_slope,
+                failed_breakout_curvature_threshold: value
+                    .breakout
+                    .failed_breakout_curvature_threshold,
+                failed_breakout_slope_threshold: value.breakout.failed_breakout_slope_threshold,
+                failed_breakout_display_threshold: value.breakout.failed_breakout_display_threshold,
+                failed_breakout_no_trade_display_threshold: value
+                    .breakout
+                    .failed_breakout_no_trade_display_threshold,
+            },
+            sec: None,
+            macro_gravity: None,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

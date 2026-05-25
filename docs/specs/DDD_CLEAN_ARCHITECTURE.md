@@ -9,7 +9,7 @@ key: ddd-clean-architecture-migration
 
 この文書は Sentinel を長期的に健全に拡張するための target architecture を定義する。
 実行時 checker の machine-readable SSOT は `.ai/architecture/feature_acl.yaml` であり、この文書はその意図と運用規約を説明する human-readable SSOT として扱う。
-現在の policy kernel は `src/features/radar/application/policy/**` と `src/features/radar/application/engine.rs` に収める。新規実装と段階移行はこの文書と `feature_acl.yaml` の依存方向に従う。
+現在の radar policy kernel は `src/features/radar/domain/**` に収める。`src/features/radar/application/**` は use case orchestration と port 境界に限定し、新規実装はこの文書と `feature_acl.yaml` の依存方向に従う。
 
 ## 目的
 
@@ -27,7 +27,6 @@ src/features/<feature>/interface       CLI / report / Telegram などの入出�
 src/features/<feature>/infrastructure  外部 API、永続化、通知、時計、ファイルシステムなどの実装
 src/features/<feature>/acl             外部 adapter / raw protocol と feature 内 model の防腐層
 src/features/shared/domain             複数 feature で共有する domain primitive
-src/features/radar/application/policy  既存 policy kernel を含む radar application policy
 ```
 
 feature roots、許可される feature 間依存、外部 adapter の ACL 例外は `.ai/architecture/feature_acl.yaml` に定義する。文書と manifest が衝突する場合、checker が読む `feature_acl.yaml` を優先し、この文書を更新する。
@@ -39,7 +38,10 @@ feature roots、許可される feature 間依存、外部 adapter の ACL 例�
 ```text
 feature interface -> feature application -> feature domain
 feature infrastructure -> feature application -> feature domain
+feature interface -> feature infrastructure（composition / facade のみ）
 feature infrastructure -> feature acl -> external adapter
+feature acl -> external adapter
+feature acl -> other feature acl（port factory のみ）
 feature domain -> features/shared/domain
 feature domain -> same feature domain
 ```
@@ -54,6 +56,7 @@ Domain は最内層であり、次を参照してはならない。
 - legacy presentation implementation
 
 Application は Domain を操作し、外部との接点は port trait で表現する。Infrastructure はその port を実装する。
+Application は filesystem / network IO を直接行わない。永続化、外部 API、ファイル出力は Infrastructure または Interface composition から接続する。
 
 ## Bounded Contexts
 
@@ -85,7 +88,7 @@ root-level legacy layer は再導入しない。root `src/core/**`、`src/applic
 5. 新規 output formatting は `src/features/<feature>/interface/**` に作る。
 6. legacy module を変更する場合は、Work Item に「なぜまだ legacy 側で変更するか」を記録し、同一 Work Item 内で feature 配下へ移す計画を残す。
 7. 移行済み concept は legacy 側へ逆流させない。
-8. `backtest` も feature として扱い、entrypoint は `src/features/backtest/application/**` に置く。
+8. `backtest` も feature として扱い、CLI / file output entrypoint は `src/features/backtest/interface/**` に置く。
 
 ## Anti-Corruption Boundary
 
@@ -111,22 +114,21 @@ Radar の段階移行では、CLI から次の policy を Application へ移し�
 - run context の `save_dir`、`date`、`timestamp`、初期 `RunOutcome` 生成
 - diagnostic packet、decision outcome、state machine summary、persistence payload の組み立て
 
-CLI はまだ provider 呼び出し、`Engine` 実行、report rendering、notification dispatch を保持する。
-これは移行期間の adapter / composition root として許容するが、新しい orchestration policy は `src/features/radar/application/radar.rs` に追加する。
+CLI は command dispatch と composition root 呼び出しだけを保持する。provider 呼び出し、`Engine` 実行、report rendering、notification dispatch は `src/features/radar/interface/radar_pipeline_runner.rs` の facade に集約する。
 
-次の領域は今回の migration checkpoint では変更しない。
+次の領域は domain / application / interface / infrastructure の責務へ分割済みである。
 
-- `Engine::run_daily_pipeline`
-- `PresentationAssembler`
-- Telegram / Markdown rendering
-- `PersistenceLayer` の実装
-- market data provider trait
+- `Engine::run_daily_pipeline` は application use case orchestration として残す。
+- domain model、rule profile、policy service は `src/features/radar/domain/**` に置く。
+- Markdown / Telegram / presentation assembly は `src/features/radar/interface/**` に置く。
+- packet persistence、transition log、runtime service factory は `src/features/radar/infrastructure/**` に置く。
+- `Ledger` は shared infrastructure として扱い、trading execution と radar reporting から concrete feature 逆依存なしで利用する。
 
 この境界により、Radar は Big Bang rewrite ではなく、Application use case を厚くしながら CLI を薄くする方向へ進める。
 
 ### Radar Migration Checkpoint
 
-現時点の Radar は、Application layer が orchestration policy を保持し、CLI が composition root として外部依存を接続する状態で収束する。
+現時点の Radar は、Domain が policy kernel、Application が orchestration、Interface が composition facade、Infrastructure が persistence / runtime service を保持する状態で収束する。
 
 Application layer に移行済みのもの:
 
@@ -139,12 +141,11 @@ Application layer に移行済みのもの:
 CLI に残すもの:
 
 - config loading
-- market data provider の非同期呼び出し
-- `PersistenceLayer`、`Ledger`、`EvidenceStore` の生成
-- `Engine` 実行
-- report rendering と Telegram dispatch
+- command dispatch
+- provider kind の選択
+- feature interface facade の呼び出し
 
-次に進める場合は、`src/features/<feature>/application` から `crate::data`、root compatibility layer、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
+次に進める場合は、`src/features/<feature>/application` から filesystem / network IO、root compatibility layer、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
 この rule は `make test-architecture-boundaries` の regression test で固定する。
 port contract は `RadarMarketDataPort`、`RadarDecisionHistoryPort`、`RadarNotificationPort` として application layer に置き、実装接続は別 Work Item で行う。
 
@@ -152,6 +153,15 @@ port contract は `RadarMarketDataPort`、`RadarDecisionHistoryPort`、`RadarNot
 
 `make check-architecture` は `.ai/architecture/feature_acl.yaml` を読み、feature-first / ACL の依存違反を検出する。
 root-level `src/core/**`、`src/application/**`、`src/interface/**`、`src/infrastructure/**` は廃止済みであり、target directories から legacy presentation / CLI / adapter へ依存することは禁止する。
+checker は次の hard gate を実行する。
+
+- `allowedDependencies` にない feature 依存を拒否する。
+- `shared` から concrete feature への依存を拒否する。
+- Domain から config / interface / infrastructure / adapters への依存を拒否する。
+- Application の filesystem / network IO import と usage を拒否する。
+- Infrastructure から Interface への依存を拒否する。
+- ACL から他 feature infrastructure への直接依存を拒否する。
+- CLI から external concrete adapter / legacy infrastructure への直接依存を拒否する。
 
 ## Definition of Done
 

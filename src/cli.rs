@@ -17,13 +17,13 @@ use crate::features::evidence::infrastructure::evidence_fetcher_factory::{
 use crate::features::radar::acl::market_data_provider_factory::{
     build_configured_market_data_provider, MarketDataProviderKind as ProviderType,
 };
-use crate::features::radar::application::policy::trend_cohesion::EvidenceSourceType;
-use crate::features::radar::infrastructure::radar_pipeline_runner::run_pipeline;
+use crate::features::radar::domain::trend_cohesion::EvidenceSourceType;
 use crate::features::radar::interface::audit_daily_report::{
     audit_daily_usage, audit_empty_log_message, audit_error_parse_date, audit_error_parse_line,
     audit_error_read_file, build_audit_daily_report_with_evidence_status, group_audit_days,
     parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
 };
+use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
 use crate::features::research::interface::cognitive_reports::{
     build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
     daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
@@ -67,7 +67,7 @@ pub async fn run() -> Result<()> {
         CliCommand::Help => unreachable!("help command returns before dispatch"),
         CliCommand::Backtest => {
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
-            crate::features::backtest::application::backtest::run_backtest(
+            crate::features::backtest::interface::backtest::run_backtest(
                 &app_config,
                 provider.as_ref(),
                 &options.backtest_from_date,
@@ -82,9 +82,9 @@ pub async fn run() -> Result<()> {
                 .map(|t| t.enabled)
                 .unwrap_or(false);
             let mode = if is_trading_enabled {
-                crate::features::radar::application::policy::runtime_mode::ExecutionMode::Live
+                crate::features::radar::application::runtime_mode::ExecutionMode::Live
             } else {
-                crate::features::radar::application::policy::runtime_mode::ExecutionMode::DryRun
+                crate::features::radar::application::runtime_mode::ExecutionMode::DryRun
             };
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
             run_pipeline(app_config, provider, mode).await?;
@@ -406,9 +406,9 @@ Successfully ingested {} batch evidence records to store.",
                 .map(|t| t.enabled)
                 .unwrap_or(false);
             let mode = if is_trading_enabled {
-                crate::features::radar::application::policy::runtime_mode::ExecutionMode::Live
+                crate::features::radar::application::runtime_mode::ExecutionMode::Live
             } else {
-                crate::features::radar::application::policy::runtime_mode::ExecutionMode::DryRun
+                crate::features::radar::application::runtime_mode::ExecutionMode::DryRun
             };
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
             run_pipeline(app_config, provider, mode).await?;
@@ -611,9 +611,9 @@ mod tests {
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
     };
-    use crate::features::radar::application::policy::runtime_mode::ExecutionMode;
     use crate::features::radar::application::provider::MarketDataProvider;
     use crate::features::radar::application::provider::{DailyBar, TickerHistory};
+    use crate::features::radar::application::runtime_mode::ExecutionMode;
     use crate::features::radar::interface::audit_daily_report::{
         build_audit_daily_report, build_audit_daily_report_with_evidence_status,
         consecutive_streak, parse_transition_audit_entry, TransitionAuditDay, TransitionAuditEntry,

@@ -1,9 +1,9 @@
-use crate::config::ParsedTrendCohesionRules;
-use crate::features::evidence::domain::evidence::EvidenceDecayPolicy;
-pub use crate::features::evidence::domain::evidence::{
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::rules::ParsedTrendCohesionRules;
+use crate::features::shared::domain::evidence::EvidenceDecayPolicy;
+pub use crate::features::shared::domain::evidence::{
     AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType,
 };
-use crate::features::radar::application::policy::decision::DecisionPacket;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
@@ -61,7 +61,7 @@ impl SubstantiveEvidence {
     pub fn calculate_conviction_score(
         &self,
         current_date: chrono::NaiveDate,
-        rules: &crate::config::ParsedMarketStateEngineRules,
+        rules: &crate::features::radar::domain::rules::ParsedMarketStateEngineRules,
     ) -> f64 {
         let capex_weight = rules.capex_payoff_weight;
         let earnings_weight = rules.earnings_validation_weight;
@@ -151,7 +151,7 @@ impl TrendRecognitionEvidence {
         scout_abort_days: usize,
         substantive: Option<SubstantiveEvidence>,
         current_date: chrono::NaiveDate,
-        rules: &crate::config::ParsedMarketStateEngineRules,
+        rules: &crate::features::radar::domain::rules::ParsedMarketStateEngineRules,
     ) -> Self {
         let active_count = confirmed_count + emerging_count;
         let base_diffusion_score = (confirmed_count as f64 * 1.0) + (emerging_count as f64 * 0.5);
@@ -424,8 +424,8 @@ mod tests {
         ParsedTrendCohesionRules::default()
     }
 
-    fn default_rules() -> crate::config::ParsedMarketStateEngineRules {
-        crate::config::ParsedMarketStateEngineRules {
+    fn default_rules() -> crate::features::radar::domain::rules::ParsedMarketStateEngineRules {
+        crate::features::radar::domain::rules::ParsedMarketStateEngineRules {
             capex_payoff_weight: 2.0,
             earnings_validation_weight: 1.5,
             order_visibility_weight: 1.0,

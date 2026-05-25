@@ -1,5 +1,5 @@
-use crate::features::radar::application::policy::execution_gate::TradeSide;
-use crate::features::radar::application::policy::ledger::{Ledger, TradeRecord};
+use crate::features::shared::infrastructure::ledger::{Ledger, TradeRecord};
+use crate::features::trading::application::execution_signal::{GatedTrade, TradeSide};
 use crate::features::trading::application::trade_executor::{
     OrderSide, OrderType, PlaceOrderRequest, TradeExecutor,
 };
@@ -52,10 +52,7 @@ impl TraderAgent {
         self
     }
 
-    pub async fn execute_signals(
-        &self,
-        gated_trades: Vec<crate::features::radar::application::policy::execution_gate::GatedTrade>,
-    ) -> Result<ExecutionSummary> {
+    pub async fn execute_signals(&self, gated_trades: Vec<GatedTrade>) -> Result<ExecutionSummary> {
         let mut audits = Vec::new();
         if gated_trades.is_empty() {
             println!("ℹ️  TraderAgent: No trades to execute (filtered or no signals).");
@@ -453,21 +450,15 @@ impl TraderAgent {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::action_matrix::{
-        AssetAction, AssetActionDecision,
-    };
-    use crate::features::radar::application::policy::asset_state::{
-        AssetState, AssetStateSnapshot,
-    };
-    use crate::features::radar::application::policy::market_regime::{
+    use crate::features::radar::domain::action_matrix::{AssetAction, AssetActionDecision};
+    use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
+    use crate::features::radar::domain::market_regime::{
         LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
     };
-    use crate::features::radar::application::policy::portfolio_policy::{
-        PortfolioPolicy, RiskAssetsMode,
-    };
+    use crate::features::radar::domain::portfolio_policy::{PortfolioPolicy, RiskAssetsMode};
 
     use crate::config::AppConfig;
-    use crate::features::radar::application::policy::features::MarketFeatures;
+    use crate::features::radar::domain::features::MarketFeatures;
     use crate::features::trading::application::trade_executor::MockTradeExecutor;
     use std::sync::atomic::Ordering;
 
@@ -547,12 +538,12 @@ mod tests {
             config_multiplier: 1.0,
             prev_action: None,
             action_changed: false,
-            position_intent: crate::features::radar::application::policy::exit::PositionIntent::ADD,
+            position_intent: crate::features::radar::domain::exit::PositionIntent::ADD,
             ..Default::default()
         }];
 
-        use crate::features::radar::application::policy::decision::DecisionPacket;
-        use crate::features::radar::application::policy::execution_gate::ExecutionGate;
+        use crate::features::radar::application::execution_gate::ExecutionGate;
+        use crate::features::radar::domain::decision::DecisionPacket;
 
         let market_features = MarketFeatures::default();
         let packet = DecisionPacket::new(
@@ -564,7 +555,7 @@ mod tests {
             assets,
             Vec::new(),
             false,
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot::default(),
+            crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot::default(),
             None,
             None,
         );
@@ -615,7 +606,7 @@ mod tests {
         let ledger = Arc::new(Ledger::new(save_dir.clone()));
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
-        let trade = crate::features::radar::application::policy::execution_gate::GatedTrade {
+        let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "AAPL".to_string(),
             side: TradeSide::Buy,
             qty: 50.0, // Requested 50
@@ -652,7 +643,7 @@ mod tests {
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
         // 2. Dispatch a trade with qty=1.0 but is_liquidation=true
-        let trade = crate::features::radar::application::policy::execution_gate::GatedTrade {
+        let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "EXIT_ASSET".to_string(),
             side: TradeSide::Sell,
             qty: 1.0, // Signal only requested 1 units
@@ -686,7 +677,7 @@ mod tests {
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
         // 2. Dispatch a trade with is_trim=true
-        let trade = crate::features::radar::application::policy::execution_gate::GatedTrade {
+        let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "TRIM_ASSET".to_string(),
             side: TradeSide::Sell,
             qty: 0.0, // Gate doesn't specify qty for trim
@@ -713,7 +704,7 @@ mod tests {
         let ledger = Arc::new(Ledger::new(save_dir.clone()));
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
-        let trade = crate::features::radar::application::policy::execution_gate::GatedTrade {
+        let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "FAIL".to_string(),
             side: TradeSide::Buy,
             qty: 50.0,
@@ -767,7 +758,7 @@ mod tests {
         let agent = TraderAgent::new(mock_exec.clone(), ledger)
             .with_poll_settings(std::time::Duration::from_millis(1), 5);
 
-        let trade = crate::features::radar::application::policy::execution_gate::GatedTrade {
+        let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "STAY_SUBMITTED".to_string(),
             side: TradeSide::Buy,
             qty: 10.0,
@@ -802,7 +793,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_trader_agent_reconciliation() {
-        use crate::features::radar::application::policy::ledger::TradeRecord;
+        use crate::features::shared::infrastructure::ledger::TradeRecord;
         use crate::features::trading::application::trade_executor::{Position, PositionSide};
         use chrono::Local;
 

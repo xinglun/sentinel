@@ -10,15 +10,14 @@ use crate::features::research::interface::cognitive_reports::{
 
 pub(crate) fn persist_weekly_state_outputs(
     save_dir: &std::path::Path,
-    history: &[crate::features::radar::application::policy::decision::DecisionPacket],
-    current_packet: &crate::features::radar::application::policy::decision::DecisionPacket,
+    history: &[crate::features::radar::domain::decision::DecisionPacket],
+    current_packet: &crate::features::radar::domain::decision::DecisionPacket,
     include_current_packet: bool,
     pres_packet: &crate::features::radar::interface::presentation::PresentationPacket,
     app_config: &config::AppConfig,
 ) -> Result<()> {
-    let mut recent_packets: Vec<
-        &crate::features::radar::application::policy::decision::DecisionPacket,
-    > = history.iter().rev().take(7).collect();
+    let mut recent_packets: Vec<&crate::features::radar::domain::decision::DecisionPacket> =
+        history.iter().rev().take(7).collect();
     recent_packets.reverse();
     if include_current_packet {
         recent_packets.push(current_packet);

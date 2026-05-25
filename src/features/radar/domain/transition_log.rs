@@ -1,8 +1,8 @@
-use crate::config::ParsedRules;
-use crate::features::radar::application::policy::breakout_detection::BreakoutStatus;
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::market_regime::{MarketState, RiskOverlay};
-use crate::features::radar::application::policy::trend_cohesion::{
+use crate::features::radar::domain::breakout_detection::BreakoutStatus;
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::market_regime::{MarketState, RiskOverlay};
+use crate::features::radar::domain::rules::ParsedRules;
+use crate::features::radar::domain::trend_cohesion::{
     TrendCohesionStatus, TrendCohesionTopology, TrendRecognitionEvidence,
 };
 use serde::{Deserialize, Serialize};
@@ -67,7 +67,8 @@ pub struct StateTransitionLog {
 
 impl StateTransitionLog {
     pub fn compare(prev: Option<&DecisionPacket>, curr: &DecisionPacket) -> Self {
-        let defaults = crate::config::ParsedMarketStateEngineRules::default();
+        let defaults =
+            crate::features::radar::domain::rules::ParsedMarketStateEngineRules::default();
         Self::compare_with_abort_days(prev, curr, defaults.scout_abort_days)
     }
 
@@ -277,8 +278,8 @@ impl StateTransitionLog {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::action_matrix::AssetActionDecision;
-    use crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot;
+    use crate::features::radar::domain::action_matrix::AssetActionDecision;
+    use crate::features::radar::domain::breakout_detection::BreakoutSnapshot;
 
     fn mock_packet(state: MarketState, trend_gate_passed: bool) -> DecisionPacket {
         let mut curr = DecisionPacket::default();
@@ -358,7 +359,7 @@ mod tests {
 
     #[test]
     fn test_reason_diffing() {
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::trend_cohesion::{
             TrendCohesionGateCondition, TrendCohesionSnapshot,
         };
 

@@ -1,4 +1,4 @@
-use crate::config::{DeviationBasis, ParsedRules, WatchlistEntry};
+use crate::features::radar::domain::rules::{DeviationBasis, ParsedRules, WatchlistEntry};
 use crate::features::shared::domain::market_data::{DailyBar, TickerHistory};
 
 use chrono::NaiveDate;
@@ -348,8 +348,8 @@ impl MarketFeatures {
     pub fn compute(
         assets: &[AssetFeatures],
         regime_age: usize,
-        prev_packet: Option<&crate::features::radar::application::policy::decision::DecisionPacket>,
-        rules: &crate::config::ParsedRules,
+        prev_packet: Option<&crate::features::radar::domain::decision::DecisionPacket>,
+        rules: &crate::features::radar::domain::rules::ParsedRules,
     ) -> Self {
         let date = assets
             .first()
@@ -555,7 +555,7 @@ impl MarketFeatures {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::config::{ParsedInertia, ParsedRules, TrendConfig};
+    use crate::features::radar::domain::rules::{ParsedInertia, ParsedRules, TrendConfig};
 
     fn mock_rules() -> ParsedRules {
         ParsedRules {
@@ -574,8 +574,9 @@ mod tests {
                 core_breakdown_avg_deviation: -5.0,
                 core_breakdown_breadth_floor: 0.1,
             },
-            trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
-            breakout: crate::config::ParsedBreakoutRules::default(),
+            trend_cohesion:
+                crate::features::radar::domain::rules::ParsedTrendCohesionRules::default(),
+            breakout: crate::features::radar::domain::rules::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
             sec: None,
             macro_gravity: None,

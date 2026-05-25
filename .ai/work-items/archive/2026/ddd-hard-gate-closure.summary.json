@@ -1,0 +1,151 @@
+{
+  "workItemId": "ddd-hard-gate-closure",
+  "contractPath": ".ai/work-items/archive/2026/ddd-hard-gate-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-hard-gate-closure.contract.json",
+      "reason": "破壊的 DDD hard gate closure の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-hard-gate-closure.summary.json",
+      "reason": "変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature roots と allowedDependencies を hard gate checker の SSOT として維持した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "allowedDependencies、shared leaf、application IO、infrastructure -> interface、ACL concrete dependency を検出する hard gate を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "hard gate の regression sample を追加した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "実装後の四層 + ACL ルールと checker hard gate を human-readable SSOT へ反映した。"
+    },
+    {
+      "path": "src/features/radar/domain/**",
+      "reason": "radar policy kernel、domain rule profile、market state / asset state / transition / trend cohesion を domain layer へ移動した。"
+    },
+    {
+      "path": "src/features/radar/application/**",
+      "reason": "application layer を Engine / ExecutionGate / runtime mode / use case orchestration に整理した。"
+    },
+    {
+      "path": "src/features/radar/interface/**",
+      "reason": "presentation、report、telemetry、pipeline facade を interface layer へ集約した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/**",
+      "reason": "persistence、runtime factory、transition log を infrastructure layer に限定した。"
+    },
+    {
+      "path": "src/features/shared/domain/**",
+      "reason": "evidence、reconciliation、trade signal など cross-feature primitive を shared domain へ移した。"
+    },
+    {
+      "path": "src/features/shared/infrastructure/**",
+      "reason": "trade ledger を shared infrastructure として分離し concrete feature 逆依存を解消した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "shared CLI parser から radar interface 依存を除去し、audit error 文言を局所化した。"
+    },
+    {
+      "path": "src/features/evidence/**",
+      "reason": "evidence primitive を shared domain へ投影し、evidence ACL factory 経由の接続に整理した。"
+    },
+    {
+      "path": "src/features/backtest/**",
+      "reason": "backtest の CLI / file output entrypoint を interface layer へ移動した。"
+    },
+    {
+      "path": "src/features/trading/**",
+      "reason": "trading execution signal と reconciliation DTO を shared primitive 経由に整理した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI composition root から feature interface facade を呼び出すように更新した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "config parsed rules を radar domain rule profile へ変換する adapter を追加した。"
+    },
+    {
+      "path": "tests/**/*.rs",
+      "reason": "移動後の module path に合わせて integration tests を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/architecture/feature_acl.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "DDD Hard Gate Closure Plan"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-hard-gate-closure.summary.json CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json SUMMARY=.ai/work-items/active/ddd-hard-gate-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json SUMMARY=.ai/work-items/active/ddd-hard-gate-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-finish TASK=ddd-hard-gate-closure",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "大規模な module 移動を伴うため、business output の意味はテストで維持したが import path のレビュー負荷は高い。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    "src/features/radar/application/policy/** を削除し、domain/application/interface/infrastructure/shared に移動した。",
+    "src/features/shared/interface/display.rs を radar interface へ移動した。",
+    "src/features/backtest/application/backtest.rs を backtest interface へ移動した。"
+  ],
+  "observedIssues": [
+    "cargo test --all-targets 初回実行で移動後の test import と audit CLI 文言 mismatch を検出し修正した。"
+  ]
+}

@@ -1,8 +1,8 @@
 use crate::config::{AppConfig, ParsedRules};
 use crate::features::radar::application::engine::Engine;
-use crate::features::radar::application::policy::action_matrix::AssetAction;
-use crate::features::radar::application::policy::decision::DecisionPacket;
 use crate::features::radar::application::provider::{MarketDataProvider, TickerHistory};
+use crate::features::radar::domain::action_matrix::AssetAction;
+use crate::features::radar::domain::decision::DecisionPacket;
 use anyhow::Result;
 use chrono::NaiveDate;
 use std::borrow::Cow;
@@ -164,9 +164,8 @@ fn run_core_simulation(
     let mut regime_tracking: HashMap<String, RegimeStats> = HashMap::new();
     let mut potential_records: Vec<(NaiveDate, f64)> = Vec::new();
     let mut sm_metrics = StateMachineMetrics::default();
-    let mut state_history: Vec<
-        crate::features::radar::application::policy::market_regime::MarketState,
-    > = Vec::new();
+    let mut state_history: Vec<crate::features::radar::domain::market_regime::MarketState> =
+        Vec::new();
 
     let mut asset_indices: HashMap<String, usize> = HashMap::new();
     let mut raw_top3_first_seen: HashMap<String, NaiveDate> = HashMap::new();
@@ -232,24 +231,24 @@ fn run_core_simulation(
             sm_metrics.trend_gate_blocked_days += 1;
         }
         match current_packet.trend_cohesion.status {
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed => {
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed => {
                 sm_metrics.trend_status_dispersed_days += 1;
             }
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Forming => {
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Forming => {
                 sm_metrics.trend_status_forming_days += 1;
             }
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Formed => {
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed => {
                 sm_metrics.trend_status_formed_days += 1;
             }
         }
         match current_packet.trend_cohesion.topology {
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader => {
+            crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader => {
                 sm_metrics.topology_no_leader_days += 1;
             }
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::SingleLeader => {
+            crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::SingleLeader => {
                 sm_metrics.topology_single_leader_days += 1;
             }
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
+            crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
                 sm_metrics.topology_fragmented_leaders_days += 1;
             }
         }
@@ -259,20 +258,20 @@ fn run_core_simulation(
                 sm_metrics.breakout_eligible_asset_days += 1;
             }
             match asset.breakout.status {
-                crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout => {
+                crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout => {
                     sm_metrics.breakout_no_breakout_count += 1;
                 }
-                crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout => {
+                crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout => {
                     sm_metrics.breakout_emerging_count += 1;
                 }
-                crate::features::radar::application::policy::breakout_detection::BreakoutStatus::ConfirmedBreakout => {
+                crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout => {
                     sm_metrics.breakout_confirmed_count += 1;
                 }
             }
             if asset
                 .breakout
                 .reasons
-                .contains(&crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk)
+                .contains(&crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk)
             {
                 sm_metrics.breakout_failed_risk_count += 1;
             }
@@ -302,8 +301,9 @@ fn run_core_simulation(
         }
 
         if let Some(audit) = &current_packet.market_regime.transition_audit {
-            if audit.to == crate::features::radar::application::policy::market_regime::LifecycleState::IGNITION
-                && audit.from != crate::features::radar::application::policy::market_regime::LifecycleState::NEWBORN
+            if audit.to == crate::features::radar::domain::market_regime::LifecycleState::IGNITION
+                && audit.from
+                    != crate::features::radar::domain::market_regime::LifecycleState::NEWBORN
             {
                 sm_metrics.reset_count += 1;
             }
@@ -354,7 +354,7 @@ fn run_core_simulation(
             let raw_score = asset.deviation.unwrap_or(0.0);
             let is_raw_optimal = raw_score >= optimal_threshold;
             let is_actual_optimal = asset.asset_state.state
-                == crate::features::radar::application::policy::asset_state::AssetState::OPTIMAL;
+                == crate::features::radar::domain::asset_state::AssetState::OPTIMAL;
 
             if is_actual_optimal && !is_raw_optimal {
                 sm_metrics.total_raw_vs_actual_divergence_days += 1;

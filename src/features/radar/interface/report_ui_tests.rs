@@ -1,11 +1,9 @@
 use crate::config::{AppConfig, OutputConfig, RulesConfig, TrendCohesionRulesConfig, TrendConfig};
-use crate::features::radar::application::policy::action_matrix::AssetActionDecision;
-use crate::features::radar::application::policy::asset_state::{AssetState, AssetStateSnapshot};
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::exit::{
-    AssetExitState, ExitDecision, PositionIntent,
-};
-use crate::features::radar::application::policy::market_regime::{
+use crate::features::radar::domain::action_matrix::AssetActionDecision;
+use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::exit::{AssetExitState, ExitDecision, PositionIntent};
+use crate::features::radar::domain::market_regime::{
     MarketRegimeSnapshot, MarketState, RiskOverlay,
 };
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
@@ -61,8 +59,8 @@ fn mock_config_with_language(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-    use crate::features::radar::application::policy::trend_cohesion::{
+    use crate::features::radar::domain::transition_log::StateTransitionLog;
+    use crate::features::radar::domain::trend_cohesion::{
         TrendCohesionGateCondition, TrendCohesionSnapshot,
     };
     use crate::features::shared::interface::i18n::{get_dictionary, Language};
@@ -77,20 +75,20 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+                status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                 stability_score: 1.1,
                 continuity_streak: 1,
                 unmet_conditions: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
                 ],
                 ..Default::default()
             },
-            market_features: crate::features::radar::application::policy::features::MarketFeatures {
+            market_features: crate::features::radar::domain::features::MarketFeatures {
                 system_confidence: 52.0,
                 stability_score: 1.1,
                 regime_age: 1,
@@ -103,12 +101,12 @@ mod tests {
                     state: AssetState::FORMING,
                     ..Default::default()
                 },
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                     breakout_strength: 62.0,
                     breakout_quality: 100.0,
                     reasons: vec![
-                        crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                        crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                     ],
                     ..Default::default()
                 },
@@ -248,11 +246,10 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: true,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -298,16 +295,16 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+                status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                 stability_score: 1.1,
                 continuity_streak: 1,
                 unmet_conditions: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
                 ],
                 ..Default::default()
             },
@@ -356,11 +353,10 @@ mod tests {
                 risk_overlay: RiskOverlay::DEFENSIVE,
                 ..Default::default()
             },
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: true,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -438,11 +434,10 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: false,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "AAPL".into(),
                 ..Default::default()
@@ -477,20 +472,20 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+                status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                 stability_score: 7.5,
                 continuity_streak: 5,
                 unmet_conditions: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion,
                 ],
                 ..Default::default()
             },
-            market_features: crate::features::radar::application::policy::features::MarketFeatures {
+            market_features: crate::features::radar::domain::features::MarketFeatures {
                 stability_score: 7.5,
                 regime_age: 1,
                 ..Default::default()
@@ -532,7 +527,7 @@ mod tests {
     fn test_legacy_threshold_template_matcher_table_driven() {
         struct Case {
             reason: &'static str,
-            unmet: Vec<crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition>,
+            unmet: Vec<crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition>,
             should_suppress: bool,
         }
 
@@ -544,210 +539,210 @@ mod tests {
             Case {
                 reason: "稳定性不足（< 10.0）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "稳定性不足（＜10.0）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "稳定性不足（≤10.0）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "安定性不足(≦10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "连续性不足（1d < 3d）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "連続性不足（1日 ≤ 3日）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) <= threshold (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "STABILITY SCORE(8.0)<=THRESHOLD(10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) <= THR (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) <= threshold (10.0).",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) <= threshold (10.0)!",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) ＜ threshold (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) ＜ threshold (10.0)。",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) ＜＝ threshold (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "Stability score (8.0) <＝ threshold (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "稳定性不足（<10.0）。",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "連続性不足（1日≤3日）！",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ],
                 should_suppress: true,
             },
             Case {
                 reason: "备注：稳定性不足但先观察，不立即处理",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "连续性不足（等待确认）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "盘中提示：稳定性不足（<10.0）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "稳定性不足但需结合成交量<均值判断",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "稳定性不足（需结合成交量变化）并结合<均值判断",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "稳定性不足（备注<阈值，先观察）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "連続性不足（出来高≤基準なので様子見）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "連続性不足（注記≤閾値で監視）",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "Stability score (comment: < avg volume) keep watching",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "Stability score (note) <= threshold (watch)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "Stability score (8.0) <= thrash (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "Stability score (8.0) = threshold (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
             Case {
                 reason: "Stability score (8.0) <== threshold (10.0)",
                 unmet: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 ],
                 should_suppress: false,
             },
@@ -762,10 +757,10 @@ mod tests {
                     reasons: vec![case.reason.to_string()],
                     ..Default::default()
                 },
-                trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+                trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                     gate_passed: false,
-                    status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                    topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+                    status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                    topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                     stability_score: 8.0,
                     continuity_streak: 1,
                     unmet_conditions: case.unmet,
@@ -810,9 +805,7 @@ mod tests {
 
     fn report_markdown_contains_reason(
         reason: &str,
-        unmet: Vec<
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition,
-        >,
+        unmet: Vec<crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition>,
         language: crate::features::shared::interface::i18n::Language,
     ) -> bool {
         let packet = DecisionPacket {
@@ -823,10 +816,12 @@ mod tests {
                 reasons: vec![reason.to_string()],
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+                status:
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology:
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                 stability_score: 8.0,
                 continuity_streak: 1,
                 unmet_conditions: unmet,
@@ -881,7 +876,7 @@ mod tests {
                         !report_markdown_contains_reason(
                             &reason,
                             vec![
-                                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                             ],
                             crate::features::shared::interface::i18n::Language::ZhCn,
                         ),
@@ -896,22 +891,22 @@ mod tests {
             (
                 "稳定性不足",
                 "<10.0",
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
             ),
             (
                 "安定性不足",
                 "<10.0",
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
             ),
             (
                 "连续性不足",
                 "1d<3d",
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
             ),
             (
                 "連続性不足",
                 "1日≤3日",
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
             ),
         ];
         for (prefix, payload, gate) in localized_cases {
@@ -950,7 +945,7 @@ mod tests {
                 report_markdown_contains_reason(
                     reason,
                     vec![
-                        crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                        crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                     ],
                     crate::features::shared::interface::i18n::Language::ZhCn,
                 ),
@@ -969,8 +964,8 @@ mod tests {
                 report_markdown_contains_reason(
                     reason,
                     vec![
-                        crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                        crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                        crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                        crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                     ],
                     crate::features::shared::interface::i18n::Language::ZhCn,
                 ),
@@ -985,7 +980,7 @@ mod tests {
         let suppress_reason = "Stability score (8.0) < threshold (10.0)";
         let preserve_reason = "Stability score (note) < threshold (watch)";
         let unmet =
-            vec![crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold];
+            vec![crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold];
 
         for language in [
             crate::features::shared::interface::i18n::Language::EnUs,
@@ -1043,13 +1038,13 @@ mod tests {
                 "Stability score",
                 "(8.0)",
                 "(10.0)",
-                vec![crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold],
+                vec![crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold],
             ),
             (
                 "Core Tier streak",
                 "(1)",
                 "(3)",
-                vec![crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold],
+                vec![crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold],
             ),
         ];
         for (prefix, lhs, rhs, unmet) in families {
@@ -1103,13 +1098,13 @@ mod tests {
                 "Stability score",
                 "(8.0)",
                 "(10.0)",
-                vec![crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold],
+                vec![crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold],
             ),
             (
                 "Core Tier streak",
                 "(1)",
                 "(3)",
-                vec![crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold],
+                vec![crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold],
             ),
         ];
         for (prefix, lhs, rhs, unmet) in invalid_families {
@@ -1139,9 +1134,9 @@ mod tests {
                 market_state: MarketState::IGNITION,
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 7.5,
                 continuity_streak: 1,
@@ -1149,14 +1144,14 @@ mod tests {
                 leader_count: 1,
                 rotation_quality_score: 22.0,
                 unmet_conditions: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::UnstableRotation,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::WeakLeadership,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::UnstableRotation,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::WeakLeadership,
                 ],
                 ..Default::default()
-            },            market_features: crate::features::radar::application::policy::features::MarketFeatures {
+            },            market_features: crate::features::radar::domain::features::MarketFeatures {
                 stability_score: 7.5,
                 regime_age: 1,
                 ..Default::default()
@@ -1207,7 +1202,7 @@ mod tests {
 
     #[test]
     fn test_persistent_main_theme_displays_existing_theme_without_gate_permission() {
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendCohesionStatus, TrendCohesionTopology,
             TrendContinuationState, TrendRecognitionEvidence,
         };
@@ -1228,15 +1223,14 @@ mod tests {
                 continuity_streak: 4,
                 ..Default::default()
             },
-            market_features:
-                crate::features::radar::application::policy::features::MarketFeatures {
-                    up_count: 2,
-                    down_count: 7,
-                    total_count: 9,
-                    stability_score: 7.1,
-                    system_confidence: 54.0,
-                    ..Default::default()
-                },
+            market_features: crate::features::radar::domain::features::MarketFeatures {
+                up_count: 2,
+                down_count: 7,
+                total_count: 9,
+                stability_score: 7.1,
+                system_confidence: 54.0,
+                ..Default::default()
+            },
             assets: vec![
                 AssetActionDecision {
                     symbol: "SPY".to_string(),
@@ -1344,11 +1338,10 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: true,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -1393,13 +1386,12 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            market_features:
-                crate::features::radar::application::policy::features::MarketFeatures {
-                    system_confidence: 54.0,
-                    stability_score: 1.1,
-                    regime_age: 1,
-                    ..Default::default()
-                },
+            market_features: crate::features::radar::domain::features::MarketFeatures {
+                system_confidence: 54.0,
+                stability_score: 1.1,
+                regime_age: 1,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "NVDA".into(),
                 asset_state: AssetStateSnapshot {
@@ -1654,9 +1646,10 @@ mod tests {
                         state: AssetState::DEFEND,
                         ..Default::default()
                     },
-                    exit_decision: crate::features::radar::application::policy::exit::ExitDecision {
+                    exit_decision: crate::features::radar::domain::exit::ExitDecision {
                         position_intent: PositionIntent::EXIT,
-                        asset_exit_state: crate::features::radar::application::policy::exit::AssetExitState::DefensiveExit,
+                        asset_exit_state:
+                            crate::features::radar::domain::exit::AssetExitState::DefensiveExit,
                         reasons: vec![],
                     },
                     position_intent: PositionIntent::EXIT,
@@ -1743,19 +1736,19 @@ mod tests {
     fn test_breakout_section_renders_evidence_without_buy_language() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "PLTR".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::ConfirmedBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout,
                         breakout_strength: 81.0,
                         breakout_quality: 77.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                         ],
                         ..Default::default()
                     },
@@ -1763,14 +1756,14 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "TSLA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 33.0,
                         breakout_quality: 39.0,
                         failed_breakout_risk: 66.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                         ],
                         ..Default::default()
                     },
@@ -1809,17 +1802,17 @@ mod tests {
     fn test_breakout_section_renders_ordinary_rebound_as_visible_evidence() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "QQQ".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                     breakout_strength: 27.0,
                     breakout_quality: 29.0,
-                    reasons: vec![crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound],
+                    reasons: vec![crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound],
                     ..Default::default()
                 },
                 ..Default::default()
@@ -1855,19 +1848,19 @@ mod tests {
     fn test_breakout_section_renders_all_categories_in_english_final_report() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 24.0,
                         breakout_quality: 28.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
                         ],
                         ..Default::default()
                     },
@@ -1875,12 +1868,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "TSLA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 35.0,
                         breakout_quality: 42.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::PullbackRepair,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::PullbackRepair,
                         ],
                         ..Default::default()
                     },
@@ -1888,12 +1881,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "PLTR".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::ConfirmedBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout,
                         breakout_strength: 81.0,
                         breakout_quality: 77.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                         ],
                         ..Default::default()
                     },
@@ -1901,14 +1894,14 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 31.0,
                         breakout_quality: 38.0,
                         failed_breakout_risk: 66.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                         ],
                         ..Default::default()
                     },
@@ -1962,19 +1955,19 @@ mod tests {
     fn test_breakout_section_renders_all_categories_in_japanese_final_report() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 24.0,
                         breakout_quality: 28.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
                         ],
                         ..Default::default()
                     },
@@ -1982,12 +1975,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "TSLA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 35.0,
                         breakout_quality: 42.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::PullbackRepair,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::PullbackRepair,
                         ],
                         ..Default::default()
                     },
@@ -1995,12 +1988,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "PLTR".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::ConfirmedBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout,
                         breakout_strength: 81.0,
                         breakout_quality: 77.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                         ],
                         ..Default::default()
                     },
@@ -2008,14 +2001,14 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 31.0,
                         breakout_quality: 38.0,
                         failed_breakout_risk: 66.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                         ],
                         ..Default::default()
                     },
@@ -2063,19 +2056,19 @@ mod tests {
     fn test_breakout_section_denoises_no_trade_in_chinese() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 27.0,
                         breakout_quality: 29.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
                         ],
                         ..Default::default()
                     },
@@ -2083,12 +2076,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "TSLA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 35.0,
                         breakout_quality: 42.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::PullbackRepair,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::PullbackRepair,
                         ],
                         ..Default::default()
                     },
@@ -2096,12 +2089,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "GOOG".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                         breakout_strength: 47.0,
                         breakout_quality: 88.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                         ],
                         ..Default::default()
                     },
@@ -2109,14 +2102,14 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 31.0,
                         breakout_quality: 38.0,
                         failed_breakout_risk: 82.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                         ],
                         ..Default::default()
                     },
@@ -2167,17 +2160,17 @@ mod tests {
     fn test_breakout_section_denoises_no_trade_in_english() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
                         ],
                         ..Default::default()
                     },
@@ -2185,12 +2178,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "GOOG".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                         breakout_strength: 47.0,
                         breakout_quality: 88.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                         ],
                         ..Default::default()
                     },
@@ -2198,12 +2191,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         failed_breakout_risk: 82.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                         ],
                         ..Default::default()
                     },
@@ -2253,17 +2246,17 @@ mod tests {
     fn test_breakout_section_denoises_no_trade_in_japanese() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
                         ],
                         ..Default::default()
                     },
@@ -2271,12 +2264,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "GOOG".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                         breakout_strength: 47.0,
                         breakout_quality: 88.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                         ],
                         ..Default::default()
                     },
@@ -2284,12 +2277,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         failed_breakout_risk: 82.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                         ],
                         ..Default::default()
                     },
@@ -2331,7 +2324,7 @@ mod tests {
     }
     #[test]
     fn test_transition_evidence_rendering_zh_cn() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
@@ -2349,11 +2342,10 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: true,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             ..Default::default()
         };
 
@@ -2386,8 +2378,8 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_report_rendering_zh_cn() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
             TrendContinuationState, TrendRecognitionEvidence,
         };
@@ -2480,8 +2472,8 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_report_rendering_ja_jp() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             TrendContinuationState, TrendRecognitionEvidence,
         };
         use crate::features::shared::interface::i18n::Language;
@@ -2523,8 +2515,8 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_substantive_details_render_in_en_and_ja() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
             TrendContinuationState, TrendRecognitionEvidence,
         };
@@ -2714,8 +2706,8 @@ mod tests {
 
     #[test]
     fn test_strategic_layer_no_trade_boundary_is_stable_across_languages() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
         use crate::features::shared::interface::i18n::Language;
@@ -2841,7 +2833,7 @@ mod tests {
 
     #[test]
     fn test_hypothesis_layer_renders_speculative_notice_without_gate_change() {
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
             TrendRecognitionEvidence,
         };
@@ -2897,8 +2889,8 @@ mod tests {
 
     #[test]
     fn test_hypothesis_layer_is_separated_from_reality_sections() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
         use crate::features::shared::interface::i18n::Language;
@@ -2953,8 +2945,8 @@ mod tests {
 
     #[test]
     fn test_hypothesis_without_failure_risks_is_not_rendered() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
         use crate::features::shared::interface::i18n::Language;
@@ -2994,8 +2986,8 @@ mod tests {
 
     #[test]
     fn test_hypothesis_layer_renders_in_en_and_ja() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
         use crate::features::shared::interface::i18n::Language;
@@ -3056,11 +3048,9 @@ mod tests {
 
     #[test]
     fn test_narrow_leadership_is_displayed_as_structural_consolidation_without_gate_change() {
-        use crate::features::radar::application::policy::asset_state::{
-            AssetState, AssetStateSnapshot,
-        };
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
             TrendRecognitionEvidence,
         };
@@ -3079,15 +3069,14 @@ mod tests {
                 gate_passed: false,
                 ..Default::default()
             },
-            market_features:
-                crate::features::radar::application::policy::features::MarketFeatures {
-                    up_count: 3,
-                    down_count: 6,
-                    total_count: 9,
-                    system_confidence: 49.0,
-                    stability_score: 0.8,
-                    ..Default::default()
-                },
+            market_features: crate::features::radar::domain::features::MarketFeatures {
+                up_count: 3,
+                down_count: 6,
+                total_count: 9,
+                system_confidence: 49.0,
+                stability_score: 0.8,
+                ..Default::default()
+            },
             assets: vec![
                 AssetActionDecision {
                     symbol: "SPY".to_string(),
@@ -3238,24 +3227,22 @@ mod tests {
 
     #[test]
     fn test_no_trade_persistence_explanation_en_us() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: false,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
             ..Default::default()
         };
 
         let mut curr = DecisionPacket {
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: false,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: false,
+                ..Default::default()
+            },
             ..Default::default()
         };
 
@@ -3281,7 +3268,7 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_rendering_ja_jp() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
@@ -3290,8 +3277,9 @@ mod tests {
                 risk_overlay: RiskOverlay::BROKEN,
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                status:
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
                 ..Default::default()
             },
             ..Default::default()
@@ -3303,8 +3291,9 @@ mod tests {
                 risk_overlay: RiskOverlay::NORMAL,
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Forming,
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                status:
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Forming,
                 ..Default::default()
             },
             ..Default::default()
@@ -3342,19 +3331,19 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_breakout_changes_focus_on_structural_deltas() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "GOOG".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         failed_breakout_risk: 0.0,
                         ..Default::default()
                     },
@@ -3362,8 +3351,8 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         failed_breakout_risk: 0.0,
                         ..Default::default()
                     },
@@ -3371,8 +3360,8 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "U".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         failed_breakout_risk: 0.0,
                         ..Default::default()
                     },
@@ -3383,15 +3372,15 @@ mod tests {
         };
 
         let mut curr = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "GOOG".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                         failed_breakout_risk: 61.0,
                         ..Default::default()
                     },
@@ -3399,8 +3388,8 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         failed_breakout_risk: 82.0,
                         ..Default::default()
                     },
@@ -3408,8 +3397,8 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "U".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         failed_breakout_risk: 73.0,
                         ..Default::default()
                     },
@@ -3441,18 +3430,18 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_not_shown_for_breakout_risk_only_change() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "NVDA".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                     failed_breakout_risk: 10.0,
                     ..Default::default()
                 },
@@ -3462,14 +3451,14 @@ mod tests {
         };
 
         let mut curr = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "NVDA".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                     failed_breakout_risk: 82.0,
                     ..Default::default()
                 },
@@ -3499,18 +3488,18 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_renders_scout_status_only_in_transition_block() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "GOOG".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                     ..Default::default()
                 },
                 ..Default::default()
@@ -3519,14 +3508,14 @@ mod tests {
         };
 
         let mut curr = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "GOOG".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                     ..Default::default()
                 },
                 ..Default::default()
@@ -3558,27 +3547,27 @@ mod tests {
 
     #[test]
     fn test_scout_multi_point_expansion_does_not_render_zero_ratio() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         ..Default::default()
                     },
                     ..Default::default()
                 },
                 AssetActionDecision {
                     symbol: "U".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         ..Default::default()
                     },
                     ..Default::default()
@@ -3588,23 +3577,23 @@ mod tests {
         };
 
         let mut curr = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                         ..Default::default()
                     },
                     ..Default::default()
                 },
                 AssetActionDecision {
                     symbol: "U".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                         ..Default::default()
                     },
                     ..Default::default()
@@ -3636,18 +3625,18 @@ mod tests {
 
     #[test]
     fn test_transition_evidence_renders_scout_status_in_en_and_ja() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::shared::interface::i18n::Language;
 
         let prev = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "GOOG".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                     ..Default::default()
                 },
                 ..Default::default()
@@ -3656,14 +3645,14 @@ mod tests {
         };
 
         let mut curr = DecisionPacket {
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "GOOG".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                     ..Default::default()
                 },
                 ..Default::default()

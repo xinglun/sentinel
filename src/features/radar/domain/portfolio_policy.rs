@@ -1,6 +1,4 @@
-use crate::features::radar::application::policy::market_regime::{
-    MarketRegimeSnapshot, MarketState,
-};
+use crate::features::radar::domain::market_regime::{MarketRegimeSnapshot, MarketState};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
@@ -80,7 +78,7 @@ impl PortfolioPolicy {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::market_regime::{LifecycleState, RiskOverlay};
+    use crate::features::radar::domain::market_regime::{LifecycleState, RiskOverlay};
 
     fn mock_snapshot(state: MarketState) -> MarketRegimeSnapshot {
         MarketRegimeSnapshot {

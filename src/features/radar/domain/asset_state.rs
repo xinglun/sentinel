@@ -1,6 +1,6 @@
-use crate::config::ParsedRules;
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::features::AssetFeatures;
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::features::AssetFeatures;
+use crate::features::radar::domain::rules::ParsedRules;
 use serde::{Deserialize, Serialize};
 
 #[allow(non_camel_case_types)]
@@ -461,7 +461,7 @@ impl AssetStateMachine {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::features::TrendStatus;
+    use crate::features::radar::domain::features::TrendStatus;
     use chrono::Utc;
 
     fn mock_asset_features(symbol: &str, trend_age: usize, z: f64, dev: f64) -> AssetFeatures {
@@ -485,8 +485,8 @@ mod tests {
 
     #[test]
     fn test_asset_state_forming() {
-        let rules = crate::config::ParsedRules {
-            trend: crate::config::TrendConfig {
+        let rules = crate::features::radar::domain::rules::ParsedRules {
+            trend: crate::features::radar::domain::rules::TrendConfig {
                 lookback_days: 0,
                 flat_threshold_pct: 0.0,
             },
@@ -494,15 +494,16 @@ mod tests {
             actions: std::collections::HashMap::new(),
             sizing_multipliers: None,
             core_assets: Vec::new(),
-            inertia: crate::config::ParsedInertia {
+            inertia: crate::features::radar::domain::rules::ParsedInertia {
                 min_state_duration: 3,
                 trend_dominant_min_confidence: 55.0,
                 core_breakdown_k: 2,
                 core_breakdown_avg_deviation: -5.0,
                 core_breakdown_breadth_floor: 0.0,
             },
-            trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
-            breakout: crate::config::ParsedBreakoutRules::default(),
+            trend_cohesion:
+                crate::features::radar::domain::rules::ParsedTrendCohesionRules::default(),
+            breakout: crate::features::radar::domain::rules::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
             sec: None,
             macro_gravity: None,
@@ -515,8 +516,8 @@ mod tests {
 
     #[test]
     fn test_asset_state_optimal() {
-        let rules = crate::config::ParsedRules {
-            trend: crate::config::TrendConfig {
+        let rules = crate::features::radar::domain::rules::ParsedRules {
+            trend: crate::features::radar::domain::rules::TrendConfig {
                 lookback_days: 0,
                 flat_threshold_pct: 0.0,
             },
@@ -524,15 +525,16 @@ mod tests {
             actions: std::collections::HashMap::new(),
             sizing_multipliers: None,
             core_assets: Vec::new(),
-            inertia: crate::config::ParsedInertia {
+            inertia: crate::features::radar::domain::rules::ParsedInertia {
                 min_state_duration: 3,
                 trend_dominant_min_confidence: 55.0,
                 core_breakdown_k: 2,
                 core_breakdown_avg_deviation: -5.0,
                 core_breakdown_breadth_floor: 0.0,
             },
-            trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
-            breakout: crate::config::ParsedBreakoutRules::default(),
+            trend_cohesion:
+                crate::features::radar::domain::rules::ParsedTrendCohesionRules::default(),
+            breakout: crate::features::radar::domain::rules::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
             sec: None,
             macro_gravity: None,
@@ -552,18 +554,14 @@ mod tests {
 
     #[test]
     fn test_memory_layer_top_tier_lock() {
-        use crate::features::radar::application::policy::action_matrix::{
-            AssetAction, AssetActionDecision,
-        };
-        use crate::features::radar::application::policy::market_regime::{
+        use crate::features::radar::domain::action_matrix::{AssetAction, AssetActionDecision};
+        use crate::features::radar::domain::market_regime::{
             LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
         };
-        use crate::features::radar::application::policy::portfolio_policy::{
-            PortfolioPolicy, RiskAssetsMode,
-        };
+        use crate::features::radar::domain::portfolio_policy::{PortfolioPolicy, RiskAssetsMode};
 
         // Use bands that would normally result in DEFEND for dev -10.0
-        let rules = crate::config::ParsedRules {
+        let rules = crate::features::radar::domain::rules::ParsedRules {
             sorted_bands: vec![
                 ("OPTIMAL".to_string(), 5.0),
                 ("CRUISE".to_string(), 0.0),
@@ -642,14 +640,10 @@ mod tests {
 
     #[test]
     fn test_memory_layer_promotion_cap() {
-        use crate::features::radar::application::policy::action_matrix::{
-            AssetAction, AssetActionDecision,
-        };
-        use crate::features::radar::application::policy::portfolio_policy::{
-            PortfolioPolicy, RiskAssetsMode,
-        };
+        use crate::features::radar::domain::action_matrix::{AssetAction, AssetActionDecision};
+        use crate::features::radar::domain::portfolio_policy::{PortfolioPolicy, RiskAssetsMode};
         // Use bands where dev 10.0 -> OPTIMAL
-        let rules = crate::config::ParsedRules {
+        let rules = crate::features::radar::domain::rules::ParsedRules {
             sorted_bands: vec![
                 ("OPTIMAL".to_string(), 5.0),
                 ("CRUISE".to_string(), 0.0),
@@ -715,8 +709,8 @@ mod tests {
 
     #[test]
     fn test_friction_downgrade_delay() {
-        use crate::features::radar::application::policy::action_matrix::AssetActionDecision;
-        let rules = crate::config::ParsedRules {
+        use crate::features::radar::domain::action_matrix::AssetActionDecision;
+        let rules = crate::features::radar::domain::rules::ParsedRules {
             sorted_bands: vec![("OPTIMAL".to_string(), 5.0), ("CRUISE".to_string(), 0.0)],
             ..Default::default()
         };
@@ -733,7 +727,7 @@ mod tests {
                 state: AssetState::OPTIMAL,
                 ..Default::default()
             },
-            action: crate::features::radar::application::policy::action_matrix::AssetAction::HOLD,
+            action: crate::features::radar::domain::action_matrix::AssetAction::HOLD,
             deviation: Some(10.0), // Meets OPTIMAL
             ..Default::default()
         };
@@ -772,8 +766,8 @@ mod tests {
 
     #[test]
     fn test_friction_upgrade_delay() {
-        use crate::features::radar::application::policy::action_matrix::AssetActionDecision;
-        let rules = crate::config::ParsedRules {
+        use crate::features::radar::domain::action_matrix::AssetActionDecision;
+        let rules = crate::features::radar::domain::rules::ParsedRules {
             sorted_bands: vec![("OPTIMAL".to_string(), 5.0), ("CRUISE".to_string(), 0.0)],
             ..Default::default()
         };
@@ -790,7 +784,7 @@ mod tests {
                 state: AssetState::CRUISE, // Was held back by friction yesterday too
                 ..Default::default()
             },
-            action: crate::features::radar::application::policy::action_matrix::AssetAction::HOLD,
+            action: crate::features::radar::domain::action_matrix::AssetAction::HOLD,
             deviation: Some(10.0), // Met threshold yesterday too (Day 1)
             ..Default::default()
         };
@@ -836,7 +830,7 @@ mod tests {
                 state: AssetState::CRUISE, // Still held back
                 ..Default::default()
             },
-            action: crate::features::radar::application::policy::action_matrix::AssetAction::HOLD,
+            action: crate::features::radar::domain::action_matrix::AssetAction::HOLD,
             deviation: Some(10.0), // Met threshold again (Day 2)
             ..Default::default()
         };

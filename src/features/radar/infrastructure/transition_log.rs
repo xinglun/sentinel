@@ -1,6 +1,4 @@
-use crate::features::radar::application::policy::transition_log::{
-    BreakoutTransition, StateTransitionLog,
-};
+use crate::features::radar::domain::transition_log::{BreakoutTransition, StateTransitionLog};
 use anyhow::{Context, Result};
 use chrono::{DateTime, Local};
 use serde::{Deserialize, Serialize};
@@ -204,12 +202,10 @@ impl TransitionLogger {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::action_matrix::AssetActionDecision;
-    use crate::features::radar::application::policy::breakout_detection::{
-        BreakoutSnapshot, BreakoutStatus,
-    };
-    use crate::features::radar::application::policy::decision::DecisionPacket;
-    use crate::features::radar::application::policy::market_regime::MarketState;
+    use crate::features::radar::domain::action_matrix::AssetActionDecision;
+    use crate::features::radar::domain::breakout_detection::{BreakoutSnapshot, BreakoutStatus};
+    use crate::features::radar::domain::decision::DecisionPacket;
+    use crate::features::radar::domain::market_regime::MarketState;
     use tempfile::tempdir;
 
     fn mock_packet(state: MarketState, trend_gate_passed: bool) -> DecisionPacket {

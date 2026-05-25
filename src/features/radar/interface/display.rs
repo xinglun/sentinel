@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 
-use crate::features::radar::application::policy::position_intent::UnifiedPositionIntent;
+use crate::features::radar::domain::position_intent::UnifiedPositionIntent;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Default)]
@@ -56,7 +56,7 @@ pub struct RiskOpportunityViewModel {
 
 #[derive(Debug, Clone, Copy)]
 pub struct DisplayAssetRef<'a> {
-    pub asset: &'a crate::features::radar::application::policy::action_matrix::AssetActionDecision,
+    pub asset: &'a crate::features::radar::domain::action_matrix::AssetActionDecision,
     pub context: DisplayContext,
     pub intent: DisplayIntent,
 }
@@ -105,8 +105,8 @@ impl DisplayAdapter {
                 || (item.context.is_candidate_only && item.context.cohesion_ready))
                 && matches!(
                     asset.asset_state.state,
-                    crate::features::radar::application::policy::asset_state::AssetState::PULLBACK
-                        | crate::features::radar::application::policy::asset_state::AssetState::OPTIMAL
+                    crate::features::radar::domain::asset_state::AssetState::PULLBACK
+                        | crate::features::radar::domain::asset_state::AssetState::OPTIMAL
                 )
             {
                 vms.push(RiskOpportunityViewModel {
@@ -117,15 +117,28 @@ impl DisplayAdapter {
             }
 
             if matches!(item.intent, DisplayIntent::EXIT | DisplayIntent::TRIM)
-                || asset.asset_state.state == crate::features::radar::application::policy::asset_state::AssetState::OVERHEAT
+                || asset.asset_state.state
+                    == crate::features::radar::domain::asset_state::AssetState::OVERHEAT
             {
                 let state_label = match asset.asset_state.state {
-                    crate::features::radar::application::policy::asset_state::AssetState::PULLBACK => &dict.asset_states.pullback,
-                    crate::features::radar::application::policy::asset_state::AssetState::OPTIMAL => &dict.asset_states.optimal,
-                    crate::features::radar::application::policy::asset_state::AssetState::OVERHEAT => &dict.asset_states.overheat,
-                    crate::features::radar::application::policy::asset_state::AssetState::CRUISE => &dict.asset_states.cruise,
-                    crate::features::radar::application::policy::asset_state::AssetState::CAUTION => &dict.asset_states.caution,
-                    crate::features::radar::application::policy::asset_state::AssetState::DEFEND => &dict.asset_states.defend,
+                    crate::features::radar::domain::asset_state::AssetState::PULLBACK => {
+                        &dict.asset_states.pullback
+                    }
+                    crate::features::radar::domain::asset_state::AssetState::OPTIMAL => {
+                        &dict.asset_states.optimal
+                    }
+                    crate::features::radar::domain::asset_state::AssetState::OVERHEAT => {
+                        &dict.asset_states.overheat
+                    }
+                    crate::features::radar::domain::asset_state::AssetState::CRUISE => {
+                        &dict.asset_states.cruise
+                    }
+                    crate::features::radar::domain::asset_state::AssetState::CAUTION => {
+                        &dict.asset_states.caution
+                    }
+                    crate::features::radar::domain::asset_state::AssetState::DEFEND => {
+                        &dict.asset_states.defend
+                    }
                     _ => &dict.asset_states.forming,
                 };
 
@@ -201,7 +214,7 @@ impl DisplayAdapter {
     }
 
     pub fn derive_top_action_view_model(
-        asset: &crate::features::radar::application::policy::action_matrix::AssetActionDecision,
+        asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
         context: &DisplayContext,
         intent: DisplayIntent,
         dict: &crate::features::shared::interface::i18n::DisplayDictionary,
@@ -219,13 +232,13 @@ impl DisplayAdapter {
             primary_label: Self::get_label(intent, dict),
             tags: Self::get_primary_tag(context, dict).into_iter().collect(),
             secondary_desc: match asset.asset_state.state {
-                crate::features::radar::application::policy::asset_state::AssetState::PULLBACK => {
+                crate::features::radar::domain::asset_state::AssetState::PULLBACK => {
                     &dict.asset_states.pullback
                 }
-                crate::features::radar::application::policy::asset_state::AssetState::OPTIMAL => {
+                crate::features::radar::domain::asset_state::AssetState::OPTIMAL => {
                     &dict.asset_states.optimal
                 }
-                crate::features::radar::application::policy::asset_state::AssetState::OVERHEAT => {
+                crate::features::radar::domain::asset_state::AssetState::OVERHEAT => {
                     &dict.asset_states.overheat
                 }
                 _ => &dict.asset_states.forming,

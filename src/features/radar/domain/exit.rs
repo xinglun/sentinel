@@ -1,5 +1,5 @@
-use crate::features::radar::application::policy::asset_state::AssetState;
-use crate::features::radar::application::policy::market_regime::RiskOverlay;
+use crate::features::radar::domain::asset_state::AssetState;
+use crate::features::radar::domain::market_regime::RiskOverlay;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Default)]
@@ -124,7 +124,7 @@ impl ExitDecision {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::asset_state::AssetState;
+    use crate::features::radar::domain::asset_state::AssetState;
 
     #[test]
     fn test_defensive_exit_priority() {

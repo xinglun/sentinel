@@ -8,7 +8,7 @@ use crate::features::shared::interface::i18n::Language;
 pub(crate) struct TransitionAuditEntry {
     pub(crate) date: NaiveDate,
     pub(crate) timestamp: DateTime<FixedOffset>,
-    pub(crate) log: crate::features::radar::application::policy::transition_log::StateTransitionLog,
+    pub(crate) log: crate::features::radar::domain::transition_log::StateTransitionLog,
 }
 
 #[derive(Debug, Clone)]
@@ -51,7 +51,7 @@ pub(crate) fn parse_transition_audit_entry(
         return Ok(None);
     };
 
-    let log: crate::features::radar::application::policy::transition_log::StateTransitionLog =
+    let log: crate::features::radar::domain::transition_log::StateTransitionLog =
         serde_json::from_value(log_json)?;
     Ok(Some(TransitionAuditEntry {
         date,
@@ -110,7 +110,7 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
     let scout_days_without_expansion = today_latest.log.scout_days_without_expansion;
     let scout_abort_days = today_latest.log.scout_abort_days.max(1);
     let scout_streak_text = if today_latest.log.opportunity_mode.to
-        == crate::features::radar::application::policy::transition_log::OpportunityMode::NoTradeScout
+        == crate::features::radar::domain::transition_log::OpportunityMode::NoTradeScout
     {
         format!(
             "{} / {} {}",
@@ -129,7 +129,8 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
     let breakout_today = summarize_breakout_changes_from_events(today);
     let no_trade_streak = consecutive_streak(days, target_idx, |log| !log.trend_cohesion_gate.to);
     let mainline_missing_streak = consecutive_streak(days, target_idx, |log| {
-        log.trend_cohesion_status.to != crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Formed
+        log.trend_cohesion_status.to
+            != crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed
     });
 
     let segment_type = if detect_no_trade_resets(window) {
@@ -356,14 +357,14 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
         let tr_dict = &dict.trend_recognition;
 
         let state_label = match evidence.state {
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::None => &tr_dict.state_none,
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::StructuralPersistence => {
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::None => &tr_dict.state_none,
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::StructuralPersistence => {
                 &tr_dict.state_structural_persistence
             }
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::EarlyLeader => &tr_dict.state_early_leader,
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => &tr_dict.state_leader_confirmed_followers_lagging,
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::Broadening => &tr_dict.state_broadening,
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::Mature => &tr_dict.state_mature,
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::EarlyLeader => &tr_dict.state_early_leader,
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => &tr_dict.state_leader_confirmed_followers_lagging,
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::Broadening => &tr_dict.state_broadening,
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::Mature => &tr_dict.state_mature,
         };
 
         let lag_label = if evidence.lag_state {
@@ -553,14 +554,18 @@ fn audit_text(language: Language) -> AuditDailyText {
 }
 
 fn opportunity_mode_label(
-    mode: crate::features::radar::application::policy::transition_log::OpportunityMode,
+    mode: crate::features::radar::domain::transition_log::OpportunityMode,
     language: Language,
 ) -> &'static str {
     let text = audit_text(language);
     match mode {
-        crate::features::radar::application::policy::transition_log::OpportunityMode::NoTradeCold => text.mode_cold,
-        crate::features::radar::application::policy::transition_log::OpportunityMode::NoTradeScout => text.mode_scout,
-        crate::features::radar::application::policy::transition_log::OpportunityMode::Ready => text.mode_ready,
+        crate::features::radar::domain::transition_log::OpportunityMode::NoTradeCold => {
+            text.mode_cold
+        }
+        crate::features::radar::domain::transition_log::OpportunityMode::NoTradeScout => {
+            text.mode_scout
+        }
+        crate::features::radar::domain::transition_log::OpportunityMode::Ready => text.mode_ready,
     }
 }
 
@@ -714,7 +719,7 @@ struct BreakoutDailySummary {
 }
 
 fn summarize_breakout_changes(
-    changes: &[crate::features::radar::application::policy::transition_log::BreakoutTransition],
+    changes: &[crate::features::radar::domain::transition_log::BreakoutTransition],
 ) -> BreakoutDailySummary {
     let mut new_symbols = Vec::new();
     let mut continued_symbols = Vec::new();
@@ -722,16 +727,18 @@ fn summarize_breakout_changes(
     for item in changes {
         let from = item.from_status;
         let to = item.to_status;
-        if from == crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout
-            && to != crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout
+        if from == crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
+            && to != crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
         {
             new_symbols.push(item.symbol.clone());
-        } else if from != crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout
-            && to == crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout
+        } else if from
+            != crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
+            && to == crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
         {
             removed_symbols.push(item.symbol.clone());
-        } else if from != crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout
-            && to != crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout
+        } else if from
+            != crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
+            && to != crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
         {
             continued_symbols.push(item.symbol.clone());
         }
@@ -778,24 +785,38 @@ fn detect_no_trade_resets(window: &[TransitionAuditDay]) -> bool {
 }
 
 fn trend_status_label(
-    status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus,
+    status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus,
     language: Language,
 ) -> &'static str {
     match language {
         Language::ZhCn => match status {
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed => "未形成",
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Forming => "形成中",
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Formed => "已形成",
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed => {
+                "未形成"
+            }
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Forming => {
+                "形成中"
+            }
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed => "已形成",
         },
         Language::EnUs => match status {
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed => "Not formed",
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Forming => "Forming",
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Formed => "Formed",
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed => {
+                "Not formed"
+            }
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Forming => {
+                "Forming"
+            }
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed => "Formed",
         },
         Language::JaJp => match status {
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed => "未形成",
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Forming => "形成中",
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Formed => "形成済み",
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed => {
+                "未形成"
+            }
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Forming => {
+                "形成中"
+            }
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed => {
+                "形成済み"
+            }
         },
     }
 }
@@ -844,7 +865,7 @@ pub(crate) fn consecutive_streak<F>(
     predicate: F,
 ) -> usize
 where
-    F: Fn(&crate::features::radar::application::policy::transition_log::StateTransitionLog) -> bool,
+    F: Fn(&crate::features::radar::domain::transition_log::StateTransitionLog) -> bool,
 {
     if !predicate(&days[target_idx].latest().log) {
         return 0;
@@ -912,30 +933,6 @@ pub(crate) fn audit_empty_log_message(language: Language) -> &'static str {
         Language::ZhCn => "未找到可用的 state_transitions.jsonl 记录。",
         Language::EnUs => "No usable records found in state_transitions.jsonl.",
         Language::JaJp => "state_transitions.jsonl に有効な記録がありません。",
-    }
-}
-
-pub(crate) fn audit_error_missing_date(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "--date 需要 YYYY-MM-DD 参数",
-        Language::EnUs => "--date requires a YYYY-MM-DD value",
-        Language::JaJp => "--date には YYYY-MM-DD の値が必要です",
-    }
-}
-
-pub(crate) fn audit_error_missing_days(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "--days 需要正整数参数",
-        Language::EnUs => "--days requires a positive integer value",
-        Language::JaJp => "--days には正の整数値が必要です",
-    }
-}
-
-pub(crate) fn audit_error_invalid_days(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "--days 必须为大于 0 的整数",
-        Language::EnUs => "--days must be an integer greater than 0",
-        Language::JaJp => "--days は 0 より大きい整数である必要があります",
     }
 }
 

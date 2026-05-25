@@ -3,14 +3,14 @@ use std::collections::HashMap;
 use std::future::{ready, Ready};
 use stock_sentinel::config::{DeviationBasis, ParsedRules, TrendConfig, WatchlistEntry};
 use stock_sentinel::features::radar::application::engine::Engine;
-use stock_sentinel::features::radar::application::policy::action_matrix::AssetAction;
-use stock_sentinel::features::radar::application::policy::decision::DecisionPacket;
-use stock_sentinel::features::radar::application::policy::features::MarketFeatures;
-use stock_sentinel::features::radar::application::policy::market_regime::{
+use stock_sentinel::features::radar::application::provider::{DailyBar, TickerHistory};
+use stock_sentinel::features::radar::domain::action_matrix::AssetAction;
+use stock_sentinel::features::radar::domain::decision::DecisionPacket;
+use stock_sentinel::features::radar::domain::features::MarketFeatures;
+use stock_sentinel::features::radar::domain::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
 };
-use stock_sentinel::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
-use stock_sentinel::features::radar::application::provider::{DailyBar, TickerHistory};
+use stock_sentinel::features::radar::domain::portfolio_policy::PortfolioPolicy;
 
 use std::borrow::Cow;
 
@@ -143,7 +143,7 @@ async fn test_pipeline_bullish_path() {
         vec![],
         top_tier.clone(),
         false,
-        stock_sentinel::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+        stock_sentinel::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
             gate_passed: true,
             continuity_streak: 1,
             ..Default::default()
@@ -160,7 +160,7 @@ async fn test_pipeline_bullish_path() {
         vec![],
         top_tier.clone(),
         false,
-        stock_sentinel::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+        stock_sentinel::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
             gate_passed: true,
             continuity_streak: 2,
             ..Default::default()

@@ -1,6 +1,6 @@
-use crate::features::radar::application::policy::asset_state::{AssetState, AssetStateSnapshot};
-use crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot;
-use crate::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
+use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
+use crate::features::radar::domain::market_regime::MarketRegimeSnapshot;
+use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
 use serde::{Deserialize, Serialize};
 
 #[allow(non_camel_case_types)]
@@ -31,14 +31,14 @@ pub struct AssetActionDecision {
     pub prev_action: Option<AssetAction>,
     pub action_changed: bool,
     #[serde(default)]
-    pub exit_decision: crate::features::radar::application::policy::exit::ExitDecision,
+    pub exit_decision: crate::features::radar::domain::exit::ExitDecision,
     #[serde(default)]
-    pub position_intent: crate::features::radar::application::policy::exit::PositionIntent,
+    pub position_intent: crate::features::radar::domain::exit::PositionIntent,
     #[serde(default)]
     pub unified_position_intent:
-        crate::features::radar::application::policy::position_intent::UnifiedPositionIntent,
+        crate::features::radar::domain::position_intent::UnifiedPositionIntent,
     #[serde(default)]
-    pub breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot,
+    pub breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot,
     #[serde(default)]
     pub is_core_fact: bool,
     #[serde(default)]
@@ -60,7 +60,7 @@ impl ActionMatrix {
     #[allow(clippy::too_many_arguments)]
     pub fn decide(
         regime: &MarketRegimeSnapshot,
-        _market_features: &crate::features::radar::application::policy::features::MarketFeatures,
+        _market_features: &crate::features::radar::domain::features::MarketFeatures,
         trend_gate_passed: bool,
         _policy: &PortfolioPolicy,
 
@@ -87,7 +87,7 @@ impl ActionMatrix {
             ),
 
             // マトリックス・マッピング
-            (crate::features::radar::application::policy::market_regime::MarketState::IGNITION, s) => match s {
+            (crate::features::radar::domain::market_regime::MarketState::IGNITION, s) => match s {
                 AssetState::OPTIMAL => (
                     AssetAction::ACCUMULATE,
                     "Matrix: Ignition + Optimal -> Aggressive entry",
@@ -103,7 +103,7 @@ impl ActionMatrix {
                 _ => (AssetAction::HOLD, "Matrix: Default hold"),
             },
 
-            (crate::features::radar::application::policy::market_regime::MarketState::NEWBORN, s) => match s {
+            (crate::features::radar::domain::market_regime::MarketState::NEWBORN, s) => match s {
                 AssetState::OPTIMAL | AssetState::PULLBACK => (
                     AssetAction::ACCUMULATE,
                     "Matrix: Newborn + Pullback/Optimal -> Early cycle accumulation",
@@ -119,23 +119,26 @@ impl ActionMatrix {
                 _ => (AssetAction::HOLD, "Matrix: Default hold"),
             },
 
-            (crate::features::radar::application::policy::market_regime::MarketState::EARLY_CONFIRMATION, s) => match s {
-                AssetState::OPTIMAL | AssetState::PULLBACK => (
-                    AssetAction::ACCUMULATE,
-                    "Matrix: Early Confirm + Pullback/Optimal -> Confidence build",
-                ),
-                AssetState::CRUISE | AssetState::CAUTION => (
-                    AssetAction::HOLD,
-                    "Matrix: Early Confirm + Neutral -> Standard hold",
-                ),
-                AssetState::DEFEND => (
-                    AssetAction::REDUCE,
-                    "Matrix: Early Confirm + Defend -> Prudent risk reduction",
-                ),
-                _ => (AssetAction::HOLD, "Matrix: Default hold"),
-            },
+            (crate::features::radar::domain::market_regime::MarketState::EARLY_CONFIRMATION, s) => {
+                match s {
+                    AssetState::OPTIMAL | AssetState::PULLBACK => (
+                        AssetAction::ACCUMULATE,
+                        "Matrix: Early Confirm + Pullback/Optimal -> Confidence build",
+                    ),
+                    AssetState::CRUISE | AssetState::CAUTION => (
+                        AssetAction::HOLD,
+                        "Matrix: Early Confirm + Neutral -> Standard hold",
+                    ),
+                    AssetState::DEFEND => (
+                        AssetAction::REDUCE,
+                        "Matrix: Early Confirm + Defend -> Prudent risk reduction",
+                    ),
+                    _ => (AssetAction::HOLD, "Matrix: Default hold"),
+                }
+            }
 
-            (crate::features::radar::application::policy::market_regime::MarketState::ESTABLISHED, s) => match s {
+            (crate::features::radar::domain::market_regime::MarketState::ESTABLISHED, s) => match s
+            {
                 AssetState::OPTIMAL | AssetState::CRUISE | AssetState::CAUTION => (
                     AssetAction::HOLD,
                     "Matrix: Established + High/Neutral -> Maintain Core Position",
@@ -151,7 +154,7 @@ impl ActionMatrix {
                 _ => (AssetAction::HOLD, "Matrix: Default hold"),
             },
 
-            (crate::features::radar::application::policy::market_regime::MarketState::CONFIRMED, s) => match s {
+            (crate::features::radar::domain::market_regime::MarketState::CONFIRMED, s) => match s {
                 AssetState::OPTIMAL | AssetState::CRUISE | AssetState::PULLBACK => (
                     AssetAction::HOLD,
                     "Matrix: Confirmed + Strong -> Max exposure hold",
@@ -163,7 +166,7 @@ impl ActionMatrix {
                 _ => (AssetAction::HOLD, "Matrix: Default hold"),
             },
 
-            (crate::features::radar::application::policy::market_regime::MarketState::DEFENSIVE, s) => match s {
+            (crate::features::radar::domain::market_regime::MarketState::DEFENSIVE, s) => match s {
                 AssetState::OPTIMAL | AssetState::CRUISE => (
                     AssetAction::FREEZE,
                     "Matrix: Defensive + Strong -> Capital preservation (Freeze)",
@@ -212,9 +215,7 @@ impl ActionMatrix {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::market_regime::{
-        LifecycleState, MarketState, RiskOverlay,
-    };
+    use crate::features::radar::domain::market_regime::{LifecycleState, MarketState, RiskOverlay};
 
     fn mock_market(state: MarketState) -> MarketRegimeSnapshot {
         MarketRegimeSnapshot {
@@ -245,7 +246,7 @@ mod tests {
         let policy = PortfolioPolicy::from_market_regime(&regime);
         let decision = ActionMatrix::decide(
             &regime,
-            &crate::features::radar::application::policy::features::MarketFeatures::default(),
+            &crate::features::radar::domain::features::MarketFeatures::default(),
             true, // trend_gate_passed
             &policy,
             &asset,
@@ -267,7 +268,7 @@ mod tests {
         let policy = PortfolioPolicy::from_market_regime(&regime);
         let decision = ActionMatrix::decide(
             &regime,
-            &crate::features::radar::application::policy::features::MarketFeatures::default(),
+            &crate::features::radar::domain::features::MarketFeatures::default(),
             true, // trend_gate_passed
             &policy,
             &asset,
@@ -289,7 +290,7 @@ mod tests {
         let policy = PortfolioPolicy::from_market_regime(&regime);
 
         // ケース 1: トレンドゲートを通過していない場合
-        let features = crate::features::radar::application::policy::features::MarketFeatures {
+        let features = crate::features::radar::domain::features::MarketFeatures {
             stability_score: 15.0, // 安定性は OK
             ..Default::default()
         };

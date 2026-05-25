@@ -1,5 +1,5 @@
-use crate::config::ParsedRules;
-use crate::features::radar::application::policy::features::MarketFeatures;
+use crate::features::radar::domain::features::MarketFeatures;
+use crate::features::radar::domain::rules::ParsedRules;
 
 pub use crate::features::shared::domain::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
@@ -372,7 +372,7 @@ mod tests {
     }
 
     fn mock_rules() -> ParsedRules {
-        use crate::config::TrendConfig;
+        use crate::features::radar::domain::rules::TrendConfig;
         use std::collections::HashMap;
         ParsedRules {
             trend: TrendConfig {
@@ -383,15 +383,16 @@ mod tests {
             actions: HashMap::new(),
             sizing_multipliers: None,
             core_assets: Vec::new(),
-            inertia: crate::config::ParsedInertia {
+            inertia: crate::features::radar::domain::rules::ParsedInertia {
                 min_state_duration: 3,
                 trend_dominant_min_confidence: 55.0,
                 core_breakdown_k: 2,
                 core_breakdown_avg_deviation: -5.0,
                 core_breakdown_breadth_floor: 0.0,
             },
-            trend_cohesion: crate::config::ParsedTrendCohesionRules::default(),
-            breakout: crate::config::ParsedBreakoutRules::default(),
+            trend_cohesion:
+                crate::features::radar::domain::rules::ParsedTrendCohesionRules::default(),
+            breakout: crate::features::radar::domain::rules::ParsedBreakoutRules::default(),
             market_state_engine: Default::default(),
             sec: None,
             macro_gravity: None,

@@ -1,10 +1,8 @@
 use crate::config::{AppConfig, OutputConfig, RulesConfig, TrendConfig};
-use crate::features::radar::application::policy::action_matrix::AssetActionDecision;
-use crate::features::radar::application::policy::asset_state::{AssetState, AssetStateSnapshot};
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::exit::{
-    AssetExitState, ExitDecision, PositionIntent,
-};
+use crate::features::radar::domain::action_matrix::AssetActionDecision;
+use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::exit::{AssetExitState, ExitDecision, PositionIntent};
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report::generate_refined_report;
 use crate::features::shared::interface::i18n::Language;
@@ -152,23 +150,23 @@ mod tests {
     fn test_not_ready_state_emits_no_trade_decision_summary() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            market_regime: crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot {
-                market_state: crate::features::radar::application::policy::market_regime::MarketState::IGNITION,
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
                 ..Default::default()
             },
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 1.1,
                 continuity_streak: 1,
                 unmet_conditions: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 ],
                 ..Default::default()
             },
-            market_features: crate::features::radar::application::policy::features::MarketFeatures {
+            market_features: crate::features::radar::domain::features::MarketFeatures {
                 system_confidence: 54.0,
                 stability_score: 1.1,
                 regime_age: 1,
@@ -229,9 +227,9 @@ mod tests {
     fn test_trend_cohesion_unmet_conditions_are_localized() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed,
-                topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader,
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed,
+                topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
                 gate_passed: false,
                 stability_score: 7.5,
                 continuity_streak: 1,
@@ -239,11 +237,11 @@ mod tests {
                 leader_count: 1,
                 rotation_quality_score: 22.0,
                 unmet_conditions: vec![
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::UnstableRotation,
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::WeakLeadership,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::UnstableRotation,
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::WeakLeadership,
                 ],
                 ..Default::default()
             },
@@ -418,8 +416,8 @@ mod tests {
     fn test_no_trade_candidate_reason_uses_observation_tone_for_cruise() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            market_regime: crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot {
-                market_state: crate::features::radar::application::policy::market_regime::MarketState::IGNITION,
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
@@ -464,11 +462,10 @@ mod tests {
     fn test_exit_summary_is_localized_in_english() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: true,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets: vec![AssetActionDecision {
                 symbol: "AAPL".into(),
                 has_position_fact: true,
@@ -519,11 +516,10 @@ mod tests {
         ];
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: true,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -578,11 +574,10 @@ mod tests {
 
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion:
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
-                    gate_passed: true,
-                    ..Default::default()
-                },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
             assets,
             ..Default::default()
         };
@@ -663,9 +658,9 @@ mod tests {
     fn test_no_trade_candidate_watchlist_excludes_defend_only_assets() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            market_regime: crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot {
-                market_state: crate::features::radar::application::policy::market_regime::MarketState::DEFENSIVE,
-                risk_overlay: crate::features::radar::application::policy::market_regime::RiskOverlay::DEFENSIVE,
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::features::radar::domain::market_regime::RiskOverlay::DEFENSIVE,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
@@ -707,9 +702,9 @@ mod tests {
     fn test_no_trade_candidate_watchlist_excludes_defend_only_assets_outside_defensive_state() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            market_regime: crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot {
-                market_state: crate::features::radar::application::policy::market_regime::MarketState::IGNITION,
-                risk_overlay: crate::features::radar::application::policy::market_regime::RiskOverlay::NORMAL,
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
+                risk_overlay: crate::features::radar::domain::market_regime::RiskOverlay::NORMAL,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
@@ -751,9 +746,9 @@ mod tests {
     fn test_risk_snapshot_aggregates_same_reason_peers() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            market_regime: crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot {
-                market_state: crate::features::radar::application::policy::market_regime::MarketState::DEFENSIVE,
-                risk_overlay: crate::features::radar::application::policy::market_regime::RiskOverlay::DEFENSIVE,
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::features::radar::domain::market_regime::RiskOverlay::DEFENSIVE,
                 ..Default::default()
             },
             assets: vec![
@@ -831,9 +826,9 @@ mod tests {
     fn test_risk_snapshot_uses_collapse_language_only_for_systemic_breakdown() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            market_regime: crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot {
-                market_state: crate::features::radar::application::policy::market_regime::MarketState::DEFENSIVE,
-                risk_overlay: crate::features::radar::application::policy::market_regime::RiskOverlay::BROKEN,
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::features::radar::domain::market_regime::RiskOverlay::BROKEN,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
@@ -873,9 +868,9 @@ mod tests {
     fn test_risk_snapshot_peer_suffix_is_localized_in_en_and_ja() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            market_regime: crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot {
-                market_state: crate::features::radar::application::policy::market_regime::MarketState::DEFENSIVE,
-                risk_overlay: crate::features::radar::application::policy::market_regime::RiskOverlay::DEFENSIVE,
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::DEFENSIVE,
+                risk_overlay: crate::features::radar::domain::market_regime::RiskOverlay::DEFENSIVE,
                 ..Default::default()
             },
             assets: vec![
@@ -999,20 +994,20 @@ mod tests {
     fn test_breakout_summary_localizes_emerging_and_failed_risk() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "PLTR".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                     breakout_strength: 72.0,
                     breakout_quality: 68.0,
                     failed_breakout_risk: 61.0,
                     reasons: vec![
-                        crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
-                        crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                        crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
+                        crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                     ],
                     ..Default::default()
                 },
@@ -1041,17 +1036,17 @@ mod tests {
     fn test_breakout_summary_keeps_pullback_repair_distinct_from_rebound() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "TSLA".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                     breakout_strength: 34.0,
                     breakout_quality: 40.0,
-                    reasons: vec![crate::features::radar::application::policy::breakout_detection::BreakoutReason::PullbackRepair],
+                    reasons: vec![crate::features::radar::domain::breakout_detection::BreakoutReason::PullbackRepair],
                     ..Default::default()
                 },
                 ..Default::default()
@@ -1076,17 +1071,17 @@ mod tests {
     fn test_breakout_summary_surfaces_ordinary_rebound() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: true,
                 ..Default::default()
             },
             assets: vec![AssetActionDecision {
                 symbol: "QQQ".into(),
-                breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                    status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                    status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                     breakout_strength: 28.0,
                     breakout_quality: 31.0,
-                    reasons: vec![crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound],
+                    reasons: vec![crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound],
                     ..Default::default()
                 },
                 ..Default::default()
@@ -1111,19 +1106,19 @@ mod tests {
     fn test_breakout_summary_denoises_no_trade_to_only_actionable_or_high_risk_items() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),
-            trend_cohesion: crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot {
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
             },
             assets: vec![
                 AssetActionDecision {
                     symbol: "QQQ".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 27.0,
                         breakout_quality: 29.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
                         ],
                         ..Default::default()
                     },
@@ -1131,12 +1126,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "TSLA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 35.0,
                         breakout_quality: 42.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::PullbackRepair,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::PullbackRepair,
                         ],
                         ..Default::default()
                     },
@@ -1144,12 +1139,12 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "GOOG".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::EmergingBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout,
                         breakout_strength: 48.0,
                         breakout_quality: 72.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::StructuralBreakout,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::StructuralBreakout,
                         ],
                         ..Default::default()
                     },
@@ -1157,14 +1152,14 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "NVDA".into(),
-                    breakout: crate::features::radar::application::policy::breakout_detection::BreakoutSnapshot {
-                        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus::NoBreakout,
+                    breakout: crate::features::radar::domain::breakout_detection::BreakoutSnapshot {
+                        status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
                         breakout_strength: 31.0,
                         breakout_quality: 38.0,
                         failed_breakout_risk: 82.0,
                         reasons: vec![
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::OrdinaryRebound,
-                            crate::features::radar::application::policy::breakout_detection::BreakoutReason::FailedBreakoutRisk,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::OrdinaryRebound,
+                            crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk,
                         ],
                         ..Default::default()
                     },
@@ -1204,14 +1199,10 @@ mod tests {
 
     #[test]
     fn test_trend_recognition_evidence_mapping() {
-        use crate::features::radar::application::policy::asset_state::{
-            AssetState, AssetStateSnapshot,
-        };
-        use crate::features::radar::application::policy::market_regime::{
-            MarketRegimeSnapshot, RiskOverlay,
-        };
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
+        use crate::features::radar::domain::market_regime::{MarketRegimeSnapshot, RiskOverlay};
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
             TrendContinuationState, TrendRecognitionEvidence,
         };
@@ -1373,8 +1364,8 @@ mod tests {
 
     #[test]
     fn test_hypothesis_layer_mapping_requires_failure_risks() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
         };
 
@@ -1413,8 +1404,8 @@ mod tests {
 
     #[test]
     fn test_single_asset_decay_reset_logic_simulation() {
-        use crate::features::radar::application::policy::transition_log::StateTransitionLog;
-        use crate::features::radar::application::policy::trend_cohesion::{
+        use crate::features::radar::domain::transition_log::StateTransitionLog;
+        use crate::features::radar::domain::trend_cohesion::{
             TrendContinuationState, TrendRecognitionEvidence,
         };
 

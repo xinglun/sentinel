@@ -1,5 +1,5 @@
-use crate::features::radar::application::policy::action_matrix::AssetAction;
-use crate::features::radar::application::policy::exit::{ExitDecision, PositionIntent};
+use crate::features::radar::domain::action_matrix::AssetAction;
+use crate::features::radar::domain::exit::{ExitDecision, PositionIntent};
 
 pub struct IntentSynthesizer;
 
@@ -37,7 +37,7 @@ impl IntentSynthesizer {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::exit::AssetExitState;
+    use crate::features::radar::domain::exit::AssetExitState;
 
     #[test]
     fn test_intent_synthesizer_priority() {

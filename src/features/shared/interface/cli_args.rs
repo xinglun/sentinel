@@ -1,8 +1,29 @@
 use crate::config;
-use crate::features::radar::interface::audit_daily_report::{
-    audit_error_invalid_days, audit_error_missing_date, audit_error_missing_days,
-};
 use crate::features::shared::interface::i18n::Language;
+
+fn audit_error_missing_date(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--date 需要 YYYY-MM-DD 参数",
+        Language::EnUs => "--date requires a YYYY-MM-DD value",
+        Language::JaJp => "--date には YYYY-MM-DD の値が必要です",
+    }
+}
+
+fn audit_error_missing_days(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--days 需要正整数参数",
+        Language::EnUs => "--days requires a positive integer value",
+        Language::JaJp => "--days には正の整数値が必要です",
+    }
+}
+
+fn audit_error_invalid_days(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--days 必须为大于 0 的整数",
+        Language::EnUs => "--days must be an integer greater than 0",
+        Language::JaJp => "--days は 0 より大きい整数である必要があります",
+    }
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CliCommand {

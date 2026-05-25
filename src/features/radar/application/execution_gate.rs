@@ -1,27 +1,12 @@
 use crate::config::TradingConfig;
-use crate::features::radar::application::policy::action_matrix::AssetAction;
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::market_regime::RiskOverlay;
-use crate::features::radar::application::policy::portfolio_policy::RiskAssetsMode;
+use crate::features::radar::domain::action_matrix::AssetAction;
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::market_regime::RiskOverlay;
+use crate::features::radar::domain::portfolio_policy::RiskAssetsMode;
 
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct GatedTrade {
-    pub symbol: String,
-    pub side: TradeSide,
-    pub qty: f64,
-    pub price: f64,
-    pub reason: String,
-    pub is_liquidation: bool,
-    pub is_trim: bool,
-}
-
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub enum TradeSide {
-    Buy,
-    Sell,
-}
+pub use crate::features::shared::domain::trade_signal::{GatedTrade, TradeSide};
 
 #[derive(Debug, Clone, Serialize)]
 pub struct GatedAudit {
@@ -80,16 +65,16 @@ impl ExecutionGate {
             }
 
             let (side, base_amount, is_liquidation, is_trim) = match asset.position_intent {
-                crate::features::radar::application::policy::exit::PositionIntent::ADD => {
+                crate::features::radar::domain::exit::PositionIntent::ADD => {
                     (Some(TradeSide::Buy), asset.trade_amount, false, false)
                 }
-                crate::features::radar::application::policy::exit::PositionIntent::TRIM => {
+                crate::features::radar::domain::exit::PositionIntent::TRIM => {
                     (Some(TradeSide::Sell), 0.0, false, true)
                 }
-                crate::features::radar::application::policy::exit::PositionIntent::EXIT => {
+                crate::features::radar::domain::exit::PositionIntent::EXIT => {
                     (Some(TradeSide::Sell), 0.0, true, false)
                 }
-                crate::features::radar::application::policy::exit::PositionIntent::HOLD => {
+                crate::features::radar::domain::exit::PositionIntent::HOLD => {
                     (None, 0.0, false, false)
                 }
             };
@@ -142,7 +127,7 @@ impl ExecutionGate {
 
                 if s == TradeSide::Buy {
                     if let Some(market_state) = &packet.market_state {
-                        if let crate::features::radar::application::policy::market_state::models::ActionStatus::NoTrade(_) =
+                        if let crate::features::radar::domain::market_state::models::ActionStatus::NoTrade(_) =
                             &market_state.action_status
                         {
                             audits.push(GatedAudit {
@@ -265,25 +250,19 @@ impl ExecutionGate {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::features::radar::application::policy::action_matrix::AssetActionDecision;
-    use crate::features::radar::application::policy::asset_state::{
-        AssetState, AssetStateSnapshot,
-    };
-    use crate::features::radar::application::policy::market_regime::LifecycleState;
-    use crate::features::radar::application::policy::market_regime::MarketRegimeSnapshot;
-    use crate::features::radar::application::policy::market_regime::MarketState;
-    use crate::features::radar::application::policy::portfolio_policy::PortfolioPolicy;
-    use crate::features::radar::application::policy::portfolio_policy::RiskAssetsMode;
+    use crate::features::radar::domain::action_matrix::AssetActionDecision;
+    use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
+    use crate::features::radar::domain::market_regime::LifecycleState;
+    use crate::features::radar::domain::market_regime::MarketRegimeSnapshot;
+    use crate::features::radar::domain::market_regime::MarketState;
+    use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
+    use crate::features::radar::domain::portfolio_policy::RiskAssetsMode;
 
     fn mock_decision(symbol: &str, action: AssetAction, amount: f64) -> AssetActionDecision {
         let intent = match action {
-            AssetAction::ACCUMULATE => {
-                crate::features::radar::application::policy::exit::PositionIntent::ADD
-            }
-            AssetAction::REDUCE => {
-                crate::features::radar::application::policy::exit::PositionIntent::TRIM
-            }
-            _ => crate::features::radar::application::policy::exit::PositionIntent::HOLD,
+            AssetAction::ACCUMULATE => crate::features::radar::domain::exit::PositionIntent::ADD,
+            AssetAction::REDUCE => crate::features::radar::domain::exit::PositionIntent::TRIM,
+            _ => crate::features::radar::domain::exit::PositionIntent::HOLD,
         };
         AssetActionDecision {
             symbol: symbol.to_string(),
@@ -321,7 +300,7 @@ mod tests {
         };
         DecisionPacket::new(
             chrono::Utc::now().date_naive(),
-            crate::features::radar::application::policy::features::MarketFeatures::default(),
+            crate::features::radar::domain::features::MarketFeatures::default(),
             regime,
             None,
             PortfolioPolicy {
@@ -335,7 +314,7 @@ mod tests {
             assets,
             Vec::new(),
             false,
-            crate::features::radar::application::policy::trend_cohesion::TrendCohesionSnapshot::default(),
+            crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot::default(),
             None,
             None,
         )

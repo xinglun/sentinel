@@ -1,6 +1,6 @@
 use super::models::{ActionStatus, LifecycleState, StateTransition};
-use crate::config::ParsedMarketStateEngineRules;
-use crate::features::radar::application::policy::features::MarketFeatures;
+use crate::features::radar::domain::features::MarketFeatures;
+use crate::features::radar::domain::rules::ParsedMarketStateEngineRules;
 
 pub struct StateTransitionManager {
     config: ParsedMarketStateEngineRules,

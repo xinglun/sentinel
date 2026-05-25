@@ -136,6 +136,7 @@ class Violation:
 @dataclass(frozen=True)
 class FeatureAclManifest:
     feature_roots: dict[str, dict[str, tuple[str, ...]]]
+    allowed_dependencies: dict[str, tuple[str, ...]]
     concrete_import_prefixes: tuple[str, ...]
     concrete_type_names: tuple[str, ...]
 
@@ -157,7 +158,22 @@ FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES: dict[str, tuple[str, ...]] = {
     "interface": (
         "crate::adapters",
     ),
+    "infrastructure": (
+        "crate::interface",
+    ),
+    "acl": (
+        "crate::interface",
+        "crate::infrastructure",
+    ),
 }
+
+APPLICATION_IO_IMPORT_PREFIXES = (
+    "std::fs",
+    "std::net",
+    "tokio::fs",
+    "tokio::net",
+    "reqwest",
+)
 
 
 def _strip_yaml_value(raw: str) -> str:
@@ -168,9 +184,10 @@ def load_feature_acl_manifest(root: Path = PROJECT_ROOT) -> FeatureAclManifest:
     """feature ACL manifest を標準 library だけで読み取る。"""
     path = root / ".ai/architecture/feature_acl.yaml"
     if not path.exists():
-        return FeatureAclManifest({}, ("crate::adapters",), CONCRETE_TYPE_DEFAULTS)
+        return FeatureAclManifest({}, {}, ("crate::adapters",), CONCRETE_TYPE_DEFAULTS)
 
     feature_roots: dict[str, dict[str, list[str]]] = {}
+    allowed_dependencies: dict[str, list[str]] = {}
     concrete_import_prefixes: list[str] = []
     concrete_type_names: list[str] = []
     section_stack: list[tuple[int, str]] = []
@@ -196,6 +213,8 @@ def load_feature_acl_manifest(root: Path = PROJECT_ROOT) -> FeatureAclManifest:
             value = _strip_yaml_value(stripped[2:])
             if current_feature and current_layer and list_target == "roots":
                 feature_roots.setdefault(current_feature, {}).setdefault(current_layer, []).append(value)
+            elif current_feature and list_target == "allowed_dependencies":
+                allowed_dependencies.setdefault(current_feature, []).append(value)
             elif list_target == "concrete_import_prefixes":
                 concrete_import_prefixes.append(value)
             elif list_target == "concrete_type_names":
@@ -215,6 +234,11 @@ def load_feature_acl_manifest(root: Path = PROJECT_ROOT) -> FeatureAclManifest:
             list_target = "roots"
             section_stack.append((indent + 1, "list"))
             continue
+        if current_feature and key == "allowedDependencies":
+            allowed_dependencies.setdefault(current_feature, [])
+            list_target = "allowed_dependencies"
+            section_stack.append((indent, "list"))
+            continue
         if key == "externalConcreteImportPrefixes":
             list_target = "concrete_import_prefixes"
             section_stack.append((indent, "list"))
@@ -230,6 +254,7 @@ def load_feature_acl_manifest(root: Path = PROJECT_ROOT) -> FeatureAclManifest:
     }
     return FeatureAclManifest(
         roots,
+        {feature: tuple(deps) for feature, deps in allowed_dependencies.items()},
         tuple(concrete_import_prefixes or ("crate::adapters",)),
         tuple(concrete_type_names or CONCRETE_TYPE_DEFAULTS),
     )
@@ -288,6 +313,8 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
     text = path.read_text(encoding="utf-8")
     is_acl = layer == "acl"
     is_infrastructure = layer == "infrastructure"
+    is_application = layer == "application"
+    allowed_dependencies = set(manifest.allowed_dependencies.get(feature, ()))
 
     for line_no, import_path in imports_from(path):
         for forbidden in FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES.get(layer, ()):
@@ -297,18 +324,30 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
         imported_feature_layer = feature_layer_for_import(import_path)
         if imported_feature_layer:
             imported_feature, imported_layer = imported_feature_layer
+            if feature == "shared" and imported_feature != "shared":
+                violations.append(Violation(path, line_no, import_path, "shared leaf dependency"))
             if imported_feature == "shared":
                 continue
+            if imported_feature != feature and imported_feature not in allowed_dependencies:
+                violations.append(Violation(path, line_no, import_path, "feature allowedDependencies"))
             if layer == "domain" and imported_feature != feature:
                 violations.append(Violation(path, line_no, import_path, "cross-feature domain dependency"))
             if layer in {"domain", "application"} and imported_layer in {"interface", "infrastructure", "acl"}:
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} -> {imported_layer}"))
+            if layer == "infrastructure" and imported_layer == "interface":
+                violations.append(Violation(path, line_no, import_path, "feature infrastructure -> interface"))
+            if layer == "acl" and imported_feature != feature and imported_layer == "infrastructure":
+                violations.append(Violation(path, line_no, import_path, "acl concrete feature dependency"))
             if layer != "acl" and imported_feature != feature and imported_layer in {"infrastructure", "acl"}:
                 violations.append(Violation(path, line_no, import_path, "cross-feature concrete dependency"))
 
         for forbidden in manifest.concrete_import_prefixes:
             if import_path.startswith(forbidden) and not (is_acl or is_infrastructure):
                 violations.append(Violation(path, line_no, import_path, "non-ACL external concrete import"))
+        if is_application:
+            for io_prefix in APPLICATION_IO_IMPORT_PREFIXES:
+                if import_path.startswith(io_prefix):
+                    violations.append(Violation(path, line_no, import_path, "application IO import"))
 
     if not (is_acl or is_infrastructure):
         for concrete_type in manifest.concrete_type_names:
@@ -319,6 +358,16 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
                 if pattern.search(line):
                     violations.append(Violation(path, line_no, concrete_type, "non-ACL external concrete type"))
                     break
+
+    if is_application:
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            stripped = line.strip()
+            if stripped.startswith("//"):
+                continue
+            for io_token in ("std::fs::", "tokio::fs::", "std::net::", "tokio::net::"):
+                if io_token in stripped:
+                    violations.append(Violation(path, line_no, io_token, "application IO usage"))
+                    return violations
 
     return violations
 
@@ -335,9 +384,16 @@ def removed_crate_root_violations(path: Path) -> list[Violation]:
 def imports_from(path: Path) -> Iterable[tuple[int, str]]:
     pending_import: list[str] = []
     pending_start = 0
+    inside_cfg_test_module = False
 
     for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         stripped = line.strip()
+        if stripped == "#[cfg(test)]":
+            inside_cfg_test_module = True
+            pending_import = []
+            continue
+        if inside_cfg_test_module:
+            continue
         if stripped.startswith("//") or stripped.startswith("///") or stripped.startswith("//"):
             continue
 

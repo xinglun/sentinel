@@ -2,13 +2,12 @@ use crate::config::{
     CreditStress, GrowthValuationImpact, LiquidityCondition, MacroGravityConfig, MacroPressure,
     ParsedRules, YieldCurveState,
 };
-use crate::features::radar::application::policy::asset_state::AssetState;
-use crate::features::radar::application::policy::decision::DecisionPacket;
-use crate::features::radar::application::policy::exit::AssetExitState;
-use crate::features::radar::application::policy::market_regime::{MarketState, RiskOverlay};
-use crate::features::radar::application::policy::trend_cohesion::{
-    EvidenceSourceType, EvidenceType,
-};
+use crate::features::radar::domain::asset_state::AssetState;
+use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::exit::AssetExitState;
+use crate::features::radar::domain::market_regime::{MarketState, RiskOverlay};
+use crate::features::radar::domain::trend_cohesion::{EvidenceSourceType, EvidenceType};
+use crate::features::radar::interface::display::{DisplayAdapter, DisplayContext, DisplayIntent};
 use crate::features::radar::interface::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
@@ -18,7 +17,6 @@ use crate::features::radar::interface::presentation::{
     MarketCyclePosition, PresentationPacket, RiskOpportunitySummaryViewModel,
     SignalSummaryViewModel, StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
 };
-use crate::features::shared::interface::display::{DisplayAdapter, DisplayContext, DisplayIntent};
 use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary, Language};
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
@@ -212,12 +210,12 @@ impl PresentationAssembler {
 
         // 3. Decision object を複製せず、並び替えと top action 選択を行う。
         let sort_fn = |a: &(
-            &crate::features::radar::application::policy::action_matrix::AssetActionDecision,
+            &crate::features::radar::domain::action_matrix::AssetActionDecision,
             DisplayContext,
             DisplayIntent,
         ),
                        b: &(
-            &crate::features::radar::application::policy::action_matrix::AssetActionDecision,
+            &crate::features::radar::domain::action_matrix::AssetActionDecision,
             DisplayContext,
             DisplayIntent,
         )| {
@@ -317,7 +315,7 @@ impl PresentationAssembler {
                 None
             } else {
                 Some(
-                    crate::features::shared::interface::display::TacticalBucketViewModel {
+                    crate::features::radar::interface::display::TacticalBucketViewModel {
                         bucket_id,
                         display_name,
                         count: refs.len(),
@@ -342,12 +340,12 @@ impl PresentationAssembler {
                 || (context.is_candidate_only && context.cohesion_ready))
                 && matches!(
                     asset.asset_state.state,
-                    crate::features::radar::application::policy::asset_state::AssetState::PULLBACK
-                        | crate::features::radar::application::policy::asset_state::AssetState::OPTIMAL
+                    crate::features::radar::domain::asset_state::AssetState::PULLBACK
+                        | crate::features::radar::domain::asset_state::AssetState::OPTIMAL
                 )
             {
                 risk_opportunities.push(
-                    crate::features::shared::interface::display::RiskOpportunityViewModel {
+                    crate::features::radar::interface::display::RiskOpportunityViewModel {
                         kind: dict.decision.opportunity.clone(),
                         symbol: asset.symbol.clone(),
                         reason: Self::derive_telegram_reason(
@@ -361,10 +359,11 @@ impl PresentationAssembler {
             }
 
             if matches!(*intent, DisplayIntent::TRIM | DisplayIntent::EXIT)
-                || asset.asset_state.state == crate::features::radar::application::policy::asset_state::AssetState::OVERHEAT
+                || asset.asset_state.state
+                    == crate::features::radar::domain::asset_state::AssetState::OVERHEAT
             {
                 risk_opportunities.push(
-                    crate::features::shared::interface::display::RiskOpportunityViewModel {
+                    crate::features::radar::interface::display::RiskOpportunityViewModel {
                         kind: dict.decision.risk.clone(),
                         symbol: asset.symbol.clone(),
                         reason: Self::derive_telegram_reason(
@@ -527,12 +526,12 @@ impl PresentationAssembler {
         };
 
         let trend_recognition_state = log.trend_recognition.as_ref().map(|tr| match tr.state {
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::None => dict.trend_recognition.state_none.clone(),
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::StructuralPersistence => dict.trend_recognition.state_structural_persistence.clone(),
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::EarlyLeader => dict.trend_recognition.state_early_leader.clone(),
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => dict.trend_recognition.state_leader_confirmed_followers_lagging.clone(),
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::Broadening => dict.trend_recognition.state_broadening.clone(),
-            crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::Mature => dict.trend_recognition.state_mature.clone(),
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::None => dict.trend_recognition.state_none.clone(),
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::StructuralPersistence => dict.trend_recognition.state_structural_persistence.clone(),
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::EarlyLeader => dict.trend_recognition.state_early_leader.clone(),
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging => dict.trend_recognition.state_leader_confirmed_followers_lagging.clone(),
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::Broadening => dict.trend_recognition.state_broadening.clone(),
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::Mature => dict.trend_recognition.state_mature.clone(),
         });
         let trend_recognition_diffusion_score =
             log.trend_recognition.as_ref().map(|tr| tr.diffusion_score);
@@ -549,8 +548,8 @@ impl PresentationAssembler {
             log.trend_recognition
                 .as_ref()
                 .and_then(|tr| match tr.state {
-                    crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::Broadening
-                    | crate::features::radar::application::policy::trend_cohesion::TrendContinuationState::Mature => None,
+                    crate::features::radar::domain::trend_cohesion::TrendContinuationState::Broadening
+                    | crate::features::radar::domain::trend_cohesion::TrendContinuationState::Mature => None,
                     _ => Some(format!(
                         "{}/{}",
                         tr.single_asset_decay_day,
@@ -600,16 +599,16 @@ impl PresentationAssembler {
 
             for record in &sub.records {
                 let source_label = match record.source {
-                    crate::features::radar::application::policy::trend_cohesion::EvidenceSourceType::Manual => {
+                    crate::features::radar::domain::trend_cohesion::EvidenceSourceType::Manual => {
                         &dict.trend_recognition.source_manual
                     }
-                    crate::features::radar::application::policy::trend_cohesion::EvidenceSourceType::OfficialIR => {
+                    crate::features::radar::domain::trend_cohesion::EvidenceSourceType::OfficialIR => {
                         &dict.trend_recognition.source_official_ir
                     }
-                    crate::features::radar::application::policy::trend_cohesion::EvidenceSourceType::NewsMedia => {
+                    crate::features::radar::domain::trend_cohesion::EvidenceSourceType::NewsMedia => {
                         &dict.trend_recognition.source_news_media
                     }
-                    crate::features::radar::application::policy::trend_cohesion::EvidenceSourceType::PriceAction => {
+                    crate::features::radar::domain::trend_cohesion::EvidenceSourceType::PriceAction => {
                         &dict.trend_recognition.source_price_action
                     }
                 };
@@ -840,7 +839,7 @@ impl PresentationAssembler {
     }
 
     fn substantive_signal_count(
-        sub: &crate::features::radar::application::policy::trend_cohesion::SubstantiveEvidence,
+        sub: &crate::features::radar::domain::trend_cohesion::SubstantiveEvidence,
     ) -> usize {
         let has_capex_payoff = sub.capex_payoff_signal
             || sub
@@ -971,7 +970,7 @@ impl PresentationAssembler {
 
     fn build_risk_taxonomy(
         packet: &DecisionPacket,
-        log: &crate::features::radar::application::policy::transition_log::StateTransitionLog,
+        log: &crate::features::radar::domain::transition_log::StateTransitionLog,
         market_cycle_position: MarketCyclePosition,
         holding_efficiency: HoldingEfficiency,
         dict: &DisplayDictionary,
@@ -1070,7 +1069,7 @@ impl PresentationAssembler {
     }
 
     fn build_evidence_quality_summary(
-        sub: &crate::features::radar::application::policy::trend_cohesion::SubstantiveEvidence,
+        sub: &crate::features::radar::domain::trend_cohesion::SubstantiveEvidence,
         dict: &DisplayDictionary,
     ) -> Option<String> {
         if sub.records.is_empty() {
@@ -1538,10 +1537,10 @@ impl PresentationAssembler {
     }
 
     fn format_structural_breakout_change(
-        b: &crate::features::radar::application::policy::transition_log::BreakoutTransition,
+        b: &crate::features::radar::domain::transition_log::BreakoutTransition,
         dict: &DisplayDictionary,
     ) -> String {
-        use crate::features::radar::application::policy::breakout_detection::BreakoutStatus;
+        use crate::features::radar::domain::breakout_detection::BreakoutStatus;
 
         let format_template = |template: &str, symbol: &str, status: &str| {
             template
@@ -1576,7 +1575,7 @@ impl PresentationAssembler {
     }
 
     fn map_unmet_diff(
-        diff: &crate::features::radar::application::policy::transition_log::GateTransition,
+        diff: &crate::features::radar::domain::transition_log::GateTransition,
         packet: &DecisionPacket,
         dict: &DisplayDictionary,
     ) -> Option<UnmetDiffViewModel> {
@@ -1639,10 +1638,10 @@ impl PresentationAssembler {
     }
 
     fn map_breakout_status(
-        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus,
+        status: crate::features::radar::domain::breakout_detection::BreakoutStatus,
         dict: &DisplayDictionary,
     ) -> String {
-        use crate::features::radar::application::policy::breakout_detection::BreakoutStatus;
+        use crate::features::radar::domain::breakout_detection::BreakoutStatus;
         match status {
             BreakoutStatus::NoBreakout => dict.breakout.no_breakout.clone(),
             BreakoutStatus::EmergingBreakout => dict.breakout.emerging_breakout.clone(),
@@ -1651,10 +1650,10 @@ impl PresentationAssembler {
     }
 
     fn map_trend_status(
-        status: crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus,
+        status: crate::features::radar::domain::trend_cohesion::TrendCohesionStatus,
         dict: &DisplayDictionary,
     ) -> String {
-        use crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus;
+        use crate::features::radar::domain::trend_cohesion::TrendCohesionStatus;
         match status {
             TrendCohesionStatus::Formed => dict.trend_cohesion.formed.clone(),
             TrendCohesionStatus::Forming => dict.trend_cohesion.forming.clone(),
@@ -1663,10 +1662,10 @@ impl PresentationAssembler {
     }
 
     fn map_topology(
-        topology: crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology,
+        topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology,
         dict: &DisplayDictionary,
     ) -> String {
-        use crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology;
+        use crate::features::radar::domain::trend_cohesion::TrendCohesionTopology;
         match topology {
             TrendCohesionTopology::NoLeader => dict.trend_cohesion.topology_no_leader.clone(),
             TrendCohesionTopology::SingleLeader => {
@@ -1687,13 +1686,13 @@ impl PresentationAssembler {
     }
 
     fn derive_telegram_reason(
-        asset: &crate::features::radar::application::policy::action_matrix::AssetActionDecision,
+        asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
         is_restrained: bool,
         is_systemic_collapse: bool,
         dict: &DisplayDictionary,
     ) -> String {
-        use crate::features::radar::application::policy::asset_state::AssetState;
-        use crate::features::radar::application::policy::exit::AssetExitState;
+        use crate::features::radar::domain::asset_state::AssetState;
+        use crate::features::radar::domain::exit::AssetExitState;
         if asset.exit_decision.asset_exit_state != AssetExitState::None {
             return match asset.exit_decision.asset_exit_state {
                 AssetExitState::DefensiveExit => {
@@ -1769,17 +1768,17 @@ impl PresentationAssembler {
     }
 
     fn derive_display_intent(
-        final_intent: crate::features::radar::application::policy::position_intent::UnifiedPositionIntent,
+        final_intent: crate::features::radar::domain::position_intent::UnifiedPositionIntent,
         context: &DisplayContext,
     ) -> DisplayIntent {
         DisplayAdapter::derive_display_intent(final_intent, context)
     }
 
     fn derive_unified_intent(
-        asset: &crate::features::radar::application::policy::action_matrix::AssetActionDecision,
+        asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
         context: &DisplayContext,
-    ) -> crate::features::radar::application::policy::position_intent::UnifiedPositionIntent {
-        crate::features::radar::application::policy::position_intent::UnifiedIntentSynthesizer::synthesize(
+    ) -> crate::features::radar::domain::position_intent::UnifiedPositionIntent {
+        crate::features::radar::domain::position_intent::UnifiedIntentSynthesizer::synthesize(
             asset.position_intent,
             &asset.exit_decision,
             context.cohesion_ready,
@@ -1817,12 +1816,12 @@ impl PresentationAssembler {
             }
 
             let (intent, intent_label, reason) = match unified_intent {
-                crate::features::radar::application::policy::position_intent::UnifiedPositionIntent::Exit => (
+                crate::features::radar::domain::position_intent::UnifiedPositionIntent::Exit => (
                     ExitDisplayIntent::Exit,
                     dict.decision.exit_intent_exit.clone(),
                     Self::defensive_position_reason(is_systemic_collapse, dict),
                 ),
-                crate::features::radar::application::policy::position_intent::UnifiedPositionIntent::Trim => {
+                crate::features::radar::domain::position_intent::UnifiedPositionIntent::Trim => {
                     let reason = match asset.exit_decision.asset_exit_state {
                         AssetExitState::StrengthLoss => {
                             dict.reasons.position_trim_strength_loss.clone()
@@ -1842,24 +1841,24 @@ impl PresentationAssembler {
                         reason,
                     )
                 }
-                crate::features::radar::application::policy::position_intent::UnifiedPositionIntent::Hold => (
+                crate::features::radar::domain::position_intent::UnifiedPositionIntent::Hold => (
                     ExitDisplayIntent::Hold,
                     dict.decision.exit_intent_hold.clone(),
                     dict.reasons.position_hold_core.clone(),
                 ),
-                crate::features::radar::application::policy::position_intent::UnifiedPositionIntent::Watch
-                | crate::features::radar::application::policy::position_intent::UnifiedPositionIntent::Add => {
+                crate::features::radar::domain::position_intent::UnifiedPositionIntent::Watch
+                | crate::features::radar::domain::position_intent::UnifiedPositionIntent::Add => {
                     if matches!(
                         asset.asset_state.state,
-                        crate::features::radar::application::policy::asset_state::AssetState::PULLBACK
-                            | crate::features::radar::application::policy::asset_state::AssetState::CAUTION
-                            | crate::features::radar::application::policy::asset_state::AssetState::FORMING
+                        crate::features::radar::domain::asset_state::AssetState::PULLBACK
+                            | crate::features::radar::domain::asset_state::AssetState::CAUTION
+                            | crate::features::radar::domain::asset_state::AssetState::FORMING
                     ) {
                         (
                             ExitDisplayIntent::Watch,
                             dict.decision.exit_intent_watch.clone(),
                             if asset.asset_state.state
-                                == crate::features::radar::application::policy::asset_state::AssetState::PULLBACK
+                                == crate::features::radar::domain::asset_state::AssetState::PULLBACK
                             {
                                 dict.reasons.position_watch_pullback.clone()
                             } else {
@@ -1939,9 +1938,7 @@ impl PresentationAssembler {
         dict: &DisplayDictionary,
         lang: Language,
     ) -> BreakoutSummaryViewModel {
-        use crate::features::radar::application::policy::breakout_detection::{
-            BreakoutReason, BreakoutStatus,
-        };
+        use crate::features::radar::domain::breakout_detection::{BreakoutReason, BreakoutStatus};
         let is_no_trade = !packet.trend_cohesion.gate_passed;
         let failed_risk_display_threshold = if is_no_trade {
             rules.breakout.failed_breakout_no_trade_display_threshold
@@ -2046,11 +2043,11 @@ impl PresentationAssembler {
 
     fn format_breakout_status_with_age(
         base_label: &str,
-        status: crate::features::radar::application::policy::breakout_detection::BreakoutStatus,
+        status: crate::features::radar::domain::breakout_detection::BreakoutStatus,
         breakout_age: usize,
         lang: Language,
     ) -> String {
-        use crate::features::radar::application::policy::breakout_detection::BreakoutStatus;
+        use crate::features::radar::domain::breakout_detection::BreakoutStatus;
         match status {
             BreakoutStatus::NoBreakout => base_label.to_string(),
             BreakoutStatus::EmergingBreakout | BreakoutStatus::ConfirmedBreakout => {
@@ -2181,7 +2178,7 @@ impl PresentationAssembler {
 
             if is_stability
                 && packet.trend_cohesion.unmet_conditions.contains(
-                    &crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
+                    &crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold,
                 )
             {
                 // 比較演算子と数値を含む標準的な閾値テンプレートは抑制する。
@@ -2211,7 +2208,7 @@ impl PresentationAssembler {
                 !looks_like_template
             } else if is_continuity
                 && packet.trend_cohesion.unmet_conditions.contains(
-                    &crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
+                    &crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold,
                 )
             {
                 let has_operator = reason.contains("<")
@@ -2243,35 +2240,34 @@ impl PresentationAssembler {
         });
 
         let has_persistent_main_theme = Self::has_persistent_main_theme(packet);
-        let trend_cohesion_value = if has_persistent_main_theme
-            && !packet.trend_cohesion.gate_passed
-        {
-            dict.trend_cohesion.persistent_not_ready.clone()
-        } else {
-            match packet.trend_cohesion.status {
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Dispersed => {
-                        dict.trend_cohesion.dispersed.clone()
-                    }
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Forming => {
-                        dict.trend_cohesion.forming.clone()
-                    }
-                    crate::features::radar::application::policy::trend_cohesion::TrendCohesionStatus::Formed => {
-                        dict.trend_cohesion.formed.clone()
-                    }
+        let trend_cohesion_value =
+            if has_persistent_main_theme && !packet.trend_cohesion.gate_passed {
+                dict.trend_cohesion.persistent_not_ready.clone()
+            } else {
+                match packet.trend_cohesion.status {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed => {
+                    dict.trend_cohesion.dispersed.clone()
                 }
-        };
+                crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Forming => {
+                    dict.trend_cohesion.forming.clone()
+                }
+                crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed => {
+                    dict.trend_cohesion.formed.clone()
+                }
+            }
+            };
 
         let trend_topology_value = if has_persistent_main_theme {
             dict.trend_cohesion.topology_core_leadership.clone()
         } else {
             match packet.trend_cohesion.topology {
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::NoLeader => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader => {
                     dict.trend_cohesion.topology_no_leader.clone()
                 }
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::SingleLeader => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::SingleLeader => {
                     dict.trend_cohesion.topology_single_leader.clone()
                 }
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
                     dict.trend_cohesion.topology_fragmented_leaders.clone()
                 }
             }
@@ -2288,34 +2284,34 @@ impl PresentationAssembler {
             .unmet_conditions
             .iter()
             .map(|r| match r {
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::StabilityThreshold => {
                     dict.trend_cohesion.unmet.stability_threshold.replace(
                         "{}",
                         &format!("{:.1}", packet.trend_cohesion.stability_score),
                     )
                 }
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::ContinuityThreshold => {
                     dict.trend_cohesion
                         .unmet
                         .continuity_threshold
                         .replace("{}", &packet.trend_cohesion.continuity_streak.to_string())
                 }
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::DirectionalCohesion => {
                     dict.trend_cohesion.unmet.directional_cohesion.clone()
                 }
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::HighCandidateDispersion => {
                     dict.trend_cohesion
                         .unmet
                         .high_candidate_dispersion
                         .replace("{}", &packet.trend_cohesion.candidate_count.to_string())
                 }
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::UnstableRotation => {
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::UnstableRotation => {
                     dict.trend_cohesion.unmet.unstable_rotation.replace(
                         "{}",
                         &format!("{:.0}", packet.trend_cohesion.rotation_quality_score),
                     )
                 }
-                crate::features::radar::application::policy::trend_cohesion::TrendCohesionGateCondition::WeakLeadership => dict
+                crate::features::radar::domain::trend_cohesion::TrendCohesionGateCondition::WeakLeadership => dict
                     .trend_cohesion
                     .unmet
                     .weak_leadership
@@ -2385,10 +2381,10 @@ impl PresentationAssembler {
     }
 
     fn localize_breakout_reason(
-        reasons: &[crate::features::radar::application::policy::breakout_detection::BreakoutReason],
+        reasons: &[crate::features::radar::domain::breakout_detection::BreakoutReason],
         dict: &DisplayDictionary,
     ) -> String {
-        use crate::features::radar::application::policy::breakout_detection::BreakoutReason;
+        use crate::features::radar::domain::breakout_detection::BreakoutReason;
 
         if reasons.contains(&BreakoutReason::StructuralBreakout) {
             dict.breakout.structural_breakout.clone()
@@ -2404,7 +2400,7 @@ impl PresentationAssembler {
     }
 
     fn summarize_primary_risk(
-        risk_items: &[&crate::features::shared::interface::display::RiskOpportunityViewModel],
+        risk_items: &[&crate::features::radar::interface::display::RiskOpportunityViewModel],
         dict: &DisplayDictionary,
     ) -> String {
         if risk_items.is_empty() {

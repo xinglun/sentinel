@@ -1,0 +1,111 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-hard-gate-closure",
+  "mode": "code",
+  "title": "DDD hard gate closure",
+  "scope": [
+    ".ai/work-items/active/ddd-hard-gate-closure.contract.json",
+    ".ai/work-items/active/ddd-hard-gate-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/feature_acl.yaml",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/**/*.rs",
+    "tests/*.rs",
+    "tests/**/*.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "DDD Hard Gate Closure Plan",
+      "reason": "feature-first を標準 DDD 四層 + ACL に破壊的に収束する実行計画。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature roots、allowedDependencies、hard gate の machine-readable SSOT。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "依存方向を強制する architecture checker。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "DDD / Clean Architecture の human-readable SSOT。"
+    },
+    {
+      "path": "src/features/radar/application/policy",
+      "reason": "現状の policy kernel。domain/application/infrastructure/interface へ分解する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "radar の業務 model / domain service が domain layer に移動し、application は use case / ports / orchestration に限定されている。",
+    "application layer に filesystem / network IO が残っていない。",
+    "infrastructure layer が interface layer に依存していない。",
+    "shared が concrete feature に依存していない。",
+    "trading / evidence / backtest の cross-feature 依存が port / ACL / DTO 経由へ収束している。",
+    "feature_acl.yaml の allowedDependencies と hard gates が checker で実際に検証されている。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-hard-gate-closure.summary.json CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json SUMMARY=.ai/work-items/active/ddd-hard-gate-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-hard-gate-closure.contract.json SUMMARY=.ai/work-items/active/ddd-hard-gate-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/features/radar/application/policy/**",
+      "src/features/radar/domain/**",
+      "src/features/shared/**",
+      "src/features/trading/**",
+      "src/features/evidence/**",
+      "src/features/backtest/**",
+      "scripts/check_architecture_boundaries.py",
+      "scripts/ai_test_architecture_boundaries.py"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
