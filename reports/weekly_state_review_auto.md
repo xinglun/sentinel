@@ -4,17 +4,17 @@
 - Status: using current market decision
 - Latest headline: 启动期 | 无交易窗口
 - Days analyzed: 7
-- Avg confidence: 51.8
-- Avg stability: 5.1
+- Avg confidence: 52.6
+- Avg stability: 6.1
 - Trend cohesion ready days: 0
 
 ## Market State Counts
-- DEFENSIVE: 2
-- IGNITION: 5
+- DEFENSIVE: 1
+- IGNITION: 6
 
 ## Risk Overlay Counts
-- DEFENSIVE: 2
-- NORMAL: 5
+- DEFENSIVE: 1
+- NORMAL: 6
 
 ## Strategic Context Snapshot
 - Trend breadth mode: NarrowLeadership

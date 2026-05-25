@@ -1,10 +1,10 @@
 {
   "as_of_date": "2026-05-22",
-  "avg_confidence": 51.819557888987006,
-  "avg_stability": 5.141631129440752,
+  "avg_confidence": 52.58728043376832,
+  "avg_stability": 6.0626600545235565,
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-05-23T00:35:15.467325519+09:00",
+  "generated_at": "2026-05-26T00:35:43.762366635+09:00",
   "include_current_packet": true,
   "latest_context": {
     "cognitive_calibration": {
@@ -39,13 +39,13 @@
   "latest_market_state": "IGNITION",
   "latest_risk_overlay": "NORMAL",
   "market_state_counts": {
-    "DEFENSIVE": 2,
-    "IGNITION": 5
+    "DEFENSIVE": 1,
+    "IGNITION": 6
   },
   "participation_ready_days": 0,
   "risk_overlay_counts": {
-    "DEFENSIVE": 2,
-    "NORMAL": 5
+    "DEFENSIVE": 1,
+    "NORMAL": 6
   },
   "trend_cohesion_ready_days": 0
 }
