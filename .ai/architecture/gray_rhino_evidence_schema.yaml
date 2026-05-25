@@ -1,0 +1,63 @@
+schemaVersion: 1
+contractKey: gray-rhino-evidence-contract
+humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md
+domainModel: src/features/research/domain/gray_rhino_evidence.rs
+currentPhase: phase_2_evidence_schema
+currentObservationSource: ManualConfiguration
+automatedCollectionEnabled: false
+categories:
+  - GovernanceConcentration
+  - DependencyConcentration
+  - InstitutionalMaturity
+  - RiskNormalization
+  - Redundancy
+sourceTypes:
+  - RegulatoryFiling
+  - GovernanceDocument
+  - CompanyDisclosure
+  - IndependentAudit
+  - InfrastructureStatus
+  - SupplierDisclosure
+  - MarketNarrativeCorpus
+  - OperatorCuratedSource
+requiredFields:
+  - category
+  - source_type
+  - source_title
+  - publisher
+  - observed_at
+  - retrieved_at
+  - confidence
+  - extraction_note
+traceability:
+  require_source_reference: true
+  require_observed_at: true
+  require_retrieved_at: true
+  require_extraction_note: true
+quality:
+  confidence_min: 0.0
+  confidence_max: 1.0
+  confidence_means: evidence_quality_not_risk_severity
+  evidence_must_not_set_escalation_state: true
+boundaries:
+  forbidden_as_evidence:
+    - narrative_only
+    - price_action_only
+    - personality_judgment
+    - political_attack
+    - conspiracy_claim
+    - trade_signal
+    - gate_signal
+    - execution_signal
+    - trend_cohesion_override
+  allowed_layers:
+    - research/domain
+    - research/application
+    - research/interface
+    - research/infrastructure
+phases:
+  phase_1_human_structured_governance_observation: completed
+  phase_2_evidence_schema: active
+  phase_3_automated_evidence_collection: blocked_until_contract_adapter_exists
+  phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
+  phase_5_long_term_civilization_risk_mapping: out_of_scope

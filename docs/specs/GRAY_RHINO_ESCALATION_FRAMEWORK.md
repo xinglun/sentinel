@@ -15,6 +15,8 @@ Gray Rhino Escalation Framework は、長期構造リスクが背景リスクか
 
 本ドキュメントを Gray Rhino Escalation Framework の repository 内 SSOT とする。
 
+Gray Rhino 専用 evidence の分類、source traceability、narrative rejection、collector 境界は `docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md` と `.ai/architecture/gray_rhino_evidence_schema.yaml` を SSOT とする。本 framework は evidence contract を満たさない入力を自動 intelligence と表示しない。
+
 実装は次の境界に従う。
 
 - domain model と状態判定は `src/features/research/domain/gray_rhino.rs` に置く。

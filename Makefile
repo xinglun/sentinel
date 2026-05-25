@@ -18,7 +18,7 @@ COLLECT_EVIDENCE_ARGS ?=
 RESEARCH_ATTENTION_ARGS ?=
 DAILY_CALIBRATION_ARGS ?=
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-architecture-boundaries \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-architecture-boundaries test-gray-rhino-evidence-contract \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -42,6 +42,7 @@ help:
 	@printf '%s\n' '  make audit-docs'
 	@printf '%s\n' '  make check-doc-forbidden-terms'
 	@printf '%s\n' '  make check-architecture'
+	@printf '%s\n' '  make check-gray-rhino-evidence-contract'
 	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make clippy'
 	@printf '%s\n' '  make diff-check'
@@ -55,6 +56,7 @@ help:
 	@printf '%s\n' '  make test-ai-lifecycle'
 	@printf '%s\n' '  make test-ai-work-item-contract'
 	@printf '%s\n' '  make test-architecture-boundaries'
+	@printf '%s\n' '  make test-gray-rhino-evidence-contract'
 	@printf '%s\n' '  make check-rust'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
@@ -84,6 +86,9 @@ check-doc-forbidden-terms:
 
 check-architecture:
 	python3 scripts/check_architecture_boundaries.py
+
+check-gray-rhino-evidence-contract:
+	python3 scripts/check_gray_rhino_evidence_contract.py
 
 test:
 	cargo test
@@ -122,7 +127,10 @@ test-ai-generate-status:
 test-architecture-boundaries:
 	python3 scripts/ai_test_architecture_boundaries.py
 
-check-rust: fmt-check audit-docs check-doc-forbidden-terms check-architecture test-architecture-boundaries test clippy diff-check
+test-gray-rhino-evidence-contract:
+	python3 scripts/ai_test_gray_rhino_evidence_contract.py
+
+check-rust: fmt-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract test-architecture-boundaries test-gray-rhino-evidence-contract test clippy diff-check
 
 check-ai-contract check-ai-work-item:
 	python3 scripts/ai_check_work_item.py $(CONTRACT)
