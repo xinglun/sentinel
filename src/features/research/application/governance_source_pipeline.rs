@@ -299,7 +299,8 @@ pub fn extract_governance_concentration_evidence(
                 "independent board ratio",
                 "board independence ratio",
             ],
-        ),
+        )
+        .or_else(|| parse_independent_board_ratio(&document.content)),
         dual_class_structure: parse_bool_metric(
             &document.content,
             &[
@@ -391,7 +392,8 @@ fn extract_metric_audit_entries(content: &str) -> Vec<GovernanceMetricAuditEntry
                     "independent board ratio",
                     "board independence ratio",
                 ],
-            ),
+            )
+            .or_else(|| parse_independent_board_ratio(content)),
         ),
         bool_metric_audit(
             "dual_class_structure",
@@ -485,6 +487,105 @@ fn parse_ratio_metric(content: &str, labels: &[&str]) -> Option<f64> {
         .map(|value| if value > 1.0 { value / 100.0 } else { value })
 }
 
+fn parse_independent_board_ratio(content: &str) -> Option<f64> {
+    let text = normalize_metric_text(content);
+    first_ratio_match(
+        &text,
+        &["board nominees", "director nominees", "directors"],
+        &["independent"],
+    )
+}
+
+fn first_ratio_match(
+    text: &str,
+    denominator_terms: &[&str],
+    numerator_terms: &[&str],
+) -> Option<f64> {
+    let tokens = tokenize_metric_text(text);
+    for idx in 0..tokens.len() {
+        if let Some((numerator, denominator)) =
+            parse_of_pattern(&tokens, idx, denominator_terms, numerator_terms)
+                .or_else(|| parse_out_of_pattern(&tokens, idx, denominator_terms, numerator_terms))
+                .or_else(|| {
+                    parse_consists_pattern(&tokens, idx, denominator_terms, numerator_terms)
+                })
+        {
+            if denominator > 0 && numerator <= denominator {
+                return Some(numerator as f64 / denominator as f64);
+            }
+        }
+    }
+    None
+}
+
+fn parse_of_pattern(
+    tokens: &[String],
+    idx: usize,
+    denominator_terms: &[&str],
+    numerator_terms: &[&str],
+) -> Option<(usize, usize)> {
+    if tokens.get(idx)? != "of" {
+        return None;
+    }
+    let (denominator, denominator_idx) = token_number(tokens.get(idx + 2)?)
+        .map(|value| (value, idx + 2))
+        .or_else(|| token_number(tokens.get(idx + 1)?).map(|value| (value, idx + 1)))?;
+    let denominator_window_end = (idx + 8).min(tokens.len());
+    if !window_contains_phrase(&tokens[idx..denominator_window_end], denominator_terms) {
+        return None;
+    }
+    let numerator = (denominator_idx + 1..(idx + 14).min(tokens.len())).find_map(|cursor| {
+        token_number(tokens.get(cursor)?).filter(|_| {
+            let window_end = (cursor + 8).min(tokens.len());
+            window_contains_phrase(&tokens[cursor..window_end], numerator_terms)
+        })
+    })?;
+    Some((numerator, denominator))
+}
+
+fn parse_out_of_pattern(
+    tokens: &[String],
+    idx: usize,
+    denominator_terms: &[&str],
+    numerator_terms: &[&str],
+) -> Option<(usize, usize)> {
+    let numerator = token_number(tokens.get(idx)?)?;
+    if tokens.get(idx + 1)? != "out" || tokens.get(idx + 2)? != "of" {
+        return None;
+    }
+    let denominator = token_number(tokens.get(idx + 3)?)?;
+    let window_end = (idx + 10).min(tokens.len());
+    if !window_contains_phrase(&tokens[idx..window_end], denominator_terms)
+        || !window_contains_phrase(&tokens[idx..window_end], numerator_terms)
+    {
+        return None;
+    }
+    Some((numerator, denominator))
+}
+
+fn parse_consists_pattern(
+    tokens: &[String],
+    idx: usize,
+    denominator_terms: &[&str],
+    numerator_terms: &[&str],
+) -> Option<(usize, usize)> {
+    if tokens.get(idx)? != "consists" || tokens.get(idx + 1)? != "of" {
+        return None;
+    }
+    let denominator = token_number(tokens.get(idx + 2)?)?;
+    let denominator_window_end = (idx + 8).min(tokens.len());
+    if !window_contains_phrase(&tokens[idx..denominator_window_end], denominator_terms) {
+        return None;
+    }
+    let numerator = (idx + 3..(idx + 16).min(tokens.len())).find_map(|cursor| {
+        token_number(tokens.get(cursor)?).filter(|_| {
+            let window_end = (cursor + 8).min(tokens.len());
+            window_contains_phrase(&tokens[cursor..window_end], numerator_terms)
+        })
+    })?;
+    Some((numerator, denominator))
+}
+
 fn parse_number_after_labels(content: &str, labels: &[&str]) -> Option<f64> {
     let lower = normalize_metric_text(content);
     for label in labels {
@@ -497,6 +598,40 @@ fn parse_number_after_labels(content: &str, labels: &[&str]) -> Option<f64> {
         }
     }
     None
+}
+
+fn tokenize_metric_text(content: &str) -> Vec<String> {
+    content
+        .split(|ch: char| !ch.is_ascii_alphanumeric())
+        .filter(|token| !token.is_empty())
+        .map(|token| token.to_lowercase())
+        .collect()
+}
+
+fn token_number(token: &str) -> Option<usize> {
+    token.parse::<usize>().ok().or(match token {
+        "one" => Some(1),
+        "two" => Some(2),
+        "three" => Some(3),
+        "four" => Some(4),
+        "five" => Some(5),
+        "six" => Some(6),
+        "seven" => Some(7),
+        "eight" => Some(8),
+        "nine" => Some(9),
+        "ten" => Some(10),
+        "eleven" => Some(11),
+        "twelve" => Some(12),
+        "thirteen" => Some(13),
+        "fourteen" => Some(14),
+        "fifteen" => Some(15),
+        _ => None,
+    })
+}
+
+fn window_contains_phrase(tokens: &[String], phrases: &[&str]) -> bool {
+    let window = tokens.join(" ");
+    phrases.iter().any(|phrase| window.contains(phrase))
 }
 
 fn first_number(value: &str) -> Option<f64> {
@@ -685,6 +820,46 @@ mod tests {
     fn single_vote_common_stock_does_not_create_dual_class_metric() {
         let err = extract_governance_concentration_evidence(&document(
             "On each matter to be voted upon, stockholders have one vote for each share of common stock owned.",
+        ))
+        .unwrap_err();
+
+        assert!(err.to_string().contains("MissingGovernanceMetric"));
+    }
+
+    #[test]
+    fn extracts_independent_board_ratio_from_nominee_counts() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "Of the 12 Board nominees, 11 are independent, including the Lead Independent Director.",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.independent_board_ratio, Some(11.0 / 12.0));
+    }
+
+    #[test]
+    fn extracts_independent_board_ratio_from_out_of_counts() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "Strong Board independence (8 out of 10 director nominees are independent).",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.independent_board_ratio, Some(0.8));
+    }
+
+    #[test]
+    fn extracts_independent_board_ratio_from_word_counts() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "Our Board of Directors currently consists of seven directors, four of whom are independent under Nasdaq rules.",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.independent_board_ratio, Some(4.0 / 7.0));
+    }
+
+    #[test]
+    fn majority_independent_without_counts_is_not_ratio() {
+        let err = extract_governance_concentration_evidence(&document(
+            "Our Board consists of a majority of independent directors under exchange rules.",
         ))
         .unwrap_err();
 

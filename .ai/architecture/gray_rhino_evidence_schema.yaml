@@ -86,6 +86,10 @@ governanceConcentration:
       - class b stock has 10 times the voting rights
       - class b common stock have ten votes per share
       - class b common stock represents 15 votes
+    boardIndependencePatterns:
+      - Of the N Board nominees, M are independent
+      - M out of N director nominees are independent
+      - consists of N directors, M of whom are independent
   rejectionTaxonomy:
     - MetriclessSource
     - SourceInvalid
@@ -118,6 +122,7 @@ phases:
   phase_3a_governance_sec_field_coverage_calibration: active
   phase_3a_governance_sec_expanded_sample_dry_run: active
   phase_3a_governance_sec_voting_structure_calibration: active
+  phase_3a_governance_sec_board_independence_calibration: active
   phase_3b_dependency_concentration_evidence_pipeline: blocked_until_governance_sensor_stabilizes
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope

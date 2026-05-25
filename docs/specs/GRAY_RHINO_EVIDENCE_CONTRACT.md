@@ -201,6 +201,12 @@ field-level coverage は current run の extraction audit から算出する。J
 
 `multi-class voting structure`、`multi-class common stock`、`Class B stock has 10 times the voting rights`、`Class B common stock have ten votes per share`、`Class B common stock represents 15 votes` は voting structure evidence として扱う。`one vote for each share` は dual-class / super-voting evidence として扱わない。
 
+### Phase 3-A: Governance SEC Board Independence Calibration
+
+本 Work Item の対象。`independent_board_ratio` は SEC filing の明示的な count pattern からのみ算出する。
+
+`Of the N Board nominees, M are independent`、`M out of N director nominees are independent`、`consists of N directors, M of whom are independent` を許可する。`majority independent` や `except CEO` のように分母が明示されない disclosure は ratio として扱わない。
+
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 
 本 Work Item の対象外。dependency graph は動的であるため、GovernanceConcentration sensor が安定してから追加する。
