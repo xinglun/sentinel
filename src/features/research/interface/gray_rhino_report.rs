@@ -20,6 +20,7 @@ use crate::features::research::infrastructure::gray_rhino_snapshot_store::GrayRh
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
+use std::collections::BTreeSet;
 use std::path::Path;
 
 pub(crate) fn build_gray_rhino_escalation_report(
@@ -414,9 +415,28 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
         ready_count,
         categories.len()
     ));
-    out.push_str(
-        "- Evidence quality dimensions: traceability / completeness / freshness / confidence\n",
-    );
+    let average_confidence = if records.is_empty() {
+        0.0
+    } else {
+        records.iter().map(|record| record.confidence).sum::<f64>() / records.len() as f64
+    };
+    let source_diversity = records
+        .iter()
+        .map(|record| record.source.publisher.clone())
+        .collect::<BTreeSet<_>>()
+        .len();
+    let quality_label = if ready_count >= 3 && average_confidence >= 0.75 {
+        "ready"
+    } else if ready_count >= 2 && average_confidence >= 0.6 {
+        "partial"
+    } else {
+        "insufficient"
+    };
+    out.push_str(&format!(
+        "- Quality score: {quality_label} (avg confidence {:.2}, source diversity {})\n",
+        average_confidence, source_diversity
+    ));
+    out.push_str("- Evidence quality dimensions: traceability / completeness / freshness / confidence / source diversity / rejection ratio\n");
     for category in categories {
         let count = records
             .iter()
@@ -431,6 +451,12 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
         out.push('\n');
         out.push_str(&governance);
     }
+    out.push('\n');
+    out.push_str("Evidence Explanation Graph\n");
+    out.push_str("- dependency_centralization -> DependencyConcentration -> supplier/cloud/infrastructure disclosures\n");
+    out.push_str("- fallback_survivability_risk -> DependencyConcentration + Redundancy gap -> fallback and failover evidence\n");
+    out.push_str("- constraint_growth_rate -> InstitutionalMaturity -> audit, oversight, compliance maturity evidence\n");
+    out.push_str("- risk_expansion_rate -> GovernanceConcentration + DependencyConcentration -> structural concentration evidence\n");
     Ok(out)
 }
 

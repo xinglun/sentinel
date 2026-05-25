@@ -279,6 +279,8 @@ sensor health は readiness score を表示する。readiness score は category
 
 evidence-driven escalation は category completeness を calibration input として使う。insufficient category は report に表示するが、narrative な推測で補完しない。
 
+Phase v1.2 の evidence quality model は `v2` とし、traceability、metric completeness、freshness、confidence、source diversity、rejection ratio を表示する。report は `Evidence Explanation Graph` として dimension -> supporting evidence category -> source class を示す。
+
 ### Phase 5: Long-term Civilization Risk Mapping
 
 本 Work Item の対象外。事実 layer、hypothesis layer、Gray Rhino layer の分離を維持した後に扱う。

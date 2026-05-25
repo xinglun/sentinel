@@ -52,9 +52,12 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
     .into_iter()
     .filter(|ready| *ready)
     .count();
+    let average_confidence =
+        records.iter().map(|record| record.confidence).sum::<f64>() / records.len() as f64;
+    let quality_ready = ready_count >= 2 && average_confidence >= 0.6;
 
     Some(GrayRhinoEscalationInput {
-        risk_expansion_rate: if has_governance && has_dependency {
+        risk_expansion_rate: if has_governance && has_dependency && quality_ready {
             RiskLevel::High
         } else if has_governance || has_dependency {
             RiskLevel::Elevated
@@ -66,8 +69,10 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         } else {
             RiskLevel::Low
         },
-        dependency_centralization: if has_dependency {
+        dependency_centralization: if has_dependency && quality_ready {
             RiskLevel::High
+        } else if has_dependency {
+            RiskLevel::Elevated
         } else {
             RiskLevel::Moderate
         },
@@ -82,13 +87,13 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         } else {
             RiskLevel::Moderate
         },
-        fallback_survivability_risk: if has_dependency && !has_redundancy {
+        fallback_survivability_risk: if has_dependency && !has_redundancy && quality_ready {
             RiskLevel::Elevated
         } else {
             RiskLevel::Low
         },
         notes: vec![format!(
-            "Evidence-backed Gray Rhino assessment from validated records; ready categories: {ready_count}/4."
+            "Evidence-backed Gray Rhino assessment from validated records; ready categories: {ready_count}/4; average confidence: {average_confidence:.2}."
         )],
     })
 }
@@ -168,7 +173,8 @@ mod tests {
 
         let input = build_evidence_backed_gray_rhino_input(&[record]).unwrap();
 
-        assert_eq!(input.dependency_centralization, RiskLevel::High);
-        assert_eq!(input.fallback_survivability_risk, RiskLevel::Elevated);
+        assert_eq!(input.dependency_centralization, RiskLevel::Elevated);
+        assert_eq!(input.fallback_survivability_risk, RiskLevel::Low);
+        assert!(input.notes[0].contains("ready categories: 1/4"));
     }
 }

@@ -218,7 +218,16 @@ multiCategorySensorHealthEnabled: true
 multiCategoryBackfillDryRunEnabled: true
 multiCategoryBackfillManifest: tests/fixtures/gray_rhino_backfill/multi_category_manifest.json
 evidenceQualityScoringEnabled: true
+evidenceQualityModelVersion: v2
+evidenceQualityDimensions:
+  - traceability
+  - metric_completeness
+  - freshness
+  - confidence
+  - source_diversity
+  - rejection_ratio
 sensorReadinessScoreEnabled: true
+evidenceExplanationGraphEnabled: true
 evidenceDrivenEscalationEngineEnabled: true
 evidenceDrivenEscalationUsesCategoryCompleteness: true
 evidenceDrivenEscalationOutputBoundary: no_trade_gate_execution
