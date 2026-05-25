@@ -146,9 +146,9 @@ fn stale_state_for_kind(
 ) -> GrayRhinoCandidateState {
     if is_persistent_structural_kind(kind) {
         match latest_state {
-            GrayRhinoCandidateState::Critical | GrayRhinoCandidateState::Expanding => {
-                GrayRhinoCandidateState::Cooling
-            }
+            GrayRhinoCandidateState::Critical
+            | GrayRhinoCandidateState::Expanding
+            | GrayRhinoCandidateState::Visible => GrayRhinoCandidateState::Cooling,
             other => other,
         }
     } else {
@@ -272,7 +272,7 @@ mod tests {
         );
 
         assert_eq!(statuses.len(), 1);
-        assert_eq!(statuses[0].current_state, GrayRhinoCandidateState::Visible);
+        assert_eq!(statuses[0].current_state, GrayRhinoCandidateState::Cooling);
         assert_eq!(statuses[0].direction, GrayRhinoMonitoringDirection::Cooling);
         assert_eq!(statuses[0].stale_days, 31);
     }

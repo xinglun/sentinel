@@ -39,6 +39,7 @@ grayRhinoRefreshStatusValues:
   - skipped
 grayRhinoRefreshStatusStore: gray_rhino_refresh_status_latest.json
 grayRhinoRefreshStatusDisplayedInReport: true
+grayRhinoRefreshStatusReplayAsOfDateEnabled: true
 grayRhinoProviderFailureExitsNonZero: true
 grayRhinoProviderPartialFailureCoverageEnabled: true
 radarTelegramAppendixEnabled: true
@@ -77,6 +78,8 @@ candidateTimeModel:
 persistentRiskNoAgeOnlyAutoResolve: true
 sourceCollectionUseCase: src/features/research/application/gray_rhino_source_collection.rs
 dailyReportOpsViewDtoEnabled: true
+dailyReportOpsViewReplayAsOfDateEnabled: true
+governanceAuditReplayAsOfDateEnabled: true
 dailyReportOpsViewDtos:
   - BackfillOpsSummary
   - DiscoveryOpsSummary
@@ -91,6 +94,9 @@ autoSourceCaches:
   sec: gray_rhino_sources/governance
   finnhub: gray_rhino_sources/narrative
   fred: gray_rhino_sources/macro
+finnhubArticleIdentityEnabled: true
+finnhubSourcePublishedAtUsesArticleDate: true
+finnhubRepeatedFetchDoesNotConfirm: true
 autoDiscoveryRunStore: gray_rhino_discovery_runs.jsonl
 fredConfigEnabled: true
 fredConfigField: fred_api_key

@@ -66,7 +66,7 @@ use crate::features::research::interface::cognitive_reports::{
     enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_report::{
-    build_gray_rhino_daily_report, build_gray_rhino_escalation_report,
+    build_gray_rhino_daily_report_read_only, build_gray_rhino_escalation_report,
 };
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
@@ -1610,7 +1610,7 @@ fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(daily_calibration_gray_rhino_label(language));
     out.push_str("\n\n");
-    out.push_str(&build_gray_rhino_daily_report(
+    out.push_str(&build_gray_rhino_daily_report_read_only(
         app_config,
         &save_dir,
         calibration_date,

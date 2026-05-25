@@ -24,15 +24,18 @@ pub(crate) trait GrayRhinoDailyReportRepository {
     ) -> Result<Option<GrayRhinoAssessmentSnapshot>>;
     fn save_snapshot_if_changed(&self, snapshot: &GrayRhinoAssessmentSnapshot) -> Result<()>;
     fn load_evidence_records(&self, as_of_date: NaiveDate) -> Result<Vec<GrayRhinoEvidenceRecord>>;
-    fn load_governance_audits(&self) -> Result<Vec<GovernanceExtractionAuditRecord>>;
+    fn load_governance_audits(
+        &self,
+        as_of_date: NaiveDate,
+    ) -> Result<Vec<GovernanceExtractionAuditRecord>>;
     fn load_persisted_candidates(
         &self,
         watch_symbols: &[String],
         as_of_date: NaiveDate,
     ) -> Result<Vec<GrayRhinoCandidate>>;
-    fn load_backfill_ops_view(&self) -> Option<BackfillOpsSummary>;
-    fn load_discovery_ops_view(&self) -> Option<DiscoveryOpsSummary>;
-    fn load_refresh_status(&self) -> Option<GrayRhinoRefreshStatus>;
+    fn load_backfill_ops_view(&self, as_of_date: NaiveDate) -> Option<BackfillOpsSummary>;
+    fn load_discovery_ops_view(&self, as_of_date: NaiveDate) -> Option<DiscoveryOpsSummary>;
+    fn load_refresh_status(&self, as_of_date: NaiveDate) -> Option<GrayRhinoRefreshStatus>;
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -132,12 +135,12 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             assessment,
             evidence_records,
             unclassified_record_count,
-            governance_audits: self.repository.load_governance_audits()?,
+            governance_audits: self.repository.load_governance_audits(as_of_date)?,
             display_candidates,
             monitoring_statuses,
-            backfill_ops_view: self.repository.load_backfill_ops_view(),
-            discovery_ops_view: self.repository.load_discovery_ops_view(),
-            refresh_status: self.repository.load_refresh_status(),
+            backfill_ops_view: self.repository.load_backfill_ops_view(as_of_date),
+            discovery_ops_view: self.repository.load_discovery_ops_view(as_of_date),
+            refresh_status: self.repository.load_refresh_status(as_of_date),
         })
     }
 }

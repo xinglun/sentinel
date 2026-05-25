@@ -12,7 +12,7 @@ use crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate;
 use crate::features::research::infrastructure::gray_rhino_candidate_store::GrayRhinoCandidateStore;
 use crate::features::research::infrastructure::sec_governance_source_adapter::GovernanceDocumentSourceAdapter;
 use anyhow::{anyhow, Context, Result};
-use chrono::Duration;
+use chrono::{Duration, NaiveDate};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::path::Path;
@@ -168,24 +168,29 @@ async fn collect_finnhub_sources(
         match client.get(&url).send().await {
             Ok(response) if response.status().is_success() => {
                 let raw = response.text().await?;
-                let content = render_finnhub_narrative_text(&subject, &raw)?;
-                let repository_path = cache_source(
-                    &request.save_dir,
-                    "narrative",
-                    &subject,
-                    &format!("finnhub_news_{}.txt", to),
-                    &content,
-                )
-                .await?;
-                outcomes.push(GrayRhinoFetchOutcome::Accepted(GrayRhinoFetchedSource {
-                    subject: subject.clone(),
-                    source_title: "Finnhub company news".to_string(),
-                    source_published_at: request.as_of_date,
-                    content_sha256: Some(content_sha256(&content)),
-                    content,
-                    source_url: Some(redact_token(&url)),
-                    repository_path: Some(repository_path),
-                }));
+                for article in render_finnhub_article_sources(&subject, &raw, request.as_of_date)? {
+                    let repository_path = cache_source(
+                        &request.save_dir,
+                        "narrative",
+                        &subject,
+                        &format!(
+                            "finnhub_news_{}_{}.txt",
+                            article.published_at,
+                            sanitize_path_segment(&article.identity)
+                        ),
+                        &article.content,
+                    )
+                    .await?;
+                    outcomes.push(GrayRhinoFetchOutcome::Accepted(GrayRhinoFetchedSource {
+                        subject: subject.clone(),
+                        source_title: article.title,
+                        source_published_at: article.published_at,
+                        content_sha256: Some(content_sha256(&article.content)),
+                        content: article.content,
+                        source_url: article.source_url.or_else(|| Some(redact_token(&url))),
+                        repository_path: Some(repository_path),
+                    }));
+                }
             }
             Ok(response) => outcomes.push(rejected_outcome(
                 subject,
@@ -255,6 +260,7 @@ async fn collect_fred_sources(
     )])
 }
 
+#[cfg(test)]
 pub(crate) fn render_finnhub_narrative_text(symbol: &str, raw_json: &str) -> Result<String> {
     let items: Vec<serde_json::Value> =
         serde_json::from_str(raw_json).context("Failed to parse Finnhub news JSON")?;
@@ -278,6 +284,63 @@ pub(crate) fn render_finnhub_narrative_text(symbol: &str, raw_json: &str) -> Res
         ));
     }
     Ok(out)
+}
+
+struct FinnhubArticleSource {
+    identity: String,
+    title: String,
+    published_at: NaiveDate,
+    source_url: Option<String>,
+    content: String,
+}
+
+fn render_finnhub_article_sources(
+    symbol: &str,
+    raw_json: &str,
+    fallback_date: NaiveDate,
+) -> Result<Vec<FinnhubArticleSource>> {
+    let items: Vec<serde_json::Value> =
+        serde_json::from_str(raw_json).context("Failed to parse Finnhub news JSON")?;
+    Ok(items
+        .iter()
+        .take(20)
+        .map(|item| {
+            let headline = item
+                .get("headline")
+                .and_then(|value| value.as_str())
+                .unwrap_or("");
+            let summary = item
+                .get("summary")
+                .and_then(|value| value.as_str())
+                .unwrap_or("");
+            let url = item
+                .get("url")
+                .and_then(|value| value.as_str())
+                .unwrap_or("")
+                .to_string();
+            let published_at = item
+                .get("datetime")
+                .and_then(|value| value.as_i64())
+                .and_then(|timestamp| chrono::DateTime::from_timestamp(timestamp, 0))
+                .map(|datetime| datetime.date_naive())
+                .unwrap_or(fallback_date);
+            let identity = if url.trim().is_empty() {
+                content_sha256(&format!("{symbol}|{published_at}|{headline}|{summary}"))
+            } else {
+                content_sha256(&url)
+            };
+            let content = format!(
+                "Finnhub narrative source for {symbol}\nPurpose: normalize one company news article for structural-risk discovery.\n- headline: {headline}\n  summary: {summary}\n  url: {url}\n"
+            );
+            FinnhubArticleSource {
+                identity,
+                title: format!("Finnhub company news: {headline}"),
+                published_at,
+                source_url: (!url.trim().is_empty()).then_some(url),
+                content,
+            }
+        })
+        .collect())
 }
 
 pub(crate) fn render_fred_macro_text(series_payloads: &[(String, String)]) -> Result<String> {
@@ -506,6 +569,30 @@ mod tests {
 
         assert!(text.contains("narrative overcrowding"));
         assert!(text.contains("single supplier dependency"));
+    }
+
+    #[test]
+    fn gray_rhino_finnhub_identity_uses_article_date_and_url() {
+        let fallback = NaiveDate::from_ymd_opt(2026, 5, 25).unwrap();
+        let text = r#"[{"datetime":1779580800,"headline":"AI narrative overcrowding expands","summary":"Market narrative concentration is high.","url":"https://example.com/news/1"},{"datetime":1779494400,"headline":"Single supplier dependency remains","summary":"Supplier dependency remains visible.","url":"https://example.com/news/2"}]"#;
+
+        let sources = render_finnhub_article_sources("NVDA", text, fallback).unwrap();
+
+        assert_eq!(sources.len(), 2);
+        assert_eq!(
+            sources[0].published_at,
+            NaiveDate::from_ymd_opt(2026, 5, 24).unwrap()
+        );
+        assert_eq!(
+            sources[1].published_at,
+            NaiveDate::from_ymd_opt(2026, 5, 23).unwrap()
+        );
+        assert_ne!(sources[0].identity, sources[1].identity);
+        assert!(sources[0]
+            .source_url
+            .as_deref()
+            .unwrap()
+            .contains("/news/1"));
     }
 
     #[test]

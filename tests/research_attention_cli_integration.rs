@@ -101,7 +101,7 @@ notes = [
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Gray Rhino Escalation"));
+    assert!(stdout.contains("灰犀牛升级监控"));
     assert!(stdout.contains("输入来源: 人工结构基线（配置输入）"));
     assert!(stdout.contains("评估方法: 显式规则判定（可重放）"));
     assert!(stdout.contains("状态: 风险常态化"));
@@ -120,16 +120,24 @@ notes = [
 
 #[test]
 fn gray_rhino_escalation_output_has_zh_en_ja_boundary_notice() {
-    for (language, expected, notice, forbidden) in [
-        ("zh-cn", "状态: 风险常态化", "不生成交易信号。", "State:"),
+    for (language, title, expected, notice, forbidden) in [
+        (
+            "zh-cn",
+            "灰犀牛升级监控",
+            "状态: 风险常态化",
+            "不生成交易信号。",
+            "State:",
+        ),
         (
             "en-us",
+            "Gray Rhino Escalation",
             "State: Normalized",
             "It does not generate trading signals.",
             "风险扩张速度",
         ),
         (
             "ja-jp",
+            "灰色のサイ昇格監視",
             "状態: リスク常態化",
             "取引シグナルを生成しない。",
             "State:",
@@ -154,7 +162,7 @@ fallback_survivability_risk = "MODERATE"
 
         assert!(out.status.success());
         let stdout = String::from_utf8_lossy(&out.stdout);
-        assert!(stdout.contains("Gray Rhino Escalation"));
+        assert!(stdout.contains(title));
         assert!(stdout.contains(expected));
         assert!(stdout.contains(notice));
         assert!(!stdout.contains(forbidden));
@@ -627,7 +635,7 @@ fn gray_rhino_observation_old_cache_does_not_refresh_persisted_candidate_date() 
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("GOOG / Company / Governance Concentration: Visible"));
+    assert!(stdout.contains("GOOG / Company / Governance Concentration: Cooling"));
     assert!(stdout.contains("Cooling"));
     assert!(stdout.contains("latest: 2026-04-24"));
     assert!(stdout.contains("stale_days: 31"));
@@ -670,6 +678,32 @@ fn gray_rhino_replay_future_candidate_is_excluded_from_historical_report() {
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(!stdout.contains("Future critical evidence."));
     assert!(!stdout.contains("TSLA / Company / Governance Concentration / Critical"));
+}
+
+#[test]
+fn gray_rhino_audit_replay_excludes_future_ops_and_refresh_status() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_discovery_runs.jsonl"),
+        r#"{"run_id":"current-run-2026-05-24","provider":"Fred","as_of_date":"2026-05-24","dry_run":false,"source_count":1,"accepted":1,"rejected":0,"candidate_count":1,"outcomes":[]}
+{"run_id":"future-run-2026-05-27","provider":"Fred","as_of_date":"2026-05-27","dry_run":false,"source_count":9,"accepted":9,"rejected":0,"candidate_count":9,"outcomes":[]}
+"#,
+    )
+    .expect("failed to write discovery runs");
+    fs::write(
+        tmp.path().join("gray_rhino_refresh_status_latest.json"),
+        r#"{"status":"succeeded","sec":"succeeded","finnhub":"succeeded","fred":"succeeded","sec_accepted":1,"sec_rejected":0,"finnhub_accepted":1,"finnhub_rejected":0,"fred_accepted":1,"fred_rejected":0,"failed_providers":"","date":"2026-05-27"}
+"#,
+    )
+    .expect("failed to write future refresh status");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("latest_run: current-run-2026-05-24"));
+    assert!(!stdout.contains("future-run-2026-05-27"));
+    assert!(!stdout.contains("refresh_date: 2026-05-27"));
 }
 
 #[test]
@@ -890,7 +924,7 @@ fn gray_rhino_completion_legacy_evidence_missing_risk_effect_is_visible() {
     assert!(stdout.contains("旧 evidence 记录不可评分"));
     assert!(stdout.contains("缺少 risk_effect 的记录数: 1"));
     assert!(stdout.contains("不参与正式升级评分"));
-    assert!(stdout.contains("风险升级评估: 尚无正式 evidence / 未启用人工基线。"));
+    assert!(stdout.contains("风险升级评估: 尚无正式证据 / 未启用人工基线。"));
     assert!(!stdout.contains("输入来源: Evidence-backed sensor store"));
     assert!(!stdout.contains("状态: 风险扩张"));
 }
@@ -951,6 +985,23 @@ fn gray_rhino_final_query_command_does_not_write_snapshot() {
     let tmp = prepare_standard_workspace("en-us");
 
     let out = run_cli(&tmp, &["gray-rhino"]);
+
+    assert!(out.status.success());
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
+#[test]
+fn gray_rhino_readonly_daily_calibration_does_not_write_snapshot() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_evidence.jsonl"),
+        r#"{"category":"GovernanceConcentration","source":{"source_type":"GovernanceDocument","source_title":"Proxy statement","publisher":"Example issuer","source_url":"https://example.com/proxy","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.9,"risk_effect":"Amplifying","extraction_note":"Proxy statement discloses voting rights.","structural_fact":"Dual class shares create unequal voting rights."}
+{"category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Supplier disclosure","publisher":"Example issuer","source_url":"https://example.com/supplier","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.9,"risk_effect":"Amplifying","extraction_note":"Supplier disclosure identifies dependency.","structural_fact":"Critical supplier dependency has no fallback."}
+"#,
+    )
+    .expect("failed to write evidence store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
 
     assert!(out.status.success());
     assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
@@ -1042,7 +1093,7 @@ fn gray_rhino_refresh_status_is_rendered_in_daily_report() {
     assert!(stdout.contains("整体状态: 部分失败"));
     assert!(stdout.contains("SEC: 成功 / Finnhub: 跳过 / FRED: 失败"));
     assert!(stdout.contains("覆盖率: SEC 2/2 / Finnhub 0/0 / FRED 0/1"));
-    assert!(stdout.contains("失败 provider: fred"));
+    assert!(stdout.contains("失败来源: fred"));
     assert!(stdout.contains("采集日期: 2026-05-25"));
     assert!(stdout.contains("采集状态仅说明自动情报新鲜度"));
     assert!(!stdout.contains("BUY"));
@@ -1106,6 +1157,19 @@ fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     assert!(makefile.contains("gray_rhino_refresh_status_latest.json"));
     assert!(makefile.contains("gray-rhino-refresh-report:"));
     assert!(!makefile.contains("daily_status"));
+    assert!(makefile.contains("test \"$$failed_count\" -eq 0"));
+}
+
+#[test]
+fn gray_rhino_failure_appendix_reports_build_errors() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let runner =
+        fs::read_to_string(root.join("src/features/radar/interface/radar_pipeline_runner.rs"))
+            .expect("failed to read radar pipeline runner");
+
+    assert!(runner.contains("Gray Rhino: FAILED"));
+    assert!(runner.contains("does not change trading, Gate, trend, or market state"));
+    assert!(!runner.contains("else {\n        return;"));
 }
 
 #[test]

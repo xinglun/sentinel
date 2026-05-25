@@ -222,9 +222,9 @@ fn append_gray_rhino_reference_appendix(
     as_of_date: chrono::NaiveDate,
     language: crate::features::shared::interface::i18n::Language,
 ) {
-    let Ok(appendix) = build_gray_rhino_daily_report(app_config, save_dir, as_of_date, language)
-    else {
-        return;
+    let appendix = match build_gray_rhino_daily_report(app_config, save_dir, as_of_date, language) {
+        Ok(appendix) => appendix,
+        Err(err) => gray_rhino_failure_appendix(language, &err.to_string()),
     };
     if appendix.trim().is_empty() {
         return;
@@ -235,4 +235,21 @@ fn append_gray_rhino_reference_appendix(
     report_result
         .telegram_html_body
         .push_str(&format!("\n\n{}", appendix));
+}
+
+fn gray_rhino_failure_appendix(
+    language: crate::features::shared::interface::i18n::Language,
+    error: &str,
+) -> String {
+    match language {
+        crate::features::shared::interface::i18n::Language::ZhCn => format!(
+            "灰犀牛: 失败 / 未知\n- 错误: {error}\n边界声明: 灰犀牛失败只作为审计上下文展示；不改变交易、闸门、趋势或市场状态。"
+        ),
+        crate::features::shared::interface::i18n::Language::EnUs => format!(
+            "Gray Rhino: FAILED / UNKNOWN\n- error: {error}\nBoundary: Gray Rhino failure is reported as audit context only; it does not change trading, Gate, trend, or market state."
+        ),
+        crate::features::shared::interface::i18n::Language::JaJp => format!(
+            "灰色のサイ: 失敗 / 不明\n- エラー: {error}\n境界声明: 灰色のサイの失敗は監査コンテキストとしてのみ表示し、取引、ゲート、トレンド、市場状態を変更しない。"
+        ),
+    }
 }

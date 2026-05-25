@@ -58,8 +58,15 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
             .collect())
     }
 
-    fn load_governance_audits(&self) -> Result<Vec<GovernanceExtractionAuditRecord>> {
-        GrayRhinoEvidenceStore::new(&self.save_dir).load_governance_extraction_audits()
+    fn load_governance_audits(
+        &self,
+        as_of_date: NaiveDate,
+    ) -> Result<Vec<GovernanceExtractionAuditRecord>> {
+        Ok(GrayRhinoEvidenceStore::new(&self.save_dir)
+            .load_governance_extraction_audits()?
+            .into_iter()
+            .filter(|record| record.observed_at <= as_of_date)
+            .collect())
     }
 
     fn load_persisted_candidates(
@@ -79,8 +86,11 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
         Ok(candidates)
     }
 
-    fn load_backfill_ops_view(&self) -> Option<BackfillOpsSummary> {
-        let value = load_latest_jsonl_value(&self.save_dir.join("gray_rhino_backfill_runs.jsonl"))?;
+    fn load_backfill_ops_view(&self, as_of_date: NaiveDate) -> Option<BackfillOpsSummary> {
+        let value = load_latest_jsonl_value_as_of(
+            &self.save_dir.join("gray_rhino_backfill_runs.jsonl"),
+            as_of_date,
+        )?;
         Some(BackfillOpsSummary {
             run_id: value
                 .get("run_id")
@@ -106,9 +116,11 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
         })
     }
 
-    fn load_discovery_ops_view(&self) -> Option<DiscoveryOpsSummary> {
-        let value =
-            load_latest_jsonl_value(&self.save_dir.join("gray_rhino_discovery_runs.jsonl"))?;
+    fn load_discovery_ops_view(&self, as_of_date: NaiveDate) -> Option<DiscoveryOpsSummary> {
+        let value = load_latest_jsonl_value_as_of(
+            &self.save_dir.join("gray_rhino_discovery_runs.jsonl"),
+            as_of_date,
+        )?;
         Some(DiscoveryOpsSummary {
             run_id: value
                 .get("run_id")
@@ -126,12 +138,11 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
         })
     }
 
-    fn load_refresh_status(&self) -> Option<GrayRhinoRefreshStatus> {
-        let value = serde_json::from_str::<Value>(
-            &std::fs::read_to_string(self.save_dir.join("gray_rhino_refresh_status_latest.json"))
-                .ok()?,
-        )
-        .ok()?;
+    fn load_refresh_status(&self, as_of_date: NaiveDate) -> Option<GrayRhinoRefreshStatus> {
+        let value = load_latest_json_value_as_of(
+            &self.save_dir.join("gray_rhino_refresh_status_latest.json"),
+            as_of_date,
+        )?;
         Some(GrayRhinoRefreshStatus {
             status: string_field(&value, "status"),
             sec: string_field(&value, "sec"),
@@ -166,10 +177,39 @@ fn candidate_in_current_report_scope(
             .any(|symbol| symbol.eq_ignore_ascii_case(&candidate.subject))
 }
 
-fn load_latest_jsonl_value(path: &Path) -> Option<Value> {
+fn load_latest_jsonl_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<Value> {
     let raw = std::fs::read_to_string(path).ok()?;
-    let latest = raw.lines().rev().find(|line| !line.trim().is_empty())?;
-    serde_json::from_str(latest).ok()
+    raw.lines()
+        .rev()
+        .filter(|line| !line.trim().is_empty())
+        .filter_map(|line| serde_json::from_str::<Value>(line).ok())
+        .find(|value| value_date(value).is_none_or(|date| date <= as_of_date))
+}
+
+fn load_latest_json_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<Value> {
+    let raw = std::fs::read_to_string(path).ok()?;
+    let value = serde_json::from_str::<Value>(&raw).ok()?;
+    value_date(&value)
+        .is_none_or(|date| date <= as_of_date)
+        .then_some(value)
+}
+
+fn value_date(value: &Value) -> Option<NaiveDate> {
+    ["as_of_date", "date", "run_date"]
+        .iter()
+        .filter_map(|key| value.get(key).and_then(|value| value.as_str()))
+        .find_map(|raw| NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok())
+        .or_else(|| {
+            value
+                .get("run_id")
+                .and_then(|value| value.as_str())
+                .and_then(extract_date)
+        })
+}
+
+fn extract_date(raw: &str) -> Option<NaiveDate> {
+    raw.split(|ch: char| !(ch.is_ascii_digit() || ch == '-'))
+        .find_map(|part| NaiveDate::parse_from_str(part, "%Y-%m-%d").ok())
 }
 
 fn string_field(value: &Value, key: &str) -> String {

@@ -1,0 +1,180 @@
+{
+  "workItemId": "gray-rhino-audit-integrity",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-audit-integrity.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": ".ai/guards/ai_review_policy.yaml",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "README.md",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "docs/architecture/IMPLEMENTATION_WALKTHROUGH.md",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino audit integrity Finding に対応した変更。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    ".ai/guards/file_ownership.yaml",
+    ".ai/guards/ai_review_policy.yaml",
+    ".ai/cockpit/checks.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/architecture/IMPLEMENTATION_WALKTHROUGH.md",
+    "README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_audit_replay --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_readonly --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_finnhub_identity --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_failure_appendix --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-audit-integrity.summary.json CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json SUMMARY=.ai/work-items/active/gray-rhino-audit-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json SUMMARY=.ai/work-items/active/gray-rhino-audit-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Gray Rhino historical replay、Finnhub source identity、Radar appendix failure visibility、AI guard path を同時に更新したため、full quality gate で回帰を確認した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make quality の初回実行は Summary verification が未更新だったため失敗した。Summary を実行済み結果に同期して再実行する。"
+  ]
+}

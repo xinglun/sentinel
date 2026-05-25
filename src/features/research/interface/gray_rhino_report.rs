@@ -51,13 +51,44 @@ pub(crate) fn build_gray_rhino_daily_report(
     as_of_date: NaiveDate,
     language: Language,
 ) -> Result<String> {
+    build_gray_rhino_daily_report_with_persistence(
+        app_config,
+        save_dir,
+        as_of_date,
+        language,
+        GrayRhinoSnapshotPersistence::SaveIfChanged,
+    )
+}
+
+pub(crate) fn build_gray_rhino_daily_report_read_only(
+    app_config: &config::AppConfig,
+    save_dir: &Path,
+    as_of_date: NaiveDate,
+    language: Language,
+) -> Result<String> {
+    build_gray_rhino_daily_report_with_persistence(
+        app_config,
+        save_dir,
+        as_of_date,
+        language,
+        GrayRhinoSnapshotPersistence::ReadOnly,
+    )
+}
+
+fn build_gray_rhino_daily_report_with_persistence(
+    app_config: &config::AppConfig,
+    save_dir: &Path,
+    as_of_date: NaiveDate,
+    language: Language,
+    snapshot_persistence: GrayRhinoSnapshotPersistence,
+) -> Result<String> {
     let watch_symbols = enabled_watch_symbols(app_config);
     let repository = build_gray_rhino_daily_report_repository(save_dir);
     let view_model = GrayRhinoDailyReportUseCase::new(&repository).build(
         input_from_config(app_config),
         &watch_symbols,
         as_of_date,
-        GrayRhinoSnapshotPersistence::SaveIfChanged,
+        snapshot_persistence,
     )?;
     let mut report = if let Some(assessment) = &view_model.assessment {
         render_gray_rhino_assessment_markdown(assessment, language)
@@ -259,22 +290,22 @@ pub(crate) fn build_gray_rhino_escalation_telegram_report(
 
 fn gray_rhino_title(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "灰犀牛升级监控（Gray Rhino Escalation）",
+        Language::ZhCn => "灰犀牛升级监控",
         Language::EnUs => "Gray Rhino Escalation",
-        Language::JaJp => "灰色のサイ昇格監視（Gray Rhino Escalation）",
+        Language::JaJp => "灰色のサイ昇格監視",
     }
 }
 
 fn gray_rhino_empty(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "灰犀牛升级监控（Gray Rhino Escalation）\n\n风险升级评估: 尚无正式 evidence / 未启用人工基线。\n\n自动观察候选会在下方独立列出，仅供跟踪。\n\n边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"
+            "灰犀牛升级监控\n\n风险升级评估: 尚无正式证据 / 未启用人工基线。\n\n自动观察候选会在下方独立列出，仅供跟踪。\n\n边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"
         }
         Language::EnUs => {
             "Gray Rhino Escalation\n\nFormal escalation assessment: no formal evidence / manual baseline is enabled.\n\nAuto-discovered observation candidates are listed below as isolated tracking reference.\n\nGray Rhino Escalation is a structural escalation monitor. It does not generate trading signals."
         }
         Language::JaJp => {
-            "灰色のサイ昇格監視（Gray Rhino Escalation）\n\n正式な昇格評価: formal evidence / 手動ベースラインは未有効です。\n\n自動発見された観測候補は下部に独立した追跡参考として表示します。\n\n境界声明: 灰色のサイ昇格監視は構造的リスクの昇格だけを観測し、取引シグナルを生成しない。"
+            "灰色のサイ昇格監視\n\n正式な昇格評価: 正式証拠 / 手動ベースラインは未有効です。\n\n自動発見された観測候補は下部に独立した追跡参考として表示します。\n\n境界声明: 灰色のサイ昇格監視は構造的リスクの昇格だけを観測し、取引シグナルを生成しない。"
         }
     }
 }
@@ -909,7 +940,7 @@ fn inline_reference_title(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "灰犀牛内联参考（语义隔离）",
         Language::EnUs => "Gray Rhino Inline Reference (semantic isolation)",
-        Language::JaJp => "灰色のサイ inline 参考（意味的に隔離）",
+        Language::JaJp => "灰色のサイ内訳参考（意味的に隔離）",
     }
 }
 
@@ -923,9 +954,9 @@ fn market_reference_title(language: Language) -> &'static str {
 
 fn watchlist_reference_title(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Watchlist 内联参考",
+        Language::ZhCn => "观察列表内联参考",
         Language::EnUs => "Watchlist Inline Reference",
-        Language::JaJp => "Watchlist inline 参考",
+        Language::JaJp => "監視リスト内訳参考",
     }
 }
 
@@ -955,9 +986,9 @@ fn monitoring_state_title(language: Language) -> &'static str {
 
 fn watchlist_monitoring_title(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Watchlist 内联监控",
+        Language::ZhCn => "观察列表内联监控",
         Language::EnUs => "Watchlist Inline Monitoring",
-        Language::JaJp => "Watchlist inline 監視",
+        Language::JaJp => "監視リスト内訳監視",
     }
 }
 
@@ -976,7 +1007,7 @@ fn reference_boundary_label(language: Language) -> &'static str {
             "Boundary: reference only; no trading, Gate, trend, or market-state mutation."
         }
         Language::JaJp => {
-            "境界声明: 構造リスクの参考のみで、取引、ゲート、trend、market state は変更しない。"
+            "境界声明: 構造リスクの参考のみで、取引、ゲート、トレンド、市場状態は変更しない。"
         }
     }
 }
@@ -988,7 +1019,7 @@ fn summary_boundary_label(language: Language) -> &'static str {
             "Boundary: summary only; no trading, Gate, trend, or market-state mutation."
         }
         Language::JaJp => {
-            "境界声明: 要約は参考のみで、取引、ゲート、trend、market state は変更しない。"
+            "境界声明: 要約は参考のみで、取引、ゲート、トレンド、市場状態は変更しない。"
         }
     }
 }
@@ -1518,7 +1549,7 @@ fn refresh_status_title(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "灰犀牛采集状态\n",
         Language::EnUs => "Gray Rhino Refresh Status\n",
-        Language::JaJp => "Gray Rhino 収集状態\n",
+        Language::JaJp => "灰色のサイ収集状態\n",
     }
 }
 
@@ -1558,7 +1589,7 @@ fn refresh_coverage_label(language: Language) -> &'static str {
 
 fn failed_providers_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "失败 provider",
+        Language::ZhCn => "失败来源",
         Language::EnUs => "failed_providers",
         Language::JaJp => "失敗した取得元",
     }
@@ -1589,7 +1620,7 @@ fn refresh_status_boundary(language: Language) -> &'static str {
             "Boundary: refresh status only explains intelligence freshness; it does not change trading, Gate, trend, or market state."
         }
         Language::JaJp => {
-            "境界: 収集状態は自動情報の鮮度だけを説明し、取引、Gate、trend、market state を変更しない。"
+            "境界: 収集状態は自動情報の鮮度だけを説明し、取引、ゲート、トレンド、市場状態を変更しない。"
         }
     }
 }
@@ -1943,7 +1974,7 @@ fn source_boundary_label(source: GrayRhinoObservationSource, language: Language)
             "Data boundary: the current source is a manually configured structural baseline; no dedicated external Gray Rhino evidence source is connected, so this is not automated fact discovery."
         }
         (GrayRhinoObservationSource::ManualConfiguration, Language::JaJp) => {
-            "データ境界: 現在の由来は手動設定した構造ベースラインであり、灰色のサイ専用の外部 evidence source は未接続のため、自動的な事実発見を表さない。"
+            "データ境界: 現在の由来は手動設定した構造ベースラインであり、灰色のサイ専用の外部証拠源は未接続のため、自動的な事実発見を表さない。"
         }
         (GrayRhinoObservationSource::EvidenceStore, Language::ZhCn) => {
             "数据边界: 当前正式评估来自结构化 EvidenceStore；仅用于灰犀牛升级观察，不改变交易、闸门、趋势或市场状态。"
@@ -1952,7 +1983,7 @@ fn source_boundary_label(source: GrayRhinoObservationSource, language: Language)
             "Data boundary: the current formal assessment comes from the structured EvidenceStore; it is used only for Gray Rhino escalation observation and does not change trading, Gate, trend, or market state."
         }
         (GrayRhinoObservationSource::EvidenceStore, Language::JaJp) => {
-            "データ境界: 現在の正式評価は構造化 EvidenceStore に由来し、灰色のサイ昇格観測にのみ使う。取引、ゲート、trend、market state は変更しない。"
+            "データ境界: 現在の正式評価は構造化 EvidenceStore に由来し、灰色のサイ昇格観測にのみ使う。取引、ゲート、トレンド、市場状態は変更しない。"
         }
     }
 }
@@ -2011,22 +2042,29 @@ mod tests {
 
     #[test]
     fn output_is_available_in_zh_en_ja() {
-        for (language, state, notice) in [
-            (Language::ZhCn, "状态: 风险常态化", "不生成交易信号。"),
+        for (language, title, state, notice) in [
+            (
+                Language::ZhCn,
+                "灰犀牛升级监控",
+                "状态: 风险常态化",
+                "不生成交易信号。",
+            ),
             (
                 Language::EnUs,
+                "Gray Rhino Escalation",
                 "State: Normalized",
                 "It does not generate trading signals.",
             ),
             (
                 Language::JaJp,
+                "灰色のサイ昇格監視",
                 "状態: リスク常態化",
                 "取引シグナルを生成しない。",
             ),
         ] {
             let report = render_gray_rhino_escalation_markdown(&normalized_escalation(), language);
 
-            assert!(report.contains("Gray Rhino Escalation"));
+            assert!(report.contains(title));
             assert!(report.contains(state));
             assert!(report.contains(notice));
         }

@@ -34,12 +34,12 @@ Daily report では `Gray Rhino Inline Reference` として watchlist 近傍に�
 Phase 4-B では `collect-gray-rhino-sources` を source collection entrypoint とする。provider は `sec`、`finnhub`、`fred` を許可し、各 provider は source text を `gray_rhino_sources/**` に cache する。
 
 - SEC は watchlist symbol から filing / disclosure を取得し、`gray_rhino_sources/governance` に保存する。
-- Finnhub は company narrative source を取得し、`gray_rhino_sources/narrative` に保存する。
+- Finnhub は company narrative source を article 単位で取得し、`gray_rhino_sources/narrative` に保存する。identity は stable URL または URL 不在時の content hash とし、`source_published_at` は取得日ではなく article の公開日を使う。`retrieved_at` と `last_confirmed_at` は分離し、同じ article content の再取得だけでは新しい confirmed date を作らない。
 - FRED は macro series を構造観測 text に投影し、`gray_rhino_sources/macro` に保存する。
 
 source collection の audit は `gray_rhino_discovery_runs.jsonl` に保存する。audit は provider、dry-run、source count、candidate count、content hash、failure taxonomy を記録するが、trading、Gate、execution、trend、market state を変更してはならない。
 
-Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に append-only で保存する。store は `GrayRhinoCandidate` の scope、kind、subject、state、evidence、watch triggers、source title、source published date、last confirmed date、resolved date を保持する。Daily report は persisted candidate history だけを読み、同一 key の本文表示は latest confirmed candidate を選択する。
+Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に append-only で保存する。store は `GrayRhinoCandidate` の scope、kind、subject、state、evidence、watch triggers、source title、source published date、last confirmed date、resolved date を保持する。Daily report は persisted candidate history だけを読み、同一 key の本文表示は latest confirmed candidate を選択する。historical replay では candidate、evidence、governance audit、backfill / discovery ops view、refresh status のすべてを `as_of_date` 以下の record だけから選ぶ。
 
 `gray_rhino_candidates.jsonl` は構造リスクの観測履歴であり、trade、Gate、execution、trend、market state を変更してはならない。Company candidate は current enabled watchlist に属する場合だけ daily inline reference に表示し、Market candidate は市場側 reference として表示できる。
 
@@ -229,7 +229,7 @@ Radar Telegram には Gray Rhino reference appendix を追加する。この app
 
 `make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED は credential / availability に応じて独立に実行し、いずれかが失敗しても後続 provider を継続する。全 provider 成功は `succeeded`、成功と失敗または skipped が混在する場合は `partial_failure`、実行 provider がすべて失敗した場合は `failed`、実行 provider が存在しない場合は `skipped` を `gray_rhino_refresh_status_latest.json` に保存する。audit record を必要とする calibration report は `make gray-rhino-refresh-report` または通常の `daily-calibration` 側で実行する。
 
-provider collection は、`accepted == 0` かつ `rejected > 0` の場合に provider failure として非ゼロ終了を返す。Daily Radar workflow は non-blocking に継続してよいが、`gray_rhino_refresh_status_latest.json` には failed / partial_failure として正確に記録する。Daily report と Telegram appendix は refresh status を audit context として表示し、新鮮な自動情報か、部分失敗か、完全失敗か、skipped かを読者が判別できるようにする。この status は trade、Gate、execution、trend、market state を変更しない。
+provider collection は、`accepted == 0` かつ `rejected > 0` の場合に provider failure として非ゼロ終了を返す。Daily Radar workflow は non-blocking に継続してよいが、`gray_rhino_refresh_status_latest.json` には failed / partial_failure として正確に記録する。Daily report と Telegram appendix は refresh status を audit context として表示し、新鮮な自動情報か、部分失敗か、完全失敗か、skipped かを読者が判別できるようにする。historical replay では `date <= as_of_date` の status だけを表示する。この status は trade、Gate、execution、trend、market state を変更しない。
 
 ### Phase 1: Human Structured Governance Observation
 
@@ -325,7 +325,7 @@ Phase v1.3 の provider source registry は manual source manifest の実験機�
 
 Backfill run summary は provider failure taxonomy として `fetch_failure`、`timeout`、`unsupported_format`、`metricless_source`、`stale_source` を記録する。hash drift は `drift_sources`、freshness window 超過は `stale_sources` に集計する。
 
-Report ops view は最新 backfill run、failed source、stale source、drift source を表示する。これは運用監査表示であり、trade、Gate、execution、trend cohesion へ接続しない。
+Report ops view は report date 時点の最新 backfill run、failed source、stale source、drift source を表示する。これは運用監査表示であり、trade、Gate、execution、trend cohesion へ接続しない。
 
 sensor health は readiness score を表示する。readiness score は category completeness に基づく evidence quality の説明指標であり、trade、Gate、execution、trend cohesion へ接続しない。
 
