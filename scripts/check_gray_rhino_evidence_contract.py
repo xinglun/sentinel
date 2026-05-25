@@ -155,10 +155,13 @@ def main() -> int:
         "DependencyConcentrationKind",
         "InstitutionalMaturityEvidence",
         "InstitutionalMaturityMetrics",
+        "RedundancyEvidence",
+        "RedundancyMetrics",
         "MissingSourceReference",
         "MissingGovernanceMetric",
         "MissingDependencyMetric",
         "MissingInstitutionalMetric",
+        "MissingRedundancyMetric",
         "NarrativeOnly",
         "ForbiddenBoundaryTerm",
         "validate(&self)",
@@ -286,6 +289,22 @@ def main() -> int:
     ]:
         if item not in schema:
             errors.append(f"schema missing institutional pipeline contract `{item}`")
+
+    for item in [
+        "redundancy:",
+        "phase_3d_redundancy_evidence_pipeline: active",
+        "localIngestionCli: ingest-gray-rhino-redundancy",
+        "fallback_available",
+        "alternative_supplier_count",
+        "redundancy_ratio",
+        "recovery_path_disclosed",
+        "failover_tested",
+        "outputCategory: Redundancy",
+        "collectorEnabled: false",
+        "noEscalationStateMutation: true",
+    ]:
+        if item not in schema:
+            errors.append(f"schema missing redundancy pipeline contract `{item}`")
 
     if errors:
         report(errors)

@@ -295,6 +295,56 @@ fn gray_rhino_institutional_evidence_ingest_writes_jsonl_without_escalation() {
 }
 
 #[test]
+fn gray_rhino_redundancy_evidence_ingest_writes_jsonl_without_escalation() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let evidence_path = tmp.path().join("redundancy_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "SupplierDisclosure",
+    "source_title": "Redundancy disclosure",
+    "publisher": "Example issuer",
+    "source_url": "https://example.com/redundancy",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.84,
+  "extraction_note": "Supplier disclosure identifies redundancy controls.",
+  "structural_fact": "Fallback availability is disclosed.",
+  "metrics": {
+    "fallback_available": true,
+    "alternative_supplier_count": 2,
+    "redundancy_ratio": 0.5,
+    "recovery_path_disclosed": true,
+    "failover_tested": false
+  }
+}"#,
+    )
+    .expect("failed to write redundancy evidence fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-redundancy",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Successfully ingested Redundancy evidence."));
+    assert!(stdout.contains("Boundary: evidence only"));
+    let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
+        .expect("failed to read gray rhino evidence store");
+    assert!(store.contains("\"category\":\"Redundancy\""));
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
+#[test]
 fn dependency_local_source_collection_produces_coverage_and_rejections() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("dependency_source.txt");

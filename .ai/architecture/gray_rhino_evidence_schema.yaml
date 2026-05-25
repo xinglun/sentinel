@@ -157,6 +157,27 @@ institutionalMaturity:
   deterministicExtractionOnly: true
   collectorEnabled: false
   noEscalationStateMutation: true
+redundancy:
+  phase: phase_3d_redundancy_evidence_pipeline
+  inputMode: repository_local_structured_json
+  localIngestionCli: ingest-gray-rhino-redundancy
+  requiredMetricAtLeastOneOf:
+    - fallback_available
+    - alternative_supplier_count
+    - redundancy_ratio
+    - recovery_path_disclosed
+    - failover_tested
+  allowedSourceTypes:
+    - InfrastructureStatus
+    - SupplierDisclosure
+    - IndependentAudit
+    - CompanyDisclosure
+    - OperatorCuratedSource
+  outputCategory: Redundancy
+  storage: gray_rhino_evidence.jsonl
+  deterministicExtractionOnly: true
+  collectorEnabled: false
+  noEscalationStateMutation: true
 boundaries:
   forbidden_as_evidence:
     - narrative_only
@@ -188,5 +209,6 @@ phases:
   phase_3a_governance_sec_founder_voting_power_calibration: active
   phase_3b_dependency_concentration_evidence_pipeline: active
   phase_3c_institutional_maturity_evidence_pipeline: active
+  phase_3d_redundancy_evidence_pipeline: active
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope

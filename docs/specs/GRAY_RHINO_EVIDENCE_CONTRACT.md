@@ -134,6 +134,16 @@ Phase 3-C では、repository-local structured JSON から開始し、`ingest-gr
 - operational redundancy。
 - recovery path maturity。
 
+Phase 3-D では、repository-local structured JSON から開始し、`ingest-gray-rhino-redundancy --file <json>` で取り込む。次の構造項目のうち少なくとも 1 つを source から抽出する。
+
+- `fallback_available`。
+- `alternative_supplier_count`。
+- `redundancy_ratio`。
+- `recovery_path_disclosed`。
+- `failover_tested`。
+
+許可する source type は `InfrastructureStatus`、`SupplierDisclosure`、`IndependentAudit`、`CompanyDisclosure`、`OperatorCuratedSource` に限定する。保存された evidence は escalation state、Gate、execution、trading state を変更しない。
+
 ## Source Contract
 
 Gray Rhino evidence は source を必須とする。

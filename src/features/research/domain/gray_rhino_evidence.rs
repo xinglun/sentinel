@@ -109,6 +109,25 @@ pub struct InstitutionalMaturityEvidence {
     pub metrics: InstitutionalMaturityMetrics,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RedundancyMetrics {
+    pub fallback_available: Option<bool>,
+    pub alternative_supplier_count: Option<u32>,
+    pub redundancy_ratio: Option<f64>,
+    pub recovery_path_disclosed: Option<bool>,
+    pub failover_tested: Option<bool>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RedundancyEvidence {
+    pub subject: String,
+    pub source: GrayRhinoSourceReference,
+    pub confidence: f64,
+    pub extraction_note: String,
+    pub structural_fact: String,
+    pub metrics: RedundancyMetrics,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GrayRhinoEvidenceRejection {
     MissingSourceReference,
@@ -126,6 +145,8 @@ pub enum GrayRhinoEvidenceRejection {
     InvalidDependencyMetric,
     MissingInstitutionalMetric,
     InvalidInstitutionalMetric,
+    MissingRedundancyMetric,
+    InvalidRedundancyMetric,
 }
 
 impl GrayRhinoEvidenceRecord {
@@ -313,6 +334,56 @@ impl InstitutionalMaturityMetrics {
                 .compliance_maturity_level
                 .as_ref()
                 .is_none_or(|value| !value.trim().is_empty())
+    }
+}
+
+impl RedundancyEvidence {
+    pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
+        if self.subject.trim().is_empty() {
+            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+        }
+        if !matches!(
+            self.source.source_type,
+            GrayRhinoEvidenceSourceType::InfrastructureStatus
+                | GrayRhinoEvidenceSourceType::SupplierDisclosure
+                | GrayRhinoEvidenceSourceType::IndependentAudit
+                | GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ) {
+            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
+        }
+        if !self.metrics.has_any_metric() {
+            return Err(GrayRhinoEvidenceRejection::MissingRedundancyMetric);
+        }
+        if !self.metrics.is_valid() {
+            return Err(GrayRhinoEvidenceRejection::InvalidRedundancyMetric);
+        }
+        self.to_record().validate()
+    }
+
+    pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
+        GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::Redundancy,
+            source: self.source.clone(),
+            confidence: self.confidence,
+            extraction_note: self.extraction_note.clone(),
+            structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl RedundancyMetrics {
+    fn has_any_metric(&self) -> bool {
+        self.fallback_available.is_some()
+            || self.alternative_supplier_count.is_some()
+            || self.redundancy_ratio.is_some()
+            || self.recovery_path_disclosed.is_some()
+            || self.failover_tested.is_some()
+    }
+
+    fn is_valid(&self) -> bool {
+        self.redundancy_ratio
+            .is_none_or(|value| (0.0..=1.0).contains(&value))
     }
 }
 
@@ -618,6 +689,53 @@ mod tests {
         assert_eq!(
             evidence.to_record().category,
             GrayRhinoEvidenceCategory::InstitutionalMaturity
+        );
+    }
+
+    #[test]
+    fn redundancy_evidence_requires_at_least_one_metric() {
+        let evidence = RedundancyEvidence {
+            subject: "Example issuer".to_string(),
+            source: dependency_source(),
+            confidence: 0.8,
+            extraction_note: "Supplier disclosure identifies redundancy controls.".to_string(),
+            structural_fact: "Fallback availability is disclosed.".to_string(),
+            metrics: RedundancyMetrics {
+                fallback_available: None,
+                alternative_supplier_count: None,
+                redundancy_ratio: None,
+                recovery_path_disclosed: None,
+                failover_tested: None,
+            },
+        };
+
+        assert_eq!(
+            evidence.validate(),
+            Err(GrayRhinoEvidenceRejection::MissingRedundancyMetric)
+        );
+    }
+
+    #[test]
+    fn redundancy_evidence_projects_to_gray_rhino_record() {
+        let evidence = RedundancyEvidence {
+            subject: "Example issuer".to_string(),
+            source: dependency_source(),
+            confidence: 0.84,
+            extraction_note: "Supplier disclosure identifies redundancy controls.".to_string(),
+            structural_fact: "Fallback availability is disclosed.".to_string(),
+            metrics: RedundancyMetrics {
+                fallback_available: Some(true),
+                alternative_supplier_count: Some(2),
+                redundancy_ratio: Some(0.5),
+                recovery_path_disclosed: Some(true),
+                failover_tested: Some(false),
+            },
+        };
+
+        assert_eq!(evidence.validate(), Ok(()));
+        assert_eq!(
+            evidence.to_record().category,
+            GrayRhinoEvidenceCategory::Redundancy
         );
     }
 }

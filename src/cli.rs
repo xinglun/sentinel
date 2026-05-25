@@ -38,11 +38,13 @@ use crate::features::research::application::governance_source_pipeline::{
     GovernanceSourceCollectionRequest,
 };
 use crate::features::research::application::institutional_evidence::ingest_institutional_maturity_evidence;
+use crate::features::research::application::redundancy_evidence::ingest_redundancy_evidence;
 use crate::features::research::domain::dependency_source::{
     DependencySourceDocument, DependencySourceKind,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
-    DependencyConcentrationEvidence, GovernanceConcentrationEvidence, InstitutionalMaturityEvidence,
+    DependencyConcentrationEvidence, GovernanceConcentrationEvidence,
+    InstitutionalMaturityEvidence, RedundancyEvidence,
 };
 use crate::features::research::interface::cognitive_reports::{
     build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
@@ -200,6 +202,15 @@ pub async fn run() -> Result<()> {
                 return Err(anyhow!("{}", err));
             }
             run_ingest_gray_rhino_institutional(
+                &app_config,
+                options.governance_evidence_file.as_deref(),
+            )?;
+        }
+        CliCommand::IngestGrayRhinoRedundancy => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_ingest_gray_rhino_redundancy(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
             )?;
@@ -569,6 +580,30 @@ fn run_ingest_gray_rhino_institutional(
         println!("InstitutionalMaturity evidence already exists (deduplicated).");
     }
     println!("Category: InstitutionalMaturity");
+    println!("Source: {}", outcome.record.source.source_title);
+    println!("Observed at: {}", outcome.record.source.observed_at);
+    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+fn run_ingest_gray_rhino_redundancy(
+    app_config: &config::AppConfig,
+    file_arg: Option<&str>,
+) -> Result<()> {
+    let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
+    let raw = std::fs::read_to_string(file)
+        .with_context(|| format!("Failed to read redundancy evidence file: {}", file))?;
+    let evidence: RedundancyEvidence = serde_json::from_str(&raw)
+        .with_context(|| format!("Failed to parse redundancy evidence JSON: {}", file))?;
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+    let store = build_governance_evidence_store_adapter(&save_dir);
+    let outcome = ingest_redundancy_evidence(&store, evidence)?;
+    if outcome.saved {
+        println!("Successfully ingested Redundancy evidence.");
+    } else {
+        println!("Redundancy evidence already exists (deduplicated).");
+    }
+    println!("Category: Redundancy");
     println!("Source: {}", outcome.record.source.source_title);
     println!("Observed at: {}", outcome.record.source.observed_at);
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
