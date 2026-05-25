@@ -19,6 +19,7 @@ RESEARCH_ATTENTION_ARGS ?=
 DAILY_CALIBRATION_ARGS ?=
 GRAY_RHINO_REFRESH_DATE ?= $(shell date +%F)
 GRAY_RHINO_REFRESH_ARGS ?= --date $(GRAY_RHINO_REFRESH_DATE)
+GRAY_RHINO_REFRESH_DAILY_ARGS ?= $(DAILY_CALIBRATION_ARGS)
 
 .PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
@@ -242,7 +243,7 @@ gray-rhino-refresh:
 	cargo run -- collect-gray-rhino-sources --source sec $(GRAY_RHINO_REFRESH_ARGS)
 	cargo run -- collect-gray-rhino-sources --source finnhub $(GRAY_RHINO_REFRESH_ARGS)
 	cargo run -- collect-gray-rhino-sources --source fred $(GRAY_RHINO_REFRESH_ARGS)
-	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_ARGS)
+	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)
 
 test-ai-guards:
 	python3 scripts/ai_test_guards.py

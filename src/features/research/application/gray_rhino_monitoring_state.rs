@@ -84,33 +84,6 @@ pub(crate) fn evaluate_gray_rhino_monitoring_states(
         .collect()
 }
 
-pub(crate) fn render_gray_rhino_monitoring_states(
-    statuses: &[GrayRhinoMonitoringStatus],
-) -> String {
-    if statuses.is_empty() {
-        return "Gray Rhino Monitoring Status: none.\nBoundary: reference only; no trading, Gate, trend, or market-state mutation.".to_string();
-    }
-    let mut out = String::from("Gray Rhino Monitoring State (semantic isolation)\n");
-    for status in statuses {
-        out.push_str(&format!(
-            "- {} / {:?} / {:?}: {:?} ({:?}, observations: {}, latest: {}, stale_days: {})\n",
-            status.subject,
-            status.scope,
-            status.kind,
-            status.current_state,
-            status.direction,
-            status.observation_count,
-            status.latest_observed_at,
-            status.stale_days
-        ));
-        if let Some(previous_state) = status.previous_state {
-            out.push_str(&format!("  Previous state: {:?}\n", previous_state));
-        }
-    }
-    out.push_str("Boundary: reference only; no trading, Gate, trend, or market-state mutation.");
-    out
-}
-
 fn classify_state(
     latest_state: GrayRhinoCandidateState,
     previous_state: Option<GrayRhinoCandidateState>,

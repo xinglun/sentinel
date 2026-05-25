@@ -33,6 +33,9 @@ candidateStates:
   - Cooling
   - Resolved
 inlineWatchlistReferenceEnabled: true
+watchlistInlineDisplayEnabled: true
+marketReferenceDisplayEnabled: true
+semanticIsolationDisplayBoundary: true
 manualRegistryPrimaryMechanism: false
 autoSourceCollectionCli: collect-gray-rhino-sources
 autoSourceProviders:

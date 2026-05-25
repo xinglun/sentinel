@@ -91,6 +91,9 @@ def main() -> int:
         "deterministicThresholdStatesEnabled: true",
         "grayRhinoRefreshMakeTarget: gray-rhino-refresh",
         "inlineWatchlistReferenceEnabled: true",
+        "watchlistInlineDisplayEnabled: true",
+        "marketReferenceDisplayEnabled: true",
+        "semanticIsolationDisplayBoundary: true",
         "manualRegistryPrimaryMechanism: false",
         "autoSourceCollectionCli: collect-gray-rhino-sources",
         "autoDiscoveryRunStore: gray_rhino_discovery_runs.jsonl",
@@ -166,6 +169,10 @@ def main() -> int:
         "Gray Rhino Monitoring State",
         "FRED threshold calibration",
         "make gray-rhino-refresh",
+        "watchlist inline display",
+        "Watchlist Inline Reference",
+        "Market Reference",
+        "Other Company Reference",
         "[fred] fred_api_key",
     ]
     for item in doc_required:
@@ -252,7 +259,6 @@ def main() -> int:
 
     for item in [
         "evaluate_gray_rhino_monitoring_states",
-        "render_gray_rhino_monitoring_states",
         "GrayRhinoMonitoringDirection",
         "Intensifying",
         "Cooling",

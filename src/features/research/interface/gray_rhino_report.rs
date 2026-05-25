@@ -6,10 +6,10 @@ use crate::features::research::application::gray_rhino_assessment::{
     build_evidence_backed_gray_rhino_assessment, build_gray_rhino_assessment,
 };
 use crate::features::research::application::gray_rhino_discovery::{
-    discover_gray_rhino_candidates, render_gray_rhino_inline_reference, GrayRhinoDiscoveryInput,
+    discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
 };
 use crate::features::research::application::gray_rhino_monitoring_state::{
-    evaluate_gray_rhino_monitoring_states, render_gray_rhino_monitoring_states,
+    evaluate_gray_rhino_monitoring_states, GrayRhinoMonitoringStatus,
 };
 use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
 use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
@@ -30,7 +30,7 @@ use crate::features::research::infrastructure::gray_rhino_snapshot_store::GrayRh
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
-use std::collections::BTreeSet;
+use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
 pub(crate) fn build_gray_rhino_escalation_report(
@@ -581,9 +581,200 @@ fn render_auto_discovery_inline_reference(
     let monitoring_statuses = evaluate_gray_rhino_monitoring_states(&candidates, as_of_date);
     format!(
         "{}\n\n{}",
-        render_gray_rhino_inline_reference(&display_candidates),
-        render_gray_rhino_monitoring_states(&monitoring_statuses)
+        render_watchlist_inline_candidates(app_config, &display_candidates),
+        render_watchlist_inline_monitoring(app_config, &monitoring_statuses)
     )
+}
+
+fn render_watchlist_inline_candidates(
+    app_config: &config::AppConfig,
+    candidates: &[GrayRhinoCandidate],
+) -> String {
+    if candidates.is_empty() {
+        return "Gray Rhino Inline Reference: none auto-discovered.\nBoundary: reference only; no trading, Gate, trend, or market-state mutation.".to_string();
+    }
+
+    let mut out = String::from("Gray Rhino Inline Reference (semantic isolation)\n");
+    let market_candidates = candidates
+        .iter()
+        .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Market)
+        .collect::<Vec<_>>();
+    out.push_str("Market Reference\n");
+    if market_candidates.is_empty() {
+        out.push_str("- none\n");
+    } else {
+        for candidate in market_candidates {
+            append_candidate_line(&mut out, candidate);
+        }
+    }
+
+    out.push_str("\nWatchlist Inline Reference\n");
+    let by_subject = group_company_candidates(candidates);
+    let watch_symbols = enabled_watch_symbols(app_config);
+    let watch_symbol_keys = watch_symbols
+        .iter()
+        .map(|symbol| symbol.to_uppercase())
+        .collect::<BTreeSet<_>>();
+    for symbol in &watch_symbols {
+        out.push_str(&format!("- {symbol}\n"));
+        if let Some(items) = by_subject.get(&symbol.to_uppercase()) {
+            for candidate in items {
+                append_candidate_line(&mut out, candidate);
+            }
+        } else {
+            out.push_str("  Company Gray Rhino: none\n");
+        }
+    }
+    let other_subjects = by_subject
+        .keys()
+        .filter(|subject| !watch_symbol_keys.contains(*subject))
+        .collect::<Vec<_>>();
+    if !other_subjects.is_empty() {
+        out.push_str("\nOther Company Reference\n");
+        for subject in other_subjects {
+            out.push_str(&format!("- {subject}\n"));
+            if let Some(items) = by_subject.get(subject) {
+                for candidate in items {
+                    append_candidate_line(&mut out, candidate);
+                }
+            }
+        }
+    }
+    out.push_str("Boundary: reference only; no trading, Gate, trend, or market-state mutation.");
+    out
+}
+
+fn render_watchlist_inline_monitoring(
+    app_config: &config::AppConfig,
+    statuses: &[GrayRhinoMonitoringStatus],
+) -> String {
+    if statuses.is_empty() {
+        return "Gray Rhino Monitoring Status: none.\nBoundary: reference only; no trading, Gate, trend, or market-state mutation.".to_string();
+    }
+
+    let mut out = String::from("Gray Rhino Monitoring State (semantic isolation)\n");
+    let market_statuses = statuses
+        .iter()
+        .filter(|status| status.scope == GrayRhinoCandidateScope::Market)
+        .collect::<Vec<_>>();
+    out.push_str("Market Reference\n");
+    if market_statuses.is_empty() {
+        out.push_str("- none\n");
+    } else {
+        for status in market_statuses {
+            append_monitoring_line(&mut out, status);
+        }
+    }
+
+    out.push_str("\nWatchlist Inline Monitoring\n");
+    let by_subject = group_company_statuses(statuses);
+    let watch_symbols = enabled_watch_symbols(app_config);
+    let watch_symbol_keys = watch_symbols
+        .iter()
+        .map(|symbol| symbol.to_uppercase())
+        .collect::<BTreeSet<_>>();
+    for symbol in &watch_symbols {
+        out.push_str(&format!("- {symbol}\n"));
+        if let Some(items) = by_subject.get(&symbol.to_uppercase()) {
+            for status in items {
+                append_monitoring_line(&mut out, status);
+            }
+        } else {
+            out.push_str("  Company Gray Rhino monitoring: none\n");
+        }
+    }
+    let other_subjects = by_subject
+        .keys()
+        .filter(|subject| !watch_symbol_keys.contains(*subject))
+        .collect::<Vec<_>>();
+    if !other_subjects.is_empty() {
+        out.push_str("\nOther Company Monitoring\n");
+        for subject in other_subjects {
+            out.push_str(&format!("- {subject}\n"));
+            if let Some(items) = by_subject.get(subject) {
+                for status in items {
+                    append_monitoring_line(&mut out, status);
+                }
+            }
+        }
+    }
+    out.push_str("Boundary: reference only; no trading, Gate, trend, or market-state mutation.");
+    out
+}
+
+fn append_candidate_line(out: &mut String, candidate: &GrayRhinoCandidate) {
+    out.push_str(&format!(
+        "  - {} / {:?} / {:?} / {:?}: {}\n",
+        candidate.subject,
+        candidate.scope,
+        candidate.kind,
+        candidate.state,
+        candidate.evidence.join(" ")
+    ));
+    if !candidate.watch_triggers.is_empty() {
+        out.push_str(&format!(
+            "    Trigger watch: {}\n",
+            candidate.watch_triggers.join(" / ")
+        ));
+    }
+}
+
+fn append_monitoring_line(out: &mut String, status: &GrayRhinoMonitoringStatus) {
+    out.push_str(&format!(
+        "  - {} / {:?} / {:?}: {:?} ({:?}, observations: {}, latest: {}, stale_days: {})\n",
+        status.subject,
+        status.scope,
+        status.kind,
+        status.current_state,
+        status.direction,
+        status.observation_count,
+        status.latest_observed_at,
+        status.stale_days
+    ));
+    if let Some(previous_state) = status.previous_state {
+        out.push_str(&format!("    Previous state: {:?}\n", previous_state));
+    }
+}
+
+fn enabled_watch_symbols(app_config: &config::AppConfig) -> Vec<String> {
+    app_config
+        .watchlist
+        .iter()
+        .filter(|entry| entry.enable)
+        .map(|entry| entry.symbol.clone())
+        .collect()
+}
+
+fn group_company_candidates(
+    candidates: &[GrayRhinoCandidate],
+) -> BTreeMap<String, Vec<&GrayRhinoCandidate>> {
+    let mut by_subject: BTreeMap<String, Vec<&GrayRhinoCandidate>> = BTreeMap::new();
+    for candidate in candidates
+        .iter()
+        .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Company)
+    {
+        by_subject
+            .entry(candidate.subject.to_uppercase())
+            .or_default()
+            .push(candidate);
+    }
+    by_subject
+}
+
+fn group_company_statuses(
+    statuses: &[GrayRhinoMonitoringStatus],
+) -> BTreeMap<String, Vec<&GrayRhinoMonitoringStatus>> {
+    let mut by_subject: BTreeMap<String, Vec<&GrayRhinoMonitoringStatus>> = BTreeMap::new();
+    for status in statuses
+        .iter()
+        .filter(|status| status.scope == GrayRhinoCandidateScope::Company)
+    {
+        by_subject
+            .entry(status.subject.to_uppercase())
+            .or_default()
+            .push(status);
+    }
+    by_subject
 }
 
 fn collect_auto_discovered_candidates(

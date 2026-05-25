@@ -51,6 +51,8 @@ Phase 4-E では FRED threshold calibration を導入する。FRED source adapte
 
 日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を順番に実行し、その後 `daily-calibration` を実行する。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
 
+Phase 4-F では watchlist inline display を導入する。Daily report は Market candidate を `Market Reference` にまとめ、Company candidate と monitoring state は enabled watchlist symbol ごとの `Watchlist Inline Reference` / `Watchlist Inline Monitoring` に表示する。legacy local source など current watchlist に属さない Company candidate は `Other Company Reference` として分離する。この配置は読みやすさのための表示構造であり、candidate は引き続き trading、Gate、execution、trend、market state から意味的に隔離する。
+
 ## Evidence と Narrative の境界
 
 Gray Rhino evidence は、長期構造リスクに関する外部 source 由来の観測事実でなければならない。

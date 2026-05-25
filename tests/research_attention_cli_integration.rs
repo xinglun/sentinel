@@ -619,7 +619,40 @@ fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
     assert!(stdout.contains("Persisted founder voting control candidate."));
     assert!(stdout.contains("Market / Market / LiquidityFragility / Expanding"));
     assert!(stdout.contains("Persisted liquidity fragility candidate."));
+    assert!(stdout.contains("Market Reference"));
+    assert!(stdout.contains("Watchlist Inline Reference"));
     assert!(!stdout.contains("STALE / Company / GovernanceConcentration"));
+    assert!(stdout.contains("reference only; no trading"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_watchlist_inline_report_groups_company_and_market_candidates() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Expanding","evidence":["Founder voting control remains visible."],"watch_triggers":["proxy update"],"source_title":"SEC proxy","observed_at":"2026-05-25"}
+{"scope":"Market","kind":"LiquidityFragility","subject":"Market","state":"Critical","evidence":["FRED threshold critical."],"watch_triggers":["credit spread widening"],"source_title":"FRED macro","observed_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
+    assert!(stdout.contains("Market Reference"));
+    assert!(stdout.contains("Market / Market / LiquidityFragility / Critical"));
+    assert!(stdout.contains("Watchlist Inline Reference"));
+    assert!(stdout.contains("- TSLA"));
+    assert!(stdout.contains("TSLA / Company / GovernanceConcentration / Expanding"));
+    assert!(!stdout.contains("Other Company Reference"));
+    assert!(stdout.contains("Watchlist Inline Monitoring"));
     assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
@@ -705,7 +738,7 @@ fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     assert!(makefile.contains("collect-gray-rhino-sources --source sec"));
     assert!(makefile.contains("collect-gray-rhino-sources --source finnhub"));
     assert!(makefile.contains("collect-gray-rhino-sources --source fred"));
-    assert!(makefile.contains("daily-calibration $(GRAY_RHINO_REFRESH_ARGS)"));
+    assert!(makefile.contains("daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)"));
 }
 
 #[test]
