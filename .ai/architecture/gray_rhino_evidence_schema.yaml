@@ -19,6 +19,11 @@ dependencyReplayFixturePack: tests/fixtures/dependency_local
 dependencySourceManifest: gray_rhino_dependency_source_manifest.jsonl
 dependencyExtractionAudit: gray_rhino_dependency_extraction_audit.jsonl
 dependencyLiveBackfillEnabled: true
+dependencyRealAdapterEnabled: true
+dependencyRawSourceCache: gray_rhino_sources/dependency
+dependencyHttpRetryCount: 3
+dependencyHttpTimeoutSeconds: 20
+backfillRunStore: gray_rhino_backfill_runs.jsonl
 categories:
   - GovernanceConcentration
   - DependencyConcentration

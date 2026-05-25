@@ -497,6 +497,48 @@ fn gray_rhino_backfill_and_readiness_report_stays_non_signal() {
 }
 
 #[test]
+fn dependency_real_backfill_writes_run_summary() {
+    let tmp = prepare_standard_workspace("en-us");
+    let dependency_path = tmp.path().join("dependency_source.txt");
+    let manifest_path = tmp.path().join("dependency_backfill_manifest.json");
+    fs::write(
+        &dependency_path,
+        "dependency_kind: Supplier; dependency_name: Supplier A; concentration_ratio: 0.7; single_point_of_failure: true",
+    )
+    .expect("failed to write dependency source");
+    fs::write(
+        &manifest_path,
+        format!(
+            r#"[{{"category":"DependencyConcentration","symbol":"EXAMPLE","file":"{}"}}]"#,
+            dependency_path.display()
+        ),
+    )
+    .expect("failed to write dependency backfill manifest");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-backfill",
+            "--file",
+            manifest_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Backfill run summary: gray_rhino_backfill_runs.jsonl"));
+    let summary = fs::read_to_string(tmp.path().join("gray_rhino_backfill_runs.jsonl"))
+        .expect("failed to read backfill run summary");
+    assert!(summary.contains("\"source_count\":1"));
+    assert!(summary.contains("\"accepted\":1"));
+    assert!(summary.contains("\"rejected\":0"));
+    assert!(summary.contains("\"mode\":\"dry_run\""));
+    assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
+}
+
+#[test]
 fn dependency_local_source_collection_produces_coverage_and_rejections() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("dependency_source.txt");

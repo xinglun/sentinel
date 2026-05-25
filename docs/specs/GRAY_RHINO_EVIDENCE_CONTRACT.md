@@ -257,6 +257,8 @@ Phase 3-B の初期実装では repository-local structured JSON ingestion bound
 
 Phase v1.1 では dependency disclosure labels として `supplier concentration`、`revenue concentration`、`customer concentration`、`workloads hosted by`、`single cloud provider`、`sole supplier`、`alternative supplier`、`backup provider`、`redundant provider` を許可する。metricless source は `MetriclessSource` として extraction audit と CLI output に残す。
 
+Phase v1.2 では Dependency URL adapter を real adapter 境界として扱う。URL source は retry 3 回、timeout 20 秒、raw source cache `gray_rhino_sources/dependency`、content hash、publisher 正規化を持つ。これは supplier/cloud 専用 API adapter ではなく、disclosure URL を監査可能な source として取り込む adapter である。
+
 ### Phase 4: Escalation Detection Engine
 
 本 Work Item の対象。validated evidence store から category coverage を読み取り、Gray Rhino escalation input へ投影する。
@@ -266,6 +268,8 @@ evidence-driven escalation は `gray_rhino_evidence.jsonl` の検証済み recor
 multi-category sensor health は GovernanceConcentration、DependencyConcentration、InstitutionalMaturity、Redundancy の evidence count と governance source audit health を表示する。
 
 Phase v1.1 では `collect-gray-rhino-backfill --file <manifest>` を追加し、multi-category source manifest から dry-run を実行する。manifest fixture は `tests/fixtures/gray_rhino_backfill/multi_category_manifest.json` に置く。
+
+Phase v1.2 では backfill run summary を `gray_rhino_backfill_runs.jsonl` に保存する。summary は run id、manifest、category、source count、accepted、rejected、coverage、started_at、finished_at、boundary を含む。
 
 sensor health は readiness score を表示する。readiness score は category completeness に基づく evidence quality の説明指標であり、trade、Gate、execution、trend cohesion へ接続しない。
 

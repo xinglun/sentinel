@@ -776,6 +776,12 @@ async fn run_collect_gray_rhino_dependency(
             symbol: Some(target),
             local_file: source_file,
             source_url,
+            source_cache_dir: Some(
+                save_dir
+                    .join("gray_rhino_sources/dependency")
+                    .display()
+                    .to_string(),
+            ),
             observed_at,
             retrieved_at: chrono::Local::now().date_naive(),
             persist_evidence: !dry_run_requested,
@@ -822,7 +828,13 @@ async fn run_collect_gray_rhino_backfill(
         .with_context(|| format!("Failed to read Gray Rhino backfill manifest: {}", file))?;
     let entries: Vec<serde_json::Value> = serde_json::from_str(&raw)
         .with_context(|| format!("Failed to parse Gray Rhino backfill manifest: {}", file))?;
+    let started_at = chrono::Local::now().to_rfc3339();
+    let run_id = format!(
+        "gray-rhino-backfill-{:x}",
+        Sha256::digest(format!("{file}:{started_at}").as_bytes())
+    );
     let mut processed = 0usize;
+    let mut categories = Vec::new();
     println!("--- Gray Rhino Multi-Category Backfill Dry Run ---");
     for entry in entries {
         let category = entry
@@ -839,6 +851,7 @@ async fn run_collect_gray_rhino_backfill(
             .and_then(|value| value.as_str())
             .ok_or_else(|| anyhow!("backfill entry missing file"))?
             .to_string();
+        categories.push(category.to_string());
         match category {
             "DependencyConcentration" => {
                 run_collect_gray_rhino_dependency(
@@ -890,7 +903,28 @@ async fn run_collect_gray_rhino_backfill(
         }
         processed += 1;
     }
+    let finished_at = chrono::Local::now().to_rfc3339();
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+    std::fs::create_dir_all(&save_dir)
+        .with_context(|| format!("Failed to create output directory: {}", save_dir.display()))?;
+    append_cli_jsonl(
+        &save_dir.join("gray_rhino_backfill_runs.jsonl"),
+        &serde_json::json!({
+            "run_id": run_id,
+            "mode": "dry_run",
+            "manifest": file,
+            "categories": categories,
+            "source_count": processed,
+            "accepted": processed,
+            "rejected": 0,
+            "coverage": if processed == 0 { 0.0 } else { 1.0 },
+            "started_at": started_at,
+            "finished_at": finished_at,
+            "boundary": "evidence only; no escalation, gate, execution, or trading state updated"
+        }),
+    )?;
     println!("Backfill entries processed: {}", processed);
+    println!("Backfill run summary: gray_rhino_backfill_runs.jsonl");
     println!("Boundary: dry-run only; no escalation, gate, execution, or trading state updated.");
     Ok(())
 }
@@ -1025,17 +1059,56 @@ impl DependencySourceAdapter for CliLocalDependencySourceAdapter {
             .clone()
             .unwrap_or_else(|| "UNKNOWN".to_string());
         if let Some(url) = request.source_url.as_ref() {
-            let content = reqwest::get(url)
-                .await
-                .with_context(|| format!("Failed to fetch dependency source URL: {}", url))?
-                .text()
-                .await
-                .with_context(|| format!("Failed to read dependency source URL body: {}", url))?;
+            let client = reqwest::Client::builder()
+                .timeout(std::time::Duration::from_secs(20))
+                .build()
+                .context("Failed to build dependency source HTTP client")?;
+            let mut last_error = None;
+            let mut content = None;
+            for _attempt in 0..3 {
+                match client.get(url).send().await {
+                    Ok(response) => match response.error_for_status() {
+                        Ok(response) => match response.text().await {
+                            Ok(body) => {
+                                content = Some(body);
+                                break;
+                            }
+                            Err(err) => last_error = Some(err.into()),
+                        },
+                        Err(err) => last_error = Some(err.into()),
+                    },
+                    Err(err) => last_error = Some(err.into()),
+                }
+            }
+            let content = content.ok_or_else(|| {
+                last_error.unwrap_or_else(|| anyhow!("Failed to fetch dependency source URL"))
+            })?;
+            if let Some(cache_dir) = request.source_cache_dir.as_ref() {
+                let cache_dir = std::path::PathBuf::from(cache_dir);
+                tokio::fs::create_dir_all(&cache_dir)
+                    .await
+                    .with_context(|| {
+                        format!(
+                            "Failed to create dependency cache dir: {}",
+                            cache_dir.display()
+                        )
+                    })?;
+                let cache_name = format!("{:x}.txt", Sha256::digest(url.as_bytes()));
+                tokio::fs::write(cache_dir.join(cache_name), &content)
+                    .await
+                    .with_context(|| "Failed to cache dependency source body")?;
+            }
+            let parsed_url = reqwest::Url::parse(url).ok();
+            let publisher = parsed_url
+                .as_ref()
+                .and_then(|parsed| parsed.host_str())
+                .unwrap_or("unknown dependency publisher")
+                .to_string();
             return Ok(vec![DependencySourceDocument {
                 subject: subject.clone(),
                 source_kind: DependencySourceKind::LiveDependencyDisclosure,
-                source_title: url.to_string(),
-                publisher: subject,
+                source_title: format!("Dependency disclosure: {publisher}"),
+                publisher,
                 source_url: Some(url.to_string()),
                 repository_path: None,
                 observed_at: request.observed_at,
