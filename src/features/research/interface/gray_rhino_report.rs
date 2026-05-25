@@ -8,6 +8,9 @@ use crate::features::research::application::gray_rhino_assessment::{
 use crate::features::research::application::gray_rhino_discovery::{
     discover_gray_rhino_candidates, render_gray_rhino_inline_reference, GrayRhinoDiscoveryInput,
 };
+use crate::features::research::application::gray_rhino_monitoring_state::{
+    evaluate_gray_rhino_monitoring_states, render_gray_rhino_monitoring_states,
+};
 use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
 use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
 #[cfg(test)]
@@ -574,7 +577,13 @@ fn render_auto_discovery_inline_reference(
     as_of_date: NaiveDate,
 ) -> String {
     let candidates = collect_auto_discovered_candidates(app_config, save_dir, as_of_date);
-    render_gray_rhino_inline_reference(&candidates)
+    let display_candidates = dedupe_candidates(candidates.clone());
+    let monitoring_statuses = evaluate_gray_rhino_monitoring_states(&candidates, as_of_date);
+    format!(
+        "{}\n\n{}",
+        render_gray_rhino_inline_reference(&display_candidates),
+        render_gray_rhino_monitoring_states(&monitoring_statuses)
+    )
 }
 
 fn collect_auto_discovered_candidates(
@@ -654,7 +663,7 @@ fn collect_auto_discovered_candidates(
                 .filter(|candidate| candidate_in_current_report_scope(candidate, &watch_symbols)),
         );
     }
-    dedupe_candidates(candidates)
+    candidates
 }
 
 fn candidate_in_current_report_scope(

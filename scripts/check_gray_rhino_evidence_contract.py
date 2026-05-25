@@ -13,6 +13,7 @@ FRAMEWORK_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
 DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.rs"
 DISCOVERY_DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_candidate.rs"
 DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
+MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
 GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
 ASSESSMENT_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_assessment.rs"
 REPLAY_FIXTURE_DIR = PROJECT_ROOT / "tests/fixtures/governance_sec"
@@ -53,6 +54,7 @@ def main() -> int:
         DOMAIN_PATH,
         DISCOVERY_DOMAIN_PATH,
         DISCOVERY_APP_PATH,
+        MONITORING_STATE_PATH,
         GOVERNANCE_SOURCE_PATH,
         ASSESSMENT_PATH,
     ]
@@ -69,6 +71,7 @@ def main() -> int:
     domain = DOMAIN_PATH.read_text(encoding="utf-8")
     discovery_domain = DISCOVERY_DOMAIN_PATH.read_text(encoding="utf-8")
     discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
+    monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
     governance_source = GOVERNANCE_SOURCE_PATH.read_text(encoding="utf-8")
     assessment = ASSESSMENT_PATH.read_text(encoding="utf-8")
 
@@ -82,6 +85,8 @@ def main() -> int:
         "candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs",
         "candidatePersistenceEnabled: true",
         "candidateStore: gray_rhino_candidates.jsonl",
+        "monitoringStateMachineEnabled: true",
+        "monitoringStateMachine: src/features/research/application/gray_rhino_monitoring_state.rs",
         "inlineWatchlistReferenceEnabled: true",
         "manualRegistryPrimaryMechanism: false",
         "autoSourceCollectionCli: collect-gray-rhino-sources",
@@ -154,6 +159,8 @@ def main() -> int:
         "collect-gray-rhino-sources",
         "gray_rhino_discovery_runs.jsonl",
         "gray_rhino_candidates.jsonl",
+        "monitoring state machine",
+        "Gray Rhino Monitoring State",
         "[fred] fred_api_key",
     ]
     for item in doc_required:
@@ -237,6 +244,17 @@ def main() -> int:
     ]:
         if item not in discovery_app:
             errors.append(f"discovery application missing `{item}`")
+
+    for item in [
+        "evaluate_gray_rhino_monitoring_states",
+        "render_gray_rhino_monitoring_states",
+        "GrayRhinoMonitoringDirection",
+        "Intensifying",
+        "Cooling",
+        "Resolved",
+    ]:
+        if item not in monitoring_state:
+            errors.append(f"monitoring state application missing `{item}`")
 
     governance_metrics = set(extract_yaml_list(schema, "  requiredMetricAtLeastOneOf"))
     for item in governance_metrics:

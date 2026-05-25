@@ -10,6 +10,8 @@ candidateDomain: src/features/research/domain/gray_rhino_candidate.rs
 candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs
 candidatePersistenceEnabled: true
 candidateStore: gray_rhino_candidates.jsonl
+monitoringStateMachineEnabled: true
+monitoringStateMachine: src/features/research/application/gray_rhino_monitoring_state.rs
 candidateScopes:
   - Company
   - Market

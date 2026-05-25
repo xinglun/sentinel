@@ -43,6 +43,10 @@ Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に
 
 `gray_rhino_candidates.jsonl` は構造リスクの観測履歴であり、trade、Gate、execution、trend、market state を変更してはならない。Company candidate は current enabled watchlist に属する場合だけ daily inline reference に表示し、Market candidate は市場側 reference として表示できる。
 
+Phase 4-D では monitoring state machine を導入する。state machine は `gray_rhino_candidates.jsonl` と当日の source scan から subject / scope / kind ごとの candidate history を作り、`Visible`、`Expanding`、`Critical`、`Cooling`、`Resolved` と direction（new、stable、intensifying、cooling、resolved）を deterministic に評価する。
+
+monitoring state は `Gray Rhino Monitoring State` として Daily report に表示する。これは臨界点の接近を観察する reference であり、trade、Gate、execution、trend、market state を変更してはならない。
+
 ## Evidence と Narrative の境界
 
 Gray Rhino evidence は、長期構造リスクに関する外部 source 由来の観測事実でなければならない。

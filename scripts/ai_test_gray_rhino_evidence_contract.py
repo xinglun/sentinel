@@ -53,6 +53,7 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             checker.DOC_PATH,
             checker.FRAMEWORK_PATH,
             checker.DOMAIN_PATH,
+            checker.MONITORING_STATE_PATH,
             checker.GOVERNANCE_SOURCE_PATH,
             checker.ASSESSMENT_PATH,
         )
@@ -67,6 +68,9 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             )
             checker.DISCOVERY_APP_PATH = (
                 root / "src/features/research/application/gray_rhino_discovery.rs"
+            )
+            checker.MONITORING_STATE_PATH = (
+                root / "src/features/research/application/gray_rhino_monitoring_state.rs"
             )
             checker.GOVERNANCE_SOURCE_PATH = (
                 root / "src/features/research/domain/governance_source.rs"
@@ -85,6 +89,8 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
                 "candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs\n"
                 "candidatePersistenceEnabled: true\n"
                 "candidateStore: gray_rhino_candidates.jsonl\n"
+                "monitoringStateMachineEnabled: true\n"
+                "monitoringStateMachine: src/features/research/application/gray_rhino_monitoring_state.rs\n"
                 "inlineWatchlistReferenceEnabled: true\n"
                 "manualRegistryPrimaryMechanism: false\n"
                 "autoSourceCollectionCli: collect-gray-rhino-sources\n"
@@ -105,6 +111,10 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             write(checker.DOMAIN_PATH, "enum GrayRhinoEvidenceCategory { GovernanceConcentration }\n")
             write(checker.DISCOVERY_DOMAIN_PATH, "struct GrayRhinoCandidate;\n")
             write(checker.DISCOVERY_APP_PATH, "fn discover_gray_rhino_candidates() {}\n")
+            write(
+                checker.MONITORING_STATE_PATH,
+                "fn evaluate_gray_rhino_monitoring_states() {}\n",
+            )
             write(checker.GOVERNANCE_SOURCE_PATH, "struct GovernanceSourceDocument;\n")
             write(checker.ASSESSMENT_PATH, "fn validate_gray_rhino_evidence_contract() {}\n")
             with contextlib.redirect_stdout(io.StringIO()):
@@ -116,6 +126,7 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
                 checker.DOC_PATH,
                 checker.FRAMEWORK_PATH,
                 checker.DOMAIN_PATH,
+                checker.MONITORING_STATE_PATH,
                 checker.GOVERNANCE_SOURCE_PATH,
                 checker.ASSESSMENT_PATH,
             ) = original_paths

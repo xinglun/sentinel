@@ -629,6 +629,33 @@ fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
 }
 
 #[test]
+fn gray_rhino_monitoring_state_reports_candidate_intensification() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Visible","evidence":["Founder voting control remains visible."],"watch_triggers":["proxy update"],"source_title":"Prior SEC proxy","observed_at":"2026-05-24"}
+{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Visible","evidence":["Founder voting control remains visible."],"watch_triggers":["proxy update"],"source_title":"Current SEC proxy","observed_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Monitoring State (semantic isolation)"));
+    assert!(stdout.contains("TSLA / Company / GovernanceConcentration: Expanding"));
+    assert!(stdout.contains("Intensifying"));
+    assert!(stdout.contains("observations: 2"));
+    assert!(stdout.contains("reference only; no trading"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
 fn gray_rhino_source_collection_dry_run_reports_boundary() {
     let tmp = prepare_standard_workspace("en-us");
 
