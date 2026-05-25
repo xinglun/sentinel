@@ -170,6 +170,8 @@ institutionalMaturity:
   storage: gray_rhino_evidence.jsonl
   deterministicExtractionOnly: true
   collectorEnabled: false
+  localSourceCollectionEnabled: true
+  replayCoverageReport: true
   noEscalationStateMutation: true
 redundancy:
   phase: phase_3d_redundancy_evidence_pipeline
@@ -191,6 +193,8 @@ redundancy:
   storage: gray_rhino_evidence.jsonl
   deterministicExtractionOnly: true
   collectorEnabled: false
+  localSourceCollectionEnabled: true
+  replayCoverageReport: true
   noEscalationStateMutation: true
 multiCategorySensorHealthEnabled: true
 evidenceDrivenEscalationEngineEnabled: true

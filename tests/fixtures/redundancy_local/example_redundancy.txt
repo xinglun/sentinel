@@ -1,0 +1,5 @@
+fallback_available: true
+alternative_supplier_count: 2
+redundancy_ratio: 0.5
+recovery_path_disclosed: true
+failover_tested: false

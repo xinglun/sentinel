@@ -481,6 +481,70 @@ fn dependency_source_collection_reports_rejection_taxonomy() {
 }
 
 #[test]
+fn institutional_and_redundancy_source_collection_reports_coverage() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let institutional_path = tmp.path().join("institutional_source.txt");
+    let redundancy_path = tmp.path().join("redundancy_source.txt");
+    fs::write(
+        &institutional_path,
+        "succession_structure_disclosed: true; external_audit_present: true; disclosure_quality_score: 0.72; oversight_evolution_disclosed: true; compliance_maturity_level: developing",
+    )
+    .expect("failed to write institutional source fixture");
+    fs::write(
+        &redundancy_path,
+        "fallback_available: true; alternative_supplier_count: 2; redundancy_ratio: 0.5; recovery_path_disclosed: true; failover_tested: false",
+    )
+    .expect("failed to write redundancy source fixture");
+
+    let institutional = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-institutional",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            institutional_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+            "--dry-run",
+        ],
+    );
+    let redundancy = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-redundancy",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            redundancy_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+            "--dry-run",
+        ],
+    );
+
+    assert!(institutional.status.success());
+    assert!(redundancy.status.success());
+    let institutional_stdout = String::from_utf8_lossy(&institutional.stdout);
+    let redundancy_stdout = String::from_utf8_lossy(&redundancy.stdout);
+    assert!(institutional_stdout.contains("Gray Rhino InstitutionalMaturity Evidence Collection"));
+    assert!(institutional_stdout.contains("Coverage: 100.0%"));
+    assert!(institutional_stdout.contains("Formal evidence persisted: false"));
+    assert!(redundancy_stdout.contains("Gray Rhino Redundancy Evidence Collection"));
+    assert!(redundancy_stdout.contains("Coverage: 100.0%"));
+    assert!(redundancy_stdout.contains("Boundary: evidence only"));
+    assert!(tmp
+        .path()
+        .join("gray_rhino_institutionalmaturity_source_manifest.jsonl")
+        .exists());
+    assert!(tmp
+        .path()
+        .join("gray_rhino_redundancy_extraction_audit.jsonl")
+        .exists());
+    assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
+}
+
+#[test]
 fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("proxy_source.txt");

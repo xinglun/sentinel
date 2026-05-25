@@ -2,6 +2,7 @@ use anyhow::{anyhow, Context, Result};
 
 use async_trait::async_trait;
 use chrono::NaiveDate;
+use sha2::{Digest, Sha256};
 
 use crate::config;
 use crate::features::evidence::acl::evidence_store_factory::{
@@ -243,6 +244,46 @@ pub async fn run() -> Result<()> {
                 options.evidence_date_arg.as_deref(),
             )
             .await?;
+        }
+        CliCommand::CollectGrayRhinoInstitutional => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_collect_gray_rhino_category_source(
+                &app_config,
+                "InstitutionalMaturity",
+                options.evidence_symbol.clone(),
+                options.governance_evidence_file.clone(),
+                options.evidence_dry_run,
+                options.evidence_date_arg.as_deref(),
+                &[
+                    "succession_structure_disclosed",
+                    "external_audit_present",
+                    "disclosure_quality_score",
+                    "oversight_evolution_disclosed",
+                    "compliance_maturity_level",
+                ],
+            )?;
+        }
+        CliCommand::CollectGrayRhinoRedundancy => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_collect_gray_rhino_category_source(
+                &app_config,
+                "Redundancy",
+                options.evidence_symbol.clone(),
+                options.governance_evidence_file.clone(),
+                options.evidence_dry_run,
+                options.evidence_date_arg.as_deref(),
+                &[
+                    "fallback_available",
+                    "alternative_supplier_count",
+                    "redundancy_ratio",
+                    "recovery_path_disclosed",
+                    "failover_tested",
+                ],
+            )?;
         }
         CliCommand::IngestEvidence => {
             if let Some(err) = &options.evidence_arg_error {
@@ -757,6 +798,123 @@ async fn run_collect_gray_rhino_dependency(
         );
     }
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+fn run_collect_gray_rhino_category_source(
+    app_config: &config::AppConfig,
+    category: &str,
+    symbol: Option<String>,
+    source_file: Option<String>,
+    dry_run_requested: bool,
+    observed_date_arg: Option<&str>,
+    metrics: &[&str],
+) -> Result<()> {
+    let target = symbol.ok_or_else(|| anyhow!("--symbol is required"))?;
+    let file = source_file.ok_or_else(|| anyhow!("--file is required"))?;
+    let observed_at = match observed_date_arg {
+        Some(raw) => NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+            .with_context(|| format!("Invalid Gray Rhino source date: {}", raw))?,
+        None => chrono::Local::now().date_naive(),
+    };
+    let retrieved_at = chrono::Local::now().date_naive();
+    let content = std::fs::read_to_string(&file)
+        .with_context(|| format!("Failed to read Gray Rhino source file: {}", file))?;
+    let normalized = content
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase();
+    let extracted: Vec<&str> = metrics
+        .iter()
+        .copied()
+        .filter(|metric| {
+            normalized.contains(*metric) || normalized.contains(&metric.replace('_', " "))
+        })
+        .collect();
+    let missing_count = metrics.len().saturating_sub(extracted.len());
+    let accepted = !extracted.is_empty();
+    let taxonomy = if accepted {
+        "Accepted"
+    } else {
+        "MetriclessSource"
+    };
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+    std::fs::create_dir_all(&save_dir)
+        .with_context(|| format!("Failed to create output directory: {}", save_dir.display()))?;
+    let manifest_path = save_dir.join(format!(
+        "gray_rhino_{}_source_manifest.jsonl",
+        category.to_lowercase()
+    ));
+    let audit_path = save_dir.join(format!(
+        "gray_rhino_{}_extraction_audit.jsonl",
+        category.to_lowercase()
+    ));
+    let manifest = serde_json::json!({
+        "subject": target,
+        "category": category,
+        "source_title": file,
+        "repository_path": file,
+        "observed_at": observed_at,
+        "retrieved_at": retrieved_at,
+        "content_sha256": format!("{:x}", Sha256::digest(content.as_bytes()))
+    });
+    let audit = serde_json::json!({
+        "subject": manifest["subject"],
+        "category": category,
+        "source_title": manifest["source_title"],
+        "observed_at": observed_at,
+        "retrieved_at": retrieved_at,
+        "accepted": accepted,
+        "rejection_taxonomy": taxonomy,
+        "extracted_metrics": extracted,
+        "missing_count": missing_count
+    });
+    append_cli_jsonl(&manifest_path, &manifest)?;
+    append_cli_jsonl(&audit_path, &audit)?;
+
+    println!("--- Gray Rhino {category} Evidence Collection ---");
+    println!("Sources:  1");
+    println!("Accepted: {}", usize::from(accepted));
+    println!("Saved:    0");
+    println!("Manifest: 1");
+    println!("Audit:    1");
+    println!("Dry run:  {}", dry_run_requested);
+    println!("Formal evidence persisted: false");
+    println!(
+        "Coverage: {:.1}%",
+        (extracted.len() as f64 / metrics.len() as f64) * 100.0
+    );
+    println!("Field coverage:");
+    for metric in metrics {
+        let count = usize::from(extracted.contains(metric));
+        println!(
+            "  {}: {:.1}% ({}/1 extracted, {} missing)",
+            metric,
+            count as f64 * 100.0,
+            count,
+            1usize.saturating_sub(count)
+        );
+    }
+    println!("Rejected: {}", usize::from(!accepted));
+    if !accepted {
+        println!("  [REJECTED:{taxonomy}] {}", manifest["source_title"]);
+    }
+    println!("Latest observed date: {}", observed_at);
+    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+fn append_cli_jsonl(path: &std::path::Path, value: &serde_json::Value) -> Result<()> {
+    use std::io::Write;
+
+    let mut file = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(path)
+        .with_context(|| format!("Failed to open {}", path.display()))?;
+    writeln!(file, "{}", serde_json::to_string(value)?)
+        .with_context(|| format!("Failed to write {}", path.display()))?;
     Ok(())
 }
 
