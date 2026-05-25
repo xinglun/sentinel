@@ -14,6 +14,7 @@ use crate::features::radar::infrastructure::radar_runtime_factory::build_radar_r
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report;
 use crate::features::radar::interface::weekly_state_report::persist_weekly_state_outputs;
+use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
 use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
     load_latest_evidence_collection_status, send_telegram_with_status,
@@ -177,13 +178,20 @@ pub(crate) async fn run_pipeline(
             }
         }
 
-        let report_result = report::generate_refined_report(
+        let mut report_result = report::generate_refined_report(
             &config_arc,
             &pres_packet,
             realized_pl,
             &positions,
             &delivery_plan.prices,
         )?;
+        append_gray_rhino_reference_appendix(
+            &mut report_result,
+            config_arc.as_ref(),
+            save_dir,
+            packet.date,
+            pres_packet.language,
+        );
 
         runtime_services
             .persistence
@@ -205,4 +213,26 @@ pub(crate) async fn run_pipeline(
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
+}
+
+fn append_gray_rhino_reference_appendix(
+    report_result: &mut report::ReportResult,
+    app_config: &config::AppConfig,
+    save_dir: &std::path::Path,
+    as_of_date: chrono::NaiveDate,
+    language: crate::features::shared::interface::i18n::Language,
+) {
+    let Ok(appendix) = build_gray_rhino_daily_report(app_config, save_dir, as_of_date, language)
+    else {
+        return;
+    };
+    if appendix.trim().is_empty() {
+        return;
+    }
+    let markdown_appendix = format!("\n\n---\n\n{appendix}");
+    report_result.markdown_body.push_str(&markdown_appendix);
+    report_result.archival_markdown.push_str(&markdown_appendix);
+    report_result
+        .telegram_html_body
+        .push_str(&format!("\n\n{}", appendix));
 }

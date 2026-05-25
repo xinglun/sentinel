@@ -6,7 +6,7 @@ use crate::features::research::domain::governance_source::{
 };
 use anyhow::{anyhow, Context, Result};
 use async_trait::async_trait;
-use chrono::{Local, NaiveDate};
+use chrono::NaiveDate;
 use serde_json::Value;
 use std::path::{Path, PathBuf};
 
@@ -90,8 +90,9 @@ impl GovernanceDocumentSourceAdapter {
         let cik = self.get_cik(symbol, user_agent).await?;
         let submissions_url = format!("{}/submissions/CIK{}.json", self.base_url_data, cik);
         let submissions = self.sec_get_json(&submissions_url, user_agent).await?;
-        let filing = select_governance_filing(&submissions, request.lookback_days)
-            .ok_or_else(|| anyhow!("No governance SEC filing found for {}", symbol))?;
+        let filing =
+            select_governance_filing(&submissions, request.lookback_days, request.observed_at)
+                .ok_or_else(|| anyhow!("No governance SEC filing found for {}", symbol))?;
         let accession_no_dashes = filing.accession_number.replace('-', "");
         let cik_no_zeros = cik.trim_start_matches('0');
         let doc_url = format!(
@@ -203,13 +204,17 @@ struct SecFilingCandidate {
     primary_document: String,
 }
 
-fn select_governance_filing(value: &Value, lookback_days: usize) -> Option<SecFilingCandidate> {
+fn select_governance_filing(
+    value: &Value,
+    lookback_days: usize,
+    as_of_date: NaiveDate,
+) -> Option<SecFilingCandidate> {
     let recent = value.get("filings")?.get("recent")?;
     let forms = recent.get("form")?.as_array()?;
     let dates = recent.get("filingDate")?.as_array()?;
     let accessions = recent.get("accessionNumber")?.as_array()?;
     let primary_documents = recent.get("primaryDocument")?.as_array()?;
-    let limit_date = (Local::now() - chrono::Duration::days(lookback_days as i64)).date_naive();
+    let limit_date = as_of_date - chrono::Duration::days(lookback_days as i64);
 
     for idx in 0..forms.len() {
         let form = forms.get(idx)?.as_str()?;
@@ -217,7 +222,7 @@ fn select_governance_filing(value: &Value, lookback_days: usize) -> Option<SecFi
             continue;
         }
         let filing_date = NaiveDate::parse_from_str(dates.get(idx)?.as_str()?, "%Y-%m-%d").ok()?;
-        if filing_date < limit_date {
+        if filing_date < limit_date || filing_date > as_of_date {
             continue;
         }
         return Some(SecFilingCandidate {
@@ -289,9 +294,35 @@ mod tests {
             }
         });
 
-        let filing = select_governance_filing(&raw, 3650).unwrap();
+        let filing =
+            select_governance_filing(&raw, 3650, NaiveDate::from_ymd_opt(2026, 5, 25).unwrap())
+                .unwrap();
 
         assert_eq!(filing.form, "DEF 14A");
         assert_eq!(filing.primary_document, "proxy.htm");
+    }
+
+    #[test]
+    fn gray_rhino_reliability_selects_filing_relative_to_as_of_date() {
+        let raw = serde_json::json!({
+            "filings": {
+                "recent": {
+                    "form": ["DEF 14A", "DEF 14A"],
+                    "filingDate": ["2026-05-21", "2024-05-21"],
+                    "accessionNumber": ["0000000000-26-000002", "0000000000-24-000002"],
+                    "primaryDocument": ["new-proxy.htm", "old-proxy.htm"]
+                }
+            }
+        });
+
+        let historical =
+            select_governance_filing(&raw, 60, NaiveDate::from_ymd_opt(2024, 6, 1).unwrap())
+                .unwrap();
+        let current =
+            select_governance_filing(&raw, 60, NaiveDate::from_ymd_opt(2026, 6, 1).unwrap())
+                .unwrap();
+
+        assert_eq!(historical.primary_document, "old-proxy.htm");
+        assert_eq!(current.primary_document, "new-proxy.htm");
     }
 }

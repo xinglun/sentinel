@@ -22,6 +22,14 @@ pub enum GrayRhinoEvidenceSourceType {
     OperatorCuratedSource,
 }
 
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub enum GrayRhinoRiskEffect {
+    Amplifying,
+    Mitigating,
+    #[default]
+    Neutral,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GrayRhinoSourceReference {
     pub source_type: GrayRhinoEvidenceSourceType,
@@ -38,6 +46,8 @@ pub struct GrayRhinoEvidenceRecord {
     pub category: GrayRhinoEvidenceCategory,
     pub source: GrayRhinoSourceReference,
     pub confidence: f64,
+    #[serde(default)]
+    pub risk_effect: GrayRhinoRiskEffect,
     pub extraction_note: String,
     pub structural_fact: String,
 }
@@ -209,8 +219,27 @@ impl GovernanceConcentrationEvidence {
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: self.source.clone(),
             confidence: self.confidence,
+            risk_effect: self.metrics.risk_effect(),
             extraction_note: self.extraction_note.clone(),
             structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl GovernanceConcentrationMetrics {
+    fn risk_effect(&self) -> GrayRhinoRiskEffect {
+        let amplifying = self.founder_voting_power.is_some_and(|value| value >= 50.0)
+            || self.dual_class_structure == Some(true)
+            || self.super_voting_rights == Some(true)
+            || self.succession_disclosure == Some(false);
+        let mitigating = self
+            .independent_board_ratio
+            .is_some_and(|ratio| ratio >= 0.5)
+            || self.succession_disclosure == Some(true);
+        match (amplifying, mitigating) {
+            (true, false) => GrayRhinoRiskEffect::Amplifying,
+            (false, true) => GrayRhinoRiskEffect::Mitigating,
+            _ => GrayRhinoRiskEffect::Neutral,
         }
     }
 }
@@ -262,8 +291,23 @@ impl DependencyConcentrationEvidence {
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source: self.source.clone(),
             confidence: self.confidence,
+            risk_effect: self.metrics.risk_effect(),
             extraction_note: self.extraction_note.clone(),
             structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl DependencyConcentrationMetrics {
+    fn risk_effect(&self) -> GrayRhinoRiskEffect {
+        let amplifying = self.concentration_ratio.is_some_and(|ratio| ratio >= 0.5)
+            || self.single_point_of_failure == Some(true)
+            || self.fallback_disclosed == Some(false);
+        let mitigating = self.fallback_disclosed == Some(true);
+        match (amplifying, mitigating) {
+            (true, false) => GrayRhinoRiskEffect::Amplifying,
+            (false, true) => GrayRhinoRiskEffect::Mitigating,
+            _ => GrayRhinoRiskEffect::Neutral,
         }
     }
 }
@@ -312,8 +356,30 @@ impl InstitutionalMaturityEvidence {
             category: GrayRhinoEvidenceCategory::InstitutionalMaturity,
             source: self.source.clone(),
             confidence: self.confidence,
+            risk_effect: self.metrics.risk_effect(),
             extraction_note: self.extraction_note.clone(),
             structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl InstitutionalMaturityMetrics {
+    fn risk_effect(&self) -> GrayRhinoRiskEffect {
+        let mitigating = self.succession_structure_disclosed == Some(true)
+            || self.external_audit_present == Some(true)
+            || self
+                .disclosure_quality_score
+                .is_some_and(|score| score >= 0.6)
+            || self.oversight_evolution_disclosed == Some(true);
+        let amplifying = self.succession_structure_disclosed == Some(false)
+            || self.external_audit_present == Some(false)
+            || self
+                .disclosure_quality_score
+                .is_some_and(|score| score < 0.4);
+        match (amplifying, mitigating) {
+            (true, false) => GrayRhinoRiskEffect::Amplifying,
+            (false, true) => GrayRhinoRiskEffect::Mitigating,
+            _ => GrayRhinoRiskEffect::Neutral,
         }
     }
 }
@@ -366,8 +432,33 @@ impl RedundancyEvidence {
             category: GrayRhinoEvidenceCategory::Redundancy,
             source: self.source.clone(),
             confidence: self.confidence,
+            risk_effect: self.metrics.risk_effect(),
             extraction_note: self.extraction_note.clone(),
             structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl RedundancyMetrics {
+    fn risk_effect(&self) -> GrayRhinoRiskEffect {
+        let mitigating = self.fallback_available == Some(true)
+            || self
+                .alternative_supplier_count
+                .is_some_and(|count| count >= 2)
+            || self.redundancy_ratio.is_some_and(|ratio| ratio >= 0.5)
+            || self.recovery_path_disclosed == Some(true)
+            || self.failover_tested == Some(true);
+        let amplifying = self.fallback_available == Some(false)
+            || self
+                .alternative_supplier_count
+                .is_some_and(|count| count == 0)
+            || self.redundancy_ratio.is_some_and(|ratio| ratio < 0.25)
+            || self.recovery_path_disclosed == Some(false)
+            || self.failover_tested == Some(false);
+        match (amplifying, mitigating) {
+            (true, false) => GrayRhinoRiskEffect::Amplifying,
+            (false, true) => GrayRhinoRiskEffect::Mitigating,
+            _ => GrayRhinoRiskEffect::Neutral,
         }
     }
 }
@@ -454,6 +545,7 @@ mod tests {
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: source(),
             confidence: 0.8,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
             extraction_note: "Voting control is disclosed in governance document.".to_string(),
             structural_fact: "Founder voting control exceeds ordinary common-share voting power."
                 .to_string(),
@@ -470,6 +562,7 @@ mod tests {
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source,
             confidence: 0.7,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
             extraction_note: "Supplier disclosure identifies single-source dependency.".to_string(),
             structural_fact: "A critical supplier dependency has no disclosed fallback."
                 .to_string(),
@@ -487,6 +580,7 @@ mod tests {
             category: GrayRhinoEvidenceCategory::RiskNormalization,
             source: source(),
             confidence: 0.6,
+            risk_effect: GrayRhinoRiskEffect::Neutral,
             extraction_note: "too successful to fail narrative".to_string(),
             structural_fact: "too successful to fail".to_string(),
         };
@@ -503,6 +597,7 @@ mod tests {
             category: GrayRhinoEvidenceCategory::RiskNormalization,
             source: source(),
             confidence: 0.6,
+            risk_effect: GrayRhinoRiskEffect::Neutral,
             extraction_note: "This should not become a sell signal.".to_string(),
             structural_fact: "Governance risk is connected to sell decision.".to_string(),
         };
@@ -557,6 +652,34 @@ mod tests {
         assert_eq!(
             evidence.to_record().category,
             GrayRhinoEvidenceCategory::GovernanceConcentration
+        );
+        assert_eq!(
+            evidence.to_record().risk_effect,
+            GrayRhinoRiskEffect::Amplifying
+        );
+    }
+
+    #[test]
+    fn gray_rhino_reliability_governance_independence_is_mitigating() {
+        let evidence = GovernanceConcentrationEvidence {
+            subject: "Example issuer".to_string(),
+            source: source(),
+            confidence: 0.85,
+            extraction_note: "Proxy statement discloses independent directors.".to_string(),
+            structural_fact: "Eleven of twelve directors are independent.".to_string(),
+            metrics: GovernanceConcentrationMetrics {
+                founder_voting_power: None,
+                independent_board_ratio: Some(11.0 / 12.0),
+                dual_class_structure: None,
+                super_voting_rights: None,
+                succession_disclosure: Some(true),
+            },
+        };
+
+        assert_eq!(evidence.validate(), Ok(()));
+        assert_eq!(
+            evidence.to_record().risk_effect,
+            GrayRhinoRiskEffect::Mitigating
         );
     }
 
@@ -642,6 +765,10 @@ mod tests {
             evidence.to_record().category,
             GrayRhinoEvidenceCategory::DependencyConcentration
         );
+        assert_eq!(
+            evidence.to_record().risk_effect,
+            GrayRhinoRiskEffect::Amplifying
+        );
     }
 
     #[test]
@@ -690,6 +817,10 @@ mod tests {
             evidence.to_record().category,
             GrayRhinoEvidenceCategory::InstitutionalMaturity
         );
+        assert_eq!(
+            evidence.to_record().risk_effect,
+            GrayRhinoRiskEffect::Mitigating
+        );
     }
 
     #[test]
@@ -736,6 +867,10 @@ mod tests {
         assert_eq!(
             evidence.to_record().category,
             GrayRhinoEvidenceCategory::Redundancy
+        );
+        assert_eq!(
+            evidence.to_record().risk_effect,
+            GrayRhinoRiskEffect::Neutral
         );
     }
 }

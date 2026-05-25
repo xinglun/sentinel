@@ -4,6 +4,7 @@ use crate::features::research::domain::gray_rhino::{
 };
 use crate::features::research::domain::gray_rhino_evidence::{
     GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoEvidenceRejection,
+    GrayRhinoRiskEffect,
 };
 use chrono::NaiveDate;
 
@@ -31,18 +32,13 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
     if records.is_empty() {
         return None;
     }
-    let has_governance = records
-        .iter()
-        .any(|record| record.category == GrayRhinoEvidenceCategory::GovernanceConcentration);
-    let has_dependency = records
-        .iter()
-        .any(|record| record.category == GrayRhinoEvidenceCategory::DependencyConcentration);
-    let has_institutional = records
-        .iter()
-        .any(|record| record.category == GrayRhinoEvidenceCategory::InstitutionalMaturity);
-    let has_redundancy = records
-        .iter()
-        .any(|record| record.category == GrayRhinoEvidenceCategory::Redundancy);
+    let has_governance =
+        has_amplifying_category(records, GrayRhinoEvidenceCategory::GovernanceConcentration);
+    let has_dependency =
+        has_amplifying_category(records, GrayRhinoEvidenceCategory::DependencyConcentration);
+    let has_institutional =
+        has_amplifying_category(records, GrayRhinoEvidenceCategory::InstitutionalMaturity);
+    let has_redundancy = has_mitigating_category(records, GrayRhinoEvidenceCategory::Redundancy);
     let ready_count = [
         has_governance,
         has_dependency,
@@ -93,8 +89,26 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
             RiskLevel::Low
         },
         notes: vec![format!(
-            "Evidence-backed Gray Rhino assessment from validated records; ready categories: {ready_count}/4; average confidence: {average_confidence:.2}."
+            "Evidence-backed Gray Rhino assessment from validated records; amplifying categories: {ready_count}/4; average confidence: {average_confidence:.2}."
         )],
+    })
+}
+
+fn has_amplifying_category(
+    records: &[GrayRhinoEvidenceRecord],
+    category: GrayRhinoEvidenceCategory,
+) -> bool {
+    records.iter().any(|record| {
+        record.category == category && record.risk_effect == GrayRhinoRiskEffect::Amplifying
+    })
+}
+
+fn has_mitigating_category(
+    records: &[GrayRhinoEvidenceRecord],
+    category: GrayRhinoEvidenceCategory,
+) -> bool {
+    records.iter().any(|record| {
+        record.category == category && record.risk_effect == GrayRhinoRiskEffect::Mitigating
     })
 }
 
@@ -129,7 +143,8 @@ pub(crate) fn validate_gray_rhino_evidence_contract(
 mod tests {
     use super::*;
     use crate::features::research::domain::gray_rhino_evidence::{
-        GrayRhinoEvidenceCategory, GrayRhinoEvidenceSourceType, GrayRhinoSourceReference,
+        GrayRhinoEvidenceCategory, GrayRhinoEvidenceSourceType, GrayRhinoRiskEffect,
+        GrayRhinoSourceReference,
     };
 
     #[test]
@@ -146,6 +161,7 @@ mod tests {
                 retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
             },
             confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
             extraction_note: "Audit identifies fallback provider availability.".to_string(),
             structural_fact: "Fallback provider is documented for critical dependency.".to_string(),
         };
@@ -167,6 +183,7 @@ mod tests {
                 retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
             },
             confidence: 0.86,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
             extraction_note: "Supplier disclosure identifies dependency concentration.".to_string(),
             structural_fact: "Critical supplier dependency has no disclosed fallback.".to_string(),
         };
@@ -175,6 +192,33 @@ mod tests {
 
         assert_eq!(input.dependency_centralization, RiskLevel::Elevated);
         assert_eq!(input.fallback_survivability_risk, RiskLevel::Low);
-        assert!(input.notes[0].contains("ready categories: 1/4"));
+        assert!(input.notes[0].contains("amplifying categories: 1/4"));
+    }
+
+    #[test]
+    fn gray_rhino_reliability_mitigating_governance_does_not_raise_risk() {
+        let record = GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
+                source_title: "Proxy disclosure".to_string(),
+                publisher: "Example issuer".to_string(),
+                source_url: Some("https://example.com/proxy".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.88,
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
+            extraction_note: "Proxy statement reports eleven of twelve independent directors."
+                .to_string(),
+            structural_fact: "Board independence is strong and succession is disclosed."
+                .to_string(),
+        };
+
+        let input = build_evidence_backed_gray_rhino_input(&[record]).unwrap();
+
+        assert_eq!(input.risk_expansion_rate, RiskLevel::Moderate);
+        assert_eq!(input.awareness_decay, RiskLevel::Elevated);
     }
 }

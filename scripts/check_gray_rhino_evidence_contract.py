@@ -190,6 +190,16 @@ def main() -> int:
     if "GRAY_RHINO_EVIDENCE_CONTRACT.md" not in framework:
         errors.append("framework doc does not link evidence contract")
 
+    forbidden_framework_assertions = [
+        "設定入力は `gray_rhino_escalation` に限定する",
+        "現在の入力由来は `ManualConfiguration`",
+        "専用の外部リスク evidence source は未接続",
+        "source`: 現在は `ManualConfiguration` のみ",
+    ]
+    for phrase in forbidden_framework_assertions:
+        if phrase in framework:
+            errors.append(f"framework retains obsolete manual-only assertion `{phrase}`")
+
     for enum_name in ["GrayRhinoEvidenceCategory", "GrayRhinoEvidenceSourceType"]:
         if enum_name not in domain:
             errors.append(f"domain missing enum `{enum_name}`")
@@ -208,6 +218,11 @@ def main() -> int:
         "InstitutionalMaturityMetrics",
         "RedundancyEvidence",
         "RedundancyMetrics",
+        "GrayRhinoRiskEffect",
+        "risk_effect",
+        "Amplifying",
+        "Mitigating",
+        "Neutral",
         "MissingSourceReference",
         "MissingGovernanceMetric",
         "MissingDependencyMetric",

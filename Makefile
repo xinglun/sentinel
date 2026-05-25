@@ -240,10 +240,26 @@ daily-calibration:
 	cargo run -- daily-calibration $(DAILY_CALIBRATION_ARGS)
 
 gray-rhino-refresh:
-	cargo run -- collect-gray-rhino-sources --source sec $(GRAY_RHINO_REFRESH_ARGS)
-	cargo run -- collect-gray-rhino-sources --source finnhub $(GRAY_RHINO_REFRESH_ARGS)
-	cargo run -- collect-gray-rhino-sources --source fred $(GRAY_RHINO_REFRESH_ARGS)
-	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)
+	@mkdir -p reports
+	@status="succeeded"; failed=""; \
+	for provider in sec finnhub fred; do \
+		echo "== Gray Rhino refresh: $$provider =="; \
+		if cargo run -- collect-gray-rhino-sources --source $$provider $(GRAY_RHINO_REFRESH_ARGS); then \
+			eval "$${provider}_status=succeeded"; \
+		else \
+			eval "$${provider}_status=failed"; \
+			failed="$$failed $$provider"; \
+			status="partial_failure"; \
+		fi; \
+	done; \
+	if cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS); then \
+		daily_status=succeeded; \
+	else \
+		daily_status=failed; \
+		status="failed"; \
+	fi; \
+	printf '{"status":"%s","sec":"%s","finnhub":"%s","fred":"%s","daily_calibration":"%s","failed_providers":"%s"}\n' "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$daily_status" "$$failed" > reports/gray_rhino_refresh_status_latest.json; \
+	test "$$daily_status" = "succeeded"
 
 test-ai-guards:
 	python3 scripts/ai_test_guards.py

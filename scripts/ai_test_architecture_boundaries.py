@@ -78,6 +78,18 @@ def test_interface_rejects_multiline_infrastructure_dependency() -> None:
         assert violations, "interface から infrastructure への multi-line use は検出されるべき"
 
 
+def test_feature_interface_rejects_same_feature_infrastructure_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "use crate::features::research::infrastructure::gray_rhino_candidate_store::GrayRhinoCandidateStore;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "feature interface から同一 feature infrastructure への直接依存は検出されるべき"
+
+
 def test_core_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)

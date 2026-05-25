@@ -4,6 +4,10 @@ humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md
 domainModel: src/features/research/domain/gray_rhino_evidence.rs
 currentPhase: phase_4_auto_discovery
 currentObservationSource: AutoDiscovery
+formalEvidenceDirectionEnabled: true
+riskEffectField: risk_effect
+formalEscalationEvidenceSource: EvidenceStore
+manualFallbackBaseline: gray_rhino_escalation
 automatedCollectionEnabled: true
 grayRhinoAutoDiscoveryEnabled: true
 candidateDomain: src/features/research/domain/gray_rhino_candidate.rs
@@ -22,6 +26,10 @@ fredThresholdSeries:
   - RRPONTSYD
 deterministicThresholdStatesEnabled: true
 grayRhinoRefreshMakeTarget: gray-rhino-refresh
+grayRhinoRefreshPartialFailureEnabled: true
+grayRhinoRefreshStatusStore: gray_rhino_refresh_status_latest.json
+radarTelegramAppendixEnabled: true
+radarTelegramAppendixBoundary: reference_only_no_gate_trade_trend_or_market_state
 candidateScopes:
   - Company
   - Market
@@ -39,6 +47,7 @@ semanticIsolationDisplayBoundary: true
 compactSummaryEnabled: true
 noiseCalibrationEnabled: true
 dailyGithubActionsRefreshEnabled: true
+dailyGithubActionsRefreshNotifyEnabled: true
 dailyGithubActionsWorkflow: .github/workflows/daily_radar.yml
 manualRegistryPrimaryMechanism: false
 autoSourceCollectionCli: collect-gray-rhino-sources

@@ -182,7 +182,8 @@ mod tests {
         GovernanceSourceKind, GovernanceSourceManifest,
     };
     use crate::features::research::domain::gray_rhino_evidence::{
-        GrayRhinoEvidenceCategory, GrayRhinoEvidenceSourceType, GrayRhinoSourceReference,
+        GrayRhinoEvidenceCategory, GrayRhinoEvidenceSourceType, GrayRhinoRiskEffect,
+        GrayRhinoSourceReference,
     };
     use chrono::NaiveDate;
     use tempfile::tempdir;
@@ -200,6 +201,7 @@ mod tests {
                 retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
             },
             confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
             extraction_note: "Proxy statement discloses voting rights.".to_string(),
             structural_fact: "Dual class shares create unequal voting rights.".to_string(),
         }

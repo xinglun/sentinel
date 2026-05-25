@@ -200,6 +200,7 @@ Gray Rhino evidence は source を必須とする。
 - source type。
 - evidence category。
 - confidence。
+- `risk_effect`（`Amplifying` / `Mitigating` / `Neutral`）。
 - extraction note。
 
 source が不明なものは evidence として扱わない。
@@ -212,6 +213,7 @@ collector または adapter は次を満たす必要がある。
 - quote / fact と operator interpretation を分離する。
 - category を schema enum から選択する。
 - confidence は evidence quality を表し、risk severity を表さない。
+- `risk_effect` は formal assessment への方向を表す。founder voting power、dual class、single point dependency などは `Amplifying`、high board independence、fallback availability、external audit、redundancy などは `Mitigating`、方向判断に不足する事実は `Neutral` とする。
 - evidence は escalation state を直接指定しない。
 - evidence は trade signal、Gate、execution を生成しない。
 
@@ -220,6 +222,10 @@ collector または adapter は次を満たす必要がある。
 自動情報収集は Phase 4 の deterministic discovery scanner で開始する。scanner は source text から candidate を作るが、trade / Gate / execution / trend cohesion を変える signal は作らない。
 
 FRED の設定は `[fred] fred_api_key` または `FRED_API_KEY` 環境変数で与える。API key は source 取得だけに使用し、Gray Rhino candidate は独立した reference として表示する。
+
+Radar Telegram には Gray Rhino reference appendix を追加できる。この appendix は daily-calibration と同じ semantic isolation を保ち、Gate、execution、trade、trend、market state を変更しない。
+
+`make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED のいずれかが失敗しても後続 provider と daily-calibration を継続し、`gray_rhino_refresh_status_latest.json` に `succeeded` / `partial_failure` / `failed` / `skipped` を保存する。
 
 ### Phase 1: Human Structured Governance Observation
 

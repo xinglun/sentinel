@@ -198,6 +198,8 @@ jobs:
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           set -euo pipefail
           DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
@@ -238,11 +240,28 @@ jobs:
           cat "${OUTPUT_FILE}"
 
           if [ "${EXIT_CODE}" -eq 0 ]; then
-            write_status "succeeded" ""
-            echo "✅ Gray Rhino refresh completed."
+            REFRESH_STATUS="$(python - <<'PY'
+          import json
+          try:
+              data = json.load(open("reports/gray_rhino_refresh_status_latest.json", encoding="utf-8"))
+              print(data.get("status", "succeeded"))
+          except Exception:
+              print("succeeded")
+          PY
+          )"
+            echo "✅ Gray Rhino refresh completed with status=${REFRESH_STATUS}."
+            set +e
+            cargo run --release -- daily-calibration --date "${DATE_JST}" --notify
+            NOTIFY_EXIT=$?
+            set -e
+            if [ "${NOTIFY_EXIT}" -ne 0 ]; then
+              echo "⚠️ Gray Rhino daily-calibration notification failed after refresh."
+            fi
           else
             REASON="$(tail -n 20 "${OUTPUT_FILE}" | tr '\n' ' ' | cut -c1-1000)"
-            write_status "failed" "${REASON}"
+            if [ ! -f "${STATUS_PATH}" ]; then
+              write_status "failed" "${REASON}"
+            fi
             echo "⚠️ Gray Rhino refresh failed but daily radar will continue."
           fi
           exit 0

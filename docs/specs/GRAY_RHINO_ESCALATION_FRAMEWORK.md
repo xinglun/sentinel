@@ -20,14 +20,22 @@ Gray Rhino 専用 evidence の分類、source traceability、narrative rejection
 実装は次の境界に従う。
 
 - domain model と状態判定は `src/features/research/domain/gray_rhino.rs` に置く。
-- CLI / Markdown / Telegram 表示は `src/features/research/interface/gray_rhino_report.rs` に置く。
-- 日次評価の生成は `src/features/research/application/gray_rhino_assessment.rs` に置く。
+- CLI / Markdown / Telegram 表示は `src/features/research/interface/gray_rhino_report.rs` に置き、表示用 view の変換に限定する。
+- 日次評価の生成は `src/features/research/application/gray_rhino_assessment.rs` に置き、formal evidence の方向性を保持して評価する。
 - 日次 snapshot の JSONL 永続化は `src/features/research/infrastructure/gray_rhino_snapshot_store.rs` に置く。
-- CLI command は観測レポート出力だけを行い、取引・Gate・execution へ接続しない。
-- 設定入力は `gray_rhino_escalation` に限定する。
-- `daily-calibration` は独立した Gray Rhino セクションを出力し、他の校正セクションや判断結果を変更しない。
+- 自動発見候補の永続化は `gray_rhino_candidates.jsonl`、source / ops audit は `gray_rhino_sources` と `gray_rhino_discovery_runs.jsonl` に保持する。
+- CLI command は use case / facade を呼び出す dispatch に限定し、取引・Gate・execution へ接続しない。
+- `daily-calibration` と Radar Telegram appendix は独立した Gray Rhino reference section を出力し、他の校正セクションや判断結果を変更しない。
 
-## 設定方法
+## 現在の入力モデル
+
+Gray Rhino は次の 3 系統を明示的に区別する。
+
+- `formal escalation evidence`: evidence store に保存された構造化 evidence。`risk_effect` により `Amplifying` / `Mitigating` / `Neutral` を区別し、保護的事実をリスク拡大として扱わない。
+- `auto-discovered observation candidates`: SEC / Finnhub / FRED などから自動収集された source text と threshold assessment から生成される観測候補。日報では追跡参考として表示し、formal escalation score を直接上書きしない。
+- `manual fallback baseline`: `config.toml` の `[gray_rhino_escalation]` による運用者管理の初期値。formal evidence がない場合の fallback であり、自動収集 fact として表示しない。
+
+## Manual Fallback Baseline
 
 `config.toml` は運用者が管理する設定であり、AI hard gate では自動更新しない。日次校正レポートに Gray Rhino を表示する場合、運用者は次の観測初期値を `config.toml` に追加する。
 
@@ -46,7 +54,7 @@ notes = []
 
 この初期値は取引判断ではなく、依存集中を含む構造的観測の開始点である。各観測値と `notes` は事実確認済みの運用入力に基づいて更新する。`notes` を追加する場合は、`output.language` の表示言語に合わせて入力する。
 
-現在の入力由来は `ManualConfiguration`（手動構造ベースライン）である。専用の外部リスク evidence source は未接続であり、設定入力を自動収集した事実として表示してはならない。
+この設定は `manual fallback baseline` であり、`formal escalation evidence` と `auto-discovered observation candidates` より優先される自動 fact ではない。
 
 ## 目的
 
@@ -69,21 +77,21 @@ notes = []
 
 各 risk 入力は `LOW`、`MODERATE`、`ELEVATED`、`HIGH` を取る。
 
-## 日次監査 snapshot
+## 日次監査 snapshot と自動観測
 
 `daily-calibration` 実行時、表示された評価は `gray_rhino_snapshots.jsonl` に追記型 snapshot として保持する。
 
-snapshot は次を含む。
+formal escalation snapshot は次を含む。
 
 - `as_of_date`: 市場監査ログと一致する業務日。監査ログがない場合は実行日。
-- `source`: 現在は `ManualConfiguration` のみ。
+- `source`: `ManualConfiguration` または `EvidenceStore`。
 - `escalation`: 状態と入力観測項目。
 
 日報には評価日、入力由来、前回日次評価との差分を表示する。同一日の同一 snapshot の再実行は重複追記しない。これにより、灰色のサイ観測値がいつ変更されたかを監査可能にする。
 
 日報は `手動構造ベースライン -> 7 観測項目 -> 日次 snapshot` という監査チェーンと、明示ルール判定で再生可能であることを表示する。このチェーンは外部 fact evidence chain ではなく、現在の手動入力評価がどの経路で状態へ変換されたかを示す lineage である。
 
-本 snapshot は自動情報収集を意味しない。将来、専用の構造リスク evidence adapter を追加する場合も、由来と証拠日を snapshot に保持し、手動入力と区別する。
+自動発見候補は formal escalation snapshot と分離して `gray_rhino_candidates.jsonl` に保存し、monitoring state machine が `New` / `Stable` / `Intensifying` / `Cooling` / `Resolved` を評価する。候補は watchlist inline reference、market reference、other company reference として表示されるが、Gate、execution、trend、market state を変更しない。
 
 ## 状態
 

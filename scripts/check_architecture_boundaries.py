@@ -354,6 +354,13 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} -> {imported_layer}"))
             if layer == "infrastructure" and imported_layer == "interface":
                 violations.append(Violation(path, line_no, import_path, "feature infrastructure -> interface"))
+            if (
+                feature == "research"
+                and layer == "interface"
+                and imported_feature == feature
+                and imported_layer == "infrastructure"
+            ):
+                violations.append(Violation(path, line_no, import_path, "feature interface -> infrastructure"))
             if layer == "acl" and imported_feature != feature and imported_layer == "infrastructure":
                 violations.append(Violation(path, line_no, import_path, "acl concrete feature dependency"))
             if layer != "acl" and imported_feature != feature and imported_layer in {"infrastructure", "acl"}:

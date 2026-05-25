@@ -1,4 +1,7 @@
 use crate::config::{self, GrayRhinoRiskLevel};
+use crate::features::research::acl::gray_rhino_store_factory::{
+    GrayRhinoCandidateStore, GrayRhinoEvidenceStore, GrayRhinoSnapshotStore,
+};
 use crate::features::research::application::dependency_evidence::DependencyEvidenceRepository;
 use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
@@ -24,9 +27,6 @@ use crate::features::research::domain::gray_rhino::{
 use crate::features::research::domain::gray_rhino_candidate::{
     GrayRhinoCandidate, GrayRhinoCandidateScope,
 };
-use crate::features::research::infrastructure::gray_rhino_candidate_store::GrayRhinoCandidateStore;
-use crate::features::research::infrastructure::gray_rhino_evidence_store::GrayRhinoEvidenceStore;
-use crate::features::research::infrastructure::gray_rhino_snapshot_store::GrayRhinoSnapshotStore;
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
@@ -71,9 +71,9 @@ pub(crate) fn build_gray_rhino_daily_report(
             let mut report = gray_rhino_empty(language).to_string();
             report.push_str("\n\n");
             report.push_str(&render_auto_discovery_inline_reference(
-                app_config, save_dir, as_of_date,
+                app_config, save_dir, as_of_date, language,
             ));
-            if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir) {
+            if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir, language) {
                 report.push_str("\n\n");
                 report.push_str(&discovery_ops_view);
             }
@@ -90,9 +90,9 @@ pub(crate) fn build_gray_rhino_daily_report(
     }
     report.push_str("\n\n");
     report.push_str(&render_auto_discovery_inline_reference(
-        app_config, save_dir, as_of_date,
+        app_config, save_dir, as_of_date, language,
     ));
-    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir) {
+    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir, language) {
         report.push_str("\n\n");
         report.push_str(&discovery_ops_view);
     }
@@ -280,13 +280,13 @@ fn gray_rhino_title(language: Language) -> &'static str {
 fn gray_rhino_empty(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "灰犀牛升级监控（Gray Rhino Escalation）\n\n未配置灰犀牛风险升级观察项。\n\n当前未启用观察项，因此本节不参与日报判断。\n\n边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"
+            "灰犀牛升级监控（Gray Rhino Escalation）\n\n风险升级评估: 尚无正式 evidence / 未启用人工基线。\n\n自动观察候选会在下方独立列出，仅供跟踪。\n\n边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"
         }
         Language::EnUs => {
-            "Gray Rhino Escalation\n\nNo gray rhino escalation monitor is configured.\n\nNo observation item is enabled, so this section does not participate in daily report judgment.\n\nGray Rhino Escalation is a structural escalation monitor. It does not generate trading signals."
+            "Gray Rhino Escalation\n\nFormal escalation assessment: no formal evidence / manual baseline is enabled.\n\nAuto-discovered observation candidates are listed below as isolated tracking reference.\n\nGray Rhino Escalation is a structural escalation monitor. It does not generate trading signals."
         }
         Language::JaJp => {
-            "灰色のサイ昇格監視（Gray Rhino Escalation）\n\n灰色のサイのリスク昇格観測項目は未設定です。\n\n現在有効な観測項目がないため、このセクションは日次判断に参加しない。\n\n境界声明: 灰色のサイ昇格監視は構造的リスクの昇格だけを観測し、取引シグナルを生成しない。"
+            "灰色のサイ昇格監視（Gray Rhino Escalation）\n\n正式な昇格評価: formal evidence / 手動ベースラインは未有効です。\n\n自動発見された観測候補は下部に独立した追跡参考として表示します。\n\n境界声明: 灰色のサイ昇格監視は構造的リスクの昇格だけを観測し、取引シグナルを生成しない。"
         }
     }
 }
@@ -488,7 +488,7 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
         out.push('\n');
         out.push_str(&ops_view);
     }
-    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir) {
+    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir, language) {
         out.push('\n');
         out.push_str(&discovery_ops_view);
     }
@@ -540,29 +540,32 @@ fn render_backfill_ops_view(save_dir: &Path) -> Option<String> {
     Some(out)
 }
 
-fn render_discovery_ops_view(save_dir: &Path) -> Option<String> {
+fn render_discovery_ops_view(save_dir: &Path, language: Language) -> Option<String> {
     let path = save_dir.join("gray_rhino_discovery_runs.jsonl");
     let raw = std::fs::read_to_string(path).ok()?;
     let latest = raw.lines().rev().find(|line| !line.trim().is_empty())?;
     let value: serde_json::Value = serde_json::from_str(latest).ok()?;
     let mut out = String::new();
-    out.push_str("Auto Discovery Ops View\n");
+    out.push_str(auto_discovery_ops_title(language));
     out.push_str(&format!(
-        "- latest_run: {}\n",
+        "- {}: {}\n",
+        latest_run_label(language),
         value
             .get("run_id")
             .and_then(|value| value.as_str())
             .unwrap_or("unknown")
     ));
     out.push_str(&format!(
-        "- source_count: {}\n",
+        "- {}: {}\n",
+        source_count_label(language),
         value
             .get("source_count")
             .and_then(|value| value.as_u64())
             .unwrap_or(0)
     ));
     out.push_str(&format!(
-        "- candidate_count: {}\n",
+        "- {}: {}\n",
+        candidate_count_label(language),
         value
             .get("candidate_count")
             .and_then(|value| value.as_u64())
@@ -575,21 +578,23 @@ fn render_auto_discovery_inline_reference(
     app_config: &config::AppConfig,
     save_dir: &Path,
     as_of_date: NaiveDate,
+    language: Language,
 ) -> String {
     let candidates = collect_auto_discovered_candidates(app_config, save_dir, as_of_date);
     let display_candidates = dedupe_candidates(candidates.clone());
     let monitoring_statuses = evaluate_gray_rhino_monitoring_states(&candidates, as_of_date);
     format!(
         "{}\n\n{}\n\n{}",
-        render_gray_rhino_compact_summary(&display_candidates, &monitoring_statuses),
-        render_watchlist_inline_candidates(app_config, &display_candidates),
-        render_watchlist_inline_monitoring(app_config, &monitoring_statuses)
+        render_gray_rhino_compact_summary(&display_candidates, &monitoring_statuses, language),
+        render_watchlist_inline_candidates(app_config, &display_candidates, language),
+        render_watchlist_inline_monitoring(app_config, &monitoring_statuses, language)
     )
 }
 
 fn render_gray_rhino_compact_summary(
     candidates: &[GrayRhinoCandidate],
     statuses: &[GrayRhinoMonitoringStatus],
+    language: Language,
 ) -> String {
     let market_active = candidates
         .iter()
@@ -610,12 +615,12 @@ fn render_gray_rhino_compact_summary(
         .collect::<BTreeSet<_>>();
 
     let company_summary = if company_subjects.is_empty() {
-        "none".to_string()
+        none_label(language).to_string()
     } else {
         company_subjects.into_iter().collect::<Vec<_>>().join(", ")
     };
     let intensifying_summary = if intensifying_subjects.is_empty() {
-        "none".to_string()
+        none_label(language).to_string()
     } else {
         intensifying_subjects
             .into_iter()
@@ -624,33 +629,47 @@ fn render_gray_rhino_compact_summary(
     };
 
     format!(
-        "Gray Rhino Summary (semantic isolation)\n- Market active candidates: {market_active}\n- Company active candidates: {company_summary}\n- Company intensifying watch: {intensifying_summary}\nBoundary: summary only; no trading, Gate, trend, or market-state mutation."
+        "{}\n- {}: {market_active}\n- {}: {company_summary}\n- {}: {intensifying_summary}\n{}",
+        gray_rhino_summary_title(language),
+        market_active_label(language),
+        company_active_label(language),
+        company_intensifying_label(language),
+        summary_boundary_label(language)
     )
 }
 
 fn render_watchlist_inline_candidates(
     app_config: &config::AppConfig,
     candidates: &[GrayRhinoCandidate],
+    language: Language,
 ) -> String {
     if candidates.is_empty() {
-        return "Gray Rhino Inline Reference: none auto-discovered.\nBoundary: reference only; no trading, Gate, trend, or market-state mutation.".to_string();
+        return format!(
+            "{}: {}\n{}",
+            inline_reference_title(language),
+            none_auto_discovered_label(language),
+            reference_boundary_label(language)
+        );
     }
 
-    let mut out = String::from("Gray Rhino Inline Reference (semantic isolation)\n");
+    let mut out = format!("{}\n", inline_reference_title(language));
     let market_candidates = candidates
         .iter()
         .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Market)
         .collect::<Vec<_>>();
-    out.push_str("Market Reference\n");
+    out.push_str(market_reference_title(language));
+    out.push('\n');
     if market_candidates.is_empty() {
-        out.push_str("- none\n");
+        out.push_str(&format!("- {}\n", none_label(language)));
     } else {
         for candidate in market_candidates {
-            append_candidate_line(&mut out, candidate);
+            append_candidate_line(&mut out, candidate, language);
         }
     }
 
-    out.push_str("\nWatchlist Inline Reference\n");
+    out.push('\n');
+    out.push_str(watchlist_reference_title(language));
+    out.push('\n');
     let by_subject = group_company_candidates(candidates);
     let watch_symbols = enabled_watch_symbols(app_config);
     let watch_symbol_keys = watch_symbols
@@ -661,10 +680,14 @@ fn render_watchlist_inline_candidates(
         out.push_str(&format!("- {symbol}\n"));
         if let Some(items) = by_subject.get(&symbol.to_uppercase()) {
             for candidate in items {
-                append_candidate_line(&mut out, candidate);
+                append_candidate_line(&mut out, candidate, language);
             }
         } else {
-            out.push_str("  Company Gray Rhino: none\n");
+            out.push_str(&format!(
+                "  {}: {}\n",
+                company_gray_rhino_label(language),
+                none_label(language)
+            ));
         }
     }
     let other_subjects = by_subject
@@ -672,43 +695,54 @@ fn render_watchlist_inline_candidates(
         .filter(|subject| !watch_symbol_keys.contains(*subject))
         .collect::<Vec<_>>();
     if !other_subjects.is_empty() {
-        out.push_str("\nOther Company Reference\n");
+        out.push('\n');
+        out.push_str(other_company_reference_title(language));
+        out.push('\n');
         for subject in other_subjects {
             out.push_str(&format!("- {subject}\n"));
             if let Some(items) = by_subject.get(subject) {
                 for candidate in items {
-                    append_candidate_line(&mut out, candidate);
+                    append_candidate_line(&mut out, candidate, language);
                 }
             }
         }
     }
-    out.push_str("Boundary: reference only; no trading, Gate, trend, or market-state mutation.");
+    out.push_str(reference_boundary_label(language));
     out
 }
 
 fn render_watchlist_inline_monitoring(
     app_config: &config::AppConfig,
     statuses: &[GrayRhinoMonitoringStatus],
+    language: Language,
 ) -> String {
     if statuses.is_empty() {
-        return "Gray Rhino Monitoring Status: none.\nBoundary: reference only; no trading, Gate, trend, or market-state mutation.".to_string();
+        return format!(
+            "{}: {}.\n{}",
+            monitoring_status_title(language),
+            none_label(language),
+            reference_boundary_label(language)
+        );
     }
 
-    let mut out = String::from("Gray Rhino Monitoring State (semantic isolation)\n");
+    let mut out = format!("{}\n", monitoring_state_title(language));
     let market_statuses = statuses
         .iter()
         .filter(|status| status.scope == GrayRhinoCandidateScope::Market)
         .collect::<Vec<_>>();
-    out.push_str("Market Reference\n");
+    out.push_str(market_reference_title(language));
+    out.push('\n');
     if market_statuses.is_empty() {
-        out.push_str("- none\n");
+        out.push_str(&format!("- {}\n", none_label(language)));
     } else {
         for status in market_statuses {
-            append_monitoring_line(&mut out, status);
+            append_monitoring_line(&mut out, status, language);
         }
     }
 
-    out.push_str("\nWatchlist Inline Monitoring\n");
+    out.push('\n');
+    out.push_str(watchlist_monitoring_title(language));
+    out.push('\n');
     let by_subject = group_company_statuses(statuses);
     let watch_symbols = enabled_watch_symbols(app_config);
     let watch_symbol_keys = watch_symbols
@@ -719,10 +753,14 @@ fn render_watchlist_inline_monitoring(
         out.push_str(&format!("- {symbol}\n"));
         if let Some(items) = by_subject.get(&symbol.to_uppercase()) {
             for status in items {
-                append_monitoring_line(&mut out, status);
+                append_monitoring_line(&mut out, status, language);
             }
         } else {
-            out.push_str("  Company Gray Rhino monitoring: none\n");
+            out.push_str(&format!(
+                "  {}: {}\n",
+                company_gray_rhino_monitoring_label(language),
+                none_label(language)
+            ));
         }
     }
     let other_subjects = by_subject
@@ -730,21 +768,23 @@ fn render_watchlist_inline_monitoring(
         .filter(|subject| !watch_symbol_keys.contains(*subject))
         .collect::<Vec<_>>();
     if !other_subjects.is_empty() {
-        out.push_str("\nOther Company Monitoring\n");
+        out.push('\n');
+        out.push_str(other_company_monitoring_title(language));
+        out.push('\n');
         for subject in other_subjects {
             out.push_str(&format!("- {subject}\n"));
             if let Some(items) = by_subject.get(subject) {
                 for status in items {
-                    append_monitoring_line(&mut out, status);
+                    append_monitoring_line(&mut out, status, language);
                 }
             }
         }
     }
-    out.push_str("Boundary: reference only; no trading, Gate, trend, or market-state mutation.");
+    out.push_str(reference_boundary_label(language));
     out
 }
 
-fn append_candidate_line(out: &mut String, candidate: &GrayRhinoCandidate) {
+fn append_candidate_line(out: &mut String, candidate: &GrayRhinoCandidate, language: Language) {
     out.push_str(&format!(
         "  - {} / {:?} / {:?} / {:?}: {}\n",
         candidate.subject,
@@ -755,26 +795,262 @@ fn append_candidate_line(out: &mut String, candidate: &GrayRhinoCandidate) {
     ));
     if !candidate.watch_triggers.is_empty() {
         out.push_str(&format!(
-            "    Trigger watch: {}\n",
+            "    {}: {}\n",
+            trigger_watch_label(language),
             candidate.watch_triggers.join(" / ")
         ));
     }
 }
 
-fn append_monitoring_line(out: &mut String, status: &GrayRhinoMonitoringStatus) {
+fn append_monitoring_line(
+    out: &mut String,
+    status: &GrayRhinoMonitoringStatus,
+    language: Language,
+) {
     out.push_str(&format!(
-        "  - {} / {:?} / {:?}: {:?} ({:?}, observations: {}, latest: {}, stale_days: {})\n",
+        "  - {} / {:?} / {:?}: {:?} ({:?}, {}: {}, {}: {}, {}: {})\n",
         status.subject,
         status.scope,
         status.kind,
         status.current_state,
         status.direction,
+        observations_label(language),
         status.observation_count,
+        latest_label(language),
         status.latest_observed_at,
+        stale_days_label(language),
         status.stale_days
     ));
     if let Some(previous_state) = status.previous_state {
-        out.push_str(&format!("    Previous state: {:?}\n", previous_state));
+        out.push_str(&format!(
+            "    {}: {:?}\n",
+            previous_state_label(language),
+            previous_state
+        ));
+    }
+}
+
+fn gray_rhino_summary_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "灰犀牛摘要（语义隔离）",
+        Language::EnUs => "Gray Rhino Summary (semantic isolation)",
+        Language::JaJp => "灰色のサイ要約（意味的に隔離）",
+    }
+}
+
+fn market_active_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "市场活跃候选",
+        Language::EnUs => "Market active candidates",
+        Language::JaJp => "市場の有効候補",
+    }
+}
+
+fn company_active_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "公司活跃候选",
+        Language::EnUs => "Company active candidates",
+        Language::JaJp => "企業の有効候補",
+    }
+}
+
+fn company_intensifying_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "公司升温观察",
+        Language::EnUs => "Company intensifying watch",
+        Language::JaJp => "企業の強まり観測",
+    }
+}
+
+fn inline_reference_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "灰犀牛内联参考（语义隔离）",
+        Language::EnUs => "Gray Rhino Inline Reference (semantic isolation)",
+        Language::JaJp => "灰色のサイ inline 参考（意味的に隔離）",
+    }
+}
+
+fn market_reference_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "市场参考",
+        Language::EnUs => "Market Reference",
+        Language::JaJp => "市場参考",
+    }
+}
+
+fn watchlist_reference_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Watchlist 内联参考",
+        Language::EnUs => "Watchlist Inline Reference",
+        Language::JaJp => "Watchlist inline 参考",
+    }
+}
+
+fn other_company_reference_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "其他公司参考",
+        Language::EnUs => "Other Company Reference",
+        Language::JaJp => "その他企業参考",
+    }
+}
+
+fn monitoring_status_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "灰犀牛监控状态",
+        Language::EnUs => "Gray Rhino Monitoring Status",
+        Language::JaJp => "灰色のサイ監視状態",
+    }
+}
+
+fn monitoring_state_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "灰犀牛监控状态（语义隔离）",
+        Language::EnUs => "Gray Rhino Monitoring State (semantic isolation)",
+        Language::JaJp => "灰色のサイ監視状態（意味的に隔離）",
+    }
+}
+
+fn watchlist_monitoring_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Watchlist 内联监控",
+        Language::EnUs => "Watchlist Inline Monitoring",
+        Language::JaJp => "Watchlist inline 監視",
+    }
+}
+
+fn other_company_monitoring_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "其他公司监控",
+        Language::EnUs => "Other Company Monitoring",
+        Language::JaJp => "その他企業監視",
+    }
+}
+
+fn reference_boundary_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "边界声明: 仅作结构风险参考；不改变交易、Gate、trend 或 market state。",
+        Language::EnUs => {
+            "Boundary: reference only; no trading, Gate, trend, or market-state mutation."
+        }
+        Language::JaJp => {
+            "境界声明: 構造リスクの参考のみで、取引、Gate、trend、market state は変更しない。"
+        }
+    }
+}
+
+fn summary_boundary_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "边界声明: 摘要仅供参考；不改变交易、Gate、trend 或 market state。",
+        Language::EnUs => {
+            "Boundary: summary only; no trading, Gate, trend, or market-state mutation."
+        }
+        Language::JaJp => {
+            "境界声明: 要約は参考のみで、取引、Gate、trend、market state は変更しない。"
+        }
+    }
+}
+
+fn none_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "无",
+        Language::EnUs => "none",
+        Language::JaJp => "なし",
+    }
+}
+
+fn none_auto_discovered_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "未发现自动候选",
+        Language::EnUs => "none auto-discovered",
+        Language::JaJp => "自動発見候補なし",
+    }
+}
+
+fn company_gray_rhino_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "公司灰犀牛",
+        Language::EnUs => "Company Gray Rhino",
+        Language::JaJp => "企業灰色のサイ",
+    }
+}
+
+fn company_gray_rhino_monitoring_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "公司灰犀牛监控",
+        Language::EnUs => "Company Gray Rhino monitoring",
+        Language::JaJp => "企業灰色のサイ監視",
+    }
+}
+
+fn trigger_watch_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "触发观察",
+        Language::EnUs => "Trigger watch",
+        Language::JaJp => "トリガー観測",
+    }
+}
+
+fn observations_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "观测次数",
+        Language::EnUs => "observations",
+        Language::JaJp => "観測回数",
+    }
+}
+
+fn latest_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "最新",
+        Language::EnUs => "latest",
+        Language::JaJp => "最新",
+    }
+}
+
+fn stale_days_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "陈旧天数",
+        Language::EnUs => "stale_days",
+        Language::JaJp => "古さ（日）",
+    }
+}
+
+fn previous_state_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "前次状态",
+        Language::EnUs => "Previous state",
+        Language::JaJp => "前回状態",
+    }
+}
+
+fn auto_discovery_ops_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "自动发现运维视图\n",
+        Language::EnUs => "Auto Discovery Ops View\n",
+        Language::JaJp => "自動発見運用ビュー\n",
+    }
+}
+
+fn latest_run_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "最新运行",
+        Language::EnUs => "latest_run",
+        Language::JaJp => "最新実行",
+    }
+}
+
+fn source_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "source 数",
+        Language::EnUs => "source_count",
+        Language::JaJp => "source 数",
+    }
+}
+
+fn candidate_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "候选数",
+        Language::EnUs => "candidate_count",
+        Language::JaJp => "候補数",
     }
 }
 
