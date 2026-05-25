@@ -319,6 +319,54 @@ fn gray_rhino_daily_report_shows_governance_sensor_health_only() {
     assert!(!stdout.contains("SELL"));
 }
 
+#[test]
+fn governance_sec_replay_pack_produces_coverage_and_rejections() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let fixtures = [
+        "example_def14a_full.txt",
+        "example_10k_board.txt",
+        "example_s1_dual_class.txt",
+        "example_20f_succession.txt",
+        "example_metricless.txt",
+    ];
+
+    for fixture in fixtures {
+        let path = root.join("tests/fixtures/governance_sec").join(fixture);
+        let out = run_cli(
+            &tmp,
+            &[
+                "collect-gray-rhino-governance",
+                "--symbol",
+                fixture.trim_end_matches(".txt"),
+                "--file",
+                path.to_str().unwrap(),
+                "--date",
+                "2026-05-25",
+            ],
+        );
+        assert!(out.status.success());
+    }
+
+    let audit = fs::read_to_string(
+        tmp.path()
+            .join("gray_rhino_governance_extraction_audit.jsonl"),
+    )
+    .expect("failed to read governance extraction audit");
+    assert_eq!(audit.lines().count(), 5);
+    assert!(audit.contains("\"accepted\":true"));
+    assert!(audit.contains("\"accepted\":false"));
+    assert!(audit.contains("MissingGovernanceMetric"));
+
+    let manifest = fs::read_to_string(
+        tmp.path()
+            .join("gray_rhino_governance_source_manifest.jsonl"),
+    )
+    .expect("failed to read governance source manifest");
+    assert_eq!(manifest.lines().count(), 5);
+    assert!(manifest.contains("\"content_sha256\""));
+}
+
 fn run_cli(tmp: &TempDir, args: &[&str]) -> std::process::Output {
     Command::new(env!("CARGO_BIN_EXE_stock-sentinel"))
         .current_dir(tmp.path())

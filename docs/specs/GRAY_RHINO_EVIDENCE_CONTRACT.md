@@ -171,6 +171,12 @@ adapter は deterministic extraction のみを許可する。`founder_voting_pow
 
 日次 report へ表示できるのは sensor health のみである。sensor health は source count、accepted / rejected count、coverage ratio、latest observed date を示すが、Gray Rhino escalation state を変更しない。
 
+### Phase 3-A: Governance SEC Replay Pack
+
+本 Work Item の対象。`tests/fixtures/governance_sec` に SEC governance filing 風の replay fixture pack を置き、deterministic extractor の field coverage と rejection taxonomy を検証する。
+
+rejection taxonomy は `MetriclessSource`、`SourceInvalid`、`ExtractionInvalid` に限定する。fixture replay は実ネットワークに接続せず、実 source 接続の前に sensor quality を測るためだけに使う。
+
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 
 本 Work Item の対象外。dependency graph は動的であるため、GovernanceConcentration sensor が安定してから追加する。

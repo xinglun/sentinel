@@ -1,0 +1,6 @@
+DEF 14A proxy statement
+founder voting power: 61.2%
+independent board ratio: 0.42
+dual class structure: true
+super voting rights: yes
+succession disclosure: disclosed

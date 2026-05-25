@@ -59,6 +59,13 @@ pub struct GovernanceExtractionAuditRecord {
     pub rejection_reason: Option<String>,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum GovernanceReplayRejectionKind {
+    MetriclessSource,
+    SourceInvalid,
+    ExtractionInvalid,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GovernanceSourceRejection {
     MissingContent,

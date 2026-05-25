@@ -1,0 +1,4 @@
+20-F board and succession disclosure
+board independence ratio: 80
+succession disclosure: yes
+super-voting rights: no

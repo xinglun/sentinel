@@ -3,7 +3,8 @@ use crate::features::research::application::governance_evidence::{
 };
 use crate::features::research::domain::governance_source::{
     GovernanceExtractionAuditRecord, GovernanceMetricAuditEntry, GovernanceMetricAuditStatus,
-    GovernanceSourceDocument, GovernanceSourceKind, GovernanceSourceManifest,
+    GovernanceReplayRejectionKind, GovernanceSourceDocument, GovernanceSourceKind,
+    GovernanceSourceManifest,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
     GovernanceConcentrationEvidence, GovernanceConcentrationMetrics, GrayRhinoEvidenceSourceType,
@@ -62,6 +63,25 @@ pub trait GovernanceSourceAuditRepository {
 pub trait GovernanceEvidenceAuditRepository:
     GovernanceEvidenceRepository + GovernanceSourceAuditRepository
 {
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[allow(dead_code)]
+pub struct GovernanceFieldCoverage {
+    pub metric: String,
+    pub extracted_count: usize,
+    pub missing_count: usize,
+    pub invalid_count: usize,
+    pub coverage_ratio: f64,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[allow(dead_code)]
+pub struct GovernanceReplayCoverageReport {
+    pub source_count: usize,
+    pub accepted_count: usize,
+    pub rejected_count: usize,
+    pub metric_coverage: Vec<GovernanceFieldCoverage>,
 }
 
 impl<T> GovernanceEvidenceAuditRepository for T where
@@ -184,6 +204,68 @@ pub fn build_governance_extraction_audit(
         metrics,
         accepted,
         rejection_reason,
+    }
+}
+
+#[allow(dead_code)]
+pub fn build_governance_field_coverage_report(
+    audits: &[GovernanceExtractionAuditRecord],
+) -> GovernanceReplayCoverageReport {
+    let metric_names = [
+        "founder_voting_power",
+        "independent_board_ratio",
+        "dual_class_structure",
+        "super_voting_rights",
+        "succession_disclosure",
+    ];
+    let metric_coverage = metric_names
+        .iter()
+        .map(|metric| {
+            let mut extracted_count = 0;
+            let mut missing_count = 0;
+            let mut invalid_count = 0;
+            for audit in audits {
+                if let Some(entry) = audit.metrics.iter().find(|entry| entry.metric == *metric) {
+                    match entry.status {
+                        GovernanceMetricAuditStatus::Extracted => extracted_count += 1,
+                        GovernanceMetricAuditStatus::Missing => missing_count += 1,
+                        GovernanceMetricAuditStatus::Invalid => invalid_count += 1,
+                    }
+                } else {
+                    missing_count += 1;
+                }
+            }
+            let coverage_ratio = if audits.is_empty() {
+                0.0
+            } else {
+                extracted_count as f64 / audits.len() as f64
+            };
+            GovernanceFieldCoverage {
+                metric: (*metric).to_string(),
+                extracted_count,
+                missing_count,
+                invalid_count,
+                coverage_ratio,
+            }
+        })
+        .collect();
+
+    GovernanceReplayCoverageReport {
+        source_count: audits.len(),
+        accepted_count: audits.iter().filter(|audit| audit.accepted).count(),
+        rejected_count: audits.iter().filter(|audit| !audit.accepted).count(),
+        metric_coverage,
+    }
+}
+
+#[allow(dead_code)]
+pub fn classify_governance_rejection(reason: &str) -> GovernanceReplayRejectionKind {
+    if reason.contains("MissingGovernanceMetric") {
+        GovernanceReplayRejectionKind::MetriclessSource
+    } else if reason.contains("Invalid governance source document") {
+        GovernanceReplayRejectionKind::SourceInvalid
+    } else {
+        GovernanceReplayRejectionKind::ExtractionInvalid
     }
 }
 
@@ -481,5 +563,40 @@ mod tests {
             .iter()
             .any(|metric| metric.metric == "succession_disclosure"
                 && metric.status == GovernanceMetricAuditStatus::Missing));
+    }
+
+    #[test]
+    fn coverage_report_summarizes_fixture_replay_quality() {
+        let accepted = build_governance_extraction_audit(
+            &document("founder_voting_power: 61.2%; dual_class_structure: true"),
+            None,
+        );
+        let rejected = GovernanceExtractionAuditRecord {
+            accepted: false,
+            rejection_reason: Some(
+                "Invalid extracted governance evidence: MissingGovernanceMetric".to_string(),
+            ),
+            ..build_governance_extraction_audit(&document("generic governance prose only"), None)
+        };
+
+        let report = build_governance_field_coverage_report(&[accepted, rejected]);
+
+        assert_eq!(report.source_count, 2);
+        assert_eq!(report.accepted_count, 1);
+        assert!(report.metric_coverage.iter().any(|metric| {
+            metric.metric == "founder_voting_power"
+                && metric.extracted_count == 1
+                && metric.coverage_ratio == 0.5
+        }));
+    }
+
+    #[test]
+    fn rejection_taxonomy_distinguishes_metricless_sources() {
+        assert_eq!(
+            classify_governance_rejection(
+                "Invalid extracted governance evidence: MissingGovernanceMetric"
+            ),
+            GovernanceReplayRejectionKind::MetriclessSource
+        );
     }
 }

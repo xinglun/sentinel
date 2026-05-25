@@ -13,6 +13,7 @@ FRAMEWORK_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
 DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.rs"
 GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
 ASSESSMENT_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_assessment.rs"
+REPLAY_FIXTURE_DIR = PROJECT_ROOT / "tests/fixtures/governance_sec"
 
 REQUIRED_CATEGORIES = {
     "GovernanceConcentration",
@@ -76,6 +77,7 @@ def main() -> int:
         "governanceSourceCache: gray_rhino_sources/governance",
         "governanceSourceManifest: gray_rhino_governance_source_manifest.jsonl",
         "governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl",
+        "governanceReplayFixturePack: tests/fixtures/governance_sec",
         "evidence_must_not_set_escalation_state: true",
     }
     for item in required_schema_pairs:
@@ -110,8 +112,10 @@ def main() -> int:
         "Phase 3-A: Governance Concentration Evidence Pipeline",
         "Phase 3-A: Governance Source Adapter",
         "Phase 3-A: Governance Backfill And Extraction Audit",
+        "Phase 3-A: Governance SEC Replay Pack",
         "repository-local structured JSON",
         "deterministic extraction",
+        "rejection taxonomy",
         "sensor health",
         "自動情報収集",
     ]
@@ -148,9 +152,14 @@ def main() -> int:
         "GovernanceSourceManifest",
         "GovernanceExtractionAuditRecord",
         "GovernanceMetricAuditStatus",
+        "GovernanceReplayRejectionKind",
     ]:
         if item not in governance_source:
             errors.append(f"governance source domain missing `{item}`")
+    if not REPLAY_FIXTURE_DIR.exists():
+        errors.append("governance SEC replay fixture pack is missing")
+    elif len(list(REPLAY_FIXTURE_DIR.glob("*.txt"))) < 5:
+        errors.append("governance SEC replay fixture pack must include at least 5 fixtures")
 
     if "validate_gray_rhino_evidence_contract" not in assessment:
         errors.append("application boundary does not expose evidence contract validation")
@@ -164,12 +173,17 @@ def main() -> int:
 
     for item in [
         "phase_3a_governance_backfill_audit: active",
+        "phase_3a_governance_sec_replay_pack: active",
         "noEscalationStateMutation: true",
         "rawSourceCache: gray_rhino_sources/governance",
         "sourceManifest: gray_rhino_governance_source_manifest.jsonl",
         "extractionAudit: gray_rhino_governance_extraction_audit.jsonl",
         "sensorHealthReportOnly: true",
         "deterministicExtractionOnly: true",
+        "replayCoverageReport: true",
+        "MetriclessSource",
+        "SourceInvalid",
+        "ExtractionInvalid",
     ]:
         if item not in schema:
             errors.append(f"schema missing governance pipeline contract `{item}`")
