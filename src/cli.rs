@@ -3,16 +3,16 @@ use anyhow::{anyhow, Context, Result};
 use chrono::NaiveDate;
 
 use crate::config;
+use crate::features::evidence::acl::evidence_store_factory::{
+    build_batch_evidence_fetcher_adapter, build_evidence_extractor_adapter,
+    build_evidence_store_adapter, build_url_evidence_fetcher_adapter,
+};
 use crate::features::evidence::application::evidence::{
     ingest_manual_evidence, ManualEvidenceIngestionRequest,
 };
 use crate::features::evidence::application::evidence_ingestion::{
     collect_evidence_batch, collect_evidence_from_source, BatchCollectEvidenceRequest,
     BatchEvidenceTarget, CollectEvidenceRequest,
-};
-use crate::features::evidence::infrastructure::evidence_fetcher_factory::{
-    build_batch_evidence_fetcher, build_evidence_extractor, build_evidence_store,
-    build_url_evidence_fetcher,
 };
 use crate::features::radar::acl::market_data_provider_factory::{
     build_configured_market_data_provider, MarketDataProviderKind as ProviderType,
@@ -36,8 +36,9 @@ use crate::features::research::interface::cognitive_reports::{
     enabled_asset_thesis_count, enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_escalation_report;
-use crate::features::shared::acl::notification_factory::send_required_telegram_notification;
-use crate::features::shared::infrastructure::run_status_reader::load_run_evidence_collection_status;
+use crate::features::shared::acl::notification_factory::{
+    load_run_evidence_collection_status, send_required_telegram_notification,
+};
 use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
@@ -163,7 +164,7 @@ pub async fn run() -> Result<()> {
                 .market_state_engine
                 .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = build_evidence_store(&save_dir);
+            let store = build_evidence_store_adapter(&save_dir);
             let outcome = ingest_manual_evidence(
                 &store,
                 ManualEvidenceIngestionRequest {
@@ -210,15 +211,15 @@ pub async fn run() -> Result<()> {
                 }
             };
 
-            let fetcher = build_url_evidence_fetcher(&app_config, &url)?;
+            let fetcher = build_url_evidence_fetcher_adapter(&app_config, &url)?;
 
-            let extractor = build_evidence_extractor();
+            let extractor = build_evidence_extractor_adapter();
             let retention_days = app_config
                 .get_parsed_rules()
                 .market_state_engine
                 .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = build_evidence_store(&save_dir);
+            let store = build_evidence_store_adapter(&save_dir);
             let repository = if options.evidence_dry_run {
                 None
             } else {
@@ -284,13 +285,13 @@ pub async fn run() -> Result<()> {
             println!("Symbols: {:?}", options.evidence_symbols);
             println!("Window:  {} days", options.evidence_days);
 
-            let fetcher = build_batch_evidence_fetcher(
+            let fetcher = build_batch_evidence_fetcher_adapter(
                 &app_config,
                 &options.evidence_source_provider,
                 options.evidence_dry_run,
             )?;
 
-            let extractor = build_evidence_extractor();
+            let extractor = build_evidence_extractor_adapter();
             let targets = options
                 .evidence_symbols
                 .iter()
@@ -313,7 +314,7 @@ pub async fn run() -> Result<()> {
                 .market_state_engine
                 .evidence_retention_days as i64;
             let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-            let store = build_evidence_store(&save_dir);
+            let store = build_evidence_store_adapter(&save_dir);
             let repository = if options.evidence_dry_run {
                 None
             } else {

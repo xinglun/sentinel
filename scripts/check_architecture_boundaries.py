@@ -302,6 +302,15 @@ def feature_layer_for_import(import_path: str) -> tuple[str, str] | None:
     return feature, layer
 
 
+def cli_feature_infrastructure_violations(path: Path) -> list[Violation]:
+    violations: list[Violation] = []
+    for line_no, import_path in imports_from(path):
+        imported_feature_layer = feature_layer_for_import(import_path)
+        if imported_feature_layer and imported_feature_layer[1] == "infrastructure":
+            violations.append(Violation(path, line_no, import_path, "cli -> feature infrastructure"))
+    return violations
+
+
 def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest) -> list[Violation]:
     rel_path = relative_posix(path, root)
     feature_layer = feature_layer_for_path(rel_path, manifest)
@@ -327,11 +336,16 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
             if feature == "shared" and imported_feature != "shared":
                 violations.append(Violation(path, line_no, import_path, "shared leaf dependency"))
             if imported_feature == "shared":
+                if layer == "domain" and imported_layer != "domain":
+                    violations.append(Violation(path, line_no, import_path, "shared non-domain dependency"))
                 continue
             if imported_feature != feature and imported_feature not in allowed_dependencies:
                 violations.append(Violation(path, line_no, import_path, "feature allowedDependencies"))
-            if layer == "domain" and imported_feature != feature:
-                violations.append(Violation(path, line_no, import_path, "cross-feature domain dependency"))
+            if layer == "domain":
+                if imported_feature != feature:
+                    violations.append(Violation(path, line_no, import_path, "cross-feature domain dependency"))
+                if imported_layer in {"application", "interface", "infrastructure", "acl"}:
+                    violations.append(Violation(path, line_no, import_path, f"feature domain -> {imported_layer}"))
             if layer in {"domain", "application"} and imported_layer in {"interface", "infrastructure", "acl"}:
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} -> {imported_layer}"))
             if layer == "infrastructure" and imported_layer == "interface":
@@ -384,15 +398,30 @@ def removed_crate_root_violations(path: Path) -> list[Violation]:
 def imports_from(path: Path) -> Iterable[tuple[int, str]]:
     pending_import: list[str] = []
     pending_start = 0
-    inside_cfg_test_module = False
+    skip_next_cfg_test_item = False
+    cfg_test_brace_depth: int | None = None
 
     for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         stripped = line.strip()
         if stripped == "#[cfg(test)]":
-            inside_cfg_test_module = True
+            skip_next_cfg_test_item = True
             pending_import = []
             continue
-        if inside_cfg_test_module:
+        if cfg_test_brace_depth is not None:
+            cfg_test_brace_depth += line.count("{") - line.count("}")
+            if cfg_test_brace_depth <= 0:
+                cfg_test_brace_depth = None
+            continue
+        if skip_next_cfg_test_item and stripped:
+            if stripped.startswith("mod ") and "{" in stripped:
+                cfg_test_brace_depth = stripped.count("{") - stripped.count("}")
+                if cfg_test_brace_depth <= 0:
+                    cfg_test_brace_depth = None
+                skip_next_cfg_test_item = False
+                continue
+            skip_next_cfg_test_item = False
+            continue
+        if skip_next_cfg_test_item:
             continue
         if stripped.startswith("//") or stripped.startswith("///") or stripped.startswith("//"):
             continue
@@ -429,6 +458,9 @@ def check_project(root: Path = PROJECT_ROOT) -> list[Violation]:
                 for forbidden in rule.forbidden_import_prefixes:
                     if import_path.startswith(forbidden):
                         violations.append(Violation(path, line_no, import_path, forbidden))
+    cli_path = root / "src/cli.rs"
+    if cli_path.exists():
+        violations.extend(cli_feature_infrastructure_violations(cli_path))
     features_root = root / "src/features"
     if features_root.exists():
         for path in rust_files(features_root):

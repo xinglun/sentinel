@@ -401,6 +401,49 @@ def test_feature_acl_allows_cross_feature_acl_dependency() -> None:
         assert not violations, f"feature ACL 間の port factory 依存は許可されるべき: {violations}"
 
 
+def test_cli_rejects_feature_infrastructure_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/cli.rs", "use crate::features::radar::infrastructure::persistence::PersistenceLayer;\n")
+        violations = checker.check_project(root)
+        assert violations, "CLI から feature infrastructure への直接依存は検出されるべき"
+
+
+def test_feature_domain_rejects_same_feature_application_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/domain/model.rs", "use crate::features::radar::application::engine::Engine;\n")
+        violations = checker.check_project(root)
+        assert violations, "domain から same feature application への依存は検出されるべき"
+
+
+def test_domain_rejects_shared_non_domain_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/domain/model.rs", "use crate::features::shared::interface::i18n::Language;\n")
+        violations = checker.check_project(root)
+        assert violations, "domain から shared non-domain layer への依存は検出されるべき"
+
+
+def test_cfg_test_module_does_not_hide_later_production_imports() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/domain/model.rs",
+            "#[cfg(test)]\n"
+            "mod tests {\n"
+            "    use crate::features::radar::application::engine::Engine;\n"
+            "}\n"
+            "use crate::features::radar::application::engine::Engine;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "#[cfg(test)] module 後の production import は検出されるべき"
+
+
 def test_non_acl_rejects_futu_client() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -466,6 +509,10 @@ def main() -> int:
         test_feature_application_rejects_filesystem_io,
         test_feature_infrastructure_rejects_interface_dependency,
         test_feature_acl_allows_cross_feature_acl_dependency,
+        test_cli_rejects_feature_infrastructure_dependency,
+        test_feature_domain_rejects_same_feature_application_dependency,
+        test_domain_rejects_shared_non_domain_dependency,
+        test_cfg_test_module_does_not_hide_later_production_imports,
         test_non_acl_rejects_futu_client,
         test_non_acl_rejects_yahoo_provider,
         test_non_acl_rejects_external_fetcher,

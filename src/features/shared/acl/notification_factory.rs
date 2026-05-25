@@ -2,6 +2,8 @@ use crate::config::TelegramConfig;
 use crate::features::shared::application::run_status::DeliveryStatus;
 use crate::features::shared::infrastructure::notify;
 use anyhow::Result;
+use chrono::NaiveDate;
+use std::path::Path;
 
 pub fn telegram_delivery_precheck(
     config: Option<&TelegramConfig>,
@@ -80,4 +82,13 @@ pub async fn send_telegram_with_status(
         }
         Err(status) => status,
     }
+}
+
+pub fn load_run_evidence_collection_status(
+    save_dir: &Path,
+    date: NaiveDate,
+) -> Option<DeliveryStatus> {
+    crate::features::shared::infrastructure::run_status_reader::load_run_evidence_collection_status(
+        save_dir, date,
+    )
 }
