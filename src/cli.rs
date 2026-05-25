@@ -956,9 +956,7 @@ fn run_collect_gray_rhino_category_source(
     let extracted: Vec<&str> = metrics
         .iter()
         .copied()
-        .filter(|metric| {
-            normalized.contains(*metric) || normalized.contains(&metric.replace('_', " "))
-        })
+        .filter(|metric| metric_found_for_category(category, metric, &normalized))
         .collect();
     let missing_count = metrics.len().saturating_sub(extracted.len());
     let accepted = !extracted.is_empty();
@@ -1031,6 +1029,69 @@ fn run_collect_gray_rhino_category_source(
     println!("Latest observed date: {}", observed_at);
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
     Ok(())
+}
+
+fn metric_found_for_category(category: &str, metric: &str, normalized: &str) -> bool {
+    if normalized.contains(metric) || normalized.contains(&metric.replace('_', " ")) {
+        return true;
+    }
+    metric_aliases(category, metric)
+        .iter()
+        .any(|alias| normalized.contains(alias))
+}
+
+fn metric_aliases(category: &str, metric: &str) -> &'static [&'static str] {
+    match (category, metric) {
+        ("InstitutionalMaturity", "succession_structure_disclosed") => &[
+            "succession plan",
+            "succession planning",
+            "leadership transition plan",
+        ],
+        ("InstitutionalMaturity", "external_audit_present") => {
+            &["external audit", "independent auditor", "audited by"]
+        }
+        ("InstitutionalMaturity", "disclosure_quality_score") => &[
+            "disclosure quality",
+            "comprehensive disclosure",
+            "detailed disclosure",
+        ],
+        ("InstitutionalMaturity", "oversight_evolution_disclosed") => &[
+            "oversight evolution",
+            "oversight framework evolved",
+            "board oversight expanded",
+        ],
+        ("InstitutionalMaturity", "compliance_maturity_level") => &[
+            "compliance maturity",
+            "mature compliance",
+            "developing compliance",
+        ],
+        ("Redundancy", "fallback_available") => &[
+            "fallback available",
+            "fallback provider",
+            "backup provider",
+            "alternative supplier",
+        ],
+        ("Redundancy", "alternative_supplier_count") => &[
+            "two alternative suppliers",
+            "multiple alternative suppliers",
+            "alternative suppliers",
+        ],
+        ("Redundancy", "redundancy_ratio") => &[
+            "redundancy ratio",
+            "redundant capacity",
+            "capacity redundancy",
+        ],
+        ("Redundancy", "recovery_path_disclosed") => {
+            &["recovery path", "recovery plan", "failover path"]
+        }
+        ("Redundancy", "failover_tested") => &[
+            "failover tested",
+            "failover test",
+            "tested failover",
+            "drill completed",
+        ],
+        _ => &[],
+    }
 }
 
 fn append_cli_jsonl(path: &std::path::Path, value: &serde_json::Value) -> Result<()> {

@@ -177,6 +177,12 @@ institutionalMaturity:
   collectorEnabled: false
   localSourceCollectionEnabled: true
   replayCoverageReport: true
+  calibratedDisclosureLabels:
+    - succession planning
+    - independent auditor
+    - comprehensive disclosure
+    - board oversight expanded
+    - developing compliance
   noEscalationStateMutation: true
 redundancy:
   phase: phase_3d_redundancy_evidence_pipeline
@@ -200,6 +206,13 @@ redundancy:
   collectorEnabled: false
   localSourceCollectionEnabled: true
   replayCoverageReport: true
+  calibratedDisclosureLabels:
+    - backup provider
+    - two alternative suppliers
+    - recovery plan
+    - failover test
+    - tested failover
+  fallbackClaimedIsNotFailoverTested: true
   noEscalationStateMutation: true
 multiCategorySensorHealthEnabled: true
 multiCategoryBackfillDryRunEnabled: true

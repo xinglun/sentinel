@@ -684,6 +684,82 @@ fn institutional_and_redundancy_source_collection_reports_coverage() {
 }
 
 #[test]
+fn institutional_redundancy_extractors_calibrate_synonyms_and_rejections() {
+    let tmp = prepare_standard_workspace("en-us");
+    let institutional_path = tmp.path().join("institutional_synonyms.txt");
+    let redundancy_path = tmp.path().join("redundancy_synonyms.txt");
+    let metricless_path = tmp.path().join("institutional_metricless.txt");
+    fs::write(
+        &institutional_path,
+        "The annual report includes succession planning, an independent auditor, comprehensive disclosure, board oversight expanded, and developing compliance.",
+    )
+    .expect("failed to write institutional synonym source");
+    fs::write(
+        &redundancy_path,
+        "The supplier disclosure claims a backup provider and two alternative suppliers. A recovery plan exists, but testing evidence is not disclosed.",
+    )
+    .expect("failed to write redundancy synonym source");
+    fs::write(
+        &metricless_path,
+        "The organization describes maturity in broad narrative terms without structured evidence.",
+    )
+    .expect("failed to write metricless institutional source");
+
+    let institutional = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-institutional",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            institutional_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+            "--dry-run",
+        ],
+    );
+    let redundancy = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-redundancy",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            redundancy_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+            "--dry-run",
+        ],
+    );
+    let metricless = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-institutional",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            metricless_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+            "--dry-run",
+        ],
+    );
+
+    assert!(institutional.status.success());
+    assert!(redundancy.status.success());
+    assert!(metricless.status.success());
+    let institutional_stdout = String::from_utf8_lossy(&institutional.stdout);
+    let redundancy_stdout = String::from_utf8_lossy(&redundancy.stdout);
+    let metricless_stdout = String::from_utf8_lossy(&metricless.stdout);
+    assert!(institutional_stdout.contains("succession_structure_disclosed: 100.0%"));
+    assert!(institutional_stdout.contains("external_audit_present: 100.0%"));
+    assert!(redundancy_stdout.contains("fallback_available: 100.0%"));
+    assert!(redundancy_stdout.contains("failover_tested: 0.0%"));
+    assert!(metricless_stdout.contains("[REJECTED:MetriclessSource]"));
+    assert!(metricless_stdout.contains("Formal evidence persisted: false"));
+}
+
+#[test]
 fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("proxy_source.txt");

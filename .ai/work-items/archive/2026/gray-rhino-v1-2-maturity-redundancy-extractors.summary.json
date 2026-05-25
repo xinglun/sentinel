@@ -1,0 +1,75 @@
+{
+  "workItemId": "gray-rhino-v1-2-maturity-redundancy-extractors",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json",
+      "reason": "Institutional / Redundancy extractor calibration の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "source collection の synonym metric extraction と taxonomy output を拡張する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "synonym extraction、fallback tested 区別、metricless rejection を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test institutional_redundancy_extractors_calibrate_synonyms_and_rejections --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-2-maturity-redundancy-extractors.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "extractor は deterministic label/synonym matching に限定し、narrative inference は行わない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "fallback provider は fallback_available のみを支え、failover_tested には failover test evidence を要求する。"
+  ]
+}

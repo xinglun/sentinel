@@ -112,6 +112,8 @@ Phase 3-C では、repository-local structured JSON から開始し、`ingest-gr
 
 Phase v1.1 では `collect-gray-rhino-institutional --file <source>` を追加し、local source replay、field coverage、source manifest、extraction audit を生成する。dry-run では formal evidence を保存しない。
 
+Phase v1.2 では InstitutionalMaturity extractor が `succession planning`、`independent auditor`、`comprehensive disclosure`、`board oversight expanded`、`developing compliance` などの deterministic disclosure labels を扱う。
+
 ### Risk Normalization Evidence
 
 長期リスクが認識されながら、市場や組織がそれを通常化している証拠。
@@ -147,6 +149,8 @@ Phase 3-D では、repository-local structured JSON から開始し、`ingest-gr
 許可する source type は `InfrastructureStatus`、`SupplierDisclosure`、`IndependentAudit`、`CompanyDisclosure`、`OperatorCuratedSource` に限定する。保存された evidence は escalation state、Gate、execution、trading state を変更しない。
 
 Phase v1.1 では `collect-gray-rhino-redundancy --file <source>` を追加し、local source replay、field coverage、source manifest、extraction audit を生成する。dry-run では formal evidence を保存しない。
+
+Phase v1.2 では Redundancy extractor が fallback claimed と failover tested を区別する。`backup provider` や `alternative supplier` は `fallback_available` を支えるが、`failover test`、`tested failover`、`drill completed` がない限り `failover_tested` には投影しない。
 
 ## Source Contract
 
