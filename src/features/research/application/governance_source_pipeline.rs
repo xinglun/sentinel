@@ -284,7 +284,7 @@ pub fn extract_governance_concentration_evidence(
         .validate()
         .map_err(|err| anyhow!("Invalid governance source document: {:?}", err))?;
     let metrics = GovernanceConcentrationMetrics {
-        founder_voting_power: parse_percent_metric(
+        founder_voting_power: parse_founder_voting_power(
             &document.content,
             &[
                 "founder_voting_power",
@@ -374,7 +374,7 @@ fn extract_metric_audit_entries(content: &str) -> Vec<GovernanceMetricAuditEntry
     vec![
         number_metric_audit(
             "founder_voting_power",
-            parse_percent_metric(
+            parse_founder_voting_power(
                 content,
                 &[
                     "founder_voting_power",
@@ -480,6 +480,65 @@ fn parse_percent_metric(content: &str, labels: &[&str]) -> Option<f64> {
             value
         }
     })
+}
+
+fn parse_founder_voting_power(content: &str, labels: &[&str]) -> Option<f64> {
+    parse_percent_metric(content, labels).or_else(|| parse_voting_power_percentage(content))
+}
+
+fn parse_voting_power_percentage(content: &str) -> Option<f64> {
+    let text = normalize_metric_text(content);
+    let words: Vec<&str> = text.split_whitespace().collect();
+    for idx in 0..words.len() {
+        if let Some(value) = percent_word(&words, idx) {
+            let start = idx.saturating_sub(14);
+            let end = (idx + 15).min(words.len());
+            let window = words[start..end].join(" ");
+            if window_contains_voting_power_percentage_context(&window) {
+                return Some(value);
+            }
+        }
+    }
+    None
+}
+
+fn window_contains_voting_power_percentage_context(window: &str) -> bool {
+    let has_voting_power = window.contains("voting power") || window.contains("voting control");
+    let has_control_verb = [
+        "controlled",
+        "control",
+        "controlling",
+        "representing",
+        "represents",
+        "represented",
+        "entitled to",
+        "hold",
+        "holds",
+        "held",
+    ]
+    .iter()
+    .any(|phrase| window.contains(phrase));
+    let ownership_only = window.contains("beneficial ownership") && !has_voting_power;
+    has_voting_power && has_control_verb && !ownership_only
+}
+
+fn percent_word(words: &[&str], idx: usize) -> Option<f64> {
+    let word = words.get(idx)?.trim_matches(|ch: char| {
+        ch == ',' || ch == ';' || ch == ')' || ch == '(' || ch == '[' || ch == ']'
+    });
+    if let Some(raw) = word.strip_suffix('%') {
+        return raw
+            .trim_matches(|ch: char| ch == ',' || ch == '.')
+            .parse()
+            .ok();
+    }
+    if words.get(idx + 1).is_some_and(|next| next.starts_with('%')) {
+        return word
+            .trim_matches(|ch: char| ch == ',' || ch == '.')
+            .parse()
+            .ok();
+    }
+    None
 }
 
 fn parse_ratio_metric(content: &str, labels: &[&str]) -> Option<f64> {
@@ -814,6 +873,36 @@ mod tests {
 
         assert_eq!(evidence.metrics.dual_class_structure, Some(true));
         assert_eq!(evidence.metrics.super_voting_rights, Some(true));
+    }
+
+    #[test]
+    fn extracts_founder_voting_power_from_controlled_voting_power_text() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "Our founder controlled approximately 61.2% of the voting power of our outstanding capital stock.",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.founder_voting_power, Some(61.2));
+    }
+
+    #[test]
+    fn extracts_founder_voting_power_from_holder_voting_power_text() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "Our executive officers and directors as a group will hold approximately 72.8% of the voting power after this offering.",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.founder_voting_power, Some(72.8));
+    }
+
+    #[test]
+    fn beneficial_ownership_percentage_without_voting_power_is_not_founder_control() {
+        let err = extract_governance_concentration_evidence(&document(
+            "The founder beneficially owns 21.4% of our outstanding common stock.",
+        ))
+        .unwrap_err();
+
+        assert!(err.to_string().contains("MissingGovernanceMetric"));
     }
 
     #[test]

@@ -207,6 +207,12 @@ field-level coverage は current run の extraction audit から算出する。J
 
 `Of the N Board nominees, M are independent`、`M out of N director nominees are independent`、`consists of N directors, M of whom are independent` を許可する。`majority independent` や `except CEO` のように分母が明示されない disclosure は ratio として扱わない。
 
+### Phase 3-A: Governance SEC Founder Voting Power Calibration
+
+本 Work Item の対象。`founder_voting_power` は SEC filing の明示的な voting power / voting control percentage からのみ抽出する。
+
+`controlled X% of the voting power`、`representing X% of the voting power`、`entitled to X% of the voting power`、`hold X% of the voting power` を許可する。beneficial ownership や ownership percentage だけの disclosure は founder voting control として扱わない。
+
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 
 本 Work Item の対象外。dependency graph は動的であるため、GovernanceConcentration sensor が安定してから追加する。

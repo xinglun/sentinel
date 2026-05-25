@@ -77,6 +77,11 @@ governanceConcentration:
     expandedSampleSize: 5-10
     reportsFieldCoverage: true
   fieldCoverageCalibration:
+    founderVotingPowerPatterns:
+      - controlled X% of the voting power
+      - representing X% of the voting power
+      - entitled to X% of the voting power
+      - hold X% of the voting power
     successionDisclosureLabels:
       - succession framework
       - ceo succession framework
@@ -123,6 +128,7 @@ phases:
   phase_3a_governance_sec_expanded_sample_dry_run: active
   phase_3a_governance_sec_voting_structure_calibration: active
   phase_3a_governance_sec_board_independence_calibration: active
+  phase_3a_governance_sec_founder_voting_power_calibration: active
   phase_3b_dependency_concentration_evidence_pipeline: blocked_until_governance_sensor_stabilizes
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope
