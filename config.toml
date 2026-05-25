@@ -111,6 +111,17 @@ failed_breakout_slope_threshold = 0.0   # 假突破风险判定的 slope 下限
 failed_breakout_display_threshold = 55.0 # 失败突破风险高于该值时才在展示层显式输出
 failed_breakout_no_trade_display_threshold = 70.0 # NO TRADE 场景下仅展示高于该值的失败突破风险，避免基础风险刷屏
 
+[gray_rhino_escalation]
+enable = true
+risk_expansion_rate = "MODERATE"
+constraint_growth_rate = "MODERATE"
+dependency_centralization = "ELEVATED"
+awareness_decay = "MODERATE"
+narrative_overconfidence = "MODERATE"
+single_point_fragility = "MODERATE"
+fallback_survivability_risk = "MODERATE"
+notes = []
+
 [[watchlist]]
 symbol = "TSLA"            # 标的代码
 market = "US"              # 所属市场
