@@ -5,3 +5,4 @@ pub mod provider;
 pub mod radar;
 pub mod runtime_mode;
 pub mod telemetry;
+pub mod trend_recognition_service;

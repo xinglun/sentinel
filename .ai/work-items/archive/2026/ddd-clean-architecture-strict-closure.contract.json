@@ -1,0 +1,94 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-clean-architecture-strict-closure",
+  "mode": "code",
+  "title": "DDD clean architecture strict closure",
+  "scope": [
+    ".ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+    ".ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/backtest/**/*.rs",
+    "src/features/radar/**/*.rs",
+    "src/features/evidence/**/*.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "前回 architecture score: 91/100",
+      "reason": "Backtest -> Radar Engine coupling、Radar Engine orchestration、Evidence BC identity、checker granularity の残課題。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "DDD / Clean Architecture の human-readable SSOT。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature boundary の machine-readable SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Backtest application が radar application Engine の concrete 型へ直接依存しない。",
+    "Radar trend recognition の count / substantive evidence / compute orchestration が Engine から分離されている。",
+    "Evidence feature に ingestion command / collection policy として bounded context 固有の domain vocabulary がある。",
+    "architecture checker が inline crate path と module path の代表的な違反を regression test で検出する。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/features/backtest/**",
+      "src/features/radar/**",
+      "src/features/evidence/**",
+      "scripts/check_architecture_boundaries.py",
+      "scripts/ai_test_architecture_boundaries.py"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

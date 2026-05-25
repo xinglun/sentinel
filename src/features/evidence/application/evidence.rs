@@ -1,4 +1,5 @@
 use crate::features::evidence::domain::evidence::AutomatedEvidenceRecord;
+use crate::features::evidence::domain::ingestion_command::ManualEvidenceCommand;
 use anyhow::Result;
 
 /// 実体的証拠の永続化 port。
@@ -12,7 +13,6 @@ pub trait EvidenceRepository {
 }
 
 use crate::features::evidence::domain::evidence::{EvidenceSourceType, EvidenceType};
-use chrono::NaiveDate;
 
 /// 手動 evidence ingestion use case の入力。
 #[derive(Debug, Clone)]
@@ -41,8 +41,15 @@ pub fn ingest_manual_evidence(
     request: ManualEvidenceIngestionRequest,
 ) -> Result<ManualEvidenceIngestionOutcome> {
     let evidence_type = parse_manual_evidence_type(&request.evidence_type)?;
-    let event_date = normalize_manual_evidence_date(request.event_date, request.fallback_date)?;
-    validate_manual_evidence_confidence(request.confidence)?;
+    let event_date = request.event_date.unwrap_or(request.fallback_date);
+    let command = ManualEvidenceCommand::new(
+        evidence_type,
+        request.confidence,
+        request.description,
+        event_date,
+        request.symbol,
+        request.source_url,
+    )?;
 
     let mut cleanup_count = 0;
     if let Some(retention_days) = request.retention_days {
@@ -51,18 +58,18 @@ pub fn ingest_manual_evidence(
 
     let dedupe_key = format!(
         "CLI:Manual:{}:{}:{}",
-        request.symbol.as_deref().unwrap_or("GLOBAL"),
+        command.symbol.as_deref().unwrap_or("GLOBAL"),
         request.evidence_type,
-        event_date
+        command.event_date
     );
     let record = AutomatedEvidenceRecord::new(
         EvidenceSourceType::Manual,
-        evidence_type,
-        request.confidence,
-        request.description,
-        event_date.clone(),
-        request.symbol.clone(),
-        request.source_url,
+        command.evidence_type,
+        command.confidence,
+        command.description,
+        command.event_date.clone(),
+        command.symbol.clone(),
+        command.source_url,
         dedupe_key,
     );
 
@@ -83,25 +90,4 @@ pub fn parse_manual_evidence_type(value: &str) -> Result<EvidenceType> {
         "follow_through" => Ok(EvidenceType::FollowThrough),
         _ => Err(anyhow::anyhow!("Invalid evidence type: {}", value)),
     }
-}
-
-fn normalize_manual_evidence_date(value: Option<String>, fallback_date: String) -> Result<String> {
-    let date = value.unwrap_or(fallback_date);
-    if NaiveDate::parse_from_str(&date, "%Y-%m-%d").is_err() {
-        return Err(anyhow::anyhow!(
-            "Invalid date format: {}. Use YYYY-MM-DD",
-            date
-        ));
-    }
-    Ok(date)
-}
-
-fn validate_manual_evidence_confidence(value: f64) -> Result<()> {
-    if !(0.0..=1.0).contains(&value) {
-        return Err(anyhow::anyhow!(
-            "Confidence must be between 0.0 and 1.0. Got: {}",
-            value
-        ));
-    }
-    Ok(())
 }

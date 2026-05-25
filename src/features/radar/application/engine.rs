@@ -319,49 +319,13 @@ impl Engine {
                 rules,
             );
 
-        let mut confirmed_count = 0;
-        let mut emerging_count = 0;
-        for d in &packet.assets {
-            match d.breakout.status {
-                crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout => {
-                    confirmed_count += 1
-                }
-                crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout => {
-                    emerging_count += 1
-                }
-                _ => {}
-            }
-        }
-
-        let current_date = packet.date;
-        let substantive =
-            crate::features::radar::application::evidence_assembly::assemble_substantive_evidence(
-                &packet,
-                &asset_features,
-                rules,
-                evidence_history,
-            );
-
-        let evidence =
-            crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence::compute(
-                confirmed_count,
-                emerging_count,
-                transition_log.scout_days_without_expansion,
-                transition_log.scout_abort_days,
-                if substantive
-                    != crate::features::radar::domain::trend_cohesion::SubstantiveEvidence::default(
-                    )
-                {
-                    Some(substantive)
-                } else {
-                    None
-                },
-                current_date,
-                &rules.market_state_engine,
-            );
-
-        packet.trend_recognition = Some(evidence.clone());
-        transition_log.trend_recognition = Some(evidence);
+        crate::features::radar::application::trend_recognition_service::attach_trend_recognition(
+            &mut packet,
+            &mut transition_log,
+            &asset_features,
+            rules,
+            evidence_history,
+        );
 
         packet.transition_log = Some(transition_log);
 

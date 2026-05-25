@@ -1,8 +1,8 @@
 use crate::config::ParsedRules;
+use crate::features::backtest::application::decision_engine::BacktestDecisionEngine;
 use crate::features::backtest::domain::metrics::{
     BacktestRunArtifacts, RegimeStats, StateMachineMetrics,
 };
-use crate::features::radar::application::engine::Engine;
 use crate::features::radar::application::provider::TickerHistory;
 use crate::features::radar::domain::action_matrix::AssetAction;
 use crate::features::radar::domain::decision::DecisionPacket;
@@ -12,6 +12,7 @@ use std::borrow::Cow;
 use std::collections::HashMap;
 
 pub fn run_core_simulation(
+    decision_engine: &dyn BacktestDecisionEngine,
     histories: &HashMap<String, TickerHistory>,
     watchlist: &[crate::config::WatchlistEntry],
     simulation_dates: &[NaiveDate],
@@ -73,7 +74,7 @@ pub fn run_core_simulation(
         } else {
             &[]
         };
-        let current_packet = Engine::run_daily_pipeline(
+        let current_packet = decision_engine.run_daily_pipeline(
             &daily_histories,
             parsed_rules,
             effective_window,

@@ -456,6 +456,18 @@ def test_inline_fully_qualified_path_is_checked() -> None:
         assert violations, "inline fully-qualified path の layer 違反は検出されるべき"
 
 
+def test_inline_fully_qualified_path_with_spaces_is_checked() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/domain/model.rs",
+            "pub fn build() { let _ = crate :: features :: radar :: application :: engine :: Engine; }\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "空白を含む inline fully-qualified path の layer 違反は検出されるべき"
+
+
 def test_non_acl_rejects_futu_client() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -526,6 +538,7 @@ def main() -> int:
         test_domain_rejects_shared_non_domain_dependency,
         test_cfg_test_module_does_not_hide_later_production_imports,
         test_inline_fully_qualified_path_is_checked,
+        test_inline_fully_qualified_path_with_spaces_is_checked,
         test_non_acl_rejects_futu_client,
         test_non_acl_rejects_yahoo_provider,
         test_non_acl_rejects_external_fetcher,
