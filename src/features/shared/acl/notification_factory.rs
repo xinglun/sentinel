@@ -92,3 +92,7 @@ pub fn load_run_evidence_collection_status(
         save_dir, date,
     )
 }
+
+pub fn load_latest_evidence_collection_status(save_dir: &Path) -> DeliveryStatus {
+    crate::features::shared::infrastructure::run_status_reader::load_latest_evidence_collection_status(save_dir)
+}

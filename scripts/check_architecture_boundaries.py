@@ -10,6 +10,7 @@ from typing import Iterable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 IMPORT_START_RE = re.compile(r"^\s*(?:use|pub\s+use)\s+(.+)")
+INLINE_CRATE_PATH_RE = re.compile(r"\bcrate::features(?:::[A-Za-z_][A-Za-z0-9_]*)+")
 CONCRETE_TYPE_DEFAULTS = (
     "FutuClient",
     "YahooProvider",
@@ -442,6 +443,10 @@ def imports_from(path: Path) -> Iterable[tuple[int, str]]:
             else:
                 pending_import = [import_body]
                 pending_start = line_no
+            continue
+
+        for inline_path in INLINE_CRATE_PATH_RE.findall(line):
+            yield line_no, inline_path
 
 
 def check_project(root: Path = PROJECT_ROOT) -> list[Violation]:

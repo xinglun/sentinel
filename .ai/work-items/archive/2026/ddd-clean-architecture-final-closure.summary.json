@@ -1,0 +1,179 @@
+{
+  "workItemId": "ddd-clean-architecture-final-closure",
+  "contractPath": ".ai/work-items/archive/2026/ddd-clean-architecture-final-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-final-closure.contract.json",
+      "reason": "Contract を最終 closure scope / acceptance / verification に更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-final-closure.summary.json",
+      "reason": "変更内容と検証結果を更新した。"
+    },
+    {
+      "path": "src/features/backtest/domain/metrics.rs",
+      "reason": "Backtest metrics と artifact DTO を domain model として分離した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Backtest simulation と metric 集計を application use case に分離した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Backtest artifact の filesystem 出力を infrastructure に分離した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "Backtest CLI facade を fetch / orchestration に薄くした。"
+    },
+    {
+      "path": "src/features/backtest/domain/mod.rs",
+      "reason": "Backtest domain module を公開した。"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "reason": "Backtest application module を公開した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/mod.rs",
+      "reason": "Backtest infrastructure module を公開した。"
+    },
+    {
+      "path": "src/features/radar/application/evidence_assembly.rs",
+      "reason": "Radar trend recognition 用の実体証拠組み立てを Engine から分離した。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "Engine から evidence assembly 詳細を削減した。"
+    },
+    {
+      "path": "src/features/radar/application/telemetry.rs",
+      "reason": "TelemetryRow を application DTO として移動した。"
+    },
+    {
+      "path": "src/features/radar/application/mod.rs",
+      "reason": "Radar application modules を公開した。"
+    },
+    {
+      "path": "src/features/radar/interface/telemetry.rs",
+      "reason": "既存 import 互換のため TelemetryRow を re-export した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "Infrastructure が interface DTO へ依存しないよう application DTO を参照した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Shared ledger / run status を ACL 経由に切り替えた。"
+    },
+    {
+      "path": "src/features/evidence/domain/collection_policy.rs",
+      "reason": "Evidence feature 固有の collection policy を domain vocabulary として追加した。"
+    },
+    {
+      "path": "src/features/evidence/domain/mod.rs",
+      "reason": "Evidence domain module を公開した。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence_ingestion.rs",
+      "reason": "EvidenceCollectionPolicy を ingestion use case に適用した。"
+    },
+    {
+      "path": "src/features/shared/acl/ledger_factory.rs",
+      "reason": "Shared ledger の ACL facade を追加した。"
+    },
+    {
+      "path": "src/features/shared/acl/mod.rs",
+      "reason": "Shared ACL module を公開した。"
+    },
+    {
+      "path": "src/features/shared/acl/notification_factory.rs",
+      "reason": "Run status reader を ACL 経由で公開した。"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "reason": "Trading infrastructure から shared infrastructure 直参照を外した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "inline fully-qualified crate::features path も検査対象にした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "inline path 検出の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "前回 architecture review",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    ".ai/architecture/feature_acl.yaml",
+    ".ai/work-items/active/ddd-clean-architecture-final-closure.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-final-closure.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-final-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-final-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "make quality / cargo test --all-targets / architecture gates が通過済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "monolithic backtest orchestration を layer 別 module へ分割した。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "Engine 内の evidence assembly 詳細を application service へ移した。"
+    }
+  ],
+  "observedIssues": [
+    {
+      "detail": "inline fully-qualified path checker により radar infrastructure -> interface telemetry の既存漏れを検出し、TelemetryRow を application DTO へ移動して解消した。"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-use crate::features::shared::infrastructure::ledger::{Ledger, TradeRecord};
+use crate::features::shared::acl::ledger_factory::{LedgerAdapter, TradeRecordAdapter};
 use crate::features::trading::application::execution_signal::{GatedTrade, TradeSide};
 use crate::features::trading::application::trade_executor::{
     OrderSide, OrderType, PlaceOrderRequest, TradeExecutor,
@@ -11,7 +11,7 @@ use tokio::sync::Mutex;
 
 pub struct TraderAgent {
     executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>,
-    ledger: Arc<Ledger>,
+    ledger: Arc<LedgerAdapter>,
     poll_interval: std::time::Duration,
     max_poll_attempts: usize,
 }
@@ -37,7 +37,10 @@ pub struct ExecutionSummary {
 }
 
 impl TraderAgent {
-    pub fn new(executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>, ledger: Arc<Ledger>) -> Self {
+    pub fn new(
+        executor: Arc<Mutex<dyn TradeExecutor + Send + Sync>>,
+        ledger: Arc<LedgerAdapter>,
+    ) -> Self {
         Self {
             executor,
             ledger,
@@ -253,7 +256,7 @@ impl TraderAgent {
                                 } else {
                                     "SELL"
                                 };
-                                let _ = self.ledger.record_trade(TradeRecord {
+                                let _ = self.ledger.record_trade(TradeRecordAdapter {
                                     date: Local::now().date_naive(),
                                     timestamp: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
                                     symbol: trade.symbol.clone(),
@@ -503,7 +506,9 @@ mod tests {
         let config: AppConfig = toml::from_str(config_str).unwrap();
         let config_arc = Arc::new(config);
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
-        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
 
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
@@ -603,7 +608,9 @@ mod tests {
             cap.max_buy = 5.0; // Very low capacity
         }
 
-        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
         let trade = crate::features::radar::application::execution_gate::GatedTrade {
@@ -639,7 +646,9 @@ mod tests {
             cap.max_sell = 1000.0;
         }
 
-        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
         // 2. Dispatch a trade with qty=1.0 but is_liquidation=true
@@ -673,7 +682,9 @@ mod tests {
             cap.max_sell = 1000.0;
         }
 
-        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
         // 2. Dispatch a trade with is_trim=true
@@ -701,7 +712,9 @@ mod tests {
 
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
 
-        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
         let trade = crate::features::radar::application::execution_gate::GatedTrade {
@@ -753,7 +766,9 @@ mod tests {
 
         // 特定 symbol では MockTradeExecutor::get_order_status が Submitted のままになるようにする。
 
-        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
         // Accelerated polling: 5 attempts * 1ms = 5ms total "timeout"
         let agent = TraderAgent::new(mock_exec.clone(), ledger)
             .with_poll_settings(std::time::Duration::from_millis(1), 5);
@@ -793,17 +808,19 @@ mod tests {
 
     #[tokio::test]
     async fn test_trader_agent_reconciliation() {
-        use crate::features::shared::infrastructure::ledger::TradeRecord;
+        use crate::features::shared::acl::ledger_factory::TradeRecordAdapter;
         use crate::features::trading::application::trade_executor::{Position, PositionSide};
         use chrono::Local;
 
         let temp = tempdir().unwrap();
         let save_dir = temp.path().to_path_buf();
-        let ledger = Arc::new(Ledger::new(save_dir.clone()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
 
         // 1. local ledger に 10 TSLA、20 AAPL を設定する。
         ledger
-            .record_trade(TradeRecord {
+            .record_trade(TradeRecordAdapter {
                 date: Local::now().date_naive(),
                 timestamp: "10:00:00".to_string(),
                 symbol: "US.TSLA".to_string(),
@@ -814,7 +831,7 @@ mod tests {
             })
             .unwrap();
         ledger
-            .record_trade(TradeRecord {
+            .record_trade(TradeRecordAdapter {
                 date: Local::now().date_naive(),
                 timestamp: "10:01:00".to_string(),
                 symbol: "US.AAPL".to_string(),

@@ -1,4 +1,5 @@
 use crate::features::evidence::application::evidence::EvidenceRepository;
+use crate::features::evidence::domain::collection_policy::EvidenceCollectionPolicy;
 use crate::features::evidence::domain::evidence::{AutomatedEvidenceRecord, EvidenceSourceType};
 use anyhow::{anyhow, Result};
 use async_trait::async_trait;
@@ -72,11 +73,12 @@ pub async fn collect_evidence_from_source(
 
     let mut cleanup_count = 0;
     let mut saved_count = 0;
-    if request.persist {
+    let policy = EvidenceCollectionPolicy::new(request.persist, request.retention_days);
+    if policy.requires_repository() {
         let repository = repository.ok_or_else(|| {
             anyhow!("EvidenceRepository is required when persistence is requested")
         })?;
-        if let Some(retention_days) = request.retention_days {
+        if let Some(retention_days) = policy.retention_days() {
             cleanup_count = repository.cleanup_old_records(retention_days)?;
         }
         saved_count = repository.save_records(&records)?;
@@ -174,11 +176,12 @@ pub async fn collect_evidence_batch(
 
     let mut cleanup_count = 0;
     let mut saved_count = 0;
-    if request.persist {
+    let policy = EvidenceCollectionPolicy::new(request.persist, request.retention_days);
+    if policy.requires_repository() {
         let repository = repository.ok_or_else(|| {
             anyhow!("EvidenceRepository is required when persistence is requested")
         })?;
-        if let Some(retention_days) = request.retention_days {
+        if let Some(retention_days) = policy.retention_days() {
             cleanup_count = repository.cleanup_old_records(retention_days)?;
         }
         saved_count = repository.save_records(&records)?;

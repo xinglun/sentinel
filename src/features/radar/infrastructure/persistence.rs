@@ -150,7 +150,7 @@ impl PersistenceLayer {
 
     pub fn save_telemetry(
         &self,
-        row: &crate::features::radar::interface::telemetry::TelemetryRow,
+        row: &crate::features::radar::application::telemetry::TelemetryRow,
     ) -> Result<()> {
         let path = self.save_dir.join("telemetry.csv");
         let is_new = !path.exists();

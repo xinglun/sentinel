@@ -12,9 +12,7 @@ use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
 use crate::features::radar::domain::action_matrix::ActionMatrix;
 use crate::features::radar::domain::breakout_detection::BreakoutEvaluator;
 use crate::features::radar::domain::decision::DecisionPacket;
-use crate::features::radar::domain::trend_cohesion::{
-    AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, TrendCohesionEvaluator,
-};
+use crate::features::radar::domain::trend_cohesion::TrendCohesionEvaluator;
 use anyhow::Result;
 
 pub struct Engine;
@@ -335,148 +333,14 @@ impl Engine {
             }
         }
 
-        // 実体的な証拠（Substantive Evidence）の集計
-        let mut substantive =
-            crate::features::radar::domain::trend_cohesion::SubstantiveEvidence::default();
         let current_date = packet.date;
-        let mut min_days = usize::MAX;
-
-        // 1. 歴史的な証拠レコードの読み込み
-        let evidence_retention_days = rules.market_state_engine.evidence_retention_days as i64;
-        for rec in evidence_history {
-            if let Ok(rec_date) = chrono::NaiveDate::parse_from_str(&rec.event_date, "%Y-%m-%d") {
-                let days_ago = (current_date - rec_date).num_days();
-                if (0..=evidence_retention_days).contains(&days_ago) {
-                    substantive.records.push(rec.clone());
-                    if (days_ago as usize) < min_days {
-                        min_days = days_ago as usize;
-                    }
-                }
-            }
-        }
-
-        // 2. タグからの証拠抽出
-        for d in &packet.assets {
-            if let Some(f) = asset_features.iter().find(|af| af.symbol == d.symbol) {
-                // 2. タグからの証拠抽出
-                let mut event_days_offset = 0;
-                for signal in &f.event_signals {
-                    if let Some(stripped) = signal.strip_prefix("event_days:") {
-                        if let Ok(days) = stripped.parse::<usize>() {
-                            event_days_offset = days;
-                            if days < min_days {
-                                min_days = days;
-                            }
-                        }
-                    }
-                }
-
-                let record_date = current_date - chrono::Duration::days(event_days_offset as i64);
-                let record_date_str = record_date.to_string();
-
-                for signal in &f.event_signals {
-                    let mut new_record = None;
-                    match signal.as_str() {
-                        "capex_payoff:true" => {
-                            let dedupe =
-                                format!("Manual:CapexPayoff:{}:{}", d.symbol, record_date_str);
-                            new_record = Some(AutomatedEvidenceRecord::new(
-                                EvidenceSourceType::Manual,
-                                EvidenceType::CapexPayoff,
-                                1.0,
-                                "Manual annotation: Capex Payoff".to_string(),
-                                record_date_str.clone(),
-                                Some(d.symbol.clone()),
-                                None,
-                                dedupe,
-                            ));
-                        }
-                        "earnings_validation:true" => {
-                            let dedupe = format!(
-                                "Manual:EarningsValidation:{}:{}",
-                                d.symbol, record_date_str
-                            );
-                            new_record = Some(AutomatedEvidenceRecord::new(
-                                EvidenceSourceType::Manual,
-                                EvidenceType::EarningsValidation,
-                                1.0,
-                                "Manual annotation: Earnings Validation".to_string(),
-                                record_date_str.clone(),
-                                Some(d.symbol.clone()),
-                                None,
-                                dedupe,
-                            ));
-                        }
-                        "order_visibility:true" => {
-                            let dedupe =
-                                format!("Manual:OrderVisibility:{}:{}", d.symbol, record_date_str);
-                            new_record = Some(AutomatedEvidenceRecord::new(
-                                EvidenceSourceType::Manual,
-                                EvidenceType::OrderVisibility,
-                                1.0,
-                                "Manual annotation: Order Visibility".to_string(),
-                                record_date_str.clone(),
-                                Some(d.symbol.clone()),
-                                None,
-                                dedupe,
-                            ));
-                        }
-                        _ => {}
-                    }
-
-                    if let Some(rec) = new_record {
-                        if !substantive
-                            .records
-                            .iter()
-                            .any(|r| r.dedupe_key() == rec.dedupe_key())
-                        {
-                            substantive.records.push(rec);
-                        }
-                    }
-                }
-            }
-        }
-
-        // 3. 自動価格追随（FollowThrough）の抽出
-        for d in &packet.assets {
-            let is_core = rules.core_assets.contains(&d.symbol);
-            let is_confirmed = d.breakout.status
-                == crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout;
-
-            if is_core && is_confirmed && d.breakout.breakout_age >= 3 {
-                let dedupe = format!(
-                    "PriceAction:FollowThrough:{}:Age{}:{}",
-                    d.symbol, d.breakout.breakout_age, current_date
-                );
-                let rec = AutomatedEvidenceRecord::new(
-                    EvidenceSourceType::PriceAction,
-                    EvidenceType::FollowThrough,
-                    0.9,
-                    format!(
-                        "Automated FollowThrough: {} breakout maintained for {} days",
-                        d.symbol, d.breakout.breakout_age
-                    ),
-                    current_date.to_string(),
-                    Some(d.symbol.clone()),
-                    None,
-                    dedupe,
-                );
-
-                if !substantive
-                    .records
-                    .iter()
-                    .any(|r| r.dedupe_key() == rec.dedupe_key())
-                {
-                    substantive.records.push(rec);
-                    if 0 < min_days {
-                        min_days = 0;
-                    }
-                }
-            }
-        }
-
-        substantive.event_days_since = if min_days == usize::MAX { 0 } else { min_days };
-        substantive.aggregate();
+        let substantive =
+            crate::features::radar::application::evidence_assembly::assemble_substantive_evidence(
+                &packet,
+                &asset_features,
+                rules,
+                evidence_history,
+            );
 
         let evidence =
             crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence::compute(

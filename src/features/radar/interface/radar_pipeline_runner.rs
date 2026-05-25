@@ -10,9 +10,10 @@ use crate::features::radar::infrastructure::radar_runtime_factory::build_radar_r
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report;
 use crate::features::radar::interface::weekly_state_report::persist_weekly_state_outputs;
-use crate::features::shared::acl::notification_factory::send_telegram_with_status;
-use crate::features::shared::infrastructure::ledger::Ledger;
-use crate::features::shared::infrastructure::run_status_reader::load_latest_evidence_collection_status;
+use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
+use crate::features::shared::acl::notification_factory::{
+    load_latest_evidence_collection_status, send_telegram_with_status,
+};
 
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
@@ -74,7 +75,7 @@ pub(crate) async fn run_pipeline(
     let mut outcome =
         radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
 
-    let ledger = Arc::new(Ledger::new(radar_context.save_dir.clone()));
+    let ledger = Arc::new(build_ledger_adapter(radar_context.save_dir.clone()));
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if pipeline_plan.should_enter_pipeline_body {
