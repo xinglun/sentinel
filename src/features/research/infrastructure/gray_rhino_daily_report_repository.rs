@@ -44,13 +44,18 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
         GrayRhinoSnapshotStore::new(&self.save_dir).save_if_changed(snapshot)
     }
 
-    fn load_evidence_records(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
+    fn load_evidence_records(&self, as_of_date: NaiveDate) -> Result<Vec<GrayRhinoEvidenceRecord>> {
         let store = GrayRhinoEvidenceStore::new(&self.save_dir);
         let mut records = store.load_governance_evidence()?;
         records.extend(store.load_dependency_evidence()?);
         records.extend(store.load_institutional_evidence()?);
         records.extend(store.load_redundancy_evidence()?);
-        Ok(records)
+        Ok(records
+            .into_iter()
+            .filter(|record| {
+                record.source.observed_at <= as_of_date && record.source.retrieved_at <= as_of_date
+            })
+            .collect())
     }
 
     fn load_governance_audits(&self) -> Result<Vec<GovernanceExtractionAuditRecord>> {
@@ -60,11 +65,16 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
     fn load_persisted_candidates(
         &self,
         watch_symbols: &[String],
+        as_of_date: NaiveDate,
     ) -> Result<Vec<GrayRhinoCandidate>> {
         let candidates = GrayRhinoCandidateStore::new(&self.save_dir)
             .load_candidates()?
             .into_iter()
-            .filter(|candidate| candidate_in_current_report_scope(candidate, watch_symbols))
+            .filter(|candidate| {
+                candidate_in_current_report_scope(candidate, watch_symbols)
+                    && candidate.last_confirmed_at() <= as_of_date
+                    && candidate.observed_at <= as_of_date
+            })
             .collect();
         Ok(candidates)
     }

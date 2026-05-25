@@ -1543,7 +1543,7 @@ fn refresh_status_value_label(value: &str, language: Language) -> &'static str {
         ("succeeded", Language::JaJp) => "成功",
         ("partial_failure", Language::JaJp) => "部分失敗",
         ("failed", Language::JaJp) => "失敗",
-        ("skipped", Language::JaJp) => "skip",
+        ("skipped", Language::JaJp) => "未実行",
         _ => "unknown",
     }
 }
@@ -1552,7 +1552,7 @@ fn refresh_coverage_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "覆盖率",
         Language::EnUs => "coverage",
-        Language::JaJp => "coverage",
+        Language::JaJp => "取得カバー率",
     }
 }
 
@@ -1560,7 +1560,7 @@ fn failed_providers_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "失败 provider",
         Language::EnUs => "failed_providers",
-        Language::JaJp => "失敗 provider",
+        Language::JaJp => "失敗した取得元",
     }
 }
 

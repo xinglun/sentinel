@@ -1554,17 +1554,17 @@ fn build_daily_calibration_report(
     let days = load_transition_audit_days(&path, language)?;
 
     let mut selected_entry: Option<&TransitionAuditEntry> = None;
-    let mut calibration_date = chrono::Local::now().date_naive();
+    let target_date = match target_date_arg {
+        Some(raw) => Some(
+            NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+                .with_context(|| format!("{}: {}", audit_error_parse_date(language), raw))?,
+        ),
+        None => None,
+    };
+    let mut calibration_date = target_date.unwrap_or_else(|| chrono::Local::now().date_naive());
     let audit_section = if days.is_empty() {
         audit_empty_log_message(language).to_string()
     } else {
-        let target_date = match target_date_arg {
-            Some(raw) => Some(
-                NaiveDate::parse_from_str(raw, "%Y-%m-%d")
-                    .with_context(|| format!("{}: {}", audit_error_parse_date(language), raw))?,
-            ),
-            None => None,
-        };
         let target_idx = resolve_target_index(&days, target_date, language)?;
         calibration_date = days[target_idx].date;
         let evidence_collection_status =

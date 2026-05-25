@@ -23,11 +23,12 @@ pub(crate) trait GrayRhinoDailyReportRepository {
         as_of_date: NaiveDate,
     ) -> Result<Option<GrayRhinoAssessmentSnapshot>>;
     fn save_snapshot_if_changed(&self, snapshot: &GrayRhinoAssessmentSnapshot) -> Result<()>;
-    fn load_evidence_records(&self) -> Result<Vec<GrayRhinoEvidenceRecord>>;
+    fn load_evidence_records(&self, as_of_date: NaiveDate) -> Result<Vec<GrayRhinoEvidenceRecord>>;
     fn load_governance_audits(&self) -> Result<Vec<GovernanceExtractionAuditRecord>>;
     fn load_persisted_candidates(
         &self,
         watch_symbols: &[String],
+        as_of_date: NaiveDate,
     ) -> Result<Vec<GrayRhinoCandidate>>;
     fn load_backfill_ops_view(&self) -> Option<BackfillOpsSummary>;
     fn load_discovery_ops_view(&self) -> Option<DiscoveryOpsSummary>;
@@ -102,7 +103,7 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
         snapshot_persistence: GrayRhinoSnapshotPersistence,
     ) -> Result<GrayRhinoDailyReportViewModel> {
         let previous = self.repository.load_previous_snapshot(as_of_date)?;
-        let evidence_records = self.repository.load_evidence_records()?;
+        let evidence_records = self.repository.load_evidence_records(as_of_date)?;
         let unclassified_record_count = evidence_records
             .iter()
             .filter(|record| record.risk_effect == GrayRhinoRiskEffect::Unclassified)
@@ -121,7 +122,9 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
                     .save_snapshot_if_changed(&assessment.current)?;
             }
         }
-        let auto_candidates = self.repository.load_persisted_candidates(watch_symbols)?;
+        let auto_candidates = self
+            .repository
+            .load_persisted_candidates(watch_symbols, as_of_date)?;
         let display_candidates = dedupe_candidates(auto_candidates.clone());
         let monitoring_statuses =
             evaluate_gray_rhino_monitoring_states(&auto_candidates, as_of_date);
@@ -162,6 +165,16 @@ fn candidate_is_newer_for_display(
     candidate: &GrayRhinoCandidate,
     existing: &GrayRhinoCandidate,
 ) -> bool {
+    if candidate.state == GrayRhinoCandidateState::Resolved
+        && candidate.last_confirmed_at() >= existing.last_confirmed_at()
+    {
+        return true;
+    }
+    if existing.state == GrayRhinoCandidateState::Resolved
+        && existing.last_confirmed_at() >= candidate.last_confirmed_at()
+    {
+        return false;
+    }
     candidate
         .last_confirmed_at()
         .cmp(&existing.last_confirmed_at())

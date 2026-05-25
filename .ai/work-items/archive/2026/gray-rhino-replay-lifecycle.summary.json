@@ -1,0 +1,134 @@
+{
+  "workItemId": "gray-rhino-replay-lifecycle",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-replay-lifecycle.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "reason": "Replay / lifecycle 修正 Work Item の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-replay-lifecycle.summary.json",
+      "reason": "変更内容と検証結果を更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Active Work Item 状態を最新化した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "provider failure がある場合に refresh target が非ゼロ終了するようにした。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration --date を transition log が空でも calibration date として使うようにした。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "as_of_date を repository port に下げ、同日 Resolved を表示 tie-break で優先した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "evidence / candidate 読み取りを as_of_date で filter し、未来事実の replay 混入を防止した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "同日 Resolved 優先と stale persistent risk の Cooling 表示を修正した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_candidate_store.rs",
+      "reason": "同一 source event の確認日違い重複保存を抑止した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "日語 refresh status の raw English label を除去した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "date replay、future filtering、Resolved priority、refresh i18n の回帰テストを追加・更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+    "src/cli.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "src/features/research/infrastructure/gray_rhino_candidate_store.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_replay --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_lifecycle --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_lifecycle --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_refresh_status_i18n --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-replay-lifecycle.summary.json CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-replay-lifecycle.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-replay-lifecycle.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Replay date、future filtering、candidate lifecycle、provider failure exit、Japanese status label を regression tests と quality gate で保護した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

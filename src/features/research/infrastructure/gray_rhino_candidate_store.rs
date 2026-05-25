@@ -32,7 +32,10 @@ impl GrayRhinoCandidateStore {
 
     fn save_candidate(&self, candidate: &GrayRhinoCandidate) -> Result<bool> {
         let records = self.load_candidates()?;
-        if records.iter().any(|existing| existing == candidate) {
+        if records
+            .iter()
+            .any(|existing| same_confirmation_event(existing, candidate))
+        {
             return Ok(false);
         }
         if let Some(parent) = self.path.parent() {
@@ -47,6 +50,18 @@ impl GrayRhinoCandidateStore {
         writeln!(file, "{}", serde_json::to_string(candidate)?)?;
         Ok(true)
     }
+}
+
+fn same_confirmation_event(existing: &GrayRhinoCandidate, candidate: &GrayRhinoCandidate) -> bool {
+    existing.scope == candidate.scope
+        && existing.kind == candidate.kind
+        && existing.subject.eq_ignore_ascii_case(&candidate.subject)
+        && existing.state == candidate.state
+        && existing.evidence == candidate.evidence
+        && existing.watch_triggers == candidate.watch_triggers
+        && existing.source_title == candidate.source_title
+        && existing.source_published_at == candidate.source_published_at
+        && existing.resolved_at == candidate.resolved_at
 }
 
 fn load_jsonl<T>(path: &Path) -> Result<Vec<T>>

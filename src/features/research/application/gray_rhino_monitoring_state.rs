@@ -47,7 +47,7 @@ pub(crate) fn evaluate_gray_rhino_monitoring_states(
             group.sort_by(|a, b| {
                 a.last_confirmed_at()
                     .cmp(&b.last_confirmed_at())
-                    .then_with(|| state_rank(a.state).cmp(&state_rank(b.state)))
+                    .then_with(|| lifecycle_rank(a.state).cmp(&lifecycle_rank(b.state)))
             });
             let latest = group.last().copied()?;
             let previous = group
@@ -101,14 +101,10 @@ fn classify_state(
         );
     }
     if stale_days >= 30 {
-        return if is_persistent_structural_kind(kind) {
-            (latest_state, GrayRhinoMonitoringDirection::Cooling)
-        } else {
-            (
-                GrayRhinoCandidateState::Cooling,
-                GrayRhinoMonitoringDirection::Cooling,
-            )
-        };
+        return (
+            stale_state_for_kind(kind, latest_state),
+            GrayRhinoMonitoringDirection::Cooling,
+        );
     }
     if stale_days >= 14 {
         return (
@@ -142,6 +138,33 @@ fn is_persistent_structural_kind(kind: GrayRhinoCandidateKind) -> bool {
             | GrayRhinoCandidateKind::InstitutionalMaturityGap
             | GrayRhinoCandidateKind::RedundancyGap
     )
+}
+
+fn stale_state_for_kind(
+    kind: GrayRhinoCandidateKind,
+    latest_state: GrayRhinoCandidateState,
+) -> GrayRhinoCandidateState {
+    if is_persistent_structural_kind(kind) {
+        match latest_state {
+            GrayRhinoCandidateState::Critical | GrayRhinoCandidateState::Expanding => {
+                GrayRhinoCandidateState::Cooling
+            }
+            other => other,
+        }
+    } else {
+        GrayRhinoCandidateState::Cooling
+    }
+}
+
+fn lifecycle_rank(state: GrayRhinoCandidateState) -> u8 {
+    match state {
+        GrayRhinoCandidateState::Background => 0,
+        GrayRhinoCandidateState::Visible => 2,
+        GrayRhinoCandidateState::Expanding => 3,
+        GrayRhinoCandidateState::Critical => 4,
+        GrayRhinoCandidateState::Cooling => 5,
+        GrayRhinoCandidateState::Resolved => 6,
+    }
 }
 
 fn state_rank(state: GrayRhinoCandidateState) -> u8 {
@@ -232,7 +255,7 @@ mod tests {
             std::slice::from_ref(&candidate),
             NaiveDate::from_ymd_opt(2026, 6, 1).unwrap(),
         );
-        assert_eq!(stale[0].current_state, GrayRhinoCandidateState::Expanding);
+        assert_eq!(stale[0].current_state, GrayRhinoCandidateState::Cooling);
         assert_eq!(stale[0].direction, GrayRhinoMonitoringDirection::Cooling);
     }
 
@@ -266,5 +289,22 @@ mod tests {
             statuses[0].direction,
             GrayRhinoMonitoringDirection::Resolved
         );
+    }
+
+    #[test]
+    fn gray_rhino_lifecycle_stale_expanding_stays_cooling() {
+        let candidate = candidate(
+            "TSLA",
+            GrayRhinoCandidateState::Expanding,
+            NaiveDate::from_ymd_opt(2026, 5, 1).unwrap(),
+        );
+
+        let stale = evaluate_gray_rhino_monitoring_states(
+            std::slice::from_ref(&candidate),
+            NaiveDate::from_ymd_opt(2026, 6, 5).unwrap(),
+        );
+
+        assert_eq!(stale[0].current_state, GrayRhinoCandidateState::Cooling);
+        assert_eq!(stale[0].direction, GrayRhinoMonitoringDirection::Cooling);
     }
 }

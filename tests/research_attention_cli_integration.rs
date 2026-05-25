@@ -636,6 +636,43 @@ fn gray_rhino_observation_old_cache_does_not_refresh_persisted_candidate_date() 
 }
 
 #[test]
+fn gray_rhino_replay_date_is_honored_without_transition_log() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"GOOG","state":"Visible","evidence":["Persisted old founder voting control candidate."],"watch_triggers":["proxy update"],"source_title":"Persisted old SEC proxy","observed_at":"2026-04-24"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("latest: 2026-04-24"));
+    assert!(stdout.contains("stale_days: 31"));
+    assert!(!stdout.contains("stale_days: 32"));
+}
+
+#[test]
+fn gray_rhino_replay_future_candidate_is_excluded_from_historical_report() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Critical","evidence":["Future critical evidence."],"watch_triggers":["future proxy"],"source_title":"Future SEC proxy","observed_at":"2026-05-27"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(!stdout.contains("Future critical evidence."));
+    assert!(!stdout.contains("TSLA / Company / Governance Concentration / Critical"));
+}
+
+#[test]
 fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
     let tmp = prepare_standard_workspace("en-us");
     fs::write(
@@ -708,6 +745,26 @@ fn gray_rhino_display_latest_prefers_cooling_after_critical() {
     assert!(stdout.contains("Cooling evidence."));
     assert!(!stdout.contains("TSLA / Company / Governance Concentration / Critical"));
     assert!(stdout.contains("TSLA / Company / Governance Concentration: Cooling"));
+}
+
+#[test]
+fn gray_rhino_lifecycle_same_day_resolved_wins_over_critical() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Critical","evidence":["Critical evidence."],"watch_triggers":["critical proxy"],"source_title":"Critical SEC proxy","observed_at":"2026-05-25"}
+{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Resolved","evidence":["Resolved evidence."],"watch_triggers":["resolved proxy"],"source_title":"Resolved SEC proxy","observed_at":"2026-05-25","resolved_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("TSLA / Company / Governance Concentration / Resolved"));
+    assert!(stdout.contains("Resolved evidence."));
+    assert!(!stdout.contains("TSLA / Company / Governance Concentration / Critical"));
 }
 
 #[test]
@@ -1010,8 +1067,8 @@ fn gray_rhino_refresh_status_i18n_renders_zh_en_ja_labels() {
         (
             "ja-jp",
             "全体状態: 部分失敗",
-            "SEC: 成功 / Finnhub: skip / FRED: 失敗",
-            "partial_failure",
+            "SEC: 成功 / Finnhub: 未実行 / FRED: 失敗",
+            "partial_failure|skip|coverage|provider",
         ),
     ] {
         let tmp = prepare_standard_workspace(lang);
@@ -1028,8 +1085,8 @@ fn gray_rhino_refresh_status_i18n_renders_zh_en_ja_labels() {
         let stdout = String::from_utf8_lossy(&out.stdout);
         assert!(stdout.contains(expected_status));
         assert!(stdout.contains(expected_providers));
-        if !unexpected.is_empty() {
-            assert!(!stdout.contains(unexpected));
+        for forbidden in unexpected.split('|').filter(|value| !value.is_empty()) {
+            assert!(!stdout.contains(forbidden));
         }
     }
 }
