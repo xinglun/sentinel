@@ -195,6 +195,56 @@ fn gray_rhino_governance_evidence_ingest_writes_jsonl_without_escalation() {
 }
 
 #[test]
+fn gray_rhino_dependency_evidence_ingest_writes_jsonl_without_escalation() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let evidence_path = tmp.path().join("dependency_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "SupplierDisclosure",
+    "source_title": "Supplier dependency disclosure",
+    "publisher": "Example issuer",
+    "source_url": "https://example.com/supplier",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.86,
+  "extraction_note": "Supplier disclosure identifies dependency concentration.",
+  "structural_fact": "Critical supplier dependency has no disclosed fallback.",
+  "metrics": {
+    "dependency_kind": "Supplier",
+    "dependency_name": "Example supplier",
+    "concentration_ratio": 0.7,
+    "single_point_of_failure": true,
+    "fallback_disclosed": false
+  }
+}"#,
+    )
+    .expect("failed to write dependency evidence fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-dependency",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Successfully ingested DependencyConcentration evidence."));
+    assert!(stdout.contains("Boundary: evidence only"));
+    let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
+        .expect("failed to read gray rhino evidence store");
+    assert!(store.contains("\"category\":\"DependencyConcentration\""));
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
+#[test]
 fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("proxy_source.txt");

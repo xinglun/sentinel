@@ -26,12 +26,15 @@ use crate::features::radar::interface::audit_daily_report::{
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
 use crate::features::research::acl::governance_evidence_store_factory::build_governance_evidence_store_adapter;
 use crate::features::research::acl::governance_source_adapter_factory::build_governance_source_adapter;
+use crate::features::research::application::dependency_evidence::ingest_dependency_concentration_evidence;
 use crate::features::research::application::governance_evidence::ingest_governance_concentration_evidence;
 use crate::features::research::application::governance_source_pipeline::{
     collect_governance_concentration_sources, GovernanceFieldCoverage,
     GovernanceSourceCollectionRequest,
 };
-use crate::features::research::domain::gray_rhino_evidence::GovernanceConcentrationEvidence;
+use crate::features::research::domain::gray_rhino_evidence::{
+    DependencyConcentrationEvidence, GovernanceConcentrationEvidence,
+};
 use crate::features::research::interface::cognitive_reports::{
     build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
     daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
@@ -170,6 +173,15 @@ pub async fn run() -> Result<()> {
                 return Err(anyhow!("{}", err));
             }
             run_ingest_gray_rhino_governance(
+                &app_config,
+                options.governance_evidence_file.as_deref(),
+            )?;
+        }
+        CliCommand::IngestGrayRhinoDependency => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_ingest_gray_rhino_dependency(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
             )?;
@@ -478,6 +490,30 @@ fn run_ingest_gray_rhino_governance(
         println!("GovernanceConcentration evidence already exists (deduplicated).");
     }
     println!("Category: GovernanceConcentration");
+    println!("Source: {}", outcome.record.source.source_title);
+    println!("Observed at: {}", outcome.record.source.observed_at);
+    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+fn run_ingest_gray_rhino_dependency(
+    app_config: &config::AppConfig,
+    file_arg: Option<&str>,
+) -> Result<()> {
+    let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
+    let raw = std::fs::read_to_string(file)
+        .with_context(|| format!("Failed to read dependency evidence file: {}", file))?;
+    let evidence: DependencyConcentrationEvidence = serde_json::from_str(&raw)
+        .with_context(|| format!("Failed to parse dependency evidence JSON: {}", file))?;
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+    let store = build_governance_evidence_store_adapter(&save_dir);
+    let outcome = ingest_dependency_concentration_evidence(&store, evidence)?;
+    if outcome.saved {
+        println!("Successfully ingested DependencyConcentration evidence.");
+    } else {
+        println!("DependencyConcentration evidence already exists (deduplicated).");
+    }
+    println!("Category: DependencyConcentration");
     println!("Source: {}", outcome.record.source.source_title);
     println!("Observed at: {}", outcome.record.source.observed_at);
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");

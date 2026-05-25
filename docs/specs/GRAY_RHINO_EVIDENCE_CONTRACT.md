@@ -76,7 +76,7 @@ business、infrastructure、compute、cloud、launch、supplier、ecosystem な�
 - launch dependency。
 - single supplier dependency。
 
-Phase 3-B では、この category を GovernanceConcentration の次の構造 sensor として実装する。入力は repository-local structured JSON から開始し、collector や live source adapter はまだ追加しない。
+Phase 3-B では、この category を GovernanceConcentration の次の構造 sensor として実装する。入力は repository-local structured JSON から開始し、`ingest-gray-rhino-dependency --file <json>` で取り込む。collector や live source adapter はまだ追加しない。
 
 次の構造項目のうち少なくとも 1 つを source から抽出する。
 
@@ -227,7 +227,7 @@ field-level coverage は current run の extraction audit から算出する。J
 
 本 Work Item の対象。DependencyConcentration evidence は source traceability、dependency kind、dependency name、category-specific metric validation を必須とする。
 
-Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。live collector、dependency graph builder、escalation engine は追加しない。
+Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。`ingest-gray-rhino-dependency --file <json>` は valid evidence を `gray_rhino_evidence.jsonl` に保存するが、live collector、dependency graph builder、escalation engine は追加しない。
 
 ### Phase 4: Escalation Detection Engine
 

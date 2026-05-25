@@ -240,6 +240,8 @@ def main() -> int:
         "fallback_disclosed",
         "dependency_kind",
         "dependency_name",
+        "localIngestionCli: ingest-gray-rhino-dependency",
+        "ingest-gray-rhino-dependency",
         "Infrastructure",
         "Compute",
         "Cloud",
