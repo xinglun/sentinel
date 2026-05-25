@@ -32,7 +32,7 @@ global_budget = 100000.0   # 自动交易全局预算上限
 user_agent = "Ray Sentinel <xing_lun@hotmail.com>"
 
 [fred]
-fred_api_key = ""
+fred_api_key = "89e3dbb609204b540b3c35dc19a97bf9"
 
 [finnhub]
 # Finnhub 访问配置
