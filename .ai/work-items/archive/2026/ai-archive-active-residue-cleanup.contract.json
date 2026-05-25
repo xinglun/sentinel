@@ -1,0 +1,78 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-archive-active-residue-cleanup",
+  "mode": "code",
+  "title": "AI archive active residue cleanup",
+  "scope": [
+    ".ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+    ".ai/work-items/active/ai-archive-active-residue-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_finish.py",
+    "scripts/ai_test_finish_archive_flow.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "reason": "Work Item の scope と検証条件を定義する。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "archive 後の preflight 実行と Work Item 完了判定を担う。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "finish archive flow の軽量回帰テスト。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "ai_finish は archive と ai-preflight が成功しても active Work Item JSON が残る場合は失敗する。",
+    "通常の archive 成功 flow は active JSON が消えることをテスト内で模擬して維持する。",
+    "archive 成功後に active residue が残る regression case を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-archive-active-residue-cleanup.summary.json CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-residue-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-residue-cleanup.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "scripts/ai_finish.py",
+      "scripts/ai_test_finish_archive_flow.py"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
