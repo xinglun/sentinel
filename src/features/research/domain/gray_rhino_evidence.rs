@@ -61,6 +61,35 @@ pub struct GovernanceConcentrationEvidence {
     pub metrics: GovernanceConcentrationMetrics,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum DependencyConcentrationKind {
+    Infrastructure,
+    Compute,
+    Cloud,
+    Launch,
+    Supplier,
+    Ecosystem,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DependencyConcentrationMetrics {
+    pub dependency_kind: DependencyConcentrationKind,
+    pub dependency_name: String,
+    pub concentration_ratio: Option<f64>,
+    pub single_point_of_failure: Option<bool>,
+    pub fallback_disclosed: Option<bool>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct DependencyConcentrationEvidence {
+    pub subject: String,
+    pub source: GrayRhinoSourceReference,
+    pub confidence: f64,
+    pub extraction_note: String,
+    pub structural_fact: String,
+    pub metrics: DependencyConcentrationMetrics,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GrayRhinoEvidenceRejection {
     MissingSourceReference,
@@ -74,6 +103,8 @@ pub enum GrayRhinoEvidenceRejection {
     UnsupportedSourceType,
     MissingGovernanceMetric,
     InvalidGovernanceMetric,
+    MissingDependencyMetric,
+    InvalidDependencyMetric,
 }
 
 impl GrayRhinoEvidenceRecord {
@@ -156,6 +187,56 @@ impl GovernanceConcentrationMetrics {
             .is_none_or(|value| (0.0..=100.0).contains(&value))
             && self
                 .independent_board_ratio
+                .is_none_or(|value| (0.0..=1.0).contains(&value))
+    }
+}
+
+impl DependencyConcentrationEvidence {
+    pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
+        if self.subject.trim().is_empty() {
+            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+        }
+        if !matches!(
+            self.source.source_type,
+            GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::InfrastructureStatus
+                | GrayRhinoEvidenceSourceType::SupplierDisclosure
+                | GrayRhinoEvidenceSourceType::IndependentAudit
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ) {
+            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
+        }
+        if !self.metrics.has_any_metric() {
+            return Err(GrayRhinoEvidenceRejection::MissingDependencyMetric);
+        }
+        if !self.metrics.is_valid() {
+            return Err(GrayRhinoEvidenceRejection::InvalidDependencyMetric);
+        }
+        self.to_record().validate()
+    }
+
+    pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
+        GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::DependencyConcentration,
+            source: self.source.clone(),
+            confidence: self.confidence,
+            extraction_note: self.extraction_note.clone(),
+            structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl DependencyConcentrationMetrics {
+    fn has_any_metric(&self) -> bool {
+        self.concentration_ratio.is_some()
+            || self.single_point_of_failure.is_some()
+            || self.fallback_disclosed.is_some()
+    }
+
+    fn is_valid(&self) -> bool {
+        !self.dependency_name.trim().is_empty()
+            && self
+                .concentration_ratio
                 .is_none_or(|value| (0.0..=1.0).contains(&value))
     }
 }
@@ -330,6 +411,90 @@ mod tests {
         assert_eq!(
             evidence.to_record().category,
             GrayRhinoEvidenceCategory::GovernanceConcentration
+        );
+    }
+
+    fn dependency_source() -> GrayRhinoSourceReference {
+        GrayRhinoSourceReference {
+            source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
+            source_title: "Supplier dependency disclosure".to_string(),
+            publisher: "Example issuer".to_string(),
+            source_url: Some("https://example.com/dependency".to_string()),
+            repository_path: None,
+            observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+        }
+    }
+
+    #[test]
+    fn dependency_evidence_requires_at_least_one_dependency_metric() {
+        let evidence = DependencyConcentrationEvidence {
+            subject: "Example issuer".to_string(),
+            source: dependency_source(),
+            confidence: 0.8,
+            extraction_note: "Supplier disclosure identifies dependency concentration.".to_string(),
+            structural_fact: "Critical supplier dependency has no disclosed fallback.".to_string(),
+            metrics: DependencyConcentrationMetrics {
+                dependency_kind: DependencyConcentrationKind::Supplier,
+                dependency_name: "Example supplier".to_string(),
+                concentration_ratio: None,
+                single_point_of_failure: None,
+                fallback_disclosed: None,
+            },
+        };
+
+        assert_eq!(
+            evidence.validate(),
+            Err(GrayRhinoEvidenceRejection::MissingDependencyMetric)
+        );
+    }
+
+    #[test]
+    fn dependency_evidence_rejects_unsupported_source_type() {
+        let mut source = dependency_source();
+        source.source_type = GrayRhinoEvidenceSourceType::MarketNarrativeCorpus;
+        let evidence = DependencyConcentrationEvidence {
+            subject: "Example issuer".to_string(),
+            source,
+            confidence: 0.8,
+            extraction_note: "Supplier disclosure identifies dependency concentration.".to_string(),
+            structural_fact: "Critical supplier dependency has no disclosed fallback.".to_string(),
+            metrics: DependencyConcentrationMetrics {
+                dependency_kind: DependencyConcentrationKind::Supplier,
+                dependency_name: "Example supplier".to_string(),
+                concentration_ratio: None,
+                single_point_of_failure: Some(true),
+                fallback_disclosed: Some(false),
+            },
+        };
+
+        assert_eq!(
+            evidence.validate(),
+            Err(GrayRhinoEvidenceRejection::UnsupportedSourceType)
+        );
+    }
+
+    #[test]
+    fn dependency_evidence_projects_to_gray_rhino_record() {
+        let evidence = DependencyConcentrationEvidence {
+            subject: "Example issuer".to_string(),
+            source: dependency_source(),
+            confidence: 0.82,
+            extraction_note: "Supplier disclosure identifies dependency concentration.".to_string(),
+            structural_fact: "Critical supplier dependency has no disclosed fallback.".to_string(),
+            metrics: DependencyConcentrationMetrics {
+                dependency_kind: DependencyConcentrationKind::Supplier,
+                dependency_name: "Example supplier".to_string(),
+                concentration_ratio: Some(0.74),
+                single_point_of_failure: Some(true),
+                fallback_disclosed: Some(false),
+            },
+        };
+
+        assert_eq!(evidence.validate(), Ok(()));
+        assert_eq!(
+            evidence.to_record().category,
+            GrayRhinoEvidenceCategory::DependencyConcentration
         );
     }
 }

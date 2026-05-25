@@ -79,6 +79,8 @@ def main() -> int:
         "governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl",
         "governanceReplayFixturePack: tests/fixtures/governance_sec",
         "governanceSecLiveDryRunDefault: true",
+        "dependencyEvidencePipelineEnabled: true",
+        "dependencyEvidenceStore: gray_rhino_evidence.jsonl",
         "evidence_must_not_set_escalation_state: true",
     }
     for item in required_schema_pairs:
@@ -120,6 +122,7 @@ def main() -> int:
         "Phase 3-A: Governance SEC Voting Structure Calibration",
         "Phase 3-A: Governance SEC Board Independence Calibration",
         "Phase 3-A: Governance SEC Founder Voting Power Calibration",
+        "Phase 3-B: Dependency Concentration Evidence Pipeline",
         "repository-local structured JSON",
         "deterministic extraction",
         "rejection taxonomy",
@@ -144,8 +147,12 @@ def main() -> int:
     required_domain_terms = [
         "GovernanceConcentrationEvidence",
         "GovernanceConcentrationMetrics",
+        "DependencyConcentrationEvidence",
+        "DependencyConcentrationMetrics",
+        "DependencyConcentrationKind",
         "MissingSourceReference",
         "MissingGovernanceMetric",
+        "MissingDependencyMetric",
         "NarrativeOnly",
         "ForbiddenBoundaryTerm",
         "validate(&self)",
@@ -220,6 +227,36 @@ def main() -> int:
     ]:
         if item not in schema:
             errors.append(f"schema missing governance pipeline contract `{item}`")
+
+    for item in [
+        "dependencyEvidencePipelineEnabled: true",
+        "dependencyEvidenceStore: gray_rhino_evidence.jsonl",
+        "phase_3b_dependency_concentration_evidence_pipeline: active",
+        "dependencyConcentration:",
+        "phase: phase_3b_dependency_concentration_evidence_pipeline",
+        "inputMode: repository_local_structured_json",
+        "concentration_ratio",
+        "single_point_of_failure",
+        "fallback_disclosed",
+        "dependency_kind",
+        "dependency_name",
+        "Infrastructure",
+        "Compute",
+        "Cloud",
+        "Launch",
+        "Supplier",
+        "Ecosystem",
+        "CompanyDisclosure",
+        "InfrastructureStatus",
+        "SupplierDisclosure",
+        "IndependentAudit",
+        "OperatorCuratedSource",
+        "outputCategory: DependencyConcentration",
+        "collectorEnabled: false",
+        "noEscalationStateMutation: true",
+    ]:
+        if item not in schema:
+            errors.append(f"schema missing dependency pipeline contract `{item}`")
 
     if errors:
         report(errors)

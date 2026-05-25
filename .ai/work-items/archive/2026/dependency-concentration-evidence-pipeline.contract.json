@@ -1,0 +1,115 @@
+{
+  "contractVersion": 1,
+  "workItemId": "dependency-concentration-evidence-pipeline",
+  "mode": "code",
+  "title": "Dependency Concentration evidence pipeline",
+  "scope": [
+    ".ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+    ".ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/dependency_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "reason": "Work Item の scope、acceptance、verification を定義する。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "DependencyConcentration evidence の domain model と validation 境界。"
+    },
+    {
+      "path": "src/features/research/application/governance_evidence.rs",
+      "reason": "既存 GovernanceConcentration ingestion port の実装パターン。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "Gray Rhino evidence JSONL store の既存 persistence 境界。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "DependencyConcentration pipeline contract の machine-readable SSOT。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "DependencyConcentration pipeline contract の human-readable SSOT。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "schema / docs / domain の整合 checker。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "DependencyConcentration evidence は source traceability と category-specific metric validation を持つ。",
+    "許可 source type は CompanyDisclosure、InfrastructureStatus、SupplierDisclosure、IndependentAudit、OperatorCuratedSource に限定する。",
+    "single point、fallback disclosure、concentration ratio の少なくとも 1 つがない evidence は拒否する。",
+    "ingestion は GrayRhinoEvidenceRecord に project して JSONL store へ保存できるが、escalation state、Gate、execution、trading state を変更しない。",
+    "本 Work Item は collector / live source adapter / escalation engine を追加しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test features::research::domain::gray_rhino_evidence::tests:: --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test features::research::application::dependency_evidence::tests:: --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test features::research::infrastructure::gray_rhino_evidence_store::tests:: --lib",
+      "required": true
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/features/research/domain/gray_rhino_evidence.rs",
+      "src/features/research/application/mod.rs",
+      "src/features/research/application/dependency_evidence.rs",
+      "src/features/research/infrastructure/gray_rhino_evidence_store.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

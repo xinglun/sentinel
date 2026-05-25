@@ -1,9 +1,12 @@
+use crate::features::research::application::dependency_evidence::DependencyEvidenceRepository;
 use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
 use crate::features::research::domain::governance_source::{
     GovernanceExtractionAuditRecord, GovernanceSourceManifest,
 };
-use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord;
+use crate::features::research::domain::gray_rhino_evidence::{
+    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord,
+};
 use anyhow::{Context, Result};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
@@ -62,6 +65,19 @@ impl GovernanceEvidenceRepository for GrayRhinoEvidenceStore {
                 })
             })
             .collect()
+    }
+}
+
+impl DependencyEvidenceRepository for GrayRhinoEvidenceStore {
+    fn save_dependency_evidence(&self, record: &GrayRhinoEvidenceRecord) -> Result<bool> {
+        append_unique_jsonl(&self.path, record)
+    }
+
+    fn load_dependency_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
+        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+            .into_iter()
+            .filter(|record| record.category == GrayRhinoEvidenceCategory::DependencyConcentration)
+            .collect())
     }
 }
 
@@ -162,6 +178,25 @@ mod tests {
         assert!(!store.save_governance_evidence(&record).unwrap());
 
         assert_eq!(store.load_governance_evidence().unwrap(), vec![record]);
+    }
+
+    #[test]
+    fn appends_dependency_evidence_without_duplicates_and_filters_category() {
+        let dir = tempdir().unwrap();
+        let store = GrayRhinoEvidenceStore::new(dir.path());
+        let mut dependency = record();
+        dependency.category = GrayRhinoEvidenceCategory::DependencyConcentration;
+        dependency.source.source_type = GrayRhinoEvidenceSourceType::SupplierDisclosure;
+        dependency.source.source_title = "Supplier dependency disclosure".to_string();
+        dependency.structural_fact =
+            "Critical supplier dependency has no disclosed fallback.".to_string();
+        let governance = record();
+
+        assert!(store.save_governance_evidence(&governance).unwrap());
+        assert!(store.save_dependency_evidence(&dependency).unwrap());
+        assert!(!store.save_dependency_evidence(&dependency).unwrap());
+
+        assert_eq!(store.load_dependency_evidence().unwrap(), vec![dependency]);
     }
 
     #[test]

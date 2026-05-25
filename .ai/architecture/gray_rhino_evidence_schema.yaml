@@ -13,6 +13,8 @@ governanceSourceManifest: gray_rhino_governance_source_manifest.jsonl
 governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl
 governanceReplayFixturePack: tests/fixtures/governance_sec
 governanceSecLiveDryRunDefault: true
+dependencyEvidencePipelineEnabled: true
+dependencyEvidenceStore: gray_rhino_evidence.jsonl
 categories:
   - GovernanceConcentration
   - DependencyConcentration
@@ -100,6 +102,34 @@ governanceConcentration:
     - SourceInvalid
     - ExtractionInvalid
   noEscalationStateMutation: true
+dependencyConcentration:
+  phase: phase_3b_dependency_concentration_evidence_pipeline
+  inputMode: repository_local_structured_json
+  requiredMetricAtLeastOneOf:
+    - concentration_ratio
+    - single_point_of_failure
+    - fallback_disclosed
+  requiredFields:
+    - dependency_kind
+    - dependency_name
+  allowedDependencyKinds:
+    - Infrastructure
+    - Compute
+    - Cloud
+    - Launch
+    - Supplier
+    - Ecosystem
+  allowedSourceTypes:
+    - CompanyDisclosure
+    - InfrastructureStatus
+    - SupplierDisclosure
+    - IndependentAudit
+    - OperatorCuratedSource
+  outputCategory: DependencyConcentration
+  storage: gray_rhino_evidence.jsonl
+  deterministicExtractionOnly: true
+  collectorEnabled: false
+  noEscalationStateMutation: true
 boundaries:
   forbidden_as_evidence:
     - narrative_only
@@ -129,6 +159,6 @@ phases:
   phase_3a_governance_sec_voting_structure_calibration: active
   phase_3a_governance_sec_board_independence_calibration: active
   phase_3a_governance_sec_founder_voting_power_calibration: active
-  phase_3b_dependency_concentration_evidence_pipeline: blocked_until_governance_sensor_stabilizes
+  phase_3b_dependency_concentration_evidence_pipeline: active
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope
