@@ -556,6 +556,117 @@ fn gray_rhino_quality_report_explains_dimensions_without_signals() {
 }
 
 #[test]
+fn gray_rhino_provider_registry_backfill_records_ops_status() {
+    let tmp = prepare_standard_workspace("en-us");
+    let dependency_path = tmp.path().join("dependency_source.txt");
+    let missing_path = tmp.path().join("missing_dependency_source.txt");
+    let manifest_path = tmp.path().join("provider_registry.json");
+    fs::write(
+        &dependency_path,
+        "dependency_kind: Supplier; dependency_name: Supplier A; concentration_ratio: 0.7; single_point_of_failure: true",
+    )
+    .expect("failed to write dependency source");
+    fs::write(
+        &manifest_path,
+        format!(
+            r#"[
+  {{
+    "category": "DependencyConcentration",
+    "symbol": "EXAMPLE",
+    "provider_kind": "supplier",
+    "source_type": "SupplierDisclosure",
+    "file": "{}",
+    "observed_at": "2026-01-01",
+    "freshness_days": 30,
+    "expected_sha256": "outdated-hash"
+  }},
+  {{
+    "category": "DependencyConcentration",
+    "symbol": "EXAMPLE",
+    "provider_kind": "cloud",
+    "source_type": "InfrastructureStatus",
+    "file": "{}"
+  }}
+]"#,
+            dependency_path.display(),
+            missing_path.display()
+        ),
+    )
+    .expect("failed to write provider registry");
+
+    let backfill = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-backfill",
+            "--file",
+            manifest_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+        ],
+    );
+
+    assert!(backfill.status.success());
+    let summary = fs::read_to_string(tmp.path().join("gray_rhino_backfill_runs.jsonl"))
+        .expect("failed to read backfill summary");
+    assert!(summary.contains("\"source_count\":2"));
+    assert!(summary.contains("\"accepted\":1"));
+    assert!(summary.contains("\"rejected\":1"));
+    assert!(summary.contains("\"stale_sources\":1"));
+    assert!(summary.contains("\"drift_sources\":1"));
+    assert!(summary.contains("\"failure_taxonomy\":\"fetch_failure\""));
+
+    let evidence_path = tmp.path().join("dependency_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "SupplierDisclosure",
+    "source_title": "Supplier dependency disclosure",
+    "publisher": "Example supplier report",
+    "source_url": "https://example.com/supplier",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.86,
+  "extraction_note": "Supplier disclosure identifies dependency concentration.",
+  "structural_fact": "Critical supplier dependency has no disclosed fallback.",
+  "metrics": {
+    "dependency_kind": "Supplier",
+    "dependency_name": "Example supplier",
+    "concentration_ratio": 0.7,
+    "single_point_of_failure": true,
+    "fallback_disclosed": false
+  }
+}"#,
+    )
+    .expect("failed to write dependency evidence");
+    assert!(run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-dependency",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    )
+    .status
+    .success());
+    let report = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+    assert!(report.status.success());
+    let stdout = String::from_utf8_lossy(&report.stdout);
+    assert!(stdout.contains("Backfill Ops View"));
+    assert!(stdout.contains("failed_sources: 1"));
+    assert!(stdout.contains("stale_sources: 1"));
+    assert!(stdout.contains("drift_sources: 1"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
 fn dependency_real_backfill_writes_run_summary() {
     let tmp = prepare_standard_workspace("en-us");
     let dependency_path = tmp.path().join("dependency_source.txt");

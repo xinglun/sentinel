@@ -834,6 +834,11 @@ async fn run_collect_gray_rhino_backfill(
         Sha256::digest(format!("{file}:{started_at}").as_bytes())
     );
     let mut processed = 0usize;
+    let mut accepted = 0usize;
+    let mut rejected = 0usize;
+    let mut stale_sources = 0usize;
+    let mut drift_sources = 0usize;
+    let mut failures = Vec::new();
     let mut categories = Vec::new();
     println!("--- Gray Rhino Multi-Category Backfill Dry Run ---");
     for entry in entries {
@@ -846,12 +851,59 @@ async fn run_collect_gray_rhino_backfill(
             .and_then(|value| value.as_str())
             .unwrap_or("UNKNOWN")
             .to_string();
-        let source_file = entry
+        let Some(source_file) = entry
             .get("file")
             .and_then(|value| value.as_str())
-            .ok_or_else(|| anyhow!("backfill entry missing file"))?
-            .to_string();
+            .map(|value| value.to_string())
+        else {
+            failures.push(serde_json::json!({
+                "category": category,
+                "symbol": symbol,
+                "failure_taxonomy": "unsupported_format",
+                "reason": "missing file"
+            }));
+            rejected += 1;
+            processed += 1;
+            continue;
+        };
         categories.push(category.to_string());
+        let source_content = match std::fs::read_to_string(&source_file) {
+            Ok(content) => content,
+            Err(err) => {
+                failures.push(serde_json::json!({
+                    "category": category,
+                    "symbol": symbol,
+                    "source": source_file,
+                    "failure_taxonomy": "fetch_failure",
+                    "reason": err.to_string()
+                }));
+                rejected += 1;
+                processed += 1;
+                continue;
+            }
+        };
+        let source_hash = format!("{:x}", Sha256::digest(source_content.as_bytes()));
+        if let Some(expected) = entry
+            .get("expected_sha256")
+            .and_then(|value| value.as_str())
+        {
+            if expected != source_hash {
+                drift_sources += 1;
+            }
+        }
+        if let (Some(observed), Some(freshness_days)) = (
+            entry.get("observed_at").and_then(|value| value.as_str()),
+            entry.get("freshness_days").and_then(|value| value.as_i64()),
+        ) {
+            if let Ok(observed) = NaiveDate::parse_from_str(observed, "%Y-%m-%d") {
+                let as_of = observed_date_arg
+                    .and_then(|raw| NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok())
+                    .unwrap_or_else(|| chrono::Local::now().date_naive());
+                if as_of.signed_duration_since(observed).num_days() > freshness_days {
+                    stale_sources += 1;
+                }
+            }
+        }
         match category {
             "DependencyConcentration" => {
                 run_collect_gray_rhino_dependency(
@@ -895,12 +947,19 @@ async fn run_collect_gray_rhino_backfill(
                 ],
             )?,
             other => {
-                return Err(anyhow!(
-                    "unsupported Gray Rhino backfill category: {}",
-                    other
-                ))
+                failures.push(serde_json::json!({
+                    "category": other,
+                    "symbol": symbol,
+                    "source": source_file,
+                    "failure_taxonomy": "unsupported_format",
+                    "reason": "unsupported category"
+                }));
+                rejected += 1;
+                processed += 1;
+                continue;
             }
         }
+        accepted += 1;
         processed += 1;
     }
     let finished_at = chrono::Local::now().to_rfc3339();
@@ -915,9 +974,12 @@ async fn run_collect_gray_rhino_backfill(
             "manifest": file,
             "categories": categories,
             "source_count": processed,
-            "accepted": processed,
-            "rejected": 0,
-            "coverage": if processed == 0 { 0.0 } else { 1.0 },
+            "accepted": accepted,
+            "rejected": rejected,
+            "coverage": if processed == 0 { 0.0 } else { accepted as f64 / processed as f64 },
+            "stale_sources": stale_sources,
+            "drift_sources": drift_sources,
+            "failures": failures,
             "started_at": started_at,
             "finished_at": finished_at,
             "boundary": "evidence only; no escalation, gate, execution, or trading state updated"

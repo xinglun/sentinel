@@ -275,6 +275,12 @@ Phase v1.1 では `collect-gray-rhino-backfill --file <manifest>` を追加し�
 
 Phase v1.2 では backfill run summary を `gray_rhino_backfill_runs.jsonl` に保存する。summary は run id、manifest、category、source count、accepted、rejected、coverage、started_at、finished_at、boundary を含む。
 
+Phase v1.3 では provider source registry を manifest として扱う。registry entry は `provider_kind`、`source_type`、`file` または URL source、`observed_at`、`freshness_days`、`expected_sha256` を持てる。`config.toml` に registry path を設定するが、registry file の schema は `tests/fixtures/gray_rhino_historical/provider_registry.json` を fixture とする。
+
+Backfill run summary は provider failure taxonomy として `fetch_failure`、`timeout`、`unsupported_format`、`metricless_source`、`stale_source` を記録する。hash drift は `drift_sources`、freshness window 超過は `stale_sources` に集計する。
+
+Report ops view は最新 backfill run、failed source、stale source、drift source を表示する。これは運用監査表示であり、trade、Gate、execution、trend cohesion へ接続しない。
+
 sensor health は readiness score を表示する。readiness score は category completeness に基づく evidence quality の説明指標であり、trade、Gate、execution、trend cohesion へ接続しない。
 
 evidence-driven escalation は category completeness を calibration input として使う。insufficient category は report に表示するが、narrative な推測で補完しない。

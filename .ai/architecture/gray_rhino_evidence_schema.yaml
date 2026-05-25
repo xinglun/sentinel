@@ -24,6 +24,19 @@ dependencyRawSourceCache: gray_rhino_sources/dependency
 dependencyHttpRetryCount: 3
 dependencyHttpTimeoutSeconds: 20
 backfillRunStore: gray_rhino_backfill_runs.jsonl
+providerSourceRegistryEnabled: true
+providerRegistryConfigRequired: true
+providerRegistryFixture: tests/fixtures/gray_rhino_historical/provider_registry.json
+scheduledBackfillEnabled: true
+backfillDriftDetectionEnabled: true
+providerFailureTaxonomy:
+  - fetch_failure
+  - timeout
+  - unsupported_format
+  - metricless_source
+  - stale_source
+freshnessPolicyEnabled: true
+reportOpsViewEnabled: true
 categories:
   - GovernanceConcentration
   - DependencyConcentration

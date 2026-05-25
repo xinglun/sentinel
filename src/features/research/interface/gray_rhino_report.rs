@@ -457,7 +457,56 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
     out.push_str("- fallback_survivability_risk -> DependencyConcentration + Redundancy gap -> fallback and failover evidence\n");
     out.push_str("- constraint_growth_rate -> InstitutionalMaturity -> audit, oversight, compliance maturity evidence\n");
     out.push_str("- risk_expansion_rate -> GovernanceConcentration + DependencyConcentration -> structural concentration evidence\n");
+    if let Some(ops_view) = render_backfill_ops_view(save_dir) {
+        out.push('\n');
+        out.push_str(&ops_view);
+    }
     Ok(out)
+}
+
+fn render_backfill_ops_view(save_dir: &Path) -> Option<String> {
+    let path = save_dir.join("gray_rhino_backfill_runs.jsonl");
+    let raw = std::fs::read_to_string(path).ok()?;
+    let latest = raw.lines().rev().find(|line| !line.trim().is_empty())?;
+    let value: serde_json::Value = serde_json::from_str(latest).ok()?;
+    let mut out = String::new();
+    out.push_str("Backfill Ops View\n");
+    out.push_str(&format!(
+        "- latest_run: {}\n",
+        value
+            .get("run_id")
+            .and_then(|value| value.as_str())
+            .unwrap_or("unknown")
+    ));
+    out.push_str(&format!(
+        "- source_count: {}\n",
+        value
+            .get("source_count")
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0)
+    ));
+    out.push_str(&format!(
+        "- failed_sources: {}\n",
+        value
+            .get("rejected")
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0)
+    ));
+    out.push_str(&format!(
+        "- stale_sources: {}\n",
+        value
+            .get("stale_sources")
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0)
+    ));
+    out.push_str(&format!(
+        "- drift_sources: {}\n",
+        value
+            .get("drift_sources")
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0)
+    ));
+    Some(out)
 }
 
 fn render_governance_sensor_health(save_dir: &Path, language: Language) -> Result<String> {
