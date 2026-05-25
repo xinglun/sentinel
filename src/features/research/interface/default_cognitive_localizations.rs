@@ -29,6 +29,37 @@ pub(super) fn research_reason_zh(symbol: &str, original: &str) -> Option<&'stati
     }
 }
 
+/// 標準 watchlist の英語向け認知観測説明を返す。
+pub(super) fn research_reason_en(symbol: &str, original: &str) -> Option<&'static str> {
+    match (symbol, original) {
+        ("NVDA", "AI インフラ需要、供給制約、粗利率、データセンター投資回収の変化率が高い。") => {
+            Some("AI infrastructure demand, supply constraints, gross margin, and data-center investment returns continue to change rapidly.")
+        }
+        ("GOOG", "AI 収益化と検索防衛の論点は重要だが、長期ロジックは市場にかなり理解されている。") => {
+            Some("AI monetization and search defense remain important, while the long-term thesis is already broadly understood by the market.")
+        }
+        ("MSFT", "クラウド、Copilot、データセンター投資の実行力は高いが、情報変化率は比較的安定している。") => {
+            Some("Cloud, Copilot, and data-center investment execution are strong, while the rate of new information is comparatively stable.")
+        }
+        ("TSLA", "FSD、Robotaxi、Physical AI、製造自動化の不確実性が高く、認知増分も大きい。") => {
+            Some("FSD, Robotaxi, Physical AI, and manufacturing automation remain highly uncertain and continue to offer substantial learning value.")
+        }
+        ("PLTR", "Ontology、企業 AI 組織化、AI ガバナンスの進化を観測する価値が高い。") => {
+            Some("Ontology, enterprise AI organization, and AI governance continue evolving and warrant sustained observation.")
+        }
+        ("ISRG", "優良企業だが、価格と成長品質のバランスを観測するサンプルとして扱う。") => {
+            Some("A high-quality company used as a sample for observing the balance between price and growth quality.")
+        }
+        ("U", "低位修復後の再評価、実需、収益構造の改善が続くかを観測する。") => {
+            Some("Observe whether rerating after the low-base recovery is sustained by real demand and improving earnings structure.")
+        }
+        ("SPY", "個別テーマではなく市場構造、流動性、指数トレンドの基準線として観測する。") => {
+            Some("Observe it as a baseline for market structure, liquidity, and index trends rather than as an individual theme.")
+        }
+        _ => None,
+    }
+}
+
 /// 標準 watchlist の中国語向け観測命題を返す。
 pub(super) fn asset_thesis_zh(symbol: &str, original: &str) -> Option<&'static str> {
     match (symbol, original) {
@@ -55,6 +86,37 @@ pub(super) fn asset_thesis_zh(symbol: &str, original: &str) -> Option<&'static s
         }
         ("SPY", "個別銘柄ではなく、市場全体の流動性、指数トレンド、リスクオン/オフの基準線として観測する。") => {
             Some("不作为个别标的，而作为全市场流动性、指数趋势与风险偏好的基准线观察。")
+        }
+        _ => None,
+    }
+}
+
+/// 標準 watchlist の英語向け観測命題を返す。
+pub(super) fn asset_thesis_en(symbol: &str, original: &str) -> Option<&'static str> {
+    match (symbol, original) {
+        ("NVDA", "AI インフラ需要が継続し、データセンター投資が収益へ転換し続けるかを観測する。") => {
+            Some("Observe whether AI infrastructure demand persists and data-center investment continues converting into earnings.")
+        }
+        ("GOOG", "AI 商業化が検索、クラウド、広告の利益構造へ定着し、長期収益力を強化するかを観測する。") => {
+            Some("Observe whether AI commercialization becomes embedded in search, cloud, and advertising profit structures and strengthens long-term earnings power.")
+        }
+        ("MSFT", "Azure、Copilot、企業 AI 導入がデータセンター投資を正当化し続けるかを観測する。") => {
+            Some("Observe whether Azure, Copilot, and enterprise AI adoption continue to justify data-center investment.")
+        }
+        ("TSLA", "EV 企業から Physical AI / 自動運転 / ロボティクス企業へ転換できるかを観測する。") => {
+            Some("Observe whether it can transition from an EV company into a Physical AI, autonomous driving, and robotics company.")
+        }
+        ("PLTR", "企業 AI が単なるチャットではなく、Ontology と業務 OS として組織に定着するかを観測する。") => {
+            Some("Observe whether enterprise AI becomes embedded in organizations as an ontology and operating system rather than merely a chat tool.")
+        }
+        ("ISRG", "優良企業としての成長品質が、現在の価格と期待を正当化できるかを観測する。") => {
+            Some("Observe whether the growth quality of a high-quality company can justify its current price and expectations.")
+        }
+        ("U", "低位修復後の価格再評価が、実需と収益構造改善で継続できるかを観測する。") => {
+            Some("Observe whether rerating after the low-base recovery can continue through real demand and an improving earnings structure.")
+        }
+        ("SPY", "個別銘柄ではなく、市場全体の流動性、指数トレンド、リスクオン/オフの基準線として観測する。") => {
+            Some("Observe it not as an individual security, but as a baseline for market-wide liquidity, index trends, and risk appetite.")
         }
         _ => None,
     }
@@ -108,6 +170,54 @@ pub(super) fn observation_focus_zh(symbol: &str, thesis: &str) -> Option<Vec<Str
     }
 }
 
+/// 標準 watchlist の英語向け観測焦点を返す。
+pub(super) fn observation_focus_en(symbol: &str, thesis: &str) -> Option<Vec<String>> {
+    asset_thesis_en(symbol, thesis)?;
+    match symbol {
+        "NVDA" => Some(strings(&[
+            "Persistence of data-center orders and supply constraints",
+            "Gross margin, inventory, and quality of next-generation GPU migration",
+            "Connection between hyperscaler capital spending and semiconductor demand",
+        ])),
+        "GOOG" => Some(strings(&[
+            "Compatibility of AI Overviews with search advertising revenue",
+            "Google Cloud growth and profitability",
+            "Investment returns from Gemini, TPU, and internal infrastructure",
+        ])),
+        "MSFT" => Some(strings(&[
+            "Azure growth and AI contribution",
+            "Actual Copilot usage and pricing improvement",
+            "Balance between capital spending growth and operating margin",
+        ])),
+        "TSLA" => Some(strings(&[
+            "Commercialization progress of FSD and Robotaxi",
+            "EV price competition and gross margin",
+            "Feasibility of Optimus and manufacturing automation",
+        ])),
+        "PLTR" => Some(strings(&[
+            "Durability of AIP adoption and commercial revenue growth",
+            "Customer expansion and depth of existing customer usage",
+            "Integration of AI governance and business processes",
+        ])),
+        "ISRG" => Some(strings(&[
+            "Growth in da Vinci installations and procedure counts",
+            "Stability of consumables revenue and margins",
+            "Whether price is running too far ahead of growth quality",
+        ])),
+        "U" => Some(strings(&[
+            "Expansion of use cases beyond games",
+            "Profitability improvement and cost structure",
+            "Ability to shift from recovery rally to structural growth",
+        ])),
+        "SPY" => Some(strings(&[
+            "Relationship between index trend and market breadth",
+            "Divergence between mega-cap leadership and the broader market",
+            "Rates, liquidity, and risk tolerance",
+        ])),
+        _ => None,
+    }
+}
+
 /// 標準 watchlist の中国語向け失効条件を返す。
 pub(super) fn invalidation_zh(symbol: &str, thesis: &str) -> Option<Vec<String>> {
     asset_thesis_zh(symbol, thesis)?;
@@ -151,6 +261,54 @@ pub(super) fn invalidation_zh(symbol: &str, thesis: &str) -> Option<Vec<String>>
             "指数明确跌破长期趋势",
             "市场广度恶化波及领导资产",
             "流动性环境结构性恶化",
+        ])),
+        _ => None,
+    }
+}
+
+/// 標準 watchlist の英語向け失効条件を返す。
+pub(super) fn invalidation_en(symbol: &str, thesis: &str) -> Option<Vec<String>> {
+    asset_thesis_en(symbol, thesis)?;
+    match symbol {
+        "NVDA" => Some(strings(&[
+            "Sustained slowdown in major hyperscaler capital spending",
+            "Clear deterioration in order visibility or gross margin",
+            "Weakening prospects for returns on AI infrastructure investment",
+        ])),
+        "GOOG" => Some(strings(&[
+            "AI investment persistently compresses margin",
+            "Search advertising defense weakens",
+            "Cloud growth clearly slows",
+        ])),
+        "MSFT" => Some(strings(&[
+            "AI-related capital spending fails to connect to revenue growth",
+            "Copilot adoption falls short of expectations",
+            "Cloud growth structurally slows",
+        ])),
+        "TSLA" => Some(strings(&[
+            "Commercialization of FSD or Robotaxi remains delayed",
+            "EV business margin decline fails to stabilize",
+            "Physical AI evidence cannot catch up with price expectations",
+        ])),
+        "PLTR" => Some(strings(&[
+            "Revenue growth slows relative to expectations",
+            "AIP adoption remains at the experiment stage",
+            "Evidence supporting high valuation becomes insufficient",
+        ])),
+        "ISRG" => Some(strings(&[
+            "Procedure or installation growth slows",
+            "Competition or regulation reduces profitability",
+            "The condition of a good company at an unattractive price persists",
+        ])),
+        "U" => Some(strings(&[
+            "Profitability improvement proves temporary",
+            "Major customers or the developer ecosystem weaken",
+            "Price recovery proceeds without fundamental follow-through",
+        ])),
+        "SPY" => Some(strings(&[
+            "The index clearly breaks its long-term trend",
+            "Weak breadth spreads into leadership assets",
+            "The liquidity environment structurally deteriorates",
         ])),
         _ => None,
     }

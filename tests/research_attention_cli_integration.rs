@@ -33,6 +33,23 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
     tmp
 }
 
+fn prepare_standard_workspace(language: &str) -> TempDir {
+    let tmp = tempfile::tempdir().expect("failed to create temp dir");
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let mut raw =
+        fs::read_to_string(root.join("config.toml")).expect("failed to read base config.toml");
+    raw = raw.replace(
+        "save_to = \"./reports\"",
+        &format!("save_to = \"{}\"", tmp.path().to_string_lossy()),
+    );
+    raw = raw.replace(
+        "language = \"zh-cn\"",
+        &format!("language = \"{language}\""),
+    );
+    fs::write(tmp.path().join("config.toml"), raw).expect("failed to write temp config.toml");
+    tmp
+}
+
 #[test]
 fn gray_rhino_escalation_outputs_structural_monitor_without_trade_signal() {
     let tmp = prepare_workspace(
@@ -227,6 +244,100 @@ fn research_attention_empty_config_is_non_blocking() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("未配置认知观察对象"));
+}
+
+#[test]
+fn standard_research_catalog_has_complete_zh_en_ja_content() {
+    for (language, expected_reason, expected_thesis, expected_focus, expected_invalidation) in [
+        (
+            "zh-cn",
+            "AI 基础设施需求、供应约束、毛利率与数据中心投资回报的变化率较高。",
+            "观察 AI 商业化能否沉淀到搜索、云服务和广告的利润结构中",
+            "Azure 成长率与 AI 贡献",
+            "支撑高估值的证据不足",
+        ),
+        (
+            "en-us",
+            "AI infrastructure demand, supply constraints, gross margin",
+            "Observe whether AI commercialization becomes embedded in search",
+            "Azure growth and AI contribution",
+            "Evidence supporting high valuation becomes insufficient",
+        ),
+        (
+            "ja-jp",
+            "AI インフラ需要、供給制約、粗利率",
+            "AI 商業化が検索、クラウド、広告の利益構造へ定着",
+            "Azure 成長率と AI 寄与",
+            "高バリュエーションを支える証拠が不足",
+        ),
+    ] {
+        let tmp = prepare_standard_workspace(language);
+        let attention = run_cli(&tmp, &["research-attention"]);
+        let thesis = run_cli(&tmp, &["asset-thesis"]);
+
+        assert!(attention.status.success());
+        assert!(thesis.status.success());
+        let content = format!(
+            "{}\n{}",
+            String::from_utf8_lossy(&attention.stdout),
+            String::from_utf8_lossy(&thesis.stdout)
+        );
+        assert!(content.contains(expected_reason));
+        assert!(content.contains(expected_thesis));
+        assert!(content.contains(expected_focus));
+        assert!(content.contains(expected_invalidation));
+        assert!(!content.contains("User-defined observation text is not provided"));
+        assert!(!content.contains("用户自定义观察说明未提供"));
+    }
+}
+
+#[test]
+fn standard_english_catalog_does_not_leak_japanese_body_text() {
+    let tmp = prepare_standard_workspace("en-us");
+    let attention = run_cli(&tmp, &["research-attention"]);
+    let thesis = run_cli(&tmp, &["asset-thesis"]);
+    let content = format!(
+        "{}\n{}",
+        String::from_utf8_lossy(&attention.stdout),
+        String::from_utf8_lossy(&thesis.stdout)
+    );
+
+    assert!(!content.contains("観測"));
+    assert!(!content.contains("収益"));
+    assert!(!content.contains("導入"));
+    assert!(!content.contains("失効"));
+}
+
+#[test]
+fn custom_english_research_text_requires_explicit_translation() {
+    let tmp = prepare_workspace(
+        r#"
+
+[research_attention.CUSTOM]
+cognitive_yield = "HIGH"
+attention_cost = "LOW"
+information_density = "ACTIVE"
+reason = "独自の観測理由。"
+
+[asset_thesis.CUSTOM]
+thesis = "独自の観測命題。"
+observation_focus = ["独自焦点"]
+invalidation = ["独自失効"]
+"#,
+    );
+    set_output_language(&tmp, "en-us");
+
+    let attention = run_cli(&tmp, &["research-attention"]);
+    let thesis = run_cli(&tmp, &["asset-thesis"]);
+    let content = format!(
+        "{}\n{}",
+        String::from_utf8_lossy(&attention.stdout),
+        String::from_utf8_lossy(&thesis.stdout)
+    );
+
+    assert!(content.contains("User-defined observation text is not provided in English."));
+    assert!(!content.contains("独自の観測理由"));
+    assert!(!content.contains("独自焦点"));
 }
 
 #[test]

@@ -259,7 +259,10 @@ fn localized_research_reason(
             .reason_zh
             .as_deref()
             .or_else(|| defaults::research_reason_zh(symbol, &entry.reason)),
-        entry.reason_en.as_deref(),
+        entry
+            .reason_en
+            .as_deref()
+            .or_else(|| defaults::research_reason_en(symbol, &entry.reason)),
         entry.reason_ja.as_deref(),
         language,
     )
@@ -276,7 +279,10 @@ fn localized_asset_thesis(
             .thesis_zh
             .as_deref()
             .or_else(|| defaults::asset_thesis_zh(symbol, &entry.thesis)),
-        entry.thesis_en.as_deref(),
+        entry
+            .thesis_en
+            .as_deref()
+            .or_else(|| defaults::asset_thesis_en(symbol, &entry.thesis)),
         entry.thesis_ja.as_deref(),
         language,
     )
@@ -288,13 +294,17 @@ fn localized_asset_observation_focus(
     language: Language,
 ) -> Vec<String> {
     let default_zh = defaults::observation_focus_zh(symbol, &entry.thesis);
+    let default_en = defaults::observation_focus_en(symbol, &entry.thesis);
     localized_list(
         &entry.observation_focus,
         entry
             .observation_focus_zh
             .as_deref()
             .or(default_zh.as_deref()),
-        entry.observation_focus_en.as_deref(),
+        entry
+            .observation_focus_en
+            .as_deref()
+            .or(default_en.as_deref()),
         entry.observation_focus_ja.as_deref(),
         language,
     )
@@ -306,10 +316,11 @@ fn localized_asset_invalidation(
     language: Language,
 ) -> Vec<String> {
     let default_zh = defaults::invalidation_zh(symbol, &entry.thesis);
+    let default_en = defaults::invalidation_en(symbol, &entry.thesis);
     localized_list(
         &entry.invalidation,
         entry.invalidation_zh.as_deref().or(default_zh.as_deref()),
-        entry.invalidation_en.as_deref(),
+        entry.invalidation_en.as_deref().or(default_en.as_deref()),
         entry.invalidation_ja.as_deref(),
         language,
     )

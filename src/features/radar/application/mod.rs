@@ -1,3 +1,4 @@
+pub mod delivery_plan;
 pub mod engine;
 pub mod evidence_assembly;
 pub mod execution_gate;

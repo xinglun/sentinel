@@ -2,7 +2,10 @@ use anyhow::{Context, Result};
 use std::sync::Arc;
 
 use crate::config;
-use crate::features::radar::application::execution_gate::{ExecutionGate, TradingLimits};
+use crate::features::radar::application::delivery_plan::{
+    RadarDeliveryInput, RadarDeliveryPlanner,
+};
+use crate::features::radar::application::execution_gate::TradingLimits;
 use crate::features::radar::application::provider::MarketDataProvider;
 use crate::features::radar::domain::rules::{
     ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
@@ -96,20 +99,17 @@ pub(crate) async fn run_pipeline(
                 }
             };
 
-        if let Some(ref recognition) = packet.trend_recognition {
-            if let Some(ref substantive) = recognition.substantive {
-                let _ = runtime_services
-                    .evidence_store
-                    .save_records(&substantive.records);
-            }
-        }
-
         let lang = config_arc
             .output
             .language
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
-        let pres_packet =
-            PresentationAssembler::assemble(&packet, &rules_arc, &positions, failed_symbols, lang);
+        let pres_packet = PresentationAssembler::assemble(
+            &packet,
+            &rules_arc,
+            &positions,
+            failed_symbols.clone(),
+            lang,
+        );
 
         let default_trading_config = crate::config::TradingConfig {
             enabled: false,
@@ -125,79 +125,37 @@ pub(crate) async fn run_pipeline(
             global_budget: trading_config.global_budget,
             max_daily_budget: trading_config.max_daily_budget,
         };
-        let daily_traded = ledger.get_daily_traded_amount();
-        let current_exposure: f64 = positions
-            .values()
-            .map(|(qty, avg_price)| qty * avg_price)
-            .sum();
-        let buying_power = (trading_config.global_budget - current_exposure).max(0.0);
-        let execution_result = ExecutionGate::gate_packet(
-            &packet,
-            &trading_limits,
-            daily_traded,
-            buying_power,
-            current_exposure,
-        );
+        let delivery_plan = RadarDeliveryPlanner::plan(RadarDeliveryInput {
+            packet: &packet,
+            trading_limits,
+            daily_traded: ledger.get_daily_traded_amount(),
+            realized_pl,
+            positions: &positions,
+            failed_symbols: &failed_symbols,
+            data_acquisition: data_acquisition_summary,
+            previous_market_state: prev_packet.map(|previous| previous.market_regime.market_state),
+            should_persist_history,
+            timestamp: &radar_context.timestamp,
+        });
+        let _ = runtime_services
+            .evidence_store
+            .save_records(&delivery_plan.substantive_records);
         runtime_services
             .persistence
-            .save_execution_gate_result(&packet, &execution_result)?;
+            .save_execution_gate_result(&packet, &delivery_plan.execution_result)?;
 
         let date_str = packet.date.to_string();
-        let portfolio_snapshot =
-            crate::features::radar::application::radar::build_portfolio_snapshot(
-                &date_str,
-                realized_pl,
-                current_exposure,
-                &positions,
-            );
         runtime_services
             .persistence
-            .save_portfolio_snapshot(&portfolio_snapshot, &date_str)?;
-
-        let failed_fetch_count = pres_packet
-            .data_alert
-            .as_ref()
-            .map(|alert| alert.symbols.len())
-            .unwrap_or(0);
-        let account_snapshot = crate::features::radar::application::radar::build_account_snapshot(
-            crate::features::radar::application::radar::AccountSnapshotInput {
-                date: &date_str,
-                global_budget: trading_config.global_budget,
-                max_daily_budget: trading_config.max_daily_budget,
-                daily_traded,
-                buying_power,
-                current_exposure,
-                realized_pl,
-                failed_fetch_count,
-            },
-        );
+            .save_portfolio_snapshot(&delivery_plan.portfolio_snapshot, &date_str)?;
         runtime_services
             .persistence
-            .save_account_snapshot(&account_snapshot, &date_str)?;
-
-        let failed_symbols_for_log = pres_packet
-            .data_alert
-            .as_ref()
-            .map(|alert| alert.symbols.clone())
-            .unwrap_or_default();
-        let data_quality_log = crate::features::radar::application::radar::build_data_quality_log(
-            &radar_context.timestamp,
-            &date_str,
-            data_acquisition_summary,
-            &failed_symbols_for_log,
-        );
+            .save_account_snapshot(&delivery_plan.account_snapshot, &date_str)?;
         runtime_services
             .persistence
-            .save_data_quality_log(&data_quality_log)?;
+            .save_data_quality_log(&delivery_plan.data_quality_log)?;
 
-        outcome.state_machine = Some(
-            crate::features::radar::application::radar::build_state_machine_summary(
-                prev_packet.map(|p| p.market_regime.market_state),
-                packet.market_regime.market_state,
-                packet.market_regime.transition_audit.as_ref(),
-                should_persist_history,
-            ),
-        );
+        outcome.state_machine = Some(delivery_plan.state_machine.clone());
         outcome.date = packet.date.to_string();
 
         if should_persist_history {
@@ -208,17 +166,12 @@ pub(crate) async fn run_pipeline(
             }
         }
 
-        let prices: std::collections::HashMap<String, f64> = packet
-            .assets
-            .iter()
-            .map(|a| (a.symbol.clone(), a.price))
-            .collect();
         let report_result = report::generate_refined_report(
             &config_arc,
             &pres_packet,
             realized_pl,
             &positions,
-            &prices,
+            &delivery_plan.prices,
         )?;
 
         runtime_services

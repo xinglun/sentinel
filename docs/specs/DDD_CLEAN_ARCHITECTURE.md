@@ -116,8 +116,9 @@ Radar の段階移行では、CLI から次の policy を Application へ移し�
 - run context の `save_dir`、`date`、`timestamp`、初期 `RunOutcome` 生成
 - diagnostic packet、decision outcome、state machine summary、persistence payload の組み立て
 - 取得済み domain input からの日次 decision outcome 構築
+- execution gate 入力、budget 派生値、監査 snapshot、evidence 保存対象をまとめた delivery plan の構築
 
-CLI は command dispatch と composition root 呼び出しだけを保持する。provider 呼び出し、report rendering、notification dispatch は `src/features/radar/interface/radar_pipeline_runner.rs` の facade に集約し、日次判定の選択と `Engine` 呼び出しは `RadarPipelineUseCase` が担う。
+CLI は command dispatch と composition root 呼び出しだけを保持する。provider 呼び出し、report rendering、notification dispatch、Application が返した delivery plan の adapter 実行は `src/features/radar/interface/radar_pipeline_runner.rs` の facade に集約する。日次判定の選択と `Engine` 呼び出しは `RadarPipelineUseCase`、execution / audit payload の計算は `RadarDeliveryPlanner` が担う。
 
 次の領域は domain / application / interface / infrastructure の責務へ分割済みである。
 
@@ -140,6 +141,7 @@ Application layer に移行済みのもの:
 - run context と初期 run status metadata
 - diagnostic / decision outcome / persistence payload builder
 - 取得済み domain market data に基づく日次判定と完全取得失敗 policy
+- execution gate、exposure / buying power、snapshot、data quality、state machine、evidence record を一括生成する delivery plan
 
 CLI に残すもの:
 
@@ -148,9 +150,15 @@ CLI に残すもの:
 - provider kind の選択
 - feature interface facade の呼び出し
 
-market data 取得 port は `src/features/radar/application/provider.rs` の `MarketDataProvider` を実運用で接続している。永続化と通知は interface composition が infrastructure / ACL gateway facade を調停し、application policy へ逆流させない。
+market data 取得 port は `src/features/radar/application/provider.rs` の `MarketDataProvider` を実運用で接続している。永続化と通知は interface composition が infrastructure / ACL gateway facade を調停し、application が確定した delivery plan を実行するだけとする。これにより、保存先や Telegram transport は外側に残しつつ、execution と audit の計算責務を Interface に戻さない。
 次に進める場合は、`src/features/<feature>/application` から filesystem / network IO、root compatibility layer、`crate::config`、`crate::adapters` へ依存させず、domain input と port trait を先に定義してから infrastructure 実装を接続する。
 この rule は `make test-architecture-boundaries` の regression test で固定する。
+
+## Research Localization Contract
+
+標準 watchlist に同梱する認知注目と銘柄別観測命題は、`zh-cn`、`en-us`、`ja-jp` の三言語で本文、観測焦点、失効条件を欠落なく表示する。
+標準日本語本文と一致する catalog entry だけを既定翻訳対象とし、ユーザーが追加した独自本文を暗黙に翻訳しない。独自本文に対象言語版がない場合は明示的な欠落表示を返し、別言語本文の混入で意味を推測しない。
+この契約は output quality のための Interface rule であり、Gate、execution、Domain policy を変更しない。
 
 ## Architecture Guard
 

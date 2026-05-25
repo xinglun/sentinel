@@ -377,6 +377,52 @@ fn radar_application_payload_builders_keep_persistence_schema() {
 }
 
 #[test]
+fn radar_delivery_plan_owns_execution_and_audit_payload_composition() {
+    use stock_sentinel::features::radar::application::delivery_plan::{
+        RadarDeliveryInput, RadarDeliveryPlanner,
+    };
+    use stock_sentinel::features::radar::application::execution_gate::TradingLimits;
+    use stock_sentinel::features::radar::application::radar::DataAcquisitionSummary;
+
+    let mut packet = DecisionPacket {
+        date: NaiveDate::from_ymd_opt(2026, 5, 24).unwrap(),
+        ..Default::default()
+    };
+    packet.market_regime.market_state = MarketState::DEFENSIVE;
+    let mut positions = HashMap::new();
+    positions.insert("NVDA".to_string(), (2.0, 100.0));
+    let failed_symbols = vec!["MSFT".to_string()];
+
+    let plan = RadarDeliveryPlanner::plan(RadarDeliveryInput {
+        packet: &packet,
+        trading_limits: TradingLimits {
+            enabled: false,
+            global_budget: 1000.0,
+            max_daily_budget: Some(250.0),
+        },
+        daily_traded: 50.0,
+        realized_pl: 12.5,
+        positions: &positions,
+        failed_symbols: &failed_symbols,
+        data_acquisition: DataAcquisitionSummary::new(1, 1),
+        previous_market_state: Some(MarketState::IGNITION),
+        should_persist_history: true,
+        timestamp: "2026-05-24T00:00:00+09:00",
+    });
+
+    assert_eq!(plan.current_exposure, 200.0);
+    assert_eq!(plan.buying_power, 800.0);
+    assert!(plan.execution_result.trades.is_empty());
+    assert_eq!(plan.portfolio_snapshot["position_count"], 1);
+    assert_eq!(plan.account_snapshot["failed_fetch_count"], 1);
+    assert_eq!(plan.data_quality_log["status"], "WARNING");
+    assert_eq!(plan.state_machine.from_state, "IGNITION");
+    assert_eq!(plan.state_machine.to_state, "DEFENSIVE");
+    assert!(plan.prices.is_empty());
+    assert!(plan.substantive_records.is_empty());
+}
+
+#[test]
 fn radar_application_state_machine_summary_keeps_run_status_contract() {
     let audit = MarketTransitionAudit {
         from: LifecycleState::IGNITION,
