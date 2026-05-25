@@ -28,14 +28,17 @@ use crate::features::research::interface::cognitive_reports::{
     build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
     daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
     daily_calibration_evidence_none, daily_calibration_evidence_observed,
-    daily_calibration_evidence_strong, daily_calibration_macro_gravity_label,
-    daily_calibration_question_attention, daily_calibration_question_boundary,
-    daily_calibration_question_evidence, daily_calibration_question_gate,
-    daily_calibration_question_market, daily_calibration_question_thesis,
-    daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
-    enabled_asset_thesis_count, enabled_research_attention_count,
+    daily_calibration_evidence_strong, daily_calibration_gray_rhino_label,
+    daily_calibration_macro_gravity_label, daily_calibration_question_attention,
+    daily_calibration_question_boundary, daily_calibration_question_evidence,
+    daily_calibration_question_gate, daily_calibration_question_market,
+    daily_calibration_question_thesis, daily_calibration_questions_label,
+    daily_calibration_thesis_label, daily_calibration_title, enabled_asset_thesis_count,
+    enabled_research_attention_count,
 };
-use crate::features::research::interface::gray_rhino_report::build_gray_rhino_escalation_report;
+use crate::features::research::interface::gray_rhino_report::{
+    build_gray_rhino_daily_report, build_gray_rhino_escalation_report,
+};
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
 };
@@ -473,6 +476,7 @@ fn build_daily_calibration_report(
     let days = load_transition_audit_days(&path, language)?;
 
     let mut selected_entry: Option<&TransitionAuditEntry> = None;
+    let mut calibration_date = chrono::Local::now().date_naive();
     let audit_section = if days.is_empty() {
         audit_empty_log_message(language).to_string()
     } else {
@@ -484,6 +488,7 @@ fn build_daily_calibration_report(
             None => None,
         };
         let target_idx = resolve_target_index(&days, target_date, language)?;
+        calibration_date = days[target_idx].date;
         let evidence_collection_status =
             load_run_evidence_collection_status(&save_dir, days[target_idx].date).unwrap_or(
                 crate::features::shared::application::run_status::DeliveryStatus::Skipped,
@@ -524,6 +529,15 @@ fn build_daily_calibration_report(
     out.push_str(daily_calibration_macro_gravity_label(language));
     out.push_str("\n\n");
     out.push_str(&build_macro_gravity_report(app_config, language));
+    out.push_str("\n\n");
+    out.push_str(daily_calibration_gray_rhino_label(language));
+    out.push_str("\n\n");
+    out.push_str(&build_gray_rhino_daily_report(
+        app_config,
+        &save_dir,
+        calibration_date,
+        language,
+    )?);
     out.push_str("\n\n");
     out.push_str(daily_calibration_boundary(language));
     Ok(out)
@@ -601,13 +615,45 @@ fn load_transition_audit_days(
     Ok(group_audit_days(raw_entries))
 }
 
-async fn run_review(_config: &crate::config::AppConfig) -> Result<()> {
+fn load_latest_daily_report(config: &crate::config::AppConfig) -> Result<String> {
+    let save_dir = std::path::Path::new(&config.output.save_to);
+    let latest_path = std::fs::read_dir(save_dir)
+        .with_context(|| format!("Failed to read report directory: {}", save_dir.display()))?
+        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
+        .filter(|path| {
+            let stem = path.file_stem().and_then(|stem| stem.to_str());
+            path.extension().and_then(|extension| extension.to_str()) == Some("md")
+                && stem
+                    .and_then(|stem| NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
+                    .is_some()
+        })
+        .max();
+    let latest_path =
+        latest_path.ok_or_else(|| anyhow!("No daily report found in {}", save_dir.display()))?;
+
+    let report = std::fs::read_to_string(&latest_path).with_context(|| {
+        format!(
+            "Failed to read latest daily report: {}",
+            latest_path.display()
+        )
+    })?;
+    if report.contains("tests/fixtures/") || report.contains("file://") {
+        return Err(anyhow!(
+            "Latest daily report contains non-production evidence and cannot be reviewed as a valid report: {}",
+            latest_path.display()
+        ));
+    }
+    Ok(report)
+}
+
+async fn run_review(config: &crate::config::AppConfig) -> Result<()> {
+    println!("{}", load_latest_daily_report(config)?);
     Ok(())
 }
 
 #[cfg(test)]
 mod tests {
-    use super::run_pipeline;
+    use super::{load_latest_daily_report, run_pipeline};
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
@@ -633,6 +679,40 @@ mod tests {
     use std::path::{Path, PathBuf};
     use std::sync::Arc;
     use tempfile::tempdir;
+
+    #[test]
+    fn review_loads_latest_dated_report_and_ignores_non_daily_markdown() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+        fs::write(tmp.path().join("2026-05-20.md"), "old").unwrap();
+        fs::write(tmp.path().join("2026-05-21.md"), "latest").unwrap();
+        fs::write(tmp.path().join("weekly_state_review_auto.md"), "weekly").unwrap();
+
+        assert_eq!(load_latest_daily_report(&config).unwrap(), "latest");
+    }
+
+    #[test]
+    fn review_fails_when_no_dated_daily_report_exists() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+
+        let error = load_latest_daily_report(&config).unwrap_err();
+        assert!(error.to_string().contains("No daily report found"));
+    }
+
+    #[test]
+    fn review_rejects_report_contaminated_by_fixture_evidence() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+        fs::write(
+            tmp.path().join("2026-05-21.md"),
+            "evidence: file://tests/fixtures/evidence/sample.html",
+        )
+        .unwrap();
+
+        let error = load_latest_daily_report(&config).unwrap_err();
+        assert!(error.to_string().contains("non-production evidence"));
+    }
     use time::OffsetDateTime;
 
     struct AlwaysFailProvider;
@@ -1419,6 +1499,38 @@ mod tests {
         assert!(report_ja.contains("6. 監査ワンライン要約"));
         assert!(report_ja.contains("NO TRADE 連続 2 日目；主因："));
         assert!(report_ja.contains("口径: 連続区間はログ連続で計算（週末は自動連結）"));
+    }
+
+    #[test]
+    fn audit_daily_excludes_fixture_evidence_and_marks_historical_snapshot_risk() {
+        let mut days = sample_audit_days();
+        let records = &mut days[1].events[0]
+            .log
+            .trend_recognition
+            .as_mut()
+            .unwrap()
+            .substantive
+            .as_mut()
+            .unwrap()
+            .records;
+        records.push(
+            crate::features::shared::domain::evidence::AutomatedEvidenceRecord::new(
+                crate::features::shared::domain::evidence::EvidenceSourceType::OfficialIR,
+                crate::features::shared::domain::evidence::EvidenceType::CapexPayoff,
+                0.8,
+                "Detected CAPEX keywords in tests/fixtures/evidence/goog.html".to_string(),
+                "2026-04-22".to_string(),
+                Some("GOOG".to_string()),
+                Some("file://tests/fixtures/evidence/goog.html".to_string()),
+                "FIXTURE".to_string(),
+            ),
+        );
+
+        let report = build_audit_daily_report(&days, 1, 14, Language::ZhCn);
+        assert!(!report.contains("tests/fixtures"));
+        assert!(!report.contains("file://"));
+        assert!(report.contains("已排除非生产来源证据: 1"));
+        assert!(report.contains("历史确信度快照可能包含该来源"));
     }
 
     #[test]

@@ -1,0 +1,156 @@
+{
+  "workItemId": "gray_rhino_auditable_daily_intelligence",
+  "contractPath": ".ai/work-items/archive/2026/gray_rhino_auditable_daily_intelligence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の実行状態を Work Item と同期する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.contract.json",
+      "reason": "先行して完了した日報整合性 Work Item の contract 証跡を保持する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.summary.json",
+      "reason": "先行して完了した日報整合性 Work Item の検証証跡を保持する。"
+    },
+    {
+      "path": ".ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "reason": "灰色のサイ監査強化と既存整合性修正の scope、境界、検証を固定する。"
+    },
+    {
+      "path": ".ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json",
+      "reason": "変更内容、由来、品質闸門結果を記録する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "手動入力由来、日次 snapshot、差分監査、多言語表示境界を仕様化する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration へ灰色のサイ日次監査を接続し、review の非 production report 拒否を保持する。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence_ingestion.rs",
+      "reason": "fixture / local evidence を production repository へ永続化しない先行修正を保持する。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/transition_log.rs",
+      "reason": "監査ログの日付を実行日ではなく業務日として保存する。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "非 production evidence を監査表示から除外し、履歴 snapshot 注意事項を表示する先行修正を保持する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "production evidence filtering と業務日を遷移 logger へ渡す接続を行う。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "灰色のサイ日次評価 use case を公開する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "手動構造ベースライン入力を由来付き日次 snapshot へ変換する。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino.rs",
+      "reason": "由来、snapshot、前回差分の監査 domain model を追加する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "灰色のサイ snapshot store を公開する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_snapshot_store.rs",
+      "reason": "業務日単位の追記型 JSONL snapshot と重複排除を実装する。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "daily-calibration の灰色のサイ section 見出しを三言語で提供する先行修正を保持する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "評価日、由来、監査チェーン、前回差分、言語別 risk level、非自動境界を表示する。"
+    },
+    {
+      "path": "src/features/shared/domain/evidence.rs",
+      "reason": "production evidence eligibility 境界を定義する先行修正を保持する。"
+    },
+    {
+      "path": "tests/archival_integration.rs",
+      "reason": "遷移監査 logger の業務日 API 契約へ追随する。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "fixture evidence 非永続化の境界を固定する先行テストを保持する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "設定 table 順序耐性、灰色のサイ日報、多言語、監査文言を契約テストで固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "src/features/research/domain/gray_rhino.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs",
+    "config.toml（運用者が手動追加した設定を読み取り検証にのみ使用）"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json SUMMARY=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json SUMMARY=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "現在の灰色のサイ入力由来は手動設定であり、専用外部 evidence source による自動事実発見は意図的に未接続である。出力はこの制約を明示する。"
+  },
+  "generatedFiles": [
+    "reports/gray_rhino_snapshots.jsonl（runtime artifact、git 管理外）"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "既存の state_transitions.jsonl には修正前の実行日由来 date が残り得る。以後の radar 実行は DecisionPacket の業務日で記録する。",
+    "config.toml の灰色のサイ設定は運用者入力であり、AI 変更とは分離して独立 commit とした。"
+  ]
+}

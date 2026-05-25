@@ -1,4 +1,7 @@
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+use chrono::NaiveDate;
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum RhinoEscalationState {
     Background,
     Visible,
@@ -7,7 +10,7 @@ pub enum RhinoEscalationState {
     Critical,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum RiskLevel {
     Low,
     Moderate,
@@ -27,7 +30,7 @@ pub struct GrayRhinoEscalationInput {
     pub notes: Vec<String>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct GrayRhinoEscalation {
     pub escalation_state: RhinoEscalationState,
     pub risk_expansion_rate: RiskLevel,
@@ -39,6 +42,58 @@ pub struct GrayRhinoEscalation {
     pub fallback_survivability_risk: RiskLevel,
     pub notes: Vec<String>,
     pub suppressed_note_count: usize,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum GrayRhinoObservationSource {
+    ManualConfiguration,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct GrayRhinoAssessmentSnapshot {
+    pub schema_version: u32,
+    pub as_of_date: NaiveDate,
+    pub source: GrayRhinoObservationSource,
+    pub escalation: GrayRhinoEscalation,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct GrayRhinoAssessment {
+    pub current: GrayRhinoAssessmentSnapshot,
+    pub previous: Option<GrayRhinoAssessmentSnapshot>,
+}
+
+impl GrayRhinoAssessment {
+    pub fn changed_dimension_keys(&self) -> Vec<&'static str> {
+        let Some(previous) = self.previous.as_ref() else {
+            return Vec::new();
+        };
+        let previous = &previous.escalation;
+        let current = &self.current.escalation;
+        let mut changed = Vec::new();
+        if previous.risk_expansion_rate != current.risk_expansion_rate {
+            changed.push("risk_expansion_rate");
+        }
+        if previous.constraint_growth_rate != current.constraint_growth_rate {
+            changed.push("constraint_growth_rate");
+        }
+        if previous.dependency_centralization != current.dependency_centralization {
+            changed.push("dependency_centralization");
+        }
+        if previous.awareness_decay != current.awareness_decay {
+            changed.push("awareness_decay");
+        }
+        if previous.narrative_overconfidence != current.narrative_overconfidence {
+            changed.push("narrative_overconfidence");
+        }
+        if previous.single_point_fragility != current.single_point_fragility {
+            changed.push("single_point_fragility");
+        }
+        if previous.fallback_survivability_risk != current.fallback_survivability_risk {
+            changed.push("fallback_survivability_risk");
+        }
+        changed
+    }
 }
 
 impl RiskLevel {

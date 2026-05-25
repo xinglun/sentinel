@@ -175,13 +175,18 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
     let breakout_text = summarize_breakout_sentence(&breakout_today, language);
     let mainline_text = trend_status_label(today_latest.log.trend_cohesion_status.to, language);
 
-    let substantive_summaries = {
+    let (substantive_summaries, excluded_non_production_evidence) = {
         let mut summaries = Vec::new();
         let mut seen_keys = std::collections::HashSet::new();
+        let mut excluded_count = 0;
         for event in &today.events {
             if let Some(ref rec) = event.log.trend_recognition {
                 if let Some(ref substantive) = rec.substantive {
                     for record in &substantive.records {
+                        if !record.is_production_eligible() {
+                            excluded_count += 1;
+                            continue;
+                        }
                         let key = if record.dedupe_key().is_empty() {
                             format!(
                                 "{:?}:{:?}:{:?}:{}:{}:{}",
@@ -209,7 +214,6 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
                             let url_part = record
                                 .source_url
                                 .as_deref()
-                                .filter(|url| !is_fixture_source_url(url))
                                 .map(|u| format!(" ({})", u))
                                 .unwrap_or_default();
 
@@ -231,7 +235,7 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
                 }
             }
         }
-        summaries
+        (summaries, excluded_count)
     };
 
     let audit_sentence = build_audit_sentence(
@@ -333,6 +337,14 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
             out.push_str(&format!("{}\n", summary));
         }
     }
+    if excluded_non_production_evidence > 0 {
+        out.push_str(&format!(
+            "- {}: {}. {}\n",
+            text.label_evidence_excluded,
+            excluded_non_production_evidence,
+            text.note_evidence_excluded
+        ));
+    }
 
     out.push_str(&format!("\n5. {}\n", text.section_streaks));
     out.push_str(&format!(
@@ -409,6 +421,8 @@ struct AuditDailyText {
     label_breakout_removed: &'static str,
     label_evidence_collection: &'static str,
     label_evidence_stock: &'static str,
+    label_evidence_excluded: &'static str,
+    note_evidence_excluded: &'static str,
     label_no_trade_streak: &'static str,
     label_mainline_missing_streak: &'static str,
     label_recent_shape: &'static str,
@@ -452,6 +466,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_removed: "消失突破",
             label_evidence_collection: "今日证据采集状态",
             label_evidence_stock: "历史证据存量",
+            label_evidence_excluded: "已排除非生产来源证据",
+            note_evidence_excluded: "历史确信度快照可能包含该来源，请以重新运行后的记录为准",
             label_no_trade_streak: "当前 NO TRADE 连续段长度",
             label_mainline_missing_streak: "当前主线缺失连续段长度",
             label_recent_shape: "最近一段 NO TRADE 形态",
@@ -492,6 +508,9 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_removed: "Removed breakout",
             label_evidence_collection: "Today's evidence collection status",
             label_evidence_stock: "Historical evidence stock",
+            label_evidence_excluded: "Excluded non-production evidence",
+            note_evidence_excluded:
+                "Stored historical conviction snapshots may contain this source; rely on newly generated records",
             label_no_trade_streak: "Current NO TRADE streak",
             label_mainline_missing_streak: "Current missing-mainline streak",
             label_recent_shape: "Recent NO TRADE segment type",
@@ -533,6 +552,9 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_breakout_removed: "消失ブレイクアウト",
             label_evidence_collection: "本日の証拠収集状態",
             label_evidence_stock: "履歴証拠ストック",
+            label_evidence_excluded: "除外した非本番証拠",
+            note_evidence_excluded:
+                "履歴の確信度スナップショットには当該ソースが含まれる可能性があるため、再実行後の記録を基準とする",
             label_no_trade_streak: "現在の NO TRADE 連続日数",
             label_mainline_missing_streak: "現在の主線欠如連続日数",
             label_recent_shape: "直近 NO TRADE 区間の形態",
@@ -614,18 +636,7 @@ fn format_symbols(symbols: &[String], language: Language) -> String {
     }
 }
 
-fn is_fixture_source_url(url: &str) -> bool {
-    url.contains("tests/fixtures/") || url.contains("tests\\fixtures\\")
-}
-
 fn format_evidence_description(description: &str, language: Language) -> String {
-    if is_fixture_source_url(description) {
-        return match language {
-            Language::ZhCn => "测试 fixture 证据说明已隐藏".to_string(),
-            Language::EnUs => "Test fixture evidence description hidden".to_string(),
-            Language::JaJp => "テスト fixture の証拠説明は非表示".to_string(),
-        };
-    }
     if description == "Manual ingestion via CLI" {
         return match language {
             Language::ZhCn => "通过 CLI 手动录入".to_string(),

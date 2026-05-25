@@ -83,6 +83,20 @@ impl AutomatedEvidenceRecord {
     pub fn update_dedupe_key(&mut self, dedupe_key: String) {
         self.dedupe_key = dedupe_key;
     }
+
+    /// 本番判断と監査証拠に利用可能な出自かを返す。
+    pub fn is_production_eligible(&self) -> bool {
+        !is_local_or_fixture_reference(&self.description)
+            && !self
+                .source_url
+                .as_deref()
+                .is_some_and(is_local_or_fixture_reference)
+    }
+}
+
+fn is_local_or_fixture_reference(value: &str) -> bool {
+    let normalized = value.replace('\\', "/").to_ascii_lowercase();
+    normalized.starts_with("file://") || normalized.contains("tests/fixtures/")
 }
 
 /// 証拠の時間減衰を表す domain policy。
@@ -162,5 +176,32 @@ mod tests {
         assert_eq!(policy.multiplier_for_days_ago(1), 1.0);
         assert!((policy.multiplier_for_days_ago(30) - 0.2).abs() < 1e-10);
         assert!((policy.multiplier_for_days_ago(31) - 0.1).abs() < 1e-10);
+    }
+
+    #[test]
+    fn fixture_or_local_evidence_is_not_production_eligible() {
+        let fixture = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::OfficialIR,
+            EvidenceType::CapexPayoff,
+            0.8,
+            "Detected CAPEX keywords in tests/fixtures/evidence/sample.html".to_string(),
+            "2026-05-01".to_string(),
+            Some("GOOG".to_string()),
+            Some("file://tests/fixtures/evidence/sample.html".to_string()),
+            String::new(),
+        );
+        let official = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::OfficialIR,
+            EvidenceType::CapexPayoff,
+            0.9,
+            "Capital expenditure supported AI revenue.".to_string(),
+            "2026-05-01".to_string(),
+            Some("GOOG".to_string()),
+            Some("https://abc.xyz/investor/earnings.html".to_string()),
+            String::new(),
+        );
+
+        assert!(!fixture.is_production_eligible());
+        assert!(official.is_production_eligible());
     }
 }

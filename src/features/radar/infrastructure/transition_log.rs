@@ -1,6 +1,6 @@
 use crate::features::radar::domain::transition_log::{BreakoutTransition, StateTransitionLog};
 use anyhow::{Context, Result};
-use chrono::{DateTime, Local};
+use chrono::{DateTime, Local, NaiveDate};
 use serde::{Deserialize, Serialize};
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -30,7 +30,7 @@ pub struct TransitionAuditRecord {
 }
 
 impl TransitionAuditRecord {
-    fn from_log(now: DateTime<Local>, log: &StateTransitionLog) -> Self {
+    fn from_log(now: DateTime<Local>, business_date: NaiveDate, log: &StateTransitionLog) -> Self {
         let transition = log.clone();
         let summary = TransitionAuditSummary {
             market_state_changed: transition.market_state.changed,
@@ -47,7 +47,7 @@ impl TransitionAuditRecord {
             schema_version: 3,
             event_type: "state_transition".to_string(),
             timestamp: now.to_rfc3339(),
-            date: now.date_naive().to_string(),
+            date: business_date.to_string(),
             transition: transition.clone(),
             legacy_log: transition,
             summary,
@@ -74,9 +74,9 @@ impl TransitionLogger {
         }
     }
 
-    pub fn log_transition(&self, log: &StateTransitionLog) -> Result<()> {
+    pub fn log_transition(&self, business_date: NaiveDate, log: &StateTransitionLog) -> Result<()> {
         self.log_to_csv(log)?;
-        self.log_to_jsonl(log)?;
+        self.log_to_jsonl(business_date, log)?;
         Ok(())
     }
 
@@ -186,14 +186,14 @@ impl TransitionLogger {
         Ok(true)
     }
 
-    fn log_to_jsonl(&self, log: &StateTransitionLog) -> Result<()> {
+    fn log_to_jsonl(&self, business_date: NaiveDate, log: &StateTransitionLog) -> Result<()> {
         let mut file = OpenOptions::new()
             .create(true)
             .append(true)
             .open(&self.jsonl_path)
             .context("Failed to open state_transitions.jsonl")?;
 
-        let record = TransitionAuditRecord::from_log(Local::now(), log);
+        let record = TransitionAuditRecord::from_log(Local::now(), business_date, log);
         writeln!(file, "{}", serde_json::to_string(&record)?)?;
         Ok(())
     }
@@ -231,7 +231,8 @@ mod tests {
         });
         let log = StateTransitionLog::compare(Some(&prev), &curr);
 
-        logger.log_transition(&log).unwrap();
+        let business_date = NaiveDate::from_ymd_opt(2026, 5, 22).unwrap();
+        logger.log_transition(business_date, &log).unwrap();
 
         let jsonl = std::fs::read_to_string(dir.path().join("state_transitions.jsonl")).unwrap();
         let line = jsonl.lines().next().unwrap();
@@ -239,6 +240,7 @@ mod tests {
 
         assert_eq!(record.schema_version, 3);
         assert_eq!(record.event_type, "state_transition");
+        assert_eq!(record.date, "2026-05-22");
         assert_eq!(record.transition, log);
         assert_eq!(record.legacy_log, log);
         assert_eq!(
@@ -273,7 +275,9 @@ mod tests {
         let prev = mock_packet(MarketState::DEFENSIVE, false);
         let curr = mock_packet(MarketState::IGNITION, true);
         let log = StateTransitionLog::compare(Some(&prev), &curr);
-        logger.log_transition(&log).unwrap();
+        logger
+            .log_transition(NaiveDate::from_ymd_opt(2026, 5, 22).unwrap(), &log)
+            .unwrap();
 
         let new_csv = std::fs::read_to_string(&csv_path).unwrap();
         let first = new_csv.lines().next().unwrap_or_default();

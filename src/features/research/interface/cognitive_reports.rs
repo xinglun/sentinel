@@ -598,6 +598,14 @@ pub(crate) fn daily_calibration_macro_gravity_label(language: Language) -> &'sta
     }
 }
 
+pub(crate) fn daily_calibration_gray_rhino_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 6. 灰犀牛升级监控",
+        Language::EnUs => "## 6. Gray Rhino Escalation",
+        Language::JaJp => "## 6. 灰色のサイ昇格監視",
+    }
+}
+
 pub(crate) fn daily_calibration_question_market(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "固定问题: 今天是市场理解变化，还是只是噪音变化？",

@@ -9,18 +9,8 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let config_path = root.join("config.toml");
-    let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
-    let research_start = raw.find("\n[research_attention.");
-    let thesis_start = raw.find("\n[asset_thesis.");
-    let macro_start = raw.find("\n[macro_gravity]");
-    let rhino_start = raw.find("\n[gray_rhino_escalation]");
-    if let Some(start) = [research_start, thesis_start, macro_start, rhino_start]
-        .into_iter()
-        .flatten()
-        .min()
-    {
-        raw.truncate(start);
-    }
+    let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let mut raw = strip_optional_calibration_sections(&raw);
 
     let save_to = tmp.path().to_string_lossy().to_string();
     raw = raw.replace(
@@ -31,6 +21,24 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
 
     fs::write(tmp.path().join("config.toml"), raw).expect("failed to write temp config.toml");
     tmp
+}
+
+fn strip_optional_calibration_sections(raw: &str) -> String {
+    let mut output = String::new();
+    let mut skipping = false;
+    for line in raw.lines() {
+        if line.starts_with('[') {
+            skipping = line.starts_with("[research_attention.")
+                || line.starts_with("[asset_thesis.")
+                || line == "[macro_gravity]"
+                || line == "[gray_rhino_escalation]";
+        }
+        if !skipping {
+            output.push_str(line);
+            output.push('\n');
+        }
+    }
+    output
 }
 
 fn prepare_standard_workspace(language: &str) -> TempDir {
@@ -64,8 +72,8 @@ narrative_overconfidence = "ELEVATED"
 single_point_fragility = "MODERATE"
 fallback_survivability_risk = "MODERATE"
 notes = [
-  "Infrastructure concentration continues expanding.",
-  "Market sensitivity to governance risk is declining.",
+  "基础设施依赖集中仍在扩大。",
+  "市场对治理风险的敏感度正在下降。",
   "马上卖出",
   "Musk 非常危险"
 ]
@@ -77,10 +85,13 @@ notes = [
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Gray Rhino Escalation"));
-    assert!(stdout.contains("State: Normalized"));
-    assert!(stdout.contains("Escalation: Rising"));
-    assert!(stdout.contains("Infrastructure concentration continues expanding."));
-    assert!(stdout.contains("It does not generate trading signals."));
+    assert!(stdout.contains("输入来源: 人工结构基线（配置输入）"));
+    assert!(stdout.contains("评估方法: 显式规则判定（可重放）"));
+    assert!(stdout.contains("状态: 风险常态化"));
+    assert!(stdout.contains("升级趋势: 上升"));
+    assert!(stdout.contains("基础设施依赖集中仍在扩大。"));
+    assert!(stdout.contains("不生成交易信号。"));
+    assert!(stdout.contains("不代表自动事实发现"));
     assert!(stdout.contains("已抑制违反结构性观察边界的 notes: 2"));
     assert!(!stdout.contains("马上卖出"));
     assert!(!stdout.contains("Musk"));
@@ -92,10 +103,20 @@ notes = [
 
 #[test]
 fn gray_rhino_escalation_output_has_zh_en_ja_boundary_notice() {
-    for (language, expected) in [
-        ("zh-cn", "风险扩张速度"),
-        ("en-us", "Risk Expansion Rate"),
-        ("ja-jp", "リスク拡張速度"),
+    for (language, expected, notice, forbidden) in [
+        ("zh-cn", "状态: 风险常态化", "不生成交易信号。", "State:"),
+        (
+            "en-us",
+            "State: Normalized",
+            "It does not generate trading signals.",
+            "风险扩张速度",
+        ),
+        (
+            "ja-jp",
+            "状態: リスク常態化",
+            "取引シグナルを生成しない。",
+            "State:",
+        ),
     ] {
         let tmp = prepare_workspace(
             r#"
@@ -118,7 +139,8 @@ fallback_survivability_risk = "MODERATE"
         let stdout = String::from_utf8_lossy(&out.stdout);
         assert!(stdout.contains("Gray Rhino Escalation"));
         assert!(stdout.contains(expected));
-        assert!(stdout.contains("It does not generate trading signals."));
+        assert!(stdout.contains(notice));
+        assert!(!stdout.contains(forbidden));
     }
 }
 
@@ -451,6 +473,16 @@ credit_stress = "NORMAL"
 liquidity = "NEUTRAL"
 growth_valuation_impact = "COMPRESSING"
 note = "長期金利は成長株のバリュエーション重力として観測する。"
+
+[gray_rhino_escalation]
+enable = true
+risk_expansion_rate = "ELEVATED"
+constraint_growth_rate = "MODERATE"
+dependency_centralization = "HIGH"
+awareness_decay = "ELEVATED"
+narrative_overconfidence = "MODERATE"
+single_point_fragility = "MODERATE"
+fallback_survivability_risk = "MODERATE"
 "#,
     );
 
@@ -477,7 +509,28 @@ note = "長期金利は成長株のバリュエーション重力として観測
     assert!(stdout.contains("- 利率压力: RISING"));
     assert!(stdout.contains("- 成长股估值: COMPRESSING"));
     assert!(stdout.contains("不参与 Gate，不生成交易指令"));
+    assert!(stdout.contains("## 6. 灰犀牛升级监控"));
+    assert!(stdout.contains("输入来源: 人工结构基线（配置输入）"));
+    assert!(stdout.contains("审计链: 人工结构基线 -> 七项观测 -> 日次快照"));
+    assert!(stdout.contains("状态:"));
+    assert!(stdout.contains("风险扩张速度: 偏高"));
+    assert!(stdout.contains("相比前次日次评估: 首次记录（无前次快照）"));
+    assert!(stdout.contains("不代表自动事实发现"));
+    assert!(stdout.contains("边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"));
+    assert!(!stdout.contains("State:"));
     assert!(stdout.contains("不生成新的交易指令"));
+}
+
+#[test]
+fn fixture_keeps_required_config_after_manually_placed_gray_rhino_section() {
+    let tmp = prepare_workspace("");
+
+    let out = run_cli(&tmp, &["--help"]);
+
+    assert!(out.status.success());
+    let config = fs::read_to_string(tmp.path().join("config.toml")).unwrap();
+    assert!(config.contains("[[watchlist]]"));
+    assert!(!config.contains("[gray_rhino_escalation]"));
 }
 
 #[test]

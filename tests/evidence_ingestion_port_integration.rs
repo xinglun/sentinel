@@ -120,7 +120,8 @@ async fn evidence_collection_use_case_supports_dry_run_without_persistence() -> 
 }
 
 #[tokio::test]
-async fn evidence_collection_use_case_persists_through_repository_port() -> anyhow::Result<()> {
+async fn evidence_collection_rejects_fixture_records_from_repository_persistence(
+) -> anyhow::Result<()> {
     use stock_sentinel::features::evidence::application::evidence::EvidenceRepository;
     use stock_sentinel::features::evidence::application::evidence_ingestion::{
         collect_evidence_from_source, CollectEvidenceRequest,
@@ -154,11 +155,10 @@ async fn evidence_collection_use_case_persists_through_repository_port() -> anyh
     )
     .await?;
 
-    assert_eq!(outcome.saved_count, 1);
+    assert_eq!(outcome.records.len(), 1);
+    assert_eq!(outcome.saved_count, 0);
     let saved = repository.load_all()?;
-    assert_eq!(saved.len(), 1);
-    assert_eq!(saved[0].evidence_type, EvidenceType::OrderVisibility);
-    assert!(saved[0].dedupe_key().contains("NVDA"));
+    assert!(saved.is_empty());
     Ok(())
 }
 

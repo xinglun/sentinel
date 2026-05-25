@@ -1,50 +1,107 @@
 use crate::config::{self, GrayRhinoRiskLevel};
+use crate::features::research::application::gray_rhino_assessment::build_gray_rhino_assessment;
+#[cfg(test)]
 use crate::features::research::domain::gray_rhino::{
-    evaluate_gray_rhino_escalation, GrayRhinoEscalation, GrayRhinoEscalationInput,
+    evaluate_gray_rhino_escalation, GrayRhinoAssessmentSnapshot,
+};
+use crate::features::research::domain::gray_rhino::{
+    GrayRhinoAssessment, GrayRhinoEscalation, GrayRhinoEscalationInput, GrayRhinoObservationSource,
     RhinoEscalationState, RiskLevel,
 };
+use crate::features::research::infrastructure::gray_rhino_snapshot_store::GrayRhinoSnapshotStore;
 use crate::features::shared::interface::i18n::Language;
+use anyhow::Result;
+use chrono::{Local, NaiveDate};
+use std::path::Path;
 
 pub(crate) fn build_gray_rhino_escalation_report(
     app_config: &config::AppConfig,
     language: Language,
 ) -> String {
-    let Some(config) = app_config
-        .gray_rhino_escalation
-        .as_ref()
-        .filter(|config| config.enable.unwrap_or(true))
-    else {
+    let Some(input) = input_from_config(app_config) else {
         return gray_rhino_empty(language).to_string();
     };
 
-    let escalation = evaluate_gray_rhino_escalation(GrayRhinoEscalationInput {
-        risk_expansion_rate: map_risk_level(config.risk_expansion_rate),
-        constraint_growth_rate: map_risk_level(config.constraint_growth_rate),
-        dependency_centralization: map_risk_level(config.dependency_centralization),
-        awareness_decay: map_risk_level(config.awareness_decay),
-        narrative_overconfidence: map_risk_level(config.narrative_overconfidence),
-        single_point_fragility: map_risk_level(config.single_point_fragility),
-        fallback_survivability_risk: map_risk_level(config.fallback_survivability_risk),
-        notes: config.notes.clone().unwrap_or_default(),
-    });
-
-    render_gray_rhino_escalation_markdown(&escalation, language)
+    let assessment = build_gray_rhino_assessment(input, Local::now().date_naive(), None);
+    render_gray_rhino_assessment_markdown(&assessment, language)
 }
 
+pub(crate) fn build_gray_rhino_daily_report(
+    app_config: &config::AppConfig,
+    save_dir: &Path,
+    as_of_date: NaiveDate,
+    language: Language,
+) -> Result<String> {
+    let Some(input) = input_from_config(app_config) else {
+        return Ok(gray_rhino_empty(language).to_string());
+    };
+
+    let store = GrayRhinoSnapshotStore::new(save_dir);
+    let previous = store.load_latest_before(as_of_date)?;
+    let assessment = build_gray_rhino_assessment(input, as_of_date, previous);
+    store.save_if_changed(&assessment.current)?;
+    Ok(render_gray_rhino_assessment_markdown(&assessment, language))
+}
+
+#[cfg(test)]
 pub(crate) fn render_gray_rhino_escalation_markdown(
     escalation: &GrayRhinoEscalation,
     language: Language,
 ) -> String {
+    let assessment = GrayRhinoAssessment {
+        current: GrayRhinoAssessmentSnapshot {
+            schema_version: 1,
+            as_of_date: Local::now().date_naive(),
+            source: GrayRhinoObservationSource::ManualConfiguration,
+            escalation: escalation.clone(),
+        },
+        previous: None,
+    };
+    render_gray_rhino_assessment_markdown(&assessment, language)
+}
+
+pub(crate) fn render_gray_rhino_assessment_markdown(
+    assessment: &GrayRhinoAssessment,
+    language: Language,
+) -> String {
+    let escalation = &assessment.current.escalation;
     let mut out = String::new();
     out.push_str(gray_rhino_title(language));
     out.push_str("\n\n");
     out.push_str(&format!(
-        "State: {}\n",
-        state_label(escalation.escalation_state)
+        "{}: {}\n",
+        assessment_date_heading(language),
+        assessment.current.as_of_date
     ));
     out.push_str(&format!(
-        "Escalation: {}\n",
+        "{}: {}\n",
+        input_source_heading(language),
+        observation_source_label(assessment.current.source, language)
+    ));
+    out.push_str(&format!(
+        "{}: {}\n",
+        evaluation_method_heading(language),
+        evaluation_method_label(language)
+    ));
+    out.push_str(&format!(
+        "{}: {}\n",
+        audit_chain_heading(language),
+        audit_chain_label(language)
+    ));
+    out.push_str(&format!(
+        "{}: {}\n",
+        state_heading(language),
+        state_label(escalation.escalation_state, language)
+    ));
+    out.push_str(&format!(
+        "{}: {}\n",
+        escalation_heading(language),
         escalation_direction_label(escalation, language)
+    ));
+    out.push_str(&format!(
+        "{}: {}\n",
+        comparison_heading(language),
+        comparison_label(assessment, language)
     ));
     out.push('\n');
     out.push_str(observation_label(language));
@@ -52,37 +109,37 @@ pub(crate) fn render_gray_rhino_escalation_markdown(
     out.push_str(&format!(
         "- {}: {}\n",
         risk_expansion_label(language),
-        risk_level_label(escalation.risk_expansion_rate)
+        risk_level_label(escalation.risk_expansion_rate, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         constraint_growth_label(language),
-        risk_level_label(escalation.constraint_growth_rate)
+        risk_level_label(escalation.constraint_growth_rate, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         dependency_centralization_label(language),
-        risk_level_label(escalation.dependency_centralization)
+        risk_level_label(escalation.dependency_centralization, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         awareness_decay_label(language),
-        risk_level_label(escalation.awareness_decay)
+        risk_level_label(escalation.awareness_decay, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         narrative_overconfidence_label(language),
-        risk_level_label(escalation.narrative_overconfidence)
+        risk_level_label(escalation.narrative_overconfidence, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         single_point_fragility_label(language),
-        risk_level_label(escalation.single_point_fragility)
+        risk_level_label(escalation.single_point_fragility, language)
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         fallback_survivability_label(language),
-        risk_level_label(escalation.fallback_survivability_risk)
+        risk_level_label(escalation.fallback_survivability_risk, language)
     ));
 
     if !escalation.notes.is_empty() {
@@ -103,10 +160,29 @@ pub(crate) fn render_gray_rhino_escalation_markdown(
     }
 
     out.push('\n');
+    out.push_str(source_boundary_label(language));
+    out.push('\n');
     out.push_str(boundary_label(language));
     out.push('\n');
     out.push_str(non_signal_notice(language));
     out
+}
+
+fn input_from_config(app_config: &config::AppConfig) -> Option<GrayRhinoEscalationInput> {
+    let config = app_config
+        .gray_rhino_escalation
+        .as_ref()
+        .filter(|config| config.enable.unwrap_or(true))?;
+    Some(GrayRhinoEscalationInput {
+        risk_expansion_rate: map_risk_level(config.risk_expansion_rate),
+        constraint_growth_rate: map_risk_level(config.constraint_growth_rate),
+        dependency_centralization: map_risk_level(config.dependency_centralization),
+        awareness_decay: map_risk_level(config.awareness_decay),
+        narrative_overconfidence: map_risk_level(config.narrative_overconfidence),
+        single_point_fragility: map_risk_level(config.single_point_fragility),
+        fallback_survivability_risk: map_risk_level(config.fallback_survivability_risk),
+        notes: config.notes.clone().unwrap_or_default(),
+    })
 }
 
 #[cfg(test)]
@@ -137,33 +213,191 @@ fn gray_rhino_title(language: Language) -> &'static str {
 fn gray_rhino_empty(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "灰犀牛升级监控（Gray Rhino Escalation）\n\n未配置灰犀牛风险升级观察项。\n\n当前未启用观察项，因此本节不参与日报判断。\n\nGray Rhino Escalation 是结构性升级监控层，不生成交易信号。"
+            "灰犀牛升级监控（Gray Rhino Escalation）\n\n未配置灰犀牛风险升级观察项。\n\n当前未启用观察项，因此本节不参与日报判断。\n\n边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"
         }
         Language::EnUs => {
             "Gray Rhino Escalation\n\nNo gray rhino escalation monitor is configured.\n\nNo observation item is enabled, so this section does not participate in daily report judgment.\n\nGray Rhino Escalation is a structural escalation monitor. It does not generate trading signals."
         }
         Language::JaJp => {
-            "灰色のサイ昇格監視（Gray Rhino Escalation）\n\n灰色のサイのリスク昇格観測項目は未設定です。\n\n現在有効な観測項目がないため、このセクションは日次判断に参加しない。\n\nGray Rhino Escalation は構造的な昇格監視レイヤーであり、取引シグナルを生成しない。"
+            "灰色のサイ昇格監視（Gray Rhino Escalation）\n\n灰色のサイのリスク昇格観測項目は未設定です。\n\n現在有効な観測項目がないため、このセクションは日次判断に参加しない。\n\n境界声明: 灰色のサイ昇格監視は構造的リスクの昇格だけを観測し、取引シグナルを生成しない。"
         }
     }
 }
 
-fn state_label(state: RhinoEscalationState) -> &'static str {
-    match state {
-        RhinoEscalationState::Background => "Background",
-        RhinoEscalationState::Visible => "Visible",
-        RhinoEscalationState::Expanding => "Expanding",
-        RhinoEscalationState::Normalized => "Normalized",
-        RhinoEscalationState::Critical => "Critical",
+fn state_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "状态",
+        Language::EnUs => "State",
+        Language::JaJp => "状態",
     }
 }
 
-fn risk_level_label(level: RiskLevel) -> &'static str {
-    match level {
-        RiskLevel::Low => "LOW",
-        RiskLevel::Moderate => "MODERATE",
-        RiskLevel::Elevated => "ELEVATED",
-        RiskLevel::High => "HIGH",
+fn escalation_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "升级趋势",
+        Language::EnUs => "Escalation",
+        Language::JaJp => "昇格傾向",
+    }
+}
+
+fn state_label(state: RhinoEscalationState, language: Language) -> &'static str {
+    match (state, language) {
+        (RhinoEscalationState::Background, Language::ZhCn) => "背景观察",
+        (RhinoEscalationState::Visible, Language::ZhCn) => "风险可见",
+        (RhinoEscalationState::Expanding, Language::ZhCn) => "风险扩张",
+        (RhinoEscalationState::Normalized, Language::ZhCn) => "风险常态化",
+        (RhinoEscalationState::Critical, Language::ZhCn) => "临界监控",
+        (RhinoEscalationState::Background, Language::EnUs) => "Background",
+        (RhinoEscalationState::Visible, Language::EnUs) => "Visible",
+        (RhinoEscalationState::Expanding, Language::EnUs) => "Expanding",
+        (RhinoEscalationState::Normalized, Language::EnUs) => "Normalized",
+        (RhinoEscalationState::Critical, Language::EnUs) => "Critical",
+        (RhinoEscalationState::Background, Language::JaJp) => "背景観測",
+        (RhinoEscalationState::Visible, Language::JaJp) => "リスク可視化",
+        (RhinoEscalationState::Expanding, Language::JaJp) => "リスク拡張",
+        (RhinoEscalationState::Normalized, Language::JaJp) => "リスク常態化",
+        (RhinoEscalationState::Critical, Language::JaJp) => "臨界監視",
+    }
+}
+
+fn assessment_date_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "评估日期",
+        Language::EnUs => "Assessment Date",
+        Language::JaJp => "評価日",
+    }
+}
+
+fn input_source_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "输入来源",
+        Language::EnUs => "Input Source",
+        Language::JaJp => "入力由来",
+    }
+}
+
+fn observation_source_label(
+    source: GrayRhinoObservationSource,
+    language: Language,
+) -> &'static str {
+    match (source, language) {
+        (GrayRhinoObservationSource::ManualConfiguration, Language::ZhCn) => {
+            "人工结构基线（配置输入）"
+        }
+        (GrayRhinoObservationSource::ManualConfiguration, Language::EnUs) => {
+            "Manual structural baseline (configuration input)"
+        }
+        (GrayRhinoObservationSource::ManualConfiguration, Language::JaJp) => {
+            "手動構造ベースライン（設定入力）"
+        }
+    }
+}
+
+fn comparison_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "相比前次日次评估",
+        Language::EnUs => "Versus Previous Daily Assessment",
+        Language::JaJp => "前回日次評価との比較",
+    }
+}
+
+fn evaluation_method_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "评估方法",
+        Language::EnUs => "Evaluation Method",
+        Language::JaJp => "評価方法",
+    }
+}
+
+fn evaluation_method_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "显式规则判定（可重放）",
+        Language::EnUs => "Explicit rule evaluation (replayable)",
+        Language::JaJp => "明示ルール判定（再生可能）",
+    }
+}
+
+fn audit_chain_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "审计链",
+        Language::EnUs => "Audit Chain",
+        Language::JaJp => "監査チェーン",
+    }
+}
+
+fn audit_chain_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "人工结构基线 -> 七项观测 -> 日次快照",
+        Language::EnUs => "Manual structural baseline -> seven observations -> daily snapshot",
+        Language::JaJp => "手動構造ベースライン -> 7 観測項目 -> 日次 snapshot",
+    }
+}
+
+fn comparison_label(assessment: &GrayRhinoAssessment, language: Language) -> String {
+    let Some(previous) = assessment.previous.as_ref() else {
+        return match language {
+            Language::ZhCn => "首次记录（无前次快照）".to_string(),
+            Language::EnUs => "First record (no prior snapshot)".to_string(),
+            Language::JaJp => "初回記録（前回 snapshot なし）".to_string(),
+        };
+    };
+    let changed = assessment.changed_dimension_keys();
+    let state_change =
+        if previous.escalation.escalation_state == assessment.current.escalation.escalation_state {
+            match language {
+                Language::ZhCn => "状态不变".to_string(),
+                Language::EnUs => "State unchanged".to_string(),
+                Language::JaJp => "状態変化なし".to_string(),
+            }
+        } else {
+            format!(
+                "{} -> {}",
+                state_label(previous.escalation.escalation_state, language),
+                state_label(assessment.current.escalation.escalation_state, language)
+            )
+        };
+    if changed.is_empty() {
+        return state_change;
+    }
+    let labels = changed
+        .iter()
+        .map(|key| dimension_key_label(key, language))
+        .collect::<Vec<_>>()
+        .join(" / ");
+    match language {
+        Language::ZhCn => format!("{state_change}；变化项: {labels}"),
+        Language::EnUs => format!("{state_change}; changed: {labels}"),
+        Language::JaJp => format!("{state_change}；変化項目: {labels}"),
+    }
+}
+
+fn dimension_key_label(key: &str, language: Language) -> &'static str {
+    match key {
+        "risk_expansion_rate" => risk_expansion_label(language),
+        "constraint_growth_rate" => constraint_growth_label(language),
+        "dependency_centralization" => dependency_centralization_label(language),
+        "awareness_decay" => awareness_decay_label(language),
+        "narrative_overconfidence" => narrative_overconfidence_label(language),
+        "single_point_fragility" => single_point_fragility_label(language),
+        "fallback_survivability_risk" => fallback_survivability_label(language),
+        _ => "",
+    }
+}
+
+fn risk_level_label(level: RiskLevel, language: Language) -> &'static str {
+    match (level, language) {
+        (RiskLevel::Low, Language::ZhCn) => "低",
+        (RiskLevel::Moderate, Language::ZhCn) => "中等",
+        (RiskLevel::Elevated, Language::ZhCn) => "偏高",
+        (RiskLevel::High, Language::ZhCn) => "高",
+        (RiskLevel::Low, Language::EnUs) => "LOW",
+        (RiskLevel::Moderate, Language::EnUs) => "MODERATE",
+        (RiskLevel::Elevated, Language::EnUs) => "ELEVATED",
+        (RiskLevel::High, Language::EnUs) => "HIGH",
+        (RiskLevel::Low, Language::JaJp) => "低",
+        (RiskLevel::Moderate, Language::JaJp) => "中程度",
+        (RiskLevel::Elevated, Language::JaJp) => "高まり",
+        (RiskLevel::High, Language::JaJp) => "高",
     }
 }
 
@@ -173,33 +407,33 @@ fn escalation_direction_label(
 ) -> &'static str {
     match escalation.escalation_state {
         RhinoEscalationState::Critical => match language {
-            Language::ZhCn => "Critical Watch",
+            Language::ZhCn => "临界监控",
             Language::EnUs => "Critical Watch",
-            Language::JaJp => "Critical Watch",
+            Language::JaJp => "臨界監視",
         },
         RhinoEscalationState::Normalized | RhinoEscalationState::Expanding => match language {
-            Language::ZhCn => "Rising",
+            Language::ZhCn => "上升",
             Language::EnUs => "Rising",
-            Language::JaJp => "Rising",
+            Language::JaJp => "上昇",
         },
         RhinoEscalationState::Visible => match language {
-            Language::ZhCn => "Visible",
+            Language::ZhCn => "可见",
             Language::EnUs => "Visible",
-            Language::JaJp => "Visible",
+            Language::JaJp => "可視",
         },
         RhinoEscalationState::Background => match language {
-            Language::ZhCn => "Background",
+            Language::ZhCn => "背景",
             Language::EnUs => "Background",
-            Language::JaJp => "Background",
+            Language::JaJp => "背景",
         },
     }
 }
 
 fn observation_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Observation:",
+        Language::ZhCn => "观察项:",
         Language::EnUs => "Observation:",
-        Language::JaJp => "Observation:",
+        Language::JaJp => "観測項目:",
     }
 }
 
@@ -253,7 +487,7 @@ fn single_point_fragility_label(language: Language) -> &'static str {
 
 fn fallback_survivability_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "fallback 生存性风险",
+        Language::ZhCn => "后备生存性风险",
         Language::EnUs => "Fallback Survivability Risk",
         Language::JaJp => "フォールバック生存性リスク",
     }
@@ -261,9 +495,9 @@ fn fallback_survivability_label(language: Language) -> &'static str {
 
 fn notes_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Notes:",
+        Language::ZhCn => "观察备注:",
         Language::EnUs => "Notes:",
-        Language::JaJp => "Notes:",
+        Language::JaJp => "観測メモ:",
     }
 }
 
@@ -289,16 +523,30 @@ fn boundary_label(language: Language) -> &'static str {
     }
 }
 
+fn source_boundary_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "数据边界: 当前来源为人工配置的结构基线，尚未接入专用灰犀牛外部证据源，不代表自动事实发现。"
+        }
+        Language::EnUs => {
+            "Data boundary: the current source is a manually configured structural baseline; no dedicated external Gray Rhino evidence source is connected, so this is not automated fact discovery."
+        }
+        Language::JaJp => {
+            "データ境界: 現在の由来は手動設定した構造ベースラインであり、灰色のサイ専用の外部 evidence source は未接続のため、自動的な事実発見を表さない。"
+        }
+    }
+}
+
 fn non_signal_notice(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "Gray Rhino Escalation is a structural escalation monitor. It does not generate trading signals."
+            "边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"
         }
         Language::EnUs => {
             "Gray Rhino Escalation is a structural escalation monitor. It does not generate trading signals."
         }
         Language::JaJp => {
-            "Gray Rhino Escalation is a structural escalation monitor. It does not generate trading signals."
+            "境界声明: 灰色のサイ昇格監視は構造的リスクの昇格だけを観測し、取引シグナルを生成しない。"
         }
     }
 }
@@ -341,13 +589,67 @@ mod tests {
 
     #[test]
     fn output_is_available_in_zh_en_ja() {
-        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+        for (language, state, notice) in [
+            (Language::ZhCn, "状态: 风险常态化", "不生成交易信号。"),
+            (
+                Language::EnUs,
+                "State: Normalized",
+                "It does not generate trading signals.",
+            ),
+            (
+                Language::JaJp,
+                "状態: リスク常態化",
+                "取引シグナルを生成しない。",
+            ),
+        ] {
             let report = render_gray_rhino_escalation_markdown(&normalized_escalation(), language);
 
             assert!(report.contains("Gray Rhino Escalation"));
-            assert!(report.contains("State: Normalized"));
-            assert!(report.contains("It does not generate trading signals."));
+            assert!(report.contains(state));
+            assert!(report.contains(notice));
         }
+    }
+
+    #[test]
+    fn daily_assessment_discloses_source_date_and_changed_dimensions() {
+        let previous = GrayRhinoAssessmentSnapshot {
+            schema_version: 1,
+            as_of_date: NaiveDate::from_ymd_opt(2026, 5, 21).unwrap(),
+            source: GrayRhinoObservationSource::ManualConfiguration,
+            escalation: evaluate_gray_rhino_escalation(GrayRhinoEscalationInput {
+                risk_expansion_rate: RiskLevel::Low,
+                constraint_growth_rate: RiskLevel::Moderate,
+                dependency_centralization: RiskLevel::Moderate,
+                awareness_decay: RiskLevel::Moderate,
+                narrative_overconfidence: RiskLevel::Moderate,
+                single_point_fragility: RiskLevel::Moderate,
+                fallback_survivability_risk: RiskLevel::Moderate,
+                notes: Vec::new(),
+            }),
+        };
+        let assessment = build_gray_rhino_assessment(
+            GrayRhinoEscalationInput {
+                risk_expansion_rate: RiskLevel::Elevated,
+                constraint_growth_rate: RiskLevel::Moderate,
+                dependency_centralization: RiskLevel::High,
+                awareness_decay: RiskLevel::Moderate,
+                narrative_overconfidence: RiskLevel::Moderate,
+                single_point_fragility: RiskLevel::Moderate,
+                fallback_survivability_risk: RiskLevel::Moderate,
+                notes: Vec::new(),
+            },
+            NaiveDate::from_ymd_opt(2026, 5, 22).unwrap(),
+            Some(previous),
+        );
+
+        let report = render_gray_rhino_assessment_markdown(&assessment, Language::ZhCn);
+
+        assert!(report.contains("评估日期: 2026-05-22"));
+        assert!(report.contains("输入来源: 人工结构基线（配置输入）"));
+        assert!(report.contains("评估方法: 显式规则判定（可重放）"));
+        assert!(report.contains("审计链: 人工结构基线 -> 七项观测 -> 日次快照"));
+        assert!(report.contains("变化项: 风险扩张速度 / 依赖集中度"));
+        assert!(report.contains("不代表自动事实发现"));
     }
 
     #[test]

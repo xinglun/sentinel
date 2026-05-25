@@ -47,7 +47,10 @@ pub(crate) async fn run_pipeline(
     let all_evidence = runtime_services
         .evidence_store
         .load_all()
-        .unwrap_or_default();
+        .unwrap_or_default()
+        .into_iter()
+        .filter(|record| record.is_production_eligible())
+        .collect::<Vec<_>>();
     let prev_packet = history.last();
 
     let watchlist = config_arc
@@ -137,9 +140,15 @@ pub(crate) async fn run_pipeline(
             should_persist_history,
             timestamp: &radar_context.timestamp,
         });
+        let production_records = delivery_plan
+            .substantive_records
+            .iter()
+            .filter(|record| record.is_production_eligible())
+            .cloned()
+            .collect::<Vec<_>>();
         let _ = runtime_services
             .evidence_store
-            .save_records(&delivery_plan.substantive_records);
+            .save_records(&production_records);
         runtime_services
             .persistence
             .save_execution_gate_result(&packet, &delivery_plan.execution_result)?;
@@ -162,7 +171,9 @@ pub(crate) async fn run_pipeline(
             runtime_services.persistence.save_packet(&packet)?;
             runtime_services.persistence.save_daily_packet(&packet)?;
             if let Some(log) = &packet.transition_log {
-                let _ = runtime_services.transition_logger.log_transition(log);
+                let _ = runtime_services
+                    .transition_logger
+                    .log_transition(packet.date, log);
             }
         }
 

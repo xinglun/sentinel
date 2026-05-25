@@ -1,0 +1,136 @@
+{
+  "workItemId": "gray_rhino_daily_report_integrity",
+  "contractPath": ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "reason": "Gray Rhino 日報統合と report provenance 修正を対象とする coding Contract に確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "reason": "実装範囲、検証結果、発見した既存データ汚染を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の検証済み状態を Cockpit に反映する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "日次校正への表示契約と運用者向け config.toml 設定片を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration へ Gray Rhino を統合し、review の最新有効日報読取と非本番 evidence 拒否を実装した。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence_ingestion.rs",
+      "reason": "fixture および local-file evidence を永続化対象から除外した。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "非本番 evidence を正式証拠表示から除外し、履歴 snapshot の注意表示を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Radar decision input と保存対象から非本番 evidence を排除した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Gray Rhino の daily-calibration セクションラベルを三語で追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino 固定 UI と境界表示を zh-cn / en-us / ja-jp で局所化した。"
+    },
+    {
+      "path": "src/features/shared/domain/evidence.rs",
+      "reason": "正式判断に利用可能な evidence provenance policy を追加した。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "fixture evidence が永続化されない application boundary を固定した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino 日報統合と三語境界文言の契約を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "src/features/research/domain/gray_rhino.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/cli.rs",
+    "src/features/shared/domain/evidence.rs",
+    "src/features/evidence/application/evidence_ingestion.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- daily-calibration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- review",
+      "result": "failed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "表示経路、evidence provenance、review command を同時に修正する。Gate と execution は scope 外として変更しない。config.toml は forbidden write のため手動追加片を提供する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "既存の reports/state_transitions.jsonl と reports/2026-05-22.md には、過去実行で生成された fixture evidence が履歴として残っている。新しい audit 表示は除外と注意を出し、review は当該日報を有効報告として拒否する。",
+    "reports/evidence_records.jsonl の fixture record は runtime 清掃として除去し、/tmp/sentinel_evidence_records_before_fixture_cleanup_20260525.jsonl に退避した。",
+    "config.toml は AI guard で forbidden write に指定されているため自動変更せず、運用者が追加する設定片を仕様書へ記載した。"
+  ]
+}

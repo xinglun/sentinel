@@ -19,8 +19,32 @@ Gray Rhino Escalation Framework は、長期構造リスクが背景リスクか
 
 - domain model と状態判定は `src/features/research/domain/gray_rhino.rs` に置く。
 - CLI / Markdown / Telegram 表示は `src/features/research/interface/gray_rhino_report.rs` に置く。
+- 日次評価の生成は `src/features/research/application/gray_rhino_assessment.rs` に置く。
+- 日次 snapshot の JSONL 永続化は `src/features/research/infrastructure/gray_rhino_snapshot_store.rs` に置く。
 - CLI command は観測レポート出力だけを行い、取引・Gate・execution へ接続しない。
 - 設定入力は `gray_rhino_escalation` に限定する。
+- `daily-calibration` は独立した Gray Rhino セクションを出力し、他の校正セクションや判断結果を変更しない。
+
+## 設定方法
+
+`config.toml` は運用者が管理する設定であり、AI hard gate では自動更新しない。日次校正レポートに Gray Rhino を表示する場合、運用者は次の観測初期値を `config.toml` に追加する。
+
+```toml
+[gray_rhino_escalation]
+enable = true
+risk_expansion_rate = "MODERATE"
+constraint_growth_rate = "MODERATE"
+dependency_centralization = "ELEVATED"
+awareness_decay = "MODERATE"
+narrative_overconfidence = "MODERATE"
+single_point_fragility = "MODERATE"
+fallback_survivability_risk = "MODERATE"
+notes = []
+```
+
+この初期値は取引判断ではなく、依存集中を含む構造的観測の開始点である。各観測値と `notes` は事実確認済みの運用入力に基づいて更新する。`notes` を追加する場合は、`output.language` の表示言語に合わせて入力する。
+
+現在の入力由来は `ManualConfiguration`（手動構造ベースライン）である。専用の外部リスク evidence source は未接続であり、設定入力を自動収集した事実として表示してはならない。
 
 ## 目的
 
@@ -42,6 +66,22 @@ Gray Rhino Escalation Framework は、長期構造リスクが背景リスクか
 - `notes`: 構造的観測メモ。取引指示、人格評価、政治攻撃、恐怖表現は出力してはならない。
 
 各 risk 入力は `LOW`、`MODERATE`、`ELEVATED`、`HIGH` を取る。
+
+## 日次監査 snapshot
+
+`daily-calibration` 実行時、表示された評価は `gray_rhino_snapshots.jsonl` に追記型 snapshot として保持する。
+
+snapshot は次を含む。
+
+- `as_of_date`: 市場監査ログと一致する業務日。監査ログがない場合は実行日。
+- `source`: 現在は `ManualConfiguration` のみ。
+- `escalation`: 状態と入力観測項目。
+
+日報には評価日、入力由来、前回日次評価との差分を表示する。同一日の同一 snapshot の再実行は重複追記しない。これにより、灰色のサイ観測値がいつ変更されたかを監査可能にする。
+
+日報は `手動構造ベースライン -> 7 観測項目 -> 日次 snapshot` という監査チェーンと、明示ルール判定で再生可能であることを表示する。このチェーンは外部 fact evidence chain ではなく、現在の手動入力評価がどの経路で状態へ変換されたかを示す lineage である。
+
+本 snapshot は自動情報収集を意味しない。将来、専用の構造リスク evidence adapter を追加する場合も、由来と証拠日を snapshot に保持し、手動入力と区別する。
 
 ## 状態
 
@@ -79,6 +119,10 @@ score は内部の状態判定補助であり、Markdown / Telegram などの通
 ## 出力境界
 
 出力は構造的な昇格警告に限定する。
+
+固定 UI 文言は選択された表示言語で統一する。ユーザー入力である `notes` の翻訳は自動で行わず、運用者が表示言語に合わせて記述する。
+
+risk level の表示値も選択言語へローカライズする。設定値の enum 表現は設定契約に限定し、日報本文へ漏らさない。
 
 許可される表現:
 

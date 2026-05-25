@@ -1,0 +1,118 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray_rhino_auditable_daily_intelligence",
+  "mode": "code",
+  "title": "Gray Rhino 監査可能な日次インテリジェンス完成",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.contract.json",
+    ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.summary.json",
+    ".ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+    ".ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json",
+    "config.toml",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "src/cli.rs",
+    "src/features/evidence/application/evidence_ingestion.rs",
+    "src/features/radar/infrastructure/transition_log.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/domain/gray_rhino.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/gray_rhino_snapshot_store.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/shared/domain/evidence.rs",
+    "tests/archival_integration.rs",
+    "tests/evidence_ingestion_port_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "Gate、execution、trader_agent、action_matrix の判断変更",
+    "gray rhino の観測値を正向きの商業 evidence から自動推定する処理",
+    "config.toml の AI による編集（運用者が既に追加した設定は変更せず保持する）"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "灰色のサイ観測層の表示専用境界と監査要件。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino.rs",
+      "reason": "既存の評価モデルと安全境界。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "既存の日報表示契約と多言語出力。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "設定位置に依存したテスト失敗と日報契約。"
+    },
+    {
+      "path": "config.toml",
+      "reason": "運用者が手動追加した灰色のサイ設定。AI の編集対象ではなく、互換検証入力としてのみ扱う。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "灰色のサイ層は表示・監査用途に限定され、Gate または売買判断に接続されない。",
+    "日報では評価日、入力由来、前回評価との差分、非自動判断境界が三言語で表示される。",
+    "灰色のサイ評価は日次 snapshot として永続化され、同一日再実行と前日比較を監査できる。",
+    "遷移監査ログの日付は実行日ではなく DecisionPacket の業務日と一致する。",
+    "利用者が gray_rhino_escalation を watchlist より前に配置しても CLI 統合テスト fixture が壊れない。",
+    "既存の非 production evidence 排除と review 汚染拒否の変更を維持する。",
+    "灰色のサイ専用外部証拠源が未接続であることを明記し、手動入力を自動情報と誤表示しない。",
+    "必要な多言語・監査・回帰テストおよび make quality が通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json SUMMARY=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.contract.json SUMMARY=.ai/work-items/active/gray_rhino_auditable_daily_intelligence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "灰色のサイ監査 snapshot、日付整合、多言語表示、fixture 修正に関する本 Work Item の diff のみを revert する。"
+}

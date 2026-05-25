@@ -105,7 +105,10 @@ async fn test_full_9_asset_archival_package() {
 
     let logger = TransitionLogger::new(&save_dir);
     logger
-        .log_transition(curr_packet.transition_log.as_ref().unwrap())
+        .log_transition(
+            curr_packet.date,
+            curr_packet.transition_log.as_ref().unwrap(),
+        )
         .unwrap();
 
     // --- VERIFICATION ---

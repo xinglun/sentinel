@@ -81,7 +81,12 @@ pub async fn collect_evidence_from_source(
         if let Some(retention_days) = policy.retention_days() {
             cleanup_count = repository.cleanup_old_records(retention_days)?;
         }
-        saved_count = repository.save_records(&records)?;
+        let production_records = records
+            .iter()
+            .filter(|record| record.is_production_eligible())
+            .cloned()
+            .collect::<Vec<_>>();
+        saved_count = repository.save_records(&production_records)?;
     }
 
     Ok(CollectEvidenceOutcome {
@@ -184,7 +189,12 @@ pub async fn collect_evidence_batch(
         if let Some(retention_days) = policy.retention_days() {
             cleanup_count = repository.cleanup_old_records(retention_days)?;
         }
-        saved_count = repository.save_records(&records)?;
+        let production_records = records
+            .iter()
+            .filter(|record| record.is_production_eligible())
+            .cloned()
+            .collect::<Vec<_>>();
+        saved_count = repository.save_records(&production_records)?;
     }
 
     Ok(BatchCollectEvidenceOutcome {

@@ -1,0 +1,128 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray_rhino_daily_report_integrity",
+  "mode": "code",
+  "title": "Gray Rhino 日報統合とレポート真正性修正",
+  "scope": [
+    ".ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+    ".ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "src/cli.rs",
+    "src/features/evidence/application/evidence_ingestion.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/shared/domain/evidence.rs",
+    "tests/evidence_ingestion_port_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "config.toml",
+    "src/features/radar/domain/**",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/trading/**",
+    ".ai/guards/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "Gray Rhino の表示専用境界と入力契約の SSOT。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino.rs",
+      "reason": "既存状態判定が Gate 非依存であることの確認元。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "三語出力混在と sidecar renderer の修正対象。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration 統合と空の review command の修正対象。"
+    },
+    {
+      "path": "src/features/shared/domain/evidence.rs",
+      "reason": "証拠 provenance の production eligibility を定義する共通 record。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence_ingestion.rs",
+      "reason": "fixture evidence を永続化前に遮断する use case 境界。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Gray Rhino は daily-calibration の独立した只読セクションとして表示され、Gate、execution、Radar decision policy を変更しない。",
+    "Gray Rhino の固定 UI 文言は zh-cn / en-us / ja-jp で単一言語として表示され、他言語の固定説明文を混入させない。",
+    "review command は save_to 配下の最新かつ有効な日次 Markdown report を表示し、欠落または非本番 evidence 混入時は監査可能なエラーを返す。",
+    "fixture または local-file 由来 evidence は永続化および新しい Radar decision の evidence input から除外され、audit_daily でも正式証拠として表示されない。",
+    "config.toml は forbidden write 境界を維持し、利用者が手動追加できる Gray Rhino 設定片を仕様書に記載する。",
+    "追加した挙動は統合テストと全 quality gate で固定される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "cargo run -- daily-calibration",
+      "required": true
+    },
+    {
+      "command": "cargo run -- review",
+      "required": false
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
