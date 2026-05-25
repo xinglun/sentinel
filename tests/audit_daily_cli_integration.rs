@@ -7,6 +7,7 @@ fn prepare_workspace_with_language(language: &str) -> tempfile::TempDir {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let config_path = root.join("config.toml");
     let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let raw = strip_optional_local_sections(&raw);
     let patched = raw.replacen(
         "language = \"zh-cn\"",
         &format!("language = \"{}\"", language),
@@ -14,6 +15,21 @@ fn prepare_workspace_with_language(language: &str) -> tempfile::TempDir {
     );
     fs::write(tmp.path().join("config.toml"), patched).expect("failed to write temp config.toml");
     tmp
+}
+
+fn strip_optional_local_sections(raw: &str) -> String {
+    let mut output = String::new();
+    let mut skipping = false;
+    for line in raw.lines() {
+        if line.starts_with('[') {
+            skipping = line == "[gray_rhino_provider_registry]";
+        }
+        if !skipping {
+            output.push_str(line);
+            output.push('\n');
+        }
+    }
+    output
 }
 
 fn run_cli(tmp: &tempfile::TempDir, args: &[&str]) -> std::process::Output {

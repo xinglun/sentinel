@@ -31,7 +31,23 @@ fn strip_optional_calibration_sections(raw: &str) -> String {
             skipping = line.starts_with("[research_attention.")
                 || line.starts_with("[asset_thesis.")
                 || line == "[macro_gravity]"
-                || line == "[gray_rhino_escalation]";
+                || line == "[gray_rhino_escalation]"
+                || line == "[gray_rhino_provider_registry]";
+        }
+        if !skipping {
+            output.push_str(line);
+            output.push('\n');
+        }
+    }
+    output
+}
+
+fn strip_gray_rhino_provider_registry_section(raw: &str) -> String {
+    let mut output = String::new();
+    let mut skipping = false;
+    for line in raw.lines() {
+        if line.starts_with('[') {
+            skipping = line == "[gray_rhino_provider_registry]";
         }
         if !skipping {
             output.push_str(line);
@@ -44,8 +60,9 @@ fn strip_optional_calibration_sections(raw: &str) -> String {
 fn prepare_standard_workspace(language: &str) -> TempDir {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let mut raw =
+    let raw =
         fs::read_to_string(root.join("config.toml")).expect("failed to read base config.toml");
+    let mut raw = strip_gray_rhino_provider_registry_section(&raw);
     raw = raw.replace(
         "save_to = \"./reports\"",
         &format!("save_to = \"{}\"", tmp.path().to_string_lossy()),
@@ -489,6 +506,52 @@ fn gray_rhino_backfill_and_readiness_report_stays_non_signal() {
     assert!(stdout.contains("Readiness score: 25.0% (1/4)"));
     assert!(stdout.contains("Evidence quality dimensions"));
     assert!(stdout.contains("readiness=insufficient"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
+    let tmp = prepare_standard_workspace("en-us");
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let source_text = fs::read_to_string(
+        root.join("tests/fixtures/gray_rhino_discovery/spacex_governance_control.txt"),
+    )
+    .expect("failed to read SpaceX governance fixture");
+    let discovery_dir = tmp.path().join("gray_rhino_sources").join("SPACEX");
+    fs::create_dir_all(&discovery_dir).expect("failed to create discovery dir");
+    let source_path = discovery_dir.join("spacex_governance_control.txt");
+    fs::write(&source_path, source_text).expect("failed to write discovery source");
+
+    let cli = run_cli(
+        &tmp,
+        &[
+            "discover-gray-rhino",
+            "--symbol",
+            "SPACEX",
+            "--file",
+            source_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+        ],
+    );
+    assert!(cli.status.success());
+    let cli_stdout = String::from_utf8_lossy(&cli.stdout);
+    assert!(cli_stdout.contains("Gray Rhino Auto Discovery"));
+    assert!(cli_stdout.contains("GovernanceConcentration"));
+    assert!(cli_stdout.contains("Trigger watch"));
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
+    assert!(stdout.contains("SPACEX / Company / GovernanceConcentration / Expanding"));
+    assert!(stdout.contains("IPO voting terms"));
+    assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
     assert!(!stdout.contains("gate signal"));

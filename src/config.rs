@@ -28,6 +28,9 @@ pub struct AppConfig {
     pub asset_thesis: Option<BTreeMap<String, AssetThesisEntry>>,
     pub macro_gravity: Option<MacroGravityConfig>,
     pub gray_rhino_escalation: Option<GrayRhinoEscalationConfig>,
+    /// 旧 provider registry 設定を読み捨てるための互換フィールド。
+    #[allow(dead_code)]
+    pub gray_rhino_provider_registry: Option<toml::Value>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -1083,6 +1086,7 @@ mod tests {
             asset_thesis: None,
             macro_gravity: None,
             gray_rhino_escalation: None,
+            gray_rhino_provider_registry: None,
         };
 
         // SEC config がなくても許容する。

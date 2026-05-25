@@ -5,6 +5,9 @@ use crate::features::research::application::governance_source_pipeline::Governan
 use crate::features::research::application::gray_rhino_assessment::{
     build_evidence_backed_gray_rhino_assessment, build_gray_rhino_assessment,
 };
+use crate::features::research::application::gray_rhino_discovery::{
+    discover_gray_rhino_candidates, render_gray_rhino_inline_reference, GrayRhinoDiscoveryInput,
+};
 use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
 use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
 #[cfg(test)]
@@ -21,7 +24,7 @@ use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
 use std::collections::BTreeSet;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 pub(crate) fn build_gray_rhino_escalation_report(
     app_config: &config::AppConfig,
@@ -58,7 +61,12 @@ pub(crate) fn build_gray_rhino_daily_report(
         assessment
     } else {
         let Some(input) = input_from_config(app_config) else {
-            return Ok(gray_rhino_empty(language).to_string());
+            let mut report = gray_rhino_empty(language).to_string();
+            report.push_str("\n\n");
+            report.push_str(&render_auto_discovery_inline_reference(
+                app_config, save_dir, as_of_date,
+            ));
+            return Ok(report);
         };
         build_gray_rhino_assessment(input, as_of_date, previous)
     };
@@ -69,6 +77,10 @@ pub(crate) fn build_gray_rhino_daily_report(
         report.push_str("\n\n");
         report.push_str(&sensor_health);
     }
+    report.push_str("\n\n");
+    report.push_str(&render_auto_discovery_inline_reference(
+        app_config, save_dir, as_of_date,
+    ));
     Ok(report)
 }
 
@@ -507,6 +519,96 @@ fn render_backfill_ops_view(save_dir: &Path) -> Option<String> {
             .unwrap_or(0)
     ));
     Some(out)
+}
+
+fn render_auto_discovery_inline_reference(
+    app_config: &config::AppConfig,
+    save_dir: &Path,
+    as_of_date: NaiveDate,
+) -> String {
+    let candidates = collect_auto_discovered_candidates(app_config, save_dir, as_of_date);
+    render_gray_rhino_inline_reference(&candidates)
+}
+
+fn collect_auto_discovered_candidates(
+    app_config: &config::AppConfig,
+    save_dir: &Path,
+    as_of_date: NaiveDate,
+) -> Vec<crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate> {
+    let source_roots = [
+        save_dir.join("gray_rhino_sources"),
+        save_dir.join("gray_rhino_raw_sources"),
+    ];
+    let mut files = Vec::new();
+    for root in source_roots {
+        collect_text_files(&root, &mut files);
+    }
+    let watch_symbols: Vec<String> = app_config
+        .watchlist
+        .iter()
+        .filter(|entry| entry.enable)
+        .map(|entry| entry.symbol.clone())
+        .collect();
+    let default_subject = watch_symbols
+        .first()
+        .cloned()
+        .unwrap_or_else(|| "UNKNOWN".to_string());
+    let mut candidates = Vec::new();
+    for path in files {
+        let Ok(text) = std::fs::read_to_string(&path) else {
+            continue;
+        };
+        let path_text = path.to_string_lossy().to_string();
+        let path_components = path
+            .components()
+            .filter_map(|component| component.as_os_str().to_str())
+            .map(|component| component.to_uppercase())
+            .collect::<Vec<_>>();
+        let subject = watch_symbols
+            .iter()
+            .find(|symbol| {
+                let symbol = symbol.to_uppercase();
+                path_components.iter().any(|component| {
+                    component == &symbol || component.starts_with(&format!("{symbol}_"))
+                })
+            })
+            .cloned()
+            .or_else(|| {
+                path.parent()
+                    .and_then(|parent| parent.file_name())
+                    .and_then(|name| name.to_str())
+                    .map(str::to_string)
+            })
+            .unwrap_or_else(|| default_subject.clone());
+        candidates.extend(discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+            subject,
+            source_title: path_text,
+            observed_at: as_of_date,
+            text,
+        }));
+    }
+    candidates
+}
+
+fn collect_text_files(path: &Path, out: &mut Vec<PathBuf>) {
+    let Ok(metadata) = std::fs::metadata(path) else {
+        return;
+    };
+    if metadata.is_file() {
+        if matches!(
+            path.extension().and_then(|ext| ext.to_str()),
+            Some("txt" | "md" | "html")
+        ) {
+            out.push(path.to_path_buf());
+        }
+        return;
+    }
+    let Ok(entries) = std::fs::read_dir(path) else {
+        return;
+    };
+    for entry in entries.flatten() {
+        collect_text_files(&entry.path(), out);
+    }
 }
 
 fn render_governance_sensor_health(save_dir: &Path, language: Language) -> Result<String> {
@@ -983,6 +1085,7 @@ mod tests {
                 ]),
                 enable: Some(true),
             }),
+            gray_rhino_provider_registry: None,
         };
 
         let report = build_gray_rhino_escalation_telegram_report(&app_config, Language::EnUs);

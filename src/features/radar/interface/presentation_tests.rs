@@ -43,6 +43,7 @@ fn mock_config(lang: Language) -> AppConfig {
         asset_thesis: None,
         macro_gravity: None,
         gray_rhino_escalation: None,
+        gray_rhino_provider_registry: None,
     }
 }
 

@@ -19,9 +19,17 @@ machine-readable SSOT は `.ai/architecture/gray_rhino_evidence_schema.yaml` と
 
 ## 現在の状態
 
-現在の Gray Rhino Escalation は `ManualConfiguration` を source とする Human-Structured Observation System である。
+現在の Gray Rhino Escalation は `AutoDiscovery` を source とする構造リスク候補 discovery system へ移行する。
 
-運用者が構造的観測値を定義し、system は表示、三言語出力、snapshot、差分、監査 chain を提供する。外部事実 source を自動的に発見しているわけではない。
+system は filing、prospectus、S-1、annual report、proxy statement、market breadth / liquidity disclosure などの source text を走査し、Company Gray Rhino と Market Gray Rhino の candidate を自動発見する。人工 registry は主機構ではなく、manual source 補助としても既定では使わない。
+
+## Phase 4: Auto Discovery And Inline Reference
+
+Phase 4 では `GrayRhinoCandidate` を導入する。candidate は `Company` または `Market` scope、candidate kind、subject、state、evidence、watch triggers、source title、observed date を持つ。
+
+state は `Background`、`Visible`、`Expanding`、`Critical`、`Cooling`、`Resolved` のいずれかとし、system は source text から deterministically 発見する。例として、prospectus に founder voting control、dual-class / super-voting terms、独立 board constraint の欠如が同時に現れた場合、Company / GovernanceConcentration の Gray Rhino candidate とする。
+
+Daily report では `Gray Rhino Inline Reference` として watchlist 近傍に表示できるが、意味的には完全に隔離する。candidate は trading、Gate、execution、trend、market state を変更してはならない。出力は構造リスク状態、evidence、trigger watch の提示に限定する。
 
 ## Evidence と Narrative の境界
 
@@ -183,7 +191,7 @@ collector または adapter は次を満たす必要がある。
 
 ## Phase Boundary
 
-自動情報収集は evidence contract を満たす adapter が存在するまで開始しない。
+自動情報収集は Phase 4 の deterministic discovery scanner で開始する。scanner は source text から candidate を作るが、trade / Gate / execution / trend cohesion を変える signal は作らない。
 
 ### Phase 1: Human Structured Governance Observation
 
@@ -275,7 +283,7 @@ Phase v1.1 では `collect-gray-rhino-backfill --file <manifest>` を追加し�
 
 Phase v1.2 では backfill run summary を `gray_rhino_backfill_runs.jsonl` に保存する。summary は run id、manifest、category、source count、accepted、rejected、coverage、started_at、finished_at、boundary を含む。
 
-Phase v1.3 では provider source registry を manifest として扱う。registry entry は `provider_kind`、`source_type`、`file` または URL source、`observed_at`、`freshness_days`、`expected_sha256` を持てる。`config.toml` に registry path を設定するが、registry file の schema は `tests/fixtures/gray_rhino_historical/provider_registry.json` を fixture とする。
+Phase v1.3 の provider source registry は manual source manifest の実験機構であり、Phase 4 以降の主機構ではない。Gray Rhino discovery は `gray_rhino_sources/**` や raw source cache にある system-owned source text を走査し、registry JSON を要求しない。
 
 Backfill run summary は provider failure taxonomy として `fetch_failure`、`timeout`、`unsupported_format`、`metricless_source`、`stale_source` を記録する。hash drift は `drift_sources`、freshness window 超過は `stale_sources` に集計する。
 

@@ -38,6 +38,9 @@ use crate::features::research::application::governance_source_pipeline::{
     collect_governance_concentration_sources, GovernanceFieldCoverage,
     GovernanceSourceCollectionRequest,
 };
+use crate::features::research::application::gray_rhino_discovery::{
+    discover_gray_rhino_candidates, render_gray_rhino_inline_reference, GrayRhinoDiscoveryInput,
+};
 use crate::features::research::application::institutional_evidence::ingest_institutional_maturity_evidence;
 use crate::features::research::application::redundancy_evidence::ingest_redundancy_evidence;
 use crate::features::research::domain::dependency_source::{
@@ -179,6 +182,16 @@ pub async fn run() -> Result<()> {
                 )
                 .await?;
             }
+        }
+        CliCommand::DiscoverGrayRhino => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_discover_gray_rhino(
+                options.evidence_symbol.clone(),
+                options.governance_evidence_file.as_deref(),
+                options.evidence_date_arg.as_deref(),
+            )?;
         }
         CliCommand::IngestGrayRhinoGovernance => {
             if let Some(err) = &options.evidence_arg_error {
@@ -588,6 +601,31 @@ fn run_ingest_gray_rhino_governance(
     println!("Source: {}", outcome.record.source.source_title);
     println!("Observed at: {}", outcome.record.source.observed_at);
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+fn run_discover_gray_rhino(
+    symbol: Option<String>,
+    file_arg: Option<&str>,
+    observed_date_arg: Option<&str>,
+) -> Result<()> {
+    let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
+    let subject = symbol.unwrap_or_else(|| "UNKNOWN".to_string());
+    let observed_at = match observed_date_arg {
+        Some(raw) => NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+            .with_context(|| format!("Invalid Gray Rhino discovery date: {}", raw))?,
+        None => chrono::Local::now().date_naive(),
+    };
+    let text = std::fs::read_to_string(file)
+        .with_context(|| format!("Failed to read Gray Rhino discovery source: {}", file))?;
+    let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+        subject,
+        source_title: file.to_string(),
+        observed_at,
+        text,
+    });
+    println!("--- Gray Rhino Auto Discovery ---");
+    println!("{}", render_gray_rhino_inline_reference(&candidates));
     Ok(())
 }
 
@@ -1767,6 +1805,7 @@ mod tests {
             asset_thesis: None,
             macro_gravity: None,
             gray_rhino_escalation: None,
+            gray_rhino_provider_registry: None,
         }
     }
 

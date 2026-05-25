@@ -11,6 +11,8 @@ SCHEMA_PATH = PROJECT_ROOT / ".ai/architecture/gray_rhino_evidence_schema.yaml"
 DOC_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
 FRAMEWORK_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
 DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.rs"
+DISCOVERY_DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_candidate.rs"
+DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
 GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
 ASSESSMENT_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_assessment.rs"
 REPLAY_FIXTURE_DIR = PROJECT_ROOT / "tests/fixtures/governance_sec"
@@ -49,6 +51,8 @@ def main() -> int:
         DOC_PATH,
         FRAMEWORK_PATH,
         DOMAIN_PATH,
+        DISCOVERY_DOMAIN_PATH,
+        DISCOVERY_APP_PATH,
         GOVERNANCE_SOURCE_PATH,
         ASSESSMENT_PATH,
     ]
@@ -63,14 +67,21 @@ def main() -> int:
     doc = DOC_PATH.read_text(encoding="utf-8")
     framework = FRAMEWORK_PATH.read_text(encoding="utf-8")
     domain = DOMAIN_PATH.read_text(encoding="utf-8")
+    discovery_domain = DISCOVERY_DOMAIN_PATH.read_text(encoding="utf-8")
+    discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
     governance_source = GOVERNANCE_SOURCE_PATH.read_text(encoding="utf-8")
     assessment = ASSESSMENT_PATH.read_text(encoding="utf-8")
 
     required_schema_pairs = {
         "contractKey: gray-rhino-evidence-contract",
         "humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
-        "currentObservationSource: ManualConfiguration",
-        "automatedCollectionEnabled: false",
+        "currentObservationSource: AutoDiscovery",
+        "automatedCollectionEnabled: true",
+        "grayRhinoAutoDiscoveryEnabled: true",
+        "candidateDomain: src/features/research/domain/gray_rhino_candidate.rs",
+        "candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs",
+        "inlineWatchlistReferenceEnabled: true",
+        "manualRegistryPrimaryMechanism: false",
         "governanceEvidencePipelineEnabled: true",
         "governanceEvidenceStore: gray_rhino_evidence.jsonl",
         "governanceSourceAdapterEnabled: true",
@@ -131,6 +142,9 @@ def main() -> int:
         "rejection taxonomy",
         "sensor health",
         "自動情報収集",
+        "Phase 4: Auto Discovery And Inline Reference",
+        "GrayRhinoCandidate",
+        "Gray Rhino Inline Reference",
     ]
     for item in doc_required:
         if item not in doc:
@@ -188,6 +202,26 @@ def main() -> int:
         errors.append("application boundary does not expose evidence contract validation")
     if "evaluate_gray_rhino_escalation" in domain:
         errors.append("evidence domain must not evaluate escalation state")
+    for item in [
+        "GrayRhinoCandidate",
+        "GrayRhinoCandidateScope",
+        "GrayRhinoCandidateKind",
+        "GrayRhinoCandidateState",
+        "Company",
+        "Market",
+        "Critical",
+    ]:
+        if item not in discovery_domain:
+            errors.append(f"discovery domain missing `{item}`")
+    for item in [
+        "discover_gray_rhino_candidates",
+        "render_gray_rhino_inline_reference",
+        "GovernanceConcentration",
+        "MarketConcentration",
+        "reference only",
+    ]:
+        if item not in discovery_app:
+            errors.append(f"discovery application missing `{item}`")
 
     governance_metrics = set(extract_yaml_list(schema, "  requiredMetricAtLeastOneOf"))
     for item in governance_metrics:
@@ -260,8 +294,8 @@ def main() -> int:
         "dependencyHttpRetryCount: 3",
         "dependencyHttpTimeoutSeconds: 20",
         "backfillRunStore: gray_rhino_backfill_runs.jsonl",
-        "providerSourceRegistryEnabled: true",
-        "providerRegistryConfigRequired: true",
+        "providerSourceRegistryEnabled: false",
+        "providerRegistryConfigRequired: false",
         "providerRegistryFixture: tests/fixtures/gray_rhino_historical/provider_registry.json",
         "scheduledBackfillEnabled: true",
         "backfillDriftDetectionEnabled: true",

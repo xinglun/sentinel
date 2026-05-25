@@ -45,6 +45,7 @@ fn mock_config() -> AppConfig {
         asset_thesis: None,
         macro_gravity: None,
         gray_rhino_escalation: None,
+        gray_rhino_provider_registry: None,
     }
 }
 

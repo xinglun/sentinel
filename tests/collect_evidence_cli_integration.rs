@@ -9,7 +9,8 @@ fn prepare_workspace() -> TempDir {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let config_path = root.join("config.toml");
-    let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let mut raw = strip_optional_local_sections(&raw);
 
     // Ensure save_to points to the temp dir
     let save_to = tmp.path().to_string_lossy().to_string();
@@ -63,7 +64,8 @@ fn test_collect_evidence_dry_run_fallback_no_key() {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let config_path = root.join("config.toml");
-    let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let mut raw = strip_optional_local_sections(&raw);
 
     // Remove finnhub section to simulate missing key (robustly)
     if let Some(start) = raw.find("[finnhub]") {
@@ -108,7 +110,8 @@ fn test_collect_evidence_sec_missing_ua() {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let config_path = root.join("config.toml");
-    let mut raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let mut raw = strip_optional_local_sections(&raw);
 
     // Remove sec section and UA to simulate missing UA (robustly)
     if let Some(start) = raw.find("[sec]") {
@@ -131,4 +134,19 @@ fn test_collect_evidence_sec_missing_ua() {
     assert!(!out.status.success());
     let stderr = String::from_utf8_lossy(&out.stderr);
     assert!(stderr.contains("SEC user_agent is not configured"));
+}
+
+fn strip_optional_local_sections(raw: &str) -> String {
+    let mut output = String::new();
+    let mut skipping = false;
+    for line in raw.lines() {
+        if line.starts_with('[') {
+            skipping = line == "[gray_rhino_provider_registry]";
+        }
+        if !skipping {
+            output.push_str(line);
+            output.push('\n');
+        }
+    }
+    output
 }

@@ -2,9 +2,24 @@ schemaVersion: 1
 contractKey: gray-rhino-evidence-contract
 humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md
 domainModel: src/features/research/domain/gray_rhino_evidence.rs
-currentPhase: phase_3a_governance_source_adapter
-currentObservationSource: ManualConfiguration
-automatedCollectionEnabled: false
+currentPhase: phase_4_auto_discovery
+currentObservationSource: AutoDiscovery
+automatedCollectionEnabled: true
+grayRhinoAutoDiscoveryEnabled: true
+candidateDomain: src/features/research/domain/gray_rhino_candidate.rs
+candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs
+candidateScopes:
+  - Company
+  - Market
+candidateStates:
+  - Background
+  - Visible
+  - Expanding
+  - Critical
+  - Cooling
+  - Resolved
+inlineWatchlistReferenceEnabled: true
+manualRegistryPrimaryMechanism: false
 governanceEvidencePipelineEnabled: true
 governanceEvidenceStore: gray_rhino_evidence.jsonl
 governanceSourceAdapterEnabled: true
@@ -24,8 +39,8 @@ dependencyRawSourceCache: gray_rhino_sources/dependency
 dependencyHttpRetryCount: 3
 dependencyHttpTimeoutSeconds: 20
 backfillRunStore: gray_rhino_backfill_runs.jsonl
-providerSourceRegistryEnabled: true
-providerRegistryConfigRequired: true
+providerSourceRegistryEnabled: false
+providerRegistryConfigRequired: false
 providerRegistryFixture: tests/fixtures/gray_rhino_historical/provider_registry.json
 scheduledBackfillEnabled: true
 backfillDriftDetectionEnabled: true

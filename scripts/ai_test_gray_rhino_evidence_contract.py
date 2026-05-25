@@ -62,6 +62,12 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             checker.DOC_PATH = root / "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
             checker.FRAMEWORK_PATH = root / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
             checker.DOMAIN_PATH = root / "src/features/research/domain/gray_rhino_evidence.rs"
+            checker.DISCOVERY_DOMAIN_PATH = (
+                root / "src/features/research/domain/gray_rhino_candidate.rs"
+            )
+            checker.DISCOVERY_APP_PATH = (
+                root / "src/features/research/application/gray_rhino_discovery.rs"
+            )
             checker.GOVERNANCE_SOURCE_PATH = (
                 root / "src/features/research/domain/governance_source.rs"
             )
@@ -72,8 +78,13 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
                 checker.SCHEMA_PATH,
                 "contractKey: gray-rhino-evidence-contract\n"
                 "humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md\n"
-                "currentObservationSource: ManualConfiguration\n"
-                "automatedCollectionEnabled: false\n"
+                "currentObservationSource: AutoDiscovery\n"
+                "automatedCollectionEnabled: true\n"
+                "grayRhinoAutoDiscoveryEnabled: true\n"
+                "candidateDomain: src/features/research/domain/gray_rhino_candidate.rs\n"
+                "candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs\n"
+                "inlineWatchlistReferenceEnabled: true\n"
+                "manualRegistryPrimaryMechanism: false\n"
                 "evidence_must_not_set_escalation_state: true\n"
                 "categories:\n"
                 "  - GovernanceConcentration\n"
@@ -86,6 +97,8 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             write(checker.DOC_PATH, "Gray Rhino Evidence Contract\n")
             write(checker.FRAMEWORK_PATH, "GRAY_RHINO_EVIDENCE_CONTRACT.md\n")
             write(checker.DOMAIN_PATH, "enum GrayRhinoEvidenceCategory { GovernanceConcentration }\n")
+            write(checker.DISCOVERY_DOMAIN_PATH, "struct GrayRhinoCandidate;\n")
+            write(checker.DISCOVERY_APP_PATH, "fn discover_gray_rhino_candidates() {}\n")
             write(checker.GOVERNANCE_SOURCE_PATH, "struct GovernanceSourceDocument;\n")
             write(checker.ASSESSMENT_PATH, "fn validate_gray_rhino_evidence_contract() {}\n")
             with contextlib.redirect_stdout(io.StringIO()):

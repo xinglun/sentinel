@@ -1,0 +1,147 @@
+{
+  "workItemId": "gray-rhino-v2-auto-discovery",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v2-auto-discovery.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v2-auto-discovery.contract.json",
+      "reason": "Gray Rhino v2 auto discovery / inline reference の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v2-auto-discovery.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_candidate.rs",
+      "reason": "Company / Market Gray Rhino candidate domain を追加する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "filing/disclosure text から deterministic candidate discovery を追加する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "watchlist inline reference として auto-discovered candidates を表示する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "discover-gray-rhino CLI を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "SpaceX-style governance control discovery と non-signal boundary を固定する。"
+    },
+    {
+      "path": "scripts/ai_test_gray_rhino_evidence_contract.py",
+      "reason": "evidence contract checker test を AutoDiscovery schema に合わせる。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Gray Rhino v2 AutoDiscovery contract と manual registry 非主機構化を宣言する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Auto Discovery / Inline Reference の契約と境界を文書化する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "SSOT checker を AutoDiscovery contract に合わせる。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "discover-gray-rhino CLI command を parse / help に追加する。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Gray Rhino candidate domain module を export する。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "Gray Rhino discovery application module を export する。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "deprecated provider registry section を読み捨て互換にして AutoDiscovery への移行中も CLI を壊さない。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "AppConfig mock を deprecated registry 互換 field に合わせる。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "AppConfig mock を deprecated registry 互換 field に合わせる。"
+    },
+    {
+      "path": "tests/fixtures/gray_rhino_discovery/spacex_governance_control.txt",
+      "reason": "SpaceX-style prospectus governance control discovery fixture を追加する。"
+    },
+    {
+      "path": "tests/audit_daily_cli_integration.rs",
+      "reason": "local optional registry section が CLI argument validation test を汚染しないようにする。"
+    },
+    {
+      "path": "tests/collect_evidence_cli_integration.rs",
+      "reason": "local optional registry section が evidence collection CLI tests を汚染しないようにする。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v2-auto-discovery.contract.json",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v2-auto-discovery.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v2-auto-discovery.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::gray_rhino_discovery::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_auto_discovery_finds_governance_control_and_reports_inline --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v2-auto-discovery.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v2-auto-discovery.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v2-auto-discovery.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v2-auto-discovery.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v2-auto-discovery.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v2-auto-discovery.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed",
+      "notes": "Passed after temporarily restoring the pre-existing local config.toml diff; the saved user diff is reapplied after archive/commit."
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "auto discovery は deterministic scanner に限定し、既存 trading / Gate / trend / market state へ影響させない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}
