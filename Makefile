@@ -17,12 +17,14 @@ TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
 RESEARCH_ATTENTION_ARGS ?=
 DAILY_CALIBRATION_ARGS ?=
+GRAY_RHINO_REFRESH_DATE ?= $(shell date +%F)
+GRAY_RHINO_REFRESH_ARGS ?= --date $(GRAY_RHINO_REFRESH_DATE)
 
 .PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
-	collect-evidence-release research-attention daily-calibration archive-work-item check-work-items-lifecycle
+	collect-evidence-release research-attention daily-calibration gray-rhino-refresh archive-work-item check-work-items-lifecycle
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
@@ -38,6 +40,7 @@ help:
 	@printf '%s\n' '  make collect-evidence-release COLLECT_EVIDENCE_ARGS="..."'
 	@printf '%s\n' '  make research-attention RESEARCH_ATTENTION_ARGS="..."'
 	@printf '%s\n' '  make daily-calibration DAILY_CALIBRATION_ARGS="..."'
+	@printf '%s\n' '  make gray-rhino-refresh GRAY_RHINO_REFRESH_ARGS="--date YYYY-MM-DD"'
 	@printf '%s\n' '  make fmt-check'
 	@printf '%s\n' '  make audit-docs'
 	@printf '%s\n' '  make check-doc-forbidden-terms'
@@ -234,6 +237,12 @@ research-attention:
 
 daily-calibration:
 	cargo run -- daily-calibration $(DAILY_CALIBRATION_ARGS)
+
+gray-rhino-refresh:
+	cargo run -- collect-gray-rhino-sources --source sec $(GRAY_RHINO_REFRESH_ARGS)
+	cargo run -- collect-gray-rhino-sources --source finnhub $(GRAY_RHINO_REFRESH_ARGS)
+	cargo run -- collect-gray-rhino-sources --source fred $(GRAY_RHINO_REFRESH_ARGS)
+	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_ARGS)
 
 test-ai-guards:
 	python3 scripts/ai_test_guards.py

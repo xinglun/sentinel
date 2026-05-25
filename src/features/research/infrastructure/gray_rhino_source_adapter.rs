@@ -11,6 +11,7 @@ use anyhow::{anyhow, Context, Result};
 use chrono::{Duration, NaiveDate};
 use serde::Serialize;
 use sha2::{Digest, Sha256};
+use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 const FRED_SERIES: &[&str] = &[
@@ -336,6 +337,7 @@ pub(crate) fn render_finnhub_narrative_text(symbol: &str, raw_json: &str) -> Res
 pub(crate) fn render_fred_macro_text(series_payloads: &[(String, String)]) -> Result<String> {
     let mut out = String::from("FRED macro structural source\n");
     out.push_str("Observed dimensions: rate pressure, liquidity fragility, credit stress, yield curve constraint.\n");
+    let mut observations = BTreeMap::new();
     for (series, payload) in series_payloads {
         let value: serde_json::Value = serde_json::from_str(payload)
             .with_context(|| format!("Failed to parse FRED {series}"))?;
@@ -348,9 +350,93 @@ pub(crate) fn render_fred_macro_text(series_payloads: &[(String, String)]) -> Re
         out.push_str(&format!(
             "- FRED series {series}: latest observation {latest}\n"
         ));
+        observations.insert(series.as_str(), fred_numeric_observations(payload)?);
     }
-    out.push_str("Market gray rhino hints: liquidity tightened, rate pressure elevated, credit stress watch, capex payback risk.\n");
+    out.push_str("FRED threshold assessment:\n");
+    append_fred_threshold_assessment(&mut out, &observations);
     Ok(out)
+}
+
+fn append_fred_threshold_assessment(out: &mut String, observations: &BTreeMap<&str, Vec<f64>>) {
+    let dgs10 = latest_value(observations, "DGS10");
+    let fedfunds = latest_value(observations, "FEDFUNDS");
+    let curve = latest_value(observations, "T10Y2Y");
+    let high_yield_spread = latest_value(observations, "BAMLH0A0HYM2");
+    let walcl_change = latest_change_ratio(observations, "WALCL");
+    let rrp = latest_value(observations, "RRPONTSYD");
+
+    if dgs10.is_some_and(|value| value >= 5.0) || fedfunds.is_some_and(|value| value >= 5.25) {
+        out.push_str("- rate pressure critical: DGS10 >= 5.00 or FEDFUNDS >= 5.25.\n");
+        out.push_str("- capex payback critical: financing hurdle is materially elevated.\n");
+    } else if dgs10.is_some_and(|value| value >= 4.5) || fedfunds.is_some_and(|value| value >= 5.0)
+    {
+        out.push_str("- rate pressure elevated: DGS10 >= 4.50 or FEDFUNDS >= 5.00.\n");
+        out.push_str("- capex payback risk: financing hurdle is elevated.\n");
+    }
+
+    if curve.is_some_and(|value| value <= -1.0) {
+        out.push_str("- yield curve constraint critical: T10Y2Y <= -1.00.\n");
+    } else if curve.is_some_and(|value| value <= -0.5) {
+        out.push_str("- yield curve constraint: T10Y2Y <= -0.50.\n");
+    }
+
+    if high_yield_spread.is_some_and(|value| value >= 7.0) {
+        out.push_str("- credit stress critical: high-yield spread >= 7.00.\n");
+    } else if high_yield_spread.is_some_and(|value| value >= 5.0) {
+        out.push_str("- credit stress watch: high-yield spread >= 5.00.\n");
+    }
+
+    if walcl_change.is_some_and(|ratio| ratio <= -0.05) {
+        out.push_str("- liquidity fragility critical: WALCL contracted by at least 5% from the prior observation.\n");
+    } else if walcl_change.is_some_and(|ratio| ratio <= -0.02) {
+        out.push_str(
+            "- liquidity tightened: WALCL contracted by at least 2% from the prior observation.\n",
+        );
+    }
+
+    if rrp.is_some_and(|value| value >= 2_000.0) {
+        out.push_str("- liquidity absorption critical: RRPONTSYD >= 2000.\n");
+    } else if rrp.is_some_and(|value| value >= 1_000.0) {
+        out.push_str("- liquidity absorption elevated: RRPONTSYD >= 1000.\n");
+    }
+
+    if out.ends_with("FRED threshold assessment:\n") {
+        out.push_str("- threshold status neutral: no configured FRED macro threshold breached.\n");
+    }
+}
+
+fn latest_value(observations: &BTreeMap<&str, Vec<f64>>, series: &str) -> Option<f64> {
+    observations
+        .get(series)
+        .and_then(|values| values.first())
+        .copied()
+}
+
+fn latest_change_ratio(observations: &BTreeMap<&str, Vec<f64>>, series: &str) -> Option<f64> {
+    let values = observations.get(series)?;
+    let latest = *values.first()?;
+    let previous = *values.get(1)?;
+    if previous == 0.0 {
+        return None;
+    }
+    Some((latest - previous) / previous)
+}
+
+fn fred_numeric_observations(payload: &str) -> Result<Vec<f64>> {
+    let value: serde_json::Value =
+        serde_json::from_str(payload).context("Failed to parse FRED observations JSON")?;
+    Ok(value
+        .get("observations")
+        .and_then(|value| value.as_array())
+        .into_iter()
+        .flatten()
+        .filter_map(|observation| {
+            observation
+                .get("value")
+                .and_then(|value| value.as_str())
+                .and_then(|value| value.parse::<f64>().ok())
+        })
+        .collect())
 }
 
 fn configured_subjects(app_config: &config::AppConfig, requested: &[String]) -> Vec<String> {
@@ -505,7 +591,25 @@ mod tests {
         let payload = r#"{"observations":[{"date":"2026-05-25","value":"4.50"}]}"#.to_string();
         let text = render_fred_macro_text(&[("DGS10".to_string(), payload)]).unwrap();
 
-        assert!(text.contains("liquidity tightened"));
+        assert!(text.contains("FRED threshold assessment"));
+        assert!(text.contains("rate pressure elevated"));
         assert!(text.contains("capex payback risk"));
+    }
+
+    #[test]
+    fn fred_threshold_assessment_emits_critical_terms() {
+        let dgs10 = r#"{"observations":[{"date":"2026-05-25","value":"5.10"}]}"#.to_string();
+        let spread = r#"{"observations":[{"date":"2026-05-25","value":"7.20"}]}"#.to_string();
+        let walcl = r#"{"observations":[{"date":"2026-05-25","value":"900"},{"date":"2026-05-18","value":"1000"}]}"#.to_string();
+        let text = render_fred_macro_text(&[
+            ("DGS10".to_string(), dgs10),
+            ("BAMLH0A0HYM2".to_string(), spread),
+            ("WALCL".to_string(), walcl),
+        ])
+        .unwrap();
+
+        assert!(text.contains("rate pressure critical"));
+        assert!(text.contains("credit stress critical"));
+        assert!(text.contains("liquidity fragility critical"));
     }
 }

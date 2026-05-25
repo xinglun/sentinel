@@ -12,6 +12,16 @@ candidatePersistenceEnabled: true
 candidateStore: gray_rhino_candidates.jsonl
 monitoringStateMachineEnabled: true
 monitoringStateMachine: src/features/research/application/gray_rhino_monitoring_state.rs
+fredThresholdCalibrationEnabled: true
+fredThresholdSeries:
+  - DGS10
+  - T10Y2Y
+  - FEDFUNDS
+  - BAMLH0A0HYM2
+  - WALCL
+  - RRPONTSYD
+deterministicThresholdStatesEnabled: true
+grayRhinoRefreshMakeTarget: gray-rhino-refresh
 candidateScopes:
   - Company
   - Market

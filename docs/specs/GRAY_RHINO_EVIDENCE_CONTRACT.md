@@ -47,6 +47,10 @@ Phase 4-D では monitoring state machine を導入する。state machine は `g
 
 monitoring state は `Gray Rhino Monitoring State` として Daily report に表示する。これは臨界点の接近を観察する reference であり、trade、Gate、execution、trend、market state を変更してはならない。
 
+Phase 4-E では FRED threshold calibration を導入する。FRED source adapter は `DGS10`、`T10Y2Y`、`FEDFUNDS`、`BAMLH0A0HYM2`、`WALCL`、`RRPONTSYD` を deterministic threshold assessment に変換し、rate pressure、yield curve constraint、credit stress、liquidity fragility、capex payback risk を `Visible`、`Expanding`、`Critical` の candidate state に投影する。
+
+日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を順番に実行し、その後 `daily-calibration` を実行する。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
+
 ## Evidence と Narrative の境界
 
 Gray Rhino evidence は、長期構造リスクに関する外部 source 由来の観測事実でなければならない。

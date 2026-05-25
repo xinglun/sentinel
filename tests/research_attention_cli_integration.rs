@@ -697,6 +697,18 @@ fn gray_rhino_source_collection_dry_run_reports_boundary() {
 }
 
 #[test]
+fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");
+
+    assert!(makefile.contains("gray-rhino-refresh:"));
+    assert!(makefile.contains("collect-gray-rhino-sources --source sec"));
+    assert!(makefile.contains("collect-gray-rhino-sources --source finnhub"));
+    assert!(makefile.contains("collect-gray-rhino-sources --source fred"));
+    assert!(makefile.contains("daily-calibration $(GRAY_RHINO_REFRESH_ARGS)"));
+}
+
+#[test]
 fn gray_rhino_quality_report_explains_dimensions_without_signals() {
     let tmp = prepare_standard_workspace("en-us");
     let dependency_path = tmp.path().join("dependency_evidence.json");

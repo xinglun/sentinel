@@ -18,23 +18,41 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
     if contains_any(
         &text,
         &[
-            "voting power",
-            "controlled",
             "dual class",
             "super voting",
             "ten votes per share",
-            "no independent directors",
-            "board is controlled",
+            "majority voting power",
+            "controls more than 50",
+            "has the ability to control",
+            "will control",
+            "continues to control",
+            "controlled company exemption",
         ],
     ) && contains_any(
         &text,
         &["founder", "chief executive", "class b", "voting control"],
+    ) && contains_any(
+        &text,
+        &[
+            "no independent directors",
+            "board is controlled",
+            "limited ability to influence",
+            "controlled company exemption",
+            "check-and-balance weakness",
+        ],
     ) {
         candidates.push(GrayRhinoCandidate {
             scope: GrayRhinoCandidateScope::Company,
             kind: GrayRhinoCandidateKind::GovernanceConcentration,
             subject: input.subject.clone(),
-            state: if contains_any(&text, &["majority voting power", "controls more than 50"]) {
+            state: if contains_any(
+                &text,
+                &[
+                    "majority voting power",
+                    "controls more than 50",
+                    "will control",
+                ],
+            ) {
                 GrayRhinoCandidateState::Expanding
             } else {
                 GrayRhinoCandidateState::Visible
@@ -196,17 +214,41 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
         &text,
         &[
             "liquidity fragility",
+            "liquidity fragility critical",
             "liquidity tightened",
+            "liquidity absorption elevated",
+            "liquidity absorption critical",
             "rate pressure elevated",
+            "rate pressure critical",
             "credit stress watch",
+            "credit stress critical",
             "yield curve constraint",
+            "yield curve constraint critical",
         ],
     ) {
         candidates.push(GrayRhinoCandidate {
             scope: GrayRhinoCandidateScope::Market,
             kind: GrayRhinoCandidateKind::LiquidityFragility,
             subject: "Market".to_string(),
-            state: if contains_any(&text, &["credit stress watch", "rate pressure elevated"]) {
+            state: if contains_any(
+                &text,
+                &[
+                    "liquidity fragility critical",
+                    "liquidity absorption critical",
+                    "rate pressure critical",
+                    "credit stress critical",
+                    "yield curve constraint critical",
+                ],
+            ) {
+                GrayRhinoCandidateState::Critical
+            } else if contains_any(
+                &text,
+                &[
+                    "credit stress watch",
+                    "rate pressure elevated",
+                    "liquidity absorption elevated",
+                ],
+            ) {
                 GrayRhinoCandidateState::Expanding
             } else {
                 GrayRhinoCandidateState::Visible
@@ -226,6 +268,7 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
         &text,
         &[
             "capex payback risk",
+            "capex payback critical",
             "payback disappointment",
             "capital expenditure payback delayed",
             "infrastructure build-out without utilization",
@@ -235,7 +278,13 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             scope: GrayRhinoCandidateScope::Market,
             kind: GrayRhinoCandidateKind::CapexPaybackFragility,
             subject: "Market".to_string(),
-            state: GrayRhinoCandidateState::Visible,
+            state: if contains_any(&text, &["capex payback critical"]) {
+                GrayRhinoCandidateState::Critical
+            } else if contains_any(&text, &["capex payback risk"]) {
+                GrayRhinoCandidateState::Expanding
+            } else {
+                GrayRhinoCandidateState::Visible
+            },
             evidence: vec!["Capex payback fragility detected.".to_string()],
             watch_triggers: vec![
                 "utilization gap".to_string(),
@@ -336,6 +385,39 @@ mod tests {
         assert!(candidates
             .iter()
             .any(|candidate| candidate.kind == GrayRhinoCandidateKind::CapexPaybackFragility));
+    }
+
+    #[test]
+    fn fred_threshold_critical_terms_set_critical_state() {
+        let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+            subject: "Market".to_string(),
+            source_title: "FRED threshold assessment".to_string(),
+            observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            text: "rate pressure critical. credit stress critical. capex payback critical."
+                .to_string(),
+        });
+
+        assert!(candidates.iter().any(|candidate| {
+            candidate.kind == GrayRhinoCandidateKind::LiquidityFragility
+                && candidate.state == GrayRhinoCandidateState::Critical
+        }));
+        assert!(candidates.iter().any(|candidate| {
+            candidate.kind == GrayRhinoCandidateKind::CapexPaybackFragility
+                && candidate.state == GrayRhinoCandidateState::Critical
+        }));
+    }
+
+    #[test]
+    fn governance_discovery_rejects_historic_control_without_current_constraint() {
+        let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+            subject: "EXAMPLE".to_string(),
+            source_title: "Old filing excerpt".to_string(),
+            observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            text: "The founder previously controlled the company before the recapitalization."
+                .to_string(),
+        });
+
+        assert!(candidates.is_empty());
     }
 
     #[test]

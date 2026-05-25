@@ -87,6 +87,9 @@ def main() -> int:
         "candidateStore: gray_rhino_candidates.jsonl",
         "monitoringStateMachineEnabled: true",
         "monitoringStateMachine: src/features/research/application/gray_rhino_monitoring_state.rs",
+        "fredThresholdCalibrationEnabled: true",
+        "deterministicThresholdStatesEnabled: true",
+        "grayRhinoRefreshMakeTarget: gray-rhino-refresh",
         "inlineWatchlistReferenceEnabled: true",
         "manualRegistryPrimaryMechanism: false",
         "autoSourceCollectionCli: collect-gray-rhino-sources",
@@ -161,6 +164,8 @@ def main() -> int:
         "gray_rhino_candidates.jsonl",
         "monitoring state machine",
         "Gray Rhino Monitoring State",
+        "FRED threshold calibration",
+        "make gray-rhino-refresh",
         "[fred] fred_api_key",
     ]
     for item in doc_required:
@@ -255,6 +260,17 @@ def main() -> int:
     ]:
         if item not in monitoring_state:
             errors.append(f"monitoring state application missing `{item}`")
+
+    for item in [
+        "DGS10",
+        "T10Y2Y",
+        "FEDFUNDS",
+        "BAMLH0A0HYM2",
+        "WALCL",
+        "RRPONTSYD",
+    ]:
+        if item not in schema:
+            errors.append(f"schema missing FRED threshold series `{item}`")
 
     governance_metrics = set(extract_yaml_list(schema, "  requiredMetricAtLeastOneOf"))
     for item in governance_metrics:
