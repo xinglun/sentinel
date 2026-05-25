@@ -1,7 +1,9 @@
 use crate::features::research::application::dependency_evidence::DependencyEvidenceRepository;
 use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
-use crate::features::research::application::gray_rhino_daily_report::GrayRhinoDailyReportRepository;
+use crate::features::research::application::gray_rhino_daily_report::{
+    BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportRepository,
+};
 use crate::features::research::application::gray_rhino_discovery::{
     discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
 };
@@ -134,12 +136,51 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
         Ok(candidates)
     }
 
-    fn load_backfill_ops_view(&self) -> Option<Value> {
-        load_latest_jsonl_value(&self.save_dir.join("gray_rhino_backfill_runs.jsonl"))
+    fn load_backfill_ops_view(&self) -> Option<BackfillOpsSummary> {
+        let value = load_latest_jsonl_value(&self.save_dir.join("gray_rhino_backfill_runs.jsonl"))?;
+        Some(BackfillOpsSummary {
+            run_id: value
+                .get("run_id")
+                .and_then(|value| value.as_str())
+                .unwrap_or("unknown")
+                .to_string(),
+            source_count: value
+                .get("source_count")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0),
+            rejected: value
+                .get("rejected")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0),
+            stale_sources: value
+                .get("stale_sources")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0),
+            drift_sources: value
+                .get("drift_sources")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0),
+        })
     }
 
-    fn load_discovery_ops_view(&self) -> Option<Value> {
-        load_latest_jsonl_value(&self.save_dir.join("gray_rhino_discovery_runs.jsonl"))
+    fn load_discovery_ops_view(&self) -> Option<DiscoveryOpsSummary> {
+        let value =
+            load_latest_jsonl_value(&self.save_dir.join("gray_rhino_discovery_runs.jsonl"))?;
+        Some(DiscoveryOpsSummary {
+            run_id: value
+                .get("run_id")
+                .and_then(|value| value.as_str())
+                .unwrap_or("unknown")
+                .to_string(),
+            source_count: value
+                .get("source_count")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0),
+            candidate_count: value
+                .get("candidate_count")
+                .and_then(|value| value.as_u64())
+                .unwrap_or(0),
+        })
     }
 }
 

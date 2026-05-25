@@ -199,15 +199,27 @@ jobs:
           PY
           }
 
-          if [ -z "${FINNHUB_API_KEY:-}" ] || [ -z "${FRED_API_KEY:-}" ]; then
-            write_gray_rhino_status "skipped" "FINNHUB_API_KEY or FRED_API_KEY is not configured"
-            echo "ℹ️ Gray Rhino refresh skipped before radar: missing FINNHUB_API_KEY or FRED_API_KEY."
+          GRAY_RHINO_PROVIDERS=""
+          if [ -n "${SEC_USER_AGENT:-}" ]; then
+            GRAY_RHINO_PROVIDERS="${GRAY_RHINO_PROVIDERS} sec"
+          fi
+          if [ -n "${FINNHUB_API_KEY:-}" ]; then
+            GRAY_RHINO_PROVIDERS="${GRAY_RHINO_PROVIDERS} finnhub"
+          fi
+          if [ -n "${FRED_API_KEY:-}" ]; then
+            GRAY_RHINO_PROVIDERS="${GRAY_RHINO_PROVIDERS} fred"
+          fi
+          GRAY_RHINO_PROVIDERS="$(echo "${GRAY_RHINO_PROVIDERS}" | xargs)"
+
+          if [ -z "${GRAY_RHINO_PROVIDERS}" ]; then
+            write_gray_rhino_status "skipped" "No Gray Rhino provider credentials are configured"
+            echo "ℹ️ Gray Rhino refresh skipped before radar: no provider credentials are configured."
           else
             OUTPUT_FILE="$(mktemp)"
             set +e
             make gray-rhino-refresh \
-              GRAY_RHINO_REFRESH_ARGS="--date ${DATE_JST}" \
-              GRAY_RHINO_REFRESH_DAILY_ARGS="--date ${DATE_JST}" >"${OUTPUT_FILE}" 2>&1
+              GRAY_RHINO_REFRESH_PROVIDERS="${GRAY_RHINO_PROVIDERS}" \
+              GRAY_RHINO_REFRESH_ARGS="--date ${DATE_JST}" >"${OUTPUT_FILE}" 2>&1
             REFRESH_EXIT_CODE=$?
             set -e
             cat "${OUTPUT_FILE}"
@@ -294,6 +306,7 @@ jobs:
             "reports/data_quality_log.jsonl"
             "reports/run_status_${DATE_JST}.json"
             "reports/evidence_collection_status_latest.json"
+            "reports/gray_rhino_refresh_status_latest.json"
             "reports/weekly_state_metrics.json"
             "reports/weekly_state_review_auto.md"
             "reports/telemetry.csv"

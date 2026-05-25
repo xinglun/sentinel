@@ -1,0 +1,156 @@
+{
+  "workItemId": "gray-rhino-final-closure",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-final-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-final-closure.contract.json",
+      "reason": "最終 closure task の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-final-closure.summary.json",
+      "reason": "実装内容と検証結果を更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Active Work Item 状態を最新化した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "pre-radar refresh と typed ops DTO 契約を追加した。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "pre-radar Gray Rhino refresh から daily-calibration 引数を外した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "gray-rhino-refresh を source refresh 専用にし、calibration report target を分離した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "refresh ordering と partial_failure status の SSOT 矛盾を修正した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "新しい refresh / DTO 契約キーを guard に追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "Unclassified / directionless evidence だけでは assessment を構築しないようにした。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "snapshot persistence policy と typed ops summary DTO を導入した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "JSONL ops view を application DTO に mapping するようにした。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "query report を read-only にし、EvidenceStore audit chain と ops view 表示位置を修正した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "pre-radar refresh、read-only query、audit chain、ops view 重複防止の回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-final-closure.contract.json",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    ".github/workflows/daily_radar.yml",
+    "Makefile",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-final-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-final-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_final --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_final --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-final-closure.summary.json CONTRACT=.ai/work-items/active/gray-rhino-final-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-final-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-final-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-final-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-final-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Gray Rhino 日次運用の ordering、scoring、query side effect、audit chain、ops DTO boundary を回帰テストで保護した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

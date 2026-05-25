@@ -1,0 +1,149 @@
+{
+  "workItemId": "gray-rhino-scoring-refresh-status",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-scoring-refresh-status.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "reason": "本 Work Item の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json",
+      "reason": "実装内容と検証結果を更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Active Work Item 状態を最新化した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "provider isolation と refresh status values の契約を追加した。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "provider credentials ごとに Gray Rhino refresh を独立選択し、status sidecar を required output に追加した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "Gray Rhino refresh の provider outcome を succeeded / partial_failure / failed / skipped に集約するようにした。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "scoreable confidence aggregation と provider status aggregation の契約を明文化した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "provider isolation 契約キーを checker に追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "Unclassified / Neutral を formal scoring confidence から除外し、混合 record 回帰テストを追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "workflow required sidecar と provider aggregation の回帰 assertion を追加した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray-rhino-final-closure.contract.json",
+      "reason": "前 Work Item の archive output。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray-rhino-final-closure.summary.json",
+      "reason": "前 Work Item の archive output。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "前 closure の typed DTO / persistence policy 変更。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "前 closure の typed DTO mapping 変更。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "前 closure の read-only query / audit chain / ops view 変更。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "Makefile",
+    ".github/workflows/daily_radar.yml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_scoring --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_refresh --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json SUMMARY=.ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json SUMMARY=.ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Formal scoring confidence と provider refresh status aggregation を回帰テストで保護した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

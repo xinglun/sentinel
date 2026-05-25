@@ -14,7 +14,6 @@ use crate::features::research::domain::gray_rhino_evidence::{
 };
 use anyhow::Result;
 use chrono::NaiveDate;
-use serde_json::Value;
 
 pub(crate) trait GrayRhinoDailyReportRepository {
     fn load_previous_snapshot(
@@ -29,8 +28,30 @@ pub(crate) trait GrayRhinoDailyReportRepository {
         watch_symbols: &[String],
         as_of_date: NaiveDate,
     ) -> Result<Vec<GrayRhinoCandidate>>;
-    fn load_backfill_ops_view(&self) -> Option<Value>;
-    fn load_discovery_ops_view(&self) -> Option<Value>;
+    fn load_backfill_ops_view(&self) -> Option<BackfillOpsSummary>;
+    fn load_discovery_ops_view(&self) -> Option<DiscoveryOpsSummary>;
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct BackfillOpsSummary {
+    pub run_id: String,
+    pub source_count: u64,
+    pub rejected: u64,
+    pub stale_sources: u64,
+    pub drift_sources: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct DiscoveryOpsSummary {
+    pub run_id: String,
+    pub source_count: u64,
+    pub candidate_count: u64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum GrayRhinoSnapshotPersistence {
+    SaveIfChanged,
+    ReadOnly,
 }
 
 pub(crate) struct GrayRhinoDailyReportViewModel {
@@ -40,8 +61,8 @@ pub(crate) struct GrayRhinoDailyReportViewModel {
     pub governance_audits: Vec<GovernanceExtractionAuditRecord>,
     pub display_candidates: Vec<GrayRhinoCandidate>,
     pub monitoring_statuses: Vec<GrayRhinoMonitoringStatus>,
-    pub backfill_ops_view: Option<Value>,
-    pub discovery_ops_view: Option<Value>,
+    pub backfill_ops_view: Option<BackfillOpsSummary>,
+    pub discovery_ops_view: Option<DiscoveryOpsSummary>,
 }
 
 pub(crate) struct GrayRhinoDailyReportUseCase<'a, R: GrayRhinoDailyReportRepository> {
@@ -58,6 +79,7 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
         manual_input: Option<GrayRhinoEscalationInput>,
         watch_symbols: &[String],
         as_of_date: NaiveDate,
+        snapshot_persistence: GrayRhinoSnapshotPersistence,
     ) -> Result<GrayRhinoDailyReportViewModel> {
         let previous = self.repository.load_previous_snapshot(as_of_date)?;
         let evidence_records = self.repository.load_evidence_records()?;
@@ -73,9 +95,11 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
         .or_else(|| {
             manual_input.map(|input| build_gray_rhino_assessment(input, as_of_date, previous))
         });
-        if let Some(assessment) = &assessment {
-            self.repository
-                .save_snapshot_if_changed(&assessment.current)?;
+        if snapshot_persistence == GrayRhinoSnapshotPersistence::SaveIfChanged {
+            if let Some(assessment) = &assessment {
+                self.repository
+                    .save_snapshot_if_changed(&assessment.current)?;
+            }
         }
         let auto_candidates = self
             .repository

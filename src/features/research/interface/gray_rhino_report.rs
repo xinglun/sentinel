@@ -1,7 +1,8 @@
 use crate::config::{self, GrayRhinoRiskLevel};
 use crate::features::research::acl::gray_rhino_daily_report_factory::build_gray_rhino_daily_report_repository;
 use crate::features::research::application::gray_rhino_daily_report::{
-    GrayRhinoDailyReportUseCase, GrayRhinoDailyReportViewModel,
+    BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportUseCase,
+    GrayRhinoDailyReportViewModel, GrayRhinoSnapshotPersistence,
 };
 use crate::features::research::application::gray_rhino_monitoring_state::{
     GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
@@ -35,6 +36,7 @@ pub(crate) fn build_gray_rhino_escalation_report(
             input_from_config(app_config),
             &enabled_watch_symbols(app_config),
             Local::now().date_naive(),
+            GrayRhinoSnapshotPersistence::ReadOnly,
         )
         .ok();
     view_model
@@ -55,6 +57,7 @@ pub(crate) fn build_gray_rhino_daily_report(
         input_from_config(app_config),
         &watch_symbols,
         as_of_date,
+        GrayRhinoSnapshotPersistence::SaveIfChanged,
     )?;
     let mut report = if let Some(assessment) = &view_model.assessment {
         render_gray_rhino_assessment_markdown(assessment, language)
@@ -158,7 +161,7 @@ pub(crate) fn render_gray_rhino_assessment_markdown(
     out.push_str(&format!(
         "{}: {}\n",
         audit_chain_heading(language),
-        audit_chain_label(language)
+        audit_chain_label(assessment.current.source, language)
     ));
     out.push_str(&format!(
         "{}: {}\n",
@@ -380,11 +383,26 @@ fn audit_chain_heading(language: Language) -> &'static str {
     }
 }
 
-fn audit_chain_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "人工结构基线 -> 七项观测 -> 日次快照",
-        Language::EnUs => "Manual structural baseline -> seven observations -> daily snapshot",
-        Language::JaJp => "手動構造ベースライン -> 7 観測項目 -> 日次 snapshot",
+fn audit_chain_label(source: GrayRhinoObservationSource, language: Language) -> &'static str {
+    match (source, language) {
+        (GrayRhinoObservationSource::ManualConfiguration, Language::ZhCn) => {
+            "人工结构基线 -> 七项观测 -> 日次快照"
+        }
+        (GrayRhinoObservationSource::ManualConfiguration, Language::EnUs) => {
+            "Manual structural baseline -> seven observations -> daily snapshot"
+        }
+        (GrayRhinoObservationSource::ManualConfiguration, Language::JaJp) => {
+            "手動構造ベースライン -> 7 観測項目 -> 日次 snapshot"
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::ZhCn) => {
+            "结构化 EvidenceStore -> directional risk_effect -> 日次快照"
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::EnUs) => {
+            "Structured EvidenceStore -> directional risk_effect -> daily snapshot"
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::JaJp) => {
+            "構造化 EvidenceStore -> directional risk_effect -> 日次 snapshot"
+        }
     }
 }
 
@@ -474,17 +492,11 @@ fn render_multi_category_sensor_health(
         out.push('\n');
         out.push_str(&ops_view);
     }
-    if let Some(discovery_ops_view) =
-        render_discovery_ops_view(view_model.discovery_ops_view.as_ref(), language)
-    {
-        out.push('\n');
-        out.push_str(&discovery_ops_view);
-    }
     out
 }
 
 fn render_backfill_ops_view(
-    value: Option<&serde_json::Value>,
+    value: Option<&BackfillOpsSummary>,
     language: Language,
 ) -> Option<String> {
     let value = value?;
@@ -493,48 +505,33 @@ fn render_backfill_ops_view(
     out.push_str(&format!(
         "- {}: {}\n",
         latest_run_label(language),
-        value
-            .get("run_id")
-            .and_then(|value| value.as_str())
-            .unwrap_or("unknown")
+        value.run_id
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         source_count_label(language),
-        value
-            .get("source_count")
-            .and_then(|value| value.as_u64())
-            .unwrap_or(0)
+        value.source_count
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         failed_sources_label(language),
-        value
-            .get("rejected")
-            .and_then(|value| value.as_u64())
-            .unwrap_or(0)
+        value.rejected
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         stale_sources_label(language),
-        value
-            .get("stale_sources")
-            .and_then(|value| value.as_u64())
-            .unwrap_or(0)
+        value.stale_sources
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         drift_sources_label(language),
-        value
-            .get("drift_sources")
-            .and_then(|value| value.as_u64())
-            .unwrap_or(0)
+        value.drift_sources
     ));
     Some(out)
 }
 
 fn render_discovery_ops_view(
-    value: Option<&serde_json::Value>,
+    value: Option<&DiscoveryOpsSummary>,
     language: Language,
 ) -> Option<String> {
     let value = value?;
@@ -543,26 +540,17 @@ fn render_discovery_ops_view(
     out.push_str(&format!(
         "- {}: {}\n",
         latest_run_label(language),
-        value
-            .get("run_id")
-            .and_then(|value| value.as_str())
-            .unwrap_or("unknown")
+        value.run_id
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         source_count_label(language),
-        value
-            .get("source_count")
-            .and_then(|value| value.as_u64())
-            .unwrap_or(0)
+        value.source_count
     ));
     out.push_str(&format!(
         "- {}: {}\n",
         candidate_count_label(language),
-        value
-            .get("candidate_count")
-            .and_then(|value| value.as_u64())
-            .unwrap_or(0)
+        value.candidate_count
     ));
     Some(out)
 }

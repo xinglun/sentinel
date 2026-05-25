@@ -28,7 +28,15 @@ fredThresholdSeries:
   - RRPONTSYD
 deterministicThresholdStatesEnabled: true
 grayRhinoRefreshMakeTarget: gray-rhino-refresh
+grayRhinoRefreshRunsDailyCalibration: false
+grayRhinoRefreshReportMakeTarget: gray-rhino-refresh-report
 grayRhinoRefreshPartialFailureEnabled: true
+grayRhinoRefreshProviderIsolationEnabled: true
+grayRhinoRefreshStatusValues:
+  - succeeded
+  - partial_failure
+  - failed
+  - skipped
 grayRhinoRefreshStatusStore: gray_rhino_refresh_status_latest.json
 radarTelegramAppendixEnabled: true
 radarTelegramAppendixBoundary: reference_only_no_gate_trade_trend_or_market_state
@@ -56,6 +64,10 @@ dailyReportUseCaseEnabled: true
 dailyReportUseCase: src/features/research/application/gray_rhino_daily_report.rs
 dailyReportRepositoryPort: GrayRhinoDailyReportRepository
 dailyReportInfrastructureRepository: src/features/research/infrastructure/gray_rhino_daily_report_repository.rs
+dailyReportOpsViewDtoEnabled: true
+dailyReportOpsViewDtos:
+  - BackfillOpsSummary
+  - DiscoveryOpsSummary
 manualRegistryPrimaryMechanism: false
 autoSourceCollectionCli: collect-gray-rhino-sources
 autoSourceProviders:

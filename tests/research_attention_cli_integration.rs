@@ -703,9 +703,13 @@ fn gray_rhino_summary_github_actions_runs_refresh_before_radar() {
         workflow.find("make gray-rhino-refresh").unwrap()
             < workflow.find("make radar-release").unwrap()
     );
+    assert!(workflow.contains("GRAY_RHINO_REFRESH_PROVIDERS=\"${GRAY_RHINO_PROVIDERS}\""));
     assert!(workflow.contains("GRAY_RHINO_REFRESH_ARGS=\"--date ${DATE_JST}\""));
+    assert!(!workflow.contains("GRAY_RHINO_REFRESH_DAILY_ARGS"));
     assert!(workflow.contains("reports/gray_rhino_refresh_status_latest.json"));
+    assert!(workflow.contains("\"reports/gray_rhino_refresh_status_latest.json\""));
     assert!(workflow.contains("Gray Rhino refresh failed before radar but radar will continue"));
+    assert!(!workflow.contains("FINNHUB_API_KEY or FRED_API_KEY is not configured"));
 }
 
 #[test]
@@ -752,6 +756,9 @@ fn gray_rhino_completion_legacy_evidence_missing_risk_effect_is_visible() {
     assert!(stdout.contains("旧 evidence 记录不可评分"));
     assert!(stdout.contains("缺少 risk_effect 的记录数: 1"));
     assert!(stdout.contains("不参与正式升级评分"));
+    assert!(stdout.contains("风险升级评估: 尚无正式 evidence / 未启用人工基线。"));
+    assert!(!stdout.contains("输入来源: Evidence-backed sensor store"));
+    assert!(!stdout.contains("状态: 风险扩张"));
 }
 
 #[test]
@@ -800,7 +807,19 @@ fn gray_rhino_completion_evidence_store_boundary_does_not_claim_manual_only() {
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("输入来源: Evidence-backed sensor store"));
     assert!(stdout.contains("当前正式评估来自结构化 EvidenceStore"));
+    assert!(stdout.contains("审计链: 结构化 EvidenceStore -> directional risk_effect -> 日次快照"));
+    assert!(!stdout.contains("审计链: 人工结构基线 -> 七项观测 -> 日次快照"));
     assert!(!stdout.contains("尚未接入专用灰犀牛外部证据源"));
+}
+
+#[test]
+fn gray_rhino_final_query_command_does_not_write_snapshot() {
+    let tmp = prepare_standard_workspace("en-us");
+
+    let out = run_cli(&tmp, &["gray-rhino"]);
+
+    assert!(out.status.success());
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
 }
 
 #[test]
@@ -868,6 +887,7 @@ fn gray_rhino_source_collection_dry_run_reports_boundary() {
     let report_stdout = String::from_utf8_lossy(&report.stdout);
     assert!(report_stdout.contains("Auto Discovery Ops View"));
     assert!(report_stdout.contains("latest_run: fred-2026-05-25"));
+    assert_eq!(report_stdout.matches("Auto Discovery Ops View").count(), 1);
 }
 
 #[test]
@@ -876,11 +896,15 @@ fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");
 
     assert!(makefile.contains("gray-rhino-refresh:"));
-    assert!(makefile.contains("for provider in sec finnhub fred"));
+    assert!(makefile.contains("for provider in $$providers"));
     assert!(makefile.contains("collect-gray-rhino-sources --source $$provider"));
     assert!(makefile.contains("partial_failure"));
+    assert!(makefile.contains("status=\"failed\""));
+    assert!(makefile.contains("status=\"skipped\""));
+    assert!(makefile.contains("GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred"));
     assert!(makefile.contains("gray_rhino_refresh_status_latest.json"));
-    assert!(makefile.contains("daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)"));
+    assert!(makefile.contains("gray-rhino-refresh-report:"));
+    assert!(!makefile.contains("daily_status"));
 }
 
 #[test]

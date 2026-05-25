@@ -20,6 +20,7 @@ DAILY_CALIBRATION_ARGS ?=
 GRAY_RHINO_REFRESH_DATE ?= $(shell date +%F)
 GRAY_RHINO_REFRESH_ARGS ?= --date $(GRAY_RHINO_REFRESH_DATE)
 GRAY_RHINO_REFRESH_DAILY_ARGS ?= $(DAILY_CALIBRATION_ARGS)
+GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
 
 .PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
@@ -241,25 +242,37 @@ daily-calibration:
 
 gray-rhino-refresh:
 	@mkdir -p reports
-	@status="succeeded"; failed=""; \
-	for provider in sec finnhub fred; do \
+	@status="skipped"; failed=""; success_count=0; failed_count=0; \
+	sec_status=skipped; finnhub_status=skipped; fred_status=skipped; \
+	providers="$(GRAY_RHINO_REFRESH_PROVIDERS)"; \
+	if [ -z "$$providers" ]; then \
+		:; \
+	else \
+		for provider in $$providers; do \
 		echo "== Gray Rhino refresh: $$provider =="; \
 		if cargo run -- collect-gray-rhino-sources --source $$provider $(GRAY_RHINO_REFRESH_ARGS); then \
 			eval "$${provider}_status=succeeded"; \
+			success_count=$$((success_count + 1)); \
 		else \
 			eval "$${provider}_status=failed"; \
 			failed="$$failed $$provider"; \
-			status="partial_failure"; \
+			failed_count=$$((failed_count + 1)); \
 		fi; \
-	done; \
-	if cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS); then \
-		daily_status=succeeded; \
-	else \
-		daily_status=failed; \
-		status="failed"; \
+		done; \
 	fi; \
-	printf '{"status":"%s","sec":"%s","finnhub":"%s","fred":"%s","daily_calibration":"%s","failed_providers":"%s"}\n' "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$daily_status" "$$failed" > reports/gray_rhino_refresh_status_latest.json; \
-	test "$$daily_status" = "succeeded"
+	if [ "$$success_count" -eq 3 ]; then \
+		status="succeeded"; \
+	elif [ "$$success_count" -gt 0 ]; then \
+		status="partial_failure"; \
+	elif [ "$$failed_count" -gt 0 ]; then \
+		status="failed"; \
+	else \
+		status="skipped"; \
+	fi; \
+	printf '{"status":"%s","sec":"%s","finnhub":"%s","fred":"%s","failed_providers":"%s"}\n' "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$failed" > reports/gray_rhino_refresh_status_latest.json
+
+gray-rhino-refresh-report:
+	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)
 
 test-ai-guards:
 	python3 scripts/ai_test_guards.py

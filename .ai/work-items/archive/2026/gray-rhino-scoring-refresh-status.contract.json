@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-scoring-refresh-status",
+  "mode": "code",
+  "title": "Gray Rhino scoring and refresh status",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+    ".ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json",
+    ".ai/work-items/archive/2026/gray-rhino-final-closure.contract.json",
+    ".ai/work-items/archive/2026/gray-rhino-final-closure.summary.json",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    ".ai/cockpit/current_status.md",
+    ".github/workflows/daily_radar.yml",
+    "Makefile",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "reason": "本 Work Item の scope と verification を定義する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "formal scoring confidence aggregation の実装対象。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "Gray Rhino provider refresh status aggregation の実装対象。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "provider credential isolation と required sidecar の実装対象。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "human-readable evidence / refresh status contract。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Formal evidence scoring の average confidence は Amplifying / Mitigating の scoreable records のみで計算する。",
+    "Unclassified / Neutral records は formal scoring confidence を変えず、reporting / quality notice に限定される。",
+    "make gray-rhino-refresh は provider outcome を succeeded / partial_failure / failed / skipped に正しく aggregate する。",
+    "GitHub Actions は provider secret ごとに独立して refresh し、Gray Rhino refresh status sidecar を required output に含める。",
+    "Cockpit lifecycle / status consistency が active/archive residue なしで通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_scoring --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_refresh --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json SUMMARY=.ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-scoring-refresh-status.contract.json SUMMARY=.ai/work-items/active/gray-rhino-scoring-refresh-status.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

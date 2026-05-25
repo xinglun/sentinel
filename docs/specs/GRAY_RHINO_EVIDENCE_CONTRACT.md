@@ -49,13 +49,13 @@ monitoring state は `Gray Rhino Monitoring State` として Daily report に表
 
 Phase 4-E では FRED threshold calibration を導入する。FRED source adapter は `DGS10`、`T10Y2Y`、`FEDFUNDS`、`BAMLH0A0HYM2`、`WALCL`、`RRPONTSYD` を deterministic threshold assessment に変換し、rate pressure、yield curve constraint、credit stress、liquidity fragility、capex payback risk を `Visible`、`Expanding`、`Critical` の candidate state に投影する。
 
-日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を provider 単位で実行し、その後 `daily-calibration` を実行する。GitHub Actions では主 Radar report を生成する前に refresh を実行し、Telegram と archive が同じ日次 Gray Rhino 状態を参照する。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
+日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を provider 単位で実行し、`gray_rhino_refresh_status_latest.json` を更新する。GitHub Actions では主 Radar report を生成する前に refresh を実行し、Telegram と archive が同じ日次 Gray Rhino 状態を参照する。pre-radar refresh は当日の audit record に依存してはならないため、`daily-calibration` は呼び出さない。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
 
 Phase 4-F では watchlist inline display を導入する。Daily report は Market candidate を `Market Reference` にまとめ、Company candidate と monitoring state は enabled watchlist symbol ごとの `Watchlist Inline Reference` / `Watchlist Inline Monitoring` に表示する。legacy local source など current watchlist に属さない Company candidate は `Other Company Reference` として分離する。この配置は読みやすさのための表示構造であり、candidate は引き続き trading、Gate、execution、trend、market state から意味的に隔離する。
 
 Phase 4-G では noise calibration と compact summary を導入する。Finnhub source adapter は normalization boilerplate に `narrative overcrowding` などの trigger term を含めてはならない。Daily report は `Gray Rhino Summary` を details より前に表示し、Market active candidate 数、Company active subject、intensifying watch subject を短く示す。
 
-Daily GitHub Actions refresh は `.github/workflows/daily_radar.yml` の Daily Radar workflow で実行する。Radar が report date を確定した後、Gray Rhino refresh を non-blocking step として実行し、`reports/gray_rhino_refresh_status_latest.json` に succeeded / skipped / failed を記録する。secret 未設定や provider failure があっても daily radar の Gate、trend、execution、market state を変更してはならない。
+Daily GitHub Actions refresh は `.github/workflows/daily_radar.yml` の Daily Radar workflow で実行する。Radar 生成前に Gray Rhino source refresh を non-blocking に実行し、`reports/gray_rhino_refresh_status_latest.json` に `succeeded` / `partial_failure` / `skipped` / `failed` を記録する。secret 未設定や provider failure があっても daily radar の Gate、trend、execution、market state を変更してはならない。
 
 ## Evidence と Narrative の境界
 
@@ -213,7 +213,7 @@ collector または adapter は次を満たす必要がある。
 - quote / fact と operator interpretation を分離する。
 - category を schema enum から選択する。
 - confidence は evidence quality を表し、risk severity を表さない。
-- `risk_effect` は formal assessment への方向を表す。founder voting power、dual class、single point dependency などは `Amplifying`、high board independence、fallback availability、external audit、redundancy などは `Mitigating`、方向判断に不足する事実は `Neutral` とする。旧 JSONL などで `risk_effect` が欠落する record は `Unclassified` として読み込み、正式な escalation scoring から除外し、日報に不可评分 record 数として表示する。
+- `risk_effect` は formal assessment への方向を表す。founder voting power、dual class、single point dependency などは `Amplifying`、high board independence、fallback availability、external audit、redundancy などは `Mitigating`、方向判断に不足する事実は `Neutral` とする。旧 JSONL などで `risk_effect` が欠落する record は `Unclassified` として読み込み、正式な escalation scoring から除外し、日報に不可评分 record 数として表示する。formal scoring の confidence aggregation は `Amplifying` / `Mitigating` の scoreable records のみを対象とし、`Neutral` / `Unclassified` は平均置信度を変えてはならない。
 - evidence は escalation state を直接指定しない。
 - evidence は trade signal、Gate、execution を生成しない。
 
@@ -225,7 +225,7 @@ FRED の設定は `[fred] fred_api_key` または `FRED_API_KEY` 環境変数で
 
 Radar Telegram には Gray Rhino reference appendix を追加する。この appendix は refresh 後の candidate / monitoring / formal evidence view model から生成し、daily-calibration と同じ semantic isolation を保ち、Gate、execution、trade、trend、market state を変更しない。
 
-`make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED のいずれかが失敗しても後続 provider と daily-calibration を継続し、`gray_rhino_refresh_status_latest.json` に `succeeded` / `partial_failure` / `failed` / `skipped` を保存する。
+`make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED は credential / availability に応じて独立に実行し、いずれかが失敗しても後続 provider を継続する。全 provider 成功は `succeeded`、成功と失敗または skipped が混在する場合は `partial_failure`、実行 provider がすべて失敗した場合は `failed`、実行 provider が存在しない場合は `skipped` を `gray_rhino_refresh_status_latest.json` に保存する。audit record を必要とする calibration report は `make gray-rhino-refresh-report` または通常の `daily-calibration` 側で実行する。
 
 ### Phase 1: Human Structured Governance Observation
 
