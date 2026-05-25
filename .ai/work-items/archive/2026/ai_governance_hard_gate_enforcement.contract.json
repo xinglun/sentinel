@@ -1,0 +1,129 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai_governance_hard_gate_enforcement",
+  "mode": "code",
+  "title": "AI governance hard gate の実効化",
+  "scope": [
+    ".ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+    ".ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/guards/ai_review_policy.yaml",
+    ".ai/guards/backtrack_policy.yaml",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    "Makefile",
+    ".github/workflows/develop_checks.yml",
+    "scripts/ai_check_guards.py",
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_check_coverage_guard.py",
+    "scripts/ai_check_scope.py",
+    "scripts/ai_test_guards.py",
+    "scripts/ai_test_backtrack.py",
+    "scripts/ai_test_coverage_guard.py",
+    "scripts/ai_test_dependency_scope.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "config.toml",
+    ".github/workflows/daily_radar.yml",
+    ".github/workflows/weekly_backtest.yml"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "restricted / forbidden write の現在契約。"
+    },
+    {
+      "path": "scripts/ai_check_guards.py",
+      "reason": "restricted write が warning に留まる現在の実装。"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "test / snapshot / evidence 削除が report-only に留まる現在の実装。"
+    },
+    {
+      "path": "scripts/ai_check_coverage_guard.py",
+      "reason": "production code の test diff 不足が report-only に留まる現在の実装。"
+    },
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "committed diff を governance checker が検証できていない CI entrypoint。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "管理対象 diff は restricted か否かにかかわらず Contract scope に明示されない限り hard fail する。",
+    "restricted path の変更は Contract scope に明示されない限り hard fail する。",
+    "forbidden path は Contract に含まれていても引き続き hard fail する。",
+    "test / snapshot / Work Item evidence の削除および i18n 契約削除は明示的破壊許可なしでは hard fail する。",
+    "production Rust code の変更に test 変更証跡がない場合は hard fail する。",
+    "dependency scope の不足は warning ではなく hard fail する。",
+    "CI は clean checkout でも push / pull request の committed diff を検証する。",
+    "develop と main の両 code branch で同じ hard gate が実行される。",
+    "ローカル active Contract と CI archive Contract の双方で restricted write の承認を解決できる。",
+    "hard gate 自体に regression tests があり、make quality に含まれる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make test-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make test-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -39,10 +39,14 @@ AI 作業は通常の開発品質を免除しません。複雑な diff を伴�
 3. `scope` と `outOfScope` の範囲内で実装する。
 4. `verification` に記載した command を実行する。
 5. `.ai/work-items/active/<task>.summary.json` に結果を記録する。
-6. `scripts/ai_check_backtrack.py` を実行し、無宣言な回帰リスクを確認する。
+6. `make check-ai-backtrack` と `make check-ai-coverage-guard` を実行し、無宣言な回帰および test 証跡不足がないことを確認する。
 7. `scripts/ai_generate_status.py` で `.ai/cockpit/current_status.md` を更新する。
 8. `scripts/ai_check_status_consistency.py` で status と Work Item 配置の参照整合性を確認する。
 
 ## 境界
 
-この仕組みは report-only の工程管理です。取引判断、Gate、Telegram 文案ロジック、証拠スコアには影響しません。
+この仕組みは開発工程の hard gate です。`src/**`、`tests/**`、`docs/**`、`scripts/**`、CI、AI governance などの管理対象 diff は Contract scope に明示された変更だけを許可します。加えて、`restricted` file の無承認変更、test / snapshot / i18n / Work Item evidence の無宣言削除、および production Rust code の test 証跡不足を阻止します。
+
+CI は `AI_DIFF_BASE` で push / pull request の committed diff を検証し、clean checkout で guard が空振りする状態を許容しません。
+
+この hard gate は取引判断、Gate、Telegram 文案ロジック、証拠スコアには影響しません。

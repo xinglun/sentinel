@@ -36,12 +36,16 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 make check-ai-contract CONTRACT=.ai/work-items/active/<task>.contract.json
 make check-ai-scope CONTRACT=.ai/work-items/active/<task>.contract.json
 make fmt-check
-make check-ai-backtrack
+make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json
+make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
+make check-ai-coverage-guard
 make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
 make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
 make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
 make ai-preflight
 ```
+
+管理対象 diff は Contract の `scope` に含まれない限り失敗し、`restricted` file は同じ仕組みで明示承認を要求する。test、snapshot、i18n、Work Item evidence の削除は、Contract の `destructiveChangePolicy` と Summary の `destructiveChanges` に明示されない限り失敗する。production Rust code の変更は test 変更証跡を必須とする。
 
 Work Item を完了する時は次を使う。
 

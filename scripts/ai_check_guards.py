@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""file ownership / boundary guard を検証する。"""
+"""file ownership / boundary の hard gate を検証する。"""
 
 from __future__ import annotations
 
+import argparse
 import fnmatch
 import json
+import os
 import subprocess
 import sys
 import time
@@ -20,6 +22,25 @@ BOUNDARY = PROJECT_ROOT / ".ai" / "guards" / "file_boundary.yaml"
 REPORT = PROJECT_ROOT / "target" / "ai_guard_report.json"
 FORBIDDEN_WRITES = {"forbidden"}
 FORBIDDEN_BOUNDARIES = {"runtime_artifact", "generated_local"}
+CONTRACT_REQUIRED_PATTERNS = (
+    "src/**",
+    "tests/**",
+    "docs/**",
+    "scripts/**",
+    "skills/**",
+    ".github/workflows/**",
+    ".ai/**",
+    "README.md",
+    "AGENTS.md",
+    "GEMINI.md",
+    "Makefile",
+    "Cargo.toml",
+    "Cargo.lock",
+    "build.rs",
+)
+CONTRACT_EVIDENCE_PATTERNS = (
+    ".ai/work-items/archive/**",
+)
 
 
 @dataclass(frozen=True)
@@ -36,10 +57,14 @@ def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
 
 
 def changed_paths() -> list[str]:
-    result = run_git(["diff", "--name-only", "HEAD"])
+    diff_base = os.environ.get("AI_DIFF_BASE", "").strip()
+    args = ["diff", "--name-only", f"{diff_base}...HEAD"] if diff_base else ["diff", "--name-only", "HEAD"]
+    result = run_git(args)
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip())
     paths = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    if diff_base:
+        return sorted(set(paths))
     untracked = run_git(["ls-files", "--others", "--exclude-standard"])
     if untracked.returncode != 0:
         raise RuntimeError(untracked.stderr.strip())
@@ -85,19 +110,69 @@ def first_match(path: str, manifest: dict[str, dict[str, str]]) -> tuple[str, di
     return matches_found[0]
 
 
-def detect(paths: list[str]) -> list[GuardItem]:
+def load_scope(path: Path) -> list[str]:
+    data = json.loads(path.read_text(encoding="utf-8"))
+    scope = data.get("scope", []) if isinstance(data, dict) else []
+    return [item for item in scope if isinstance(item, str)]
+
+
+def contract_scopes(paths: list[str], explicit_contract: str | None) -> list[list[str]]:
+    candidates: list[Path] = []
+    if explicit_contract:
+        candidates.append(PROJECT_ROOT / explicit_contract)
+    for path in paths:
+        if path.startswith(".ai/work-items/") and path.endswith(".contract.json"):
+            candidates.append(PROJECT_ROOT / path)
+    scopes: list[list[str]] = []
+    for path in dict.fromkeys(candidates):
+        if path.exists():
+            scopes.append(load_scope(path))
+    return scopes
+
+
+def scope_authorizes(path: str, scopes: list[list[str]]) -> bool:
+    return any(any(matches(pattern, path) for pattern in scope) for scope in scopes)
+
+
+def contract_required(path: str) -> bool:
+    return any(matches(pattern, path) for pattern in CONTRACT_REQUIRED_PATTERNS) and not any(
+        matches(pattern, path) for pattern in CONTRACT_EVIDENCE_PATTERNS
+    )
+
+
+def detect(paths: list[str], scopes: list[list[str]] | None = None) -> list[GuardItem]:
+    scopes = scopes or []
     ownership = parse_manifest(OWNERSHIP)
     boundary = parse_manifest(BOUNDARY)
     items: list[GuardItem] = []
     for path in paths:
+        authorized = scope_authorizes(path, scopes)
+        if contract_required(path) and not authorized:
+            items.append(
+                GuardItem(
+                    "error",
+                    "missing_work_item_contract",
+                    path,
+                    "governed-diff",
+                    "変更対象は Work Item Contract scope に明示する必要があります。",
+                )
+            )
         owner_match = first_match(path, ownership)
         if owner_match:
             pattern, data = owner_match
             ai_write = data.get("aiWrite", "")
             if ai_write in FORBIDDEN_WRITES:
                 items.append(GuardItem("error", "forbidden_write", path, pattern, data.get("reason", "")))
-            elif ai_write == "restricted":
-                items.append(GuardItem("warning", "restricted_write", path, pattern, data.get("reason", "")))
+            elif ai_write == "restricted" and not authorized:
+                items.append(
+                    GuardItem(
+                        "error",
+                        "restricted_write_without_contract",
+                        path,
+                        pattern,
+                        f"{data.get('reason', '')} Contract scope による明示承認が必要です。",
+                    )
+                )
         boundary_match = first_match(path, boundary)
         if boundary_match:
             pattern, data = boundary_match
@@ -107,12 +182,20 @@ def detect(paths: list[str]) -> list[GuardItem]:
     return items
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="file ownership / boundary の hard gate を検証します。")
+    parser.add_argument("--contract")
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = parse_args()
     start = time.time()
     try:
         paths = changed_paths()
-        items = detect(paths)
-    except RuntimeError as exc:
+        scopes = contract_scopes(paths, args.contract)
+        items = detect(paths, scopes)
+    except (RuntimeError, OSError, json.JSONDecodeError) as exc:
         print(f"❌ guard check failed: {exc}", file=sys.stderr)
         return 1
 
@@ -137,10 +220,7 @@ def main() -> int:
         print(f"❌ guard check failed: {REPORT.relative_to(PROJECT_ROOT)}", file=sys.stderr)
         obs.check_failed(check_id="aiGuards", duration_ms=duration, detail="forbidden write or boundary violation")
         return 1
-    if items:
-        print(f"⚠️ guard check report-only warnings: {len(items)}")
-    else:
-        print("✅ guard check: no issues")
+    print("✅ guard check: no unauthorized writes or forbidden boundaries")
     print(f"report: {REPORT.relative_to(PROJECT_ROOT)}")
     obs.check_passed(check_id="aiGuards", duration_ms=duration, fields={"warnings": len(items)})
     return 0

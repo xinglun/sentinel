@@ -18,7 +18,7 @@ COLLECT_EVIDENCE_ARGS ?=
 RESEARCH_ATTENTION_ARGS ?=
 DAILY_CALIBRATION_ARGS ?=
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-architecture-boundaries \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-architecture-boundaries \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -46,6 +46,8 @@ help:
 	@printf '%s\n' '  make clippy'
 	@printf '%s\n' '  make diff-check'
 	@printf '%s\n' '  make test-audit-daily'
+	@printf '%s\n' '  make test-ai-guards'
+	@printf '%s\n' '  make test-ai-backtrack'
 	@printf '%s\n' '  make test-ai-dependency-scope'
 	@printf '%s\n' '  make test-ai-retry-circuit'
 	@printf '%s\n' '  make test-ai-coverage-guard'
@@ -129,13 +131,13 @@ check-ai-scope:
 	python3 scripts/ai_check_scope.py $(CONTRACT)
 
 check-ai-guards:
-	python3 scripts/ai_check_guards.py
+	python3 scripts/ai_check_guards.py $(if $(CONTRACT),--contract $(CONTRACT))
 
 check-ai-change-summary:
 	python3 scripts/ai_check_summary.py $(SUMMARY) $(SUMMARY_ARGS) $(ARGS)
 
 check-ai-backtrack:
-	python3 scripts/ai_check_backtrack.py
+	python3 scripts/ai_check_backtrack.py $(if $(CONTRACT),--contract $(CONTRACT)) $(if $(SUMMARY),--summary $(SUMMARY))
 
 check-ai-coverage-guard:
 	python3 scripts/ai_check_coverage_guard.py
@@ -158,12 +160,12 @@ ai-preflight:
 archive-work-item:
 	python3 scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
 
-check-ai: test-ai-generate-status
+check-ai: test-ai-generate-status test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-coverage-guard
 	@if [ -n "$(CONTRACT)" ]; then \
 		"$${MAKE:-make}" check-ai-contract CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" check-ai-scope CONTRACT="$(CONTRACT)" && \
-		"$${MAKE:-make}" check-ai-guards && \
-		"$${MAKE:-make}" check-ai-backtrack && \
+		"$${MAKE:-make}" check-ai-guards CONTRACT="$(CONTRACT)" && \
+		"$${MAKE:-make}" check-ai-backtrack CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-coverage-guard && \
 		"$${MAKE:-make}" check-ai-change-summary SUMMARY="$(SUMMARY)" CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
@@ -220,3 +222,9 @@ research-attention:
 
 daily-calibration:
 	cargo run -- daily-calibration $(DAILY_CALIBRATION_ARGS)
+
+test-ai-guards:
+	python3 scripts/ai_test_guards.py
+
+test-ai-backtrack:
+	python3 scripts/ai_test_backtrack.py
