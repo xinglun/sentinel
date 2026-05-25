@@ -242,26 +242,51 @@ daily-calibration:
 
 gray-rhino-refresh:
 	@mkdir -p reports
-	@status="skipped"; failed=""; success_count=0; failed_count=0; \
+	@status="skipped"; failed=""; success_count=0; partial_count=0; failed_count=0; \
 	sec_status=skipped; finnhub_status=skipped; fred_status=skipped; \
+	sec_accepted=0; sec_rejected=0; finnhub_accepted=0; finnhub_rejected=0; fred_accepted=0; fred_rejected=0; \
 	providers="$(GRAY_RHINO_REFRESH_PROVIDERS)"; \
 	if [ -z "$$providers" ]; then \
 		:; \
 	else \
 		for provider in $$providers; do \
 		echo "== Gray Rhino refresh: $$provider =="; \
-		if cargo run -- collect-gray-rhino-sources --source $$provider $(GRAY_RHINO_REFRESH_ARGS); then \
-			eval "$${provider}_status=succeeded"; \
+		output_file=$$(mktemp); \
+		if cargo run -- collect-gray-rhino-sources --source $$provider $(GRAY_RHINO_REFRESH_ARGS) > "$$output_file" 2>&1; then \
+			cat "$$output_file"; \
+			provider_status=$$(awk -F': ' '/^provider_status: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_accepted=$$(awk -F': ' '/^accepted: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_rejected=$$(awk -F': ' '/^rejected: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_status=$${provider_status:-succeeded}; \
+			eval "$${provider}_status=$$provider_status"; \
+			eval "$${provider}_accepted=$${provider_accepted:-0}"; \
+			eval "$${provider}_rejected=$${provider_rejected:-0}"; \
+			if [ "$$provider_status" = "succeeded" ]; then \
 			success_count=$$((success_count + 1)); \
+			elif [ "$$provider_status" = "partial_failure" ]; then \
+				partial_count=$$((partial_count + 1)); \
+				failed="$$failed $$provider"; \
+			elif [ "$$provider_status" = "failed" ]; then \
+				failed_count=$$((failed_count + 1)); \
+				failed="$$failed $$provider"; \
+			fi; \
 		else \
+			cat "$$output_file"; \
+			provider_accepted=$$(awk -F': ' '/^accepted: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_rejected=$$(awk -F': ' '/^rejected: / {print $$2}' "$$output_file" | tail -n 1); \
 			eval "$${provider}_status=failed"; \
+			eval "$${provider}_accepted=$${provider_accepted:-0}"; \
+			eval "$${provider}_rejected=$${provider_rejected:-0}"; \
 			failed="$$failed $$provider"; \
 			failed_count=$$((failed_count + 1)); \
 		fi; \
+		rm -f "$$output_file"; \
 		done; \
 	fi; \
-	if [ "$$success_count" -eq 3 ]; then \
+	if [ "$$success_count" -eq 3 ] && [ "$$partial_count" -eq 0 ] && [ "$$failed_count" -eq 0 ]; then \
 		status="succeeded"; \
+	elif [ "$$partial_count" -gt 0 ]; then \
+		status="partial_failure"; \
 	elif [ "$$success_count" -gt 0 ]; then \
 		status="partial_failure"; \
 	elif [ "$$failed_count" -gt 0 ]; then \
@@ -269,7 +294,7 @@ gray-rhino-refresh:
 	else \
 		status="skipped"; \
 	fi; \
-	printf '{"status":"%s","sec":"%s","finnhub":"%s","fred":"%s","failed_providers":"%s"}\n' "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$failed" > reports/gray_rhino_refresh_status_latest.json
+	printf '{"status":"%s","sec":"%s","finnhub":"%s","fred":"%s","sec_accepted":%s,"sec_rejected":%s,"finnhub_accepted":%s,"finnhub_rejected":%s,"fred_accepted":%s,"fred_rejected":%s,"failed_providers":"%s"}\n' "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$sec_accepted" "$$sec_rejected" "$$finnhub_accepted" "$$finnhub_rejected" "$$fred_accepted" "$$fred_rejected" "$$failed" > reports/gray_rhino_refresh_status_latest.json
 
 gray-rhino-refresh-report:
 	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)

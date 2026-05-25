@@ -6,5 +6,6 @@ pub(crate) mod gray_rhino_assessment;
 pub(crate) mod gray_rhino_daily_report;
 pub(crate) mod gray_rhino_discovery;
 pub(crate) mod gray_rhino_monitoring_state;
+pub(crate) mod gray_rhino_source_collection;
 pub(crate) mod institutional_evidence;
 pub(crate) mod redundancy_evidence;

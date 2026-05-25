@@ -39,4 +39,20 @@ pub struct GrayRhinoCandidate {
     pub watch_triggers: Vec<String>,
     pub source_title: String,
     pub observed_at: NaiveDate,
+    #[serde(default)]
+    pub source_published_at: Option<NaiveDate>,
+    #[serde(default)]
+    pub last_confirmed_at: Option<NaiveDate>,
+    #[serde(default)]
+    pub resolved_at: Option<NaiveDate>,
+}
+
+impl GrayRhinoCandidate {
+    pub(crate) fn last_confirmed_at(&self) -> NaiveDate {
+        self.last_confirmed_at.unwrap_or(self.observed_at)
+    }
+
+    pub(crate) fn resolved_at(&self) -> Option<NaiveDate> {
+        self.resolved_at
+    }
 }

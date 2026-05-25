@@ -550,10 +550,10 @@ fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Gray Rhino Summary (semantic isolation)"));
     assert!(stdout.contains("Market active candidates: 0"));
-    assert!(stdout.contains("Company active candidates: SPACEX"));
+    assert!(stdout.contains("Company active candidates: none"));
     assert!(stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
-    assert!(stdout.contains("SPACEX / Company / Governance Concentration / Expanding"));
-    assert!(stdout.contains("IPO voting terms"));
+    assert!(!stdout.contains("SPACEX / Company / Governance Concentration / Expanding"));
+    assert!(!stdout.contains("IPO voting terms"));
     assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
@@ -563,7 +563,7 @@ fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
 }
 
 #[test]
-fn gray_rhino_daily_report_reads_sec_htm_cache() {
+fn gray_rhino_observation_daily_report_does_not_replay_sec_htm_cache() {
     let tmp = prepare_standard_workspace("en-us");
     let discovery_dir = tmp
         .path()
@@ -592,7 +592,7 @@ fn gray_rhino_daily_report_reads_sec_htm_cache() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("TSLA / Company / Governance Concentration / Expanding"));
+    assert!(!stdout.contains("TSLA / Company / Governance Concentration / Expanding"));
     assert!(!stdout.contains("STALE / Company / Governance Concentration"));
     assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
@@ -600,6 +600,39 @@ fn gray_rhino_daily_report_reads_sec_htm_cache() {
     assert!(!stdout.contains("gate signal"));
     assert!(!stdout.contains("execution signal"));
     assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_observation_old_cache_does_not_refresh_persisted_candidate_date() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"GOOG","state":"Visible","evidence":["Persisted old founder voting control candidate."],"watch_triggers":["proxy update"],"source_title":"Persisted old SEC proxy","observed_at":"2026-04-24"}
+"#,
+    )
+    .expect("failed to write old candidate store");
+    let cache_dir = tmp
+        .path()
+        .join("gray_rhino_sources")
+        .join("governance")
+        .join("GOOG");
+    fs::create_dir_all(&cache_dir).expect("failed to create source cache dir");
+    fs::write(
+        cache_dir.join("old-proxy.htm"),
+        "The founder controls majority voting power through class B shares. The board is controlled and no independent directors provide effective checks.",
+    )
+    .expect("failed to write old cache source");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("GOOG / Company / Governance Concentration: Visible"));
+    assert!(stdout.contains("Cooling"));
+    assert!(stdout.contains("latest: 2026-04-24"));
+    assert!(stdout.contains("stale_days: 31"));
+    assert!(!stdout.contains("latest: 2026-05-25"));
+    assert!(!stdout.contains("Intensifying"));
 }
 
 #[test]
@@ -631,6 +664,50 @@ fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
     assert!(!stdout.contains("gate signal"));
     assert!(!stdout.contains("execution signal"));
     assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_display_latest_uses_latest_candidate_body() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Visible","evidence":["Old visible evidence."],"watch_triggers":["old proxy"],"source_title":"Prior SEC proxy","observed_at":"2026-05-24"}
+{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Critical","evidence":["New critical evidence."],"watch_triggers":["new proxy"],"source_title":"Current SEC proxy","observed_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("TSLA / Company / Governance Concentration / Critical"));
+    assert!(stdout.contains("New critical evidence."));
+    assert!(!stdout.contains("TSLA / Company / Governance Concentration / Visible"));
+    assert!(!stdout.contains("Old visible evidence."));
+    assert!(stdout.contains("TSLA / Company / Governance Concentration: Critical"));
+    assert!(stdout.contains("Intensifying"));
+}
+
+#[test]
+fn gray_rhino_display_latest_prefers_cooling_after_critical() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Critical","evidence":["Critical evidence."],"watch_triggers":["critical proxy"],"source_title":"Critical SEC proxy","observed_at":"2026-05-24"}
+{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Cooling","evidence":["Cooling evidence."],"watch_triggers":["cooling proxy"],"source_title":"Cooling SEC proxy","observed_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("TSLA / Company / Governance Concentration / Cooling"));
+    assert!(stdout.contains("Cooling evidence."));
+    assert!(!stdout.contains("TSLA / Company / Governance Concentration / Critical"));
+    assert!(stdout.contains("TSLA / Company / Governance Concentration: Cooling"));
 }
 
 #[test]
@@ -838,7 +915,7 @@ fn gray_rhino_completion_zh_candidate_body_does_not_leak_enum_labels() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("TSLA / 公司 / 治理集中 / 扩张"));
+    assert!(stdout.contains("TSLA / 公司 / 治理集中 / 临界"));
     assert!(stdout.contains("Market / 市场 / 流动性脆弱 / 扩张"));
     assert!(stdout.contains("升温"));
     assert!(stdout.contains("检测到创始人或单一主体投票控制。"));
@@ -891,6 +968,73 @@ fn gray_rhino_source_collection_dry_run_reports_boundary() {
 }
 
 #[test]
+fn gray_rhino_refresh_status_is_rendered_in_daily_report() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(
+        tmp.path().join("gray_rhino_refresh_status_latest.json"),
+        r#"{"status":"partial_failure","sec":"succeeded","finnhub":"skipped","fred":"failed","sec_accepted":2,"sec_rejected":0,"finnhub_accepted":0,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":1,"failed_providers":"fred","date":"2026-05-25","reason":"FRED returned 403"}
+"#,
+    )
+    .expect("failed to write refresh status sidecar");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("灰犀牛采集状态"));
+    assert!(stdout.contains("整体状态: 部分失败"));
+    assert!(stdout.contains("SEC: 成功 / Finnhub: 跳过 / FRED: 失败"));
+    assert!(stdout.contains("覆盖率: SEC 2/2 / Finnhub 0/0 / FRED 0/1"));
+    assert!(stdout.contains("失败 provider: fred"));
+    assert!(stdout.contains("采集日期: 2026-05-25"));
+    assert!(stdout.contains("采集状态仅说明自动情报新鲜度"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+}
+
+#[test]
+fn gray_rhino_refresh_status_i18n_renders_zh_en_ja_labels() {
+    for (lang, expected_status, expected_providers, unexpected) in [
+        (
+            "zh-cn",
+            "整体状态: 部分失败",
+            "SEC: 成功 / Finnhub: 跳过 / FRED: 失败",
+            "partial_failure",
+        ),
+        (
+            "en-us",
+            "overall_status: partial_failure",
+            "SEC: succeeded / Finnhub: skipped / FRED: failed",
+            "",
+        ),
+        (
+            "ja-jp",
+            "全体状態: 部分失敗",
+            "SEC: 成功 / Finnhub: skip / FRED: 失敗",
+            "partial_failure",
+        ),
+    ] {
+        let tmp = prepare_standard_workspace(lang);
+        fs::write(
+            tmp.path().join("gray_rhino_refresh_status_latest.json"),
+            r#"{"status":"partial_failure","sec":"succeeded","finnhub":"skipped","fred":"failed","sec_accepted":2,"sec_rejected":0,"finnhub_accepted":0,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":1,"failed_providers":"fred","date":"2026-05-25","reason":"FRED returned 403"}
+"#,
+        )
+        .expect("failed to write refresh status sidecar");
+
+        let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+        assert!(out.status.success());
+        let stdout = String::from_utf8_lossy(&out.stdout);
+        assert!(stdout.contains(expected_status));
+        assert!(stdout.contains(expected_providers));
+        if !unexpected.is_empty() {
+            assert!(!stdout.contains(unexpected));
+        }
+    }
+}
+
+#[test]
 fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");
@@ -905,6 +1049,20 @@ fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     assert!(makefile.contains("gray_rhino_refresh_status_latest.json"));
     assert!(makefile.contains("gray-rhino-refresh-report:"));
     assert!(!makefile.contains("daily_status"));
+}
+
+#[test]
+fn gray_rhino_refresh_coverage_make_target_records_provider_coverage() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");
+
+    assert!(makefile.contains("provider_status:"));
+    assert!(makefile.contains("partial_count"));
+    assert!(makefile.contains("sec_accepted"));
+    assert!(makefile.contains("sec_rejected"));
+    assert!(makefile.contains("finnhub_accepted"));
+    assert!(makefile.contains("fred_rejected"));
+    assert!(makefile.contains("\"sec_accepted\":%s"));
 }
 
 #[test]

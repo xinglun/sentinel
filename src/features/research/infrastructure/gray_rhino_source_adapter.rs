@@ -2,17 +2,20 @@ use crate::config;
 use crate::features::research::application::governance_source_pipeline::{
     GovernanceSourceAdapter, GovernanceSourceCollectionRequest,
 };
-use crate::features::research::application::gray_rhino_discovery::{
-    discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
+use crate::features::research::application::gray_rhino_source_collection::{
+    CollectGrayRhinoSourcesUseCase, GrayRhinoCandidateRepositoryPort, GrayRhinoDiscoveryRunRecord,
+    GrayRhinoDiscoveryRunRepositoryPort, GrayRhinoFetchOutcome, GrayRhinoFetchedSource,
+    GrayRhinoSourceCollectionOutcome, GrayRhinoSourceCollectionRequest, GrayRhinoSourceFetcherPort,
+    GrayRhinoSourceProvider,
 };
+use crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate;
 use crate::features::research::infrastructure::gray_rhino_candidate_store::GrayRhinoCandidateStore;
 use crate::features::research::infrastructure::sec_governance_source_adapter::GovernanceDocumentSourceAdapter;
 use anyhow::{anyhow, Context, Result};
-use chrono::{Duration, NaiveDate};
-use serde::Serialize;
+use chrono::Duration;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 const FRED_SERIES: &[&str] = &[
     "DGS10",
@@ -24,99 +27,86 @@ const FRED_SERIES: &[&str] = &[
     "RRPONTSYD",
 ];
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
-pub(crate) enum GrayRhinoSourceProvider {
-    Sec,
-    Finnhub,
-    Fred,
+pub(crate) struct FileGrayRhinoSourceCollector<'a> {
+    app_config: &'a config::AppConfig,
 }
 
-impl GrayRhinoSourceProvider {
-    pub(crate) fn parse(raw: &str) -> Option<Self> {
-        match raw.to_ascii_lowercase().as_str() {
-            "sec" => Some(Self::Sec),
-            "finnhub" => Some(Self::Finnhub),
-            "fred" => Some(Self::Fred),
-            _ => None,
-        }
-    }
-
-    fn as_str(self) -> &'static str {
-        match self {
-            Self::Sec => "sec",
-            Self::Finnhub => "finnhub",
-            Self::Fred => "fred",
-        }
+impl<'a> FileGrayRhinoSourceCollector<'a> {
+    pub(crate) fn new(app_config: &'a config::AppConfig) -> Self {
+        Self { app_config }
     }
 }
 
-#[derive(Debug, Clone)]
-pub(crate) struct GrayRhinoSourceCollectionRequest {
-    pub provider: GrayRhinoSourceProvider,
-    pub symbols: Vec<String>,
-    pub save_dir: PathBuf,
-    pub as_of_date: NaiveDate,
-    pub lookback_days: usize,
-    pub dry_run: bool,
+pub(crate) struct FileGrayRhinoCandidateRepository<'a> {
+    save_dir: &'a Path,
 }
 
-#[derive(Debug, Clone, Serialize)]
-pub(crate) struct GrayRhinoSourceCollectionOutcome {
-    pub provider: GrayRhinoSourceProvider,
-    pub subject: String,
-    pub planned: bool,
-    pub accepted: bool,
-    pub source_url: Option<String>,
-    pub repository_path: Option<String>,
-    pub content_sha256: Option<String>,
-    pub candidate_count: usize,
-    pub failure_taxonomy: Option<String>,
-    pub message: String,
+impl<'a> FileGrayRhinoCandidateRepository<'a> {
+    pub(crate) fn new(save_dir: &'a Path) -> Self {
+        Self { save_dir }
+    }
 }
 
-#[derive(Debug, Clone, Serialize)]
-struct GrayRhinoDiscoveryRunRecord {
-    run_id: String,
-    provider: GrayRhinoSourceProvider,
-    as_of_date: NaiveDate,
-    dry_run: bool,
-    source_count: usize,
-    accepted: usize,
-    rejected: usize,
-    candidate_count: usize,
-    outcomes: Vec<GrayRhinoSourceCollectionOutcome>,
-}
+pub(crate) struct FileGrayRhinoDiscoveryRunRepository;
 
 pub(crate) async fn collect_gray_rhino_sources(
     app_config: &config::AppConfig,
     request: GrayRhinoSourceCollectionRequest,
 ) -> Result<Vec<GrayRhinoSourceCollectionOutcome>> {
-    let mut outcomes = match request.provider {
-        GrayRhinoSourceProvider::Sec => collect_sec_sources(app_config, &request).await?,
-        GrayRhinoSourceProvider::Finnhub => collect_finnhub_sources(app_config, &request).await?,
-        GrayRhinoSourceProvider::Fred => collect_fred_sources(app_config, &request).await?,
-    };
-    append_discovery_run(&request, &outcomes).await?;
-    outcomes.sort_by(|a, b| a.subject.cmp(&b.subject));
-    Ok(outcomes)
+    let fetcher = FileGrayRhinoSourceCollector::new(app_config);
+    let candidate_repository = FileGrayRhinoCandidateRepository::new(&request.save_dir);
+    let run_repository = FileGrayRhinoDiscoveryRunRepository;
+    CollectGrayRhinoSourcesUseCase::new(&fetcher, &candidate_repository, &run_repository)
+        .collect(&request)
+        .await
+}
+
+impl GrayRhinoSourceFetcherPort for FileGrayRhinoSourceCollector<'_> {
+    async fn fetch_sources(
+        &self,
+        request: &GrayRhinoSourceCollectionRequest,
+    ) -> Result<Vec<GrayRhinoFetchOutcome>> {
+        match request.provider {
+            GrayRhinoSourceProvider::Sec => collect_sec_sources(self.app_config, request).await,
+            GrayRhinoSourceProvider::Finnhub => {
+                collect_finnhub_sources(self.app_config, request).await
+            }
+            GrayRhinoSourceProvider::Fred => collect_fred_sources(self.app_config, request).await,
+        }
+    }
+}
+
+impl GrayRhinoCandidateRepositoryPort for FileGrayRhinoCandidateRepository<'_> {
+    fn save_candidates(&self, candidates: &[GrayRhinoCandidate]) -> Result<usize> {
+        GrayRhinoCandidateStore::new(self.save_dir).save_candidates(candidates)
+    }
+}
+
+impl GrayRhinoDiscoveryRunRepositoryPort for FileGrayRhinoDiscoveryRunRepository {
+    async fn append_discovery_run(
+        &self,
+        request: &GrayRhinoSourceCollectionRequest,
+        outcomes: &[GrayRhinoSourceCollectionOutcome],
+    ) -> Result<()> {
+        append_discovery_run(request, outcomes).await
+    }
 }
 
 async fn collect_sec_sources(
     app_config: &config::AppConfig,
     request: &GrayRhinoSourceCollectionRequest,
-) -> Result<Vec<GrayRhinoSourceCollectionOutcome>> {
+) -> Result<Vec<GrayRhinoFetchOutcome>> {
     let subjects = configured_subjects(app_config, &request.symbols);
     if request.dry_run {
         return Ok(subjects
             .into_iter()
-            .map(|subject| planned_outcome(request.provider, subject, "SEC filing fetch planned"))
+            .map(|subject| planned_outcome(subject, "SEC filing fetch planned"))
             .collect());
     }
     let adapter = GovernanceDocumentSourceAdapter::new(
         app_config.sec.as_ref().map(|sec| sec.user_agent.clone()),
         &request.save_dir,
     );
-    let candidate_store = GrayRhinoCandidateStore::new(&request.save_dir);
     let mut outcomes = Vec::new();
     for subject in subjects {
         let collection_request = GovernanceSourceCollectionRequest {
@@ -130,33 +120,18 @@ async fn collect_sec_sources(
         match adapter.fetch_governance_sources(&collection_request).await {
             Ok(documents) => {
                 for document in documents {
-                    let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
-                        subject: document.subject.clone(),
-                        source_title: document.source_title.clone(),
-                        observed_at: document.observed_at,
-                        text: document.content.clone(),
-                    });
-                    candidate_store.save_candidates(&candidates)?;
-                    outcomes.push(GrayRhinoSourceCollectionOutcome {
-                        provider: request.provider,
+                    outcomes.push(GrayRhinoFetchOutcome::Accepted(GrayRhinoFetchedSource {
                         subject: document.subject,
-                        planned: false,
-                        accepted: true,
+                        source_title: document.source_title,
+                        source_published_at: document.observed_at,
+                        content_sha256: Some(content_sha256(&document.content)),
+                        content: document.content,
                         source_url: document.source_url,
                         repository_path: document.repository_path,
-                        content_sha256: Some(content_sha256(&document.content)),
-                        candidate_count: candidates.len(),
-                        failure_taxonomy: None,
-                        message: "SEC filing cached for Gray Rhino discovery".to_string(),
-                    });
+                    }));
                 }
             }
-            Err(err) => outcomes.push(rejected_outcome(
-                request.provider,
-                subject,
-                "fetch_failure",
-                err.to_string(),
-            )),
+            Err(err) => outcomes.push(rejected_outcome(subject, "fetch_failure", err.to_string())),
         }
     }
     Ok(outcomes)
@@ -165,14 +140,12 @@ async fn collect_sec_sources(
 async fn collect_finnhub_sources(
     app_config: &config::AppConfig,
     request: &GrayRhinoSourceCollectionRequest,
-) -> Result<Vec<GrayRhinoSourceCollectionOutcome>> {
+) -> Result<Vec<GrayRhinoFetchOutcome>> {
     let subjects = configured_subjects(app_config, &request.symbols);
     if request.dry_run {
         return Ok(subjects
             .into_iter()
-            .map(|subject| {
-                planned_outcome(request.provider, subject, "Finnhub narrative fetch planned")
-            })
+            .map(|subject| planned_outcome(subject, "Finnhub narrative fetch planned"))
             .collect());
     }
     let token = app_config
@@ -186,7 +159,6 @@ async fn collect_finnhub_sources(
     let client = reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(20))
         .build()?;
-    let candidate_store = GrayRhinoCandidateStore::new(&request.save_dir);
     let mut outcomes = Vec::new();
     for subject in subjects {
         let url = format!(
@@ -205,38 +177,22 @@ async fn collect_finnhub_sources(
                     &content,
                 )
                 .await?;
-                let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+                outcomes.push(GrayRhinoFetchOutcome::Accepted(GrayRhinoFetchedSource {
                     subject: subject.clone(),
                     source_title: "Finnhub company news".to_string(),
-                    observed_at: request.as_of_date,
-                    text: content.clone(),
-                });
-                candidate_store.save_candidates(&candidates)?;
-                outcomes.push(GrayRhinoSourceCollectionOutcome {
-                    provider: request.provider,
-                    subject,
-                    planned: false,
-                    accepted: true,
+                    source_published_at: request.as_of_date,
+                    content_sha256: Some(content_sha256(&content)),
+                    content,
                     source_url: Some(redact_token(&url)),
                     repository_path: Some(repository_path),
-                    content_sha256: Some(content_sha256(&content)),
-                    candidate_count: candidates.len(),
-                    failure_taxonomy: None,
-                    message: "Finnhub narrative source cached for Gray Rhino discovery".to_string(),
-                });
+                }));
             }
             Ok(response) => outcomes.push(rejected_outcome(
-                request.provider,
                 subject,
                 "fetch_failure",
                 format!("Finnhub returned {}", response.status()),
             )),
-            Err(err) => outcomes.push(rejected_outcome(
-                request.provider,
-                subject,
-                "fetch_failure",
-                err.to_string(),
-            )),
+            Err(err) => outcomes.push(rejected_outcome(subject, "fetch_failure", err.to_string())),
         }
     }
     Ok(outcomes)
@@ -245,10 +201,9 @@ async fn collect_finnhub_sources(
 async fn collect_fred_sources(
     app_config: &config::AppConfig,
     request: &GrayRhinoSourceCollectionRequest,
-) -> Result<Vec<GrayRhinoSourceCollectionOutcome>> {
+) -> Result<Vec<GrayRhinoFetchOutcome>> {
     if request.dry_run {
         return Ok(vec![planned_outcome(
-            request.provider,
             "Market".to_string(),
             "FRED macro series fetch planned",
         )]);
@@ -271,7 +226,6 @@ async fn collect_fred_sources(
         let response = client.get(&url).send().await?;
         if !response.status().is_success() {
             return Ok(vec![rejected_outcome(
-                request.provider,
                 "Market".to_string(),
                 "fetch_failure",
                 format!("FRED {} returned {}", series, response.status()),
@@ -288,25 +242,17 @@ async fn collect_fred_sources(
         &content,
     )
     .await?;
-    let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
-        subject: "Market".to_string(),
-        source_title: "FRED macro series".to_string(),
-        observed_at: request.as_of_date,
-        text: content.clone(),
-    });
-    GrayRhinoCandidateStore::new(&request.save_dir).save_candidates(&candidates)?;
-    Ok(vec![GrayRhinoSourceCollectionOutcome {
-        provider: request.provider,
-        subject: "Market".to_string(),
-        planned: false,
-        accepted: true,
-        source_url: Some("https://fred.stlouisfed.org/".to_string()),
-        repository_path: Some(repository_path),
-        content_sha256: Some(content_sha256(&content)),
-        candidate_count: candidates.len(),
-        failure_taxonomy: None,
-        message: "FRED macro source cached for Gray Rhino discovery".to_string(),
-    }])
+    Ok(vec![GrayRhinoFetchOutcome::Accepted(
+        GrayRhinoFetchedSource {
+            subject: "Market".to_string(),
+            source_title: "FRED macro series".to_string(),
+            source_published_at: request.as_of_date,
+            content_sha256: Some(content_sha256(&content)),
+            content,
+            source_url: Some("https://fred.stlouisfed.org/".to_string()),
+            repository_path: Some(repository_path),
+        },
+    )])
 }
 
 pub(crate) fn render_finnhub_narrative_text(symbol: &str, raw_json: &str) -> Result<String> {
@@ -505,41 +451,17 @@ async fn append_discovery_run(
     Ok(())
 }
 
-fn planned_outcome(
-    provider: GrayRhinoSourceProvider,
-    subject: String,
-    message: &str,
-) -> GrayRhinoSourceCollectionOutcome {
-    GrayRhinoSourceCollectionOutcome {
-        provider,
+fn planned_outcome(subject: String, message: &str) -> GrayRhinoFetchOutcome {
+    GrayRhinoFetchOutcome::Planned {
         subject,
-        planned: true,
-        accepted: true,
-        source_url: None,
-        repository_path: None,
-        content_sha256: None,
-        candidate_count: 0,
-        failure_taxonomy: None,
         message: message.to_string(),
     }
 }
 
-fn rejected_outcome(
-    provider: GrayRhinoSourceProvider,
-    subject: String,
-    taxonomy: &str,
-    message: String,
-) -> GrayRhinoSourceCollectionOutcome {
-    GrayRhinoSourceCollectionOutcome {
-        provider,
+fn rejected_outcome(subject: String, taxonomy: &str, message: String) -> GrayRhinoFetchOutcome {
+    GrayRhinoFetchOutcome::Rejected {
         subject,
-        planned: false,
-        accepted: false,
-        source_url: None,
-        repository_path: None,
-        content_sha256: None,
-        candidate_count: 0,
-        failure_taxonomy: Some(taxonomy.to_string()),
+        taxonomy: taxonomy.to_string(),
         message,
     }
 }

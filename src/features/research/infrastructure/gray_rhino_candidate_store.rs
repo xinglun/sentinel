@@ -86,6 +86,9 @@ mod tests {
             watch_triggers: vec!["voting terms".to_string()],
             source_title: "Proxy statement".to_string(),
             observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            source_published_at: Some(NaiveDate::from_ymd_opt(2026, 5, 25).unwrap()),
+            last_confirmed_at: Some(NaiveDate::from_ymd_opt(2026, 5, 25).unwrap()),
+            resolved_at: None,
         }
     }
 

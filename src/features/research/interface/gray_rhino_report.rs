@@ -2,7 +2,7 @@ use crate::config::{self, GrayRhinoRiskLevel};
 use crate::features::research::acl::gray_rhino_daily_report_factory::build_gray_rhino_daily_report_repository;
 use crate::features::research::application::gray_rhino_daily_report::{
     BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportUseCase,
-    GrayRhinoDailyReportViewModel, GrayRhinoSnapshotPersistence,
+    GrayRhinoDailyReportViewModel, GrayRhinoRefreshStatus, GrayRhinoSnapshotPersistence,
 };
 use crate::features::research::application::gray_rhino_monitoring_state::{
     GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
@@ -75,6 +75,12 @@ pub(crate) fn build_gray_rhino_daily_report(
             view_model.unclassified_record_count,
             language,
         ));
+    }
+    if let Some(refresh_status) =
+        render_refresh_status(view_model.refresh_status.as_ref(), language)
+    {
+        report.push_str("\n\n");
+        report.push_str(&refresh_status);
     }
     report.push_str("\n\n");
     report.push_str(&render_auto_discovery_inline_reference(
@@ -552,6 +558,55 @@ fn render_discovery_ops_view(
         candidate_count_label(language),
         value.candidate_count
     ));
+    Some(out)
+}
+
+fn render_refresh_status(
+    value: Option<&GrayRhinoRefreshStatus>,
+    language: Language,
+) -> Option<String> {
+    let value = value?;
+    let mut out = String::new();
+    out.push_str(refresh_status_title(language));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        refresh_overall_status_label(language),
+        refresh_status_value_label(&value.status, language)
+    ));
+    out.push_str(&format!(
+        "- SEC: {} / Finnhub: {} / FRED: {}\n",
+        refresh_status_value_label(&value.sec, language),
+        refresh_status_value_label(&value.finnhub, language),
+        refresh_status_value_label(&value.fred, language)
+    ));
+    out.push_str(&format!(
+        "- {}: SEC {}/{} / Finnhub {}/{} / FRED {}/{}\n",
+        refresh_coverage_label(language),
+        value.sec_accepted,
+        value.sec_accepted + value.sec_rejected,
+        value.finnhub_accepted,
+        value.finnhub_accepted + value.finnhub_rejected,
+        value.fred_accepted,
+        value.fred_accepted + value.fred_rejected
+    ));
+    if !value.failed_providers.trim().is_empty() {
+        out.push_str(&format!(
+            "- {}: {}\n",
+            failed_providers_label(language),
+            value.failed_providers.trim()
+        ));
+    }
+    if let Some(date) = &value.date {
+        out.push_str(&format!("- {}: {}\n", refresh_date_label(language), date));
+    }
+    if let Some(reason) = &value.reason {
+        out.push_str(&format!(
+            "- {}: {}\n",
+            refresh_reason_label(language),
+            reason
+        ));
+    }
+    out.push_str(refresh_status_boundary(language));
     Some(out)
 }
 
@@ -1456,6 +1511,86 @@ fn candidate_count_label(language: Language) -> &'static str {
         Language::ZhCn => "候选数",
         Language::EnUs => "candidate_count",
         Language::JaJp => "候補数",
+    }
+}
+
+fn refresh_status_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "灰犀牛采集状态\n",
+        Language::EnUs => "Gray Rhino Refresh Status\n",
+        Language::JaJp => "Gray Rhino 収集状態\n",
+    }
+}
+
+fn refresh_overall_status_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "整体状态",
+        Language::EnUs => "overall_status",
+        Language::JaJp => "全体状態",
+    }
+}
+
+fn refresh_status_value_label(value: &str, language: Language) -> &'static str {
+    match (value, language) {
+        ("succeeded", Language::ZhCn) => "成功",
+        ("partial_failure", Language::ZhCn) => "部分失败",
+        ("failed", Language::ZhCn) => "失败",
+        ("skipped", Language::ZhCn) => "跳过",
+        ("succeeded", Language::EnUs) => "succeeded",
+        ("partial_failure", Language::EnUs) => "partial_failure",
+        ("failed", Language::EnUs) => "failed",
+        ("skipped", Language::EnUs) => "skipped",
+        ("succeeded", Language::JaJp) => "成功",
+        ("partial_failure", Language::JaJp) => "部分失敗",
+        ("failed", Language::JaJp) => "失敗",
+        ("skipped", Language::JaJp) => "skip",
+        _ => "unknown",
+    }
+}
+
+fn refresh_coverage_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "覆盖率",
+        Language::EnUs => "coverage",
+        Language::JaJp => "coverage",
+    }
+}
+
+fn failed_providers_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "失败 provider",
+        Language::EnUs => "failed_providers",
+        Language::JaJp => "失敗 provider",
+    }
+}
+
+fn refresh_date_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "采集日期",
+        Language::EnUs => "refresh_date",
+        Language::JaJp => "収集日",
+    }
+}
+
+fn refresh_reason_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "原因",
+        Language::EnUs => "reason",
+        Language::JaJp => "理由",
+    }
+}
+
+fn refresh_status_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "边界声明: 采集状态仅说明自动情报新鲜度；不改变交易、闸门、趋势或市场状态。"
+        }
+        Language::EnUs => {
+            "Boundary: refresh status only explains intelligence freshness; it does not change trading, Gate, trend, or market state."
+        }
+        Language::JaJp => {
+            "境界: 収集状態は自動情報の鮮度だけを説明し、取引、Gate、trend、market state を変更しない。"
+        }
     }
 }
 

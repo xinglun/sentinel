@@ -93,6 +93,9 @@ def main() -> int:
         "grayRhinoRefreshRunsDailyCalibration: false",
         "grayRhinoRefreshReportMakeTarget: gray-rhino-refresh-report",
         "grayRhinoRefreshProviderIsolationEnabled: true",
+        "grayRhinoRefreshStatusDisplayedInReport: true",
+        "grayRhinoProviderFailureExitsNonZero: true",
+        "grayRhinoProviderPartialFailureCoverageEnabled: true",
         "inlineWatchlistReferenceEnabled: true",
         "watchlistInlineDisplayEnabled: true",
         "marketReferenceDisplayEnabled: true",
@@ -106,6 +109,11 @@ def main() -> int:
         "unclassifiedEvidenceScoring: excluded_and_reported",
         "dailyReportUseCaseEnabled: true",
         "dailyReportRepositoryPort: GrayRhinoDailyReportRepository",
+        "dailyReportQueryReadsPersistedCandidatesOnly: true",
+        "dailyReportQueryRediscoveryEnabled: false",
+        "dailyReportDisplayLatestCandidateEnabled: true",
+        "persistentRiskNoAgeOnlyAutoResolve: true",
+        "sourceCollectionUseCase: src/features/research/application/gray_rhino_source_collection.rs",
         "dailyReportOpsViewDtoEnabled: true",
         "dailyGithubActionsWorkflow: .github/workflows/daily_radar.yml",
         "manualRegistryPrimaryMechanism: false",
@@ -201,6 +209,15 @@ def main() -> int:
 
     if "GRAY_RHINO_EVIDENCE_CONTRACT.md" not in framework:
         errors.append("framework doc does not link evidence contract")
+
+    forbidden_doc_assertions = [
+        "current source scan",
+        "当日の source scan",
+        "source scan と persisted candidates を merge",
+    ]
+    for phrase in forbidden_doc_assertions:
+        if phrase in doc:
+            errors.append(f"evidence contract retains obsolete report-query assertion `{phrase}`")
 
     forbidden_framework_assertions = [
         "設定入力は `gray_rhino_escalation` に限定する",

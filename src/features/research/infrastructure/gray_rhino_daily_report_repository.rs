@@ -2,10 +2,7 @@ use crate::features::research::application::dependency_evidence::DependencyEvide
 use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
 use crate::features::research::application::gray_rhino_daily_report::{
-    BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportRepository,
-};
-use crate::features::research::application::gray_rhino_discovery::{
-    discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
+    BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportRepository, GrayRhinoRefreshStatus,
 };
 use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
 use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
@@ -60,79 +57,15 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
         GrayRhinoEvidenceStore::new(&self.save_dir).load_governance_extraction_audits()
     }
 
-    fn collect_auto_candidates(
+    fn load_persisted_candidates(
         &self,
         watch_symbols: &[String],
-        as_of_date: NaiveDate,
     ) -> Result<Vec<GrayRhinoCandidate>> {
-        let source_roots = [
-            self.save_dir.join("gray_rhino_sources"),
-            self.save_dir.join("gray_rhino_raw_sources"),
-        ];
-        let mut files = Vec::new();
-        for root in source_roots {
-            collect_text_files(&root, &mut files);
-        }
-        let default_subject = watch_symbols
-            .first()
-            .cloned()
-            .unwrap_or_else(|| "UNKNOWN".to_string());
-        let mut candidates = Vec::new();
-        for path in files {
-            let Ok(text) = std::fs::read_to_string(&path) else {
-                continue;
-            };
-            let path_text = path.to_string_lossy().to_string();
-            let path_components = path
-                .components()
-                .filter_map(|component| component.as_os_str().to_str())
-                .map(|component| component.to_uppercase())
-                .collect::<Vec<_>>();
-            let subject = watch_symbols
-                .iter()
-                .find(|symbol| {
-                    let symbol = symbol.to_uppercase();
-                    path_components.iter().any(|component| {
-                        component == &symbol || component.starts_with(&format!("{symbol}_"))
-                    })
-                })
-                .cloned()
-                .or_else(|| {
-                    path.parent()
-                        .and_then(|parent| parent.file_name())
-                        .and_then(|name| name.to_str())
-                        .map(str::to_string)
-                })
-                .unwrap_or_else(|| default_subject.clone());
-            let source_is_typed_company_cache = path.components().any(|component| {
-                matches!(
-                    component.as_os_str().to_str(),
-                    Some("governance" | "narrative")
-                )
-            });
-            if source_is_typed_company_cache
-                && !watch_symbols
-                    .iter()
-                    .any(|watch_symbol| watch_symbol.eq_ignore_ascii_case(&subject))
-            {
-                continue;
-            }
-            candidates.extend(discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
-                subject,
-                source_title: path_text,
-                observed_at: as_of_date,
-                text,
-            }));
-        }
-        if let Ok(persisted_candidates) =
-            GrayRhinoCandidateStore::new(&self.save_dir).load_candidates()
-        {
-            candidates.extend(
-                persisted_candidates.into_iter().filter(|candidate| {
-                    candidate_in_current_report_scope(candidate, watch_symbols)
-                }),
-            );
-        }
+        let candidates = GrayRhinoCandidateStore::new(&self.save_dir)
+            .load_candidates()?
+            .into_iter()
+            .filter(|candidate| candidate_in_current_report_scope(candidate, watch_symbols))
+            .collect();
         Ok(candidates)
     }
 
@@ -182,6 +115,35 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
                 .unwrap_or(0),
         })
     }
+
+    fn load_refresh_status(&self) -> Option<GrayRhinoRefreshStatus> {
+        let value = serde_json::from_str::<Value>(
+            &std::fs::read_to_string(self.save_dir.join("gray_rhino_refresh_status_latest.json"))
+                .ok()?,
+        )
+        .ok()?;
+        Some(GrayRhinoRefreshStatus {
+            status: string_field(&value, "status"),
+            sec: string_field(&value, "sec"),
+            finnhub: string_field(&value, "finnhub"),
+            fred: string_field(&value, "fred"),
+            sec_accepted: u64_field(&value, "sec_accepted"),
+            sec_rejected: u64_field(&value, "sec_rejected"),
+            finnhub_accepted: u64_field(&value, "finnhub_accepted"),
+            finnhub_rejected: u64_field(&value, "finnhub_rejected"),
+            fred_accepted: u64_field(&value, "fred_accepted"),
+            fred_rejected: u64_field(&value, "fred_rejected"),
+            failed_providers: string_field(&value, "failed_providers"),
+            reason: value
+                .get("reason")
+                .and_then(|value| value.as_str())
+                .map(str::to_string),
+            date: value
+                .get("date")
+                .and_then(|value| value.as_str())
+                .map(str::to_string),
+        })
+    }
 }
 
 fn candidate_in_current_report_scope(
@@ -194,29 +156,20 @@ fn candidate_in_current_report_scope(
             .any(|symbol| symbol.eq_ignore_ascii_case(&candidate.subject))
 }
 
-fn collect_text_files(path: &Path, out: &mut Vec<PathBuf>) {
-    let Ok(metadata) = std::fs::metadata(path) else {
-        return;
-    };
-    if metadata.is_file() {
-        if matches!(
-            path.extension().and_then(|ext| ext.to_str()),
-            Some("txt" | "md" | "html" | "htm")
-        ) {
-            out.push(path.to_path_buf());
-        }
-        return;
-    }
-    let Ok(entries) = std::fs::read_dir(path) else {
-        return;
-    };
-    for entry in entries.flatten() {
-        collect_text_files(&entry.path(), out);
-    }
-}
-
 fn load_latest_jsonl_value(path: &Path) -> Option<Value> {
     let raw = std::fs::read_to_string(path).ok()?;
     let latest = raw.lines().rev().find(|line| !line.trim().is_empty())?;
     serde_json::from_str(latest).ok()
+}
+
+fn string_field(value: &Value, key: &str) -> String {
+    value
+        .get(key)
+        .and_then(|value| value.as_str())
+        .unwrap_or("unknown")
+        .to_string()
+}
+
+fn u64_field(value: &Value, key: &str) -> u64 {
+    value.get(key).and_then(|value| value.as_u64()).unwrap_or(0)
 }

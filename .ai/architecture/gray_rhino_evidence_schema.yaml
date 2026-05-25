@@ -38,6 +38,9 @@ grayRhinoRefreshStatusValues:
   - failed
   - skipped
 grayRhinoRefreshStatusStore: gray_rhino_refresh_status_latest.json
+grayRhinoRefreshStatusDisplayedInReport: true
+grayRhinoProviderFailureExitsNonZero: true
+grayRhinoProviderPartialFailureCoverageEnabled: true
 radarTelegramAppendixEnabled: true
 radarTelegramAppendixBoundary: reference_only_no_gate_trade_trend_or_market_state
 candidateScopes:
@@ -64,10 +67,20 @@ dailyReportUseCaseEnabled: true
 dailyReportUseCase: src/features/research/application/gray_rhino_daily_report.rs
 dailyReportRepositoryPort: GrayRhinoDailyReportRepository
 dailyReportInfrastructureRepository: src/features/research/infrastructure/gray_rhino_daily_report_repository.rs
+dailyReportQueryReadsPersistedCandidatesOnly: true
+dailyReportQueryRediscoveryEnabled: false
+dailyReportDisplayLatestCandidateEnabled: true
+candidateTimeModel:
+  sourcePublishedAt: source_published_at
+  lastConfirmedAt: last_confirmed_at
+  resolvedAt: resolved_at
+persistentRiskNoAgeOnlyAutoResolve: true
+sourceCollectionUseCase: src/features/research/application/gray_rhino_source_collection.rs
 dailyReportOpsViewDtoEnabled: true
 dailyReportOpsViewDtos:
   - BackfillOpsSummary
   - DiscoveryOpsSummary
+  - GrayRhinoRefreshStatus
 manualRegistryPrimaryMechanism: false
 autoSourceCollectionCli: collect-gray-rhino-sources
 autoSourceProviders:

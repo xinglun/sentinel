@@ -39,11 +39,11 @@ Phase 4-B では `collect-gray-rhino-sources` を source collection entrypoint �
 
 source collection の audit は `gray_rhino_discovery_runs.jsonl` に保存する。audit は provider、dry-run、source count、candidate count、content hash、failure taxonomy を記録するが、trading、Gate、execution、trend、market state を変更してはならない。
 
-Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に append-only で保存する。store は `GrayRhinoCandidate` の scope、kind、subject、state、evidence、watch triggers、source title、observed date を保持し、Daily report は current source scan と persisted candidates を merge / dedupe して `Gray Rhino Inline Reference` に表示する。
+Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に append-only で保存する。store は `GrayRhinoCandidate` の scope、kind、subject、state、evidence、watch triggers、source title、source published date、last confirmed date、resolved date を保持する。Daily report は persisted candidate history だけを読み、同一 key の本文表示は latest confirmed candidate を選択する。
 
 `gray_rhino_candidates.jsonl` は構造リスクの観測履歴であり、trade、Gate、execution、trend、market state を変更してはならない。Company candidate は current enabled watchlist に属する場合だけ daily inline reference に表示し、Market candidate は市場側 reference として表示できる。
 
-Phase 4-D では monitoring state machine を導入する。state machine は `gray_rhino_candidates.jsonl` と当日の source scan から subject / scope / kind ごとの candidate history を作り、`Visible`、`Expanding`、`Critical`、`Cooling`、`Resolved` と direction（new、stable、intensifying、cooling、resolved）を deterministic に評価する。
+Phase 4-D では monitoring state machine を導入する。state machine は `gray_rhino_candidates.jsonl` の persisted candidate history から subject / scope / kind ごとの履歴を作り、`Visible`、`Expanding`、`Critical`、`Cooling`、`Resolved` と direction（new、stable、intensifying、cooling、resolved）を deterministic に評価する。GovernanceConcentration、DependencyConcentration、InstitutionalMaturityGap、RedundancyGap などの持続的構造リスクは、source published date が古いだけでは `Resolved` にしない。解除には明示的な `Resolved` candidate、resolved date、または反対 evidence が必要である。
 
 monitoring state は `Gray Rhino Monitoring State` として Daily report に表示する。これは臨界点の接近を観察する reference であり、trade、Gate、execution、trend、market state を変更してはならない。
 
@@ -52,6 +52,8 @@ Phase 4-E では FRED threshold calibration を導入する。FRED source adapte
 日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を provider 単位で実行し、`gray_rhino_refresh_status_latest.json` を更新する。GitHub Actions では主 Radar report を生成する前に refresh を実行し、Telegram と archive が同じ日次 Gray Rhino 状態を参照する。pre-radar refresh は当日の audit record に依存してはならないため、`daily-calibration` は呼び出さない。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
 
 Phase 4-F では watchlist inline display を導入する。Daily report は Market candidate を `Market Reference` にまとめ、Company candidate と monitoring state は enabled watchlist symbol ごとの `Watchlist Inline Reference` / `Watchlist Inline Monitoring` に表示する。legacy local source など current watchlist に属さない Company candidate は `Other Company Reference` として分離する。この配置は読みやすさのための表示構造であり、candidate は引き続き trading、Gate、execution、trend、market state から意味的に隔離する。
+
+Daily report query path は、永続化済み `gray_rhino_candidates.jsonl` の candidate history だけを読む。`gray_rhino_sources/**` や `gray_rhino_raw_sources/**` の source cache を report rendering 中に再 scan / rediscover してはならない。source discovery は refresh / ingestion use case の責務であり、candidate の `observed_at` は実際の観測日を保持する。古い cache file が残っているだけで、candidate を当日観測として再生成してはならない。
 
 Phase 4-G では noise calibration と compact summary を導入する。Finnhub source adapter は normalization boilerplate に `narrative overcrowding` などの trigger term を含めてはならない。Daily report は `Gray Rhino Summary` を details より前に表示し、Market active candidate 数、Company active subject、intensifying watch subject を短く示す。
 
@@ -226,6 +228,8 @@ FRED の設定は `[fred] fred_api_key` または `FRED_API_KEY` 環境変数で
 Radar Telegram には Gray Rhino reference appendix を追加する。この appendix は refresh 後の candidate / monitoring / formal evidence view model から生成し、daily-calibration と同じ semantic isolation を保ち、Gate、execution、trade、trend、market state を変更しない。
 
 `make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED は credential / availability に応じて独立に実行し、いずれかが失敗しても後続 provider を継続する。全 provider 成功は `succeeded`、成功と失敗または skipped が混在する場合は `partial_failure`、実行 provider がすべて失敗した場合は `failed`、実行 provider が存在しない場合は `skipped` を `gray_rhino_refresh_status_latest.json` に保存する。audit record を必要とする calibration report は `make gray-rhino-refresh-report` または通常の `daily-calibration` 側で実行する。
+
+provider collection は、`accepted == 0` かつ `rejected > 0` の場合に provider failure として非ゼロ終了を返す。Daily Radar workflow は non-blocking に継続してよいが、`gray_rhino_refresh_status_latest.json` には failed / partial_failure として正確に記録する。Daily report と Telegram appendix は refresh status を audit context として表示し、新鮮な自動情報か、部分失敗か、完全失敗か、skipped かを読者が判別できるようにする。この status は trade、Gate、execution、trend、market state を変更しない。
 
 ### Phase 1: Human Structured Governance Observation
 

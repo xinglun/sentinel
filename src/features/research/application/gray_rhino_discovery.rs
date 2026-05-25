@@ -69,6 +69,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 
@@ -96,6 +99,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 
@@ -126,6 +132,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 
@@ -156,6 +165,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 
@@ -182,6 +194,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 
@@ -207,6 +222,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 
@@ -261,6 +279,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 
@@ -293,6 +314,9 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
+            source_published_at: Some(input.observed_at),
+            last_confirmed_at: Some(input.observed_at),
+            resolved_at: None,
         });
     }
 

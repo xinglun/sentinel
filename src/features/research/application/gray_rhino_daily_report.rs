@@ -8,7 +8,9 @@ use crate::features::research::domain::governance_source::GovernanceExtractionAu
 use crate::features::research::domain::gray_rhino::{
     GrayRhinoAssessment, GrayRhinoAssessmentSnapshot, GrayRhinoEscalationInput,
 };
-use crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate;
+use crate::features::research::domain::gray_rhino_candidate::{
+    GrayRhinoCandidate, GrayRhinoCandidateState,
+};
 use crate::features::research::domain::gray_rhino_evidence::{
     GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
 };
@@ -23,13 +25,13 @@ pub(crate) trait GrayRhinoDailyReportRepository {
     fn save_snapshot_if_changed(&self, snapshot: &GrayRhinoAssessmentSnapshot) -> Result<()>;
     fn load_evidence_records(&self) -> Result<Vec<GrayRhinoEvidenceRecord>>;
     fn load_governance_audits(&self) -> Result<Vec<GovernanceExtractionAuditRecord>>;
-    fn collect_auto_candidates(
+    fn load_persisted_candidates(
         &self,
         watch_symbols: &[String],
-        as_of_date: NaiveDate,
     ) -> Result<Vec<GrayRhinoCandidate>>;
     fn load_backfill_ops_view(&self) -> Option<BackfillOpsSummary>;
     fn load_discovery_ops_view(&self) -> Option<DiscoveryOpsSummary>;
+    fn load_refresh_status(&self) -> Option<GrayRhinoRefreshStatus>;
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -48,6 +50,23 @@ pub(crate) struct DiscoveryOpsSummary {
     pub candidate_count: u64,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct GrayRhinoRefreshStatus {
+    pub status: String,
+    pub sec: String,
+    pub finnhub: String,
+    pub fred: String,
+    pub sec_accepted: u64,
+    pub sec_rejected: u64,
+    pub finnhub_accepted: u64,
+    pub finnhub_rejected: u64,
+    pub fred_accepted: u64,
+    pub fred_rejected: u64,
+    pub failed_providers: String,
+    pub reason: Option<String>,
+    pub date: Option<String>,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum GrayRhinoSnapshotPersistence {
     SaveIfChanged,
@@ -63,6 +82,7 @@ pub(crate) struct GrayRhinoDailyReportViewModel {
     pub monitoring_statuses: Vec<GrayRhinoMonitoringStatus>,
     pub backfill_ops_view: Option<BackfillOpsSummary>,
     pub discovery_ops_view: Option<DiscoveryOpsSummary>,
+    pub refresh_status: Option<GrayRhinoRefreshStatus>,
 }
 
 pub(crate) struct GrayRhinoDailyReportUseCase<'a, R: GrayRhinoDailyReportRepository> {
@@ -101,9 +121,7 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
                     .save_snapshot_if_changed(&assessment.current)?;
             }
         }
-        let auto_candidates = self
-            .repository
-            .collect_auto_candidates(watch_symbols, as_of_date)?;
+        let auto_candidates = self.repository.load_persisted_candidates(watch_symbols)?;
         let display_candidates = dedupe_candidates(auto_candidates.clone());
         let monitoring_statuses =
             evaluate_gray_rhino_monitoring_states(&auto_candidates, as_of_date);
@@ -116,21 +134,48 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             monitoring_statuses,
             backfill_ops_view: self.repository.load_backfill_ops_view(),
             discovery_ops_view: self.repository.load_discovery_ops_view(),
+            refresh_status: self.repository.load_refresh_status(),
         })
     }
 }
 
 fn dedupe_candidates(candidates: Vec<GrayRhinoCandidate>) -> Vec<GrayRhinoCandidate> {
-    let mut seen = std::collections::BTreeSet::new();
-    let mut deduped = Vec::new();
+    let mut latest = std::collections::BTreeMap::<String, GrayRhinoCandidate>::new();
     for candidate in candidates {
         let key = format!(
             "{}::{:?}::{:?}",
             candidate.subject, candidate.scope, candidate.kind
         );
-        if seen.insert(key) {
-            deduped.push(candidate);
-        }
+        latest
+            .entry(key)
+            .and_modify(|existing| {
+                if candidate_is_newer_for_display(&candidate, existing) {
+                    *existing = candidate.clone();
+                }
+            })
+            .or_insert(candidate);
     }
-    deduped
+    latest.into_values().collect()
+}
+
+fn candidate_is_newer_for_display(
+    candidate: &GrayRhinoCandidate,
+    existing: &GrayRhinoCandidate,
+) -> bool {
+    candidate
+        .last_confirmed_at()
+        .cmp(&existing.last_confirmed_at())
+        .then_with(|| state_rank(candidate.state).cmp(&state_rank(existing.state)))
+        .is_gt()
+}
+
+fn state_rank(state: GrayRhinoCandidateState) -> u8 {
+    match state {
+        GrayRhinoCandidateState::Background => 0,
+        GrayRhinoCandidateState::Resolved => 0,
+        GrayRhinoCandidateState::Cooling => 1,
+        GrayRhinoCandidateState::Visible => 2,
+        GrayRhinoCandidateState::Expanding => 3,
+        GrayRhinoCandidateState::Critical => 4,
+    }
 }

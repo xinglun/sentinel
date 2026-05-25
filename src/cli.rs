@@ -682,11 +682,24 @@ async fn run_collect_gray_rhino_sources(
     println!("dry_run: {}", dry_run);
     println!("source_count: {}", outcomes.len());
     let accepted = outcomes.iter().filter(|outcome| outcome.accepted).count();
+    let rejected = outcomes.len().saturating_sub(accepted);
     let candidate_count: usize = outcomes.iter().map(|outcome| outcome.candidate_count).sum();
     println!("accepted: {}", accepted);
-    println!("rejected: {}", outcomes.len().saturating_sub(accepted));
+    println!("rejected: {}", rejected);
     println!("candidate_count: {}", candidate_count);
-    for outcome in outcomes {
+    let provider_status = if dry_run {
+        "skipped"
+    } else if accepted == outcomes.len() && accepted > 0 {
+        "succeeded"
+    } else if accepted > 0 && rejected > 0 {
+        "partial_failure"
+    } else if accepted == 0 && rejected > 0 {
+        "failed"
+    } else {
+        "skipped"
+    };
+    println!("provider_status: {}", provider_status);
+    for outcome in &outcomes {
         println!(
             "- {} accepted={} planned={} candidates={} path={} taxonomy={} message={}",
             outcome.subject,
@@ -701,6 +714,12 @@ async fn run_collect_gray_rhino_sources(
     println!(
         "Boundary: source collection only; no trading recommendation, no Gate override, no trend cohesion mutation, no execution action."
     );
+    if provider_status == "failed" {
+        return Err(anyhow!(
+            "Gray Rhino source collection failed for provider {:?}: no accepted source",
+            provider
+        ));
+    }
     Ok(())
 }
 
