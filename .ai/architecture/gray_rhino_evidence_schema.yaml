@@ -15,6 +15,9 @@ governanceReplayFixturePack: tests/fixtures/governance_sec
 governanceSecLiveDryRunDefault: true
 dependencyEvidencePipelineEnabled: true
 dependencyEvidenceStore: gray_rhino_evidence.jsonl
+dependencyReplayFixturePack: tests/fixtures/dependency_local
+dependencySourceManifest: gray_rhino_dependency_source_manifest.jsonl
+dependencyExtractionAudit: gray_rhino_dependency_extraction_audit.jsonl
 categories:
   - GovernanceConcentration
   - DependencyConcentration
@@ -129,7 +132,9 @@ dependencyConcentration:
   outputCategory: DependencyConcentration
   storage: gray_rhino_evidence.jsonl
   deterministicExtractionOnly: true
-  collectorEnabled: false
+  collectorEnabled: true
+  localSourceCollectionOnly: true
+  replayCoverageReport: true
   noEscalationStateMutation: true
 boundaries:
   forbidden_as_evidence:

@@ -245,6 +245,54 @@ fn gray_rhino_dependency_evidence_ingest_writes_jsonl_without_escalation() {
 }
 
 #[test]
+fn dependency_local_source_collection_produces_coverage_and_rejections() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let source_path = tmp.path().join("dependency_source.txt");
+    fs::write(
+        &source_path,
+        "dependency_kind: Supplier; dependency_name: Example supplier; concentration_ratio: 0.70; single_point_of_failure: true; fallback_disclosed: false",
+    )
+    .expect("failed to write dependency source fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-dependency",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            source_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+            "--dry-run",
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Dependency Evidence Collection"));
+    assert!(stdout.contains("Sources:  1"));
+    assert!(stdout.contains("Accepted: 1"));
+    assert!(stdout.contains("Saved:    0"));
+    assert!(stdout.contains("Manifest: 1"));
+    assert!(stdout.contains("Audit:    1"));
+    assert!(stdout.contains("Formal evidence persisted: false"));
+    assert!(stdout.contains("Field coverage:"));
+    assert!(stdout.contains("concentration_ratio: 100.0% (1/1 extracted"));
+    assert!(stdout.contains("Rejected: 0"));
+    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(tmp
+        .path()
+        .join("gray_rhino_dependency_source_manifest.jsonl")
+        .exists());
+    assert!(tmp
+        .path()
+        .join("gray_rhino_dependency_extraction_audit.jsonl")
+        .exists());
+    assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
+}
+
+#[test]
 fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("proxy_source.txt");

@@ -81,6 +81,9 @@ def main() -> int:
         "governanceSecLiveDryRunDefault: true",
         "dependencyEvidencePipelineEnabled: true",
         "dependencyEvidenceStore: gray_rhino_evidence.jsonl",
+        "dependencyReplayFixturePack: tests/fixtures/dependency_local",
+        "dependencySourceManifest: gray_rhino_dependency_source_manifest.jsonl",
+        "dependencyExtractionAudit: gray_rhino_dependency_extraction_audit.jsonl",
         "evidence_must_not_set_escalation_state: true",
     }
     for item in required_schema_pairs:
@@ -242,6 +245,11 @@ def main() -> int:
         "dependency_name",
         "localIngestionCli: ingest-gray-rhino-dependency",
         "ingest-gray-rhino-dependency",
+        "dependencyReplayFixturePack: tests/fixtures/dependency_local",
+        "dependencySourceManifest: gray_rhino_dependency_source_manifest.jsonl",
+        "dependencyExtractionAudit: gray_rhino_dependency_extraction_audit.jsonl",
+        "localSourceCollectionOnly: true",
+        "replayCoverageReport: true",
         "Infrastructure",
         "Compute",
         "Cloud",
@@ -254,7 +262,7 @@ def main() -> int:
         "IndependentAudit",
         "OperatorCuratedSource",
         "outputCategory: DependencyConcentration",
-        "collectorEnabled: false",
+        "collectorEnabled: true",
         "noEscalationStateMutation: true",
     ]:
         if item not in schema:

@@ -1,6 +1,10 @@
 use crate::features::research::application::dependency_evidence::DependencyEvidenceRepository;
+use crate::features::research::application::dependency_source_pipeline::DependencySourceAuditRepository;
 use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
+use crate::features::research::domain::dependency_source::{
+    DependencyExtractionAuditRecord, DependencySourceManifest,
+};
 use crate::features::research::domain::governance_source::{
     GovernanceExtractionAuditRecord, GovernanceSourceManifest,
 };
@@ -17,6 +21,8 @@ pub(crate) struct GrayRhinoEvidenceStore {
     path: PathBuf,
     manifest_path: PathBuf,
     audit_path: PathBuf,
+    dependency_manifest_path: PathBuf,
+    dependency_audit_path: PathBuf,
 }
 
 impl GrayRhinoEvidenceStore {
@@ -25,6 +31,8 @@ impl GrayRhinoEvidenceStore {
             path: save_dir.join("gray_rhino_evidence.jsonl"),
             manifest_path: save_dir.join("gray_rhino_governance_source_manifest.jsonl"),
             audit_path: save_dir.join("gray_rhino_governance_extraction_audit.jsonl"),
+            dependency_manifest_path: save_dir.join("gray_rhino_dependency_source_manifest.jsonl"),
+            dependency_audit_path: save_dir.join("gray_rhino_dependency_extraction_audit.jsonl"),
         }
     }
 }
@@ -95,6 +103,19 @@ impl GovernanceSourceAuditRepository for GrayRhinoEvidenceStore {
 
     fn load_governance_extraction_audits(&self) -> Result<Vec<GovernanceExtractionAuditRecord>> {
         load_jsonl(&self.audit_path)
+    }
+}
+
+impl DependencySourceAuditRepository for GrayRhinoEvidenceStore {
+    fn save_dependency_source_manifest(&self, manifest: &DependencySourceManifest) -> Result<bool> {
+        append_unique_jsonl(&self.dependency_manifest_path, manifest)
+    }
+
+    fn save_dependency_extraction_audit(
+        &self,
+        record: &DependencyExtractionAuditRecord,
+    ) -> Result<bool> {
+        append_unique_jsonl(&self.dependency_audit_path, record)
     }
 }
 

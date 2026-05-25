@@ -1,5 +1,6 @@
 use anyhow::{anyhow, Context, Result};
 
+use async_trait::async_trait;
 use chrono::NaiveDate;
 
 use crate::config;
@@ -27,10 +28,17 @@ use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
 use crate::features::research::acl::governance_evidence_store_factory::build_governance_evidence_store_adapter;
 use crate::features::research::acl::governance_source_adapter_factory::build_governance_source_adapter;
 use crate::features::research::application::dependency_evidence::ingest_dependency_concentration_evidence;
+use crate::features::research::application::dependency_source_pipeline::{
+    collect_dependency_concentration_sources, DependencyFieldCoverage, DependencySourceAdapter,
+    DependencySourceCollectionRequest,
+};
 use crate::features::research::application::governance_evidence::ingest_governance_concentration_evidence;
 use crate::features::research::application::governance_source_pipeline::{
     collect_governance_concentration_sources, GovernanceFieldCoverage,
     GovernanceSourceCollectionRequest,
+};
+use crate::features::research::domain::dependency_source::{
+    DependencySourceDocument, DependencySourceKind,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
     DependencyConcentrationEvidence, GovernanceConcentrationEvidence,
@@ -198,6 +206,19 @@ pub async fn run() -> Result<()> {
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
                 options.evidence_days,
+            )
+            .await?;
+        }
+        CliCommand::CollectGrayRhinoDependency => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_collect_gray_rhino_dependency(
+                &app_config,
+                options.evidence_symbol.clone(),
+                options.governance_evidence_file.clone(),
+                options.evidence_dry_run,
+                options.evidence_date_arg.as_deref(),
             )
             .await?;
         }
@@ -607,6 +628,120 @@ async fn run_collect_gray_rhino_governance(
     }
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
     Ok(())
+}
+
+async fn run_collect_gray_rhino_dependency(
+    app_config: &config::AppConfig,
+    symbol: Option<String>,
+    source_file: Option<String>,
+    dry_run_requested: bool,
+    observed_date_arg: Option<&str>,
+) -> Result<()> {
+    let target = symbol.ok_or_else(|| anyhow!("--symbol is required"))?;
+    let observed_at = match observed_date_arg {
+        Some(raw) => NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+            .with_context(|| format!("Invalid dependency evidence date: {}", raw))?,
+        None => chrono::Local::now().date_naive(),
+    };
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+    let store = build_governance_evidence_store_adapter(&save_dir);
+    let adapter = CliLocalDependencySourceAdapter;
+    let summary = collect_dependency_concentration_sources(
+        &adapter,
+        &store,
+        DependencySourceCollectionRequest {
+            symbol: Some(target),
+            local_file: source_file,
+            observed_at,
+            retrieved_at: chrono::Local::now().date_naive(),
+            persist_evidence: !dry_run_requested,
+        },
+    )
+    .await?;
+    let coverage_ratio = if summary.source_count == 0 {
+        0.0
+    } else {
+        summary.accepted_count as f64 / summary.source_count as f64
+    };
+
+    println!("--- Gray Rhino Dependency Evidence Collection ---");
+    println!("Sources:  {}", summary.source_count);
+    println!("Accepted: {}", summary.accepted_count);
+    println!("Saved:    {}", summary.saved_count);
+    println!("Manifest: {}", summary.manifest_count);
+    println!("Audit:    {}", summary.audit_count);
+    println!("Dry run:  {}", dry_run_requested);
+    println!("Formal evidence persisted: {}", !dry_run_requested);
+    println!("Coverage: {:.1}%", coverage_ratio * 100.0);
+    render_dependency_field_coverage(&summary.metric_coverage);
+    println!("Rejected: {}", summary.rejected.len());
+    if let Some(latest) = summary.latest_observed_at {
+        println!("Latest observed date: {}", latest);
+    }
+    for rejection in &summary.rejected {
+        println!(
+            "  [REJECTED] {}: {}",
+            rejection.source_title, rejection.reason
+        );
+    }
+    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+struct CliLocalDependencySourceAdapter;
+
+#[async_trait]
+impl DependencySourceAdapter for CliLocalDependencySourceAdapter {
+    async fn fetch_dependency_sources(
+        &self,
+        request: &DependencySourceCollectionRequest,
+    ) -> Result<Vec<DependencySourceDocument>> {
+        let file = request
+            .local_file
+            .as_ref()
+            .ok_or_else(|| anyhow!("--file is required for dependency source collection"))?;
+        let path = std::path::PathBuf::from(file);
+        let content = tokio::fs::read_to_string(&path)
+            .await
+            .with_context(|| format!("Failed to read dependency source file: {}", file))?;
+        let subject = request
+            .symbol
+            .clone()
+            .unwrap_or_else(|| "UNKNOWN".to_string());
+        Ok(vec![DependencySourceDocument {
+            subject: subject.clone(),
+            source_kind: DependencySourceKind::LocalDependencyDocument,
+            source_title: path
+                .file_name()
+                .and_then(|name| name.to_str())
+                .unwrap_or("dependency_source")
+                .to_string(),
+            publisher: subject,
+            source_url: None,
+            repository_path: Some(file.to_string()),
+            observed_at: request.observed_at,
+            retrieved_at: request.retrieved_at,
+            content,
+        }])
+    }
+}
+
+fn render_dependency_field_coverage(metric_coverage: &[DependencyFieldCoverage]) {
+    if metric_coverage.is_empty() {
+        return;
+    }
+    println!("Field coverage:");
+    for metric in metric_coverage {
+        let total = metric.extracted_count + metric.missing_count;
+        println!(
+            "  {}: {:.1}% ({}/{} extracted, {} missing)",
+            metric.metric,
+            metric.coverage_ratio * 100.0,
+            metric.extracted_count,
+            total,
+            metric.missing_count
+        );
+    }
 }
 
 fn render_governance_field_coverage(metric_coverage: &[GovernanceFieldCoverage]) {

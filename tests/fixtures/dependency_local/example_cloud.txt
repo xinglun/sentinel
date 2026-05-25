@@ -1,0 +1,5 @@
+dependency_kind: Cloud
+dependency_name: Example cloud platform
+dependency ratio: 55%
+single point of failure: yes
+fallback available: no

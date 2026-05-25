@@ -76,7 +76,7 @@ business、infrastructure、compute、cloud、launch、supplier、ecosystem な�
 - launch dependency。
 - single supplier dependency。
 
-Phase 3-B では、この category を GovernanceConcentration の次の構造 sensor として実装する。入力は repository-local structured JSON から開始し、`ingest-gray-rhino-dependency --file <json>` で取り込む。collector や live source adapter はまだ追加しない。
+Phase 3-B では、この category を GovernanceConcentration の次の構造 sensor として実装する。入力は repository-local structured JSON から開始し、`ingest-gray-rhino-dependency --file <json>` で取り込む。local source collection は `collect-gray-rhino-dependency --file <source>` に限定し、live source adapter はまだ追加しない。
 
 次の構造項目のうち少なくとも 1 つを source から抽出する。
 
@@ -85,6 +85,8 @@ Phase 3-B では、この category を GovernanceConcentration の次の構造 s
 - `fallback_disclosed`。
 
 `dependency_kind` と `dependency_name` は必須である。許可する dependency kind は `Infrastructure`、`Compute`、`Cloud`、`Launch`、`Supplier`、`Ecosystem` に限定する。許可する source type は `CompanyDisclosure`、`InfrastructureStatus`、`SupplierDisclosure`、`IndependentAudit`、`OperatorCuratedSource` に限定する。保存先は `gray_rhino_evidence.jsonl` とし、保存された evidence は escalation state、Gate、execution、trading state を変更しない。
+
+source manifest は `gray_rhino_dependency_source_manifest.jsonl`、extraction audit は `gray_rhino_dependency_extraction_audit.jsonl` に保存する。fixture replay pack は `tests/fixtures/dependency_local` に置き、field coverage と rejection taxonomy を検証する。
 
 ### Institutional Maturity Evidence
 
@@ -227,7 +229,7 @@ field-level coverage は current run の extraction audit から算出する。J
 
 本 Work Item の対象。DependencyConcentration evidence は source traceability、dependency kind、dependency name、category-specific metric validation を必須とする。
 
-Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。`ingest-gray-rhino-dependency --file <json>` は valid evidence を `gray_rhino_evidence.jsonl` に保存するが、live collector、dependency graph builder、escalation engine は追加しない。
+Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。`ingest-gray-rhino-dependency --file <json>` は valid evidence を `gray_rhino_evidence.jsonl` に保存する。`collect-gray-rhino-dependency --file <source>` は local source の deterministic extraction、manifest、audit、coverage を生成するが、live collector、dependency graph builder、escalation engine は追加しない。
 
 ### Phase 4: Escalation Detection Engine
 

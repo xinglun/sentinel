@@ -1,0 +1,98 @@
+{
+  "workItemId": "gray-rhino-v1-dependency-replay",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-dependency-replay.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-dependency-replay.contract.json",
+      "reason": "Dependency replay / local collection の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-dependency-replay.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/features/research/domain/dependency_source.rs",
+      "reason": "Dependency source manifest / extraction audit / rejection taxonomy を追加する。"
+    },
+    {
+      "path": "src/features/research/application/dependency_source_pipeline.rs",
+      "reason": "Dependency local source deterministic extraction、coverage、collection summary を追加する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "collect-gray-rhino-dependency CLI を追加する。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "Dependency collection command と help text を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Dependency local source collection の coverage / rejection / boundary を固定する。"
+    },
+    {
+      "path": "tests/fixtures/dependency_local",
+      "reason": "Dependency replay fixture pack を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-dependency-replay.contract.json",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "src/features/research/domain/governance_source.rs",
+    "src/features/research/application/dependency_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-dependency-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-dependency-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::dependency_source_pipeline::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test dependency_local_source_collection_produces_coverage_and_rejections --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-dependency-replay.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-dependency-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-dependency-replay.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-dependency-replay.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-dependency-replay.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-dependency-replay.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Dependency source collection は local source / fixture のみに限定し、live graph builder と escalation engine は未接続のまま維持する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Dependency source collection は repository-local source のみに限定し、live graph builder は未接続。"
+  ]
+}
