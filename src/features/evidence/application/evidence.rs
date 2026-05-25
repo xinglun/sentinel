@@ -12,7 +12,7 @@ pub trait EvidenceRepository {
     fn cleanup_old_records(&self, max_age_days: i64) -> Result<usize>;
 }
 
-use crate::features::evidence::domain::evidence::{EvidenceSourceType, EvidenceType};
+use crate::features::evidence::domain::evidence::EvidenceType;
 
 /// 手動 evidence ingestion use case の入力。
 #[derive(Debug, Clone)]
@@ -62,16 +62,7 @@ pub fn ingest_manual_evidence(
         request.evidence_type,
         command.event_date
     );
-    let record = AutomatedEvidenceRecord::new(
-        EvidenceSourceType::Manual,
-        command.evidence_type,
-        command.confidence,
-        command.description,
-        command.event_date.clone(),
-        command.symbol.clone(),
-        command.source_url,
-        dedupe_key,
-    );
+    let record = AutomatedEvidenceRecord::from(command.into_record(dedupe_key));
 
     let saved_count = repository.save_records(std::slice::from_ref(&record))?;
     Ok(ManualEvidenceIngestionOutcome {

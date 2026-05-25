@@ -312,22 +312,13 @@ impl Engine {
             None,
         );
 
-        let mut transition_log =
-            crate::features::radar::domain::transition_log::StateTransitionLog::compare_with_rules(
-                prev_packet,
-                &packet,
-                rules,
-            );
-
-        crate::features::radar::application::trend_recognition_service::attach_trend_recognition(
+        crate::features::radar::application::pipeline_steps::attach_transition_context(
             &mut packet,
-            &mut transition_log,
+            prev_packet,
             &asset_features,
             rules,
             evidence_history,
         );
-
-        packet.transition_log = Some(transition_log);
 
         Ok(packet)
     }

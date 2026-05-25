@@ -398,6 +398,30 @@ def removed_crate_root_violations(path: Path) -> list[Violation]:
     return violations
 
 
+def code_only_line(line: str) -> str:
+    result: list[str] = []
+    in_string = False
+    escape = False
+    idx = 0
+    while idx < len(line):
+        ch = line[idx]
+        next_ch = line[idx + 1] if idx + 1 < len(line) else ""
+        if not in_string and ch == "/" and next_ch == "/":
+            break
+        if ch == '"' and not escape:
+            in_string = not in_string
+            result.append(" ")
+        elif in_string:
+            result.append(" ")
+        else:
+            result.append(ch)
+        escape = in_string and ch == "\\" and not escape
+        if ch != "\\":
+            escape = False
+        idx += 1
+    return "".join(result)
+
+
 def imports_from(path: Path) -> Iterable[tuple[int, str]]:
     pending_import: list[str] = []
     pending_start = 0
@@ -405,7 +429,8 @@ def imports_from(path: Path) -> Iterable[tuple[int, str]]:
     cfg_test_brace_depth: int | None = None
 
     for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-        stripped = line.strip()
+        code_line = code_only_line(line)
+        stripped = code_line.strip()
         if stripped == "#[cfg(test)]":
             skip_next_cfg_test_item = True
             pending_import = []
@@ -437,7 +462,7 @@ def imports_from(path: Path) -> Iterable[tuple[int, str]]:
                 pending_start = 0
             continue
 
-        match = IMPORT_START_RE.match(line)
+        match = IMPORT_START_RE.match(code_line)
         if match:
             import_body = match.group(1).strip()
             if ";" in import_body:
@@ -447,7 +472,7 @@ def imports_from(path: Path) -> Iterable[tuple[int, str]]:
                 pending_start = line_no
             continue
 
-        for inline_path in INLINE_CRATE_PATH_RE.findall(line):
+        for inline_path in INLINE_CRATE_PATH_RE.findall(code_line):
             yield line_no, re.sub(r"\s*::\s*", "::", inline_path)
 
 

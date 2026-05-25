@@ -468,6 +468,19 @@ def test_inline_fully_qualified_path_with_spaces_is_checked() -> None:
         assert violations, "空白を含む inline fully-qualified path の layer 違反は検出されるべき"
 
 
+def test_inline_paths_in_comments_and_strings_are_ignored() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/domain/model.rs",
+            "// crate::features::radar::application::engine::Engine\n"
+            "pub const DOC: &str = \"crate::features::radar::application::engine::Engine\";\n",
+        )
+        violations = checker.check_project(root)
+        assert not violations, f"comment / string 内の path は検出対象外であるべき: {violations}"
+
+
 def test_non_acl_rejects_futu_client() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -539,6 +552,7 @@ def main() -> int:
         test_cfg_test_module_does_not_hide_later_production_imports,
         test_inline_fully_qualified_path_is_checked,
         test_inline_fully_qualified_path_with_spaces_is_checked,
+        test_inline_paths_in_comments_and_strings_are_ignored,
         test_non_acl_rejects_futu_client,
         test_non_acl_rejects_yahoo_provider,
         test_non_acl_rejects_external_fetcher,

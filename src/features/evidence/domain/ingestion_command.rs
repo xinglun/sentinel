@@ -1,4 +1,5 @@
 use crate::features::evidence::domain::evidence::EvidenceType;
+use crate::features::evidence::domain::record::EvidenceRecord;
 use anyhow::Result;
 use chrono::NaiveDate;
 
@@ -32,6 +33,18 @@ impl ManualEvidenceCommand {
             symbol,
             source_url,
         })
+    }
+
+    pub fn into_record(self, dedupe_key: String) -> EvidenceRecord {
+        EvidenceRecord::manual(
+            self.evidence_type,
+            self.confidence,
+            self.description,
+            self.event_date,
+            self.symbol,
+            self.source_url,
+            dedupe_key,
+        )
     }
 }
 
