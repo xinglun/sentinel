@@ -100,6 +100,16 @@ source manifest は `gray_rhino_dependency_source_manifest.jsonl`、extraction a
 - oversight evolution。
 - compliance maturity。
 
+Phase 3-C では、repository-local structured JSON から開始し、`ingest-gray-rhino-institutional --file <json>` で取り込む。次の構造項目のうち少なくとも 1 つを source から抽出する。
+
+- `succession_structure_disclosed`。
+- `external_audit_present`。
+- `disclosure_quality_score`。
+- `oversight_evolution_disclosed`。
+- `compliance_maturity_level`。
+
+許可する source type は `RegulatoryFiling`、`GovernanceDocument`、`CompanyDisclosure`、`IndependentAudit`、`OperatorCuratedSource` に限定する。保存された evidence は escalation state、Gate、execution、trading state を変更しない。
+
 ### Risk Normalization Evidence
 
 長期リスクが認識されながら、市場や組織がそれを通常化している証拠。

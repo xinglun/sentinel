@@ -136,6 +136,27 @@ dependencyConcentration:
   localSourceCollectionOnly: true
   replayCoverageReport: true
   noEscalationStateMutation: true
+institutionalMaturity:
+  phase: phase_3c_institutional_maturity_evidence_pipeline
+  inputMode: repository_local_structured_json
+  localIngestionCli: ingest-gray-rhino-institutional
+  requiredMetricAtLeastOneOf:
+    - succession_structure_disclosed
+    - external_audit_present
+    - disclosure_quality_score
+    - oversight_evolution_disclosed
+    - compliance_maturity_level
+  allowedSourceTypes:
+    - RegulatoryFiling
+    - GovernanceDocument
+    - CompanyDisclosure
+    - IndependentAudit
+    - OperatorCuratedSource
+  outputCategory: InstitutionalMaturity
+  storage: gray_rhino_evidence.jsonl
+  deterministicExtractionOnly: true
+  collectorEnabled: false
+  noEscalationStateMutation: true
 boundaries:
   forbidden_as_evidence:
     - narrative_only
@@ -166,5 +187,6 @@ phases:
   phase_3a_governance_sec_board_independence_calibration: active
   phase_3a_governance_sec_founder_voting_power_calibration: active
   phase_3b_dependency_concentration_evidence_pipeline: active
+  phase_3c_institutional_maturity_evidence_pipeline: active
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope

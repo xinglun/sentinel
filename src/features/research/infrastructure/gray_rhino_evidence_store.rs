@@ -2,6 +2,7 @@ use crate::features::research::application::dependency_evidence::DependencyEvide
 use crate::features::research::application::dependency_source_pipeline::DependencySourceAuditRepository;
 use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
+use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
 use crate::features::research::domain::dependency_source::{
     DependencyExtractionAuditRecord, DependencySourceManifest,
 };
@@ -85,6 +86,19 @@ impl DependencyEvidenceRepository for GrayRhinoEvidenceStore {
         Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
             .into_iter()
             .filter(|record| record.category == GrayRhinoEvidenceCategory::DependencyConcentration)
+            .collect())
+    }
+}
+
+impl InstitutionalEvidenceRepository for GrayRhinoEvidenceStore {
+    fn save_institutional_evidence(&self, record: &GrayRhinoEvidenceRecord) -> Result<bool> {
+        append_unique_jsonl(&self.path, record)
+    }
+
+    fn load_institutional_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
+        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+            .into_iter()
+            .filter(|record| record.category == GrayRhinoEvidenceCategory::InstitutionalMaturity)
             .collect())
     }
 }

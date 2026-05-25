@@ -90,6 +90,25 @@ pub struct DependencyConcentrationEvidence {
     pub metrics: DependencyConcentrationMetrics,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct InstitutionalMaturityMetrics {
+    pub succession_structure_disclosed: Option<bool>,
+    pub external_audit_present: Option<bool>,
+    pub disclosure_quality_score: Option<f64>,
+    pub oversight_evolution_disclosed: Option<bool>,
+    pub compliance_maturity_level: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct InstitutionalMaturityEvidence {
+    pub subject: String,
+    pub source: GrayRhinoSourceReference,
+    pub confidence: f64,
+    pub extraction_note: String,
+    pub structural_fact: String,
+    pub metrics: InstitutionalMaturityMetrics,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GrayRhinoEvidenceRejection {
     MissingSourceReference,
@@ -105,6 +124,8 @@ pub enum GrayRhinoEvidenceRejection {
     InvalidGovernanceMetric,
     MissingDependencyMetric,
     InvalidDependencyMetric,
+    MissingInstitutionalMetric,
+    InvalidInstitutionalMetric,
 }
 
 impl GrayRhinoEvidenceRecord {
@@ -238,6 +259,60 @@ impl DependencyConcentrationMetrics {
             && self
                 .concentration_ratio
                 .is_none_or(|value| (0.0..=1.0).contains(&value))
+    }
+}
+
+impl InstitutionalMaturityEvidence {
+    pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
+        if self.subject.trim().is_empty() {
+            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+        }
+        if !matches!(
+            self.source.source_type,
+            GrayRhinoEvidenceSourceType::RegulatoryFiling
+                | GrayRhinoEvidenceSourceType::GovernanceDocument
+                | GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::IndependentAudit
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ) {
+            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
+        }
+        if !self.metrics.has_any_metric() {
+            return Err(GrayRhinoEvidenceRejection::MissingInstitutionalMetric);
+        }
+        if !self.metrics.is_valid() {
+            return Err(GrayRhinoEvidenceRejection::InvalidInstitutionalMetric);
+        }
+        self.to_record().validate()
+    }
+
+    pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
+        GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::InstitutionalMaturity,
+            source: self.source.clone(),
+            confidence: self.confidence,
+            extraction_note: self.extraction_note.clone(),
+            structural_fact: self.structural_fact.clone(),
+        }
+    }
+}
+
+impl InstitutionalMaturityMetrics {
+    fn has_any_metric(&self) -> bool {
+        self.succession_structure_disclosed.is_some()
+            || self.external_audit_present.is_some()
+            || self.disclosure_quality_score.is_some()
+            || self.oversight_evolution_disclosed.is_some()
+            || self.compliance_maturity_level.is_some()
+    }
+
+    fn is_valid(&self) -> bool {
+        self.disclosure_quality_score
+            .is_none_or(|value| (0.0..=1.0).contains(&value))
+            && self
+                .compliance_maturity_level
+                .as_ref()
+                .is_none_or(|value| !value.trim().is_empty())
     }
 }
 
@@ -495,6 +570,54 @@ mod tests {
         assert_eq!(
             evidence.to_record().category,
             GrayRhinoEvidenceCategory::DependencyConcentration
+        );
+    }
+
+    #[test]
+    fn institutional_evidence_requires_at_least_one_metric() {
+        let evidence = InstitutionalMaturityEvidence {
+            subject: "Example issuer".to_string(),
+            source: source(),
+            confidence: 0.8,
+            extraction_note: "Annual report discloses institutional maturity signals.".to_string(),
+            structural_fact: "Oversight maturity evidence is disclosed.".to_string(),
+            metrics: InstitutionalMaturityMetrics {
+                succession_structure_disclosed: None,
+                external_audit_present: None,
+                disclosure_quality_score: None,
+                oversight_evolution_disclosed: None,
+                compliance_maturity_level: None,
+            },
+        };
+
+        assert_eq!(
+            evidence.validate(),
+            Err(GrayRhinoEvidenceRejection::MissingInstitutionalMetric)
+        );
+    }
+
+    #[test]
+    fn institutional_evidence_projects_to_gray_rhino_record() {
+        let evidence = InstitutionalMaturityEvidence {
+            subject: "Example issuer".to_string(),
+            source: source(),
+            confidence: 0.83,
+            extraction_note: "Annual report discloses governance maturity controls.".to_string(),
+            structural_fact: "Institutional oversight maturity is supported by disclosures."
+                .to_string(),
+            metrics: InstitutionalMaturityMetrics {
+                succession_structure_disclosed: Some(true),
+                external_audit_present: Some(true),
+                disclosure_quality_score: Some(0.72),
+                oversight_evolution_disclosed: Some(true),
+                compliance_maturity_level: Some("developing".to_string()),
+            },
+        };
+
+        assert_eq!(evidence.validate(), Ok(()));
+        assert_eq!(
+            evidence.to_record().category,
+            GrayRhinoEvidenceCategory::InstitutionalMaturity
         );
     }
 }

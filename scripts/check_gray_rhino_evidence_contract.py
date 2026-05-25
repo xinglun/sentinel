@@ -153,9 +153,12 @@ def main() -> int:
         "DependencyConcentrationEvidence",
         "DependencyConcentrationMetrics",
         "DependencyConcentrationKind",
+        "InstitutionalMaturityEvidence",
+        "InstitutionalMaturityMetrics",
         "MissingSourceReference",
         "MissingGovernanceMetric",
         "MissingDependencyMetric",
+        "MissingInstitutionalMetric",
         "NarrativeOnly",
         "ForbiddenBoundaryTerm",
         "validate(&self)",
@@ -267,6 +270,22 @@ def main() -> int:
     ]:
         if item not in schema:
             errors.append(f"schema missing dependency pipeline contract `{item}`")
+
+    for item in [
+        "institutionalMaturity:",
+        "phase_3c_institutional_maturity_evidence_pipeline: active",
+        "localIngestionCli: ingest-gray-rhino-institutional",
+        "succession_structure_disclosed",
+        "external_audit_present",
+        "disclosure_quality_score",
+        "oversight_evolution_disclosed",
+        "compliance_maturity_level",
+        "outputCategory: InstitutionalMaturity",
+        "collectorEnabled: false",
+        "noEscalationStateMutation: true",
+    ]:
+        if item not in schema:
+            errors.append(f"schema missing institutional pipeline contract `{item}`")
 
     if errors:
         report(errors)

@@ -245,6 +245,56 @@ fn gray_rhino_dependency_evidence_ingest_writes_jsonl_without_escalation() {
 }
 
 #[test]
+fn gray_rhino_institutional_evidence_ingest_writes_jsonl_without_escalation() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let evidence_path = tmp.path().join("institutional_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "GovernanceDocument",
+    "source_title": "Institutional maturity disclosure",
+    "publisher": "Example issuer",
+    "source_url": "https://example.com/institutional",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.83,
+  "extraction_note": "Annual report discloses governance maturity controls.",
+  "structural_fact": "Institutional oversight maturity is supported by disclosures.",
+  "metrics": {
+    "succession_structure_disclosed": true,
+    "external_audit_present": true,
+    "disclosure_quality_score": 0.72,
+    "oversight_evolution_disclosed": true,
+    "compliance_maturity_level": "developing"
+  }
+}"#,
+    )
+    .expect("failed to write institutional evidence fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-institutional",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Successfully ingested InstitutionalMaturity evidence."));
+    assert!(stdout.contains("Boundary: evidence only"));
+    let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
+        .expect("failed to read gray rhino evidence store");
+    assert!(store.contains("\"category\":\"InstitutionalMaturity\""));
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
+#[test]
 fn dependency_local_source_collection_produces_coverage_and_rejections() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("dependency_source.txt");

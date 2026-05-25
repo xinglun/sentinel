@@ -1,0 +1,92 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-v1-institutional-evidence",
+  "mode": "code",
+  "title": "Gray Rhino V1 institutional evidence",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+    ".ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/institutional_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "reason": "Work Item の scope、acceptance、verification を定義する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "InstitutionalMaturity typed evidence は source traceability と category-specific metrics を持つ。",
+    "`ingest-gray-rhino-institutional --file <json>` は valid evidence を JSONL store に保存する。",
+    "invalid evidence は domain validation で拒否される。",
+    "escalation state、Gate、execution、trading state は変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test features::research::domain::gray_rhino_evidence::tests:: --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_institutional_evidence_ingest_writes_jsonl_without_escalation --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/cli.rs",
+      "src/features/shared/interface/cli_args.rs",
+      "src/features/research/domain/gray_rhino_evidence.rs",
+      "src/features/research/application/mod.rs",
+      "src/features/research/application/institutional_evidence.rs",
+      "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "tests/research_attention_cli_integration.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
