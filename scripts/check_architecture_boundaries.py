@@ -398,7 +398,11 @@ def removed_crate_root_violations(path: Path) -> list[Violation]:
     return violations
 
 
-def code_only_line(line: str) -> str:
+def code_only_line(
+    line: str,
+    block_comment_depth: int = 0,
+    raw_string_hashes: int | None = None,
+) -> tuple[str, int, int | None]:
     result: list[str] = []
     in_string = False
     escape = False
@@ -406,8 +410,43 @@ def code_only_line(line: str) -> str:
     while idx < len(line):
         ch = line[idx]
         next_ch = line[idx + 1] if idx + 1 < len(line) else ""
+        if raw_string_hashes is not None:
+            terminator = '"' + ("#" * raw_string_hashes)
+            if line.startswith(terminator, idx):
+                result.extend(" " * len(terminator))
+                idx += len(terminator)
+                raw_string_hashes = None
+                continue
+            result.append(" ")
+            idx += 1
+            continue
+        if block_comment_depth > 0:
+            if ch == "/" and next_ch == "*":
+                block_comment_depth += 1
+                result.extend("  ")
+                idx += 2
+                continue
+            if ch == "*" and next_ch == "/":
+                block_comment_depth -= 1
+                result.extend("  ")
+                idx += 2
+                continue
+            result.append(" ")
+            idx += 1
+            continue
         if not in_string and ch == "/" and next_ch == "/":
             break
+        if not in_string and ch == "/" and next_ch == "*":
+            block_comment_depth += 1
+            result.extend("  ")
+            idx += 2
+            continue
+        raw_match = re.match(r'r(#+)?"', line[idx:])
+        if not in_string and raw_match:
+            raw_string_hashes = len(raw_match.group(1) or "")
+            result.extend(" " * len(raw_match.group(0)))
+            idx += len(raw_match.group(0))
+            continue
         if ch == '"' and not escape:
             in_string = not in_string
             result.append(" ")
@@ -419,7 +458,7 @@ def code_only_line(line: str) -> str:
         if ch != "\\":
             escape = False
         idx += 1
-    return "".join(result)
+    return "".join(result), block_comment_depth, raw_string_hashes
 
 
 def imports_from(path: Path) -> Iterable[tuple[int, str]]:
@@ -427,16 +466,22 @@ def imports_from(path: Path) -> Iterable[tuple[int, str]]:
     pending_start = 0
     skip_next_cfg_test_item = False
     cfg_test_brace_depth: int | None = None
+    block_comment_depth = 0
+    raw_string_hashes: int | None = None
 
     for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
-        code_line = code_only_line(line)
+        code_line, block_comment_depth, raw_string_hashes = code_only_line(
+            line,
+            block_comment_depth,
+            raw_string_hashes,
+        )
         stripped = code_line.strip()
         if stripped == "#[cfg(test)]":
             skip_next_cfg_test_item = True
             pending_import = []
             continue
         if cfg_test_brace_depth is not None:
-            cfg_test_brace_depth += line.count("{") - line.count("}")
+            cfg_test_brace_depth += code_line.count("{") - code_line.count("}")
             if cfg_test_brace_depth <= 0:
                 cfg_test_brace_depth = None
             continue

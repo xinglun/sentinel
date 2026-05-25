@@ -272,31 +272,13 @@ impl Engine {
         // 残りのものを追加（通常は存在しないはず）
         final_decisions.extend(asset_decisions);
 
-        let current_breakouts: Vec<String> = final_decisions
-            .iter()
-            .filter(|d| {
-                matches!(
-                    d.breakout.status,
-                    crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout
-                        | crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout
-                )
-            })
-            .map(|d| d.symbol.clone())
-            .collect();
-
-        let has_mainline = matches!(
-            trend_cohesion.status,
-            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed
+        let market_state = crate::features::radar::application::pipeline_steps::derive_market_state(
+            rules,
+            &market_features,
+            &trend_cohesion,
+            &final_decisions,
+            prev_packet,
         );
-
-        let market_state =
-            crate::features::radar::domain::market_state::engine::DecisionEngine::process(
-                &rules.market_state_engine,
-                &market_features,
-                has_mainline,
-                &current_breakouts,
-                prev_packet,
-            );
 
         let mut packet = DecisionPacket::new(
             market_features.date,
