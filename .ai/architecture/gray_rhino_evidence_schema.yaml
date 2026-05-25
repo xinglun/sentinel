@@ -12,6 +12,7 @@ governanceSourceCache: gray_rhino_sources/governance
 governanceSourceManifest: gray_rhino_governance_source_manifest.jsonl
 governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl
 governanceReplayFixturePack: tests/fixtures/governance_sec
+governanceSecLiveDryRunDefault: true
 categories:
   - GovernanceConcentration
   - DependencyConcentration
@@ -68,6 +69,11 @@ governanceConcentration:
   sensorHealthReportOnly: true
   deterministicExtractionOnly: true
   replayCoverageReport: true
+  liveDryRun:
+    defaultPersistEvidence: false
+    writesRawCache: true
+    writesSourceManifest: true
+    writesExtractionAudit: true
   rejectionTaxonomy:
     - MetriclessSource
     - SourceInvalid
@@ -96,6 +102,7 @@ phases:
   phase_3a_governance_source_adapter: completed
   phase_3a_governance_backfill_audit: active
   phase_3a_governance_sec_replay_pack: active
+  phase_3a_governance_sec_live_dry_run: active
   phase_3b_dependency_concentration_evidence_pipeline: blocked_until_governance_sensor_stabilizes
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope

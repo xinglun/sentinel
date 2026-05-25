@@ -22,6 +22,7 @@ pub struct GovernanceSourceCollectionRequest {
     pub observed_at: NaiveDate,
     pub retrieved_at: NaiveDate,
     pub lookback_days: usize,
+    pub persist_evidence: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -116,13 +117,14 @@ pub async fn collect_governance_concentration_sources(
         }
 
         let audit = build_governance_extraction_audit(document, None);
-        match extract_governance_concentration_evidence(document)
-            .and_then(|evidence| ingest_governance_concentration_evidence(repository, evidence))
-        {
-            Ok(outcome) => {
+        match extract_governance_concentration_evidence(document) {
+            Ok(evidence) => {
                 accepted_count += 1;
-                if outcome.saved {
-                    saved_count += 1;
+                if request.persist_evidence {
+                    let outcome = ingest_governance_concentration_evidence(repository, evidence)?;
+                    if outcome.saved {
+                        saved_count += 1;
+                    }
                 }
                 if repository
                     .save_governance_extraction_audit(&GovernanceExtractionAuditRecord {
@@ -598,5 +600,98 @@ mod tests {
             ),
             GovernanceReplayRejectionKind::MetriclessSource
         );
+    }
+
+    #[tokio::test]
+    async fn dry_run_accepts_evidence_without_persisting_formal_record() {
+        #[derive(Default)]
+        struct InMemoryRepository {
+            evidence: std::cell::RefCell<
+                Vec<
+                    crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord,
+                >,
+            >,
+            manifests: std::cell::RefCell<Vec<GovernanceSourceManifest>>,
+            audits: std::cell::RefCell<Vec<GovernanceExtractionAuditRecord>>,
+        }
+
+        impl GovernanceEvidenceRepository for InMemoryRepository {
+            fn save_governance_evidence(
+                &self,
+                record: &crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord,
+            ) -> anyhow::Result<bool> {
+                self.evidence.borrow_mut().push(record.clone());
+                Ok(true)
+            }
+
+            fn load_governance_evidence(
+                &self,
+            ) -> anyhow::Result<
+                Vec<
+                    crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord,
+                >,
+            > {
+                Ok(self.evidence.borrow().clone())
+            }
+        }
+
+        impl GovernanceSourceAuditRepository for InMemoryRepository {
+            fn save_governance_source_manifest(
+                &self,
+                manifest: &GovernanceSourceManifest,
+            ) -> anyhow::Result<bool> {
+                self.manifests.borrow_mut().push(manifest.clone());
+                Ok(true)
+            }
+
+            fn save_governance_extraction_audit(
+                &self,
+                record: &GovernanceExtractionAuditRecord,
+            ) -> anyhow::Result<bool> {
+                self.audits.borrow_mut().push(record.clone());
+                Ok(true)
+            }
+
+            fn load_governance_extraction_audits(
+                &self,
+            ) -> anyhow::Result<Vec<GovernanceExtractionAuditRecord>> {
+                Ok(self.audits.borrow().clone())
+            }
+        }
+
+        struct SingleDocumentAdapter(GovernanceSourceDocument);
+
+        #[async_trait::async_trait]
+        impl GovernanceSourceAdapter for SingleDocumentAdapter {
+            async fn fetch_governance_sources(
+                &self,
+                _request: &GovernanceSourceCollectionRequest,
+            ) -> anyhow::Result<Vec<GovernanceSourceDocument>> {
+                Ok(vec![self.0.clone()])
+            }
+        }
+
+        let repository = InMemoryRepository::default();
+        let adapter = SingleDocumentAdapter(document("founder_voting_power: 61.2%"));
+        let summary = collect_governance_concentration_sources(
+            &adapter,
+            &repository,
+            GovernanceSourceCollectionRequest {
+                symbol: Some("EXAMPLE".to_string()),
+                local_file: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                lookback_days: 365,
+                persist_evidence: false,
+            },
+        )
+        .await
+        .unwrap();
+
+        assert_eq!(summary.accepted_count, 1);
+        assert_eq!(summary.saved_count, 0);
+        assert_eq!(repository.evidence.borrow().len(), 0);
+        assert_eq!(repository.manifests.borrow().len(), 1);
+        assert_eq!(repository.audits.borrow().len(), 1);
     }
 }

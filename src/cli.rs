@@ -182,6 +182,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_symbol.clone(),
                 options.evidence_symbols.clone(),
                 options.governance_evidence_file.clone(),
+                options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
                 options.evidence_days,
             )
@@ -487,6 +488,7 @@ async fn run_collect_gray_rhino_governance(
     symbol: Option<String>,
     symbols: Vec<String>,
     source_file: Option<String>,
+    dry_run_requested: bool,
     observed_date_arg: Option<&str>,
     lookback_days: usize,
 ) -> Result<()> {
@@ -500,6 +502,8 @@ async fn run_collect_gray_rhino_governance(
     let adapter = build_governance_source_adapter(app_config, &save_dir);
     let store = build_governance_evidence_store_adapter(&save_dir);
     let retrieved_at = chrono::Local::now().date_naive();
+    let is_live_sec_path = source_file.is_none();
+    let persist_evidence = !dry_run_requested && !is_live_sec_path;
     let mut total_sources = 0;
     let mut total_accepted = 0;
     let mut total_saved = 0;
@@ -517,6 +521,7 @@ async fn run_collect_gray_rhino_governance(
                 observed_at,
                 retrieved_at,
                 lookback_days: lookback_days.max(1),
+                persist_evidence,
             },
         )
         .await?;
@@ -547,6 +552,8 @@ async fn run_collect_gray_rhino_governance(
     println!("Saved:    {}", total_saved);
     println!("Manifest: {}", total_manifest);
     println!("Audit:    {}", total_audit);
+    println!("Dry run:  {}", !persist_evidence);
+    println!("Formal evidence persisted: {}", persist_evidence);
     println!("Coverage: {:.1}%", coverage_ratio * 100.0);
     println!("Rejected: {}", rejected.len());
     if let Some(latest) = latest_observed_at {

@@ -177,6 +177,12 @@ adapter は deterministic extraction のみを許可する。`founder_voting_pow
 
 rejection taxonomy は `MetriclessSource`、`SourceInvalid`、`ExtractionInvalid` に限定する。fixture replay は実ネットワークに接続せず、実 source 接続の前に sensor quality を測るためだけに使う。
 
+### Phase 3-A: Governance SEC Live Dry-Run
+
+本 Work Item の対象。SEC live path は default dry-run とし、raw source cache、source manifest、extraction audit、coverage summary だけを生成する。
+
+正式 evidence store への保存は default では行わない。dry-run の目的は SEC User-Agent、rate limit、network failure、filing selection、field extraction coverage を検証することであり、Gray Rhino escalation state、Gate、execution、trading state を変更しない。
+
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 
 本 Work Item の対象外。dependency graph は動的であるため、GovernanceConcentration sensor が安定してから追加する。

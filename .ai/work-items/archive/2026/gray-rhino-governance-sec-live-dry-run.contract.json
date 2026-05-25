@@ -1,0 +1,96 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-governance-sec-live-dry-run",
+  "mode": "code",
+  "title": "Gray Rhino governance SEC live dry-run",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "ユーザー方針",
+      "reason": "SEC を true source として dry-run backfill から開始する。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "既存 Governance source collection pipeline。"
+    },
+    {
+      "path": "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+      "reason": "既存 SEC governance source adapter。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "SEC live path は default dry-run とし、正式 evidence store に保存しない。",
+    "dry-run でも raw cache / manifest / extraction audit / coverage summary は生成する。",
+    "CLI は dry-run 状態と formal evidence persistence の有無を明示する。",
+    "local fixture path は既存の replay / test 挙動を維持する。",
+    "Gate / execution / trading / escalation state に接続しない。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "scripts/check_gray_rhino_evidence_contract.py",
+      "src/features/research/**",
+      "src/features/shared/interface/cli_args.rs",
+      "src/cli.rs",
+      "tests/research_attention_cli_integration.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

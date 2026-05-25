@@ -78,6 +78,7 @@ def main() -> int:
         "governanceSourceManifest: gray_rhino_governance_source_manifest.jsonl",
         "governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl",
         "governanceReplayFixturePack: tests/fixtures/governance_sec",
+        "governanceSecLiveDryRunDefault: true",
         "evidence_must_not_set_escalation_state: true",
     }
     for item in required_schema_pairs:
@@ -113,6 +114,7 @@ def main() -> int:
         "Phase 3-A: Governance Source Adapter",
         "Phase 3-A: Governance Backfill And Extraction Audit",
         "Phase 3-A: Governance SEC Replay Pack",
+        "Phase 3-A: Governance SEC Live Dry-Run",
         "repository-local structured JSON",
         "deterministic extraction",
         "rejection taxonomy",
@@ -174,6 +176,7 @@ def main() -> int:
     for item in [
         "phase_3a_governance_backfill_audit: active",
         "phase_3a_governance_sec_replay_pack: active",
+        "phase_3a_governance_sec_live_dry_run: active",
         "noEscalationStateMutation: true",
         "rawSourceCache: gray_rhino_sources/governance",
         "sourceManifest: gray_rhino_governance_source_manifest.jsonl",
@@ -181,6 +184,10 @@ def main() -> int:
         "sensorHealthReportOnly: true",
         "deterministicExtractionOnly: true",
         "replayCoverageReport: true",
+        "defaultPersistEvidence: false",
+        "writesRawCache: true",
+        "writesSourceManifest: true",
+        "writesExtractionAudit: true",
         "MetriclessSource",
         "SourceInvalid",
         "ExtractionInvalid",

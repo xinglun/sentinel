@@ -262,6 +262,7 @@ mod tests {
             observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
             retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
             lookback_days: 365,
+            persist_evidence: true,
         };
 
         let documents = adapter.fetch_governance_sources(&request).await.unwrap();
