@@ -400,6 +400,103 @@ fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
 }
 
 #[test]
+fn gray_rhino_backfill_and_readiness_report_stays_non_signal() {
+    let tmp = prepare_standard_workspace("en-us");
+    let dependency_path = tmp.path().join("dependency_source.txt");
+    let institutional_path = tmp.path().join("institutional_source.txt");
+    let manifest_path = tmp.path().join("backfill_manifest.json");
+    fs::write(
+        &dependency_path,
+        "dependency_kind: Supplier; dependency_name: Supplier A; concentration_ratio: 0.7",
+    )
+    .expect("failed to write dependency source");
+    fs::write(
+        &institutional_path,
+        "succession_structure_disclosed: true; external_audit_present: true; disclosure_quality_score: 0.72",
+    )
+    .expect("failed to write institutional source");
+    fs::write(
+        &manifest_path,
+        format!(
+            r#"[
+  {{"category":"DependencyConcentration","symbol":"EXAMPLE","file":"{}"}},
+  {{"category":"InstitutionalMaturity","symbol":"EXAMPLE","file":"{}"}}
+]"#,
+            dependency_path.display(),
+            institutional_path.display()
+        ),
+    )
+    .expect("failed to write backfill manifest");
+
+    let backfill = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-backfill",
+            "--file",
+            manifest_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+        ],
+    );
+    assert!(backfill.status.success());
+    let backfill_stdout = String::from_utf8_lossy(&backfill.stdout);
+    assert!(backfill_stdout.contains("Gray Rhino Multi-Category Backfill Dry Run"));
+    assert!(backfill_stdout.contains("Backfill entries processed: 2"));
+    assert!(backfill_stdout.contains("dry-run only"));
+    assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
+
+    let evidence_path = tmp.path().join("dependency_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "SupplierDisclosure",
+    "source_title": "Supplier dependency disclosure",
+    "publisher": "Example issuer",
+    "source_url": "https://example.com/supplier",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.86,
+  "extraction_note": "Supplier disclosure identifies dependency concentration.",
+  "structural_fact": "Critical supplier dependency has no disclosed fallback.",
+  "metrics": {
+    "dependency_kind": "Supplier",
+    "dependency_name": "Example supplier",
+    "concentration_ratio": 0.7,
+    "single_point_of_failure": true,
+    "fallback_disclosed": false
+  }
+}"#,
+    )
+    .expect("failed to write dependency evidence fixture");
+    assert!(run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-dependency",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    )
+    .status
+    .success());
+
+    let report = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+    assert!(report.status.success());
+    let stdout = String::from_utf8_lossy(&report.stdout);
+    assert!(stdout.contains("Readiness score: 25.0% (1/4)"));
+    assert!(stdout.contains("Evidence quality dimensions"));
+    assert!(stdout.contains("readiness=insufficient"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
 fn dependency_local_source_collection_produces_coverage_and_rejections() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("dependency_source.txt");

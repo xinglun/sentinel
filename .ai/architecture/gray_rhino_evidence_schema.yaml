@@ -197,7 +197,12 @@ redundancy:
   replayCoverageReport: true
   noEscalationStateMutation: true
 multiCategorySensorHealthEnabled: true
+multiCategoryBackfillDryRunEnabled: true
+multiCategoryBackfillManifest: tests/fixtures/gray_rhino_backfill/multi_category_manifest.json
+evidenceQualityScoringEnabled: true
+sensorReadinessScoreEnabled: true
 evidenceDrivenEscalationEngineEnabled: true
+evidenceDrivenEscalationUsesCategoryCompleteness: true
 evidenceDrivenEscalationOutputBoundary: no_trade_gate_execution
 boundaries:
   forbidden_as_evidence:

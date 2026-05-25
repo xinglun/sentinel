@@ -265,6 +265,12 @@ evidence-driven escalation は `gray_rhino_evidence.jsonl` の検証済み recor
 
 multi-category sensor health は GovernanceConcentration、DependencyConcentration、InstitutionalMaturity、Redundancy の evidence count と governance source audit health を表示する。
 
+Phase v1.1 では `collect-gray-rhino-backfill --file <manifest>` を追加し、multi-category source manifest から dry-run を実行する。manifest fixture は `tests/fixtures/gray_rhino_backfill/multi_category_manifest.json` に置く。
+
+sensor health は readiness score を表示する。readiness score は category completeness に基づく evidence quality の説明指標であり、trade、Gate、execution、trend cohesion へ接続しない。
+
+evidence-driven escalation は category completeness を calibration input として使う。insufficient category は report に表示するが、narrative な推測で補完しない。
+
 ### Phase 5: Long-term Civilization Risk Mapping
 
 本 Work Item の対象外。事実 layer、hypothesis layer、Gray Rhino layer の分離を維持した後に扱う。

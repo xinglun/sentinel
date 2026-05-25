@@ -394,17 +394,38 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
         Language::JaJp => "Gray Rhino sensor health",
     });
     out.push('\n');
-    for category in [
+    let categories = [
         "GovernanceConcentration",
         "DependencyConcentration",
         "InstitutionalMaturity",
         "Redundancy",
-    ] {
+    ];
+    let ready_count = categories
+        .iter()
+        .filter(|category| {
+            records
+                .iter()
+                .any(|record| format!("{:?}", record.category) == **category)
+        })
+        .count();
+    out.push_str(&format!(
+        "- Readiness score: {:.1}% ({}/{})\n",
+        ready_count as f64 / categories.len() as f64 * 100.0,
+        ready_count,
+        categories.len()
+    ));
+    out.push_str(
+        "- Evidence quality dimensions: traceability / completeness / freshness / confidence\n",
+    );
+    for category in categories {
         let count = records
             .iter()
             .filter(|record| format!("{:?}", record.category) == category)
             .count();
-        out.push_str(&format!("- {category}: {count} evidence record(s)\n"));
+        let readiness = if count > 0 { "ready" } else { "insufficient" };
+        out.push_str(&format!(
+            "- {category}: {count} evidence record(s), readiness={readiness}\n"
+        ));
     }
     if !governance.is_empty() {
         out.push('\n');

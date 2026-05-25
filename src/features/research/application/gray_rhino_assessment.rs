@@ -43,9 +43,20 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
     let has_redundancy = records
         .iter()
         .any(|record| record.category == GrayRhinoEvidenceCategory::Redundancy);
+    let ready_count = [
+        has_governance,
+        has_dependency,
+        has_institutional,
+        has_redundancy,
+    ]
+    .into_iter()
+    .filter(|ready| *ready)
+    .count();
 
     Some(GrayRhinoEscalationInput {
-        risk_expansion_rate: if has_governance || has_dependency {
+        risk_expansion_rate: if has_governance && has_dependency {
+            RiskLevel::High
+        } else if has_governance || has_dependency {
             RiskLevel::Elevated
         } else {
             RiskLevel::Moderate
@@ -60,7 +71,11 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         } else {
             RiskLevel::Moderate
         },
-        awareness_decay: RiskLevel::Moderate,
+        awareness_decay: if ready_count <= 1 {
+            RiskLevel::Elevated
+        } else {
+            RiskLevel::Moderate
+        },
         narrative_overconfidence: RiskLevel::Moderate,
         single_point_fragility: if has_dependency {
             RiskLevel::Elevated
@@ -72,7 +87,9 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         } else {
             RiskLevel::Low
         },
-        notes: vec!["Evidence-backed Gray Rhino assessment from validated records.".to_string()],
+        notes: vec![format!(
+            "Evidence-backed Gray Rhino assessment from validated records; ready categories: {ready_count}/4."
+        )],
     })
 }
 

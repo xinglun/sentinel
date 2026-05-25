@@ -285,6 +285,17 @@ pub async fn run() -> Result<()> {
                 ],
             )?;
         }
+        CliCommand::CollectGrayRhinoBackfill => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_collect_gray_rhino_backfill(
+                &app_config,
+                options.governance_evidence_file.as_deref(),
+                options.evidence_date_arg.as_deref(),
+            )
+            .await?;
+        }
         CliCommand::IngestEvidence => {
             if let Some(err) = &options.evidence_arg_error {
                 return Err(anyhow!("{}", err));
@@ -798,6 +809,89 @@ async fn run_collect_gray_rhino_dependency(
         );
     }
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+async fn run_collect_gray_rhino_backfill(
+    app_config: &config::AppConfig,
+    file_arg: Option<&str>,
+    observed_date_arg: Option<&str>,
+) -> Result<()> {
+    let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
+    let raw = std::fs::read_to_string(file)
+        .with_context(|| format!("Failed to read Gray Rhino backfill manifest: {}", file))?;
+    let entries: Vec<serde_json::Value> = serde_json::from_str(&raw)
+        .with_context(|| format!("Failed to parse Gray Rhino backfill manifest: {}", file))?;
+    let mut processed = 0usize;
+    println!("--- Gray Rhino Multi-Category Backfill Dry Run ---");
+    for entry in entries {
+        let category = entry
+            .get("category")
+            .and_then(|value| value.as_str())
+            .ok_or_else(|| anyhow!("backfill entry missing category"))?;
+        let symbol = entry
+            .get("symbol")
+            .and_then(|value| value.as_str())
+            .unwrap_or("UNKNOWN")
+            .to_string();
+        let source_file = entry
+            .get("file")
+            .and_then(|value| value.as_str())
+            .ok_or_else(|| anyhow!("backfill entry missing file"))?
+            .to_string();
+        match category {
+            "DependencyConcentration" => {
+                run_collect_gray_rhino_dependency(
+                    app_config,
+                    Some(symbol),
+                    Some(source_file),
+                    None,
+                    true,
+                    observed_date_arg,
+                )
+                .await?;
+            }
+            "InstitutionalMaturity" => run_collect_gray_rhino_category_source(
+                app_config,
+                "InstitutionalMaturity",
+                Some(symbol),
+                Some(source_file),
+                true,
+                observed_date_arg,
+                &[
+                    "succession_structure_disclosed",
+                    "external_audit_present",
+                    "disclosure_quality_score",
+                    "oversight_evolution_disclosed",
+                    "compliance_maturity_level",
+                ],
+            )?,
+            "Redundancy" => run_collect_gray_rhino_category_source(
+                app_config,
+                "Redundancy",
+                Some(symbol),
+                Some(source_file),
+                true,
+                observed_date_arg,
+                &[
+                    "fallback_available",
+                    "alternative_supplier_count",
+                    "redundancy_ratio",
+                    "recovery_path_disclosed",
+                    "failover_tested",
+                ],
+            )?,
+            other => {
+                return Err(anyhow!(
+                    "unsupported Gray Rhino backfill category: {}",
+                    other
+                ))
+            }
+        }
+        processed += 1;
+    }
+    println!("Backfill entries processed: {}", processed);
+    println!("Boundary: dry-run only; no escalation, gate, execution, or trading state updated.");
     Ok(())
 }
 

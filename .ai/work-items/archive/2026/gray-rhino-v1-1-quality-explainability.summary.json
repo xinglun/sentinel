@@ -1,0 +1,89 @@
+{
+  "workItemId": "gray-rhino-v1-1-quality-explainability",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-1-quality-explainability.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-1-quality-explainability.contract.json",
+      "reason": "multi-category backfill / readiness / explainability の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-1-quality-explainability.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "multi-category backfill dry-run command を追加する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "category completeness に基づく escalation calibration を追加する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "readiness score と evidence explanation を表示する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "backfill / readiness / non-signal boundary を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-1-quality-explainability.contract.json",
+    "src/cli.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_backfill_and_readiness_report_stays_non_signal --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::gray_rhino_assessment::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-1-quality-explainability.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "readiness score は evidence completeness の説明指標であり、売買判断や Gate へ接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "daily-calibration 既存文脈に execution という境界語が含まれるため、regression は execution signal / gate signal を禁止対象にした。"
+  ]
+}
