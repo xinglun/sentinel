@@ -49,7 +49,7 @@ monitoring state は `Gray Rhino Monitoring State` として Daily report に表
 
 Phase 4-E では FRED threshold calibration を導入する。FRED source adapter は `DGS10`、`T10Y2Y`、`FEDFUNDS`、`BAMLH0A0HYM2`、`WALCL`、`RRPONTSYD` を deterministic threshold assessment に変換し、rate pressure、yield curve constraint、credit stress、liquidity fragility、capex payback risk を `Visible`、`Expanding`、`Critical` の candidate state に投影する。
 
-日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を順番に実行し、その後 `daily-calibration` を実行する。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
+日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を provider 単位で実行し、その後 `daily-calibration` を実行する。GitHub Actions では主 Radar report を生成する前に refresh を実行し、Telegram と archive が同じ日次 Gray Rhino 状態を参照する。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
 
 Phase 4-F では watchlist inline display を導入する。Daily report は Market candidate を `Market Reference` にまとめ、Company candidate と monitoring state は enabled watchlist symbol ごとの `Watchlist Inline Reference` / `Watchlist Inline Monitoring` に表示する。legacy local source など current watchlist に属さない Company candidate は `Other Company Reference` として分離する。この配置は読みやすさのための表示構造であり、candidate は引き続き trading、Gate、execution、trend、market state から意味的に隔離する。
 
@@ -200,7 +200,7 @@ Gray Rhino evidence は source を必須とする。
 - source type。
 - evidence category。
 - confidence。
-- `risk_effect`（`Amplifying` / `Mitigating` / `Neutral`）。
+- `risk_effect`（`Amplifying` / `Mitigating` / `Neutral` / `Unclassified`）。
 - extraction note。
 
 source が不明なものは evidence として扱わない。
@@ -213,7 +213,7 @@ collector または adapter は次を満たす必要がある。
 - quote / fact と operator interpretation を分離する。
 - category を schema enum から選択する。
 - confidence は evidence quality を表し、risk severity を表さない。
-- `risk_effect` は formal assessment への方向を表す。founder voting power、dual class、single point dependency などは `Amplifying`、high board independence、fallback availability、external audit、redundancy などは `Mitigating`、方向判断に不足する事実は `Neutral` とする。
+- `risk_effect` は formal assessment への方向を表す。founder voting power、dual class、single point dependency などは `Amplifying`、high board independence、fallback availability、external audit、redundancy などは `Mitigating`、方向判断に不足する事実は `Neutral` とする。旧 JSONL などで `risk_effect` が欠落する record は `Unclassified` として読み込み、正式な escalation scoring から除外し、日報に不可评分 record 数として表示する。
 - evidence は escalation state を直接指定しない。
 - evidence は trade signal、Gate、execution を生成しない。
 
@@ -223,7 +223,7 @@ collector または adapter は次を満たす必要がある。
 
 FRED の設定は `[fred] fred_api_key` または `FRED_API_KEY` 環境変数で与える。API key は source 取得だけに使用し、Gray Rhino candidate は独立した reference として表示する。
 
-Radar Telegram には Gray Rhino reference appendix を追加できる。この appendix は daily-calibration と同じ semantic isolation を保ち、Gate、execution、trade、trend、market state を変更しない。
+Radar Telegram には Gray Rhino reference appendix を追加する。この appendix は refresh 後の candidate / monitoring / formal evidence view model から生成し、daily-calibration と同じ semantic isolation を保ち、Gate、execution、trade、trend、market state を変更しない。
 
 `make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED のいずれかが失敗しても後続 provider と daily-calibration を継続し、`gray_rhino_refresh_status_latest.json` に `succeeded` / `partial_failure` / `failed` / `skipped` を保存する。
 

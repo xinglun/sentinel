@@ -36,21 +36,27 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         has_amplifying_category(records, GrayRhinoEvidenceCategory::GovernanceConcentration);
     let has_dependency =
         has_amplifying_category(records, GrayRhinoEvidenceCategory::DependencyConcentration);
-    let has_institutional =
+    let has_institutional_gap =
         has_amplifying_category(records, GrayRhinoEvidenceCategory::InstitutionalMaturity);
+    let has_institutional_maturity =
+        has_mitigating_category(records, GrayRhinoEvidenceCategory::InstitutionalMaturity);
     let has_redundancy = has_mitigating_category(records, GrayRhinoEvidenceCategory::Redundancy);
-    let ready_count = [
-        has_governance,
-        has_dependency,
-        has_institutional,
-        has_redundancy,
-    ]
-    .into_iter()
-    .filter(|ready| *ready)
-    .count();
+    let amplifying_count = [has_governance, has_dependency, has_institutional_gap]
+        .into_iter()
+        .filter(|ready| *ready)
+        .count();
+    let mitigating_count = [has_institutional_maturity, has_redundancy]
+        .into_iter()
+        .filter(|ready| *ready)
+        .count();
     let average_confidence =
         records.iter().map(|record| record.confidence).sum::<f64>() / records.len() as f64;
-    let quality_ready = ready_count >= 2 && average_confidence >= 0.6;
+    let classifiable_count = amplifying_count + mitigating_count;
+    let unclassified_count = records
+        .iter()
+        .filter(|record| record.risk_effect == GrayRhinoRiskEffect::Unclassified)
+        .count();
+    let quality_ready = classifiable_count >= 2 && average_confidence >= 0.6;
 
     Some(GrayRhinoEscalationInput {
         risk_expansion_rate: if has_governance && has_dependency && quality_ready {
@@ -60,10 +66,12 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         } else {
             RiskLevel::Moderate
         },
-        constraint_growth_rate: if has_institutional {
+        constraint_growth_rate: if has_institutional_maturity {
             RiskLevel::Elevated
-        } else {
+        } else if has_institutional_gap {
             RiskLevel::Low
+        } else {
+            RiskLevel::Moderate
         },
         dependency_centralization: if has_dependency && quality_ready {
             RiskLevel::High
@@ -72,7 +80,7 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         } else {
             RiskLevel::Moderate
         },
-        awareness_decay: if ready_count <= 1 {
+        awareness_decay: if classifiable_count <= 1 {
             RiskLevel::Elevated
         } else {
             RiskLevel::Moderate
@@ -89,7 +97,7 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
             RiskLevel::Low
         },
         notes: vec![format!(
-            "Evidence-backed Gray Rhino assessment from validated records; amplifying categories: {ready_count}/4; average confidence: {average_confidence:.2}."
+            "Evidence-backed Gray Rhino assessment from validated records; amplifying categories: {amplifying_count}/3; mitigating categories: {mitigating_count}/2; unclassified records: {unclassified_count}; average confidence: {average_confidence:.2}."
         )],
     })
 }
@@ -192,7 +200,7 @@ mod tests {
 
         assert_eq!(input.dependency_centralization, RiskLevel::Elevated);
         assert_eq!(input.fallback_survivability_risk, RiskLevel::Low);
-        assert!(input.notes[0].contains("amplifying categories: 1/4"));
+        assert!(input.notes[0].contains("amplifying categories: 1/3"));
     }
 
     #[test]
@@ -220,5 +228,63 @@ mod tests {
 
         assert_eq!(input.risk_expansion_rate, RiskLevel::Moderate);
         assert_eq!(input.awareness_decay, RiskLevel::Elevated);
+    }
+
+    #[test]
+    fn gray_rhino_completion_institutional_maturity_reduces_constraint_risk() {
+        let mature = GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::InstitutionalMaturity,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::IndependentAudit,
+                source_title: "Institutional maturity disclosure".to_string(),
+                publisher: "Example issuer".to_string(),
+                source_url: Some("https://example.com/institutional".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.88,
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
+            extraction_note: "External audit and succession structure are disclosed.".to_string(),
+            structural_fact: "Institutional oversight maturity is supported.".to_string(),
+        };
+        let gap = GrayRhinoEvidenceRecord {
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "Succession structure and audit controls are missing.".to_string(),
+            structural_fact: "Institutional constraints are weak.".to_string(),
+            ..mature.clone()
+        };
+
+        let mature_input = build_evidence_backed_gray_rhino_input(&[mature]).unwrap();
+        let gap_input = build_evidence_backed_gray_rhino_input(&[gap]).unwrap();
+
+        assert_eq!(mature_input.constraint_growth_rate, RiskLevel::Elevated);
+        assert_eq!(gap_input.constraint_growth_rate, RiskLevel::Low);
+    }
+
+    #[test]
+    fn gray_rhino_completion_unclassified_evidence_is_reported_not_scored() {
+        let record = GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::DependencyConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
+                source_title: "Legacy dependency disclosure".to_string(),
+                publisher: "Example issuer".to_string(),
+                source_url: Some("https://example.com/legacy".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.86,
+            risk_effect: GrayRhinoRiskEffect::Unclassified,
+            extraction_note: "Legacy record does not include risk effect.".to_string(),
+            structural_fact: "Dependency is mentioned without directional classification."
+                .to_string(),
+        };
+
+        let input = build_evidence_backed_gray_rhino_input(&[record]).unwrap();
+
+        assert_eq!(input.dependency_centralization, RiskLevel::Moderate);
+        assert!(input.notes[0].contains("unclassified records: 1"));
     }
 }

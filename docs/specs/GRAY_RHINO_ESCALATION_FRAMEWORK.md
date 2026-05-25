@@ -20,8 +20,10 @@ Gray Rhino 専用 evidence の分類、source traceability、narrative rejection
 実装は次の境界に従う。
 
 - domain model と状態判定は `src/features/research/domain/gray_rhino.rs` に置く。
-- CLI / Markdown / Telegram 表示は `src/features/research/interface/gray_rhino_report.rs` に置き、表示用 view の変換に限定する。
+- CLI / Markdown / Telegram 表示は `src/features/research/interface/gray_rhino_report.rs` に置き、Application use case が返す view model の描画に限定する。
 - 日次評価の生成は `src/features/research/application/gray_rhino_assessment.rs` に置き、formal evidence の方向性を保持して評価する。
+- Gray Rhino 日報の orchestration は `src/features/research/application/gray_rhino_daily_report.rs` に置き、`GrayRhinoDailyReportRepository` port 経由で evidence、candidate、snapshot、ops view を読む。
+- file scan と JSONL store access は `src/features/research/infrastructure/gray_rhino_daily_report_repository.rs` に閉じ込める。
 - 日次 snapshot の JSONL 永続化は `src/features/research/infrastructure/gray_rhino_snapshot_store.rs` に置く。
 - 自動発見候補の永続化は `gray_rhino_candidates.jsonl`、source / ops audit は `gray_rhino_sources` と `gray_rhino_discovery_runs.jsonl` に保持する。
 - CLI command は use case / facade を呼び出す dispatch に限定し、取引・Gate・execution へ接続しない。
@@ -31,7 +33,7 @@ Gray Rhino 専用 evidence の分類、source traceability、narrative rejection
 
 Gray Rhino は次の 3 系統を明示的に区別する。
 
-- `formal escalation evidence`: evidence store に保存された構造化 evidence。`risk_effect` により `Amplifying` / `Mitigating` / `Neutral` を区別し、保護的事実をリスク拡大として扱わない。
+- `formal escalation evidence`: evidence store に保存された構造化 evidence。`risk_effect` により `Amplifying` / `Mitigating` / `Neutral` / `Unclassified` を区別し、保護的事実をリスク拡大として扱わない。`risk_effect` が欠落する旧 record は scoring から除外し、日報に不可评分として表示する。
 - `auto-discovered observation candidates`: SEC / Finnhub / FRED などから自動収集された source text と threshold assessment から生成される観測候補。日報では追跡参考として表示し、formal escalation score を直接上書きしない。
 - `manual fallback baseline`: `config.toml` の `[gray_rhino_escalation]` による運用者管理の初期値。formal evidence がない場合の fallback であり、自動収集 fact として表示しない。
 

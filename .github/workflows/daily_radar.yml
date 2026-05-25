@@ -172,40 +172,16 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: |
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
-          make radar-release
-
-          REPORT_PACKET_PATH="$(find reports -maxdepth 1 -type f -name 'decision_packet_*.json' | sort | tail -n 1)"
-          if [ -z "${REPORT_PACKET_PATH}" ]; then
-            echo "❌ Could not determine report date: no decision_packet_*.json generated."
-            exit 1
-          fi
-
-          REPORT_DATE="$(basename "${REPORT_PACKET_PATH}" | sed -E 's/^decision_packet_([0-9]{4}-[0-9]{2}-[0-9]{2})\.json$/\1/')"
-          if [ -z "${REPORT_DATE}" ]; then
-            echo "❌ Could not parse report date from ${REPORT_PACKET_PATH}."
-            exit 1
-          fi
-
-          echo "REPORT_DATE_JST=${REPORT_DATE}" >> $GITHUB_ENV
-          echo "✅ Report date resolved from generated packet: ${REPORT_DATE}"
-
-      - name: Refresh Gray Rhino Intelligence (non-blocking)
-        env:
-          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
-          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
-          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          set -euo pipefail
-          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          DATE_JST="$(TZ=Asia/Tokyo date +%Y-%m-%d)"
           STATUS_PATH="reports/gray_rhino_refresh_status_latest.json"
+          mkdir -p reports
 
-          write_status() {
+          write_gray_rhino_status() {
             local status="$1"
             local reason="${2:-}"
             STATUS_VALUE="${status}" REASON_VALUE="${reason}" DATE_VALUE="${DATE_JST}" python - <<'PY'
@@ -223,48 +199,45 @@ jobs:
           PY
           }
 
-          mkdir -p reports
           if [ -z "${FINNHUB_API_KEY:-}" ] || [ -z "${FRED_API_KEY:-}" ]; then
-            write_status "skipped" "FINNHUB_API_KEY or FRED_API_KEY is not configured"
-            echo "ℹ️ Gray Rhino refresh skipped: missing FINNHUB_API_KEY or FRED_API_KEY."
-            exit 0
-          fi
-
-          OUTPUT_FILE="$(mktemp)"
-          set +e
-          make gray-rhino-refresh \
-            GRAY_RHINO_REFRESH_ARGS="--date ${DATE_JST}" \
-            GRAY_RHINO_REFRESH_DAILY_ARGS="--date ${DATE_JST}" >"${OUTPUT_FILE}" 2>&1
-          EXIT_CODE=$?
-          set -e
-          cat "${OUTPUT_FILE}"
-
-          if [ "${EXIT_CODE}" -eq 0 ]; then
-            REFRESH_STATUS="$(python - <<'PY'
-          import json
-          try:
-              data = json.load(open("reports/gray_rhino_refresh_status_latest.json", encoding="utf-8"))
-              print(data.get("status", "succeeded"))
-          except Exception:
-              print("succeeded")
-          PY
-          )"
-            echo "✅ Gray Rhino refresh completed with status=${REFRESH_STATUS}."
-            set +e
-            cargo run --release -- daily-calibration --date "${DATE_JST}" --notify
-            NOTIFY_EXIT=$?
-            set -e
-            if [ "${NOTIFY_EXIT}" -ne 0 ]; then
-              echo "⚠️ Gray Rhino daily-calibration notification failed after refresh."
-            fi
+            write_gray_rhino_status "skipped" "FINNHUB_API_KEY or FRED_API_KEY is not configured"
+            echo "ℹ️ Gray Rhino refresh skipped before radar: missing FINNHUB_API_KEY or FRED_API_KEY."
           else
-            REASON="$(tail -n 20 "${OUTPUT_FILE}" | tr '\n' ' ' | cut -c1-1000)"
-            if [ ! -f "${STATUS_PATH}" ]; then
-              write_status "failed" "${REASON}"
+            OUTPUT_FILE="$(mktemp)"
+            set +e
+            make gray-rhino-refresh \
+              GRAY_RHINO_REFRESH_ARGS="--date ${DATE_JST}" \
+              GRAY_RHINO_REFRESH_DAILY_ARGS="--date ${DATE_JST}" >"${OUTPUT_FILE}" 2>&1
+            REFRESH_EXIT_CODE=$?
+            set -e
+            cat "${OUTPUT_FILE}"
+            if [ "${REFRESH_EXIT_CODE}" -eq 0 ]; then
+              echo "✅ Gray Rhino refresh completed before radar."
+            else
+              REASON="$(tail -n 20 "${OUTPUT_FILE}" | tr '\n' ' ' | cut -c1-1000)"
+              if [ ! -f "${STATUS_PATH}" ]; then
+                write_gray_rhino_status "failed" "${REASON}"
+              fi
+              echo "⚠️ Gray Rhino refresh failed before radar but radar will continue."
             fi
-            echo "⚠️ Gray Rhino refresh failed but daily radar will continue."
           fi
-          exit 0
+
+          make radar-release
+
+          REPORT_PACKET_PATH="$(find reports -maxdepth 1 -type f -name 'decision_packet_*.json' | sort | tail -n 1)"
+          if [ -z "${REPORT_PACKET_PATH}" ]; then
+            echo "❌ Could not determine report date: no decision_packet_*.json generated."
+            exit 1
+          fi
+
+          REPORT_DATE="$(basename "${REPORT_PACKET_PATH}" | sed -E 's/^decision_packet_([0-9]{4}-[0-9]{2}-[0-9]{2})\.json$/\1/')"
+          if [ -z "${REPORT_DATE}" ]; then
+            echo "❌ Could not parse report date from ${REPORT_PACKET_PATH}."
+            exit 1
+          fi
+
+          echo "REPORT_DATE_JST=${REPORT_DATE}" >> $GITHUB_ENV
+          echo "✅ Report date resolved from generated packet: ${REPORT_DATE}"
 
       - name: Show Notification Outcome
         run: |

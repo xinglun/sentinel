@@ -90,6 +90,18 @@ def test_feature_interface_rejects_same_feature_infrastructure_dependency() -> N
         assert violations, "feature interface から同一 feature infrastructure への直接依存は検出されるべき"
 
 
+def test_research_interface_rejects_gray_rhino_store_or_file_scan() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "fn load() { let _ = std::fs::read_to_string(\"gray_rhino_candidates.jsonl\"); }\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "research interface で Gray Rhino file scan を直接行う回帰は検出されるべき"
+
+
 def test_core_rejects_interface_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)

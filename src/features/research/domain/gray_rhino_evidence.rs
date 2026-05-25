@@ -26,8 +26,9 @@ pub enum GrayRhinoEvidenceSourceType {
 pub enum GrayRhinoRiskEffect {
     Amplifying,
     Mitigating,
-    #[default]
     Neutral,
+    #[default]
+    Unclassified,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

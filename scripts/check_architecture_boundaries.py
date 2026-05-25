@@ -394,6 +394,28 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
                     violations.append(Violation(path, line_no, io_token, "application IO usage"))
                     return violations
 
+    if feature == "research" and layer == "interface":
+        for line_no, line in enumerate(text.splitlines(), start=1):
+            stripped = line.strip()
+            if stripped.startswith("//"):
+                continue
+            for forbidden_text in (
+                "std::fs::",
+                "GrayRhinoCandidateStore",
+                "GrayRhinoEvidenceStore",
+                "GrayRhinoSnapshotStore",
+            ):
+                if forbidden_text in stripped:
+                    violations.append(
+                        Violation(
+                            path,
+                            line_no,
+                            forbidden_text,
+                            "research interface orchestration boundary",
+                        )
+                    )
+                    return violations
+
     return violations
 
 

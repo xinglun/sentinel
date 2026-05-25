@@ -6,6 +6,8 @@ currentPhase: phase_4_auto_discovery
 currentObservationSource: AutoDiscovery
 formalEvidenceDirectionEnabled: true
 riskEffectField: risk_effect
+riskEffectMissingDefault: Unclassified
+unclassifiedEvidenceScoring: excluded_and_reported
 formalEscalationEvidenceSource: EvidenceStore
 manualFallbackBaseline: gray_rhino_escalation
 automatedCollectionEnabled: true
@@ -47,8 +49,13 @@ semanticIsolationDisplayBoundary: true
 compactSummaryEnabled: true
 noiseCalibrationEnabled: true
 dailyGithubActionsRefreshEnabled: true
-dailyGithubActionsRefreshNotifyEnabled: true
+dailyGithubActionsRefreshBeforeRadarEnabled: true
+dailyGithubActionsRefreshNotifyEnabled: false
 dailyGithubActionsWorkflow: .github/workflows/daily_radar.yml
+dailyReportUseCaseEnabled: true
+dailyReportUseCase: src/features/research/application/gray_rhino_daily_report.rs
+dailyReportRepositoryPort: GrayRhinoDailyReportRepository
+dailyReportInfrastructureRepository: src/features/research/infrastructure/gray_rhino_daily_report_repository.rs
 manualRegistryPrimaryMechanism: false
 autoSourceCollectionCli: collect-gray-rhino-sources
 autoSourceProviders:

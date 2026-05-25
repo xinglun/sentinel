@@ -407,7 +407,7 @@ fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Evidence-backed sensor store"));
     assert!(stdout.contains("Gray Rhino Sensor Health"));
-    assert!(stdout.contains("DependencyConcentration: 1 evidence record"));
+    assert!(stdout.contains("Dependency Concentration: 1 evidence record"));
     assert!(stdout.contains("It does not generate trading signals."));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
@@ -552,7 +552,7 @@ fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
     assert!(stdout.contains("Market active candidates: 0"));
     assert!(stdout.contains("Company active candidates: SPACEX"));
     assert!(stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
-    assert!(stdout.contains("SPACEX / Company / GovernanceConcentration / Expanding"));
+    assert!(stdout.contains("SPACEX / Company / Governance Concentration / Expanding"));
     assert!(stdout.contains("IPO voting terms"));
     assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
@@ -592,8 +592,8 @@ fn gray_rhino_daily_report_reads_sec_htm_cache() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("TSLA / Company / GovernanceConcentration / Expanding"));
-    assert!(!stdout.contains("STALE / Company / GovernanceConcentration"));
+    assert!(stdout.contains("TSLA / Company / Governance Concentration / Expanding"));
+    assert!(!stdout.contains("STALE / Company / Governance Concentration"));
     assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
@@ -618,13 +618,13 @@ fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("TSLA / Company / GovernanceConcentration / Expanding"));
+    assert!(stdout.contains("TSLA / Company / Governance Concentration / Expanding"));
     assert!(stdout.contains("Persisted founder voting control candidate."));
-    assert!(stdout.contains("Market / Market / LiquidityFragility / Expanding"));
+    assert!(stdout.contains("Market / Market / Liquidity Fragility / Expanding"));
     assert!(stdout.contains("Persisted liquidity fragility candidate."));
     assert!(stdout.contains("Market Reference"));
     assert!(stdout.contains("Watchlist Inline Reference"));
-    assert!(!stdout.contains("STALE / Company / GovernanceConcentration"));
+    assert!(!stdout.contains("STALE / Company / Governance Concentration"));
     assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
@@ -650,10 +650,10 @@ fn gray_rhino_watchlist_inline_report_groups_company_and_market_candidates() {
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
     assert!(stdout.contains("Market Reference"));
-    assert!(stdout.contains("Market / Market / LiquidityFragility / Critical"));
+    assert!(stdout.contains("Market / Market / Liquidity Fragility / Critical"));
     assert!(stdout.contains("Watchlist Inline Reference"));
     assert!(stdout.contains("- TSLA"));
-    assert!(stdout.contains("TSLA / Company / GovernanceConcentration / Expanding"));
+    assert!(stdout.contains("TSLA / Company / Governance Concentration / Expanding"));
     assert!(!stdout.contains("Other Company Reference"));
     assert!(stdout.contains("Watchlist Inline Monitoring"));
     assert!(stdout.contains("reference only; no trading"));
@@ -693,16 +693,19 @@ fn gray_rhino_summary_compresses_market_and_company_candidates() {
 }
 
 #[test]
-fn gray_rhino_summary_github_actions_runs_refresh_after_radar() {
+fn gray_rhino_summary_github_actions_runs_refresh_before_radar() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let workflow = fs::read_to_string(root.join(".github/workflows/daily_radar.yml"))
         .expect("failed to read daily radar workflow");
 
-    assert!(workflow.contains("Refresh Gray Rhino Intelligence (non-blocking)"));
     assert!(workflow.contains("make gray-rhino-refresh"));
+    assert!(
+        workflow.find("make gray-rhino-refresh").unwrap()
+            < workflow.find("make radar-release").unwrap()
+    );
     assert!(workflow.contains("GRAY_RHINO_REFRESH_ARGS=\"--date ${DATE_JST}\""));
     assert!(workflow.contains("reports/gray_rhino_refresh_status_latest.json"));
-    assert!(workflow.contains("Gray Rhino refresh failed but daily radar will continue"));
+    assert!(workflow.contains("Gray Rhino refresh failed before radar but radar will continue"));
 }
 
 #[test]
@@ -721,7 +724,7 @@ fn gray_rhino_monitoring_state_reports_candidate_intensification() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Gray Rhino Monitoring State (semantic isolation)"));
-    assert!(stdout.contains("TSLA / Company / GovernanceConcentration: Expanding"));
+    assert!(stdout.contains("TSLA / Company / Governance Concentration: Expanding"));
     assert!(stdout.contains("Intensifying"));
     assert!(stdout.contains("observations: 2"));
     assert!(stdout.contains("reference only; no trading"));
@@ -730,6 +733,100 @@ fn gray_rhino_monitoring_state_reports_candidate_intensification() {
     assert!(!stdout.contains("gate signal"));
     assert!(!stdout.contains("execution signal"));
     assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_completion_legacy_evidence_missing_risk_effect_is_visible() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(
+        tmp.path().join("gray_rhino_evidence.jsonl"),
+        r#"{"category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Legacy dependency disclosure","publisher":"Example issuer","source_url":"https://example.com/legacy","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.86,"extraction_note":"Legacy record without risk effect.","structural_fact":"Dependency concentration is disclosed."}
+"#,
+    )
+    .expect("failed to write legacy evidence");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("旧 evidence 记录不可评分"));
+    assert!(stdout.contains("缺少 risk_effect 的记录数: 1"));
+    assert!(stdout.contains("不参与正式升级评分"));
+}
+
+#[test]
+fn gray_rhino_completion_evidence_store_boundary_does_not_claim_manual_only() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let evidence_path = tmp.path().join("institutional_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "IndependentAudit",
+    "source_title": "Institutional maturity audit",
+    "publisher": "Example auditor",
+    "source_url": "https://example.com/audit",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.88,
+  "extraction_note": "External audit and succession structure are disclosed.",
+  "structural_fact": "Institutional oversight maturity is supported.",
+  "metrics": {
+    "succession_structure_disclosed": true,
+    "external_audit_present": true,
+    "disclosure_quality_score": 0.72,
+    "oversight_evolution_disclosed": true,
+    "compliance_maturity_level": "developing"
+  }
+}"#,
+    )
+    .expect("failed to write institutional evidence");
+    let ingest = run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-institutional",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    );
+    assert!(ingest.status.success());
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("输入来源: Evidence-backed sensor store"));
+    assert!(stdout.contains("当前正式评估来自结构化 EvidenceStore"));
+    assert!(!stdout.contains("尚未接入专用灰犀牛外部证据源"));
+}
+
+#[test]
+fn gray_rhino_completion_zh_candidate_body_does_not_leak_enum_labels() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Expanding","evidence":["Founder voting control remains visible. Governance check-and-balance weakness detected."],"watch_triggers":["IPO voting terms","board composition changes"],"source_title":"SEC proxy","observed_at":"2026-05-24"}
+{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Critical","evidence":["Founder voting control remains visible. Governance check-and-balance weakness detected."],"watch_triggers":["IPO voting terms","board composition changes"],"source_title":"SEC proxy","observed_at":"2026-05-25"}
+{"scope":"Market","kind":"LiquidityFragility","subject":"Market","state":"Expanding","evidence":["Liquidity or rate-pressure fragility detected."],"watch_triggers":["credit spread widening"],"source_title":"FRED macro","observed_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("TSLA / 公司 / 治理集中 / 扩张"));
+    assert!(stdout.contains("Market / 市场 / 流动性脆弱 / 扩张"));
+    assert!(stdout.contains("升温"));
+    assert!(stdout.contains("检测到创始人或单一主体投票控制。"));
+    assert!(stdout.contains("IPO 投票条款"));
+    assert!(!stdout.contains("GovernanceConcentration"));
+    assert!(!stdout.contains("LiquidityFragility"));
+    assert!(!stdout.contains("Intensifying"));
 }
 
 #[test]
@@ -1345,9 +1442,9 @@ fn gray_rhino_daily_report_shows_governance_sensor_health_only() {
 
     assert!(report.status.success());
     let stdout = String::from_utf8_lossy(&report.stdout);
-    assert!(stdout.contains("Governance sensor health"));
-    assert!(stdout.contains("coverage ratio"));
-    assert!(stdout.contains("Boundary: Governance sensor health only"));
+    assert!(stdout.contains("治理传感器健康度"));
+    assert!(stdout.contains("覆盖率"));
+    assert!(stdout.contains("边界声明: 治理传感器健康度仅用于 evidence 覆盖检查"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
 }

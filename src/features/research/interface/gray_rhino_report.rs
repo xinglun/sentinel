@@ -1,21 +1,11 @@
 use crate::config::{self, GrayRhinoRiskLevel};
-use crate::features::research::acl::gray_rhino_store_factory::{
-    GrayRhinoCandidateStore, GrayRhinoEvidenceStore, GrayRhinoSnapshotStore,
-};
-use crate::features::research::application::dependency_evidence::DependencyEvidenceRepository;
-use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
-use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
-use crate::features::research::application::gray_rhino_assessment::{
-    build_evidence_backed_gray_rhino_assessment, build_gray_rhino_assessment,
-};
-use crate::features::research::application::gray_rhino_discovery::{
-    discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
+use crate::features::research::acl::gray_rhino_daily_report_factory::build_gray_rhino_daily_report_repository;
+use crate::features::research::application::gray_rhino_daily_report::{
+    GrayRhinoDailyReportUseCase, GrayRhinoDailyReportViewModel,
 };
 use crate::features::research::application::gray_rhino_monitoring_state::{
-    evaluate_gray_rhino_monitoring_states, GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
+    GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
 };
-use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
-use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
 #[cfg(test)]
 use crate::features::research::domain::gray_rhino::{
     evaluate_gray_rhino_escalation, GrayRhinoAssessmentSnapshot,
@@ -25,32 +15,32 @@ use crate::features::research::domain::gray_rhino::{
     RhinoEscalationState, RiskLevel,
 };
 use crate::features::research::domain::gray_rhino_candidate::{
-    GrayRhinoCandidate, GrayRhinoCandidateScope,
+    GrayRhinoCandidate, GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
 };
+use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceCategory;
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
 use std::collections::{BTreeMap, BTreeSet};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 pub(crate) fn build_gray_rhino_escalation_report(
     app_config: &config::AppConfig,
     language: Language,
 ) -> String {
     let save_dir = Path::new(&app_config.output.save_to);
-    if let Ok(records) = load_gray_rhino_evidence_records(save_dir) {
-        if let Some(assessment) =
-            build_evidence_backed_gray_rhino_assessment(&records, Local::now().date_naive(), None)
-        {
-            return render_gray_rhino_assessment_markdown(&assessment, language);
-        }
-    }
-    let Some(input) = input_from_config(app_config) else {
-        return gray_rhino_empty(language).to_string();
-    };
-
-    let assessment = build_gray_rhino_assessment(input, Local::now().date_naive(), None);
-    render_gray_rhino_assessment_markdown(&assessment, language)
+    let repository = build_gray_rhino_daily_report_repository(save_dir);
+    let view_model = GrayRhinoDailyReportUseCase::new(&repository)
+        .build(
+            input_from_config(app_config),
+            &enabled_watch_symbols(app_config),
+            Local::now().date_naive(),
+        )
+        .ok();
+    view_model
+        .and_then(|view_model| view_model.assessment)
+        .map(|assessment| render_gray_rhino_assessment_markdown(&assessment, language))
+        .unwrap_or_else(|| gray_rhino_empty(language).to_string())
 }
 
 pub(crate) fn build_gray_rhino_daily_report(
@@ -59,55 +49,70 @@ pub(crate) fn build_gray_rhino_daily_report(
     as_of_date: NaiveDate,
     language: Language,
 ) -> Result<String> {
-    let store = GrayRhinoSnapshotStore::new(save_dir);
-    let previous = store.load_latest_before(as_of_date)?;
-    let records = load_gray_rhino_evidence_records(save_dir)?;
-    let assessment = if let Some(assessment) =
-        build_evidence_backed_gray_rhino_assessment(&records, as_of_date, previous.clone())
-    {
-        assessment
+    let watch_symbols = enabled_watch_symbols(app_config);
+    let repository = build_gray_rhino_daily_report_repository(save_dir);
+    let view_model = GrayRhinoDailyReportUseCase::new(&repository).build(
+        input_from_config(app_config),
+        &watch_symbols,
+        as_of_date,
+    )?;
+    let mut report = if let Some(assessment) = &view_model.assessment {
+        render_gray_rhino_assessment_markdown(assessment, language)
     } else {
-        let Some(input) = input_from_config(app_config) else {
-            let mut report = gray_rhino_empty(language).to_string();
-            report.push_str("\n\n");
-            report.push_str(&render_auto_discovery_inline_reference(
-                app_config, save_dir, as_of_date, language,
-            ));
-            if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir, language) {
-                report.push_str("\n\n");
-                report.push_str(&discovery_ops_view);
-            }
-            return Ok(report);
-        };
-        build_gray_rhino_assessment(input, as_of_date, previous)
+        gray_rhino_empty(language).to_string()
     };
-    store.save_if_changed(&assessment.current)?;
-    let sensor_health = render_multi_category_sensor_health(save_dir, language)?;
-    let mut report = render_gray_rhino_assessment_markdown(&assessment, language);
+    let sensor_health = render_multi_category_sensor_health(&view_model, language);
     if !sensor_health.is_empty() {
         report.push_str("\n\n");
         report.push_str(&sensor_health);
     }
+    if view_model.unclassified_record_count > 0 {
+        report.push_str("\n\n");
+        report.push_str(&render_unclassified_evidence_notice(
+            view_model.unclassified_record_count,
+            language,
+        ));
+    }
     report.push_str("\n\n");
     report.push_str(&render_auto_discovery_inline_reference(
-        app_config, save_dir, as_of_date, language,
+        app_config,
+        &view_model.display_candidates,
+        &view_model.monitoring_statuses,
+        language,
     ));
-    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir, language) {
+    if let Some(discovery_ops_view) =
+        render_discovery_ops_view(view_model.discovery_ops_view.as_ref(), language)
+    {
         report.push_str("\n\n");
         report.push_str(&discovery_ops_view);
     }
     Ok(report)
 }
 
-fn load_gray_rhino_evidence_records(
-    save_dir: &Path,
-) -> Result<Vec<crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord>> {
-    let store = GrayRhinoEvidenceStore::new(save_dir);
-    let mut records = store.load_governance_evidence()?;
-    records.extend(store.load_dependency_evidence()?);
-    records.extend(store.load_institutional_evidence()?);
-    records.extend(store.load_redundancy_evidence()?);
-    Ok(records)
+fn input_from_config(app_config: &config::AppConfig) -> Option<GrayRhinoEscalationInput> {
+    let config = app_config
+        .gray_rhino_escalation
+        .as_ref()
+        .filter(|config| config.enable.unwrap_or(true))?;
+    Some(GrayRhinoEscalationInput {
+        risk_expansion_rate: map_risk_level(config.risk_expansion_rate),
+        constraint_growth_rate: map_risk_level(config.constraint_growth_rate),
+        dependency_centralization: map_risk_level(config.dependency_centralization),
+        awareness_decay: map_risk_level(config.awareness_decay),
+        narrative_overconfidence: map_risk_level(config.narrative_overconfidence),
+        single_point_fragility: map_risk_level(config.single_point_fragility),
+        fallback_survivability_risk: map_risk_level(config.fallback_survivability_risk),
+        notes: config.notes.clone().unwrap_or_default(),
+    })
+}
+
+fn map_risk_level(level: GrayRhinoRiskLevel) -> RiskLevel {
+    match level {
+        GrayRhinoRiskLevel::Low => RiskLevel::Low,
+        GrayRhinoRiskLevel::Moderate => RiskLevel::Moderate,
+        GrayRhinoRiskLevel::Elevated => RiskLevel::Elevated,
+        GrayRhinoRiskLevel::High => RiskLevel::High,
+    }
 }
 
 #[cfg(test)]
@@ -227,29 +232,12 @@ pub(crate) fn render_gray_rhino_assessment_markdown(
     }
 
     out.push('\n');
-    out.push_str(source_boundary_label(language));
+    out.push_str(source_boundary_label(assessment.current.source, language));
     out.push('\n');
     out.push_str(boundary_label(language));
     out.push('\n');
     out.push_str(non_signal_notice(language));
     out
-}
-
-fn input_from_config(app_config: &config::AppConfig) -> Option<GrayRhinoEscalationInput> {
-    let config = app_config
-        .gray_rhino_escalation
-        .as_ref()
-        .filter(|config| config.enable.unwrap_or(true))?;
-    Some(GrayRhinoEscalationInput {
-        risk_expansion_rate: map_risk_level(config.risk_expansion_rate),
-        constraint_growth_rate: map_risk_level(config.constraint_growth_rate),
-        dependency_centralization: map_risk_level(config.dependency_centralization),
-        awareness_decay: map_risk_level(config.awareness_decay),
-        narrative_overconfidence: map_risk_level(config.narrative_overconfidence),
-        single_point_fragility: map_risk_level(config.single_point_fragility),
-        fallback_survivability_risk: map_risk_level(config.fallback_survivability_risk),
-        notes: config.notes.clone().unwrap_or_default(),
-    })
 }
 
 #[cfg(test)]
@@ -258,15 +246,6 @@ pub(crate) fn build_gray_rhino_escalation_telegram_report(
     language: Language,
 ) -> String {
     build_gray_rhino_escalation_report(app_config, language)
-}
-
-fn map_risk_level(level: GrayRhinoRiskLevel) -> RiskLevel {
-    match level {
-        GrayRhinoRiskLevel::Low => RiskLevel::Low,
-        GrayRhinoRiskLevel::Moderate => RiskLevel::Moderate,
-        GrayRhinoRiskLevel::Elevated => RiskLevel::Elevated,
-        GrayRhinoRiskLevel::High => RiskLevel::High,
-    }
 }
 
 fn gray_rhino_title(language: Language) -> &'static str {
@@ -409,35 +388,30 @@ fn audit_chain_label(language: Language) -> &'static str {
     }
 }
 
-fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> Result<String> {
-    let records = load_gray_rhino_evidence_records(save_dir)?;
-    let governance = render_governance_sensor_health(save_dir, language)?;
+fn render_multi_category_sensor_health(
+    view_model: &GrayRhinoDailyReportViewModel,
+    language: Language,
+) -> String {
+    let records = &view_model.evidence_records;
+    let governance = render_governance_sensor_health(&view_model.governance_audits, language);
     if records.is_empty() && governance.is_empty() {
-        return Ok(String::new());
+        return String::new();
     }
     let mut out = String::new();
-    out.push_str(match language {
-        Language::ZhCn => "Gray Rhino sensor health",
-        Language::EnUs => "Gray Rhino Sensor Health",
-        Language::JaJp => "Gray Rhino sensor health",
-    });
+    out.push_str(sensor_health_heading(language));
     out.push('\n');
-    let categories = [
-        "GovernanceConcentration",
-        "DependencyConcentration",
-        "InstitutionalMaturity",
-        "Redundancy",
-    ];
+    let categories = sensor_health_categories(language);
     let ready_count = categories
         .iter()
         .filter(|category| {
             records
                 .iter()
-                .any(|record| format!("{:?}", record.category) == **category)
+                .any(|record| category.matches(record.category))
         })
         .count();
     out.push_str(&format!(
-        "- Readiness score: {:.1}% ({}/{})\n",
+        "- {}: {:.1}% ({}/{})\n",
+        readiness_score_label(language),
         ready_count as f64 / categories.len() as f64 * 100.0,
         ready_count,
         categories.len()
@@ -453,25 +427,37 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
         .collect::<BTreeSet<_>>()
         .len();
     let quality_label = if ready_count >= 3 && average_confidence >= 0.75 {
-        "ready"
+        readiness_ready_label(language)
     } else if ready_count >= 2 && average_confidence >= 0.6 {
-        "partial"
+        readiness_partial_label(language)
     } else {
-        "insufficient"
+        readiness_insufficient_label(language)
     };
     out.push_str(&format!(
-        "- Quality score: {quality_label} (avg confidence {:.2}, source diversity {})\n",
-        average_confidence, source_diversity
+        "- {}: {quality_label} ({} {:.2}, {} {})\n",
+        quality_score_label(language),
+        average_confidence_label(language),
+        average_confidence,
+        source_diversity_label(language),
+        source_diversity
     ));
-    out.push_str("- Evidence quality dimensions: traceability / completeness / freshness / confidence / source diversity / rejection ratio\n");
+    out.push_str(evidence_quality_dimensions_label(language));
+    out.push('\n');
     for category in categories {
         let count = records
             .iter()
-            .filter(|record| format!("{:?}", record.category) == category)
+            .filter(|record| category.matches(record.category))
             .count();
-        let readiness = if count > 0 { "ready" } else { "insufficient" };
+        let readiness = if count > 0 {
+            readiness_ready_label(language)
+        } else {
+            readiness_insufficient_label(language)
+        };
         out.push_str(&format!(
-            "- {category}: {count} evidence record(s), readiness={readiness}\n"
+            "- {}: {count} {}, {}={readiness}\n",
+            category.label,
+            evidence_record_count_label(language),
+            readiness_label(language)
         ));
     }
     if !governance.is_empty() {
@@ -479,59 +465,66 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
         out.push_str(&governance);
     }
     out.push('\n');
-    out.push_str("Evidence Explanation Graph\n");
-    out.push_str("- dependency_centralization -> DependencyConcentration -> supplier/cloud/infrastructure disclosures\n");
-    out.push_str("- fallback_survivability_risk -> DependencyConcentration + Redundancy gap -> fallback and failover evidence\n");
-    out.push_str("- constraint_growth_rate -> InstitutionalMaturity -> audit, oversight, compliance maturity evidence\n");
-    out.push_str("- risk_expansion_rate -> GovernanceConcentration + DependencyConcentration -> structural concentration evidence\n");
-    if let Some(ops_view) = render_backfill_ops_view(save_dir) {
+    out.push_str(evidence_explanation_graph_label(language));
+    out.push('\n');
+    out.push_str(evidence_explanation_graph_body(language));
+    if let Some(ops_view) =
+        render_backfill_ops_view(view_model.backfill_ops_view.as_ref(), language)
+    {
         out.push('\n');
         out.push_str(&ops_view);
     }
-    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir, language) {
+    if let Some(discovery_ops_view) =
+        render_discovery_ops_view(view_model.discovery_ops_view.as_ref(), language)
+    {
         out.push('\n');
         out.push_str(&discovery_ops_view);
     }
-    Ok(out)
+    out
 }
 
-fn render_backfill_ops_view(save_dir: &Path) -> Option<String> {
-    let path = save_dir.join("gray_rhino_backfill_runs.jsonl");
-    let raw = std::fs::read_to_string(path).ok()?;
-    let latest = raw.lines().rev().find(|line| !line.trim().is_empty())?;
-    let value: serde_json::Value = serde_json::from_str(latest).ok()?;
+fn render_backfill_ops_view(
+    value: Option<&serde_json::Value>,
+    language: Language,
+) -> Option<String> {
+    let value = value?;
     let mut out = String::new();
-    out.push_str("Backfill Ops View\n");
+    out.push_str(backfill_ops_title(language));
     out.push_str(&format!(
-        "- latest_run: {}\n",
+        "- {}: {}\n",
+        latest_run_label(language),
         value
             .get("run_id")
             .and_then(|value| value.as_str())
             .unwrap_or("unknown")
     ));
     out.push_str(&format!(
-        "- source_count: {}\n",
+        "- {}: {}\n",
+        source_count_label(language),
         value
             .get("source_count")
             .and_then(|value| value.as_u64())
             .unwrap_or(0)
     ));
     out.push_str(&format!(
-        "- failed_sources: {}\n",
+        "- {}: {}\n",
+        failed_sources_label(language),
         value
             .get("rejected")
             .and_then(|value| value.as_u64())
             .unwrap_or(0)
     ));
     out.push_str(&format!(
-        "- stale_sources: {}\n",
+        "- {}: {}\n",
+        stale_sources_label(language),
         value
             .get("stale_sources")
             .and_then(|value| value.as_u64())
             .unwrap_or(0)
     ));
     out.push_str(&format!(
-        "- drift_sources: {}\n",
+        "- {}: {}\n",
+        drift_sources_label(language),
         value
             .get("drift_sources")
             .and_then(|value| value.as_u64())
@@ -540,11 +533,11 @@ fn render_backfill_ops_view(save_dir: &Path) -> Option<String> {
     Some(out)
 }
 
-fn render_discovery_ops_view(save_dir: &Path, language: Language) -> Option<String> {
-    let path = save_dir.join("gray_rhino_discovery_runs.jsonl");
-    let raw = std::fs::read_to_string(path).ok()?;
-    let latest = raw.lines().rev().find(|line| !line.trim().is_empty())?;
-    let value: serde_json::Value = serde_json::from_str(latest).ok()?;
+fn render_discovery_ops_view(
+    value: Option<&serde_json::Value>,
+    language: Language,
+) -> Option<String> {
+    let value = value?;
     let mut out = String::new();
     out.push_str(auto_discovery_ops_title(language));
     out.push_str(&format!(
@@ -576,18 +569,15 @@ fn render_discovery_ops_view(save_dir: &Path, language: Language) -> Option<Stri
 
 fn render_auto_discovery_inline_reference(
     app_config: &config::AppConfig,
-    save_dir: &Path,
-    as_of_date: NaiveDate,
+    display_candidates: &[GrayRhinoCandidate],
+    monitoring_statuses: &[GrayRhinoMonitoringStatus],
     language: Language,
 ) -> String {
-    let candidates = collect_auto_discovered_candidates(app_config, save_dir, as_of_date);
-    let display_candidates = dedupe_candidates(candidates.clone());
-    let monitoring_statuses = evaluate_gray_rhino_monitoring_states(&candidates, as_of_date);
     format!(
         "{}\n\n{}\n\n{}",
-        render_gray_rhino_compact_summary(&display_candidates, &monitoring_statuses, language),
-        render_watchlist_inline_candidates(app_config, &display_candidates, language),
-        render_watchlist_inline_monitoring(app_config, &monitoring_statuses, language)
+        render_gray_rhino_compact_summary(display_candidates, monitoring_statuses, language),
+        render_watchlist_inline_candidates(app_config, display_candidates, language),
+        render_watchlist_inline_monitoring(app_config, monitoring_statuses, language)
     )
 }
 
@@ -786,18 +776,28 @@ fn render_watchlist_inline_monitoring(
 
 fn append_candidate_line(out: &mut String, candidate: &GrayRhinoCandidate, language: Language) {
     out.push_str(&format!(
-        "  - {} / {:?} / {:?} / {:?}: {}\n",
+        "  - {} / {} / {} / {}: {}\n",
         candidate.subject,
-        candidate.scope,
-        candidate.kind,
-        candidate.state,
-        candidate.evidence.join(" ")
+        candidate_scope_label(candidate.scope, language),
+        candidate_kind_label(candidate.kind, language),
+        candidate_state_label(candidate.state, language),
+        candidate
+            .evidence
+            .iter()
+            .map(|item| localized_structural_text(item, language))
+            .collect::<Vec<_>>()
+            .join(" ")
     ));
     if !candidate.watch_triggers.is_empty() {
         out.push_str(&format!(
             "    {}: {}\n",
             trigger_watch_label(language),
-            candidate.watch_triggers.join(" / ")
+            candidate
+                .watch_triggers
+                .iter()
+                .map(|item| localized_structural_text(item, language))
+                .collect::<Vec<_>>()
+                .join(" / ")
         ));
     }
 }
@@ -808,12 +808,12 @@ fn append_monitoring_line(
     language: Language,
 ) {
     out.push_str(&format!(
-        "  - {} / {:?} / {:?}: {:?} ({:?}, {}: {}, {}: {}, {}: {})\n",
+        "  - {} / {} / {}: {} ({}, {}: {}, {}: {}, {}: {})\n",
         status.subject,
-        status.scope,
-        status.kind,
-        status.current_state,
-        status.direction,
+        candidate_scope_label(status.scope, language),
+        candidate_kind_label(status.kind, language),
+        candidate_state_label(status.current_state, language),
+        monitoring_direction_label(status.direction, language),
         observations_label(language),
         status.observation_count,
         latest_label(language),
@@ -823,9 +823,9 @@ fn append_monitoring_line(
     ));
     if let Some(previous_state) = status.previous_state {
         out.push_str(&format!(
-            "    {}: {:?}\n",
+            "    {}: {}\n",
             previous_state_label(language),
-            previous_state
+            candidate_state_label(previous_state, language)
         ));
     }
 }
@@ -928,24 +928,24 @@ fn other_company_monitoring_title(language: Language) -> &'static str {
 
 fn reference_boundary_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "边界声明: 仅作结构风险参考；不改变交易、Gate、trend 或 market state。",
+        Language::ZhCn => "边界声明: 仅作结构风险参考；不改变交易、闸门、趋势或市场状态。",
         Language::EnUs => {
             "Boundary: reference only; no trading, Gate, trend, or market-state mutation."
         }
         Language::JaJp => {
-            "境界声明: 構造リスクの参考のみで、取引、Gate、trend、market state は変更しない。"
+            "境界声明: 構造リスクの参考のみで、取引、ゲート、trend、market state は変更しない。"
         }
     }
 }
 
 fn summary_boundary_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "边界声明: 摘要仅供参考；不改变交易、Gate、trend 或 market state。",
+        Language::ZhCn => "边界声明: 摘要仅供参考；不改变交易、闸门、趋势或市场状态。",
         Language::EnUs => {
             "Boundary: summary only; no trading, Gate, trend, or market-state mutation."
         }
         Language::JaJp => {
-            "境界声明: 要約は参考のみで、取引、Gate、trend、market state は変更しない。"
+            "境界声明: 要約は参考のみで、取引、ゲート、trend、market state は変更しない。"
         }
     }
 }
@@ -1022,6 +1022,423 @@ fn previous_state_label(language: Language) -> &'static str {
     }
 }
 
+fn candidate_scope_label(scope: GrayRhinoCandidateScope, language: Language) -> &'static str {
+    match (scope, language) {
+        (GrayRhinoCandidateScope::Company, Language::ZhCn) => "公司",
+        (GrayRhinoCandidateScope::Market, Language::ZhCn) => "市场",
+        (GrayRhinoCandidateScope::Company, Language::EnUs) => "Company",
+        (GrayRhinoCandidateScope::Market, Language::EnUs) => "Market",
+        (GrayRhinoCandidateScope::Company, Language::JaJp) => "企業",
+        (GrayRhinoCandidateScope::Market, Language::JaJp) => "市場",
+    }
+}
+
+fn candidate_kind_label(kind: GrayRhinoCandidateKind, language: Language) -> &'static str {
+    match (kind, language) {
+        (GrayRhinoCandidateKind::GovernanceConcentration, Language::ZhCn) => "治理集中",
+        (GrayRhinoCandidateKind::DependencyConcentration, Language::ZhCn) => "依赖集中",
+        (GrayRhinoCandidateKind::InstitutionalMaturityGap, Language::ZhCn) => "制度成熟缺口",
+        (GrayRhinoCandidateKind::RedundancyGap, Language::ZhCn) => "冗余缺口",
+        (GrayRhinoCandidateKind::MarketConcentration, Language::ZhCn) => "市场集中",
+        (GrayRhinoCandidateKind::NarrativeCrowding, Language::ZhCn) => "叙事拥挤",
+        (GrayRhinoCandidateKind::LiquidityFragility, Language::ZhCn) => "流动性脆弱",
+        (GrayRhinoCandidateKind::CapexPaybackFragility, Language::ZhCn) => "资本开支回收脆弱",
+        (GrayRhinoCandidateKind::GovernanceConcentration, Language::EnUs) => {
+            "Governance Concentration"
+        }
+        (GrayRhinoCandidateKind::DependencyConcentration, Language::EnUs) => {
+            "Dependency Concentration"
+        }
+        (GrayRhinoCandidateKind::InstitutionalMaturityGap, Language::EnUs) => {
+            "Institutional Maturity Gap"
+        }
+        (GrayRhinoCandidateKind::RedundancyGap, Language::EnUs) => "Redundancy Gap",
+        (GrayRhinoCandidateKind::MarketConcentration, Language::EnUs) => "Market Concentration",
+        (GrayRhinoCandidateKind::NarrativeCrowding, Language::EnUs) => "Narrative Crowding",
+        (GrayRhinoCandidateKind::LiquidityFragility, Language::EnUs) => "Liquidity Fragility",
+        (GrayRhinoCandidateKind::CapexPaybackFragility, Language::EnUs) => {
+            "Capex Payback Fragility"
+        }
+        (GrayRhinoCandidateKind::GovernanceConcentration, Language::JaJp) => "ガバナンス集中",
+        (GrayRhinoCandidateKind::DependencyConcentration, Language::JaJp) => "依存集中",
+        (GrayRhinoCandidateKind::InstitutionalMaturityGap, Language::JaJp) => "制度成熟度ギャップ",
+        (GrayRhinoCandidateKind::RedundancyGap, Language::JaJp) => "冗長性ギャップ",
+        (GrayRhinoCandidateKind::MarketConcentration, Language::JaJp) => "市場集中",
+        (GrayRhinoCandidateKind::NarrativeCrowding, Language::JaJp) => "ナラティブ過密",
+        (GrayRhinoCandidateKind::LiquidityFragility, Language::JaJp) => "流動性脆弱性",
+        (GrayRhinoCandidateKind::CapexPaybackFragility, Language::JaJp) => "設備投資回収脆弱性",
+    }
+}
+
+fn candidate_state_label(state: GrayRhinoCandidateState, language: Language) -> &'static str {
+    match (state, language) {
+        (GrayRhinoCandidateState::Background, Language::ZhCn) => "背景观察",
+        (GrayRhinoCandidateState::Visible, Language::ZhCn) => "可见",
+        (GrayRhinoCandidateState::Expanding, Language::ZhCn) => "扩张",
+        (GrayRhinoCandidateState::Critical, Language::ZhCn) => "临界",
+        (GrayRhinoCandidateState::Cooling, Language::ZhCn) => "降温",
+        (GrayRhinoCandidateState::Resolved, Language::ZhCn) => "解除",
+        (GrayRhinoCandidateState::Background, Language::EnUs) => "Background",
+        (GrayRhinoCandidateState::Visible, Language::EnUs) => "Visible",
+        (GrayRhinoCandidateState::Expanding, Language::EnUs) => "Expanding",
+        (GrayRhinoCandidateState::Critical, Language::EnUs) => "Critical",
+        (GrayRhinoCandidateState::Cooling, Language::EnUs) => "Cooling",
+        (GrayRhinoCandidateState::Resolved, Language::EnUs) => "Resolved",
+        (GrayRhinoCandidateState::Background, Language::JaJp) => "背景観測",
+        (GrayRhinoCandidateState::Visible, Language::JaJp) => "可視",
+        (GrayRhinoCandidateState::Expanding, Language::JaJp) => "拡張",
+        (GrayRhinoCandidateState::Critical, Language::JaJp) => "臨界",
+        (GrayRhinoCandidateState::Cooling, Language::JaJp) => "低下",
+        (GrayRhinoCandidateState::Resolved, Language::JaJp) => "解消",
+    }
+}
+
+fn monitoring_direction_label(
+    direction: GrayRhinoMonitoringDirection,
+    language: Language,
+) -> &'static str {
+    match (direction, language) {
+        (GrayRhinoMonitoringDirection::New, Language::ZhCn) => "新增",
+        (GrayRhinoMonitoringDirection::Stable, Language::ZhCn) => "稳定",
+        (GrayRhinoMonitoringDirection::Intensifying, Language::ZhCn) => "升温",
+        (GrayRhinoMonitoringDirection::Cooling, Language::ZhCn) => "降温",
+        (GrayRhinoMonitoringDirection::Resolved, Language::ZhCn) => "解除",
+        (GrayRhinoMonitoringDirection::New, Language::EnUs) => "New",
+        (GrayRhinoMonitoringDirection::Stable, Language::EnUs) => "Stable",
+        (GrayRhinoMonitoringDirection::Intensifying, Language::EnUs) => "Intensifying",
+        (GrayRhinoMonitoringDirection::Cooling, Language::EnUs) => "Cooling",
+        (GrayRhinoMonitoringDirection::Resolved, Language::EnUs) => "Resolved",
+        (GrayRhinoMonitoringDirection::New, Language::JaJp) => "新規",
+        (GrayRhinoMonitoringDirection::Stable, Language::JaJp) => "安定",
+        (GrayRhinoMonitoringDirection::Intensifying, Language::JaJp) => "強まり",
+        (GrayRhinoMonitoringDirection::Cooling, Language::JaJp) => "低下",
+        (GrayRhinoMonitoringDirection::Resolved, Language::JaJp) => "解消",
+    }
+}
+
+fn localized_structural_text(value: &str, language: Language) -> String {
+    if matches!(language, Language::EnUs) {
+        return value.to_string();
+    }
+    let lower = value.to_lowercase();
+    let translated = match language {
+        Language::ZhCn => {
+            if lower.contains("market-level structural concentration") {
+                Some("检测到市场层面的结构集中。")
+            } else if lower.contains("liquidity or rate-pressure fragility") {
+                Some("检测到流动性或利率压力脆弱性。")
+            } else if lower.contains("capex payback fragility") {
+                Some("检测到资本开支回收脆弱性。")
+            } else if lower.contains("narrative crowding") {
+                Some("检测到叙事拥挤。")
+            } else if lower.contains("single dependency") || lower.contains("missing fallback") {
+                Some("检测到单一依赖或 fallback 缺失。")
+            } else if lower.contains("founder") && lower.contains("voting control") {
+                Some("检测到创始人或单一主体投票控制。")
+            } else if lower.contains("governance check-and-balance weakness") {
+                Some("检测到治理制衡弱点。")
+            } else if lower.contains("ipo voting terms") {
+                Some("IPO 投票条款")
+            } else if lower.contains("board composition changes") {
+                Some("董事会构成变化")
+            } else if lower.contains("related-party transactions") {
+                Some("关联交易")
+            } else if lower.contains("founder control changes") {
+                Some("创始人控制权变化")
+            } else if lower.contains("supplier disruption") {
+                Some("供应商中断")
+            } else if lower.contains("cloud outage") {
+                Some("云服务中断")
+            } else if lower.contains("fallback disclosure change") {
+                Some("fallback 披露变化")
+            } else if lower.contains("breadth deterioration") {
+                Some("市场广度恶化")
+            } else if lower.contains("liquidity tightening") {
+                Some("流动性收紧")
+            } else if lower.contains("capex payback disappointment") {
+                Some("资本开支回收不及预期")
+            } else if lower.contains("yield curve deterioration") {
+                Some("收益率曲线恶化")
+            } else if lower.contains("credit spread widening") {
+                Some("信用利差扩大")
+            } else if lower.contains("central-bank liquidity shift") {
+                Some("央行流动性变化")
+            } else if lower.contains("utilization gap") {
+                Some("利用率缺口")
+            } else if lower.contains("earnings disappointment") {
+                Some("盈利不及预期")
+            } else if lower.contains("capex guidance revision") {
+                Some("资本开支指引修正")
+            } else if lower.contains("headline concentration") {
+                Some("新闻标题集中")
+            } else if lower.contains("single-theme leadership") {
+                Some("单一主题领涨")
+            } else if lower.contains("positioning reversal") {
+                Some("仓位反转")
+            } else {
+                None
+            }
+        }
+        Language::JaJp => {
+            if lower.contains("market-level structural concentration") {
+                Some("市場レベルの構造集中を検出。")
+            } else if lower.contains("liquidity or rate-pressure fragility") {
+                Some("流動性または金利圧力の脆弱性を検出。")
+            } else if lower.contains("capex payback fragility") {
+                Some("設備投資回収の脆弱性を検出。")
+            } else if lower.contains("narrative crowding") {
+                Some("ナラティブ過密を検出。")
+            } else if lower.contains("single dependency") || lower.contains("missing fallback") {
+                Some("単一依存または fallback 不足を検出。")
+            } else if lower.contains("founder") && lower.contains("voting control") {
+                Some("創業者または単一主体の議決権支配を検出。")
+            } else if lower.contains("governance check-and-balance weakness") {
+                Some("ガバナンスの牽制不足を検出。")
+            } else if lower.contains("ipo voting terms") {
+                Some("IPO 議決権条件")
+            } else if lower.contains("board composition changes") {
+                Some("取締役会構成の変化")
+            } else if lower.contains("related-party transactions") {
+                Some("関連当事者取引")
+            } else if lower.contains("founder control changes") {
+                Some("創業者支配の変化")
+            } else if lower.contains("supplier disruption") {
+                Some("supplier 障害")
+            } else if lower.contains("cloud outage") {
+                Some("cloud 障害")
+            } else if lower.contains("fallback disclosure change") {
+                Some("fallback 開示の変化")
+            } else if lower.contains("breadth deterioration") {
+                Some("市場 breadth 悪化")
+            } else if lower.contains("liquidity tightening") {
+                Some("流動性引き締まり")
+            } else if lower.contains("capex payback disappointment") {
+                Some("設備投資回収の未達")
+            } else if lower.contains("yield curve deterioration") {
+                Some("イールドカーブ悪化")
+            } else if lower.contains("credit spread widening") {
+                Some("信用スプレッド拡大")
+            } else if lower.contains("central-bank liquidity shift") {
+                Some("中央銀行流動性の変化")
+            } else if lower.contains("utilization gap") {
+                Some("稼働率ギャップ")
+            } else if lower.contains("earnings disappointment") {
+                Some("利益未達")
+            } else if lower.contains("capex guidance revision") {
+                Some("設備投資 guidance 修正")
+            } else if lower.contains("headline concentration") {
+                Some("headline 集中")
+            } else if lower.contains("single-theme leadership") {
+                Some("単一テーマ主導")
+            } else if lower.contains("positioning reversal") {
+                Some("positioning 反転")
+            } else {
+                None
+            }
+        }
+        Language::EnUs => None,
+    };
+    translated.unwrap_or(value).to_string()
+}
+
+struct SensorHealthCategory {
+    category: GrayRhinoEvidenceCategory,
+    label: &'static str,
+}
+
+impl SensorHealthCategory {
+    fn matches(&self, category: GrayRhinoEvidenceCategory) -> bool {
+        self.category == category
+    }
+}
+
+fn sensor_health_categories(language: Language) -> Vec<SensorHealthCategory> {
+    vec![
+        SensorHealthCategory {
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            label: match language {
+                Language::ZhCn => "治理集中",
+                Language::EnUs => "Governance Concentration",
+                Language::JaJp => "ガバナンス集中",
+            },
+        },
+        SensorHealthCategory {
+            category: GrayRhinoEvidenceCategory::DependencyConcentration,
+            label: match language {
+                Language::ZhCn => "依赖集中",
+                Language::EnUs => "Dependency Concentration",
+                Language::JaJp => "依存集中",
+            },
+        },
+        SensorHealthCategory {
+            category: GrayRhinoEvidenceCategory::InstitutionalMaturity,
+            label: match language {
+                Language::ZhCn => "制度成熟度",
+                Language::EnUs => "Institutional Maturity",
+                Language::JaJp => "制度成熟度",
+            },
+        },
+        SensorHealthCategory {
+            category: GrayRhinoEvidenceCategory::Redundancy,
+            label: match language {
+                Language::ZhCn => "冗余能力",
+                Language::EnUs => "Redundancy",
+                Language::JaJp => "冗長性",
+            },
+        },
+    ]
+}
+
+fn sensor_health_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "灰犀牛传感器健康度",
+        Language::EnUs => "Gray Rhino Sensor Health",
+        Language::JaJp => "灰色のサイ sensor health",
+    }
+}
+
+fn readiness_score_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "准备度评分",
+        Language::EnUs => "Readiness score",
+        Language::JaJp => "準備度スコア",
+    }
+}
+
+fn quality_score_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "质量评分",
+        Language::EnUs => "Quality score",
+        Language::JaJp => "品質スコア",
+    }
+}
+
+fn average_confidence_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "平均置信度",
+        Language::EnUs => "avg confidence",
+        Language::JaJp => "平均 confidence",
+    }
+}
+
+fn source_diversity_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源多样性",
+        Language::EnUs => "source diversity",
+        Language::JaJp => "source 多様性",
+    }
+}
+
+fn evidence_quality_dimensions_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- evidence 质量维度: 可追溯性 / 完整性 / 新鲜度 / 置信度 / 来源多样性 / 拒绝比例",
+        Language::EnUs => "- Evidence quality dimensions: traceability / completeness / freshness / confidence / source diversity / rejection ratio",
+        Language::JaJp => "- evidence 品質次元: 追跡可能性 / 完全性 / 鮮度 / confidence / source 多様性 / rejection 比率",
+    }
+}
+
+fn evidence_record_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "条 evidence 记录",
+        Language::EnUs => "evidence record(s)",
+        Language::JaJp => "件の evidence record",
+    }
+}
+
+fn readiness_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "准备度",
+        Language::EnUs => "readiness",
+        Language::JaJp => "準備度",
+    }
+}
+
+fn readiness_ready_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "就绪",
+        Language::EnUs => "ready",
+        Language::JaJp => "準備完了",
+    }
+}
+
+fn readiness_partial_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "部分就绪",
+        Language::EnUs => "partial",
+        Language::JaJp => "部分的に準備",
+    }
+}
+
+fn readiness_insufficient_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "不足",
+        Language::EnUs => "insufficient",
+        Language::JaJp => "不足",
+    }
+}
+
+fn evidence_explanation_graph_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Evidence 解释图",
+        Language::EnUs => "Evidence Explanation Graph",
+        Language::JaJp => "Evidence 説明グラフ",
+    }
+}
+
+fn evidence_explanation_graph_body(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- 依赖集中 -> 依赖集中 evidence -> 供应商 / cloud / 基础设施披露\n- fallback 生存风险 -> 依赖集中 + 冗余缺口 -> fallback 与 failover evidence\n- 约束成长 -> 制度成熟度 -> 审计、监督、合规与继任 evidence\n- 风险扩张 -> 治理集中 + 依赖集中 -> 结构集中 evidence\n",
+        Language::EnUs => "- dependency_centralization -> DependencyConcentration -> supplier/cloud/infrastructure disclosures\n- fallback_survivability_risk -> DependencyConcentration + Redundancy gap -> fallback and failover evidence\n- constraint_growth_rate -> InstitutionalMaturity -> audit, oversight, compliance maturity evidence\n- risk_expansion_rate -> GovernanceConcentration + DependencyConcentration -> structural concentration evidence\n",
+        Language::JaJp => "- 依存集中 -> DependencyConcentration -> supplier / cloud / infrastructure 開示\n- fallback 生存リスク -> DependencyConcentration + Redundancy gap -> fallback と failover evidence\n- 制約成長 -> InstitutionalMaturity -> audit、oversight、compliance、succession evidence\n- リスク拡張 -> GovernanceConcentration + DependencyConcentration -> 構造集中 evidence\n",
+    }
+}
+
+fn backfill_ops_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "回填运维视图\n",
+        Language::EnUs => "Backfill Ops View\n",
+        Language::JaJp => "backfill 運用ビュー\n",
+    }
+}
+
+fn failed_sources_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "失败 source 数",
+        Language::EnUs => "failed_sources",
+        Language::JaJp => "失敗 source 数",
+    }
+}
+
+fn stale_sources_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "陈旧 source 数",
+        Language::EnUs => "stale_sources",
+        Language::JaJp => "古い source 数",
+    }
+}
+
+fn drift_sources_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "漂移 source 数",
+        Language::EnUs => "drift_sources",
+        Language::JaJp => "drift source 数",
+    }
+}
+
+fn render_unclassified_evidence_notice(count: usize, language: Language) -> String {
+    match language {
+        Language::ZhCn => format!(
+            "旧 evidence 记录不可评分\n- 缺少 risk_effect 的记录数: {count}\n- 处理: 已载入但不参与正式升级评分，请重新投影或重新采集。"
+        ),
+        Language::EnUs => format!(
+            "Unclassified legacy evidence\n- records missing risk_effect: {count}\n- handling: loaded but excluded from formal escalation scoring until re-projected or re-collected."
+        ),
+        Language::JaJp => format!(
+            "未分類の旧 evidence\n- risk_effect 欠落 record 数: {count}\n- 処理: 読み込みは行うが、再投影または再収集まで正式な昇格 scoring から除外する。"
+        ),
+    }
+}
+
 fn auto_discovery_ops_title(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "自动发现运维视图\n",
@@ -1095,137 +1512,12 @@ fn group_company_statuses(
     by_subject
 }
 
-fn collect_auto_discovered_candidates(
-    app_config: &config::AppConfig,
-    save_dir: &Path,
-    as_of_date: NaiveDate,
-) -> Vec<GrayRhinoCandidate> {
-    let source_roots = [
-        save_dir.join("gray_rhino_sources"),
-        save_dir.join("gray_rhino_raw_sources"),
-    ];
-    let mut files = Vec::new();
-    for root in source_roots {
-        collect_text_files(&root, &mut files);
-    }
-    let watch_symbols: Vec<String> = app_config
-        .watchlist
-        .iter()
-        .filter(|entry| entry.enable)
-        .map(|entry| entry.symbol.clone())
-        .collect();
-    let default_subject = watch_symbols
-        .first()
-        .cloned()
-        .unwrap_or_else(|| "UNKNOWN".to_string());
-    let mut candidates = Vec::new();
-    for path in files {
-        let Ok(text) = std::fs::read_to_string(&path) else {
-            continue;
-        };
-        let path_text = path.to_string_lossy().to_string();
-        let path_components = path
-            .components()
-            .filter_map(|component| component.as_os_str().to_str())
-            .map(|component| component.to_uppercase())
-            .collect::<Vec<_>>();
-        let subject = watch_symbols
-            .iter()
-            .find(|symbol| {
-                let symbol = symbol.to_uppercase();
-                path_components.iter().any(|component| {
-                    component == &symbol || component.starts_with(&format!("{symbol}_"))
-                })
-            })
-            .cloned()
-            .or_else(|| {
-                path.parent()
-                    .and_then(|parent| parent.file_name())
-                    .and_then(|name| name.to_str())
-                    .map(str::to_string)
-            })
-            .unwrap_or_else(|| default_subject.clone());
-        let source_is_typed_company_cache = path.components().any(|component| {
-            matches!(
-                component.as_os_str().to_str(),
-                Some("governance" | "narrative")
-            )
-        });
-        if source_is_typed_company_cache
-            && !watch_symbols
-                .iter()
-                .any(|watch_symbol| watch_symbol.eq_ignore_ascii_case(&subject))
-        {
-            continue;
-        }
-        candidates.extend(discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
-            subject,
-            source_title: path_text,
-            observed_at: as_of_date,
-            text,
-        }));
-    }
-    if let Ok(persisted_candidates) = GrayRhinoCandidateStore::new(save_dir).load_candidates() {
-        candidates.extend(
-            persisted_candidates
-                .into_iter()
-                .filter(|candidate| candidate_in_current_report_scope(candidate, &watch_symbols)),
-        );
-    }
-    candidates
-}
-
-fn candidate_in_current_report_scope(
-    candidate: &GrayRhinoCandidate,
-    watch_symbols: &[String],
-) -> bool {
-    candidate.scope == GrayRhinoCandidateScope::Market
-        || watch_symbols
-            .iter()
-            .any(|symbol| symbol.eq_ignore_ascii_case(&candidate.subject))
-}
-
-fn dedupe_candidates(candidates: Vec<GrayRhinoCandidate>) -> Vec<GrayRhinoCandidate> {
-    let mut seen = BTreeSet::new();
-    let mut deduped = Vec::new();
-    for candidate in candidates {
-        let key = format!(
-            "{}::{:?}::{:?}",
-            candidate.subject, candidate.scope, candidate.kind
-        );
-        if seen.insert(key) {
-            deduped.push(candidate);
-        }
-    }
-    deduped
-}
-
-fn collect_text_files(path: &Path, out: &mut Vec<PathBuf>) {
-    let Ok(metadata) = std::fs::metadata(path) else {
-        return;
-    };
-    if metadata.is_file() {
-        if matches!(
-            path.extension().and_then(|ext| ext.to_str()),
-            Some("txt" | "md" | "html" | "htm")
-        ) {
-            out.push(path.to_path_buf());
-        }
-        return;
-    }
-    let Ok(entries) = std::fs::read_dir(path) else {
-        return;
-    };
-    for entry in entries.flatten() {
-        collect_text_files(&entry.path(), out);
-    }
-}
-
-fn render_governance_sensor_health(save_dir: &Path, language: Language) -> Result<String> {
-    let store = GrayRhinoEvidenceStore::new(save_dir);
-    let audits = store.load_governance_extraction_audits()?;
+fn render_governance_sensor_health(
+    audits: &[crate::features::research::domain::governance_source::GovernanceExtractionAuditRecord],
+    language: Language,
+) -> String {
     if audits.is_empty() {
-        return Ok(String::new());
+        return String::new();
     }
     let source_count = audits.len();
     let accepted_count = audits.iter().filter(|audit| audit.accepted).count();
@@ -1264,14 +1556,14 @@ fn render_governance_sensor_health(save_dir: &Path, language: Language) -> Resul
         ));
     }
     out.push_str(governance_sensor_boundary_label(language));
-    Ok(out)
+    out
 }
 
 fn governance_sensor_health_heading(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Governance sensor health",
+        Language::ZhCn => "治理传感器健康度",
         Language::EnUs => "Governance Sensor Health",
-        Language::JaJp => "Governance sensor health",
+        Language::JaJp => "ガバナンス sensor health",
     }
 }
 
@@ -1285,7 +1577,7 @@ fn governance_sensor_source_count_label(language: Language) -> &'static str {
 
 fn governance_sensor_accepted_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "accepted",
+        Language::ZhCn => "已接受",
         Language::EnUs => "Accepted",
         Language::JaJp => "accepted",
     }
@@ -1293,7 +1585,7 @@ fn governance_sensor_accepted_label(language: Language) -> &'static str {
 
 fn governance_sensor_rejected_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "rejected",
+        Language::ZhCn => "已拒绝",
         Language::EnUs => "Rejected",
         Language::JaJp => "rejected",
     }
@@ -1301,7 +1593,7 @@ fn governance_sensor_rejected_label(language: Language) -> &'static str {
 
 fn governance_sensor_coverage_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "coverage ratio",
+        Language::ZhCn => "覆盖率",
         Language::EnUs => "Coverage ratio",
         Language::JaJp => "coverage ratio",
     }
@@ -1309,7 +1601,7 @@ fn governance_sensor_coverage_label(language: Language) -> &'static str {
 
 fn governance_sensor_latest_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "latest observed date",
+        Language::ZhCn => "最新观测日",
         Language::EnUs => "Latest observed date",
         Language::JaJp => "latest observed date",
     }
@@ -1318,13 +1610,13 @@ fn governance_sensor_latest_label(language: Language) -> &'static str {
 fn governance_sensor_boundary_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
+            "边界声明: 治理传感器健康度仅用于 evidence 覆盖检查，不更新升级状态、交易执行或交易状态。"
         }
         Language::EnUs => {
             "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
         }
         Language::JaJp => {
-            "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
+            "境界声明: ガバナンス sensor health は evidence coverage の確認のみで、昇格状態、execution、trading state を更新しない。"
         }
     }
 }
@@ -1519,16 +1811,25 @@ fn boundary_label(language: Language) -> &'static str {
     }
 }
 
-fn source_boundary_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => {
+fn source_boundary_label(source: GrayRhinoObservationSource, language: Language) -> &'static str {
+    match (source, language) {
+        (GrayRhinoObservationSource::ManualConfiguration, Language::ZhCn) => {
             "数据边界: 当前来源为人工配置的结构基线，尚未接入专用灰犀牛外部证据源，不代表自动事实发现。"
         }
-        Language::EnUs => {
+        (GrayRhinoObservationSource::ManualConfiguration, Language::EnUs) => {
             "Data boundary: the current source is a manually configured structural baseline; no dedicated external Gray Rhino evidence source is connected, so this is not automated fact discovery."
         }
-        Language::JaJp => {
+        (GrayRhinoObservationSource::ManualConfiguration, Language::JaJp) => {
             "データ境界: 現在の由来は手動設定した構造ベースラインであり、灰色のサイ専用の外部 evidence source は未接続のため、自動的な事実発見を表さない。"
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::ZhCn) => {
+            "数据边界: 当前正式评估来自结构化 EvidenceStore；仅用于灰犀牛升级观察，不改变交易、闸门、趋势或市场状态。"
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::EnUs) => {
+            "Data boundary: the current formal assessment comes from the structured EvidenceStore; it is used only for Gray Rhino escalation observation and does not change trading, Gate, trend, or market state."
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::JaJp) => {
+            "データ境界: 現在の正式評価は構造化 EvidenceStore に由来し、灰色のサイ昇格観測にのみ使う。取引、ゲート、trend、market state は変更しない。"
         }
     }
 }
@@ -1550,6 +1851,8 @@ fn non_signal_notice(language: Language) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::config::GrayRhinoRiskLevel;
+    use crate::features::research::application::gray_rhino_assessment::build_gray_rhino_assessment;
     use crate::features::research::domain::gray_rhino::GrayRhinoEscalationInput;
 
     fn normalized_escalation() -> GrayRhinoEscalation {
