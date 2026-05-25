@@ -18,6 +18,7 @@ use sha2::{Digest, Sha256};
 pub struct DependencySourceCollectionRequest {
     pub symbol: Option<String>,
     pub local_file: Option<String>,
+    pub source_url: Option<String>,
     pub observed_at: NaiveDate,
     pub retrieved_at: NaiveDate,
     pub persist_evidence: bool,
@@ -27,6 +28,7 @@ pub struct DependencySourceCollectionRequest {
 pub struct DependencyEvidenceRejectionDetail {
     pub subject: String,
     pub source_title: String,
+    pub taxonomy: DependencyReplayRejectionKind,
     pub reason: String,
 }
 
@@ -116,6 +118,7 @@ pub async fn collect_dependency_concentration_sources(
             Err(err) => rejected.push(DependencyEvidenceRejectionDetail {
                 subject: document.subject.clone(),
                 source_title: document.source_title.clone(),
+                taxonomy: classify_dependency_rejection(&err.to_string()),
                 reason: err.to_string(),
             }),
         }
@@ -146,11 +149,25 @@ pub fn extract_dependency_concentration_evidence(
         dependency_name: parse_dependency_name(&text).unwrap_or_else(|| document.subject.clone()),
         concentration_ratio: parse_ratio_metric(
             &text,
-            &["concentration_ratio", "dependency ratio"],
+            &[
+                "concentration_ratio",
+                "dependency ratio",
+                "supplier concentration",
+                "revenue concentration",
+                "customer concentration",
+                "workloads hosted by",
+            ],
         ),
         single_point_of_failure: parse_bool_metric(
             &text,
-            &["single_point_of_failure", "single point of failure"],
+            &[
+                "single_point_of_failure",
+                "single point of failure",
+                "sole supplier",
+                "single supplier",
+                "single cloud provider",
+                "dependent on one",
+            ],
         ),
         fallback_disclosed: parse_bool_metric(
             &text,
@@ -158,6 +175,10 @@ pub fn extract_dependency_concentration_evidence(
                 "fallback_disclosed",
                 "fallback disclosed",
                 "fallback available",
+                "alternative supplier",
+                "backup provider",
+                "redundant provider",
+                "no alternative supplier",
             ],
         ),
     };
@@ -185,7 +206,6 @@ pub fn extract_dependency_concentration_evidence(
     Ok(evidence)
 }
 
-#[allow(dead_code)]
 pub fn classify_dependency_rejection(reason: &str) -> DependencyReplayRejectionKind {
     if reason.contains("MissingDependencyMetric") {
         DependencyReplayRejectionKind::MetriclessSource
@@ -230,13 +250,30 @@ fn build_dependency_extraction_audit(
             string_metric_audit("dependency_name", parse_dependency_name(&text)),
             number_metric_audit(
                 "concentration_ratio",
-                parse_ratio_metric(&text, &["concentration_ratio", "dependency ratio"]),
+                parse_ratio_metric(
+                    &text,
+                    &[
+                        "concentration_ratio",
+                        "dependency ratio",
+                        "supplier concentration",
+                        "revenue concentration",
+                        "customer concentration",
+                        "workloads hosted by",
+                    ],
+                ),
             ),
             bool_metric_audit(
                 "single_point_of_failure",
                 parse_bool_metric(
                     &text,
-                    &["single_point_of_failure", "single point of failure"],
+                    &[
+                        "single_point_of_failure",
+                        "single point of failure",
+                        "sole supplier",
+                        "single supplier",
+                        "single cloud provider",
+                        "dependent on one",
+                    ],
                 ),
             ),
             bool_metric_audit(
@@ -247,6 +284,10 @@ fn build_dependency_extraction_audit(
                         "fallback_disclosed",
                         "fallback disclosed",
                         "fallback available",
+                        "alternative supplier",
+                        "backup provider",
+                        "redundant provider",
+                        "no alternative supplier",
                     ],
                 ),
             ),
@@ -313,8 +354,8 @@ fn bool_metric_audit(metric: &str, value: Option<bool>) -> DependencyMetricAudit
 }
 
 fn parse_dependency_kind(text: &str) -> Option<DependencyConcentrationKind> {
-    parse_label_value(text, &["dependency_kind", "dependency kind"]).and_then(|value| {
-        match value.trim().to_lowercase().as_str() {
+    parse_label_value(text, &["dependency_kind", "dependency kind"])
+        .and_then(|value| match value.trim().to_lowercase().as_str() {
             "infrastructure" => Some(DependencyConcentrationKind::Infrastructure),
             "compute" => Some(DependencyConcentrationKind::Compute),
             "cloud" => Some(DependencyConcentrationKind::Cloud),
@@ -322,8 +363,24 @@ fn parse_dependency_kind(text: &str) -> Option<DependencyConcentrationKind> {
             "supplier" => Some(DependencyConcentrationKind::Supplier),
             "ecosystem" => Some(DependencyConcentrationKind::Ecosystem),
             _ => None,
-        }
-    })
+        })
+        .or_else(|| {
+            if text.contains("cloud provider") || text.contains("cloud platform") {
+                Some(DependencyConcentrationKind::Cloud)
+            } else if text.contains("launch provider") || text.contains("launch service") {
+                Some(DependencyConcentrationKind::Launch)
+            } else if text.contains("compute") || text.contains("gpu") {
+                Some(DependencyConcentrationKind::Compute)
+            } else if text.contains("supplier") || text.contains("sole supplier") {
+                Some(DependencyConcentrationKind::Supplier)
+            } else if text.contains("infrastructure") {
+                Some(DependencyConcentrationKind::Infrastructure)
+            } else if text.contains("ecosystem") {
+                Some(DependencyConcentrationKind::Ecosystem)
+            } else {
+                None
+            }
+        })
 }
 
 fn parse_dependency_name(text: &str) -> Option<String> {
@@ -349,11 +406,21 @@ fn parse_ratio_metric(text: &str, labels: &[&str]) -> Option<f64> {
 fn parse_bool_metric(text: &str, labels: &[&str]) -> Option<bool> {
     parse_label_value(text, labels).and_then(|value| {
         let lower = value.to_lowercase();
-        if lower.contains("true") || lower.contains("yes") || lower.contains("disclosed") {
-            Some(true)
-        } else if lower.contains("false") || lower.contains("no") || lower.contains("not disclosed")
+        if lower == "no"
+            || lower.contains("false")
+            || lower.contains("not disclosed")
+            || lower.contains("no ")
         {
             Some(false)
+        } else if lower.contains("true")
+            || lower.contains("yes")
+            || lower.contains("disclosed")
+            || lower.contains("sole")
+            || lower.contains("single")
+            || lower.contains("dependent")
+            || lower.contains("available")
+        {
+            Some(true)
         } else {
             None
         }
@@ -483,6 +550,26 @@ mod tests {
     }
 
     #[test]
+    fn extracts_dependency_metrics_from_disclosure_labels() {
+        let evidence = extract_dependency_concentration_evidence(&document(
+            "cloud provider: Example Cloud; workloads hosted by: 55%; single cloud provider: yes; backup provider: no",
+        ))
+        .unwrap();
+
+        assert_eq!(
+            evidence.metrics.dependency_kind,
+            DependencyConcentrationKind::Cloud
+        );
+        assert_eq!(
+            evidence.metrics.dependency_name,
+            "example cloud".to_string()
+        );
+        assert_eq!(evidence.metrics.concentration_ratio, Some(0.55));
+        assert_eq!(evidence.metrics.single_point_of_failure, Some(true));
+        assert_eq!(evidence.metrics.fallback_disclosed, Some(false));
+    }
+
+    #[test]
     fn rejects_metricless_dependency_source() {
         let err = extract_dependency_concentration_evidence(&document(
             "This is generic supplier narrative without structured dependency metrics.",
@@ -526,6 +613,7 @@ mod tests {
             DependencySourceCollectionRequest {
                 symbol: Some("EXAMPLE".to_string()),
                 local_file: None,
+                source_url: None,
                 observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
                 retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
                 persist_evidence: false,

@@ -448,6 +448,39 @@ fn dependency_local_source_collection_produces_coverage_and_rejections() {
 }
 
 #[test]
+fn dependency_source_collection_reports_rejection_taxonomy() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let source_path = tmp.path().join("dependency_metricless.txt");
+    fs::write(
+        &source_path,
+        "This live dependency disclosure mentions suppliers but omits structured metrics.",
+    )
+    .expect("failed to write metricless dependency fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-dependency",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            source_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+            "--dry-run",
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Rejected: 1"));
+    assert!(stdout.contains("[REJECTED:MetriclessSource]"));
+    assert!(stdout.contains("Formal evidence persisted: false"));
+    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
+}
+
+#[test]
 fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("proxy_source.txt");

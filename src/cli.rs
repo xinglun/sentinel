@@ -238,6 +238,7 @@ pub async fn run() -> Result<()> {
                 &app_config,
                 options.evidence_symbol.clone(),
                 options.governance_evidence_file.clone(),
+                options.evidence_url.clone(),
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
             )
@@ -703,6 +704,7 @@ async fn run_collect_gray_rhino_dependency(
     app_config: &config::AppConfig,
     symbol: Option<String>,
     source_file: Option<String>,
+    source_url: Option<String>,
     dry_run_requested: bool,
     observed_date_arg: Option<&str>,
 ) -> Result<()> {
@@ -721,6 +723,7 @@ async fn run_collect_gray_rhino_dependency(
         DependencySourceCollectionRequest {
             symbol: Some(target),
             local_file: source_file,
+            source_url,
             observed_at,
             retrieved_at: chrono::Local::now().date_naive(),
             persist_evidence: !dry_run_requested,
@@ -749,8 +752,8 @@ async fn run_collect_gray_rhino_dependency(
     }
     for rejection in &summary.rejected {
         println!(
-            "  [REJECTED] {}: {}",
-            rejection.source_title, rejection.reason
+            "  [REJECTED:{:?}] {}: {}",
+            rejection.taxonomy, rejection.source_title, rejection.reason
         );
     }
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
@@ -765,18 +768,36 @@ impl DependencySourceAdapter for CliLocalDependencySourceAdapter {
         &self,
         request: &DependencySourceCollectionRequest,
     ) -> Result<Vec<DependencySourceDocument>> {
-        let file = request
-            .local_file
-            .as_ref()
-            .ok_or_else(|| anyhow!("--file is required for dependency source collection"))?;
-        let path = std::path::PathBuf::from(file);
-        let content = tokio::fs::read_to_string(&path)
-            .await
-            .with_context(|| format!("Failed to read dependency source file: {}", file))?;
         let subject = request
             .symbol
             .clone()
             .unwrap_or_else(|| "UNKNOWN".to_string());
+        if let Some(url) = request.source_url.as_ref() {
+            let content = reqwest::get(url)
+                .await
+                .with_context(|| format!("Failed to fetch dependency source URL: {}", url))?
+                .text()
+                .await
+                .with_context(|| format!("Failed to read dependency source URL body: {}", url))?;
+            return Ok(vec![DependencySourceDocument {
+                subject: subject.clone(),
+                source_kind: DependencySourceKind::LiveDependencyDisclosure,
+                source_title: url.to_string(),
+                publisher: subject,
+                source_url: Some(url.to_string()),
+                repository_path: None,
+                observed_at: request.observed_at,
+                retrieved_at: request.retrieved_at,
+                content,
+            }]);
+        }
+        let file = request.local_file.as_ref().ok_or_else(|| {
+            anyhow!("--file or --url is required for dependency source collection")
+        })?;
+        let path = std::path::PathBuf::from(file);
+        let content = tokio::fs::read_to_string(&path)
+            .await
+            .with_context(|| format!("Failed to read dependency source file: {}", file))?;
         Ok(vec![DependencySourceDocument {
             subject: subject.clone(),
             source_kind: DependencySourceKind::LocalDependencyDocument,

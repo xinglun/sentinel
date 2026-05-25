@@ -18,6 +18,7 @@ dependencyEvidenceStore: gray_rhino_evidence.jsonl
 dependencyReplayFixturePack: tests/fixtures/dependency_local
 dependencySourceManifest: gray_rhino_dependency_source_manifest.jsonl
 dependencyExtractionAudit: gray_rhino_dependency_extraction_audit.jsonl
+dependencyLiveBackfillEnabled: true
 categories:
   - GovernanceConcentration
   - DependencyConcentration
@@ -108,6 +109,7 @@ governanceConcentration:
 dependencyConcentration:
   phase: phase_3b_dependency_concentration_evidence_pipeline
   inputMode: repository_local_structured_json
+  sourceCollectionInputMode: repository_local_or_url_dependency_disclosure
   localIngestionCli: ingest-gray-rhino-dependency
   requiredMetricAtLeastOneOf:
     - concentration_ratio
@@ -134,6 +136,18 @@ dependencyConcentration:
   deterministicExtractionOnly: true
   collectorEnabled: true
   localSourceCollectionOnly: true
+  urlSourceCollectionEnabled: true
+  liveBackfillDryRunDefault: true
+  calibratedDisclosureLabels:
+    - supplier concentration
+    - revenue concentration
+    - customer concentration
+    - workloads hosted by
+    - single cloud provider
+    - sole supplier
+    - alternative supplier
+    - backup provider
+    - redundant provider
   replayCoverageReport: true
   noEscalationStateMutation: true
 institutionalMaturity:

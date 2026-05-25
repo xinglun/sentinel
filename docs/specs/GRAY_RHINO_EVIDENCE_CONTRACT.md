@@ -76,7 +76,7 @@ business、infrastructure、compute、cloud、launch、supplier、ecosystem な�
 - launch dependency。
 - single supplier dependency。
 
-Phase 3-B では、この category を GovernanceConcentration の次の構造 sensor として実装する。入力は repository-local structured JSON から開始し、`ingest-gray-rhino-dependency --file <json>` で取り込む。local source collection は `collect-gray-rhino-dependency --file <source>` に限定し、live source adapter はまだ追加しない。
+Phase 3-B では、この category を GovernanceConcentration の次の構造 sensor として実装する。入力は repository-local structured JSON から開始し、`ingest-gray-rhino-dependency --file <json>` で取り込む。source collection は `collect-gray-rhino-dependency --file <source>` または `collect-gray-rhino-dependency --url <url>` に限定し、live dependency graph builder はまだ追加しない。
 
 次の構造項目のうち少なくとも 1 つを source から抽出する。
 
@@ -249,7 +249,9 @@ field-level coverage は current run の extraction audit から算出する。J
 
 本 Work Item の対象。DependencyConcentration evidence は source traceability、dependency kind、dependency name、category-specific metric validation を必須とする。
 
-Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。`ingest-gray-rhino-dependency --file <json>` は valid evidence を `gray_rhino_evidence.jsonl` に保存する。`collect-gray-rhino-dependency --file <source>` は local source の deterministic extraction、manifest、audit、coverage を生成するが、live collector、dependency graph builder、escalation engine は追加しない。
+Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。`ingest-gray-rhino-dependency --file <json>` は valid evidence を `gray_rhino_evidence.jsonl` に保存する。`collect-gray-rhino-dependency --file <source>` と `collect-gray-rhino-dependency --url <url>` は deterministic extraction、manifest、audit、coverage、rejection taxonomy を生成するが、dependency graph builder、trading、Gate、execution は追加しない。
+
+Phase v1.1 では dependency disclosure labels として `supplier concentration`、`revenue concentration`、`customer concentration`、`workloads hosted by`、`single cloud provider`、`sole supplier`、`alternative supplier`、`backup provider`、`redundant provider` を許可する。metricless source は `MetriclessSource` として extraction audit と CLI output に残す。
 
 ### Phase 4: Escalation Detection Engine
 
