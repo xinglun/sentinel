@@ -25,7 +25,11 @@ use crate::features::radar::interface::audit_daily_report::{
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
 use crate::features::research::acl::governance_evidence_store_factory::build_governance_evidence_store_adapter;
+use crate::features::research::acl::governance_source_adapter_factory::build_governance_source_adapter;
 use crate::features::research::application::governance_evidence::ingest_governance_concentration_evidence;
+use crate::features::research::application::governance_source_pipeline::{
+    collect_governance_concentration_sources, GovernanceSourceCollectionRequest,
+};
 use crate::features::research::domain::gray_rhino_evidence::GovernanceConcentrationEvidence;
 use crate::features::research::interface::cognitive_reports::{
     build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
@@ -168,6 +172,19 @@ pub async fn run() -> Result<()> {
                 &app_config,
                 options.governance_evidence_file.as_deref(),
             )?;
+        }
+        CliCommand::CollectGrayRhinoGovernance => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_collect_gray_rhino_governance(
+                &app_config,
+                options.evidence_symbol.clone(),
+                options.governance_evidence_file.clone(),
+                options.evidence_date_arg.as_deref(),
+                options.evidence_days,
+            )
+            .await?;
         }
         CliCommand::IngestEvidence => {
             if let Some(err) = &options.evidence_arg_error {
@@ -460,6 +477,55 @@ fn run_ingest_gray_rhino_governance(
     println!("Category: GovernanceConcentration");
     println!("Source: {}", outcome.record.source.source_title);
     println!("Observed at: {}", outcome.record.source.observed_at);
+    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    Ok(())
+}
+
+async fn run_collect_gray_rhino_governance(
+    app_config: &config::AppConfig,
+    symbol: Option<String>,
+    source_file: Option<String>,
+    observed_date_arg: Option<&str>,
+    lookback_days: usize,
+) -> Result<()> {
+    if symbol.is_none() && source_file.is_none() {
+        return Err(anyhow!("--symbol or --file is required"));
+    }
+    let observed_at = match observed_date_arg {
+        Some(raw) => NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+            .with_context(|| format!("Invalid governance evidence date: {}", raw))?,
+        None => chrono::Local::now().date_naive(),
+    };
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
+    let adapter = build_governance_source_adapter(app_config, &save_dir);
+    let store = build_governance_evidence_store_adapter(&save_dir);
+    let summary = collect_governance_concentration_sources(
+        &adapter,
+        &store,
+        GovernanceSourceCollectionRequest {
+            symbol,
+            local_file: source_file,
+            observed_at,
+            retrieved_at: chrono::Local::now().date_naive(),
+            lookback_days: lookback_days.max(1),
+        },
+    )
+    .await?;
+
+    println!("--- Gray Rhino Governance Evidence Collection ---");
+    println!("Sources:  {}", summary.source_count);
+    println!("Accepted: {}", summary.accepted_count);
+    println!("Saved:    {}", summary.saved_count);
+    println!("Rejected: {}", summary.rejected.len());
+    if let Some(latest) = summary.latest_observed_at {
+        println!("Latest observed date: {}", latest);
+    }
+    for rejection in &summary.rejected {
+        println!(
+            "  [REJECTED] {}: {}",
+            rejection.source_title, rejection.reason
+        );
+    }
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
     Ok(())
 }

@@ -1,0 +1,138 @@
+{
+  "workItemId": "gray-rhino-governance-source-adapter",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-source-adapter.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-source-adapter.contract.json",
+      "reason": "Governance source adapter の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-source-adapter.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Governance source adapter、raw source cache、deterministic extraction contract を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Phase 3-A Governance Source Adapter の境界を SSOT に追記した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "source adapter と raw source cache の contract check を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_gray_rhino_evidence_contract.py",
+      "reason": "governance source domain path を checker test に追加した。"
+    },
+    {
+      "path": "src/features/research/domain/governance_source.rs",
+      "reason": "GovernanceSourceDocument と source validation を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "governance_source domain module を公開した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "source adapter port、deterministic extractor、collection summary を追加した。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "governance source pipeline module を公開した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+      "reason": "local document / SEC governance filing source adapter と raw source cache を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "sec_governance_source_adapter module を公開した。"
+    },
+    {
+      "path": "src/features/research/acl/governance_source_adapter_factory.rs",
+      "reason": "CLI から infrastructure 実装を隠蔽する adapter factory を追加した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "governance source adapter factory module を公開した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "collect-gray-rhino-governance command を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Governance source collection CLI flow と audit summary 出力を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "source collection が cache / evidence store に保存し escalation snapshot を作らないことを固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "ユーザー方針: GovernanceConcentration を低ノイズ source adapter へ進める",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "src/features/research/application/governance_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-source-adapter.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-source-adapter.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-source-adapter.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-source-adapter.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-source-adapter.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-source-adapter.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-source-adapter.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-source-adapter.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "SEC network path は実装済みだが、CI / test は local source fixture で固定している。自由 NLP extraction と escalation 接続は未実装。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-source-adapter.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-source-adapter.summary.json",
+    "src/features/research/domain/governance_source.rs",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+    "src/features/research/acl/governance_source_adapter_factory.rs"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 test で bool parser が後続 field の false を拾ったため、field segment 内だけを読むよう修正した。"
+  ]
+}

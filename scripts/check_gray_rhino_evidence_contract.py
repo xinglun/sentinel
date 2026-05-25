@@ -11,6 +11,7 @@ SCHEMA_PATH = PROJECT_ROOT / ".ai/architecture/gray_rhino_evidence_schema.yaml"
 DOC_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
 FRAMEWORK_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
 DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.rs"
+GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
 ASSESSMENT_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_assessment.rs"
 
 REQUIRED_CATEGORIES = {
@@ -42,7 +43,14 @@ REQUIRED_BOUNDARY_TERMS = {
 
 def main() -> int:
     errors: list[str] = []
-    paths = [SCHEMA_PATH, DOC_PATH, FRAMEWORK_PATH, DOMAIN_PATH, ASSESSMENT_PATH]
+    paths = [
+        SCHEMA_PATH,
+        DOC_PATH,
+        FRAMEWORK_PATH,
+        DOMAIN_PATH,
+        GOVERNANCE_SOURCE_PATH,
+        ASSESSMENT_PATH,
+    ]
     for path in paths:
         if not path.exists():
             errors.append(f"missing required file: {path.relative_to(PROJECT_ROOT)}")
@@ -54,6 +62,7 @@ def main() -> int:
     doc = DOC_PATH.read_text(encoding="utf-8")
     framework = FRAMEWORK_PATH.read_text(encoding="utf-8")
     domain = DOMAIN_PATH.read_text(encoding="utf-8")
+    governance_source = GOVERNANCE_SOURCE_PATH.read_text(encoding="utf-8")
     assessment = ASSESSMENT_PATH.read_text(encoding="utf-8")
 
     required_schema_pairs = {
@@ -63,6 +72,8 @@ def main() -> int:
         "automatedCollectionEnabled: false",
         "governanceEvidencePipelineEnabled: true",
         "governanceEvidenceStore: gray_rhino_evidence.jsonl",
+        "governanceSourceAdapterEnabled: true",
+        "governanceSourceCache: gray_rhino_sources/governance",
         "evidence_must_not_set_escalation_state: true",
     }
     for item in required_schema_pairs:
@@ -95,7 +106,9 @@ def main() -> int:
         "Source Contract",
         "Phase 2: Gray Rhino Evidence Schema",
         "Phase 3-A: Governance Concentration Evidence Pipeline",
+        "Phase 3-A: Governance Source Adapter",
         "repository-local structured JSON",
+        "deterministic extraction",
         "自動情報収集",
     ]
     for item in doc_required:
@@ -125,6 +138,8 @@ def main() -> int:
     for item in required_domain_terms:
         if item not in domain:
             errors.append(f"domain missing validation boundary `{item}`")
+    if "GovernanceSourceDocument" not in governance_source:
+        errors.append("governance source domain missing `GovernanceSourceDocument`")
 
     if "validate_gray_rhino_evidence_contract" not in assessment:
         errors.append("application boundary does not expose evidence contract validation")
@@ -137,8 +152,10 @@ def main() -> int:
             errors.append(f"governance domain missing metric `{item}`")
 
     for item in [
-        "phase_3a_governance_concentration_evidence_pipeline: active",
+        "phase_3a_governance_source_adapter: active",
         "noEscalationStateMutation: true",
+        "rawSourceCache: gray_rhino_sources/governance",
+        "deterministicExtractionOnly: true",
     ]:
         if item not in schema:
             errors.append(f"schema missing governance pipeline contract `{item}`")

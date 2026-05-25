@@ -53,6 +53,7 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             checker.DOC_PATH,
             checker.FRAMEWORK_PATH,
             checker.DOMAIN_PATH,
+            checker.GOVERNANCE_SOURCE_PATH,
             checker.ASSESSMENT_PATH,
         )
         try:
@@ -61,6 +62,9 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             checker.DOC_PATH = root / "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
             checker.FRAMEWORK_PATH = root / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
             checker.DOMAIN_PATH = root / "src/features/research/domain/gray_rhino_evidence.rs"
+            checker.GOVERNANCE_SOURCE_PATH = (
+                root / "src/features/research/domain/governance_source.rs"
+            )
             checker.ASSESSMENT_PATH = (
                 root / "src/features/research/application/gray_rhino_assessment.rs"
             )
@@ -82,6 +86,7 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
             write(checker.DOC_PATH, "Gray Rhino Evidence Contract\n")
             write(checker.FRAMEWORK_PATH, "GRAY_RHINO_EVIDENCE_CONTRACT.md\n")
             write(checker.DOMAIN_PATH, "enum GrayRhinoEvidenceCategory { GovernanceConcentration }\n")
+            write(checker.GOVERNANCE_SOURCE_PATH, "struct GovernanceSourceDocument;\n")
             write(checker.ASSESSMENT_PATH, "fn validate_gray_rhino_evidence_contract() {}\n")
             with contextlib.redirect_stdout(io.StringIO()):
                 assert checker.main() == 1
@@ -92,6 +97,7 @@ def test_checker_fails_when_schema_omits_required_category() -> None:
                 checker.DOC_PATH,
                 checker.FRAMEWORK_PATH,
                 checker.DOMAIN_PATH,
+                checker.GOVERNANCE_SOURCE_PATH,
                 checker.ASSESSMENT_PATH,
             ) = original_paths
 

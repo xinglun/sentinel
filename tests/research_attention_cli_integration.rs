@@ -194,6 +194,76 @@ fn gray_rhino_governance_evidence_ingest_writes_jsonl_without_escalation() {
     assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
 }
 
+#[test]
+fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let source_path = tmp.path().join("proxy_source.txt");
+    fs::write(
+        &source_path,
+        "founder_voting_power: 61.2%; independent_board_ratio: 0.42; dual_class_structure: true; super_voting_rights: yes; succession_disclosure: false",
+    )
+    .expect("failed to write governance source fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-governance",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            source_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Governance Evidence Collection"));
+    assert!(stdout.contains("Sources:  1"));
+    assert!(stdout.contains("Accepted: 1"));
+    assert!(stdout.contains("Rejected: 0"));
+    assert!(stdout.contains("Boundary: evidence only"));
+    let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
+        .expect("failed to read gray rhino evidence store");
+    assert!(store.contains("\"category\":\"GovernanceConcentration\""));
+    assert!(tmp
+        .path()
+        .join("gray_rhino_sources/governance/EXAMPLE/proxy_source.txt")
+        .exists());
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
+#[test]
+fn gray_rhino_governance_source_collection_rejects_metricless_source() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let source_path = tmp.path().join("proxy_source.txt");
+    fs::write(&source_path, "generic governance prose only")
+        .expect("failed to write governance source fixture");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-governance",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            source_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Sources:  1"));
+    assert!(stdout.contains("Accepted: 0"));
+    assert!(stdout.contains("Rejected: 1"));
+    assert!(stdout.contains("MissingGovernanceMetric"));
+    assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
+    assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
 fn run_cli(tmp: &TempDir, args: &[&str]) -> std::process::Output {
     Command::new(env!("CARGO_BIN_EXE_stock-sentinel"))
         .current_dir(tmp.path())

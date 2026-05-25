@@ -2,11 +2,13 @@ schemaVersion: 1
 contractKey: gray-rhino-evidence-contract
 humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md
 domainModel: src/features/research/domain/gray_rhino_evidence.rs
-currentPhase: phase_3a_governance_concentration_evidence_pipeline
+currentPhase: phase_3a_governance_source_adapter
 currentObservationSource: ManualConfiguration
 automatedCollectionEnabled: false
 governanceEvidencePipelineEnabled: true
 governanceEvidenceStore: gray_rhino_evidence.jsonl
+governanceSourceAdapterEnabled: true
+governanceSourceCache: gray_rhino_sources/governance
 categories:
   - GovernanceConcentration
   - DependencyConcentration
@@ -42,8 +44,8 @@ quality:
   confidence_means: evidence_quality_not_risk_severity
   evidence_must_not_set_escalation_state: true
 governanceConcentration:
-  phase: phase_3a
-  inputMode: repository_local_structured_json
+  phase: phase_3a_governance_source_adapter
+  inputMode: repository_local_structured_json_or_sec_governance_document
   requiredMetricAtLeastOneOf:
     - founder_voting_power
     - independent_board_ratio
@@ -57,6 +59,8 @@ governanceConcentration:
     - OperatorCuratedSource
   outputCategory: GovernanceConcentration
   storage: gray_rhino_evidence.jsonl
+  rawSourceCache: gray_rhino_sources/governance
+  deterministicExtractionOnly: true
   noEscalationStateMutation: true
 boundaries:
   forbidden_as_evidence:
@@ -77,7 +81,8 @@ boundaries:
 phases:
   phase_1_human_structured_governance_observation: completed
   phase_2_evidence_schema: completed
-  phase_3a_governance_concentration_evidence_pipeline: active
+  phase_3a_governance_concentration_evidence_pipeline: completed
+  phase_3a_governance_source_adapter: active
   phase_3b_dependency_concentration_evidence_pipeline: blocked_until_governance_sensor_stabilizes
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope
