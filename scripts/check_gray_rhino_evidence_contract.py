@@ -82,6 +82,10 @@ def main() -> int:
         "candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs",
         "inlineWatchlistReferenceEnabled: true",
         "manualRegistryPrimaryMechanism: false",
+        "autoSourceCollectionCli: collect-gray-rhino-sources",
+        "autoDiscoveryRunStore: gray_rhino_discovery_runs.jsonl",
+        "fredConfigEnabled: true",
+        "fredConfigField: fred_api_key",
         "governanceEvidencePipelineEnabled: true",
         "governanceEvidenceStore: gray_rhino_evidence.jsonl",
         "governanceSourceAdapterEnabled: true",
@@ -145,6 +149,9 @@ def main() -> int:
         "Phase 4: Auto Discovery And Inline Reference",
         "GrayRhinoCandidate",
         "Gray Rhino Inline Reference",
+        "collect-gray-rhino-sources",
+        "gray_rhino_discovery_runs.jsonl",
+        "[fred] fred_api_key",
     ]
     for item in doc_required:
         if item not in doc:
@@ -218,6 +225,11 @@ def main() -> int:
         "render_gray_rhino_inline_reference",
         "GovernanceConcentration",
         "MarketConcentration",
+        "InstitutionalMaturityGap",
+        "RedundancyGap",
+        "NarrativeCrowding",
+        "LiquidityFragility",
+        "CapexPaybackFragility",
         "reference only",
     ]:
         if item not in discovery_app:

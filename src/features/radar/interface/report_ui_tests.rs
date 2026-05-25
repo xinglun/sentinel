@@ -25,6 +25,7 @@ fn mock_config() -> AppConfig {
         telegram: None,
         futu: None,
         finnhub: None,
+        fred: None,
         sec: None,
         trading: None,
         provider: None,

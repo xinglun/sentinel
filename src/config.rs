@@ -17,6 +17,7 @@ pub struct AppConfig {
     pub telegram: Option<TelegramConfig>,
     pub futu: Option<FutuConfig>,
     pub finnhub: Option<FinnhubConfig>,
+    pub fred: Option<FredConfig>,
     pub trading: Option<TradingConfig>,
     #[allow(dead_code)]
     pub provider: Option<String>,
@@ -90,6 +91,13 @@ pub struct FutuConfig {
 pub struct FinnhubConfig {
     #[serde(alias = "api_key")]
     pub finnhub_api_key: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct FredConfig {
+    #[serde(alias = "api_key")]
+    pub fred_api_key: String,
 }
 
 #[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
@@ -590,6 +598,18 @@ impl AppConfig {
             }
         }
 
+        // FRED 設定を環境変数で上書きする。
+        if let Ok(key) = std::env::var("FRED_API_KEY") {
+            if key.trim().is_empty() {
+                // 空文字の環境変数は設定ファイルを上書きしない。
+                // CI で未設定 Secret が空文字として注入されるケースを吸収する。
+            } else if let Some(fred) = &mut config.fred {
+                fred.fred_api_key = key;
+            } else {
+                config.fred = Some(FredConfig { fred_api_key: key });
+            }
+        }
+
         // SEC 設定を環境変数で上書きする。
         if let Ok(ua) = std::env::var("SEC_USER_AGENT") {
             if ua.trim().is_empty() {
@@ -963,6 +983,9 @@ mod tests {
             enabled = false
             global_budget = 100000.0
 
+            [fred]
+            fred_api_key = "fred-test-key"
+
             [rules.actions]
             overheat_2 = "停止买入"
             optimal    = "买入"
@@ -981,6 +1004,10 @@ mod tests {
         let config: AppConfig = toml::from_str(toml_str).expect("should parse");
         assert_eq!(config.version, 1);
         assert_eq!(config.watchlist[0].symbol, "TSLA");
+        assert_eq!(
+            config.fred.as_ref().map(|fred| fred.fred_api_key.as_str()),
+            Some("fred-test-key")
+        );
     }
 
     #[test]
@@ -1066,6 +1093,7 @@ mod tests {
             telegram: None,
             futu: None,
             finnhub: None,
+            fred: None,
             trading: None,
             provider: None,
             rules: RulesConfig {

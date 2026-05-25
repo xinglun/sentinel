@@ -1,0 +1,124 @@
+{
+  "workItemId": "gray-rhino-source-adapters",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-source-adapters.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-source-adapters.contract.json",
+      "reason": "Gray Rhino source adapters の scope、acceptance、verification を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-source-adapters.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "FRED config と env override を追加する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "SEC / Finnhub / FRED source collection と cache / audit を追加する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "collect-gray-rhino-sources CLI を追加する。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Gray Rhino source adapter factory module を公開する。"
+    },
+    {
+      "path": "src/features/research/acl/gray_rhino_source_adapter_factory.rs",
+      "reason": "CLI から infrastructure へ直接依存しない ACL entrypoint を追加する。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "collect-gray-rhino-sources command と help を追加する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "Company / Market candidate discovery rules と state mapping を拡張する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "candidate dedup と discovery run audit 表示を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "source collection dry-run と boundary を統合テストで固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "AppConfig mock を FredConfig field に合わせる。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "AppConfig mock を FredConfig field に合わせる。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-source-adapters.contract.json",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/features/research/application/gray_rhino_discovery.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/infrastructure/sec_governance_source_adapter.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-source-adapters.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-source-adapters.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test test_parse_valid_config --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::gray_rhino_discovery::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_source_collection_dry_run_reports_boundary --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-source-adapters.summary.json CONTRACT=.ai/work-items/active/gray-rhino-source-adapters.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-source-adapters.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-adapters.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-source-adapters.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-adapters.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "外部 API は cache source 収集だけに限定し、Gray Rhino inline reference は trading / Gate / trend / market state へ接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

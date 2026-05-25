@@ -20,6 +20,18 @@ candidateStates:
   - Resolved
 inlineWatchlistReferenceEnabled: true
 manualRegistryPrimaryMechanism: false
+autoSourceCollectionCli: collect-gray-rhino-sources
+autoSourceProviders:
+  - sec
+  - finnhub
+  - fred
+autoSourceCaches:
+  sec: gray_rhino_sources/governance
+  finnhub: gray_rhino_sources/narrative
+  fred: gray_rhino_sources/macro
+autoDiscoveryRunStore: gray_rhino_discovery_runs.jsonl
+fredConfigEnabled: true
+fredConfigField: fred_api_key
 governanceEvidencePipelineEnabled: true
 governanceEvidenceStore: gray_rhino_evidence.jsonl
 governanceSourceAdapterEnabled: true

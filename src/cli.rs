@@ -28,6 +28,9 @@ use crate::features::radar::interface::audit_daily_report::{
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
 use crate::features::research::acl::governance_evidence_store_factory::build_governance_evidence_store_adapter;
 use crate::features::research::acl::governance_source_adapter_factory::build_governance_source_adapter;
+use crate::features::research::acl::gray_rhino_source_adapter_factory::{
+    collect_gray_rhino_sources, GrayRhinoSourceCollectionRequest, GrayRhinoSourceProvider,
+};
 use crate::features::research::application::dependency_evidence::ingest_dependency_concentration_evidence;
 use crate::features::research::application::dependency_source_pipeline::{
     collect_dependency_concentration_sources, DependencyFieldCoverage, DependencySourceAdapter,
@@ -192,6 +195,20 @@ pub async fn run() -> Result<()> {
                 options.governance_evidence_file.as_deref(),
                 options.evidence_date_arg.as_deref(),
             )?;
+        }
+        CliCommand::CollectGrayRhinoSources => {
+            if let Some(err) = &options.evidence_arg_error {
+                return Err(anyhow!("{}", err));
+            }
+            run_collect_gray_rhino_sources(
+                &app_config,
+                &options.evidence_source_provider,
+                options.evidence_symbols.clone(),
+                options.evidence_dry_run,
+                options.evidence_date_arg.as_deref(),
+                options.evidence_days,
+            )
+            .await?;
         }
         CliCommand::IngestGrayRhinoGovernance => {
             if let Some(err) = &options.evidence_arg_error {
@@ -626,6 +643,60 @@ fn run_discover_gray_rhino(
     });
     println!("--- Gray Rhino Auto Discovery ---");
     println!("{}", render_gray_rhino_inline_reference(&candidates));
+    Ok(())
+}
+
+async fn run_collect_gray_rhino_sources(
+    app_config: &config::AppConfig,
+    provider_arg: &str,
+    symbols: Vec<String>,
+    dry_run: bool,
+    observed_date_arg: Option<&str>,
+    lookback_days: usize,
+) -> Result<()> {
+    let provider = GrayRhinoSourceProvider::parse(provider_arg)
+        .ok_or_else(|| anyhow!("Unsupported Gray Rhino source provider: {}", provider_arg))?;
+    let as_of_date = match observed_date_arg {
+        Some(raw) => NaiveDate::parse_from_str(raw, "%Y-%m-%d")
+            .with_context(|| format!("Invalid Gray Rhino source collection date: {}", raw))?,
+        None => chrono::Local::now().date_naive(),
+    };
+    let outcomes = collect_gray_rhino_sources(
+        app_config,
+        GrayRhinoSourceCollectionRequest {
+            provider,
+            symbols,
+            save_dir: std::path::PathBuf::from(&app_config.output.save_to),
+            as_of_date,
+            lookback_days,
+            dry_run,
+        },
+    )
+    .await?;
+    println!("--- Gray Rhino Source Collection ---");
+    println!("provider: {:?}", provider);
+    println!("dry_run: {}", dry_run);
+    println!("source_count: {}", outcomes.len());
+    let accepted = outcomes.iter().filter(|outcome| outcome.accepted).count();
+    let candidate_count: usize = outcomes.iter().map(|outcome| outcome.candidate_count).sum();
+    println!("accepted: {}", accepted);
+    println!("rejected: {}", outcomes.len().saturating_sub(accepted));
+    println!("candidate_count: {}", candidate_count);
+    for outcome in outcomes {
+        println!(
+            "- {} accepted={} planned={} candidates={} path={} taxonomy={} message={}",
+            outcome.subject,
+            outcome.accepted,
+            outcome.planned,
+            outcome.candidate_count,
+            outcome.repository_path.as_deref().unwrap_or("none"),
+            outcome.failure_taxonomy.as_deref().unwrap_or("none"),
+            outcome.message
+        );
+    }
+    println!(
+        "Boundary: source collection only; no trading recommendation, no Gate override, no trend cohesion mutation, no execution action."
+    );
     Ok(())
 }
 
@@ -1771,6 +1842,7 @@ mod tests {
             telegram: None,
             futu: None,
             finnhub: None,
+            fred: None,
             trading: None,
             provider: Some("yahoo".to_string()),
             rules: RulesConfig {

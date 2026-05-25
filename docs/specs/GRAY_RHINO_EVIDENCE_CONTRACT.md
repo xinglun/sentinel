@@ -31,6 +31,14 @@ state は `Background`、`Visible`、`Expanding`、`Critical`、`Cooling`、`Res
 
 Daily report では `Gray Rhino Inline Reference` として watchlist 近傍に表示できるが、意味的には完全に隔離する。candidate は trading、Gate、execution、trend、market state を変更してはならない。出力は構造リスク状態、evidence、trigger watch の提示に限定する。
 
+Phase 4-B では `collect-gray-rhino-sources` を source collection entrypoint とする。provider は `sec`、`finnhub`、`fred` を許可し、各 provider は source text を `gray_rhino_sources/**` に cache する。
+
+- SEC は watchlist symbol から filing / disclosure を取得し、`gray_rhino_sources/governance` に保存する。
+- Finnhub は company narrative source を取得し、`gray_rhino_sources/narrative` に保存する。
+- FRED は macro series を構造観測 text に投影し、`gray_rhino_sources/macro` に保存する。
+
+source collection の audit は `gray_rhino_discovery_runs.jsonl` に保存する。audit は provider、dry-run、source count、candidate count、content hash、failure taxonomy を記録するが、trading、Gate、execution、trend、market state を変更してはならない。
+
 ## Evidence と Narrative の境界
 
 Gray Rhino evidence は、長期構造リスクに関する外部 source 由来の観測事実でなければならない。
@@ -192,6 +200,8 @@ collector または adapter は次を満たす必要がある。
 ## Phase Boundary
 
 自動情報収集は Phase 4 の deterministic discovery scanner で開始する。scanner は source text から candidate を作るが、trade / Gate / execution / trend cohesion を変える signal は作らない。
+
+FRED の設定は `[fred] fred_api_key` または `FRED_API_KEY` 環境変数で与える。API key は source 取得だけに使用し、Gray Rhino candidate は独立した reference として表示する。
 
 ### Phase 1: Human Structured Governance Observation
 

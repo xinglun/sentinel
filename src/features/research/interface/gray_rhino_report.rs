@@ -66,6 +66,10 @@ pub(crate) fn build_gray_rhino_daily_report(
             report.push_str(&render_auto_discovery_inline_reference(
                 app_config, save_dir, as_of_date,
             ));
+            if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir) {
+                report.push_str("\n\n");
+                report.push_str(&discovery_ops_view);
+            }
             return Ok(report);
         };
         build_gray_rhino_assessment(input, as_of_date, previous)
@@ -81,6 +85,10 @@ pub(crate) fn build_gray_rhino_daily_report(
     report.push_str(&render_auto_discovery_inline_reference(
         app_config, save_dir, as_of_date,
     ));
+    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir) {
+        report.push_str("\n\n");
+        report.push_str(&discovery_ops_view);
+    }
     Ok(report)
 }
 
@@ -473,6 +481,10 @@ fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> R
         out.push('\n');
         out.push_str(&ops_view);
     }
+    if let Some(discovery_ops_view) = render_discovery_ops_view(save_dir) {
+        out.push('\n');
+        out.push_str(&discovery_ops_view);
+    }
     Ok(out)
 }
 
@@ -515,6 +527,37 @@ fn render_backfill_ops_view(save_dir: &Path) -> Option<String> {
         "- drift_sources: {}\n",
         value
             .get("drift_sources")
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0)
+    ));
+    Some(out)
+}
+
+fn render_discovery_ops_view(save_dir: &Path) -> Option<String> {
+    let path = save_dir.join("gray_rhino_discovery_runs.jsonl");
+    let raw = std::fs::read_to_string(path).ok()?;
+    let latest = raw.lines().rev().find(|line| !line.trim().is_empty())?;
+    let value: serde_json::Value = serde_json::from_str(latest).ok()?;
+    let mut out = String::new();
+    out.push_str("Auto Discovery Ops View\n");
+    out.push_str(&format!(
+        "- latest_run: {}\n",
+        value
+            .get("run_id")
+            .and_then(|value| value.as_str())
+            .unwrap_or("unknown")
+    ));
+    out.push_str(&format!(
+        "- source_count: {}\n",
+        value
+            .get("source_count")
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0)
+    ));
+    out.push_str(&format!(
+        "- candidate_count: {}\n",
+        value
+            .get("candidate_count")
             .and_then(|value| value.as_u64())
             .unwrap_or(0)
     ));
@@ -587,7 +630,24 @@ fn collect_auto_discovered_candidates(
             text,
         }));
     }
-    candidates
+    dedupe_candidates(candidates)
+}
+
+fn dedupe_candidates(
+    candidates: Vec<crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate>,
+) -> Vec<crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate> {
+    let mut seen = BTreeSet::new();
+    let mut deduped = Vec::new();
+    for candidate in candidates {
+        let key = format!(
+            "{}::{:?}::{:?}",
+            candidate.subject, candidate.scope, candidate.kind
+        );
+        if seen.insert(key) {
+            deduped.push(candidate);
+        }
+    }
+    deduped
 }
 
 fn collect_text_files(path: &Path, out: &mut Vec<PathBuf>) {
@@ -1053,6 +1113,7 @@ mod tests {
             telegram: None,
             futu: None,
             finnhub: None,
+            fred: None,
             trading: None,
             provider: None,
             rules: config::RulesConfig {

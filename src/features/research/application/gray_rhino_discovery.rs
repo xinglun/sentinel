@@ -62,6 +62,7 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
             "single cloud provider",
             "dependent on one",
             "no alternative supplier",
+            "single provider dependency",
         ],
     ) {
         candidates.push(GrayRhinoCandidate {
@@ -74,6 +75,66 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
                 "supplier disruption".to_string(),
                 "cloud outage".to_string(),
                 "fallback disclosure change".to_string(),
+            ],
+            source_title: input.source_title.clone(),
+            observed_at: input.observed_at,
+        });
+    }
+
+    if contains_any(
+        &text,
+        &[
+            "no succession plan",
+            "succession gap",
+            "weak oversight",
+            "audit committee weakness",
+            "compliance maturity is low",
+        ],
+    ) {
+        candidates.push(GrayRhinoCandidate {
+            scope: GrayRhinoCandidateScope::Company,
+            kind: GrayRhinoCandidateKind::InstitutionalMaturityGap,
+            subject: input.subject.clone(),
+            state: if contains_any(&text, &["material weakness", "no succession plan"]) {
+                GrayRhinoCandidateState::Expanding
+            } else {
+                GrayRhinoCandidateState::Visible
+            },
+            evidence: vec!["Institutional maturity gap detected.".to_string()],
+            watch_triggers: vec![
+                "succession disclosure".to_string(),
+                "audit committee remediation".to_string(),
+                "compliance program update".to_string(),
+            ],
+            source_title: input.source_title.clone(),
+            observed_at: input.observed_at,
+        });
+    }
+
+    if contains_any(
+        &text,
+        &[
+            "no fallback",
+            "fallback unavailable",
+            "failover not tested",
+            "single point of failure",
+            "redundancy gap",
+        ],
+    ) {
+        candidates.push(GrayRhinoCandidate {
+            scope: GrayRhinoCandidateScope::Company,
+            kind: GrayRhinoCandidateKind::RedundancyGap,
+            subject: input.subject.clone(),
+            state: if contains_any(&text, &["single point of failure", "failover not tested"]) {
+                GrayRhinoCandidateState::Expanding
+            } else {
+                GrayRhinoCandidateState::Visible
+            },
+            evidence: vec!["Fallback or redundancy gap detected.".to_string()],
+            watch_triggers: vec![
+                "fallback provider disclosure".to_string(),
+                "failover test evidence".to_string(),
+                "recovery path update".to_string(),
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
@@ -100,6 +161,86 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
                 "breadth deterioration".to_string(),
                 "liquidity tightening".to_string(),
                 "capex payback disappointment".to_string(),
+            ],
+            source_title: input.source_title.clone(),
+            observed_at: input.observed_at,
+        });
+    }
+
+    if contains_any(
+        &text,
+        &[
+            "narrative overcrowding",
+            "narrative concentration",
+            "crowded ai trade",
+            "market narrative concentration is high",
+        ],
+    ) {
+        candidates.push(GrayRhinoCandidate {
+            scope: GrayRhinoCandidateScope::Market,
+            kind: GrayRhinoCandidateKind::NarrativeCrowding,
+            subject: "Market".to_string(),
+            state: GrayRhinoCandidateState::Visible,
+            evidence: vec!["Narrative crowding detected from source text.".to_string()],
+            watch_triggers: vec![
+                "headline concentration".to_string(),
+                "single-theme leadership".to_string(),
+                "positioning reversal".to_string(),
+            ],
+            source_title: input.source_title.clone(),
+            observed_at: input.observed_at,
+        });
+    }
+
+    if contains_any(
+        &text,
+        &[
+            "liquidity fragility",
+            "liquidity tightened",
+            "rate pressure elevated",
+            "credit stress watch",
+            "yield curve constraint",
+        ],
+    ) {
+        candidates.push(GrayRhinoCandidate {
+            scope: GrayRhinoCandidateScope::Market,
+            kind: GrayRhinoCandidateKind::LiquidityFragility,
+            subject: "Market".to_string(),
+            state: if contains_any(&text, &["credit stress watch", "rate pressure elevated"]) {
+                GrayRhinoCandidateState::Expanding
+            } else {
+                GrayRhinoCandidateState::Visible
+            },
+            evidence: vec!["Liquidity or rate-pressure fragility detected.".to_string()],
+            watch_triggers: vec![
+                "yield curve deterioration".to_string(),
+                "credit spread widening".to_string(),
+                "central-bank liquidity shift".to_string(),
+            ],
+            source_title: input.source_title.clone(),
+            observed_at: input.observed_at,
+        });
+    }
+
+    if contains_any(
+        &text,
+        &[
+            "capex payback risk",
+            "payback disappointment",
+            "capital expenditure payback delayed",
+            "infrastructure build-out without utilization",
+        ],
+    ) {
+        candidates.push(GrayRhinoCandidate {
+            scope: GrayRhinoCandidateScope::Market,
+            kind: GrayRhinoCandidateKind::CapexPaybackFragility,
+            subject: "Market".to_string(),
+            state: GrayRhinoCandidateState::Visible,
+            evidence: vec!["Capex payback fragility detected.".to_string()],
+            watch_triggers: vec![
+                "utilization gap".to_string(),
+                "earnings disappointment".to_string(),
+                "capex guidance revision".to_string(),
             ],
             source_title: input.source_title.clone(),
             observed_at: input.observed_at,
@@ -175,5 +316,42 @@ mod tests {
         assert!(!rendered.contains("BUY"));
         assert!(!rendered.contains("SELL"));
         assert!(!rendered.contains("trend_cohesion"));
+    }
+
+    #[test]
+    fn discovers_market_liquidity_and_narrative_candidates() {
+        let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+            subject: "Market".to_string(),
+            source_title: "FRED and Finnhub sources".to_string(),
+            observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            text: "Market narrative concentration is high. Liquidity tightened and rate pressure elevated. Capex payback risk is rising.".to_string(),
+        });
+
+        assert!(candidates
+            .iter()
+            .any(|candidate| candidate.kind == GrayRhinoCandidateKind::NarrativeCrowding));
+        assert!(candidates
+            .iter()
+            .any(|candidate| candidate.kind == GrayRhinoCandidateKind::LiquidityFragility));
+        assert!(candidates
+            .iter()
+            .any(|candidate| candidate.kind == GrayRhinoCandidateKind::CapexPaybackFragility));
+    }
+
+    #[test]
+    fn discovers_institutional_and_redundancy_gaps() {
+        let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+            subject: "EXAMPLE".to_string(),
+            source_title: "Annual report".to_string(),
+            observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            text: "The issuer has no succession plan. A single point of failure remains and failover not tested.".to_string(),
+        });
+
+        assert!(candidates
+            .iter()
+            .any(|candidate| candidate.kind == GrayRhinoCandidateKind::InstitutionalMaturityGap));
+        assert!(candidates
+            .iter()
+            .any(|candidate| candidate.kind == GrayRhinoCandidateKind::RedundancyGap));
     }
 }

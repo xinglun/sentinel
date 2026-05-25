@@ -560,6 +560,47 @@ fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
 }
 
 #[test]
+fn gray_rhino_source_collection_dry_run_reports_boundary() {
+    let tmp = prepare_standard_workspace("en-us");
+
+    let out = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-sources",
+            "--source",
+            "fred",
+            "--dry-run",
+            "--date",
+            "2026-05-25",
+        ],
+    );
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Source Collection"));
+    assert!(stdout.contains("provider: Fred"));
+    assert!(stdout.contains("dry_run: true"));
+    assert!(stdout.contains("FRED macro series fetch planned"));
+    assert!(stdout.contains("source collection only"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+
+    let run_store = fs::read_to_string(tmp.path().join("gray_rhino_discovery_runs.jsonl"))
+        .expect("failed to read discovery run store");
+    assert!(run_store.contains("\"provider\":\"Fred\""));
+    assert!(run_store.contains("\"dry_run\":true"));
+
+    let report = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+    assert!(report.status.success());
+    let report_stdout = String::from_utf8_lossy(&report.stdout);
+    assert!(report_stdout.contains("Auto Discovery Ops View"));
+    assert!(report_stdout.contains("latest_run: fred-2026-05-25"));
+}
+
+#[test]
 fn gray_rhino_quality_report_explains_dimensions_without_signals() {
     let tmp = prepare_standard_workspace("en-us");
     let dependency_path = tmp.path().join("dependency_evidence.json");
