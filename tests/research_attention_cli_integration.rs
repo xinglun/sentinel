@@ -548,6 +548,9 @@ fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Summary (semantic isolation)"));
+    assert!(stdout.contains("Market active candidates: 0"));
+    assert!(stdout.contains("Company active candidates: SPACEX"));
     assert!(stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
     assert!(stdout.contains("SPACEX / Company / GovernanceConcentration / Expanding"));
     assert!(stdout.contains("IPO voting terms"));
@@ -659,6 +662,47 @@ fn gray_rhino_watchlist_inline_report_groups_company_and_market_candidates() {
     assert!(!stdout.contains("gate signal"));
     assert!(!stdout.contains("execution signal"));
     assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_summary_compresses_market_and_company_candidates() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Visible","evidence":["Founder voting control remains visible."],"watch_triggers":["proxy update"],"source_title":"Prior SEC proxy","observed_at":"2026-05-24"}
+{"scope":"Company","kind":"GovernanceConcentration","subject":"TSLA","state":"Visible","evidence":["Founder voting control remains visible."],"watch_triggers":["proxy update"],"source_title":"Current SEC proxy","observed_at":"2026-05-25"}
+{"scope":"Market","kind":"LiquidityFragility","subject":"Market","state":"Critical","evidence":["FRED threshold critical."],"watch_triggers":["credit spread widening"],"source_title":"FRED macro","observed_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidate store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Summary (semantic isolation)"));
+    assert!(stdout.contains("Market active candidates: 1"));
+    assert!(stdout.contains("Company active candidates: TSLA"));
+    assert!(stdout.contains("Company intensifying watch: TSLA"));
+    assert!(stdout.contains("summary only; no trading"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("execution signal"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
+fn gray_rhino_summary_github_actions_runs_refresh_after_radar() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let workflow = fs::read_to_string(root.join(".github/workflows/daily_radar.yml"))
+        .expect("failed to read daily radar workflow");
+
+    assert!(workflow.contains("Refresh Gray Rhino Intelligence (non-blocking)"));
+    assert!(workflow.contains("make gray-rhino-refresh"));
+    assert!(workflow.contains("GRAY_RHINO_REFRESH_ARGS=\"--date ${DATE_JST}\""));
+    assert!(workflow.contains("reports/gray_rhino_refresh_status_latest.json"));
+    assert!(workflow.contains("Gray Rhino refresh failed but daily radar will continue"));
 }
 
 #[test]

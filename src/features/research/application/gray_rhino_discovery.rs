@@ -421,6 +421,18 @@ mod tests {
     }
 
     #[test]
+    fn gray_rhino_noise_rejects_neutral_finnhub_boilerplate() {
+        let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
+            subject: "NVDA".to_string(),
+            source_title: "Finnhub company news".to_string(),
+            observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            text: "Finnhub narrative source for NVDA. Purpose: normalize company news for structural-risk discovery.".to_string(),
+        });
+
+        assert!(candidates.is_empty());
+    }
+
+    #[test]
     fn discovers_institutional_and_redundancy_gaps() {
         let candidates = discover_gray_rhino_candidates(&GrayRhinoDiscoveryInput {
             subject: "EXAMPLE".to_string(),

@@ -9,7 +9,7 @@ use crate::features::research::application::gray_rhino_discovery::{
     discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
 };
 use crate::features::research::application::gray_rhino_monitoring_state::{
-    evaluate_gray_rhino_monitoring_states, GrayRhinoMonitoringStatus,
+    evaluate_gray_rhino_monitoring_states, GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
 };
 use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
 use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
@@ -580,9 +580,51 @@ fn render_auto_discovery_inline_reference(
     let display_candidates = dedupe_candidates(candidates.clone());
     let monitoring_statuses = evaluate_gray_rhino_monitoring_states(&candidates, as_of_date);
     format!(
-        "{}\n\n{}",
+        "{}\n\n{}\n\n{}",
+        render_gray_rhino_compact_summary(&display_candidates, &monitoring_statuses),
         render_watchlist_inline_candidates(app_config, &display_candidates),
         render_watchlist_inline_monitoring(app_config, &monitoring_statuses)
+    )
+}
+
+fn render_gray_rhino_compact_summary(
+    candidates: &[GrayRhinoCandidate],
+    statuses: &[GrayRhinoMonitoringStatus],
+) -> String {
+    let market_active = candidates
+        .iter()
+        .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Market)
+        .count();
+    let company_subjects = candidates
+        .iter()
+        .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Company)
+        .map(|candidate| candidate.subject.to_uppercase())
+        .collect::<BTreeSet<_>>();
+    let intensifying_subjects = statuses
+        .iter()
+        .filter(|status| {
+            status.scope == GrayRhinoCandidateScope::Company
+                && status.direction == GrayRhinoMonitoringDirection::Intensifying
+        })
+        .map(|status| status.subject.to_uppercase())
+        .collect::<BTreeSet<_>>();
+
+    let company_summary = if company_subjects.is_empty() {
+        "none".to_string()
+    } else {
+        company_subjects.into_iter().collect::<Vec<_>>().join(", ")
+    };
+    let intensifying_summary = if intensifying_subjects.is_empty() {
+        "none".to_string()
+    } else {
+        intensifying_subjects
+            .into_iter()
+            .collect::<Vec<_>>()
+            .join(", ")
+    };
+
+    format!(
+        "Gray Rhino Summary (semantic isolation)\n- Market active candidates: {market_active}\n- Company active candidates: {company_summary}\n- Company intensifying watch: {intensifying_summary}\nBoundary: summary only; no trading, Gate, trend, or market-state mutation."
     )
 }
 

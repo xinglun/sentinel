@@ -193,6 +193,60 @@ jobs:
           echo "REPORT_DATE_JST=${REPORT_DATE}" >> $GITHUB_ENV
           echo "✅ Report date resolved from generated packet: ${REPORT_DATE}"
 
+      - name: Refresh Gray Rhino Intelligence (non-blocking)
+        env:
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: |
+          set -euo pipefail
+          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          STATUS_PATH="reports/gray_rhino_refresh_status_latest.json"
+
+          write_status() {
+            local status="$1"
+            local reason="${2:-}"
+            STATUS_VALUE="${status}" REASON_VALUE="${reason}" DATE_VALUE="${DATE_JST}" python - <<'PY'
+          import json
+          import os
+
+          payload = {
+              "status": os.environ["STATUS_VALUE"],
+              "reason": os.environ.get("REASON_VALUE") or None,
+              "date": os.environ["DATE_VALUE"],
+          }
+          with open("reports/gray_rhino_refresh_status_latest.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+              f.write("\n")
+          PY
+          }
+
+          mkdir -p reports
+          if [ -z "${FINNHUB_API_KEY:-}" ] || [ -z "${FRED_API_KEY:-}" ]; then
+            write_status "skipped" "FINNHUB_API_KEY or FRED_API_KEY is not configured"
+            echo "ℹ️ Gray Rhino refresh skipped: missing FINNHUB_API_KEY or FRED_API_KEY."
+            exit 0
+          fi
+
+          OUTPUT_FILE="$(mktemp)"
+          set +e
+          make gray-rhino-refresh \
+            GRAY_RHINO_REFRESH_ARGS="--date ${DATE_JST}" \
+            GRAY_RHINO_REFRESH_DAILY_ARGS="--date ${DATE_JST}" >"${OUTPUT_FILE}" 2>&1
+          EXIT_CODE=$?
+          set -e
+          cat "${OUTPUT_FILE}"
+
+          if [ "${EXIT_CODE}" -eq 0 ]; then
+            write_status "succeeded" ""
+            echo "✅ Gray Rhino refresh completed."
+          else
+            REASON="$(tail -n 20 "${OUTPUT_FILE}" | tr '\n' ' ' | cut -c1-1000)"
+            write_status "failed" "${REASON}"
+            echo "⚠️ Gray Rhino refresh failed but daily radar will continue."
+          fi
+          exit 0
+
       - name: Show Notification Outcome
         run: |
           set -euo pipefail

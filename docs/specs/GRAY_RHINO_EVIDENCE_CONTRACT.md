@@ -53,6 +53,10 @@ Phase 4-E では FRED threshold calibration を導入する。FRED source adapte
 
 Phase 4-F では watchlist inline display を導入する。Daily report は Market candidate を `Market Reference` にまとめ、Company candidate と monitoring state は enabled watchlist symbol ごとの `Watchlist Inline Reference` / `Watchlist Inline Monitoring` に表示する。legacy local source など current watchlist に属さない Company candidate は `Other Company Reference` として分離する。この配置は読みやすさのための表示構造であり、candidate は引き続き trading、Gate、execution、trend、market state から意味的に隔離する。
 
+Phase 4-G では noise calibration と compact summary を導入する。Finnhub source adapter は normalization boilerplate に `narrative overcrowding` などの trigger term を含めてはならない。Daily report は `Gray Rhino Summary` を details より前に表示し、Market active candidate 数、Company active subject、intensifying watch subject を短く示す。
+
+Daily GitHub Actions refresh は `.github/workflows/daily_radar.yml` の Daily Radar workflow で実行する。Radar が report date を確定した後、Gray Rhino refresh を non-blocking step として実行し、`reports/gray_rhino_refresh_status_latest.json` に succeeded / skipped / failed を記録する。secret 未設定や provider failure があっても daily radar の Gate、trend、execution、market state を変更してはならない。
+
 ## Evidence と Narrative の境界
 
 Gray Rhino evidence は、長期構造リスクに関する外部 source 由来の観測事実でなければならない。

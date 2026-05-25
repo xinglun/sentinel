@@ -94,6 +94,10 @@ def main() -> int:
         "watchlistInlineDisplayEnabled: true",
         "marketReferenceDisplayEnabled: true",
         "semanticIsolationDisplayBoundary: true",
+        "compactSummaryEnabled: true",
+        "noiseCalibrationEnabled: true",
+        "dailyGithubActionsRefreshEnabled: true",
+        "dailyGithubActionsWorkflow: .github/workflows/daily_radar.yml",
         "manualRegistryPrimaryMechanism: false",
         "autoSourceCollectionCli: collect-gray-rhino-sources",
         "autoDiscoveryRunStore: gray_rhino_discovery_runs.jsonl",
@@ -173,6 +177,10 @@ def main() -> int:
         "Watchlist Inline Reference",
         "Market Reference",
         "Other Company Reference",
+        "noise calibration",
+        "Gray Rhino Summary",
+        "Daily GitHub Actions refresh",
+        "gray_rhino_refresh_status_latest.json",
         "[fred] fred_api_key",
     ]
     for item in doc_required:

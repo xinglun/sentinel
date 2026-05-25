@@ -313,7 +313,7 @@ pub(crate) fn render_finnhub_narrative_text(symbol: &str, raw_json: &str) -> Res
     let items: Vec<serde_json::Value> =
         serde_json::from_str(raw_json).context("Failed to parse Finnhub news JSON")?;
     let mut out = format!("Finnhub narrative source for {symbol}\n");
-    out.push_str("Purpose: Gray Rhino narrative overcrowding and dependency hints only.\n");
+    out.push_str("Purpose: normalize company news for structural-risk discovery.\n");
     for item in items.iter().take(20) {
         let headline = item
             .get("headline")

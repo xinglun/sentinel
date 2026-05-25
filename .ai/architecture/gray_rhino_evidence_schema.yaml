@@ -36,6 +36,10 @@ inlineWatchlistReferenceEnabled: true
 watchlistInlineDisplayEnabled: true
 marketReferenceDisplayEnabled: true
 semanticIsolationDisplayBoundary: true
+compactSummaryEnabled: true
+noiseCalibrationEnabled: true
+dailyGithubActionsRefreshEnabled: true
+dailyGithubActionsWorkflow: .github/workflows/daily_radar.yml
 manualRegistryPrimaryMechanism: false
 autoSourceCollectionCli: collect-gray-rhino-sources
 autoSourceProviders:
