@@ -28,7 +28,8 @@ use crate::features::research::acl::governance_evidence_store_factory::build_gov
 use crate::features::research::acl::governance_source_adapter_factory::build_governance_source_adapter;
 use crate::features::research::application::governance_evidence::ingest_governance_concentration_evidence;
 use crate::features::research::application::governance_source_pipeline::{
-    collect_governance_concentration_sources, GovernanceSourceCollectionRequest,
+    collect_governance_concentration_sources, GovernanceFieldCoverage,
+    GovernanceSourceCollectionRequest,
 };
 use crate::features::research::domain::gray_rhino_evidence::GovernanceConcentrationEvidence;
 use crate::features::research::interface::cognitive_reports::{
@@ -511,6 +512,7 @@ async fn run_collect_gray_rhino_governance(
     let mut total_audit = 0;
     let mut rejected = Vec::new();
     let mut latest_observed_at = None;
+    let mut metric_coverage = Vec::new();
     for target in targets {
         let summary = collect_governance_concentration_sources(
             &adapter,
@@ -538,6 +540,7 @@ async fn run_collect_gray_rhino_governance(
                     .unwrap_or(latest)
             })
             .or(summary.latest_observed_at);
+        metric_coverage.extend(summary.metric_coverage);
         rejected.extend(summary.rejected);
     }
     let coverage_ratio = if total_sources == 0 {
@@ -555,6 +558,7 @@ async fn run_collect_gray_rhino_governance(
     println!("Dry run:  {}", !persist_evidence);
     println!("Formal evidence persisted: {}", persist_evidence);
     println!("Coverage: {:.1}%", coverage_ratio * 100.0);
+    render_governance_field_coverage(&metric_coverage);
     println!("Rejected: {}", rejected.len());
     if let Some(latest) = latest_observed_at {
         println!("Latest observed date: {}", latest);
@@ -567,6 +571,61 @@ async fn run_collect_gray_rhino_governance(
     }
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
     Ok(())
+}
+
+fn render_governance_field_coverage(metric_coverage: &[GovernanceFieldCoverage]) {
+    if metric_coverage.is_empty() {
+        return;
+    }
+    println!("Field coverage:");
+    for metric in aggregate_governance_field_coverage(metric_coverage) {
+        let total = metric.extracted_count + metric.missing_count + metric.invalid_count;
+        let coverage_ratio = if total == 0 {
+            0.0
+        } else {
+            metric.extracted_count as f64 / total as f64
+        };
+        println!(
+            "  {}: {:.1}% ({}/{} extracted, {} missing, {} invalid)",
+            metric.metric,
+            coverage_ratio * 100.0,
+            metric.extracted_count,
+            total,
+            metric.missing_count,
+            metric.invalid_count
+        );
+    }
+}
+
+fn aggregate_governance_field_coverage(
+    metric_coverage: &[GovernanceFieldCoverage],
+) -> Vec<GovernanceFieldCoverage> {
+    let mut totals = std::collections::BTreeMap::new();
+    for metric in metric_coverage {
+        let entry = totals.entry(metric.metric.clone()).or_insert((0, 0, 0));
+        entry.0 += metric.extracted_count;
+        entry.1 += metric.missing_count;
+        entry.2 += metric.invalid_count;
+    }
+    totals
+        .into_iter()
+        .map(
+            |(metric, (extracted_count, missing_count, invalid_count))| {
+                let total = extracted_count + missing_count + invalid_count;
+                GovernanceFieldCoverage {
+                    metric,
+                    extracted_count,
+                    missing_count,
+                    invalid_count,
+                    coverage_ratio: if total == 0 {
+                        0.0
+                    } else {
+                        extracted_count as f64 / total as f64
+                    },
+                }
+            },
+        )
+        .collect()
 }
 
 fn resolve_governance_collection_targets(

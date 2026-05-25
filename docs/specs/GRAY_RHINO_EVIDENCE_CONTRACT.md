@@ -189,6 +189,18 @@ rejection taxonomy は `MetriclessSource`、`SourceInvalid`、`ExtractionInvalid
 
 最初の対象は `succession_disclosure` である。`succession framework` と `ceo succession framework` は succession disclosure の evidence として扱う。ただし `not disclosed`、`does not`、`do not`、`without`、`no` などの否定形は positive disclosure として扱わない。
 
+### Phase 3-A: Governance SEC Expanded Sample Dry-Run
+
+本 Work Item の対象。SEC live dry-run を 5〜10 issuer に拡大し、accepted/source ratio だけでなく field-level coverage を表示する。
+
+field-level coverage は current run の extraction audit から算出する。JSONL ledger の dedup 結果に依存して coverage が変わってはならない。正式 evidence store、Gray Rhino escalation state、Gate、execution、trading state は変更しない。
+
+### Phase 3-A: Governance SEC Voting Structure Calibration
+
+本 Work Item の対象。実 SEC filing で確認した voting structure phrase を、`dual_class_structure` と `super_voting_rights` の deterministic label として追加する。
+
+`multi-class voting structure`、`multi-class common stock`、`Class B stock has 10 times the voting rights`、`Class B common stock have ten votes per share`、`Class B common stock represents 15 votes` は voting structure evidence として扱う。`one vote for each share` は dual-class / super-voting evidence として扱わない。
+
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 
 本 Work Item の対象外。dependency graph は動的であるため、GovernanceConcentration sensor が安定してから追加する。

@@ -227,6 +227,8 @@ fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
     assert!(stdout.contains("Dry run:  false"));
     assert!(stdout.contains("Formal evidence persisted: true"));
     assert!(stdout.contains("Coverage: 100.0%"));
+    assert!(stdout.contains("Field coverage:"));
+    assert!(stdout.contains("founder_voting_power: 100.0% (1/1 extracted"));
     assert!(stdout.contains("Rejected: 0"));
     assert!(stdout.contains("Boundary: evidence only"));
     let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
@@ -279,6 +281,8 @@ fn gray_rhino_governance_source_collection_rejects_metricless_source() {
     assert!(stdout.contains("Dry run:  false"));
     assert!(stdout.contains("Formal evidence persisted: true"));
     assert!(stdout.contains("Coverage: 0.0%"));
+    assert!(stdout.contains("Field coverage:"));
+    assert!(stdout.contains("succession_disclosure: 0.0% (0/1 extracted"));
     assert!(stdout.contains("MissingGovernanceMetric"));
     assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
     assert!(tmp

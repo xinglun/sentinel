@@ -74,10 +74,18 @@ governanceConcentration:
     writesRawCache: true
     writesSourceManifest: true
     writesExtractionAudit: true
+    expandedSampleSize: 5-10
+    reportsFieldCoverage: true
   fieldCoverageCalibration:
     successionDisclosureLabels:
       - succession framework
       - ceo succession framework
+    votingStructureLabels:
+      - multi-class voting structure
+      - multi-class common stock
+      - class b stock has 10 times the voting rights
+      - class b common stock have ten votes per share
+      - class b common stock represents 15 votes
   rejectionTaxonomy:
     - MetriclessSource
     - SourceInvalid
@@ -108,6 +116,8 @@ phases:
   phase_3a_governance_sec_replay_pack: active
   phase_3a_governance_sec_live_dry_run: active
   phase_3a_governance_sec_field_coverage_calibration: active
+  phase_3a_governance_sec_expanded_sample_dry_run: active
+  phase_3a_governance_sec_voting_structure_calibration: active
   phase_3b_dependency_concentration_evidence_pipeline: blocked_until_governance_sensor_stabilizes
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope

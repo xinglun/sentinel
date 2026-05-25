@@ -41,6 +41,7 @@ pub struct GovernanceSourceCollectionSummary {
     pub manifest_count: usize,
     pub audit_count: usize,
     pub coverage_ratio: f64,
+    pub metric_coverage: Vec<GovernanceFieldCoverage>,
 }
 
 #[async_trait]
@@ -102,6 +103,7 @@ pub async fn collect_governance_concentration_sources(
     let mut latest_observed_at = None;
     let mut manifest_count = 0;
     let mut audit_count = 0;
+    let mut audit_records = Vec::new();
 
     for document in &documents {
         latest_observed_at = Some(
@@ -126,29 +128,33 @@ pub async fn collect_governance_concentration_sources(
                         saved_count += 1;
                     }
                 }
+                let audit_record = GovernanceExtractionAuditRecord {
+                    accepted: true,
+                    rejection_reason: None,
+                    ..audit
+                };
                 if repository
-                    .save_governance_extraction_audit(&GovernanceExtractionAuditRecord {
-                        accepted: true,
-                        rejection_reason: None,
-                        ..audit
-                    })
+                    .save_governance_extraction_audit(&audit_record)
                     .is_ok_and(|saved| saved)
                 {
                     audit_count += 1;
                 }
+                audit_records.push(audit_record);
             }
             Err(err) => {
                 let reason = err.to_string();
+                let audit_record = GovernanceExtractionAuditRecord {
+                    accepted: false,
+                    rejection_reason: Some(reason.clone()),
+                    ..audit
+                };
                 if repository
-                    .save_governance_extraction_audit(&GovernanceExtractionAuditRecord {
-                        accepted: false,
-                        rejection_reason: Some(reason.clone()),
-                        ..audit
-                    })
+                    .save_governance_extraction_audit(&audit_record)
                     .is_ok_and(|saved| saved)
                 {
                     audit_count += 1;
                 }
+                audit_records.push(audit_record);
                 rejected.push(GovernanceEvidenceRejectionDetail {
                     source_title: document.source_title.clone(),
                     reason,
@@ -171,6 +177,7 @@ pub async fn collect_governance_concentration_sources(
         manifest_count,
         audit_count,
         coverage_ratio,
+        metric_coverage: build_governance_field_coverage_report(&audit_records).metric_coverage,
     })
 }
 
@@ -209,7 +216,6 @@ pub fn build_governance_extraction_audit(
     }
 }
 
-#[allow(dead_code)]
 pub fn build_governance_field_coverage_report(
     audits: &[GovernanceExtractionAuditRecord],
 ) -> GovernanceReplayCoverageReport {
@@ -300,6 +306,13 @@ pub fn extract_governance_concentration_evidence(
                 "dual_class_structure",
                 "dual class structure",
                 "dual class shares",
+                "multi-class voting structure",
+                "multi-class common stock",
+                "three series of common stock",
+                "class b stock has 10 times the voting rights",
+                "class b common stock have ten votes per share",
+                "class b common stock represents 15 votes",
+                "class b common stock are entitled to fifteen votes per share",
             ],
         ),
         super_voting_rights: parse_bool_metric(
@@ -308,6 +321,12 @@ pub fn extract_governance_concentration_evidence(
                 "super_voting_rights",
                 "super voting rights",
                 "super-voting rights",
+                "class b stock has 10 times the voting rights",
+                "class b common stock have ten votes per share",
+                "class b common stock represents 15 votes",
+                "class b common stock are entitled to fifteen votes per share",
+                "ten votes per share",
+                "fifteen votes per share",
             ],
         ),
         succession_disclosure: parse_bool_metric(
@@ -382,6 +401,13 @@ fn extract_metric_audit_entries(content: &str) -> Vec<GovernanceMetricAuditEntry
                     "dual_class_structure",
                     "dual class structure",
                     "dual class shares",
+                    "multi-class voting structure",
+                    "multi-class common stock",
+                    "three series of common stock",
+                    "class b stock has 10 times the voting rights",
+                    "class b common stock have ten votes per share",
+                    "class b common stock represents 15 votes",
+                    "class b common stock are entitled to fifteen votes per share",
                 ],
             ),
         ),
@@ -393,6 +419,12 @@ fn extract_metric_audit_entries(content: &str) -> Vec<GovernanceMetricAuditEntry
                     "super_voting_rights",
                     "super voting rights",
                     "super-voting rights",
+                    "class b stock has 10 times the voting rights",
+                    "class b common stock have ten votes per share",
+                    "class b common stock represents 15 votes",
+                    "class b common stock are entitled to fifteen votes per share",
+                    "ten votes per share",
+                    "fifteen votes per share",
                 ],
             ),
         ),
@@ -454,10 +486,11 @@ fn parse_ratio_metric(content: &str, labels: &[&str]) -> Option<f64> {
 }
 
 fn parse_number_after_labels(content: &str, labels: &[&str]) -> Option<f64> {
-    let lower = content.to_lowercase();
+    let lower = normalize_metric_text(content);
     for label in labels {
-        if let Some(start) = lower.find(&label.to_lowercase()) {
-            let tail = &content[start + label.len()..];
+        let normalized_label = normalize_metric_text(label);
+        if let Some(start) = lower.find(&normalized_label) {
+            let tail = &lower[start + normalized_label.len()..];
             if let Some(value) = first_number(tail) {
                 return Some(value);
             }
@@ -481,9 +514,9 @@ fn first_number(value: &str) -> Option<f64> {
 }
 
 fn parse_bool_metric(content: &str, labels: &[&str]) -> Option<bool> {
-    let lower = content.to_lowercase();
+    let lower = normalize_metric_text(content);
     for label in labels {
-        let normalized_label = label.to_lowercase();
+        let normalized_label = normalize_metric_text(label);
         if let Some(start) = lower.find(&normalized_label) {
             let prefix: String = lower[..start]
                 .chars()
@@ -514,6 +547,37 @@ fn parse_bool_metric(content: &str, labels: &[&str]) -> Option<bool> {
         }
     }
     None
+}
+
+fn normalize_metric_text(content: &str) -> String {
+    let mut without_tags = String::with_capacity(content.len());
+    let mut in_tag = false;
+    for ch in content.chars() {
+        match ch {
+            '<' => {
+                in_tag = true;
+                without_tags.push(' ');
+            }
+            '>' => {
+                in_tag = false;
+                without_tags.push(' ');
+            }
+            _ if !in_tag => without_tags.push(ch),
+            _ => {}
+        }
+    }
+    let decoded = without_tags
+        .replace("&#160;", " ")
+        .replace("&nbsp;", " ")
+        .replace("&#8217;", "'")
+        .replace("&#8220;", "\"")
+        .replace("&#8221;", "\"")
+        .replace("&amp;", "&");
+    decoded
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
 }
 
 #[cfg(test)]
@@ -604,6 +668,27 @@ mod tests {
         .unwrap();
 
         assert_eq!(evidence.metrics.succession_disclosure, Some(false));
+    }
+
+    #[test]
+    fn extracts_super_voting_from_html_encoded_multi_class_sec_text() {
+        let evidence = extract_governance_concentration_evidence(&document(
+            "We have three series of common stock, Class&#160;A common stock, Class&#160;B common stock, and Class&#160;F common stock, which have different voting rights. Shares of Class&#160;A common stock have one vote per share. Shares of Class&#160;B common stock have ten votes per share.",
+        ))
+        .unwrap();
+
+        assert_eq!(evidence.metrics.dual_class_structure, Some(true));
+        assert_eq!(evidence.metrics.super_voting_rights, Some(true));
+    }
+
+    #[test]
+    fn single_vote_common_stock_does_not_create_dual_class_metric() {
+        let err = extract_governance_concentration_evidence(&document(
+            "On each matter to be voted upon, stockholders have one vote for each share of common stock owned.",
+        ))
+        .unwrap_err();
+
+        assert!(err.to_string().contains("MissingGovernanceMetric"));
     }
 
     #[test]

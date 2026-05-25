@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-governance-sec-voting-structure-calibration",
+  "mode": "code",
+  "title": "Governance SEC voting structure calibration",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json",
+    ".ai/work-items/archive/2026/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+    ".ai/work-items/archive/2026/gray-rhino-governance-sec-expanded-sample-dry-run.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "reports/gray_rhino_sources/governance/GOOG/goog-20260424.htm",
+      "reason": "multi-class voting structure と Class B 10x voting rights を確認した。"
+    },
+    {
+      "path": "reports/gray_rhino_sources/governance/PLTR/pltr-20260423.htm",
+      "reason": "Class B ten votes per share と Founder Voting Trust を確認した。"
+    },
+    {
+      "path": "reports/gray_rhino_sources/governance/FIG/fig-20260421.htm",
+      "reason": "Class B fifteen votes per share を確認した。"
+    },
+    {
+      "path": "reports/gray_rhino_sources/governance/NVDA/nvda-20260512.htm",
+      "reason": "one vote for each share は dual-class evidence ではない negative control として確認した。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "GOOG / PLTR / FIG の実 SEC filing から dual_class_structure と super_voting_rights を deterministic に抽出できる。",
+    "NVDA の one vote per share は super voting / dual-class として誤検出しない。",
+    "HTML entity を含む SEC filing でも label matching が安定する。",
+    "expanded sample dry-run の dual_class_structure / super_voting_rights field coverage が改善する。",
+    "dry-run boundary は維持し、formal evidence store には保存しない。",
+    "Gate / execution / trading / escalation state に接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "scripts/check_gray_rhino_evidence_contract.py",
+      "src/cli.rs",
+      "src/features/research/application/governance_source_pipeline.rs",
+      "tests/research_attention_cli_integration.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
