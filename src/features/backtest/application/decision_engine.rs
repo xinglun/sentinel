@@ -1,6 +1,6 @@
-use crate::config::{ParsedRules, WatchlistEntry};
 use crate::features::radar::application::provider::TickerHistory;
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
 use crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord;
 use anyhow::Result;
 use std::collections::HashMap;

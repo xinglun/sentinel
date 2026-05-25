@@ -1,38 +1,6 @@
-use std::future::Future;
+use futures::stream::{self, StreamExt};
 use std::path::{Path, PathBuf};
-
-/// Radar が market data source へ要求する取得 port。
-///
-/// 実装は infrastructure 側に置き、application は fetch の成否だけを扱う。
-pub trait RadarMarketDataPort {
-    type History;
-    type Error;
-    type FetchFuture<'a>: Future<Output = Result<Self::History, Self::Error>> + 'a
-    where
-        Self: 'a;
-
-    fn fetch_symbol<'a>(&'a self, symbol: &'a str) -> Self::FetchFuture<'a>;
-}
-
-/// Radar が decision history 永続化へ要求する repository port。
-///
-/// 永続化先の file / DB / branch は infrastructure 側の責務とする。
-pub trait RadarDecisionHistoryPort {
-    type Packet;
-    type Error;
-
-    fn save_decision_history(&self, packet: &Self::Packet) -> Result<(), Self::Error>;
-}
-
-/// Radar が通知配送へ要求する output port。
-///
-/// Telegram や別 channel の詳細は application から隠蔽する。
-pub trait RadarNotificationPort {
-    type Message;
-    type Error;
-
-    fn send_notification(&self, message: &Self::Message) -> Result<(), Self::Error>;
-}
+use std::sync::Arc;
 
 /// Radar run の data acquisition 結果概要。
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -166,6 +134,67 @@ impl RadarPipelineUseCase {
     {
         let data_acquisition = self.collect_data_acquisition(results);
         self.prepare_data_acquisition(data_acquisition)
+    }
+
+    /// market data port を介して有効な監視対象を並列取得する。
+    pub async fn acquire_market_data(
+        self,
+        provider: Arc<dyn crate::features::radar::application::provider::MarketDataProvider>,
+        watchlist: &[crate::features::radar::domain::rules::WatchlistEntry],
+    ) -> RadarPreparedData<(
+        crate::features::shared::domain::market_data::TickerHistory<'static>,
+        crate::features::radar::domain::rules::WatchlistEntry,
+    )> {
+        let fetches = stream::iter(watchlist.iter().filter(|entry| entry.enable).cloned())
+            .map(|entry| {
+                let provider_ref = Arc::clone(&provider);
+                async move {
+                    let symbol = entry.symbol.clone();
+                    (
+                        provider_ref
+                            .fetch_history(&entry.symbol, None, None)
+                            .await
+                            .map(|history| (history, entry)),
+                        symbol,
+                    )
+                }
+            })
+            .buffer_unordered(10);
+
+        self.prepare_from_fetch_results(fetches.collect::<Vec<_>>().await)
+    }
+
+    /// 取得済みの market data から日次判定 outcome を構築する。
+    ///
+    /// Interface は IO を調停するだけとし、完全取得失敗時の診断 packet を含む判定方針は
+    /// application use case が保持する。
+    pub fn decide_daily<'a>(
+        ticker_histories: &[(
+            crate::features::shared::domain::market_data::TickerHistory<'a>,
+            &crate::features::radar::domain::rules::WatchlistEntry,
+        )],
+        failed_fetch_count: usize,
+        rules: &crate::features::radar::domain::rules::ParsedRules,
+        history: &[crate::features::radar::domain::decision::DecisionPacket],
+        evidence_history: &[crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord],
+        positions: &std::collections::HashMap<String, (f64, f64)>,
+        date: chrono::NaiveDate,
+    ) -> anyhow::Result<RadarDecisionOutcome> {
+        if ticker_histories.is_empty() {
+            return Ok(RadarDecisionOutcome {
+                packet: build_diagnostic_packet(date),
+                decisioning: build_full_fetch_failure_status(failed_fetch_count),
+            });
+        }
+
+        crate::features::radar::application::engine::Engine::run_daily_pipeline(
+            ticker_histories,
+            rules,
+            history,
+            evidence_history,
+            positions,
+        )
+        .map(build_successful_decision_outcome)
     }
 }
 
@@ -420,9 +449,11 @@ pub fn build_state_machine_summary(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::radar::application::provider::{MarketDataProvider, TickerHistory};
     use crate::features::shared::domain::market_regime::{
         LifecycleState, MarketState, MarketTransitionAudit,
     };
+    use std::borrow::Cow;
     use std::collections::HashMap;
 
     #[test]
@@ -575,6 +606,77 @@ mod tests {
             prepared.plan.data_quality_status,
             DataQualityStatus::Warning
         );
+    }
+
+    struct FixtureMarketDataProvider;
+
+    #[async_trait::async_trait]
+    impl MarketDataProvider for FixtureMarketDataProvider {
+        async fn fetch_history(
+            &self,
+            symbol: &str,
+            _start_date: Option<time::OffsetDateTime>,
+            _end_date: Option<time::OffsetDateTime>,
+        ) -> anyhow::Result<TickerHistory<'static>> {
+            if symbol == "NVDA" {
+                Ok(TickerHistory {
+                    symbol: symbol.to_string(),
+                    bars: Cow::Owned(Vec::new()),
+                    total_trading_days: 0,
+                    latest_quote_timestamp: None,
+                })
+            } else {
+                Err(anyhow::anyhow!("fixture fetch failure"))
+            }
+        }
+    }
+
+    #[tokio::test]
+    async fn radar_application_use_case_acquires_market_data_through_port() {
+        let watchlist = vec![
+            crate::features::radar::domain::rules::WatchlistEntry {
+                symbol: "NVDA".to_string(),
+                enable: true,
+                ..Default::default()
+            },
+            crate::features::radar::domain::rules::WatchlistEntry {
+                symbol: "MSFT".to_string(),
+                enable: true,
+                ..Default::default()
+            },
+        ];
+        let provider: Arc<dyn MarketDataProvider> = Arc::new(FixtureMarketDataProvider);
+
+        let prepared = RadarPipelineUseCase::new()
+            .acquire_market_data(provider, &watchlist)
+            .await;
+
+        assert_eq!(prepared.successful_items.len(), 1);
+        assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
+        assert_eq!(
+            prepared.plan.data_quality_status,
+            DataQualityStatus::Warning
+        );
+    }
+
+    #[test]
+    fn radar_application_use_case_owns_full_fetch_failure_decision() {
+        let outcome = RadarPipelineUseCase::decide_daily(
+            &[],
+            9,
+            &crate::features::radar::domain::rules::ParsedRules::default(),
+            &[],
+            &[],
+            &HashMap::new(),
+            chrono::NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+        )
+        .unwrap();
+
+        assert_eq!(outcome.packet.date.to_string(), "2026-05-25");
+        assert!(matches!(
+            outcome.decisioning,
+            crate::features::shared::application::run_status::DeliveryStatus::Failed { .. }
+        ));
     }
 
     #[test]

@@ -1,4 +1,3 @@
-use crate::config::ParsedRules;
 use crate::features::backtest::application::decision_engine::BacktestDecisionEngine;
 use crate::features::backtest::domain::metrics::{
     BacktestRunArtifacts, RegimeStats, StateMachineMetrics,
@@ -6,6 +5,7 @@ use crate::features::backtest::domain::metrics::{
 use crate::features::radar::application::provider::TickerHistory;
 use crate::features::radar::domain::action_matrix::AssetAction;
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
 use anyhow::Result;
 use chrono::NaiveDate;
 use std::borrow::Cow;
@@ -14,7 +14,7 @@ use std::collections::HashMap;
 pub fn run_core_simulation(
     decision_engine: &dyn BacktestDecisionEngine,
     histories: &HashMap<String, TickerHistory>,
-    watchlist: &[crate::config::WatchlistEntry],
+    watchlist: &[WatchlistEntry],
     simulation_dates: &[NaiveDate],
     parsed_rules: &ParsedRules,
     use_memory: bool,

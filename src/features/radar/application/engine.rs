@@ -1,9 +1,6 @@
-use crate::config::{ParsedRules, WatchlistEntry};
 use crate::features::radar::domain::features::{AssetFeatures, MarketFeatures};
 use crate::features::radar::domain::market_regime::MarketRegimeStateMachine;
-use crate::features::radar::domain::rules::{
-    ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
-};
+use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
 use crate::features::shared::domain::market_data::TickerHistory;
 
 use crate::features::radar::domain::asset_state::{AssetState, AssetStateMachine};
@@ -30,18 +27,6 @@ impl Engine {
         if ticker_histories.is_empty() {
             return Err(anyhow::anyhow!("No ticker history provided for pipeline"));
         }
-
-        let domain_rules = DomainParsedRules::from(rules);
-        let rules = &domain_rules;
-        let domain_entries: Vec<(TickerHistory<'a>, DomainWatchlistEntry)> = ticker_histories
-            .iter()
-            .map(|(history, entry)| (history.clone(), DomainWatchlistEntry::from(*entry)))
-            .collect();
-        let ticker_histories: Vec<(TickerHistory<'a>, &DomainWatchlistEntry)> = domain_entries
-            .iter()
-            .map(|(history, entry)| (history.clone(), entry))
-            .collect();
-        let ticker_histories = ticker_histories.as_slice();
 
         let prev_packet = history.last();
 

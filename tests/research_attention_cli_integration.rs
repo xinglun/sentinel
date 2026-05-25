@@ -208,7 +208,7 @@ reason = "AI 収益化の理解が進み、辺際的な情報増分は低下。"
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("🧠 Research Attention"));
+    assert!(stdout.contains("🧠 研究注意力"));
     assert!(stdout.contains("HIGH:"));
     assert!(stdout.contains("TSLA · 信息密度 EXPANDING · 注意力成本 HIGH"));
     assert!(stdout.contains("MEDIUM:"));
@@ -276,7 +276,7 @@ invalidation = ["AI 投資が利益率を継続的に圧迫"]
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("🧭 Asset Thesis Registry"));
+    assert!(stdout.contains("🧭 资产观察命题"));
     assert!(stdout.contains("NVDA · 用户自定义观察说明未提供中文版本。"));
     assert!(stdout.contains("观察焦点:"));
     assert!(stdout.contains("用户自定义观察说明未提供中文版本。"));
@@ -347,7 +347,7 @@ note = "長期金利は成長株のバリュエーション重力として観測
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("🧭 Daily Cognitive Calibration"));
+    assert!(stdout.contains("🧭 每日认知校准"));
     assert!(stdout.contains("## 1. 今日审计摘要"));
     assert!(stdout.contains("未找到可用的 state_transitions.jsonl 记录。"));
     assert!(stdout.contains("## 2. 日报校准问题"));
@@ -389,7 +389,7 @@ note = "割引率上昇により、好業績でも時間コストが上がる可
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("🌐 Macro Gravity"));
+    assert!(stdout.contains("🌐 宏观重力"));
     assert!(stdout.contains("- 实际利率: TIGHT"));
     assert!(stdout.contains("- 信用压力: WATCH"));
     assert!(!stdout.contains("割引率上昇"));

@@ -296,6 +296,18 @@ def test_feature_application_rejects_adapter_dependency() -> None:
         assert violations, "feature application から adapter への依存は ACL 経由にするべき"
 
 
+def test_feature_application_rejects_root_config_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/application/use_case.rs",
+            "use crate::config::ParsedRules;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "feature application は interface の config DTO に依存してはならない"
+
+
 def test_feature_domain_rejects_cross_feature_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -550,6 +562,7 @@ def main() -> int:
         test_removed_root_interface_rejects_new_imports,
         test_removed_root_infrastructure_rejects_new_imports,
         test_feature_application_rejects_adapter_dependency,
+        test_feature_application_rejects_root_config_dependency,
         test_feature_domain_rejects_cross_feature_dependency,
         test_feature_interface_rejects_adapter_dependency,
         test_acl_allows_adapter_dependency,

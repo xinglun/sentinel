@@ -1,7 +1,5 @@
 use chrono::{NaiveDate, Utc};
 use std::collections::HashMap;
-use std::future::{ready, Ready};
-use stock_sentinel::config::{DeviationBasis, ParsedRules, TrendConfig, WatchlistEntry};
 use stock_sentinel::features::radar::application::engine::Engine;
 use stock_sentinel::features::radar::application::provider::{DailyBar, TickerHistory};
 use stock_sentinel::features::radar::domain::action_matrix::AssetAction;
@@ -11,6 +9,10 @@ use stock_sentinel::features::radar::domain::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
 };
 use stock_sentinel::features::radar::domain::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::domain::rules::{
+    DeviationBasis, ParsedBreakoutRules, ParsedInertia, ParsedRules, ParsedTrendCohesionRules,
+    TrendConfig, WatchlistEntry,
+};
 
 use std::borrow::Cow;
 
@@ -65,15 +67,15 @@ fn create_mock_rules() -> ParsedRules {
         actions,
         sizing_multipliers: None,
         core_assets: Vec::new(),
-        inertia: stock_sentinel::config::ParsedInertia {
+        inertia: ParsedInertia {
             min_state_duration: 3,
             trend_dominant_min_confidence: 55.0,
             core_breakdown_k: 2,
             core_breakdown_avg_deviation: -5.0,
             core_breakdown_breadth_floor: 0.0,
         },
-        trend_cohesion: stock_sentinel::config::ParsedTrendCohesionRules::default(),
-        breakout: stock_sentinel::config::ParsedBreakoutRules::default(),
+        trend_cohesion: ParsedTrendCohesionRules::default(),
+        breakout: ParsedBreakoutRules::default(),
         market_state_engine: Default::default(),
         sec: None,
         macro_gravity: None,
@@ -576,66 +578,4 @@ fn radar_pipeline_use_case_prepares_from_provider_results() {
     );
     assert!(prepared.plan.should_persist_history);
     assert!(prepared.plan.should_enter_pipeline_body);
-}
-
-#[tokio::test]
-async fn radar_application_ports_are_infrastructure_free_contracts() {
-    use stock_sentinel::features::radar::application::radar::{
-        RadarDecisionHistoryPort, RadarMarketDataPort, RadarNotificationPort,
-    };
-
-    struct FixtureMarketDataPort;
-
-    impl RadarMarketDataPort for FixtureMarketDataPort {
-        type History = &'static str;
-        type Error = &'static str;
-        type FetchFuture<'a> = Ready<Result<Self::History, Self::Error>>;
-
-        fn fetch_symbol<'a>(&'a self, symbol: &'a str) -> Self::FetchFuture<'a> {
-            if symbol == "NVDA" {
-                ready(Ok("NVDA-history"))
-            } else {
-                ready(Err("missing symbol"))
-            }
-        }
-    }
-
-    struct FixtureHistoryPort;
-
-    impl RadarDecisionHistoryPort for FixtureHistoryPort {
-        type Packet = &'static str;
-        type Error = &'static str;
-
-        fn save_decision_history(&self, packet: &Self::Packet) -> Result<(), Self::Error> {
-            if packet.is_empty() {
-                Err("empty packet")
-            } else {
-                Ok(())
-            }
-        }
-    }
-
-    struct FixtureNotificationPort;
-
-    impl RadarNotificationPort for FixtureNotificationPort {
-        type Message = &'static str;
-        type Error = &'static str;
-
-        fn send_notification(&self, message: &Self::Message) -> Result<(), Self::Error> {
-            if message.is_empty() {
-                Err("empty message")
-            } else {
-                Ok(())
-            }
-        }
-    }
-
-    let market = FixtureMarketDataPort;
-    let history = FixtureHistoryPort;
-    let notification = FixtureNotificationPort;
-
-    assert!(market.fetch_symbol("NVDA").await.is_ok());
-    assert!(market.fetch_symbol("MSFT").await.is_err());
-    assert!(history.save_decision_history(&"packet").is_ok());
-    assert!(notification.send_notification(&"message").is_ok());
 }

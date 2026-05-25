@@ -1,4 +1,5 @@
 use crate::config;
+use crate::features::research::interface::default_cognitive_localizations as defaults;
 use crate::features::shared::interface::i18n::Language;
 
 pub(crate) fn build_research_attention_report(
@@ -75,28 +76,28 @@ fn format_research_attention_item(
         information_density_label(entry.information_density),
         research_attention_cost_label(language),
         attention_cost_label(entry.attention_cost),
-        localized_research_reason(entry, language)
+        localized_research_reason(symbol, entry, language)
     )
 }
 
 fn research_attention_title(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "🧠 Research Attention",
+        Language::ZhCn => "🧠 研究注意力",
         Language::EnUs => "🧠 Research Attention",
-        Language::JaJp => "🧠 Research Attention",
+        Language::JaJp => "🧠 認知注目",
     }
 }
 
 fn research_attention_empty(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "🧠 Research Attention\n\n未配置认知观察对象。\n\n边界: 认知收益低不等于股票不好；本报告只管理时间、注意力与认知带宽。"
+            "🧠 研究注意力\n\n未配置认知观察对象。\n\n边界: 认知收益低不等于股票不好；本报告只管理时间、注意力与认知带宽。"
         }
         Language::EnUs => {
             "🧠 Research Attention\n\nNo research attention entries configured.\n\nBoundary: low cognitive yield does not mean the stock is bad; this report only manages time, attention, and cognitive bandwidth."
         }
         Language::JaJp => {
-            "🧠 Research Attention\n\n認知観測対象は未設定です。\n\n境界: 認知收益が低いことは銘柄の否定ではない。このレポートは時間、注意力、認知帯域だけを管理する。"
+            "🧠 認知注目\n\n認知観測対象は未設定です。\n\n境界: 認知收益が低いことは銘柄の否定ではない。このレポートは時間、注意力、認知帯域だけを管理する。"
         }
     }
 }
@@ -190,15 +191,15 @@ pub(crate) fn build_asset_thesis_report(
         out.push_str(&format!(
             "• {} · {}\n",
             symbol,
-            localized_asset_thesis(entry, language)
+            localized_asset_thesis(symbol, entry, language)
         ));
-        let observation_focus = localized_asset_observation_focus(entry, language);
+        let observation_focus = localized_asset_observation_focus(symbol, entry, language);
         push_asset_thesis_list(
             &mut out,
             asset_thesis_observation_focus_label(language),
             &observation_focus,
         );
-        let invalidation = localized_asset_invalidation(entry, language);
+        let invalidation = localized_asset_invalidation(symbol, entry, language);
         push_asset_thesis_list(
             &mut out,
             asset_thesis_invalidation_label(language),
@@ -247,20 +248,34 @@ fn push_asset_thesis_list(out: &mut String, title: &str, items: &[String]) {
     }
 }
 
-fn localized_research_reason(entry: &config::ResearchAttentionEntry, language: Language) -> String {
+fn localized_research_reason(
+    symbol: &str,
+    entry: &config::ResearchAttentionEntry,
+    language: Language,
+) -> String {
     localized_text(
         &entry.reason,
-        entry.reason_zh.as_deref(),
+        entry
+            .reason_zh
+            .as_deref()
+            .or_else(|| defaults::research_reason_zh(symbol, &entry.reason)),
         entry.reason_en.as_deref(),
         entry.reason_ja.as_deref(),
         language,
     )
 }
 
-fn localized_asset_thesis(entry: &config::AssetThesisEntry, language: Language) -> String {
+fn localized_asset_thesis(
+    symbol: &str,
+    entry: &config::AssetThesisEntry,
+    language: Language,
+) -> String {
     localized_text(
         &entry.thesis,
-        entry.thesis_zh.as_deref(),
+        entry
+            .thesis_zh
+            .as_deref()
+            .or_else(|| defaults::asset_thesis_zh(symbol, &entry.thesis)),
         entry.thesis_en.as_deref(),
         entry.thesis_ja.as_deref(),
         language,
@@ -268,12 +283,17 @@ fn localized_asset_thesis(entry: &config::AssetThesisEntry, language: Language) 
 }
 
 fn localized_asset_observation_focus(
+    symbol: &str,
     entry: &config::AssetThesisEntry,
     language: Language,
 ) -> Vec<String> {
+    let default_zh = defaults::observation_focus_zh(symbol, &entry.thesis);
     localized_list(
         &entry.observation_focus,
-        entry.observation_focus_zh.as_deref(),
+        entry
+            .observation_focus_zh
+            .as_deref()
+            .or(default_zh.as_deref()),
         entry.observation_focus_en.as_deref(),
         entry.observation_focus_ja.as_deref(),
         language,
@@ -281,12 +301,14 @@ fn localized_asset_observation_focus(
 }
 
 fn localized_asset_invalidation(
+    symbol: &str,
     entry: &config::AssetThesisEntry,
     language: Language,
 ) -> Vec<String> {
+    let default_zh = defaults::invalidation_zh(symbol, &entry.thesis);
     localized_list(
         &entry.invalidation,
-        entry.invalidation_zh.as_deref(),
+        entry.invalidation_zh.as_deref().or(default_zh.as_deref()),
         entry.invalidation_en.as_deref(),
         entry.invalidation_ja.as_deref(),
         language,
@@ -337,22 +359,22 @@ fn localized_config_missing(language: Language) -> &'static str {
 
 fn asset_thesis_title(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "🧭 Asset Thesis Registry",
+        Language::ZhCn => "🧭 资产观察命题",
         Language::EnUs => "🧭 Asset Thesis Registry",
-        Language::JaJp => "🧭 Asset Thesis Registry",
+        Language::JaJp => "🧭 銘柄別観測命題",
     }
 }
 
 fn asset_thesis_empty(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "🧭 Asset Thesis Registry\n\n未配置资产观察命题。\n\n边界: 资产命题只说明为什么观察，不生成买卖指令。"
+            "🧭 资产观察命题\n\n未配置资产观察命题。\n\n边界: 资产命题只说明为什么观察，不生成买卖指令。"
         }
         Language::EnUs => {
             "🧭 Asset Thesis Registry\n\nNo asset thesis entries configured.\n\nBoundary: asset theses explain why to observe; they do not generate trade instructions."
         }
         Language::JaJp => {
-            "🧭 Asset Thesis Registry\n\n銘柄別の観測命題は未設定です。\n\n境界: 銘柄命題は観測理由を説明するだけで、売買指示は生成しない。"
+            "🧭 銘柄別観測命題\n\n銘柄別の観測命題は未設定です。\n\n境界: 銘柄命題は観測理由を説明するだけで、売買指示は生成しない。"
         }
     }
 }
@@ -435,22 +457,22 @@ pub(crate) fn build_macro_gravity_report(
 
 fn macro_gravity_title(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "🌐 Macro Gravity",
+        Language::ZhCn => "🌐 宏观重力",
         Language::EnUs => "🌐 Macro Gravity",
-        Language::JaJp => "🌐 Macro Gravity",
+        Language::JaJp => "🌐 マクロ重力",
     }
 }
 
 fn macro_gravity_empty(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "🌐 Macro Gravity\n\n未配置宏观重力支线。\n\n边界: 债券与信用环境只解释折现率和流动性，不生成交易信号。"
+            "🌐 宏观重力\n\n未配置宏观重力支线。\n\n边界: 债券与信用环境只解释折现率和流动性，不生成交易信号。"
         }
         Language::EnUs => {
             "🌐 Macro Gravity\n\nNo macro gravity context configured.\n\nBoundary: bond and credit context only explains discount-rate and liquidity conditions; it does not generate trade signals."
         }
         Language::JaJp => {
-            "🌐 Macro Gravity\n\nマクロ重力コンテキストは未設定です。\n\n境界: 債券と信用環境は割引率と流動性だけを説明し、売買シグナルは生成しない。"
+            "🌐 マクロ重力\n\nマクロ重力コンテキストは未設定です。\n\n境界: 債券と信用環境は割引率と流動性だけを説明し、売買シグナルは生成しない。"
         }
     }
 }
@@ -519,9 +541,9 @@ fn macro_gravity_boundary(language: Language) -> &'static str {
 
 pub(crate) fn daily_calibration_title(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "🧭 Daily Cognitive Calibration",
+        Language::ZhCn => "🧭 每日认知校准",
         Language::EnUs => "🧭 Daily Cognitive Calibration",
-        Language::JaJp => "🧭 Daily Cognitive Calibration",
+        Language::JaJp => "🧭 日次認知校正",
     }
 }
 

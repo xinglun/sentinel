@@ -1278,15 +1278,15 @@ mod tests {
             },
         ];
         let report = build_audit_daily_report(&days, 1, 14, Language::ZhCn);
-        assert!(report.contains("1. Gate 摘要"));
-        assert!(report.contains("2. Transition 摘要"));
-        assert!(report.contains("3. Breakout 摘要"));
+        assert!(report.contains("1. 门槛摘要"));
+        assert!(report.contains("2. 状态变化摘要"));
+        assert!(report.contains("3. 突破摘要"));
         assert!(report.contains("4. 实体证据摘要"));
         assert!(report.contains("5. 连续段统计"));
         assert!(report.contains("6. 审计一句话"));
         assert!(report.contains("口径: 连续段按日志连续计算（周末自动衔接）"));
         assert!(report.contains("NO TRADE 连续第 2 天；主因："));
-        assert!(report.contains("；今日 breakout：GOOG（新增）；主线状态：未形成。"));
+        assert!(report.contains("；今日突破：GOOG（新增）；主线状态：未形成。"));
     }
 
     #[test]
@@ -1360,15 +1360,15 @@ mod tests {
             events: vec![entry],
         }];
         let report = build_audit_daily_report(&days, 0, 14, Language::JaJp);
-        assert!(report.contains("1. Gate サマリー"));
-        assert!(report.contains("2. Transition サマリー"));
-        assert!(report.contains("3. Breakout サマリー"));
+        assert!(report.contains("1. ゲートサマリー"));
+        assert!(report.contains("2. 状態遷移サマリー"));
+        assert!(report.contains("3. ブレイクアウトサマリー"));
         assert!(report.contains("4. 実体的な証拠サマリー"));
         assert!(report.contains("5. 連続区間統計"));
         assert!(report.contains("6. 監査ワンライン要約"));
         assert!(report.contains("口径: 連続区間はログ連続で計算（週末は自動連結）"));
         assert!(report.contains("NO TRADE 連続 1 日目；主因："));
-        assert!(report.contains("本日の breakout：GOOG（新規）；主線状態：未形成。"));
+        assert!(report.contains("本日のブレイクアウト：GOOG（新規）；主線状態：未形成。"));
     }
 
     #[test]
@@ -1573,8 +1573,8 @@ mod tests {
             events: vec![morning, close],
         };
         let report = build_audit_daily_report(&[day], 0, 14, Language::ZhCn);
-        assert!(report.contains("新增 breakout: GOOG"));
-        assert!(report.contains("今日 breakout：GOOG（新增）"));
+        assert!(report.contains("新增突破: GOOG"));
+        assert!(report.contains("今日突破：GOOG（新增）"));
     }
 
     #[test]

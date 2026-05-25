@@ -25,7 +25,7 @@ src/features/<feature>/domain          feature 固有の業務概念、値オブ
 src/features/<feature>/application     ユースケース、ポート、トランザクション境界、アプリケーションサービス
 src/features/<feature>/interface       CLI / report / Telegram などの入出力変換
 src/features/<feature>/infrastructure  外部 API、永続化、通知、時計、ファイルシステムなどの実装
-src/features/<feature>/acl             外部 adapter / raw protocol と feature 内 model の防腐層
+src/features/<feature>/acl             外部 adapter / raw protocol の防腐層と外向き gateway facade
 src/features/shared/domain             複数 feature で共有する domain primitive
 ```
 
@@ -57,6 +57,7 @@ Domain は最内層であり、次を参照してはならない。
 
 Application は Domain を操作し、外部との接点は port trait で表現する。Infrastructure はその port を実装する。
 Application は filesystem / network IO を直接行わない。永続化、外部 API、ファイル出力は Infrastructure または Interface composition から接続する。
+ACL は raw protocol を正規化する adapter と、許可された infrastructure 実装を composition root へ公開する gateway facade だけを持つ。判断 policy、formatting、business rule は ACL に置かない。
 
 ## Bounded Contexts
 
@@ -96,7 +97,8 @@ root-level legacy layer は再導入しない。root `src/core/**`、`src/applic
 
 - Finnhub / SEC / web HTML は infrastructure DTO として受ける。
 - Application port で domain input へ変換する。
-- Domain は source URL、HTTP status、raw JSON などを直接扱わない。
+- Domain は HTTP status、raw JSON、raw HTML などの transport detail を直接扱わない。
+- 監査 provenance として正規化済みの `source_url`、`event_date`、`dedupe_key` を evidence record が保持することは許可する。
 
 ## Display-Only Layers
 
@@ -113,8 +115,9 @@ Radar の段階移行では、CLI から次の policy を Application へ移し�
 - data quality status の導出
 - run context の `save_dir`、`date`、`timestamp`、初期 `RunOutcome` 生成
 - diagnostic packet、decision outcome、state machine summary、persistence payload の組み立て
+- 取得済み domain input からの日次 decision outcome 構築
 
-CLI は command dispatch と composition root 呼び出しだけを保持する。provider 呼び出し、`Engine` 実行、report rendering、notification dispatch は `src/features/radar/interface/radar_pipeline_runner.rs` の facade に集約する。
+CLI は command dispatch と composition root 呼び出しだけを保持する。provider 呼び出し、report rendering、notification dispatch は `src/features/radar/interface/radar_pipeline_runner.rs` の facade に集約し、日次判定の選択と `Engine` 呼び出しは `RadarPipelineUseCase` が担う。
 
 次の領域は domain / application / interface / infrastructure の責務へ分割済みである。
 
@@ -136,7 +139,7 @@ Application layer に移行済みのもの:
 - prepared data、pipeline plan、history persistence 判定
 - run context と初期 run status metadata
 - diagnostic / decision outcome / persistence payload builder
-- market data 取得、decision history 永続化、notification dispatch の port contract
+- 取得済み domain market data に基づく日次判定と完全取得失敗 policy
 
 CLI に残すもの:
 
@@ -145,9 +148,9 @@ CLI に残すもの:
 - provider kind の選択
 - feature interface facade の呼び出し
 
-次に進める場合は、`src/features/<feature>/application` から filesystem / network IO、root compatibility layer、`crate::adapters` へ依存させず、port trait を先に定義してから infrastructure 実装を接続する。
+market data 取得 port は `src/features/radar/application/provider.rs` の `MarketDataProvider` を実運用で接続している。永続化と通知は interface composition が infrastructure / ACL gateway facade を調停し、application policy へ逆流させない。
+次に進める場合は、`src/features/<feature>/application` から filesystem / network IO、root compatibility layer、`crate::config`、`crate::adapters` へ依存させず、domain input と port trait を先に定義してから infrastructure 実装を接続する。
 この rule は `make test-architecture-boundaries` の regression test で固定する。
-port contract は `RadarMarketDataPort`、`RadarDecisionHistoryPort`、`RadarNotificationPort` として application layer に置き、実装接続は別 Work Item で行う。
 
 ## Architecture Guard
 
@@ -158,6 +161,7 @@ checker は次の hard gate を実行する。
 - `allowedDependencies` にない feature 依存を拒否する。
 - `shared` から concrete feature への依存を拒否する。
 - Domain から config / interface / infrastructure / adapters への依存を拒否する。
+- Application から root config DTO / interface / infrastructure / adapters への依存を拒否する。
 - Application の filesystem / network IO import と usage を拒否する。
 - Infrastructure から Interface への依存を拒否する。
 - ACL から他 feature infrastructure への直接依存を拒否する。

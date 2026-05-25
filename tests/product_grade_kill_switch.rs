@@ -1,5 +1,5 @@
 use stock_sentinel::config::AppConfig;
-use stock_sentinel::features::radar::application::execution_gate::ExecutionGate;
+use stock_sentinel::features::radar::application::execution_gate::{ExecutionGate, TradingLimits};
 use stock_sentinel::features::radar::domain::action_matrix::{AssetAction, AssetActionDecision};
 use stock_sentinel::features::radar::domain::asset_state::AssetState;
 use stock_sentinel::features::radar::domain::decision::DecisionPacket;
@@ -33,6 +33,11 @@ fn test_kill_switch_behavior_in_execution_gate() {
     "#;
     let config: AppConfig = toml::from_str(config_str).expect("Valid config should parse");
     let trading_config = config.trading.as_ref().unwrap();
+    let trading_limits = TradingLimits {
+        enabled: trading_config.enabled,
+        global_budget: trading_config.global_budget,
+        max_daily_budget: trading_config.max_daily_budget,
+    };
 
     // 2. Decision packet with a "BUY" signal
     let assets = vec![AssetActionDecision {
@@ -83,7 +88,7 @@ fn test_kill_switch_behavior_in_execution_gate() {
     );
 
     // 3. Gate the packet
-    let result = ExecutionGate::gate_packet(&packet, trading_config, 0.0, 10000.0, 0.0);
+    let result = ExecutionGate::gate_packet(&packet, &trading_limits, 0.0, 10000.0, 0.0);
 
     // 4. VERIFY: No trades produced, audit shows TradingDisabled
     assert_eq!(

@@ -155,6 +155,7 @@ FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES: dict[str, tuple[str, ...]] = {
     ),
     "application": (
         "crate::adapters",
+        "crate::config",
         "crate::infrastructure",
         "crate::interface",
     ),

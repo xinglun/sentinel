@@ -1,11 +1,12 @@
 use anyhow::{Context, Result};
-use futures::stream::{self, StreamExt};
 use std::sync::Arc;
 
 use crate::config;
-use crate::features::radar::application::engine::Engine;
-use crate::features::radar::application::execution_gate::ExecutionGate;
+use crate::features::radar::application::execution_gate::{ExecutionGate, TradingLimits};
 use crate::features::radar::application::provider::MarketDataProvider;
+use crate::features::radar::domain::rules::{
+    ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
+};
 use crate::features::radar::infrastructure::radar_runtime_factory::build_radar_runtime_services;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report;
@@ -21,8 +22,10 @@ pub(crate) async fn run_pipeline(
     _mode: crate::features::radar::application::runtime_mode::ExecutionMode,
 ) -> Result<()> {
     let parsed_rules = app_config.get_parsed_rules();
+    let domain_rules = DomainParsedRules::from(&parsed_rules);
     let config_arc = Arc::new(app_config);
     let rules_arc = Arc::new(parsed_rules);
+    let domain_rules_arc = Arc::new(domain_rules);
     let radar_context = crate::features::radar::application::radar::RadarRunContext::new(
         &config_arc.output.save_to,
         chrono::Local::now(),
@@ -44,32 +47,22 @@ pub(crate) async fn run_pipeline(
         .unwrap_or_default();
     let prev_packet = history.last();
 
-    let fetches = stream::iter(config_arc.watchlist.iter().filter(|w| w.enable))
-        .map(|entry| {
-            let provider_ref = Arc::clone(&provider);
-            async move {
-                (
-                    provider_ref.fetch_history(&entry.symbol, None, None).await,
-                    entry,
-                )
-            }
-        })
-        .buffer_unordered(10);
-
-    let fetch_results = fetches
-        .collect::<Vec<_>>()
-        .await
-        .into_iter()
-        .map(|(result, entry)| {
-            let symbol = entry.symbol.clone();
-            (result.map(|history| (history, entry)), symbol)
-        });
+    let watchlist = config_arc
+        .watchlist
+        .iter()
+        .map(DomainWatchlistEntry::from)
+        .collect::<Vec<_>>();
     let prepared_data = crate::features::radar::application::radar::RadarPipelineUseCase::new()
-        .prepare_from_fetch_results(fetch_results);
+        .acquire_market_data(provider, &watchlist)
+        .await;
     let data_acquisition_summary = prepared_data.summary;
     let pipeline_plan = prepared_data.plan;
     let should_persist_history = pipeline_plan.should_persist_history;
-    let ticker_histories = prepared_data.successful_items;
+    let fetched_ticker_histories = prepared_data.successful_items;
+    let ticker_histories = fetched_ticker_histories
+        .iter()
+        .map(|(history, entry)| (history.clone(), entry))
+        .collect::<Vec<_>>();
     let failed_symbols = prepared_data.failed_symbols;
 
     let mut outcome =
@@ -79,34 +72,29 @@ pub(crate) async fn run_pipeline(
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if pipeline_plan.should_enter_pipeline_body {
-        let packet = if !ticker_histories.is_empty() {
-            match Engine::run_daily_pipeline(
+        let packet =
+            match crate::features::radar::application::radar::RadarPipelineUseCase::decide_daily(
                 &ticker_histories,
-                &rules_arc,
+                failed_symbols.len(),
+                &domain_rules_arc,
                 &history,
                 &all_evidence,
                 &positions,
+                radar_context.date,
             ) {
-                Ok(packet) => {
-                    let decision_outcome =
-                        crate::features::radar::application::radar::build_successful_decision_outcome(packet);
+                Ok(decision_outcome) => {
                     outcome.decisioning = decision_outcome.decisioning;
                     decision_outcome.packet
                 }
                 Err(e) => {
                     outcome.decisioning =
-                        crate::features::radar::application::radar::build_decisioning_failure_status(e.to_string());
+                    crate::features::radar::application::radar::build_decisioning_failure_status(
+                        e.to_string(),
+                    );
                     runtime_services.persistence.save_run_status(&outcome)?;
                     return Err(e);
                 }
-            }
-        } else {
-            outcome.decisioning =
-                crate::features::radar::application::radar::build_full_fetch_failure_status(
-                    failed_symbols.len(),
-                );
-            crate::features::radar::application::radar::build_diagnostic_packet(radar_context.date)
-        };
+            };
 
         if let Some(ref recognition) = packet.trend_recognition {
             if let Some(ref substantive) = recognition.substantive {
@@ -132,6 +120,11 @@ pub(crate) async fn run_pipeline(
             .trading
             .as_ref()
             .unwrap_or(&default_trading_config);
+        let trading_limits = TradingLimits {
+            enabled: trading_config.enabled,
+            global_budget: trading_config.global_budget,
+            max_daily_budget: trading_config.max_daily_budget,
+        };
         let daily_traded = ledger.get_daily_traded_amount();
         let current_exposure: f64 = positions
             .values()
@@ -140,7 +133,7 @@ pub(crate) async fn run_pipeline(
         let buying_power = (trading_config.global_budget - current_exposure).max(0.0);
         let execution_result = ExecutionGate::gate_packet(
             &packet,
-            trading_config,
+            &trading_limits,
             daily_traded,
             buying_power,
             current_exposure,

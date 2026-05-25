@@ -1,0 +1,114 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd_clean_architecture_closure",
+  "mode": "code",
+  "title": "DDD Clean Architecture 既知境界の収束",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+    ".ai/work-items/active/ddd_clean_architecture_closure.summary.json",
+    "config.toml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "Makefile",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_test_generate_status.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "scripts/check_architecture_boundaries.py",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/features/backtest/application/decision_engine.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/interface/backtest.rs",
+    "src/features/evidence/acl/**",
+    "src/features/evidence/interface/**",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/application/radar.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/default_cognitive_localizations.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/shared/acl/**",
+    "src/features/shared/interface/**",
+    "src/features/trading/infrastructure/trader_agent.rs",
+    "tests/pipeline_integration.rs",
+    "tests/product_grade_kill_switch.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/snapshots/**"
+  ],
+  "outOfScope": [
+    "Gate 判定規則の変更",
+    "市場状態計算アルゴリズムの変更",
+    "外部 API の新規統合"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "既存の層境界契約。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "AI Cockpit と品質ゲートの実行規約。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "radar と backtest の application 層が crate::config に依存しない。",
+    "radar interface は入出力調停を担当し、日次判定の組み立ては application use case が担当する。",
+    "architecture boundary checker が application から crate::config への依存を拒否する。",
+    "ACL と wiring の責務を文書および実装配置で一致させる。",
+    "active Work Item がない make quality が current_status.md を時刻差分だけで変更しない。",
+    "中国語 daily calibration が日本語 fallback を出力しない。",
+    "DDD/Clean Architecture 文書が証拠 provenance の実装契約と一致する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd_clean_architecture_closure.summary.json CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、層境界、表示設定、AI Cockpit の変更を元に戻す。"
+}

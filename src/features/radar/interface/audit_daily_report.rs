@@ -430,10 +430,10 @@ struct AuditDailyText {
 fn audit_text(language: Language) -> AuditDailyText {
     match language {
         Language::ZhCn => AuditDailyText {
-            title: "Audit Daily",
-            section_gate: "Gate 摘要",
-            section_transition: "Transition 摘要",
-            section_breakout: "Breakout 摘要",
+            title: "每日审计",
+            section_gate: "门槛摘要",
+            section_transition: "状态变化摘要",
+            section_breakout: "突破摘要",
             section_streaks: "连续段统计",
             section_substantive: "实体证据摘要",
             section_one_liner: "审计一句话",
@@ -441,15 +441,15 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_duration: "持续天数",
             label_no_trade_mode: "NO TRADE 分层",
             label_scout_streak: "侦察未扩散计数",
-            label_top_blockers: "最主要阻碍因子 Top 3",
+            label_top_blockers: "最主要阻碍因子前三项",
             label_state_change: "今天是否有状态变化",
-            label_risk_change: "今天是否有 risk overlay 变化",
+            label_risk_change: "今天是否有风险叠加变化",
             label_trend_change: "今天是否有主线状态变化",
             label_mode_change: "今天是否有 NO TRADE 分层变化",
-            label_scout_reset: "今天是否触发侦察 reset",
-            label_breakout_new: "新增 breakout",
-            label_breakout_continued: "延续 breakout",
-            label_breakout_removed: "消失 breakout",
+            label_scout_reset: "今天是否触发侦察重置",
+            label_breakout_new: "新增突破",
+            label_breakout_continued: "延续突破",
+            label_breakout_removed: "消失突破",
             label_evidence_collection: "今日证据采集状态",
             label_evidence_stock: "历史证据存量",
             label_no_trade_streak: "当前 NO TRADE 连续段长度",
@@ -511,10 +511,10 @@ fn audit_text(language: Language) -> AuditDailyText {
             template_trend_recognition: "- Trend Recognition Quality: {state}; Diffusion Score {score}; Conviction Score {conviction}; Lag State {lag_state}",
         },
         Language::JaJp => AuditDailyText {
-            title: "Audit Daily",
-            section_gate: "Gate サマリー",
-            section_transition: "Transition サマリー",
-            section_breakout: "Breakout サマリー",
+            title: "日次監査",
+            section_gate: "ゲートサマリー",
+            section_transition: "状態遷移サマリー",
+            section_breakout: "ブレイクアウトサマリー",
             section_streaks: "連続区間統計",
             section_substantive: "実体的な証拠サマリー",
             section_one_liner: "監査ワンライン要約",
@@ -524,13 +524,13 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_scout_streak: "偵察未拡散カウント",
             label_top_blockers: "主要阻害要因 Top 3",
             label_state_change: "本日の状態変化",
-            label_risk_change: "本日の risk overlay 変化",
+            label_risk_change: "本日のリスクオーバーレイ変化",
             label_trend_change: "本日の主線状態変化",
             label_mode_change: "本日の NO TRADE レイヤー変化",
-            label_scout_reset: "本日の偵察 reset 発生",
-            label_breakout_new: "新規 breakout",
-            label_breakout_continued: "継続 breakout",
-            label_breakout_removed: "消失 breakout",
+            label_scout_reset: "本日の偵察リセット発生",
+            label_breakout_new: "新規ブレイクアウト",
+            label_breakout_continued: "継続ブレイクアウト",
+            label_breakout_removed: "消失ブレイクアウト",
             label_evidence_collection: "本日の証拠収集状態",
             label_evidence_stock: "履歴証拠ストック",
             label_no_trade_streak: "現在の NO TRADE 連続日数",
@@ -914,7 +914,7 @@ fn build_audit_sentence(
 ) -> String {
     match language {
         Language::ZhCn => format!(
-            "{} 连续第 {} 天；主因：{}；NO TRADE 分层：{}；今日 breakout：{}；主线状态：{}。",
+            "{} 连续第 {} 天；主因：{}；NO TRADE 分层：{}；今日突破：{}；主线状态：{}。",
             gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
         Language::EnUs => format!(
@@ -922,7 +922,7 @@ fn build_audit_sentence(
             gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
         Language::JaJp => format!(
-            "{} 連続 {} 日目；主因：{}；NO TRADE レイヤー：{}；本日の breakout：{}；主線状態：{}。",
+            "{} 連続 {} 日目；主因：{}；NO TRADE レイヤー：{}；本日のブレイクアウト：{}；主線状態：{}。",
             gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
     }

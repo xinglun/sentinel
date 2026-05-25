@@ -547,7 +547,7 @@ mod tests {
             ..Default::default()
         }];
 
-        use crate::features::radar::application::execution_gate::ExecutionGate;
+        use crate::features::radar::application::execution_gate::{ExecutionGate, TradingLimits};
         use crate::features::radar::domain::decision::DecisionPacket;
 
         let market_features = MarketFeatures::default();
@@ -566,8 +566,13 @@ mod tests {
         );
 
         let trading_config = config_arc.trading.as_ref().unwrap();
+        let trading_limits = TradingLimits {
+            enabled: trading_config.enabled,
+            global_budget: trading_config.global_budget,
+            max_daily_budget: trading_config.max_daily_budget,
+        };
         let execution_result =
-            ExecutionGate::gate_packet(&packet, trading_config, 0.0, 100000.0, 0.0);
+            ExecutionGate::gate_packet(&packet, &trading_limits, 0.0, 100000.0, 0.0);
 
         let summary = agent
             .execute_signals(execution_result.trades)

@@ -1,4 +1,3 @@
-use crate::config::TradingConfig;
 use crate::features::radar::domain::action_matrix::AssetAction;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::market_regime::RiskOverlay;
@@ -24,13 +23,23 @@ pub struct ExecutionResult {
     pub audits: Vec<GatedAudit>,
 }
 
+/// execution gate に必要な予算制約。
+///
+/// 設定ファイルの形式は interface 層でこの値へ変換する。
+#[derive(Debug, Clone, Copy)]
+pub struct TradingLimits {
+    pub enabled: bool,
+    pub global_budget: f64,
+    pub max_daily_budget: Option<f64>,
+}
+
 pub struct ExecutionGate;
 
 impl ExecutionGate {
     /// risk と policy に基づき、DecisionPacket から取引候補を抽出して sizing する。
     pub fn gate_packet(
         packet: &DecisionPacket,
-        trading_config: &TradingConfig,
+        trading_config: &TradingLimits,
         daily_traded: f64,
         buying_power: f64,
         current_exposure: f64,
@@ -322,7 +331,7 @@ mod tests {
 
     #[test]
     fn test_gate_daily_budget_limit() {
-        let config = TradingConfig {
+        let config = TradingLimits {
             enabled: true,
             global_budget: 10000.0,
             max_daily_budget: Some(2000.0),
@@ -343,7 +352,7 @@ mod tests {
 
     #[test]
     fn test_gate_global_exposure_cap() {
-        let config = TradingConfig {
+        let config = TradingLimits {
             enabled: true,
             global_budget: 2000.0,
             max_daily_budget: None,
@@ -362,7 +371,7 @@ mod tests {
 
     #[test]
     fn test_gate_buying_power() {
-        let config = TradingConfig {
+        let config = TradingLimits {
             enabled: true,
             global_budget: 10000.0,
             max_daily_budget: None,
@@ -378,7 +387,7 @@ mod tests {
 
     #[test]
     fn test_gate_circuit_breaker() {
-        let config = TradingConfig {
+        let config = TradingLimits {
             enabled: true,
             global_budget: 10000.0,
             max_daily_budget: None,
@@ -402,7 +411,7 @@ mod tests {
 
     #[test]
     fn test_gate_reduction_does_not_consume_buying_power() {
-        let config = TradingConfig {
+        let config = TradingLimits {
             enabled: true,
             global_budget: 10000.0,
             max_daily_budget: None,

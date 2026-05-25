@@ -7,6 +7,7 @@ use crate::features::backtest::infrastructure::output::{
 use crate::features::radar::application::provider::MarketDataProvider;
 use crate::features::radar::application::{engine::Engine, provider::TickerHistory};
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
 use crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord;
 use anyhow::Result;
 use chrono::NaiveDate;
@@ -18,8 +19,8 @@ struct RadarBacktestDecisionEngine;
 impl BacktestDecisionEngine for RadarBacktestDecisionEngine {
     fn run_daily_pipeline<'a>(
         &self,
-        ticker_histories: &[(TickerHistory<'a>, &crate::config::WatchlistEntry)],
-        rules: &crate::config::ParsedRules,
+        ticker_histories: &[(TickerHistory<'a>, &WatchlistEntry)],
+        rules: &ParsedRules,
         history: &[DecisionPacket],
         evidence_history: &[AutomatedEvidenceRecord],
         positions: &HashMap<String, (f64, f64)>,
@@ -96,8 +97,9 @@ pub async fn run_backtest(
         simulation_dates.len()
     );
 
-    let parsed_rules = config.get_parsed_rules();
-    let watchlist = config.watchlist.clone();
+    let parsed_rules = ParsedRules::from(&config.get_parsed_rules());
+    let watchlist: Vec<WatchlistEntry> =
+        config.watchlist.iter().map(WatchlistEntry::from).collect();
     let decision_engine = RadarBacktestDecisionEngine;
 
     // baseline（memory / friction なし）を実行する。
