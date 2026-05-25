@@ -178,6 +178,9 @@ redundancy:
   deterministicExtractionOnly: true
   collectorEnabled: false
   noEscalationStateMutation: true
+multiCategorySensorHealthEnabled: true
+evidenceDrivenEscalationEngineEnabled: true
+evidenceDrivenEscalationOutputBoundary: no_trade_gate_execution
 boundaries:
   forbidden_as_evidence:
     - narrative_only
@@ -210,5 +213,6 @@ phases:
   phase_3b_dependency_concentration_evidence_pipeline: active
   phase_3c_institutional_maturity_evidence_pipeline: active
   phase_3d_redundancy_evidence_pipeline: active
-  phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
+  phase_3e_multi_category_sensor_health_dashboard: active
+  phase_4_escalation_detection_engine: active
   phase_5_long_term_civilization_risk_mapping: out_of_scope

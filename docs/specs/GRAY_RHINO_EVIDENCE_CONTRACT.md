@@ -253,7 +253,11 @@ Phase 3-B の初期実装では repository-local structured JSON ingestion bound
 
 ### Phase 4: Escalation Detection Engine
 
-本 Work Item の対象外。evidence が十分に蓄積されるまで、自動 escalation 判定を追加しない。
+本 Work Item の対象。validated evidence store から category coverage を読み取り、Gray Rhino escalation input へ投影する。
+
+evidence-driven escalation は `gray_rhino_evidence.jsonl` の検証済み record だけを入力とし、source は `EvidenceStore` と表示する。出力は Gray Rhino report に限定し、trade、Gate、execution、trend cohesion を生成しない。
+
+multi-category sensor health は GovernanceConcentration、DependencyConcentration、InstitutionalMaturity、Redundancy の evidence count と governance source audit health を表示する。
 
 ### Phase 5: Long-term Civilization Risk Mapping
 

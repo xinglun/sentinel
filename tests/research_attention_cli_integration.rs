@@ -345,6 +345,61 @@ fn gray_rhino_redundancy_evidence_ingest_writes_jsonl_without_escalation() {
 }
 
 #[test]
+fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
+    let tmp = prepare_standard_workspace("en-us");
+    let evidence_path = tmp.path().join("dependency_evidence.json");
+    fs::write(
+        &evidence_path,
+        r#"{
+  "subject": "Example issuer",
+  "source": {
+    "source_type": "SupplierDisclosure",
+    "source_title": "Supplier dependency disclosure",
+    "publisher": "Example issuer",
+    "source_url": "https://example.com/supplier",
+    "repository_path": null,
+    "observed_at": "2026-05-25",
+    "retrieved_at": "2026-05-25"
+  },
+  "confidence": 0.86,
+  "extraction_note": "Supplier disclosure identifies dependency concentration.",
+  "structural_fact": "Critical supplier dependency has no disclosed fallback.",
+  "metrics": {
+    "dependency_kind": "Supplier",
+    "dependency_name": "Example supplier",
+    "concentration_ratio": 0.7,
+    "single_point_of_failure": true,
+    "fallback_disclosed": false
+  }
+}"#,
+    )
+    .expect("failed to write dependency evidence fixture");
+    let ingest = run_cli(
+        &tmp,
+        &[
+            "ingest-gray-rhino-dependency",
+            "--file",
+            evidence_path.to_str().unwrap(),
+        ],
+    );
+    assert!(ingest.status.success());
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Evidence-backed sensor store"));
+    assert!(stdout.contains("Gray Rhino Sensor Health"));
+    assert!(stdout.contains("DependencyConcentration: 1 evidence record"));
+    assert!(stdout.contains("It does not generate trading signals."));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
+    assert!(!stdout.contains("gate signal"));
+    assert!(!stdout.contains("Gate override"));
+    assert!(!stdout.contains("trend_cohesion"));
+}
+
+#[test]
 fn dependency_local_source_collection_produces_coverage_and_rejections() {
     let tmp = prepare_standard_workspace("zh-cn");
     let source_path = tmp.path().join("dependency_source.txt");

@@ -59,22 +59,10 @@ impl GovernanceEvidenceRepository for GrayRhinoEvidenceStore {
     }
 
     fn load_governance_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
-        if !self.path.exists() {
-            return Ok(Vec::new());
-        }
-        let raw = fs::read_to_string(&self.path)
-            .with_context(|| format!("Failed to read {}", self.path.display()))?;
-        raw.lines()
-            .filter(|line| !line.trim().is_empty())
-            .map(|line| {
-                serde_json::from_str(line).with_context(|| {
-                    format!(
-                        "Failed to parse gray rhino evidence in {}",
-                        self.path.display()
-                    )
-                })
-            })
-            .collect()
+        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+            .into_iter()
+            .filter(|record| record.category == GrayRhinoEvidenceCategory::GovernanceConcentration)
+            .collect())
     }
 }
 

@@ -1,0 +1,85 @@
+{
+  "workItemId": "gray-rhino-v1-sensor-escalation",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-sensor-escalation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-sensor-escalation.contract.json",
+      "reason": "sensor dashboard / evidence-driven escalation の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-sensor-escalation.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "evidence-backed escalation input mapper を追加する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "multi-category sensor health と evidence-backed assessment source を表示する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "evidence-backed daily report と非交易境界を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-sensor-escalation.contract.json",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/domain/gray_rhino.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-sensor-escalation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-sensor-escalation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::gray_rhino_assessment::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_daily_report_uses_evidence_backed_sensor_health --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-sensor-escalation.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-sensor-escalation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-sensor-escalation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-sensor-escalation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-sensor-escalation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-sensor-escalation.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "evidence-driven escalation を有効化するが、出力は Gray Rhino report に限定し、trade / Gate / execution へ接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "daily-calibration には既存の認知校正質問として Gate という語が残るため、テストは Gray Rhino evidence が gate signal / execution を生成しないことを確認する。"
+  ]
+}

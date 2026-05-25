@@ -293,6 +293,11 @@ def main() -> int:
     for item in [
         "redundancy:",
         "phase_3d_redundancy_evidence_pipeline: active",
+        "multiCategorySensorHealthEnabled: true",
+        "evidenceDrivenEscalationEngineEnabled: true",
+        "evidenceDrivenEscalationOutputBoundary: no_trade_gate_execution",
+        "phase_3e_multi_category_sensor_health_dashboard: active",
+        "phase_4_escalation_detection_engine: active",
         "localIngestionCli: ingest-gray-rhino-redundancy",
         "fallback_available",
         "alternative_supplier_count",

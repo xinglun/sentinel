@@ -1,6 +1,12 @@
 use crate::config::{self, GrayRhinoRiskLevel};
+use crate::features::research::application::dependency_evidence::DependencyEvidenceRepository;
+use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
-use crate::features::research::application::gray_rhino_assessment::build_gray_rhino_assessment;
+use crate::features::research::application::gray_rhino_assessment::{
+    build_evidence_backed_gray_rhino_assessment, build_gray_rhino_assessment,
+};
+use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
+use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
 #[cfg(test)]
 use crate::features::research::domain::gray_rhino::{
     evaluate_gray_rhino_escalation, GrayRhinoAssessmentSnapshot,
@@ -20,6 +26,14 @@ pub(crate) fn build_gray_rhino_escalation_report(
     app_config: &config::AppConfig,
     language: Language,
 ) -> String {
+    let save_dir = Path::new(&app_config.output.save_to);
+    if let Ok(records) = load_gray_rhino_evidence_records(save_dir) {
+        if let Some(assessment) =
+            build_evidence_backed_gray_rhino_assessment(&records, Local::now().date_naive(), None)
+        {
+            return render_gray_rhino_assessment_markdown(&assessment, language);
+        }
+    }
     let Some(input) = input_from_config(app_config) else {
         return gray_rhino_empty(language).to_string();
     };
@@ -34,21 +48,38 @@ pub(crate) fn build_gray_rhino_daily_report(
     as_of_date: NaiveDate,
     language: Language,
 ) -> Result<String> {
-    let Some(input) = input_from_config(app_config) else {
-        return Ok(gray_rhino_empty(language).to_string());
-    };
-
     let store = GrayRhinoSnapshotStore::new(save_dir);
     let previous = store.load_latest_before(as_of_date)?;
-    let assessment = build_gray_rhino_assessment(input, as_of_date, previous);
+    let records = load_gray_rhino_evidence_records(save_dir)?;
+    let assessment = if let Some(assessment) =
+        build_evidence_backed_gray_rhino_assessment(&records, as_of_date, previous.clone())
+    {
+        assessment
+    } else {
+        let Some(input) = input_from_config(app_config) else {
+            return Ok(gray_rhino_empty(language).to_string());
+        };
+        build_gray_rhino_assessment(input, as_of_date, previous)
+    };
     store.save_if_changed(&assessment.current)?;
-    let sensor_health = render_governance_sensor_health(save_dir, language)?;
+    let sensor_health = render_multi_category_sensor_health(save_dir, language)?;
     let mut report = render_gray_rhino_assessment_markdown(&assessment, language);
     if !sensor_health.is_empty() {
         report.push_str("\n\n");
         report.push_str(&sensor_health);
     }
     Ok(report)
+}
+
+fn load_gray_rhino_evidence_records(
+    save_dir: &Path,
+) -> Result<Vec<crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord>> {
+    let store = GrayRhinoEvidenceStore::new(save_dir);
+    let mut records = store.load_governance_evidence()?;
+    records.extend(store.load_dependency_evidence()?);
+    records.extend(store.load_institutional_evidence()?);
+    records.extend(store.load_redundancy_evidence()?);
+    Ok(records)
 }
 
 #[cfg(test)]
@@ -298,6 +329,15 @@ fn observation_source_label(
         (GrayRhinoObservationSource::ManualConfiguration, Language::JaJp) => {
             "手動構造ベースライン（設定入力）"
         }
+        (GrayRhinoObservationSource::EvidenceStore, Language::ZhCn) => {
+            "Evidence-backed sensor store（结构化 evidence）"
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::EnUs) => {
+            "Evidence-backed sensor store"
+        }
+        (GrayRhinoObservationSource::EvidenceStore, Language::JaJp) => {
+            "Evidence-backed sensor store（構造化 evidence）"
+        }
     }
 }
 
@@ -339,6 +379,38 @@ fn audit_chain_label(language: Language) -> &'static str {
         Language::EnUs => "Manual structural baseline -> seven observations -> daily snapshot",
         Language::JaJp => "手動構造ベースライン -> 7 観測項目 -> 日次 snapshot",
     }
+}
+
+fn render_multi_category_sensor_health(save_dir: &Path, language: Language) -> Result<String> {
+    let records = load_gray_rhino_evidence_records(save_dir)?;
+    let governance = render_governance_sensor_health(save_dir, language)?;
+    if records.is_empty() && governance.is_empty() {
+        return Ok(String::new());
+    }
+    let mut out = String::new();
+    out.push_str(match language {
+        Language::ZhCn => "Gray Rhino sensor health",
+        Language::EnUs => "Gray Rhino Sensor Health",
+        Language::JaJp => "Gray Rhino sensor health",
+    });
+    out.push('\n');
+    for category in [
+        "GovernanceConcentration",
+        "DependencyConcentration",
+        "InstitutionalMaturity",
+        "Redundancy",
+    ] {
+        let count = records
+            .iter()
+            .filter(|record| format!("{:?}", record.category) == category)
+            .count();
+        out.push_str(&format!("- {category}: {count} evidence record(s)\n"));
+    }
+    if !governance.is_empty() {
+        out.push('\n');
+        out.push_str(&governance);
+    }
+    Ok(out)
 }
 
 fn render_governance_sensor_health(save_dir: &Path, language: Language) -> Result<String> {

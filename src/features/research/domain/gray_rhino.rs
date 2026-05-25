@@ -47,6 +47,7 @@ pub struct GrayRhinoEscalation {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum GrayRhinoObservationSource {
     ManualConfiguration,
+    EvidenceStore,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
