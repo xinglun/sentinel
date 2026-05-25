@@ -62,7 +62,7 @@ Phase 3-A では、この category を最初の低ノイズ sensor として実�
 - `super_voting_rights`。
 - `succession_disclosure`。
 
-許可する source type は `RegulatoryFiling`、`GovernanceDocument`、`CompanyDisclosure`、`OperatorCuratedSource` に限定する。保存先は `gray_rhino_evidence.jsonl` とし、raw source は `gray_rhino_sources/governance` に cache する。保存された evidence は escalation state、Gate、execution、trading state を変更しない。
+許可する source type は `RegulatoryFiling`、`GovernanceDocument`、`CompanyDisclosure`、`OperatorCuratedSource` に限定する。保存先は `gray_rhino_evidence.jsonl` とし、raw source は `gray_rhino_sources/governance` に cache する。source manifest は `gray_rhino_governance_source_manifest.jsonl`、extraction audit は `gray_rhino_governance_extraction_audit.jsonl` に保存する。保存された evidence と sensor health は escalation state、Gate、execution、trading state を変更しない。
 
 ### Dependency Concentration Evidence
 
@@ -161,9 +161,15 @@ collector または adapter は次を満たす必要がある。
 
 ### Phase 3-A: Governance Source Adapter
 
-本 Work Item の対象。GovernanceConcentration source adapter は local governance document と SEC governance filing metadata path を扱い、raw source を repository-local cache に保存する。
+完了済み。GovernanceConcentration source adapter は local governance document と SEC governance filing metadata path を扱い、raw source を repository-local cache に保存する。
 
 adapter は deterministic extraction のみを許可する。`founder_voting_power`、`independent_board_ratio`、`dual_class_structure`、`super_voting_rights`、`succession_disclosure` のいずれも抽出できない source は rejection とし、evidence store へ保存しない。
+
+### Phase 3-A: Governance Backfill And Extraction Audit
+
+本 Work Item の対象。Governance sensor は source manifest、extraction audit ledger、coverage ratio、latest observed date を生成する。
+
+日次 report へ表示できるのは sensor health のみである。sensor health は source count、accepted / rejected count、coverage ratio、latest observed date を示すが、Gray Rhino escalation state を変更しない。
 
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 

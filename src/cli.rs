@@ -180,6 +180,7 @@ pub async fn run() -> Result<()> {
             run_collect_gray_rhino_governance(
                 &app_config,
                 options.evidence_symbol.clone(),
+                options.evidence_symbols.clone(),
                 options.governance_evidence_file.clone(),
                 options.evidence_date_arg.as_deref(),
                 options.evidence_days,
@@ -484,13 +485,12 @@ fn run_ingest_gray_rhino_governance(
 async fn run_collect_gray_rhino_governance(
     app_config: &config::AppConfig,
     symbol: Option<String>,
+    symbols: Vec<String>,
     source_file: Option<String>,
     observed_date_arg: Option<&str>,
     lookback_days: usize,
 ) -> Result<()> {
-    if symbol.is_none() && source_file.is_none() {
-        return Err(anyhow!("--symbol or --file is required"));
-    }
+    let targets = resolve_governance_collection_targets(app_config, symbol, symbols, &source_file)?;
     let observed_at = match observed_date_arg {
         Some(raw) => NaiveDate::parse_from_str(raw, "%Y-%m-%d")
             .with_context(|| format!("Invalid governance evidence date: {}", raw))?,
@@ -499,28 +499,60 @@ async fn run_collect_gray_rhino_governance(
     let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
     let adapter = build_governance_source_adapter(app_config, &save_dir);
     let store = build_governance_evidence_store_adapter(&save_dir);
-    let summary = collect_governance_concentration_sources(
-        &adapter,
-        &store,
-        GovernanceSourceCollectionRequest {
-            symbol,
-            local_file: source_file,
-            observed_at,
-            retrieved_at: chrono::Local::now().date_naive(),
-            lookback_days: lookback_days.max(1),
-        },
-    )
-    .await?;
+    let retrieved_at = chrono::Local::now().date_naive();
+    let mut total_sources = 0;
+    let mut total_accepted = 0;
+    let mut total_saved = 0;
+    let mut total_manifest = 0;
+    let mut total_audit = 0;
+    let mut rejected = Vec::new();
+    let mut latest_observed_at = None;
+    for target in targets {
+        let summary = collect_governance_concentration_sources(
+            &adapter,
+            &store,
+            GovernanceSourceCollectionRequest {
+                symbol: Some(target),
+                local_file: source_file.clone(),
+                observed_at,
+                retrieved_at,
+                lookback_days: lookback_days.max(1),
+            },
+        )
+        .await?;
+        total_sources += summary.source_count;
+        total_accepted += summary.accepted_count;
+        total_saved += summary.saved_count;
+        total_manifest += summary.manifest_count;
+        total_audit += summary.audit_count;
+        latest_observed_at = latest_observed_at
+            .map(|latest: NaiveDate| {
+                summary
+                    .latest_observed_at
+                    .map(|observed| latest.max(observed))
+                    .unwrap_or(latest)
+            })
+            .or(summary.latest_observed_at);
+        rejected.extend(summary.rejected);
+    }
+    let coverage_ratio = if total_sources == 0 {
+        0.0
+    } else {
+        total_accepted as f64 / total_sources as f64
+    };
 
     println!("--- Gray Rhino Governance Evidence Collection ---");
-    println!("Sources:  {}", summary.source_count);
-    println!("Accepted: {}", summary.accepted_count);
-    println!("Saved:    {}", summary.saved_count);
-    println!("Rejected: {}", summary.rejected.len());
-    if let Some(latest) = summary.latest_observed_at {
+    println!("Sources:  {}", total_sources);
+    println!("Accepted: {}", total_accepted);
+    println!("Saved:    {}", total_saved);
+    println!("Manifest: {}", total_manifest);
+    println!("Audit:    {}", total_audit);
+    println!("Coverage: {:.1}%", coverage_ratio * 100.0);
+    println!("Rejected: {}", rejected.len());
+    if let Some(latest) = latest_observed_at {
         println!("Latest observed date: {}", latest);
     }
-    for rejection in &summary.rejected {
+    for rejection in &rejected {
         println!(
             "  [REJECTED] {}: {}",
             rejection.source_title, rejection.reason
@@ -528,6 +560,43 @@ async fn run_collect_gray_rhino_governance(
     }
     println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
     Ok(())
+}
+
+fn resolve_governance_collection_targets(
+    app_config: &config::AppConfig,
+    symbol: Option<String>,
+    symbols: Vec<String>,
+    source_file: &Option<String>,
+) -> Result<Vec<String>> {
+    if source_file.is_some() {
+        return symbol
+            .map(|symbol| vec![symbol])
+            .or_else(|| symbols.first().cloned().map(|symbol| vec![symbol]))
+            .ok_or_else(|| anyhow!("--symbol is required when --file is used"));
+    }
+    let mut targets = Vec::new();
+    if let Some(symbol) = symbol {
+        targets.push(symbol);
+    }
+    targets.extend(
+        symbols
+            .into_iter()
+            .filter(|symbol| !symbol.trim().is_empty()),
+    );
+    if targets.is_empty() {
+        targets = app_config
+            .watchlist
+            .iter()
+            .filter(|entry| entry.enable)
+            .map(|entry| entry.symbol.clone())
+            .collect();
+    }
+    if targets.is_empty() {
+        return Err(anyhow!("No governance collection targets are configured"));
+    }
+    targets.sort();
+    targets.dedup();
+    Ok(targets)
 }
 
 fn run_audit_daily(

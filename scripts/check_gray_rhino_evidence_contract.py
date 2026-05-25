@@ -74,6 +74,8 @@ def main() -> int:
         "governanceEvidenceStore: gray_rhino_evidence.jsonl",
         "governanceSourceAdapterEnabled: true",
         "governanceSourceCache: gray_rhino_sources/governance",
+        "governanceSourceManifest: gray_rhino_governance_source_manifest.jsonl",
+        "governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl",
         "evidence_must_not_set_escalation_state: true",
     }
     for item in required_schema_pairs:
@@ -107,8 +109,10 @@ def main() -> int:
         "Phase 2: Gray Rhino Evidence Schema",
         "Phase 3-A: Governance Concentration Evidence Pipeline",
         "Phase 3-A: Governance Source Adapter",
+        "Phase 3-A: Governance Backfill And Extraction Audit",
         "repository-local structured JSON",
         "deterministic extraction",
+        "sensor health",
         "自動情報収集",
     ]
     for item in doc_required:
@@ -140,6 +144,13 @@ def main() -> int:
             errors.append(f"domain missing validation boundary `{item}`")
     if "GovernanceSourceDocument" not in governance_source:
         errors.append("governance source domain missing `GovernanceSourceDocument`")
+    for item in [
+        "GovernanceSourceManifest",
+        "GovernanceExtractionAuditRecord",
+        "GovernanceMetricAuditStatus",
+    ]:
+        if item not in governance_source:
+            errors.append(f"governance source domain missing `{item}`")
 
     if "validate_gray_rhino_evidence_contract" not in assessment:
         errors.append("application boundary does not expose evidence contract validation")
@@ -152,9 +163,12 @@ def main() -> int:
             errors.append(f"governance domain missing metric `{item}`")
 
     for item in [
-        "phase_3a_governance_source_adapter: active",
+        "phase_3a_governance_backfill_audit: active",
         "noEscalationStateMutation: true",
         "rawSourceCache: gray_rhino_sources/governance",
+        "sourceManifest: gray_rhino_governance_source_manifest.jsonl",
+        "extractionAudit: gray_rhino_governance_extraction_audit.jsonl",
+        "sensorHealthReportOnly: true",
         "deterministicExtractionOnly: true",
     ]:
         if item not in schema:

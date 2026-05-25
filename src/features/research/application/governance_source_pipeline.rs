@@ -2,7 +2,8 @@ use crate::features::research::application::governance_evidence::{
     ingest_governance_concentration_evidence, GovernanceEvidenceRepository,
 };
 use crate::features::research::domain::governance_source::{
-    GovernanceSourceDocument, GovernanceSourceKind,
+    GovernanceExtractionAuditRecord, GovernanceMetricAuditEntry, GovernanceMetricAuditStatus,
+    GovernanceSourceDocument, GovernanceSourceKind, GovernanceSourceManifest,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
     GovernanceConcentrationEvidence, GovernanceConcentrationMetrics, GrayRhinoEvidenceSourceType,
@@ -11,6 +12,7 @@ use crate::features::research::domain::gray_rhino_evidence::{
 use anyhow::{anyhow, Result};
 use async_trait::async_trait;
 use chrono::NaiveDate;
+use sha2::{Digest, Sha256};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct GovernanceSourceCollectionRequest {
@@ -27,13 +29,16 @@ pub struct GovernanceEvidenceRejectionDetail {
     pub reason: String,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct GovernanceSourceCollectionSummary {
     pub source_count: usize,
     pub accepted_count: usize,
     pub saved_count: usize,
     pub rejected: Vec<GovernanceEvidenceRejectionDetail>,
     pub latest_observed_at: Option<NaiveDate>,
+    pub manifest_count: usize,
+    pub audit_count: usize,
+    pub coverage_ratio: f64,
 }
 
 #[async_trait]
@@ -44,9 +49,29 @@ pub trait GovernanceSourceAdapter {
     ) -> Result<Vec<GovernanceSourceDocument>>;
 }
 
+/// Governance source の manifest / audit ledger 永続化 port。
+pub trait GovernanceSourceAuditRepository {
+    fn save_governance_source_manifest(&self, manifest: &GovernanceSourceManifest) -> Result<bool>;
+    fn save_governance_extraction_audit(
+        &self,
+        record: &GovernanceExtractionAuditRecord,
+    ) -> Result<bool>;
+    fn load_governance_extraction_audits(&self) -> Result<Vec<GovernanceExtractionAuditRecord>>;
+}
+
+pub trait GovernanceEvidenceAuditRepository:
+    GovernanceEvidenceRepository + GovernanceSourceAuditRepository
+{
+}
+
+impl<T> GovernanceEvidenceAuditRepository for T where
+    T: GovernanceEvidenceRepository + GovernanceSourceAuditRepository
+{
+}
+
 pub async fn collect_governance_concentration_sources(
     adapter: &dyn GovernanceSourceAdapter,
-    repository: &dyn GovernanceEvidenceRepository,
+    repository: &dyn GovernanceEvidenceAuditRepository,
     request: GovernanceSourceCollectionRequest,
 ) -> Result<GovernanceSourceCollectionSummary> {
     let documents = adapter.fetch_governance_sources(&request).await?;
@@ -54,6 +79,8 @@ pub async fn collect_governance_concentration_sources(
     let mut saved_count = 0;
     let mut rejected = Vec::new();
     let mut latest_observed_at = None;
+    let mut manifest_count = 0;
+    let mut audit_count = 0;
 
     for document in &documents {
         latest_observed_at = Some(
@@ -61,6 +88,14 @@ pub async fn collect_governance_concentration_sources(
                 .map(|latest: NaiveDate| latest.max(document.observed_at))
                 .unwrap_or(document.observed_at),
         );
+        if repository
+            .save_governance_source_manifest(&build_governance_source_manifest(document))
+            .is_ok_and(|saved| saved)
+        {
+            manifest_count += 1;
+        }
+
+        let audit = build_governance_extraction_audit(document, None);
         match extract_governance_concentration_evidence(document)
             .and_then(|evidence| ingest_governance_concentration_evidence(repository, evidence))
         {
@@ -69,13 +104,41 @@ pub async fn collect_governance_concentration_sources(
                 if outcome.saved {
                     saved_count += 1;
                 }
+                if repository
+                    .save_governance_extraction_audit(&GovernanceExtractionAuditRecord {
+                        accepted: true,
+                        rejection_reason: None,
+                        ..audit
+                    })
+                    .is_ok_and(|saved| saved)
+                {
+                    audit_count += 1;
+                }
             }
-            Err(err) => rejected.push(GovernanceEvidenceRejectionDetail {
-                source_title: document.source_title.clone(),
-                reason: err.to_string(),
-            }),
+            Err(err) => {
+                let reason = err.to_string();
+                if repository
+                    .save_governance_extraction_audit(&GovernanceExtractionAuditRecord {
+                        accepted: false,
+                        rejection_reason: Some(reason.clone()),
+                        ..audit
+                    })
+                    .is_ok_and(|saved| saved)
+                {
+                    audit_count += 1;
+                }
+                rejected.push(GovernanceEvidenceRejectionDetail {
+                    source_title: document.source_title.clone(),
+                    reason,
+                });
+            }
         }
     }
+    let coverage_ratio = if documents.is_empty() {
+        0.0
+    } else {
+        accepted_count as f64 / documents.len() as f64
+    };
 
     Ok(GovernanceSourceCollectionSummary {
         source_count: documents.len(),
@@ -83,7 +146,45 @@ pub async fn collect_governance_concentration_sources(
         saved_count,
         rejected,
         latest_observed_at,
+        manifest_count,
+        audit_count,
+        coverage_ratio,
     })
+}
+
+pub fn build_governance_source_manifest(
+    document: &GovernanceSourceDocument,
+) -> GovernanceSourceManifest {
+    GovernanceSourceManifest {
+        subject: document.subject.clone(),
+        source_kind: document.source_kind,
+        source_title: document.source_title.clone(),
+        publisher: document.publisher.clone(),
+        source_url: document.source_url.clone(),
+        repository_path: document.repository_path.clone(),
+        observed_at: document.observed_at,
+        retrieved_at: document.retrieved_at,
+        content_sha256: sha256_hex(&document.content),
+    }
+}
+
+pub fn build_governance_extraction_audit(
+    document: &GovernanceSourceDocument,
+    rejection_reason: Option<String>,
+) -> GovernanceExtractionAuditRecord {
+    let metrics = extract_metric_audit_entries(&document.content);
+    let accepted = metrics
+        .iter()
+        .any(|metric| metric.status == GovernanceMetricAuditStatus::Extracted);
+    GovernanceExtractionAuditRecord {
+        subject: document.subject.clone(),
+        source_title: document.source_title.clone(),
+        observed_at: document.observed_at,
+        retrieved_at: document.retrieved_at,
+        metrics,
+        accepted,
+        rejection_reason,
+    }
 }
 
 pub fn extract_governance_concentration_evidence(
@@ -161,6 +262,92 @@ pub fn extract_governance_concentration_evidence(
         .validate()
         .map_err(|err| anyhow!("Invalid extracted governance evidence: {:?}", err))?;
     Ok(evidence)
+}
+
+fn extract_metric_audit_entries(content: &str) -> Vec<GovernanceMetricAuditEntry> {
+    vec![
+        number_metric_audit(
+            "founder_voting_power",
+            parse_percent_metric(
+                content,
+                &[
+                    "founder_voting_power",
+                    "founder voting power",
+                    "founder voting control",
+                ],
+            ),
+        ),
+        number_metric_audit(
+            "independent_board_ratio",
+            parse_ratio_metric(
+                content,
+                &[
+                    "independent_board_ratio",
+                    "independent board ratio",
+                    "board independence ratio",
+                ],
+            ),
+        ),
+        bool_metric_audit(
+            "dual_class_structure",
+            parse_bool_metric(
+                content,
+                &[
+                    "dual_class_structure",
+                    "dual class structure",
+                    "dual class shares",
+                ],
+            ),
+        ),
+        bool_metric_audit(
+            "super_voting_rights",
+            parse_bool_metric(
+                content,
+                &[
+                    "super_voting_rights",
+                    "super voting rights",
+                    "super-voting rights",
+                ],
+            ),
+        ),
+        bool_metric_audit(
+            "succession_disclosure",
+            parse_bool_metric(
+                content,
+                &[
+                    "succession_disclosure",
+                    "succession disclosure",
+                    "succession plan",
+                ],
+            ),
+        ),
+    ]
+}
+
+fn number_metric_audit(metric: &str, value: Option<f64>) -> GovernanceMetricAuditEntry {
+    GovernanceMetricAuditEntry {
+        metric: metric.to_string(),
+        status: value
+            .map(|_| GovernanceMetricAuditStatus::Extracted)
+            .unwrap_or(GovernanceMetricAuditStatus::Missing),
+        value: value.map(|value| value.to_string()),
+        reason: value.is_none().then(|| "metric not found".to_string()),
+    }
+}
+
+fn bool_metric_audit(metric: &str, value: Option<bool>) -> GovernanceMetricAuditEntry {
+    GovernanceMetricAuditEntry {
+        metric: metric.to_string(),
+        status: value
+            .map(|_| GovernanceMetricAuditStatus::Extracted)
+            .unwrap_or(GovernanceMetricAuditStatus::Missing),
+        value: value.map(|value| value.to_string()),
+        reason: value.is_none().then(|| "metric not found".to_string()),
+    }
+}
+
+fn sha256_hex(content: &str) -> String {
+    format!("{:x}", Sha256::digest(content.as_bytes()))
 }
 
 fn parse_percent_metric(content: &str, labels: &[&str]) -> Option<f64> {
@@ -267,5 +454,32 @@ mod tests {
         .unwrap_err();
 
         assert!(err.to_string().contains("MissingGovernanceMetric"));
+    }
+
+    #[test]
+    fn manifest_records_replayable_source_hash() {
+        let manifest = build_governance_source_manifest(&document("founder_voting_power: 61.2%"));
+
+        assert_eq!(manifest.subject, "Example issuer");
+        assert_eq!(manifest.content_sha256.len(), 64);
+    }
+
+    #[test]
+    fn audit_records_metric_level_extraction_status() {
+        let audit = build_governance_extraction_audit(
+            &document("founder_voting_power: 61.2%; dual_class_structure: true"),
+            None,
+        );
+
+        assert!(audit
+            .metrics
+            .iter()
+            .any(|metric| metric.metric == "founder_voting_power"
+                && metric.status == GovernanceMetricAuditStatus::Extracted));
+        assert!(audit
+            .metrics
+            .iter()
+            .any(|metric| metric.metric == "succession_disclosure"
+                && metric.status == GovernanceMetricAuditStatus::Missing));
     }
 }

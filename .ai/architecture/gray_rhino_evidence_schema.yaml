@@ -9,6 +9,8 @@ governanceEvidencePipelineEnabled: true
 governanceEvidenceStore: gray_rhino_evidence.jsonl
 governanceSourceAdapterEnabled: true
 governanceSourceCache: gray_rhino_sources/governance
+governanceSourceManifest: gray_rhino_governance_source_manifest.jsonl
+governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl
 categories:
   - GovernanceConcentration
   - DependencyConcentration
@@ -60,6 +62,9 @@ governanceConcentration:
   outputCategory: GovernanceConcentration
   storage: gray_rhino_evidence.jsonl
   rawSourceCache: gray_rhino_sources/governance
+  sourceManifest: gray_rhino_governance_source_manifest.jsonl
+  extractionAudit: gray_rhino_governance_extraction_audit.jsonl
+  sensorHealthReportOnly: true
   deterministicExtractionOnly: true
   noEscalationStateMutation: true
 boundaries:
@@ -82,7 +87,8 @@ phases:
   phase_1_human_structured_governance_observation: completed
   phase_2_evidence_schema: completed
   phase_3a_governance_concentration_evidence_pipeline: completed
-  phase_3a_governance_source_adapter: active
+  phase_3a_governance_source_adapter: completed
+  phase_3a_governance_backfill_audit: active
   phase_3b_dependency_concentration_evidence_pipeline: blocked_until_governance_sensor_stabilizes
   phase_4_escalation_detection_engine: blocked_until_evidence_backfill_exists
   phase_5_long_term_civilization_risk_mapping: out_of_scope

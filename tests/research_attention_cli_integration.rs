@@ -222,6 +222,9 @@ fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
     assert!(stdout.contains("Gray Rhino Governance Evidence Collection"));
     assert!(stdout.contains("Sources:  1"));
     assert!(stdout.contains("Accepted: 1"));
+    assert!(stdout.contains("Manifest: 1"));
+    assert!(stdout.contains("Audit:    1"));
+    assert!(stdout.contains("Coverage: 100.0%"));
     assert!(stdout.contains("Rejected: 0"));
     assert!(stdout.contains("Boundary: evidence only"));
     let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
@@ -231,6 +234,18 @@ fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
         .path()
         .join("gray_rhino_sources/governance/EXAMPLE/proxy_source.txt")
         .exists());
+    let manifest = fs::read_to_string(
+        tmp.path()
+            .join("gray_rhino_governance_source_manifest.jsonl"),
+    )
+    .expect("failed to read governance source manifest");
+    assert!(manifest.contains("\"content_sha256\""));
+    let audit = fs::read_to_string(
+        tmp.path()
+            .join("gray_rhino_governance_extraction_audit.jsonl"),
+    )
+    .expect("failed to read governance extraction audit");
+    assert!(audit.contains("\"metric\":\"founder_voting_power\""));
     assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
 }
 
@@ -259,9 +274,49 @@ fn gray_rhino_governance_source_collection_rejects_metricless_source() {
     assert!(stdout.contains("Sources:  1"));
     assert!(stdout.contains("Accepted: 0"));
     assert!(stdout.contains("Rejected: 1"));
+    assert!(stdout.contains("Coverage: 0.0%"));
     assert!(stdout.contains("MissingGovernanceMetric"));
     assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
+    assert!(tmp
+        .path()
+        .join("gray_rhino_governance_extraction_audit.jsonl")
+        .exists());
     assert!(!tmp.path().join("gray_rhino_snapshots.jsonl").exists());
+}
+
+#[test]
+fn gray_rhino_daily_report_shows_governance_sensor_health_only() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    let source_path = tmp.path().join("proxy_source.txt");
+    fs::write(
+        &source_path,
+        "founder_voting_power: 61.2%; independent_board_ratio: 0.42",
+    )
+    .expect("failed to write governance source fixture");
+
+    let collect = run_cli(
+        &tmp,
+        &[
+            "collect-gray-rhino-governance",
+            "--symbol",
+            "EXAMPLE",
+            "--file",
+            source_path.to_str().unwrap(),
+            "--date",
+            "2026-05-25",
+        ],
+    );
+    assert!(collect.status.success());
+
+    let report = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(report.status.success());
+    let stdout = String::from_utf8_lossy(&report.stdout);
+    assert!(stdout.contains("Governance sensor health"));
+    assert!(stdout.contains("coverage ratio"));
+    assert!(stdout.contains("Boundary: Governance sensor health only"));
+    assert!(!stdout.contains("BUY"));
+    assert!(!stdout.contains("SELL"));
 }
 
 fn run_cli(tmp: &TempDir, args: &[&str]) -> std::process::Output {

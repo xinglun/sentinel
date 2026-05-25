@@ -1,0 +1,114 @@
+{
+  "workItemId": "gray-rhino-governance-backfill-audit",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-backfill-audit.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-backfill-audit.contract.json",
+      "reason": "Governance backfill / audit の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-backfill-audit.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "source manifest、extraction audit、sensor health report-only contract を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Governance Backfill And Extraction Audit の SSOT 境界を追記した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "manifest / audit ledger / sensor health boundary の checker 条件を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/governance_source.rs",
+      "reason": "GovernanceSourceManifest と metric-level extraction audit record を追加した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "manifest 生成、audit ledger 生成、coverage summary を collection pipeline に追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "manifest / extraction audit JSONL store を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino daily report に sensor health summary を追加した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "CLI usage に batch symbols option を明示した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "collect-gray-rhino-governance に batch target / watchlist fallback と health summary を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "manifest / audit ledger / daily sensor health の integration test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "ユーザー方針: Governance sensor を backfill / audit / health summary へ進める",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-backfill-audit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-backfill-audit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-backfill-audit.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-backfill-audit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-backfill-audit.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-backfill-audit.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-backfill-audit.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-backfill-audit.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Backfill は CLI batch / watchlist fallback を実装したが、実 SEC 大規模実行と field wording coverage は未検証。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-backfill-audit.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-backfill-audit.summary.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 test で f64 coverage_ratio と Eq derive が衝突したため、summary derive を PartialEq に修正した。"
+  ]
+}

@@ -1,4 +1,5 @@
 use crate::config::{self, GrayRhinoRiskLevel};
+use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
 use crate::features::research::application::gray_rhino_assessment::build_gray_rhino_assessment;
 #[cfg(test)]
 use crate::features::research::domain::gray_rhino::{
@@ -8,6 +9,7 @@ use crate::features::research::domain::gray_rhino::{
     GrayRhinoAssessment, GrayRhinoEscalation, GrayRhinoEscalationInput, GrayRhinoObservationSource,
     RhinoEscalationState, RiskLevel,
 };
+use crate::features::research::infrastructure::gray_rhino_evidence_store::GrayRhinoEvidenceStore;
 use crate::features::research::infrastructure::gray_rhino_snapshot_store::GrayRhinoSnapshotStore;
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
@@ -40,7 +42,13 @@ pub(crate) fn build_gray_rhino_daily_report(
     let previous = store.load_latest_before(as_of_date)?;
     let assessment = build_gray_rhino_assessment(input, as_of_date, previous);
     store.save_if_changed(&assessment.current)?;
-    Ok(render_gray_rhino_assessment_markdown(&assessment, language))
+    let sensor_health = render_governance_sensor_health(save_dir, language)?;
+    let mut report = render_gray_rhino_assessment_markdown(&assessment, language);
+    if !sensor_health.is_empty() {
+        report.push_str("\n\n");
+        report.push_str(&sensor_health);
+    }
+    Ok(report)
 }
 
 #[cfg(test)]
@@ -330,6 +338,114 @@ fn audit_chain_label(language: Language) -> &'static str {
         Language::ZhCn => "人工结构基线 -> 七项观测 -> 日次快照",
         Language::EnUs => "Manual structural baseline -> seven observations -> daily snapshot",
         Language::JaJp => "手動構造ベースライン -> 7 観測項目 -> 日次 snapshot",
+    }
+}
+
+fn render_governance_sensor_health(save_dir: &Path, language: Language) -> Result<String> {
+    let store = GrayRhinoEvidenceStore::new(save_dir);
+    let audits = store.load_governance_extraction_audits()?;
+    if audits.is_empty() {
+        return Ok(String::new());
+    }
+    let source_count = audits.len();
+    let accepted_count = audits.iter().filter(|audit| audit.accepted).count();
+    let rejected_count = source_count.saturating_sub(accepted_count);
+    let latest_observed = audits.iter().map(|audit| audit.observed_at).max();
+    let coverage_ratio = accepted_count as f64 / source_count as f64;
+
+    let mut out = String::new();
+    out.push_str(governance_sensor_health_heading(language));
+    out.push('\n');
+    out.push_str(&format!(
+        "- {}: {}\n",
+        governance_sensor_source_count_label(language),
+        source_count
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        governance_sensor_accepted_label(language),
+        accepted_count
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        governance_sensor_rejected_label(language),
+        rejected_count
+    ));
+    out.push_str(&format!(
+        "- {}: {:.1}%\n",
+        governance_sensor_coverage_label(language),
+        coverage_ratio * 100.0
+    ));
+    if let Some(latest) = latest_observed {
+        out.push_str(&format!(
+            "- {}: {}\n",
+            governance_sensor_latest_label(language),
+            latest
+        ));
+    }
+    out.push_str(governance_sensor_boundary_label(language));
+    Ok(out)
+}
+
+fn governance_sensor_health_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Governance sensor health",
+        Language::EnUs => "Governance Sensor Health",
+        Language::JaJp => "Governance sensor health",
+    }
+}
+
+fn governance_sensor_source_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "source 数",
+        Language::EnUs => "Source count",
+        Language::JaJp => "source 数",
+    }
+}
+
+fn governance_sensor_accepted_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "accepted",
+        Language::EnUs => "Accepted",
+        Language::JaJp => "accepted",
+    }
+}
+
+fn governance_sensor_rejected_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "rejected",
+        Language::EnUs => "Rejected",
+        Language::JaJp => "rejected",
+    }
+}
+
+fn governance_sensor_coverage_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "coverage ratio",
+        Language::EnUs => "Coverage ratio",
+        Language::JaJp => "coverage ratio",
+    }
+}
+
+fn governance_sensor_latest_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "latest observed date",
+        Language::EnUs => "Latest observed date",
+        Language::JaJp => "latest observed date",
+    }
+}
+
+fn governance_sensor_boundary_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
+        }
+        Language::EnUs => {
+            "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
+        }
+        Language::JaJp => {
+            "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
+        }
     }
 }
 
