@@ -17,6 +17,7 @@ ASSESSMENT_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino
 DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
 REPORT_INTERFACE_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_report.rs"
 MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
+MONITORING_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_monitoring_policy.rs"
 GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
 ASSESSMENT_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_assessment.rs"
 REPLAY_FIXTURE_DIR = PROJECT_ROOT / "tests/fixtures/governance_sec"
@@ -61,6 +62,7 @@ def main() -> int:
         DISCOVERY_APP_PATH,
         REPORT_INTERFACE_PATH,
         MONITORING_STATE_PATH,
+        MONITORING_POLICY_PATH,
         GOVERNANCE_SOURCE_PATH,
         ASSESSMENT_PATH,
     ]
@@ -81,6 +83,7 @@ def main() -> int:
     discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
     report_interface = REPORT_INTERFACE_PATH.read_text(encoding="utf-8")
     monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
+    monitoring_policy = MONITORING_POLICY_PATH.read_text(encoding="utf-8")
     governance_source = GOVERNANCE_SOURCE_PATH.read_text(encoding="utf-8")
     assessment = ASSESSMENT_PATH.read_text(encoding="utf-8")
 
@@ -95,7 +98,7 @@ def main() -> int:
         "candidatePersistenceEnabled: true",
         "candidateStore: gray_rhino_candidates.jsonl",
         "monitoringStateMachineEnabled: true",
-        "monitoringStateMachine: src/features/research/application/gray_rhino_monitoring_state.rs",
+        "monitoringStateMachine: src/features/research/domain/gray_rhino_monitoring_policy.rs",
         "fredThresholdCalibrationEnabled: true",
         "deterministicThresholdStatesEnabled: true",
         "grayRhinoRefreshMakeTarget: gray-rhino-refresh",
@@ -352,8 +355,16 @@ def main() -> int:
         "Cooling",
         "Resolved",
     ]:
-        if item not in monitoring_state:
-            errors.append(f"monitoring state application missing `{item}`")
+        if item not in monitoring_policy:
+            errors.append(f"monitoring domain policy missing `{item}`")
+    for item in [
+        "classify_state",
+        "stale_state_for_kind",
+        "lifecycle_rank",
+        "state_rank",
+    ]:
+        if item in monitoring_state:
+            errors.append(f"monitoring application must not contain lifecycle policy `{item}`")
 
     for item in [
         "DGS10",

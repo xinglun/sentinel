@@ -128,7 +128,10 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
         let mut auto_candidates = self
             .repository
             .load_persisted_candidates(watch_symbols, as_of_date)?;
-        auto_candidates.extend(evidence_resolved_candidates(&evidence_records));
+        auto_candidates.extend(evidence_resolved_candidates(
+            &evidence_records,
+            &auto_candidates,
+        ));
         let display_candidates = dedupe_candidates(auto_candidates.clone());
         let monitoring_statuses =
             evaluate_gray_rhino_monitoring_states(&auto_candidates, as_of_date);
@@ -146,7 +149,10 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
     }
 }
 
-fn evidence_resolved_candidates(records: &[GrayRhinoEvidenceRecord]) -> Vec<GrayRhinoCandidate> {
+fn evidence_resolved_candidates(
+    records: &[GrayRhinoEvidenceRecord],
+    persisted_candidates: &[GrayRhinoCandidate],
+) -> Vec<GrayRhinoCandidate> {
     latest_effective_evidence(records)
         .into_iter()
         .filter(|record| record.risk_effect == GrayRhinoRiskEffect::Mitigating)
@@ -154,6 +160,11 @@ fn evidence_resolved_candidates(records: &[GrayRhinoEvidenceRecord]) -> Vec<Gray
             let kind = evidence_category_candidate_kind(record.category)?;
             let subject = record.subject.trim();
             if subject.is_empty() {
+                return None;
+            }
+            if !has_prior_resolvable_candidate(persisted_candidates, subject, kind, record)
+                && !has_prior_amplifying_evidence(records, subject, record.category, record)
+            {
                 return None;
             }
             let scope = if subject.eq_ignore_ascii_case("Market") {
@@ -176,6 +187,40 @@ fn evidence_resolved_candidates(records: &[GrayRhinoEvidenceRecord]) -> Vec<Gray
             })
         })
         .collect()
+}
+
+fn has_prior_resolvable_candidate(
+    candidates: &[GrayRhinoCandidate],
+    subject: &str,
+    kind: GrayRhinoCandidateKind,
+    record: &GrayRhinoEvidenceRecord,
+) -> bool {
+    candidates.iter().any(|candidate| {
+        candidate.subject.eq_ignore_ascii_case(subject)
+            && candidate.kind == kind
+            && matches!(
+                candidate.state,
+                GrayRhinoCandidateState::Visible
+                    | GrayRhinoCandidateState::Expanding
+                    | GrayRhinoCandidateState::Critical
+            )
+            && candidate.last_confirmed_at() < record.source.observed_at
+    })
+}
+
+fn has_prior_amplifying_evidence(
+    records: &[GrayRhinoEvidenceRecord],
+    subject: &str,
+    category: GrayRhinoEvidenceCategory,
+    record: &GrayRhinoEvidenceRecord,
+) -> bool {
+    records.iter().any(|candidate| {
+        candidate.subject.eq_ignore_ascii_case(subject)
+            && candidate.category == category
+            && candidate.risk_effect == GrayRhinoRiskEffect::Amplifying
+            && (candidate.source.observed_at, candidate.source.retrieved_at)
+                < (record.source.observed_at, record.source.retrieved_at)
+    })
 }
 
 fn latest_effective_evidence(records: &[GrayRhinoEvidenceRecord]) -> Vec<&GrayRhinoEvidenceRecord> {
@@ -280,25 +325,38 @@ mod tests {
 
     #[test]
     fn gray_rhino_mitigating_evidence_projects_resolved_candidate() {
-        let record = GrayRhinoEvidenceRecord {
+        let old_amplifying = GrayRhinoEvidenceRecord {
             subject: "GOOG".to_string(),
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
-                source_title: "Governance repair disclosure".to_string(),
+                source_title: "Governance risk disclosure".to_string(),
                 publisher: "GOOG".to_string(),
-                source_url: Some("https://example.com/goog".to_string()),
+                source_url: Some("https://example.com/goog-old".to_string()),
                 repository_path: None,
-                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
-                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 20).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 20).unwrap(),
             },
             confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "Governance risk is disclosed.".to_string(),
+            structural_fact: "Founder voting control was concentrated.".to_string(),
+        };
+        let record = GrayRhinoEvidenceRecord {
             risk_effect: GrayRhinoRiskEffect::Mitigating,
+            source: GrayRhinoSourceReference {
+                source_title: "Governance repair disclosure".to_string(),
+                source_url: Some("https://example.com/goog".to_string()),
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                ..old_amplifying.source.clone()
+            },
             extraction_note: "Governance remediation is disclosed.".to_string(),
             structural_fact: "Founder voting control has been remediated.".to_string(),
+            ..old_amplifying.clone()
         };
 
-        let candidates = evidence_resolved_candidates(&[record]);
+        let candidates = evidence_resolved_candidates(&[old_amplifying, record], &[]);
 
         assert_eq!(candidates.len(), 1);
         assert_eq!(candidates[0].subject, "GOOG");
@@ -311,5 +369,30 @@ mod tests {
             candidates[0].resolved_at,
             Some(NaiveDate::from_ymd_opt(2026, 5, 25).unwrap())
         );
+    }
+
+    #[test]
+    fn gray_rhino_mitigating_evidence_without_prior_risk_does_not_project_resolved_candidate() {
+        let record = GrayRhinoEvidenceRecord {
+            subject: "GOOG".to_string(),
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
+                source_title: "Governance strength disclosure".to_string(),
+                publisher: "GOOG".to_string(),
+                source_url: Some("https://example.com/goog".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
+            extraction_note: "Board independence is disclosed.".to_string(),
+            structural_fact: "GOOG board independence is strong.".to_string(),
+        };
+
+        let candidates = evidence_resolved_candidates(&[record], &[]);
+
+        assert!(candidates.is_empty());
     }
 }

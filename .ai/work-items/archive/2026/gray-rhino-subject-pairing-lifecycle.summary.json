@@ -1,0 +1,178 @@
+{
+  "workItemId": "gray-rhino-subject-pairing-lifecycle",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-subject-pairing-lifecycle.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+      "reason": "Work Item の scope / acceptance / verification を本タスクに合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "subject pairing、legacy subjectless exclusion、resolved projection guard、monitoring domain policy、CLI backfill boundary の契約 flag を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を最新 Work Item に合わせて更新した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "互補 evidence pairing と CLI persistence / metric alias rule の責務境界を追記した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Redundancy と Dependency の同 subject pairing、subjectless legacy exclusion、Resolved candidate の前置 risk 条件を明文化した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "CLI の JSONL helper / metric alias rule escape hatch を検出する hard gate を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "monitoring lifecycle policy が domain にあり application に残らないことを検証するよう更新した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Gray Rhino backfill category source extraction と JSONL append を infrastructure runner へ委譲した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Gray Rhino backfill runner factory module を登録した。"
+    },
+    {
+      "path": "src/features/research/acl/gray_rhino_backfill_runner_factory.rs",
+      "reason": "CLI から infrastructure runner を利用する ACL factory を追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "cross-subject redundancy と subjectless legacy の regression test を追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "Resolved candidate projection に prior active candidate / prior amplifying evidence 条件を追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "monitoring lifecycle 実装を domain policy re-export facade に縮小した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_assessment_policy.rs",
+      "reason": "formal scoring で subjectless legacy を除外し、Dependency と Redundancy を同 subject で配対するよう修正した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "monitoring policy domain module を登録した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_monitoring_policy.rs",
+      "reason": "Cooling / Resolved / intensifying 判定を domain policy として移設した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Gray Rhino backfill runner module を登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_backfill_runner.rs",
+      "reason": "category source extraction、metric alias、JSONL persistence を infrastructure に移した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "monitoring domain ownership と CLI backfill boundary の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+    "src/features/research/domain/gray_rhino_assessment_policy.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "src/cli.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_redundancy_mitigation_does_not_cross_subject_dependency --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_mitigating_evidence_without_prior_risk_does_not_project_resolved_candidate --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_legacy_subjectless_evidence_is_not_scoreable --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_monitoring_policy_is_domain_owned --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test cli_does_not_own_gray_rhino_backfill_infrastructure --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_mitigating_evidence_projects_resolved_candidate --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "formal scoring、Resolved projection、monitoring lifecycle policy、CLI boundary を変更したため make quality で統合確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "make fmt-check initially reported formatting diffs after edits.",
+      "resolution": "cargo fmt --all を実行し、make fmt-check が passed になった。"
+    }
+  ]
+}

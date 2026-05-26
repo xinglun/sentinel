@@ -288,6 +288,83 @@ mod tests {
     }
 
     #[test]
+    fn gray_rhino_redundancy_mitigation_does_not_cross_subject_dependency() {
+        let governance = GrayRhinoEvidenceRecord {
+            subject: "GOOG".to_string(),
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
+                source_title: "GOOG governance disclosure".to_string(),
+                publisher: "GOOG".to_string(),
+                source_url: Some("https://example.com/goog-governance".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "GOOG governance control is concentrated.".to_string(),
+            structural_fact: "GOOG founder voting control remains concentrated.".to_string(),
+        };
+        let dependency = GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::DependencyConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
+                source_title: "GOOG dependency disclosure".to_string(),
+                source_url: Some("https://example.com/goog-dependency".to_string()),
+                ..governance.source.clone()
+            },
+            extraction_note: "GOOG critical supplier dependency is disclosed.".to_string(),
+            structural_fact: "GOOG has no disclosed fallback for a critical supplier.".to_string(),
+            ..governance.clone()
+        };
+        let tsla_redundancy = GrayRhinoEvidenceRecord {
+            subject: "TSLA".to_string(),
+            category: GrayRhinoEvidenceCategory::Redundancy,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::IndependentAudit,
+                source_title: "TSLA redundancy audit".to_string(),
+                publisher: "TSLA".to_string(),
+                source_url: Some("https://example.com/tsla-redundancy".to_string()),
+                ..governance.source.clone()
+            },
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
+            extraction_note: "TSLA redundancy is independently audited.".to_string(),
+            structural_fact: "TSLA has tested failover for its critical supplier.".to_string(),
+            ..governance.clone()
+        };
+
+        let input =
+            build_evidence_backed_gray_rhino_input(&[governance, dependency, tsla_redundancy])
+                .unwrap();
+
+        assert_eq!(input.fallback_survivability_risk, RiskLevel::Elevated);
+    }
+
+    #[test]
+    fn gray_rhino_legacy_subjectless_evidence_is_not_scoreable() {
+        let record = GrayRhinoEvidenceRecord {
+            subject: String::new(),
+            category: GrayRhinoEvidenceCategory::DependencyConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
+                source_title: "Legacy dependency disclosure".to_string(),
+                publisher: "Legacy issuer".to_string(),
+                source_url: Some("https://example.com/legacy-dependency".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.95,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "Legacy record predates subject preservation.".to_string(),
+            structural_fact: "Legacy dependency risk should remain display-only.".to_string(),
+        };
+
+        assert!(build_evidence_backed_gray_rhino_input(&[record]).is_none());
+    }
+
+    #[test]
     fn gray_rhino_completion_institutional_maturity_reduces_constraint_risk() {
         let mature = GrayRhinoEvidenceRecord {
             subject: "Example issuer".to_string(),

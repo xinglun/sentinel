@@ -18,7 +18,8 @@ candidateDiscoveryPolicy: src/features/research/domain/gray_rhino_discovery_poli
 candidatePersistenceEnabled: true
 candidateStore: gray_rhino_candidates.jsonl
 monitoringStateMachineEnabled: true
-monitoringStateMachine: src/features/research/application/gray_rhino_monitoring_state.rs
+monitoringStateMachine: src/features/research/domain/gray_rhino_monitoring_policy.rs
+monitoringStateMachineApplicationFacade: src/features/research/application/gray_rhino_monitoring_state.rs
 fredThresholdCalibrationEnabled: true
 fredThresholdSeries:
   - DGS10
@@ -142,12 +143,19 @@ reportOpsViewEnabled: true
 formalEvidenceLatestCategoryStateEnabled: true
 formalEvidenceSubjectPreserved: true
 formalEvidenceLatestSubjectCategoryStateEnabled: true
+formalEvidenceCrossCategoryPairingBySubjectEnabled: true
+formalEvidenceSubjectlessLegacyScoringAllowed: false
 mitigatingEvidenceCanCloseAmplifyingCategory: true
 mitigatingEvidenceCrossSubjectClosureAllowed: false
 mitigatingEvidenceProjectsResolvedCandidate: true
+mitigatingEvidenceRequiresPriorRiskForResolvedCandidate: true
 grayRhinoAssessmentPolicy: src/features/research/domain/gray_rhino_assessment_policy.rs
 grayRhinoDiscoveryRulesInApplicationAllowed: false
+grayRhinoMonitoringPolicy: src/features/research/domain/gray_rhino_monitoring_policy.rs
+grayRhinoMonitoringRulesInApplicationAllowed: false
 grayRhinoCliInfrastructureImplementationAllowed: false
+grayRhinoCliBackfillPersistenceAllowed: false
+grayRhinoCliMetricAliasRulesAllowed: false
 grayRhinoCollectionStatusStruct: GrayRhinoCollectionStatus
 grayRhinoRunStatusFields:
   - gray_rhino_collection

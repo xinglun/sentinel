@@ -2,7 +2,7 @@ use crate::features::research::domain::gray_rhino::{GrayRhinoEscalationInput, Ri
 use crate::features::research::domain::gray_rhino_evidence::{
     GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
 };
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 /// 正式 evidence を subject と category 単位の最新状態へ畳み込む。
 pub(crate) fn build_evidence_backed_gray_rhino_input(
@@ -30,6 +30,8 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
     );
     let has_redundancy =
         has_mitigating_category(&effective_records, GrayRhinoEvidenceCategory::Redundancy);
+    let has_unmitigated_dependency =
+        has_dependency_without_same_subject_redundancy(&effective_records);
     let amplifying_count = [has_governance, has_dependency, has_institutional_gap]
         .into_iter()
         .filter(|ready| *ready)
@@ -96,7 +98,7 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
         } else {
             RiskLevel::Moderate
         },
-        fallback_survivability_risk: if has_dependency && !has_redundancy && quality_ready {
+        fallback_survivability_risk: if has_unmitigated_dependency && quality_ready {
             RiskLevel::Elevated
         } else {
             RiskLevel::Low
@@ -113,11 +115,11 @@ fn latest_effective_subject_category_records(
     let mut latest =
         BTreeMap::<(String, GrayRhinoEvidenceCategory), &GrayRhinoEvidenceRecord>::new();
     for record in records {
-        let subject = if record.subject.trim().is_empty() {
-            "unknown".to_string()
-        } else {
-            record.subject.trim().to_ascii_uppercase()
-        };
+        let subject = record.subject.trim();
+        if subject.is_empty() {
+            continue;
+        }
+        let subject = subject.to_ascii_uppercase();
         latest
             .entry((subject, record.category))
             .and_modify(|existing| {
@@ -148,4 +150,39 @@ fn has_mitigating_category(
     records.iter().any(|record| {
         record.category == category && record.risk_effect == GrayRhinoRiskEffect::Mitigating
     })
+}
+
+fn has_dependency_without_same_subject_redundancy(records: &[&GrayRhinoEvidenceRecord]) -> bool {
+    let dependency_subjects = subjects_with_effect(
+        records,
+        GrayRhinoEvidenceCategory::DependencyConcentration,
+        GrayRhinoRiskEffect::Amplifying,
+    );
+    let redundancy_subjects = subjects_with_effect(
+        records,
+        GrayRhinoEvidenceCategory::Redundancy,
+        GrayRhinoRiskEffect::Mitigating,
+    );
+    dependency_subjects
+        .iter()
+        .any(|subject| !redundancy_subjects.contains(subject))
+}
+
+fn subjects_with_effect(
+    records: &[&GrayRhinoEvidenceRecord],
+    category: GrayRhinoEvidenceCategory,
+    effect: GrayRhinoRiskEffect,
+) -> BTreeSet<String> {
+    records
+        .iter()
+        .filter(|record| record.category == category && record.risk_effect == effect)
+        .filter_map(|record| {
+            let subject = record.subject.trim();
+            if subject.is_empty() {
+                None
+            } else {
+                Some(subject.to_ascii_uppercase())
+            }
+        })
+        .collect()
 }

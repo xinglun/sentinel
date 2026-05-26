@@ -1300,6 +1300,47 @@ fn cli_does_not_own_dependency_source_infrastructure() {
 }
 
 #[test]
+fn gray_rhino_monitoring_policy_is_domain_owned() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let application = fs::read_to_string(
+        root.join("src/features/research/application/gray_rhino_monitoring_state.rs"),
+    )
+    .expect("failed to read monitoring application");
+    let domain = fs::read_to_string(
+        root.join("src/features/research/domain/gray_rhino_monitoring_policy.rs"),
+    )
+    .expect("failed to read monitoring domain policy");
+    let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
+        .expect("failed to read contract checker");
+
+    assert!(!application.contains("fn classify_state"));
+    assert!(!application.contains("fn stale_state_for_kind"));
+    assert!(domain.contains("fn classify_state"));
+    assert!(domain.contains("fn stale_state_for_kind"));
+    assert!(checker.contains("monitoring application must not contain lifecycle policy"));
+}
+
+#[test]
+fn cli_does_not_own_gray_rhino_backfill_infrastructure() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let cli = fs::read_to_string(root.join("src/cli.rs")).expect("failed to read cli");
+    let runner = fs::read_to_string(
+        root.join("src/features/research/infrastructure/gray_rhino_backfill_runner.rs"),
+    )
+    .expect("failed to read gray rhino backfill runner");
+    let checker = fs::read_to_string(root.join("scripts/check_architecture_boundaries.py"))
+        .expect("failed to read architecture checker");
+
+    assert!(!cli.contains("append_cli_jsonl"));
+    assert!(!cli.contains("metric_aliases("));
+    assert!(!cli.contains("std::fs::OpenOptions"));
+    assert!(runner.contains("metric_aliases("));
+    assert!(runner.contains("std::fs::OpenOptions"));
+    assert!(checker.contains("std::fs::OpenOptions"));
+    assert!(checker.contains("metric_aliases("));
+}
+
+#[test]
 fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");

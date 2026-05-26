@@ -327,6 +327,10 @@ def cli_infrastructure_escape_violations(path: Path) -> list[Violation]:
             "impl DependencySourceAdapter",
             "tokio::fs::write",
             "tokio::fs::create_dir_all",
+            "std::fs::OpenOptions",
+            "append_cli_jsonl",
+            "metric_aliases(",
+            "metric_found_for_category(",
         ):
             if token in stripped:
                 violations.append(Violation(path, line_no, token, "cli infrastructure escape hatch"))
