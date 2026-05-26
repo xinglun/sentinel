@@ -252,15 +252,15 @@ UI から逆算して退出ロジックを組むのではなく、システム�
 
 以下の新規追加を推奨します：
 
-1. [exit.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/exit.rs)
+1. [exit.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/exit.rs)
 
 そして以下の場所で接続します：
 
-1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
-2. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
-3. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
-4. [execution_gate.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/execution_gate.rs)
-5. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
+1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/application/engine.rs)
+2. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/decision.rs)
+3. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/action_matrix.rs)
+4. [execution_gate.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/application/execution_gate.rs)
+5. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
 
 ### 8.1 Engine
 
@@ -370,10 +370,10 @@ UI から逆算して退出ロジックを組むのではなく、システム�
 
 推奨されるテストの配置場所：
 
-1. `src/core/exit.rs`
+1. `src/features/radar/domain/exit.rs`
 2. `tests/pipeline_integration.rs`
-3. `src/core/report_ui_tests.rs`
-4. `src/core/execution_gate.rs`
+3. `src/features/radar/interface/report_ui_tests.rs`
+4. `src/features/radar/application/execution_gate.rs`
 
 ---
 

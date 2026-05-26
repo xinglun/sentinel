@@ -13,9 +13,17 @@ Gray Rhino Escalation Framework は、長期構造リスクが背景リスクか
 
 ## SSOT
 
-本ドキュメントを Gray Rhino Escalation Framework の repository 内 SSOT とする。
+本ドキュメントを Gray Rhino Escalation Framework（手動 fallback baseline、formal escalation snapshot、状態判定、出力境界）の human-readable SSOT とする。
 
 Gray Rhino 専用 evidence の分類、source traceability、narrative rejection、collector 境界は `docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md` と `.ai/architecture/gray_rhino_evidence_schema.yaml` を SSOT とする。本 framework は evidence contract を満たさない入力を自動 intelligence と表示しない。
+
+SSOT の分担は次の通りである。
+
+| 領域 | SSOT |
+| --- | --- |
+| Escalation snapshot / manual fallback / `RhinoEscalationState` | 本ドキュメント |
+| Evidence 分類 / source type / rejection taxonomy | `docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md` と `.ai/architecture/gray_rhino_evidence_schema.yaml` |
+| Category source type policy | `src/features/research/domain/gray_rhino_evidence_source_policy.rs` |
 
 実装は次の境界に従う。
 
@@ -24,10 +32,13 @@ Gray Rhino 専用 evidence の分類、source traceability、narrative rejection
 - 日次評価の生成は `src/features/research/application/gray_rhino_assessment.rs` に置き、formal evidence の方向性を保持して評価する。
 - Gray Rhino 日報の orchestration は `src/features/research/application/gray_rhino_daily_report.rs` に置き、`GrayRhinoDailyReportRepository` port 経由で evidence、candidate、snapshot、ops view を読む。
 - file scan と JSONL store access は `src/features/research/infrastructure/gray_rhino_daily_report_repository.rs` に閉じ込める。
+- persisted evidence の read validation と accepted / rejected read batch は `src/features/research/infrastructure/gray_rhino_evidence_store.rs` が担当し、Application の read model へ渡す。
+- category/source type の許可表は `src/features/research/domain/gray_rhino_evidence_source_policy.rs` が所有する。
 - 日次 snapshot の JSONL 永続化は `src/features/research/infrastructure/gray_rhino_snapshot_store.rs` に置く。
 - 自動発見候補の永続化は `gray_rhino_candidates.jsonl`、source / ops audit は `gray_rhino_sources` と `gray_rhino_discovery_runs.jsonl` に保持する。
 - CLI command は use case / facade を呼び出す dispatch に限定し、取引・Gate・execution へ接続しない。
-- `daily-calibration` と Radar Telegram appendix は独立した Gray Rhino reference section を出力し、他の校正セクションや判断結果を変更しない。
+- `make daily-calibration` と Radar Telegram appendix は独立した Gray Rhino reference section を出力し、他の校正セクションや判断結果を変更しない。
+- 日次 source refresh は `make gray-rhino-refresh` を入口とし、contract 検証は `make check-gray-rhino-evidence-contract` を使う。
 
 ## 現在の入力モデル
 
@@ -56,7 +67,7 @@ notes = []
 
 この初期値は取引判断ではなく、依存集中を含む構造的観測の開始点である。各観測値と `notes` は事実確認済みの運用入力に基づいて更新する。`notes` を追加する場合は、`output.language` の表示言語に合わせて入力する。
 
-この設定は `manual fallback baseline` であり、`formal escalation evidence` と `auto-discovered observation candidates` より優先される自動 fact ではない。
+この設定は `manual fallback baseline` であり、自動 fact ではない。formal evidence が存在する場合は `EvidenceStore` 由来の評価を優先し、manual baseline は evidence 未接続時の fallback としてだけ使う。
 
 ## 目的
 
@@ -81,9 +92,9 @@ notes = []
 
 ## 日次監査 snapshot と自動観測
 
-`daily-calibration` 実行時、表示された評価は `gray_rhino_snapshots.jsonl` に追記型 snapshot として保持する。
+`make daily-calibration` 実行時、表示された評価は `gray_rhino_snapshots.jsonl` に追記型 snapshot として保持する。
 
-formal escalation snapshot は次を含む。
+formal escalation snapshot は次を含む。`manual fallback baseline` は `source: ManualConfiguration`、validated evidence store 由来の評価は `source: EvidenceStore` として記録する。
 
 - `as_of_date`: 市場監査ログと一致する業務日。監査ログがない場合は実行日。
 - `source`: `ManualConfiguration` または `EvidenceStore`。
@@ -93,11 +104,11 @@ formal escalation snapshot は次を含む。
 
 日報は `手動構造ベースライン -> 7 観測項目 -> 日次 snapshot` という監査チェーンと、明示ルール判定で再生可能であることを表示する。このチェーンは外部 fact evidence chain ではなく、現在の手動入力評価がどの経路で状態へ変換されたかを示す lineage である。
 
-自動発見候補は formal escalation snapshot と分離して `gray_rhino_candidates.jsonl` に保存し、monitoring state machine が `New` / `Stable` / `Intensifying` / `Cooling` / `Resolved` を評価する。候補は watchlist inline reference、market reference、other company reference として表示されるが、Gate、execution、trend、market state を変更しない。
+自動発見候補は formal escalation snapshot と分離して `gray_rhino_candidates.jsonl` に保存する。monitoring state machine は candidate state（`Background`、`Visible`、`Expanding`、`Critical`、`Cooling`、`Resolved`）と direction（`new`、`stable`、`intensifying`、`cooling`、`resolved`）を別軸で評価する。候補は watchlist inline reference、market reference、other company reference として表示されるが、Gate、execution、trend、market state を変更しない。
 
 ## 状態
 
-`RhinoEscalationState` は次の状態を持つ。
+`RhinoEscalationState` は manual / formal escalation snapshot の状態であり、candidate monitoring state とは別の型として扱う。candidate monitoring の語彙は Evidence Contract を SSOT とする。`RhinoEscalationState` は次の状態を持つ。
 
 - `Background`: リスクは存在するが、システム影響力はまだ限定的。
 - `Visible`: 市場がリスクを認識し始める。

@@ -196,14 +196,14 @@ participation_ready =
 
 新規ファイルの追加推奨：
 
-1. [participation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/participation.rs)
+1. [participation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/participation_readiness.rs)
 
 そして以下の場所で接続します：
 
-1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
-2. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
-3. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
-4. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
+1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/application/engine.rs)
+2. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/decision.rs)
+3. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/action_matrix.rs)
+4. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
 5. [DECISION_PACKET_SCHEMA.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/specs/DECISION_PACKET_SCHEMA.md)
 
 ### 7.1 Engine の責務
@@ -239,7 +239,7 @@ readiness ルールを独自に定義するのを停止します。
 
 ## 8. DecisionPacket の拡張
 
-[decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs) に以下のフィールドを新規追加することを推奨します：
+[decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/decision.rs) に以下のフィールドを新規追加することを推奨します：
 
 ```rust
 pub participation: ParticipationReadiness
@@ -376,9 +376,9 @@ pub participation: ParticipationReadiness
 
 推奨されるテストの配置場所：
 
-1. `src/core/participation.rs`
+1. `src/features/radar/domain/participation_readiness.rs`
 2. `tests/pipeline_integration.rs`
-3. `src/core/report_ui_tests.rs`
+3. `src/features/radar/interface/report_ui_tests.rs`
 
 ---
 

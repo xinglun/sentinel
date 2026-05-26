@@ -62,7 +62,7 @@ key: docs-specs-trend-cohesion-rules-enhancement-task
 
 ### 1. 構造化スコアモデルの追加
 
-`src/core/trend_cohesion.rs` において、スナップショットを以下のように拡張します：
+`src/features/radar/domain/trend_cohesion.rs` において、スナップショットを以下のように拡張します：
 
 - `cohesion_score: f64` (凝集性スコア)
 - `leader_quality_score: f64` (リーダー品質スコア)
@@ -132,7 +132,7 @@ key: docs-specs-trend-cohesion-rules-enhancement-task
 
 ドメイン層からフリーテキストを返さないでください。
 
-新しい理由が必要な場合は、条件（Condition）列挙型を構造化されたバリアントで拡張し、`i18n.rs` でローカライズしてください。
+新しい理由が必要な場合は、条件（Condition）列挙型を構造化されたバリアントで拡張し、`src/features/shared/interface/i18n.rs` でローカライズしてください。
 
 ### 7. プレゼンテーション層の出力
 

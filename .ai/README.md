@@ -39,16 +39,18 @@ AI 作業は通常の開発品質を免除しません。複雑な diff を伴�
 3. `scope` と `outOfScope` の範囲内で実装する。
 4. `verification` に記載した command を `make` 経由で実行する。
 5. `.ai/work-items/active/<task>.summary.json` に結果を記録する。
-6. `make check-ai-backtrack` と `make check-ai-coverage-guard` を実行し、無宣言な回帰および test 証跡不足がないことを確認する。
+6. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。
 7. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
 8. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。
 9. 完了時は `make ai-finish TASK=<task>` で required checks を再実行し、成功時だけ archive する。
+
+`make test-ai-guards` は `.ai/**/*.yaml` を parse し、YAML として読めない governance 設定を失敗させる。`make check-ai` と `make quality` はこの parse guard を含む。
 
 `scripts/ai_*.py` は Makefile target から呼び出される実装詳細であり、通常の運用入口は `make` target とします。
 
 ## 境界
 
-この仕組みは開発工程の hard gate です。`src/**`、`tests/**`、`docs/**`、`scripts/**`、CI、AI governance などの管理対象 diff は Contract scope に明示された変更だけを許可します。加えて、`restricted` file の無承認変更、test / snapshot / i18n / Work Item evidence の無宣言削除、および production Rust code の test 証跡不足を阻止します。
+この仕組みは開発工程の hard gate です。`src/**`、`tests/**`、`docs/**`、`scripts/**`、CI、AI governance などの管理対象 diff は Contract scope に明示された変更だけを許可します。加えて、`.ai/guards/file_ownership.yaml` の `aiWrite: restricted` file の無承認変更、test / snapshot / i18n / Work Item evidence の無宣言削除、および production Rust code の test 証跡不足を阻止します。
 
 CI は `AI_DIFF_BASE` で push / pull request の committed diff を検証し、clean checkout で guard が空振りする状態を許容しません。
 

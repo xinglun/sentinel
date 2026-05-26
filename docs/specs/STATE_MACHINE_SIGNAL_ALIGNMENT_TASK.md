@@ -40,13 +40,13 @@ key: docs-specs-state-machine-signal-alignment-task
 
 確認された現状：
 
-1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs) 内：
+1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/features.rs) 内：
    - `stability_score = (stability_structural / 50.0) * trend_maturity`
    - 結果は `0..1`
-2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs) 内：
+2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs) 内：
    - `if features.stability_score * 100.0 < 10.0`
    - ロジック内で一時的にパーセント表示に変換して判断している。
-3. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs) 内：
+3. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs) 内：
    - `"{:.0}"` を用いて `stability_score` を直接プリントしている。
    - その結果、初期段階では頻繁に `0` と表示されてしまう。
 
@@ -179,10 +179,10 @@ key: docs-specs-state-machine-signal-alignment-task
 
 対象ファイル：
 
-1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs)
-2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
-3. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
-4. [telemetry.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/telemetry.rs)
+1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/features.rs)
+2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs)
+3. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
+4. [telemetry.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/telemetry.rs)
 
 任務要件：
 
@@ -198,9 +198,9 @@ key: docs-specs-state-machine-signal-alignment-task
 
 対象ファイル：
 
-1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
-2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
-3. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs)
+1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/application/engine.rs)
+2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs)
+3. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/features.rs)
 
 任務要件：
 
@@ -215,9 +215,9 @@ key: docs-specs-state-machine-signal-alignment-task
 
 対象ファイル：
 
-1. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
-2. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
-3. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
+1. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/action_matrix.rs)
+2. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/decision.rs)
+3. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
 
 任務要件：
 
@@ -238,8 +238,8 @@ key: docs-specs-state-machine-signal-alignment-task
 
 対象ファイル：
 
-1. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
-2. [report_ui_tests.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report_ui_tests.rs)
+1. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
+2. [report_ui_tests.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report_ui_tests.rs)
 
 任務要件：
 
@@ -253,7 +253,7 @@ key: docs-specs-state-machine-signal-alignment-task
 
 対象ファイル：
 
-1. [persistence.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/persistence.rs)
+1. [persistence.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/infrastructure/persistence.rs)
 2. [pipeline_integration.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/tests/pipeline_integration.rs)
 3. 必要に応じて追加：
    - `backtest` 関連
@@ -342,9 +342,9 @@ key: docs-specs-state-machine-signal-alignment-task
 推奨される配置場所：
 
 1. [pipeline_integration.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/tests/pipeline_integration.rs)
-2. [report_ui_tests.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report_ui_tests.rs)
-3. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
-4. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
+2. [report_ui_tests.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report_ui_tests.rs)
+3. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs)
+4. [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/action_matrix.rs)
 
 ---
 

@@ -122,7 +122,7 @@ V1.1 が旧状態機と比較して、以下の問題を実際に改善したか
 
 修正範囲：
 
-1. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
+1. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
 
 要件：
 

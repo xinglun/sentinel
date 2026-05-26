@@ -31,7 +31,7 @@ state は `Background`、`Visible`、`Expanding`、`Critical`、`Cooling`、`Res
 
 Daily report では `Gray Rhino Inline Reference` として watchlist 近傍に表示できるが、意味的には完全に隔離する。candidate は trading、Gate、execution、trend、market state を変更してはならない。出力は構造リスク状態、evidence、trigger watch の提示に限定する。
 
-Phase 4-B では `collect-gray-rhino-sources` を source collection entrypoint とする。provider は `sec`、`finnhub`、`fred` を許可し、各 provider は source text を `gray_rhino_sources/**` に cache する。
+Phase 4-B では日次 / CI の source collection entrypoint を `make gray-rhino-refresh` とする。`collect-gray-rhino-sources` は単一 provider の調査や debug に使う CLI subcommand であり、運用 status ledger を更新する標準入口ではない。provider は `sec`、`finnhub`、`fred` を許可し、各 provider は source text を `gray_rhino_sources/**` に cache する。
 
 - SEC は watchlist symbol から filing / disclosure を取得し、`gray_rhino_sources/governance` に保存する。
 - Finnhub は company narrative source を article 単位で取得し、`gray_rhino_sources/narrative` に保存する。identity は stable URL または URL 不在時の content hash とし、`source_published_at` は取得日ではなく article の公開日を使う。`retrieved_at` と `last_confirmed_at` は分離し、同じ article content の再取得だけでは新しい confirmed date を作らない。
@@ -39,7 +39,7 @@ Phase 4-B では `collect-gray-rhino-sources` を source collection entrypoint �
 
 source collection の audit は `gray_rhino_discovery_runs.jsonl` に保存する。audit は provider、dry-run、source count、candidate count、content hash、failure taxonomy を記録するが、trading、Gate、execution、trend、market state を変更してはならない。
 
-Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に append-only で保存する。store は `GrayRhinoCandidate` の scope、kind、subject、state、evidence、watch triggers、source title、source published date、last confirmed date、resolved date を保持する。Daily report は persisted candidate history だけを読み、同一 key の本文表示は latest confirmed candidate を選択する。historical replay では candidate、evidence、governance audit、backfill / discovery ops view、refresh status のすべてを `as_of_date` 以下の record だけから選ぶ。refresh status は `gray_rhino_refresh_status.jsonl` を append-only ledger とし、`gray_rhino_refresh_status_latest.json` と `gray_rhino_refresh_status_YYYY-MM-DD.json` は便利な pointer と daily sidecar に留める。date のない legacy latest status は historical replay では採用しない。
+Phase 4-C では auto-discovered candidate を `gray_rhino_candidates.jsonl` に append-only で保存する。store は `GrayRhinoCandidate` の scope、kind、subject、state、evidence、watch triggers、source title、source published date、last confirmed date、resolved date を保持する。Daily report は persisted candidate history だけを読み、同一 key の本文表示は latest confirmed candidate を選択する。historical replay では candidate、evidence、governance audit、backfill / discovery ops view、refresh status のすべてを `as_of_date` 以下の record だけから選ぶ。refresh status は `reports/gray_rhino_refresh_status.jsonl` を append-only ledger とし、`reports/gray_rhino_refresh_status_latest.json` と `reports/gray_rhino_refresh_status_YYYY-MM-DD.json` は便利な pointer と daily sidecar に留める。date のない legacy latest status は historical replay では採用しない。
 
 `gray_rhino_candidates.jsonl` は構造リスクの観測履歴であり、trade、Gate、execution、trend、market state を変更してはならない。Company candidate は current enabled watchlist に属する場合だけ daily inline reference に表示し、Market candidate は市場側 reference として表示できる。
 
@@ -47,17 +47,17 @@ Phase 4-D では monitoring state machine を導入する。state machine は `g
 
 Compact summary は monitoring status を唯一の状態ソースとして使う。`Visible`、`Expanding`、`Critical` だけを active とし、`Cooling` と `Resolved` は active candidate から除外して別枠で表示する。sensor health は ingestion coverage と scoreable readiness を混同しない。正式 scoring に使える scoreable evidence（subject があり、directional `risk_effect` を持つ record）で readiness、平均 confidence、source diversity、category coverage を計算し、subject 欠落や非 directional record は不可评分 record 数と理由として別表示する。
 
-Persisted evidence read boundary は Domain validation を再実行する。`gray_rhino_evidence.jsonl` から読み込んだ record は `GrayRhinoEvidenceRecord::validate()` を通過したものだけが formal assessment、resolved projection、sensor readiness の accepted / scoreable input になる。flat record であっても category ごとの許可 source type を検証し、source type が category 契約に合わない場合は `UnsupportedSourceType` として拒否する。category ごとの source type 許可表は `gray_rhino_evidence_source_policy.rs` を SSOT とし、flat record validator と typed evidence validator は同じ Domain policy を呼び出す。accepted / rejected view は同じ read batch から作る。`ConfidenceOutOfRange`、`NarrativeOnly`、`ForbiddenBoundaryTerm`、`MissingSubject` などで拒否された record は silent drop せず、Daily report / Telegram appendix の sensor health に rejected evidence view と rejection reason として表示する。Interface は evidence eligibility rule を再実装せず、Application が渡す accepted / scoreable / rejected view を format するだけにする。rejection reason は各 report language の label に変換し、Rust enum 名を user-facing report に出さない。
+Persisted evidence read boundary は Domain validation を再実行する。`gray_rhino_evidence.jsonl` から読み込んだ record は `GrayRhinoEvidenceRecord::validate()` を通過したものだけが formal assessment、resolved projection、sensor readiness の accepted / scoreable input になる。flat record であっても category ごとの許可 source type を検証し、source type が category 契約に合わない場合は `UnsupportedSourceType` として拒否する。category ごとの source type 許可表は `src/features/research/domain/gray_rhino_evidence_source_policy.rs` を SSOT とし、flat record validator と typed evidence validator は同じ Domain policy を呼び出す。accepted / rejected view は同じ read batch から作る。`ConfidenceOutOfRange`、`NarrativeOnly`、`ForbiddenBoundaryTerm`、`MissingSubject` などで拒否された record は silent drop せず、Daily report / Telegram appendix の sensor health に rejected evidence view と rejection reason として表示する。Interface は evidence eligibility rule を再実装せず、Application が渡す accepted / scoreable / rejected view を format するだけにする。rejection reason は各 report language の label に変換し、Rust enum 名を user-facing report に出さない。
 
 monitoring state は `Gray Rhino Monitoring State` として Daily report に表示する。これは臨界点の接近を観察する reference であり、trade、Gate、execution、trend、market state を変更してはならない。
 
 Phase 4-E では FRED threshold calibration を導入する。FRED source adapter は `DGS10`、`T10Y2Y`、`FEDFUNDS`、`BAMLH0A0HYM2`、`WALCL`、`RRPONTSYD` を deterministic threshold assessment に変換し、rate pressure、yield curve constraint、credit stress、liquidity fragility、capex payback risk を `Visible`、`Expanding`、`Critical` の candidate state に投影する。
 
-日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を provider 単位で実行し、date 付き status を `gray_rhino_refresh_status.jsonl`、`gray_rhino_refresh_status_latest.json`、`gray_rhino_refresh_status_YYYY-MM-DD.json` に更新する。GitHub Actions では主 Radar report を生成する前に refresh を実行し、Telegram と archive が同じ日次 Gray Rhino 状態を参照する。pre-radar refresh は当日の audit record に依存してはならないため、`daily-calibration` は呼び出さない。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
+日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を provider 単位で実行し、date 付き status を `reports/gray_rhino_refresh_status.jsonl`、`reports/gray_rhino_refresh_status_latest.json`、`reports/gray_rhino_refresh_status_YYYY-MM-DD.json` に更新する。GitHub Actions では主 Radar report を生成する前に refresh を実行し、Telegram と archive が同じ日次 Gray Rhino 状態を参照する。pre-radar refresh は当日の audit record に依存してはならないため、`make daily-calibration` は呼び出さない。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
 
 Phase 4-F では watchlist inline display を導入する。Daily report は Market candidate を `Market Reference` にまとめ、Company candidate と monitoring state は enabled watchlist symbol ごとの `Watchlist Inline Reference` / `Watchlist Inline Monitoring` に表示する。legacy local source など current watchlist に属さない Company candidate は `Other Company Reference` として分離する。この配置は読みやすさのための表示構造であり、candidate は引き続き trading、Gate、execution、trend、market state から意味的に隔離する。
 
-Daily report query path は、永続化済み `gray_rhino_candidates.jsonl` の candidate history だけを読む。`gray_rhino_sources/**` や `gray_rhino_raw_sources/**` の source cache を report rendering 中に再 scan / rediscover してはならない。source discovery は refresh / ingestion use case の責務であり、candidate の `observed_at` は実際の観測日を保持する。古い cache file が残っているだけで、candidate を当日観測として再生成してはならない。
+Daily report query path は、永続化済み `gray_rhino_candidates.jsonl` の candidate history だけを読む。`gray_rhino_sources/**` の source cache を report rendering 中に再 scan / rediscover してはならない。source discovery は refresh / ingestion use case の責務であり、candidate の `observed_at` は実際の観測日を保持する。古い cache file が残っているだけで、candidate を当日観測として再生成してはならない。
 
 Phase 4-G では noise calibration と compact summary を導入する。Finnhub source adapter は normalization boilerplate に `narrative overcrowding` などの trigger term を含めてはならない。Daily report は `Gray Rhino Summary` を details より前に表示し、Market active candidate 数、Company active subject、intensifying watch subject を短く示す。
 
@@ -231,9 +231,9 @@ FRED の設定は `[fred] fred_api_key` または `FRED_API_KEY` 環境変数で
 
 Radar Telegram には Gray Rhino reference appendix を追加する。この appendix は refresh 後の candidate / monitoring / formal evidence view model から生成し、daily-calibration と同じ semantic isolation を保ち、Gate、execution、trade、trend、market state を変更しない。
 
-`make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED は credential / availability に応じて独立に実行し、いずれかが失敗しても後続 provider を継続する。全 provider 成功は `succeeded`、成功と失敗または skipped が混在する場合は `partial_failure`、実行 provider がすべて失敗した場合は `failed`、実行 provider が存在しない場合は `skipped` を `gray_rhino_refresh_status_latest.json` に保存する。`run_status` では `GrayRhinoCollectionStatus` が status、provider ごとの outcome、accepted / rejected coverage、collection date、failed providers を構造化して保持する。audit record を必要とする calibration report は `make gray-rhino-refresh-report` または通常の `daily-calibration` 側で実行する。
+`make gray-rhino-refresh` は provider-level outcome を記録する。SEC、Finnhub、FRED は credential / availability に応じて独立に実行し、いずれかが失敗しても後続 provider を継続する。全 provider 成功は `succeeded`、成功と失敗または skipped が混在する場合は `partial_failure`、実行 provider がすべて失敗した場合は `failed`、実行 provider が存在しない場合は `skipped` を `reports/gray_rhino_refresh_status_latest.json` に保存する。`run_status` では `GrayRhinoCollectionStatus` が status、provider ごとの outcome、accepted / rejected coverage、collection date、failed providers を構造化して保持する。audit record を必要とする calibration report は `make gray-rhino-refresh-report` または通常の `make daily-calibration` 側で実行する。
 
-provider collection は、`accepted == 0` かつ `rejected > 0` の場合に provider failure として非ゼロ終了を返す。Daily Radar workflow は non-blocking に継続してよいが、`gray_rhino_refresh_status_latest.json` には failed / partial_failure として正確に記録する。Daily report と Telegram appendix は refresh status を audit context として表示し、新鮮な自動情報か、部分失敗か、完全失敗か、skipped かを読者が判別できるようにする。historical replay では `date <= as_of_date` の status だけを表示する。この status は trade、Gate、execution、trend、market state を変更しない。
+provider collection は、`accepted == 0` かつ `rejected > 0` の場合に provider failure として非ゼロ終了を返す。Daily Radar workflow は non-blocking に継続してよいが、`reports/gray_rhino_refresh_status_latest.json` には failed / partial_failure として正確に記録する。Daily report と Telegram appendix は refresh status を audit context として表示し、新鮮な自動情報か、部分失敗か、完全失敗か、skipped かを読者が判別できるようにする。historical replay では `date <= as_of_date` の status だけを表示する。この status は trade、Gate、execution、trend、market state を変更しない。
 
 ### Phase 1: Human Structured Governance Observation
 
@@ -305,9 +305,9 @@ field-level coverage は current run の extraction audit から算出する。J
 
 ### Phase 3-B: Dependency Concentration Evidence Pipeline
 
-本 Work Item の対象。DependencyConcentration evidence は source traceability、dependency kind、dependency name、category-specific metric validation を必須とする。
+完了済み。DependencyConcentration evidence は source traceability、dependency kind、dependency name、category-specific metric validation を必須とする。
 
-Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。`ingest-gray-rhino-dependency --file <json>` は valid evidence を `gray_rhino_evidence.jsonl` に保存する。`collect-gray-rhino-dependency --file <source>` と `collect-gray-rhino-dependency --url <url>` は deterministic extraction、manifest、audit、coverage、rejection taxonomy を生成するが、dependency graph builder、trading、Gate、execution は追加しない。
+Phase 3-B の初期実装では repository-local structured JSON ingestion boundary と domain validation を定義する。`cargo run -- ingest-gray-rhino-dependency --file <json>` は valid evidence を `gray_rhino_evidence.jsonl` に保存する。`cargo run -- collect-gray-rhino-dependency --file <source>` と `cargo run -- collect-gray-rhino-dependency --url <url>` は deterministic extraction、manifest、audit、coverage、rejection taxonomy を生成するが、dependency graph builder、trading、Gate、execution は追加しない。
 
 Phase v1.1 では dependency disclosure labels として `supplier concentration`、`revenue concentration`、`customer concentration`、`workloads hosted by`、`single cloud provider`、`sole supplier`、`alternative supplier`、`backup provider`、`redundant provider` を許可する。metricless source は `MetriclessSource` として extraction audit と CLI output に残す。
 
@@ -315,7 +315,7 @@ Phase v1.2 では Dependency URL adapter を real adapter 境界として扱う�
 
 ### Phase 4: Escalation Detection Engine
 
-本 Work Item の対象。validated evidence store から category coverage を読み取り、Gray Rhino escalation input へ投影する。
+完了済み。validated evidence store から category coverage を読み取り、Gray Rhino escalation input へ投影する。
 
 evidence-driven escalation は `gray_rhino_evidence.jsonl` の検証済み record だけを入力とし、source は `EvidenceStore` と表示する。出力は Gray Rhino report に限定し、trade、Gate、execution、trend cohesion を生成しない。
 
@@ -325,7 +325,7 @@ Phase v1.1 では `collect-gray-rhino-backfill --file <manifest>` を追加し�
 
 Phase v1.2 では backfill run summary を `gray_rhino_backfill_runs.jsonl` に保存する。summary は run id、manifest、category、source count、accepted、rejected、coverage、started_at、finished_at、boundary を含む。
 
-Phase v1.3 の provider source registry は manual source manifest の実験機構であり、Phase 4 以降の主機構ではない。Gray Rhino discovery は `gray_rhino_sources/**` や raw source cache にある system-owned source text を走査し、registry JSON を要求しない。
+Phase v1.3 の provider source registry は manual source manifest の実験機構であり、Phase 4 以降の主機構ではない。Gray Rhino discovery は `gray_rhino_sources/**` にある system-owned source text を走査し、registry JSON を要求しない。
 
 Backfill run summary は provider failure taxonomy として `fetch_failure`、`timeout`、`unsupported_format`、`metricless_source`、`stale_source` を記録する。hash drift は `drift_sources`、freshness window 超過は `stale_sources` に集計する。
 
@@ -352,6 +352,8 @@ Phase v1.2 の evidence quality model は `v2` とし、traceability、metric co
 ## 実装境界
 
 - domain model は `src/features/research/domain/gray_rhino_evidence.rs` に置く。
+- category/source type policy は `src/features/research/domain/gray_rhino_evidence_source_policy.rs` に置く。
+- persisted evidence read batch は `src/features/research/infrastructure/gray_rhino_evidence_store.rs` が作り、Application の `GrayRhinoEvidenceReadModel` へ渡す。
 - Gray Rhino escalation report は、外部 evidence 未接続の場合に `ManualConfiguration` と表示し続ける。
 - checker は `.ai/architecture/gray_rhino_evidence_schema.yaml`、本ドキュメント、domain enum の整合を検証する。
 - collector を追加する場合は、source contract を満たさない record を拒否する。

@@ -25,10 +25,10 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 | ファイル | 用途 |
 |---|---|
 | `checks.yaml` | Sentinel 向けの共通検証 command catalog。 |
-| `current_status.md` | `scripts/ai_generate_status.py` が生成する現在の状態。 |
+| `current_status.md` | `make generate-cockpit-status` が生成する現在の状態。実装詳細は `scripts/ai_generate_status.py`。 |
 | `status_policy.yaml` | active / no-active status、archive 後の同期、参照整合性の方針。 |
 
-`status_policy.yaml` は Cockpit の machine-readable SSOT である。状態名、archive 後の `no_active_work_item` 表示、参照整合性 check はこの file と script 実装に従う。
+`status_policy.yaml` は Cockpit の machine-readable SSOT である。状態名、archive 後の `no_active_work_item` 表示、参照整合性 check はこの file と `make` target の契約に従う。script 実装と衝突する場合は `status_policy.yaml` と Makefile target を正とする。
 
 ## 推奨コマンド
 
@@ -45,7 +45,7 @@ make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY
 make ai-preflight
 ```
 
-管理対象 diff は Contract の `scope` に含まれない限り失敗し、`restricted` file は同じ仕組みで明示承認を要求する。test、snapshot、i18n、Work Item evidence の削除は、Contract の `destructiveChangePolicy` と Summary の `destructiveChanges` に明示されない限り失敗する。production Rust code の変更は test 変更証跡を必須とする。
+管理対象 diff は Contract の `scope` に含まれない限り失敗し、`.ai/guards/file_ownership.yaml` で `aiWrite: restricted` とされた file は同じ仕組みで明示承認を要求する。test、snapshot、i18n、Work Item evidence の削除は、Contract の `destructiveChangePolicy` と Summary の `destructiveChanges` に明示されない限り失敗する。production Rust code の変更は test 変更証跡を必須とする。
 
 Work Item を完了する時は次を使う。
 
@@ -55,7 +55,7 @@ make ai-finish TASK=<task>
 
 `make ai-finish` は required checks を再実行し、成功時だけ Contract と Summary を `.ai/work-items/archive/<year>/` へ移動する。archive 後は `current_status.md` を `no_active_work_item` として再生成し、active Work Item JSON を残さない。
 
-archive 後の整合性は次で確認する。
+archive 後の整合性は `make ai-finish` の成功条件に含まれる。失敗時の調査や手動復旧では次を個別に実行する。
 
 ```bash
 make check-work-items-lifecycle

@@ -1,0 +1,143 @@
+{
+  "contractVersion": 1,
+  "workItemId": "docs-final-ssot-alignment",
+  "mode": "code",
+  "title": "Docs final SSOT alignment",
+  "scope": [
+    ".ai/work-items/active/docs-final-ssot-alignment.contract.json",
+    ".ai/work-items/active/docs-final-ssot-alignment.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    "AGENTS.md",
+    "GEMINI.md",
+    "scripts/ai_generate_status.py",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "docs/specs/TREND_COHESION_V2_TASK.md",
+    "docs/specs/TREND_COHESION_RULES_ENHANCEMENT_TASK.md",
+    "docs/specs/TREND_COHESION_TOPOLOGY_TASK.md",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "docs/specs/NO_TRADE_HARDENING_TASK.md",
+    "docs/specs/EXIT_DECISION_SUMMARY_TASK.md",
+    "docs/specs/STATE_MACHINE_SHORT_TASKS.md",
+    "docs/specs/ARCHITECTURE_BOUNDARY_HARDENING_TASK.md",
+    "docs/specs/RICH_DISPLAY_CONTEXT_TASK.md",
+    "docs/specs/PHASE_6_AUTOMATED_INGESTION_TASK.md",
+    "docs/specs/EXIT_DECISION_LAYER_TASK.md",
+    "docs/specs/STATE_MACHINE_V1_2_VALIDATION.md",
+    "docs/specs/STATE_MACHINE_V1_1_OPTIMIZATION.md",
+    "docs/specs/STATE_MACHINE_SIGNAL_ALIGNMENT_TASK.md",
+    "docs/specs/POSITION_INTENT_UNIFICATION_TASK.md",
+    "docs/specs/MOOMOO_OPENAPI_ASSESSMENT.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    "docs/specs/STATE_MACHINE_INERTIA_HARDENING.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Cockpit README must use Makefile target as operator entrypoint and align checks."
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Global agent protocol must match Cockpit command catalog."
+    },
+    {
+      "path": "GEMINI.md",
+      "reason": "Gemini protocol must match AGENTS/Cockpit command catalog."
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "Generated current_status header should not advertise script-first operation."
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Architecture SSOT must name current feature-first module paths."
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino contract must distinguish operational Makefile entrypoint from debug CLI and use current paths."
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "Framework doc must clarify SSOT scope and state/direction vocabulary."
+    },
+    {
+      "path": "docs/specs/TREND_COHESION_V2_TASK.md",
+      "reason": "Task doc still points to removed src/core paths."
+    },
+    {
+      "path": "docs/specs/NO_TRADE_HARDENING_TASK.md",
+      "reason": "Task doc still points to removed src/core i18n/presentation/report paths."
+    },
+    {
+      "path": "docs/specs/EXIT_DECISION_SUMMARY_TASK.md",
+      "reason": "Task doc still points to removed src/core i18n/presentation/report paths."
+    },
+    {
+      "path": "docs/specs",
+      "reason": "Active specs still contained removed src/core paths; archive docs remain historical and are not rewritten."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "AI Cockpit docs and generated current_status text use Makefile target as the standard operator entrypoint; scripts are implementation details.",
+    "AGENTS.md and GEMINI.md standard commands include the same guard/status/coverage targets as Cockpit guidance.",
+    "Active task docs no longer direct implementation to removed src/core paths for the reviewed radar presentation/i18n/trend cohesion areas.",
+    "Gray Rhino docs distinguish daily/CI Makefile entrypoints from debug CLI subcommands and use full SSOT module paths.",
+    "Gray Rhino framework separates escalation state from candidate monitoring state/direction vocabulary.",
+    "Documentation checks and AI Cockpit checks pass, and Work Item is archived.",
+    "Active docs/specs no longer reference removed src/core module paths where a current feature-first owner exists, and unresolved legacy concepts are marked as feature-first targets instead of core paths."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "required": true
+    },
+    {
+      "command": "make check-ai",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/docs-final-ssot-alignment.summary.json CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/docs-final-ssot-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/docs-final-ssot-alignment.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

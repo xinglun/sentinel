@@ -159,8 +159,8 @@ pub enum ExitIntent {
 
 新規追加案：
 
-1. `src/core/intent.rs`
-2. または `src/core/intent_synthesizer.rs`
+1. `src/features/radar/domain/intent_synthesizer.rs`
+2. または `src/features/radar/domain/intent_synthesizer.rs`
 
 責務：
 
@@ -179,7 +179,7 @@ EXIT > TRIM > HOLD > ADD
 
 独立した presentation assembler を追加することを推奨します：
 
-1. `src/core/presentation.rs`
+1. `src/features/radar/interface/presentation.rs`
 
 責務：
 
@@ -215,21 +215,21 @@ EXIT > TRIM > HOLD > ADD
 
 以下のように新規追加または調整を推奨します：
 
-1. [intent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/intent.rs)
+1. [intent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/intent_synthesizer.rs)
    - 最終的な `position_intent` の合成を一元化。
 
-2. [presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation.rs)
+2. [presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/presentation.rs)
    - `DisplayContext` の生成。
    - `DisplayIntent` の生成。
    - レポート向け展示データの生成。
 
-3. [exit.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/exit.rs)
+3. [exit.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/exit.rs)
    - 純粋な退出意思決定に収束。
 
-4. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
+4. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/application/engine.rs)
    - オーケストレーションのみを担当。
 
-5. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
+5. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/decision.rs)
    - `telegram` のレガシー位置付けを明記。
 
 ---

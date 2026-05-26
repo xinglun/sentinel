@@ -52,7 +52,7 @@ key: docs-specs-trend-cohesion-topology-task
 
 ## 必要なドメイン層の変更
 
-`src/core/trend_cohesion.rs` に以下を追加します：
+`src/features/radar/domain/trend_cohesion.rs` に以下を追加します：
 
 - `TrendCohesionTopology`
   - `NoLeader`

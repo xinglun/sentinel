@@ -18,7 +18,7 @@ key: docs-specs-state-machine-short-tasks
 
 修正範囲：
 
-1. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
+1. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs)
 2. 関連する設定のロードパス。
 
 承認基準：

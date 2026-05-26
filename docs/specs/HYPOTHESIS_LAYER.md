@@ -63,10 +63,10 @@ Phase 1 は表示層だけを実装する。
 
 対象ファイルは次の通りである。
 
-- `presentation.rs`
-- `presentation_assembler.rs`
-- `i18n.rs`
-- `report.rs`
+- `src/features/radar/interface/presentation.rs`
+- `src/features/radar/interface/presentation_assembler.rs`
+- `src/features/shared/interface/i18n.rs`
+- `src/features/radar/interface/report.rs`
 - `report_ui_tests.rs`
 - `presentation_tests.rs`
 

@@ -45,12 +45,12 @@ key: docs-specs-state-machine-inertia-hardening
 ### 2.3 コード配置の推奨
 
 1. 市場状態機：
-   - [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
+   - [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs)
 2. 個別銘柄状態とアクションの連動：
    - `asset_state` 関連モジュール
-   - [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/action_matrix.rs)
+   - [action_matrix.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/action_matrix.rs)
 3. 報告層の診断出力：
-   - [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
+   - [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
    - `market_regime.reasons` に以下の理由を明記すること：
      - なぜ降格したのか
      - なぜリセットされなかったのか（慣性によるブロック）

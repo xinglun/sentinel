@@ -161,7 +161,7 @@ V2 では、直近 3 取引日の履歴ウィンドウを使用します。
 
 追加：
 
-- `src/core/trend_cohesion.rs`
+- `src/features/radar/domain/trend_cohesion.rs`
 
 V2 は以下を公開（Expose）する必要があります：
 
@@ -173,7 +173,7 @@ V2 は以下を公開（Expose）する必要があります：
 
 更新：
 
-- `src/core/decision.rs`
+- `src/features/radar/domain/decision.rs`
 
 現在のスカラフィールドを以下に置き換えます：
 
@@ -190,7 +190,7 @@ pub trend_cohesion: TrendCohesionSnapshot
 
 更新：
 
-- `src/core/engine.rs`
+- `src/features/radar/application/engine.rs`
 
 エンジンは、ドメインの事実と直近の履歴からスナップショットを計算します。
 ここでは最終的な表示用テキストを計算しないでください。
@@ -199,9 +199,9 @@ pub trend_cohesion: TrendCohesionSnapshot
 
 更新：
 
-- `src/core/presentation.rs`
-- `src/core/presentation_assembler.rs`
-- `src/core/i18n.rs`
+- `src/features/radar/interface/presentation.rs`
+- `src/features/radar/interface/presentation_assembler.rs`
+- `src/features/shared/interface/i18n.rs`
 
 プレゼンテーション層は以下を派生させます：
 
@@ -216,7 +216,7 @@ pub trend_cohesion: TrendCohesionSnapshot
 
 更新：
 
-- `src/core/report.rs`
+- `src/features/radar/interface/report.rs`
 
 `report.rs` は引き続き「レンダリング専用」でなければなりません。
 以下を表示することができます：

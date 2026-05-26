@@ -104,7 +104,7 @@ key: docs-specs-exit-decision-summary-task
 ### 4.1 ExitDecisionSummaryViewModel の新規追加
 
 ファイル：
-[presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation.rs)
+[presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/presentation.rs)
 
 以下の新規追加を推奨します：
 
@@ -158,7 +158,7 @@ pub exit_summary: Option<ExitDecisionSummaryViewModel>,
 ## 5. PresentationAssembler の組み立てルール
 
 ファイル：
-[presentation_assembler.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation_assembler.rs)
+[presentation_assembler.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/presentation_assembler.rs)
 
 ### 5.1 入力ソース（事実の源泉）
 
@@ -215,7 +215,7 @@ Assembler は、既存のドメイン事実と意思決定出力に基づいて 
 ## 6. i18n 辞書の要件
 
 ファイル：
-[i18n.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/i18n.rs)
+[i18n.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/shared/interface/i18n.rs)
 
 少なくとも以下のフィールドを追加します：
 
@@ -244,7 +244,7 @@ exit_reason_watch_pullback
 ## 7. report.rs のレンダリング要件
 
 ファイル：
-[report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
+[report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
 
 新規セクションの追加：
 

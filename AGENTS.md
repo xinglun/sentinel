@@ -116,8 +116,8 @@ Work Item 化の基準は AI が関与したかではなく、repo diff と revi
 
 必須手順:
 
-1. `.ai/cockpit/README.md` で状態定義と作業可否を確認する。
-2. 現在 task の `.ai/work-items/active/<task>.contract.json` を確認する。存在しない場合は `.ai/work-items/_templates/work_item_contract.example.json` を基準に作成する。
+1. `.ai/cockpit/README.md` で状態定義と作業可否を確認する。Cockpit 状態と status 生成の machine-readable SSOT は `.ai/cockpit/status_policy.yaml` とする。
+2. 現在 task の `.ai/work-items/active/<task>.contract.json` を確認する。存在しない場合は `make ai-start TASK=<task> TITLE="..." MODE=code` で作成する。template は `.ai/work-items/_templates/work_item_contract.example.json` を参照する。
 3. Work Item Contract の `mode`、`unknowns`、`notCodable`、`scope`、`outOfScope`、`acceptance`、`verification` を確認する。
 4. `notCodable: true` または `unknowns` が残る場合、production code を変更せず、調査、TODO 整理、または blocker 記録に限定する。
 5. coding する場合は `mode: code`、`notCodable: false`、`unknowns: []` を確認し、`scope` に含まれる範囲だけを変更する。
@@ -130,12 +130,18 @@ Work Item 化の基準は AI が関与したかではなく、repo diff と revi
 make check-ai-contract CONTRACT=.ai/work-items/active/<task>.contract.json
 make check-ai-scope CONTRACT=.ai/work-items/active/<task>.contract.json
 make fmt-check
-make check-ai-backtrack
+make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json
+make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
+make check-ai-coverage-guard
 make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
 make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
 make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
+make check-ai-status-consistency
+make ai-preflight
 make quality
 ```
+
+`make test-ai-guards` は `.ai/**/*.yaml` の parse guard を含み、`make check-ai` と `make quality` から実行される。Work Item 文脈では `CONTRACT` と `SUMMARY` を渡す command を優先し、裸の `make quality` だけで Cockpit status consistency を代替しない。
 
 Work Item を完了する時は次を使う。
 
