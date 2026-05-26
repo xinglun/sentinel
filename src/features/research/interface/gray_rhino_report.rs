@@ -18,7 +18,9 @@ use crate::features::research::domain::gray_rhino::{
 use crate::features::research::domain::gray_rhino_candidate::{
     GrayRhinoCandidate, GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
 };
-use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceCategory;
+use crate::features::research::domain::gray_rhino_evidence::{
+    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
+};
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
@@ -473,6 +475,11 @@ fn render_multi_category_sensor_health(
     language: Language,
 ) -> String {
     let records = &view_model.evidence_records;
+    let scoreable_records = records
+        .iter()
+        .filter(|record| is_scoreable_evidence_record(record))
+        .collect::<Vec<_>>();
+    let excluded_count = records.len().saturating_sub(scoreable_records.len());
     let governance = render_governance_sensor_health(&view_model.governance_audits, language);
     if records.is_empty() && governance.is_empty() {
         return String::new();
@@ -484,7 +491,7 @@ fn render_multi_category_sensor_health(
     let ready_count = categories
         .iter()
         .filter(|category| {
-            records
+            scoreable_records
                 .iter()
                 .any(|record| category.matches(record.category))
         })
@@ -496,12 +503,16 @@ fn render_multi_category_sensor_health(
         ready_count,
         categories.len()
     ));
-    let average_confidence = if records.is_empty() {
+    let average_confidence = if scoreable_records.is_empty() {
         0.0
     } else {
-        records.iter().map(|record| record.confidence).sum::<f64>() / records.len() as f64
+        scoreable_records
+            .iter()
+            .map(|record| record.confidence)
+            .sum::<f64>()
+            / scoreable_records.len() as f64
     };
-    let source_diversity = records
+    let source_diversity = scoreable_records
         .iter()
         .map(|record| record.source.publisher.clone())
         .collect::<BTreeSet<_>>()
@@ -523,8 +534,16 @@ fn render_multi_category_sensor_health(
     ));
     out.push_str(evidence_quality_dimensions_label(language));
     out.push('\n');
+    if excluded_count > 0 {
+        out.push_str(&format!(
+            "- {}: {} ({})\n",
+            excluded_evidence_count_label(language),
+            excluded_count,
+            excluded_evidence_reason_label(language)
+        ));
+    }
     for category in categories {
-        let count = records
+        let count = scoreable_records
             .iter()
             .filter(|record| category.matches(record.category))
             .count();
@@ -555,6 +574,14 @@ fn render_multi_category_sensor_health(
         out.push_str(&ops_view);
     }
     out
+}
+
+fn is_scoreable_evidence_record(record: &GrayRhinoEvidenceRecord) -> bool {
+    !record.subject.trim().is_empty()
+        && matches!(
+            record.risk_effect,
+            GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating
+        )
 }
 
 fn render_backfill_ops_view(
@@ -685,14 +712,35 @@ fn render_gray_rhino_compact_summary(
     statuses: &[GrayRhinoMonitoringStatus],
     language: Language,
 ) -> String {
-    let market_active = candidates
+    let _ = candidates;
+    let active_statuses = statuses
         .iter()
-        .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Market)
+        .filter(|status| is_active_monitoring_state(status.current_state))
+        .collect::<Vec<_>>();
+    let market_active = active_statuses
+        .iter()
+        .filter(|status| status.scope == GrayRhinoCandidateScope::Market)
         .count();
-    let company_subjects = candidates
+    let company_subjects = active_statuses
         .iter()
-        .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Company)
-        .map(|candidate| candidate.subject.to_uppercase())
+        .filter(|status| status.scope == GrayRhinoCandidateScope::Company)
+        .map(|status| status.subject.to_uppercase())
+        .collect::<BTreeSet<_>>();
+    let cooling_subjects = statuses
+        .iter()
+        .filter(|status| {
+            status.scope == GrayRhinoCandidateScope::Company
+                && status.current_state == GrayRhinoCandidateState::Cooling
+        })
+        .map(|status| status.subject.to_uppercase())
+        .collect::<BTreeSet<_>>();
+    let resolved_subjects = statuses
+        .iter()
+        .filter(|status| {
+            status.scope == GrayRhinoCandidateScope::Company
+                && status.current_state == GrayRhinoCandidateState::Resolved
+        })
+        .map(|status| status.subject.to_uppercase())
         .collect::<BTreeSet<_>>();
     let intensifying_subjects = statuses
         .iter()
@@ -716,15 +764,36 @@ fn render_gray_rhino_compact_summary(
             .collect::<Vec<_>>()
             .join(", ")
     };
+    let cooling_summary = format_subject_set(cooling_subjects, language);
+    let resolved_summary = format_subject_set(resolved_subjects, language);
 
     format!(
-        "{}\n- {}: {market_active}\n- {}: {company_summary}\n- {}: {intensifying_summary}\n{}",
+        "{}\n- {}: {market_active}\n- {}: {company_summary}\n- {}: {cooling_summary}\n- {}: {resolved_summary}\n- {}: {intensifying_summary}\n{}",
         gray_rhino_summary_title(language),
         market_active_label(language),
         company_active_label(language),
+        company_cooling_label(language),
+        company_resolved_label(language),
         company_intensifying_label(language),
         summary_boundary_label(language)
     )
+}
+
+fn is_active_monitoring_state(state: GrayRhinoCandidateState) -> bool {
+    matches!(
+        state,
+        GrayRhinoCandidateState::Visible
+            | GrayRhinoCandidateState::Expanding
+            | GrayRhinoCandidateState::Critical
+    )
+}
+
+fn format_subject_set(subjects: BTreeSet<String>, language: Language) -> String {
+    if subjects.is_empty() {
+        none_label(language).to_string()
+    } else {
+        subjects.into_iter().collect::<Vec<_>>().join(", ")
+    }
 }
 
 fn render_watchlist_inline_candidates(
@@ -950,6 +1019,22 @@ fn company_active_label(language: Language) -> &'static str {
         Language::ZhCn => "公司活跃候选",
         Language::EnUs => "Company active candidates",
         Language::JaJp => "企業の有効候補",
+    }
+}
+
+fn company_cooling_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "公司降温候选",
+        Language::EnUs => "Company cooling candidates",
+        Language::JaJp => "企業の冷却中候補",
+    }
+}
+
+fn company_resolved_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "公司已解除候选",
+        Language::EnUs => "Company resolved candidates",
+        Language::JaJp => "企業の解消済み候補",
     }
 }
 
@@ -1449,6 +1534,22 @@ fn readiness_label(language: Language) -> &'static str {
         Language::ZhCn => "准备度",
         Language::EnUs => "readiness",
         Language::JaJp => "準備度",
+    }
+}
+
+fn excluded_evidence_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "不可评分证据记录",
+        Language::EnUs => "Non-scoreable evidence records",
+        Language::JaJp => "採点対象外の証拠記録",
+    }
+}
+
+fn excluded_evidence_reason_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "缺少主体或风险作用不可用于正式评分",
+        Language::EnUs => "missing subject or risk effect is not scoreable",
+        Language::JaJp => "主体欠落またはリスク作用が正式採点対象外",
     }
 }
 

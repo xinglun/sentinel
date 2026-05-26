@@ -14,7 +14,9 @@ DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.r
 DISCOVERY_DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_candidate.rs"
 DISCOVERY_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_discovery_policy.rs"
 ASSESSMENT_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_assessment_policy.rs"
+EVIDENCE_PROJECTION_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence_projection_policy.rs"
 DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
+DAILY_REPORT_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_daily_report.rs"
 REPORT_INTERFACE_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_report.rs"
 MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
 MONITORING_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_monitoring_policy.rs"
@@ -59,7 +61,9 @@ def main() -> int:
         DISCOVERY_DOMAIN_PATH,
         DISCOVERY_POLICY_PATH,
         ASSESSMENT_POLICY_PATH,
+        EVIDENCE_PROJECTION_POLICY_PATH,
         DISCOVERY_APP_PATH,
+        DAILY_REPORT_APP_PATH,
         REPORT_INTERFACE_PATH,
         MONITORING_STATE_PATH,
         MONITORING_POLICY_PATH,
@@ -80,7 +84,9 @@ def main() -> int:
     discovery_domain = DISCOVERY_DOMAIN_PATH.read_text(encoding="utf-8")
     discovery_policy = DISCOVERY_POLICY_PATH.read_text(encoding="utf-8")
     assessment_policy = ASSESSMENT_POLICY_PATH.read_text(encoding="utf-8")
+    evidence_projection_policy = EVIDENCE_PROJECTION_POLICY_PATH.read_text(encoding="utf-8")
     discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
+    daily_report_app = DAILY_REPORT_APP_PATH.read_text(encoding="utf-8")
     report_interface = REPORT_INTERFACE_PATH.read_text(encoding="utf-8")
     monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
     monitoring_policy = MONITORING_POLICY_PATH.read_text(encoding="utf-8")
@@ -99,6 +105,12 @@ def main() -> int:
         "candidateStore: gray_rhino_candidates.jsonl",
         "monitoringStateMachineEnabled: true",
         "monitoringStateMachine: src/features/research/domain/gray_rhino_monitoring_policy.rs",
+        "grayRhinoEvidenceProjectionPolicy: src/features/research/domain/gray_rhino_evidence_projection_policy.rs",
+        "grayRhinoEvidenceProjectionRulesInApplicationAllowed: false",
+        "grayRhinoSummaryUsesMonitoringStatuses: true",
+        "grayRhinoSummaryActiveExcludesCoolingResolved: true",
+        "grayRhinoSensorHealthScoreableReadinessEnabled: true",
+        "grayRhinoMissingSubjectRejection: MissingSubject",
         "fredThresholdCalibrationEnabled: true",
         "deterministicThresholdStatesEnabled: true",
         "grayRhinoRefreshMakeTarget: gray-rhino-refresh",
@@ -330,10 +342,26 @@ def main() -> int:
         "latest_effective_subject_category_records",
         "GrayRhinoEvidenceCategory",
         "GrayRhinoRiskEffect",
-        "subject-categories",
+        "amplifying categories",
     ]:
         if item not in assessment_policy:
             errors.append(f"assessment domain policy missing `{item}`")
+    for item in [
+        "evidence_resolved_candidates",
+        "latest_effective_evidence",
+        "has_prior_resolvable_candidate",
+        "has_prior_amplifying_evidence",
+    ]:
+        if item not in evidence_projection_policy:
+            errors.append(f"evidence projection domain policy missing `{item}`")
+    for item in [
+        "fn evidence_resolved_candidates",
+        "fn latest_effective_evidence",
+        "fn has_prior_resolvable_candidate",
+        "fn has_prior_amplifying_evidence",
+    ]:
+        if item in daily_report_app:
+            errors.append(f"daily report application must not contain evidence projection policy `{item}`")
     for item in [
         "render_gray_rhino_inline_reference",
         "reference only",

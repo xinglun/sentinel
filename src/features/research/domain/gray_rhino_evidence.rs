@@ -143,6 +143,7 @@ pub struct RedundancyEvidence {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum GrayRhinoEvidenceRejection {
+    MissingSubject,
     MissingSourceReference,
     MissingSourceTitle,
     MissingPublisher,
@@ -165,7 +166,7 @@ pub enum GrayRhinoEvidenceRejection {
 impl GrayRhinoEvidenceRecord {
     pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
         if self.subject.trim().is_empty() {
-            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+            return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
         if self.source.source_url.is_none() && self.source.repository_path.is_none() {
             return Err(GrayRhinoEvidenceRejection::MissingSourceReference);
@@ -200,7 +201,7 @@ impl GrayRhinoEvidenceRecord {
 impl GovernanceConcentrationEvidence {
     pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
         if self.subject.trim().is_empty() {
-            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+            return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
         if !matches!(
             self.source.source_type,
@@ -272,7 +273,7 @@ impl GovernanceConcentrationMetrics {
 impl DependencyConcentrationEvidence {
     pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
         if self.subject.trim().is_empty() {
-            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+            return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
         if !matches!(
             self.source.source_type,
@@ -338,7 +339,7 @@ impl DependencyConcentrationMetrics {
 impl InstitutionalMaturityEvidence {
     pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
         if self.subject.trim().is_empty() {
-            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+            return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
         if !matches!(
             self.source.source_type,
@@ -415,7 +416,7 @@ impl InstitutionalMaturityMetrics {
 impl RedundancyEvidence {
     pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
         if self.subject.trim().is_empty() {
-            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+            return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
         if !matches!(
             self.source.source_type,
@@ -583,6 +584,25 @@ mod tests {
         assert_eq!(
             record.validate(),
             Err(GrayRhinoEvidenceRejection::MissingSourceReference)
+        );
+    }
+
+    #[test]
+    fn gray_rhino_missing_subject_has_dedicated_rejection() {
+        let record = GrayRhinoEvidenceRecord {
+            subject: String::new(),
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: source(),
+            confidence: 0.8,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "Voting control is disclosed in governance document.".to_string(),
+            structural_fact: "Founder voting control exceeds ordinary common-share voting power."
+                .to_string(),
+        };
+
+        assert_eq!(
+            record.validate(),
+            Err(GrayRhinoEvidenceRejection::MissingSubject)
         );
     }
 

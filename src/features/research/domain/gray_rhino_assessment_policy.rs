@@ -104,7 +104,7 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
             RiskLevel::Low
         },
         notes: vec![format!(
-            "Evidence-backed Gray Rhino assessment from scoreable records; amplifying subject-categories: {amplifying_count}/3; mitigating subject-categories: {mitigating_count}/2; unclassified records: {unclassified_count}; scoreable average confidence: {average_confidence:.2}."
+            "Evidence-backed Gray Rhino assessment from scoreable records; amplifying categories: {amplifying_count}/3; mitigating categories: {mitigating_count}/2; unclassified records: {unclassified_count}; scoreable average confidence: {average_confidence:.2}."
         )],
     })
 }

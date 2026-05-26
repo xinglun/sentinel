@@ -1,0 +1,149 @@
+{
+  "workItemId": "gray-rhino-report-state-readiness",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-report-state-readiness.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+      "reason": "Work Item の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-report-state-readiness.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "summary state、scoreable readiness、MissingSubject、evidence projection domain policy の契約 flag を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を最新 Work Item に合わせて更新した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "resolved lifecycle projection 条件を Domain policy とする責務境界を追記した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "active/cooling/resolved summary、scoreable sensor health、MissingSubject、projection policy を明文化した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "evidence projection policy が Domain にあり Daily Report Application に戻らないことを検証するよう更新した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "category coverage wording と MissingSubject regression test を補強した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "resolved candidate projection を Domain policy へ委譲した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_assessment_policy.rs",
+      "reason": "assessment note を category coverage として正確化した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "MissingSubject rejection taxonomy を追加し、subject 空を専用理由で拒否するよう修正した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "evidence projection policy module を登録した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence_projection_policy.rs",
+      "reason": "mitigating evidence から Resolved candidate への投影と latest effective evidence selection を Domain policy 化した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "compact summary を monitoring status ベースにし、sensor health を scoreable evidence readiness へ変更した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "summary state、sensor health scoreable readiness、projection policy ownership の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/domain/gray_rhino_evidence_projection_policy.rs",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_compact_summary_excludes_cooling_and_resolved_from_active --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_sensor_health_excludes_subjectless_evidence_from_readiness --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_evidence_projection_policy_is_domain_owned --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_missing_subject_has_dedicated_rejection --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_assessment_note_reports_category_coverage --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-report-state-readiness.summary.json CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-state-readiness.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-state-readiness.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "report summary、sensor health readiness、evidence projection policy、rejection taxonomy を変更したため make quality で統合確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "make fmt-check initially reported formatting diffs after edits.",
+      "resolution": "cargo fmt --all を実行し、make fmt-check が passed になった。"
+    }
+  ]
+}

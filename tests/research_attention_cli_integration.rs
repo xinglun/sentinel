@@ -1259,6 +1259,49 @@ fn gray_rhino_report_blocks_fallback_mixed_language() {
 }
 
 #[test]
+fn gray_rhino_compact_summary_excludes_cooling_and_resolved_from_active() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"GovernanceConcentration","subject":"GOOG","state":"Cooling","evidence":["Governance risk is cooling."],"watch_triggers":["proxy update"],"source_title":"GOOG proxy","observed_at":"2026-05-25","source_published_at":"2026-05-25","last_confirmed_at":"2026-05-25","resolved_at":null}
+{"scope":"Company","kind":"DependencyConcentration","subject":"TSLA","state":"Resolved","evidence":["Dependency risk was resolved."],"watch_triggers":["supplier update"],"source_title":"TSLA supplier update","observed_at":"2026-05-25","source_published_at":"2026-05-25","last_confirmed_at":"2026-05-25","resolved_at":"2026-05-25"}
+"#,
+    )
+    .expect("failed to write candidates");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("公司活跃候选: 无"));
+    assert!(stdout.contains("公司降温候选: GOOG"));
+    assert!(stdout.contains("公司已解除候选: TSLA"));
+    assert!(!stdout.contains("公司活跃候选: GOOG"));
+    assert!(!stdout.contains("公司活跃候选: TSLA"));
+}
+
+#[test]
+fn gray_rhino_sensor_health_excludes_subjectless_evidence_from_readiness() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(
+        tmp.path().join("gray_rhino_evidence.jsonl"),
+        r#"{"subject":"","category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Legacy dependency disclosure","publisher":"Legacy issuer","source_url":"https://example.com/dependency","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.95,"risk_effect":"Amplifying","extraction_note":"Legacy subjectless record.","structural_fact":"Critical supplier dependency has no disclosed fallback."}
+"#,
+    )
+    .expect("failed to write evidence store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("风险升级评估: 尚无正式证据"));
+    assert!(stdout.contains("不可评分证据记录: 1"));
+    assert!(stdout.contains("缺少主体或风险作用不可用于正式评分"));
+    assert!(stdout.contains("依赖集中: 0 条证据记录, 准备度=不足"));
+    assert!(!stdout.contains("依赖集中: 1 条证据记录, 准备度=就绪"));
+}
+
+#[test]
 fn gray_rhino_domain_policy_owns_discovery_and_assessment_rules() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let discovery_app =
@@ -1338,6 +1381,29 @@ fn cli_does_not_own_gray_rhino_backfill_infrastructure() {
     assert!(runner.contains("std::fs::OpenOptions"));
     assert!(checker.contains("std::fs::OpenOptions"));
     assert!(checker.contains("metric_aliases("));
+}
+
+#[test]
+fn gray_rhino_evidence_projection_policy_is_domain_owned() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let application = fs::read_to_string(
+        root.join("src/features/research/application/gray_rhino_daily_report.rs"),
+    )
+    .expect("failed to read daily report app");
+    let domain = fs::read_to_string(
+        root.join("src/features/research/domain/gray_rhino_evidence_projection_policy.rs"),
+    )
+    .expect("failed to read projection policy");
+    let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
+        .expect("failed to read contract checker");
+
+    assert!(!application.contains("fn evidence_resolved_candidates"));
+    assert!(!application.contains("fn latest_effective_evidence"));
+    assert!(domain.contains("fn evidence_resolved_candidates"));
+    assert!(domain.contains("fn latest_effective_evidence"));
+    assert!(
+        checker.contains("daily report application must not contain evidence projection policy")
+    );
 }
 
 #[test]

@@ -149,6 +149,8 @@ mitigatingEvidenceCanCloseAmplifyingCategory: true
 mitigatingEvidenceCrossSubjectClosureAllowed: false
 mitigatingEvidenceProjectsResolvedCandidate: true
 mitigatingEvidenceRequiresPriorRiskForResolvedCandidate: true
+grayRhinoEvidenceProjectionPolicy: src/features/research/domain/gray_rhino_evidence_projection_policy.rs
+grayRhinoEvidenceProjectionRulesInApplicationAllowed: false
 grayRhinoAssessmentPolicy: src/features/research/domain/gray_rhino_assessment_policy.rs
 grayRhinoDiscoveryRulesInApplicationAllowed: false
 grayRhinoMonitoringPolicy: src/features/research/domain/gray_rhino_monitoring_policy.rs
@@ -157,6 +159,11 @@ grayRhinoCliInfrastructureImplementationAllowed: false
 grayRhinoCliBackfillPersistenceAllowed: false
 grayRhinoCliMetricAliasRulesAllowed: false
 grayRhinoCollectionStatusStruct: GrayRhinoCollectionStatus
+grayRhinoSummaryUsesMonitoringStatuses: true
+grayRhinoSummaryActiveExcludesCoolingResolved: true
+grayRhinoSensorHealthScoreableReadinessEnabled: true
+grayRhinoSensorHealthSubjectlessEvidenceExcluded: true
+grayRhinoMissingSubjectRejection: MissingSubject
 grayRhinoRunStatusFields:
   - gray_rhino_collection
   - gray_rhino_rendering
@@ -178,6 +185,7 @@ sourceTypes:
   - MarketNarrativeCorpus
   - OperatorCuratedSource
 requiredFields:
+  - subject
   - category
   - source_type
   - source_title

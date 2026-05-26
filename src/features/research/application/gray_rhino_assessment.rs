@@ -115,7 +115,7 @@ mod tests {
 
         assert_eq!(input.dependency_centralization, RiskLevel::Elevated);
         assert_eq!(input.fallback_survivability_risk, RiskLevel::Low);
-        assert!(input.notes[0].contains("amplifying subject-categories: 1/3"));
+        assert!(input.notes[0].contains("amplifying categories: 1/3"));
     }
 
     #[test]
@@ -284,7 +284,7 @@ mod tests {
             build_evidence_backed_gray_rhino_input(&[goog_amplifying, tsla_mitigating]).unwrap();
 
         assert_eq!(input.risk_expansion_rate, RiskLevel::Elevated);
-        assert!(input.notes[0].contains("amplifying subject-categories: 1/3"));
+        assert!(input.notes[0].contains("amplifying categories: 1/3"));
     }
 
     #[test]
@@ -362,6 +362,32 @@ mod tests {
         };
 
         assert!(build_evidence_backed_gray_rhino_input(&[record]).is_none());
+    }
+
+    #[test]
+    fn gray_rhino_assessment_note_reports_category_coverage() {
+        let record = GrayRhinoEvidenceRecord {
+            subject: "GOOG".to_string(),
+            category: GrayRhinoEvidenceCategory::DependencyConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
+                source_title: "Dependency disclosure".to_string(),
+                publisher: "GOOG".to_string(),
+                source_url: Some("https://example.com/dependency".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.86,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "Supplier disclosure identifies dependency concentration.".to_string(),
+            structural_fact: "Critical supplier dependency has no disclosed fallback.".to_string(),
+        };
+
+        let input = build_evidence_backed_gray_rhino_input(&[record]).unwrap();
+
+        assert!(input.notes[0].contains("amplifying categories:"));
+        assert!(!input.notes[0].contains("subject-categories"));
     }
 
     #[test]
