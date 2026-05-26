@@ -11,6 +11,7 @@ SCHEMA_PATH = PROJECT_ROOT / ".ai/architecture/gray_rhino_evidence_schema.yaml"
 DOC_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
 FRAMEWORK_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
 DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.rs"
+EVIDENCE_SOURCE_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence_source_policy.rs"
 DISCOVERY_DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_candidate.rs"
 DISCOVERY_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_discovery_policy.rs"
 ASSESSMENT_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_assessment_policy.rs"
@@ -60,6 +61,7 @@ def main() -> int:
         DOC_PATH,
         FRAMEWORK_PATH,
         DOMAIN_PATH,
+        EVIDENCE_SOURCE_POLICY_PATH,
         DISCOVERY_DOMAIN_PATH,
         DISCOVERY_POLICY_PATH,
         ASSESSMENT_POLICY_PATH,
@@ -85,6 +87,7 @@ def main() -> int:
     doc = DOC_PATH.read_text(encoding="utf-8")
     framework = FRAMEWORK_PATH.read_text(encoding="utf-8")
     domain = DOMAIN_PATH.read_text(encoding="utf-8")
+    evidence_source_policy = EVIDENCE_SOURCE_POLICY_PATH.read_text(encoding="utf-8")
     discovery_domain = DISCOVERY_DOMAIN_PATH.read_text(encoding="utf-8")
     discovery_policy = DISCOVERY_POLICY_PATH.read_text(encoding="utf-8")
     assessment_policy = ASSESSMENT_POLICY_PATH.read_text(encoding="utf-8")
@@ -119,6 +122,7 @@ def main() -> int:
         "grayRhinoEvidenceReadValidationEnabled: true",
         "grayRhinoEvidenceReadCategorySourceValidationEnabled: true",
         "grayRhinoEvidenceCategorySourceTypeSsotEnabled: true",
+        "grayRhinoEvidenceSourcePolicyDomain: src/features/research/domain/gray_rhino_evidence_source_policy.rs",
         "grayRhinoEvidenceReadRejectedViewEnabled: true",
         "grayRhinoEvidenceReadBatchEnabled: true",
         "grayRhinoRejectedReasonI18nCoverageEnabled: true",
@@ -386,10 +390,12 @@ def main() -> int:
         "source_type_allowed_for_category",
         "UnsupportedSourceType",
     ]:
-        if item not in domain:
+        if item not in evidence_source_policy:
             errors.append(f"evidence domain missing category source validation `{item}`")
-    if domain.count("fn source_type_allowed_for_category") != 1:
-        errors.append("evidence domain must define exactly one category/source_type allowlist")
+    if evidence_source_policy.count("fn source_type_allowed_for_category") != 1:
+        errors.append("evidence source policy must define exactly one category/source_type allowlist")
+    if "fn source_type_allowed_for_category" in domain:
+        errors.append("evidence model must not own category/source_type allowlist")
     if "if !matches!(\n            self.source.source_type" in domain:
         errors.append("typed evidence validators must reuse category source type policy")
     for item in [

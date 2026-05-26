@@ -166,6 +166,7 @@ grayRhinoSensorHealthSubjectlessEvidenceExcluded: true
 grayRhinoEvidenceReadValidationEnabled: true
 grayRhinoEvidenceReadCategorySourceValidationEnabled: true
 grayRhinoEvidenceCategorySourceTypeSsotEnabled: true
+grayRhinoEvidenceSourcePolicyDomain: src/features/research/domain/gray_rhino_evidence_source_policy.rs
 grayRhinoEvidenceReadRejectedViewEnabled: true
 grayRhinoEvidenceReadBatchEnabled: true
 grayRhinoRejectedReasonI18nCoverageEnabled: true

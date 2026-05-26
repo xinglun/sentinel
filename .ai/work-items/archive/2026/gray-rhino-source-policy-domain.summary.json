@@ -1,0 +1,120 @@
+{
+  "workItemId": "gray-rhino-source-policy-domain",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-source-policy-domain.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-source-policy-domain.contract.json",
+      "reason": "Work Item scope、acceptance、verification を source policy domain task に合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-source-policy-domain.summary.json",
+      "reason": "実装内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item 状態を生成した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "evidence source policy domain module を schema に追加した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "category/source type policy の明示的 Domain module ownership を記録した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "source type 許可表の SSOT を gray_rhino_evidence_source_policy.rs として契約化した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "source policy module の存在、単一 allowlist、evidence model 側 allowlist 禁止を hard gate に追加した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "gray_rhino_evidence_source_policy domain module を登録した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "source type allowlist helper を削除し、source policy module の validate_source_type_for_category を呼ぶようにした。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence_source_policy.rs",
+      "reason": "category/source type allowlist と validation helper を明示的 Domain policy として追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "source policy module ownership と typed validator reuse を検証する回帰テストを追加・更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-source-policy-domain.contract.json",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/domain/mod.rs",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-source-policy-domain.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-source-policy-domain.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_source_type_policy_is_domain_owned --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-source-policy-domain.summary.json CONTRACT=.ai/work-items/active/gray-rhino-source-policy-domain.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-source-policy-domain.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-policy-domain.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-source-policy-domain.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-policy-domain.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Source type policy is explicit domain policy; future new evidence categories require updating this policy and tests."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "After moving the helper out of gray_rhino_evidence.rs, the typed validator reuse test expected one extra occurrence; the assertion was corrected to flat record plus four typed validators.",
+    "Initial fmt-check reported test formatting drift; cargo fmt --all was applied before verification."
+  ]
+}

@@ -1530,22 +1530,52 @@ fn gray_rhino_typed_validators_reuse_category_source_type_policy() {
     let domain =
         fs::read_to_string(root.join("src/features/research/domain/gray_rhino_evidence.rs"))
             .expect("failed to read evidence domain");
+    let source_policy = fs::read_to_string(
+        root.join("src/features/research/domain/gray_rhino_evidence_source_policy.rs"),
+    )
+    .expect("failed to read evidence source policy");
     let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
         .expect("failed to read contract checker");
 
     assert_eq!(
-        domain
+        source_policy
             .matches("fn source_type_allowed_for_category")
             .count(),
         1
     );
-    assert!(domain.contains("fn validate_source_type_for_category"));
+    assert!(!domain.contains("fn source_type_allowed_for_category"));
+    assert!(source_policy.contains("fn validate_source_type_for_category"));
     assert_eq!(
         domain.matches("validate_source_type_for_category(").count(),
-        6
+        5
     );
     assert!(!domain.contains("if !matches!(\n            self.source.source_type"));
     assert!(checker.contains("typed evidence validators must reuse category source type policy"));
+}
+
+#[test]
+fn gray_rhino_source_type_policy_is_domain_owned() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let domain_mod = fs::read_to_string(root.join("src/features/research/domain/mod.rs"))
+        .expect("failed to read domain mod");
+    let source_policy = fs::read_to_string(
+        root.join("src/features/research/domain/gray_rhino_evidence_source_policy.rs"),
+    )
+    .expect("failed to read evidence source policy");
+    let evidence =
+        fs::read_to_string(root.join("src/features/research/domain/gray_rhino_evidence.rs"))
+            .expect("failed to read evidence domain");
+    let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
+        .expect("failed to read contract checker");
+
+    assert!(domain_mod.contains("gray_rhino_evidence_source_policy"));
+    assert!(source_policy.contains("pub(crate) fn validate_source_type_for_category"));
+    assert!(source_policy.contains("fn source_type_allowed_for_category"));
+    assert!(
+        evidence.contains("gray_rhino_evidence_source_policy::validate_source_type_for_category")
+    );
+    assert!(checker
+        .contains("evidence source policy must define exactly one category/source_type allowlist"));
 }
 
 #[test]
