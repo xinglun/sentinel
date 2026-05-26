@@ -139,10 +139,7 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
     }
 
     fn load_refresh_status(&self, as_of_date: NaiveDate) -> Option<GrayRhinoRefreshStatus> {
-        let value = load_latest_json_value_as_of(
-            &self.save_dir.join("gray_rhino_refresh_status_latest.json"),
-            as_of_date,
-        )?;
+        let value = load_refresh_status_value_as_of(&self.save_dir, as_of_date)?;
         Some(GrayRhinoRefreshStatus {
             status: string_field(&value, "status"),
             sec: string_field(&value, "sec"),
@@ -167,6 +164,25 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
     }
 }
 
+fn load_refresh_status_value_as_of(save_dir: &Path, as_of_date: NaiveDate) -> Option<Value> {
+    load_latest_dated_jsonl_value_as_of(
+        &save_dir.join("gray_rhino_refresh_status.jsonl"),
+        as_of_date,
+    )
+    .or_else(|| {
+        load_dated_json_value_as_of(
+            &save_dir.join(format!("gray_rhino_refresh_status_{as_of_date}.json")),
+            as_of_date,
+        )
+    })
+    .or_else(|| {
+        load_dated_json_value_as_of(
+            &save_dir.join("gray_rhino_refresh_status_latest.json"),
+            as_of_date,
+        )
+    })
+}
+
 fn candidate_in_current_report_scope(
     candidate: &GrayRhinoCandidate,
     watch_symbols: &[String],
@@ -186,12 +202,20 @@ fn load_latest_jsonl_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<V
         .find(|value| value_date(value).is_none_or(|date| date <= as_of_date))
 }
 
-fn load_latest_json_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<Value> {
+fn load_latest_dated_jsonl_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<Value> {
+    let raw = std::fs::read_to_string(path).ok()?;
+    raw.lines()
+        .rev()
+        .filter(|line| !line.trim().is_empty())
+        .filter_map(|line| serde_json::from_str::<Value>(line).ok())
+        .find(|value| value_date(value).is_some_and(|date| date <= as_of_date))
+}
+
+fn load_dated_json_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<Value> {
     let raw = std::fs::read_to_string(path).ok()?;
     let value = serde_json::from_str::<Value>(&raw).ok()?;
-    value_date(&value)
-        .is_none_or(|date| date <= as_of_date)
-        .then_some(value)
+    let date = value_date(&value)?;
+    (date <= as_of_date).then_some(value)
 }
 
 fn value_date(value: &Value) -> Option<NaiveDate> {

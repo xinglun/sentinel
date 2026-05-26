@@ -196,6 +196,12 @@ jobs:
           with open("reports/gray_rhino_refresh_status_latest.json", "w", encoding="utf-8") as f:
               json.dump(payload, f, ensure_ascii=False)
               f.write("\n")
+          with open(f"reports/gray_rhino_refresh_status_{os.environ['DATE_VALUE']}.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+              f.write("\n")
+          with open("reports/gray_rhino_refresh_status.jsonl", "a", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+              f.write("\n")
           PY
           }
 
@@ -219,6 +225,7 @@ jobs:
             set +e
             make gray-rhino-refresh \
               GRAY_RHINO_REFRESH_PROVIDERS="${GRAY_RHINO_PROVIDERS}" \
+              GRAY_RHINO_REFRESH_DATE="${DATE_JST}" \
               GRAY_RHINO_REFRESH_ARGS="--date ${DATE_JST}" >"${OUTPUT_FILE}" 2>&1
             REFRESH_EXIT_CODE=$?
             set -e

@@ -13,6 +13,7 @@ FRAMEWORK_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
 DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.rs"
 DISCOVERY_DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_candidate.rs"
 DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
+REPORT_INTERFACE_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_report.rs"
 MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
 GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
 ASSESSMENT_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_assessment.rs"
@@ -54,6 +55,7 @@ def main() -> int:
         DOMAIN_PATH,
         DISCOVERY_DOMAIN_PATH,
         DISCOVERY_APP_PATH,
+        REPORT_INTERFACE_PATH,
         MONITORING_STATE_PATH,
         GOVERNANCE_SOURCE_PATH,
         ASSESSMENT_PATH,
@@ -71,6 +73,7 @@ def main() -> int:
     domain = DOMAIN_PATH.read_text(encoding="utf-8")
     discovery_domain = DISCOVERY_DOMAIN_PATH.read_text(encoding="utf-8")
     discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
+    report_interface = REPORT_INTERFACE_PATH.read_text(encoding="utf-8")
     monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
     governance_source = GOVERNANCE_SOURCE_PATH.read_text(encoding="utf-8")
     assessment = ASSESSMENT_PATH.read_text(encoding="utf-8")
@@ -297,7 +300,6 @@ def main() -> int:
             errors.append(f"discovery domain missing `{item}`")
     for item in [
         "discover_gray_rhino_candidates",
-        "render_gray_rhino_inline_reference",
         "GovernanceConcentration",
         "MarketConcentration",
         "InstitutionalMaturityGap",
@@ -305,10 +307,22 @@ def main() -> int:
         "NarrativeCrowding",
         "LiquidityFragility",
         "CapexPaybackFragility",
-        "reference only",
     ]:
         if item not in discovery_app:
             errors.append(f"discovery application missing `{item}`")
+    for item in [
+        "render_gray_rhino_inline_reference",
+        "reference only",
+    ]:
+        if item not in report_interface:
+            errors.append(f"research interface missing `{item}`")
+    for item in [
+        "render_gray_rhino_inline_reference",
+        "Boundary:",
+        "reference only",
+    ]:
+        if item in discovery_app:
+            errors.append(f"discovery application must not contain user-facing output template `{item}`")
 
     for item in [
         "evaluate_gray_rhino_monitoring_states",

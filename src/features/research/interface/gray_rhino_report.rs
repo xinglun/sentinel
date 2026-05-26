@@ -288,6 +288,31 @@ pub(crate) fn build_gray_rhino_escalation_telegram_report(
     build_gray_rhino_escalation_report(app_config, language)
 }
 
+pub(crate) fn render_gray_rhino_inline_reference(candidates: &[GrayRhinoCandidate]) -> String {
+    if candidates.is_empty() {
+        return "Gray Rhino Inline Reference: none auto-discovered.\nBoundary: reference only; no trading, Gate, trend, or market-state mutation.".to_string();
+    }
+    let mut out = String::from("Gray Rhino Inline Reference (semantic isolation)\n");
+    for candidate in candidates {
+        out.push_str(&format!(
+            "- {} / {:?} / {:?} / {:?}: {}\n",
+            candidate.subject,
+            candidate.scope,
+            candidate.kind,
+            candidate.state,
+            candidate.evidence.join(" ")
+        ));
+        if !candidate.watch_triggers.is_empty() {
+            out.push_str(&format!(
+                "  Trigger watch: {}\n",
+                candidate.watch_triggers.join(" / ")
+            ));
+        }
+    }
+    out.push_str("Boundary: reference only; no trading, Gate, trend, or market-state mutation.");
+    out
+}
+
 fn gray_rhino_title(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "灰犀牛升级监控",
@@ -1367,7 +1392,7 @@ fn sensor_health_heading(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "灰犀牛传感器健康度",
         Language::EnUs => "Gray Rhino Sensor Health",
-        Language::JaJp => "灰色のサイ sensor health",
+        Language::JaJp => "灰色のサイセンサー健全性",
     }
 }
 
@@ -1391,7 +1416,7 @@ fn average_confidence_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "平均置信度",
         Language::EnUs => "avg confidence",
-        Language::JaJp => "平均 confidence",
+        Language::JaJp => "平均信頼度",
     }
 }
 
@@ -1399,23 +1424,23 @@ fn source_diversity_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "来源多样性",
         Language::EnUs => "source diversity",
-        Language::JaJp => "source 多様性",
+        Language::JaJp => "由来の多様性",
     }
 }
 
 fn evidence_quality_dimensions_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "- evidence 质量维度: 可追溯性 / 完整性 / 新鲜度 / 置信度 / 来源多样性 / 拒绝比例",
+        Language::ZhCn => "- 证据质量维度: 可追溯性 / 完整性 / 新鲜度 / 置信度 / 来源多样性 / 拒绝比例",
         Language::EnUs => "- Evidence quality dimensions: traceability / completeness / freshness / confidence / source diversity / rejection ratio",
-        Language::JaJp => "- evidence 品質次元: 追跡可能性 / 完全性 / 鮮度 / confidence / source 多様性 / rejection 比率",
+        Language::JaJp => "- 証拠品質次元: 追跡可能性 / 完全性 / 鮮度 / 信頼度 / 由来の多様性 / 拒否比率",
     }
 }
 
 fn evidence_record_count_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "条 evidence 记录",
+        Language::ZhCn => "条证据记录",
         Language::EnUs => "evidence record(s)",
-        Language::JaJp => "件の evidence record",
+        Language::JaJp => "件の証拠記録",
     }
 }
 
@@ -1453,17 +1478,17 @@ fn readiness_insufficient_label(language: Language) -> &'static str {
 
 fn evidence_explanation_graph_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Evidence 解释图",
+        Language::ZhCn => "证据解释图",
         Language::EnUs => "Evidence Explanation Graph",
-        Language::JaJp => "Evidence 説明グラフ",
+        Language::JaJp => "証拠説明グラフ",
     }
 }
 
 fn evidence_explanation_graph_body(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "- 依赖集中 -> 依赖集中 evidence -> 供应商 / cloud / 基础设施披露\n- fallback 生存风险 -> 依赖集中 + 冗余缺口 -> fallback 与 failover evidence\n- 约束成长 -> 制度成熟度 -> 审计、监督、合规与继任 evidence\n- 风险扩张 -> 治理集中 + 依赖集中 -> 结构集中 evidence\n",
+        Language::ZhCn => "- 依赖集中 -> 依赖集中证据 -> 供应商 / 云服务 / 基础设施披露\n- 后备生存风险 -> 依赖集中 + 冗余缺口 -> 后备与故障切换证据\n- 约束成长 -> 制度成熟度 -> 审计、监督、合规与继任证据\n- 风险扩张 -> 治理集中 + 依赖集中 -> 结构集中证据\n",
         Language::EnUs => "- dependency_centralization -> DependencyConcentration -> supplier/cloud/infrastructure disclosures\n- fallback_survivability_risk -> DependencyConcentration + Redundancy gap -> fallback and failover evidence\n- constraint_growth_rate -> InstitutionalMaturity -> audit, oversight, compliance maturity evidence\n- risk_expansion_rate -> GovernanceConcentration + DependencyConcentration -> structural concentration evidence\n",
-        Language::JaJp => "- 依存集中 -> DependencyConcentration -> supplier / cloud / infrastructure 開示\n- fallback 生存リスク -> DependencyConcentration + Redundancy gap -> fallback と failover evidence\n- 制約成長 -> InstitutionalMaturity -> audit、oversight、compliance、succession evidence\n- リスク拡張 -> GovernanceConcentration + DependencyConcentration -> 構造集中 evidence\n",
+        Language::JaJp => "- 依存集中 -> 依存集中証拠 -> 供給元 / クラウド / インフラ開示\n- 代替生存リスク -> 依存集中 + 冗長性不足 -> 代替とフェイルオーバー証拠\n- 制約成長 -> 制度成熟度 -> 監査、監督、コンプライアンス、継承証拠\n- リスク拡張 -> ガバナンス集中 + 依存集中 -> 構造集中証拠\n",
     }
 }
 
@@ -1471,44 +1496,44 @@ fn backfill_ops_title(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "回填运维视图\n",
         Language::EnUs => "Backfill Ops View\n",
-        Language::JaJp => "backfill 運用ビュー\n",
+        Language::JaJp => "回填運用ビュー\n",
     }
 }
 
 fn failed_sources_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "失败 source 数",
+        Language::ZhCn => "失败来源数",
         Language::EnUs => "failed_sources",
-        Language::JaJp => "失敗 source 数",
+        Language::JaJp => "失敗した由来数",
     }
 }
 
 fn stale_sources_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "陈旧 source 数",
+        Language::ZhCn => "陈旧来源数",
         Language::EnUs => "stale_sources",
-        Language::JaJp => "古い source 数",
+        Language::JaJp => "古い由来数",
     }
 }
 
 fn drift_sources_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "漂移 source 数",
+        Language::ZhCn => "漂移来源数",
         Language::EnUs => "drift_sources",
-        Language::JaJp => "drift source 数",
+        Language::JaJp => "漂移した由来数",
     }
 }
 
 fn render_unclassified_evidence_notice(count: usize, language: Language) -> String {
     match language {
         Language::ZhCn => format!(
-            "旧 evidence 记录不可评分\n- 缺少 risk_effect 的记录数: {count}\n- 处理: 已载入但不参与正式升级评分，请重新投影或重新采集。"
+            "旧证据记录不可评分\n- 缺少风险作用的记录数: {count}\n- 处理: 已载入但不参与正式升级评分，请重新投影或重新采集。"
         ),
         Language::EnUs => format!(
             "Unclassified legacy evidence\n- records missing risk_effect: {count}\n- handling: loaded but excluded from formal escalation scoring until re-projected or re-collected."
         ),
         Language::JaJp => format!(
-            "未分類の旧 evidence\n- risk_effect 欠落 record 数: {count}\n- 処理: 読み込みは行うが、再投影または再収集まで正式な昇格 scoring から除外する。"
+            "未分類の旧証拠\n- リスク作用が欠落した記録数: {count}\n- 処理: 読み込みは行うが、再投影または再収集まで正式な昇格採点から除外する。"
         ),
     }
 }
@@ -1531,9 +1556,9 @@ fn latest_run_label(language: Language) -> &'static str {
 
 fn source_count_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "source 数",
+        Language::ZhCn => "来源数",
         Language::EnUs => "source_count",
-        Language::JaJp => "source 数",
+        Language::JaJp => "由来数",
     }
 }
 
@@ -1717,15 +1742,15 @@ fn governance_sensor_health_heading(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "治理传感器健康度",
         Language::EnUs => "Governance Sensor Health",
-        Language::JaJp => "ガバナンス sensor health",
+        Language::JaJp => "ガバナンスセンサー健全性",
     }
 }
 
 fn governance_sensor_source_count_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "source 数",
+        Language::ZhCn => "来源数",
         Language::EnUs => "Source count",
-        Language::JaJp => "source 数",
+        Language::JaJp => "由来数",
     }
 }
 
@@ -1733,7 +1758,7 @@ fn governance_sensor_accepted_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "已接受",
         Language::EnUs => "Accepted",
-        Language::JaJp => "accepted",
+        Language::JaJp => "受理済み",
     }
 }
 
@@ -1741,7 +1766,7 @@ fn governance_sensor_rejected_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "已拒绝",
         Language::EnUs => "Rejected",
-        Language::JaJp => "rejected",
+        Language::JaJp => "拒否済み",
     }
 }
 
@@ -1749,7 +1774,7 @@ fn governance_sensor_coverage_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "覆盖率",
         Language::EnUs => "Coverage ratio",
-        Language::JaJp => "coverage ratio",
+        Language::JaJp => "カバー率",
     }
 }
 
@@ -1757,20 +1782,20 @@ fn governance_sensor_latest_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "最新观测日",
         Language::EnUs => "Latest observed date",
-        Language::JaJp => "latest observed date",
+        Language::JaJp => "最新観測日",
     }
 }
 
 fn governance_sensor_boundary_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {
-            "边界声明: 治理传感器健康度仅用于 evidence 覆盖检查，不更新升级状态、交易执行或交易状态。"
+            "边界声明: 治理传感器健康度仅用于证据覆盖检查，不更新升级状态、交易执行或交易状态。"
         }
         Language::EnUs => {
             "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
         }
         Language::JaJp => {
-            "境界声明: ガバナンス sensor health は evidence coverage の確認のみで、昇格状態、execution、trading state を更新しない。"
+            "境界声明: ガバナンスセンサー健全性は証拠カバー率の確認のみで、昇格状態、実行、取引状態を更新しない。"
         }
     }
 }

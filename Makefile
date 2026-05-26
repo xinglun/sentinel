@@ -242,7 +242,8 @@ daily-calibration:
 
 gray-rhino-refresh:
 	@mkdir -p reports
-	@status="skipped"; failed=""; success_count=0; partial_count=0; failed_count=0; \
+	@refresh_date="$${GRAY_RHINO_REFRESH_DATE:-$$(date +%F)}"; \
+	status="skipped"; failed=""; success_count=0; partial_count=0; failed_count=0; \
 	sec_status=skipped; finnhub_status=skipped; fred_status=skipped; \
 	sec_accepted=0; sec_rejected=0; finnhub_accepted=0; finnhub_rejected=0; fred_accepted=0; fred_rejected=0; \
 	providers="$(GRAY_RHINO_REFRESH_PROVIDERS)"; \
@@ -294,7 +295,9 @@ gray-rhino-refresh:
 	else \
 		status="skipped"; \
 	fi; \
-	printf '{"status":"%s","sec":"%s","finnhub":"%s","fred":"%s","sec_accepted":%s,"sec_rejected":%s,"finnhub_accepted":%s,"finnhub_rejected":%s,"fred_accepted":%s,"fred_rejected":%s,"failed_providers":"%s"}\n' "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$sec_accepted" "$$sec_rejected" "$$finnhub_accepted" "$$finnhub_rejected" "$$fred_accepted" "$$fred_rejected" "$$failed" > reports/gray_rhino_refresh_status_latest.json; \
+	printf '{"date":"%s","status":"%s","sec":"%s","finnhub":"%s","fred":"%s","sec_accepted":%s,"sec_rejected":%s,"finnhub_accepted":%s,"finnhub_rejected":%s,"fred_accepted":%s,"fred_rejected":%s,"failed_providers":"%s"}\n' "$$refresh_date" "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$sec_accepted" "$$sec_rejected" "$$finnhub_accepted" "$$finnhub_rejected" "$$fred_accepted" "$$fred_rejected" "$$failed" > reports/gray_rhino_refresh_status_latest.json; \
+	cp reports/gray_rhino_refresh_status_latest.json "reports/gray_rhino_refresh_status_$$refresh_date.json"; \
+	cat reports/gray_rhino_refresh_status_latest.json >> reports/gray_rhino_refresh_status.jsonl; \
 	test "$$failed_count" -eq 0
 
 gray-rhino-refresh-report:

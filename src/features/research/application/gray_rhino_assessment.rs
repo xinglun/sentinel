@@ -32,15 +32,25 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
     if records.is_empty() {
         return None;
     }
-    let has_governance =
-        has_amplifying_category(records, GrayRhinoEvidenceCategory::GovernanceConcentration);
-    let has_dependency =
-        has_amplifying_category(records, GrayRhinoEvidenceCategory::DependencyConcentration);
-    let has_institutional_gap =
-        has_amplifying_category(records, GrayRhinoEvidenceCategory::InstitutionalMaturity);
-    let has_institutional_maturity =
-        has_mitigating_category(records, GrayRhinoEvidenceCategory::InstitutionalMaturity);
-    let has_redundancy = has_mitigating_category(records, GrayRhinoEvidenceCategory::Redundancy);
+    let effective_records = latest_effective_category_records(records);
+    let has_governance = has_amplifying_category(
+        &effective_records,
+        GrayRhinoEvidenceCategory::GovernanceConcentration,
+    );
+    let has_dependency = has_amplifying_category(
+        &effective_records,
+        GrayRhinoEvidenceCategory::DependencyConcentration,
+    );
+    let has_institutional_gap = has_amplifying_category(
+        &effective_records,
+        GrayRhinoEvidenceCategory::InstitutionalMaturity,
+    );
+    let has_institutional_maturity = has_mitigating_category(
+        &effective_records,
+        GrayRhinoEvidenceCategory::InstitutionalMaturity,
+    );
+    let has_redundancy =
+        has_mitigating_category(&effective_records, GrayRhinoEvidenceCategory::Redundancy);
     let amplifying_count = [has_governance, has_dependency, has_institutional_gap]
         .into_iter()
         .filter(|ready| *ready)
@@ -57,8 +67,9 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
     if classifiable_count == 0 {
         return None;
     }
-    let scoreable_records: Vec<&GrayRhinoEvidenceRecord> = records
+    let scoreable_records: Vec<&GrayRhinoEvidenceRecord> = effective_records
         .iter()
+        .copied()
         .filter(|record| {
             matches!(
                 record.risk_effect,
@@ -117,8 +128,28 @@ pub(crate) fn build_evidence_backed_gray_rhino_input(
     })
 }
 
-fn has_amplifying_category(
+fn latest_effective_category_records(
     records: &[GrayRhinoEvidenceRecord],
+) -> Vec<&GrayRhinoEvidenceRecord> {
+    [
+        GrayRhinoEvidenceCategory::GovernanceConcentration,
+        GrayRhinoEvidenceCategory::DependencyConcentration,
+        GrayRhinoEvidenceCategory::InstitutionalMaturity,
+        GrayRhinoEvidenceCategory::RiskNormalization,
+        GrayRhinoEvidenceCategory::Redundancy,
+    ]
+    .into_iter()
+    .filter_map(|category| {
+        records
+            .iter()
+            .filter(|record| record.category == category)
+            .max_by_key(|record| (record.source.observed_at, record.source.retrieved_at))
+    })
+    .collect()
+}
+
+fn has_amplifying_category(
+    records: &[&GrayRhinoEvidenceRecord],
     category: GrayRhinoEvidenceCategory,
 ) -> bool {
     records.iter().any(|record| {
@@ -127,7 +158,7 @@ fn has_amplifying_category(
 }
 
 fn has_mitigating_category(
-    records: &[GrayRhinoEvidenceRecord],
+    records: &[&GrayRhinoEvidenceRecord],
     category: GrayRhinoEvidenceCategory,
 ) -> bool {
     records.iter().any(|record| {
@@ -301,6 +332,43 @@ mod tests {
         };
 
         assert!(build_evidence_backed_gray_rhino_input(&[record]).is_none());
+    }
+
+    #[test]
+    fn gray_rhino_mitigating_evidence_closes_old_amplifying() {
+        let old_amplifying = GrayRhinoEvidenceRecord {
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
+                source_title: "Old proxy disclosure".to_string(),
+                publisher: "Example issuer".to_string(),
+                source_url: Some("https://example.com/old-proxy".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 20).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 20).unwrap(),
+            },
+            confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "Founder control was disclosed.".to_string(),
+            structural_fact: "Founder voting control exceeded majority.".to_string(),
+        };
+        let newer_mitigating = GrayRhinoEvidenceRecord {
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
+            source: GrayRhinoSourceReference {
+                source_title: "New governance repair disclosure".to_string(),
+                source_url: Some("https://example.com/new-proxy".to_string()),
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                ..old_amplifying.source.clone()
+            },
+            extraction_note: "Voting control remediation is disclosed.".to_string(),
+            structural_fact: "Dual-class voting control has been collapsed.".to_string(),
+            ..old_amplifying.clone()
+        };
+
+        assert!(
+            build_evidence_backed_gray_rhino_input(&[old_amplifying, newer_mitigating]).is_none()
+        );
     }
 
     #[test]

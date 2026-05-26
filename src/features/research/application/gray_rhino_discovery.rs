@@ -323,31 +323,6 @@ pub fn discover_gray_rhino_candidates(input: &GrayRhinoDiscoveryInput) -> Vec<Gr
     candidates
 }
 
-pub fn render_gray_rhino_inline_reference(candidates: &[GrayRhinoCandidate]) -> String {
-    if candidates.is_empty() {
-        return "Gray Rhino Inline Reference: none auto-discovered.\nBoundary: reference only; no trading, Gate, trend, or market-state mutation.".to_string();
-    }
-    let mut out = String::from("Gray Rhino Inline Reference (semantic isolation)\n");
-    for candidate in candidates {
-        out.push_str(&format!(
-            "- {} / {:?} / {:?} / {:?}: {}\n",
-            candidate.subject,
-            candidate.scope,
-            candidate.kind,
-            candidate.state,
-            candidate.evidence.join(" ")
-        ));
-        if !candidate.watch_triggers.is_empty() {
-            out.push_str(&format!(
-                "  Trigger watch: {}\n",
-                candidate.watch_triggers.join(" / ")
-            ));
-        }
-    }
-    out.push_str("Boundary: reference only; no trading, Gate, trend, or market-state mutation.");
-    out
-}
-
 fn contains_any(text: &str, needles: &[&str]) -> bool {
     needles.iter().any(|needle| text.contains(needle))
 }
@@ -379,16 +354,6 @@ mod tests {
             GrayRhinoCandidateKind::GovernanceConcentration
         );
         assert_eq!(candidates[0].state, GrayRhinoCandidateState::Expanding);
-    }
-
-    #[test]
-    fn renders_reference_without_signal_terms() {
-        let rendered = render_gray_rhino_inline_reference(&[]);
-
-        assert!(rendered.contains("reference only"));
-        assert!(!rendered.contains("BUY"));
-        assert!(!rendered.contains("SELL"));
-        assert!(!rendered.contains("trend_cohesion"));
     }
 
     #[test]

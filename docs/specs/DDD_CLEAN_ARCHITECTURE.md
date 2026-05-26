@@ -57,6 +57,7 @@ Domain は最内層であり、次を参照してはならない。
 
 Application は Domain を操作し、外部との接点は port trait で表現する。Infrastructure はその port を実装する。
 Application は filesystem / network IO を直接行わない。永続化、外部 API、ファイル出力は Infrastructure または Interface composition から接続する。
+Application は user-facing report / Telegram / CLI 文言や Markdown template を生成しない。候補、状態、DTO、read model だけを返し、表示文言と boundary statement は `src/features/<feature>/interface/**` の presenter が所有する。
 ACL は raw protocol を正規化する adapter と、許可された infrastructure 実装を composition root へ公開する gateway facade だけを持つ。判断 policy、formatting、business rule は ACL に置かない。
 
 ## Bounded Contexts

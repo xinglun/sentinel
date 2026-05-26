@@ -38,8 +38,11 @@ grayRhinoRefreshStatusValues:
   - failed
   - skipped
 grayRhinoRefreshStatusStore: gray_rhino_refresh_status_latest.json
+grayRhinoRefreshStatusLedger: gray_rhino_refresh_status.jsonl
+grayRhinoRefreshStatusDailyFilePattern: gray_rhino_refresh_status_YYYY-MM-DD.json
 grayRhinoRefreshStatusDisplayedInReport: true
 grayRhinoRefreshStatusReplayAsOfDateEnabled: true
+grayRhinoRefreshStatusUndatedHistoricalReplayAllowed: false
 grayRhinoProviderFailureExitsNonZero: true
 grayRhinoProviderPartialFailureCoverageEnabled: true
 radarTelegramAppendixEnabled: true
@@ -97,6 +100,9 @@ autoSourceCaches:
 finnhubArticleIdentityEnabled: true
 finnhubSourcePublishedAtUsesArticleDate: true
 finnhubRepeatedFetchDoesNotConfirm: true
+fredObservationIdentityEnabled: true
+fredSourcePublishedAtUsesObservationDate: true
+fredRepeatedFetchDoesNotConfirm: true
 autoDiscoveryRunStore: gray_rhino_discovery_runs.jsonl
 fredConfigEnabled: true
 fredConfigField: fred_api_key
@@ -132,6 +138,13 @@ providerFailureTaxonomy:
   - stale_source
 freshnessPolicyEnabled: true
 reportOpsViewEnabled: true
+formalEvidenceLatestCategoryStateEnabled: true
+mitigatingEvidenceCanCloseAmplifyingCategory: true
+grayRhinoRunStatusFields:
+  - gray_rhino_collection
+  - gray_rhino_rendering
+grayRhinoUserFacingPresenter: src/features/research/interface/gray_rhino_report.rs
+grayRhinoApplicationUserOutputTemplatesAllowed: false
 categories:
   - GovernanceConcentration
   - DependencyConcentration

@@ -42,7 +42,7 @@ use crate::features::research::application::governance_source_pipeline::{
     GovernanceSourceCollectionRequest,
 };
 use crate::features::research::application::gray_rhino_discovery::{
-    discover_gray_rhino_candidates, render_gray_rhino_inline_reference, GrayRhinoDiscoveryInput,
+    discover_gray_rhino_candidates, GrayRhinoDiscoveryInput,
 };
 use crate::features::research::application::institutional_evidence::ingest_institutional_maturity_evidence;
 use crate::features::research::application::redundancy_evidence::ingest_redundancy_evidence;
@@ -67,6 +67,7 @@ use crate::features::research::interface::cognitive_reports::{
 };
 use crate::features::research::interface::gray_rhino_report::{
     build_gray_rhino_daily_report_read_only, build_gray_rhino_escalation_report,
+    render_gray_rhino_inline_reference,
 };
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,

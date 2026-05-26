@@ -239,11 +239,13 @@ async fn collect_fred_sources(
         series_payloads.push((series.to_string(), response.text().await?));
     }
     let content = render_fred_macro_text(&series_payloads)?;
+    let source_published_at = fred_source_published_at(&series_payloads, request.as_of_date)?;
+    let identity = content_sha256(&fred_latest_observation_signature(&series_payloads)?);
     let repository_path = cache_source(
         &request.save_dir,
         "macro",
         "Market",
-        &format!("fred_{}.txt", request.as_of_date),
+        &format!("fred_{}_{}.txt", source_published_at, &identity[..12]),
         &content,
     )
     .await?;
@@ -251,13 +253,42 @@ async fn collect_fred_sources(
         GrayRhinoFetchedSource {
             subject: "Market".to_string(),
             source_title: "FRED macro series".to_string(),
-            source_published_at: request.as_of_date,
+            source_published_at,
             content_sha256: Some(content_sha256(&content)),
             content,
             source_url: Some("https://fred.stlouisfed.org/".to_string()),
             repository_path: Some(repository_path),
         },
     )])
+}
+
+fn fred_source_published_at(
+    series_payloads: &[(String, String)],
+    fallback_date: NaiveDate,
+) -> Result<NaiveDate> {
+    Ok(series_payloads
+        .iter()
+        .filter_map(|(_, payload)| fred_latest_observation_date(payload).transpose())
+        .collect::<Result<Vec<_>>>()?
+        .into_iter()
+        .max()
+        .unwrap_or(fallback_date))
+}
+
+fn fred_latest_observation_signature(series_payloads: &[(String, String)]) -> Result<String> {
+    let mut signature = Vec::new();
+    for (series, payload) in series_payloads {
+        let value: serde_json::Value = serde_json::from_str(payload)
+            .with_context(|| format!("Failed to parse FRED {series}"))?;
+        let latest = value
+            .get("observations")
+            .and_then(|value| value.as_array())
+            .and_then(|items| items.first())
+            .cloned()
+            .unwrap_or(serde_json::Value::Null);
+        signature.push(format!("{series}:{latest}"));
+    }
+    Ok(signature.join("|"))
 }
 
 #[cfg(test)]
@@ -448,6 +479,18 @@ fn fred_numeric_observations(payload: &str) -> Result<Vec<f64>> {
         .collect())
 }
 
+fn fred_latest_observation_date(payload: &str) -> Result<Option<NaiveDate>> {
+    let value: serde_json::Value =
+        serde_json::from_str(payload).context("Failed to parse FRED observations JSON")?;
+    Ok(value
+        .get("observations")
+        .and_then(|value| value.as_array())
+        .and_then(|items| items.first())
+        .and_then(|observation| observation.get("date"))
+        .and_then(|value| value.as_str())
+        .and_then(|raw| NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok()))
+}
+
 fn configured_subjects(app_config: &config::AppConfig, requested: &[String]) -> Vec<String> {
     if !requested.is_empty() {
         return requested
@@ -593,6 +636,31 @@ mod tests {
             .as_deref()
             .unwrap()
             .contains("/news/1"));
+    }
+
+    #[test]
+    fn gray_rhino_fred_identity_uses_observation_date() {
+        let payloads = vec![
+            (
+                "DGS10".to_string(),
+                r#"{"observations":[{"date":"2026-05-22","value":"4.50"},{"date":"2026-05-21","value":"4.40"}]}"#
+                    .to_string(),
+            ),
+            (
+                "FEDFUNDS".to_string(),
+                r#"{"observations":[{"date":"2026-05-20","value":"5.25"}]}"#.to_string(),
+            ),
+        ];
+
+        let source_date =
+            fred_source_published_at(&payloads, NaiveDate::from_ymd_opt(2026, 5, 25).unwrap())
+                .unwrap();
+        let signature = fred_latest_observation_signature(&payloads).unwrap();
+
+        assert_eq!(source_date, NaiveDate::from_ymd_opt(2026, 5, 22).unwrap());
+        assert!(signature.contains("DGS10"));
+        assert!(signature.contains("2026-05-22"));
+        assert!(signature.contains("4.50"));
     }
 
     #[test]

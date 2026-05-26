@@ -19,6 +19,7 @@ use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
     load_latest_evidence_collection_status, send_telegram_with_status,
 };
+use crate::features::shared::application::run_status::DeliveryStatus;
 
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
@@ -74,6 +75,7 @@ pub(crate) async fn run_pipeline(
 
     let mut outcome =
         radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
+    outcome.gray_rhino_collection = load_gray_rhino_collection_status(save_dir, radar_context.date);
 
     let ledger = Arc::new(build_ledger_adapter(radar_context.save_dir.clone()));
     let (realized_pl, positions) = ledger.get_portfolio_stats();
@@ -185,7 +187,7 @@ pub(crate) async fn run_pipeline(
             &positions,
             &delivery_plan.prices,
         )?;
-        append_gray_rhino_reference_appendix(
+        outcome.gray_rhino_rendering = append_gray_rhino_reference_appendix(
             &mut report_result,
             config_arc.as_ref(),
             save_dir,
@@ -221,20 +223,73 @@ fn append_gray_rhino_reference_appendix(
     save_dir: &std::path::Path,
     as_of_date: chrono::NaiveDate,
     language: crate::features::shared::interface::i18n::Language,
-) {
+) -> DeliveryStatus {
     let appendix = match build_gray_rhino_daily_report(app_config, save_dir, as_of_date, language) {
-        Ok(appendix) => appendix,
-        Err(err) => gray_rhino_failure_appendix(language, &err.to_string()),
+        Ok(appendix) => {
+            if appendix.trim().is_empty() {
+                return DeliveryStatus::Skipped;
+            }
+            appendix
+        }
+        Err(err) => {
+            let reason = err.to_string();
+            let appendix = gray_rhino_failure_appendix(language, &reason);
+            append_gray_rhino_appendix(report_result, &appendix);
+            return DeliveryStatus::Failed { reason };
+        }
     };
-    if appendix.trim().is_empty() {
-        return;
-    }
+    append_gray_rhino_appendix(report_result, &appendix);
+    DeliveryStatus::Succeeded
+}
+
+fn append_gray_rhino_appendix(report_result: &mut report::ReportResult, appendix: &str) {
     let markdown_appendix = format!("\n\n---\n\n{appendix}");
     report_result.markdown_body.push_str(&markdown_appendix);
     report_result.archival_markdown.push_str(&markdown_appendix);
     report_result
         .telegram_html_body
         .push_str(&format!("\n\n{}", appendix));
+}
+
+fn load_gray_rhino_collection_status(
+    save_dir: &std::path::Path,
+    as_of_date: chrono::NaiveDate,
+) -> DeliveryStatus {
+    let value = std::fs::read_to_string(save_dir.join("gray_rhino_refresh_status_latest.json"))
+        .ok()
+        .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok());
+    let Some(value) = value else {
+        return DeliveryStatus::Skipped;
+    };
+    let date = value
+        .get("date")
+        .and_then(|value| value.as_str())
+        .and_then(|raw| chrono::NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok());
+    if date != Some(as_of_date) {
+        return DeliveryStatus::Skipped;
+    }
+    let status = value
+        .get("status")
+        .and_then(|value| value.as_str())
+        .unwrap_or("unknown");
+    match status {
+        "succeeded" => DeliveryStatus::Succeeded,
+        "skipped" => DeliveryStatus::Skipped,
+        "failed" | "partial_failure" => DeliveryStatus::Failed {
+            reason: format!(
+                "{}: {}",
+                status,
+                value
+                    .get("failed_providers")
+                    .and_then(|value| value.as_str())
+                    .unwrap_or("")
+                    .trim()
+            ),
+        },
+        other => DeliveryStatus::Failed {
+            reason: format!("unknown Gray Rhino refresh status: {other}"),
+        },
+    }
 }
 
 fn gray_rhino_failure_appendix(

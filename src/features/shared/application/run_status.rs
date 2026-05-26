@@ -43,6 +43,10 @@ pub struct RunOutcome {
     pub decisioning: DeliveryStatus,
     #[serde(default)]
     pub evidence_collection: DeliveryStatus,
+    #[serde(default)]
+    pub gray_rhino_collection: DeliveryStatus,
+    #[serde(default)]
+    pub gray_rhino_rendering: DeliveryStatus,
     pub archival: DeliveryStatus,
     pub notification: DeliveryStatus,
     pub execution: DeliveryStatus,
@@ -76,5 +80,23 @@ mod tests {
 
         let outcome: RunOutcome = serde_json::from_str(legacy).unwrap();
         assert_eq!(outcome.evidence_collection, DeliveryStatus::Skipped);
+        assert_eq!(outcome.gray_rhino_collection, DeliveryStatus::Skipped);
+        assert_eq!(outcome.gray_rhino_rendering, DeliveryStatus::Skipped);
+    }
+
+    #[test]
+    fn gray_rhino_run_status_records_sensor_status() {
+        let outcome = RunOutcome {
+            gray_rhino_collection: DeliveryStatus::Failed {
+                reason: "partial_failure: fred".to_string(),
+            },
+            gray_rhino_rendering: DeliveryStatus::Succeeded,
+            ..Default::default()
+        };
+        let encoded = serde_json::to_string(&outcome).unwrap();
+
+        assert!(encoded.contains("gray_rhino_collection"));
+        assert!(encoded.contains("partial_failure: fred"));
+        assert!(encoded.contains("gray_rhino_rendering"));
     }
 }

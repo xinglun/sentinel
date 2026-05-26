@@ -707,6 +707,40 @@ fn gray_rhino_audit_replay_excludes_future_ops_and_refresh_status() {
 }
 
 #[test]
+fn gray_rhino_refresh_status_ledger_replays_as_of_date() {
+    let tmp = prepare_standard_workspace("en-us");
+    fs::write(
+        tmp.path().join("gray_rhino_refresh_status_latest.json"),
+        r#"{"status":"failed","sec":"failed","finnhub":"skipped","fred":"skipped","failed_providers":"sec"}
+"#,
+    )
+    .expect("failed to write legacy undated refresh status");
+
+    let legacy_out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-24"]);
+    assert!(legacy_out.status.success());
+    let legacy_stdout = String::from_utf8_lossy(&legacy_out.stdout);
+    assert!(!legacy_stdout.contains("Gray Rhino Refresh Status"));
+    assert!(!legacy_stdout.contains("overall_status: failed"));
+
+    fs::write(
+        tmp.path().join("gray_rhino_refresh_status.jsonl"),
+        r#"{"date":"2026-05-24","status":"succeeded","sec":"succeeded","finnhub":"skipped","fred":"skipped","sec_accepted":1,"sec_rejected":0,"finnhub_accepted":0,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":0,"failed_providers":""}
+{"date":"2026-05-27","status":"failed","sec":"failed","finnhub":"skipped","fred":"skipped","sec_accepted":0,"sec_rejected":1,"finnhub_accepted":0,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":0,"failed_providers":"sec"}
+"#,
+    )
+    .expect("failed to write refresh status ledger");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("refresh_date: 2026-05-24"));
+    assert!(stdout.contains("overall_status: succeeded"));
+    assert!(!stdout.contains("refresh_date: 2026-05-27"));
+    assert!(!stdout.contains("failed_providers: sec"));
+}
+
+#[test]
 fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
     let tmp = prepare_standard_workspace("en-us");
     fs::write(
@@ -872,9 +906,11 @@ fn gray_rhino_summary_github_actions_runs_refresh_before_radar() {
             < workflow.find("make radar-release").unwrap()
     );
     assert!(workflow.contains("GRAY_RHINO_REFRESH_PROVIDERS=\"${GRAY_RHINO_PROVIDERS}\""));
+    assert!(workflow.contains("GRAY_RHINO_REFRESH_DATE=\"${DATE_JST}\""));
     assert!(workflow.contains("GRAY_RHINO_REFRESH_ARGS=\"--date ${DATE_JST}\""));
     assert!(!workflow.contains("GRAY_RHINO_REFRESH_DAILY_ARGS"));
     assert!(workflow.contains("reports/gray_rhino_refresh_status_latest.json"));
+    assert!(workflow.contains("gray_rhino_refresh_status.jsonl"));
     assert!(workflow.contains("\"reports/gray_rhino_refresh_status_latest.json\""));
     assert!(workflow.contains("Gray Rhino refresh failed before radar but radar will continue"));
     assert!(!workflow.contains("FINNHUB_API_KEY or FRED_API_KEY is not configured"));
@@ -921,8 +957,8 @@ fn gray_rhino_completion_legacy_evidence_missing_risk_effect_is_visible() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("旧 evidence 记录不可评分"));
-    assert!(stdout.contains("缺少 risk_effect 的记录数: 1"));
+    assert!(stdout.contains("旧证据记录不可评分"));
+    assert!(stdout.contains("缺少风险作用的记录数: 1"));
     assert!(stdout.contains("不参与正式升级评分"));
     assert!(stdout.contains("风险升级评估: 尚无正式证据 / 未启用人工基线。"));
     assert!(!stdout.contains("输入来源: Evidence-backed sensor store"));
@@ -1143,6 +1179,66 @@ fn gray_rhino_refresh_status_i18n_renders_zh_en_ja_labels() {
 }
 
 #[test]
+fn gray_rhino_report_single_language_snapshots() {
+    for (language, expected, forbidden) in [
+        (
+            "zh-cn",
+            vec!["证据质量维度", "来源多样性", "证据解释图", "失败来源"],
+            vec![
+                "evidence 质量",
+                "source 数",
+                "Evidence 解释图",
+                "失败 provider",
+            ],
+        ),
+        (
+            "ja-jp",
+            vec![
+                "灰色のサイセンサー健全性",
+                "平均信頼度",
+                "由来の多様性",
+                "証拠説明グラフ",
+            ],
+            vec![
+                "sensor health",
+                "平均 confidence",
+                "source 数",
+                "Evidence 説明",
+            ],
+        ),
+    ] {
+        let tmp = prepare_standard_workspace(language);
+        fs::write(
+            tmp.path().join("gray_rhino_evidence.jsonl"),
+            r#"{"category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Dependency disclosure","publisher":"Example issuer","source_url":"https://example.com/dependency","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.86,"risk_effect":"Amplifying","extraction_note":"Supplier disclosure identifies dependency concentration.","structural_fact":"Critical supplier dependency has no disclosed fallback."}
+{"category":"Redundancy","source":{"source_type":"IndependentAudit","source_title":"Legacy audit","publisher":"Example auditor","source_url":"https://example.com/audit","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.91,"risk_effect":"Unclassified","extraction_note":"Legacy record lacks direction.","structural_fact":"Fallback provider is mentioned."}
+"#,
+        )
+        .expect("failed to write evidence store");
+        fs::write(
+            tmp.path().join("gray_rhino_refresh_status_latest.json"),
+            r#"{"date":"2026-05-25","status":"partial_failure","sec":"succeeded","finnhub":"skipped","fred":"failed","sec_accepted":1,"sec_rejected":0,"finnhub_accepted":0,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":1,"failed_providers":"fred"}
+"#,
+        )
+        .expect("failed to write refresh status");
+
+        let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+        assert!(out.status.success());
+        let stdout = String::from_utf8_lossy(&out.stdout);
+        for expected_text in expected {
+            assert!(stdout.contains(expected_text), "missing {expected_text}");
+        }
+        for forbidden_text in forbidden {
+            assert!(
+                !stdout.contains(forbidden_text),
+                "unexpected mixed term {forbidden_text}"
+            );
+        }
+    }
+}
+
+#[test]
 fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");
@@ -1173,6 +1269,24 @@ fn gray_rhino_failure_appendix_reports_build_errors() {
 }
 
 #[test]
+fn gray_rhino_renderer_is_interface_owned() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let application =
+        fs::read_to_string(root.join("src/features/research/application/gray_rhino_discovery.rs"))
+            .expect("failed to read discovery application");
+    let interface =
+        fs::read_to_string(root.join("src/features/research/interface/gray_rhino_report.rs"))
+            .expect("failed to read gray rhino interface");
+    let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
+        .expect("failed to read contract checker");
+
+    assert!(!application.contains("render_gray_rhino_inline_reference"));
+    assert!(!application.contains("Boundary: reference only"));
+    assert!(interface.contains("render_gray_rhino_inline_reference"));
+    assert!(checker.contains("must not contain user-facing output template"));
+}
+
+#[test]
 fn gray_rhino_refresh_coverage_make_target_records_provider_coverage() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");
@@ -1183,6 +1297,9 @@ fn gray_rhino_refresh_coverage_make_target_records_provider_coverage() {
     assert!(makefile.contains("sec_rejected"));
     assert!(makefile.contains("finnhub_accepted"));
     assert!(makefile.contains("fred_rejected"));
+    assert!(makefile.contains("GRAY_RHINO_REFRESH_DATE"));
+    assert!(makefile.contains("gray_rhino_refresh_status.jsonl"));
+    assert!(makefile.contains("gray_rhino_refresh_status_$$refresh_date.json"));
     assert!(makefile.contains("\"sec_accepted\":%s"));
 }
 
@@ -1747,7 +1864,7 @@ fn gray_rhino_daily_report_shows_governance_sensor_health_only() {
     let stdout = String::from_utf8_lossy(&report.stdout);
     assert!(stdout.contains("治理传感器健康度"));
     assert!(stdout.contains("覆盖率"));
-    assert!(stdout.contains("边界声明: 治理传感器健康度仅用于 evidence 覆盖检查"));
+    assert!(stdout.contains("边界声明: 治理传感器健康度仅用于证据覆盖检查"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
 }

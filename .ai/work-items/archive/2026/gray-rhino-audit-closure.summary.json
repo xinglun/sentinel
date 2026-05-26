@@ -1,0 +1,189 @@
+{
+  "workItemId": "gray-rhino-audit-closure",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-audit-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "src/features/shared/application/run_status.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino audit closure Finding に対応した変更。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    "Makefile",
+    ".github/workflows/daily_radar.yml",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/gray_rhino_discovery.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/shared/application/run_status.rs",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-audit-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-audit-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_refresh_status_ledger_replays_as_of_date --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_fred_identity_uses_observation_date --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_mitigating_evidence_closes_old_amplifying --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_renderer_is_interface_owned --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_run_status_records_sensor_status --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_report_single_language_snapshots --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-audit-closure.summary.json CONTRACT=.ai/work-items/active/gray-rhino-audit-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-audit-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-audit-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-audit-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-audit-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray-rhino-audit-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Gray Rhino refresh ledger、FRED identity、mitigating closure、run_status、presenter boundary、i18n を同時に更新したため、full quality gate で回帰確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make test の初回実行では旧 i18n assertion が残っていたため失敗した。文言契約に合わせて更新後、make test は通過した。"
+  ]
+}
