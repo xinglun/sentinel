@@ -18,7 +18,9 @@ use crate::features::research::domain::gray_rhino::{
 use crate::features::research::domain::gray_rhino_candidate::{
     GrayRhinoCandidate, GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
 };
-use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceCategory;
+use crate::features::research::domain::gray_rhino_evidence::{
+    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRejection,
+};
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
@@ -544,7 +546,7 @@ fn render_multi_category_sensor_health(
             out.push_str(&format!(
                 "  - {}: {}\n",
                 rejection.source_title,
-                evidence_rejection_reason_label(&format!("{:?}", rejection.reason), language)
+                evidence_rejection_reason_label(rejection.reason, language)
             ));
         }
     }
@@ -1551,21 +1553,105 @@ fn excluded_evidence_reason_label(language: Language) -> &'static str {
     }
 }
 
-fn evidence_rejection_reason_label(reason: &str, language: Language) -> String {
+fn evidence_rejection_reason_label(
+    reason: GrayRhinoEvidenceRejection,
+    language: Language,
+) -> &'static str {
     match (reason, language) {
-        ("ConfidenceOutOfRange", Language::ZhCn) => "置信度超出范围".to_string(),
-        ("ConfidenceOutOfRange", Language::EnUs) => "confidence out of range".to_string(),
-        ("ConfidenceOutOfRange", Language::JaJp) => "信頼度が範囲外".to_string(),
-        ("NarrativeOnly", Language::ZhCn) => "仅为叙事性表述".to_string(),
-        ("NarrativeOnly", Language::EnUs) => "narrative-only record".to_string(),
-        ("NarrativeOnly", Language::JaJp) => "叙述のみの記録".to_string(),
-        ("ForbiddenBoundaryTerm", Language::ZhCn) => "包含禁止边界词".to_string(),
-        ("ForbiddenBoundaryTerm", Language::EnUs) => "forbidden boundary term".to_string(),
-        ("ForbiddenBoundaryTerm", Language::JaJp) => "禁止された境界語".to_string(),
-        ("MissingSubject", Language::ZhCn) => "缺少主体".to_string(),
-        ("MissingSubject", Language::EnUs) => "missing subject".to_string(),
-        ("MissingSubject", Language::JaJp) => "主体が欠落".to_string(),
-        (other, _) => other.to_string(),
+        (GrayRhinoEvidenceRejection::MissingSubject, Language::ZhCn) => "缺少主体",
+        (GrayRhinoEvidenceRejection::MissingSubject, Language::EnUs) => "missing subject",
+        (GrayRhinoEvidenceRejection::MissingSubject, Language::JaJp) => "主体が欠落",
+        (GrayRhinoEvidenceRejection::MissingSourceReference, Language::ZhCn) => "缺少来源引用",
+        (GrayRhinoEvidenceRejection::MissingSourceReference, Language::EnUs) => {
+            "missing source reference"
+        }
+        (GrayRhinoEvidenceRejection::MissingSourceReference, Language::JaJp) => "出典参照が欠落",
+        (GrayRhinoEvidenceRejection::MissingSourceTitle, Language::ZhCn) => "缺少来源标题",
+        (GrayRhinoEvidenceRejection::MissingSourceTitle, Language::EnUs) => "missing source title",
+        (GrayRhinoEvidenceRejection::MissingSourceTitle, Language::JaJp) => "出典タイトルが欠落",
+        (GrayRhinoEvidenceRejection::MissingPublisher, Language::ZhCn) => "缺少发布方",
+        (GrayRhinoEvidenceRejection::MissingPublisher, Language::EnUs) => "missing publisher",
+        (GrayRhinoEvidenceRejection::MissingPublisher, Language::JaJp) => "発行元が欠落",
+        (GrayRhinoEvidenceRejection::MissingExtractionNote, Language::ZhCn) => "缺少提取说明",
+        (GrayRhinoEvidenceRejection::MissingExtractionNote, Language::EnUs) => {
+            "missing extraction note"
+        }
+        (GrayRhinoEvidenceRejection::MissingExtractionNote, Language::JaJp) => "抽出メモが欠落",
+        (GrayRhinoEvidenceRejection::MissingStructuralFact, Language::ZhCn) => "缺少结构事实",
+        (GrayRhinoEvidenceRejection::MissingStructuralFact, Language::EnUs) => {
+            "missing structural fact"
+        }
+        (GrayRhinoEvidenceRejection::MissingStructuralFact, Language::JaJp) => "構造的事実が欠落",
+        (GrayRhinoEvidenceRejection::ConfidenceOutOfRange, Language::ZhCn) => "置信度超出范围",
+        (GrayRhinoEvidenceRejection::ConfidenceOutOfRange, Language::EnUs) => {
+            "confidence out of range"
+        }
+        (GrayRhinoEvidenceRejection::ConfidenceOutOfRange, Language::JaJp) => "信頼度が範囲外",
+        (GrayRhinoEvidenceRejection::NarrativeOnly, Language::ZhCn) => "仅为叙事性表述",
+        (GrayRhinoEvidenceRejection::NarrativeOnly, Language::EnUs) => "narrative-only record",
+        (GrayRhinoEvidenceRejection::NarrativeOnly, Language::JaJp) => "叙述のみの記録",
+        (GrayRhinoEvidenceRejection::ForbiddenBoundaryTerm, Language::ZhCn) => "包含禁止边界词",
+        (GrayRhinoEvidenceRejection::ForbiddenBoundaryTerm, Language::EnUs) => {
+            "forbidden boundary term"
+        }
+        (GrayRhinoEvidenceRejection::ForbiddenBoundaryTerm, Language::JaJp) => "禁止された境界語",
+        (GrayRhinoEvidenceRejection::UnsupportedSourceType, Language::ZhCn) => "来源类型不支持",
+        (GrayRhinoEvidenceRejection::UnsupportedSourceType, Language::EnUs) => {
+            "unsupported source type"
+        }
+        (GrayRhinoEvidenceRejection::UnsupportedSourceType, Language::JaJp) => "未対応の出典種別",
+        (GrayRhinoEvidenceRejection::MissingGovernanceMetric, Language::ZhCn) => "缺少治理指标",
+        (GrayRhinoEvidenceRejection::MissingGovernanceMetric, Language::EnUs) => {
+            "missing governance metric"
+        }
+        (GrayRhinoEvidenceRejection::MissingGovernanceMetric, Language::JaJp) => {
+            "ガバナンス指標が欠落"
+        }
+        (GrayRhinoEvidenceRejection::InvalidGovernanceMetric, Language::ZhCn) => "治理指标无效",
+        (GrayRhinoEvidenceRejection::InvalidGovernanceMetric, Language::EnUs) => {
+            "invalid governance metric"
+        }
+        (GrayRhinoEvidenceRejection::InvalidGovernanceMetric, Language::JaJp) => {
+            "ガバナンス指標が無効"
+        }
+        (GrayRhinoEvidenceRejection::MissingDependencyMetric, Language::ZhCn) => "缺少依赖指标",
+        (GrayRhinoEvidenceRejection::MissingDependencyMetric, Language::EnUs) => {
+            "missing dependency metric"
+        }
+        (GrayRhinoEvidenceRejection::MissingDependencyMetric, Language::JaJp) => "依存指標が欠落",
+        (GrayRhinoEvidenceRejection::InvalidDependencyMetric, Language::ZhCn) => "依赖指标无效",
+        (GrayRhinoEvidenceRejection::InvalidDependencyMetric, Language::EnUs) => {
+            "invalid dependency metric"
+        }
+        (GrayRhinoEvidenceRejection::InvalidDependencyMetric, Language::JaJp) => "依存指標が無効",
+        (GrayRhinoEvidenceRejection::MissingInstitutionalMetric, Language::ZhCn) => {
+            "缺少制度成熟度指标"
+        }
+        (GrayRhinoEvidenceRejection::MissingInstitutionalMetric, Language::EnUs) => {
+            "missing institutional metric"
+        }
+        (GrayRhinoEvidenceRejection::MissingInstitutionalMetric, Language::JaJp) => {
+            "制度成熟度指標が欠落"
+        }
+        (GrayRhinoEvidenceRejection::InvalidInstitutionalMetric, Language::ZhCn) => {
+            "制度成熟度指标无效"
+        }
+        (GrayRhinoEvidenceRejection::InvalidInstitutionalMetric, Language::EnUs) => {
+            "invalid institutional metric"
+        }
+        (GrayRhinoEvidenceRejection::InvalidInstitutionalMetric, Language::JaJp) => {
+            "制度成熟度指標が無効"
+        }
+        (GrayRhinoEvidenceRejection::MissingRedundancyMetric, Language::ZhCn) => "缺少冗余指标",
+        (GrayRhinoEvidenceRejection::MissingRedundancyMetric, Language::EnUs) => {
+            "missing redundancy metric"
+        }
+        (GrayRhinoEvidenceRejection::MissingRedundancyMetric, Language::JaJp) => "冗長性指標が欠落",
+        (GrayRhinoEvidenceRejection::InvalidRedundancyMetric, Language::ZhCn) => "冗余指标无效",
+        (GrayRhinoEvidenceRejection::InvalidRedundancyMetric, Language::EnUs) => {
+            "invalid redundancy metric"
+        }
+        (GrayRhinoEvidenceRejection::InvalidRedundancyMetric, Language::JaJp) => "冗長性指標が無効",
     }
 }
 

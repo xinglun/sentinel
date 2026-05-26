@@ -1,0 +1,138 @@
+{
+  "workItemId": "gray-rhino-category-read-validation",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-category-read-validation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+      "reason": "Work Item scope、acceptance、verification を category read validation task に合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-category-read-validation.summary.json",
+      "reason": "実装内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item 状態を生成した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "category source validation、single read batch、rejection reason i18n の schema flag を追加した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "persisted read boundary の category source validation と single read batch 方針を明記した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "flat record read validation が category ごとの source type 契約を検証し、rejection reason を localized label にすることを契約化した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "schema flag、category source validation、single read batch、rejection reason label coverage を hard gate に追加した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "GrayRhinoEvidenceRecord::validate() に category-specific source type validation を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "accepted / rejected evidence を一度の JSONL read と validation pass で返す read batch API を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "Daily report repository が evidence read batch から accepted / rejected read model を組み立てるようにした。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "repository port を accepted / rejected の一括 read model に変更した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "すべての GrayRhinoEvidenceRejection variant を localized label に変換し、enum 名 fallback を削除した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "UnsupportedSourceType、rejection reason enum leak、single read batch boundary の回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_unsupported_source_type_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_rejected_evidence_reasons_do_not_leak_enum_names --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_evidence_store_reads_accepted_and_rejected_once --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-category-read-validation.summary.json CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-category-read-validation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-category-read-validation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Persisted flat records now enforce category source type validation and rejected reason labels are exhaustive; future new rejection variants require label/checker updates."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Initial fmt-check reported formatting drift; cargo fmt --all was applied before verification.",
+    "Single read batch made the old rejected-only helper unused, so it was removed to keep clippy clean."
+  ]
+}

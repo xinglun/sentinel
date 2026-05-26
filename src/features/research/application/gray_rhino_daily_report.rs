@@ -25,11 +25,8 @@ pub(crate) trait GrayRhinoDailyReportRepository {
         as_of_date: NaiveDate,
     ) -> Result<Option<GrayRhinoAssessmentSnapshot>>;
     fn save_snapshot_if_changed(&self, snapshot: &GrayRhinoAssessmentSnapshot) -> Result<()>;
-    fn load_evidence_records(&self, as_of_date: NaiveDate) -> Result<Vec<GrayRhinoEvidenceRecord>>;
-    fn load_rejected_evidence_records(
-        &self,
-        as_of_date: NaiveDate,
-    ) -> Result<Vec<GrayRhinoEvidenceReadRejection>>;
+    fn load_evidence_read_model(&self, as_of_date: NaiveDate)
+        -> Result<GrayRhinoEvidenceReadModel>;
     fn load_governance_audits(
         &self,
         as_of_date: NaiveDate,
@@ -85,6 +82,12 @@ pub(crate) struct GrayRhinoEvidenceReadRejection {
     pub reason: GrayRhinoEvidenceRejection,
 }
 
+#[derive(Debug, Clone, Default, PartialEq)]
+pub(crate) struct GrayRhinoEvidenceReadModel {
+    pub accepted_records: Vec<GrayRhinoEvidenceRecord>,
+    pub rejected_records: Vec<GrayRhinoEvidenceReadRejection>,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum GrayRhinoSnapshotPersistence {
     SaveIfChanged,
@@ -122,9 +125,9 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
         snapshot_persistence: GrayRhinoSnapshotPersistence,
     ) -> Result<GrayRhinoDailyReportViewModel> {
         let previous = self.repository.load_previous_snapshot(as_of_date)?;
-        let evidence_records = self.repository.load_evidence_records(as_of_date)?;
-        let rejected_evidence_records =
-            self.repository.load_rejected_evidence_records(as_of_date)?;
+        let evidence_read_model = self.repository.load_evidence_read_model(as_of_date)?;
+        let evidence_records = evidence_read_model.accepted_records;
+        let rejected_evidence_records = evidence_read_model.rejected_records;
         let scoreable_evidence_records = scoreable_evidence_records(&evidence_records);
         let unclassified_record_count = evidence_records
             .iter()

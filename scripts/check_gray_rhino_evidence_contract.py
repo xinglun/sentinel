@@ -17,6 +17,8 @@ ASSESSMENT_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino
 EVIDENCE_PROJECTION_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence_projection_policy.rs"
 DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
 DAILY_REPORT_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_daily_report.rs"
+DAILY_REPORT_REPOSITORY_PATH = PROJECT_ROOT / "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs"
+EVIDENCE_STORE_PATH = PROJECT_ROOT / "src/features/research/infrastructure/gray_rhino_evidence_store.rs"
 REPORT_INTERFACE_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_report.rs"
 MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
 MONITORING_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_monitoring_policy.rs"
@@ -64,6 +66,8 @@ def main() -> int:
         EVIDENCE_PROJECTION_POLICY_PATH,
         DISCOVERY_APP_PATH,
         DAILY_REPORT_APP_PATH,
+        DAILY_REPORT_REPOSITORY_PATH,
+        EVIDENCE_STORE_PATH,
         REPORT_INTERFACE_PATH,
         MONITORING_STATE_PATH,
         MONITORING_POLICY_PATH,
@@ -87,6 +91,8 @@ def main() -> int:
     evidence_projection_policy = EVIDENCE_PROJECTION_POLICY_PATH.read_text(encoding="utf-8")
     discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
     daily_report_app = DAILY_REPORT_APP_PATH.read_text(encoding="utf-8")
+    daily_report_repository = DAILY_REPORT_REPOSITORY_PATH.read_text(encoding="utf-8")
+    evidence_store = EVIDENCE_STORE_PATH.read_text(encoding="utf-8")
     report_interface = REPORT_INTERFACE_PATH.read_text(encoding="utf-8")
     monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
     monitoring_policy = MONITORING_POLICY_PATH.read_text(encoding="utf-8")
@@ -111,7 +117,10 @@ def main() -> int:
         "grayRhinoSummaryActiveExcludesCoolingResolved: true",
         "grayRhinoSensorHealthScoreableReadinessEnabled: true",
         "grayRhinoEvidenceReadValidationEnabled: true",
+        "grayRhinoEvidenceReadCategorySourceValidationEnabled: true",
         "grayRhinoEvidenceReadRejectedViewEnabled: true",
+        "grayRhinoEvidenceReadBatchEnabled: true",
+        "grayRhinoRejectedReasonI18nCoverageEnabled: true",
         "grayRhinoInterfaceEvidenceEligibilityAllowed: false",
         "grayRhinoMissingSubjectRejection: MissingSubject",
         "fredThresholdCalibrationEnabled: true",
@@ -371,6 +380,38 @@ def main() -> int:
     ]:
         if item in report_interface:
             errors.append(f"interface must not contain evidence eligibility policy `{item}`")
+    for item in [
+        "source_type_allowed_for_category",
+        "UnsupportedSourceType",
+    ]:
+        if item not in domain:
+            errors.append(f"evidence domain missing category source validation `{item}`")
+    for item in [
+        "GrayRhinoEvidenceReadBatch",
+        "load_evidence_read_batch",
+    ]:
+        if item not in evidence_store:
+            errors.append(f"evidence store missing single read batch `{item}`")
+    if "load_evidence_read_batch()?" not in daily_report_repository:
+        errors.append("daily report repository must consume one evidence read batch")
+    for item in [
+        "MissingSourceReference",
+        "MissingSourceTitle",
+        "MissingPublisher",
+        "MissingExtractionNote",
+        "MissingStructuralFact",
+        "UnsupportedSourceType",
+        "MissingGovernanceMetric",
+        "InvalidGovernanceMetric",
+        "MissingDependencyMetric",
+        "InvalidDependencyMetric",
+        "MissingInstitutionalMetric",
+        "InvalidInstitutionalMetric",
+        "MissingRedundancyMetric",
+        "InvalidRedundancyMetric",
+    ]:
+        if item not in report_interface:
+            errors.append(f"report interface missing rejected reason label `{item}`")
     for item in [
         "render_gray_rhino_inline_reference",
         "reference only",

@@ -141,7 +141,7 @@ pub struct RedundancyEvidence {
     pub metrics: RedundancyMetrics,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum GrayRhinoEvidenceRejection {
     MissingSubject,
     MissingSourceReference,
@@ -183,6 +183,9 @@ impl GrayRhinoEvidenceRecord {
         if self.structural_fact.trim().is_empty() {
             return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
         }
+        if !source_type_allowed_for_category(self.category, self.source.source_type) {
+            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
+        }
         if !(0.0..=1.0).contains(&self.confidence) {
             return Err(GrayRhinoEvidenceRejection::ConfidenceOutOfRange);
         }
@@ -195,6 +198,53 @@ impl GrayRhinoEvidenceRecord {
             return Err(GrayRhinoEvidenceRejection::ForbiddenBoundaryTerm);
         }
         Ok(())
+    }
+}
+
+fn source_type_allowed_for_category(
+    category: GrayRhinoEvidenceCategory,
+    source_type: GrayRhinoEvidenceSourceType,
+) -> bool {
+    match category {
+        GrayRhinoEvidenceCategory::GovernanceConcentration => matches!(
+            source_type,
+            GrayRhinoEvidenceSourceType::RegulatoryFiling
+                | GrayRhinoEvidenceSourceType::GovernanceDocument
+                | GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ),
+        GrayRhinoEvidenceCategory::DependencyConcentration => matches!(
+            source_type,
+            GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::InfrastructureStatus
+                | GrayRhinoEvidenceSourceType::SupplierDisclosure
+                | GrayRhinoEvidenceSourceType::IndependentAudit
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ),
+        GrayRhinoEvidenceCategory::InstitutionalMaturity => matches!(
+            source_type,
+            GrayRhinoEvidenceSourceType::RegulatoryFiling
+                | GrayRhinoEvidenceSourceType::GovernanceDocument
+                | GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::IndependentAudit
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ),
+        GrayRhinoEvidenceCategory::Redundancy => matches!(
+            source_type,
+            GrayRhinoEvidenceSourceType::InfrastructureStatus
+                | GrayRhinoEvidenceSourceType::SupplierDisclosure
+                | GrayRhinoEvidenceSourceType::IndependentAudit
+                | GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ),
+        GrayRhinoEvidenceCategory::RiskNormalization => matches!(
+            source_type,
+            GrayRhinoEvidenceSourceType::MarketNarrativeCorpus
+                | GrayRhinoEvidenceSourceType::RegulatoryFiling
+                | GrayRhinoEvidenceSourceType::GovernanceDocument
+                | GrayRhinoEvidenceSourceType::CompanyDisclosure
+                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
+        ),
     }
 }
 

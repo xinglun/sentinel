@@ -1,14 +1,13 @@
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
 use crate::features::research::application::gray_rhino_daily_report::{
     BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportRepository,
-    GrayRhinoEvidenceReadRejection, GrayRhinoRefreshStatus,
+    GrayRhinoEvidenceReadModel, GrayRhinoEvidenceReadRejection, GrayRhinoRefreshStatus,
 };
 use crate::features::research::domain::governance_source::GovernanceExtractionAuditRecord;
 use crate::features::research::domain::gray_rhino::GrayRhinoAssessmentSnapshot;
 use crate::features::research::domain::gray_rhino_candidate::{
     GrayRhinoCandidate, GrayRhinoCandidateScope,
 };
-use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord;
 use crate::features::research::infrastructure::gray_rhino_candidate_store::GrayRhinoCandidateStore;
 use crate::features::research::infrastructure::gray_rhino_evidence_store::GrayRhinoEvidenceStore;
 use crate::features::research::infrastructure::gray_rhino_snapshot_store::GrayRhinoSnapshotStore;
@@ -41,23 +40,20 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
         GrayRhinoSnapshotStore::new(&self.save_dir).save_if_changed(snapshot)
     }
 
-    fn load_evidence_records(&self, as_of_date: NaiveDate) -> Result<Vec<GrayRhinoEvidenceRecord>> {
-        let store = GrayRhinoEvidenceStore::new(&self.save_dir);
-        Ok(store
-            .load_valid_evidence_records()?
+    fn load_evidence_read_model(
+        &self,
+        as_of_date: NaiveDate,
+    ) -> Result<GrayRhinoEvidenceReadModel> {
+        let batch = GrayRhinoEvidenceStore::new(&self.save_dir).load_evidence_read_batch()?;
+        let accepted_records = batch
+            .accepted
             .into_iter()
             .filter(|record| {
                 record.source.observed_at <= as_of_date && record.source.retrieved_at <= as_of_date
             })
-            .collect())
-    }
-
-    fn load_rejected_evidence_records(
-        &self,
-        as_of_date: NaiveDate,
-    ) -> Result<Vec<GrayRhinoEvidenceReadRejection>> {
-        Ok(GrayRhinoEvidenceStore::new(&self.save_dir)
-            .load_rejected_evidence_records()?
+            .collect();
+        let rejected_records = batch
+            .rejected
             .into_iter()
             .filter(|record| record.observed_at <= as_of_date && record.retrieved_at <= as_of_date)
             .map(|record| GrayRhinoEvidenceReadRejection {
@@ -66,7 +62,11 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
                 source_title: record.source_title,
                 reason: record.reason,
             })
-            .collect())
+            .collect();
+        Ok(GrayRhinoEvidenceReadModel {
+            accepted_records,
+            rejected_records,
+        })
     }
 
     fn load_governance_audits(

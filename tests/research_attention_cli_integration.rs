@@ -1328,6 +1328,35 @@ fn gray_rhino_persisted_forbidden_boundary_term_is_rejected_before_formal_assess
     );
 }
 
+#[test]
+fn gray_rhino_persisted_unsupported_source_type_is_rejected_before_formal_assessment() {
+    assert_invalid_persisted_gray_rhino_evidence_is_rejected(
+        r#"{"subject":"GOOG","category":"DependencyConcentration","source":{"source_type":"MarketNarrativeCorpus","source_title":"Unsupported dependency source","publisher":"GOOG","source_url":"https://example.com/dependency","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.95,"risk_effect":"Amplifying","extraction_note":"Supplier disclosure identifies dependency concentration.","structural_fact":"Critical supplier dependency has no disclosed fallback."}
+"#,
+        "来源类型不支持",
+    );
+}
+
+#[test]
+fn gray_rhino_rejected_evidence_reasons_do_not_leak_enum_names() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(
+        tmp.path().join("gray_rhino_evidence.jsonl"),
+        r#"{"subject":"GOOG","category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Missing publisher dependency","publisher":"","source_url":"https://example.com/dependency","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.95,"risk_effect":"Amplifying","extraction_note":"Supplier disclosure identifies dependency concentration.","structural_fact":"Critical supplier dependency has no disclosed fallback."}
+"#,
+    )
+    .expect("failed to write evidence store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("缺少发布方"));
+    assert!(!stdout.contains("MissingPublisher"));
+    assert!(!stdout.contains("UnsupportedSourceType"));
+    assert!(!stdout.contains("ConfidenceOutOfRange"));
+}
+
 fn assert_invalid_persisted_gray_rhino_evidence_is_rejected(jsonl: &str, reason: &str) {
     let tmp = prepare_standard_workspace("zh-cn");
     fs::write(tmp.path().join("gray_rhino_evidence.jsonl"), jsonl)
@@ -1343,6 +1372,30 @@ fn assert_invalid_persisted_gray_rhino_evidence_is_rejected(jsonl: &str, reason:
     assert!(!stdout.contains("状态: 风险扩张"));
     assert!(!stdout.contains("scoreable average confidence: 1.50"));
     assert!(!stdout.contains("依赖集中: 1 条证据记录, 准备度=就绪"));
+}
+
+#[test]
+fn gray_rhino_evidence_store_reads_accepted_and_rejected_once() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let app = fs::read_to_string(
+        root.join("src/features/research/application/gray_rhino_daily_report.rs"),
+    )
+    .expect("failed to read daily report app");
+    let repository = fs::read_to_string(
+        root.join("src/features/research/infrastructure/gray_rhino_daily_report_repository.rs"),
+    )
+    .expect("failed to read daily report repository");
+    let store = fs::read_to_string(
+        root.join("src/features/research/infrastructure/gray_rhino_evidence_store.rs"),
+    )
+    .expect("failed to read evidence store");
+
+    assert!(app.contains("fn load_evidence_read_model"));
+    assert!(!app.contains("fn load_evidence_records(&self"));
+    assert!(!app.contains("fn load_rejected_evidence_records("));
+    assert!(repository.contains("load_evidence_read_batch()?"));
+    assert!(store.contains("pub(crate) fn load_evidence_read_batch"));
+    assert!(store.contains("GrayRhinoEvidenceReadBatch"));
 }
 
 #[test]

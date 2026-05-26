@@ -38,26 +38,28 @@ impl GrayRhinoEvidenceStore {
         }
     }
 
-    pub(crate) fn load_valid_evidence_records(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
-        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
-            .into_iter()
-            .filter(|record| record.validate().is_ok())
-            .collect())
+    pub(crate) fn load_evidence_read_batch(&self) -> Result<GrayRhinoEvidenceReadBatch> {
+        let mut batch = GrayRhinoEvidenceReadBatch::default();
+        for record in load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)? {
+            match record.validate() {
+                Ok(()) => batch.accepted.push(record),
+                Err(reason) => batch
+                    .rejected
+                    .push(GrayRhinoRejectedEvidenceRecord::from_record(record, reason)),
+            }
+        }
+        Ok(batch)
     }
 
-    pub(crate) fn load_rejected_evidence_records(
-        &self,
-    ) -> Result<Vec<GrayRhinoRejectedEvidenceRecord>> {
-        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
-            .into_iter()
-            .filter_map(|record| {
-                record
-                    .validate()
-                    .err()
-                    .map(|reason| GrayRhinoRejectedEvidenceRecord::from_record(record, reason))
-            })
-            .collect())
+    pub(crate) fn load_valid_evidence_records(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
+        Ok(self.load_evidence_read_batch()?.accepted)
     }
+}
+
+#[derive(Debug, Clone, Default, PartialEq)]
+pub(crate) struct GrayRhinoEvidenceReadBatch {
+    pub accepted: Vec<GrayRhinoEvidenceRecord>,
+    pub rejected: Vec<GrayRhinoRejectedEvidenceRecord>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
