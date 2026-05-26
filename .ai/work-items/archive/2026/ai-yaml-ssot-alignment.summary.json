@@ -1,0 +1,107 @@
+{
+  "workItemId": "ai-yaml-ssot-alignment",
+  "contractPath": ".ai/work-items/archive/2026/ai-yaml-ssot-alignment.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+      "reason": "対象 scope、acceptance、verification を AI YAML / SSOT 修正に合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-yaml-ssot-alignment.summary.json",
+      "reason": "変更内容と verification 結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態を Cockpit status に反映する。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "selectionRules の glob を含む文を quote し、YAML として parse 可能にした。"
+    },
+    {
+      "path": ".ai/guards/backtrack_policy.yaml",
+      "reason": "i18n 削除監視 path を現在の src/features/shared/interface/i18n.rs に更新した。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "最小フローを Makefile target 入口に統一し、scripts は実装詳細として明記した。"
+    },
+    {
+      "path": "scripts/ai_test_guards.py",
+      "reason": ".ai/**/*.yaml の parse guard test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/checks.yaml",
+    ".ai/guards/backtrack_policy.yaml",
+    ".ai/README.md",
+    "scripts/ai_test_guards.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "ruby -e 'require \"yaml\"; Dir[\".ai/**/*.yaml\"].sort.each { |p| YAML.load_file(p) }'",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-yaml-ssot-alignment.summary.json CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/ai-yaml-ssot-alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/ai-yaml-ssot-alignment.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "AI governance 設定とドキュメントの修正に限定し、runtime behavior への影響はない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P1",
+      "detail": ".ai/cockpit/checks.yaml が unquoted glob により YAML parse できなかった。"
+    },
+    {
+      "severity": "P2",
+      "detail": ".ai/guards/backtrack_policy.yaml の i18n path が旧 src/core/i18n.rs を参照していた。"
+    },
+    {
+      "severity": "P3",
+      "detail": ".ai/README.md の最小フローが Makefile 入口ではなく scripts 直接実行を推奨していた。"
+    }
+  ]
+}

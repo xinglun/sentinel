@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel アクションマトリックス (ACTION_MATRIX.md)
+description: Sentinel アクションマトリックス (ACTION_MATRIX.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-action-matrix
 ---
 
 # Sentinel アクションマトリックス (ACTION_MATRIX.md)

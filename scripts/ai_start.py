@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -28,6 +29,28 @@ def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def run_preflight_checks() -> int:
+    result = subprocess.run(["make", "ai-preflight"], cwd=PROJECT_ROOT, check=False)
+    return result.returncode
+
+
+def generate_active_status(contract_path: Path, summary_path: Path) -> int:
+    contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
+    summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
+    result = subprocess.run(
+        [
+            sys.executable,
+            "scripts/ai_generate_status.py",
+            contract_rel,
+            "--summary",
+            summary_rel,
+        ],
+        cwd=PROJECT_ROOT,
+        check=False,
+    )
+    return result.returncode
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="AI Work Item の skeleton を作成します。")
     parser.add_argument("--task", required=True, help="task id。例: risk_taxonomy_refine")
@@ -44,6 +67,10 @@ def main() -> int:
     except ValueError as exc:
         print(f"❌ {exc}", file=sys.stderr)
         return 2
+
+    preflight_code = run_preflight_checks()
+    if preflight_code != 0:
+        return preflight_code
 
     contract_path = ACTIVE_DIR / f"{task}.contract.json"
     summary_path = ACTIVE_DIR / f"{task}.summary.json"
@@ -68,6 +95,7 @@ def main() -> int:
         "verification": [
             {"command": f"make check-ai-contract CONTRACT={contract_rel}", "required": True},
             {"command": f"make check-ai-scope CONTRACT={contract_rel}", "required": True},
+            {"command": "make fmt-check", "required": True},
             {"command": "make check-ai-backtrack", "required": True},
             {"command": f"make check-ai-change-summary SUMMARY={summary_rel} CONTRACT={contract_rel}", "required": True},
             {"command": f"make generate-cockpit-status CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},
@@ -93,6 +121,9 @@ def main() -> int:
     }
     write_json(contract_path, contract)
     write_json(summary_path, summary)
+    status_code = generate_active_status(contract_path, summary_path)
+    if status_code != 0:
+        return status_code
     print(f"✅ Work Item skeleton created: {task}")
     print(f"contract: {contract_rel}")
     print(f"summary: {summary_rel}")

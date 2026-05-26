@@ -1,0 +1,85 @@
+{
+  "workItemId": "market-data-provider-factory",
+  "contractPath": ".ai/work-items/archive/2026/market-data-provider-factory.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/market-data-provider-factory.contract.json",
+      "reason": "market data provider factory 化の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-data-provider-factory.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "concrete adapter の import と provider composition を削除し、infrastructure factory を利用するようにした。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "market_data_provider_factory module を公開した。"
+    },
+    {
+      "path": "src/infrastructure/market_data_provider_factory.rs",
+      "reason": "MarketDataProviderKind と build_market_data_provider を追加し、Futu/Yahoo provider composition を集約した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/infrastructure/mod.rs",
+    "src/adapters/futu/provider.rs",
+    "src/adapters/yahoo_provider.rs",
+    "src/application/provider.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::empty_fetch_set_does_not_trigger_diagnostic_skip",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-data-provider-factory.summary.json CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json SUMMARY=.ai/work-items/active/market-data-provider-factory.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json SUMMARY=.ai/work-items/active/market-data-provider-factory.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "provider kind の型定義を CLI から infrastructure factory へ移した。既存 tests は同名 alias 経由で維持される。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI が concrete market data adapter construction を直接知っており、composition の詳細が entrypoint に残っていた。"
+  ]
+}

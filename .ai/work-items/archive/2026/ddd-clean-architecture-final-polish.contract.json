@@ -1,0 +1,84 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-clean-architecture-final-polish",
+  "mode": "code",
+  "title": "DDD clean architecture final polish",
+  "scope": [
+    ".ai/work-items/active/ddd-clean-architecture-final-polish.contract.json",
+    ".ai/work-items/active/ddd-clean-architecture-final-polish.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/features/radar/**/*.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "前回 architecture score: 98/100",
+      "reason": "Checker formalism と Radar Engine orchestration の残課題。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "DDD / Clean Architecture の human-readable SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "architecture checker が block comment と raw string 内の path を検査対象外にする。",
+    "Radar Engine の market state 構築が named pipeline step に分離されている。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-polish.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-polish.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-final-polish.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-polish.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-polish.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-final-polish.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-final-polish.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-final-polish.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "scripts/check_architecture_boundaries.py",
+      "scripts/ai_test_architecture_boundaries.py",
+      "src/features/radar/**"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

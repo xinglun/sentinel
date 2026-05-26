@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Moomoo 強化バックログ (Moomoo Hardening Backlog)
+description: Moomoo 強化バックログ (Moomoo Hardening Backlog) に関する Sentinel の設計・運用情報。
+key: docs-specs-moomoo-hardening-backlog
 ---
 
 # Moomoo 強化バックログ (Moomoo Hardening Backlog)

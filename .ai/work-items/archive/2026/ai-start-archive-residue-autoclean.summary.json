@@ -1,0 +1,83 @@
+{
+  "workItemId": "ai-start-archive-residue-autoclean",
+  "contractPath": ".ai/work-items/archive/2026/ai-start-archive-residue-autoclean.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+      "reason": "ai-start archive residue autoclean の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-start-archive-residue-autoclean.summary.json",
+      "reason": "変更内容、検証結果、観測した残留問題を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "lifecycle preflight 前に archive 済み active residue を安全に cleanup するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "archive 済み active residue の安全 cleanup regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_start.py",
+    "scripts/ai_check_lifecycle.py",
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-start-archive-residue-autoclean.summary.json CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json SUMMARY=.ai/work-items/active/ai-start-archive-residue-autoclean.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-start-archive-residue-autoclean.contract.json SUMMARY=.ai/work-items/active/ai-start-archive-residue-autoclean.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "cleanup は no_active_work_item 状態かつ archive に唯一の等価 counterpart がある file だけに限定している。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "前回 commit 後にも archive 済み Work Item の active 残留副本が再出現した。既存 guard は検出できるが、ai-start は継続不能になっていた。"
+  ]
+}

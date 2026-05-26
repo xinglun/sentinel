@@ -1,0 +1,102 @@
+{
+  "workItemId": "ddd-threshold-format-migration",
+  "contractPath": ".ai/work-items/archive/2026/ddd-threshold-format-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-threshold-format-migration.contract.json",
+      "reason": "threshold_format migration の scope、sources、acceptance、required verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-threshold-format-migration.summary.json",
+      "reason": "実装内容と検証結果を記録するために更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の ready_for_review 状態を生成結果として更新した。"
+    },
+    {
+      "path": "src/interface/threshold_format.rs",
+      "reason": "presentation-only threshold formatter を interface layer に移動した。"
+    },
+    {
+      "path": "src/interface/report.rs",
+      "reason": "report rendering が interface layer の threshold formatter を参照するように変更した。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "interface layer の threshold_format module を公開した。"
+    },
+    {
+      "path": "src/core/mod.rs",
+      "reason": "legacy core から presentation-only threshold_format module export を削除した。"
+    },
+    {
+      "path": "src/core/threshold_format.rs",
+      "reason": "presentation-only formatter の移動に伴い legacy core 側の module を削除した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/core/threshold_format.rs",
+    "src/interface/report.rs",
+    "src/core/mod.rs",
+    "src/interface/mod.rs",
+    ".ai/cockpit/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-threshold-format-migration.summary.json CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json SUMMARY=.ai/work-items/active/ddd-threshold-format-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json SUMMARY=.ai/work-items/active/ddd-threshold-format-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "presentation-only formatter の module 移動であり、既存の formatting 関数本体は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "IDE lints では編集対象に新規 error は検出されなかった。"
+  ]
+}

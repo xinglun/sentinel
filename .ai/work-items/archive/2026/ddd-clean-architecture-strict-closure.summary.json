@@ -1,0 +1,131 @@
+{
+  "workItemId": "ddd-clean-architecture-strict-closure",
+  "contractPath": ".ai/work-items/archive/2026/ddd-clean-architecture-strict-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+      "reason": "Contract を strict closure scope / acceptance / verification に更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json",
+      "reason": "変更内容と検証結果を更新した。"
+    },
+    {
+      "path": "src/features/backtest/application/decision_engine.rs",
+      "reason": "Backtest が依存する decision pipeline port を追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "reason": "Backtest application port module を公開した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Backtest simulation を Radar Engine concrete ではなく port 経由に変更した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "Radar Engine adapter を interface layer に配置した。"
+    },
+    {
+      "path": "src/features/radar/application/trend_recognition_service.rs",
+      "reason": "Trend recognition orchestration を Engine から分離した。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "Engine から trend recognition の詳細手順を削減した。"
+    },
+    {
+      "path": "src/features/radar/application/mod.rs",
+      "reason": "Trend recognition service module を公開した。"
+    },
+    {
+      "path": "src/features/evidence/domain/ingestion_command.rs",
+      "reason": "Manual evidence ingestion command を Evidence domain vocabulary として追加した。"
+    },
+    {
+      "path": "src/features/evidence/domain/mod.rs",
+      "reason": "Evidence domain command module を公開した。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence.rs",
+      "reason": "Manual evidence validation を domain command 経由に変更した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "空白を含む inline crate::features path も正規化して検査するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "空白を含む inline fully-qualified path の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "前回 architecture score: 91/100",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    ".ai/architecture/feature_acl.yaml",
+    ".ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-strict-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-strict-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "make quality / cargo test --all-targets / architecture gates が通過済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Radar Engine concrete dependency を port dependency に置き換えた。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "Trend recognition orchestration を service へ移した。"
+    }
+  ],
+  "observedIssues": []
+}

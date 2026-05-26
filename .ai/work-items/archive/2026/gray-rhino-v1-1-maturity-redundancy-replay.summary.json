@@ -1,0 +1,80 @@
+{
+  "workItemId": "gray-rhino-v1-1-maturity-redundancy-replay",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-1-maturity-redundancy-replay.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.contract.json",
+      "reason": "Institutional / Redundancy replay collection の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Institutional / Redundancy local source collection command を追加する。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "collect-gray-rhino-institutional / collect-gray-rhino-redundancy command を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "coverage / audit / non-signal boundary を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.contract.json",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test institutional_and_redundancy_source_collection_reports_coverage --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-1-maturity-redundancy-replay.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Institutional / Redundancy collection は local source deterministic dry-run に限定し、live adapter と escalation mutation は未接続。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Institutional / Redundancy collection は local source replay に限定し、formal evidence persistence は dry-run で無効。"
+  ]
+}

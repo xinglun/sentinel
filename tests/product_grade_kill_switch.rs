@@ -1,14 +1,14 @@
 use stock_sentinel::config::AppConfig;
-use stock_sentinel::core::action_matrix::{AssetAction, AssetActionDecision};
-use stock_sentinel::core::asset_state::AssetState;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::core::execution_gate::ExecutionGate;
-use stock_sentinel::core::exit::PositionIntent;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::market_regime::{
+use stock_sentinel::features::radar::application::execution_gate::{ExecutionGate, TradingLimits};
+use stock_sentinel::features::radar::domain::action_matrix::{AssetAction, AssetActionDecision};
+use stock_sentinel::features::radar::domain::asset_state::AssetState;
+use stock_sentinel::features::radar::domain::decision::DecisionPacket;
+use stock_sentinel::features::radar::domain::exit::PositionIntent;
+use stock_sentinel::features::radar::domain::features::MarketFeatures;
+use stock_sentinel::features::radar::domain::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
 };
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::domain::portfolio_policy::PortfolioPolicy;
 
 #[test]
 fn test_kill_switch_behavior_in_execution_gate() {
@@ -33,12 +33,17 @@ fn test_kill_switch_behavior_in_execution_gate() {
     "#;
     let config: AppConfig = toml::from_str(config_str).expect("Valid config should parse");
     let trading_config = config.trading.as_ref().unwrap();
+    let trading_limits = TradingLimits {
+        enabled: trading_config.enabled,
+        global_budget: trading_config.global_budget,
+        max_daily_budget: trading_config.max_daily_budget,
+    };
 
     // 2. Decision packet with a "BUY" signal
     let assets = vec![AssetActionDecision {
         symbol: "TEST".to_string(),
         price: 100.0,
-        asset_state: stock_sentinel::core::asset_state::AssetStateSnapshot {
+        asset_state: stock_sentinel::features::radar::domain::asset_state::AssetStateSnapshot {
             symbol: "TEST".to_string(),
             state: AssetState::OPTIMAL,
             reasons: vec![],
@@ -77,13 +82,13 @@ fn test_kill_switch_behavior_in_execution_gate() {
         assets,
         Vec::new(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        stock_sentinel::features::radar::domain::trend_cohesion::TrendCohesionSnapshot::default(),
         None,
         None,
     );
 
     // 3. Gate the packet
-    let result = ExecutionGate::gate_packet(&packet, trading_config, 0.0, 10000.0, 0.0);
+    let result = ExecutionGate::gate_packet(&packet, &trading_limits, 0.0, 10000.0, 0.0);
 
     // 4. VERIFY: No trades produced, audit shows TradingDisabled
     assert_eq!(

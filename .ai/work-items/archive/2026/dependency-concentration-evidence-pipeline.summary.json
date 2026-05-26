@@ -1,0 +1,111 @@
+{
+  "workItemId": "dependency-concentration-evidence-pipeline",
+  "contractPath": ".ai/work-items/archive/2026/dependency-concentration-evidence-pipeline.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "reason": "DependencyConcentration pipeline の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を同期する。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "DependencyConcentration pipeline contract を machine-readable SSOT に追加する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "DependencyConcentration pipeline contract を human-readable SSOT に追加する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "DependencyConcentration contract の schema / docs / domain 整合を検証する。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "DependencyConcentration evidence model と validation を追加する。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "Dependency evidence ingestion module を公開する。"
+    },
+    {
+      "path": "src/features/research/application/dependency_evidence.rs",
+      "reason": "DependencyConcentration evidence ingestion port を追加する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "DependencyConcentration evidence の JSONL persistence adapter を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/application/governance_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::domain::gray_rhino_evidence::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::dependency_evidence::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::infrastructure::gray_rhino_evidence_store::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/dependency-concentration-evidence-pipeline.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-evidence-pipeline.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "DependencyConcentration は動的な source adapter をまだ持たないため、本 Work Item は schema、validation、ingestion 境界に限定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Phase 3-B は collector / live source adapter を持たないため、現時点では repository-local structured evidence boundary に限定する。"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "workItemId": "gray-rhino-v1-2-quality-calibration",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-2-quality-calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "reason": "quality score / explanation graph / escalation calibration v2 の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "quality-aware escalation calibration を追加する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "quality score と explanation graph を表示する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "quality report と non-signal boundary を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_quality_report_explains_dimensions_without_signals --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::gray_rhino_assessment::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "quality score は説明指標であり、売買判断や Gate には接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "quality score は explanation 用であり、trade / Gate / execution state には接続しない。"
+  ]
+}

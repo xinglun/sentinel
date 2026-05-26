@@ -1,0 +1,4 @@
+S-1 governance disclosure
+founder_voting_power: 48.5%
+dual_class_structure: true
+super_voting_rights: true

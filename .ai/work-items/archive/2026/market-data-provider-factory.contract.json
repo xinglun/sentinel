@@ -1,0 +1,89 @@
+{
+  "contractVersion": 1,
+  "workItemId": "market-data-provider-factory",
+  "mode": "code",
+  "title": "Market data provider composition を infrastructure factory へ移動",
+  "scope": [
+    ".ai/work-items/active/market-data-provider-factory.contract.json",
+    ".ai/work-items/active/market-data-provider-factory.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/market_data_provider_factory.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI が concrete market data provider を直接 compose している現状。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "infrastructure factory module の公開位置。"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "reason": "Futu market data adapter implementation。"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "reason": "Yahoo market data adapter implementation。"
+    },
+    {
+      "path": "src/application/provider.rs",
+      "reason": "MarketDataProvider port の定義。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "market data provider の concrete composition は infrastructure factory にある。",
+    "CLI は adapters::futu / adapters::yahoo_provider を直接 import しない。",
+    "既存の provider selection と Futu 接続失敗時の Yahoo fallback を維持する。",
+    "backtest / daemon / radar command は同じ provider factory を利用する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::empty_fetch_set_does_not_trigger_diagnostic_skip",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-data-provider-factory.summary.json CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json SUMMARY=.ai/work-items/active/market-data-provider-factory.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-data-provider-factory.contract.json SUMMARY=.ai/work-items/active/market-data-provider-factory.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

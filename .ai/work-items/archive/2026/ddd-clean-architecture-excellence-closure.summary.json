@@ -1,0 +1,118 @@
+{
+  "workItemId": "ddd-clean-architecture-excellence-closure",
+  "contractPath": ".ai/work-items/archive/2026/ddd-clean-architecture-excellence-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+      "reason": "Contract を excellence closure scope / acceptance / verification に更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json",
+      "reason": "変更内容と検証結果を更新した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "comment / string を除外して inline crate path を検査するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "comment / string 内 path を無視する regression test を追加した。"
+    },
+    {
+      "path": "src/features/radar/application/pipeline_steps.rs",
+      "reason": "transition context 付与を named pipeline step に分離した。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "transition / trend recognition 付与を pipeline step 呼び出しに置き換えた。"
+    },
+    {
+      "path": "src/features/radar/application/mod.rs",
+      "reason": "pipeline step module を公開した。"
+    },
+    {
+      "path": "src/features/evidence/domain/record.rs",
+      "reason": "Evidence BC 固有の EvidenceRecord と shared record への変換境界を追加した。"
+    },
+    {
+      "path": "src/features/evidence/domain/ingestion_command.rs",
+      "reason": "ManualEvidenceCommand から EvidenceRecord へ変換できるようにした。"
+    },
+    {
+      "path": "src/features/evidence/domain/mod.rs",
+      "reason": "EvidenceRecord module を公開した。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence.rs",
+      "reason": "Manual ingestion use case が EvidenceRecord 経由で shared record へ投影するようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    "前回 architecture score: 96/100",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    ".ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "make quality / cargo test --all-targets / architecture gates が通過済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "transition context 付与を pipeline step に置き換えた。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence.rs",
+      "reason": "shared record 生成を EvidenceRecord 変換経由に置き換えた。"
+    }
+  ],
+  "observedIssues": []
+}

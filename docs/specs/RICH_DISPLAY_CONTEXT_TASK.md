@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel リッチ展示コンテキスト (Rich Display Context) タスクリスト
+description: Sentinel リッチ展示コンテキスト (Rich Display Context) タスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-rich-display-context-task
 ---
 
 # Sentinel リッチ展示コンテキスト (Rich Display Context) タスクリスト
@@ -165,13 +168,13 @@ pub display_tags: Vec<String>
 
 引き続き以下を使用します：
 
-1. [display.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/display.rs)
+1. [display.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/display.rs)
 
 そして以下の場所で接続します：
 
-1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/engine.rs)
-2. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
-3. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/decision.rs)
+1. [engine.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/application/engine.rs)
+2. [report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
+3. [decision.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/decision.rs)
 
 ### 7.1 Engine の責務
 

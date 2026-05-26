@@ -1,0 +1,3 @@
+DEF 14A governance narrative
+The board reviews governance matters periodically.
+This sample intentionally contains no machine-readable governance concentration metrics.

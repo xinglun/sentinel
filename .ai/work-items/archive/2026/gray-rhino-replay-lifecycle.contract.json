@@ -1,0 +1,119 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-replay-lifecycle",
+  "mode": "code",
+  "title": "Gray Rhino replay lifecycle",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+    ".ai/work-items/active/gray-rhino-replay-lifecycle.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "Makefile",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "src/features/research/application/gray_rhino_source_collection.rs",
+    "src/features/research/domain/gray_rhino_candidate.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs",
+    "src/features/research/infrastructure/gray_rhino_candidate_store.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "reason": "Replay / lifecycle 修正の scope と acceptance を定義する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration --date replay の修正対象。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "as_of_date hard constraint と display tie-break の修正対象。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "lifecycle / freshness semantics の修正対象。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "refresh target exit semantics の修正対象。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "回帰テスト対象。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_candidate_store.rs",
+      "reason": "重複 confirmation event の永続化抑止対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "daily-calibration --date is honored even when state_transitions.jsonl is missing or empty.",
+    "Gray Rhino daily report repository ports take as_of_date and filter future candidates/evidence from historical replay.",
+    "Repeated identical source content does not create new candidate confirmations or intensifying observations solely because collection date changed.",
+    "Explicit Resolved candidates win over same-day higher severity candidates.",
+    "Persistent structural risks do not visually become more severe after stale threshold; severity and freshness remain distinguishable.",
+    "make gray-rhino-refresh returns non-zero when any provider failed while preserving non-blocking workflow behavior at GitHub Actions level.",
+    "Japanese refresh status labels avoid raw English status words such as skip / coverage / provider in localized body.",
+    "make quality and Cockpit lifecycle/status checks pass."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_replay --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_lifecycle --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_lifecycle --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_refresh_status_i18n --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-replay-lifecycle.summary.json CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-replay-lifecycle.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-replay-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-replay-lifecycle.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

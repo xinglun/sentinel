@@ -1,0 +1,109 @@
+{
+  "workItemId": "gray-rhino-governance-sec-expanded-sample-dry-run",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+      "reason": "SEC expanded sample dry-run の scope、sources、acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.summary.json",
+      "reason": "実装内容、8 issuer dry-run 結果、検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "expanded sample dry-run と field coverage report contract を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "SEC expanded sample dry-run の SSOT 境界を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "expanded sample dry-run contract の checker 条件を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "current run の field-level coverage を CLI に表示した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "collection summary に metric coverage を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "CLI field coverage output を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "config.toml",
+    "src/cli.rs",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "cargo run -- collect-gray-rhino-governance --symbols TSLA,PLTR,GOOG,NVDA,MSFT,FIG,U,ISRG --days 730"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- collect-gray-rhino-governance --symbols TSLA,PLTR,GOOG,NVDA,MSFT,FIG,U,ISRG --days 730",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "8 issuer dry-run で accepted/source は 87.5% だが、dual_class_structure / super_voting_rights / independent_board_ratio の field coverage は低い。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-expanded-sample-dry-run.summary.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "8 issuer dry-run: Sources=8, Accepted=7, Coverage=87.5%, Formal evidence persisted=false。",
+    "Field coverage: succession_disclosure=87.5%, founder_voting_power=12.5%, independent_board_ratio=0.0%, dual_class_structure=0.0%, super_voting_rights=0.0%。",
+    "NVDA DEF 14A は MissingGovernanceMetric で rejected。"
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "workItemId": "verification_fmt_required",
+  "contractPath": ".ai/work-items/archive/2026/verification_fmt_required.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/verification_fmt_required.contract.json",
+      "reason": "format check 必須化 Work Item の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/verification_fmt_required.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を Work Item と検証結果に同期した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "推奨コマンドに make fmt-check を明記した。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "selectionRules に make fmt-check required verification を明記した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Contract template が make fmt-check を required verification として示していることを維持した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/ai_change_summary.example.json",
+      "reason": "Summary template の verification 例に make fmt-check を追加した。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "AI Cockpit 標準コマンドに make fmt-check を追加した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "Work Item Contract 必須 verification の lightweight test target を追加した。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "新規 Work Item の verification に make fmt-check を自動追加した。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Contract verification に required make fmt-check がない場合に reject するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "make fmt-check 必須化と ai-start の生成結果を検証する lightweight test を追加した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "前段 Hypothesis Layer の未提交仕様変更を保持した。"
+    },
+    {
+      "path": "scripts/check_doc_forbidden_terms.sh",
+      "reason": "前段 forbidden terms checker の未提交変更を保持した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "前段 Hypothesis Layer の未提交 i18n 変更を保持した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "前段 Hypothesis Layer の未提交 ViewModel 変更を保持した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "前段 Hypothesis Layer の未提交 assembler 変更を保持した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "前段 Hypothesis Layer の未提交契約テストを保持した。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "前段 Hypothesis Layer の未提交 report 変更を保持した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "前段 Hypothesis Layer の未提交 UI テストを保持した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/verification_fmt_required.contract.json",
+    "scripts/ai_start.py",
+    "scripts/ai_check_work_item.py",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    "AGENTS.md",
+    ".ai/cockpit/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/verification_fmt_required.summary.json CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json SUMMARY=.ai/work-items/active/verification_fmt_required.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json SUMMARY=.ai/work-items/active/verification_fmt_required.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "format check を Work Item Contract の required verification として生成・検証する governance 変更。"
+  },
+  "generatedFiles": [
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P2",
+      "detail": "ai-start が生成する Work Item verification に make fmt-check が含まれていなかった。"
+    },
+    {
+      "severity": "P2",
+      "detail": "ai_check_work_item が make fmt-check required を強制していなかった。"
+    }
+  ]
+}

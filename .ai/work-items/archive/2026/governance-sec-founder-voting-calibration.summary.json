@@ -1,0 +1,95 @@
+{
+  "workItemId": "governance-sec-founder-voting-calibration",
+  "contractPath": ".ai/work-items/archive/2026/governance-sec-founder-voting-calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "reason": "founder voting calibration の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/governance-sec-founder-voting-calibration.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を同期した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Founder voting calibration の machine-readable contract を追加する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Founder voting calibration の human-readable contract を追加する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "Founder voting calibration contract の schema / docs 整合を検証する。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "SEC filing の明示的な voting control percentage から founder_voting_power を抽出する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+    "src/features/research/application/governance_source_pipeline.rs",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "tests/fixtures/governance_sec/example_def14a_full.txt",
+    "tests/fixtures/governance_sec/example_s1_dual_class.txt"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::application::governance_source_pipeline::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- collect-gray-rhino-governance --symbols TSLA,META,GOOGL,PLTR,SNOW,COIN,ABNB,DDOG --dry-run --days 365",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/governance-sec-founder-voting-calibration.summary.json CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json SUMMARY=.ai/work-items/active/governance-sec-founder-voting-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json SUMMARY=.ai/work-items/active/governance-sec-founder-voting-calibration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "founder voting は ownership と voting control の混同が起きやすいため、明示的な voting power percentage のみを抽出対象にする。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "SEC dry-run sample: founder_voting_power coverage improved to 75.0% (6/8 extracted); formal evidence persisted=false."
+  ]
+}

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: NO_TRADE 強制拘束化タスクリスト (NO_TRADE_HARDENING_TASK.md)
+description: NO_TRADE 強制拘束化タスクリスト (NO_TRADE_HARDENING_TASK.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-no-trade-hardening-task
 ---
 
 # NO_TRADE 強制拘束化タスクリスト (NO_TRADE_HARDENING_TASK.md)
@@ -125,7 +128,7 @@ author: Ray
 ### 4.1 DecisionSummaryViewModel への新規フィールド追加
 
 ファイル：
-[presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation.rs)
+[presentation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/presentation.rs)
 
 以下のフィールドを追加します：
 
@@ -165,7 +168,7 @@ pub entry_cap_note: Option<String>,
 ## 5. PresentationAssembler の組み立てルール
 
 ファイル：
-[presentation_assembler.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/presentation_assembler.rs)
+[presentation_assembler.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/presentation_assembler.rs)
 
 ### 5.1 行動ルール
 
@@ -236,7 +239,7 @@ Assembler が一元的に出力しなければなりません：
 ## 6. i18n 辞書の要件
 
 ファイル：
-[i18n.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/i18n.rs)
+[i18n.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/shared/interface/i18n.rs)
 
 少なくとも以下の項目を追加します：
 
@@ -278,7 +281,7 @@ no_trade_rule
 ## 7. report 層の責務
 
 ファイル：
-[report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/report.rs)
+[report.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/interface/report.rs)
 
 要件：
 

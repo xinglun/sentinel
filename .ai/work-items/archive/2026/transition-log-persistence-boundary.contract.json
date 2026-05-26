@@ -1,0 +1,91 @@
+{
+  "contractVersion": 1,
+  "workItemId": "transition-log-persistence-boundary",
+  "mode": "code",
+  "title": "Transition log persistence を core から infrastructure へ分離",
+  "scope": [
+    ".ai/work-items/active/transition-log-persistence-boundary.contract.json",
+    ".ai/work-items/active/transition-log-persistence-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/transition_log.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/transition_log.rs",
+    "src/cli.rs",
+    "tests/archival_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "core から persistence / file system detail を分離する方針を確認した。"
+    },
+    {
+      "path": "src/core/transition_log.rs",
+      "reason": "StateTransitionLog と TransitionLogger が同居している移行対象。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "TransitionLogger の composition root 側利用箇所。"
+    },
+    {
+      "path": "tests/archival_integration.rs",
+      "reason": "transition log persistence の既存 integration contract。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "`src/core/transition_log.rs` から file system persistence 実装が除去される。",
+    "TransitionLogger は infrastructure layer に配置され、CLI から composition root として利用される。",
+    "state_transitions.csv / state_transitions.jsonl の既存出力 contract は維持される。",
+    "transition log persistence の regression test が infrastructure 側で維持される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/transition-log-persistence-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/transition-log-persistence-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/transition-log-persistence-boundary.summary.json CONTRACT=.ai/work-items/active/transition-log-persistence-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/transition-log-persistence-boundary.contract.json SUMMARY=.ai/work-items/active/transition-log-persistence-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/transition-log-persistence-boundary.contract.json SUMMARY=.ai/work-items/active/transition-log-persistence-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

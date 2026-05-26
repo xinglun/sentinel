@@ -1,0 +1,127 @@
+{
+  "workItemId": "ddd-market-data-migration",
+  "contractPath": ".ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/lib.rs",
+      "reason": "data モジュールの公開を削除。"
+    },
+    {
+      "path": "src/adapters/mod.rs",
+      "reason": "yahoo_provider モジュールを公開。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "provider モジュールを公開。"
+    },
+    {
+      "path": "src/application/provider.rs",
+      "reason": "data/provider.rs から移行。"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "reason": "data/yahoo_provider.rs から移行。"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "reason": "MarketDataProvider と TickerHistory 等のインポートパスを修正。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "MarketDataProvider と TickerHistory 等のインポートパスを修正。"
+    },
+    {
+      "path": "src/backtest.rs",
+      "reason": "YahooProvider 参照のインポートパスを adapters::yahoo_provider に修正。"
+    },
+    {
+      "path": "src/core/engine.rs",
+      "reason": "TickerHistory 参照のインポートパスを adapters::yahoo_provider に修正。"
+    },
+    {
+      "path": "src/core/features.rs",
+      "reason": "DailyBar と TickerHistory 参照のインポートパスを adapters::yahoo_provider に修正。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "data レイヤー整理に伴う禁止インポートルールの見直し（data レイヤーを削除）。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "TickerHistory と DailyBar のインポート元を application::provider に修正。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
+      "reason": "Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ddd-market-data-migration.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/archive/2026/ddd-market-data-migration.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/archive/2026/ddd-market-data-migration.summary.json CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-market-data-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/archive/2026/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-market-data-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "モジュールの配置移動とインポート修正のみであり、機能的な影響はない。"
+  },
+  "generatedFiles": [
+    "src/application/provider.rs",
+    "src/adapters/yahoo_provider.rs"
+  ],
+  "destructiveChanges": [
+    {
+      "path": "src/data/provider.rs",
+      "reason": "移行したため削除。"
+    },
+    {
+      "path": "src/data/yahoo_provider.rs",
+      "reason": "移行したため削除。"
+    },
+    {
+      "path": "src/data/mod.rs",
+      "reason": "空モジュールになったため削除。"
+    }
+  ],
+  "observedIssues": []
+}

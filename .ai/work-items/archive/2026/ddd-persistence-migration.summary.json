@@ -1,0 +1,90 @@
+{
+  "workItemId": "ddd-persistence-migration",
+  "contractPath": ".ai/work-items/archive/2026/ddd-persistence-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/infrastructure/persistence.rs",
+      "reason": "core/persistence.rs を infrastructure 層へ移動した。ファイル I/O 等の永続化実装として正しい層に配置する。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "persistence を pub mod として追加した。"
+    },
+    {
+      "path": "src/core/mod.rs",
+      "reason": "pub mod persistence を削除した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "core::persistence:: の参照を infrastructure::persistence:: に直接参照へ修正した。"
+    },
+    {
+      "path": "tests/archival_integration.rs",
+      "reason": "core::persistence:: の参照を infrastructure::persistence:: への参照へ修正した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ddd-persistence-migration.contract.json",
+      "reason": "Work Item Contract を作成した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ddd-persistence-migration.summary.json",
+      "reason": "AI Change Summary を作成した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/architecture/architecture_design.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/archive/2026/ddd-persistence-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/archive/2026/ddd-persistence-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/archive/2026/ddd-persistence-migration.summary.json CONTRACT=.ai/work-items/archive/2026/ddd-persistence-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/archive/2026/ddd-persistence-migration.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-persistence-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/archive/2026/ddd-persistence-migration.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-persistence-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "ファイル移動のみ。既存テストが全通過しており、破壊的変更なし。"
+  },
+  "generatedFiles": [
+    "src/infrastructure/persistence.rs"
+  ],
+  "destructiveChanges": [
+    {
+      "path": "src/core/persistence.rs",
+      "reason": "infrastructure/persistence.rs へ移動したため削除。"
+    }
+  ],
+  "observedIssues": []
+}

@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 意思決定パッケージ仕様 (DECISION_PACKET_SCHEMA.md)
+description: Sentinel 意思決定パッケージ仕様 (DECISION_PACKET_SCHEMA.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-decision-packet-schema
 ---
 
 # Sentinel 意思決定パッケージ仕様 (DECISION_PACKET_SCHEMA.md)

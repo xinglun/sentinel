@@ -1,0 +1,5 @@
+dependency_kind: Supplier
+dependency_name: Example supplier
+concentration_ratio: 0.70
+single_point_of_failure: true
+fallback_disclosed: false

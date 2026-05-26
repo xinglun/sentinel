@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態遷移ルール (TRANSITION_RULES.md)
+description: Sentinel 状態遷移ルール (TRANSITION_RULES.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-transition-rules
 ---
 
 # Sentinel 状態遷移ルール (TRANSITION_RULES.md)

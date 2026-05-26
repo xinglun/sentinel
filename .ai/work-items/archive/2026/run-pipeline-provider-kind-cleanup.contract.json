@@ -1,0 +1,75 @@
+{
+  "contractVersion": 1,
+  "workItemId": "run-pipeline-provider-kind-cleanup",
+  "mode": "code",
+  "title": "run_pipeline から provider kind 依存を削除",
+  "scope": [
+    ".ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+    ".ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline が未使用の provider kind を受け取っている現状。"
+    },
+    {
+      "path": "src/infrastructure/market_data_provider_factory.rs",
+      "reason": "provider kind は provider composition 用の値である。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "run_pipeline は provider kind を引数に取らない。",
+    "provider kind は provider factory 呼び出し前の composition detail に限定される。",
+    "既存の radar / daemon / backtest provider selection behavior を維持する。",
+    "CLI tests から不要な provider kind 引数が消える。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::full_fetch_failure_generates_report_without_persisting_history",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::partial_fetch_failure_preserves_history_and_real_market_state",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json SUMMARY=.ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/run-pipeline-provider-kind-cleanup.contract.json SUMMARY=.ai/work-items/active/run-pipeline-provider-kind-cleanup.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

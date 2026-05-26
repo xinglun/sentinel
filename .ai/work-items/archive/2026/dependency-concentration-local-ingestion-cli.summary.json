@@ -1,0 +1,101 @@
+{
+  "workItemId": "dependency-concentration-local-ingestion-cli",
+  "contractPath": ".ai/work-items/archive/2026/dependency-concentration-local-ingestion-cli.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "reason": "dependency local ingestion CLI の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を同期する。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Dependency local ingestion CLI contract を machine-readable SSOT に追加する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Dependency local ingestion CLI contract を human-readable SSOT に追加する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "Dependency local ingestion CLI contract の schema / docs 整合を検証する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "DependencyConcentration evidence の local JSON ingestion command を追加する。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "dependency ingestion command と help text を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "DependencyConcentration local ingestion が evidence store へ保存し escalation を変更しないことを固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "tests/research_attention_cli_integration.rs",
+    "src/features/research/application/dependency_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_dependency_evidence_ingest_writes_jsonl_without_escalation --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "DependencyConcentration は local structured JSON ingestion のみに限定し、collector / live source adapter / escalation は追加しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "DependencyConcentration は local JSON ingestion までを有効化し、collector / live source adapter / escalation engine は未接続のまま維持した。"
+  ]
+}

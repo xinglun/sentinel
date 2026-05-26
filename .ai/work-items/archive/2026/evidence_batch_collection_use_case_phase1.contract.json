@@ -1,0 +1,101 @@
+{
+  "contractVersion": 1,
+  "workItemId": "evidence_batch_collection_use_case_phase1",
+  "mode": "code",
+  "title": "Evidence batch collection use case phase 1",
+  "scope": [
+    ".ai/work-items/active/evidence_batch_collection_use_case_phase1.contract.json",
+    ".ai/work-items/active/evidence_batch_collection_use_case_phase1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/application/evidence_ingestion.rs",
+    "src/cli.rs",
+    "tests/evidence_ingestion_port_integration.rs"
+  ],
+  "outOfScope": [
+    "src/domain/**",
+    "src/infrastructure/**",
+    "src/core/engine.rs",
+    "src/core/report.rs",
+    "src/core/presentation_assembler.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Application use case に orchestration を寄せる方針を確認する。"
+    },
+    {
+      "path": "src/application/evidence_ingestion.rs",
+      "reason": "既存 single-source use case と port 境界。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "collect-evidence の現行 batch orchestration。"
+    },
+    {
+      "path": "tests/collect_evidence_cli_integration.rs",
+      "reason": "CLI 出力互換と error path の既存契約。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Application layer に複数 symbol の evidence collection を扱う batch use case が追加されている。",
+    "collect-evidence は既存の出力互換を保ちながら batch use case を利用している。",
+    "batch use case は success / failure count と抽出 records を返し、CLI が表示を担当する。",
+    "Application layer は infrastructure 具象型に依存しない。",
+    "batch use case の integration test と既存 collect/ingest CLI integration test が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_batch_collection_use_case_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_batch_collection_use_case_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test --test collect_evidence_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test --test ingest_evidence_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_batch_collection_use_case_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_batch_collection_use_case_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_batch_collection_use_case_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_batch_collection_use_case_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_batch_collection_use_case_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_batch_collection_use_case_phase1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

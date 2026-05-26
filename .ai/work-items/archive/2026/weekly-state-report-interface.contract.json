@@ -1,0 +1,89 @@
+{
+  "contractVersion": 1,
+  "workItemId": "weekly-state-report-interface",
+  "mode": "code",
+  "title": "Weekly state report を interface へ抽出",
+  "scope": [
+    ".ai/work-items/active/weekly-state-report-interface.contract.json",
+    ".ai/work-items/active/weekly-state-report-interface.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/cli-report-extraction-interface.contract.json",
+    ".ai/work-items/archive/2026/cli-report-extraction-interface.summary.json",
+    "src/cli.rs",
+    "src/interface/mod.rs",
+    "src/interface/audit_daily_report.rs",
+    "src/interface/cognitive_reports.rs",
+    "src/interface/weekly_state_report.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline 内に weekly_state_metrics / weekly_state_review_auto の rendering と file output logic が残っている。"
+    },
+    {
+      "path": "src/interface/presentation.rs",
+      "reason": "weekly state report の presentation input contract。"
+    },
+    {
+      "path": "src/interface/cognitive_reports.rs",
+      "reason": "weekly context で再利用する macro / cognitive label helper。"
+    },
+    {
+      "path": "src/core/decision.rs",
+      "reason": "weekly metrics の decision packet input contract。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "weekly_state_metrics.json と weekly_state_review_auto.md の生成 logic は CLI から interface module へ抽出される。",
+    "CLI の run_pipeline は weekly output rendering details を保持せず、interface function を呼ぶだけにする。",
+    "既存 pipeline integration behavior を維持する。",
+    "前回未提交の CLI report extraction 変更と整合する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::persists_normal_runs_and_skips_diagnostic_only_runs",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekly-state-report-interface.summary.json CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json SUMMARY=.ai/work-items/active/weekly-state-report-interface.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekly-state-report-interface.contract.json SUMMARY=.ai/work-items/active/weekly-state-report-interface.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

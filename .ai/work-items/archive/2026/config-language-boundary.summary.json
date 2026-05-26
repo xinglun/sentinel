@@ -1,0 +1,94 @@
+{
+  "workItemId": "config-language-boundary",
+  "contractPath": ".ai/work-items/archive/2026/config-language-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/config-language-boundary.contract.json",
+      "reason": "Config language boundary migration の scope、sources、acceptance、required verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/config-language-boundary.summary.json",
+      "reason": "実装内容と検証結果を記録するために更新した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "Output language enum を config layer に移し、config から interface への依存を削除した。"
+    },
+    {
+      "path": "src/interface/i18n.rs",
+      "reason": "既存の interface::i18n::Language import path を維持するため、config の OutputLanguage を re-export した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "src/config.rs から crate::interface への依存を architecture boundary violation として検出する rule を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "config -> interface 依存検出の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/config.rs",
+    "src/interface/i18n.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/config-language-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/config-language-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/config-language-boundary.summary.json CONTRACT=.ai/work-items/active/config-language-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/config-language-boundary.contract.json SUMMARY=.ai/work-items/active/config-language-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/config-language-boundary.contract.json SUMMARY=.ai/work-items/active/config-language-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "config schema の language value は維持し、既存 interface::i18n::Language path も re-export で互換維持した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 test は OutputLanguage の Serialize derive 不足で失敗したため、Serialize derive を追加して再検証した。",
+    "rg で src/config.rs に crate::interface 参照が残っていないことを確認した。"
+  ]
+}

@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-"""AI 変更中の無宣言な後退を report-only で検出する。"""
+"""AI 変更中の無宣言な後退を hard gate として検出する。"""
 
 from __future__ import annotations
 
+import argparse
+import fnmatch
 import json
+import os
 import subprocess
 import sys
 import time
@@ -26,6 +29,12 @@ class BacktrackItem:
     detail: str
 
 
+@dataclass(frozen=True)
+class DestructiveApproval:
+    allow_patterns: tuple[str, ...]
+    documented: bool
+
+
 def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         ["git", *args],
@@ -37,7 +46,9 @@ def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
 
 
 def changed_name_status() -> list[tuple[str, str]]:
-    result = run_git(["diff", "--name-status", "HEAD"])
+    diff_base = os.environ.get("AI_DIFF_BASE", "").strip()
+    args = ["diff", "--name-status", f"{diff_base}...HEAD"] if diff_base else ["diff", "--name-status", "HEAD"]
+    result = run_git(args)
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip())
     changes: list[tuple[str, str]] = []
@@ -46,6 +57,8 @@ def changed_name_status() -> list[tuple[str, str]]:
         if len(parts) == 2:
             changes.append((parts[0], parts[1]))
 
+    if diff_base:
+        return changes
     untracked = run_git(["ls-files", "--others", "--exclude-standard"])
     if untracked.returncode != 0:
         raise RuntimeError(untracked.stderr.strip())
@@ -56,32 +69,88 @@ def changed_name_status() -> list[tuple[str, str]]:
 
 
 def diff_text(path: str) -> str:
-    result = run_git(["diff", "--unified=0", "HEAD", "--", path])
+    diff_base = os.environ.get("AI_DIFF_BASE", "").strip()
+    args = ["diff", "--unified=0", f"{diff_base}...HEAD", "--", path] if diff_base else ["diff", "--unified=0", "HEAD", "--", path]
+    result = run_git(args)
     return result.stdout if result.returncode == 0 else ""
 
 
-def detect_items(changes: list[tuple[str, str]]) -> list[BacktrackItem]:
+def matches(pattern: str, path: str) -> bool:
+    normalized = pattern.rstrip("/")
+    if normalized.endswith("/**") and not any(ch in normalized[:-3] for ch in "*?["):
+        prefix = normalized[:-3]
+        return path == prefix or path.startswith(f"{prefix}/")
+    if any(ch in normalized for ch in "*?["):
+        return fnmatch.fnmatch(path, normalized)
+    return path == normalized
+
+
+def load_approval(contract_path: Path, summary_path: Path | None) -> DestructiveApproval | None:
+    if not contract_path.exists():
+        return None
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    policy = contract.get("destructiveChangePolicy", {})
+    if not isinstance(policy, dict) or policy.get("allowed") is not True:
+        return None
+    patterns = tuple(item for item in policy.get("allowPatterns", []) if isinstance(item, str))
+    documented = False
+    if summary_path and summary_path.exists():
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+        changes = summary.get("destructiveChanges", []) if isinstance(summary, dict) else []
+        documented = bool(changes)
+    return DestructiveApproval(patterns, documented)
+
+
+def approvals_for_changes(
+    changes: list[tuple[str, str]], explicit_contract: str | None, explicit_summary: str | None
+) -> list[DestructiveApproval]:
+    pairs: list[tuple[Path, Path | None]] = []
+    if explicit_contract:
+        pairs.append(
+            (
+                PROJECT_ROOT / explicit_contract,
+                PROJECT_ROOT / explicit_summary if explicit_summary else None,
+            )
+        )
+    for _, path in changes:
+        if path.startswith(".ai/work-items/") and path.endswith(".contract.json"):
+            contract = PROJECT_ROOT / path
+            pairs.append((contract, Path(str(contract).replace(".contract.json", ".summary.json"))))
+    approvals: list[DestructiveApproval] = []
+    for contract, summary in dict.fromkeys(pairs):
+        approval = load_approval(contract, summary)
+        if approval:
+            approvals.append(approval)
+    return approvals
+
+
+def is_approved(path: str, approvals: list[DestructiveApproval]) -> bool:
+    return any(approval.documented and any(matches(pattern, path) for pattern in approval.allow_patterns) for approval in approvals)
+
+
+def detect_items(changes: list[tuple[str, str]], approvals: list[DestructiveApproval] | None = None) -> list[BacktrackItem]:
+    approvals = approvals or []
     items: list[BacktrackItem] = []
     for status, path in changes:
-        if status.startswith("D") and (path.startswith("tests/") or path.endswith("_tests.rs")):
+        if status.startswith("D") and (path.startswith("tests/") or path.endswith("_tests.rs")) and not is_approved(path, approvals):
             items.append(
                 BacktrackItem(
-                    "warning",
+                    "error",
                     "deleted_test",
                     path,
                     "test file が削除されています。必要な場合は Summary の destructiveChanges に理由を記録してください。",
                 )
             )
-        if status.startswith("D") and "snapshot" in path:
+        if status.startswith("D") and "snapshot" in path and not is_approved(path, approvals):
             items.append(
                 BacktrackItem(
-                    "warning",
+                    "error",
                     "deleted_snapshot",
                     path,
                     "snapshot が削除されています。表示契約の後退でないことを確認してください。",
                 )
             )
-        if path == "src/core/i18n.rs":
+        if (path.endswith("/i18n.rs") or path.endswith("/default_cognitive_localizations.rs")) and not is_approved(path, approvals):
             removed_lines = [
                 line
                 for line in diff_text(path).splitlines()
@@ -90,16 +159,16 @@ def detect_items(changes: list[tuple[str, str]]) -> list[BacktrackItem]:
             if removed_lines:
                 items.append(
                     BacktrackItem(
-                        "warning",
+                        "error",
                         "removed_i18n_key",
                         path,
                         f"i18n key / 文言削除候補があります: {len(removed_lines)} 件",
                     )
                 )
-        if path.startswith(".ai/work-items/") and status.startswith("D"):
+        if path.startswith(".ai/work-items/") and status.startswith("D") and not is_approved(path, approvals):
             items.append(
                 BacktrackItem(
-                    "warning",
+                    "error",
                     "removed_work_item_evidence",
                     path,
                     "Work Item evidence が削除されています。archive / cleanup 意図を Summary に記録してください。",
@@ -108,20 +177,29 @@ def detect_items(changes: list[tuple[str, str]]) -> list[BacktrackItem]:
     return items
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="無宣言な後退を hard gate として検証します。")
+    parser.add_argument("--contract")
+    parser.add_argument("--summary")
+    return parser.parse_args()
+
+
 def main() -> int:
+    args = parse_args()
     start = time.time()
     try:
         changes = changed_name_status()
-        items = detect_items(changes)
-    except RuntimeError as exc:
+        approvals = approvals_for_changes(changes, args.contract, args.summary)
+        items = detect_items(changes, approvals)
+    except (RuntimeError, OSError, json.JSONDecodeError) as exc:
         print(f"❌ backtrack guard failed: {exc}", file=sys.stderr)
         return 1
 
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     report = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "status": "warning" if items else "none",
-        "reportOnly": True,
+        "status": "error" if items else "none",
+        "reportOnly": False,
         "items": [asdict(item) for item in items],
     }
     REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -130,19 +208,21 @@ def main() -> int:
     duration = elapsed_ms(start)
 
     if items:
-        print(f"⚠️ backtrack guard report-only warnings: {len(items)}")
         for item in items:
-            print(f"[{item.severity}] {item.kind}: {item.path} - {item.detail}")
+            print(f"[{item.severity}] {item.kind}: {item.path} - {item.detail}", file=sys.stderr)
             obs.guard_violation(
                 check_id="aiBacktrack",
                 severity=item.severity,
                 path=item.path,
                 detail=f"{item.kind}: {item.detail}",
             )
-    else:
-        print("✅ backtrack guard: no issues")
+        obs.check_failed(check_id="aiBacktrack", duration_ms=duration, detail=f"{len(items)} unapproved destructive change(s)")
+        print(f"❌ backtrack guard failed: {len(items)} issue(s)", file=sys.stderr)
+        print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
+        return 1
+    print("✅ backtrack guard: no unapproved destructive changes")
     print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
-    obs.check_passed(check_id="aiBacktrack", duration_ms=duration, fields={"warnings": len(items)})
+    obs.check_passed(check_id="aiBacktrack", duration_ms=duration, fields={"issues": len(items)})
     return 0
 
 

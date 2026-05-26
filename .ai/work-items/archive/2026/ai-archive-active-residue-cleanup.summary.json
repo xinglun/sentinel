@@ -1,0 +1,73 @@
+{
+  "workItemId": "ai-archive-active-residue-cleanup",
+  "contractPath": ".ai/work-items/archive/2026/ai-archive-active-residue-cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "reason": "archive residue cleanup の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-archive-active-residue-cleanup.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を同期した。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "archive / ai-preflight 成功後に active Work Item JSON が残る場合は finish を失敗させる。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "archive 後 residue が残る場合の回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+    "scripts/ai_finish.py",
+    "scripts/ai_test_finish_archive_flow.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-archive-active-residue-cleanup.summary.json CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-residue-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-archive-active-residue-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-residue-cleanup.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "finish 完了判定を厳格化する変更で、archive residue が残る場合は成功扱いしない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

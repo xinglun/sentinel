@@ -1,0 +1,142 @@
+{
+  "workItemId": "hypothesis_boundary_hardening",
+  "contractPath": ".ai/work-items/archive/2026/hypothesis_boundary_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+      "reason": "Hypothesis 境界強化の Work Item 契約を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis_boundary_hardening.summary.json",
+      "reason": "変更内容、検出した問題、検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を Work Item と検証結果に同期した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+      "reason": "前段 Work Item の完了アーカイブを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+      "reason": "前段 Work Item の完了サマリーを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+      "reason": "文書言語修正 Work Item の完了アーカイブを保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_doc_language_fix.summary.json",
+      "reason": "文書言語修正 Work Item の完了サマリーを保持した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-doc-language を追加し、quality に含めた。"
+    },
+    {
+      "path": "scripts/check_doc_language.sh",
+      "reason": "docs 配下 Markdown の中国語売買用語混入を検出する軽量 checker を追加した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Hypothesis Layer の独立表示、transition_log 非依存、文書ガードを仕様化した。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "Hypothesis Layer の中英日表示辞書を追加した。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "Hypothesis Layer を PresentationPacket の top-level 表示モデルとして定義した。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Reality evidence から表示専用 Hypothesis Layer を組み立て、transition_log 依存を除去した。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Hypothesis Layer を State Transition Evidence から分離し、独立セクションとして描画した。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "Hypothesis ViewModel の failure risks 必須と Confirmed 禁止の契約を固定した。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "Hypothesis の speculative notice、多言語表示、Reality 分離、transition_log 非依存をテストで固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+    ".ai/cockpit/README.md",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "scripts/check_doc_language.sh",
+    "Makefile"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test hypothesis -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-language",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_boundary_hardening.summary.json CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json SUMMARY=.ai/work-items/active/hypothesis_boundary_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json SUMMARY=.ai/work-items/active/hypothesis_boundary_hardening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Hypothesis は表示専用 top-level セクションに分離し、Engine / Gate / execution には接続していない。"
+  },
+  "generatedFiles": [
+    "scripts/check_doc_language.sh"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P1",
+      "detail": "Hypothesis が State Transition Evidence 内に描画され、Reality と Future Map の境界が弱かった。top-level セクションへ分離した。"
+    },
+    {
+      "severity": "P2",
+      "detail": "Hypothesis 表示が transition_log の存在に実質依存していた。DecisionPacket の trend_recognition / substantive evidence から直接 top-level 表示モデルを構築するようにした。"
+    },
+    {
+      "severity": "P2",
+      "detail": "Markdown 文書の言語混入を audit-docs が検出できなかった。docs 配下に限定した check-doc-language を追加し quality に組み込んだ。"
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "workItemId": "root-compat-layer-purification",
+  "contractPath": ".ai/work-items/archive/2026/root-compat-layer-purification.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/root-compat-layer-purification.contract.json",
+      "reason": "root compatibility layer 削除の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/root-compat-layer-purification.summary.json",
+      "reason": "実施内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "crate root から application / interface / infrastructure export を削除した。"
+    },
+    {
+      "path": "src/features/shared/**",
+      "reason": "shared application / interface / infrastructure / ACL を feature-first tree 内へ移動した。"
+    },
+    {
+      "path": "src/features/radar/**",
+      "reason": "radar interface / infrastructure と snapshot / tests を feature 内へ集約した。"
+    },
+    {
+      "path": "src/features/evidence/**",
+      "reason": "evidence application / infrastructure / ACL import を feature-first path へ統一した。"
+    },
+    {
+      "path": "src/features/trading/**",
+      "reason": "trading application port と infrastructure import を feature-first path へ統一した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI composition root の import を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "src/backtest.rs",
+      "reason": "market data provider port import を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "src/adapters/**",
+      "reason": "adapter 実装の application port import を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "tests/**",
+      "reason": "integration test の public import path を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "crate::application / crate::interface / crate::infrastructure の再導入を hard failure にした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "root compatibility layer 禁止と cross-feature concrete dependency の regression tests を追加した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "target architecture の記述を feature-first path に更新した。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "shared feature の application / interface / infrastructure / ACL roots を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.cursor/plans/feature-first-acl_c00945b5.plan.md",
+    ".ai/architecture/feature_acl.yaml",
+    "src/application/mod.rs",
+    "src/interface/mod.rs",
+    "src/infrastructure/mod.rs",
+    "scripts/check_architecture_boundaries.py",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/root-compat-layer-purification.summary.json CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json SUMMARY=.ai/work-items/active/root-compat-layer-purification.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json SUMMARY=.ai/work-items/active/root-compat-layer-purification.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "crate root の compatibility layer を削除する破壊的変更だが、全 import を feature-first path へ移し、checker で再導入を禁止した。"
+  },
+  "generatedFiles": [
+    "src/features/shared/application/run_status.rs",
+    "src/features/shared/interface/**",
+    "src/features/shared/infrastructure/**",
+    "src/features/shared/acl/notification_factory.rs",
+    "src/features/radar/acl/evidence_store_factory.rs"
+  ],
+  "destructiveChanges": [
+    "src/application を削除した。",
+    "src/interface を削除し、tests / snapshots は src/features/radar/interface へ移動した。",
+    "src/infrastructure を削除した。",
+    "crate::application / crate::interface / crate::infrastructure public path を廃止した。"
+  ],
+  "observedIssues": [
+    {
+      "issue": "backtrack guard が deleted test / snapshot を report-only warning として検出した。",
+      "resolution": "対象は削除ではなく src/features/radar/interface 配下への移動であり、cargo test と snapshot 参照 path 更新で表示契約を検証した。"
+    },
+    {
+      "issue": "radar infrastructure から evidence infrastructure への direct dependency が checker で検出された。",
+      "resolution": "radar ACL に evidence_store_factory を追加し、radar infrastructure は自 feature ACL 経由に変更した。"
+    }
+  ]
+}

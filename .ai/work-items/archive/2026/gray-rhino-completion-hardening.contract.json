@@ -1,0 +1,102 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-completion-hardening",
+  "mode": "code",
+  "title": "Gray Rhino completion hardening",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-completion-hardening.contract.json",
+    ".ai/work-items/active/gray-rhino-completion-hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    ".github/workflows/daily_radar.yml",
+    "Makefile",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "scripts/ai_test_gray_rhino_evidence_contract.py",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/gray_rhino_daily_report_factory.rs",
+    "src/features/research/acl/gray_rhino_store_factory.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-completion-hardening.contract.json",
+      "reason": "Gray Rhino completion hardening の scope と acceptance を定義する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "InstitutionalMaturity の amplifying / mitigating が constraint_growth_rate に正しい方向で反映される。",
+    "Daily Radar workflow は Gray Rhino refresh を主 Radar 生成前に実行し、Telegram / archive が同一日の最終 Gray Rhino 状態を参照する。",
+    "risk_effect 欠落の旧 JSONL record は Unclassified として扱われ、assessment と report に不可评分として露出する。",
+    "Gray Rhino daily report orchestration は application port / use case 経由となり、interface は concrete store / file scan を直接実行しない。",
+    "EvidenceStore source の boundary / audit chain 文言は ManualConfiguration と区別される。",
+    "Gray Rhino 中文 / 日文 report で enum / template の英語漏れを減らし、三語回帰テストを追加する。",
+    "Cockpit active residue が残らず、status consistency が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-completion-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-completion-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_completion --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-completion-hardening.summary.json CONTRACT=.ai/work-items/active/gray-rhino-completion-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-completion-hardening.contract.json SUMMARY=.ai/work-items/active/gray-rhino-completion-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-completion-hardening.contract.json SUMMARY=.ai/work-items/active/gray-rhino-completion-hardening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

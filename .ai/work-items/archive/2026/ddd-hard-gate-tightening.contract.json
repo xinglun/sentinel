@@ -1,0 +1,83 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-hard-gate-tightening",
+  "mode": "code",
+  "title": "DDD hard gate tightening",
+  "scope": [
+    ".ai/work-items/active/ddd-hard-gate-tightening.contract.json",
+    ".ai/work-items/active/ddd-hard-gate-tightening.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/cli.rs",
+    "src/features/evidence/acl/evidence_store_factory.rs",
+    "src/features/shared/acl/notification_factory.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "DDD / Clean Architecture hard gate の実装。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "hard gate の regression test。"
+    },
+    {
+      "path": "ユーザー依頼",
+      "reason": "長期收益のため、CLI feature infrastructure、domain -> application、cfg(test) scan gap を修正する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "src/cli.rs から features/*/infrastructure への import が checker で検出される。",
+    "feature domain から same feature application への import が checker で検出される。",
+    "#[cfg(test)] module の後に production import があっても checker が検出を継続する。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-hard-gate-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-hard-gate-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-hard-gate-tightening.summary.json CONTRACT=.ai/work-items/active/ddd-hard-gate-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-hard-gate-tightening.contract.json SUMMARY=.ai/work-items/active/ddd-hard-gate-tightening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-hard-gate-tightening.contract.json SUMMARY=.ai/work-items/active/ddd-hard-gate-tightening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

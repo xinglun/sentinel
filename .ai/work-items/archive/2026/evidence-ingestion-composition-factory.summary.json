@@ -1,0 +1,94 @@
+{
+  "workItemId": "evidence-ingestion-composition-factory",
+  "contractPath": ".ai/work-items/archive/2026/evidence-ingestion-composition-factory.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/evidence-ingestion-composition-factory.contract.json",
+      "reason": "evidence ingestion composition factory batch の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence-ingestion-composition-factory.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "EvidenceStore / RuleBasedExtractor の direct construction を factory 経由へ変更した。"
+    },
+    {
+      "path": "src/infrastructure/evidence_fetcher_factory.rs",
+      "reason": "build_evidence_store / build_evidence_extractor を追加し evidence ingestion composition を集約した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "CLI から concrete evidence infrastructure への直接 import を禁止した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "CLI から EvidenceStore / RuleBasedExtractor への直接依存を検出する regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/infrastructure/evidence_fetcher_factory.rs",
+    "src/infrastructure/evidence_store.rs",
+    "src/infrastructure/evidence_ingestion.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence-ingestion-composition-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence-ingestion-composition-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::empty_fetch_set_does_not_trigger_diagnostic_skip",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence-ingestion-composition-factory.summary.json CONTRACT=.ai/work-items/active/evidence-ingestion-composition-factory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence-ingestion-composition-factory.contract.json SUMMARY=.ai/work-items/active/evidence-ingestion-composition-factory.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence-ingestion-composition-factory.contract.json SUMMARY=.ai/work-items/active/evidence-ingestion-composition-factory.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "CLI の concrete evidence infrastructure construction を factory 経由へ変更した。manual / URL / batch evidence ingestion の call path は維持される。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI が EvidenceStore / RuleBasedExtractor を複数箇所で直接 construct しており、composition detail が entrypoint に散っていた。"
+  ]
+}

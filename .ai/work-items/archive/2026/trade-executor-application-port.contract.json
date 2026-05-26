@@ -1,0 +1,90 @@
+{
+  "contractVersion": 1,
+  "workItemId": "trade-executor-application-port",
+  "mode": "code",
+  "title": "TradeExecutor port を application へ移動",
+  "scope": [
+    ".ai/work-items/active/trade-executor-application-port.contract.json",
+    ".ai/work-items/active/trade-executor-application-port.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/application/mod.rs",
+    "src/application/trade_executor.rs",
+    "src/trade/trader.rs",
+    "src/trade/mod.rs",
+    "src/lib.rs",
+    "src/infrastructure/trader_agent.rs",
+    "src/adapters/futu/trader.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/trade/trader.rs",
+      "reason": "TradeExecutor port と関連 DTO が top-level trade module にある現状。"
+    },
+    {
+      "path": "src/infrastructure/trader_agent.rs",
+      "reason": "TradeExecutor port の consumer。"
+    },
+    {
+      "path": "src/adapters/futu/trader.rs",
+      "reason": "TradeExecutor port の adapter implementation。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "application port module の公開位置。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "TradeExecutor port と関連 DTO の canonical module が application layer にある。",
+    "infrastructure::trader_agent は application::trade_executor を参照する。",
+    "Futu trader adapter は application::trade_executor の port を実装する。",
+    "top-level trade module export は削除される。",
+    "TraderAgent / Futu trader 関連 tests が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test trader_agent --lib",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trade-executor-application-port.summary.json CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json SUMMARY=.ai/work-items/active/trade-executor-application-port.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json SUMMARY=.ai/work-items/active/trade-executor-application-port.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

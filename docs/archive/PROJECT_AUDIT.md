@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: プロジェクト監査 (Project Audit)
+description: プロジェクト監査 (Project Audit) に関する Sentinel の設計・運用情報。
+key: docs-archive-project-audit
 ---
 
 # プロジェクト監査 (Project Audit)

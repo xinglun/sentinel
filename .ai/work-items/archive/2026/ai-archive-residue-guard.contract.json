@@ -1,0 +1,85 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-archive-residue-guard",
+  "mode": "code",
+  "title": "archive 後 active 残留の再発検出を強化",
+  "scope": [
+    ".ai/work-items/active/ai-archive-residue-guard.contract.json",
+    ".ai/work-items/active/ai-archive-residue-guard.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "scripts/ai_check_lifecycle.py",
+    "scripts/ai_test_lifecycle.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_lifecycle.py",
+      "reason": "active / archive の Work Item lifecycle 整合性を検証する対象。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "archive 後に active 残留が再発した事象の前提となる finish flow test。"
+    },
+    {
+      "path": ".ai/cockpit/status_policy.yaml",
+      "reason": "no_active_work_item と active 残留禁止の policy。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "同一 Work Item の Contract / Summary / Review が active と archive に同時存在する場合、lifecycle check が失敗する。",
+    "no_active_work_item 状態の active 残留検出は維持される。",
+    "duplicate active/archive residue の regression test が存在する。",
+    "archive 後に active 残留が再発した場合、次の `make check-work-items-lifecycle` で検出できる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-lifecycle",
+      "required": true
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-archive-residue-guard.summary.json CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json SUMMARY=.ai/work-items/active/ai-archive-residue-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-archive-residue-guard.contract.json SUMMARY=.ai/work-items/active/ai-archive-residue-guard.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

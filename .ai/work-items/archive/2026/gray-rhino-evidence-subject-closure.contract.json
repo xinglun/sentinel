@@ -1,0 +1,134 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-evidence-subject-closure",
+  "mode": "code",
+  "title": "Gray Rhino evidence subject closure",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+    ".ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/feature_acl.yaml",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/shared/application/run_status.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/dependency_source_adapter_factory.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/dependency_source_pipeline.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/application/gray_rhino_discovery.rs",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/domain/gray_rhino_assessment_policy.rs",
+    "src/features/research/domain/gray_rhino_discovery_policy.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/infrastructure/dependency_source_adapter.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "正式 evidence record に subject を保持する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "subject+category effective state と domain policy 移行対象。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "mitigating evidence を monitoring candidate lifecycle へ投影する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "discovery rule を domain service へ移す。"
+    },
+    {
+      "path": "src/features/shared/application/run_status.rs",
+      "reason": "GrayRhinoCollectionStatus を追加する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI infrastructure escape hatch を縮小し checker 対象にする。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "GrayRhinoEvidenceRecord retains subject and formal assessment reduces latest effective risk by (subject, category), preventing cross-company mitigation closure.",
+    "Mitigating/resolved evidence is projected into monitoring candidates or the report has a deterministic lifecycle alignment so formal evidence and candidate monitoring do not contradict.",
+    "Discovery classification and evidence assessment policy live in research/domain domain services; application modules orchestrate only.",
+    "Root CLI no longer owns dependency source HTTP/cache adapter implementation, and architecture checker blocks reqwest/infrastructure implementations in src/cli.rs.",
+    "RunOutcome exposes dedicated GrayRhinoCollectionStatus with partial_failure, provider outcomes, coverage, and collection date while preserving serde defaults.",
+    "Gray Rhino zh/ja output no longer leaks fallback in user-facing text, with stronger full-block checks and explicit technical identifier whitelist.",
+    "make quality and Cockpit lifecycle/status checks pass."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_subject_mitigation_does_not_cross_close --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_mitigating_evidence_projects_resolved_candidate --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_domain_policy_owns_discovery_and_assessment_rules --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test cli_does_not_own_dependency_source_infrastructure --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_collection_status_preserves_partial_provider_coverage --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_report_blocks_fallback_mixed_language --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

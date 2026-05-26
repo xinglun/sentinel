@@ -1,0 +1,132 @@
+{
+  "workItemId": "gray-rhino-governance-evidence-pipeline",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-evidence-pipeline.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-evidence-pipeline.contract.json",
+      "reason": "Phase 3-A GovernanceConcentration evidence pipeline の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-evidence-pipeline.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "GovernanceConcentration pipeline の machine-readable contract を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Phase 3-A の input / metric / storage / boundary を SSOT に追記した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "GovernanceConcentrationEvidence と metric validation を追加した。"
+    },
+    {
+      "path": "src/features/research/application/governance_evidence.rs",
+      "reason": "Governance evidence ingestion use case と repository port を追加した。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "governance evidence application module を公開した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "Gray Rhino evidence 専用 JSONL store を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "gray_rhino_evidence_store module を公開した。"
+    },
+    {
+      "path": "src/features/research/acl/governance_evidence_store_factory.rs",
+      "reason": "CLI から infrastructure 実装を隠蔽する ACL factory を追加した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "governance evidence store factory module を公開した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "ingest-gray-rhino-governance command と --file option を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "structured JSON から GovernanceConcentration evidence を ingest する CLI flow を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "GovernanceConcentration pipeline contract の checker 条件を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_gray_rhino_evidence_contract.py",
+      "reason": "nested governance metric schema extraction の regression test を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "CLI ingestion が JSONL store に保存し escalation snapshot を作らないことを固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "ユーザー方針: Phase 3-A は GovernanceConcentration を最初の sensor とする",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-evidence-pipeline.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Phase 3-A は local structured JSON ingestion までで、外部 SEC fetch / parsing と escalation engine 接続は未実装。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-evidence-pipeline.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-evidence-pipeline.summary.json",
+    "src/features/research/acl/governance_evidence_store_factory.rs",
+    "src/features/research/application/governance_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "外部 document fetch は未接続。初期 sensor は repository-local structured JSON に限定した。"
+  ]
+}

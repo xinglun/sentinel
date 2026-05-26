@@ -1,0 +1,85 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-v1-2-quality-calibration",
+  "mode": "code",
+  "title": "Gray Rhino v1.2 quality calibration",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+    ".ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "reason": "quality score / explanation graph / escalation calibration v2 の scope、acceptance、verification を定義する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "sensor health は ready / partial / insufficient を quality score から表示する。",
+    "quality score は traceability、completeness、freshness、confidence、source diversity を表示する。",
+    "report は dimension -> evidence category -> source の explanation graph を表示する。",
+    "escalation calibration は evidence quality に基づいて過剰 escalation を抑制する。",
+    "BUY / SELL / gate signal / execution signal / trend_cohesion を出力しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_quality_report_explains_dimensions_without_signals --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test features::research::application::gray_rhino_assessment::tests:: --lib",
+      "required": true
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-2-quality-calibration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/features/research/application/gray_rhino_assessment.rs",
+      "src/features/research/interface/gray_rhino_report.rs",
+      "tests/research_attention_cli_integration.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

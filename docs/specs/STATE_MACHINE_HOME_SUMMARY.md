@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機改造ホームサマリー (STATE_MACHINE_HOME_SUMMARY.md)
+description: Sentinel 状態機改造ホームサマリー (STATE_MACHINE_HOME_SUMMARY.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-home-summary
 ---
 
 # Sentinel 状態機改造ホームサマリー (STATE_MACHINE_HOME_SUMMARY.md)

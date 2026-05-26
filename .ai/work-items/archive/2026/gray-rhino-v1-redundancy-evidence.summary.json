@@ -1,0 +1,74 @@
+{
+  "workItemId": "gray-rhino-v1-redundancy-evidence",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-redundancy-evidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-redundancy-evidence.contract.json",
+      "reason": "Redundancy evidence の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-redundancy-evidence.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-redundancy-evidence.contract.json",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/application/institutional_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::domain::gray_rhino_evidence::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_redundancy_evidence_ingest_writes_jsonl_without_escalation --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-redundancy-evidence.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Redundancy は local structured JSON ingestion のみに限定し、collector / escalation は追加しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Redundancy は local JSON ingestion のみに限定し、collector / escalation は未接続。"
+  ]
+}

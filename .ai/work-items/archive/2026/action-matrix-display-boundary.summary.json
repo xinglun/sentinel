@@ -1,0 +1,100 @@
+{
+  "workItemId": "action-matrix-display-boundary",
+  "contractPath": ".ai/work-items/archive/2026/action-matrix-display-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/action-matrix-display-boundary.contract.json",
+      "reason": "ActionMatrix display boundary migration の scope、sources、acceptance、required verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/action-matrix-display-boundary.summary.json",
+      "reason": "実装内容と検証結果を記録するために更新した。"
+    },
+    {
+      "path": "src/core/action_matrix.rs",
+      "reason": "AssetActionDecision から interface display type を保持する fields を削除した。"
+    },
+    {
+      "path": "src/interface/display.rs",
+      "reason": "DisplayAdapter helper が interface layer で派生した context / intent を受け取るように変更した。"
+    },
+    {
+      "path": "src/interface/presentation_assembler.rs",
+      "reason": "TopAction ViewModel 生成時に interface layer で計算済みの context / intent を渡すように変更した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "core から interface への逆依存を architecture boundary violation として検出する rule を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "core -> interface 依存検出の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/core/action_matrix.rs",
+    "src/core/engine.rs",
+    "src/interface/presentation_assembler.rs",
+    "src/interface/display.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/action-matrix-display-boundary.summary.json CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json SUMMARY=.ai/work-items/active/action-matrix-display-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json SUMMARY=.ai/work-items/active/action-matrix-display-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "DecisionPacket schema から display_context / display_intent が外れるため、既存 JSON consumer が存在する場合は schema 差分の確認が必要。Repository 内の report / pipeline tests は通過した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 fmt-check は rustfmt の改行差分で失敗したため、cargo fmt --all を実行して再検証した。",
+    "src/core から crate::interface への参照は rg で検出されなかった。"
+  ]
+}

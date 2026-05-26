@@ -1,0 +1,69 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-real-run-calibration",
+  "mode": "code",
+  "title": "Gray Rhino real run calibration",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+    ".ai/work-items/active/gray-rhino-real-run-calibration.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "reason": "SEC htm cache scan と real-run lookback calibration の scope、acceptance、verification を定義する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "daily Gray Rhino auto discovery が SEC `.htm` cache を読み込む。",
+    "collect-gray-rhino-sources --source sec の既定 lookback を real-run 向けに 365 日へ校正する。",
+    "company-side SEC candidates が daily inline reference に表示される regression test を追加する。",
+    "config.toml の local API key diff は commit 対象にしない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_daily_report_reads_sec_htm_cache --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-real-run-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-real-run-calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-real-run-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-real-run-calibration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

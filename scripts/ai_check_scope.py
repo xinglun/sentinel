@@ -85,18 +85,18 @@ def included(path: str, patterns: list[str]) -> bool:
     return any(matches(pattern, path) for pattern in patterns)
 
 
-def dependency_scope_warnings(paths: list[str], scope: list[str]) -> list[str]:
+def dependency_scope_issues(paths: list[str], scope: list[str]) -> list[str]:
     triggers = sorted(set(paths) | set(scope))
-    warnings: list[str] = []
+    issues: list[str] = []
     for trigger, required_paths in DEPENDENCY_SCOPE_RULES.items():
         if not included(trigger, triggers):
             continue
         missing = [path for path in required_paths if not included(path, scope)]
         if missing:
-            warnings.append(
-                f"dependency scope warning: {trigger} requires scope entries: {', '.join(missing)}"
+            issues.append(
+                f"dependency scope が不足しています: {trigger} requires scope entries: {', '.join(missing)}"
             )
-    return warnings
+    return issues
 
 
 def string_list(data: dict[str, Any], key: str) -> list[str]:
@@ -142,7 +142,7 @@ def main() -> int:
         if not included(path, scope):
             issues.append(f"scope に含まれていません: {path}")
 
-    warnings = dependency_scope_warnings(paths, scope)
+    issues.extend(dependency_scope_issues(paths, scope))
 
     duration = elapsed_ms(start)
     if issues:
@@ -151,19 +151,11 @@ def main() -> int:
         print(f"❌ scope guard failed: {len(issues)} issue(s)", file=sys.stderr)
         obs.check_failed(check_id="aiScope", duration_ms=duration, detail=f"{len(issues)} issue(s)")
         return 1
-    for warning in warnings:
-        print(f"[warning] {warning}")
-        obs.guard_violation(
-            check_id="aiScopeDependency",
-            severity="warning",
-            path="scope",
-            detail=warning,
-        )
     print(f"✅ scope guard passed: {len(paths)} changed path(s) covered")
     obs.check_passed(
         check_id="aiScope",
         duration_ms=duration,
-        fields={"changedPaths": len(paths), "dependencyWarnings": len(warnings)},
+        fields={"changedPaths": len(paths), "dependencyIssues": 0},
     )
     return 0
 

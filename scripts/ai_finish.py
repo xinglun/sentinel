@@ -30,6 +30,16 @@ def run(command: list[str]) -> tuple[int, int]:
     return result.returncode, elapsed_ms(start)
 
 
+def active_work_item_files() -> list[Path]:
+    if not ACTIVE_DIR.exists():
+        return []
+    return sorted(
+        path
+        for path in ACTIVE_DIR.glob("*.json")
+        if path.name.endswith((".contract.json", ".summary.json", ".review.json"))
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="AI Work Item の finish checks を実行します。")
     parser.add_argument("--task", required=True)
@@ -83,6 +93,24 @@ def main() -> int:
             obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
             return code
         obs.check_passed(check_id="archive-work-item", command=cmd_str, duration_ms=duration)
+        preflight_command = ["make", "ai-preflight"]
+        cmd_str = " ".join(preflight_command)
+        obs.check_started(check_id="ai-preflight", command=cmd_str)
+        code, duration = run(preflight_command)
+        if code != 0:
+            obs.check_failed(check_id="ai-preflight", command=cmd_str, duration_ms=duration)
+            obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
+            return code
+        obs.check_passed(check_id="ai-preflight", command=cmd_str, duration_ms=duration)
+        remaining = active_work_item_files()
+        if remaining:
+            for path in remaining:
+                print(
+                    f"❌ Active Work Item residue remains after archive: {path.relative_to(PROJECT_ROOT)}",
+                    file=sys.stderr,
+                )
+            obs.work_item_finished(result="failed", duration_ms=elapsed_ms(total_start))
+            return 1
     obs.work_item_finished(result="passed", duration_ms=elapsed_ms(total_start))
     return 0
 

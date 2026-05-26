@@ -1,0 +1,119 @@
+{
+  "contractVersion": 1,
+  "workItemId": "verification_fmt_required",
+  "mode": "code",
+  "title": "Require fmt verification in Work Items",
+  "scope": [
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/_templates/ai_change_summary.example.json",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/active/verification_fmt_required.contract.json",
+    ".ai/work-items/active/verification_fmt_required.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_boundary_hardening.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_boundary_hardening.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_review_fix.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_review_fix.summary.json",
+    "AGENTS.md",
+    "Makefile",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_start.py",
+    "scripts/ai_test_work_item_contract.py",
+    "scripts/check_doc_forbidden_terms.sh",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    ".ai/cockpit/checks.yaml"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/cli.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/verification_fmt_required.contract.json",
+      "reason": "Work Item の対象範囲と検証条件。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "新規 Work Item の verification 初期値を生成する。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Work Item Contract の必須 verification を検証する。"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "手動作成時の Contract template。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "repository-wide AI Cockpit ルール。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "ai-start で作成される Work Item verification に make fmt-check が required として含まれる。",
+    "ai_check_work_item は make fmt-check が required でない Contract を reject する。",
+    "Contract template / Summary template / AGENTS / Cockpit docs が format check 必須に同期されている。",
+    "make quality が成功する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/verification_fmt_required.summary.json CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json SUMMARY=.ai/work-items/active/verification_fmt_required.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/verification_fmt_required.contract.json SUMMARY=.ai/work-items/active/verification_fmt_required.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

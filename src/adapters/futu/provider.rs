@@ -11,8 +11,8 @@ use crate::adapters::futu::protocol::generated::qot_common::{
     KlType, QotMarket, RehabType, Security,
 };
 use crate::adapters::futu::protocol::generated::qot_get_history_kl::{C2s, Request, Response};
-use crate::data::provider::MarketDataProvider;
-use crate::data::yahoo_provider::{DailyBar, TickerHistory};
+use crate::features::radar::application::provider::MarketDataProvider;
+use crate::features::radar::application::provider::{DailyBar, TickerHistory};
 
 pub struct FutuProvider {
     client: Arc<FutuClient>,
@@ -24,7 +24,7 @@ impl FutuProvider {
     }
 
     fn parse_symbol(symbol: &str) -> Security {
-        // Simple mapping: if it starts with HK., map to HK Security. Otherwise default to US.
+        // 単純 mapping: HK. で始まる場合は HK Security、それ以外は US を default とする。
         if symbol.starts_with("HK.") || symbol.ends_with(".HK") {
             let code = symbol.replace("HK.", "").replace(".HK", "");
             Security {
@@ -105,7 +105,7 @@ impl MarketDataProvider for FutuProvider {
             .s2c
             .ok_or_else(|| anyhow::anyhow!("Missing s2c payload"))?;
 
-        // Futu API returns oldest first
+        // Futu API は古い順で返す。
         let mut bars = Vec::new();
         let mut latest_ts = None;
         for kline in s2c.kl_list {

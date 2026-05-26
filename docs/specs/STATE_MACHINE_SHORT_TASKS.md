@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機改造ショートタスクリスト
+description: Sentinel 状態機改造ショートタスクリスト に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-short-tasks
 ---
 
 # Sentinel 状態機改造ショートタスクリスト
@@ -15,7 +18,7 @@ author: Ray
 
 修正範囲：
 
-1. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
+1. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs)
 2. 関連する設定のロードパス。
 
 承認基準：

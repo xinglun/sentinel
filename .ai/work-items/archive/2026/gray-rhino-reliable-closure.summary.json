@@ -1,0 +1,195 @@
+{
+  "workItemId": "gray-rhino-reliable-closure",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-reliable-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-reliable-closure.contract.json",
+      "reason": "本 Work Item の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-reliable-closure.summary.json",
+      "reason": "実装内容と検証結果を更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Active Work Item 状態を最新化した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "候補時間モデル、provider coverage、report query 境界、source collection use case 契約を追加した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray-rhino-observation-integrity.contract.json",
+      "reason": "前 Work Item の archive output。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray-rhino-observation-integrity.summary.json",
+      "reason": "前 Work Item の archive output。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "provider_status と accepted/rejected coverage を集約して refresh sidecar に保存するようにした。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "current source scan 旧契約を削除し、持続リスク時間モデルと refresh coverage を明文化した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "旧 source scan 契約の forbidden phrase と新 schema key を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "provider collection status と coverage を出力し、完全失敗を非ゼロ終了にした。"
+    },
+    {
+      "path": "src/features/research/acl/gray_rhino_source_adapter_factory.rs",
+      "reason": "source collection types を application から re-export するようにした。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "gray_rhino_source_collection use case module を公開した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_source_collection.rs",
+      "reason": "fetch -> discover -> persist -> audit orchestration を Application use case と ports に移した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "候補本文を最新 confirmation / state rank で選び、refresh coverage DTO を拡張した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "discovery candidate に source_published_at / last_confirmed_at / resolved_at を投影した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "持続的構造リスクを age-only で Resolved にしない kind-aware 状態機にした。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_candidate.rs",
+      "reason": "candidate の source_published_at、last_confirmed_at、resolved_at を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_candidate_store.rs",
+      "reason": "candidate 時間フィールドを test fixture に反映した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "refresh status coverage を typed DTO に mapping するようにした。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "infrastructure を fetch/cache/repository adapter に寄せ、orchestration を Application use case に委譲した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "refresh status の coverage と zh/en/ja localized status label を表示した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "time model、latest display、provider coverage、refresh status i18n の回帰テストを追加・更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.cursor/plans/gray_rhino_closure_43da71de.plan.md",
+    ".ai/work-items/active/gray-rhino-reliable-closure.contract.json",
+    "src/features/research/domain/gray_rhino_candidate.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/application/gray_rhino_source_collection.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-reliable-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-reliable-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_time_model --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_display_latest --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_refresh_coverage --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_refresh_status_i18n --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-reliable-closure.summary.json CONTRACT=.ai/work-items/active/gray-rhino-reliable-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-reliable-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-reliable-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-reliable-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-reliable-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "候補時間モデル、最新候補表示、provider coverage、三語 refresh status、Application use case boundary を回帰テストと quality gate で保護する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

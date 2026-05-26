@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-threshold-format-migration",
+  "mode": "code",
+  "title": "Presentation残留修正: threshold_format を core から interface へ移行",
+  "scope": [
+    ".ai/work-items/active/ddd-threshold-format-migration.contract.json",
+    ".ai/work-items/active/ddd-threshold-format-migration.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/mod.rs",
+    "src/core/threshold_format.rs",
+    "src/interface/mod.rs",
+    "src/interface/report.rs",
+    "src/interface/threshold_format.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "新規 output formatting は interface layer に置き、legacy core を縮小する方針を確認した。"
+    },
+    {
+      "path": "src/core/threshold_format.rs",
+      "reason": "presentation-only threshold formatter の移行元。"
+    },
+    {
+      "path": "src/interface/report.rs",
+      "reason": "threshold formatter の唯一の利用箇所。"
+    },
+    {
+      "path": "src/core/mod.rs",
+      "reason": "core module export から threshold_format を除去する対象。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "interface module export に threshold_format を追加する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "presentation-only の threshold formatter が `src/interface` に配置されている。",
+    "`src/interface/report.rs` が `crate::core::threshold_format` に依存していない。",
+    "`src/core/mod.rs` から `threshold_format` export が削除されている。",
+    "既存 report / Telegram output の threshold formatting 契約が維持されている。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-threshold-format-migration.summary.json CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json SUMMARY=.ai/work-items/active/ddd-threshold-format-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-threshold-format-migration.contract.json SUMMARY=.ai/work-items/active/ddd-threshold-format-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

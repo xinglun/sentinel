@@ -1,0 +1,103 @@
+{
+  "workItemId": "gray-rhino-governance-sec-replay-pack",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-sec-replay-pack.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-replay-pack.contract.json",
+      "reason": "Governance SEC replay pack の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-replay-pack.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "replay fixture pack、coverage report、rejection taxonomy の contract を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Governance SEC Replay Pack の SSOT 境界を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "replay fixture pack と taxonomy の checker 条件を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/governance_source.rs",
+      "reason": "GovernanceReplayRejectionKind を追加した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "field coverage report と rejection classifier を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "5 fixture の replay pack integration test を追加した。"
+    },
+    {
+      "path": "tests/fixtures/governance_sec/*.txt",
+      "reason": "Governance SEC replay fixture pack を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "ユーザー方針: 実 source 接続前に fixture replay pack で sensor quality を測る",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-replay-pack.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "fixture replay は offline 検証であり、実 SEC network backfill の安定性は次 phase で検証する。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-sec-replay-pack.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-replay-pack.summary.json",
+    "tests/fixtures/governance_sec/example_def14a_full.txt",
+    "tests/fixtures/governance_sec/example_10k_board.txt",
+    "tests/fixtures/governance_sec/example_s1_dual_class.txt",
+    "tests/fixtures/governance_sec/example_20f_succession.txt",
+    "tests/fixtures/governance_sec/example_metricless.txt"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

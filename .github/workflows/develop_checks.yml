@@ -1,12 +1,14 @@
-name: Develop Branch Checks
+name: Code Branch Quality Gates
 
 on:
   push:
     branches:
       - develop
+      - main
   pull_request:
     branches:
       - develop
+      - main
 
 jobs:
   validate:
@@ -18,6 +20,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Install Protoc (Required for Futu)
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
@@ -43,6 +47,8 @@ jobs:
         run: make test
 
       - name: Run AI Governance Checks
+        env:
+          AI_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: make check-ai
 
   audit-daily-guard:

@@ -1,0 +1,113 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-archive-active-cleanup",
+  "mode": "code",
+  "title": "AI Work Item archive 後の active 残留を防止",
+  "scope": [
+    ".ai/work-items/active/ai-archive-active-cleanup.contract.json",
+    ".ai/work-items/active/ai-archive-active-cleanup.summary.json",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/cockpit/status_policy.yaml",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "scripts/ai_archive_work_item.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_check_status_consistency.py",
+    "scripts/ai_check_lifecycle.py",
+    "scripts/ai_test_finish_archive_flow.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_archive_work_item.py",
+      "reason": "archive 後に active 残留が起きる経路と current_status 生成を確認する対象。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "make ai-finish の archive 完了後に追加検証を行う入口。"
+    },
+    {
+      "path": "scripts/ai_check_lifecycle.py",
+      "reason": "no_active_work_item と active directory の整合性を検出する checker。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "ai_finish archive flow の regression test。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "archive 完了後の no-active 状態同期対象。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/.ai/cockpit/status_policy.yaml",
+      "reason": "active / archive / idle status と archive-only policy の参考元。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/tools/scripts/check_cockpit_status_consistency.py",
+      "reason": "current_status.md の参照整合性を独立 checker にする参考元。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_flutter/seven_app/tools/scripts/archive_work_item.py",
+      "reason": "archive 後の next step と lifecycle maintenance 方針の参考元。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "`make ai-finish` の archive 成功後、active 側の contract / summary / review 残留が検出または除去される。",
+    "archive 成功後に `.ai/cockpit/current_status.md` が `no_active_work_item` として同期される。",
+    "no-active status なのに active Work Item JSON が残る場合、lifecycle check が失敗する。",
+    "current_status.md の参照整合性を Contract 指定なしで検証できる。",
+    "archive flow regression test が post-archive lifecycle / status consistency check を検証する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "required": true
+    },
+    {
+      "command": "make check-work-items-lifecycle",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-archive-active-cleanup.summary.json CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-archive-active-cleanup.contract.json SUMMARY=.ai/work-items/active/ai-archive-active-cleanup.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

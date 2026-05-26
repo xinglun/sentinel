@@ -1,0 +1,102 @@
+{
+  "workItemId": "ddd-layer-cleanup",
+  "contractPath": ".ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/infrastructure/evidence_store.rs",
+      "reason": "core/evidence_store.rs を infrastructure 層へ移動した。EvidenceRepository Port の実装として正しい層に配置する。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "evidence_store を pub mod として追加した。"
+    },
+    {
+      "path": "src/core/mod.rs",
+      "reason": "pub mod evidence_store および pub mod evidence_ingestion (re-export shim) を削除した。"
+    },
+    {
+      "path": "src/interface/evidence_cli.rs",
+      "reason": "core::evidence_ingestion:: の参照を infrastructure::evidence_ingestion:: に直接参照へ修正した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "core::evidence_ingestion と core::evidence_store の import を infrastructure:: 直接参照に変更した。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "core::evidence_ingestion / core::evidence_store の参照を正しい層 (infrastructure/domain) へ修正した。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "core::evidence_store::EvidenceStore を infrastructure::evidence_store::EvidenceStore へ修正した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
+      "reason": "Work Item Contract を実際のスコープに合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ddd-layer-cleanup.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/architecture/architecture_design.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/archive/2026/ddd-layer-cleanup.summary.json CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-layer-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/archive/2026/ddd-layer-cleanup.contract.json SUMMARY=.ai/work-items/archive/2026/ddd-layer-cleanup.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "ファイル移動のみ。既存テストが全通過しており、破壊的変更なし。"
+  },
+  "generatedFiles": [
+    "src/infrastructure/evidence_store.rs"
+  ],
+  "destructiveChanges": [
+    {
+      "path": "src/core/evidence_store.rs",
+      "reason": "infrastructure/evidence_store.rs へ移動したため削除。"
+    },
+    {
+      "path": "src/core/evidence_ingestion.rs",
+      "reason": "re-export shim を廃止。呼び出し元が直接 infrastructure:: / application:: を参照するよう修正した。"
+    }
+  ],
+  "observedIssues": []
+}

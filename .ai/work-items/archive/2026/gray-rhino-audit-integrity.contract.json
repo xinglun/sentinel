@@ -1,0 +1,122 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-audit-integrity",
+  "mode": "code",
+  "title": "Gray Rhino audit integrity",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+    ".ai/work-items/active/gray-rhino-audit-integrity.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    ".ai/guards/file_ownership.yaml",
+    ".ai/guards/ai_review_policy.yaml",
+    ".ai/cockpit/checks.yaml",
+    "Makefile",
+    "README.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/architecture/IMPLEMENTATION_WALKTHROUGH.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "src/features/research/application/gray_rhino_source_collection.rs",
+    "src/features/research/infrastructure/gray_rhino_candidate_store.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "reason": "Gray Rhino audit integrity 修正の scope と acceptance を定義する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "as_of_date port と read-only policy の修正対象。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "ops / refresh status / governance audit の as_of_date filter 対象。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "Finnhub source freshness と article identity の修正対象。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Gray Rhino appendix failure visibility の修正対象。"
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "feature-first path guard coverage の修正対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Governance audits, backfill/discovery ops views, and refresh status are selected as of report date and never leak future status into historical replay.",
+    "Finnhub source collection creates stable per-article source identities using article date/url/hash rather than one daily merged source.",
+    "daily-calibration Gray Rhino rendering is read-only and does not append assessment snapshots during historical query.",
+    "Radar remains non-blocking but displays a Gray Rhino failure appendix if report building fails.",
+    "Visible stale persistent risks do not jump back from Cooling to Visible solely because more time passed.",
+    "AI guard ownership/review paths include current src/features radar/research/shared paths and docs no longer point current implementation to old src/core engine flow.",
+    "Japanese Gray Rhino refresh status avoids raw English run terms in localized output.",
+    "make quality and Cockpit lifecycle/status checks pass."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_audit_replay --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_readonly --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_finnhub_identity --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_failure_appendix --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-audit-integrity.summary.json CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json SUMMARY=.ai/work-items/active/gray-rhino-audit-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-audit-integrity.contract.json SUMMARY=.ai/work-items/active/gray-rhino-audit-integrity.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

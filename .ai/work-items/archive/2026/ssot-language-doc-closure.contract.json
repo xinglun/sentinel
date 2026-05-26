@@ -1,0 +1,107 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ssot-language-doc-closure",
+  "mode": "code",
+  "title": "SSOT と言語規約の完全収束",
+  "scope": [
+    ".ai/work-items/active/ssot-language-doc-closure.contract.json",
+    ".ai/work-items/active/ssot-language-doc-closure.summary.json",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/feature_acl.yaml",
+    ".gitignore",
+    "AGENTS.md",
+    "GEMINI.md",
+    "README.md",
+    "docs/README.md",
+    "docs/**/*.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/lib.rs",
+    "src/backtest.rs",
+    "src/**/*.rs",
+    "tests/**/*.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "review finding: comment language drift",
+      "reason": "非生成 Rust code に英語・中国語 comment / doc comment が残っている。"
+    },
+    {
+      "path": "review finding: markdown front matter drift",
+      "reason": "正式 Markdown の一部が title / description / key を欠いている。"
+    },
+    {
+      "path": "review finding: SSOT drift",
+      "reason": "DDD / Gray Rhino / Cockpit の human-readable doc が machine-readable SSOT とずれている。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "言語規約と Markdown front matter 規約の repository-level SSOT。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature-first / ACL checker の machine-readable SSOT。"
+    },
+    {
+      "path": ".ai/cockpit/status_policy.yaml",
+      "reason": "Cockpit state / archive policy の machine-readable SSOT。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "Gray Rhino output boundary の SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "非生成 Rust production code の comment / doc comment が日本語へ収束している。",
+    "生成 code / snapshot / Skill などの例外が AGENTS.md で明示されている。",
+    "正式 Markdown document が author / title / description / key front matter を持つ。",
+    "DDD / Gray Rhino / Cockpit docs が machine-readable SSOT と矛盾しない。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ssot-language-doc-closure.summary.json CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json SUMMARY=.ai/work-items/active/ssot-language-doc-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ssot-language-doc-closure.contract.json SUMMARY=.ai/work-items/active/ssot-language-doc-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/backtest.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

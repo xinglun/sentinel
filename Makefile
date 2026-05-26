@@ -16,12 +16,17 @@ AUDIT_DAILY_ARGS ?=
 TRANSITION_AUDIT_ARGS ?=
 COLLECT_EVIDENCE_ARGS ?=
 RESEARCH_ATTENTION_ARGS ?=
+DAILY_CALIBRATION_ARGS ?=
+GRAY_RHINO_REFRESH_DATE ?= $(shell date +%F)
+GRAY_RHINO_REFRESH_ARGS ?= --date $(GRAY_RHINO_REFRESH_DATE)
+GRAY_RHINO_REFRESH_DAILY_ARGS ?= $(DAILY_CALIBRATION_ARGS)
+GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-rust test-audit-daily test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
-	generate-cockpit-status check-ai-status ai-start ai-finish check-ai quality radar radar-release daemon backtest \
+	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
-	collect-evidence-release research-attention archive-work-item check-work-items-lifecycle
+	collect-evidence-release research-attention daily-calibration gray-rhino-refresh archive-work-item check-work-items-lifecycle
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
@@ -36,16 +41,28 @@ help:
 	@printf '%s\n' '  make collect-evidence COLLECT_EVIDENCE_ARGS="..."'
 	@printf '%s\n' '  make collect-evidence-release COLLECT_EVIDENCE_ARGS="..."'
 	@printf '%s\n' '  make research-attention RESEARCH_ATTENTION_ARGS="..."'
+	@printf '%s\n' '  make daily-calibration DAILY_CALIBRATION_ARGS="..."'
+	@printf '%s\n' '  make gray-rhino-refresh GRAY_RHINO_REFRESH_ARGS="--date YYYY-MM-DD"'
 	@printf '%s\n' '  make fmt-check'
 	@printf '%s\n' '  make audit-docs'
+	@printf '%s\n' '  make check-doc-forbidden-terms'
+	@printf '%s\n' '  make check-architecture'
+	@printf '%s\n' '  make check-gray-rhino-evidence-contract'
 	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make clippy'
 	@printf '%s\n' '  make diff-check'
 	@printf '%s\n' '  make test-audit-daily'
+	@printf '%s\n' '  make test-ai-guards'
+	@printf '%s\n' '  make test-ai-backtrack'
 	@printf '%s\n' '  make test-ai-dependency-scope'
 	@printf '%s\n' '  make test-ai-retry-circuit'
 	@printf '%s\n' '  make test-ai-coverage-guard'
 	@printf '%s\n' '  make test-ai-finish-archive-flow'
+	@printf '%s\n' '  make test-ai-lifecycle'
+	@printf '%s\n' '  make test-ai-work-item-contract'
+	@printf '%s\n' '  make test-ai-start'
+	@printf '%s\n' '  make test-architecture-boundaries'
+	@printf '%s\n' '  make test-gray-rhino-evidence-contract'
 	@printf '%s\n' '  make check-rust'
 	@printf '%s\n' '  make check-ai-contract CONTRACT=<contract.json>'
 	@printf '%s\n' '  make check-ai-scope CONTRACT=<contract.json>'
@@ -55,6 +72,8 @@ help:
 	@printf '%s\n' '  make check-ai-coverage-guard'
 	@printf '%s\n' '  make generate-cockpit-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
 	@printf '%s\n' '  make check-ai-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
+	@printf '%s\n' '  make check-ai-status-consistency'
+	@printf '%s\n' '  make ai-preflight'
 	@printf '%s\n' '  make ai-start TASK=<task> TITLE="..."'
 	@printf '%s\n' '  make ai-finish TASK=<task>'
 	@printf '%s\n' '  make check-ai'
@@ -67,6 +86,15 @@ fmt-check:
 
 audit-docs:
 	bash scripts/check_audit_docs.sh
+
+check-doc-forbidden-terms:
+	bash scripts/check_doc_forbidden_terms.sh
+
+check-architecture:
+	python3 scripts/check_architecture_boundaries.py
+
+check-gray-rhino-evidence-contract:
+	python3 scripts/check_gray_rhino_evidence_contract.py
 
 test:
 	cargo test
@@ -93,7 +121,25 @@ test-ai-coverage-guard:
 test-ai-finish-archive-flow:
 	python3 scripts/ai_test_finish_archive_flow.py
 
-check-rust: fmt-check audit-docs test clippy diff-check
+test-ai-lifecycle:
+	python3 scripts/ai_test_lifecycle.py
+
+test-ai-work-item-contract:
+	python3 scripts/ai_test_work_item_contract.py
+
+test-ai-generate-status:
+	python3 scripts/ai_test_generate_status.py
+
+test-ai-start:
+	python3 scripts/ai_test_start.py
+
+test-architecture-boundaries:
+	python3 scripts/ai_test_architecture_boundaries.py
+
+test-gray-rhino-evidence-contract:
+	python3 scripts/ai_test_gray_rhino_evidence_contract.py
+
+check-rust: fmt-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract test-architecture-boundaries test-gray-rhino-evidence-contract test clippy diff-check
 
 check-ai-contract check-ai-work-item:
 	python3 scripts/ai_check_work_item.py $(CONTRACT)
@@ -102,13 +148,13 @@ check-ai-scope:
 	python3 scripts/ai_check_scope.py $(CONTRACT)
 
 check-ai-guards:
-	python3 scripts/ai_check_guards.py
+	python3 scripts/ai_check_guards.py $(if $(CONTRACT),--contract $(CONTRACT))
 
 check-ai-change-summary:
 	python3 scripts/ai_check_summary.py $(SUMMARY) $(SUMMARY_ARGS) $(ARGS)
 
 check-ai-backtrack:
-	python3 scripts/ai_check_backtrack.py
+	python3 scripts/ai_check_backtrack.py $(if $(CONTRACT),--contract $(CONTRACT)) $(if $(SUMMARY),--summary $(SUMMARY))
 
 check-ai-coverage-guard:
 	python3 scripts/ai_check_coverage_guard.py
@@ -119,29 +165,35 @@ generate-cockpit-status:
 check-ai-status:
 	python3 scripts/ai_check_status.py .ai/cockpit/current_status.md $(SUMMARY_ARGS) $(STATUS_ARGS)
 
+check-ai-status-consistency:
+	python3 scripts/ai_check_status_consistency.py
+
 check-work-items-lifecycle:
 	python3 scripts/ai_check_lifecycle.py
+
+ai-preflight:
+	python3 scripts/ai_preflight.py
 
 archive-work-item:
 	python3 scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
 
-check-ai:
+check-ai: test-ai-generate-status test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-coverage-guard
 	@if [ -n "$(CONTRACT)" ]; then \
 		"$${MAKE:-make}" check-ai-contract CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" check-ai-scope CONTRACT="$(CONTRACT)" && \
-		"$${MAKE:-make}" check-ai-guards && \
-		"$${MAKE:-make}" check-ai-backtrack && \
+		"$${MAKE:-make}" check-ai-guards CONTRACT="$(CONTRACT)" && \
+		"$${MAKE:-make}" check-ai-backtrack CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-coverage-guard && \
 		"$${MAKE:-make}" check-ai-change-summary SUMMARY="$(SUMMARY)" CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" generate-cockpit-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
 		"$${MAKE:-make}" check-ai-status CONTRACT="$(CONTRACT)" SUMMARY="$(SUMMARY)" && \
-		"$${MAKE:-make}" check-work-items-lifecycle; \
+		"$${MAKE:-make}" ai-preflight; \
 	else \
 		python3 scripts/ai_generate_status.py --no-active && \
+		"$${MAKE:-make}" ai-preflight && \
 		"$${MAKE:-make}" check-ai-guards && \
 		"$${MAKE:-make}" check-ai-backtrack && \
-		"$${MAKE:-make}" check-ai-coverage-guard && \
-		"$${MAKE:-make}" check-work-items-lifecycle; \
+		"$${MAKE:-make}" check-ai-coverage-guard; \
 	fi
 
 ai-start:
@@ -184,3 +236,75 @@ collect-evidence-release:
 
 research-attention:
 	cargo run -- research-attention $(RESEARCH_ATTENTION_ARGS)
+
+daily-calibration:
+	cargo run -- daily-calibration $(DAILY_CALIBRATION_ARGS)
+
+gray-rhino-refresh:
+	@mkdir -p reports
+	@refresh_date="$${GRAY_RHINO_REFRESH_DATE:-$$(date +%F)}"; \
+	status="skipped"; failed=""; success_count=0; partial_count=0; failed_count=0; \
+	sec_status=skipped; finnhub_status=skipped; fred_status=skipped; \
+	sec_accepted=0; sec_rejected=0; finnhub_accepted=0; finnhub_rejected=0; fred_accepted=0; fred_rejected=0; \
+	providers="$(GRAY_RHINO_REFRESH_PROVIDERS)"; \
+	if [ -z "$$providers" ]; then \
+		:; \
+	else \
+		for provider in $$providers; do \
+		echo "== Gray Rhino refresh: $$provider =="; \
+		output_file=$$(mktemp); \
+		if cargo run -- collect-gray-rhino-sources --source $$provider $(GRAY_RHINO_REFRESH_ARGS) > "$$output_file" 2>&1; then \
+			cat "$$output_file"; \
+			provider_status=$$(awk -F': ' '/^provider_status: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_accepted=$$(awk -F': ' '/^accepted: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_rejected=$$(awk -F': ' '/^rejected: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_status=$${provider_status:-succeeded}; \
+			eval "$${provider}_status=$$provider_status"; \
+			eval "$${provider}_accepted=$${provider_accepted:-0}"; \
+			eval "$${provider}_rejected=$${provider_rejected:-0}"; \
+			if [ "$$provider_status" = "succeeded" ]; then \
+			success_count=$$((success_count + 1)); \
+			elif [ "$$provider_status" = "partial_failure" ]; then \
+				partial_count=$$((partial_count + 1)); \
+				failed="$$failed $$provider"; \
+			elif [ "$$provider_status" = "failed" ]; then \
+				failed_count=$$((failed_count + 1)); \
+				failed="$$failed $$provider"; \
+			fi; \
+		else \
+			cat "$$output_file"; \
+			provider_accepted=$$(awk -F': ' '/^accepted: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_rejected=$$(awk -F': ' '/^rejected: / {print $$2}' "$$output_file" | tail -n 1); \
+			eval "$${provider}_status=failed"; \
+			eval "$${provider}_accepted=$${provider_accepted:-0}"; \
+			eval "$${provider}_rejected=$${provider_rejected:-0}"; \
+			failed="$$failed $$provider"; \
+			failed_count=$$((failed_count + 1)); \
+		fi; \
+		rm -f "$$output_file"; \
+		done; \
+	fi; \
+	if [ "$$success_count" -eq 3 ] && [ "$$partial_count" -eq 0 ] && [ "$$failed_count" -eq 0 ]; then \
+		status="succeeded"; \
+	elif [ "$$partial_count" -gt 0 ]; then \
+		status="partial_failure"; \
+	elif [ "$$success_count" -gt 0 ]; then \
+		status="partial_failure"; \
+	elif [ "$$failed_count" -gt 0 ]; then \
+		status="failed"; \
+	else \
+		status="skipped"; \
+	fi; \
+	printf '{"date":"%s","status":"%s","sec":"%s","finnhub":"%s","fred":"%s","sec_accepted":%s,"sec_rejected":%s,"finnhub_accepted":%s,"finnhub_rejected":%s,"fred_accepted":%s,"fred_rejected":%s,"failed_providers":"%s"}\n' "$$refresh_date" "$$status" "$$sec_status" "$$finnhub_status" "$$fred_status" "$$sec_accepted" "$$sec_rejected" "$$finnhub_accepted" "$$finnhub_rejected" "$$fred_accepted" "$$fred_rejected" "$$failed" > reports/gray_rhino_refresh_status_latest.json; \
+	cp reports/gray_rhino_refresh_status_latest.json "reports/gray_rhino_refresh_status_$$refresh_date.json"; \
+	cat reports/gray_rhino_refresh_status_latest.json >> reports/gray_rhino_refresh_status.jsonl; \
+	test "$$failed_count" -eq 0
+
+gray-rhino-refresh-report:
+	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)
+
+test-ai-guards:
+	python3 scripts/ai_test_guards.py
+
+test-ai-backtrack:
+	python3 scripts/ai_test_backtrack.py

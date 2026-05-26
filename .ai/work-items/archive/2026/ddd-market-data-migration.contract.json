@@ -1,0 +1,92 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-market-data-migration",
+  "mode": "code",
+  "title": "DDD レイヤー修正: data レイヤーを整理し、provider.rs を application へ、yahoo_provider.rs を adapters へ移行",
+  "scope": [
+    "src/data/provider.rs",
+    "src/application/provider.rs",
+    "src/data/yahoo_provider.rs",
+    "src/adapters/yahoo_provider.rs",
+    "src/data/mod.rs",
+    "src/lib.rs",
+    "src/adapters/mod.rs",
+    "src/application/mod.rs",
+    "src/adapters/futu/provider.rs",
+    "src/cli.rs",
+    "src/backtest.rs",
+    "src/core/engine.rs",
+    "src/core/features.rs",
+    "scripts/check_architecture_boundaries.py",
+    "tests/pipeline_integration.rs",
+    ".ai/work-items/active/ddd-market-data-migration.contract.json",
+    ".ai/work-items/active/ddd-market-data-migration.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/trend_cohesion.rs",
+    "src/core/decision.rs",
+    "src/core/asset_state.rs"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "provider.rs が data/ から application/ へ移動する。",
+    "yahoo_provider.rs が data/ から adapters/ へ移動する。",
+    "data/ フォルダおよび data/mod.rs が完全に削除される。",
+    "lib.rs, adapters/mod.rs, application/mod.rs が適切に更新される。",
+    "cli.rs, adapters/futu/provider.rs などのインポートパスが正しく更新される。",
+    "make fmt-check が通る。",
+    "make test が通る。",
+    "make clippy が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-market-data-migration.summary.json CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-data-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-market-data-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-data-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

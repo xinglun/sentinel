@@ -1,0 +1,81 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis_doc_language_fix",
+  "mode": "code",
+  "title": "Hypothesis doc language cleanup",
+  "scope": [
+    ".ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+    ".ai/work-items/active/hypothesis_doc_language_fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "tests/**",
+    ".github/workflows/**",
+    "config.toml",
+    "Makefile",
+    "scripts/**",
+    ".ai/guards/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "日本語正文中に混入した中国語表現を修正する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "HYPOTHESIS_LAYER.md の正文が日本語として自然である。",
+    "禁止語リストと境界説明に中国語の加仓 / 减仓 表記が残っていない。",
+    "仕様内容と実装境界は変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "rg -n \"加仓|减仓|加減仓\" docs/specs/HYPOTHESIS_LAYER.md",
+      "required": false
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_doc_language_fix.summary.json CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_doc_language_fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_doc_language_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_doc_language_fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

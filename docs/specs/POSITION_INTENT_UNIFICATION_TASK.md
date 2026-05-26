@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: ポジション意図 (Position Intent) 統合レイヤータスクドキュメント
+description: ポジション意図 (Position Intent) 統合レイヤータスクドキュメント に関する Sentinel の設計・運用情報。
+key: docs-specs-position-intent-unification-task
 ---
 
 # ポジション意図 (Position Intent) 統合レイヤータスクドキュメント
@@ -123,7 +126,7 @@ Domain Facts (ドメイン事実)
 
 推奨される配置場所：
 
-[position_intent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/position_intent.rs)
+[position_intent.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/position_intent.rs)
 
 推奨される定義：
 
@@ -215,7 +218,7 @@ EXIT > TRIM > HOLD > ADD > WATCH
 
 新規追加：
 
-1. `src/core/position_intent.rs`
+1. `src/features/radar/domain/position_intent.rs`
 2. または、既存の `intent_synthesizer.rs` を進化させる。
 
 責務：

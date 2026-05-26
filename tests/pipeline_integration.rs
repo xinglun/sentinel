@@ -1,15 +1,18 @@
 use chrono::{NaiveDate, Utc};
 use std::collections::HashMap;
-use stock_sentinel::config::{DeviationBasis, ParsedRules, TrendConfig, WatchlistEntry};
-use stock_sentinel::core::action_matrix::AssetAction;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::core::engine::Engine;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::market_regime::{
-    LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
+use stock_sentinel::features::radar::application::engine::Engine;
+use stock_sentinel::features::radar::application::provider::{DailyBar, TickerHistory};
+use stock_sentinel::features::radar::domain::action_matrix::AssetAction;
+use stock_sentinel::features::radar::domain::decision::DecisionPacket;
+use stock_sentinel::features::radar::domain::features::MarketFeatures;
+use stock_sentinel::features::radar::domain::market_regime::{
+    LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
 };
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
-use stock_sentinel::data::yahoo_provider::{DailyBar, TickerHistory};
+use stock_sentinel::features::radar::domain::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::domain::rules::{
+    DeviationBasis, ParsedBreakoutRules, ParsedInertia, ParsedRules, ParsedTrendCohesionRules,
+    TrendConfig, WatchlistEntry,
+};
 
 use std::borrow::Cow;
 
@@ -64,15 +67,15 @@ fn create_mock_rules() -> ParsedRules {
         actions,
         sizing_multipliers: None,
         core_assets: Vec::new(),
-        inertia: stock_sentinel::config::ParsedInertia {
+        inertia: ParsedInertia {
             min_state_duration: 3,
             trend_dominant_min_confidence: 55.0,
             core_breakdown_k: 2,
             core_breakdown_avg_deviation: -5.0,
             core_breakdown_breadth_floor: 0.0,
         },
-        trend_cohesion: stock_sentinel::config::ParsedTrendCohesionRules::default(),
-        breakout: stock_sentinel::config::ParsedBreakoutRules::default(),
+        trend_cohesion: ParsedTrendCohesionRules::default(),
+        breakout: ParsedBreakoutRules::default(),
         market_state_engine: Default::default(),
         sec: None,
         macro_gravity: None,
@@ -142,7 +145,7 @@ async fn test_pipeline_bullish_path() {
         vec![],
         top_tier.clone(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot {
+        stock_sentinel::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
             gate_passed: true,
             continuity_streak: 1,
             ..Default::default()
@@ -159,7 +162,7 @@ async fn test_pipeline_bullish_path() {
         vec![],
         top_tier.clone(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot {
+        stock_sentinel::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
             gate_passed: true,
             continuity_streak: 2,
             ..Default::default()
@@ -277,4 +280,348 @@ async fn test_pipeline_age_continuity() {
     // Expect exactly 1 day increment per call
     assert_eq!(age2, age1 + 1, "Age should increment by 1 on Day 2");
     assert_eq!(age3, age2 + 1, "Age should increment by 1 on Day 3");
+}
+
+#[test]
+fn radar_application_policy_keeps_partial_fetch_history_persistent() {
+    let summary =
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 8);
+    assert!(summary.should_persist_decision_history());
+    assert!(!summary.is_full_failure());
+}
+
+#[test]
+fn radar_application_policy_blocks_full_fetch_failure_history() {
+    let summary =
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(0, 9);
+    assert!(!summary.should_persist_decision_history());
+    assert!(summary.is_full_failure());
+}
+
+#[test]
+fn radar_application_result_uses_same_persistence_policy() {
+    let result = stock_sentinel::features::radar::application::radar::DataAcquisitionResult::new(
+        vec!["NVDA"],
+        vec!["MSFT".to_string()],
+    );
+    let summary = result.summary();
+
+    assert_eq!(summary.successful_fetches, 1);
+    assert_eq!(summary.failed_fetches, 1);
+    assert!(result.should_persist_decision_history());
+    assert!(!result.is_full_failure());
+    assert_eq!(result.data_quality_status().as_str(), "WARNING");
+}
+
+#[test]
+fn radar_application_data_quality_status_keeps_cli_log_contract() {
+    use stock_sentinel::features::radar::application::radar::DataAcquisitionSummary;
+
+    assert_eq!(
+        DataAcquisitionSummary::new(2, 0)
+            .data_quality_status()
+            .as_str(),
+        "OK"
+    );
+    assert_eq!(
+        DataAcquisitionSummary::new(2, 1)
+            .data_quality_status()
+            .as_str(),
+        "WARNING"
+    );
+    assert_eq!(
+        DataAcquisitionSummary::new(0, 1)
+            .data_quality_status()
+            .as_str(),
+        "CRITICAL"
+    );
+}
+
+#[test]
+fn radar_application_payload_builders_keep_persistence_schema() {
+    use std::collections::HashMap;
+    use stock_sentinel::features::radar::application::radar::{
+        build_account_snapshot, build_data_quality_log, build_portfolio_snapshot,
+        AccountSnapshotInput, DataAcquisitionSummary,
+    };
+
+    let mut positions = HashMap::new();
+    positions.insert("NVDA".to_string(), (2.0, 100.0));
+
+    let portfolio = build_portfolio_snapshot("2026-05-24", 7.5, 200.0, &positions);
+    let account = build_account_snapshot(AccountSnapshotInput {
+        date: "2026-05-24",
+        global_budget: 1000.0,
+        max_daily_budget: Some(300.0),
+        daily_traded: 50.0,
+        buying_power: 800.0,
+        current_exposure: 200.0,
+        realized_pl: 7.5,
+        failed_fetch_count: 1,
+    });
+    let failed_symbols = vec!["MSFT".to_string()];
+    let quality = build_data_quality_log(
+        "2026-05-24T00:00:00+09:00",
+        "2026-05-24",
+        DataAcquisitionSummary::new(1, 1),
+        &failed_symbols,
+    );
+
+    assert_eq!(portfolio["date"], "2026-05-24");
+    assert_eq!(portfolio["positions"][0]["symbol"], "NVDA");
+    assert_eq!(account["max_daily_budget"], 300.0);
+    assert_eq!(account["failed_fetch_count"], 1);
+    assert_eq!(quality["successful_fetches"], 1);
+    assert_eq!(quality["failed_symbols"][0], "MSFT");
+    assert_eq!(quality["status"], "WARNING");
+}
+
+#[test]
+fn radar_delivery_plan_owns_execution_and_audit_payload_composition() {
+    use stock_sentinel::features::radar::application::delivery_plan::{
+        RadarDeliveryInput, RadarDeliveryPlanner,
+    };
+    use stock_sentinel::features::radar::application::execution_gate::TradingLimits;
+    use stock_sentinel::features::radar::application::radar::DataAcquisitionSummary;
+
+    let mut packet = DecisionPacket {
+        date: NaiveDate::from_ymd_opt(2026, 5, 24).unwrap(),
+        ..Default::default()
+    };
+    packet.market_regime.market_state = MarketState::DEFENSIVE;
+    let mut positions = HashMap::new();
+    positions.insert("NVDA".to_string(), (2.0, 100.0));
+    let failed_symbols = vec!["MSFT".to_string()];
+
+    let plan = RadarDeliveryPlanner::plan(RadarDeliveryInput {
+        packet: &packet,
+        trading_limits: TradingLimits {
+            enabled: false,
+            global_budget: 1000.0,
+            max_daily_budget: Some(250.0),
+        },
+        daily_traded: 50.0,
+        realized_pl: 12.5,
+        positions: &positions,
+        failed_symbols: &failed_symbols,
+        data_acquisition: DataAcquisitionSummary::new(1, 1),
+        previous_market_state: Some(MarketState::IGNITION),
+        should_persist_history: true,
+        timestamp: "2026-05-24T00:00:00+09:00",
+    });
+
+    assert_eq!(plan.current_exposure, 200.0);
+    assert_eq!(plan.buying_power, 800.0);
+    assert!(plan.execution_result.trades.is_empty());
+    assert_eq!(plan.portfolio_snapshot["position_count"], 1);
+    assert_eq!(plan.account_snapshot["failed_fetch_count"], 1);
+    assert_eq!(plan.data_quality_log["status"], "WARNING");
+    assert_eq!(plan.state_machine.from_state, "IGNITION");
+    assert_eq!(plan.state_machine.to_state, "DEFENSIVE");
+    assert!(plan.prices.is_empty());
+    assert!(plan.substantive_records.is_empty());
+}
+
+#[test]
+fn radar_application_state_machine_summary_keeps_run_status_contract() {
+    let audit = MarketTransitionAudit {
+        from: LifecycleState::IGNITION,
+        to: LifecycleState::NEWBORN,
+        is_reset_blocked: true,
+        is_downgrade_clamped: false,
+        core_breakdown: true,
+        duration_locked: true,
+        trend_dominant: false,
+        reset_gate_passed: true,
+        indicator_cap: LifecycleState::NEWBORN,
+        soft_reset_applied: true,
+        defensive_override: true,
+    };
+
+    let summary = stock_sentinel::features::radar::application::radar::build_state_machine_summary(
+        Some(MarketState::IGNITION),
+        MarketState::DEFENSIVE,
+        Some(&audit),
+        true,
+    );
+    let unavailable =
+        stock_sentinel::features::radar::application::radar::build_state_machine_summary(
+            Some(MarketState::ESTABLISHED),
+            MarketState::CONFIRMED,
+            None,
+            false,
+        );
+
+    assert_eq!(summary.from_state, "IGNITION");
+    assert_eq!(summary.to_state, "DEFENSIVE");
+    assert!(summary.reset_confirmed);
+    assert!(summary.reset_blocked);
+    assert!(summary.soft_reset_applied);
+    assert!(summary.duration_locked);
+    assert!(summary.defensive_override);
+    assert!(summary.core_breakdown);
+    assert_eq!(unavailable.from_state, "ESTABLISHED");
+    assert_eq!(unavailable.to_state, "DATA_UNAVAILABLE");
+}
+
+#[test]
+fn radar_application_full_failure_output_is_diagnostic_only() {
+    let date = NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
+    let packet = stock_sentinel::features::radar::application::radar::build_diagnostic_packet(date);
+    let status =
+        stock_sentinel::features::radar::application::radar::build_full_fetch_failure_status(9);
+
+    assert_eq!(packet.date, date);
+    assert!(packet.assets.is_empty());
+    assert!(packet.transition_log.is_none());
+    assert_eq!(
+        status,
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Failed {
+            reason: "100% data acquisition failure: 9 symbols failed".to_string()
+        }
+    );
+}
+
+#[test]
+fn radar_application_decision_outcome_keeps_status_mapping() {
+    let date = NaiveDate::from_ymd_opt(2026, 5, 24).unwrap();
+    let packet = stock_sentinel::features::radar::application::radar::build_diagnostic_packet(date);
+    let outcome =
+        stock_sentinel::features::radar::application::radar::build_successful_decision_outcome(
+            packet,
+        );
+    let failed =
+        stock_sentinel::features::radar::application::radar::build_decisioning_failure_status(
+            "engine failed",
+        );
+
+    assert_eq!(outcome.packet.date, date);
+    assert_eq!(
+        outcome.decisioning,
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Succeeded
+    );
+    assert_eq!(
+        failed,
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Failed {
+            reason: "engine failed".to_string()
+        }
+    );
+}
+
+#[test]
+fn radar_application_entry_policy_matches_existing_pipeline_body_condition() {
+    use stock_sentinel::features::radar::application::radar::DataAcquisitionSummary;
+
+    assert!(!DataAcquisitionSummary::new(0, 0).should_enter_pipeline_body());
+    assert!(DataAcquisitionSummary::new(1, 0).should_enter_pipeline_body());
+    assert!(DataAcquisitionSummary::new(1, 8).should_enter_pipeline_body());
+    assert!(DataAcquisitionSummary::new(0, 9).should_enter_pipeline_body());
+}
+
+#[test]
+fn radar_application_pipeline_plan_collects_fetch_policies() {
+    use stock_sentinel::features::radar::application::radar::{
+        DataAcquisitionSummary, DataQualityStatus,
+    };
+
+    let empty = DataAcquisitionSummary::new(0, 0).pipeline_plan();
+    assert!(empty.should_persist_history);
+    assert!(!empty.should_enter_pipeline_body);
+    assert_eq!(empty.data_quality_status, DataQualityStatus::Ok);
+
+    let partial = DataAcquisitionSummary::new(1, 8).pipeline_plan();
+    assert!(partial.should_persist_history);
+    assert!(partial.should_enter_pipeline_body);
+    assert_eq!(partial.data_quality_status, DataQualityStatus::Warning);
+
+    let full_failure = DataAcquisitionSummary::new(0, 9).pipeline_plan();
+    assert!(!full_failure.should_persist_history);
+    assert!(full_failure.should_enter_pipeline_body);
+    assert_eq!(
+        full_failure.data_quality_status,
+        DataQualityStatus::Critical
+    );
+}
+
+#[test]
+fn radar_application_run_context_builds_initial_status_metadata() {
+    let now = chrono::DateTime::parse_from_rfc3339("2026-05-24T10:15:00+09:00")
+        .unwrap()
+        .with_timezone(&chrono::Local);
+    let context = stock_sentinel::features::radar::application::radar::RadarRunContext::new(
+        "target/run",
+        now,
+    );
+    let outcome = context.initial_run_outcome(
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Skipped,
+    );
+
+    assert_eq!(context.save_dir(), std::path::Path::new("target/run"));
+    assert_eq!(context.date_string(), "2026-05-24");
+    assert_eq!(outcome.date, "2026-05-24");
+    assert!(outcome.timestamp.contains("2026-05-24T10:15:00"));
+    assert_eq!(
+        outcome.evidence_collection,
+        stock_sentinel::features::shared::application::run_status::DeliveryStatus::Skipped
+    );
+}
+
+#[test]
+fn radar_pipeline_use_case_prepares_data_acquisition_payload() {
+    let result = stock_sentinel::features::radar::application::radar::DataAcquisitionResult::new(
+        vec!["NVDA"],
+        vec!["MSFT".to_string()],
+    );
+    let prepared = stock_sentinel::features::radar::application::radar::RadarPipelineUseCase::new()
+        .prepare_data_acquisition(result);
+
+    assert_eq!(prepared.successful_items, vec!["NVDA"]);
+    assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
+    assert_eq!(
+        prepared.summary,
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 1)
+    );
+    assert!(prepared.plan.should_persist_history);
+    assert!(prepared.plan.should_enter_pipeline_body);
+    assert_eq!(
+        prepared.plan.data_quality_status,
+        stock_sentinel::features::radar::application::radar::DataQualityStatus::Warning
+    );
+}
+
+#[test]
+fn radar_pipeline_use_case_collects_provider_results() {
+    let results: Vec<(Result<&str, &str>, String)> = vec![
+        (Ok("NVDA-history"), "NVDA".to_string()),
+        (Err("fetch failed"), "MSFT".to_string()),
+    ];
+    let data_acquisition =
+        stock_sentinel::features::radar::application::radar::RadarPipelineUseCase::new()
+            .collect_data_acquisition(results);
+
+    assert_eq!(data_acquisition.successful_items, vec!["NVDA-history"]);
+    assert_eq!(data_acquisition.failed_symbols, vec!["MSFT".to_string()]);
+    assert_eq!(
+        data_acquisition.summary(),
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 1)
+    );
+}
+
+#[test]
+fn radar_pipeline_use_case_prepares_from_provider_results() {
+    let results: Vec<(Result<&str, &str>, String)> = vec![
+        (Ok("NVDA-history"), "NVDA".to_string()),
+        (Err("fetch failed"), "MSFT".to_string()),
+    ];
+    let prepared = stock_sentinel::features::radar::application::radar::RadarPipelineUseCase::new()
+        .prepare_from_fetch_results(results);
+
+    assert_eq!(prepared.successful_items, vec!["NVDA-history"]);
+    assert_eq!(prepared.failed_symbols, vec!["MSFT".to_string()]);
+    assert_eq!(
+        prepared.summary,
+        stock_sentinel::features::radar::application::radar::DataAcquisitionSummary::new(1, 1)
+    );
+    assert!(prepared.plan.should_persist_history);
+    assert!(prepared.plan.should_enter_pipeline_body);
 }

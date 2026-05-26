@@ -1,0 +1,84 @@
+{
+  "workItemId": "backtest-market-data-port",
+  "contractPath": ".ai/work-items/archive/2026/backtest-market-data-port.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/backtest-market-data-port.contract.json",
+      "reason": "backtest market data port 化の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/backtest-market-data-port.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/backtest.rs",
+      "reason": "Yahoo adapter 直接参照をやめ、MarketDataProvider port 経由で履歴を取得するようにした。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI composition root で provider を構築し backtest に渡すようにした。"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "reason": "YahooProvider adapter が MarketDataProvider port を実装するようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/backtest.rs",
+    "src/cli.rs",
+    "src/adapters/yahoo_provider.rs",
+    "src/application/provider.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib backtest",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/backtest-market-data-port.summary.json CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json SUMMARY=.ai/work-items/active/backtest-market-data-port.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/backtest-market-data-port.contract.json SUMMARY=.ai/work-items/active/backtest-market-data-port.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "backtest command の provider composition を CLI 側へ寄せた。既存の Yahoo 既定動作は維持し、--provider futu 指定時は既存 provider selection に従う。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "backtest が yahoo adapter を直接参照しており、application port を迂回していた。"
+  ]
+}

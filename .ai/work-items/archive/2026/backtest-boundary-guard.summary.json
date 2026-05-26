@@ -1,0 +1,79 @@
+{
+  "workItemId": "backtest-boundary-guard",
+  "contractPath": ".ai/work-items/archive/2026/backtest-boundary-guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/backtest-boundary-guard.contract.json",
+      "reason": "backtest boundary guard の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/backtest-boundary-guard.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "src/backtest.rs から adapters / infrastructure / interface / trade への直接依存を禁止した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "backtest から adapter への直接依存を検出する regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/backtest.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/backtest-boundary-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/backtest-boundary-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/backtest-boundary-guard.summary.json CONTRACT=.ai/work-items/active/backtest-boundary-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/backtest-boundary-guard.contract.json SUMMARY=.ai/work-items/active/backtest-boundary-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/backtest-boundary-guard.contract.json SUMMARY=.ai/work-items/active/backtest-boundary-guard.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "checker と regression test のみの変更。production behavior は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "backtest の adapter 直接依存を解消した後、その境界を固定する guard が未整備だった。"
+  ]
+}

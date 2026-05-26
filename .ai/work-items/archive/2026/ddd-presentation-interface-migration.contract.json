@@ -1,0 +1,116 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-presentation-interface-migration",
+  "mode": "code",
+  "title": "DDD レイヤー修正: 展示・プレゼンテーション層 (display/i18n/presentation/report) を interface 層へ移動",
+  "scope": [
+    "src/core/display.rs",
+    "src/interface/display.rs",
+    "src/core/i18n.rs",
+    "src/interface/i18n.rs",
+    "src/core/presentation.rs",
+    "src/interface/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/interface/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/interface/report.rs",
+    "src/core/presentation_tests.rs",
+    "src/interface/presentation_tests.rs",
+    "src/core/report_ui_tests.rs",
+    "src/interface/report_ui_tests.rs",
+    "src/core/mod.rs",
+    "src/interface/mod.rs",
+    "src/core/action_matrix.rs",
+    "src/cli.rs",
+    "src/config.rs",
+    "scripts/check_architecture_boundaries.py",
+    "src/core/snapshots/no_trade_en_us.html.txt",
+    "src/core/snapshots/no_trade_en_us.md",
+    "src/core/snapshots/no_trade_ja_jp.html.txt",
+    "src/core/snapshots/no_trade_ja_jp.md",
+    "src/core/snapshots/no_trade_zh_cn.html.txt",
+    "src/core/snapshots/no_trade_zh_cn.md",
+    "src/interface/snapshots/no_trade_en_us.html.txt",
+    "src/interface/snapshots/no_trade_en_us.md",
+    "src/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/interface/snapshots/no_trade_ja_jp.md",
+    "src/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/interface/snapshots/no_trade_zh_cn.md",
+    ".ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+    ".ai/work-items/active/ddd-presentation-interface-migration.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/market_regime.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/decision.rs",
+    "src/core/features.rs",
+    "src/core/run_status.rs",
+    "src/core/asset_state.rs",
+    "src/core/breakout_detection.rs",
+    "src/core/trader_agent.rs",
+    "src/infrastructure/",
+    "src/adapters/"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "display.rs, i18n.rs, presentation.rs, presentation_assembler.rs, report.rs が core/ から interface/ へ移動する。",
+    "これらに関連するテスト (presentation_tests.rs, report_ui_tests.rs) も core/ から interface/ へ移動する。",
+    "core/mod.rs から該当モジュールの公開が削除され、interface/mod.rs で公開される。",
+    "cli.rs, action_matrix.rs 等の import パスが正しく更新される。",
+    "make fmt-check が通る。",
+    "make test が通る。",
+    "make clippy が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-presentation-interface-migration.summary.json CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json SUMMARY=.ai/work-items/active/ddd-presentation-interface-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-presentation-interface-migration.contract.json SUMMARY=.ai/work-items/active/ddd-presentation-interface-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この task の diff を revert し、ファイルを core/ に戻す。"
+}

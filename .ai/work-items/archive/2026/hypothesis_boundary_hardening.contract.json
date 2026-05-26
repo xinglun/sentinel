@@ -1,0 +1,116 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis_boundary_hardening",
+  "mode": "code",
+  "title": "Hypothesis boundary hardening",
+  "scope": [
+    ".ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+    ".ai/work-items/active/hypothesis_boundary_hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "scripts/check_doc_language.sh",
+    "Makefile",
+    "src/core/i18n.rs",
+    "src/core/presentation.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/presentation_tests.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/exit.rs",
+    "src/core/market_regime.rs",
+    "src/cli.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "Hypothesis Layer を StateTransitionViewModel から PresentationPacket top-level へ移動する。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "transition_log に依存しない Hypothesis 組み立てへ変更する。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Hypothesis section を状態遷移証拠とは独立して render する。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "独立 section と transition_log なし表示の契約テストを追加する。"
+    },
+    {
+      "path": "scripts/check_doc_language.sh",
+      "reason": "Markdown の明白な中国語取引語混入を検出する軽量 checker を追加する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-doc-language を quality に接続する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis Layer は State Transition Evidence の子要素ではなく独立 section として表示される。",
+    "transition_log がなくても trend_recognition と substantive evidence があれば Hypothesis Layer が表示される。",
+    "Hypothesis が存在しても engine / Gate / execution / trader_agent は変更しない。",
+    "failure_risks が空の candidate は引き続き表示されない。",
+    "Markdown 文書に加仓 / 减仓 / 加減仓 が混入した場合に check-doc-language が失敗する。",
+    "make quality に文書言語チェックが含まれる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test hypothesis -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make check-doc-language",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_boundary_hardening.summary.json CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json SUMMARY=.ai/work-items/active/hypothesis_boundary_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_boundary_hardening.contract.json SUMMARY=.ai/work-items/active/hypothesis_boundary_hardening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -1,0 +1,85 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-run-status-migration",
+  "mode": "code",
+  "title": "DDD レイヤー修正: 実行状態モジュール (run_status.rs) を core から application 層へ移動",
+  "scope": [
+    "src/core/run_status.rs",
+    "src/application/run_status.rs",
+    "src/core/mod.rs",
+    "src/application/mod.rs",
+    "src/application/radar.rs",
+    "src/cli.rs",
+    "src/core/trader_agent.rs",
+    "src/infrastructure/persistence.rs",
+    "tests/pipeline_integration.rs",
+    ".ai/work-items/active/ddd-run-status-migration.contract.json",
+    ".ai/work-items/active/ddd-run-status-migration.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/decision.rs",
+    "src/core/asset_state.rs"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "run_status.rs が core/ から application/ へ移動する。",
+    "core/mod.rs から run_status モジュールの公開が削除され、application/mod.rs で公開される。",
+    "cli.rs, application/radar.rs, core/trader_agent.rs, infrastructure/persistence.rs などのインポートパスが正しく更新される。",
+    "make fmt-check が通る。",
+    "make test が通る。",
+    "make clippy が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-run-status-migration.summary.json CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json SUMMARY=.ai/work-items/active/ddd-run-status-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json SUMMARY=.ai/work-items/active/ddd-run-status-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

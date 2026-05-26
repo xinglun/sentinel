@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機 V1.1 最適化プラン
+description: Sentinel 状態機 V1.1 最適化プラン に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-v1-1-optimization
 ---
 
 # Sentinel 状態機 V1.1 最適化プラン
@@ -141,11 +144,11 @@ V1.1 における拡張推奨項目：
 
 ### 4.1 ファイル配置
 
-1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/features.rs)
+1. [features.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/features.rs)
    - `trend_dominant` の追加。
    - `core_assets_breakdown` のアップグレード。
 
-2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/core/market_regime.rs)
+2. [market_regime.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/market_regime.rs)
    - `check_reset_gate()` を、明示的な `trend_dominant` を消費するように変更。
    - `transition_audit` の拡張。
 

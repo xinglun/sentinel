@@ -1,0 +1,123 @@
+features:
+  radar:
+    roots:
+      domain:
+        - src/features/radar/domain
+      application:
+        - src/features/radar/application
+      interface:
+        - src/features/radar/interface
+      infrastructure:
+        - src/features/radar/infrastructure
+      acl:
+        - src/features/radar/acl
+    allowedDependencies:
+      - evidence
+      - research
+    externalSystems:
+      marketData:
+        allowedConcrete:
+          - src/adapters/yahoo_provider.rs
+          - src/adapters/futu/**
+        allowedAcl:
+          - src/features/radar/acl/**
+          - src/features/radar/infrastructure/**
+  evidence:
+    roots:
+      domain:
+        - src/features/evidence/domain
+      application:
+        - src/features/evidence/application
+      interface:
+        - src/features/evidence/interface
+      infrastructure:
+        - src/features/evidence/infrastructure
+      acl:
+        - src/features/evidence/acl
+    allowedDependencies: []
+    externalSystems:
+      evidenceSources:
+        allowedConcrete:
+          - src/features/evidence/infrastructure/**
+        allowedAcl:
+          - src/features/evidence/acl/**
+          - src/features/evidence/infrastructure/**
+  trading:
+    roots:
+      domain:
+        - src/features/trading/domain
+      application:
+        - src/features/trading/application
+      interface:
+        - src/features/trading/interface
+      infrastructure:
+        - src/features/trading/infrastructure
+      acl:
+        - src/features/trading/acl
+    allowedDependencies: []
+    externalSystems:
+      broker:
+        allowedConcrete:
+          - src/adapters/futu/**
+        allowedAcl:
+          - src/features/trading/acl/**
+          - src/features/trading/infrastructure/**
+  research:
+    roots:
+      domain:
+        - src/features/research/domain
+      application:
+        - src/features/research/application
+      interface:
+        - src/features/research/interface
+      infrastructure:
+        - src/features/research/infrastructure
+      acl:
+        - src/features/research/acl
+    allowedDependencies: []
+    externalSystems: {}
+  backtest:
+    roots:
+      domain:
+        - src/features/backtest/domain
+      application:
+        - src/features/backtest/application
+      interface:
+        - src/features/backtest/interface
+      infrastructure:
+        - src/features/backtest/infrastructure
+      acl:
+        - src/features/backtest/acl
+    allowedDependencies:
+      - radar
+    externalSystems: {}
+  shared:
+    roots:
+      application:
+        - src/features/shared/application
+      domain:
+        - src/features/shared/domain
+      interface:
+        - src/features/shared/interface
+      infrastructure:
+        - src/features/shared/infrastructure
+      acl:
+        - src/features/shared/acl
+    allowedDependencies: []
+    externalSystems: {}
+shared:
+  adapters:
+    - src/adapters
+legacy:
+  core:
+    roots: []
+    allowedInboundFeatures: []
+externalConcreteImportPrefixes:
+  - crate::adapters
+concreteTypeNames:
+  - FutuClient
+  - YahooProvider
+  - FinnhubFetcher
+  - SECEDGARFetcher
+  - WebFetcher
+  - FixtureFetcher

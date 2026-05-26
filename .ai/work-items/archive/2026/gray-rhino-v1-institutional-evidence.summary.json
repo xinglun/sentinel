@@ -1,0 +1,90 @@
+{
+  "workItemId": "gray-rhino-v1-institutional-evidence",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-institutional-evidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "reason": "InstitutionalMaturity evidence の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "InstitutionalMaturity metrics / evidence / validation を追加する。"
+    },
+    {
+      "path": "src/features/research/application/institutional_evidence.rs",
+      "reason": "InstitutionalMaturity ingestion port を追加する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "ingest-gray-rhino-institutional CLI を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "InstitutionalMaturity local ingest が evidence store へ保存し escalation を変更しないことを固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/application/dependency_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test features::research::domain::gray_rhino_evidence::tests:: --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_institutional_evidence_ingest_writes_jsonl_without_escalation --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-institutional-evidence.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-institutional-evidence.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "InstitutionalMaturity は local structured JSON ingestion のみに限定し、collector / escalation は追加しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "InstitutionalMaturity は local JSON ingestion のみに限定し、collector / escalation は未接続。"
+  ]
+}

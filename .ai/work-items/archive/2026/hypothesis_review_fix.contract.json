@@ -1,0 +1,111 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis_review_fix",
+  "mode": "code",
+  "title": "Hypothesis Layer review fixes",
+  "scope": [
+    ".ai/work-items/active/hypothesis_review_fix.contract.json",
+    ".ai/work-items/active/hypothesis_review_fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "scripts/check_doc_forbidden_terms.sh",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "src/core/i18n.rs",
+    "src/core/presentation_assembler.rs",
+    "src/core/report.rs",
+    "src/core/report_ui_tests.rs",
+    "src/core/presentation_tests.rs",
+    ".ai/work-items/archive/2026/hypothesis_boundary_hardening.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_boundary_hardening.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_doc_language_fix.summary.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+    ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+    "src/core/presentation.rs"
+  ],
+  "outOfScope": [
+    "src/core/engine.rs",
+    "src/core/trend_cohesion.rs",
+    "src/core/execution_gate.rs",
+    "src/core/action_matrix.rs",
+    "src/core/trader_agent.rs",
+    "src/core/exit.rs",
+    "src/cli.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/hypothesis_review_fix.contract.json",
+      "reason": "Work Item の対象範囲と検証条件。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "Hypothesis candidate の consensus / pricing を周期位置と整合させる対象。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "Hypothesis summary の表示対象。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "summary label と周期別 consensus / pricing 文言の SSOT。"
+    },
+    {
+      "path": "scripts/check_doc_forbidden_terms.sh",
+      "reason": "文書 forbidden terms checker の命名と責務を確認する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis candidate の consensus / pricing は MarketCyclePosition と矛盾しない。",
+    "Hypothesis summary が Markdown / Telegram HTML の中英日出力に表示される。",
+    "文書 checker は forbidden terms checker として命名または説明が整合している。",
+    "Hypothesis は Engine / Gate / execution / trend_cohesion / trader_agent に接続しない。",
+    "make quality が成功する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test hypothesis -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis_review_fix.summary.json CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_review_fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis_review_fix.contract.json SUMMARY=.ai/work-items/active/hypothesis_review_fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

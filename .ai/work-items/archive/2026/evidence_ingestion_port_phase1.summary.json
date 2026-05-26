@@ -1,0 +1,95 @@
+{
+  "workItemId": "evidence_ingestion_port_phase1",
+  "contractPath": ".ai/work-items/archive/2026/evidence_ingestion_port_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/evidence_ingestion_port_phase1.contract.json",
+      "reason": "Evidence ingestion port の Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_ingestion_port_phase1.summary.json",
+      "reason": "Evidence ingestion port の実行結果を記録した。"
+    },
+    {
+      "path": "src/application/evidence_ingestion.rs",
+      "reason": "SourceDocument / SourceFetcher / EvidenceExtractor port を application layer に追加した。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "application::evidence_ingestion を公開した。"
+    },
+    {
+      "path": "src/core/evidence_ingestion.rs",
+      "reason": "既存 import path 互換のため application port を re-export し、既存実装を port 実装として維持した。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "application port 経由の extractor 利用と core re-export 互換を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/core/evidence_ingestion.rs",
+    "src/domain/evidence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_ingestion_port_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_ingestion_port_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test evidence_ingestion -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_ingestion_port_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_ingestion_port_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_ingestion_port_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_ingestion_port_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_ingestion_port_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_ingestion_port_phase1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "trait / DTO を application layer へ抽出したが、core re-export により CLI / test の既存 import path を維持している。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 fmt-check で rustfmt 差分が出たため cargo fmt --all を実行して修正した。"
+  ]
+}

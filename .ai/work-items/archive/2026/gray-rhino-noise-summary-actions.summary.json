@@ -1,0 +1,124 @@
+{
+  "workItemId": "gray-rhino-noise-summary-actions",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-noise-summary-actions.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-noise-summary-actions.contract.json",
+      "reason": "Gray Rhino noise calibration、summary compression、daily GitHub Actions integration の scope、acceptance、verification を確定する。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-noise-summary-actions.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "noise calibration、summary、GitHub Actions refresh を machine-readable SSOT に追加する。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "daily radar workflow に Gray Rhino refresh step を追加する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "noise calibration、summary、GitHub Actions refresh contract を human-readable SSOT に追加する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "noise calibration、summary、GitHub Actions refresh の SSOT 整合を検証する。"
+    },
+    {
+      "path": "scripts/ai_test_gray_rhino_evidence_contract.py",
+      "reason": "contract checker fixture に noise / summary / workflow 宣言を追加する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "Finnhub boilerplate が false positive にならない regression test を追加する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "Finnhub normalized boilerplate から candidate trigger terms を除外する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino compact summary を detailed inline reference の前に追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino compact summary の regression test を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-noise-summary-actions.contract.json",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    ".github/workflows/daily_radar.yml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-noise-summary-actions.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-noise-summary-actions.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_noise --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_summary --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_auto_discovery_finds_governance_control_and_reports_inline --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-noise-summary-actions.summary.json CONTRACT=.ai/work-items/active/gray-rhino-noise-summary-actions.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-noise-summary-actions.contract.json SUMMARY=.ai/work-items/active/gray-rhino-noise-summary-actions.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-noise-summary-actions.contract.json SUMMARY=.ai/work-items/active/gray-rhino-noise-summary-actions.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "noise calibration、display summary、workflow refresh に限定し、trade / Gate / execution / trend / market state への接続は追加しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "compact summary の初期 assertion が legacy SPACEX fixture に Market candidate 1 件を期待していた。",
+      "resolution": "SPACEX-only fixture では Market 0 / Company SPACEX が正しいため、既存 auto discovery regression を修正して再実行した。"
+    }
+  ]
+}

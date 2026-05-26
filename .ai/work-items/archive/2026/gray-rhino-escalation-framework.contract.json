@@ -1,0 +1,100 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-escalation-framework",
+  "mode": "code",
+  "title": "Gray Rhino Escalation を実装",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-escalation-framework.contract.json",
+    ".ai/work-items/active/gray-rhino-escalation-framework.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/features/research/application/**",
+    "src/features/research/interface/**",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "user request",
+      "reason": "Gray Rhino Escalation Framework の仕様。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "既存の long-term research / macro gravity 出力 layer。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "CLI command parser。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "既存 research / macro gravity CLI integration tests。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Gray Rhino Escalation application model and state evaluation are implemented.",
+    "Gray Rhino report output is available from CLI without trading / execution coupling.",
+    "Config supports optional gray_rhino_escalation inputs.",
+    "Unit tests cover state transition, normalized detection, dependency scoring, and awareness decay.",
+    "CLI / output tests cover zh / en / ja text and guard against trade signal wording.",
+    "make quality and ai-finish pass."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-escalation-framework.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-escalation-framework.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "cargo test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-escalation-framework.summary.json CONTRACT=.ai/work-items/active/gray-rhino-escalation-framework.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-escalation-framework.contract.json SUMMARY=.ai/work-items/active/gray-rhino-escalation-framework.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-escalation-framework.contract.json SUMMARY=.ai/work-items/active/gray-rhino-escalation-framework.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

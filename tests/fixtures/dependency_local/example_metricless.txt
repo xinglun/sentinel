@@ -1,0 +1,1 @@
+This dependency narrative mentions suppliers and platforms, but it does not disclose structured dependency metrics.

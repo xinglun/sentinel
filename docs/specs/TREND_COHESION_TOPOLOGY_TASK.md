@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: トレンド凝集性トポロジー・タスク (Trend Cohesion Topology Task)
+description: トレンド凝集性トポロジー・タスク (Trend Cohesion Topology Task) に関する Sentinel の設計・運用情報。
+key: docs-specs-trend-cohesion-topology-task
 ---
 
 # トレンド凝集性トポロジー・タスク (Trend Cohesion Topology Task)
@@ -49,7 +52,7 @@ author: Ray
 
 ## 必要なドメイン層の変更
 
-`src/core/trend_cohesion.rs` に以下を追加します：
+`src/features/radar/domain/trend_cohesion.rs` に以下を追加します：
 
 - `TrendCohesionTopology`
   - `NoLeader`

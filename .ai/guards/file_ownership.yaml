@@ -1,30 +1,45 @@
 # Sentinel の AI Agent が変更前に参照する file ownership manifest。
 # YAML の subset（pattern: の下に owner / aiWrite / reason）だけを使う。
 
-src/core/engine.rs:
+src/features/radar/interface/radar_pipeline_runner.rs:
   owner: decision-engine
   aiWrite: restricted
   reason: daily pipeline と evidence / trend / report 接続の中心。
 
-src/core/trend_cohesion.rs:
+src/features/radar/domain/trend_cohesion.rs:
   owner: trend-engine
   aiWrite: restricted
   reason: trend recognition と conviction score の意味論を保持する SSOT。
 
-src/core/presentation_assembler.rs:
+src/features/radar/interface/presentation_assembler.rs:
   owner: presentation
   aiWrite: allowed_with_contract
   reason: report ViewModel の集約境界。
 
-src/core/report.rs:
+src/features/radar/interface/report.rs:
   owner: presentation
   aiWrite: allowed_with_contract
   reason: Telegram / Markdown rendering の出力契約。
 
-src/core/i18n.rs:
+src/features/shared/interface/i18n.rs:
   owner: i18n
   aiWrite: allowed_with_contract
   reason: 三語表示文言の SSOT。
+
+src/features/research/**:
+  owner: research-intelligence
+  aiWrite: allowed_with_contract
+  reason: Gray Rhino / evidence / research attention の intelligence 境界。
+
+src/features/radar/**:
+  owner: radar-decisioning
+  aiWrite: allowed_with_contract
+  reason: daily Radar decision pipeline と report の feature-first 境界。
+
+src/features/shared/**:
+  owner: shared-kernel
+  aiWrite: allowed_with_contract
+  reason: feature 間で共有する i18n / notification / primitive contract。
 
 src/cli.rs:
   owner: cli

@@ -1,0 +1,101 @@
+{
+  "workItemId": "evidence_fetcher_adapter_phase1",
+  "contractPath": ".ai/work-items/archive/2026/evidence_fetcher_adapter_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/evidence_fetcher_adapter_phase1.contract.json",
+      "reason": "Evidence fetcher adapter の Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_fetcher_adapter_phase1.summary.json",
+      "reason": "Evidence fetcher adapter の実行結果を記録した。"
+    },
+    {
+      "path": "src/core/evidence_ingestion.rs",
+      "reason": "fetcher 実装を infrastructure から re-export し、既存 import path を維持した。"
+    },
+    {
+      "path": "src/infrastructure/evidence_ingestion.rs",
+      "reason": "Fixture / Web / Finnhub / SEC fetcher 実装を infrastructure adapter として移動した。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "FixtureFetcher の core re-export と infrastructure adapter の同一挙動を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/core/evidence_ingestion.rs",
+    "src/infrastructure/evidence_ingestion.rs",
+    "src/application/evidence_ingestion.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_fetcher_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_fetcher_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test evidence_ingestion -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test collect_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test ingest_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_fetcher_adapter_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_fetcher_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_fetcher_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_fetcher_adapter_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_fetcher_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_fetcher_adapter_phase1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Fetcher 実装配置だけを移動し、HTTP / SEC / Finnhub 挙動と core import path は維持した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "移動後に infrastructure 側へ SourceFetcher import が不足していたため追加した。",
+    "FixtureFetcher の re-export 境界を無ネットワーク integration test で固定した。"
+  ]
+}

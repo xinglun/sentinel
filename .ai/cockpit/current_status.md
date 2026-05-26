@@ -8,9 +8,9 @@ generated: true
 
 # AI Cockpit Current Status
 
-このファイルは `scripts/ai_generate_status.py` で生成する。手書きで更新しない。
+このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-05-22T22:55:20.544668+00:00`
+- Generated At: `2026-05-26T03:50:03.013133+00:00`
 - Task: `none`
 - Mode: `none`
 - State: `no_active_work_item`

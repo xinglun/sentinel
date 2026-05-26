@@ -1,0 +1,87 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cli-report-boundary-fix",
+  "mode": "code",
+  "title": "CLI と report 境界を修正",
+  "scope": [
+    ".ai/work-items/active/cli-report-boundary-fix.contract.json",
+    ".ai/work-items/active/cli-report-boundary-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/snapshots/audit_daily_*.txt"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "review finding",
+      "reason": "invalid provider が黙って fallback し、evidence description が未ローカライズのまま出力される。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "CLI option parser。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "Audit Daily evidence rendering。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "invalid --provider value is rejected with a clear error and usage.",
+    "Audit Daily does not render arbitrary raw evidence descriptions in zh-cn / ja-jp reports.",
+    "Relevant CLI / audit daily tests cover the boundary.",
+    "make quality and ai-finish pass."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test audit_daily --all-targets",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-report-boundary-fix.summary.json CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json SUMMARY=.ai/work-items/active/cli-report-boundary-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-report-boundary-fix.contract.json SUMMARY=.ai/work-items/active/cli-report-boundary-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

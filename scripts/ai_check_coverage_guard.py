@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""core production code の test coverage risk を report-only で検出する。"""
+"""production code の test 変更証跡を hard gate として検証する。"""
 
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import time
@@ -37,11 +38,15 @@ def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
 
 
 def changed_paths() -> list[str]:
-    result = run_git(["diff", "--name-only", "HEAD"])
+    diff_base = os.environ.get("AI_DIFF_BASE", "").strip()
+    args = ["diff", "--name-only", f"{diff_base}...HEAD"] if diff_base else ["diff", "--name-only", "HEAD"]
+    result = run_git(args)
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip())
     paths = [line.strip() for line in result.stdout.splitlines() if line.strip()]
 
+    if diff_base:
+        return sorted(set(paths))
     untracked = run_git(["ls-files", "--others", "--exclude-standard"])
     if untracked.returncode != 0:
         raise RuntimeError(untracked.stderr.strip())
@@ -49,13 +54,9 @@ def changed_paths() -> list[str]:
     return sorted(set(paths))
 
 
-def is_core_production_path(path: str) -> bool:
-    """coverage risk 判定対象の production path かを返す。"""
-    if path == "src/cli.rs":
-        return True
-    if not path.startswith("src/core/") or not path.endswith(".rs"):
-        return False
-    return not is_test_path(path)
+def is_production_path(path: str) -> bool:
+    """test 変更証跡を要求する production Rust path かを返す。"""
+    return path.startswith("src/") and path.endswith(".rs") and not is_test_path(path)
 
 
 def is_test_path(path: str) -> bool:
@@ -69,18 +70,28 @@ def is_test_path(path: str) -> bool:
     return False
 
 
-def detect(paths: list[str]) -> list[CoverageGuardItem]:
-    production_changes = [path for path in paths if is_core_production_path(path)]
+def added_inline_test(path: str) -> bool:
+    diff_base = os.environ.get("AI_DIFF_BASE", "").strip()
+    args = ["diff", "--unified=0", f"{diff_base}...HEAD", "--", path] if diff_base else ["diff", "--unified=0", "HEAD", "--", path]
+    result = run_git(args)
+    if result.returncode != 0:
+        return False
+    return any(line.startswith("+") and "#[test]" in line for line in result.stdout.splitlines())
+
+
+def detect(paths: list[str], inline_test_paths: set[str] | None = None) -> list[CoverageGuardItem]:
+    inline_test_paths = inline_test_paths or set()
+    production_changes = [path for path in paths if is_production_path(path)]
     test_changes = [path for path in paths if is_test_path(path)]
-    if not production_changes or test_changes:
+    if not production_changes or test_changes or any(path in inline_test_paths for path in production_changes):
         return []
 
     return [
         CoverageGuardItem(
-            severity="warning",
-            kind="missing_test_diff_for_core_change",
+            severity="error",
+            kind="missing_test_evidence_for_production_change",
             path=path,
-            detail="src/core/** または src/cli.rs の production code が変更されたが、同じ diff に tests/** または *_tests.rs の変更がありません。",
+            detail="production Rust code が変更されたが、同じ diff に tests/**、*_tests.rs、または追加 inline test の証跡がありません。",
         )
         for path in production_changes
     ]
@@ -90,7 +101,8 @@ def main() -> int:
     start = time.time()
     try:
         paths = changed_paths()
-        items = detect(paths)
+        inline_test_paths = {path for path in paths if is_production_path(path) and added_inline_test(path)}
+        items = detect(paths, inline_test_paths)
     except RuntimeError as exc:
         print(f"❌ coverage guard failed: {exc}", file=sys.stderr)
         return 1
@@ -98,8 +110,8 @@ def main() -> int:
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     report = {
         "generatedAt": datetime.now(timezone.utc).isoformat(),
-        "status": "warning" if items else "none",
-        "reportOnly": True,
+        "status": "error" if items else "none",
+        "reportOnly": False,
         "changedPaths": paths,
         "items": [asdict(item) for item in items],
     }
@@ -109,19 +121,21 @@ def main() -> int:
     duration = elapsed_ms(start)
 
     if items:
-        print(f"⚠️ coverage guard report-only warnings: {len(items)}")
         for item in items:
-            print(f"[{item.severity}] {item.kind}: {item.path} - {item.detail}")
+            print(f"[{item.severity}] {item.kind}: {item.path} - {item.detail}", file=sys.stderr)
             obs.guard_violation(
                 check_id="aiCoverageGuard",
                 severity=item.severity,
                 path=item.path,
                 detail=f"{item.kind}: {item.detail}",
             )
-    else:
-        print("✅ coverage guard: no issues")
+        obs.check_failed(check_id="aiCoverageGuard", duration_ms=duration, detail=f"{len(items)} missing test evidence item(s)")
+        print(f"❌ coverage guard failed: {len(items)} issue(s)", file=sys.stderr)
+        print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
+        return 1
+    print("✅ coverage guard: production changes have test evidence")
     print(f"report: {REPORT_PATH.relative_to(PROJECT_ROOT)}")
-    obs.check_passed(check_id="aiCoverageGuard", duration_ms=duration, fields={"warnings": len(items)})
+    obs.check_passed(check_id="aiCoverageGuard", duration_ms=duration, fields={"issues": len(items)})
     return 0
 
 

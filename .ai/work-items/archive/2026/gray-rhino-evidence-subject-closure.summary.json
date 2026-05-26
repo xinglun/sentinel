@@ -1,0 +1,195 @@
+{
+  "workItemId": "gray-rhino-evidence-subject-closure",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-evidence-subject-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+      "reason": "subject closure Work Item の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "subject-preserved evidence、domain policy、resolved projection、collection status の契約 flag を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "formal evidence の subject+category 归约、resolved candidate projection、structured collection status を明文化した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "risk classification / effective evidence policy は Domain service が所有し、CLI は infrastructure 実装を持たないことを追記した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "src/cli.rs の reqwest / adapter 実装 / cache write escape hatch を検出する checker を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "discovery / assessment policy が domain service にあることを検証するよう更新した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "dependency source の HTTP/cache adapter 実装を CLI から削除し、ACL factory 経由にした。"
+    },
+    {
+      "path": "src/features/shared/application/run_status.rs",
+      "reason": "GrayRhinoCollectionStatus と provider coverage 構造を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Gray Rhino refresh status を structured collection status に変換するよう更新した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "dependency source adapter factory を公開した。"
+    },
+    {
+      "path": "src/features/research/acl/dependency_source_adapter_factory.rs",
+      "reason": "CLI composition root 向けの dependency source adapter factory を追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "formal assessment orchestration を domain policy delegate にし、subject regression test を追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "latest mitigating evidence を subject+risk kind の Resolved candidate として monitoring に投影した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "discovery classification rule を domain policy delegate に移した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Gray Rhino assessment / discovery domain policy module を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_assessment_policy.rs",
+      "reason": "subject+category effective evidence 归约と formal risk input mapping を domain service 化した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_discovery_policy.rs",
+      "reason": "structural fact から candidate kind/state への分類 policy を domain service 化した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "GrayRhinoEvidenceRecord に subject を保存し、各 evidence projection で subject を保持した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/dependency_source_adapter.rs",
+      "reason": "dependency source の HTTP/file/cache adapter 実装を infrastructure に移した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "dependency source adapter module を登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "subject 必須 record に合わせて test fixture を更新した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "zh / ja の fallback 混語を後備/代替経路用語に置換した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "domain policy ownership、CLI infra boundary、fallback mixed-language blocking の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/application/gray_rhino_discovery.rs",
+    "src/cli.rs",
+    "src/features/shared/application/run_status.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_subject_mitigation_does_not_cross_close --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_mitigating_evidence_projects_resolved_candidate --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_domain_policy_owns_discovery_and_assessment_rules --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test cli_does_not_own_dependency_source_infrastructure --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_collection_status_preserves_partial_provider_coverage --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_report_blocks_fallback_mixed_language --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_report_single_language_snapshots --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-subject-closure.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-subject-closure.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "formal evidence と monitoring lifecycle の整合、domain policy 位置、CLI boundary を変更したため full quality gate で確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

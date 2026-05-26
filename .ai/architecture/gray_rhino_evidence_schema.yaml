@@ -1,0 +1,422 @@
+schemaVersion: 1
+contractKey: gray-rhino-evidence-contract
+humanReadableSsot: docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md
+domainModel: src/features/research/domain/gray_rhino_evidence.rs
+currentPhase: phase_4_auto_discovery
+currentObservationSource: AutoDiscovery
+formalEvidenceDirectionEnabled: true
+riskEffectField: risk_effect
+riskEffectMissingDefault: Unclassified
+unclassifiedEvidenceScoring: excluded_and_reported
+formalEscalationEvidenceSource: EvidenceStore
+manualFallbackBaseline: gray_rhino_escalation
+automatedCollectionEnabled: true
+grayRhinoAutoDiscoveryEnabled: true
+candidateDomain: src/features/research/domain/gray_rhino_candidate.rs
+candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs
+candidateDiscoveryPolicy: src/features/research/domain/gray_rhino_discovery_policy.rs
+candidatePersistenceEnabled: true
+candidateStore: gray_rhino_candidates.jsonl
+monitoringStateMachineEnabled: true
+monitoringStateMachine: src/features/research/domain/gray_rhino_monitoring_policy.rs
+monitoringStateMachineApplicationFacade: src/features/research/application/gray_rhino_monitoring_state.rs
+fredThresholdCalibrationEnabled: true
+fredThresholdSeries:
+  - DGS10
+  - T10Y2Y
+  - FEDFUNDS
+  - BAMLH0A0HYM2
+  - WALCL
+  - RRPONTSYD
+deterministicThresholdStatesEnabled: true
+grayRhinoRefreshMakeTarget: gray-rhino-refresh
+grayRhinoRefreshRunsDailyCalibration: false
+grayRhinoRefreshReportMakeTarget: gray-rhino-refresh-report
+grayRhinoRefreshPartialFailureEnabled: true
+grayRhinoRefreshProviderIsolationEnabled: true
+grayRhinoRefreshStatusValues:
+  - succeeded
+  - partial_failure
+  - failed
+  - skipped
+grayRhinoRefreshStatusStore: gray_rhino_refresh_status_latest.json
+grayRhinoRefreshStatusLedger: gray_rhino_refresh_status.jsonl
+grayRhinoRefreshStatusDailyFilePattern: gray_rhino_refresh_status_YYYY-MM-DD.json
+grayRhinoRefreshStatusDisplayedInReport: true
+grayRhinoRefreshStatusReplayAsOfDateEnabled: true
+grayRhinoRefreshStatusUndatedHistoricalReplayAllowed: false
+grayRhinoProviderFailureExitsNonZero: true
+grayRhinoProviderPartialFailureCoverageEnabled: true
+radarTelegramAppendixEnabled: true
+radarTelegramAppendixBoundary: reference_only_no_gate_trade_trend_or_market_state
+candidateScopes:
+  - Company
+  - Market
+candidateStates:
+  - Background
+  - Visible
+  - Expanding
+  - Critical
+  - Cooling
+  - Resolved
+inlineWatchlistReferenceEnabled: true
+watchlistInlineDisplayEnabled: true
+marketReferenceDisplayEnabled: true
+semanticIsolationDisplayBoundary: true
+compactSummaryEnabled: true
+noiseCalibrationEnabled: true
+dailyGithubActionsRefreshEnabled: true
+dailyGithubActionsRefreshBeforeRadarEnabled: true
+dailyGithubActionsRefreshNotifyEnabled: false
+dailyGithubActionsWorkflow: .github/workflows/daily_radar.yml
+dailyReportUseCaseEnabled: true
+dailyReportUseCase: src/features/research/application/gray_rhino_daily_report.rs
+dailyReportRepositoryPort: GrayRhinoDailyReportRepository
+dailyReportInfrastructureRepository: src/features/research/infrastructure/gray_rhino_daily_report_repository.rs
+dailyReportQueryReadsPersistedCandidatesOnly: true
+dailyReportQueryRediscoveryEnabled: false
+dailyReportDisplayLatestCandidateEnabled: true
+candidateTimeModel:
+  sourcePublishedAt: source_published_at
+  lastConfirmedAt: last_confirmed_at
+  resolvedAt: resolved_at
+persistentRiskNoAgeOnlyAutoResolve: true
+sourceCollectionUseCase: src/features/research/application/gray_rhino_source_collection.rs
+dailyReportOpsViewDtoEnabled: true
+dailyReportOpsViewReplayAsOfDateEnabled: true
+governanceAuditReplayAsOfDateEnabled: true
+dailyReportOpsViewDtos:
+  - BackfillOpsSummary
+  - DiscoveryOpsSummary
+  - GrayRhinoRefreshStatus
+manualRegistryPrimaryMechanism: false
+autoSourceCollectionCli: collect-gray-rhino-sources
+autoSourceProviders:
+  - sec
+  - finnhub
+  - fred
+autoSourceCaches:
+  sec: gray_rhino_sources/governance
+  finnhub: gray_rhino_sources/narrative
+  fred: gray_rhino_sources/macro
+finnhubArticleIdentityEnabled: true
+finnhubSourcePublishedAtUsesArticleDate: true
+finnhubRepeatedFetchDoesNotConfirm: true
+fredObservationIdentityEnabled: true
+fredSourcePublishedAtUsesObservationDate: true
+fredRepeatedFetchDoesNotConfirm: true
+autoDiscoveryRunStore: gray_rhino_discovery_runs.jsonl
+fredConfigEnabled: true
+fredConfigField: fred_api_key
+governanceEvidencePipelineEnabled: true
+governanceEvidenceStore: gray_rhino_evidence.jsonl
+governanceSourceAdapterEnabled: true
+governanceSourceCache: gray_rhino_sources/governance
+governanceSourceManifest: gray_rhino_governance_source_manifest.jsonl
+governanceExtractionAudit: gray_rhino_governance_extraction_audit.jsonl
+governanceReplayFixturePack: tests/fixtures/governance_sec
+governanceSecLiveDryRunDefault: true
+dependencyEvidencePipelineEnabled: true
+dependencyEvidenceStore: gray_rhino_evidence.jsonl
+dependencyReplayFixturePack: tests/fixtures/dependency_local
+dependencySourceManifest: gray_rhino_dependency_source_manifest.jsonl
+dependencyExtractionAudit: gray_rhino_dependency_extraction_audit.jsonl
+dependencyLiveBackfillEnabled: true
+dependencyRealAdapterEnabled: true
+dependencyRawSourceCache: gray_rhino_sources/dependency
+dependencyHttpRetryCount: 3
+dependencyHttpTimeoutSeconds: 20
+backfillRunStore: gray_rhino_backfill_runs.jsonl
+providerSourceRegistryEnabled: false
+providerRegistryConfigRequired: false
+providerRegistryFixture: tests/fixtures/gray_rhino_historical/provider_registry.json
+scheduledBackfillEnabled: true
+backfillDriftDetectionEnabled: true
+providerFailureTaxonomy:
+  - fetch_failure
+  - timeout
+  - unsupported_format
+  - metricless_source
+  - stale_source
+freshnessPolicyEnabled: true
+reportOpsViewEnabled: true
+formalEvidenceLatestCategoryStateEnabled: true
+formalEvidenceSubjectPreserved: true
+formalEvidenceLatestSubjectCategoryStateEnabled: true
+formalEvidenceCrossCategoryPairingBySubjectEnabled: true
+formalEvidenceSubjectlessLegacyScoringAllowed: false
+mitigatingEvidenceCanCloseAmplifyingCategory: true
+mitigatingEvidenceCrossSubjectClosureAllowed: false
+mitigatingEvidenceProjectsResolvedCandidate: true
+mitigatingEvidenceRequiresPriorRiskForResolvedCandidate: true
+grayRhinoEvidenceProjectionPolicy: src/features/research/domain/gray_rhino_evidence_projection_policy.rs
+grayRhinoEvidenceProjectionRulesInApplicationAllowed: false
+grayRhinoAssessmentPolicy: src/features/research/domain/gray_rhino_assessment_policy.rs
+grayRhinoDiscoveryRulesInApplicationAllowed: false
+grayRhinoMonitoringPolicy: src/features/research/domain/gray_rhino_monitoring_policy.rs
+grayRhinoMonitoringRulesInApplicationAllowed: false
+grayRhinoCliInfrastructureImplementationAllowed: false
+grayRhinoCliBackfillPersistenceAllowed: false
+grayRhinoCliMetricAliasRulesAllowed: false
+grayRhinoCollectionStatusStruct: GrayRhinoCollectionStatus
+grayRhinoSummaryUsesMonitoringStatuses: true
+grayRhinoSummaryActiveExcludesCoolingResolved: true
+grayRhinoSensorHealthScoreableReadinessEnabled: true
+grayRhinoSensorHealthSubjectlessEvidenceExcluded: true
+grayRhinoEvidenceReadValidationEnabled: true
+grayRhinoEvidenceReadCategorySourceValidationEnabled: true
+grayRhinoEvidenceCategorySourceTypeSsotEnabled: true
+grayRhinoEvidenceSourcePolicyDomain: src/features/research/domain/gray_rhino_evidence_source_policy.rs
+grayRhinoEvidenceReadRejectedViewEnabled: true
+grayRhinoEvidenceReadBatchEnabled: true
+grayRhinoRejectedReasonI18nCoverageEnabled: true
+grayRhinoInterfaceEvidenceEligibilityAllowed: false
+grayRhinoMissingSubjectRejection: MissingSubject
+grayRhinoRunStatusFields:
+  - gray_rhino_collection
+  - gray_rhino_rendering
+grayRhinoUserFacingPresenter: src/features/research/interface/gray_rhino_report.rs
+grayRhinoApplicationUserOutputTemplatesAllowed: false
+categories:
+  - GovernanceConcentration
+  - DependencyConcentration
+  - InstitutionalMaturity
+  - RiskNormalization
+  - Redundancy
+sourceTypes:
+  - RegulatoryFiling
+  - GovernanceDocument
+  - CompanyDisclosure
+  - IndependentAudit
+  - InfrastructureStatus
+  - SupplierDisclosure
+  - MarketNarrativeCorpus
+  - OperatorCuratedSource
+requiredFields:
+  - subject
+  - category
+  - source_type
+  - source_title
+  - publisher
+  - observed_at
+  - retrieved_at
+  - confidence
+  - extraction_note
+traceability:
+  require_source_reference: true
+  require_observed_at: true
+  require_retrieved_at: true
+  require_extraction_note: true
+quality:
+  confidence_min: 0.0
+  confidence_max: 1.0
+  confidence_means: evidence_quality_not_risk_severity
+  evidence_must_not_set_escalation_state: true
+governanceConcentration:
+  phase: phase_3a_governance_source_adapter
+  inputMode: repository_local_structured_json_or_sec_governance_document
+  requiredMetricAtLeastOneOf:
+    - founder_voting_power
+    - independent_board_ratio
+    - dual_class_structure
+    - super_voting_rights
+    - succession_disclosure
+  allowedSourceTypes:
+    - RegulatoryFiling
+    - GovernanceDocument
+    - CompanyDisclosure
+    - OperatorCuratedSource
+  outputCategory: GovernanceConcentration
+  storage: gray_rhino_evidence.jsonl
+  rawSourceCache: gray_rhino_sources/governance
+  sourceManifest: gray_rhino_governance_source_manifest.jsonl
+  extractionAudit: gray_rhino_governance_extraction_audit.jsonl
+  sensorHealthReportOnly: true
+  deterministicExtractionOnly: true
+  replayCoverageReport: true
+  liveDryRun:
+    defaultPersistEvidence: false
+    writesRawCache: true
+    writesSourceManifest: true
+    writesExtractionAudit: true
+    expandedSampleSize: 5-10
+    reportsFieldCoverage: true
+  fieldCoverageCalibration:
+    founderVotingPowerPatterns:
+      - controlled X% of the voting power
+      - representing X% of the voting power
+      - entitled to X% of the voting power
+      - hold X% of the voting power
+    successionDisclosureLabels:
+      - succession framework
+      - ceo succession framework
+    votingStructureLabels:
+      - multi-class voting structure
+      - multi-class common stock
+      - class b stock has 10 times the voting rights
+      - class b common stock have ten votes per share
+      - class b common stock represents 15 votes
+    boardIndependencePatterns:
+      - Of the N Board nominees, M are independent
+      - M out of N director nominees are independent
+      - consists of N directors, M of whom are independent
+  rejectionTaxonomy:
+    - MetriclessSource
+    - SourceInvalid
+    - ExtractionInvalid
+  noEscalationStateMutation: true
+dependencyConcentration:
+  phase: phase_3b_dependency_concentration_evidence_pipeline
+  inputMode: repository_local_structured_json
+  sourceCollectionInputMode: repository_local_or_url_dependency_disclosure
+  localIngestionCli: ingest-gray-rhino-dependency
+  requiredMetricAtLeastOneOf:
+    - concentration_ratio
+    - single_point_of_failure
+    - fallback_disclosed
+  requiredFields:
+    - dependency_kind
+    - dependency_name
+  allowedDependencyKinds:
+    - Infrastructure
+    - Compute
+    - Cloud
+    - Launch
+    - Supplier
+    - Ecosystem
+  allowedSourceTypes:
+    - CompanyDisclosure
+    - InfrastructureStatus
+    - SupplierDisclosure
+    - IndependentAudit
+    - OperatorCuratedSource
+  outputCategory: DependencyConcentration
+  storage: gray_rhino_evidence.jsonl
+  deterministicExtractionOnly: true
+  collectorEnabled: true
+  localSourceCollectionOnly: true
+  urlSourceCollectionEnabled: true
+  liveBackfillDryRunDefault: true
+  calibratedDisclosureLabels:
+    - supplier concentration
+    - revenue concentration
+    - customer concentration
+    - workloads hosted by
+    - single cloud provider
+    - sole supplier
+    - alternative supplier
+    - backup provider
+    - redundant provider
+  replayCoverageReport: true
+  noEscalationStateMutation: true
+institutionalMaturity:
+  phase: phase_3c_institutional_maturity_evidence_pipeline
+  inputMode: repository_local_structured_json
+  localIngestionCli: ingest-gray-rhino-institutional
+  requiredMetricAtLeastOneOf:
+    - succession_structure_disclosed
+    - external_audit_present
+    - disclosure_quality_score
+    - oversight_evolution_disclosed
+    - compliance_maturity_level
+  allowedSourceTypes:
+    - RegulatoryFiling
+    - GovernanceDocument
+    - CompanyDisclosure
+    - IndependentAudit
+    - OperatorCuratedSource
+  outputCategory: InstitutionalMaturity
+  storage: gray_rhino_evidence.jsonl
+  deterministicExtractionOnly: true
+  collectorEnabled: false
+  localSourceCollectionEnabled: true
+  replayCoverageReport: true
+  calibratedDisclosureLabels:
+    - succession planning
+    - independent auditor
+    - comprehensive disclosure
+    - board oversight expanded
+    - developing compliance
+  noEscalationStateMutation: true
+redundancy:
+  phase: phase_3d_redundancy_evidence_pipeline
+  inputMode: repository_local_structured_json
+  localIngestionCli: ingest-gray-rhino-redundancy
+  requiredMetricAtLeastOneOf:
+    - fallback_available
+    - alternative_supplier_count
+    - redundancy_ratio
+    - recovery_path_disclosed
+    - failover_tested
+  allowedSourceTypes:
+    - InfrastructureStatus
+    - SupplierDisclosure
+    - IndependentAudit
+    - CompanyDisclosure
+    - OperatorCuratedSource
+  outputCategory: Redundancy
+  storage: gray_rhino_evidence.jsonl
+  deterministicExtractionOnly: true
+  collectorEnabled: false
+  localSourceCollectionEnabled: true
+  replayCoverageReport: true
+  calibratedDisclosureLabels:
+    - backup provider
+    - two alternative suppliers
+    - recovery plan
+    - failover test
+    - tested failover
+  fallbackClaimedIsNotFailoverTested: true
+  noEscalationStateMutation: true
+multiCategorySensorHealthEnabled: true
+multiCategoryBackfillDryRunEnabled: true
+multiCategoryBackfillManifest: tests/fixtures/gray_rhino_backfill/multi_category_manifest.json
+evidenceQualityScoringEnabled: true
+evidenceQualityModelVersion: v2
+evidenceQualityDimensions:
+  - traceability
+  - metric_completeness
+  - freshness
+  - confidence
+  - source_diversity
+  - rejection_ratio
+sensorReadinessScoreEnabled: true
+evidenceExplanationGraphEnabled: true
+evidenceDrivenEscalationEngineEnabled: true
+evidenceDrivenEscalationUsesCategoryCompleteness: true
+evidenceDrivenEscalationOutputBoundary: no_trade_gate_execution
+boundaries:
+  forbidden_as_evidence:
+    - narrative_only
+    - price_action_only
+    - personality_judgment
+    - political_attack
+    - conspiracy_claim
+    - trade_signal
+    - gate_signal
+    - execution_signal
+    - trend_cohesion_override
+  allowed_layers:
+    - research/domain
+    - research/application
+    - research/interface
+    - research/infrastructure
+phases:
+  phase_1_human_structured_governance_observation: completed
+  phase_2_evidence_schema: completed
+  phase_3a_governance_concentration_evidence_pipeline: completed
+  phase_3a_governance_source_adapter: completed
+  phase_3a_governance_backfill_audit: active
+  phase_3a_governance_sec_replay_pack: active
+  phase_3a_governance_sec_live_dry_run: active
+  phase_3a_governance_sec_field_coverage_calibration: active
+  phase_3a_governance_sec_expanded_sample_dry_run: active
+  phase_3a_governance_sec_voting_structure_calibration: active
+  phase_3a_governance_sec_board_independence_calibration: active
+  phase_3a_governance_sec_founder_voting_power_calibration: active
+  phase_3b_dependency_concentration_evidence_pipeline: active
+  phase_3c_institutional_maturity_evidence_pipeline: active
+  phase_3d_redundancy_evidence_pipeline: active
+  phase_3e_multi_category_sensor_health_dashboard: active
+  phase_4_escalation_detection_engine: active
+  phase_5_long_term_civilization_risk_mapping: out_of_scope

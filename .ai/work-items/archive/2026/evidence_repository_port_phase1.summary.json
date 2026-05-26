@@ -1,0 +1,93 @@
+{
+  "workItemId": "evidence_repository_port_phase1",
+  "contractPath": ".ai/work-items/archive/2026/evidence_repository_port_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/evidence_repository_port_phase1.contract.json",
+      "reason": "Evidence repository port の Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_repository_port_phase1.summary.json",
+      "reason": "Evidence repository port の実行結果を記録した。"
+    },
+    {
+      "path": "src/application/evidence.rs",
+      "reason": "EvidenceRepository port を application layer に追加した。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "application::evidence を公開した。"
+    },
+    {
+      "path": "src/core/evidence_store.rs",
+      "reason": "既存 EvidenceStore に EvidenceRepository port 実装を追加し、既存 API 互換を維持した。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "port 経由で save/load/find/cleanup が動くことを固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/core/evidence_store.rs",
+    "src/domain/evidence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_repository_port_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test evidence_store -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_repository_port_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_repository_port_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_repository_port_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_repository_port_phase1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "既存 EvidenceStore の保存形式と public API は維持し、Application port を追加するだけの変更。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

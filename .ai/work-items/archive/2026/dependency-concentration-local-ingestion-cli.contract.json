@@ -1,0 +1,105 @@
+{
+  "contractVersion": 1,
+  "workItemId": "dependency-concentration-local-ingestion-cli",
+  "mode": "code",
+  "title": "Dependency Concentration local ingestion CLI",
+  "scope": [
+    ".ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+    ".ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "reason": "Work Item の scope、acceptance、verification を定義する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "DependencyConcentration evidence の local JSON ingestion CLI entrypoint。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "CLI command と --file option usage の parse / help 境界。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "DependencyConcentration local ingestion が evidence store へ保存し、escalation を変更しないことを固定する。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Dependency local ingestion CLI contract の machine-readable SSOT。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Dependency local ingestion CLI contract の human-readable SSOT。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "schema と docs の CLI contract 整合を検証する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "`ingest-gray-rhino-dependency --file <json>` は DependencyConcentration structured JSON を読み込む。",
+    "valid evidence は GrayRhino evidence JSONL store に DependencyConcentration category として保存される。",
+    "invalid evidence は既存 domain validation で拒否される。",
+    "CLI output は evidence-only boundary を表示し、escalation state、Gate、execution、trading state を変更しない。",
+    "collector、live source adapter、dependency graph builder は追加しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_dependency_evidence_ingest_writes_jsonl_without_escalation --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/dependency-concentration-local-ingestion-cli.contract.json SUMMARY=.ai/work-items/active/dependency-concentration-local-ingestion-cli.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/cli.rs",
+      "src/features/shared/interface/cli_args.rs",
+      "tests/research_attention_cli_integration.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

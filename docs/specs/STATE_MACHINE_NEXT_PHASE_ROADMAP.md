@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 状態機次フェーズ・ロードマップ
+description: Sentinel 状態機次フェーズ・ロードマップ に関する Sentinel の設計・運用情報。
+key: docs-specs-state-machine-next-phase-roadmap
 ---
 
 # Sentinel 状態機次フェーズ・ロードマップ

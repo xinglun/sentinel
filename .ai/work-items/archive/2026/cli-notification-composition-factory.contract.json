@@ -1,0 +1,100 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cli-notification-composition-factory",
+  "mode": "code",
+  "title": "CLI notification composition を factory へ集約",
+  "scope": [
+    ".ai/work-items/active/cli-notification-composition-factory.contract.json",
+    ".ai/work-items/active/cli-notification-composition-factory.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/notification_factory.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI が notify implementation と Telegram precheck/status mapping を直接扱っている現状。"
+    },
+    {
+      "path": "src/infrastructure/notify.rs",
+      "reason": "Telegram notification implementation。"
+    },
+    {
+      "path": "src/application/run_status.rs",
+      "reason": "notification delivery status contract。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "composition boundary guard の定義。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture guard regression tests。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "CLI は infrastructure::notify を直接 import / call しない。",
+    "Telegram precheck と notification delivery status mapping は infrastructure factory に集約される。",
+    "research-attention / asset-thesis / daily-calibration の notify behavior を維持する。",
+    "radar pipeline の notification status behavior を維持する。",
+    "architecture guard が CLI から notify への直接 import を拒否する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::telegram_precheck_skips_when_disabled",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::telegram_precheck_fails_when_credentials_missing",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-notification-composition-factory.summary.json CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json SUMMARY=.ai/work-items/active/cli-notification-composition-factory.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-notification-composition-factory.contract.json SUMMARY=.ai/work-items/active/cli-notification-composition-factory.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

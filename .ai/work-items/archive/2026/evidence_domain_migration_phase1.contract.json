@@ -1,0 +1,112 @@
+{
+  "contractVersion": 1,
+  "workItemId": "evidence_domain_migration_phase1",
+  "mode": "code",
+  "title": "Evidence domain migration phase 1",
+  "scope": [
+    ".ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+    ".ai/work-items/active/evidence_domain_migration_phase1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/domain/mod.rs",
+    "src/domain/evidence.rs",
+    "src/core/trend_cohesion.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "Makefile",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "tests/evidence_domain_integration.rs"
+  ],
+  "outOfScope": [
+    "Gate / execution / trader_agent の挙動変更",
+    "Telegram / Markdown 表示文言の変更",
+    "Evidence ingestion の外部 API 接続変更",
+    "既存 evidence_records.jsonl schema の破壊的変更"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Evidence context の target layer と migration rule。"
+    },
+    {
+      "path": "src/core/trend_cohesion.rs",
+      "reason": "現在の evidence 型と conviction decay の実装元。"
+    },
+    {
+      "path": "src/core/evidence_store.rs",
+      "reason": "永続化 schema 互換性の参照。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "domain module entrypoint。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "EvidenceSourceType / EvidenceType / AutomatedEvidenceRecord が domain layer に移動している。",
+    "既存の crate::core::trend_cohesion::* import は re-export により互換維持されている。",
+    "証拠減衰 policy が domain layer の純粋関数として切り出され、T+1 / decay_limit / long memory の境界テストがある。",
+    "trend_cohesion の conviction calculation は domain の decay policy を使い、既存計算結果を変えない。",
+    "architecture boundary check と full quality gate が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "cargo test evidence_decay -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test trend_cohesion -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test --test evidence_domain_integration",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_domain_migration_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_domain_migration_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_domain_migration_phase1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

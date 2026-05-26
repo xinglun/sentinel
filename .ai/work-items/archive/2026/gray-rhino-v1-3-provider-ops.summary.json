@@ -1,0 +1,88 @@
+{
+  "workItemId": "gray-rhino-v1-3-provider-ops",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-v1-3-provider-ops.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-3-provider-ops.contract.json",
+      "reason": "v1.3 provider registry / backfill ops / freshness / drift の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-3-provider-ops.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "provider registry manifest、stale/drift/failure taxonomy、backfill run summary を処理する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Backfill Ops View を表示する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "provider ops と non-signal boundary を固定する。"
+    },
+    {
+      "path": "tests/fixtures/gray_rhino_historical/provider_registry.json",
+      "reason": "historical provider registry fixture を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-v1-3-provider-ops.contract.json",
+    "src/cli.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-3-provider-ops.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-3-provider-ops.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_provider_registry_backfill_records_ops_status --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_quality_report_explains_dimensions_without_signals --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-3-provider-ops.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-3-provider-ops.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-3-provider-ops.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-3-provider-ops.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-3-provider-ops.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-3-provider-ops.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "provider ops は監査表示と dry-run backfill に限定し、config.toml と trading/Gate/execution は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "config.toml は変更していない。必要な registry 設定は最終報告で提示する。"
+  ]
+}

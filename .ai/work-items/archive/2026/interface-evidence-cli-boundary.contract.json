@@ -1,0 +1,106 @@
+{
+  "contractVersion": 1,
+  "workItemId": "interface-evidence-cli-boundary",
+  "mode": "code",
+  "title": "Evidence CLI の infrastructure 依存を composition root へ分離",
+  "scope": [
+    ".ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+    ".ai/work-items/active/interface-evidence-cli-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/interface/mod.rs",
+    "src/interface/evidence_cli.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/evidence_fetcher_factory.rs",
+    "tests/evidence_ingestion_port_integration.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "interface layer が infrastructure adapter へ依存しない方針を確認した。"
+    },
+    {
+      "path": "src/interface/evidence_cli.rs",
+      "reason": "interface から infrastructure fetcher 実装へ依存している移行対象。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "composition root として fetcher factory を接続している利用箇所。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "fetcher factory の既存 contract tests の更新対象。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "multi-line use を含む interface -> infrastructure 依存検出を強化する対象。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "multi-line interface -> infrastructure import 検出の regression test を追加する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "`src/interface` から `crate::infrastructure` への依存が残っていない。",
+    "Evidence fetcher factory は interface ではなく infrastructure / composition root 側から利用される。",
+    "既存の ingest-evidence-url / collect-evidence CLI contract が維持されている。",
+    "`make check-architecture` が multi-line の interface -> infrastructure import を検出できる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interface-evidence-cli-boundary.summary.json CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json SUMMARY=.ai/work-items/active/interface-evidence-cli-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json SUMMARY=.ai/work-items/active/interface-evidence-cli-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

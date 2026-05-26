@@ -1,0 +1,102 @@
+{
+  "workItemId": "ddd-run-status-migration",
+  "contractPath": ".ai/work-items/archive/2026/ddd-run-status-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/core/mod.rs",
+      "reason": "run_status モジュールの公開を削除。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "run_status モジュールを公開。"
+    },
+    {
+      "path": "src/application/run_status.rs",
+      "reason": "core/run_status.rs から移行。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "run_status への参照を crate::application::run_status に修正。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "run_status への参照を crate::application::run_status に修正。"
+    },
+    {
+      "path": "src/core/trader_agent.rs",
+      "reason": "run_status への参照を crate::application::run_status に修正。"
+    },
+    {
+      "path": "src/infrastructure/persistence.rs",
+      "reason": "run_status への参照を crate::application::run_status に修正。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "run_status への参照を stock_sentinel::application::run_status に修正。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-run-status-migration.contract.json",
+      "reason": "Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-run-status-migration.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ddd-run-status-migration.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-run-status-migration.summary.json CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json SUMMARY=.ai/work-items/active/ddd-run-status-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-run-status-migration.contract.json SUMMARY=.ai/work-items/active/ddd-run-status-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "実行状態モジュールの配置移動とインポート修正のみであり、機能的な影響はない。"
+  },
+  "generatedFiles": [
+    "src/application/run_status.rs"
+  ],
+  "destructiveChanges": [
+    {
+      "path": "src/core/run_status.rs",
+      "reason": "移行したため削除。"
+    }
+  ],
+  "observedIssues": []
+}

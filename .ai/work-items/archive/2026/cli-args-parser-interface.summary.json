@@ -1,0 +1,142 @@
+{
+  "workItemId": "cli-args-parser-interface",
+  "contractPath": ".ai/work-items/archive/2026/cli-args-parser-interface.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cli-args-parser-interface.contract.json",
+      "reason": "CLI args parser extraction の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-args-parser-interface.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cli-report-extraction-interface.contract.json",
+      "reason": "前回未提交の CLI report extraction archive を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cli-report-extraction-interface.summary.json",
+      "reason": "前回未提交の CLI report extraction summary を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/weekly-state-report-interface.contract.json",
+      "reason": "前回未提交の weekly state report archive を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/weekly-state-report-interface.summary.json",
+      "reason": "前回未提交の weekly state report summary を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/radar-pipeline-runner-interface.contract.json",
+      "reason": "前回未提交の radar pipeline runner archive を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/radar-pipeline-runner-interface.summary.json",
+      "reason": "前回未提交の radar pipeline runner summary を維持した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "argument parsing state を interface parser へ抽出し、parsed options による command dispatch へ変更した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "前回未提交の radar_pipeline_runner module 公開を維持した。"
+    },
+    {
+      "path": "src/infrastructure/radar_pipeline_runner.rs",
+      "reason": "前回未提交の radar pipeline composition runner を維持した。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "cli_args module を公開した。"
+    },
+    {
+      "path": "src/interface/audit_daily_report.rs",
+      "reason": "CLI parser が audit error text を再利用できる状態を維持した。"
+    },
+    {
+      "path": "src/interface/cognitive_reports.rs",
+      "reason": "前回未提交の cognitive reports extraction を維持した。"
+    },
+    {
+      "path": "src/interface/weekly_state_report.rs",
+      "reason": "前回未提交の weekly state report extraction を維持した。"
+    },
+    {
+      "path": "src/interface/cli_args.rs",
+      "reason": "CLI command / provider / audit / evidence / research options parsing を集約した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/interface/audit_daily_report.rs",
+    "src/infrastructure/market_data_provider_factory.rs",
+    "tests/audit_daily_cli_integration.rs",
+    "tests/collect_evidence_cli_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test audit_daily_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test collect_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-args-parser-interface.summary.json CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json SUMMARY=.ai/work-items/active/cli-args-parser-interface.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-args-parser-interface.contract.json SUMMARY=.ai/work-items/active/cli-args-parser-interface.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "CLI 引数解析を interface parser に移動した。audit / evidence / research CLI integration tests で behavior を確認済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI entrypoint が command parsing と option state machine を直接保持していた。"
+  ]
+}

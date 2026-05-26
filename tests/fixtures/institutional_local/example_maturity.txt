@@ -1,0 +1,5 @@
+succession_structure_disclosed: true
+external_audit_present: true
+disclosure_quality_score: 0.72
+oversight_evolution_disclosed: true
+compliance_maturity_level: developing

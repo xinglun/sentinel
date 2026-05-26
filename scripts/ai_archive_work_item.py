@@ -5,7 +5,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import shutil
 import subprocess
 import sys
 from datetime import datetime
@@ -27,6 +26,28 @@ def load_json(path: Path) -> dict[str, Any]:
 
 def save_json(path: Path, data: dict[str, Any]) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def remove_active_residue(files_to_move: list[tuple[Path, Path]]) -> bool:
+    """archive 済みの source file が active 側へ残った場合は除去する。"""
+    ok = True
+    for src, target in files_to_move:
+        if not src.exists():
+            continue
+        if not target.exists():
+            print(
+                f"❌ Active residue cannot be removed because archive target is missing: {src.relative_to(PROJECT_ROOT)}",
+                file=sys.stderr,
+            )
+            ok = False
+            continue
+        try:
+            src.unlink()
+            print(f"✅ Removed active residue: {src.relative_to(PROJECT_ROOT)}")
+        except OSError as exc:
+            print(f"❌ Failed to remove active residue: {src.relative_to(PROJECT_ROOT)}: {exc}", file=sys.stderr)
+            ok = False
+    return ok
 
 
 def parse_args() -> argparse.Namespace:
@@ -105,8 +126,11 @@ def main() -> int:
             return 1
 
     for src, target in files_to_move:
-        shutil.move(str(src), str(target))
+        src.rename(target)
         print(f"✅ Moved: {target.relative_to(PROJECT_ROOT)}")
+
+    if not remove_active_residue(files_to_move):
+        return 1
 
     obs = create_observability(work_item_id=work_item_id)
     from ai_observability import AiEvent
@@ -118,11 +142,22 @@ def main() -> int:
         check_id="aiArchive",
         fields={"year": year, "files": len(files_to_move)}
     ))
-    subprocess.run(
+    status_result = subprocess.run(
         [sys.executable, "scripts/ai_generate_status.py", "--no-active"],
         cwd=PROJECT_ROOT,
         check=False,
     )
+    if status_result.returncode != 0:
+        print("❌ Failed to generate no-active cockpit status", file=sys.stderr)
+        return status_result.returncode
+    consistency_result = subprocess.run(
+        [sys.executable, "scripts/ai_check_status_consistency.py"],
+        cwd=PROJECT_ROOT,
+        check=False,
+    )
+    if consistency_result.returncode != 0:
+        print("❌ Cockpit status consistency check failed after archive", file=sys.stderr)
+        return consistency_result.returncode
     return 0
 
 

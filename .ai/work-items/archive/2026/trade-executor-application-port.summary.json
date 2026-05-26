@@ -1,0 +1,100 @@
+{
+  "workItemId": "trade-executor-application-port",
+  "contractPath": ".ai/work-items/archive/2026/trade-executor-application-port.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/trade-executor-application-port.contract.json",
+      "reason": "TradeExecutor application port migration の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/trade-executor-application-port.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "trade_executor port module を application layer に公開した。"
+    },
+    {
+      "path": "src/application/trade_executor.rs",
+      "reason": "TradeExecutor port と関連 DTO の canonical module を application layer へ移動した。"
+    },
+    {
+      "path": "src/trade/trader.rs",
+      "reason": "top-level trade module から TradeExecutor port implementation を削除した。"
+    },
+    {
+      "path": "src/trade/mod.rs",
+      "reason": "空になった top-level trade module を削除した。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "top-level trade module export を削除した。"
+    },
+    {
+      "path": "src/infrastructure/trader_agent.rs",
+      "reason": "TradeExecutor port の参照先を application::trade_executor へ更新した。"
+    },
+    {
+      "path": "src/adapters/futu/trader.rs",
+      "reason": "Futu trader adapter が application::trade_executor の port を実装するようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/trade/trader.rs",
+    "src/infrastructure/trader_agent.rs",
+    "src/adapters/futu/trader.rs",
+    "src/application/mod.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test trader_agent --lib",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trade-executor-application-port.summary.json CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json SUMMARY=.ai/work-items/active/trade-executor-application-port.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trade-executor-application-port.contract.json SUMMARY=.ai/work-items/active/trade-executor-application-port.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "public module path は crate::trade::trader から crate::application::trade_executor へ変わる。repository 内の参照は更新済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "TradeExecutor は application port の性質を持つが、top-level trade module として外側に残っていた。"
+  ]
+}

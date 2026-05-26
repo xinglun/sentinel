@@ -1,0 +1,86 @@
+{
+  "workItemId": "radar_orchestration_phase8",
+  "contractPath": ".ai/work-items/archive/2026/radar_orchestration_phase8.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/radar_orchestration_phase8.contract.json",
+      "reason": "Radar orchestration phase 8 の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar_orchestration_phase8.summary.json",
+      "reason": "AI Change Summary を実装結果と検証結果に合わせて更新した。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "RadarPipelineUseCase に prepare_from_fetch_results を追加し、data acquisition orchestration の単一 entrypoint を用意した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline の data acquisition orchestration を単一 use case call へ置き換えた。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "prepare_from_fetch_results の contract を integration test で固定した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Radar orchestration 移行後の application / CLI 境界を文書に記録した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/application/radar.rs",
+    "src/cli.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test radar_application_boundary -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_orchestration_phase8.summary.json CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase8.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_orchestration_phase8.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase8.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Radar orchestration の application entrypoint 整理と文書収口のみを行い、Engine / presentation behavior は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

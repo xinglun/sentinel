@@ -1,0 +1,125 @@
+{
+  "contractVersion": 1,
+  "workItemId": "root-compat-layer-purification",
+  "mode": "code",
+  "title": "root compatibility layer を feature-first へ純化",
+  "scope": [
+    ".ai/work-items/active/root-compat-layer-purification.contract.json",
+    ".ai/work-items/active/root-compat-layer-purification.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/feature_acl.yaml",
+    ".ai/work-items/archive/2026/**",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/lib.rs",
+    "src/application/**",
+    "src/domain/**",
+    "src/interface/**",
+    "src/infrastructure/**",
+    "src/features/**",
+    "src/core/**",
+    "src/adapters/**",
+    "src/backtest.rs",
+    "src/cli.rs",
+    "tests/**"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.cursor/plans/feature-first-acl_c00945b5.plan.md",
+      "reason": "feature-first ACL big-bang plan。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature / ACL / shared boundary manifest。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "削除対象の root application compatibility layer。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "削除対象の root interface compatibility layer。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "削除対象の root infrastructure compatibility layer。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "root compatibility layer import を禁止する hard checker。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "src/application, src/interface, and src/infrastructure are removed as crate-root compatibility layers.",
+    "shared application/interface/infrastructure modules live under src/features/shared or concrete feature roots.",
+    "production code and tests no longer import crate::application, crate::interface, or crate::infrastructure.",
+    "architecture checker rejects new root compatibility layer imports.",
+    "make quality and ai-finish pass."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "cargo test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/root-compat-layer-purification.summary.json CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json SUMMARY=.ai/work-items/active/root-compat-layer-purification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/root-compat-layer-purification.contract.json SUMMARY=.ai/work-items/active/root-compat-layer-purification.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/application/**",
+      "src/interface/**",
+      "src/infrastructure/**",
+      "src/features/**",
+      "src/core/**",
+      "src/adapters/**",
+      "src/backtest.rs",
+      "src/cli.rs",
+      "tests/**"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

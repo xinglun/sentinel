@@ -1,0 +1,90 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-governance-sec-field-coverage-calibration",
+  "mode": "code",
+  "title": "Governance SEC field coverage calibration",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "reports/gray_rhino_governance_extraction_audit.jsonl",
+      "reason": "AAPL / TSLA live dry-run の field coverage と rejection を確認した。"
+    },
+    {
+      "path": "reports/gray_rhino_sources/governance/TSLA/tsla-20251231.htm",
+      "reason": "TSLA 10-K の succession framework disclosure を確認した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "Governance deterministic extractor の対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "succession disclosure は true/yes だけでなく disclosure phrase の存在から deterministically 抽出できる。",
+    "否定形または not disclosed は false / missing として扱い、narrative inference にしない。",
+    "AAPL / TSLA の live dry-run coverage が 50% から改善する。",
+    "dry-run boundary は維持し、formal evidence store には保存しない。",
+    "Gate / execution / trading / escalation state に接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-field-coverage-calibration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "scripts/check_gray_rhino_evidence_contract.py",
+      "src/features/research/application/governance_source_pipeline.rs",
+      "tests/research_attention_cli_integration.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

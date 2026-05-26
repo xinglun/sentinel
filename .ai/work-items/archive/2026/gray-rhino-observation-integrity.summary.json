@@ -1,0 +1,134 @@
+{
+  "workItemId": "gray-rhino-observation-integrity",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-observation-integrity.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-observation-integrity.contract.json",
+      "reason": "観測整合性 Work Item の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-observation-integrity.summary.json",
+      "reason": "変更内容と検証結果を更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Active Work Item 状態を最新化した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "report query の persisted candidate 限定、provider failure 非ゼロ終了、refresh status 表示契約を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "source cache を report 中に再発見しないことと refresh status 表示を明文化した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "観測整合性の schema key を契約 checker に追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "accepted なし / rejected ありの provider collection を非ゼロ終了にした。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "report use case を persisted candidate 読み取りと typed refresh status に切り替えた。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "source cache scan / rediscovery を削除し、candidate history と refresh status sidecar の読み取りに限定した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino refresh status を audit context として report に表示した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "旧 cache replay 防止、observed_at 維持、refresh status 表示の回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-observation-integrity.contract.json",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "src/cli.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-observation-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-observation-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_observation --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_refresh_status --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-observation-integrity.summary.json CONTRACT=.ai/work-items/active/gray-rhino-observation-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-observation-integrity.contract.json SUMMARY=.ai/work-items/active/gray-rhino-observation-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-observation-integrity.contract.json SUMMARY=.ai/work-items/active/gray-rhino-observation-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Daily report は persisted candidate history のみを読み、refresh status を audit context として表示する。Provider failure は非ゼロ終了で Make に伝播する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

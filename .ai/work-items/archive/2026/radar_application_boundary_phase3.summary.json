@@ -1,0 +1,82 @@
+{
+  "workItemId": "radar_application_boundary_phase3",
+  "contractPath": ".ai/work-items/archive/2026/radar_application_boundary_phase3.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/radar_application_boundary_phase3.contract.json",
+      "reason": "Radar application boundary phase 3 の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar_application_boundary_phase3.summary.json",
+      "reason": "AI Change Summary を実装結果と検証結果に合わせて更新した。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "DataQualityStatus を追加し、data quality log の OK / WARNING / CRITICAL 判定を application boundary に移した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline の data_quality_log status を DataAcquisitionSummary 由来の application policy から取得するようにした。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "data quality status の CLI log contract を application boundary test で固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+    "src/application/radar.rs",
+    "src/cli.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_application_boundary_phase3.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_application_boundary_phase3.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test radar_application_boundary -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_application_boundary_phase3.summary.json CONTRACT=.ai/work-items/active/radar_application_boundary_phase3.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_application_boundary_phase3.contract.json SUMMARY=.ai/work-items/active/radar_application_boundary_phase3.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_application_boundary_phase3.contract.json SUMMARY=.ai/work-items/active/radar_application_boundary_phase3.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "data quality status の判定を application 型へ寄せたが、OK / WARNING / CRITICAL の既存条件は維持した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

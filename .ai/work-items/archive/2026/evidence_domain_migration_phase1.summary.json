@@ -1,0 +1,106 @@
+{
+  "workItemId": "evidence_domain_migration_phase1",
+  "contractPath": ".ai/work-items/archive/2026/evidence_domain_migration_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 実行に伴う状態更新。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+      "reason": "Evidence domain migration の Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_domain_migration_phase1.summary.json",
+      "reason": "Evidence domain migration の実行結果を記録した。"
+    },
+    {
+      "path": "src/core/trend_cohesion.rs",
+      "reason": "Evidence 型の re-export 互換を維持し、conviction 計算で domain decay policy を利用するよう変更した。"
+    },
+    {
+      "path": "src/domain/evidence.rs",
+      "reason": "Evidence 型、証拠 record、時間減衰 policy を domain layer へ抽出した。"
+    },
+    {
+      "path": "src/domain/mod.rs",
+      "reason": "domain::evidence を公開した。"
+    },
+    {
+      "path": "tests/evidence_domain_integration.rs",
+      "reason": "core re-export schema 互換と domain decay contract を integration test で固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/core/trend_cohesion.rs",
+    "src/core/evidence_store.rs",
+    "src/lib.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test evidence_decay -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test trend_cohesion -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_domain_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_domain_migration_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_domain_migration_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_domain_migration_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_domain_migration_phase1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Evidence 型は domain へ移動したが、core re-export と integration test により既存 import path / serde schema の互換性を維持している。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 fmt-check で rustfmt 差分が出たため cargo fmt --all を実行して修正した。",
+    "EvidenceDecayPolicy::new の引数型が config の u32 と不一致だったため、domain policy 側を u32 に合わせた。",
+    "coverage guard の report-only warning を解消するため tests/evidence_domain_integration.rs を追加した。"
+  ]
+}

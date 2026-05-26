@@ -1,0 +1,93 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-governance-sec-board-independence-calibration",
+  "mode": "code",
+  "title": "Governance SEC board independence calibration",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/governance_source_pipeline.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "reports/gray_rhino_sources/governance/MSFT/d908201ddef14a.htm",
+      "reason": "11 of 12 board nominees are independent を確認した。"
+    },
+    {
+      "path": "reports/gray_rhino_sources/governance/ISRG/isrg-20260313.htm",
+      "reason": "8 out of 10 director nominees are independent を確認した。"
+    },
+    {
+      "path": "reports/gray_rhino_sources/governance/PLTR/pltr-20260423.htm",
+      "reason": "seven directors, four independent の count pattern を確認した。"
+    },
+    {
+      "path": "reports/gray_rhino_sources/governance/NVDA/nvda-20260512.htm",
+      "reason": "one vote / CEO exception は voting negative control として維持する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "independent_board_ratio は明示的な分子/分母 count からのみ deterministic に抽出する。",
+    "majority independent など分母のない disclosure は ratio として扱わない。",
+    "MSFT / ISRG / PLTR の実 SEC filing pattern で independent_board_ratio が抽出できる。",
+    "expanded sample dry-run の independent_board_ratio field coverage が 0.0% から改善する。",
+    "active Work Item 残留について lifecycle check と status consistency の結果を Summary に記録する。",
+    "dry-run boundary は維持し、formal evidence store には保存しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "scripts/check_gray_rhino_evidence_contract.py",
+      "src/features/research/application/governance_source_pipeline.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

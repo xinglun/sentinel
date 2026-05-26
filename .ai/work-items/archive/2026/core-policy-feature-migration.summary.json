@@ -1,0 +1,139 @@
+{
+  "workItemId": "core-policy-feature-migration",
+  "contractPath": ".ai/work-items/archive/2026/core-policy-feature-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/core-policy-feature-migration.contract.json",
+      "reason": "legacy core 移動の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/core-policy-feature-migration.summary.json",
+      "reason": "実施内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "legacy core engine を radar application へ移動した。"
+    },
+    {
+      "path": "src/features/radar/application/policy/**",
+      "reason": "legacy core policy kernel を radar application policy として feature 境界内へ移動した。"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "reason": "domain に純粋でない policy を置かず、現在は application/policy を明示した。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "crate root から core export を削除した。"
+    },
+    {
+      "path": "src/backtest.rs",
+      "reason": "core import を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "core import を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "src/features/**",
+      "reason": "core import を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "tests/**",
+      "reason": "public core import path を feature-first path へ切り替えた。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "crate::core の再導入を hard failure にした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "crate::core 禁止 regression test を追加した。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "legacy core root を空にし、root core の再拡張を禁止した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "policy kernel の配置を feature-first path へ更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/core/mod.rs",
+    "src/core",
+    ".ai/architecture/feature_acl.yaml",
+    "scripts/check_architecture_boundaries.py",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/core-policy-feature-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/core-policy-feature-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/core-policy-feature-migration.summary.json CONTRACT=.ai/work-items/active/core-policy-feature-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/core-policy-feature-migration.contract.json SUMMARY=.ai/work-items/active/core-policy-feature-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/core-policy-feature-migration.contract.json SUMMARY=.ai/work-items/active/core-policy-feature-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "legacy core を feature-first path へ移す大規模 import churn。policy kernel は config 依存を持つため domain ではなく application/policy に置いた。"
+  },
+  "generatedFiles": [
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/application/policy/**"
+  ],
+  "destructiveChanges": [
+    "src/core を削除した。",
+    "crate::core public module を削除した。",
+    "stock_sentinel::core import path を廃止した。"
+  ],
+  "observedIssues": [
+    {
+      "issue": "当初 radar/domain に置いた policy modules が config 依存で architecture checker に検出された。",
+      "resolution": "純 domain として扱わず src/features/radar/application/policy へ移動した。"
+    },
+    {
+      "issue": "scope guard が前段の root layer 削除 diff を検出した。",
+      "resolution": "同一未提交 big-bang diff として scope に含めた。"
+    }
+  ]
+}

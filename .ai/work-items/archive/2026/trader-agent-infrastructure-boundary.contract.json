@@ -1,0 +1,86 @@
+{
+  "contractVersion": 1,
+  "workItemId": "trader-agent-infrastructure-boundary",
+  "mode": "code",
+  "title": "TraderAgent を infrastructure へ移動",
+  "scope": [
+    ".ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+    ".ai/work-items/active/trader-agent-infrastructure-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/mod.rs",
+    "src/core/trader_agent.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/trader_agent.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/core/trader_agent.rs",
+      "reason": "TradeExecutor / broker order 型へ依存しており、core boundary から外す対象。"
+    },
+    {
+      "path": "src/core/mod.rs",
+      "reason": "core module export の変更対象。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "infrastructure module export の追加対象。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "core の外層依存検出ルールを確認するため。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "TraderAgent implementation は infrastructure layer に配置されている。",
+    "core module は trader_agent を公開しない。",
+    "TraderAgent の既存 unit tests は移動後も通る。",
+    "core layer の production code から crate::trade 依存がなくなる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test trader_agent --lib",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trader-agent-infrastructure-boundary.summary.json CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json SUMMARY=.ai/work-items/active/trader-agent-infrastructure-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trader-agent-infrastructure-boundary.contract.json SUMMARY=.ai/work-items/active/trader-agent-infrastructure-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

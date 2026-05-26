@@ -1,0 +1,87 @@
+{
+  "workItemId": "run-status-reader-infrastructure",
+  "contractPath": ".ai/work-items/archive/2026/run-status-reader-infrastructure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/run-status-reader-infrastructure.contract.json",
+      "reason": "run status reader 移動の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/run-status-reader-infrastructure.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "evidence collection status / run status 読み込みを infrastructure reader 経由へ変更した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "run_status_reader module を公開した。"
+    },
+    {
+      "path": "src/infrastructure/run_status_reader.rs",
+      "reason": "evidence collection status latest と run_status_*.json の読み込み・parse を集約した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/application/run_status.rs",
+    "src/infrastructure/persistence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::evidence_collection_status_sidecar_is_loaded_for_run_status",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_renders_evidence_collection_status",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/run-status-reader-infrastructure.summary.json CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json SUMMARY=.ai/work-items/active/run-status-reader-infrastructure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/run-status-reader-infrastructure.contract.json SUMMARY=.ai/work-items/active/run-status-reader-infrastructure.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "読み込み・parse logic の移動のみ。既存 CLI tests で sidecar と audit daily 表示を確認済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI が run status と evidence collection sidecar のファイル読み込みを直接保持していた。"
+  ]
+}

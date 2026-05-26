@@ -1,0 +1,77 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-market-regime-domain-migration",
+  "mode": "code",
+  "title": "DDD領域モデル分割: 市場状態モデルを domain 層へ分離",
+  "scope": [
+    "src/domain/market_regime.rs",
+    "src/domain/mod.rs",
+    "src/core/market_regime.rs",
+    "src/application/radar.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+    ".ai/work-items/active/ddd-market-regime-domain-migration.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/decision.rs",
+    "src/core/engine.rs"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "市場状態モデルの定義 (MarketState, LifecycleState, RiskOverlay, MarketRegimeSnapshot, MarketTransitionAudit) が src/domain/market_regime.rs へ移行される。",
+    "src/core/market_regime.rs は移行された定義を pub use 経由で再エクスポートし、既存コードとの互換性を保つ。",
+    "src/application/radar.rs は、移行された型を src::domain::market_regime から正しくインポートするように変更される。",
+    "make quality (fmt-check, test, clippy) が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-market-regime-domain-migration.summary.json CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-regime-domain-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-market-regime-domain-migration.contract.json SUMMARY=.ai/work-items/active/ddd-market-regime-domain-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

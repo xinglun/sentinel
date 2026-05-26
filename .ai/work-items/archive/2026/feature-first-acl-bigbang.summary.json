@@ -1,0 +1,130 @@
+{
+  "workItemId": "feature-first-acl-bigbang",
+  "contractPath": ".ai/work-items/archive/2026/feature-first-acl-bigbang.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/feature-first-acl-bigbang.contract.json",
+      "reason": "破壊的 feature-first ACL 移行の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/feature-first-acl-bigbang.summary.json",
+      "reason": "実施内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature root、ACL root、external concrete allowlist、legacy core 制約を宣言した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "feature ACL manifest を読み込み、feature layer / ACL bypass / concrete type leakage を検出する hard checker に拡張した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "feature-first ACL checker の bypass failure と許可 dependency の regression tests を追加した。"
+    },
+    {
+      "path": "src/features/**",
+      "reason": "radar / evidence / trading / research の主線 module を feature-first 物理境界へ移動した。"
+    },
+    {
+      "path": "src/application/**",
+      "reason": "旧 application root を compatibility re-export layer に縮小した。"
+    },
+    {
+      "path": "src/domain/**",
+      "reason": "feature 化した evidence / trading domain を re-export し、shared domain を残した。"
+    },
+    {
+      "path": "src/infrastructure/**",
+      "reason": "旧 infrastructure root を compatibility re-export と shared infrastructure に縮小した。"
+    },
+    {
+      "path": "src/interface/**",
+      "reason": "旧 interface root を feature interface re-export と shared interface に縮小した。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "feature-first module root を crate に公開した。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.cursor/plans/feature-first-acl_c00945b5.plan.md",
+    ".ai/work-items/active/feature-first-acl-bigbang.contract.json",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/lib.rs",
+    "src/application",
+    "src/infrastructure",
+    "src/interface",
+    "src/domain"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/feature-first-acl-bigbang.summary.json CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json SUMMARY=.ai/work-items/active/feature-first-acl-bigbang.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/feature-first-acl-bigbang.contract.json SUMMARY=.ai/work-items/active/feature-first-acl-bigbang.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "大規模な module move と re-export を伴うため import churn は大きいが、既存 test / architecture / clippy は通過している。legacy core は manifest 上で明示的に残置した。"
+  },
+  "generatedFiles": [
+    ".ai/architecture/feature_acl.yaml",
+    "src/features/mod.rs",
+    "src/features/radar/**",
+    "src/features/evidence/**",
+    "src/features/trading/**",
+    "src/features/research/**"
+  ],
+  "destructiveChanges": [
+    "radar / evidence / trading / research の主要 module を src/features 配下へ移動した。",
+    "旧 layer-first root module を compatibility re-export layer へ置き換えた。"
+  ],
+  "observedIssues": [
+    {
+      "issue": "空の feature module が rustfmt check で差分になった。",
+      "resolution": "将来の配置意図を示す日本語 comment を追加して fmt-check を通過させた。"
+    }
+  ]
+}

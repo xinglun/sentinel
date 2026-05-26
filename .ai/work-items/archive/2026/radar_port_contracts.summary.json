@@ -1,0 +1,94 @@
+{
+  "workItemId": "radar_port_contracts",
+  "contractPath": ".ai/work-items/archive/2026/radar_port_contracts.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Radar port contract Work Item の現在状態を Cockpit に反映した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar_port_contracts.contract.json",
+      "reason": "Radar port contract task の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar_port_contracts.summary.json",
+      "reason": "実装内容と検証結果に合わせて AI Change Summary を更新した。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "Radar market data、decision history、notification の application port contract を追加した。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "Radar port contract が infrastructure 実装に依存しないことを fixture 実装で固定した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Radar migration checkpoint に port contract の現在位置を追記した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/radar_port_contracts.contract.json",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/application/radar.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_port_contracts.summary.json CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json SUMMARY=.ai/work-items/active/radar_port_contracts.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_port_contracts.contract.json SUMMARY=.ai/work-items/active/radar_port_contracts.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "port trait 定義と契約テストのみで、runtime 経路は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

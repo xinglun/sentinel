@@ -1,0 +1,106 @@
+{
+  "workItemId": "cli-runtime-composition-factories",
+  "contractPath": ".ai/work-items/archive/2026/cli-runtime-composition-factories.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cli-runtime-composition-factories.contract.json",
+      "reason": "CLI runtime composition factory batch の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-runtime-composition-factories.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Futu address composition と radar runtime infrastructure construction を factories 経由へ変更した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "radar_runtime_factory module を公開した。"
+    },
+    {
+      "path": "src/infrastructure/market_data_provider_factory.rs",
+      "reason": "AppConfig から market data provider を構築する build_configured_market_data_provider を追加した。"
+    },
+    {
+      "path": "src/infrastructure/radar_runtime_factory.rs",
+      "reason": "PersistenceLayer / TransitionLogger / EvidenceStore の runtime services factory を追加した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "CLI から persistence / transition_log への直接 import を禁止した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "CLI から persistence / transition logger への直接依存を検出する regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/infrastructure/market_data_provider_factory.rs",
+    "src/infrastructure/persistence.rs",
+    "src/infrastructure/transition_log.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::full_fetch_failure_generates_report_without_persisting_history",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::partial_fetch_failure_preserves_history_and_real_market_state",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-runtime-composition-factories.summary.json CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json SUMMARY=.ai/work-items/active/cli-runtime-composition-factories.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json SUMMARY=.ai/work-items/active/cli-runtime-composition-factories.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "CLI の runtime infrastructure composition を factory 経由へ変更した。provider selection と radar persistence behavior は維持される。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI が Futu address / PersistenceLayer / TransitionLogger の concrete composition detail を直接持っていた。"
+  ]
+}

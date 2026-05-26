@@ -1,0 +1,87 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-evidence-dedupe-key-encapsulation",
+  "mode": "code",
+  "title": "AutomatedEvidenceRecord の dedupe_key カプセル化",
+  "scope": [
+    "src/domain/evidence.rs",
+    "src/application/evidence_ingestion.rs",
+    "src/application/evidence.rs",
+    "src/core/engine.rs",
+    "src/infrastructure/evidence_ingestion.rs",
+    "src/infrastructure/evidence_store.rs",
+    "src/interface/report_ui_tests.rs",
+    "src/cli.rs",
+    "src/core/trend_cohesion.rs",
+    "src/interface/presentation_tests.rs",
+    "tests/evidence_domain_integration.rs",
+    "tests/evidence_repository_port_integration.rs",
+    "tests/evidence_ingestion_port_integration.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+    ".ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json"
+  ],
+  "outOfScope": [
+    "src/core/trader_agent.rs",
+    "src/core/market_state/mod.rs"
+  ],
+  "sources": [
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "アーキテクチャ設計方針。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "AutomatedEvidenceRecord の dedupe_key フィールドから pub 属性が削除され、カプセル化される。",
+    "AutomatedEvidenceRecord に getter である dedupe_key() メソッドが追加される。",
+    "AutomatedEvidenceRecord に new() などのコンストラクタ及び generate_auto_dedupe_key() などの専用生成メソッドが用意される。",
+    "既存の外部から直接 struct literal または .dedupe_key = ... で直接書き込んでいた箇所がコンストラクタや専用生成メソッド経由に修正される。",
+    "make quality (fmt-check, test, clippy) が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json SUMMARY=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.contract.json SUMMARY=.ai/work-items/active/ddd-evidence-dedupe-key-encapsulation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -1,0 +1,98 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-preflight-entrypoint",
+  "mode": "code",
+  "title": "AI preflight command を共通化",
+  "scope": [
+    ".ai/work-items/active/ai-preflight-entrypoint.contract.json",
+    ".ai/work-items/active/ai-preflight-entrypoint.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/README.md",
+    "Makefile",
+    "scripts/ai_preflight.py",
+    "scripts/ai_start.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_test_finish_archive_flow.py",
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "Makefile",
+      "reason": "AI workflow command entrypoint を共通化する対象。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "ai-start の preflight 呼び出し元。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "archive 後の lifecycle / status consistency check 呼び出し元。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "ai-finish archive flow の regression test。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "ai-start / preflight の lightweight regression test。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "lifecycle / status consistency / safe active residue cleanup を実行する `make ai-preflight` が存在する。",
+    "`ai-start` は共通 preflight entrypoint を呼び出す。",
+    "`ai-finish` は archive 後に共通 preflight entrypoint を呼び出す。",
+    "`check-ai` は重複した lifecycle / status consistency command を直接並べず、共通 preflight を使う。",
+    "既存 regression tests が共通 preflight entrypoint を前提に更新されている。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "required": true
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-preflight-entrypoint.summary.json CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json SUMMARY=.ai/work-items/active/ai-preflight-entrypoint.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json SUMMARY=.ai/work-items/active/ai-preflight-entrypoint.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

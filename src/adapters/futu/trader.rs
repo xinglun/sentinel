@@ -12,7 +12,7 @@ use crate::adapters::futu::protocol::generated::trd_get_position_list;
 use crate::adapters::futu::protocol::generated::trd_modify_order;
 use crate::adapters::futu::protocol::generated::trd_place_order;
 use crate::adapters::futu::protocol::generated::trd_unlock_trade;
-use crate::trade::trader::{
+use crate::features::trading::application::trade_executor::{
     AccountFunds, BrokerPermissions, MarketRight, OrderExecutionDetails, OrderFailureReason,
     OrderSide, OrderStatus, OrderType, PlaceOrderRequest, PlaceOrderResponse, Position,
     PositionSide, TradableCapacity, TradeExecutor,
@@ -29,7 +29,7 @@ impl FutuTrader {
         Self { client, config }
     }
 
-    /// Helper function to build the common TrdHeader required by all trading APIs
+    /// すべての trading API で必要な共通 TrdHeader を組み立てる。
     fn build_trd_header(&self) -> Result<TrdHeader> {
         let acc_id = self
             .config
@@ -71,12 +71,12 @@ impl TradeExecutor for FutuTrader {
 
         println!("🔑 Sending Trd_UnlockTrade request to OpenD...");
 
-        // Proto ID for Trd_UnlockTrade is 3205
+        // Trd_UnlockTrade の Proto ID は 3205。
         let req = trd_unlock_trade::Request {
             c2s: trd_unlock_trade::C2s {
                 unlock: true,
                 pwd_md5: Some(pwd_md5),
-                security_firm: None, // Used for specific brokerage firm if needed, usually defaults correctly
+                security_firm: None, // 必要に応じて brokerage firm を指定する。通常は default でよい。
             },
         };
 
@@ -247,7 +247,7 @@ impl TradeExecutor for FutuTrader {
             .first()
             .ok_or_else(|| anyhow!("Order {} not found in broker response", order_id))?;
 
-        // Map status. See trd_common.rs or docs for OrderStatus values
+        // status を map する。OrderStatus の値は trd_common.rs または docs を参照する。
         // 10: Filled_Part, 11: Filled_All, 12: Cancelled_All, etc.
         let status = match futu_order.order_status {
             10 => OrderStatus::PartiallyFilled,

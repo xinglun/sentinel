@@ -172,10 +172,75 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: |
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
+          DATE_JST="$(TZ=Asia/Tokyo date +%Y-%m-%d)"
+          STATUS_PATH="reports/gray_rhino_refresh_status_latest.json"
+          mkdir -p reports
+
+          write_gray_rhino_status() {
+            local status="$1"
+            local reason="${2:-}"
+            STATUS_VALUE="${status}" REASON_VALUE="${reason}" DATE_VALUE="${DATE_JST}" python - <<'PY'
+          import json
+          import os
+
+          payload = {
+              "status": os.environ["STATUS_VALUE"],
+              "reason": os.environ.get("REASON_VALUE") or None,
+              "date": os.environ["DATE_VALUE"],
+          }
+          with open("reports/gray_rhino_refresh_status_latest.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+              f.write("\n")
+          with open(f"reports/gray_rhino_refresh_status_{os.environ['DATE_VALUE']}.json", "w", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+              f.write("\n")
+          with open("reports/gray_rhino_refresh_status.jsonl", "a", encoding="utf-8") as f:
+              json.dump(payload, f, ensure_ascii=False)
+              f.write("\n")
+          PY
+          }
+
+          GRAY_RHINO_PROVIDERS=""
+          if [ -n "${SEC_USER_AGENT:-}" ]; then
+            GRAY_RHINO_PROVIDERS="${GRAY_RHINO_PROVIDERS} sec"
+          fi
+          if [ -n "${FINNHUB_API_KEY:-}" ]; then
+            GRAY_RHINO_PROVIDERS="${GRAY_RHINO_PROVIDERS} finnhub"
+          fi
+          if [ -n "${FRED_API_KEY:-}" ]; then
+            GRAY_RHINO_PROVIDERS="${GRAY_RHINO_PROVIDERS} fred"
+          fi
+          GRAY_RHINO_PROVIDERS="$(echo "${GRAY_RHINO_PROVIDERS}" | xargs)"
+
+          if [ -z "${GRAY_RHINO_PROVIDERS}" ]; then
+            write_gray_rhino_status "skipped" "No Gray Rhino provider credentials are configured"
+            echo "ℹ️ Gray Rhino refresh skipped before radar: no provider credentials are configured."
+          else
+            OUTPUT_FILE="$(mktemp)"
+            set +e
+            make gray-rhino-refresh \
+              GRAY_RHINO_REFRESH_PROVIDERS="${GRAY_RHINO_PROVIDERS}" \
+              GRAY_RHINO_REFRESH_DATE="${DATE_JST}" \
+              GRAY_RHINO_REFRESH_ARGS="--date ${DATE_JST}" >"${OUTPUT_FILE}" 2>&1
+            REFRESH_EXIT_CODE=$?
+            set -e
+            cat "${OUTPUT_FILE}"
+            if [ "${REFRESH_EXIT_CODE}" -eq 0 ]; then
+              echo "✅ Gray Rhino refresh completed before radar."
+            else
+              REASON="$(tail -n 20 "${OUTPUT_FILE}" | tr '\n' ' ' | cut -c1-1000)"
+              if [ ! -f "${STATUS_PATH}" ]; then
+                write_gray_rhino_status "failed" "${REASON}"
+              fi
+              echo "⚠️ Gray Rhino refresh failed before radar but radar will continue."
+            fi
+          fi
+
           make radar-release
 
           REPORT_PACKET_PATH="$(find reports -maxdepth 1 -type f -name 'decision_packet_*.json' | sort | tail -n 1)"
@@ -248,6 +313,7 @@ jobs:
             "reports/data_quality_log.jsonl"
             "reports/run_status_${DATE_JST}.json"
             "reports/evidence_collection_status_latest.json"
+            "reports/gray_rhino_refresh_status_latest.json"
             "reports/weekly_state_metrics.json"
             "reports/weekly_state_review_auto.md"
             "reports/telemetry.csv"

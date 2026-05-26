@@ -1,0 +1,101 @@
+{
+  "workItemId": "evidence_extractor_adapter_phase1",
+  "contractPath": ".ai/work-items/archive/2026/evidence_extractor_adapter_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 実行に伴う状態更新。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+      "reason": "Evidence extractor adapter の Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_extractor_adapter_phase1.summary.json",
+      "reason": "Evidence extractor adapter の実行結果を記録した。"
+    },
+    {
+      "path": "src/core/evidence_ingestion.rs",
+      "reason": "RuleBasedExtractor を infrastructure から re-export し、既存 import path を維持した。"
+    },
+    {
+      "path": "src/infrastructure/evidence_ingestion.rs",
+      "reason": "RuleBasedExtractor 実装を infrastructure adapter として移動した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "infrastructure::evidence_ingestion を公開した。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "core re-export と infrastructure adapter の同一挙動を integration test で固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/core/evidence_ingestion.rs",
+    "src/application/evidence_ingestion.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test evidence_ingestion -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_extractor_adapter_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_extractor_adapter_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_extractor_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_extractor_adapter_phase1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "RuleBasedExtractor の実装配置だけを移動し、抽出条件と core import path は維持した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 fmt-check で rustfmt 差分が出たため cargo fmt --all を実行して修正した。",
+    "移動後に core 側 import が unused になったため削除し、test module へ EvidenceType import を限定した。",
+    "coverage guard の report-only warning を解消するため integration test に infrastructure / core re-export 境界確認を追加した。"
+  ]
+}

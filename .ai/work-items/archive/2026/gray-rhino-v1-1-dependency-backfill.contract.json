@@ -1,0 +1,90 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-v1-1-dependency-backfill",
+  "mode": "code",
+  "title": "Gray Rhino v1.1 dependency backfill",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-v1-1-dependency-backfill.contract.json",
+    ".ai/work-items/active/gray-rhino-v1-1-dependency-backfill.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/research/domain/dependency_source.rs",
+    "src/features/research/application/dependency_source_pipeline.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-v1-1-dependency-backfill.contract.json",
+      "reason": "Dependency live/backfill の scope、acceptance、verification を定義する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "collect-gray-rhino-dependency は --file または --url から deterministic source collection を実行できる。",
+    "URL source は source_url と live source kind を manifest / audit に残す。",
+    "Dependency field coverage は realistic disclosure labels を含めて集計される。",
+    "rejection audit は MetriclessSource / SourceInvalid / ExtractionInvalid taxonomy を出力する。",
+    "dry-run では formal evidence を保存しない。",
+    "trade / Gate / execution / trend_cohesion を出力しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test features::research::application::dependency_source_pipeline::tests:: --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test dependency_source_collection_reports_rejection_taxonomy --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.summary.json CONTRACT=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.contract.json SUMMARY=.ai/work-items/active/gray-rhino-v1-1-dependency-backfill.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/cli.rs",
+      "src/features/shared/interface/cli_args.rs",
+      "src/features/research/domain/dependency_source.rs",
+      "src/features/research/application/dependency_source_pipeline.rs",
+      "tests/research_attention_cli_integration.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

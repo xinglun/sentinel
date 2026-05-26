@@ -1,0 +1,82 @@
+{
+  "workItemId": "radar_orchestration_phase2",
+  "contractPath": ".ai/work-items/archive/2026/radar_orchestration_phase2.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/radar_orchestration_phase2.contract.json",
+      "reason": "Radar orchestration phase 2 の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar_orchestration_phase2.summary.json",
+      "reason": "AI Change Summary を実装結果と検証結果に合わせて更新した。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "RadarDecisionOutcome と decisioning success/failure status builder を application boundary に追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Engine success/failure branch の decisioning status mapping を application builder 経由へ置き換えた。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "decision outcome status mapping の contract を integration test で固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/application/radar.rs",
+    "src/cli.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_orchestration_phase2.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_orchestration_phase2.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test radar_application_boundary -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_orchestration_phase2.summary.json CONTRACT=.ai/work-items/active/radar_orchestration_phase2.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_orchestration_phase2.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase2.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_orchestration_phase2.contract.json SUMMARY=.ai/work-items/active/radar_orchestration_phase2.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Engine 呼び出し自体は CLI に残し、success/failure status mapping だけを application boundary へ移した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

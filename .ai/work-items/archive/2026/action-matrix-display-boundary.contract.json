@@ -1,0 +1,107 @@
+{
+  "contractVersion": 1,
+  "workItemId": "action-matrix-display-boundary",
+  "mode": "code",
+  "title": "ActionMatrix の display 依存を interface へ分離",
+  "scope": [
+    ".ai/work-items/active/action-matrix-display-boundary.contract.json",
+    ".ai/work-items/active/action-matrix-display-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/core/action_matrix.rs",
+    "src/interface/display.rs",
+    "src/interface/presentation_assembler.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "legacy core から presentation 実装への依存を縮小する方針を確認した。"
+    },
+    {
+      "path": "src/core/action_matrix.rs",
+      "reason": "AssetActionDecision が interface display type を保持している移行対象。"
+    },
+    {
+      "path": "src/core/engine.rs",
+      "reason": "DisplayContext / DisplayIntent は PresentationAssembler で設定されるという既存コメントを確認した。"
+    },
+    {
+      "path": "src/interface/presentation_assembler.rs",
+      "reason": "display context / intent を interface layer で派生している利用箇所。"
+    },
+    {
+      "path": "src/interface/display.rs",
+      "reason": "DisplayAdapter helper が AssetActionDecision の display fields を参照しているため調整対象。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "core から interface への逆依存を regression guard 化する対象。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture checker の core -> interface 検出回帰テストを追加する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "`AssetActionDecision` が `crate::interface::display` の型を保持しない。",
+    "PresentationAssembler が interface layer 内で display context / intent を派生して既存表示契約を維持する。",
+    "`make check-architecture` が `src/core` から `crate::interface` への依存を検出できる。",
+    "既存 report / Telegram / pipeline tests が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/action-matrix-display-boundary.summary.json CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json SUMMARY=.ai/work-items/active/action-matrix-display-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/action-matrix-display-boundary.contract.json SUMMARY=.ai/work-items/active/action-matrix-display-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

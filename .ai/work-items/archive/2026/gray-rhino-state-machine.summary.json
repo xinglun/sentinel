@@ -1,0 +1,120 @@
+{
+  "workItemId": "gray-rhino-state-machine",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-state-machine.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-state-machine.contract.json",
+      "reason": "Gray Rhino monitoring state machine の scope、acceptance、verification を確定する。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-state-machine.summary.json",
+      "reason": "実装内容と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "monitoring state machine を machine-readable SSOT に追加する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "monitoring state machine contract を human-readable SSOT に追加する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "monitoring state machine の SSOT 整合を検証する。"
+    },
+    {
+      "path": "scripts/ai_test_gray_rhino_evidence_contract.py",
+      "reason": "contract checker fixture に monitoring state machine を追加する。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "monitoring state machine module を公開する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "candidate history から current state と direction を評価する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "daily report に monitoring state reference を追加する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "persisted candidate history から monitoring state が表示される regression test を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-state-machine.contract.json",
+    "src/features/research/domain/gray_rhino_candidate.rs",
+    "src/features/research/infrastructure/gray_rhino_candidate_store.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-state-machine.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-state-machine.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_monitoring_state --lib",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_monitoring_state --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test daily_calibration_combines_audit_attention_and_thesis_without_new_signal --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-state-machine.summary.json CONTRACT=.ai/work-items/active/gray-rhino-state-machine.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-state-machine.contract.json SUMMARY=.ai/work-items/active/gray-rhino-state-machine.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-state-machine.contract.json SUMMARY=.ai/work-items/active/gray-rhino-state-machine.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "daily reference の monitoring state 表示に限定し、trade / Gate / execution / trend / market state への接続は追加しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "空 monitoring 出力の `State: none` が既存の market state boundary test に抵触した。",
+      "resolution": "空出力を `Gray Rhino Monitoring Status: none.` に変更し、既存 boundary test を再実行して通過した。"
+    }
+  ]
+}

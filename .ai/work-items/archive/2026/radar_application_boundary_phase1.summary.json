@@ -1,0 +1,90 @@
+{
+  "workItemId": "radar_application_boundary_phase1",
+  "contractPath": ".ai/work-items/archive/2026/radar_application_boundary_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/radar_application_boundary_phase1.contract.json",
+      "reason": "Radar application boundary phase 1 の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar_application_boundary_phase1.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/application/mod.rs",
+      "reason": "radar application module を公開した。"
+    },
+    {
+      "path": "src/application/radar.rs",
+      "reason": "data acquisition summary と decision history persistence policy を application layer に追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "run_pipeline 内の persistence policy を application policy 呼び出しへ置き換えた。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "radar application persistence policy の integration boundary test を追加し、coverage guard を満たした。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+    "src/cli.rs",
+    "tests/pipeline_integration.rs",
+    "src/application/radar.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar_application_boundary_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar_application_boundary_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test radar_application_boundary -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar_application_boundary_phase1.summary.json CONTRACT=.ai/work-items/active/radar_application_boundary_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar_application_boundary_phase1.contract.json SUMMARY=.ai/work-items/active/radar_application_boundary_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar_application_boundary_phase1.contract.json SUMMARY=.ai/work-items/active/radar_application_boundary_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "run_pipeline 全体は移動せず、data persistence policy のみ application boundary へ移動した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

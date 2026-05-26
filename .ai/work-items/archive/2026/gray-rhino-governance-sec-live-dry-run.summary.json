@@ -1,0 +1,112 @@
+{
+  "workItemId": "gray-rhino-governance-sec-live-dry-run",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-sec-live-dry-run.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "reason": "SEC live dry-run の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "SEC live dry-run default と evidence 非永続化 contract を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Governance SEC Live Dry-Run の SSOT 境界を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "live dry-run contract の checker 条件を追加した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "persist_evidence=false の dry-run path を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+      "reason": "GovernanceSourceCollectionRequest の persist_evidence 追加に追随した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "SEC live path の default dry-run 出力と evidence 非永続化を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "CLI output の persistence boundary を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "ユーザー方針: SEC は dry-run backfill から開始する",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "src/features/research/application/governance_source_pipeline.rs",
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- collect-gray-rhino-governance --symbols AAPL,TSLA --days 365",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "AAPL / TSLA で SEC live dry-run を実行し、formal evidence persisted=false、manifest=2、audit=2 を確認した。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-sec-live-dry-run.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-live-dry-run.summary.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "TSLA SEC 10-K は MissingGovernanceMetric として rejected になった。実 filing の metric coverage 改善は次 Work Item で扱う。"
+  ]
+}

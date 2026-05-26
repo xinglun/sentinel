@@ -1,0 +1,83 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-threshold-refresh",
+  "mode": "code",
+  "title": "Gray Rhino threshold and refresh loop",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-threshold-refresh.contract.json",
+    ".ai/work-items/active/gray-rhino-threshold-refresh.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "scripts/ai_test_gray_rhino_evidence_contract.py",
+    "Makefile",
+    "src/features/research/application/gray_rhino_discovery.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-threshold-refresh.contract.json",
+      "reason": "FRED threshold calibration、discovery false-positive reduction、refresh loop の scope、acceptance、verification を定義する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "FRED macro source text が DGS10、T10Y2Y、FEDFUNDS、BAMLH0A0HYM2、WALCL、RRPONTSYD の deterministic threshold assessment を出力する。",
+    "FRED threshold assessment が LiquidityFragility / MarketConcentration / CapexPaybackFragility の Visible / Expanding / Critical state に反映される。",
+    "Company governance discovery は historic / legacy control のみでは candidate 化せず、current control constraint の evidence を要求する。",
+    "`make gray-rhino-refresh` が SEC / Finnhub / FRED collection と daily calibration を順番に実行する。",
+    "SSOT schema / doc / checker が threshold calibration と refresh loop を宣言する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-threshold-refresh.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-threshold-refresh.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test fred_threshold --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_refresh --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-threshold-refresh.summary.json CONTRACT=.ai/work-items/active/gray-rhino-threshold-refresh.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-threshold-refresh.contract.json SUMMARY=.ai/work-items/active/gray-rhino-threshold-refresh.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-threshold-refresh.contract.json SUMMARY=.ai/work-items/active/gray-rhino-threshold-refresh.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

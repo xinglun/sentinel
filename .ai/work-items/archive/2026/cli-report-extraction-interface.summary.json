@@ -1,0 +1,101 @@
+{
+  "workItemId": "cli-report-extraction-interface",
+  "contractPath": ".ai/work-items/archive/2026/cli-report-extraction-interface.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cli-report-extraction-interface.contract.json",
+      "reason": "CLI report extraction の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-report-extraction-interface.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "audit daily / cognitive report の rendering details を interface module へ抽出し、CLI を command orchestration 寄りにした。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "audit_daily_report / cognitive_reports module を公開した。"
+    },
+    {
+      "path": "src/interface/audit_daily_report.rs",
+      "reason": "audit daily report rendering、transition audit parsing helper、localized labels を集約した。"
+    },
+    {
+      "path": "src/interface/cognitive_reports.rs",
+      "reason": "research attention / asset thesis / macro gravity report rendering と calibration labels を集約した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/interface/mod.rs",
+    "src/interface/i18n.rs",
+    "src/application/run_status.rs",
+    "src/core/transition_log.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_snapshot_zh_cn",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_snapshot_en_us",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::audit_daily_snapshot_ja_jp",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-report-extraction-interface.summary.json CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json SUMMARY=.ai/work-items/active/cli-report-extraction-interface.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-report-extraction-interface.contract.json SUMMARY=.ai/work-items/active/cli-report-extraction-interface.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "CLI から大きな report rendering block を移動した。snapshot tests と research attention integration tests で output drift を確認した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI が audit daily rendering、transition audit helper、cognitive report rendering を大量に保持していた。"
+  ]
+}

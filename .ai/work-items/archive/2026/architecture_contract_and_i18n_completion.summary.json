@@ -1,0 +1,133 @@
+{
+  "workItemId": "architecture_contract_and_i18n_completion",
+  "contractPath": ".ai/work-items/archive/2026/architecture_contract_and_i18n_completion.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "reason": "Radar delivery plan と三語出力契約を対象とする coding Contract に確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "reason": "実装範囲、検証結果、リスク評価を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の検証済み状態を生成結果として反映する。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Application delivery plan と標準三語 localization の責務境界を明文化した。"
+    },
+    {
+      "path": "src/features/radar/application/mod.rs",
+      "reason": "delivery plan application service を公開した。"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "reason": "execution、予算派生値、監査 payload、証拠保存対象を Application で一括計算する plan を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "業務計算を削除し、delivery plan の adapter 実行と report / notification composition に限定した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "標準英語 catalog を research attention と asset thesis の表示経路に接続した。"
+    },
+    {
+      "path": "src/features/research/interface/default_cognitive_localizations.rs",
+      "reason": "標準八銘柄の英語本文、観測焦点、失効条件 catalog を追加した。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "delivery plan が execution と audit payload を所有する契約テストを追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "標準三語の欠落防止、英語の日語漏出防止、custom text の明示翻訳境界を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/application/radar.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/default_cognitive_localizations.rs",
+    "config.toml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- daily-calibration",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Gate と Domain policy は変更せず、交付 payload の計算場所と標準表示 catalog だけを置換した。全テストと三語契約テストで回帰を監視する。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "標準 catalog 以外のユーザー独自本文は、対象言語を明示設定しない限り欠落表示を維持する。これは誤訳防止の意図した境界である。"
+  ]
+}

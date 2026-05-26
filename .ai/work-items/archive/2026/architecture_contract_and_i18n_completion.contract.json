@@ -1,0 +1,127 @@
+{
+  "contractVersion": 1,
+  "workItemId": "architecture_contract_and_i18n_completion",
+  "mode": "code",
+  "title": "Radar 交付契約と標準研究レポート三語完全化",
+  "scope": [
+    ".ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+    ".ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/features/radar/application/mod.rs",
+    "src/features/radar/application/delivery_plan.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/default_cognitive_localizations.rs",
+    "tests/pipeline_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "config.toml",
+    ".github/workflows/**",
+    "src/features/trading/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Application と Interface の責務境界を定義する既存設計。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "交付計算と adapter 実行が混在している現行 composition facade。"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "既存 use case と persistence payload builder の確認元。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "研究レポートの言語選択と custom text fallback の現行実装。"
+    },
+    {
+      "path": "src/features/research/interface/default_cognitive_localizations.rs",
+      "reason": "標準 watchlist の既定中国語 catalog と英語欠落箇所。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Radar の execution gate 入力、exposure / buying power、snapshot、data quality、state machine payload 計算は Application delivery plan に集約され、Interface は adapter 実行と report / notification composition に限定される。",
+    "Radar delivery plan は既存の NO TRADE / execution policy を変更せず、application-level test で payload と gate 結果を固定する。",
+    "標準 watchlist の research attention と asset thesis は zh-cn / en-us / ja-jp の三言語で情報欠落 placeholder を出力せず、英語版は標準日本語本文を漏出しない。",
+    "ユーザー独自の未翻訳本文は推測翻訳せず、既存の missing localization 表示を維持する。",
+    "DDD / Clean Architecture 文書は delivery plan と三語契約の責務境界を日本語で説明する。",
+    "品質闸門と実際の daily calibration 出力検証が通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/architecture_contract_and_i18n_completion.contract.json SUMMARY=.ai/work-items/active/architecture_contract_and_i18n_completion.summary.json",
+      "required": true
+    },
+    {
+      "command": "cargo run -- daily-calibration",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

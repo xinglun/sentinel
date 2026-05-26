@@ -1,0 +1,110 @@
+{
+  "workItemId": "gray-rhino-source-type-ssot",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-source-type-ssot.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+      "reason": "Work Item scope、acceptance、verification を source type SSOT task に合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-source-type-ssot.summary.json",
+      "reason": "実装内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item 状態を生成した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "category/source type allowlist SSOT flag を追加した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "flat record と typed evidence validator が同じ category/source type policy を使う方針を明記した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "category source type 許可表の Domain SSOT 化を契約に追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "source type policy の存在と typed validator の重複 allowlist 禁止を hard gate に追加した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "typed validators が validate_source_type_for_category を呼び、source_type_allowed_for_category を唯一の allowlist にした。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "typed validators が category source type policy を再利用することを検証する回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_typed_validators_reuse_category_source_type_policy --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-source-type-ssot.summary.json CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-type-ssot.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-type-ssot.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Category/source type allowlist is now a single domain policy reused by flat and typed validators; future new categories still require updating the policy and checker tests."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Initial fmt-check reported formatting drift in the new regression test; cargo fmt --all was applied before verification."
+  ]
+}

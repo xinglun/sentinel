@@ -20,7 +20,12 @@ def write_active_task(active: Path, task: str) -> None:
     (active / f"{task}.summary.json").write_text("{}\n", encoding="utf-8")
 
 
-def run_finish(active: Path, args: list[str], failures: set[str] | None = None) -> tuple[int, list[list[str]]]:
+def run_finish(
+    active: Path,
+    args: list[str],
+    failures: set[str] | None = None,
+    archive_removes_active: bool = True,
+) -> tuple[int, list[list[str]]]:
     failures = failures or set()
     calls: list[list[str]] = []
 
@@ -29,6 +34,9 @@ def run_finish(active: Path, args: list[str], failures: set[str] | None = None) 
         command_key = " ".join(command)
         if any(marker in command_key for marker in failures):
             return 1, 1
+        if archive_removes_active and command[:2] == ["make", "archive-work-item"]:
+            for path in active.glob("*.json"):
+                path.unlink()
         return 0, 1
 
     with (
@@ -57,6 +65,10 @@ def test_success_archives(active: Path) -> None:
     code, calls = run_finish(active, ["--task", task, "--skip-quality"])
     assert_equal(code, 0, "success code")
     assert_true(any(call[:2] == ["make", "archive-work-item"] for call in calls), "archive command should run")
+    assert_true(
+        any(call[:2] == ["make", "ai-preflight"] for call in calls),
+        "ai-preflight should run after archive",
+    )
 
 
 def test_failure_does_not_archive(active: Path) -> None:
@@ -65,6 +77,10 @@ def test_failure_does_not_archive(active: Path) -> None:
     code, calls = run_finish(active, ["--task", task, "--skip-quality"], failures={"check-ai-status"})
     assert_equal(code, 1, "failure code")
     assert_true(not any(call[:2] == ["make", "archive-work-item"] for call in calls), "archive command should not run")
+    assert_true(
+        not any(call[:2] == ["make", "ai-preflight"] for call in calls),
+        "ai-preflight should not run when archive is skipped by failed checks",
+    )
 
 
 def test_no_archive_keeps_checks_only(active: Path) -> None:
@@ -73,6 +89,19 @@ def test_no_archive_keeps_checks_only(active: Path) -> None:
     code, calls = run_finish(active, ["--task", task, "--skip-quality", "--no-archive"])
     assert_equal(code, 0, "no archive code")
     assert_true(not any(call[:2] == ["make", "archive-work-item"] for call in calls), "archive command should be skipped")
+    assert_true(
+        not any(call[:2] == ["make", "ai-preflight"] for call in calls),
+        "ai-preflight should be skipped when archive is disabled",
+    )
+
+
+def test_archive_residue_fails_finish(active: Path) -> None:
+    task = "finish_archive_residue"
+    write_active_task(active, task)
+    code, calls = run_finish(active, ["--task", task, "--skip-quality"], archive_removes_active=False)
+    assert_equal(code, 1, "residue failure code")
+    assert_true(any(call[:2] == ["make", "archive-work-item"] for call in calls), "archive command should run")
+    assert_true(any(call[:2] == ["make", "ai-preflight"] for call in calls), "ai-preflight should run")
 
 
 def main() -> int:
@@ -80,11 +109,13 @@ def main() -> int:
         ("success_archives", test_success_archives),
         ("failure_does_not_archive", test_failure_does_not_archive),
         ("no_archive_keeps_checks_only", test_no_archive_keeps_checks_only),
+        ("archive_residue_fails_finish", test_archive_residue_fails_finish),
     ]
     active = REPO_ROOT / "target" / "ai_finish_test_active"
     shutil.rmtree(active, ignore_errors=True)
     try:
         for name, case in cases:
+            shutil.rmtree(active, ignore_errors=True)
             case(active)
             print(f"✅ {name}")
     finally:

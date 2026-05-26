@@ -1,0 +1,111 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-category-read-validation",
+  "mode": "code",
+  "title": "Gray Rhino category read validation",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+    ".ai/work-items/active/gray-rhino-category-read-validation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "Persisted flat record validation must enforce category-specific source type invariants."
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "Evidence JSONL read boundary must emit accepted and rejected records from one validation pass."
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Rejected evidence reasons must render localized labels without Rust enum leakage."
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Regression tests must prove unsupported persisted source types do not trigger formal assessment."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Persisted GrayRhinoEvidenceRecord read validation rejects category/source_type mismatches as UnsupportedSourceType before formal assessment.",
+    "Evidence store exposes accepted and rejected records from a single JSONL read/validation batch.",
+    "Daily report repository consumes the read batch so accepted/rejected views remain consistent for the same as-of date.",
+    "Rejected evidence reason labels cover every GrayRhinoEvidenceRejection variant in zh-cn/en-us/ja-jp without leaking Rust enum names.",
+    "Regression tests cover persisted UnsupportedSourceType and rejected reason i18n enum leakage.",
+    "Contract/schema/checker document and enforce category read validation and reason label coverage.",
+    "make quality passes and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_unsupported_source_type_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_rejected_evidence_reasons_do_not_leak_enum_names --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_evidence_store_reads_accepted_and_rejected_once --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-category-read-validation.summary.json CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-category-read-validation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-category-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-category-read-validation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

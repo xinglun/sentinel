@@ -1,0 +1,87 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-clean-architecture-excellence-closure",
+  "mode": "code",
+  "title": "DDD clean architecture excellence closure",
+  "scope": [
+    ".ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+    ".ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/**/*.rs",
+    "src/features/evidence/**/*.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "前回 architecture score: 96/100",
+      "reason": "Checker formalism、Radar Engine orchestration、Evidence record independence の残課題。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "DDD / Clean Architecture の human-readable SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "architecture checker が Rust syntax comment / string を避けつつ module path を検査する。",
+    "Radar Engine の transition / trend recognition attachment が named step に分離されている。",
+    "Evidence feature が shared record から独自 domain record への変換境界を持つ。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "cargo test --all-targets",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-excellence-closure.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-excellence-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/features/radar/**",
+      "src/features/evidence/**",
+      "scripts/check_architecture_boundaries.py",
+      "scripts/ai_test_architecture_boundaries.py"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

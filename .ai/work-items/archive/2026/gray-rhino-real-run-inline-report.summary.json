@@ -1,0 +1,132 @@
+{
+  "workItemId": "gray-rhino-real-run-inline-report",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-real-run-inline-report.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-real-run-inline-report.contract.json",
+      "reason": "real-run calibration と watchlist inline Gray Rhino report の scope、acceptance、verification を確定する。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-real-run-inline-report.summary.json",
+      "reason": "実装内容、real-run 観測、検証結果を記録する。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "watchlist inline Gray Rhino display を machine-readable SSOT に追加する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "watchlist inline Gray Rhino display の契約を human-readable SSOT に追加する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "watchlist inline display の SSOT 整合を検証する。"
+    },
+    {
+      "path": "scripts/ai_test_gray_rhino_evidence_contract.py",
+      "reason": "contract checker fixture に watchlist inline display 宣言を追加する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "refresh target の collection date と daily calibration args を分離し、real-run で daily step が失敗しないようにする。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "real-run で出た SEC governance 表現の検出品質を調整する。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "symbol 別表示に利用できる monitoring status rendering を追加する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Company Gray Rhino を watchlist symbol 別に、Market Gray Rhino を market reference として表示する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "watchlist inline display の regression test を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-real-run-inline-report.contract.json",
+    "make gray-rhino-refresh real-run output",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-real-run-inline-report.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-real-run-inline-report.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_watchlist_inline --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_auto_discovery_finds_governance_control_and_reports_inline --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_refresh --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-real-run-inline-report.summary.json CONTRACT=.ai/work-items/active/gray-rhino-real-run-inline-report.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-real-run-inline-report.contract.json SUMMARY=.ai/work-items/active/gray-rhino-real-run-inline-report.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-real-run-inline-report.contract.json SUMMARY=.ai/work-items/active/gray-rhino-real-run-inline-report.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "real-run calibration と display layout に限定し、trade / Gate / execution / trend / market state への接続は追加しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "初回 `make gray-rhino-refresh GRAY_RHINO_REFRESH_ARGS=\"--date 2026-05-25\"` は source collection 後に daily-calibration へ同じ date を渡し、対象日の audit record がないため失敗した。",
+      "resolution": "Makefile で collection args と daily calibration args を分離し、再実行で SEC 8/9 accepted、Finnhub 9/9 accepted、FRED 1/1 accepted、daily-calibration 成功を確認した。"
+    },
+    {
+      "issue": "real-run 日報では Company / Market candidates が平坦な list で混在していた。",
+      "resolution": "Market Reference と Watchlist Inline Reference / Monitoring に分割し、Company candidate を enabled watchlist symbol ごとに表示した。"
+    },
+    {
+      "issue": "watchlist inline 化により、legacy local source の SPACEX candidate が current watchlist 外として表示されなくなった。",
+      "resolution": "auto-collected historical non-watchlist cache は引き続き除外しつつ、legacy local source の非 watchlist Company candidate は Other Company Reference / Monitoring に分離表示するようにした。"
+    }
+  ]
+}

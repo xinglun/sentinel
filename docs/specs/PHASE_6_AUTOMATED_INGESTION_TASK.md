@@ -225,7 +225,7 @@ Phase 5-C の `AutomatedEvidenceRecord` に対して、Phase 6 では以下の�
 
 ### Task 1: SourceFetcher trait
 
-- `src/core/evidence_ingestion.rs` を追加する。
+- `src/features/evidence/application/evidence_ingestion.rs` を追加する。
 - `SourceFetcher` trait を定義する。
 - `fetch(url)` と `search(symbol, lookback_days)` を分離する。
 

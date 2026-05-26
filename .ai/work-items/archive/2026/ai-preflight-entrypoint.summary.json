@@ -1,0 +1,105 @@
+{
+  "workItemId": "ai-preflight-entrypoint",
+  "contractPath": ".ai/work-items/archive/2026/ai-preflight-entrypoint.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-preflight-entrypoint.contract.json",
+      "reason": "AI preflight entrypoint 共通化の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-preflight-entrypoint.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "推奨 command を共通 preflight entrypoint に更新した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "`ai-preflight` target を追加し、check-ai から共通 entrypoint を呼ぶようにした。"
+    },
+    {
+      "path": "scripts/ai_preflight.py",
+      "reason": "lifecycle / status consistency / safe active residue cleanup を共通化した。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "preflight 実行を `make ai-preflight` に委譲した。"
+    },
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "archive 後の post-check を `make ai-preflight` に集約した。"
+    },
+    {
+      "path": "scripts/ai_test_finish_archive_flow.py",
+      "reason": "archive 後に ai-preflight が実行されることを検証するように更新した。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "safe residue cleanup regression を ai_preflight module に移した。"
+    }
+  ],
+  "sourcesUsed": [
+    "Makefile",
+    "scripts/ai_start.py",
+    "scripts/ai_finish.py",
+    "scripts/ai_test_finish_archive_flow.py",
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-finish-archive-flow",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-preflight-entrypoint.summary.json CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json SUMMARY=.ai/work-items/active/ai-preflight-entrypoint.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-preflight-entrypoint.contract.json SUMMARY=.ai/work-items/active/ai-preflight-entrypoint.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "preflight の既存 cleanup 条件は維持し、呼び出し経路だけを共通化した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "ai-start / ai-finish / check-ai が lifecycle と status consistency を個別に呼び出しており、今後の修正漏れが起きやすい状態だった。"
+  ]
+}

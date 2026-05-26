@@ -1,0 +1,17 @@
+[
+  {
+    "category": "DependencyConcentration",
+    "symbol": "EXAMPLE",
+    "file": "tests/fixtures/dependency_local/example_supplier.txt"
+  },
+  {
+    "category": "InstitutionalMaturity",
+    "symbol": "EXAMPLE",
+    "file": "tests/fixtures/institutional_local/example_maturity.txt"
+  },
+  {
+    "category": "Redundancy",
+    "symbol": "EXAMPLE",
+    "file": "tests/fixtures/redundancy_local/example_redundancy.txt"
+  }
+]

@@ -1,0 +1,122 @@
+{
+  "workItemId": "shared-domain-feature-boundary",
+  "contractPath": ".ai/work-items/archive/2026/shared-domain-feature-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/shared-domain-feature-boundary.contract.json",
+      "reason": "shared domain を feature 境界へ移す scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/shared-domain-feature-boundary.summary.json",
+      "reason": "実施内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "shared domain を src/features/shared/domain として feature manifest 内に収めた。"
+    },
+    {
+      "path": "src/features/shared/domain/**",
+      "reason": "market_data / market_regime を crate-level domain から shared feature domain へ移動した。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "crate-level domain module export を削除した。"
+    },
+    {
+      "path": "src/core/**",
+      "reason": "shared domain 参照を crate::features::shared::domain へ更新した。"
+    },
+    {
+      "path": "src/features/**",
+      "reason": "feature-owned/shared domain 参照へ import を更新した。"
+    },
+    {
+      "path": "tests/**",
+      "reason": "public import path を feature-first structure に合わせた。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "crate::domain の再導入を hard failure にした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "crate::domain 禁止と feature domain dependency rule の regression tests を更新した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "古い layer-first の src/domain 記述を feature-first shared domain 方針へ更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.cursor/plans/feature-first-acl_c00945b5.plan.md",
+    ".ai/architecture/feature_acl.yaml",
+    "src/domain/mod.rs",
+    "src/domain/market_data.rs",
+    "src/domain/market_regime.rs",
+    "scripts/check_architecture_boundaries.py",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/shared-domain-feature-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/shared-domain-feature-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/shared-domain-feature-boundary.summary.json CONTRACT=.ai/work-items/active/shared-domain-feature-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/shared-domain-feature-boundary.contract.json SUMMARY=.ai/work-items/active/shared-domain-feature-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/shared-domain-feature-boundary.contract.json SUMMARY=.ai/work-items/active/shared-domain-feature-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "crate-level domain を削除する破壊的変更だが、feature-first import path へ全置換し、checker で再導入を禁止した。"
+  },
+  "generatedFiles": [
+    "src/features/shared/mod.rs",
+    "src/features/shared/domain/mod.rs",
+    "src/features/shared/domain/market_data.rs",
+    "src/features/shared/domain/market_regime.rs"
+  ],
+  "destructiveChanges": [
+    "src/domain を削除した。",
+    "crate::domain public module を削除した。",
+    "stock_sentinel::domain import path を廃止した。"
+  ],
+  "observedIssues": []
+}

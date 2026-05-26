@@ -1,0 +1,155 @@
+{
+  "workItemId": "ai_governance_hard_gate_enforcement",
+  "contractPath": ".ai/work-items/archive/2026/ai_governance_hard_gate_enforcement.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "reason": "hard gate 実効化の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "reason": "変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の検証状態を生成した。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "AI governance が工程 hard gate であることと CI range 検証を文書化した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "restricted write、破壊変更、coverage の必須検証を運用手順へ反映した。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "hard gate 化した guard と coverage の check catalog 契約を更新した。"
+    },
+    {
+      "path": ".ai/guards/backtrack_policy.yaml",
+      "reason": "無宣言な後退を report-only から error policy へ昇格した。"
+    },
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "develop と main の CI が committed diff を AI_DIFF_BASE 経由で検証するようにした。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "hard gate regression tests と Contract/Summary 引数の共通 entrypoint を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_guards.py",
+      "reason": "管理対象 diff と restricted write を Contract scope 承認必須の hard gate にし、CI range diff を扱えるようにした。"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "無宣言削除を hard fail し、明示的 destructive policy と Summary 記録のみを例外とした。"
+    },
+    {
+      "path": "scripts/ai_check_coverage_guard.py",
+      "reason": "全 production Rust path の test 変更証跡不足を hard fail するようにした。"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "dependency scope 不足を warning ではなく hard fail にした。"
+    },
+    {
+      "path": "scripts/ai_test_guards.py",
+      "reason": "restricted/forbidden write authorization の regression test を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_backtrack.py",
+      "reason": "破壊変更の未承認阻止と明示承認例外の regression test を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_coverage_guard.py",
+      "reason": "feature production path と inline test evidence の hard gate 契約を固定した。"
+    },
+    {
+      "path": "scripts/ai_test_dependency_scope.py",
+      "reason": "dependency scope hard fail の契約へテストを更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/guards/file_ownership.yaml",
+    ".ai/guards/backtrack_policy.yaml",
+    "scripts/ai_check_guards.py",
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_check_coverage_guard.py",
+    ".github/workflows/develop_checks.yml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/ai_governance_hard_gate_enforcement.contract.json SUMMARY=.ai/work-items/active/ai_governance_hard_gate_enforcement.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "治理 check は hard fail となるため、今後の意図的な test / snapshot 削除では Contract の destructive policy と Summary 記録が必須になる。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "resolved",
+      "detail": "従来の CI は clean checkout で working-tree diff が空になり、guard が committed change を検証できなかった。AI_DIFF_BASE により解消した。"
+    },
+    {
+      "severity": "resolved",
+      "detail": "通常の production diff、restricted write、backtrack、coverage、dependency scope が Contract 必須の hard gate として完結していなかった。管理対象 diff 全体を hard gate 化し、main にも適用した。"
+    }
+  ]
+}

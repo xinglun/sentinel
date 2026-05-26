@@ -1,0 +1,136 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-subject-pairing-lifecycle",
+  "mode": "code",
+  "title": "Gray Rhino subject pairing lifecycle",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+    ".ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/cli.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/application/gray_rhino_monitoring_state.rs",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/domain/gray_rhino_assessment_policy.rs",
+    "src/features/research/domain/gray_rhino_backfill_policy.rs",
+    "src/features/research/domain/gray_rhino_monitoring_policy.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/gray_rhino_backfill_runner.rs",
+    "tests/research_attention_cli_integration.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/gray_rhino_backfill_runner_factory.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/domain/gray_rhino_assessment_policy.rs",
+      "reason": "subject-paired complementary evidence scoring and legacy subject handling."
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "Resolved projection must require prior risk evidence or candidate."
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_monitoring_state.rs",
+      "reason": "Monitoring lifecycle policy migration target."
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Backfill/extraction/persistence responsibility escape hatch target."
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "Hard gate must block CLI regressions."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "DependencyConcentration and Redundancy complementary scoring is paired by the same subject; another company redundancy evidence cannot lower a different company fallback survivability risk.",
+    "Mitigating evidence projects Resolved candidates only when the same subject+kind has a prior active candidate or earlier amplifying formal evidence.",
+    "Legacy evidence records without subject are excluded from formal escalation scoring and never grouped under an unknown scoring subject.",
+    "Monitoring lifecycle classification policy lives in research/domain; application only groups candidates and calls the domain policy.",
+    "Root CLI no longer owns Gray Rhino backfill JSONL writing or institutional/redundancy metric alias extraction; checker blocks std::fs::OpenOptions, append_cli_jsonl, and metric alias rules in src/cli.rs.",
+    "SSOT docs/schema/checkers and targeted regression tests cover the above behavior.",
+    "make quality passes and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_redundancy_mitigation_does_not_cross_subject_dependency --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_mitigating_evidence_without_prior_risk_does_not_project_resolved_candidate --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_legacy_subjectless_evidence_is_not_scoreable --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_monitoring_policy_is_domain_owned --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test cli_does_not_own_gray_rhino_backfill_infrastructure --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.contract.json SUMMARY=.ai/work-items/active/gray-rhino-subject-pairing-lifecycle.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

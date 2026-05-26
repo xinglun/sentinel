@@ -1,0 +1,217 @@
+{
+  "workItemId": "ddd_clean_architecture_foundation",
+  "contractPath": ".ai/work-items/archive/2026/ddd_clean_architecture_foundation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/_templates/ai_change_summary.example.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd_clean_architecture_foundation.summary.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_boundary_hardening.contract.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_boundary_hardening.summary.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_doc_language_fix.contract.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_doc_language_fix.summary.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.contract.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_layer_phase1.summary.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_review_fix.contract.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis_review_fix.summary.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/verification_fmt_required.contract.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/verification_fmt_required.summary.json",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-architecture / test-architecture-boundaries を追加し、quality gate に組み込んだ。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "DDD + Clean Architecture の target layering、依存方向、legacy migration rule を定義した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture checker の正例 / 逆例を固定する script test を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "新規 target directories の依存境界を検証する checker を追加した。"
+    },
+    {
+      "path": "scripts/check_doc_forbidden_terms.sh",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/application/",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/core/i18n.rs",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/core/presentation.rs",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/core/presentation_assembler.rs",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/core/presentation_tests.rs",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/core/report.rs",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/core/report_ui_tests.rs",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/domain/",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/infrastructure/",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/interface/",
+      "reason": "既存の Hypothesis / AI Cockpit 未提交差分を本 Work Item scope に含め、scope guard を整合させた。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "target architecture layer modules を crate entrypoint へ公開した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "src/lib.rs",
+    "Makefile",
+    "docs/specs/HYPOTHESIS_LAYER.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd_clean_architecture_foundation.summary.json CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_foundation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_foundation.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_foundation.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Big Bang rewrite は避け、target architecture と guard-first migration を追加した。既存 legacy core の移行は後続 Work Item で bounded context 単位に進める。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 make quality は summary 未更新のため check-ai-change-summary で停止した。Rust test / clippy / architecture check は通過済みで、summary 更新後に再実行する。"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "workItemId": "interface-evidence-cli-boundary",
+  "contractPath": ".ai/work-items/archive/2026/interface-evidence-cli-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+      "reason": "interface evidence CLI boundary の scope / sources / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/interface-evidence-cli-boundary.summary.json",
+      "reason": "変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "src/interface/evidence_cli.rs",
+      "reason": "interface から infrastructure fetcher 実装への依存を削除するため廃止した。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "廃止した evidence_cli module export を削除した。"
+    },
+    {
+      "path": "src/infrastructure/evidence_fetcher_factory.rs",
+      "reason": "Evidence fetcher factory を infrastructure 側へ移設した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "evidence_fetcher_factory module を公開した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "composition root が infrastructure の fetcher factory を接続するように import を更新した。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "fetcher factory の contract tests を新しい module path に追従した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "multi-line use を architecture boundary check の対象にした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "interface から infrastructure への multi-line use 検出 regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/interface/evidence_cli.rs",
+    "src/cli.rs",
+    "tests/evidence_ingestion_port_integration.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interface-evidence-cli-boundary.summary.json CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json SUMMARY=.ai/work-items/active/interface-evidence-cli-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interface-evidence-cli-boundary.contract.json SUMMARY=.ai/work-items/active/interface-evidence-cli-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "fetcher factory の public path は interface から infrastructure に移った。CLI integration と existing contract tests は pass 済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    {
+      "path": "src/interface/evidence_cli.rs",
+      "reason": "interface layer から infrastructure fetcher 実装依存を除去するため、factory を infrastructure module に移設した。"
+    }
+  ],
+  "observedIssues": [
+    "既存 checker は multi-line use を検出できず、interface -> infrastructure dependency がすり抜けていた。"
+  ]
+}

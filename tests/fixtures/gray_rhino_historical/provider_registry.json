@@ -1,0 +1,12 @@
+[
+  {
+    "category": "DependencyConcentration",
+    "symbol": "EXAMPLE",
+    "provider_kind": "supplier",
+    "source_type": "SupplierDisclosure",
+    "file": "tests/fixtures/dependency_local/example_supplier.txt",
+    "observed_at": "2026-01-01",
+    "freshness_days": 30,
+    "expected_sha256": "stale-drift-fixture"
+  }
+]

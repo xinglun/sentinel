@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 多端表示セマンティック標準 (DISPLAY_SEMANTICS_STANDARD.md)
+description: 多端表示セマンティック標準 (DISPLAY_SEMANTICS_STANDARD.md) に関する Sentinel の設計・運用情報。
+key: docs-specs-display-semantics-standard
 ---
 
 # 多端表示セマンティック標準 (DISPLAY_SEMANTICS_STANDARD.md)

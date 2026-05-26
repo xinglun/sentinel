@@ -1,0 +1,128 @@
+{
+  "workItemId": "radar-pipeline-runner-interface",
+  "contractPath": ".ai/work-items/archive/2026/radar-pipeline-runner-interface.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/radar-pipeline-runner-interface.contract.json",
+      "reason": "radar pipeline runner extraction の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar-pipeline-runner-interface.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cli-report-extraction-interface.contract.json",
+      "reason": "前回未提交の CLI report extraction work item archive を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cli-report-extraction-interface.summary.json",
+      "reason": "前回未提交の CLI report extraction summary archive を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/weekly-state-report-interface.contract.json",
+      "reason": "前回未提交の weekly state report work item archive を維持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/weekly-state-report-interface.summary.json",
+      "reason": "前回未提交の weekly state report summary archive を維持した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "radar pipeline runner 本体を infrastructure composition module へ抽出し、CLI を command dispatch と argument orchestration へ近づけた。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "前回未提交の interface report module 公開状態を維持した。"
+    },
+    {
+      "path": "src/interface/audit_daily_report.rs",
+      "reason": "前回未提交の audit daily report extraction を維持した。"
+    },
+    {
+      "path": "src/interface/cognitive_reports.rs",
+      "reason": "前回未提交の cognitive reports extraction と count helper 集約を維持した。"
+    },
+    {
+      "path": "src/interface/weekly_state_report.rs",
+      "reason": "前回未提交の weekly state report extraction を維持した。"
+    },
+    {
+      "path": "src/interface/radar_pipeline_runner.rs",
+      "reason": "interface から infrastructure への依存を避けるため、誤った抽出先を削除した。"
+    },
+    {
+      "path": "src/infrastructure/mod.rs",
+      "reason": "radar_pipeline_runner module を公開した。"
+    },
+    {
+      "path": "src/infrastructure/radar_pipeline_runner.rs",
+      "reason": "CLI から抽出した radar run_pipeline の composition runner を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/application/radar.rs",
+    "src/infrastructure/radar_runtime_factory.rs",
+    "src/interface/weekly_state_report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar-pipeline-runner-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar-pipeline-runner-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test pipeline_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib cli::tests::persists_normal_runs_and_skips_diagnostic_only_runs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar-pipeline-runner-interface.summary.json CONTRACT=.ai/work-items/active/radar-pipeline-runner-interface.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar-pipeline-runner-interface.contract.json SUMMARY=.ai/work-items/active/radar-pipeline-runner-interface.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar-pipeline-runner-interface.contract.json SUMMARY=.ai/work-items/active/radar-pipeline-runner-interface.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "radar pipeline runner を infrastructure composition 側へ移動した。pipeline integration と persistence-oriented CLI test で behavior を確認済み。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CLI が radar pipeline runner 本体を保持しており、command entrypoint と runtime composition が同居していた。"
+  ]
+}

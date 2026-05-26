@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: Gray Rhino narrative overcrowding and dependency hints only.
+- headline: AI narrative overcrowding expands around mega cap leadership
+  summary: Market narrative concentration is high and investors cite single supplier dependency.
+  url: https://example.com/narrative

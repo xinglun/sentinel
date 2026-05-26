@@ -1,13 +1,14 @@
 use serde_json::json;
 use std::fs;
-use stock_sentinel::core::decision::DecisionPacket;
-use stock_sentinel::core::features::MarketFeatures;
-use stock_sentinel::core::market_regime::{
+use stock_sentinel::features::radar::domain::decision::DecisionPacket;
+use stock_sentinel::features::radar::domain::features::MarketFeatures;
+use stock_sentinel::features::radar::domain::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
 };
-use stock_sentinel::core::persistence::PersistenceLayer;
-use stock_sentinel::core::portfolio_policy::PortfolioPolicy;
-use stock_sentinel::core::transition_log::TransitionLogger;
+use stock_sentinel::features::radar::domain::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::infrastructure::persistence::PersistenceLayer;
+use stock_sentinel::features::radar::infrastructure::transition_log::TransitionLogger;
+use stock_sentinel::features::radar::interface::telemetry::TelemetryRow;
 use tempfile::tempdir;
 
 #[tokio::test]
@@ -43,7 +44,7 @@ async fn test_full_9_asset_archival_package() {
         vec![],
         Vec::new(),
         false,
-        stock_sentinel::core::trend_cohesion::TrendCohesionSnapshot::default(),
+        stock_sentinel::features::radar::domain::trend_cohesion::TrendCohesionSnapshot::default(),
         None,
         None,
     );
@@ -68,7 +69,7 @@ async fn test_full_9_asset_archival_package() {
     layer.save_markdown_report("# Report", date_str).unwrap();
 
     // 6. Telemetry (telemetry.csv)
-    let telemetry_row = stock_sentinel::core::telemetry::TelemetryRow {
+    let telemetry_row = TelemetryRow {
         timestamp: "2023-01-01T00:00:00Z".to_string(),
         date: date_str.to_string(),
         provider: "mock".to_string(),
@@ -96,7 +97,7 @@ async fn test_full_9_asset_archival_package() {
     let prev_packet = packet.clone(); // Use same packet as mock prev
     let mut curr_packet = packet.clone();
     curr_packet.transition_log = Some(
-        stock_sentinel::core::transition_log::StateTransitionLog::compare(
+        stock_sentinel::features::radar::domain::transition_log::StateTransitionLog::compare(
             Some(&prev_packet),
             &curr_packet,
         ),
@@ -104,7 +105,10 @@ async fn test_full_9_asset_archival_package() {
 
     let logger = TransitionLogger::new(&save_dir);
     logger
-        .log_transition(curr_packet.transition_log.as_ref().unwrap())
+        .log_transition(
+            curr_packet.date,
+            curr_packet.transition_log.as_ref().unwrap(),
+        )
         .unwrap();
 
     // --- VERIFICATION ---

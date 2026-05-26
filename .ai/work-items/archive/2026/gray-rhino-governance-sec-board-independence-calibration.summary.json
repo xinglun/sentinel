@@ -1,0 +1,104 @@
+{
+  "workItemId": "gray-rhino-governance-sec-board-independence-calibration",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "reason": "board independence calibration の scope、sources、acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json",
+      "reason": "実装内容、8 issuer dry-run 結果、active lifecycle 調査結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "board independence calibration phase と count pattern を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "board independence ratio の SSOT 境界を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "board independence calibration contract の checker 条件を追加した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "明示的な M/N count pattern から independent_board_ratio を抽出した。"
+    }
+  ],
+  "sourcesUsed": [
+    "reports/gray_rhino_sources/governance/MSFT/d908201ddef14a.htm",
+    "reports/gray_rhino_sources/governance/ISRG/isrg-20260313.htm",
+    "reports/gray_rhino_sources/governance/PLTR/pltr-20260423.htm",
+    "reports/gray_rhino_sources/governance/NVDA/nvda-20260512.htm",
+    "cargo run -- collect-gray-rhino-governance --symbols TSLA,PLTR,GOOG,NVDA,MSFT,FIG,U,ISRG --days 730"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- collect-gray-rhino-governance --symbols TSLA,PLTR,GOOG,NVDA,MSFT,FIG,U,ISRG --days 730",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "ratio は明示的な分子/分母 count に限定した。majority independent のような非数値 disclosure は ratio 化していない。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-board-independence-calibration.summary.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "active residue 調査: .ai/work-items/active は実ファイルとして空だったが、Glob が stale result を返した。ls / file と make ai-start の preflight で実残留なしを確認した。",
+    "make ai-preflight は Work Item 作成直後に current_status.md が no_active_work_item のままだったため失敗した。generate-cockpit-status 実行前の順序問題であり、archive 後残留ではない。",
+    "初回 make quality は clippy::unnecessary_lazy_evaluations で失敗したため、token_number の Option fallback を or に修正した。",
+    "8 issuer dry-run: independent_board_ratio は 0.0% から 62.5% に改善した。",
+    "8 issuer dry-run: Sources=8, Accepted=7, Formal evidence persisted=false。"
+  ]
+}

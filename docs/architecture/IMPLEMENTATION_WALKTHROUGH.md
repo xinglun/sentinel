@@ -1,14 +1,17 @@
 ---
 author: Ray
+title: Sentinel Decision Engine: 実装ガイド (Implementation Walkthrough)
+description: Sentinel Decision Engine: 実装ガイド (Implementation Walkthrough) に関する Sentinel の設計・運用情報。
+key: docs-architecture-implementation-walkthrough
 ---
 
 # Sentinel Decision Engine: 実装ガイド (Implementation Walkthrough)
 
-本ドキュメントでは、Sentinel 意思決定エンジン 2.0 のコアロジック、アーキテクチャ、および堅牢化後の最終状態について詳しく説明します。
+本ドキュメントでは、Sentinel 意思決定エンジン 2.0 の feature-first / Clean Architecture 実装、日次 Radar 実行、および Research intelligence の境界について説明します。
 
 ## 1. コアパイプライン (The Pipeline)
 
-意思決定パイプラインは `src/core/engine.rs` において `run_daily_pipeline` として抽象化されています。リアルタイム生成の `radar` モード、`daemon` としての実行、あるいは過去データによる `backtest` のいずれであっても、共通の意思決定ロジックを使用することで、研究と実盤の高度な一致を保証しています。
+意思決定パイプラインは feature-first 構造で分割されています。日次実行の入口は `src/features/radar/interface/radar_pipeline_runner.rs`、意思決定の use case は `src/features/radar/application/**`、表示生成は `src/features/radar/interface/**`、共有 i18n は `src/features/shared/interface/i18n.rs` にあります。Gray Rhino などの Research intelligence は `src/features/research/**` に閉じ、Radar の Gate や売買判断へは入力しません。
 
 ## 2. 市場慣性層と持続時間制御 (Inertia Layer & Calibration)
 

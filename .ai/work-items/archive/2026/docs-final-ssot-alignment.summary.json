@@ -1,0 +1,198 @@
+{
+  "workItemId": "docs-final-ssot-alignment",
+  "contractPath": ".ai/work-items/archive/2026/docs-final-ssot-alignment.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/docs-final-ssot-alignment.contract.json",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": ".ai/work-items/active/docs-final-ssot-alignment.summary.json",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "GEMINI.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/TREND_COHESION_V2_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/TREND_COHESION_RULES_ENHANCEMENT_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/TREND_COHESION_TOPOLOGY_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/NO_TRADE_HARDENING_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/EXIT_DECISION_SUMMARY_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/STATE_MACHINE_SHORT_TASKS.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/ARCHITECTURE_BOUNDARY_HARDENING_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/RICH_DISPLAY_CONTEXT_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/PHASE_6_AUTOMATED_INGESTION_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/EXIT_DECISION_LAYER_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/STATE_MACHINE_V1_2_VALIDATION.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/STATE_MACHINE_V1_1_OPTIMIZATION.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/STATE_MACHINE_SIGNAL_ALIGNMENT_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/POSITION_INTENT_UNIFICATION_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/MOOMOO_OPENAPI_ASSESSMENT.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    },
+    {
+      "path": "docs/specs/STATE_MACHINE_INERTIA_HARDENING.md",
+      "reason": "文書と AI Cockpit の SSOT 整合性を修正した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    "AGENTS.md",
+    "GEMINI.md",
+    "scripts/ai_generate_status.py",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "docs/specs/TREND_COHESION_V2_TASK.md",
+    "docs/specs/NO_TRADE_HARDENING_TASK.md",
+    "docs/specs/EXIT_DECISION_SUMMARY_TASK.md",
+    "docs/specs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/docs-final-ssot-alignment.summary.json CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/docs-final-ssot-alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/docs-final-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/docs-final-ssot-alignment.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "文書、AI governance 生成文言、Work Item metadata の修正に限定し、runtime behavior は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P1",
+      "detail": "active specs に削除済み src/core module path が残っていた。"
+    },
+    {
+      "severity": "P2",
+      "detail": "AI Cockpit / Agent docs の Makefile entrypoint と guard command set が一致していなかった。"
+    },
+    {
+      "severity": "P2",
+      "detail": "Gray Rhino docs で operational Make target、debug CLI、SSOT module path、monitoring state vocabulary が混在していた。"
+    }
+  ]
+}

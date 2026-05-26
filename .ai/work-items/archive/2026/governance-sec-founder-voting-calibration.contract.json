@@ -1,0 +1,96 @@
+{
+  "contractVersion": 1,
+  "workItemId": "governance-sec-founder-voting-calibration",
+  "mode": "code",
+  "title": "Governance SEC founder voting calibration",
+  "scope": [
+    ".ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+    ".ai/work-items/active/governance-sec-founder-voting-calibration.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/governance_source_pipeline.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "reason": "Work Item の scope、acceptance、verification を定義する。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "Governance SEC source から founder_voting_power を deterministic に抽出する実装。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Founder voting calibration の machine-readable contract を記録する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Founder voting calibration の human-readable contract を記録する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "schema と docs の founder voting contract 整合を検証する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "founder_voting_power は SEC filing の明示的な voting control percentage からのみ抽出する。",
+    "`controlled X% of the voting power`、`representing X% of the voting power`、`entitled to X% of the voting power` を許可する。",
+    "ownership percentage や beneficial ownership だけの disclosure は founder_voting_power として扱わない。",
+    "field coverage calibration は evidence store、Gray Rhino escalation state、Gate、execution、trading state を変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test features::research::application::governance_source_pipeline::tests:: --lib",
+      "required": true
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "cargo run -- collect-gray-rhino-governance --symbols TSLA,META,GOOGL,PLTR,SNOW,COIN,ABNB,DDOG --dry-run --days 365",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/governance-sec-founder-voting-calibration.summary.json CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json SUMMARY=.ai/work-items/active/governance-sec-founder-voting-calibration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/governance-sec-founder-voting-calibration.contract.json SUMMARY=.ai/work-items/active/governance-sec-founder-voting-calibration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/features/research/application/governance_source_pipeline.rs"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

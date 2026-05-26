@@ -1,0 +1,3 @@
+FRED macro structural source
+Observed dimensions: rate pressure, liquidity fragility, credit stress, yield curve constraint.
+Market gray rhino hints: liquidity tightened, rate pressure elevated, credit stress watch, capex payback risk.

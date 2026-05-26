@@ -1,0 +1,84 @@
+{
+  "contractVersion": 1,
+  "workItemId": "composition-boundary-guards",
+  "mode": "code",
+  "title": "Composition boundary guards をまとめて追加",
+  "scope": [
+    ".ai/work-items/active/composition-boundary-guards.contract.json",
+    ".ai/work-items/active/composition-boundary-guards.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI が provider factory 経由になり concrete adapter import を持たない現状。"
+    },
+    {
+      "path": "src/backtest.rs",
+      "reason": "backtest が MarketDataProvider port 経由になった現状。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "architecture boundary guard の定義。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture boundary guard の回帰テスト。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "src/cli.rs は adapters / trade への直接依存を禁止される。",
+    "CLI の concrete market data provider composition は infrastructure factory 経由に固定される。",
+    "backtest の infrastructure 直接依存も regression test で検出される。",
+    "architecture boundary checker tests が追加 guard を検証する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/composition-boundary-guards.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/composition-boundary-guards.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/composition-boundary-guards.summary.json CONTRACT=.ai/work-items/active/composition-boundary-guards.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/composition-boundary-guards.contract.json SUMMARY=.ai/work-items/active/composition-boundary-guards.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/composition-boundary-guards.contract.json SUMMARY=.ai/work-items/active/composition-boundary-guards.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

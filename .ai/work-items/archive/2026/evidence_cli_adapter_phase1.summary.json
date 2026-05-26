@@ -1,0 +1,94 @@
+{
+  "workItemId": "evidence_cli_adapter_phase1",
+  "contractPath": ".ai/work-items/archive/2026/evidence_cli_adapter_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+      "reason": "Evidence CLI adapter 抽出の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_cli_adapter_phase1.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/interface/mod.rs",
+      "reason": "evidence_cli interface module を公開した。"
+    },
+    {
+      "path": "src/interface/evidence_cli.rs",
+      "reason": "ingest-evidence-url / collect-evidence 用の fetcher selection helper を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "具象 fetcher selection の分岐を interface helper 呼び出しへ置き換えた。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "interface helper の missing key error と fixture path fallback を検証した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+    "src/cli.rs",
+    "src/interface/mod.rs",
+    "tests/evidence_ingestion_port_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test collect_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test ingest_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_cli_adapter_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_cli_adapter_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_cli_adapter_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_cli_adapter_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Fetcher selection は interface helper に移動し、CLI output と既存 error message は維持した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

@@ -103,6 +103,15 @@ def parse_args() -> argparse.Namespace:
 
 
 def write_no_active_status(output: Path) -> None:
+    generated_at = datetime.now(timezone.utc).isoformat()
+    if output.exists():
+        existing = output.read_text(encoding="utf-8")
+        if "- State: `no_active_work_item`" in existing:
+            for line in existing.splitlines():
+                if line.startswith("- Generated At: `") and line.endswith("`"):
+                    generated_at = line.removeprefix("- Generated At: `").removesuffix("`")
+                    break
+
     lines = [
         "---",
         "author: Ray",
@@ -114,9 +123,9 @@ def write_no_active_status(output: Path) -> None:
         "",
         "# AI Cockpit Current Status",
         "",
-        "このファイルは `scripts/ai_generate_status.py` で生成する。手書きで更新しない。",
+        "このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。",
         "",
-        f"- Generated At: `{datetime.now(timezone.utc).isoformat()}`",
+        f"- Generated At: `{generated_at}`",
         "- Task: `none`",
         "- Mode: `none`",
         "- State: `no_active_work_item`",
@@ -184,7 +193,7 @@ def main() -> int:
         "",
         "# AI Cockpit Current Status",
         "",
-        "このファイルは `scripts/ai_generate_status.py` で生成する。手書きで更新しない。",
+        "このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。",
         "",
         f"- Generated At: `{datetime.now(timezone.utc).isoformat()}`",
         f"- Task: `{contract.get('workItemId', '')}`",

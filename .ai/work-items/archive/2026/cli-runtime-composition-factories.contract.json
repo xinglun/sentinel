@@ -1,0 +1,105 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cli-runtime-composition-factories",
+  "mode": "code",
+  "title": "CLI runtime composition を factories へ集約",
+  "scope": [
+    ".ai/work-items/active/cli-runtime-composition-factories.contract.json",
+    ".ai/work-items/active/cli-runtime-composition-factories.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/infrastructure/mod.rs",
+    "src/infrastructure/market_data_provider_factory.rs",
+    "src/infrastructure/radar_runtime_factory.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI が provider address / persistence / transition logger の composition detail を持っている現状。"
+    },
+    {
+      "path": "src/infrastructure/market_data_provider_factory.rs",
+      "reason": "market data provider composition factory。"
+    },
+    {
+      "path": "src/infrastructure/persistence.rs",
+      "reason": "radar runtime persistence implementation。"
+    },
+    {
+      "path": "src/infrastructure/transition_log.rs",
+      "reason": "radar runtime transition logger implementation。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "composition boundary guard の定義。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "architecture guard の regression tests。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "CLI は Futu address の組み立てを直接行わない。",
+    "CLI は PersistenceLayer / TransitionLogger を直接 import / construct しない。",
+    "radar runtime infrastructure は dedicated factory 経由で構築される。",
+    "architecture guard が CLI から concrete runtime infrastructure への直接 import を拒否する。",
+    "backtest / daemon / radar の provider selection behavior を維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::full_fetch_failure_generates_report_without_persisting_history",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib cli::tests::partial_fetch_failure_preserves_history_and_real_market_state",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-runtime-composition-factories.summary.json CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json SUMMARY=.ai/work-items/active/cli-runtime-composition-factories.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-runtime-composition-factories.contract.json SUMMARY=.ai/work-items/active/cli-runtime-composition-factories.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

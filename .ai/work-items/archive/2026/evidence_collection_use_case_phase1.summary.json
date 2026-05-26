@@ -1,0 +1,91 @@
+{
+  "workItemId": "evidence_collection_use_case_phase1",
+  "contractPath": ".ai/work-items/archive/2026/evidence_collection_use_case_phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/evidence_collection_use_case_phase1.contract.json",
+      "reason": "Evidence collection use case 抽出の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/evidence_collection_use_case_phase1.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/application/evidence_ingestion.rs",
+      "reason": "fetch -> extract -> dedupe key normalize -> optional cleanup / persist を扱う application use case を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "ingest-evidence-url を application use case 経由に変更し、既存の dry-run / 保存出力を維持した。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "use case の dry-run と repository persistence 経路を検証する integration test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/architecture/DDD_CLEAN_ARCHITECTURE.md",
+    "src/application/evidence_ingestion.rs",
+    "src/application/evidence.rs",
+    "src/cli.rs",
+    "tests/evidence_ingestion_port_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evidence_collection_use_case_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evidence_collection_use_case_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test evidence_ingestion_port_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test ingest_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test collect_evidence_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evidence_collection_use_case_phase1.summary.json CONTRACT=.ai/work-items/active/evidence_collection_use_case_phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evidence_collection_use_case_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_collection_use_case_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evidence_collection_use_case_phase1.contract.json SUMMARY=.ai/work-items/active/evidence_collection_use_case_phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "ingest-evidence-url は use case 化済み。collect-evidence は出力互換リスクを避けるため次フェーズに残している。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

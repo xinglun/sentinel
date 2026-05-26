@@ -1,0 +1,178 @@
+{
+  "workItemId": "ddd_clean_architecture_closure",
+  "contractPath": ".ai/work-items/archive/2026/ddd_clean_architecture_closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の検証状態を生成する。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+      "reason": "既知境界修正の scope と acceptance を固定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd_clean_architecture_closure.summary.json",
+      "reason": "変更と検証結果を記録した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "日次校正 entrypoint と status 生成回帰テストを make 経由に統一した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Application、ACL、evidence provenance の実装境界を文書化した。"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "no-active status の時刻だけによる非決定的差分を防止した。"
+    },
+    {
+      "path": "scripts/ai_test_generate_status.py",
+      "reason": "no-active status の冪等性を回帰テストで固定した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "Application から root config DTO への依存を禁止した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "config DTO 依存禁止を checker test で固定した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "監査日報の中国語・日本語表示契約を更新した。"
+    },
+    {
+      "path": "src/features/backtest/application/decision_engine.rs",
+      "reason": "Application 入力を domain rule 型へ変更した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Simulation の設定 DTO 依存を domain 入力へ置換した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "Config DTO から domain input への mapping を interface に集約した。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "Engine から root config DTO 依存を除去した。"
+    },
+    {
+      "path": "src/features/radar/application/execution_gate.rs",
+      "reason": "Execution 用 application input を TradingLimits として定義した。"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "market data port orchestration と日次判定方針を use case に移した。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "中文・日本語の監査見出しを言語契約に合わせた。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "interface を mapping と output composition に縮小した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "日次校正タイトルを言語別に表示した。"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "reason": "ExecutionGate の application input 変更へ追随した。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "domain input ベースの pipeline 契約へ追随した。"
+    },
+    {
+      "path": "tests/product_grade_kill_switch.rs",
+      "reason": "TradingLimits 境界を検証するよう更新した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "中国語表示の契約を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "中国語監査表示の snapshot を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "日本語監査表示の snapshot を更新した。"
+    },
+    {
+      "path": "src/features/research/interface/default_cognitive_localizations.rs",
+      "reason": "標準 watchlist の中国語表示 catalog を runtime config から分離した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "標準表示 catalog module を公開範囲内で接続した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "AGENTS.md",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "scripts/check_architecture_boundaries.py",
+    "config.toml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd_clean_architecture_closure.summary.json CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd_clean_architecture_closure.contract.json SUMMARY=.ai/work-items/active/ddd_clean_architecture_closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "層境界と表示契約の収束であり、Gate および市場判断規則は変更していない。config.toml は変更せず標準表示 catalog を利用する。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "resolved",
+      "detail": "config.toml は guard により書込み禁止であるため、表示既定値を interface catalog に分離して解消した。"
+    }
+  ]
+}

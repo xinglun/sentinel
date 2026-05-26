@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Moomoo OpenAPI アセスメント (Moomoo OpenAPI Assessment)
+description: Moomoo OpenAPI アセスメント (Moomoo OpenAPI Assessment) に関する Sentinel の設計・運用情報。
+key: docs-specs-moomoo-openapi-assessment
 ---
 
 # Moomoo OpenAPI アセスメント (Moomoo OpenAPI Assessment)
@@ -148,8 +151,8 @@ Sentinel の現在の目標において最も重要な結論：
 2. `src/adapters/futu/provider.rs`
 3. `src/adapters/futu/trader.rs`
 4. `src/cli.rs`
-5. `src/core/execution_gate.rs`
-6. `src/core/trader_agent.rs`
+5. `src/features/radar/application/execution_gate.rs`
+6. `src/features/trading/infrastructure/trader_agent.rs`
 
 ### 6.2 未実装（または不完全）
 

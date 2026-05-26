@@ -1,0 +1,103 @@
+{
+  "workItemId": "gray-rhino-governance-sec-voting-structure-calibration",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "reason": "voting structure calibration の scope、sources、acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json",
+      "reason": "実装内容、8 issuer dry-run 結果、検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "voting structure calibration phase と deterministic labels を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "SEC voting structure calibration の SSOT 境界を追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "voting structure calibration contract の checker 条件を追加した。"
+    },
+    {
+      "path": "src/features/research/application/governance_source_pipeline.rs",
+      "reason": "HTML entity 正規化と dual-class / super-voting deterministic labels を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "reports/gray_rhino_sources/governance/GOOG/goog-20260424.htm",
+    "reports/gray_rhino_sources/governance/PLTR/pltr-20260423.htm",
+    "reports/gray_rhino_sources/governance/FIG/fig-20260421.htm",
+    "reports/gray_rhino_sources/governance/NVDA/nvda-20260512.htm",
+    "cargo run -- collect-gray-rhino-governance --symbols TSLA,PLTR,GOOG,NVDA,MSFT,FIG,U,ISRG --days 730"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --all-targets",
+      "result": "passed"
+    },
+    {
+      "command": "cargo run -- collect-gray-rhino-governance --symbols TSLA,PLTR,GOOG,NVDA,MSFT,FIG,U,ISRG --days 730",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json SUMMARY=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "voting structure labels は実 SEC filing 由来に限定したが、independent_board_ratio は未校準のまま残る。"
+  },
+  "generatedFiles": [
+    ".ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.contract.json",
+    ".ai/work-items/active/gray-rhino-governance-sec-voting-structure-calibration.summary.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "8 issuer dry-run: Sources=8, Accepted=7, Coverage=87.5%, Formal evidence persisted=false。",
+    "dual_class_structure は 0.0% から 37.5% に改善した。",
+    "super_voting_rights は 0.0% から 37.5% に改善した。",
+    "NVDA DEF 14A は one vote per share の negative control として MissingGovernanceMetric のまま。"
+  ]
+}

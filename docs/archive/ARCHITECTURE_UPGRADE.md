@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: Sentinel 2.0: アーキテクチャ昇格ガイド (Architecture Elevation Guide)
+description: Sentinel 2.0: アーキテクチャ昇格ガイド (Architecture Elevation Guide) に関する Sentinel の設計・運用情報。
+key: docs-archive-architecture-upgrade
 ---
 
 # Sentinel 2.0: アーキテクチャ昇格ガイド (Architecture Elevation Guide)

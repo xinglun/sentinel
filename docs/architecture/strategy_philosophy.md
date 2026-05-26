@@ -1,5 +1,8 @@
 ---
 author: Ray
+title: 🐕 Stock Sentinel 戦略設計哲学と評価
+description: 🐕 Stock Sentinel 戦略設計哲学と評価 に関する Sentinel の設計・運用情報。
+key: docs-architecture-strategy-philosophy
 tags: [strategy, philosophy, evaluation, rust]
 keywords: [owner-leash-dog, strategy, evaluation, sentinel]
 ---

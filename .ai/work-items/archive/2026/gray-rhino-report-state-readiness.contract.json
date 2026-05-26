@@ -1,0 +1,120 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-report-state-readiness",
+  "mode": "code",
+  "title": "Gray Rhino report state readiness",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+    ".ai/work-items/active/gray-rhino-report-state-readiness.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/domain/gray_rhino_evidence_projection_policy.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/domain/gray_rhino_assessment_policy.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "compact summary and sensor health rendering semantics."
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "resolved projection rules currently in application and must move to domain."
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "MissingSubject rejection taxonomy."
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "enforce projection policy boundary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Gray Rhino compact summary is computed from monitoring statuses and separates active, cooling, and resolved subjects; Resolved/Cooling are not counted as active.",
+    "Sensor health readiness uses scoreable evidence records only and reports excluded non-scoreable records, including missing subject records.",
+    "Resolved candidate projection and latest effective evidence selection live in research/domain policy, and checker forbids these policy functions in gray_rhino_daily_report.rs.",
+    "GrayRhinoEvidenceRejection has MissingSubject and subject-empty validation returns MissingSubject instead of MissingStructuralFact.",
+    "Assessment note wording no longer claims subject-categories when it counts category coverage.",
+    "Targeted regression tests and make quality pass; Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_compact_summary_excludes_cooling_and_resolved_from_active --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_sensor_health_excludes_subjectless_evidence_from_readiness --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_evidence_projection_policy_is_domain_owned --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_missing_subject_has_dedicated_rejection --lib",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_assessment_note_reports_category_coverage --lib",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-report-state-readiness.summary.json CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-state-readiness.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-report-state-readiness.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-state-readiness.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

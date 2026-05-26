@@ -1,0 +1,79 @@
+{
+  "workItemId": "core-boundary-guard-tightening",
+  "contractPath": ".ai/work-items/archive/2026/core-boundary-guard-tightening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/core-boundary-guard-tightening.contract.json",
+      "reason": "core boundary guard 強化の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/core-boundary-guard-tightening.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の cockpit status を生成した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "src/core から application / infrastructure / trade など外層への依存を禁止した。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "core -> application / core -> trade の regression tests を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/core"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/core-boundary-guard-tightening.summary.json CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json SUMMARY=.ai/work-items/active/core-boundary-guard-tightening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/core-boundary-guard-tightening.contract.json SUMMARY=.ai/work-items/active/core-boundary-guard-tightening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "現行 src/core は強化後の boundary check に合格している。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "TraderAgent などの移動後も checker が core の外層依存再発を十分に防いでいなかった。"
+  ]
+}
