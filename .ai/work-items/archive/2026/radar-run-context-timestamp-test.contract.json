@@ -1,0 +1,81 @@
+{
+  "contractVersion": 1,
+  "workItemId": "radar-run-context-timestamp-test",
+  "mode": "code",
+  "title": "Radar run context timestamp test",
+  "scope": [
+    ".ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+    ".ai/work-items/active/radar-run-context-timestamp-test.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/application/radar.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "CI failure shows timezone-dependent assertion in radar_application_boundary_builds_run_context."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "radar_application_boundary_builds_run_context does not depend on CI machine local timezone.",
+    "RadarRunContext timestamp test validates preserved instant and local date semantics instead of hard-coded wall-clock string.",
+    "Targeted radar application test passes under UTC timezone.",
+    "AI Cockpit checks pass and Work Item is archived.",
+    "Integration coverage also avoids hard-coded local wall-clock timestamp expectations."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+      "required": true
+    },
+    {
+      "command": "TZ=UTC cargo test --lib features::radar::application::radar::tests::radar_application_boundary_builds_run_context",
+      "required": true
+    },
+    {
+      "command": "TZ=UTC cargo test --test pipeline_integration radar_application_run_context_builds_initial_status_metadata",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar-run-context-timestamp-test.summary.json CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json SUMMARY=.ai/work-items/active/radar-run-context-timestamp-test.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json SUMMARY=.ai/work-items/active/radar-run-context-timestamp-test.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

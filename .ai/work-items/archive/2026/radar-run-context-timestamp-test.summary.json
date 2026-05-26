@@ -1,0 +1,88 @@
+{
+  "workItemId": "radar-run-context-timestamp-test",
+  "contractPath": ".ai/work-items/archive/2026/radar-run-context-timestamp-test.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+      "reason": "CI failure 修正の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/radar-run-context-timestamp-test.summary.json",
+      "reason": "変更内容と verification 結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態を Cockpit status に反映する。"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "RadarRunContext の unit test を timezone-independent な instant / local date 検証へ更新した。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "同じ run context metadata の integration coverage も timezone-independent に更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/application/radar.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "TZ=UTC cargo test --lib features::radar::application::radar::tests::radar_application_boundary_builds_run_context",
+      "result": "passed"
+    },
+    {
+      "command": "TZ=UTC cargo test --test pipeline_integration radar_application_run_context_builds_initial_status_metadata",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar-run-context-timestamp-test.summary.json CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json SUMMARY=.ai/work-items/active/radar-run-context-timestamp-test.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar-run-context-timestamp-test.contract.json SUMMARY=.ai/work-items/active/radar-run-context-timestamp-test.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "テスト断言の timezone 依存を除去する変更であり、RadarRunContext の runtime behavior は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P1",
+      "detail": "CI の UTC runner で +09:00 fixture を Local へ変換した後も 09:30 を期待していたため、timestamp test が失敗した。"
+    }
+  ]
+}
