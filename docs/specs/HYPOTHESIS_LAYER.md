@@ -21,6 +21,9 @@ Hypothesis Layer は、現在の事実を扱う Reality Layer とは分離して
 - 潜在的受益者
 - コンセンサス状態
 - 市場織り込み状態
+- ナラティブ飽和度
+- 時間軸と実現ウィンドウ
+- 現実優先による確信度減衰
 - 失敗パス
 
 ## 境界
@@ -38,6 +41,37 @@ Hypothesis Layer は表示専用であり、次へ接続してはならない。
 - 買い増し・一部削減判断
 
 Reality Layer の結果を参照してよいが、Reality Layer を上書きしてはならない。
+
+## Anti-Narrative Governance
+
+Hypothesis Layer は、未来の物語を強化するだけの narrative machine になってはならない。すべての長期 thesis は、次の問いを表示または設定で表現できる必要がある。
+
+- この hypothesis は市場に先行しているのか、すでに consensus を増幅しているだけなのか。
+- この hypothesis はどの時間軸で検証されるのか。
+- どの observable reality が継続的に反証した場合、confidence を減衰させるのか。
+
+`asset_thesis` は次の optional governance fields を持てる。
+
+```toml
+[asset_thesis.MSFT]
+time_horizon = "LONG"
+materialization_window = "12-36 months"
+
+[asset_thesis.MSFT.narrative_state]
+consensus_level = "EARLY | DEVELOPING | CROWDED | SATURATED"
+skepticism_level = "HIGH | NORMAL | LOW"
+valuation_reflection = "UNDERREFLECTED | PARTIAL | FULLY_PRICED"
+
+[asset_thesis.MSFT.reality_override]
+observable_contradiction = true
+confidence_decay = true
+```
+
+`consensus_level = "CROWDED"` または `valuation_reflection = "FULLY_PRICED"` は売却 signal ではない。これは「正しいか」ではなく「すでに信じられすぎていないか」を観測するための metadata である。
+
+`time_horizon` は `SHORT`、`MEDIUM`、`LONG`、`CIVILIZATION` のいずれかとする。短期の `NO TRADE` と長期 thesis は同じ意味層に混ぜない。
+
+Reality Override Rule は憲法級の制約である。observable reality が hypothesis と継続的に矛盾する場合、hypothesis の confidence は自動的に下がるべきであり、物語の整合性だけで維持してはならない。
 
 ## Responsibility Split
 

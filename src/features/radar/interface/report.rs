@@ -1118,6 +1118,14 @@ fn render_hypothesis_section(
                     "    - {}: {}\n",
                     h.horizon_label, candidate.time_horizon
                 ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.narrative_saturation_label, candidate.narrative_saturation
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.reality_override_label, candidate.reality_override_notice
+                ));
                 block.push_str(&format!("    - {}:\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {
                     block.push_str(&format!(
@@ -1175,6 +1183,14 @@ fn render_hypothesis_section(
                 block.push_str(&format!(
                     "    - <i>{}: {}</i>\n",
                     h.horizon_label, candidate.time_horizon
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.narrative_saturation_label, candidate.narrative_saturation
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.reality_override_label, candidate.reality_override_notice
                 ));
                 block.push_str(&format!("    - <i>{}:</i>\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {

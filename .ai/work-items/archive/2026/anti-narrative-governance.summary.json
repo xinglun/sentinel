@@ -1,0 +1,119 @@
+{
+  "workItemId": "anti-narrative-governance",
+  "contractPath": ".ai/work-items/archive/2026/anti-narrative-governance.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/anti-narrative-governance.contract.json",
+      "reason": "anti-narrative governance の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/anti-narrative-governance.summary.json",
+      "reason": "変更内容と verification 結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態を Cockpit status に反映する。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "asset_thesis に optional anti-narrative governance fields を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "asset thesis report に narrative saturation、time horizon、reality override metadata を表示した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "anti-narrative governance metadata の CLI 出力を検証した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Narrative Saturation、Time Horizon、Reality Override の契約を追加した。"
+    },
+    {
+      "path": "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+      "reason": "asset_thesis の anti-narrative governance 設定例を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino escalation velocity と Survivability Assessment の境界を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "Gray Rhino temperature / survivability を reference metadata として定義した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "src/config.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/anti-narrative-governance.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/anti-narrative-governance.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration asset_thesis_outputs_anti_narrative_governance",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/anti-narrative-governance.summary.json CONTRACT=.ai/work-items/active/anti-narrative-governance.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/anti-narrative-governance.contract.json SUMMARY=.ai/work-items/active/anti-narrative-governance.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/anti-narrative-governance.contract.json SUMMARY=.ai/work-items/active/anti-narrative-governance.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "新しい thesis metadata は optional で、既存 config 互換を保つ。表示層に限定し、Gate / execution / trading へ接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P2",
+      "detail": "Hypothesis / asset thesis は将来 narrative を強めやすいため、consensus saturation、time horizon、reality override を明示する必要があった。"
+    },
+    {
+      "severity": "P3",
+      "detail": "Gray Rhino は存在判定だけでなく velocity / attention decay / survivability を次段階契約として定義する必要があった。"
+    }
+  ]
+}

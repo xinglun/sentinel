@@ -246,6 +246,8 @@ pub struct HypothesisCandidateViewModel {
     pub confidence: HypothesisConfidence,
     pub confidence_label: String,
     pub time_horizon: String,
+    pub narrative_saturation: String,
+    pub reality_override_notice: String,
     #[serde(default)]
     pub evidence_chain: Vec<HypothesisEvidenceNodeViewModel>,
     #[serde(default)]

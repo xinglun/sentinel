@@ -1293,6 +1293,20 @@ impl PresentationAssembler {
                 h.pricing_partially_priced.clone(),
             ),
         };
+        let (narrative_saturation, reality_override_notice) = match market_cycle_position {
+            MarketCyclePosition::CrowdedExpectation => (
+                h.narrative_saturation_saturated.clone(),
+                h.reality_override_required.clone(),
+            ),
+            MarketCyclePosition::LateAcceptance | MarketCyclePosition::DistributionWarning => (
+                h.narrative_saturation_crowded.clone(),
+                h.reality_override_required.clone(),
+            ),
+            _ => (
+                h.narrative_saturation_developing.clone(),
+                h.reality_override_watch.clone(),
+            ),
+        };
 
         HypothesisCandidateViewModel {
             title: h.title_profit_pool_migration.clone(),
@@ -1303,6 +1317,8 @@ impl PresentationAssembler {
             confidence: HypothesisConfidence::Developing,
             confidence_label: h.confidence_developing.clone(),
             time_horizon: h.horizon_medium_long.clone(),
+            narrative_saturation,
+            reality_override_notice,
             evidence_chain: vec![
                 HypothesisEvidenceNodeViewModel {
                     label: h.evidence_capex_expansion.clone(),

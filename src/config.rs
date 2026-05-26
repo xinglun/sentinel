@@ -155,7 +155,61 @@ pub struct AssetThesisEntry {
     pub invalidation_zh: Option<Vec<String>>,
     pub invalidation_en: Option<Vec<String>>,
     pub invalidation_ja: Option<Vec<String>>,
+    pub narrative_state: Option<AssetNarrativeStateConfig>,
+    pub time_horizon: Option<AssetThesisTimeHorizon>,
+    pub materialization_window: Option<String>,
+    pub reality_override: Option<AssetRealityOverrideConfig>,
     pub enable: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ConsensusLevel {
+    Early,
+    Developing,
+    Crowded,
+    Saturated,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum SkepticismLevel {
+    High,
+    Normal,
+    Low,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ValuationReflection {
+    Underreflected,
+    Partial,
+    FullyPriced,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct AssetNarrativeStateConfig {
+    pub consensus_level: ConsensusLevel,
+    pub skepticism_level: SkepticismLevel,
+    pub valuation_reflection: ValuationReflection,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum AssetThesisTimeHorizon {
+    Short,
+    Medium,
+    Long,
+    Civilization,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct AssetRealityOverrideConfig {
+    pub observable_contradiction: Option<bool>,
+    pub confidence_decay: Option<bool>,
+    pub rule: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]

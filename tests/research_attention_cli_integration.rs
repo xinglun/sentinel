@@ -2533,6 +2533,41 @@ invalidation = ["AI 投資が利益率を継続的に圧迫"]
 }
 
 #[test]
+fn asset_thesis_outputs_anti_narrative_governance() {
+    let tmp = prepare_workspace(
+        r#"
+
+[asset_thesis.MSFT]
+thesis = "Azure、Copilot、企業 AI 導入がデータセンター投資を正当化し続けるかを観測する。"
+observation_focus = ["Azure 成長率と AI 寄与"]
+invalidation = ["AI 関連 Capex が収益成長に接続しない"]
+time_horizon = "LONG"
+materialization_window = "12-36 months"
+
+[asset_thesis.MSFT.narrative_state]
+consensus_level = "CROWDED"
+skepticism_level = "LOW"
+valuation_reflection = "PARTIAL"
+
+[asset_thesis.MSFT.reality_override]
+observable_contradiction = true
+confidence_decay = true
+"#,
+    );
+
+    let out = run_cli(&tmp, &["asset-thesis"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("反叙事治理:"));
+    assert!(stdout.contains("共识 CROWDED / 怀疑 LOW / 定价反映 PARTIAL"));
+    assert!(stdout.contains("时间尺度 LONG / 兑现窗口 12-36 months"));
+    assert!(stdout.contains("现实覆盖 TRUE / 置信衰减 TRUE"));
+    assert!(stdout.contains("叙事越顺，越需要现实覆盖"));
+    assert!(!stdout.contains("自动买入"));
+}
+
+#[test]
 fn asset_thesis_empty_config_is_non_blocking() {
     let tmp = prepare_workspace("");
 

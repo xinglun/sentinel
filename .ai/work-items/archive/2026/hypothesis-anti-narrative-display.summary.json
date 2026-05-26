@@ -1,0 +1,156 @@
+{
+  "workItemId": "hypothesis-anti-narrative-display",
+  "contractPath": ".ai/work-items/archive/2026/hypothesis-anti-narrative-display.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+      "reason": "Hypothesis anti-narrative display の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis-anti-narrative-display.summary.json",
+      "reason": "変更内容と verification 結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態を Cockpit status に反映する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/anti-narrative-governance.contract.json",
+      "reason": "前段 anti-narrative governance Work Item の archive 証跡を保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/anti-narrative-governance.summary.json",
+      "reason": "前段 anti-narrative governance Work Item の summary archive 証跡を保持した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "asset_thesis の optional anti-narrative governance fields を保持した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "asset thesis report の anti-narrative governance 表示を保持した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "asset thesis anti-narrative CLI coverage を保持した。"
+    },
+    {
+      "path": "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+      "reason": "asset_thesis anti-narrative 設定例を保持した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "Gray Rhino velocity / survivability の次段階境界を保持した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino velocity / survivability evidence 境界を保持した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Hypothesis anti-narrative governance と Future Map 表示契約を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "HypothesisCandidateViewModel に narrative saturation と reality override display fields を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "MarketCyclePosition から Hypothesis anti-narrative fields を派生した。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Radar Hypothesis section に narrative saturation と reality override を表示した。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Hypothesis anti-narrative labels を三言語辞書に追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "Hypothesis mapping の anti-narrative field を検証した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Hypothesis report rendering と Reality section 分離を検証した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_mapping_requires_failure_risks",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_renders_speculative_notice_without_gate_change",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis-anti-narrative-display.summary.json CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json SUMMARY=.ai/work-items/active/hypothesis-anti-narrative-display.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json SUMMARY=.ai/work-items/active/hypothesis-anti-narrative-display.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Hypothesis / Future Map の表示 metadata を追加する変更。domain/application/Gate/execution/trading へは接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P2",
+      "detail": "Future Map が narrative を強化するだけの表示にならないよう、Hypothesis section 自体に saturation と reality override を表示する必要があった。"
+    },
+    {
+      "severity": "P3",
+      "detail": "前段 asset_thesis governance と Radar Hypothesis Layer の表示契約がまだ分離していた。"
+    }
+  ]
+}

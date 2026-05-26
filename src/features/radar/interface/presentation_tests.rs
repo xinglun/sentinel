@@ -1360,6 +1360,13 @@ mod tests {
         );
         assert_eq!(hypothesis_layer.candidates[0].consensus_state, "crowded");
         assert_eq!(hypothesis_layer.candidates[0].pricing_state, "overpriced");
+        assert_eq!(
+            hypothesis_layer.candidates[0].narrative_saturation,
+            "saturated narrative"
+        );
+        assert!(hypothesis_layer.candidates[0]
+            .reality_override_notice
+            .contains("现实连续反驳"));
         assert!(!hypothesis_layer.candidates[0].failure_risks.is_empty());
         assert!(!format!("{:?}", hypothesis_layer.candidates[0].confidence).contains("Confirmed"));
     }
@@ -1401,6 +1408,8 @@ mod tests {
             candidate.confidence,
             crate::features::radar::interface::presentation::HypothesisConfidence::Developing
         );
+        assert_eq!(candidate.narrative_saturation, "crowded narrative");
+        assert!(candidate.reality_override_notice.contains("叙事已拥挤"));
         assert!(!format!("{:?}", candidate.confidence).contains("Confirmed"));
     }
 
