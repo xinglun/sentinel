@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waiting Just 10 Years to Invest Costs You $1.1 Million
+  summary: On a recent episode of The Money Guy Show titled “Even Smart People Make These Massive Money Mistakes,” co-host Bo Hanson framed the cost of procrastination in terms most savers have never seen laid out plainly: “They have the exact same amount of money in this, $225,000 each. They even have the same period that ... Waiting Just 10 Years to Invest Costs You $1.1 Million
+  url: https://finnhub.io/api/news?id=768531c89e268ee0a502ebd0ef058c1d4206da05cafe4fee9f20348a1cc8ebdd

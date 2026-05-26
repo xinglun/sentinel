@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Announces Several Innovations to Advance Quintuple Aim
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) is one of the best medical stocks to invest in according to billionaires. Intuitive Surgical, Inc. (NASDAQ:ISRG) announced on May 21 several recent and upcoming innovations, which included enhancements across da Vinci 5 and its supporting ecosystem, advancements designed to enhance product and instrument security and reliability, and extended‑use Force Feedback instruments. Management stated […]
+  url: https://finnhub.io/api/news?id=f6a9944e6d21fac1fc56dd56a0b2c57d795a585c4a005c8c8599a3529680a8fe

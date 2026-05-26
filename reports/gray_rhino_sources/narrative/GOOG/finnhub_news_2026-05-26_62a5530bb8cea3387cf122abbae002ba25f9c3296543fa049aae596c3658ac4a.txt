@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google, Meta, Amazon, and 6 other tech stocks powering the stock market's profit excitement
+  summary: It's a tech world in the minds of stock analysts.
+  url: https://finnhub.io/api/news?id=9f5b0de399619f3fd2ca2c514ae771518abd16734977c9a3979222d8356516ff

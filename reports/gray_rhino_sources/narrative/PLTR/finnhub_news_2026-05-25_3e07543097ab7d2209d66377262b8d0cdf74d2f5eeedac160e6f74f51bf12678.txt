@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Demolished Legacy SaaS Stocks. Now It's Coming for Palantir.
+  summary: Earlier this year, Anthropic launched Claude Cowork -- a suite of tools that can perform functions similar to those of the programs offered by many legacy SaaS providers.
+  url: https://finnhub.io/api/news?id=9d67492ff8d0e2bbb477b6c69f68bc281fab63563febe835722dff1787c0b159

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Company Taking on SpaceX and Tesla -- It Could Be Worth More Than Both Combined by 2027
+  summary: Robotaxis and satellite internet are side projects to this undervalued AI giant.
+  url: https://finnhub.io/api/news?id=f178da44e7a43aa824fe676944b227785656ba7cde6b96f0a4f168aa7557726a

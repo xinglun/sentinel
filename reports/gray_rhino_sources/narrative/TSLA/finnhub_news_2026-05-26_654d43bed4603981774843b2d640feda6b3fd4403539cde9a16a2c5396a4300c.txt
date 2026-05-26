@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Trades Higher as Investors Remain Focused on SpaceX
+  summary: Tesla stock is going for a second consecutive weekly gain. Shares are in the green in premarket trading Tuesday.
+  url: https://finnhub.io/api/news?id=eb965bb1dbd2739872a1f12928708d2e5cf3a3c928728c31a1180341abeab1a2

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs Nvidia: Both Market Favorites, But One Is a Best Buy Now
+  summary: Tesla (NASDAQ: TSLA) and NVIDIA (NASDAQ: NVDA) just delivered post-earnings updates that frame the AI trade in opposite ways. Tesla is pitching a future of robots, robotaxis, and software fleets. NVIDIA is already selling the picks and shovels at scale. Both stocks sit near the heart of every AI portfolio, yet the businesses behind the ... Tesla vs Nvidia: Both Market Favorites, But One Is a Best Buy Now
+  url: https://finnhub.io/api/news?id=32a08ff2aaaee40157cbf24b26dbebe7d27afc20960fd08b92fc88666c9a2017

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is the Palantir Valuation Debate Over? Why Some Analysts See 86% Upside in the Agentic AI Era.
+  summary: Palantir's stock has enjoyed a wild 2,000% run over these past few years, but the party may not be over.
+  url: https://finnhub.io/api/news?id=497dabaa8aba29f33c6716afc3ccaf92a0168256a6dad7a17a49b9fd74ea4dfb

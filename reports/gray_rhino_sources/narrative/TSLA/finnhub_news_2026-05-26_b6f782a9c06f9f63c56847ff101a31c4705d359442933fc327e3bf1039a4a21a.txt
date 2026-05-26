@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jony Ive Designed Ferrari Luce Debuts With A $640,000 Price Tag And Interiors That Drift Apart From Tesla's Screen-Heavy Approach
+  summary: Ferrari N.V. (NYSE:RACE) unveiled its first fully electric car Monday, presenting the four-door Luce, designed in collaboration with former Apple Inc. (NASDAQ:AAPL) design chief Jony Ive and his collective LoveFrom, as a high-stakes bet that wealthy buyers will embrace a battery-powered Ferrari even as rivals such as Volkswagen AG’s (OTC:VWAGY) Porsche and Lamborghini slow some EV plans because of softer demand. Ferrari Bets On Electric Luxury The Luce, Italian for "light," is Ferrari's first fi
+  url: https://finnhub.io/api/news?id=45423aca42e8c0d8473ae03921cafb72e29bd6aa0024691f5f25e75e97b775ef

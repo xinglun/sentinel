@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Market Edge Highlights: MSFT, GOOGL and NVDA
+  summary: Microsoft, Alphabet and NVIDIA fuel fresh AI bubble debates as Zacks revisits lessons from the dot-com era.
+  url: https://finnhub.io/api/news?id=874441287c882e0dd9313e8bd53439ac69db8c72c66c03065809e96ca387382b

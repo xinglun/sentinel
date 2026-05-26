@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As More Global Investors Discover ELEKTROS Inc.’s Vision for Hard Rock Lithium Mining and Advanced EV Patent Technology, the Company Celebrates Growing Worldwide Interest
+  summary: Strong Market Momentum, and Friday’s 7.96% Gain While Looking Ahead to What Management Believes Is Only the Beginning of a Potentially Transformational Future WEST PALM BEACH, FL / ACCESS Newswire / May 25, 2026 / ELEKTROS States That Growing ...
+  url: https://finnhub.io/api/news?id=7a4bf55d325e073b8761df25577385a60c7866c3199d986266d2c1b7882c5894

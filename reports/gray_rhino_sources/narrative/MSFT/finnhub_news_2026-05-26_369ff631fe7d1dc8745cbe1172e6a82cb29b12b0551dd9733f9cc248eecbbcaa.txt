@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum Stocks Surge On U.S. Funding. Were Google, Microsoft, IonQ Snubbed?
+  summary: Quantum stocks surged last week on new U.S. funding program but some big industry players, such as Google, missed out on the announcement.
+  url: https://finnhub.io/api/news?id=6b772a37f57bd99088fac7eedd78db8e0b7967865b5d98d49776f3f695ca827b

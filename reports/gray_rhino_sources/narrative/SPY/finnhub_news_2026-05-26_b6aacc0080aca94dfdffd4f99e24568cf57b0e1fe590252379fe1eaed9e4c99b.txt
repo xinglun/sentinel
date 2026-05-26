@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VIG Calls Itself a Dividend Appreciation Fund, But Its 1.5 Percent Yield Reveals What That Really Means
+  summary: Imagine a retiree who reads that Vanguard Dividend Appreciation ETF (NYSEARCA:VIG) is a top dividend fund, parks $300,000 in it, and waits for the checks to arrive. They get ~$4,500 a year. That is the VIG problem in one sentence. The fund’s 1.5% distribution yield sits right next to the S&P 500’s payout, which means ... VIG Calls Itself a Dividend Appreciation Fund, But Its 1.5 Percent Yield Reveals What That Really Means
+  url: https://finnhub.io/api/news?id=0eaa62caecace9ccad0a44d2ee46457fee4731a1f08420450a5db12c80698183

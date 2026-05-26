@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Files IPO With Tens Of Trillions At Stake
+  summary: A recent episode of Moonshots with host Peter Diamandis focused on how SpaceX could become the largest IPO in financial history. SpaceX has filed paperwork for a $75 billion public offering at a valuation of $1.75 trillion. For context on scale, the panel noted the deal would be over 2.5 times larger than Saudi Aramco’s record ... SpaceX Files IPO With Tens Of Trillions At Stake
+  url: https://finnhub.io/api/news?id=2889ff69acaea5a7366f736a0f4395cb14daa0fcc924c2cef9bd20cb5ac2cddb

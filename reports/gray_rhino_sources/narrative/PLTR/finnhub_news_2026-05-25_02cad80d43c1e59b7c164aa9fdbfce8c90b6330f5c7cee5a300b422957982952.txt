@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inovio Pharmaceuticals Shareholders Back Board as INO-3107 FDA Review Advances
+  summary: Inovio Pharmaceuticals (NASDAQ:INO) shareholders approved all proposals presented at the company’s 2026 annual meeting, including the election of eight directors and the ratification of Ernst & Young LLP as the company’s independent registered public accounting firm for the year ending Dec. 31,
+  url: https://finnhub.io/api/news?id=33add2a9c05c567897b53335705b47f941b886ff337a864d50b1fb02de88fa3e

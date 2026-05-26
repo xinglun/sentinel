@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weekly Market Pulse: The Real Deal
+  summary: There is a robust debate these days about whether todayâs high stock market valuations are justified. The TIPS market offers a unique opportunity right now.
+  url: https://finnhub.io/api/news?id=d6955b16d548f31d66b3ac475a7b9e6fc2a4af05d919a85ff6fb59c007a131e3

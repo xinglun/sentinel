@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Premium Hinges on Retention
+  summary: Strong customer expansion remains key to defending Palantir's valuation.
+  url: https://finnhub.io/api/news?id=8dca8ffa83fa4a989c54bd10e5930eafeccccce1ff3437a8d8a989aeb5755a25

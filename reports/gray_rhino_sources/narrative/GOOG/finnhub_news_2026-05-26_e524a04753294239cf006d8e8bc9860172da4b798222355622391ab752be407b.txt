@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ex-bankers charge $25,000 a day to teach Wall Street AI
+  summary: Felipe Sinisterra and Dave Wang, former SoftBank fund managers, founded Wall Street Prompt in July 2025 and are already booked two months out
+  url: https://finnhub.io/api/news?id=217d5681836481646d424a0d8b1abc82302f9cb5a2d6dc26c407f597475e6346

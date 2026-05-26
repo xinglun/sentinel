@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's $81 Billion Blowout Hides A Major Warning
+  summary: Nvidia Corporation blows out Q1 FY27 on surging AI data center demand. Click for this updated look at NVDA stock prospects following earnings.
+  url: https://finnhub.io/api/news?id=a7ddabe15458aa159ffdcd0882f6dc3c3229f4d8f97faa6801728874f3f14c5e

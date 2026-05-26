@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: WISE Concentrates a Generative AI Bet Into 48 Stocks With a Single Theme Risk Most Investors Ignore
+  summary: Owning Themes Generative Artificial Intelligence ETF (NASDAQ:WISE) is a bet that you can outsmart a basket. The fund holds 48 generative AI stocks, charges about 0.35%, and runs around $31 million in assets If you bought WISE for tighter exposure to the generative AI thesis than a broad tech ETF offers, the question is whether ... WISE Concentrates a Generative AI Bet Into 48 Stocks With a Single Theme Risk Most Investors Ignore
+  url: https://finnhub.io/api/news?id=de80dcdce2d5a405a04d1eef0c7eb2a89f9935fe35c70ff7c0e19516cb831088

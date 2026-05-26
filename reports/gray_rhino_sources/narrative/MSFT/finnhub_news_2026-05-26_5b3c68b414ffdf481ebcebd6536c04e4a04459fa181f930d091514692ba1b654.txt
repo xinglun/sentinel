@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GTS Securities Slashes Its XOVR Stake -- Selling $354 Million Worth of Shares
+  summary: ERShares Private-Public Crossover ETF blends public equities with select private company exposure in a single fund.
+  url: https://finnhub.io/api/news?id=c8b7cd6f8ead01f0982175596c1b87cbb283f7131aa9befd2e567d91ed407d39

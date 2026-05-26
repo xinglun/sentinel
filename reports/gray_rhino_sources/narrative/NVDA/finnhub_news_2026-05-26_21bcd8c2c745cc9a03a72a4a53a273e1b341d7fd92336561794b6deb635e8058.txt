@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Technology Delivered 2,000% Return for One Investor as Memory Shortage Fuels AI Rally
+  summary: On a recent episode of the Earn Your Leisure podcast titled “The AI Boom Isn’t Over! Micron Technology Just Proved It!“, a panelist from the Market Moneys platform celebrated a multi-year call on memory that has paid off in spectacular fashion with a 2,000% personal return on Micron. The show also discussed the more important ... Micron Technology Delivered 2,000% Return for One Investor as Memory Shortage Fuels AI Rally
+  url: https://finnhub.io/api/news?id=2fd01834143a4e3ec12e90d79d7dd6ab12104db2b861c0e6074569a9e6fc0432

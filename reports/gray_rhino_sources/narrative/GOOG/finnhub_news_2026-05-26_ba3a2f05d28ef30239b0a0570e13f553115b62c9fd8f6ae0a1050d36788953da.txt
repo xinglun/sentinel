@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Alphabet Stock Will Reach The $5 Trillion Club on This Date
+  summary: Alphabet (NASDAQ:GOOG) just delivered one of the cleanest mega-cap quarters in years. Q1 2026 revenue hit $109.9 billion, up 22% year over year, EPS of $5.11 came in well above the $2.63 consensus, and Google Cloud backlog nearly doubled to $462 billion. The stock is up 121.35% over the past year and sitting at $379.38. ... Prediction: Alphabet Stock Will Reach The $5 Trillion Club on This Date
+  url: https://finnhub.io/api/news?id=3a2e83c196b5d99a884f78f7ecf23152ef49b0c7c8d7732189c811644b20b62e

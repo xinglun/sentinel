@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Question About Elon Musk That SpaceX Refuses to Answer Before Its IPO
+  summary: There’s a question floating around the biggest IPO in history, and SpaceX has chosen its words very carefully to avoid answering it. I’ve been reading pre-IPO paperwork for nearly two decades, and what’s missing from this one tells you more than what’s in it. The company is reportedly heading to NASDAQ in June 2026 at ... The Question About Elon Musk That SpaceX Refuses to Answer Before Its IPO
+  url: https://finnhub.io/api/news?id=a38effd944a0e52b1e525855d778c588e697620a67d132bbce3d569fd6b065ba

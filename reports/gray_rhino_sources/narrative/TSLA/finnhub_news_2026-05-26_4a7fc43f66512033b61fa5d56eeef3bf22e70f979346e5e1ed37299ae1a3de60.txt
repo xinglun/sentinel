@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Own Auditors Say The Growth Narrative Is Currently 'Not Probable'
+  summary: Tesla stock now hinges on autonomy/robotaxi, AI, Optimus & energyânot autos. TSLA projects massive scale in unproven segments. See more.
+  url: https://finnhub.io/api/news?id=5ce6398113e44fa4ea738cec96782ca520140f9213c6db43536c8fbf0cb3920e

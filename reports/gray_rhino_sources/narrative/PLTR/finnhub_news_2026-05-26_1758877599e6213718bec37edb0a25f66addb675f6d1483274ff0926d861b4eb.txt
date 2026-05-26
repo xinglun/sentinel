@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Palantir Technologies: This Cash-Flow Fintech Pioneer Under $30 Is a Considerably Better Buy
+  summary: Palantir Technologies (NASDAQ:PLTR) is the stock every retail dashboard, every AI thinkpiece, and every wallstreetbets thread cannot stop talking about, and at $136.88 a share with a market cap above $328 billion, the crowd has good reason to be excited about its 70% Q4 revenue growth. The valuation, however, leaves no room for error. The ... Forget Palantir Technologies: This Cash-Flow Fintech Pioneer Under $30 Is a Considerably Better Buy
+  url: https://finnhub.io/api/news?id=c2158afcf66f5dcd1ff0d021b425917ad31c3658a94110dfaad7fb5ddf47d13c

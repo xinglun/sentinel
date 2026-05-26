@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Fully Recovers As Iran War Impact Disappears From Stock Prices
+  summary: The S&P 500 (SPX)Â rose 0.8% above its previous week's close to end the trading week at 7,473.45 on Friday, 22 May 2026.
+  url: https://finnhub.io/api/news?id=8e833638ec6085887838b6d5decb9f3db2f49b3654de594ea5e94e4ad9581306

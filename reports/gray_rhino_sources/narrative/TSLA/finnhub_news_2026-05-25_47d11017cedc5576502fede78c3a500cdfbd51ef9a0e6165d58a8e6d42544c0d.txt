@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ferrari Rolls Out Five-Seat Fully Electric Car in Brand First
+  summary: (Bloomberg) -- Ferrari NV unveiled its first fully electric car, a five-seat model priced at €550,000 ($640,000) that marks a sharp break from the sports-car maker’s fuel-burning heritage.Most Read from BloombergNvidia CEO Urges Super Micro to Tighten Up on ComplianceTrump Doctor Visit Renews Health Scrutiny as 80th Birthday NearsTrump Says He’ll Announce Negotiated Deal With Iran ShortlyRubio Sees Good News Coming on Hormuz as Iran Talks ContinueUS, Iran Inch Toward Deal as Gaps Remain on Urani
+  url: https://finnhub.io/api/news?id=1564fa50fff86c8de8570700ed44c4478a4e0c295bfbb707326462bc0d77d9cf

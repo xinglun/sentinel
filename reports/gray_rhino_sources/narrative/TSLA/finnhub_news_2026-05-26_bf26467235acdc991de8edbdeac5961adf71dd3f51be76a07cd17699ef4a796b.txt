@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO Filing Reveals $5 Billion Losses And $28.5 Trillion Market Vision
+  summary: Elon Musk's SpaceX filing highlights major losses, governance risks and strong retail investor ambitions.
+  url: https://finnhub.io/api/news?id=1af5290517cfb6767d4eebf8d0b4be9510acead20c2bedf4ae441e260effcf64

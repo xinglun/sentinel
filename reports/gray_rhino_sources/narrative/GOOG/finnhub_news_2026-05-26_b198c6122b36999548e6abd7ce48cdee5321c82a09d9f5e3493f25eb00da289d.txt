@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon: The 20% Rally Is Just The Beginning
+  summary: Amazon.com, Inc. stock outlook: AWS growth re-accelerates to 28%, Q1 2026 revenue hits $181.5B, and automation could save $10B by 2030. Click for this AMZN update.
+  url: https://finnhub.io/api/news?id=4d9d7e4b7a98bc5fdeebaaf3e90663318d8a0725fbb9a19fe18df462b506bafc

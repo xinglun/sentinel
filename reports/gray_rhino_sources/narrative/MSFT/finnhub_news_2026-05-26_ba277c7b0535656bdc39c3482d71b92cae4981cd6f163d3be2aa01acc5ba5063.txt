@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart Got Kicked Out of the $1 Trillion Club. Is the Dividend King Stock a No-Brainer Buy Before the End of May?
+  summary: Walmart's recent run of outperformance could be coming to an end.
+  url: https://finnhub.io/api/news?id=dd3a82af37fca3ed8bd8a53664e30fa5a59d8a57f404b4f8f1c6005957503f33

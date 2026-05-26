@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Presses Super Micro on Compliance
+  summary: Nvidia's CEO reportedly pushed Super Micro to improve compliance.
+  url: https://finnhub.io/api/news?id=7a66ed194c3a329c5989799135e0c35ae4e09d5f00f460ad2a2bc73372e582d9

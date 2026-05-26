@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kevin Warsh Is Walking Into A Bond Market Trap
+  summary: Kevin Warsh takes over as Fed Chair amid inflation and reform pressures. Warsh's reform agenda seeks less mechanical communication and more discretion. See more.
+  url: https://finnhub.io/api/news?id=ecbd693cf2aea99555fdd64cdd3b5bb01a9a6565cf95db0f16bb4c133f8ad393

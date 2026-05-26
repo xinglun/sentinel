@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Divorce Between Wall Street And Main Street
+  summary: NVIDIA (NVDA) delivered 85% YoY sales growth in Q1, highlighting tech's dominance as NVDA and AAPL now comprise over 15% of U.S. market cap.
+  url: https://finnhub.io/api/news?id=403085f241dbeb5e4defe5574f3853a888ef9ccc14a27963282588dc25881256

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Move Over, Tesla. Another Robo-Taxi Stock Is Making Progress.
+  summary: Tuesday, Pony AI reported first-quarter sales of $34.3 million, up from $14 million a year ago. Wall Street was looking for $22.3 million.
+  url: https://finnhub.io/api/news?id=802c37c20ccc7d010baac83d82d16605527accd7c176790418f9e93b41030e99

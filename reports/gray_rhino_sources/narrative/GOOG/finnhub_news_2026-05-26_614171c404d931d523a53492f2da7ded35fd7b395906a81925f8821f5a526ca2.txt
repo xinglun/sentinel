@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 25-year-old founder, who recently acquired South Korea's Alquimista Media, is building a billion-dollar next-generation AI film studio.
+  summary: Former Google engineer Cecilia Shen co-founded Utopai with the aim of tackling the challenge of generating long-form AI content. Now, this first Hollywood AI film mogul is building a billion-dollar studio. With projects in development and strong performance projections for 2026, this high price tag also signals Utopai's strong leadership in the Hollywood AI race.
+  url: https://finnhub.io/api/news?id=7f4517b085e6b9f9a274780fef6874d64d10f45d3f9f01b3488446dbc701f28e

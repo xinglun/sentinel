@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beat the Market the Zacks Way: ORIX, Starbucks, Alphabet in Focus
+  summary: IX, SBUX and GOOGL rallied after Zacks upgrades and portfolio additions, while major indexes stayed volatile amid Fed and inflation concerns.
+  url: https://finnhub.io/api/news?id=93bff7a1c4fa81ddda253a5433ec5ed745f09ea9b0a4e84206e4b6506c49d308

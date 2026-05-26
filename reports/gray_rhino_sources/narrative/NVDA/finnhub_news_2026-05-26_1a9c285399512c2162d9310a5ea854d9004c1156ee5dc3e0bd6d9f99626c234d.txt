@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Joby Aviation Stock Double This Year?
+  summary: Joby Aviation (NYSE:JOBY) is one of the most polarizing names in the eVTOL space, and the question on every shareholder’s mind right now is whether the stock can double from here. Based on our proprietary model, the answer is no, at least not over the next 12 months. The 24/7 Wall St. price target for ... Will Joby Aviation Stock Double This Year?
+  url: https://finnhub.io/api/news?id=8828a7e0091fb89804e756f7176bdfa4b54446d793c0bb7e8d815259f46b7457

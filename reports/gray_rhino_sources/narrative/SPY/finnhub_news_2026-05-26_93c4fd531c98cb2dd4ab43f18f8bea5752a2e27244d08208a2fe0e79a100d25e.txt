@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises On U.S.-Iran Deal Hopes; AppLovin, Micron Surge (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Tuesday on U.S.-Iran deal hopes. AppLovin and Micron soared in morning trading.
+  url: https://finnhub.io/api/news?id=828890eafdd9ae33cb0ec0c82430add60de03782cec59ee4f5378a8fe8b7456b

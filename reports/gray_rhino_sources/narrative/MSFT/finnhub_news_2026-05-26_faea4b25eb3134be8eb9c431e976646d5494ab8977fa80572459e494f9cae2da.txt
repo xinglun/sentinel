@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Airia Launches Comprehensive Model Risk Management Solution Integrated with Microsoft Foundry
+  summary: New governance framework enables enterprises to continuously validate and monitor autonomous AI systems across the Microsoft ecosystemATLANTA, May 26, 2026 (GLOBE NEWSWIRE) -- Airia, the unified platform that gives enterprises control over every AI tool, model, and agent in their organization, today announced the availability of its Model Risk Management (MRM) solution integrated with Microsoft Foundry. The solution delivers continuous validation, automated compliance reporting, and governed imp
+  url: https://finnhub.io/api/news?id=79020ab496a6af0a2776320e8f808f6ba6ba28057bfae08b737be79f87e587ee

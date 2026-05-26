@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Filed for the Biggest IPO in History -- and One Number Has Wall Street Buzzing
+  summary: Elon Musk's space technology company is floating one jaw-dropping figure as it prepares for an upcoming IPO.
+  url: https://finnhub.io/api/news?id=e01779e6072331026622c6c74a1fb86ac4c0508c4e148ff4e8a1abda6bb63b2b

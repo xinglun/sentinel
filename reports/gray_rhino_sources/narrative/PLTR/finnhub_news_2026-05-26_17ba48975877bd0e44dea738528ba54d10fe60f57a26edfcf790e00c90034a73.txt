@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Deal Puts New Focus On Palantir’s Enterprise AI Edge
+  summary: Anthropic has acquired Fractional AI, moving directly into enterprise AI consulting. The deal introduces a new competitor to Palantir Technologies' hybrid software and consulting model. The development raises questions about how Palantir's client relationships and service offering may compare with Anthropic's expanded capabilities. Palantir Technologies (NasdaqGS:PLTR), trading at $136.88, has built its reputation around complex enterprise deployments that blend software with hands-on...
+  url: https://finnhub.io/api/news?id=0652b21a41a410eee66341306cbb44d83a1d85414706966b6e262bbf7e66378b

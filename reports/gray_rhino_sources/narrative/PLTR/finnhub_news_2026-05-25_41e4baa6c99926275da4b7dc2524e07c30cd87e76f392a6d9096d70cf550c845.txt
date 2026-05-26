@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  summary: Here is the data point that should make every passive index investor pause. On Retire SMART Podcast Ep 416, the host laid out the math: “If we removed the Nvidias, the AMDs, so AI chips, these are the chipmaking companies, the storage companies, and the companies that are facilitating AI that are publicly traded. And ... The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  url: https://finnhub.io/api/news?id=6ff2e07bf8048115335b671f4a956bc778e86c33987343331dd0c97ee6a519a7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: USMV’s Minimum Volatility Promise Got Trounced By the S&P 500. Wait for Redemption or Run?
+  summary: A risk-averse retiree who bought iShares MSCI USA Min Vol Factor ETF (NYSEARCA:USMV) in 2021 wanting equity exposure without the full white-knuckle ride got exactly what was advertised, and now has to decide whether the trade was worth it. USMV returned roughly 45% over the past five years. SPDR S&P 500 ETF Trust (NYSEARCA:SPY) returned ... USMV’s Minimum Volatility Promise Got Trounced By the S&P 500. Wait for Redemption or Run?
+  url: https://finnhub.io/api/news?id=b2ff86d29d275b49d0fbb03a19392f40b45c63ae94e6dae743b1742748a9b95b

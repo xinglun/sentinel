@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Mystery Deepens As Many Software Stocks Claw Back Amid AI Fears
+  summary: Palantir stock is still down 23% in 2026 while the software ETF IGV has rebounded as the sector grapples with worries over AI disruption.
+  url: https://finnhub.io/api/news?id=1678dd45ff3159cee9570807e347a9397fc3770fde6217d2c88b38b436a71966

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Voyager (VOYG) Unit Earns Capital Backing for LEO Expansion, Soars 30%
+  summary: Voyager Technologies Inc. (NYSE:VOYG) is one of the 10 Stocks With Stunning Double-Digit Gains. Voyager Technologies surged by 29.6 percent week-on-week after its joint venture firm secured the backing of 1789 Capital to support its expansion into the low-Earth orbit (LEO) market. In a statement on Thursday, Voyager Technologies Inc. (NYSE:VOYG) said that Starlab Space […]
+  url: https://finnhub.io/api/news?id=11ccbf38436467d1bcadebcd6a37681ecfabcd0f3f4990b52baa71a80384cd23

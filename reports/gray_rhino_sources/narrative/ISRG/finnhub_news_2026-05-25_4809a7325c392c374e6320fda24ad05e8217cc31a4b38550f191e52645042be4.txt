@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG's Ion Platform: A Major Growth Engine in Lung Cancer Care?
+  summary: ISRG's Ion platform saw 39% procedure growth in Q1, with new clinical data strengthening its role in lung cancer diagnosis.
+  url: https://finnhub.io/api/news?id=c5bb040192976fa3ff1b5584d47b5f25e95d5a489f3a6df0c564bf9307aecb69

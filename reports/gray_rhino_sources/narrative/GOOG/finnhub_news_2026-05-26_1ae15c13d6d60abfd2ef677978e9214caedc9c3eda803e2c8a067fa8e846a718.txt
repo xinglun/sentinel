@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Cloud AI - Training Revolution at Google Next 2026 Embraces AI Integration
+  summary: At Google Next 2026, Google Cloud Security used the Instruqt platform to train over 150 practitioners on Agentic AI capabilities, marking one of the largest hands-on training sessions at a major industry conference this year. The event allowed participants to create their own Google Cloud Vertex AI environments, offering a practical experience that bridges the AI-adoption gap often encountered due to technology complexity and outdated training methods. This approach represents a...
+  url: https://finnhub.io/api/news?id=b878b8946ca97b2a1a822495fc4c65846ac5db313b977efc0c1873e0d03799e9

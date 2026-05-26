@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Heads into Earnings with Everything to Prove - And Everything to Gain
+  summary: The share-price chart and the operating reality have been telling very different stories.
+  url: https://finnhub.io/api/news?id=82dafe4e0da36594c8b3d54e595f54d72a99047552096fa2d2d25b78c408d8cf

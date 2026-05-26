@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's $200 Billion Vera Forecast Keeps China In Focus
+  summary: China demand remains part of Nvidia's Vera outlook as H200 approval still waits on Chinese officials.
+  url: https://finnhub.io/api/news?id=7277e69509c4825223327bf933d2d02dfd2a68149d8c063cc8d483911c62ffbd

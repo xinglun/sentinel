@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beyond The AI Box: How Today's AI Buildout Is Reshaping Returns On Capital
+  summary: Artificial intelligence is catalyzing one of the most ambitious investment cycles in modern technology history. Read more here.
+  url: https://finnhub.io/api/news?id=7c711e02050640281dee36cc9571f2c49bbc9a65d15c9bce2edd6a764cd239db

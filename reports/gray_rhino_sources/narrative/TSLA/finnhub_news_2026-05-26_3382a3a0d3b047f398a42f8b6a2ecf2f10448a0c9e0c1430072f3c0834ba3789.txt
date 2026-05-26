@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Honestly, the SpaceX Prospectus Is Far Worse Than I Imagined
+  summary: It's hard to believe SpaceX is angling for a $1.75 trillion valuation.
+  url: https://finnhub.io/api/news?id=4c3e918e9625b497187821b62d593f9371293d4f43db3bc199983962a5333071

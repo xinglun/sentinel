@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EV App Churn Falls to Record Low as Owners Remain Engaged, JD Power Finds
+  summary: TROY, Mich., May 26, 2026--EV app usage has reached a turning point, as higher engagement is now matched by higher expectations, according to the JD Power 2026 U.S. OEM EV App Report,SM released today. Electric vehicle (EV) owners are relying on their apps more often, but they are also less willing to tolerate delays or inconsistent performance. App performance has become the defining factor of the experience as speed and reliability gaps become more visible with increased use. Overall, app sati
+  url: https://finnhub.io/api/news?id=d869885409ea7e4a4041313cc29d4395b2da8613b411ff979664eda69c1f9848

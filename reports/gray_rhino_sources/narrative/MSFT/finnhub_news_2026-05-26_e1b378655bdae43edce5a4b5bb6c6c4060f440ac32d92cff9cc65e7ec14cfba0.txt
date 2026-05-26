@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Agrees to $250 Million Settlement Over Activision Acquisition
+  summary: The settlement resolves claims tied to Microsoft's 2023 acquisition of Activision.
+  url: https://finnhub.io/api/news?id=138a0bf4e848ca39002c49b4bdff927bd7ba8fdeff6e6019517aa88a6b31e877

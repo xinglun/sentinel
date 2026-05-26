@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PacBio SPRQ-Nx Chemistry Now Shipping Worldwide, Enabling Sub-$300 HiFi Genomes for Large Scale Projects and AI-Enhanced Sequencing
+  summary: New Revio multi-use SMRT Cells reduce sequencing costs by 30% compared to previous SPRQ chemistry while DeepConsensus improvements and expanded methylation calling increase accuracy, yield, and epigenetic insightMENLO PARK, Calif., May 26, 2026 (GLOBE NEWSWIRE) -- PacBio (NASDAQ: PACB), developer of the world’s most advanced sequencing technologies, today announced that SPRQ-Nx sequencing chemistry and new multi-use SMRT Cells for its Revio HiFi sequencing platform are now shipping worldwide. Th
+  url: https://finnhub.io/api/news?id=01fe4acfdb73ea622177f525d3d73c15f3d977cca5831100ba8bf2dbe32774bb

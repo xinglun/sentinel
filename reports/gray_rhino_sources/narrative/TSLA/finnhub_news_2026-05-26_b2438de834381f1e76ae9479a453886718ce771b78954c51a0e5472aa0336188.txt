@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Is Dumping AMD and TSMC Stock. Here's What She's Buying Instead
+  summary: Cathie Wood Just Made a Bold Bet on AI Hardware and Crypto Stocks
+  url: https://finnhub.io/api/news?id=5745668c00a2a8d0ee1abaf4187263fd8adbed3772bd25682fe88556c3fcc34a

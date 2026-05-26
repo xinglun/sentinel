@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SCHD’s Dividend Quality Filter Now Concentrates 42 Percent of Your Money in Just Ten Stocks
+  summary: Most investors buy Schwab U.S. Dividend Equity ETF (NYSEARCA:SCHD) because the fund’s reputation tells them they are buying diversification. SCHD has 105 holdings, screens hard on dividend quality, and charges 0.06%. The retiree who built an income sleeve around SCHD usually has not read the holdings list. Read the list and the diversification story bends: ... SCHD’s Dividend Quality Filter Now Concentrates 42 Percent of Your Money in Just Ten Stocks
+  url: https://finnhub.io/api/news?id=fe89eba6864b3e9fbb8b7aaf7c2cc5167e790fe44b3886998d7b635d54317d4d

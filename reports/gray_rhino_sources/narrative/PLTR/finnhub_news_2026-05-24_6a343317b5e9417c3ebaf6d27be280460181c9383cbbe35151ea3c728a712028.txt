@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s AI Surge Meets Market Correction. Buy the PLTR Stock Dip Now.
+  summary: Palantir recently became one of the worst mega-cap performers YTD, but can the AI company ride out the storm?
+  url: https://finnhub.io/api/news?id=f53b1c165470cc81f007b536ec16f720a4a801e34880e94b8fd41f94ebc6431a

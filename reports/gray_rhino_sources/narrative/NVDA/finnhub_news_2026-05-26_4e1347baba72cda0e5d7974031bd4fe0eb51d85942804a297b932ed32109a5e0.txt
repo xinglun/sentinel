@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Down Over 10% This Year: 1 Free-Cash-Flow Machine Under $30 to Buy and Hold Forever
+  summary: When a hawkish central bank pushes risk-free yields higher, standard stock multiples compress in lockstep. With the 10-year Treasury yield sitting at 4.57%, paying premium multiples for unproven media models is an absolute fool’s errand. Value-conscious portfolios need massive consumer anchors that treat their cash flow like a utility, and one global connectivity titan trading ... Down Over 10% This Year: 1 Free-Cash-Flow Machine Under $30 to Buy and Hold Forever
+  url: https://finnhub.io/api/news?id=ef45d3d4a85e46268ec4577cfac86c0bdf24eac98e617a59440ced3a4adfea85

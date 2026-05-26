@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Selloff Is Missing The Real Story
+  summary: Palantir (PLTR) looks mispriced amid sector gloomâcommercial revenue +133% and 60% margins signal AI strength.
+  url: https://finnhub.io/api/news?id=9bfe6d79da8b85d8490425445a7ffc36636625a487039e4efc59b08cb17cf854

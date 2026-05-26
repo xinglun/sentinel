@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Jumps 12% After Price Target Raise From $535 to $1,625: Here’s What’s Driving Wall Street’s Most Bullish Target
+  summary: Shares of Micron Technology (NASDAQ:MU) are up 12% to $843 after UBS raised its price target on MU stock to $1,625 from $535. The firm maintained its Buy rating, and the new figure now stands as the most bullish target on Wall Street. The magnitude of the raise is the story. UBS analyst Timothy Arcuri ... Micron Jumps 12% After Price Target Raise From $535 to $1,625: Here’s What’s Driving Wall Street’s Most Bullish Target
+  url: https://finnhub.io/api/news?id=4f3c35404669fc8162ba9b78aa5b089abc80e90ef089b115a0dc1acaa14c995c

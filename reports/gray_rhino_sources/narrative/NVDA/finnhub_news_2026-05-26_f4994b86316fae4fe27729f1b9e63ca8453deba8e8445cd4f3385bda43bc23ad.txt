@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nio Price Prediction: Can the Stock Double by 2029?
+  summary: Our NIO (NYSE:NIO) call comes after a turbulent month for the Chinese smart EV maker, with shares down 10.4% over the past week and trading at $5.60. The 24/7 Wall St. price target for NIO is $7.47, implying 33.4% upside over the next 12 months. Our recommendation is buy, with moderate confidence reflecting NIO’s improving ... Nio Price Prediction: Can the Stock Double by 2029?
+  url: https://finnhub.io/api/news?id=6544b42d60e5e92a86c5172762dc94398fc842e4bdb8f05b39f95749f5b354c9

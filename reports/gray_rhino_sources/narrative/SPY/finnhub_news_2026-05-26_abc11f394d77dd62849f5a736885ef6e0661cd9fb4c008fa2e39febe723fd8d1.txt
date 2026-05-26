@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500: 20% Moves Up And Down During Next 6-12 Months Very Likely. Here's Why
+  summary: The S&P 500's explosive rally has created a dangerously top-heavy index. Click here to find out my current portfolio setup.
+  url: https://finnhub.io/api/news?id=ebe376d001b97102070fb26b770ad677987d6b572f15bb1c5d1019b6ca7590e8

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenRouter Raises $113 Million CapitalG-led Series B as Weekly Volume Explodes to 25T Tokens
+  summary: NEW YORK, May 26, 2026--OpenRouter, the AI model exchange, today announced a $113 million Series B led by Alphabet’s independent growth fund, CapitalG, with participation from investors including NVentures (NVIDIA’s venture capital arm), ServiceNow Ventures, MongoDB Ventures, Snowflake Ventures, Databricks Ventures, alongside existing investors including Andreessen Horowitz and Menlo Ventures.
+  url: https://finnhub.io/api/news?id=cc847a4b53428bde7fafbcd409ffa8e15cfbbc69f47f24cc7505990c2b38f24d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Alphabet's Google Nears Record European Union Fine Over Alleged Search Monopoly
+  summary: Alphabet's (GOOG, GOOGL) Google is on the verge of receiving a record European Union penalty for all
+  url: https://finnhub.io/api/news?id=22129deeee7ea93ed7795e42153f513672350857065e2218b4f205b07733704e

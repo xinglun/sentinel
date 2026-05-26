@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'AI Ready Ohio' Expands To Accelerate AI Education and Training Statewide
+  summary: JobsOhio today announced a major expansion of the AI Ready Ohio program, with valued partner The Enterprise Technology Association (ETA) playing a key role in the initiative's growth. The program's expansion extends in-person AI training to more than 3,000 people in the Greater Cincinnati, Columbus and Toledo areas. Online training will be available to all residents statewide, ensuring every Ohioan has the opportunity to build critical AI skills for the modern workforce.
+  url: https://finnhub.io/api/news?id=b14de6758add93a09b3dad424909c65acb798acaadd047b6c6172d03f64ec3b8

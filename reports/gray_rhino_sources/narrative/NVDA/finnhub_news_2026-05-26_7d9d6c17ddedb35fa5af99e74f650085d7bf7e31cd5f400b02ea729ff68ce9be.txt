@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget IonQ: This New Quantum Computing IPO Could Be This Year's Dark Horse
+  summary: This newly public quantum company recently won a $100 million government contract.
+  url: https://finnhub.io/api/news?id=9a61a4e1554b7a62494d29d4dd46e49cf36bffaaaee9a478701e37fd4e270e55

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Under-the-Radar Tech Stocks That Could Outperform the Nasdaq in 2026
+  summary: Most people are ignoring these tech stocks, presenting a compelling opportunity for savvy investors.
+  url: https://finnhub.io/api/news?id=18e92a88f01c60923f85d8d6ff5c9b434af48a8e418059ebb76f3311a578febe

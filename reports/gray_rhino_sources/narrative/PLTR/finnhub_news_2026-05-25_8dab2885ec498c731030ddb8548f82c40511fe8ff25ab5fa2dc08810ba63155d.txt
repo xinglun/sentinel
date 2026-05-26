@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Ranks Among Best Revenue Growth Stocks to Buy
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the 12 Best Revenue Growth Stocks to Buy According to Wall Street Analysts. On May 22, Cantor Fitzgerald reiterated its Neutral rating on Palantir Technologies Inc. (NASDAQ:PLTR) with a price target of $138 on the stock. The research firm hosted the company’s Chief Financial Officer, David Glazer, and […]
+  url: https://finnhub.io/api/news?id=17bb2ba13a98449fc93f12b408affb761115015c90e5ec759bbd8d6840a5695c

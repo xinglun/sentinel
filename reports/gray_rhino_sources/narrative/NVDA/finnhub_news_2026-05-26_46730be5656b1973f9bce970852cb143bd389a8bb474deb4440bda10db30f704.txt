@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jeff Bezos Says Bottom 50% of Americans Should Pay No Taxes. The Real Culprit Is Federal Spending
+  summary: During a recent episode of The Pomp Podcast featuring guest Jordi Visser, host Anthony Pompliano highlighted a striking proposal from Amazon (NASDAQ:AMZN) founder Jeff Bezos. Bezos believes the bottom 50% of Americans should pay no federal taxes. According to the discussion, the bottom half of earners currently contribute only 3% of the federal budget, which lends credence ... Jeff Bezos Says Bottom 50% of Americans Should Pay No Taxes. The Real Culprit Is Federal Spending
+  url: https://finnhub.io/api/news?id=a003c97522a354d2c4a15433047676e173b4b1cdbf05901b8620adf3fecc8def

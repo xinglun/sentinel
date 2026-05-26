@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Should Be Thrown Out Of Magnificent 7
+  summary: The Magnificent 7 are supposed to comprise the world’s hottest megacap companies. Their businesses will control the future. They are a mix of AI, search, the future of vehicles and robots, Alphabet (parent company of Google), Amazon (NASDAQ: AMZN), Apple (NASDAQ: AAPL), Meta Platforms (parent company of Facebook and Instagram), Microsoft, Nvidia (NASDAQ: NVDA), and ... Microsoft Should Be Thrown Out Of Magnificent 7
+  url: https://finnhub.io/api/news?id=457c9998340942802e1ad85143fa3593fa01c068ecfe717b0abbc2c4b668aaa9

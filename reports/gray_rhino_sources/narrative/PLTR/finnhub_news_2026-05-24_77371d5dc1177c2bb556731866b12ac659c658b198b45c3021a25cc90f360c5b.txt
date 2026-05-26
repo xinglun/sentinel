@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Dell Build an AI OS for the Paranoid
+  summary: Palantir and Dell unveiled a secure AI operating system powered by NVIDIA infrastructure, targeting defense, healthcare, and regulated enterprise customers
+  url: https://finnhub.io/api/news?id=ce35d8dd69a318cff8024a157bb7d6ea8520214702aeeb77b98c906ff6971f88

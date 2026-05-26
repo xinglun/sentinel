@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Artificial Intelligence (AI) Stocks Are Red Hot, but Here's Why I'm Not Touching Them
+  summary: Chasing highly valued stocks can leave investors vulnerable to significant corrections later on.
+  url: https://finnhub.io/api/news?id=6593bd44102ae92697bbd6be4e0a083810a335f401e43ef22bde6baed9028aae

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Energy Transition - Revolutionizing Wind Turbine Blade Recycling: A Billion-Dollar Opportunity
+  summary: The global wind turbine blade recycling market is set to experience significant growth, expanding from $64.96 billion in 2024 to $158.9 billion by 2030, driven by decommissioning of first-generation turbines reaching their end-of-life. This market expansion is being fueled by corporate sustainability commitments, integrated recycling initiatives, and regulatory actions particularly in North America and Europe to limit landfill disposal of blades. The focus on circular economy principles is...
+  url: https://finnhub.io/api/news?id=425fdf7d8f8c924d9eb825fa04ea6d32bb27f24b734ca61bdad6a02074fcd20d

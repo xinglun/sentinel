@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Faces Potential Record EU Fine
+  summary: Investigation focuses on allegations that Google favors its own services in search results.
+  url: https://finnhub.io/api/news?id=e2605d7c7e2ed0d7b3df3a998dec6160cefa8c5ce35e4243888e1e97183b9f7d

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pony AI Founder Says Launching Robotaxis Becoming Easier But Real Race Will Be Won 'On The Road, Not In The Lab'
+  summary: Pony AI founder says real-world traffic data and world models are necessary for Level 4 commercialization, not just simulations and software.
+  url: https://finnhub.io/api/news?id=f30d8e182024295f69d3568f77b7be61ca078c18c80887cd8fa87d00561ffbaf

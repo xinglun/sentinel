@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Urges Tighter Compliance
+  summary: Export controls remain a key risk for Nvidia's AI chip business.
+  url: https://finnhub.io/api/news?id=ee33b8cd2dd75cbe4b53c128e66c7dae417b2e036208311cbfafdd09b065d663

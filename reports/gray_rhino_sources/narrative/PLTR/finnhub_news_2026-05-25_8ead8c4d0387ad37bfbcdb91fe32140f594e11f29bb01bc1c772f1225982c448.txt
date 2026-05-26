@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Time To Buy The Stock Hand Over Fist
+  summary: Palantir stock: strong buy after Q1 as growth, demand and profits surge.
+  url: https://finnhub.io/api/news?id=fd8402d07a5753e9bfa992d70cc0126ba0cdf5fe2aff21b9658e5cbfa07ae71e

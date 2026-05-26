@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Small Caps Add Breadth Support, but Confirmation Is Still Incomplete
+  summary: Market breadth improved into the Friday, May 22 close, helped by stronger weekly participation and better short-term moving-average breadth. The trend has improved from neutral with a positive bias to positive, but the still-muted SMA200 and 3-month readings prevent a very positive rating.
+  url: https://finnhub.io/api/news?id=6faea010b039a68eb188a5860d5a8f297c1e9971c06c8af531fb4960cdeef096

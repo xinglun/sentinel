@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ro Khanna Says US Economy 'Works For Capital First And Workers Last,' Calls For Higher Billionaire Taxes To Fund Public Services
+  summary: Ro Khanna backs higher taxes on billionaires, saying the U.S. economy favors capital over workers, amid debate over wealth inequality and public services.
+  url: https://finnhub.io/api/news?id=ef94571c6f3d8ab57efce721e97a02e20d8b1a77f79f075edad4fa9a84df12d0

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Jensen Huang Says AI Has Crossed A Critical Threshold: 'Tokens Are Now Profitable'
+  summary: Nvidia CEO Jensen Huang says tokens, units of AI-generated text, &#34;are now profitable,&#34; offering a new lens on the AI spending boom.
+  url: https://finnhub.io/api/news?id=2ce1291c7318aab2598c8090ec24b754a8bb69174ea9f91d0dd6d6ce2c46862a

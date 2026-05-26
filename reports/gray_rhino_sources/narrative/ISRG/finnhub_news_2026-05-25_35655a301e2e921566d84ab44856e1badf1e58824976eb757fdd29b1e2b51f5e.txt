@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Health Care Stocks With Whale Alerts In Today's Session
+  summary:  
+  url: https://finnhub.io/api/news?id=1e6d0b3e195f0946512a491e07c15e1b37a2e8176086e061e9317ebff0c51877

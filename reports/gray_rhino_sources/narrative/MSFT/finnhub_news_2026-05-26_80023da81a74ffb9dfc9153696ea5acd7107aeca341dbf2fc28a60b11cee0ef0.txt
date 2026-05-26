@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stocks: SpaceX, OpenAI IPO Buzz Fuel Next Leg Of Rally. Salesforce, Snowflake Earnings Due.
+  summary: AI stocks rally amid SpaceX, OpenAI IPO buzz as investors eye surging demand for compute capacity and monetization.
+  url: https://finnhub.io/api/news?id=be3a0d1fa681e19360c0b8cd642e8348e6f2f59234685e4ff9e45a84c5827658

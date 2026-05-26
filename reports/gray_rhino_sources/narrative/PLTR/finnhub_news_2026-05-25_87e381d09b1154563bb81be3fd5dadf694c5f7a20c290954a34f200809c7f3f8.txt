@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Careful Consumer: What Q1 Earnings Reveal—And Where Cracks May Appear
+  summary: Retail earnings from Walmart, Home Depot, and TJX reveal a cautious consumer facing inflation, debt pressure, and economic uncertainty
+  url: https://finnhub.io/api/news?id=9afbd7d74ba0013545b82c0d6bcd28ba13955209a7ae09169bffc172d36bd157

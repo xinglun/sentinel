@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq Rebound: 3 Stocks to Buy Before They Hit New All-Time Highs
+  summary: These three stocks are well off their highs but could stage big rallies.
+  url: https://finnhub.io/api/news?id=4c1915e65cffd3e4256b65c40fe2dc8e268b36d7ad3e4ed7a91fed8ae201a9c6

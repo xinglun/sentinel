@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earn While You Hedge: 2 Safe Havens Built For Bear Markets
+  summary: We are close to a huge correction. Check out two efficient hedges offering necessary downside protection without significantly dragging down portfolio returns.
+  url: https://finnhub.io/api/news?id=7ebef3e2b167235afcb656127824c343a2a762133995de9648799f83255ef107

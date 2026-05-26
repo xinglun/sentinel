@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Is at a 40-to-1 CAPE Ratio Seen Only Twice Before. 1929 and 1999 Preceded Crashes.
+  summary: Although the S&P 500 has climbed roughly 9% year to date and about 28% over the past year, Wall Street is now sitting on a valuation signal it has only ever flashed twice before. Tom Bilyeu, speaking on the Impact Theory show, said there have only been two other times in history when the cyclically-adjusted ... The Stock Market Is at a 40-to-1 CAPE Ratio Seen Only Twice Before. 1929 and 1999 Preceded Crashes.
+  url: https://finnhub.io/api/news?id=3b21aa84c96c064067ba476994f49a18f53a39de01930430e35e5d4c767c7d7d

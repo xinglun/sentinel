@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nokia’s 140% Rally Turns AI Comeback Into Valuation Puzzle
+  summary: (Bloomberg) -- A rally in Nokia Oyj is forcing investors to reconsider the company not as an old telecom-equipment stock, but as part of the infrastructure underpinning the artificial intelligence boom.Most Read from BloombergNvidia CEO Urges Super Micro to Tighten Up on ComplianceTrump Doctor Visit Renews Health Scrutiny as 80th Birthday NearsTrump Says He’ll Announce Negotiated Deal With Iran ShortlyRubio Sees Good News Coming on Hormuz as Iran Talks ContinueUS, Iran Inch Toward Deal as Gaps R
+  url: https://finnhub.io/api/news?id=a97562cfabda67de1a42c417edcbaa24a11f44df6662c3f389e60191a86110e7

@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow, Nasdaq Futures Up Amid US 'Defensive Strikes' On Iran— Elbit Systems, Intuitive Machines, Zscaler In Focus (UPDATED)
+  summary: (Editor’s note: The future prices of benchmark tracking ETFs, and the headline were updated in the story.)
+
+
+
+U.S. stock futures rose on Tuesday, after a day’s break for Memorial Day, following a higher close on Friday.
+  url: https://finnhub.io/api/news?id=cddd96fd02911e3e09370c846a25e9cb28dee197888a2eabce765cfd03dc19fc

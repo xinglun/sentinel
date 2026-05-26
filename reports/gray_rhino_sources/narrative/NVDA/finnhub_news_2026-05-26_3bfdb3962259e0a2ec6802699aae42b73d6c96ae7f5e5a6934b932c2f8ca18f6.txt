@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These Are the AI Trades I'd Make Today if I Were Starting My Portfolio From Scratch
+  summary: Having a clean slate, so to speak, can bring overlooked investment prospects to the forefront.
+  url: https://finnhub.io/api/news?id=53824d410cd763d026b5aba0b754dc0000a43f7192765f14ec9dcd22cbb8c9e3
