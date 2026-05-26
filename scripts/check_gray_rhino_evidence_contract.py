@@ -110,6 +110,9 @@ def main() -> int:
         "grayRhinoSummaryUsesMonitoringStatuses: true",
         "grayRhinoSummaryActiveExcludesCoolingResolved: true",
         "grayRhinoSensorHealthScoreableReadinessEnabled: true",
+        "grayRhinoEvidenceReadValidationEnabled: true",
+        "grayRhinoEvidenceReadRejectedViewEnabled: true",
+        "grayRhinoInterfaceEvidenceEligibilityAllowed: false",
         "grayRhinoMissingSubjectRejection: MissingSubject",
         "fredThresholdCalibrationEnabled: true",
         "deterministicThresholdStatesEnabled: true",
@@ -362,6 +365,12 @@ def main() -> int:
     ]:
         if item in daily_report_app:
             errors.append(f"daily report application must not contain evidence projection policy `{item}`")
+    for item in [
+        "fn is_scoreable_evidence_record",
+        "GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating",
+    ]:
+        if item in report_interface:
+            errors.append(f"interface must not contain evidence eligibility policy `{item}`")
     for item in [
         "render_gray_rhino_inline_reference",
         "reference only",

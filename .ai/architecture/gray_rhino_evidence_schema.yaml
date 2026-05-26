@@ -163,6 +163,9 @@ grayRhinoSummaryUsesMonitoringStatuses: true
 grayRhinoSummaryActiveExcludesCoolingResolved: true
 grayRhinoSensorHealthScoreableReadinessEnabled: true
 grayRhinoSensorHealthSubjectlessEvidenceExcluded: true
+grayRhinoEvidenceReadValidationEnabled: true
+grayRhinoEvidenceReadRejectedViewEnabled: true
+grayRhinoInterfaceEvidenceEligibilityAllowed: false
 grayRhinoMissingSubjectRejection: MissingSubject
 grayRhinoRunStatusFields:
   - gray_rhino_collection

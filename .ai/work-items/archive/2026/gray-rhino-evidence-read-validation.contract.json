@@ -1,0 +1,114 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-evidence-read-validation",
+  "mode": "code",
+  "title": "Gray Rhino evidence read validation",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+    ".ai/work-items/active/gray-rhino-evidence-read-validation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "Persisted evidence read boundary must validate domain invariants."
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "Daily report repository must expose accepted and rejected evidence views."
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "Application must provide scoreable/rejected evidence classification to interface."
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Interface must format readiness without owning eligibility rules."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Persisted gray_rhino_evidence.jsonl records are revalidated at read boundary before formal assessment consumption.",
+    "Invalid persisted records are excluded from formal assessment and candidate projection, and are surfaced in rejected evidence audit view with rejection reason.",
+    "Sensor health/readiness uses application-provided scoreable evidence records and rejected evidence records; interface no longer implements evidence scoreability rules.",
+    "Regression tests cover invalid persisted ConfidenceOutOfRange, NarrativeOnly, and ForbiddenBoundaryTerm not triggering formal Gray Rhino state.",
+    "Contract/schema/checker document and enforce read validation and interface eligibility boundary.",
+    "make quality passes and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_invalid_confidence_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_narrative_only_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_forbidden_boundary_term_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_interface_does_not_own_evidence_scoreability --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-evidence-read-validation.summary.json CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-read-validation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-read-validation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

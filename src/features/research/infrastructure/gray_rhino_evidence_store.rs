@@ -11,7 +11,7 @@ use crate::features::research::domain::governance_source::{
     GovernanceExtractionAuditRecord, GovernanceSourceManifest,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord,
+    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoEvidenceRejection,
 };
 use anyhow::{Context, Result};
 use std::fs::{self, OpenOptions};
@@ -37,6 +37,50 @@ impl GrayRhinoEvidenceStore {
             dependency_audit_path: save_dir.join("gray_rhino_dependency_extraction_audit.jsonl"),
         }
     }
+
+    pub(crate) fn load_valid_evidence_records(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
+        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+            .into_iter()
+            .filter(|record| record.validate().is_ok())
+            .collect())
+    }
+
+    pub(crate) fn load_rejected_evidence_records(
+        &self,
+    ) -> Result<Vec<GrayRhinoRejectedEvidenceRecord>> {
+        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+            .into_iter()
+            .filter_map(|record| {
+                record
+                    .validate()
+                    .err()
+                    .map(|reason| GrayRhinoRejectedEvidenceRecord::from_record(record, reason))
+            })
+            .collect())
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct GrayRhinoRejectedEvidenceRecord {
+    pub subject: String,
+    pub category: Option<GrayRhinoEvidenceCategory>,
+    pub source_title: String,
+    pub observed_at: chrono::NaiveDate,
+    pub retrieved_at: chrono::NaiveDate,
+    pub reason: GrayRhinoEvidenceRejection,
+}
+
+impl GrayRhinoRejectedEvidenceRecord {
+    fn from_record(record: GrayRhinoEvidenceRecord, reason: GrayRhinoEvidenceRejection) -> Self {
+        Self {
+            subject: record.subject,
+            category: Some(record.category),
+            source_title: record.source.source_title,
+            observed_at: record.source.observed_at,
+            retrieved_at: record.source.retrieved_at,
+            reason,
+        }
+    }
 }
 
 impl GovernanceEvidenceRepository for GrayRhinoEvidenceStore {
@@ -59,7 +103,8 @@ impl GovernanceEvidenceRepository for GrayRhinoEvidenceStore {
     }
 
     fn load_governance_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
-        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+        Ok(self
+            .load_valid_evidence_records()?
             .into_iter()
             .filter(|record| record.category == GrayRhinoEvidenceCategory::GovernanceConcentration)
             .collect())
@@ -72,7 +117,8 @@ impl DependencyEvidenceRepository for GrayRhinoEvidenceStore {
     }
 
     fn load_dependency_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
-        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+        Ok(self
+            .load_valid_evidence_records()?
             .into_iter()
             .filter(|record| record.category == GrayRhinoEvidenceCategory::DependencyConcentration)
             .collect())
@@ -85,7 +131,8 @@ impl InstitutionalEvidenceRepository for GrayRhinoEvidenceStore {
     }
 
     fn load_institutional_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
-        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+        Ok(self
+            .load_valid_evidence_records()?
             .into_iter()
             .filter(|record| record.category == GrayRhinoEvidenceCategory::InstitutionalMaturity)
             .collect())
@@ -98,7 +145,8 @@ impl RedundancyEvidenceRepository for GrayRhinoEvidenceStore {
     }
 
     fn load_redundancy_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>> {
-        Ok(load_jsonl::<GrayRhinoEvidenceRecord>(&self.path)?
+        Ok(self
+            .load_valid_evidence_records()?
             .into_iter()
             .filter(|record| record.category == GrayRhinoEvidenceCategory::Redundancy)
             .collect())

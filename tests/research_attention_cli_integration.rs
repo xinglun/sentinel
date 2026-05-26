@@ -948,7 +948,7 @@ fn gray_rhino_completion_legacy_evidence_missing_risk_effect_is_visible() {
     let tmp = prepare_standard_workspace("zh-cn");
     fs::write(
         tmp.path().join("gray_rhino_evidence.jsonl"),
-        r#"{"category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Legacy dependency disclosure","publisher":"Example issuer","source_url":"https://example.com/legacy","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.86,"extraction_note":"Legacy record without risk effect.","structural_fact":"Dependency concentration is disclosed."}
+        r#"{"subject":"Example issuer","category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Legacy dependency disclosure","publisher":"Example issuer","source_url":"https://example.com/legacy","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.86,"extraction_note":"Legacy record without risk effect.","structural_fact":"Dependency concentration is disclosed."}
 "#,
     )
     .expect("failed to write legacy evidence");
@@ -1302,6 +1302,50 @@ fn gray_rhino_sensor_health_excludes_subjectless_evidence_from_readiness() {
 }
 
 #[test]
+fn gray_rhino_persisted_invalid_confidence_is_rejected_before_formal_assessment() {
+    assert_invalid_persisted_gray_rhino_evidence_is_rejected(
+        r#"{"subject":"GOOG","category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Invalid confidence dependency","publisher":"GOOG","source_url":"https://example.com/dependency","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":1.50,"risk_effect":"Amplifying","extraction_note":"Supplier disclosure identifies dependency concentration.","structural_fact":"Critical supplier dependency has no disclosed fallback."}
+"#,
+        "置信度超出范围",
+    );
+}
+
+#[test]
+fn gray_rhino_persisted_narrative_only_is_rejected_before_formal_assessment() {
+    assert_invalid_persisted_gray_rhino_evidence_is_rejected(
+        r#"{"subject":"GOOG","category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Narrative dependency","publisher":"GOOG","source_url":"https://example.com/dependency","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.95,"risk_effect":"Amplifying","extraction_note":"too successful to fail narrative","structural_fact":"too successful to fail"}
+"#,
+        "仅为叙事性表述",
+    );
+}
+
+#[test]
+fn gray_rhino_persisted_forbidden_boundary_term_is_rejected_before_formal_assessment() {
+    assert_invalid_persisted_gray_rhino_evidence_is_rejected(
+        r#"{"subject":"GOOG","category":"DependencyConcentration","source":{"source_type":"SupplierDisclosure","source_title":"Forbidden boundary dependency","publisher":"GOOG","source_url":"https://example.com/dependency","repository_path":null,"observed_at":"2026-05-25","retrieved_at":"2026-05-25"},"confidence":0.95,"risk_effect":"Amplifying","extraction_note":"Supplier disclosure identifies dependency concentration.","structural_fact":"Dependency risk is connected to sell decision."}
+"#,
+        "包含禁止边界词",
+    );
+}
+
+fn assert_invalid_persisted_gray_rhino_evidence_is_rejected(jsonl: &str, reason: &str) {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(tmp.path().join("gray_rhino_evidence.jsonl"), jsonl)
+        .expect("failed to write evidence store");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("风险升级评估: 尚无正式证据"));
+    assert!(stdout.contains("不可评分证据记录: 1"));
+    assert!(stdout.contains(reason));
+    assert!(!stdout.contains("状态: 风险扩张"));
+    assert!(!stdout.contains("scoreable average confidence: 1.50"));
+    assert!(!stdout.contains("依赖集中: 1 条证据记录, 准备度=就绪"));
+}
+
+#[test]
 fn gray_rhino_domain_policy_owns_discovery_and_assessment_rules() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let discovery_app =
@@ -1404,6 +1448,27 @@ fn gray_rhino_evidence_projection_policy_is_domain_owned() {
     assert!(
         checker.contains("daily report application must not contain evidence projection policy")
     );
+}
+
+#[test]
+fn gray_rhino_interface_does_not_own_evidence_scoreability() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let interface =
+        fs::read_to_string(root.join("src/features/research/interface/gray_rhino_report.rs"))
+            .expect("failed to read gray rhino report");
+    let application = fs::read_to_string(
+        root.join("src/features/research/application/gray_rhino_daily_report.rs"),
+    )
+    .expect("failed to read daily report app");
+    let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
+        .expect("failed to read contract checker");
+
+    assert!(!interface.contains("is_scoreable_evidence_record"));
+    assert!(
+        !interface.contains("GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating")
+    );
+    assert!(application.contains("scoreable_evidence_records"));
+    assert!(checker.contains("interface must not contain evidence eligibility policy"));
 }
 
 #[test]

@@ -47,6 +47,8 @@ Phase 4-D では monitoring state machine を導入する。state machine は `g
 
 Compact summary は monitoring status を唯一の状態ソースとして使う。`Visible`、`Expanding`、`Critical` だけを active とし、`Cooling` と `Resolved` は active candidate から除外して別枠で表示する。sensor health は ingestion coverage と scoreable readiness を混同しない。正式 scoring に使える scoreable evidence（subject があり、directional `risk_effect` を持つ record）で readiness、平均 confidence、source diversity、category coverage を計算し、subject 欠落や非 directional record は不可评分 record 数と理由として別表示する。
 
+Persisted evidence read boundary は Domain validation を再実行する。`gray_rhino_evidence.jsonl` から読み込んだ record は `GrayRhinoEvidenceRecord::validate()` を通過したものだけが formal assessment、resolved projection、sensor readiness の accepted / scoreable input になる。`ConfidenceOutOfRange`、`NarrativeOnly`、`ForbiddenBoundaryTerm`、`MissingSubject` などで拒否された record は silent drop せず、Daily report / Telegram appendix の sensor health に rejected evidence view と rejection reason として表示する。Interface は evidence eligibility rule を再実装せず、Application が渡す accepted / scoreable / rejected view を format するだけにする。
+
 monitoring state は `Gray Rhino Monitoring State` として Daily report に表示する。これは臨界点の接近を観察する reference であり、trade、Gate、execution、trend、market state を変更してはならない。
 
 Phase 4-E では FRED threshold calibration を導入する。FRED source adapter は `DGS10`、`T10Y2Y`、`FEDFUNDS`、`BAMLH0A0HYM2`、`WALCL`、`RRPONTSYD` を deterministic threshold assessment に変換し、rate pressure、yield curve constraint、credit stress、liquidity fragility、capex payback risk を `Visible`、`Expanding`、`Critical` の candidate state に投影する。

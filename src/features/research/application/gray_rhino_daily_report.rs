@@ -12,7 +12,8 @@ use crate::features::research::domain::gray_rhino_candidate::{
     GrayRhinoCandidate, GrayRhinoCandidateState,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
+    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoEvidenceRejection,
+    GrayRhinoRiskEffect,
 };
 use crate::features::research::domain::gray_rhino_evidence_projection_policy;
 use anyhow::Result;
@@ -25,6 +26,10 @@ pub(crate) trait GrayRhinoDailyReportRepository {
     ) -> Result<Option<GrayRhinoAssessmentSnapshot>>;
     fn save_snapshot_if_changed(&self, snapshot: &GrayRhinoAssessmentSnapshot) -> Result<()>;
     fn load_evidence_records(&self, as_of_date: NaiveDate) -> Result<Vec<GrayRhinoEvidenceRecord>>;
+    fn load_rejected_evidence_records(
+        &self,
+        as_of_date: NaiveDate,
+    ) -> Result<Vec<GrayRhinoEvidenceReadRejection>>;
     fn load_governance_audits(
         &self,
         as_of_date: NaiveDate,
@@ -72,6 +77,14 @@ pub(crate) struct GrayRhinoRefreshStatus {
     pub date: Option<String>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct GrayRhinoEvidenceReadRejection {
+    pub subject: String,
+    pub category: Option<GrayRhinoEvidenceCategory>,
+    pub source_title: String,
+    pub reason: GrayRhinoEvidenceRejection,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum GrayRhinoSnapshotPersistence {
     SaveIfChanged,
@@ -81,6 +94,8 @@ pub(crate) enum GrayRhinoSnapshotPersistence {
 pub(crate) struct GrayRhinoDailyReportViewModel {
     pub assessment: Option<GrayRhinoAssessment>,
     pub evidence_records: Vec<GrayRhinoEvidenceRecord>,
+    pub scoreable_evidence_records: Vec<GrayRhinoEvidenceRecord>,
+    pub rejected_evidence_records: Vec<GrayRhinoEvidenceReadRejection>,
     pub unclassified_record_count: usize,
     pub governance_audits: Vec<GovernanceExtractionAuditRecord>,
     pub display_candidates: Vec<GrayRhinoCandidate>,
@@ -108,6 +123,9 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
     ) -> Result<GrayRhinoDailyReportViewModel> {
         let previous = self.repository.load_previous_snapshot(as_of_date)?;
         let evidence_records = self.repository.load_evidence_records(as_of_date)?;
+        let rejected_evidence_records =
+            self.repository.load_rejected_evidence_records(as_of_date)?;
+        let scoreable_evidence_records = scoreable_evidence_records(&evidence_records);
         let unclassified_record_count = evidence_records
             .iter()
             .filter(|record| record.risk_effect == GrayRhinoRiskEffect::Unclassified)
@@ -141,6 +159,8 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
         Ok(GrayRhinoDailyReportViewModel {
             assessment,
             evidence_records,
+            scoreable_evidence_records,
+            rejected_evidence_records,
             unclassified_record_count,
             governance_audits: self.repository.load_governance_audits(as_of_date)?,
             display_candidates,
@@ -150,6 +170,19 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             refresh_status: self.repository.load_refresh_status(as_of_date),
         })
     }
+}
+
+fn scoreable_evidence_records(records: &[GrayRhinoEvidenceRecord]) -> Vec<GrayRhinoEvidenceRecord> {
+    records
+        .iter()
+        .filter(|record| {
+            matches!(
+                record.risk_effect,
+                GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating
+            )
+        })
+        .cloned()
+        .collect()
 }
 
 fn dedupe_candidates(candidates: Vec<GrayRhinoCandidate>) -> Vec<GrayRhinoCandidate> {

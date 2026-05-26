@@ -1,11 +1,8 @@
-use crate::features::research::application::dependency_evidence::DependencyEvidenceRepository;
-use crate::features::research::application::governance_evidence::GovernanceEvidenceRepository;
 use crate::features::research::application::governance_source_pipeline::GovernanceSourceAuditRepository;
 use crate::features::research::application::gray_rhino_daily_report::{
-    BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportRepository, GrayRhinoRefreshStatus,
+    BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportRepository,
+    GrayRhinoEvidenceReadRejection, GrayRhinoRefreshStatus,
 };
-use crate::features::research::application::institutional_evidence::InstitutionalEvidenceRepository;
-use crate::features::research::application::redundancy_evidence::RedundancyEvidenceRepository;
 use crate::features::research::domain::governance_source::GovernanceExtractionAuditRecord;
 use crate::features::research::domain::gray_rhino::GrayRhinoAssessmentSnapshot;
 use crate::features::research::domain::gray_rhino_candidate::{
@@ -46,14 +43,28 @@ impl GrayRhinoDailyReportRepository for FileGrayRhinoDailyReportRepository {
 
     fn load_evidence_records(&self, as_of_date: NaiveDate) -> Result<Vec<GrayRhinoEvidenceRecord>> {
         let store = GrayRhinoEvidenceStore::new(&self.save_dir);
-        let mut records = store.load_governance_evidence()?;
-        records.extend(store.load_dependency_evidence()?);
-        records.extend(store.load_institutional_evidence()?);
-        records.extend(store.load_redundancy_evidence()?);
-        Ok(records
+        Ok(store
+            .load_valid_evidence_records()?
             .into_iter()
             .filter(|record| {
                 record.source.observed_at <= as_of_date && record.source.retrieved_at <= as_of_date
+            })
+            .collect())
+    }
+
+    fn load_rejected_evidence_records(
+        &self,
+        as_of_date: NaiveDate,
+    ) -> Result<Vec<GrayRhinoEvidenceReadRejection>> {
+        Ok(GrayRhinoEvidenceStore::new(&self.save_dir)
+            .load_rejected_evidence_records()?
+            .into_iter()
+            .filter(|record| record.observed_at <= as_of_date && record.retrieved_at <= as_of_date)
+            .map(|record| GrayRhinoEvidenceReadRejection {
+                subject: record.subject,
+                category: record.category,
+                source_title: record.source_title,
+                reason: record.reason,
             })
             .collect())
     }

@@ -18,9 +18,7 @@ use crate::features::research::domain::gray_rhino::{
 use crate::features::research::domain::gray_rhino_candidate::{
     GrayRhinoCandidate, GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
 };
-use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
-};
+use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceCategory;
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
@@ -475,13 +473,14 @@ fn render_multi_category_sensor_health(
     language: Language,
 ) -> String {
     let records = &view_model.evidence_records;
-    let scoreable_records = records
-        .iter()
-        .filter(|record| is_scoreable_evidence_record(record))
-        .collect::<Vec<_>>();
-    let excluded_count = records.len().saturating_sub(scoreable_records.len());
+    let scoreable_records = &view_model.scoreable_evidence_records;
+    let excluded_count = records.len().saturating_sub(scoreable_records.len())
+        + view_model.rejected_evidence_records.len();
     let governance = render_governance_sensor_health(&view_model.governance_audits, language);
-    if records.is_empty() && governance.is_empty() {
+    if records.is_empty()
+        && view_model.rejected_evidence_records.is_empty()
+        && governance.is_empty()
+    {
         return String::new();
     }
     let mut out = String::new();
@@ -541,6 +540,13 @@ fn render_multi_category_sensor_health(
             excluded_count,
             excluded_evidence_reason_label(language)
         ));
+        for rejection in &view_model.rejected_evidence_records {
+            out.push_str(&format!(
+                "  - {}: {}\n",
+                rejection.source_title,
+                evidence_rejection_reason_label(&format!("{:?}", rejection.reason), language)
+            ));
+        }
     }
     for category in categories {
         let count = scoreable_records
@@ -574,14 +580,6 @@ fn render_multi_category_sensor_health(
         out.push_str(&ops_view);
     }
     out
-}
-
-fn is_scoreable_evidence_record(record: &GrayRhinoEvidenceRecord) -> bool {
-    !record.subject.trim().is_empty()
-        && matches!(
-            record.risk_effect,
-            GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating
-        )
 }
 
 fn render_backfill_ops_view(
@@ -1550,6 +1548,24 @@ fn excluded_evidence_reason_label(language: Language) -> &'static str {
         Language::ZhCn => "缺少主体或风险作用不可用于正式评分",
         Language::EnUs => "missing subject or risk effect is not scoreable",
         Language::JaJp => "主体欠落またはリスク作用が正式採点対象外",
+    }
+}
+
+fn evidence_rejection_reason_label(reason: &str, language: Language) -> String {
+    match (reason, language) {
+        ("ConfidenceOutOfRange", Language::ZhCn) => "置信度超出范围".to_string(),
+        ("ConfidenceOutOfRange", Language::EnUs) => "confidence out of range".to_string(),
+        ("ConfidenceOutOfRange", Language::JaJp) => "信頼度が範囲外".to_string(),
+        ("NarrativeOnly", Language::ZhCn) => "仅为叙事性表述".to_string(),
+        ("NarrativeOnly", Language::EnUs) => "narrative-only record".to_string(),
+        ("NarrativeOnly", Language::JaJp) => "叙述のみの記録".to_string(),
+        ("ForbiddenBoundaryTerm", Language::ZhCn) => "包含禁止边界词".to_string(),
+        ("ForbiddenBoundaryTerm", Language::EnUs) => "forbidden boundary term".to_string(),
+        ("ForbiddenBoundaryTerm", Language::JaJp) => "禁止された境界語".to_string(),
+        ("MissingSubject", Language::ZhCn) => "缺少主体".to_string(),
+        ("MissingSubject", Language::EnUs) => "missing subject".to_string(),
+        ("MissingSubject", Language::JaJp) => "主体が欠落".to_string(),
+        (other, _) => other.to_string(),
     }
 }
 

@@ -1,0 +1,133 @@
+{
+  "workItemId": "gray-rhino-evidence-read-validation",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-evidence-read-validation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+      "reason": "Work Item scope、acceptance、verification を evidence read validation task に合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-evidence-read-validation.summary.json",
+      "reason": "実装内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "persisted evidence read validation、rejected view、interface eligibility 禁止の schema flag を追加した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "JSONL 読み込み時の Domain validation と rejected evidence audit view を契約化した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "persisted read boundary の invariant 再検証と Interface formatting 境界を明記した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "schema flag と Interface eligibility policy 禁止を hard gate に追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "ViewModel に scoreable / rejected evidence read model を追加し、Interface へ分類済み情報を渡すようにした。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "Daily report repository が validated accepted records と rejected records を as-of date で返すようにした。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+      "reason": "gray_rhino_evidence.jsonl 読み込み時に GrayRhinoEvidenceRecord::validate() を再実行し、invalid records を rejection reason 付きで保持する read API を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Interface 内の scoreability 判定を削除し、Application から渡された scoreable / rejected view を表示するだけにした。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "invalid persisted evidence が formal assessment を起動せず rejected reason として表示される回帰テストと Interface boundary テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+    "src/features/research/infrastructure/gray_rhino_evidence_store.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_invalid_confidence_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_narrative_only_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_persisted_forbidden_boundary_term_is_rejected_before_formal_assessment --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test gray_rhino_interface_does_not_own_evidence_scoreability --test research_attention_cli_integration",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-evidence-read-validation.summary.json CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-read-validation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-evidence-read-validation.contract.json SUMMARY=.ai/work-items/active/gray-rhino-evidence-read-validation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "persisted invalid evidence is rejected before formal assessment; residual risk is limited to future schema changes requiring checker updates."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make quality initially failed because the generated summary skeleton had not yet recorded required verification results; summary was updated before rerunning AI checks.",
+    "Existing legacy missing-risk-effect fixture lacked subject and now correctly falls under MissingSubject; fixture was narrowed to the intended missing risk_effect case by adding subject."
+  ]
+}
