@@ -414,6 +414,8 @@ fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Evidence-backed sensor store"));
+    assert!(stdout.contains("Gray Rhino Temperature Change"));
+    assert!(stdout.contains("Evidence acceleration: RISING"));
     assert!(stdout.contains("Gray Rhino Sensor Health"));
     assert!(stdout.contains("Dependency Concentration: 1 evidence record"));
     assert!(stdout.contains("It does not generate trading signals."));

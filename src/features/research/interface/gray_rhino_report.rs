@@ -21,6 +21,9 @@ use crate::features::research::domain::gray_rhino_candidate::{
 use crate::features::research::domain::gray_rhino_evidence::{
     GrayRhinoEvidenceCategory, GrayRhinoEvidenceRejection,
 };
+use crate::features::research::domain::gray_rhino_temporal_policy::{
+    GrayRhinoTemporalSummary, InstitutionalResponseState, TemporalTrend,
+};
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
@@ -97,6 +100,11 @@ fn build_gray_rhino_daily_report_with_persistence(
     } else {
         gray_rhino_empty(language).to_string()
     };
+    let temporal_summary = render_temporal_summary(&view_model.temporal_summary, language);
+    if !temporal_summary.is_empty() {
+        report.push_str("\n\n");
+        report.push_str(&temporal_summary);
+    }
     let sensor_health = render_multi_category_sensor_health(&view_model, language);
     if !sensor_health.is_empty() {
         report.push_str("\n\n");
@@ -581,6 +589,58 @@ fn render_multi_category_sensor_health(
         out.push('\n');
         out.push_str(&ops_view);
     }
+    out
+}
+
+fn render_temporal_summary(summary: &GrayRhinoTemporalSummary, language: Language) -> String {
+    let has_velocity = summary.escalation_velocity.is_some();
+    let has_evidence_motion = summary.evidence_acceleration.recent_count > 0
+        || summary.evidence_acceleration.prior_count > 0;
+    let has_institutional_response =
+        summary.institutional_response.state != InstitutionalResponseState::NoData;
+    if !has_velocity && !has_evidence_motion && !has_institutional_response {
+        return String::new();
+    }
+
+    let mut out = String::new();
+    out.push_str(temporal_summary_heading(language));
+    out.push('\n');
+    if let Some(velocity) = &summary.escalation_velocity {
+        out.push_str(&format!(
+            "- {}: {} ({} {}, {} {}, {} {})\n",
+            escalation_velocity_label(language),
+            temporal_trend_label(velocity.trend),
+            delta_score_label(language),
+            velocity.delta_score,
+            delta_days_label(language),
+            velocity.delta_days,
+            changed_dimensions_count_label(language),
+            velocity.changed_dimension_count
+        ));
+    }
+    if has_evidence_motion {
+        out.push_str(&format!(
+            "- {}: {} ({} {}, {} {})\n",
+            evidence_acceleration_label(language),
+            temporal_trend_label(summary.evidence_acceleration.trend),
+            recent_window_count_label(language),
+            summary.evidence_acceleration.recent_count,
+            prior_window_count_label(language),
+            summary.evidence_acceleration.prior_count
+        ));
+    }
+    if has_institutional_response {
+        out.push_str(&format!(
+            "- {}: {} ({} {}, {} {})\n",
+            institutional_response_label(language),
+            institutional_response_state_label(summary.institutional_response.state),
+            mitigating_evidence_count_label(language),
+            summary.institutional_response.mitigating_count,
+            amplifying_gap_count_label(language),
+            summary.institutional_response.amplifying_count
+        ));
+    }
+    out.push_str(temporal_summary_boundary(language));
     out
 }
 
@@ -1478,6 +1538,125 @@ fn sensor_health_heading(language: Language) -> &'static str {
         Language::ZhCn => "灰犀牛传感器健康度",
         Language::EnUs => "Gray Rhino Sensor Health",
         Language::JaJp => "灰色のサイセンサー健全性",
+    }
+}
+
+fn temporal_summary_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "灰犀牛温度变化（只读参考）",
+        Language::EnUs => "Gray Rhino Temperature Change (Reference Only)",
+        Language::JaJp => "灰色のサイ温度変化（参照のみ）",
+    }
+}
+
+fn escalation_velocity_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "升级速度",
+        Language::EnUs => "Escalation velocity",
+        Language::JaJp => "エスカレーション速度",
+    }
+}
+
+fn evidence_acceleration_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "证据加速度",
+        Language::EnUs => "Evidence acceleration",
+        Language::JaJp => "証拠加速度",
+    }
+}
+
+fn institutional_response_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "制度响应",
+        Language::EnUs => "Institutional response",
+        Language::JaJp => "制度対応",
+    }
+}
+
+fn delta_score_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "分数变化",
+        Language::EnUs => "delta score",
+        Language::JaJp => "スコア変化",
+    }
+}
+
+fn delta_days_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "天数",
+        Language::EnUs => "days",
+        Language::JaJp => "日数",
+    }
+}
+
+fn changed_dimensions_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "变化维度",
+        Language::EnUs => "changed dimensions",
+        Language::JaJp => "変化次元",
+    }
+}
+
+fn recent_window_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "近期",
+        Language::EnUs => "recent",
+        Language::JaJp => "直近",
+    }
+}
+
+fn prior_window_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "前窗",
+        Language::EnUs => "prior",
+        Language::JaJp => "前期間",
+    }
+}
+
+fn mitigating_evidence_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "缓解证据",
+        Language::EnUs => "mitigating evidence",
+        Language::JaJp => "緩和証拠",
+    }
+}
+
+fn amplifying_gap_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "放大缺口",
+        Language::EnUs => "amplifying gaps",
+        Language::JaJp => "増幅ギャップ",
+    }
+}
+
+fn temporal_summary_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "边界: 温度变化只说明结构风险是否升温，不更新 Gate、execution、trend 或交易状态。"
+        }
+        Language::EnUs => {
+            "Boundary: temperature change only describes structural risk motion; it does not update Gate, execution, trend, or trading state."
+        }
+        Language::JaJp => {
+            "境界: 温度変化は構造リスクの動きだけを示し、Gate、execution、trend、取引状態を更新しない。"
+        }
+    }
+}
+
+fn temporal_trend_label(trend: TemporalTrend) -> &'static str {
+    match trend {
+        TemporalTrend::Rising => "RISING",
+        TemporalTrend::Stable => "STABLE",
+        TemporalTrend::Falling => "FALLING",
+    }
+}
+
+fn institutional_response_state_label(state: InstitutionalResponseState) -> &'static str {
+    match state {
+        InstitutionalResponseState::Strong => "STRONG",
+        InstitutionalResponseState::Adequate => "ADEQUATE",
+        InstitutionalResponseState::Weak => "WEAK",
+        InstitutionalResponseState::NoData => "NO_DATA",
     }
 }
 

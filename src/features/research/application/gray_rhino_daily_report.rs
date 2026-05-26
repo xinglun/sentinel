@@ -16,6 +16,9 @@ use crate::features::research::domain::gray_rhino_evidence::{
     GrayRhinoRiskEffect,
 };
 use crate::features::research::domain::gray_rhino_evidence_projection_policy;
+use crate::features::research::domain::gray_rhino_temporal_policy::{
+    build_temporal_summary, GrayRhinoTemporalSummary,
+};
 use anyhow::Result;
 use chrono::NaiveDate;
 
@@ -103,6 +106,7 @@ pub(crate) struct GrayRhinoDailyReportViewModel {
     pub governance_audits: Vec<GovernanceExtractionAuditRecord>,
     pub display_candidates: Vec<GrayRhinoCandidate>,
     pub monitoring_statuses: Vec<GrayRhinoMonitoringStatus>,
+    pub temporal_summary: GrayRhinoTemporalSummary,
     pub backfill_ops_view: Option<BackfillOpsSummary>,
     pub discovery_ops_view: Option<DiscoveryOpsSummary>,
     pub refresh_status: Option<GrayRhinoRefreshStatus>,
@@ -159,6 +163,8 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
         let display_candidates = dedupe_candidates(auto_candidates.clone());
         let monitoring_statuses =
             evaluate_gray_rhino_monitoring_states(&auto_candidates, as_of_date);
+        let temporal_summary =
+            build_temporal_summary(assessment.as_ref(), &scoreable_evidence_records, as_of_date);
         Ok(GrayRhinoDailyReportViewModel {
             assessment,
             evidence_records,
@@ -168,6 +174,7 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             governance_audits: self.repository.load_governance_audits(as_of_date)?,
             display_candidates,
             monitoring_statuses,
+            temporal_summary,
             backfill_ops_view: self.repository.load_backfill_ops_view(as_of_date),
             discovery_ops_view: self.repository.load_discovery_ops_view(as_of_date),
             refresh_status: self.repository.load_refresh_status(as_of_date),
