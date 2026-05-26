@@ -1525,6 +1525,30 @@ fn gray_rhino_interface_does_not_own_evidence_scoreability() {
 }
 
 #[test]
+fn gray_rhino_typed_validators_reuse_category_source_type_policy() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let domain =
+        fs::read_to_string(root.join("src/features/research/domain/gray_rhino_evidence.rs"))
+            .expect("failed to read evidence domain");
+    let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
+        .expect("failed to read contract checker");
+
+    assert_eq!(
+        domain
+            .matches("fn source_type_allowed_for_category")
+            .count(),
+        1
+    );
+    assert!(domain.contains("fn validate_source_type_for_category"));
+    assert_eq!(
+        domain.matches("validate_source_type_for_category(").count(),
+        6
+    );
+    assert!(!domain.contains("if !matches!(\n            self.source.source_type"));
+    assert!(checker.contains("typed evidence validators must reuse category source type policy"));
+}
+
+#[test]
 fn gray_rhino_refresh_make_target_runs_collectors_before_daily_report() {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");

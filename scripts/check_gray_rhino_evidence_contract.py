@@ -118,6 +118,7 @@ def main() -> int:
         "grayRhinoSensorHealthScoreableReadinessEnabled: true",
         "grayRhinoEvidenceReadValidationEnabled: true",
         "grayRhinoEvidenceReadCategorySourceValidationEnabled: true",
+        "grayRhinoEvidenceCategorySourceTypeSsotEnabled: true",
         "grayRhinoEvidenceReadRejectedViewEnabled: true",
         "grayRhinoEvidenceReadBatchEnabled: true",
         "grayRhinoRejectedReasonI18nCoverageEnabled: true",
@@ -381,11 +382,16 @@ def main() -> int:
         if item in report_interface:
             errors.append(f"interface must not contain evidence eligibility policy `{item}`")
     for item in [
+        "validate_source_type_for_category",
         "source_type_allowed_for_category",
         "UnsupportedSourceType",
     ]:
         if item not in domain:
             errors.append(f"evidence domain missing category source validation `{item}`")
+    if domain.count("fn source_type_allowed_for_category") != 1:
+        errors.append("evidence domain must define exactly one category/source_type allowlist")
+    if "if !matches!(\n            self.source.source_type" in domain:
+        errors.append("typed evidence validators must reuse category source type policy")
     for item in [
         "GrayRhinoEvidenceReadBatch",
         "load_evidence_read_batch",

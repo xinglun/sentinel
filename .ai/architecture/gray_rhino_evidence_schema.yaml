@@ -165,6 +165,7 @@ grayRhinoSensorHealthScoreableReadinessEnabled: true
 grayRhinoSensorHealthSubjectlessEvidenceExcluded: true
 grayRhinoEvidenceReadValidationEnabled: true
 grayRhinoEvidenceReadCategorySourceValidationEnabled: true
+grayRhinoEvidenceCategorySourceTypeSsotEnabled: true
 grayRhinoEvidenceReadRejectedViewEnabled: true
 grayRhinoEvidenceReadBatchEnabled: true
 grayRhinoRejectedReasonI18nCoverageEnabled: true

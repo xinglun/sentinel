@@ -183,9 +183,7 @@ impl GrayRhinoEvidenceRecord {
         if self.structural_fact.trim().is_empty() {
             return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
         }
-        if !source_type_allowed_for_category(self.category, self.source.source_type) {
-            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
-        }
+        validate_source_type_for_category(self.category, self.source.source_type)?;
         if !(0.0..=1.0).contains(&self.confidence) {
             return Err(GrayRhinoEvidenceRejection::ConfidenceOutOfRange);
         }
@@ -198,6 +196,17 @@ impl GrayRhinoEvidenceRecord {
             return Err(GrayRhinoEvidenceRejection::ForbiddenBoundaryTerm);
         }
         Ok(())
+    }
+}
+
+fn validate_source_type_for_category(
+    category: GrayRhinoEvidenceCategory,
+    source_type: GrayRhinoEvidenceSourceType,
+) -> Result<(), GrayRhinoEvidenceRejection> {
+    if source_type_allowed_for_category(category, source_type) {
+        Ok(())
+    } else {
+        Err(GrayRhinoEvidenceRejection::UnsupportedSourceType)
     }
 }
 
@@ -253,15 +262,10 @@ impl GovernanceConcentrationEvidence {
         if self.subject.trim().is_empty() {
             return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
-        if !matches!(
+        validate_source_type_for_category(
+            GrayRhinoEvidenceCategory::GovernanceConcentration,
             self.source.source_type,
-            GrayRhinoEvidenceSourceType::RegulatoryFiling
-                | GrayRhinoEvidenceSourceType::GovernanceDocument
-                | GrayRhinoEvidenceSourceType::CompanyDisclosure
-                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
-        ) {
-            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
-        }
+        )?;
         if !self.metrics.has_any_metric() {
             return Err(GrayRhinoEvidenceRejection::MissingGovernanceMetric);
         }
@@ -325,16 +329,10 @@ impl DependencyConcentrationEvidence {
         if self.subject.trim().is_empty() {
             return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
-        if !matches!(
+        validate_source_type_for_category(
+            GrayRhinoEvidenceCategory::DependencyConcentration,
             self.source.source_type,
-            GrayRhinoEvidenceSourceType::CompanyDisclosure
-                | GrayRhinoEvidenceSourceType::InfrastructureStatus
-                | GrayRhinoEvidenceSourceType::SupplierDisclosure
-                | GrayRhinoEvidenceSourceType::IndependentAudit
-                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
-        ) {
-            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
-        }
+        )?;
         if !self.metrics.has_any_metric() {
             return Err(GrayRhinoEvidenceRejection::MissingDependencyMetric);
         }
@@ -391,16 +389,10 @@ impl InstitutionalMaturityEvidence {
         if self.subject.trim().is_empty() {
             return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
-        if !matches!(
+        validate_source_type_for_category(
+            GrayRhinoEvidenceCategory::InstitutionalMaturity,
             self.source.source_type,
-            GrayRhinoEvidenceSourceType::RegulatoryFiling
-                | GrayRhinoEvidenceSourceType::GovernanceDocument
-                | GrayRhinoEvidenceSourceType::CompanyDisclosure
-                | GrayRhinoEvidenceSourceType::IndependentAudit
-                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
-        ) {
-            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
-        }
+        )?;
         if !self.metrics.has_any_metric() {
             return Err(GrayRhinoEvidenceRejection::MissingInstitutionalMetric);
         }
@@ -468,16 +460,10 @@ impl RedundancyEvidence {
         if self.subject.trim().is_empty() {
             return Err(GrayRhinoEvidenceRejection::MissingSubject);
         }
-        if !matches!(
+        validate_source_type_for_category(
+            GrayRhinoEvidenceCategory::Redundancy,
             self.source.source_type,
-            GrayRhinoEvidenceSourceType::InfrastructureStatus
-                | GrayRhinoEvidenceSourceType::SupplierDisclosure
-                | GrayRhinoEvidenceSourceType::IndependentAudit
-                | GrayRhinoEvidenceSourceType::CompanyDisclosure
-                | GrayRhinoEvidenceSourceType::OperatorCuratedSource
-        ) {
-            return Err(GrayRhinoEvidenceRejection::UnsupportedSourceType);
-        }
+        )?;
         if !self.metrics.has_any_metric() {
             return Err(GrayRhinoEvidenceRejection::MissingRedundancyMetric);
         }

@@ -1,0 +1,93 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-source-type-ssot",
+  "mode": "code",
+  "title": "Gray Rhino source type SSOT",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+    ".ai/work-items/active/gray-rhino-source-type-ssot.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "Category/source_type allowlist must be a single domain SSOT used by flat and typed validators."
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "Hard gate should prevent duplicated typed validator source allowlists from drifting."
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Regression test should assert typed validators reuse the domain source type policy."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Category/source_type allowlist is represented once in Domain and reused by GrayRhinoEvidenceRecord::validate().",
+    "Governance, Dependency, Institutional, and Redundancy typed evidence validators reuse the same category/source type policy instead of duplicating matches! allowlists.",
+    "Checker/test coverage prevents reintroducing duplicated typed validator source type allowlists.",
+    "Contract/schema/docs reflect the category source type SSOT rule.",
+    "make quality passes and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_typed_validators_reuse_category_source_type_policy --test research_attention_cli_integration",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-source-type-ssot.summary.json CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-type-ssot.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-source-type-ssot.contract.json SUMMARY=.ai/work-items/active/gray-rhino-source-type-ssot.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

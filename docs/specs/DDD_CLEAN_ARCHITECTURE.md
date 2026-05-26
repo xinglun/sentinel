@@ -59,7 +59,7 @@ Application は Domain を操作し、外部との接点は port trait で表現
 Application は filesystem / network IO を直接行わない。永続化、外部 API、ファイル出力は Infrastructure または Interface composition から接続する。
 Application は user-facing report / Telegram / CLI 文言や Markdown template を生成しない。候補、状態、DTO、read model だけを返し、表示文言と boundary statement は `src/features/<feature>/interface/**` の presenter が所有する。
 Application は分類閾値、risk lifecycle state 判定、evidence の effective state 归约、互補 evidence category の subject pairing、mitigating evidence から resolved lifecycle event への投影条件などの業務 policy を所有しない。これらは `src/features/<feature>/domain/**` の domain service に置き、Application は port、repository、use case の orchestration に限定する。
-Infrastructure の persisted read boundary は、Domain entity / value object の invariant と category 固有の source type 契約を再検証してから Application へ渡す。accepted / rejected view は同じ read batch から組み立てる。Interface は scoreable / accepted / rejected の eligibility rule を再実装せず、Application が組み立てた read model と localized rejection label を表示する。
+Infrastructure の persisted read boundary は、Domain entity / value object の invariant と category 固有の source type 契約を再検証してから Application へ渡す。category/source type の許可表は Domain policy を SSOT とし、flat persisted record と typed evidence validator は同じ policy を使う。accepted / rejected view は同じ read batch から組み立てる。Interface は scoreable / accepted / rejected の eligibility rule を再実装せず、Application が組み立てた read model と localized rejection label を表示する。
 ACL は raw protocol を正規化する adapter と、許可された infrastructure 実装を composition root へ公開する gateway facade だけを持つ。判断 policy、formatting、business rule は ACL に置かない。
 
 ## Bounded Contexts
