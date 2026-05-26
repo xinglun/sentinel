@@ -554,9 +554,12 @@ mod tests {
             context.save_dir(),
             std::path::Path::new("target/radar-test")
         );
-        assert_eq!(context.date_string(), "2026-05-24");
-        assert!(context.timestamp.contains("2026-05-24T09:30:00"));
-        assert_eq!(outcome.date, "2026-05-24");
+        let expected_date = now.date_naive().to_string();
+        let parsed_timestamp = chrono::DateTime::parse_from_rfc3339(&context.timestamp).unwrap();
+
+        assert_eq!(context.date_string(), expected_date);
+        assert_eq!(parsed_timestamp.timestamp(), now.timestamp());
+        assert_eq!(outcome.date, expected_date);
         assert_eq!(
             outcome.evidence_collection,
             crate::features::shared::application::run_status::DeliveryStatus::Skipped

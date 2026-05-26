@@ -556,10 +556,13 @@ fn radar_application_run_context_builds_initial_status_metadata() {
         stock_sentinel::features::shared::application::run_status::DeliveryStatus::Skipped,
     );
 
+    let expected_date = now.date_naive().to_string();
+    let parsed_timestamp = chrono::DateTime::parse_from_rfc3339(&outcome.timestamp).unwrap();
+
     assert_eq!(context.save_dir(), std::path::Path::new("target/run"));
-    assert_eq!(context.date_string(), "2026-05-24");
-    assert_eq!(outcome.date, "2026-05-24");
-    assert!(outcome.timestamp.contains("2026-05-24T10:15:00"));
+    assert_eq!(context.date_string(), expected_date);
+    assert_eq!(outcome.date, expected_date);
+    assert_eq!(parsed_timestamp.timestamp(), now.timestamp());
     assert_eq!(
         outcome.evidence_collection,
         stock_sentinel::features::shared::application::run_status::DeliveryStatus::Skipped
