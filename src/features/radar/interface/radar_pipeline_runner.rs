@@ -19,7 +19,9 @@ use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
     load_latest_evidence_collection_status, send_telegram_with_status,
 };
-use crate::features::shared::application::run_status::DeliveryStatus;
+use crate::features::shared::application::run_status::{
+    DeliveryStatus, GrayRhinoCollectionStatus, GrayRhinoProviderStatus,
+};
 
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
@@ -254,41 +256,64 @@ fn append_gray_rhino_appendix(report_result: &mut report::ReportResult, appendix
 fn load_gray_rhino_collection_status(
     save_dir: &std::path::Path,
     as_of_date: chrono::NaiveDate,
-) -> DeliveryStatus {
+) -> GrayRhinoCollectionStatus {
     let value = std::fs::read_to_string(save_dir.join("gray_rhino_refresh_status_latest.json"))
         .ok()
         .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok());
     let Some(value) = value else {
-        return DeliveryStatus::Skipped;
+        return GrayRhinoCollectionStatus {
+            status: "skipped".to_string(),
+            ..Default::default()
+        };
     };
     let date = value
         .get("date")
         .and_then(|value| value.as_str())
         .and_then(|raw| chrono::NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok());
     if date != Some(as_of_date) {
-        return DeliveryStatus::Skipped;
+        return GrayRhinoCollectionStatus {
+            status: "skipped".to_string(),
+            ..Default::default()
+        };
     }
     let status = value
         .get("status")
         .and_then(|value| value.as_str())
         .unwrap_or("unknown");
-    match status {
-        "succeeded" => DeliveryStatus::Succeeded,
-        "skipped" => DeliveryStatus::Skipped,
-        "failed" | "partial_failure" => DeliveryStatus::Failed {
-            reason: format!(
-                "{}: {}",
-                status,
-                value
-                    .get("failed_providers")
-                    .and_then(|value| value.as_str())
-                    .unwrap_or("")
-                    .trim()
-            ),
-        },
-        other => DeliveryStatus::Failed {
-            reason: format!("unknown Gray Rhino refresh status: {other}"),
-        },
+    GrayRhinoCollectionStatus {
+        status: status.to_string(),
+        date: value
+            .get("date")
+            .and_then(|value| value.as_str())
+            .map(str::to_string),
+        sec: provider_status(&value, "sec"),
+        finnhub: provider_status(&value, "finnhub"),
+        fred: provider_status(&value, "fred"),
+        failed_providers: value
+            .get("failed_providers")
+            .and_then(|value| value.as_str())
+            .unwrap_or("")
+            .split_whitespace()
+            .map(str::to_string)
+            .collect(),
+    }
+}
+
+fn provider_status(value: &serde_json::Value, provider: &str) -> GrayRhinoProviderStatus {
+    GrayRhinoProviderStatus {
+        status: value
+            .get(provider)
+            .and_then(|value| value.as_str())
+            .unwrap_or("unknown")
+            .to_string(),
+        accepted: value
+            .get(format!("{provider}_accepted"))
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0),
+        rejected: value
+            .get(format!("{provider}_rejected"))
+            .and_then(|value| value.as_u64())
+            .unwrap_or(0),
     }
 }
 

@@ -1189,6 +1189,7 @@ fn gray_rhino_report_single_language_snapshots() {
                 "source 数",
                 "Evidence 解释图",
                 "失败 provider",
+                "fallback",
             ],
         ),
         (
@@ -1204,6 +1205,7 @@ fn gray_rhino_report_single_language_snapshots() {
                 "平均 confidence",
                 "source 数",
                 "Evidence 説明",
+                "fallback",
             ],
         ),
     ] {
@@ -1236,6 +1238,65 @@ fn gray_rhino_report_single_language_snapshots() {
             );
         }
     }
+}
+
+#[test]
+fn gray_rhino_report_blocks_fallback_mixed_language() {
+    let tmp = prepare_standard_workspace("zh-cn");
+    fs::write(
+        tmp.path().join("gray_rhino_candidates.jsonl"),
+        r#"{"scope":"Company","kind":"DependencyConcentration","subject":"GOOG","state":"Visible","evidence":["Single dependency or missing fallback detected."],"watch_triggers":["fallback disclosure change"],"source_title":"Dependency disclosure","observed_at":"2026-05-25","source_published_at":"2026-05-25","last_confirmed_at":"2026-05-25","resolved_at":null}
+"#,
+    )
+    .expect("failed to write candidates");
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("后备路径"));
+    assert!(!stdout.contains("fallback"));
+}
+
+#[test]
+fn gray_rhino_domain_policy_owns_discovery_and_assessment_rules() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let discovery_app =
+        fs::read_to_string(root.join("src/features/research/application/gray_rhino_discovery.rs"))
+            .expect("failed to read discovery app");
+    let discovery_policy = fs::read_to_string(
+        root.join("src/features/research/domain/gray_rhino_discovery_policy.rs"),
+    )
+    .expect("failed to read discovery policy");
+    let assessment_app =
+        fs::read_to_string(root.join("src/features/research/application/gray_rhino_assessment.rs"))
+            .expect("failed to read assessment app");
+    let assessment_policy = fs::read_to_string(
+        root.join("src/features/research/domain/gray_rhino_assessment_policy.rs"),
+    )
+    .expect("failed to read assessment policy");
+
+    assert!(!discovery_app.contains("dual class"));
+    assert!(discovery_policy.contains("dual class"));
+    assert!(!assessment_app.contains("latest_effective_subject_category_records"));
+    assert!(assessment_policy.contains("latest_effective_subject_category_records"));
+}
+
+#[test]
+fn cli_does_not_own_dependency_source_infrastructure() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let cli = fs::read_to_string(root.join("src/cli.rs")).expect("failed to read cli");
+    let adapter = fs::read_to_string(
+        root.join("src/features/research/infrastructure/dependency_source_adapter.rs"),
+    )
+    .expect("failed to read dependency source adapter");
+    let checker = fs::read_to_string(root.join("scripts/check_architecture_boundaries.py"))
+        .expect("failed to read architecture checker");
+
+    assert!(!cli.contains("reqwest::"));
+    assert!(!cli.contains("impl DependencySourceAdapter"));
+    assert!(adapter.contains("reqwest::"));
+    assert!(checker.contains("cli_infrastructure_escape_violations"));
 }
 
 #[test]

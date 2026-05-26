@@ -9,10 +9,10 @@ use crate::features::research::domain::gray_rhino::{
     GrayRhinoAssessment, GrayRhinoAssessmentSnapshot, GrayRhinoEscalationInput,
 };
 use crate::features::research::domain::gray_rhino_candidate::{
-    GrayRhinoCandidate, GrayRhinoCandidateState,
+    GrayRhinoCandidate, GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
+    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
 };
 use anyhow::Result;
 use chrono::NaiveDate;
@@ -125,9 +125,10 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
                     .save_snapshot_if_changed(&assessment.current)?;
             }
         }
-        let auto_candidates = self
+        let mut auto_candidates = self
             .repository
             .load_persisted_candidates(watch_symbols, as_of_date)?;
+        auto_candidates.extend(evidence_resolved_candidates(&evidence_records));
         let display_candidates = dedupe_candidates(auto_candidates.clone());
         let monitoring_statuses =
             evaluate_gray_rhino_monitoring_states(&auto_candidates, as_of_date);
@@ -142,6 +143,80 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             discovery_ops_view: self.repository.load_discovery_ops_view(as_of_date),
             refresh_status: self.repository.load_refresh_status(as_of_date),
         })
+    }
+}
+
+fn evidence_resolved_candidates(records: &[GrayRhinoEvidenceRecord]) -> Vec<GrayRhinoCandidate> {
+    latest_effective_evidence(records)
+        .into_iter()
+        .filter(|record| record.risk_effect == GrayRhinoRiskEffect::Mitigating)
+        .filter_map(|record| {
+            let kind = evidence_category_candidate_kind(record.category)?;
+            let subject = record.subject.trim();
+            if subject.is_empty() {
+                return None;
+            }
+            let scope = if subject.eq_ignore_ascii_case("Market") {
+                GrayRhinoCandidateScope::Market
+            } else {
+                GrayRhinoCandidateScope::Company
+            };
+            Some(GrayRhinoCandidate {
+                scope,
+                kind,
+                subject: subject.to_string(),
+                state: GrayRhinoCandidateState::Resolved,
+                evidence: vec![record.structural_fact.clone()],
+                watch_triggers: vec!["mitigating evidence".to_string()],
+                source_title: record.source.source_title.clone(),
+                observed_at: record.source.observed_at,
+                source_published_at: Some(record.source.observed_at),
+                last_confirmed_at: Some(record.source.observed_at),
+                resolved_at: Some(record.source.observed_at),
+            })
+        })
+        .collect()
+}
+
+fn latest_effective_evidence(records: &[GrayRhinoEvidenceRecord]) -> Vec<&GrayRhinoEvidenceRecord> {
+    let mut latest = std::collections::BTreeMap::<
+        (String, GrayRhinoEvidenceCategory),
+        &GrayRhinoEvidenceRecord,
+    >::new();
+    for record in records {
+        let subject = record.subject.trim().to_ascii_uppercase();
+        if subject.is_empty() {
+            continue;
+        }
+        latest
+            .entry((subject, record.category))
+            .and_modify(|existing| {
+                if (record.source.observed_at, record.source.retrieved_at)
+                    > (existing.source.observed_at, existing.source.retrieved_at)
+                {
+                    *existing = record;
+                }
+            })
+            .or_insert(record);
+    }
+    latest.into_values().collect()
+}
+
+fn evidence_category_candidate_kind(
+    category: GrayRhinoEvidenceCategory,
+) -> Option<GrayRhinoCandidateKind> {
+    match category {
+        GrayRhinoEvidenceCategory::GovernanceConcentration => {
+            Some(GrayRhinoCandidateKind::GovernanceConcentration)
+        }
+        GrayRhinoEvidenceCategory::DependencyConcentration => {
+            Some(GrayRhinoCandidateKind::DependencyConcentration)
+        }
+        GrayRhinoEvidenceCategory::InstitutionalMaturity => {
+            Some(GrayRhinoCandidateKind::InstitutionalMaturityGap)
+        }
+        GrayRhinoEvidenceCategory::Redundancy => Some(GrayRhinoCandidateKind::RedundancyGap),
+        GrayRhinoEvidenceCategory::RiskNormalization => None,
     }
 }
 
@@ -193,5 +268,48 @@ fn state_rank(state: GrayRhinoCandidateState) -> u8 {
         GrayRhinoCandidateState::Visible => 2,
         GrayRhinoCandidateState::Expanding => 3,
         GrayRhinoCandidateState::Critical => 4,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::features::research::domain::gray_rhino_evidence::{
+        GrayRhinoEvidenceSourceType, GrayRhinoSourceReference,
+    };
+
+    #[test]
+    fn gray_rhino_mitigating_evidence_projects_resolved_candidate() {
+        let record = GrayRhinoEvidenceRecord {
+            subject: "GOOG".to_string(),
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
+                source_title: "Governance repair disclosure".to_string(),
+                publisher: "GOOG".to_string(),
+                source_url: Some("https://example.com/goog".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            },
+            confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
+            extraction_note: "Governance remediation is disclosed.".to_string(),
+            structural_fact: "Founder voting control has been remediated.".to_string(),
+        };
+
+        let candidates = evidence_resolved_candidates(&[record]);
+
+        assert_eq!(candidates.len(), 1);
+        assert_eq!(candidates[0].subject, "GOOG");
+        assert_eq!(candidates[0].state, GrayRhinoCandidateState::Resolved);
+        assert_eq!(
+            candidates[0].kind,
+            GrayRhinoCandidateKind::GovernanceConcentration
+        );
+        assert_eq!(
+            candidates[0].resolved_at,
+            Some(NaiveDate::from_ymd_opt(2026, 5, 25).unwrap())
+        );
     }
 }

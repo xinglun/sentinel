@@ -1231,7 +1231,7 @@ fn localized_structural_text(value: &str, language: Language) -> String {
             } else if lower.contains("narrative crowding") {
                 Some("检测到叙事拥挤。")
             } else if lower.contains("single dependency") || lower.contains("missing fallback") {
-                Some("检测到单一依赖或 fallback 缺失。")
+                Some("检测到单一依赖或后备路径缺失。")
             } else if lower.contains("founder") && lower.contains("voting control") {
                 Some("检测到创始人或单一主体投票控制。")
             } else if lower.contains("governance check-and-balance weakness") {
@@ -1249,7 +1249,7 @@ fn localized_structural_text(value: &str, language: Language) -> String {
             } else if lower.contains("cloud outage") {
                 Some("云服务中断")
             } else if lower.contains("fallback disclosure change") {
-                Some("fallback 披露变化")
+                Some("后备路径披露变化")
             } else if lower.contains("breadth deterioration") {
                 Some("市场广度恶化")
             } else if lower.contains("liquidity tightening") {
@@ -1288,7 +1288,7 @@ fn localized_structural_text(value: &str, language: Language) -> String {
             } else if lower.contains("narrative crowding") {
                 Some("ナラティブ過密を検出。")
             } else if lower.contains("single dependency") || lower.contains("missing fallback") {
-                Some("単一依存または fallback 不足を検出。")
+                Some("単一依存または代替経路の不足を検出。")
             } else if lower.contains("founder") && lower.contains("voting control") {
                 Some("創業者または単一主体の議決権支配を検出。")
             } else if lower.contains("governance check-and-balance weakness") {
@@ -1306,7 +1306,7 @@ fn localized_structural_text(value: &str, language: Language) -> String {
             } else if lower.contains("cloud outage") {
                 Some("cloud 障害")
             } else if lower.contains("fallback disclosure change") {
-                Some("fallback 開示の変化")
+                Some("代替経路開示の変化")
             } else if lower.contains("breadth deterioration") {
                 Some("市場 breadth 悪化")
             } else if lower.contains("liquidity tightening") {

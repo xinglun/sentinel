@@ -14,6 +14,7 @@ automatedCollectionEnabled: true
 grayRhinoAutoDiscoveryEnabled: true
 candidateDomain: src/features/research/domain/gray_rhino_candidate.rs
 candidateDiscoveryScanner: src/features/research/application/gray_rhino_discovery.rs
+candidateDiscoveryPolicy: src/features/research/domain/gray_rhino_discovery_policy.rs
 candidatePersistenceEnabled: true
 candidateStore: gray_rhino_candidates.jsonl
 monitoringStateMachineEnabled: true
@@ -139,7 +140,15 @@ providerFailureTaxonomy:
 freshnessPolicyEnabled: true
 reportOpsViewEnabled: true
 formalEvidenceLatestCategoryStateEnabled: true
+formalEvidenceSubjectPreserved: true
+formalEvidenceLatestSubjectCategoryStateEnabled: true
 mitigatingEvidenceCanCloseAmplifyingCategory: true
+mitigatingEvidenceCrossSubjectClosureAllowed: false
+mitigatingEvidenceProjectsResolvedCandidate: true
+grayRhinoAssessmentPolicy: src/features/research/domain/gray_rhino_assessment_policy.rs
+grayRhinoDiscoveryRulesInApplicationAllowed: false
+grayRhinoCliInfrastructureImplementationAllowed: false
+grayRhinoCollectionStatusStruct: GrayRhinoCollectionStatus
 grayRhinoRunStatusFields:
   - gray_rhino_collection
   - gray_rhino_rendering

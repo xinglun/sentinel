@@ -315,6 +315,24 @@ def cli_feature_infrastructure_violations(path: Path) -> list[Violation]:
     return violations
 
 
+def cli_infrastructure_escape_violations(path: Path) -> list[Violation]:
+    violations: list[Violation] = []
+    text = path.read_text(encoding="utf-8")
+    for line_no, line in enumerate(text.splitlines(), start=1):
+        stripped = line.strip()
+        if stripped.startswith("//"):
+            continue
+        for token in (
+            "reqwest::",
+            "impl DependencySourceAdapter",
+            "tokio::fs::write",
+            "tokio::fs::create_dir_all",
+        ):
+            if token in stripped:
+                violations.append(Violation(path, line_no, token, "cli infrastructure escape hatch"))
+    return violations
+
+
 def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest) -> list[Violation]:
     rel_path = relative_posix(path, root)
     feature_layer = feature_layer_for_path(rel_path, manifest)
@@ -568,6 +586,7 @@ def check_project(root: Path = PROJECT_ROOT) -> list[Violation]:
     cli_path = root / "src/cli.rs"
     if cli_path.exists():
         violations.extend(cli_feature_infrastructure_violations(cli_path))
+        violations.extend(cli_infrastructure_escape_violations(cli_path))
     features_root = root / "src/features"
     if features_root.exists():
         for path in rust_files(features_root):

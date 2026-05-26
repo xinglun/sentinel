@@ -1,6 +1,5 @@
 use anyhow::{anyhow, Context, Result};
 
-use async_trait::async_trait;
 use chrono::NaiveDate;
 use sha2::{Digest, Sha256};
 
@@ -26,6 +25,7 @@ use crate::features::radar::interface::audit_daily_report::{
     parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
+use crate::features::research::acl::dependency_source_adapter_factory::build_dependency_source_adapter;
 use crate::features::research::acl::governance_evidence_store_factory::build_governance_evidence_store_adapter;
 use crate::features::research::acl::governance_source_adapter_factory::build_governance_source_adapter;
 use crate::features::research::acl::gray_rhino_source_adapter_factory::{
@@ -33,7 +33,7 @@ use crate::features::research::acl::gray_rhino_source_adapter_factory::{
 };
 use crate::features::research::application::dependency_evidence::ingest_dependency_concentration_evidence;
 use crate::features::research::application::dependency_source_pipeline::{
-    collect_dependency_concentration_sources, DependencyFieldCoverage, DependencySourceAdapter,
+    collect_dependency_concentration_sources, DependencyFieldCoverage,
     DependencySourceCollectionRequest,
 };
 use crate::features::research::application::governance_evidence::ingest_governance_concentration_evidence;
@@ -46,9 +46,6 @@ use crate::features::research::application::gray_rhino_discovery::{
 };
 use crate::features::research::application::institutional_evidence::ingest_institutional_maturity_evidence;
 use crate::features::research::application::redundancy_evidence::ingest_redundancy_evidence;
-use crate::features::research::domain::dependency_source::{
-    DependencySourceDocument, DependencySourceKind,
-};
 use crate::features::research::domain::gray_rhino_evidence::{
     DependencyConcentrationEvidence, GovernanceConcentrationEvidence,
     InstitutionalMaturityEvidence, RedundancyEvidence,
@@ -901,7 +898,7 @@ async fn run_collect_gray_rhino_dependency(
     };
     let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
     let store = build_governance_evidence_store_adapter(&save_dir);
-    let adapter = CliLocalDependencySourceAdapter;
+    let adapter = build_dependency_source_adapter();
     let summary = collect_dependency_concentration_sources(
         &adapter,
         &store,
@@ -1300,101 +1297,6 @@ fn append_cli_jsonl(path: &std::path::Path, value: &serde_json::Value) -> Result
     writeln!(file, "{}", serde_json::to_string(value)?)
         .with_context(|| format!("Failed to write {}", path.display()))?;
     Ok(())
-}
-
-struct CliLocalDependencySourceAdapter;
-
-#[async_trait]
-impl DependencySourceAdapter for CliLocalDependencySourceAdapter {
-    async fn fetch_dependency_sources(
-        &self,
-        request: &DependencySourceCollectionRequest,
-    ) -> Result<Vec<DependencySourceDocument>> {
-        let subject = request
-            .symbol
-            .clone()
-            .unwrap_or_else(|| "UNKNOWN".to_string());
-        if let Some(url) = request.source_url.as_ref() {
-            let client = reqwest::Client::builder()
-                .timeout(std::time::Duration::from_secs(20))
-                .build()
-                .context("Failed to build dependency source HTTP client")?;
-            let mut last_error = None;
-            let mut content = None;
-            for _attempt in 0..3 {
-                match client.get(url).send().await {
-                    Ok(response) => match response.error_for_status() {
-                        Ok(response) => match response.text().await {
-                            Ok(body) => {
-                                content = Some(body);
-                                break;
-                            }
-                            Err(err) => last_error = Some(err.into()),
-                        },
-                        Err(err) => last_error = Some(err.into()),
-                    },
-                    Err(err) => last_error = Some(err.into()),
-                }
-            }
-            let content = content.ok_or_else(|| {
-                last_error.unwrap_or_else(|| anyhow!("Failed to fetch dependency source URL"))
-            })?;
-            if let Some(cache_dir) = request.source_cache_dir.as_ref() {
-                let cache_dir = std::path::PathBuf::from(cache_dir);
-                tokio::fs::create_dir_all(&cache_dir)
-                    .await
-                    .with_context(|| {
-                        format!(
-                            "Failed to create dependency cache dir: {}",
-                            cache_dir.display()
-                        )
-                    })?;
-                let cache_name = format!("{:x}.txt", Sha256::digest(url.as_bytes()));
-                tokio::fs::write(cache_dir.join(cache_name), &content)
-                    .await
-                    .with_context(|| "Failed to cache dependency source body")?;
-            }
-            let parsed_url = reqwest::Url::parse(url).ok();
-            let publisher = parsed_url
-                .as_ref()
-                .and_then(|parsed| parsed.host_str())
-                .unwrap_or("unknown dependency publisher")
-                .to_string();
-            return Ok(vec![DependencySourceDocument {
-                subject: subject.clone(),
-                source_kind: DependencySourceKind::LiveDependencyDisclosure,
-                source_title: format!("Dependency disclosure: {publisher}"),
-                publisher,
-                source_url: Some(url.to_string()),
-                repository_path: None,
-                observed_at: request.observed_at,
-                retrieved_at: request.retrieved_at,
-                content,
-            }]);
-        }
-        let file = request.local_file.as_ref().ok_or_else(|| {
-            anyhow!("--file or --url is required for dependency source collection")
-        })?;
-        let path = std::path::PathBuf::from(file);
-        let content = tokio::fs::read_to_string(&path)
-            .await
-            .with_context(|| format!("Failed to read dependency source file: {}", file))?;
-        Ok(vec![DependencySourceDocument {
-            subject: subject.clone(),
-            source_kind: DependencySourceKind::LocalDependencyDocument,
-            source_title: path
-                .file_name()
-                .and_then(|name| name.to_str())
-                .unwrap_or("dependency_source")
-                .to_string(),
-            publisher: subject,
-            source_url: None,
-            repository_path: Some(file.to_string()),
-            observed_at: request.observed_at,
-            retrieved_at: request.retrieved_at,
-            content,
-        }])
-    }
 }
 
 fn render_dependency_field_coverage(metric_coverage: &[DependencyFieldCoverage]) {

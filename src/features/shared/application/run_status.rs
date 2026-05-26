@@ -35,6 +35,23 @@ pub struct StateMachineSummary {
     pub preflight_failed: bool,
 }
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct GrayRhinoProviderStatus {
+    pub status: String,
+    pub accepted: u64,
+    pub rejected: u64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct GrayRhinoCollectionStatus {
+    pub status: String,
+    pub date: Option<String>,
+    pub sec: GrayRhinoProviderStatus,
+    pub finnhub: GrayRhinoProviderStatus,
+    pub fred: GrayRhinoProviderStatus,
+    pub failed_providers: Vec<String>,
+}
+
 #[derive(Debug, Serialize, Deserialize, Default)]
 pub struct RunOutcome {
     pub date: String,
@@ -44,7 +61,7 @@ pub struct RunOutcome {
     #[serde(default)]
     pub evidence_collection: DeliveryStatus,
     #[serde(default)]
-    pub gray_rhino_collection: DeliveryStatus,
+    pub gray_rhino_collection: GrayRhinoCollectionStatus,
     #[serde(default)]
     pub gray_rhino_rendering: DeliveryStatus,
     pub archival: DeliveryStatus,
@@ -59,7 +76,7 @@ pub struct RunOutcome {
 
 #[cfg(test)]
 mod tests {
-    use super::{DeliveryStatus, RunOutcome};
+    use super::{DeliveryStatus, GrayRhinoCollectionStatus, GrayRhinoProviderStatus, RunOutcome};
 
     #[test]
     fn run_outcome_defaults_missing_evidence_collection_for_legacy_json() {
@@ -80,15 +97,23 @@ mod tests {
 
         let outcome: RunOutcome = serde_json::from_str(legacy).unwrap();
         assert_eq!(outcome.evidence_collection, DeliveryStatus::Skipped);
-        assert_eq!(outcome.gray_rhino_collection, DeliveryStatus::Skipped);
+        assert_eq!(outcome.gray_rhino_collection.status, "");
         assert_eq!(outcome.gray_rhino_rendering, DeliveryStatus::Skipped);
     }
 
     #[test]
     fn gray_rhino_run_status_records_sensor_status() {
         let outcome = RunOutcome {
-            gray_rhino_collection: DeliveryStatus::Failed {
-                reason: "partial_failure: fred".to_string(),
+            gray_rhino_collection: GrayRhinoCollectionStatus {
+                status: "partial_failure".to_string(),
+                date: Some("2026-05-25".to_string()),
+                fred: GrayRhinoProviderStatus {
+                    status: "failed".to_string(),
+                    accepted: 0,
+                    rejected: 1,
+                },
+                failed_providers: vec!["fred".to_string()],
+                ..Default::default()
             },
             gray_rhino_rendering: DeliveryStatus::Succeeded,
             ..Default::default()
@@ -96,7 +121,33 @@ mod tests {
         let encoded = serde_json::to_string(&outcome).unwrap();
 
         assert!(encoded.contains("gray_rhino_collection"));
-        assert!(encoded.contains("partial_failure: fred"));
+        assert!(encoded.contains("partial_failure"));
+        assert!(encoded.contains("failed_providers"));
         assert!(encoded.contains("gray_rhino_rendering"));
+    }
+
+    #[test]
+    fn gray_rhino_collection_status_preserves_partial_provider_coverage() {
+        let status = GrayRhinoCollectionStatus {
+            status: "partial_failure".to_string(),
+            date: Some("2026-05-25".to_string()),
+            sec: GrayRhinoProviderStatus {
+                status: "succeeded".to_string(),
+                accepted: 2,
+                rejected: 0,
+            },
+            fred: GrayRhinoProviderStatus {
+                status: "failed".to_string(),
+                accepted: 0,
+                rejected: 1,
+            },
+            failed_providers: vec!["fred".to_string()],
+            ..Default::default()
+        };
+
+        assert_eq!(status.status, "partial_failure");
+        assert_eq!(status.sec.accepted, 2);
+        assert_eq!(status.fred.rejected, 1);
+        assert_eq!(status.failed_providers, vec!["fred"]);
     }
 }

@@ -1,10 +1,10 @@
 use crate::features::research::domain::gray_rhino::{
     evaluate_gray_rhino_escalation, GrayRhinoAssessment, GrayRhinoAssessmentSnapshot,
-    GrayRhinoEscalationInput, GrayRhinoObservationSource, RiskLevel,
+    GrayRhinoEscalationInput, GrayRhinoObservationSource,
 };
+use crate::features::research::domain::gray_rhino_assessment_policy;
 use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoEvidenceRejection,
-    GrayRhinoRiskEffect,
+    GrayRhinoEvidenceRecord, GrayRhinoEvidenceRejection,
 };
 use chrono::NaiveDate;
 
@@ -29,141 +29,7 @@ pub(crate) fn build_gray_rhino_assessment(
 pub(crate) fn build_evidence_backed_gray_rhino_input(
     records: &[GrayRhinoEvidenceRecord],
 ) -> Option<GrayRhinoEscalationInput> {
-    if records.is_empty() {
-        return None;
-    }
-    let effective_records = latest_effective_category_records(records);
-    let has_governance = has_amplifying_category(
-        &effective_records,
-        GrayRhinoEvidenceCategory::GovernanceConcentration,
-    );
-    let has_dependency = has_amplifying_category(
-        &effective_records,
-        GrayRhinoEvidenceCategory::DependencyConcentration,
-    );
-    let has_institutional_gap = has_amplifying_category(
-        &effective_records,
-        GrayRhinoEvidenceCategory::InstitutionalMaturity,
-    );
-    let has_institutional_maturity = has_mitigating_category(
-        &effective_records,
-        GrayRhinoEvidenceCategory::InstitutionalMaturity,
-    );
-    let has_redundancy =
-        has_mitigating_category(&effective_records, GrayRhinoEvidenceCategory::Redundancy);
-    let amplifying_count = [has_governance, has_dependency, has_institutional_gap]
-        .into_iter()
-        .filter(|ready| *ready)
-        .count();
-    let mitigating_count = [has_institutional_maturity, has_redundancy]
-        .into_iter()
-        .filter(|ready| *ready)
-        .count();
-    let classifiable_count = amplifying_count + mitigating_count;
-    let unclassified_count = records
-        .iter()
-        .filter(|record| record.risk_effect == GrayRhinoRiskEffect::Unclassified)
-        .count();
-    if classifiable_count == 0 {
-        return None;
-    }
-    let scoreable_records: Vec<&GrayRhinoEvidenceRecord> = effective_records
-        .iter()
-        .copied()
-        .filter(|record| {
-            matches!(
-                record.risk_effect,
-                GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating
-            )
-        })
-        .collect();
-    let average_confidence = scoreable_records
-        .iter()
-        .map(|record| record.confidence)
-        .sum::<f64>()
-        / scoreable_records.len() as f64;
-    let quality_ready = classifiable_count >= 2 && average_confidence >= 0.6;
-
-    Some(GrayRhinoEscalationInput {
-        risk_expansion_rate: if has_governance && has_dependency && quality_ready {
-            RiskLevel::High
-        } else if has_governance || has_dependency {
-            RiskLevel::Elevated
-        } else {
-            RiskLevel::Moderate
-        },
-        constraint_growth_rate: if has_institutional_maturity {
-            RiskLevel::Elevated
-        } else if has_institutional_gap {
-            RiskLevel::Low
-        } else {
-            RiskLevel::Moderate
-        },
-        dependency_centralization: if has_dependency && quality_ready {
-            RiskLevel::High
-        } else if has_dependency {
-            RiskLevel::Elevated
-        } else {
-            RiskLevel::Moderate
-        },
-        awareness_decay: if classifiable_count <= 1 {
-            RiskLevel::Elevated
-        } else {
-            RiskLevel::Moderate
-        },
-        narrative_overconfidence: RiskLevel::Moderate,
-        single_point_fragility: if has_dependency {
-            RiskLevel::Elevated
-        } else {
-            RiskLevel::Moderate
-        },
-        fallback_survivability_risk: if has_dependency && !has_redundancy && quality_ready {
-            RiskLevel::Elevated
-        } else {
-            RiskLevel::Low
-        },
-        notes: vec![format!(
-            "Evidence-backed Gray Rhino assessment from scoreable records; amplifying categories: {amplifying_count}/3; mitigating categories: {mitigating_count}/2; unclassified records: {unclassified_count}; scoreable average confidence: {average_confidence:.2}."
-        )],
-    })
-}
-
-fn latest_effective_category_records(
-    records: &[GrayRhinoEvidenceRecord],
-) -> Vec<&GrayRhinoEvidenceRecord> {
-    [
-        GrayRhinoEvidenceCategory::GovernanceConcentration,
-        GrayRhinoEvidenceCategory::DependencyConcentration,
-        GrayRhinoEvidenceCategory::InstitutionalMaturity,
-        GrayRhinoEvidenceCategory::RiskNormalization,
-        GrayRhinoEvidenceCategory::Redundancy,
-    ]
-    .into_iter()
-    .filter_map(|category| {
-        records
-            .iter()
-            .filter(|record| record.category == category)
-            .max_by_key(|record| (record.source.observed_at, record.source.retrieved_at))
-    })
-    .collect()
-}
-
-fn has_amplifying_category(
-    records: &[&GrayRhinoEvidenceRecord],
-    category: GrayRhinoEvidenceCategory,
-) -> bool {
-    records.iter().any(|record| {
-        record.category == category && record.risk_effect == GrayRhinoRiskEffect::Amplifying
-    })
-}
-
-fn has_mitigating_category(
-    records: &[&GrayRhinoEvidenceRecord],
-    category: GrayRhinoEvidenceCategory,
-) -> bool {
-    records.iter().any(|record| {
-        record.category == category && record.risk_effect == GrayRhinoRiskEffect::Mitigating
-    })
+    gray_rhino_assessment_policy::build_evidence_backed_gray_rhino_input(records)
 }
 
 pub(crate) fn build_evidence_backed_gray_rhino_assessment(
@@ -196,6 +62,7 @@ pub(crate) fn validate_gray_rhino_evidence_contract(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::research::domain::gray_rhino::RiskLevel;
     use crate::features::research::domain::gray_rhino_evidence::{
         GrayRhinoEvidenceCategory, GrayRhinoEvidenceSourceType, GrayRhinoRiskEffect,
         GrayRhinoSourceReference,
@@ -204,6 +71,7 @@ mod tests {
     #[test]
     fn evidence_contract_validation_is_not_escalation_detection() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::Redundancy,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::IndependentAudit,
@@ -226,6 +94,7 @@ mod tests {
     #[test]
     fn evidence_records_build_evidence_backed_escalation_input() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
@@ -246,12 +115,13 @@ mod tests {
 
         assert_eq!(input.dependency_centralization, RiskLevel::Elevated);
         assert_eq!(input.fallback_survivability_risk, RiskLevel::Low);
-        assert!(input.notes[0].contains("amplifying categories: 1/3"));
+        assert!(input.notes[0].contains("amplifying subject-categories: 1/3"));
     }
 
     #[test]
     fn gray_rhino_scoring_unclassified_confidence_does_not_raise_formal_score() {
         let governance = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
@@ -268,6 +138,7 @@ mod tests {
             structural_fact: "Founder voting control is present.".to_string(),
         };
         let dependency = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
@@ -284,6 +155,7 @@ mod tests {
             structural_fact: "Single supplier dependency is present.".to_string(),
         };
         let legacy = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::Redundancy,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::IndependentAudit,
@@ -313,6 +185,7 @@ mod tests {
     #[test]
     fn gray_rhino_reliability_mitigating_governance_does_not_raise_risk() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
@@ -337,6 +210,7 @@ mod tests {
     #[test]
     fn gray_rhino_mitigating_evidence_closes_old_amplifying() {
         let old_amplifying = GrayRhinoEvidenceRecord {
+            subject: "GOOG".to_string(),
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
@@ -372,8 +246,51 @@ mod tests {
     }
 
     #[test]
+    fn gray_rhino_subject_mitigation_does_not_cross_close() {
+        let goog_amplifying = GrayRhinoEvidenceRecord {
+            subject: "GOOG".to_string(),
+            category: GrayRhinoEvidenceCategory::GovernanceConcentration,
+            source: GrayRhinoSourceReference {
+                source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
+                source_title: "GOOG proxy disclosure".to_string(),
+                publisher: "GOOG".to_string(),
+                source_url: Some("https://example.com/goog-proxy".to_string()),
+                repository_path: None,
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 20).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 20).unwrap(),
+            },
+            confidence: 0.9,
+            risk_effect: GrayRhinoRiskEffect::Amplifying,
+            extraction_note: "Founder control was disclosed for GOOG.".to_string(),
+            structural_fact: "GOOG founder voting control exceeded majority.".to_string(),
+        };
+        let tsla_mitigating = GrayRhinoEvidenceRecord {
+            subject: "TSLA".to_string(),
+            risk_effect: GrayRhinoRiskEffect::Mitigating,
+            source: GrayRhinoSourceReference {
+                source_title: "TSLA governance repair disclosure".to_string(),
+                publisher: "TSLA".to_string(),
+                source_url: Some("https://example.com/tsla-proxy".to_string()),
+                observed_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                retrieved_at: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+                ..goog_amplifying.source.clone()
+            },
+            extraction_note: "Voting control remediation is disclosed for TSLA.".to_string(),
+            structural_fact: "TSLA dual-class voting control has been collapsed.".to_string(),
+            ..goog_amplifying.clone()
+        };
+
+        let input =
+            build_evidence_backed_gray_rhino_input(&[goog_amplifying, tsla_mitigating]).unwrap();
+
+        assert_eq!(input.risk_expansion_rate, RiskLevel::Elevated);
+        assert!(input.notes[0].contains("amplifying subject-categories: 1/3"));
+    }
+
+    #[test]
     fn gray_rhino_completion_institutional_maturity_reduces_constraint_risk() {
         let mature = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::InstitutionalMaturity,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::IndependentAudit,
@@ -406,6 +323,7 @@ mod tests {
     #[test]
     fn gray_rhino_completion_unclassified_evidence_is_reported_not_scored() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,
@@ -429,6 +347,7 @@ mod tests {
     #[test]
     fn gray_rhino_final_neutral_only_evidence_does_not_build_assessment() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::SupplierDisclosure,

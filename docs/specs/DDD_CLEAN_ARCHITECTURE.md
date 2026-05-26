@@ -58,6 +58,7 @@ Domain は最内層であり、次を参照してはならない。
 Application は Domain を操作し、外部との接点は port trait で表現する。Infrastructure はその port を実装する。
 Application は filesystem / network IO を直接行わない。永続化、外部 API、ファイル出力は Infrastructure または Interface composition から接続する。
 Application は user-facing report / Telegram / CLI 文言や Markdown template を生成しない。候補、状態、DTO、read model だけを返し、表示文言と boundary statement は `src/features/<feature>/interface/**` の presenter が所有する。
+Application は分類閾値、risk lifecycle state 判定、evidence の effective state 归约などの業務 policy を所有しない。これらは `src/features/<feature>/domain/**` の domain service に置き、Application は port、repository、use case の orchestration に限定する。
 ACL は raw protocol を正規化する adapter と、許可された infrastructure 実装を composition root へ公開する gateway facade だけを持つ。判断 policy、formatting、business rule は ACL に置かない。
 
 ## Bounded Contexts
@@ -119,7 +120,7 @@ Radar の段階移行では、CLI から次の policy を Application へ移し�
 - 取得済み domain input からの日次 decision outcome 構築
 - execution gate 入力、budget 派生値、監査 snapshot、evidence 保存対象をまとめた delivery plan の構築
 
-CLI は command dispatch と composition root 呼び出しだけを保持する。provider 呼び出し、report rendering、notification dispatch、Application が返した delivery plan の adapter 実行は `src/features/radar/interface/radar_pipeline_runner.rs` の facade に集約する。日次判定の選択と `Engine` 呼び出しは `RadarPipelineUseCase`、execution / audit payload の計算は `RadarDeliveryPlanner` が担う。
+CLI は command dispatch と composition root 呼び出しだけを保持する。provider 呼び出し、report rendering、notification dispatch、Application が返した delivery plan の adapter 実行は `src/features/radar/interface/radar_pipeline_runner.rs` の facade に集約する。root CLI は HTTP client、cache writer、feature adapter implementation を直接実装しない。日次判定の選択と `Engine` 呼び出しは `RadarPipelineUseCase`、execution / audit payload の計算は `RadarDeliveryPlanner` が担う。
 
 次の領域は domain / application / interface / infrastructure の責務へ分割済みである。
 

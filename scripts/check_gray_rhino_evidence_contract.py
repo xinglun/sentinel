@@ -12,6 +12,8 @@ DOC_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
 FRAMEWORK_PATH = PROJECT_ROOT / "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
 DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence.rs"
 DISCOVERY_DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_candidate.rs"
+DISCOVERY_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_discovery_policy.rs"
+ASSESSMENT_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_assessment_policy.rs"
 DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
 REPORT_INTERFACE_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_report.rs"
 MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
@@ -54,6 +56,8 @@ def main() -> int:
         FRAMEWORK_PATH,
         DOMAIN_PATH,
         DISCOVERY_DOMAIN_PATH,
+        DISCOVERY_POLICY_PATH,
+        ASSESSMENT_POLICY_PATH,
         DISCOVERY_APP_PATH,
         REPORT_INTERFACE_PATH,
         MONITORING_STATE_PATH,
@@ -72,6 +76,8 @@ def main() -> int:
     framework = FRAMEWORK_PATH.read_text(encoding="utf-8")
     domain = DOMAIN_PATH.read_text(encoding="utf-8")
     discovery_domain = DISCOVERY_DOMAIN_PATH.read_text(encoding="utf-8")
+    discovery_policy = DISCOVERY_POLICY_PATH.read_text(encoding="utf-8")
+    assessment_policy = ASSESSMENT_POLICY_PATH.read_text(encoding="utf-8")
     discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
     report_interface = REPORT_INTERFACE_PATH.read_text(encoding="utf-8")
     monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
@@ -308,8 +314,23 @@ def main() -> int:
         "LiquidityFragility",
         "CapexPaybackFragility",
     ]:
-        if item not in discovery_app:
-            errors.append(f"discovery application missing `{item}`")
+        if item not in discovery_policy:
+            errors.append(f"discovery domain policy missing `{item}`")
+    for item in [
+        "dual class",
+        "fallback unavailable",
+        "capex payback risk",
+    ]:
+        if item in discovery_app:
+            errors.append(f"discovery application must not contain classification rule `{item}`")
+    for item in [
+        "latest_effective_subject_category_records",
+        "GrayRhinoEvidenceCategory",
+        "GrayRhinoRiskEffect",
+        "subject-categories",
+    ]:
+        if item not in assessment_policy:
+            errors.append(f"assessment domain policy missing `{item}`")
     for item in [
         "render_gray_rhino_inline_reference",
         "reference only",

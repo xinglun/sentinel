@@ -1,7 +1,7 @@
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub enum GrayRhinoEvidenceCategory {
     GovernanceConcentration,
     DependencyConcentration,
@@ -44,6 +44,8 @@ pub struct GrayRhinoSourceReference {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GrayRhinoEvidenceRecord {
+    #[serde(default)]
+    pub subject: String,
     pub category: GrayRhinoEvidenceCategory,
     pub source: GrayRhinoSourceReference,
     pub confidence: f64,
@@ -162,6 +164,9 @@ pub enum GrayRhinoEvidenceRejection {
 
 impl GrayRhinoEvidenceRecord {
     pub fn validate(&self) -> Result<(), GrayRhinoEvidenceRejection> {
+        if self.subject.trim().is_empty() {
+            return Err(GrayRhinoEvidenceRejection::MissingStructuralFact);
+        }
         if self.source.source_url.is_none() && self.source.repository_path.is_none() {
             return Err(GrayRhinoEvidenceRejection::MissingSourceReference);
         }
@@ -217,6 +222,7 @@ impl GovernanceConcentrationEvidence {
 
     pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
         GrayRhinoEvidenceRecord {
+            subject: self.subject.clone(),
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: self.source.clone(),
             confidence: self.confidence,
@@ -289,6 +295,7 @@ impl DependencyConcentrationEvidence {
 
     pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
         GrayRhinoEvidenceRecord {
+            subject: self.subject.clone(),
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source: self.source.clone(),
             confidence: self.confidence,
@@ -354,6 +361,7 @@ impl InstitutionalMaturityEvidence {
 
     pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
         GrayRhinoEvidenceRecord {
+            subject: self.subject.clone(),
             category: GrayRhinoEvidenceCategory::InstitutionalMaturity,
             source: self.source.clone(),
             confidence: self.confidence,
@@ -430,6 +438,7 @@ impl RedundancyEvidence {
 
     pub fn to_record(&self) -> GrayRhinoEvidenceRecord {
         GrayRhinoEvidenceRecord {
+            subject: self.subject.clone(),
             category: GrayRhinoEvidenceCategory::Redundancy,
             source: self.source.clone(),
             confidence: self.confidence,
@@ -543,6 +552,7 @@ mod tests {
     #[test]
     fn accepts_structural_evidence_with_traceable_source() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: source(),
             confidence: 0.8,
@@ -560,6 +570,7 @@ mod tests {
         let mut source = source();
         source.source_url = None;
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::DependencyConcentration,
             source,
             confidence: 0.7,
@@ -578,6 +589,7 @@ mod tests {
     #[test]
     fn rejects_narrative_only_record() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::RiskNormalization,
             source: source(),
             confidence: 0.6,
@@ -595,6 +607,7 @@ mod tests {
     #[test]
     fn rejects_trading_boundary_terms() {
         let record = GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::RiskNormalization,
             source: source(),
             confidence: 0.6,

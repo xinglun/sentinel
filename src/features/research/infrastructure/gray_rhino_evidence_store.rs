@@ -190,6 +190,7 @@ mod tests {
 
     fn record() -> GrayRhinoEvidenceRecord {
         GrayRhinoEvidenceRecord {
+            subject: "Example issuer".to_string(),
             category: GrayRhinoEvidenceCategory::GovernanceConcentration,
             source: GrayRhinoSourceReference {
                 source_type: GrayRhinoEvidenceSourceType::GovernanceDocument,
