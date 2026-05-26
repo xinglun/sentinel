@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import subprocess
+
 from ai_check_guards import detect
 
 
@@ -45,6 +47,21 @@ def test_archived_contract_is_evidence_not_recursive_scope_target() -> None:
     assert_kinds(items, [], "archive contract must be usable as authorization evidence")
 
 
+def test_ai_yaml_files_parse() -> None:
+    result = subprocess.run(
+        [
+            "ruby",
+            "-e",
+            'require "yaml"; Dir[".ai/**/*.yaml"].sort.each { |p| YAML.load_file(p) }',
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0:
+        raise AssertionError(f"AI YAML parse failed:\n{result.stderr or result.stdout}")
+
+
 def main() -> int:
     cases = [
         test_restricted_write_without_contract_fails,
@@ -52,6 +69,7 @@ def main() -> int:
         test_forbidden_write_cannot_be_authorized,
         test_regular_production_change_also_requires_contract,
         test_archived_contract_is_evidence_not_recursive_scope_target,
+        test_ai_yaml_files_parse,
     ]
     for case in cases:
         case()

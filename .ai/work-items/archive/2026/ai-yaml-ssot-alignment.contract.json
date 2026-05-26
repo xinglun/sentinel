@@ -1,0 +1,96 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-yaml-ssot-alignment",
+  "mode": "code",
+  "title": "AI YAML SSOT alignment",
+  "scope": [
+    ".ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+    ".ai/work-items/active/ai-yaml-ssot-alignment.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/guards/backtrack_policy.yaml",
+    ".ai/README.md",
+    "scripts/ai_test_guards.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "YAML parse failure in selectionRules must be fixed."
+    },
+    {
+      "path": ".ai/guards/backtrack_policy.yaml",
+      "reason": "i18n backtrack path must match current feature-first path."
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "Minimum flow should use Makefile targets as SSOT entrypoint."
+    },
+    {
+      "path": "scripts/ai_test_guards.py",
+      "reason": "Guard tests should parse AI YAML files to prevent invalid machine-readable config."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    ".ai/cockpit/checks.yaml parses as valid YAML.",
+    ".ai/guards/backtrack_policy.yaml watches src/features/shared/interface/i18n.rs instead of the removed src/core/i18n.rs path.",
+    ".ai/README.md minimum flow uses Makefile targets and treats scripts as implementation details.",
+    "AI guard tests include .ai/**/*.yaml parse coverage.",
+    "make check-ai and documentation checks pass.",
+    "Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "ruby -e 'require \"yaml\"; Dir[\".ai/**/*.yaml\"].sort.each { |p| YAML.load_file(p) }'",
+      "required": true
+    },
+    {
+      "command": "make test-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-yaml-ssot-alignment.summary.json CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/ai-yaml-ssot-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-yaml-ssot-alignment.contract.json SUMMARY=.ai/work-items/active/ai-yaml-ssot-alignment.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

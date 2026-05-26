@@ -21,7 +21,7 @@ watch:
 
   i18nKeyRemoval:
     patterns:
-      - "src/core/i18n.rs"
+      - "src/features/shared/interface/i18n.rs"
     severity: error
     reason: 多言語 key の削除は Telegram / Markdown 出力の回帰につながる。
 

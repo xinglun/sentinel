@@ -62,11 +62,11 @@ checks:
     purpose: current_status.md が存在する Contract / Summary、または no_active_work_item 状態と一致することを確認する。
 
 selectionRules:
-  - Contract の verification を最優先する。
-  - すべての Work Item Contract は `make fmt-check` を required verification として含める。
-  - `src/features/radar/interface/report.rs`、`src/features/radar/interface/presentation_assembler.rs`、`src/features/radar/interface/radar_pipeline_runner.rs`、`src/features/shared/interface/i18n.rs` を変更した場合は report UI / i18n 系 test を含める。
-  - `src/features/research/**` を変更した場合は research / Gray Rhino 系 test を含める。
-  - `src/cli.rs`、`src/features/radar/application/transition_log.rs`、audit_daily snapshot を変更した場合は audit_daily 専用 test を含める。
-  - test、snapshot、i18n、`.ai/work-items/**` を変更した場合は Backtrack Guard を実行し、無宣言削除を許可しない。
-  - `src/**/*.rs` を変更した場合は Coverage Guard を実行し、test 変更証跡を必須とする。
-  - Work Item を archive した場合、または `.ai/cockpit/current_status.md` を更新した場合は `make check-ai-status-consistency` を実行する。
+  - "Contract の verification を最優先する。"
+  - "すべての Work Item Contract は `make fmt-check` を required verification として含める。"
+  - "`src/features/radar/interface/report.rs`、`src/features/radar/interface/presentation_assembler.rs`、`src/features/radar/interface/radar_pipeline_runner.rs`、`src/features/shared/interface/i18n.rs` を変更した場合は report UI / i18n 系 test を含める。"
+  - "`src/features/research/**` を変更した場合は research / Gray Rhino 系 test を含める。"
+  - "`src/cli.rs`、`src/features/radar/application/transition_log.rs`、audit_daily snapshot を変更した場合は audit_daily 専用 test を含める。"
+  - "test、snapshot、i18n、`.ai/work-items/**` を変更した場合は Backtrack Guard を実行し、無宣言削除を許可しない。"
+  - "`src/**/*.rs` を変更した場合は Coverage Guard を実行し、test 変更証跡を必須とする。"
+  - "Work Item を archive した場合、または `.ai/cockpit/current_status.md` を更新した場合は `make check-ai-status-consistency` を実行する。"

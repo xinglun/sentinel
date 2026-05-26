@@ -34,14 +34,17 @@ AI 作業は通常の開発品質を免除しません。複雑な diff を伴�
 
 ## 最小フロー
 
-1. `.ai/work-items/active/<task>.contract.json` を作成する。
+1. `make ai-start TASK=<task> TITLE="..." MODE=code` で Contract / Summary を作成する。
 2. `unknowns` と `notCodable` を確認する。
 3. `scope` と `outOfScope` の範囲内で実装する。
-4. `verification` に記載した command を実行する。
+4. `verification` に記載した command を `make` 経由で実行する。
 5. `.ai/work-items/active/<task>.summary.json` に結果を記録する。
 6. `make check-ai-backtrack` と `make check-ai-coverage-guard` を実行し、無宣言な回帰および test 証跡不足がないことを確認する。
-7. `scripts/ai_generate_status.py` で `.ai/cockpit/current_status.md` を更新する。
-8. `scripts/ai_check_status_consistency.py` で status と Work Item 配置の参照整合性を確認する。
+7. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
+8. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。
+9. 完了時は `make ai-finish TASK=<task>` で required checks を再実行し、成功時だけ archive する。
+
+`scripts/ai_*.py` は Makefile target から呼び出される実装詳細であり、通常の運用入口は `make` target とします。
 
 ## 境界
 
