@@ -1126,6 +1126,14 @@ fn render_hypothesis_section(
                     "    - {}: {}\n",
                     h.reality_override_label, candidate.reality_override_notice
                 ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.reality_override_priority_label, candidate.reality_override_priority
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.confidence_decay_label, candidate.confidence_decay_notice
+                ));
                 block.push_str(&format!("    - {}:\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {
                     block.push_str(&format!(
@@ -1191,6 +1199,14 @@ fn render_hypothesis_section(
                 block.push_str(&format!(
                     "    - <i>{}: {}</i>\n",
                     h.reality_override_label, candidate.reality_override_notice
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.reality_override_priority_label, candidate.reality_override_priority
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.confidence_decay_label, candidate.confidence_decay_notice
                 ));
                 block.push_str(&format!("    - <i>{}:</i>\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {

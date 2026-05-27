@@ -2880,6 +2880,8 @@ mod tests {
         assert!(report.telegram_html_body.contains("失败路径"));
         assert!(report.telegram_html_body.contains("叙事饱和"));
         assert!(report.telegram_html_body.contains("现实覆盖"));
+        assert!(report.telegram_html_body.contains("现实覆盖优先级"));
+        assert!(report.telegram_html_body.contains("置信衰减"));
         assert!(report.telegram_html_body.contains("MSFT"));
         assert!(report
             .telegram_html_body

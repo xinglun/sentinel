@@ -1367,6 +1367,13 @@ mod tests {
         assert!(hypothesis_layer.candidates[0]
             .reality_override_notice
             .contains("现实连续反驳"));
+        assert_eq!(
+            hypothesis_layer.candidates[0].reality_override_priority,
+            "CRITICAL"
+        );
+        assert!(hypothesis_layer.candidates[0]
+            .confidence_decay_notice
+            .contains("必须降低假设权重"));
         assert!(!hypothesis_layer.candidates[0].failure_risks.is_empty());
         assert!(!format!("{:?}", hypothesis_layer.candidates[0].confidence).contains("Confirmed"));
     }
@@ -1410,6 +1417,10 @@ mod tests {
         );
         assert_eq!(candidate.narrative_saturation, "crowded narrative");
         assert!(candidate.reality_override_notice.contains("叙事已拥挤"));
+        assert_eq!(candidate.reality_override_priority, "ELEVATED");
+        assert!(candidate
+            .confidence_decay_notice
+            .contains("必须降低假设权重"));
         assert!(!format!("{:?}", candidate.confidence).contains("Confirmed"));
     }
 
