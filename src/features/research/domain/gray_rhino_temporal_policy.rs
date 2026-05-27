@@ -1,6 +1,7 @@
 use crate::features::research::domain::gray_rhino::{GrayRhinoAssessment, RhinoEscalationState};
 use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoRiskEffect,
+    is_scoreable_evidence_record, GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord,
+    GrayRhinoRiskEffect,
 };
 use chrono::{Duration, NaiveDate};
 
@@ -88,14 +89,14 @@ fn compute_evidence_acceleration(
 
     let recent_count = records
         .iter()
-        .filter(|record| is_scoreable(record))
+        .filter(|record| is_scoreable_evidence_record(record))
         .filter(|record| {
             record.source.observed_at >= recent_start && record.source.observed_at <= as_of_date
         })
         .count();
     let prior_count = records
         .iter()
-        .filter(|record| is_scoreable(record))
+        .filter(|record| is_scoreable_evidence_record(record))
         .filter(|record| {
             record.source.observed_at >= prior_start && record.source.observed_at <= prior_end
         })
@@ -135,13 +136,6 @@ fn compute_institutional_response(
         amplifying_count,
         state,
     }
-}
-
-fn is_scoreable(record: &GrayRhinoEvidenceRecord) -> bool {
-    matches!(
-        record.risk_effect,
-        GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating
-    )
 }
 
 fn classify_score_delta(delta: i32) -> TemporalTrend {

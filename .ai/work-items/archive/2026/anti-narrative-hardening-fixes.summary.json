@@ -1,0 +1,133 @@
+{
+  "workItemId": "anti-narrative-hardening-fixes",
+  "contractPath": ".ai/work-items/archive/2026/anti-narrative-hardening-fixes.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+      "reason": "Anti-narrative hardening fixes の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "temporal / survivability / scoreability の SSOT パスを登録した。"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "reason": "hypothesis_governance_policy module を登録した。"
+    },
+    {
+      "path": "src/features/radar/domain/hypothesis_governance_policy.rs",
+      "reason": "Hypothesis 反叙事 governance 派生を Radar Domain に移した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Domain policy 結果の i18n マッピングに切り替え、time_horizon を LONG に統一した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "Hypothesis time_horizon が LONG であることを検証した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "scoreable evidence フィルタを Domain に集約した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "Application 内の重複 scoreability ロジックを削除した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_temporal_policy.rs",
+      "reason": "Domain scoreability ヘルパーを再利用するよう更新した。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Hypothesis time_horizon 用 horizon_long（LONG）ラベルを追加した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "temporal / survivability / scoreability の SSOT と Domain 所有権を検証するよう拡張した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "scoreability / temporal / survivability の Domain 所有権テストを追加・更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib hypothesis_governance_policy",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib scoreable_evidence_records_keep_directional",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino_interface_does_not_own_evidence_scoreability",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino_temporal_and_survivability_policies_are_domain_owned",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib test_trend_recognition_evidence_mapping",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "反叙事 governance の所有権整理と表示 metadata のみ。Gate、execution、trading state は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

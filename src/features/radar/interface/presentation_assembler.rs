@@ -5,6 +5,11 @@ use crate::config::{
 use crate::features::radar::domain::asset_state::AssetState;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::exit::AssetExitState;
+use crate::features::radar::domain::hypothesis_governance_policy::{
+    derive_hypothesis_governance, HypothesisConfidenceDecayKey, HypothesisConsensusKey,
+    HypothesisMarketCyclePhase, HypothesisNarrativeSaturationKey, HypothesisPricingKey,
+    HypothesisRealityOverridePriorityKey,
+};
 use crate::features::radar::domain::market_regime::{MarketState, RiskOverlay};
 use crate::features::radar::domain::trend_cohesion::{EvidenceSourceType, EvidenceType};
 use crate::features::radar::interface::display::{DisplayAdapter, DisplayContext, DisplayIntent};
@@ -1280,46 +1285,44 @@ impl PresentationAssembler {
         dict: &DisplayDictionary,
     ) -> HypothesisCandidateViewModel {
         let h = &dict.hypothesis;
-        let (consensus_state, pricing_state) = match market_cycle_position {
-            MarketCyclePosition::CrowdedExpectation => {
-                (h.consensus_crowded.clone(), h.pricing_overpriced.clone())
+        let derived =
+            derive_hypothesis_governance(hypothesis_market_cycle_phase(market_cycle_position));
+        let consensus_state = match derived.consensus {
+            HypothesisConsensusKey::Crowded => h.consensus_crowded.clone(),
+            HypothesisConsensusKey::Consensus => h.consensus_consensus.clone(),
+            HypothesisConsensusKey::Emerging => h.consensus_emerging.clone(),
+        };
+        let pricing_state = match derived.pricing {
+            HypothesisPricingKey::Overpriced => h.pricing_overpriced.clone(),
+            HypothesisPricingKey::FullyPriced => h.pricing_fully_priced.clone(),
+            HypothesisPricingKey::PartiallyPriced => h.pricing_partially_priced.clone(),
+        };
+        let narrative_saturation = match derived.narrative_saturation {
+            HypothesisNarrativeSaturationKey::Saturated => h.narrative_saturation_saturated.clone(),
+            HypothesisNarrativeSaturationKey::Crowded => h.narrative_saturation_crowded.clone(),
+            HypothesisNarrativeSaturationKey::Developing => {
+                h.narrative_saturation_developing.clone()
             }
-            MarketCyclePosition::LateAcceptance | MarketCyclePosition::DistributionWarning => (
-                h.consensus_consensus.clone(),
-                h.pricing_fully_priced.clone(),
-            ),
-            _ => (
-                h.consensus_emerging.clone(),
-                h.pricing_partially_priced.clone(),
-            ),
         };
-        let (narrative_saturation, reality_override_notice) = match market_cycle_position {
-            MarketCyclePosition::CrowdedExpectation => (
-                h.narrative_saturation_saturated.clone(),
-                h.reality_override_required.clone(),
-            ),
-            MarketCyclePosition::LateAcceptance | MarketCyclePosition::DistributionWarning => (
-                h.narrative_saturation_crowded.clone(),
-                h.reality_override_required.clone(),
-            ),
-            _ => (
-                h.narrative_saturation_developing.clone(),
-                h.reality_override_watch.clone(),
-            ),
+        let reality_override_notice = match derived.reality_override_priority {
+            HypothesisRealityOverridePriorityKey::Critical
+            | HypothesisRealityOverridePriorityKey::Elevated => h.reality_override_required.clone(),
+            HypothesisRealityOverridePriorityKey::Watch => h.reality_override_watch.clone(),
         };
-        let (reality_override_priority, confidence_decay_notice) = match market_cycle_position {
-            MarketCyclePosition::CrowdedExpectation => (
-                h.reality_override_priority_critical.clone(),
-                h.confidence_decay_required.clone(),
-            ),
-            MarketCyclePosition::LateAcceptance | MarketCyclePosition::DistributionWarning => (
-                h.reality_override_priority_elevated.clone(),
-                h.confidence_decay_required.clone(),
-            ),
-            _ => (
-                h.reality_override_priority_watch.clone(),
-                h.confidence_decay_watch.clone(),
-            ),
+        let reality_override_priority = match derived.reality_override_priority {
+            HypothesisRealityOverridePriorityKey::Critical => {
+                h.reality_override_priority_critical.clone()
+            }
+            HypothesisRealityOverridePriorityKey::Elevated => {
+                h.reality_override_priority_elevated.clone()
+            }
+            HypothesisRealityOverridePriorityKey::Watch => {
+                h.reality_override_priority_watch.clone()
+            }
+        };
+        let confidence_decay_notice = match derived.confidence_decay {
+            HypothesisConfidenceDecayKey::Required => h.confidence_decay_required.clone(),
+            HypothesisConfidenceDecayKey::Watch => h.confidence_decay_watch.clone(),
         };
 
         HypothesisCandidateViewModel {
@@ -1330,7 +1333,7 @@ impl PresentationAssembler {
             pricing_state,
             confidence: HypothesisConfidence::Developing,
             confidence_label: h.confidence_developing.clone(),
-            time_horizon: h.horizon_medium_long.clone(),
+            time_horizon: h.horizon_long.clone(),
             materialization_window: h.materialization_window_12_36_months.clone(),
             tactical_isolation_notice: h.tactical_isolation_long_term.clone(),
             narrative_saturation,
@@ -2480,5 +2483,16 @@ impl PresentationAssembler {
                 .replace("{count}", &same_reason_peers.to_string());
             format!("{} · {}{}", best_symbol, best_reason, peer_text)
         }
+    }
+}
+
+fn hypothesis_market_cycle_phase(position: MarketCyclePosition) -> HypothesisMarketCyclePhase {
+    match position {
+        MarketCyclePosition::EarlyFormation => HypothesisMarketCyclePhase::EarlyFormation,
+        MarketCyclePosition::MidConfirmation => HypothesisMarketCyclePhase::MidConfirmation,
+        MarketCyclePosition::LateAcceptance => HypothesisMarketCyclePhase::LateAcceptance,
+        MarketCyclePosition::CrowdedExpectation => HypothesisMarketCyclePhase::CrowdedExpectation,
+        MarketCyclePosition::DistributionWarning => HypothesisMarketCyclePhase::DistributionWarning,
+        MarketCyclePosition::Unknown => HypothesisMarketCyclePhase::Unknown,
     }
 }

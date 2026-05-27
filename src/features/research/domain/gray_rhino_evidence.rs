@@ -887,3 +887,73 @@ mod tests {
         );
     }
 }
+
+/// スコア可能な evidence かどうかを判定する。
+pub(crate) fn is_scoreable_evidence_record(record: &GrayRhinoEvidenceRecord) -> bool {
+    matches!(
+        record.risk_effect,
+        GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating
+    )
+}
+
+/// スコア可能な evidence だけを返す。
+pub(crate) fn scoreable_evidence_records(
+    records: &[GrayRhinoEvidenceRecord],
+) -> Vec<GrayRhinoEvidenceRecord> {
+    records
+        .iter()
+        .filter(|record| is_scoreable_evidence_record(record))
+        .cloned()
+        .collect()
+}
+
+#[cfg(test)]
+mod scoreable_evidence_tests {
+    use super::*;
+
+    #[test]
+    fn scoreable_evidence_records_keep_directional_risk_effect_only() {
+        let observed_at = chrono::NaiveDate::from_ymd_opt(2026, 5, 27).unwrap();
+        let records = vec![
+            GrayRhinoEvidenceRecord {
+                subject: "MSFT".to_string(),
+                category: GrayRhinoEvidenceCategory::DependencyConcentration,
+                source: GrayRhinoSourceReference {
+                    source_type: GrayRhinoEvidenceSourceType::OperatorCuratedSource,
+                    source_title: "source".to_string(),
+                    publisher: "operator".to_string(),
+                    source_url: Some("https://example.com".to_string()),
+                    repository_path: None,
+                    observed_at,
+                    retrieved_at: observed_at,
+                },
+                confidence: 0.8,
+                risk_effect: GrayRhinoRiskEffect::Amplifying,
+                extraction_note: "note".to_string(),
+                structural_fact: "fact".to_string(),
+            },
+            GrayRhinoEvidenceRecord {
+                subject: "MSFT".to_string(),
+                category: GrayRhinoEvidenceCategory::Redundancy,
+                source: GrayRhinoSourceReference {
+                    source_type: GrayRhinoEvidenceSourceType::OperatorCuratedSource,
+                    source_title: "neutral".to_string(),
+                    publisher: "operator".to_string(),
+                    source_url: Some("https://example.com/neutral".to_string()),
+                    repository_path: None,
+                    observed_at,
+                    retrieved_at: observed_at,
+                },
+                confidence: 0.8,
+                risk_effect: GrayRhinoRiskEffect::Neutral,
+                extraction_note: "note".to_string(),
+                structural_fact: "fact".to_string(),
+            },
+        ];
+
+        let scoreable = scoreable_evidence_records(&records);
+
+        assert_eq!(scoreable.len(), 1);
+        assert_eq!(scoreable[0].risk_effect, GrayRhinoRiskEffect::Amplifying);
+    }
+}

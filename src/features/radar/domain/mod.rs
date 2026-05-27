@@ -4,6 +4,7 @@ pub mod breakout_detection;
 pub mod decision;
 pub mod exit;
 pub mod features;
+pub(crate) mod hypothesis_governance_policy;
 pub mod intent_synthesizer;
 pub mod market_regime;
 pub mod market_state;

@@ -1364,6 +1364,7 @@ mod tests {
             hypothesis_layer.candidates[0].narrative_saturation,
             "saturated narrative"
         );
+        assert_eq!(hypothesis_layer.candidates[0].time_horizon, "LONG");
         assert_eq!(
             hypothesis_layer.candidates[0].materialization_window,
             "12-36 months"

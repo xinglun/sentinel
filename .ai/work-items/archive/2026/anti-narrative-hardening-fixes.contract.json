@@ -1,0 +1,118 @@
+{
+  "contractVersion": 1,
+  "workItemId": "anti-narrative-hardening-fixes",
+  "mode": "code",
+  "title": "Anti-narrative hardening fixes",
+  "scope": [
+    ".ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+    ".ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "src/features/radar/domain/mod.rs",
+    "src/features/radar/domain/hypothesis_governance_policy.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/domain/gray_rhino_temporal_policy.rs",
+    "src/features/shared/interface/i18n.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "新しい反叙事 governance 機能の追加",
+    "Gate / execution / trading state への接続",
+    "capital_access の専用 evidence SSOT 実装"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Hypothesis 反叙事派生が Interface assembler に残っていた。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "scoreable evidence フィルタが Application に重複していた。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "temporal / survivability / scoreability の SSOT が未登録だった。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis 反叙事 governance は Radar Domain policy から派生し、assembler は i18n マッピングのみ担当する。",
+    "Hypothesis time_horizon は構造化表示 LONG と一致する。",
+    "Gray Rhino scoreable evidence フィルタは Domain gray_rhino_evidence に集約される。",
+    "gray_rhino_evidence_schema と contract checker が temporal / survivability / scoreability を検証する。",
+    "Required checks が通過し Work Item が archive される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib hypothesis_governance_policy",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib scoreable_evidence_records_keep_directional",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/check_gray_rhino_evidence_contract.py",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino_interface_does_not_own_evidence_scoreability",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino_temporal_and_survivability_policies_are_domain_owned",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib test_trend_recognition_evidence_mapping",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/anti-narrative-hardening-fixes.contract.json SUMMARY=.ai/work-items/active/anti-narrative-hardening-fixes.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -12,8 +12,8 @@ use crate::features::research::domain::gray_rhino_candidate::{
     GrayRhinoCandidate, GrayRhinoCandidateState,
 };
 use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord, GrayRhinoEvidenceRejection,
-    GrayRhinoRiskEffect,
+    scoreable_evidence_records, GrayRhinoEvidenceCategory, GrayRhinoEvidenceRecord,
+    GrayRhinoEvidenceRejection, GrayRhinoRiskEffect,
 };
 use crate::features::research::domain::gray_rhino_evidence_projection_policy;
 use crate::features::research::domain::gray_rhino_survivability_policy::{
@@ -186,19 +186,6 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             refresh_status: self.repository.load_refresh_status(as_of_date),
         })
     }
-}
-
-fn scoreable_evidence_records(records: &[GrayRhinoEvidenceRecord]) -> Vec<GrayRhinoEvidenceRecord> {
-    records
-        .iter()
-        .filter(|record| {
-            matches!(
-                record.risk_effect,
-                GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating
-            )
-        })
-        .cloned()
-        .collect()
 }
 
 fn dedupe_candidates(candidates: Vec<GrayRhinoCandidate>) -> Vec<GrayRhinoCandidate> {
