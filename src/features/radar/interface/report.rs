@@ -1120,6 +1120,14 @@ fn render_hypothesis_section(
                 ));
                 block.push_str(&format!(
                     "    - {}: {}\n",
+                    h.materialization_window_label, candidate.materialization_window
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.tactical_isolation_label, candidate.tactical_isolation_notice
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
                     h.narrative_saturation_label, candidate.narrative_saturation
                 ));
                 block.push_str(&format!(
@@ -1191,6 +1199,14 @@ fn render_hypothesis_section(
                 block.push_str(&format!(
                     "    - <i>{}: {}</i>\n",
                     h.horizon_label, candidate.time_horizon
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.materialization_window_label, candidate.materialization_window
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.tactical_isolation_label, candidate.tactical_isolation_notice
                 ));
                 block.push_str(&format!(
                     "    - <i>{}: {}</i>\n",

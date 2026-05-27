@@ -1364,6 +1364,13 @@ mod tests {
             hypothesis_layer.candidates[0].narrative_saturation,
             "saturated narrative"
         );
+        assert_eq!(
+            hypothesis_layer.candidates[0].materialization_window,
+            "12-36 months"
+        );
+        assert!(hypothesis_layer.candidates[0]
+            .tactical_isolation_notice
+            .contains("不覆盖当前 NO TRADE"));
         assert!(hypothesis_layer.candidates[0]
             .reality_override_notice
             .contains("现实连续反驳"));
@@ -1416,6 +1423,10 @@ mod tests {
             crate::features::radar::interface::presentation::HypothesisConfidence::Developing
         );
         assert_eq!(candidate.narrative_saturation, "crowded narrative");
+        assert_eq!(candidate.materialization_window, "12-36 months");
+        assert!(candidate
+            .tactical_isolation_notice
+            .contains("不覆盖当前 NO TRADE"));
         assert!(candidate.reality_override_notice.contains("叙事已拥挤"));
         assert_eq!(candidate.reality_override_priority, "ELEVATED");
         assert!(candidate

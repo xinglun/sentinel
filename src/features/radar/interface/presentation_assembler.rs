@@ -1331,6 +1331,8 @@ impl PresentationAssembler {
             confidence: HypothesisConfidence::Developing,
             confidence_label: h.confidence_developing.clone(),
             time_horizon: h.horizon_medium_long.clone(),
+            materialization_window: h.materialization_window_12_36_months.clone(),
+            tactical_isolation_notice: h.tactical_isolation_long_term.clone(),
             narrative_saturation,
             reality_override_notice,
             reality_override_priority,

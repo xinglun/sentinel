@@ -2878,6 +2878,9 @@ mod tests {
         assert!(report.telegram_html_body.contains("不属于当前事实"));
         assert!(report.telegram_html_body.contains("不生成交易信号"));
         assert!(report.telegram_html_body.contains("失败路径"));
+        assert!(report.telegram_html_body.contains("兑现窗口"));
+        assert!(report.telegram_html_body.contains("战术隔离"));
+        assert!(report.telegram_html_body.contains("12-36 months"));
         assert!(report.telegram_html_body.contains("叙事饱和"));
         assert!(report.telegram_html_body.contains("现实覆盖"));
         assert!(report.telegram_html_body.contains("现实覆盖优先级"));

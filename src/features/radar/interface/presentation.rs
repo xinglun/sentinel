@@ -246,6 +246,8 @@ pub struct HypothesisCandidateViewModel {
     pub confidence: HypothesisConfidence,
     pub confidence_label: String,
     pub time_horizon: String,
+    pub materialization_window: String,
+    pub tactical_isolation_notice: String,
     pub narrative_saturation: String,
     pub reality_override_notice: String,
     pub reality_override_priority: String,
