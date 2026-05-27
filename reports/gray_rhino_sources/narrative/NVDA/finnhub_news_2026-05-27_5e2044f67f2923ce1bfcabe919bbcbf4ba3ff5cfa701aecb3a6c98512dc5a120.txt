@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Faces Taiwan Chip Smuggling Probe
+  summary: Report says prosecutors suspect Nvidia chips were routed to China through Japan.
+  url: https://finnhub.io/api/news?id=6c8d4b5eb3a123f1500b91e07288efd7d32639b6b171c7c49decf037a2584a4a

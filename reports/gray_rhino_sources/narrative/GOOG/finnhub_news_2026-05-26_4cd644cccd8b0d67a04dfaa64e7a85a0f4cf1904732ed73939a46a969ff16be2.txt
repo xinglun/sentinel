@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google-backed stock jumps after new AI deal
+  summary: Shares of TeraWulf (Nasdaq: WULF) surged during market hours on May 26 after the Bitcoin miner-turned-AI infrastructure company announced the acquisition of a hyperscale high-performance computing site. TeraWulf is a United States-based digital infrastructure company founded in 2021 by energy ...
+  url: https://finnhub.io/api/news?id=db48aaeccdf9d1a8e6218f3ab5773327eefc60cb637999554b7b233c76168706

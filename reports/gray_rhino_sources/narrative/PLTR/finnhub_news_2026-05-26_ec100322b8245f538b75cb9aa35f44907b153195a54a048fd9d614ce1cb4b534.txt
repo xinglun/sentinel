@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs. BigBear.ai: Which AI Stock Is the Better Buy in 2026?
+  summary: The better buy comes down to which of these AI companies is demonstrating a clear competitive advantage.
+  url: https://finnhub.io/api/news?id=45fb4f9d4118919a92759c818d537680537b9c89624f0309b9729ee3623ad513

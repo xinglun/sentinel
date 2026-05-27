@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google And Amazon Emerge As AI 'Winners' As Magnificent 7 Breaks Apart: Cash Flow Becomes The Ultimate Test, Says Strategist
+  summary: The Mag 7 is breaking apart. Strategist Gina Martin Adams explains why Google and Amazon are emerging as AI winners based on free cash flow.
+  url: https://finnhub.io/api/news?id=67fadae10bad07e9acc42de743216679c2b6fa642a6833a79e5238712e3fa009

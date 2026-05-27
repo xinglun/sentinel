@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Central Bankers Are Pushing Back Against The 'War? Sh!' Strategy - Why Look-Through May No Longer Be A Good Idea
+  summary: Federal Reserve Governor Chris Waller on Friday cast serious doubt on the textbook look-through strategy to handle the Iran War-induced inflationary pressure.
+  url: https://finnhub.io/api/news?id=771f1561f092f9792ef897b62c3c5e0fbc9d1ec7024392aefefe90705706244a

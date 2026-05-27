@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Supermicro and Verda Deliver Sustainable, Full-Stack AI Cloud Infrastructure for Next-Generation AI Workloads
+  summary: Super Micro Computer, Inc. (NASDAQ: SMCI), an AI, Enterprise, Storage, and 5G/Edge Total IT Solution Provider featuring Data Center Building Block Solutions® (DCBBS), today announced that Verda, a leading European AI cloud provider, has selected Supermicro's NVIDIA GPU-accelerated, rack-scale systems to power its modern AI cloud infrastructure across Europe. The deployment enables Verda to deliver high-performance AI-native infrastructure serving frontier model developers, AI-native scaleups, an
+  url: https://finnhub.io/api/news?id=2f5a9b9ac279f90b391647744179e278342080ce1ad00a48088e1c64ad1d8496

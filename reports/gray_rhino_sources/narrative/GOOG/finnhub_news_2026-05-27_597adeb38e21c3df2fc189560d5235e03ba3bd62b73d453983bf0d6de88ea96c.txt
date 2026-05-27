@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ByteDance Weighs Capex of as Much as $70 Billion in AI Push
+  summary: (Bloomberg) -- ByteDance Ltd., the developer of TikTok and a leading force in artificial intelligence, is considering increasing its capital spending to more than double last year’s in a bid to lead the Chinese AI market and challenge the top US players abroad.Most Read from BloombergIran’s Khamenei Says No Going Back for Middle East Rocked by WarSingapore Hands Byju's Founder His First Ever Jail TermPutin Signs Law on Use of Army to Aid Russians Detained AbroadRussia Tells US to Evacuate Its Di
+  url: https://finnhub.io/api/news?id=9d1d2dba05822b40888372cf4d02a77fafa8c4aecb9a66242110f7a1e54ed32c

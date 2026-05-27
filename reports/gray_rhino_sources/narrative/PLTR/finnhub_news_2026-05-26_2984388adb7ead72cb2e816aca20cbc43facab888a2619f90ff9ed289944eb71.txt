@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Betamax Teaches Us About AI – The Business of Entertainment: 2nd Princeton CorpGov Forum
+  summary: Watch Video of the Panel Below, or Click HERE: CorpGov hosted the second Princeton CorpGov Forum on May 21, 2026, at The Nassau Inn in Princeton, New Jersey. Speakers featured industry leaders and alumni spanning five decades at Princeton, and topics comprised university endowments, shareholder activism, private equity, venture capital, private and public capital markets, […] The post What Betamax Teaches Us About AI – The Business of Entertainment: 2nd Princeton CorpGov Forum appeared first on
+  url: https://finnhub.io/api/news?id=c5359cddeacdb9d38f34eecdaafd44210436b3b74d8174642dda2b86e3b8dced

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ripple (XRP) News: Elizabeth Warren Says Ripple’s Bank Charter Was Granted Illegally
+  summary: For months, Ripple’s (CRYPTO: XRP) national bank charter has been sold as the thing that finally pulls XRP into the regulated financial system. It was the legal key, the proof that Ripple had grown from a payments company into something the banks themselves would have to take seriously. Now one of the most powerful critics ... Ripple (XRP) News: Elizabeth Warren Says Ripple’s Bank Charter Was Granted Illegally
+  url: https://finnhub.io/api/news?id=87675d88e5027664b46dc34666840a6fa9f7acf577e48950ce353344dc308779

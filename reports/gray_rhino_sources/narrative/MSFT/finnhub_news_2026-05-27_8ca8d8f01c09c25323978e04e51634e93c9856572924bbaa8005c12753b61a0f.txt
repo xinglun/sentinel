@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's AI Momentum Builds: Analyst Sees Copilot Seats Topping 25 Million, Azure Growth Above 40%
+  summary: BNP Paribas analyst Stefan Slowinski said Microsoft Corp is gaining momentum across its AI strategy as Copilot adoption improves, Azure growth accelerates, and concerns around OpenAI ease. Slowinski maintained an Outperform-equivalent "(+)" rating with a $555 price forecast, implying 33%...
+  url: https://finnhub.io/api/news?id=1b9cea1380129b8239617f2acb5993670c6a939c2be80aca5e2a257819d35a6b

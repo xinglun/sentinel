@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agora, the Denodo Cloud Service, now available on the Microsoft Marketplace to Power Agentic AI Use Cases
+  summary: Agora enables Microsoft Azure customers worldwide to leverage their full data estate across hybrid, multi-cloud, and data-sovereignty environments to accelerate agentic AI initiativesPALO ALTO, Calif., May 27, 2026 (GLOBE NEWSWIRE) -- Denodo, a leader in data management and a Microsoft AI Cloud Partner, announced that Agora, the Denodo Cloud Service — a fully managed platform — is now available on the Microsoft Marketplace. Agora provides native integrations with Microsoft services including Mic
+  url: https://finnhub.io/api/news?id=31df94f5b38959eb7495a787999d0b0d3fc6304605f70c69b50ab7d0fcdba2e7

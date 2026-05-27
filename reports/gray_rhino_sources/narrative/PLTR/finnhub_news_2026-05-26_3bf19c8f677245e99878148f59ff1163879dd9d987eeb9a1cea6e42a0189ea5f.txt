@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Harvest Investment Services Dumps 356,000 Adaptive Biotechnologies (ADPT) Shares Worth $5.7 Million
+  summary: Adaptive Biotechnologies develops immune-driven diagnostics and research tools for the life sciences and healthcare sectors.
+  url: https://finnhub.io/api/news?id=a755cde37698095d83dc3c58894c0db6b82dbd54dc45ef5e2fd5ef0dd32259ac

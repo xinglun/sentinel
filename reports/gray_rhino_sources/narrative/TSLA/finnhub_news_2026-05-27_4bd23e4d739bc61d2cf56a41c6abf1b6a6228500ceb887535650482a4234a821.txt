@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: American Airlines' Starlink Deal Has Cathie Wood Thinking About Mars
+  summary: American Airlines will include SpaceX&#39;s Starlink internet service on its flights; Could frequent flyer miles become &#34;Starship miles&#34;?
+  url: https://finnhub.io/api/news?id=732496ae2691cda8832ac659344d0cff02dfac359cf3f03b98024424bcb2f09e

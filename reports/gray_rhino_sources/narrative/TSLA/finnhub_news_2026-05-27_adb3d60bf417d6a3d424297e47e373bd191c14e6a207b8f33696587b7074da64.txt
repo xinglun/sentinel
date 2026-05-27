@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs. Alphabet: Who Wins the Autonomous AI Race?
+  summary: Robotaxis may soon be a $10 trillion business.
+  url: https://finnhub.io/api/news?id=a86222e7fafda119f9aeaa8f73fdafd9023fd87293dd0dc9ef252a259d4c4a15

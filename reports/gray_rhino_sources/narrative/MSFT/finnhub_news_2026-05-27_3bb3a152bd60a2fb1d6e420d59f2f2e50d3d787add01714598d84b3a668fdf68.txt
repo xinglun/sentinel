@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cerebras Surged 68% on Its First Day of Trading. Here's What That Tells Us About SpaceX's Upcoming Monster IPO
+  summary: SpaceX's IPO may be the biggest ever, approaching nearly $2 trillion.
+  url: https://finnhub.io/api/news?id=eae796685277fa52bcb2435e0f624983b8486ab85b4e7641a04416c342dc08d1

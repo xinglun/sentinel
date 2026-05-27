@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RPG Investment Advisory Opens Centrus Energy Stake Valued at $9 Million, According to Recent SEC Filing
+  summary: Centrus gives investors rare exposure to the bottleneck behind nuclear fuel: uranium enrichment. The next hurdle is turning contracts, centrifuge manufacturing, and the Piketon expansion into production capacity.
+  url: https://finnhub.io/api/news?id=30db9af9688b5f339249e542e6edc06e1513b9b70be27f5939c6e75c43c3e044

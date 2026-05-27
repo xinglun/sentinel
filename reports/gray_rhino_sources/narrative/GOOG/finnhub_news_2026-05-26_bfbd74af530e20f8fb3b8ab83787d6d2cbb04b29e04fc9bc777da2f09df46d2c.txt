@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Google’s $15 Billion Missouri AI Data Hub Strategy Could Reshape Alphabet’s (GOOGL) Investor Narrative
+  summary: In May 2026, Google announced a US$15.00 billion investment in new infrastructure across Missouri, anchored by a New Florence data center that emphasizes grid-resilient power sourcing, advanced air-cooling, and community-focused programs such as a US$20.00 million Energy Impact Fund and large-scale workforce training initiatives. By funding all incremental energy infrastructure it requires while helping lower local household utility bills, Google is using its AI-driven data center expansion...
+  url: https://finnhub.io/api/news?id=7d37f0cc103155dbbba5f9ae160a16f098b33f7502935db108ff2c12b157a4cc

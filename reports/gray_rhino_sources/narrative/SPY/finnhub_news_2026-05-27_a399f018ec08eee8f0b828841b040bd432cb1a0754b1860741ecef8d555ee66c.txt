@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A $1.2M Portfolio Lost $187,000 in Three Weeks. Could a Bond Sleeve Help?
+  summary: A 67-year-old retiree opens her brokerage statement after three turbulent weeks and sees the balance has fallen from $1.2 million to roughly $1.013 million. The portfolio is 100% S&P 500 index funds. The paper loss of about $187,000 is real money that could fund groceries, property taxes, and Medicare premiums. This scenario plays out regularly ... A $1.2M Portfolio Lost $187,000 in Three Weeks. Could a Bond Sleeve Help?
+  url: https://finnhub.io/api/news?id=d3709fecf7b910cb727e99675fa9a652d3f97fb819bbdbb41010b30a5ecc04bf

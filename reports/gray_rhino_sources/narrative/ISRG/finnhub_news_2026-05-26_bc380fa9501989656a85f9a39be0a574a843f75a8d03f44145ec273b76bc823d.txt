@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG vs. MDT: Which Surgical Robot Stock Is the Better Buy?
+  summary: ISRG is widening its robotic surgery lead with faster growth, rising procedures and a recurring revenue model as Medtronic builds Hugo.
+  url: https://finnhub.io/api/news?id=b5b31b1d1b1bfe4f8f84b859d4b81f709eaaec26388d676bb6b0628bb0013a13

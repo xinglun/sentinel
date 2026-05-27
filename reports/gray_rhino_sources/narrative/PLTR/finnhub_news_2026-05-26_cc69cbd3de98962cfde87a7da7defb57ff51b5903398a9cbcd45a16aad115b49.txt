@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The NIL Effect – Finance of Sports: Collegiate Focus: 2nd Princeton CorpGov Forum
+  summary: Watch Video of the Panel Below, or Click HERE: CorpGov hosted the second Princeton CorpGov Forum on May 21, 2026, at The Nassau Inn in Princeton, New Jersey. Speakers featured industry leaders and alumni spanning five decades at Princeton, and topics comprised university endowments, shareholder activism, private equity, venture capital, private and public capital markets, […] The post The NIL Effect – Finance of Sports: Collegiate Focus: 2nd Princeton CorpGov Forum appeared first on CorpGov.
+  url: https://finnhub.io/api/news?id=9493fb554e3a9d5750727f59e28a2568889f194221cdcf44ed91b8e48d5f3436

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Hopes to Change the Conversation Ahead of Earnings
+  summary: Salesforce reports earnings Wednesday as investors look for signs that Agentforce can offset slowing core growth and concerns about AI-driven disruption to its software pricing model.
+  url: https://finnhub.io/api/news?id=52719896bf10c582a30675cc3962305073e53d09da8da2e06e7b86f25d3b3002

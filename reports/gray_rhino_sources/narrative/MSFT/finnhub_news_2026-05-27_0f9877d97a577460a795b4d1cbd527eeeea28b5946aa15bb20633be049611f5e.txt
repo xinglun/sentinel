@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dividend Income Update Q1 2026
+  summary: The markets may swing wildly from week to week and month to month, but dividends are seemingly more stable, reliable and predictable. Read more here.
+  url: https://finnhub.io/api/news?id=c55ebbfe070b582c427e7a088449649a1b6c1884f25f19e97be5752b140af5f1

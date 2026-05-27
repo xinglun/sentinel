@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Stanley Druckenmiller Just Sold 2 Key AI Stocks. He Bought Broadcom Instead.
+  summary: Broadcom is attracting fresh attention after Duquesne initiated a new AVGO position, while the company’s AI semiconductor revenue continues to accelerate.
+  url: https://finnhub.io/api/news?id=a8f8c454c66b04804a6e87052f7aa17ca16cbdc2a43540355662299f4408ab3a

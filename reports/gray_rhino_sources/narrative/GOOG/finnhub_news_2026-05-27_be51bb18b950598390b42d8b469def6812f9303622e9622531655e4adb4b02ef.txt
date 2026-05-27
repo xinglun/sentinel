@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bandwidth to Participate in TD Cowen Inaugural Disruptive Technology Summit
+  summary: Bandwidth Inc. (NASDAQ: BAND), a leading global cloud communications company, today announced that the company will participate in the TD Cowen Inaugural Disruptive Technology Summit in New York City on Wednesday, June 17, 2026. Investors interested in scheduling either one-on-one or group meetings with management should contact a TD Cowen representative or Bandwidth's investor relations team at ir@bandwidth.com.
+  url: https://finnhub.io/api/news?id=a048607fd92c72c6b797eab86dc2d28cb1b48fcc18c00e69ab12a33f63e5922a

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs. UiPath: Which AI-First Software Stock is a Buy?
+  summary: PLTR stands out in AI software with growing government and enterprise adoption, while UiPath faces slower growth expectations.
+  url: https://finnhub.io/api/news?id=f89c3a59812922b68f726d5e5aac80ea2e659c13ce438cd141d277b159dc39e8

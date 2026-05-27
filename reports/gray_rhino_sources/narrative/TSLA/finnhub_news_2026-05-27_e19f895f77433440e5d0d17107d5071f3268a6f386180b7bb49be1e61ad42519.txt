@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Tesla: This Cash-Rich Automotive Underdog Is A Value Buy
+  summary: Tesla (NASDAQ:TSLA) is dominating every financial feed again after a 15.22% one-month rip back to $433.59, fueled by the same robotaxi and Optimus narrative that has powered the stock for years. But here’s what you should actually be watching. The Tesla Story Has a Quality Problem Tesla trades at a trailing P/E of roughly 391 ... Forget Tesla: This Cash-Rich Automotive Underdog Is A Value Buy
+  url: https://finnhub.io/api/news?id=490bcf13289b385f811ac001e1b26a390c590536dfb44c7786bb3642157230ce

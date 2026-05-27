@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GTS Securities Buys $47.8 Million Worth of This Brand-New Quality-Growth ETF
+  summary: The actively managed Sapient Quality Select ETF (SQS) targets quality-growth companies aligned with long-term economic trends across multiple sectors.
+  url: https://finnhub.io/api/news?id=690fe121386c68abbe83d43d826b9edaa2270bafe91d1f70efc440d7c3c820f9

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Generative AI Hardware Materials Market 2026-2036: Focus on Semiconductors, Memory, Packaging, and Thermal Management, NVIDIA and AMD Lead AI Accelerator Silicon
+  summary: The Generative AI Hardware Materials Market, integral to the semiconductor industry, addresses surging demand for AI infrastructure, with focus on silicon, memory, and advanced packaging. Key players like NVIDIA and AMD lead AI accelerator silicon. Opportunities arise from innovations in thermal management and power delivery. Asia, particularly Taiwan, Korea, and China, dominates supply. Geopolitical and sustainability factors influence market trajectory through 2036.Dublin, May 27, 2026 (GLOBE
+  url: https://finnhub.io/api/news?id=045bf20c602637532619b642f022a61d4dff3c8653439cc35a195329497d13fe

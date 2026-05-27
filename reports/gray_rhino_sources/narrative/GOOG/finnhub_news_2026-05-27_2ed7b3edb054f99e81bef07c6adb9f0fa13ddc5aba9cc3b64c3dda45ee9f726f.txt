@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analysis-Europe's push to break Big Tech's grip tempered by internal debate
+  summary: European leaders are divided on how far to go in curbing Big Tech as they weigh momentous decisions over giving EU firms preferential access to mobile satellite spectrum and limiting large multinationals' access to EU cloud tenders.  On Tuesday, ‌Reuters reported Brussels was likely to leave an opening for Elon Musk's Starlink and Amazon's low-earth-orbit satellite business Leo to acquire lucrative European ‌mobile satellite spectrum next year as a result of a compromise that will reserve the bulk of frequencies for European firms.  A separate decision on EU cloud tenders set for June 3 is expected to ​temper the influence of U.S. firms such as Amazon, Alphabet's Google and Microsoft, which dominate the global cloud market with a combined 63% share.
+  url: https://finnhub.io/api/news?id=d6d119f22ffcec5aa5a2d9d75f10c7ed01a84791b2ddf310001a7d82350d4ff2

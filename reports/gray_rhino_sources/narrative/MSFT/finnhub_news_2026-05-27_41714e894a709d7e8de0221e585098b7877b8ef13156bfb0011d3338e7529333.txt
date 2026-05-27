@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Co-Packaged Optics Market Size to Hit USD 1,923.64 million by 2035 | SNS Insider
+  summary: The U.S. Co-Packaged Optics (CPO) Market size was valued at USD 39.61 million in 2025 and is predicted to attain a value of USD 834.82 million by 2035, growing with a CAGR of 30.25%. This growth is mainly attributed to huge investments in hyperscale artificial intelligence infrastructure in various data centers of leading cloud computing providers like Amazon Web Services, Microsoft Azure, Google Cloud, Meta, and Oracle in the United States. The Europe co-packaged optics market size, on the othe
+  url: https://finnhub.io/api/news?id=047cdd35d87ecebd2322454daa39c1e95e4c4e94ca386935ebaf7ece82bf25c7

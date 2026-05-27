@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Logs Strong Growth in European Monthly Sales
+  summary: In the EU alone, sales grew over 67%, a sign that Elon Musk’s EV maker continues to regain momentum in the region after a slump stretching more than a year.
+  url: https://finnhub.io/api/news?id=9b608933d932d9785ccaf0fbeaf7039ea6bc7cee95c21d7309321c29589fa41a

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Juneteenth Event Connects CUNY, HBCUs and Big Tech on Black Economic Power and Ownership
+  summary: The Excellence in Leadership Tour: Juneteenth will focus on "Black Innovation. Collective Power. Generational Wealth." NEW YORK CITY, NY / ACCESS Newswire / May 27, 2026 / The Excellence in Leadership Tour: Juneteenth is an immersive convening that ...
+  url: https://finnhub.io/api/news?id=a946fec0bf34b9ac971995a41102e76da4a3a9d38aad51742d18dee0be0242c2

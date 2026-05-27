@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Record Profits, Not Hype: Goldman Says Nvidia And Micron Take The S&P 500 To 8,000
+  summary: Goldman Sachs raised its S&amp;P 500 target to 8,000, citing AI-driven earnings from Nvidia and Micron. Here is what it means.
+  url: https://finnhub.io/api/news?id=6e58f46645332c8dbfcb9d50b71d5d21b712c0affe5476760b41a564c0cfc5bd

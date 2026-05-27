@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New 'Reform-Minded' Fed Chair Runs Into Inflation, Rate Hike Expectations
+  summary: President Trump's pick to head the Federal Reserve and push forward rate cuts will have to deal with rising inflation and a fragile jobs market that will make any course changes difficult.
+  url: https://finnhub.io/api/news?id=30d9933435b8ea0ac852eafb31127a5d518d5ba4e04e029cb5416bffb8b52a7b

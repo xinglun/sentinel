@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rides SpaceX Hype: Trump Floats $20B Lunar Push, Musk Eyes 'Major' Moon Base
+  summary: Musk fueled excitement by calling for a “major base on the Moon” and calling lunar and Martian colonies SpaceX’s “prime directive.”
+  url: https://finnhub.io/api/news?id=03da5bad6b4fd1ce844de74ba782e2fa8049667d18eb7b3fae7001d9d00eedf6

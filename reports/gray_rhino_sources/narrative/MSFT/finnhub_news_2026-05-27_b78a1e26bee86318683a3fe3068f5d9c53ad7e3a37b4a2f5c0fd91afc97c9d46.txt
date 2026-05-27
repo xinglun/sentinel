@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data centre operator IREN signs $1.6bn Dell deal for Blackwell systems at Texas AI campus
+  summary: IREN plans to deploy Blackwell systems at its Childress campus, with commissioning of the new infrastructure expected in early 2027.
+  url: https://finnhub.io/api/news?id=9529b68a0606d4239d9c3e45707c4a30701bc14b1a9aba2e720f6d2129b5b91e

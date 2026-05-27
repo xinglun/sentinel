@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Webull Stock Generate 4x Returns By 2030?
+  summary: Webull (NASDAQ:BULL) posts blistering top-line growth while its stock sits in the bargain bin. Q1 2026 revenue jumped 36% YoY to $159.93 million, customer assets ballooned 90% to $24 billion, and equity notional volume more than doubled to $261 billion. Yet shares are down 19.43% YTD and trade at just $6.26. Can this active-trader platform ... Can Webull Stock Generate 4x Returns By 2030?
+  url: https://finnhub.io/api/news?id=b603ced89b9c8484e1f07c3c4d9546d344e225d6f775f13fe8c8c77a4bb9b562

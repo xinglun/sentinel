@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Donald Trump Said 'Micron's Great'—3 Days Later MU Stock Crosses $1 Trillion In Market Cap
+  summary: &#34;Micron&#39;s great,&#34; Trump said as the chipmaker topped $1 trillion. Prediction markets are now betting on whether Washington takes a stake next.(
+  url: https://finnhub.io/api/news?id=5b1836d01634469e6ad72c14efe85452908c1c4ad56a2df1d7d2699ac0c9f4fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Aitech Supercharges its Space-Proven Rugged AI Systems with NVIDIA IGX Thor
+  summary: Aitech, a global leader in rugged, embedded AI-ready computing solutions, today announced it will integrate the NVIDIA IGX Thor platform into its S-A2300 COTS AI Supercomputer and future designs, expanding AI computing capabilities and ushering in a new era of accelerated computing for space and missions requiring edge AI. By integrating IGX Thor, Aitech is positioned to provide deployable, mission-ready space computing systems for the harshest operational environments.
+  url: https://finnhub.io/api/news?id=92fd7f63be93e6a8e9dbde9cece67f49df015126ba4f39d3cdb0c02c71b9b9f4

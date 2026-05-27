@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Is Down 34% from Its Highs. Don’t Miss This Chance to Buy the Dip.
+  summary: Demand for Palantir’s Artificial Intelligence Platform (AIP) continues to accelerate, supporting its revenue and earnings.
+  url: https://finnhub.io/api/news?id=c6dd249033d466ad0db6b24f28c8ef080ea030460898d58a1c4b2cef5735fe5e

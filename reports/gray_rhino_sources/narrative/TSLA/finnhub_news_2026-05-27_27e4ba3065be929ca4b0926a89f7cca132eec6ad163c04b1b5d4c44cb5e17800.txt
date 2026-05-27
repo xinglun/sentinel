@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Stock Flashes Death Cross As Tesla Model Y Rival Nears Launch
+  summary: Rivian stock formed a Death Cross as investors weigh the upcoming R2 launch, Rivian&#39;s challenge to Tesla&#39;s Model Y, and continued concerns around EV demand and cash burn.
+  url: https://finnhub.io/api/news?id=f3a6ff4aa5197b2d0d7f37afb1fa0361e34748bea035c62a576a9e0757161c8d

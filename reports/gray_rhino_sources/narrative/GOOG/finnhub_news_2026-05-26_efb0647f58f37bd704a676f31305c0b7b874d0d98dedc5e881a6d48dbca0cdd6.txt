@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven Post Best Earnings In Nearly 5 Years. Sign Of A Bubble?
+  summary: The Magnificent Seven's first-quarter earnings are in the books, and the seven companies registered their best profit growth in nearly five years.  All remain pillars of the S&P 500 index.  Collectively, Mag 7 earnings jumped 63.2% year over year, according to a report from FactSet.
+  url: https://finnhub.io/api/news?id=b8b62b71e0ab8fc9256ecae2f378a0644d35f78c608ebd2c8578145f04b02137

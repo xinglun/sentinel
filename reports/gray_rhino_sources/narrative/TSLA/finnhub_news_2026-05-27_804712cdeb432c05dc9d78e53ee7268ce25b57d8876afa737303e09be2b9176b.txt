@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Gains As Tesla EV Registrations Soar In Europe — Ross Gerber Says 'High Gas Prices Work Their Magic'
+  summary: According to data from the European Automobile Manufacturers’ Association, Tesla sold 9,169 cars in the European Union in April, up from 5,483 units in the same period a year ago.
+  url: https://finnhub.io/api/news?id=7772a50129566b825a091dce0149b89aca9f124204a9be46922a839f68ce16dc

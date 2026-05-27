@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Odds Are Stacked in Favor of This AI Stock. Here's the Math.
+  summary: There's increasing competition in nearly all parts of the AI space -- except for one.
+  url: https://finnhub.io/api/news?id=9218498297b7dfdefe5f0556c78be7a99dc3a1a4a305235e2dc49c82950846a9

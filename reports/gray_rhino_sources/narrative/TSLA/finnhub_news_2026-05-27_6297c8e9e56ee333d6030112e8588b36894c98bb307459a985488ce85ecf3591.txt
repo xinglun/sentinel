@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Is Rising Again. Europe EV Sales Are Helping This Time.
+  summary: Helping were sales data from Europe that showed Tesla sold 10,654 cars in April, up 46.5% year over year.  It’s been a strong year for European EV sales, amid higher oil prices.  In 2025, Tesla sold 238,656 vehicles in Europe, down 26.9% year over year.
+  url: https://finnhub.io/api/news?id=5c0f4f2d2b6953fea2bb8d2d3baa13300358105a23695f4144dbf21cf8f5cbeb

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Stock Rises Again. What Comes Next for Memory Chips.
+  summary: Micron Technology  stock was gaining again early Wednesday as it built on its surge from the previous day.  Memory chips are the hottest play on artificial-intelligence hardware.  Micron shares were up 7.4% at $962 in premarket trading.
+  url: https://finnhub.io/api/news?id=09ae2c29e9b41993ca6e109e1c1bd339ecec1ff6bad620298bcc6d5fc5e83479

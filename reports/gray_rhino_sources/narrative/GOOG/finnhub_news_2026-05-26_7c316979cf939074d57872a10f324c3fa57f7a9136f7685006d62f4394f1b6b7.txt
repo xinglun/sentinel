@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the market could be in 'the most logical' bubble in history
+  summary: As the Nasdaq Composite (^IXIC) and S&P 500 (^GSPC) are on track to close Tuesday's session at new records, the AI trade and rallies in chip stocks continue to be the biggest catalysts for markets trading at all-time highs. Ritholtz Wealth Management director of institutional asset management Ben Carlson examines the broader trends dictating market moves.
+  url: https://finnhub.io/api/news?id=ae8d40fbbe485b11357362ea84f67091334a6b45abe316b77c9021c91fc9623f

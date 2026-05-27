@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Grayscale Reveals The One DAT That Could Beat MicroStrategy’s Bitcoin Treasury
+  summary: Grayscale says SpaceX will be the largest diversified public Bitcoin holder after its June IPO with 18,712 BTC.
+  url: https://finnhub.io/api/news?id=af9f0e9651e73c8a8483f4fb65f1b08911b8c2aa052152ad69b0076e4685719c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises As Oil Prices Extend Their Losses; Micron Continues To Surge (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Wednesday as oil prices continued to tumble. Micron stock surged in morning trading.
+  url: https://finnhub.io/api/news?id=723c0e02523f5638a88479d13f8289c2584019c040aba09f92153d223ce27f51

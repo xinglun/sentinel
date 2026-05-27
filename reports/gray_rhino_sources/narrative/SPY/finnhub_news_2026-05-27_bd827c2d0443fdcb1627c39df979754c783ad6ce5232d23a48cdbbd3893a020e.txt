@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Nasdaq, Dow Futures Rise Following Tech Rally—Zscaler, United Microelectronics, Braiin In Focus (UPDATED)
+  summary: (Editor’s note: The future prices of benchmark tracking ETFs and the headline, were updated in the story.)
+
+
+
+U.S. stock futures rose on Wednesday, after a mixed close on Tuesday as the Nasdaq advanced, led by tech stocks, while the Dow Jones index ended lower.
+  url: https://finnhub.io/api/news?id=b31d7ba18ba14b054bf44112938620df55172d746cd70295e28c940a566e4560

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Just Became America's 10th-Most-Valuable Company. Wall Street Says It Could Pass Tesla and Meta Next.
+  summary: Surging demand for the memory chipmaker's AI products has sent its stock soaring. But a rally this steep doesn't come without risk.
+  url: https://finnhub.io/api/news?id=e5d43177510263707a05d1dfa9895e4e25c76052fd8ca6d9d4f2c3ace16d3ee4

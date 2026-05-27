@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: KeyBanc Reiterates Overweight Rating on Microsoft (MSFT) on Azure and Copilot Growth
+  summary: Microsoft Corporation (NASDAQ:MSFT) ranks among the best stocks for a couch potato portfolio. Microsoft Corporation (NASDAQ:MSFT) was reiterated as Overweight by KeyBanc on May 5, with a $600 price target. The firm continues to focus on Azure capability and growth, Copilot usage through Microsoft 365 Commercial Cloud expansion, and capital expenditures at the company. KeyBanc’s […]
+  url: https://finnhub.io/api/news?id=ca43eb8129c7b45d1ea56a2f9115ed35352d7277e43faf773691e344ade9bfad

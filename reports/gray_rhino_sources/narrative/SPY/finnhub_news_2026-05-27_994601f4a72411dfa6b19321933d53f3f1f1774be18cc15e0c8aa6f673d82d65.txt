@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Stock Market Warning Signs: Red Hot IPOs, Record Margin Debt, Lowest Ever S&P 500 Yield, Meme ETFs
+  summary: SPY shows market-top signs: double top, IPO mania, record margin debt, and low cash. The S&P 500's 1.05% dividend yield. See more details here.
+  url: https://finnhub.io/api/news?id=fca42c32855f9b023e41090a0589cf178d54e2b89c97f73dca5449083be40c66

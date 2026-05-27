@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Roars Back In Europe, But BYD Is Growing Even Faster As The EV Race Heats Up
+  summary: Tesla, BYD, and Geely saw positive sales growth in Europe in April as EV sales continue to rise in the region.
+  url: https://finnhub.io/api/news?id=2100770a0bb38e6e8f33b1915900957e7257521149788bf03b53dfd902d809c3

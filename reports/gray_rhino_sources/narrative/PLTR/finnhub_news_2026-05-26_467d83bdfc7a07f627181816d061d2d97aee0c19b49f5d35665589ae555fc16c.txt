@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Insiders Dump Shares Worth Over $43 Million
+  summary: Palantir Insider Cashes Out $43 Million Worth of Shares Amid AI Boom
+  url: https://finnhub.io/api/news?id=cff3d8a9d1a7542c44754c132de476e1903a5b47a0d69b3f91d93e92ee545699

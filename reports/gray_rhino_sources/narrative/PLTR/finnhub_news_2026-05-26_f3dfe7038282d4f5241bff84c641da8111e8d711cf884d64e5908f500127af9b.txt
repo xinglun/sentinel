@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX & Beyond – Public & Private Capital Markets Assessment: 2nd Princeton CorpGov Forum
+  summary: Watch Video of the Panel Below, or Click HERE: CorpGov hosted the second Princeton CorpGov Forum on May 21, 2026, at The Nassau Inn in Princeton, New Jersey. Speakers featured industry leaders and alumni spanning five decades at Princeton, and topics comprised university endowments, shareholder activism, private equity, venture capital, private and public capital markets, […]
+  url: https://finnhub.io/api/news?id=ec0745c7b82c479ffc6cee087acacd2e7e786a823641f86d0b23e4006b927b30

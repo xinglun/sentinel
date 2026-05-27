@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran's State TV Says In Return, Iran Has Committed To Restoring The Number Of Commercial Transit Ships Through Hormuz Strait To Pre-War Levels Within In One Month; Says Military Vessels Are Not Included In This Draft Agreement; Says The Management And Route Of Ship Traffic Through Strait Of Hormuz Will Be Handled By Iran In Cooperation With Oman
+  summary: - Reuters Citing Iranian State TV
+  url: https://finnhub.io/api/news?id=ced6c1322d45d6a0f069ea7cfc00c116d54b09018f3c37f429419344c625efcb

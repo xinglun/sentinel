@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Elon Musk Will Become the World’s First Trillionaire on June 12th
+  summary: Here’s a prediction worth marking on the calendar: Tesla (NASDAQ:TSLA) CEO Elon Musk will become the world’s first trillionaire on June 12, the reported IPO date for SpaceX. The catalyst is easy to figure out: SpaceX’s public debut will, for the first time, place a continuously quoted market value on the largest single component of ... Prediction: Elon Musk Will Become the World’s First Trillionaire on June 12th
+  url: https://finnhub.io/api/news?id=f1051bab9ef79ccd8ac9c99dc8be1ea016e9977ff98802cfc59f9ede778a64e4

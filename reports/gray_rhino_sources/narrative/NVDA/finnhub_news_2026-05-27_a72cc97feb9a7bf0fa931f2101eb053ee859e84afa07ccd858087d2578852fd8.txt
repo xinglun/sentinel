@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitcoin Is Down 7 Percent This Year But Bitcoin Mining ETFs Are Up Over 50 Percent. This Is The Real Crypto Story of 2026
+  summary: Spot Bitcoin has spent 2026 grinding lower while the companies that mine it have ripped higher. iShares Bitcoin Trust ETF (NASDAQ:IBIT), the largest spot Bitcoin ETF on the market, is down roughly 13% year to date, tracking Bitcoin itself almost tick for tick as the coin has slid from around $87,000 at year end to ... Bitcoin Is Down 7 Percent This Year But Bitcoin Mining ETFs Are Up Over 50 Percent. This Is The Real Crypto Story of 2026
+  url: https://finnhub.io/api/news?id=ee3444cfd4af8fa171a89f6a6e735323ec824a68ba34349f371ead8c759a9205

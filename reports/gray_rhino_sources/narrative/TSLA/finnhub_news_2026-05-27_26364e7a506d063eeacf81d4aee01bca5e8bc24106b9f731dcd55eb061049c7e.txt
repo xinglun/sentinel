@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GM Scales Back EV Ambitions On Earth, Then Lands A Spot On NASA's Moon Rover Project
+  summary: General Motors, will supply battery-electric propulsion for a lunar terrain vehicle as NASA&#39;s Moonbase goals progress.
+  url: https://finnhub.io/api/news?id=27db197e64e120e928d8c784c9058f6de7eacfa516bc39731c7197780d59c728

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: The Outperformance Opportunity Has Moved To A New Mag 7 Company
+  summary: Alphabet has rapidly achieved market cap dominance over Microsoft, far sooner than anticipated. Read why GOOG stock is a Hold.
+  url: https://finnhub.io/api/news?id=67d660f4a97dc111c8641b9a301d5e7022d2eaba904a6dda48153a0d2e49daa8

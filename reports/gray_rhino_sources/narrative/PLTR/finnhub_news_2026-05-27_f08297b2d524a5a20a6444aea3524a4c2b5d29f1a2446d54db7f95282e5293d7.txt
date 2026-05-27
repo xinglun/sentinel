@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia and Palantir Have a $120 Billion Warning for Wall Street That Investors Simply Can't Ignore
+  summary: Evidence is mounting that investors' expectations for artificial intelligence (AI) aren't realistic.
+  url: https://finnhub.io/api/news?id=224b5bef237caabcc7ad3ba00ca198f74a082c3f951d81619545b4927f6059ac

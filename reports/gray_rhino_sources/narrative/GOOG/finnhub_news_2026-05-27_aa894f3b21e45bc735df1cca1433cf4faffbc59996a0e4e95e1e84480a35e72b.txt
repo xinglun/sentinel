@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Snowflake Reports Earnings Amid Turmoil in the Software Sector
+  summary: Snowflake is counting on its revenue model and data warehousing to flourish with the rise of AI agents. It will report earnings after the close Wednesday.
+  url: https://finnhub.io/api/news?id=de5881874c3a06721b4303951a3aa40fd47f08c6d60df91c9db8ace113cef341

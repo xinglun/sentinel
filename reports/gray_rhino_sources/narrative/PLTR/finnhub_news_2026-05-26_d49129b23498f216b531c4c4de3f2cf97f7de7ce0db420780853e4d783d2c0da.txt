@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings Season Is Almost in the Books -- but Guidance Is the Real Story Investors Need to Read
+  summary: The future looks bright for AI, but it's not all about AI.
+  url: https://finnhub.io/api/news?id=3c81fe05f052783e3c378ecba46ed3fe6bdbe1940649c8c8d94de298d38be094

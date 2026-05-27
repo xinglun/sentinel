@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As “Trumpflation” Threatens the AI-driven Bull Market, a Sub-$50 Ultra-Safe Income Gem Stands Ready
+  summary: With the Consumer Price Index climbing from 325.252 in January 2026 to 333.020 in April 2026, the “Trumpflation” narrative is now visible in the data, and a central bank that may be forced back into a hiking posture is the kind of cocktail that turns AI-led euphoria into AI-led indigestion. When that happens, retail investors ... As “Trumpflation” Threatens the AI-driven Bull Market, a Sub-$50 Ultra-Safe Income Gem Stands Ready
+  url: https://finnhub.io/api/news?id=fc6d92dfed28abc56578d145212a1211a0ddd2a787f2ac833adb327d53441aa0

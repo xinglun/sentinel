@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: Qualcomm Stock Will Trade at This Price in 2028
+  summary: Qualcomm (NASDAQ:QCOM) just did something I did not expect this year. Shares rose 27.2% in a single week and sit at $248.82, with the stock up 46.41% year to date. CEO Cristiano Amon told investors last month, “We are in a period of profound industry transformation, the rise of AI agents is reshaping our roadmap ... Price Prediction: Qualcomm Stock Will Trade at This Price in 2028
+  url: https://finnhub.io/api/news?id=f3e03e3f5c8b989e617629e3572c38384cc1a546eeac551eff8ce4d951ac3f48

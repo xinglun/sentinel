@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sam Altman's Brother Calls QQQ A 'Tough Hurdle To Beat' — But AI Is Fueling A New ETF Winner In 2026
+  summary: The iShares MSCI Emerging Markets ETF (EEM) has surged 25% so far in 2026, overtaking the State Street SPDR S&P 500 ETF Trust (SPY), State Street SPDR Dow Jones Indust Avg ETF Trust (DIA), and the Invesco QQQ Trust (QQQ).
+  url: https://finnhub.io/api/news?id=c4834a0d39b31010688d67e4ff9318e1de17deae941628d4b3ed75ffda6331c2

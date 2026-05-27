@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, May 26: Soaring Tech Stocks Push S&P 500 and Nasdaq to New Highs
+  summary: On May 26, 2026, Micron’s surge helped propel the S&P 500 and Nasdaq to fresh records even as the Dow lagged.
+  url: https://finnhub.io/api/news?id=80d4bc7609ed96189e5448f79e8735a3bebfefa533f4cbcc8858a0a8fcb9e3e0

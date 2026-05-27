@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Stock Jumps On $1.6 Bil Dell Deal To Accelerate AI Deployment
+  summary: IREN agrees to $1.6 billion deal with Dell Technologies to buy Nvidia Blackwell systems for its AI data center sites. Shares surge.
+  url: https://finnhub.io/api/news?id=0911f244f15f6e5bcce4349d4cd2cf1230c536e6714a444b8f4d950fe16e6a72

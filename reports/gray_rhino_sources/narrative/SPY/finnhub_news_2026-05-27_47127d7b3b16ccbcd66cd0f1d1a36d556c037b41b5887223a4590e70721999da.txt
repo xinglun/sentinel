@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget The 1970s, This Inflation Second Wave Is Fundamentally Different
+  summary: Is a 1970s inflation spiral back? ING explains why modern oil dependency and labor markets mean this wave is entirely different.
+  url: https://finnhub.io/api/news?id=56ecb4dc7cc3ae524c95b4ca6f0103b793eb9a512addcdbeea314a206c02eb40

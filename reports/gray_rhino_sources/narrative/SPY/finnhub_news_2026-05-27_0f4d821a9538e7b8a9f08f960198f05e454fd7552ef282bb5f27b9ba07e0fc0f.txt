@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Returns To Profitability In First Quarter As Deferred Asset Declines
+  summary: Fed returns to profit with a $1.3B gain after 12 loss quarters.
+  url: https://finnhub.io/api/news?id=da57a5c8feea0803e3a9152fd32f61c2b4f81acf2fce2f67db1b84710abc7002

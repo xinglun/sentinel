@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Update - Blockchain Revolutionizes Green Rain Energy's EV Strategy
+  summary: Green Rain Energy Holdings, Inc. is evaluating a blockchain-enabled framework to advance electric vehicle (EV) infrastructure, aiming to expand scalable and clean energy projects through innovative financing strategies. The company is considering blockchain technology and fractional economic interests in EV charging networks, potentially enhancing transparency, revenue management, and underutilized charger monetization. This approach might support decentralized EV charging networks and...
+  url: https://finnhub.io/api/news?id=0150410d349723777b93fa1bdb3c753321848e71c9c9a80e3454eac725ee002b

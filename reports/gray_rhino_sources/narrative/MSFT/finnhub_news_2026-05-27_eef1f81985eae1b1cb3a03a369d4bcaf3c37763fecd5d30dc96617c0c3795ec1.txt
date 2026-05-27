@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elemental Impact Launches the Data Center Innovation Initiative with Amazon, Google, Meta, and Microsoft
+  summary: Elemental Impact, a nonprofit investor focused on scaling innovative technologies with deep environmental and local impact, today announced the launch of the Data Center Innovation Initiative (DCII), a deployment-focused investment initiative designed to accelerate next-generation energy and materials technologies. The DCII is designed to test and validate critical technologies in data center environments or demonstration sites, creating potential pathways for future adoption across broader ener
+  url: https://finnhub.io/api/news?id=1db2795d07ad3f50aabd0e2fb84a80e5204f079819db006f1e725e287ee10eb1

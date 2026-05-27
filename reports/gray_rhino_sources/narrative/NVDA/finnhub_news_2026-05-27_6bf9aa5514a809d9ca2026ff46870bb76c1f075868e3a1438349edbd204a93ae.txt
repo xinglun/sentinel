@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Supercomputing Platform Market Research 2026-2032: Competition Intensifies as NVIDIA Leads While AMD, Intel and Hyperscalers Expand Custom Silicon Strategies
+  summary: The AI supercomputing market is booming, driven by generative AI, efficient liquid-cooled infrastructures, and industrial-scale "AI factories." Opportunities lie in energy-efficient systems, advanced AI accelerators, software optimization, and sustainable operations. Key players include NVIDIA, AMD, and Intel.Dublin, May 27, 2026 (GLOBE NEWSWIRE) -- The "AI Supercomputing Platform Market by Technology, Solutions, Industry Verticals and Use Cases 2026-2032" report has been added to ResearchAndMar
+  url: https://finnhub.io/api/news?id=ca60d4e17b894b2ce77981546d643eeeb8abedda0c19eb0f5ef55eb0b89f121e

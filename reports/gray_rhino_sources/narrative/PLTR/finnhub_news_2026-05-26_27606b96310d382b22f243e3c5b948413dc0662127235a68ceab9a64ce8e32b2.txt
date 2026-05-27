@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir challenges core enterprise software rule with 3 harsh words
+  summary: Palantir Technologies (PLTR) is pushing into supply chain software, making a pitch that directly challenges one of the largest models in corporate computing. The company claims software-as-a-service, or SaaS, could not be flexible enough for big companies with complex operations. Palantir ...
+  url: https://finnhub.io/api/news?id=5bb9196b1baec96fd5b38491c3582b37115e1e67cf162bd4fdd7b942e597e5ef

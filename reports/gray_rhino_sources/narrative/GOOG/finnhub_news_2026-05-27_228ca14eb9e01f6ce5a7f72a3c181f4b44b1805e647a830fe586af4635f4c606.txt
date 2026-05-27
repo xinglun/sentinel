@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Explores Orbital Data Centers To Power Long Term AI Growth
+  summary: Google, part of Alphabet (NasdaqGS:GOOGL), is reportedly in advanced talks with SpaceX to deploy space-based data centers, aiming to support AI and cloud workloads. Google has joined the Data Center Innovation Initiative alongside Amazon, Meta, and Microsoft to test and co-fund next generation energy and materials technologies for data centers. For investors watching Alphabet, these moves sit at the intersection of cloud infrastructure, AI computing, and energy use. Space-based data...
+  url: https://finnhub.io/api/news?id=9b6f0c34acf3d94ddcb8660d0eaee5b56e7a9f0af829cda25d456d702c2c1b2e

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Wall Street Names See NVIDIA Stock at $330, But Buyers Just Walked Out
+  summary: NVIDIA stock has ten Wall Street buy ratings up to $330 from Wedbush, but institutional money is exiting and retail volume turned red.
+  url: https://finnhub.io/api/news?id=52c0fc82da43f610288cdf20c97df296f06dabde0fb9f6b5828cf21705c31c35

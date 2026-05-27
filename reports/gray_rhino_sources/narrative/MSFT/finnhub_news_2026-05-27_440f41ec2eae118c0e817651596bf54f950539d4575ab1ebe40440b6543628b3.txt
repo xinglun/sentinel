@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 14 Companies Now Worth Over $1 Trillion
+  summary: It is becoming easier to get into the $1 trillion market-cap club. SK Hynix and Micron Technology now belong because of the demand for memory chips. SK Hynix’s 12-month stock price jump reached 1000%. The two joined Samsung, which was recently added to the list. The $1 trillion plus list has 14 members. (The club ... 14 Companies Now Worth Over $1 Trillion
+  url: https://finnhub.io/api/news?id=747eba176133216294a50aaffc8edffad8ea7fdaa94986d30490e9fc9ed55041

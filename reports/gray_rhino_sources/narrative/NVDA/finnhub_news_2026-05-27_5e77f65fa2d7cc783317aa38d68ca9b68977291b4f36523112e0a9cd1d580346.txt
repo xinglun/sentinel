@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Stock Could Jump 160%, And It’s Not NVIDIA
+  summary: MicroStrategy (NASDAQ:MSTR), now operating as Strategy, trades at $159.93 after a brutal 56.72% 12-month drawdown that mirrors bitcoin’s slide to $75,870.71. Our 24/7 Wall St. price target for MicroStrategy is $425.34 over the next 12 months, implying 165.96% upside. The recommendation is buy at a medium 50% confidence level, reflecting genuine bitcoin path-dependency in the ... This Stock Could Jump 160%, And It’s Not NVIDIA
+  url: https://finnhub.io/api/news?id=70172013dbbd8a6ea4ff0dc97f0372f7d3db75070b056a39021377db2f9b7581

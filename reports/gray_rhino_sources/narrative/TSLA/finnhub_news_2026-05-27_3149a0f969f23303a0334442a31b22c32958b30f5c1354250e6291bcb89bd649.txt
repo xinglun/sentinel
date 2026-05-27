@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Battery-Electric Hits 19.7% EU Market Share In April 2026 YTD; Tesla Rises 67.2% To 9,169 April Units And 61.7% To 67,389 YTD Units
+  summary: -European Automobile Manufacturers&#39; Association
+  url: https://finnhub.io/api/news?id=608576ccf3f796731ce6d35d2156f82e1d72101a9cec7f7c37d86d6c76a74e85

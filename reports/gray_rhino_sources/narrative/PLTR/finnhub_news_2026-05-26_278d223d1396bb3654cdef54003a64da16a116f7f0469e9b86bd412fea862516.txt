@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Rally Takes a Pause
+  summary: Shares slipped after six straight sessions of gains.
+  url: https://finnhub.io/api/news?id=9c41ea458a1b47cc3002c7605158f719ea6704f6424f3aa7c5966067e34d2fdc

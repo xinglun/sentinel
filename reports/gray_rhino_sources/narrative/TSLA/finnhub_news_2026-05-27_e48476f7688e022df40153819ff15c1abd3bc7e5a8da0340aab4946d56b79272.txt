@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Space Stocks Boom Has Echoes of the EV Bubble. Red Flags as Rocket Lab and AST Soar.
+  summary: The technical Wall Street term for investors short-selling space stocks right now is “getting your face ripped off.”  Shares of commercial space companies are on fire lately.  Coming into Wednesday trading, shares of  Rocket Lab  and  AST SpaceMobile  to name two, were up 74% and 55%, respectively, over the past month, leaving them both up more than 380% over the past 12 months.
+  url: https://finnhub.io/api/news?id=25ecf0b5288d7fe8eab353c9bcbbaf6933f05d2fe6a44b31974c7f0121b5f20d

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX To Overtake MSTR, TSLA, COIN As Largest Public Company Holding Bitcoin
+  summary: SpaceX will become the largest diversified public company holding Bitcoin (CRYPTO: BTC) when it lists June 12, according to Grayscale Research.
+  url: https://finnhub.io/api/news?id=69b0c3e56cac3bd48e4672f46f36550bd757b22a6d252d164cefcfbab7d24edd

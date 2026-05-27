@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran's State TV Says If A Final Deal Is Reached Within 60 Days, This Agreement Will Be Approved In The Form Of A Binding UN Security Council Resolution; Says The Islamabad Memorandum Framework Is Not Yet Finalized; No Step Will Be Taken By Iran Without "Tangible Verification"
+  summary: - Reuters Citing Iranian State TV
+  url: https://finnhub.io/api/news?id=7ade56534886e7bbfa22c6b01abb8eb588b270d36f56a1b5bb24f575045987e6

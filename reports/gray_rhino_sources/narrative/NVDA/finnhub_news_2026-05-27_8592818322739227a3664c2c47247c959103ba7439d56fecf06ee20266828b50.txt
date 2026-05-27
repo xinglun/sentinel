@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sony Stock Might Be One of the Deep‑Value Ways To Play AI
+  summary: It’s getting harder to find value within the AI scene these days, especially after the latest spike in the semiconductor stocks. With the iShares Semiconductor ETF (NASDAQ:SOXX) soaring more than 6% in a single day on Tuesday, it feels like the overheated names are just getting bubblier and bubblier. Of course, there’s still relative value ... Sony Stock Might Be One of the Deep‑Value Ways To Play AI
+  url: https://finnhub.io/api/news?id=c33ef6f11fb43822917b0f0c7186857dcb7caeab1e5b3cc10e1c3a511ec6d838

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Sales Have 'Bottomed,' Says Ross Gerber As Iran War-Driven Gas Price Spike Pushes More Drivers Toward EVs
+  summary: Investor Ross Gerber thinks that the Iran war has had a positive impact on Tesla Inc. (NASDAQ:TSLA) sales as gas prices reach new highs, prompting an EV shift. Tesla Sales Have ‘Bottomed’ In a post on X, the Gerber Kawasaki co-founder said that the EV giant’s sales have “bottomed” and were “looking better.” He pointed to high fuel costs as one of the reasons. “High gas prices work their magic,” he said, adding that customers wanted “the best EVs despite the dissonance.” Read Also: Tesla Sales Re
+  url: https://finnhub.io/api/news?id=822167c16eab39b71994865e02f848fd1ec1e3c15470466336577bc9dd45ffb5

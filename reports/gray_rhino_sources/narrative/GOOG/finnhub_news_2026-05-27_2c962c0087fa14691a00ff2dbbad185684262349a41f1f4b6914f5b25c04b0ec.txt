@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Still Like the Stock, but This Definitely Isn't Warren Buffett's Berkshire Hathaway Anymore
+  summary: Last quarter's changes were subtle, but telling all the same. Don't be surprised to see less subtle changes going forward.
+  url: https://finnhub.io/api/news?id=b85fa0fb82bc044085d2c17df6ea8ca6364a7593b9bd5eff25a29b1126251f54

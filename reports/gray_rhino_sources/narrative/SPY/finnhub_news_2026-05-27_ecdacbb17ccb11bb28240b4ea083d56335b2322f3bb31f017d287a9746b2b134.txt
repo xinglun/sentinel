@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The United States And Mexico Announce Series Of Bilateral Negotiating Rounds Related To The First Joint Review Of The USMCA
+  summary: https://ustr.gov/about/policy-offices/press-office/press-releases/2026/may/united-states-and-mexico-announce-series-bilateral-negotiating-rounds-related-first-joint-review
+  url: https://finnhub.io/api/news?id=5e96f537a9be47f5a9c93ea366d25f5ba5c91d76e28f56b91fdbe841a48923a4

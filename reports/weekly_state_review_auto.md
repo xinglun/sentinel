@@ -1,12 +1,12 @@
 # Weekly State Review (Auto)
 
-- As of: 2026-05-26
+- As of: 2026-05-27
 - Status: using current market decision
 - Latest headline: 启动期 | 无交易窗口
 - Days analyzed: 7
-- Avg confidence: 53.1
-- Avg stability: 6.9
-- Trend cohesion ready days: 0
+- Avg confidence: 53.4
+- Avg stability: 7.7
+- Trend cohesion ready days: 1
 
 ## Market State Counts
 - IGNITION: 7
@@ -28,7 +28,7 @@
   - 宏观重力: 只解释折现率与流动性环境，不生成交易信号
   - 证据持续性: 持续累积
   - 证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)
-  - 战术状态: NO TRADE，等待结构扩散
+  - 战术状态: READY，等待执行层确认
 - Boundary: snapshot only; no score, advice, or trade decision.
 
 ## Macro Gravity Snapshot

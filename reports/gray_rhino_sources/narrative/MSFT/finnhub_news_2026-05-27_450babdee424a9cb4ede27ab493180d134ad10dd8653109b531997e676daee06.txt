@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Social Buzz: Wallstreetbets Stocks Mostly Advancing Pre-Bell Wednesday; Intuitive Machines, Rocket Lab to Open Higher
+  summary: The most-talked-about stocks in the Reddit subforum Wallstreetbets were mostly advancing premarket h
+  url: https://finnhub.io/api/news?id=39848ef88be916e9012f2a307a3ecf64a85d475da84e4a93e964e72da1721163

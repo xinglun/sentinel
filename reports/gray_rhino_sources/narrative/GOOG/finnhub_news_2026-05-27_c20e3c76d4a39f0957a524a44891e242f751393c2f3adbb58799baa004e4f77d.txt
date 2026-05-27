@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Conversation Nobody Is Having About Quantum Computing -- and the Stock at the Center of It
+  summary: Quantum computing may still be years away, but Infleqtion is already generating real-world revenue from quantum sensing, atomic clocks, and defense-grade infrastructure today.
+  url: https://finnhub.io/api/news?id=d275055b492a269b802644e2935121f44844c6f78289c27d02980312e2763c98

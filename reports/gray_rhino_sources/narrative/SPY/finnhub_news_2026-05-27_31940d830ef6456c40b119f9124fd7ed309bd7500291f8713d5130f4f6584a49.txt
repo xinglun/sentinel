@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Best Dividend Aristocrats: May 2026
+  summary: The Dividend Aristocrats underperformed SPY YTD, returning 3.34% versus SPY's 10.39%, though 22 Aristocrats still posted double-digit gains.
+  url: https://finnhub.io/api/news?id=4f51e0755e4c6462f6df6804c20c6e71683e99076fdc3e862f826a60fbf02c75

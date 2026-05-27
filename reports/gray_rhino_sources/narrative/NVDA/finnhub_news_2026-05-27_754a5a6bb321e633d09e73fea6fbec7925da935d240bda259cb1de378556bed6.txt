@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NATO Defense Spending Just Hit Record Highs and After Tracking This Sector These 3 ETFs Are the Cleanest Plays on the Multi Year Trend
+  summary: NATO’s defense ministers committed to spending at least 2.5% of GDP on defense, with Poland, the Baltics, and Greece already running above 4%, and the alliance has set a target of 5% of GDP on defense spending by 2035. In 2025, all 32 NATO allies met or exceeded the 2% target for the first time, ... NATO Defense Spending Just Hit Record Highs and After Tracking This Sector These 3 ETFs Are the Cleanest Plays on the Multi Year Trend
+  url: https://finnhub.io/api/news?id=65306ad4567b5e86266ed1452074837713a00128251d70be129a86b6e0de269f
