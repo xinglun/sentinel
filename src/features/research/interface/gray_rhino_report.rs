@@ -21,6 +21,9 @@ use crate::features::research::domain::gray_rhino_candidate::{
 use crate::features::research::domain::gray_rhino_evidence::{
     GrayRhinoEvidenceCategory, GrayRhinoEvidenceRejection,
 };
+use crate::features::research::domain::gray_rhino_survivability_policy::{
+    DependencyRiskLevel, GrayRhinoSurvivabilitySummary, SurvivabilityLevel,
+};
 use crate::features::research::domain::gray_rhino_temporal_policy::{
     GrayRhinoTemporalSummary, InstitutionalResponseState, TemporalTrend,
 };
@@ -104,6 +107,12 @@ fn build_gray_rhino_daily_report_with_persistence(
     if !temporal_summary.is_empty() {
         report.push_str("\n\n");
         report.push_str(&temporal_summary);
+    }
+    let survivability_summary =
+        render_survivability_summary(&view_model.survivability_summary, language);
+    if !survivability_summary.is_empty() {
+        report.push_str("\n\n");
+        report.push_str(&survivability_summary);
     }
     let sensor_health = render_multi_category_sensor_health(&view_model, language);
     if !sensor_health.is_empty() {
@@ -641,6 +650,66 @@ fn render_temporal_summary(summary: &GrayRhinoTemporalSummary, language: Languag
         ));
     }
     out.push_str(temporal_summary_boundary(language));
+    out
+}
+
+fn render_survivability_summary(
+    summary: &GrayRhinoSurvivabilitySummary,
+    language: Language,
+) -> String {
+    let has_observed_dimension = summary.compute_control.level != SurvivabilityLevel::Unknown
+        || summary.governance_resilience.level != SurvivabilityLevel::Unknown
+        || summary.dependency_risk.level != DependencyRiskLevel::Unknown
+        || summary.retry_capacity.level != SurvivabilityLevel::Unknown;
+    if !has_observed_dimension {
+        return String::new();
+    }
+
+    let mut out = String::new();
+    out.push_str(survivability_summary_heading(language));
+    out.push('\n');
+    out.push_str(&format!(
+        "- {}: {}\n",
+        capital_access_label(language),
+        survivability_level_label(summary.capital_access)
+    ));
+    out.push_str(&format!(
+        "- {}: {} ({} {}, {} {})\n",
+        compute_control_label(language),
+        survivability_level_label(summary.compute_control.level),
+        mitigating_evidence_count_label(language),
+        summary.compute_control.mitigating_count,
+        amplifying_gap_count_label(language),
+        summary.compute_control.amplifying_count
+    ));
+    out.push_str(&format!(
+        "- {}: {} ({} {}, {} {})\n",
+        governance_resilience_label(language),
+        survivability_level_label(summary.governance_resilience.level),
+        mitigating_evidence_count_label(language),
+        summary.governance_resilience.mitigating_count,
+        amplifying_gap_count_label(language),
+        summary.governance_resilience.amplifying_count
+    ));
+    out.push_str(&format!(
+        "- {}: {} ({} {}, {} {})\n",
+        dependency_risk_label(language),
+        dependency_risk_level_label(summary.dependency_risk.level),
+        mitigating_evidence_count_label(language),
+        summary.dependency_risk.mitigating_count,
+        amplifying_gap_count_label(language),
+        summary.dependency_risk.amplifying_count
+    ));
+    out.push_str(&format!(
+        "- {}: {} ({} {}, {} {})\n",
+        retry_capacity_label(language),
+        survivability_level_label(summary.retry_capacity.level),
+        mitigating_evidence_count_label(language),
+        summary.retry_capacity.mitigating_count,
+        amplifying_gap_count_label(language),
+        summary.retry_capacity.amplifying_count
+    ));
+    out.push_str(survivability_summary_boundary(language));
     out
 }
 
@@ -1549,6 +1618,54 @@ fn temporal_summary_heading(language: Language) -> &'static str {
     }
 }
 
+fn survivability_summary_heading(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "生存能力评估（只读参考）",
+        Language::EnUs => "Survivability Assessment (Reference Only)",
+        Language::JaJp => "生存能力評価（参照のみ）",
+    }
+}
+
+fn capital_access_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "资本可得性",
+        Language::EnUs => "Capital access",
+        Language::JaJp => "資本アクセス",
+    }
+}
+
+fn compute_control_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "算力控制",
+        Language::EnUs => "Compute control",
+        Language::JaJp => "計算資源コントロール",
+    }
+}
+
+fn governance_resilience_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "治理韧性",
+        Language::EnUs => "Governance resilience",
+        Language::JaJp => "ガバナンス耐性",
+    }
+}
+
+fn dependency_risk_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "依赖风险",
+        Language::EnUs => "Dependency risk",
+        Language::JaJp => "依存リスク",
+    }
+}
+
+fn retry_capacity_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "再试能力",
+        Language::EnUs => "Retry capacity",
+        Language::JaJp => "再試行能力",
+    }
+}
+
 fn escalation_velocity_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "升级速度",
@@ -1643,11 +1760,44 @@ fn temporal_summary_boundary(language: Language) -> &'static str {
     }
 }
 
+fn survivability_summary_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "边界: 生存能力评估只说明错误后的恢复余地，不生成乐观叙事、估值结论或交易动作。"
+        }
+        Language::EnUs => {
+            "Boundary: survivability assessment only describes recovery capacity after mistakes; it does not generate optimistic narrative, valuation conclusions, or trading actions."
+        }
+        Language::JaJp => {
+            "境界: 生存能力評価は誤り後の回復余地だけを示し、楽観 narrative、valuation 結論、取引行動を生成しない。"
+        }
+    }
+}
+
 fn temporal_trend_label(trend: TemporalTrend) -> &'static str {
     match trend {
         TemporalTrend::Rising => "RISING",
         TemporalTrend::Stable => "STABLE",
         TemporalTrend::Falling => "FALLING",
+    }
+}
+
+fn survivability_level_label(level: SurvivabilityLevel) -> &'static str {
+    match level {
+        SurvivabilityLevel::Extreme => "EXTREME",
+        SurvivabilityLevel::High => "HIGH",
+        SurvivabilityLevel::Medium => "MEDIUM",
+        SurvivabilityLevel::Low => "LOW",
+        SurvivabilityLevel::Unknown => "UNKNOWN",
+    }
+}
+
+fn dependency_risk_level_label(level: DependencyRiskLevel) -> &'static str {
+    match level {
+        DependencyRiskLevel::High => "HIGH",
+        DependencyRiskLevel::Medium => "MEDIUM",
+        DependencyRiskLevel::Low => "LOW",
+        DependencyRiskLevel::Unknown => "UNKNOWN",
     }
 }
 

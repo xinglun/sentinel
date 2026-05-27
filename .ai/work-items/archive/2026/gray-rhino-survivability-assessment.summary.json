@@ -1,0 +1,98 @@
+{
+  "workItemId": "gray-rhino-survivability-assessment",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-survivability-assessment.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+      "reason": "Gray Rhino Survivability Assessment の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-survivability-assessment.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "AI Cockpit の active Work Item 状態を生成した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Gray Rhino survivability policy を Domain module として登録した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_survivability_policy.rs",
+      "reason": "既存 evidence category と risk_effect から survivability dimension を派生する Domain policy を追加した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "Daily report ViewModel に survivability summary を追加し、scoreable evidence から構築するようにした。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino report に Survivability Assessment を reference-only metadata として表示した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Daily calibration report が survivability summary を表示し、capital_access を UNKNOWN として扱うことを確認した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib gray_rhino_survivability_policy",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino_daily_report_uses_evidence_backed_sensor_health",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-survivability-assessment.summary.json CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-survivability-assessment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-survivability-assessment.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "既存 evidence からの reference-only 派生に限定し、capital_access は専用 SSOT がないため UNKNOWN として表示する。永続化 schema と取引系 path は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

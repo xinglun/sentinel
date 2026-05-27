@@ -416,6 +416,9 @@ fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
     assert!(stdout.contains("Evidence-backed sensor store"));
     assert!(stdout.contains("Gray Rhino Temperature Change"));
     assert!(stdout.contains("Evidence acceleration: RISING"));
+    assert!(stdout.contains("Survivability Assessment"));
+    assert!(stdout.contains("Capital access: UNKNOWN"));
+    assert!(stdout.contains("Dependency risk: MEDIUM"));
     assert!(stdout.contains("Gray Rhino Sensor Health"));
     assert!(stdout.contains("Dependency Concentration: 1 evidence record"));
     assert!(stdout.contains("It does not generate trading signals."));

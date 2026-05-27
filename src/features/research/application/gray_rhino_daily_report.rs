@@ -16,6 +16,9 @@ use crate::features::research::domain::gray_rhino_evidence::{
     GrayRhinoRiskEffect,
 };
 use crate::features::research::domain::gray_rhino_evidence_projection_policy;
+use crate::features::research::domain::gray_rhino_survivability_policy::{
+    build_survivability_summary, GrayRhinoSurvivabilitySummary,
+};
 use crate::features::research::domain::gray_rhino_temporal_policy::{
     build_temporal_summary, GrayRhinoTemporalSummary,
 };
@@ -107,6 +110,7 @@ pub(crate) struct GrayRhinoDailyReportViewModel {
     pub display_candidates: Vec<GrayRhinoCandidate>,
     pub monitoring_statuses: Vec<GrayRhinoMonitoringStatus>,
     pub temporal_summary: GrayRhinoTemporalSummary,
+    pub survivability_summary: GrayRhinoSurvivabilitySummary,
     pub backfill_ops_view: Option<BackfillOpsSummary>,
     pub discovery_ops_view: Option<DiscoveryOpsSummary>,
     pub refresh_status: Option<GrayRhinoRefreshStatus>,
@@ -165,6 +169,7 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             evaluate_gray_rhino_monitoring_states(&auto_candidates, as_of_date);
         let temporal_summary =
             build_temporal_summary(assessment.as_ref(), &scoreable_evidence_records, as_of_date);
+        let survivability_summary = build_survivability_summary(&scoreable_evidence_records);
         Ok(GrayRhinoDailyReportViewModel {
             assessment,
             evidence_records,
@@ -175,6 +180,7 @@ impl<'a, R: GrayRhinoDailyReportRepository> GrayRhinoDailyReportUseCase<'a, R> {
             display_candidates,
             monitoring_statuses,
             temporal_summary,
+            survivability_summary,
             backfill_ops_view: self.repository.load_backfill_ops_view(as_of_date),
             discovery_ops_view: self.repository.load_discovery_ops_view(as_of_date),
             refresh_status: self.repository.load_refresh_status(as_of_date),
