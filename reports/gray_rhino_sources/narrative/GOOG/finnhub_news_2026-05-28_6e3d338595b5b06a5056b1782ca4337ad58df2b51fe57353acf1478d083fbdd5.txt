@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta vs. Alphabet: Which Stock Is The Better Buy Today
+  summary: Meta Platforms (NASDAQ: META) and Alphabet (NASDAQ: GOOG) both reported Q1 results on April 29, 2026, and the results frame a clear question. Both companies are pouring tens of billions into AI infrastructure, both ride enormous ad engines, yet only one is showing investors a second growth pillar already paying off. Ads Power Meta. Cloud ... Meta vs. Alphabet: Which Stock Is The Better Buy Today
+  url: https://finnhub.io/api/news?id=14701810e2a7e234d313064d8269224fca2b53011336c50cd9395cba2aba88a5

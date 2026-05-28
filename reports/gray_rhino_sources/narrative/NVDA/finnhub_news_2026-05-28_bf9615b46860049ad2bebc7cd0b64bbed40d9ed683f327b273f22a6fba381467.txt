@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What’s The Second Most Valuable Company In The World?
+  summary: In July 2025, Nvidia (NASDAQ: NVDA) became the most valuable company in the world. It was the first to break the $4 trillion barrier. It was the first to break the $5 trillion barrier. It is still at the top of the list at $5.15 trillion. But what company is in second place and why? ... What’s The Second Most Valuable Company In The World?
+  url: https://finnhub.io/api/news?id=17c6a2ef9a298e699a4a4e30aaf01bd8049cb364bca214964a20ac50753eac8c

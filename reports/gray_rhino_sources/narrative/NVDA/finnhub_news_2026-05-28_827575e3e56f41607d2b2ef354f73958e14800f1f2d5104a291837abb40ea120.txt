@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Nvidia As a $39 Trillion Debt Time Bomb Meets a Divided Fed, This Unstoppable Monopoly Is a No-Brainer Buy
+  summary: Everyone is piling into NVIDIA (NASDAQ:NVDA) after another blowout quarter that pushed revenue to $81.61 billion and the market cap past $5.14 trillion, and the AI hype machine keeps printing headlines about agentic compute and unstoppable hyperscaler spend. The underlying setup deserves a closer look. The Crowded Trade Nobody Wants to Talk About NVIDIA is ... Forget Nvidia As a $39 Trillion Debt Time Bomb Meets a Divided Fed, This Unstoppable Monopoly Is a No-Brainer Buy
+  url: https://finnhub.io/api/news?id=d0d0256e3ff8d540bbb51e8c9e2fbd7ff9c296b88331bb1e825080d8940c932a

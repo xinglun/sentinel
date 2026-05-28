@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Allocate With Intent: Active Equity Strategies For Changing Markets
+  summary: Investors are facing monumental questions about their allocation strategies in a new market regime. Active strategies must adapt their processes to deliver consistent relative performance.
+  url: https://finnhub.io/api/news?id=bf5a870b9e44140ef48567aeda836e7054435f7cd7671601d8925febb80c79a4

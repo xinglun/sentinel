@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Wants NVIDIA (NVDA) to be More Like Apple
+  summary: We recently published Jim Cramer Shared Latest Take On Mega Quantum Computing Investment & Discussed These 13 Stocks. NVIDIA Corporation (NASDAQ:NVDA) is one of the stocks discussed by Jim Cramer. The day this show was aired was a crucial one for AI GPU giant NVIDIA Corporation (NASDAQ:NVDA) as it had just reported its latest earnings. […]
+  url: https://finnhub.io/api/news?id=3cf2853f89fedc49e9e3967b4408bd4ade32f4dec95b5a89ed68d3ee8d2eea72

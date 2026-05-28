@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Philippines Enterprise ICT Intelligence Report 2025 Featuring Microsoft, Globe Telecom, IBM, Converge ICT Solutions, and Tata Consultancy Services (TCS)
+  summary: Key market opportunities in the Philippines' ICT sector include a surge in digital transformation driven by government initiatives, and emerging tech like cloud computing and AI. The BPO sector benefits from a competitive skilled workforce and supportive infrastructure, while BFSI remains a major revenue contributor.Dublin, May 28, 2026 (GLOBE NEWSWIRE) -- The "The Philippines - Enterprise ICT Country Intelligence Report" report has been added to ResearchAndMarkets.com's offering.The Philippines
+  url: https://finnhub.io/api/news?id=29bfcbf52221640f92fd161c69ca63e1dd0d1221d2aa75831d2fe53b634262be

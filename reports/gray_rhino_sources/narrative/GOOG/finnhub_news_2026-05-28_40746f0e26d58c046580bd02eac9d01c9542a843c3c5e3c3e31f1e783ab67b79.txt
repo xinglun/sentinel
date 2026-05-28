@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gartner® Names Keeper Security the Second Fastest-Growing Company in the Market Share Analysis: Security Software, Worldwide, 2025
+  summary: Keeper Security, the leading zero-trust and zero-knowledge identity security and Privileged Access Management (PAM) platform, today announces its recognition as the second fastest-growing competitor in the worldwide security software market in 2025, according to the Gartner Market Share Analysis: Security Software, Worldwide, 2025 report. Keeper achieved a year-over-year global revenue growth rate of 53.42%, 3.45x greater than the overall market average of 15.50%, ranking second only to Google i
+  url: https://finnhub.io/api/news?id=5da0fb6755109a80ea119bfdc1bf6cc3fbac168608c5ee678a80fba0d8fa5912

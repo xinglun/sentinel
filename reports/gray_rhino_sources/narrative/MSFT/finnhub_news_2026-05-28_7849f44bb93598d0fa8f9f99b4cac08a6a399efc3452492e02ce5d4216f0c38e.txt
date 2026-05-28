@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Carbon Direct Releases Sustainable Agricultural Biomass Sourcing Guide for Carbon Dioxide Removal, in Collaboration With Microsoft and Stripe
+  summary: NEW YORK, May 28, 2026--New guidance gives CDR buyers and project developers practical, contractable guidelines for responsible agricultural residue sourcing.
+  url: https://finnhub.io/api/news?id=0f13b3f085907c3aca11a7003e0552916273335676438e9ffd2fafaec15867d4

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Elon Musk Is Attempting The (Almost) Impossible With The SpaceX IPO
+  summary: MIT professor Sinan Aral breaks down SpaceX&#39;s record IPO: brilliant synergy or a cover for a weak AI model? Polymarket traders are already betting big.
+  url: https://finnhub.io/api/news?id=28bced34aad48e0c0e01962c0f0a04e622364b63fcdac9056dc852960e87ceaf

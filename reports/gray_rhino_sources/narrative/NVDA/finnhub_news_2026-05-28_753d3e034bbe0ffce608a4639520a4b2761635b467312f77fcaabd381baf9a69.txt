@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Goes Bargain Hunting: 3 Stocks She Just Bought
+  summary: The widely followed growth investor keeps making moves.
+  url: https://finnhub.io/api/news?id=cb57bf9149d217ba1845276bcc53c78fcadb8f148f0e8f19a68fd318f8b95a40

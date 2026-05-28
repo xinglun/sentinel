@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Buy The Dip At 93x Earnings
+  summary: Palantir (PLTR) pullback: is 150% NDR scalable via AIP platform adoption or services-heavy? See updated EPS outlook, valuation debate, and decide.
+  url: https://finnhub.io/api/news?id=04abf226d8f89521fcfab33030bd31fca92baa3055b934247b4b72ffd7d700c5

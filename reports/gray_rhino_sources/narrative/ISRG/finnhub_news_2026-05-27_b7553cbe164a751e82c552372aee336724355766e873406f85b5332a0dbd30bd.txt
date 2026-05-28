@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here is Why Growth Investors Should Buy Intuitive Surgical (ISRG) Now
+  summary: Intuitive Surgical (ISRG) is well positioned to outperform the market, as it exhibits above-average growth in financials.
+  url: https://finnhub.io/api/news?id=053b9990ca774bb5592643878f1b9c4f81312cc94de38c4bb08eed9172f9e989

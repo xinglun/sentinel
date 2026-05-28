@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq, Dow Futures Rise As AI-Driven Tech Rally Overpowers 'Defensive' Iran Strikes: ONDS, NBIS, RCAT, SNOW In Focus
+  summary: A report from Reuters stated that the U.S. military had launched overnight strikes in Iran, targeting ‌a military site and drones that were viewed as a threat around the Strait of Hormuz.
+  url: https://finnhub.io/api/news?id=84813f54ede2d26f1a2cfce6e8c8e04b82bdfc1215ec7c0782b28f90e586762b

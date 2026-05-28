@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Microsoft Stock Could Be A Massive AI Buying Opportunity
+  summary: Seeking Alpha analyst Travis of Dividend Collection Agency analyzes whether Microsoft stock is undervalued despite recent weakness. 
+  url: https://finnhub.io/api/news?id=5cabd20b4a74950f6fc2fe33c95832d882ece8d7db37c4e88708449404c1b6d3

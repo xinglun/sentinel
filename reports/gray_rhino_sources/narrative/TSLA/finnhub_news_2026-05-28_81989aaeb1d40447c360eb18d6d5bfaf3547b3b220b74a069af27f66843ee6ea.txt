@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Ally Laura Loomer Questions Nvidia CEO Jensen Huang's Chinese University Ties, Writes To Pentagon, Says It's A 'Massive Scandal'
+  summary: Laura Loomer raises concerns over Nvidia CEO Jensen Huang&#39;s White House advisory role and Chinese university ties.
+  url: https://finnhub.io/api/news?id=dfb59a5639fe14045d98262123f221b6b5516d05c23f090a3c065aedf30cbbb7

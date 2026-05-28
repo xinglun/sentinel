@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vertice Launches AI Cost Optimization to Tackle Unchecked AI Spend
+  summary: Vertice, the AI procurement platform built for the modern enterprise, has launched AI Cost Optimization in response to businesses' inability to track, predict or control AI usage and spend.
+  url: https://finnhub.io/api/news?id=fe4840d926594e4f7789826be7095f03493ffac3d252170c0ec225dfc39d1c7d

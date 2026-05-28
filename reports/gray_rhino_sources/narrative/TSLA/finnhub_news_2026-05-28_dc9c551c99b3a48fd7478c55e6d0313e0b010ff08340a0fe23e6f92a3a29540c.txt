@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bitcoin-Miners-Turned-AI-Neocloud Plays Might Still Be an Underappreciated Trade in AI
+  summary: The AI trade is heating up just in time for summer, and as we enter the month of June, the SpaceX IPO could crank up the heat several notches as a flood of investors finally get a chance to own a piece of Elon Musk’s space and AI empire. Who knows? It’s speculated that Tesla ... The Bitcoin-Miners-Turned-AI-Neocloud Plays Might Still Be an Underappreciated Trade in AI
+  url: https://finnhub.io/api/news?id=020810481833e6673d5ff29961d34f0d7c416bc906abccb8ec295e7d7aad8ab6

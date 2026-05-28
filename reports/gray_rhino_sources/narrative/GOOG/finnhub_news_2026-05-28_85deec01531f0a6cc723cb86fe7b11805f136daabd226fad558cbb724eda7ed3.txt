@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Big Wealth Manager Just Bought $22.4 Million Worth of This Small-Cap Value ETF
+  summary: EA Bridgeway Omni Small-Cap Value ETF targets long-term growth through systematic investment in undervalued U.S. small-cap equities.
+  url: https://finnhub.io/api/news?id=aafa565b82ad3348d0cf730caa198edafa66da9c10e9ce63cd1a83de40c722c9

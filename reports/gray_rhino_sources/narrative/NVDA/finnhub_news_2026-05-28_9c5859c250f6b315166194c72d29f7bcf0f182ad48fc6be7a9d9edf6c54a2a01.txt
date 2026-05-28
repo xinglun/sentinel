@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Costco Nearing All-Time High: Buy, Sell or Hold?
+  summary: At $1,028.24, Costco Wholesale (NASDAQ:COST) is a hold. The warehouse club trades within striking distance of its $1,096.50 52-week high after a sharp year-to-date rally, and the question is whether the premium multiple has room to run. Costco operates 942 warehouses globally under a paid-membership model that generated $1.35 billion in membership fee income last ... Costco Nearing All-Time High: Buy, Sell or Hold?
+  url: https://finnhub.io/api/news?id=465e3326fe69f0386a771f412551716743f3b845490f22047b280a83fa0edfda

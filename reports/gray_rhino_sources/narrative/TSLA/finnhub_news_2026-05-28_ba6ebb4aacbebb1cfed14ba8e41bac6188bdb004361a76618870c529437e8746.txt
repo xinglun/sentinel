@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Rival Figure Lands Deal With JCPenney Parent After Viral Package Sorting Marathon, White House Visit
+  summary: A humanoid robotics company and Tesla rival has landed a deal with clothing brands for distribution and logistics.
+  url: https://finnhub.io/api/news?id=83f10620994158dabc8be525cf812a4c5c615afcffd64cab3dcd68f433448120

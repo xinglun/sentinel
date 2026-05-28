@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Missing This Netflix Bottom Will Haunt Your Portfolio For Years (Upgrade)
+  summary: Netflix, Inc. remains a long-term growth story, with 45% household penetration and only 5% global TV view share. Read more on NFLX stock here.
+  url: https://finnhub.io/api/news?id=11b166d5bdd2d505f509289fb3e0f95486fed965cedf0fd39f50f03086506e9c

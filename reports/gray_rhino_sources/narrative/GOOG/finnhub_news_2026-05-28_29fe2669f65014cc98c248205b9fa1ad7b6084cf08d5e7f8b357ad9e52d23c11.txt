@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway Is Underperforming, but 4 of Warren Buffett’s Top Picks Are Up Big This Year
+  summary: Warren Buffett stepped down as CEO of Berkshire Hathaway on December 31, 2025, after six decades leading the conglomerate he transformed from a struggling textile mill into a $1 trillion empire. The “Oracle of Omaha” left his successor, Greg Abel, with a very concentrated portfolio: more than 65% of Berkshire’s $381 billion portfolio is invested ... Berkshire Hathaway Is Underperforming, but 4 of Warren Buffett’s Top Picks Are Up Big This Year
+  url: https://finnhub.io/api/news?id=51ae977621fa06108a0059de1fbf2365ef51b837975af9c86ed884f32c36a16e

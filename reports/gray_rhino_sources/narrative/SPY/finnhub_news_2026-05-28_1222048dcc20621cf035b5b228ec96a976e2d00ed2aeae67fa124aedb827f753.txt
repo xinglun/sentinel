@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VOO Is About to Become the First $1 Trillion ETF
+  summary: The ETF currently sits at $980 billion in AUM.
+  url: https://finnhub.io/api/news?id=b46dfd55a3ff836dc62340e4f2edb61e6e3b94d0bbfff870700b8541771a109f

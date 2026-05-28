@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BSX Stock: Don't Try To Catch The Falling Knife
+  summary: Boston Scientific (BSX) previously commanded a premium valuation based on its transition toward a high-margin cardiovascular powerhouse, driven by its FARAPULSE Pulsed Field Ablation (PFA) system and WATCHMAN cardiac implant. In Q1 2026, the cardiovascular segment posted a strong 13.5% reported growth. However, intense competition from Medtronic (MDT) and Johnson & Johnson (JNJ) has challenged this hyper-growth thesis. Johnson & Johnson's Varipulse system integrates directly into the dominant CA
+  url: https://finnhub.io/api/news?id=5124e996975180775efa10020c7981fc6f3f6695d945fd488600513ad2b975ae

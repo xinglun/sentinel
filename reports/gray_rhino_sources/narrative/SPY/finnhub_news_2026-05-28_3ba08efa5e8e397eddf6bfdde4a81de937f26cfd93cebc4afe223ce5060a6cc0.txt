@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow, Nasdaq Futures Fall As Hot PCE Inflation Clouds Fed Rate Cut Hopes— Snowflake, Salesforce In Focus (UPDATED)
+  summary: (Editor’s note: The future prices of benchmark tracking ETFs, and the headline were updated in the story.)
+
+
+
+U.S. stock futures fell on Thursday after a higher close on Wednesday, as all indices ended marginally higher, but the small-cap index, the Russell 200, declined.
+  url: https://finnhub.io/api/news?id=3db9a6a55152b808bc6ed6c3a8551795f11923a4e1ed8a1bc0f9e1292623988e

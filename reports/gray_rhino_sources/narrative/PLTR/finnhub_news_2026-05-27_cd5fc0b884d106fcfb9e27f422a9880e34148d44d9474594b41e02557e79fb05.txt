@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Q1 Earnings Call Highlights
+  summary: Salesforce (NYSE:CRM) reported what executives described as an “outstanding” fiscal 2027 first quarter, highlighting double-digit revenue growth, margin expansion, strong cash flow and accelerating adoption of its Agentforce artificial intelligence products. Chair and CEO Marc Benioff said Salesfor
+  url: https://finnhub.io/api/news?id=f9881681e0715690166d761bf7fb7bcce9479ce89032da01949600ec54e59b7b

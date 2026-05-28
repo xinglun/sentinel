@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Snowflake Stock Is Soaring 38% After Earnings
+  summary: Snowflake is counting on its revenue model and data warehousing to flourish with the rise of AI agents. The company reported earnings after the close Wednesday.
+  url: https://finnhub.io/api/news?id=fea598e64686ad3b242ba9bfd344e0b6ac4b9505ede9b84a8ef1c51bcb16400f

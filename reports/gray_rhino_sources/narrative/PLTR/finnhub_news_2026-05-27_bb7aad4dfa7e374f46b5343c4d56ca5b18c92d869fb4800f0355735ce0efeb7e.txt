@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Stock Slides on Mixed Results
+  summary: The cloud firm’s earnings and revenue beat Wall Street forecasts, but the backlog didn’t grow as much as expected.
+  url: https://finnhub.io/api/news?id=97446c27fc4269795f260a0811a58fb1a356b1e7064bb51a5e741c4bd489088d

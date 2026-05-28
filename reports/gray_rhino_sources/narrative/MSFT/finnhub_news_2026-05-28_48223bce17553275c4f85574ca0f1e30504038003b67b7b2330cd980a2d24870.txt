@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Leah Earns the Solutions Partner With Certified Software Designation
+  summary: LONDON, May 28, 2026--Leah, the AI-native agentic platform powering legal, procurement, finance and shared services for the world's largest enterprises on one connected system, a Microsoft partner, today announced it has earned the Solutions Partner* with certified software** designation for Financial Services within the Microsoft AI Cloud Partner Program. This designation recognizes software that demonstrates interoperability with the Microsoft Cloud and meets program requirements.
+  url: https://finnhub.io/api/news?id=c8ccfb5d28e3e4f7261c8e0aa9c625a716f6fb60e90b982e3eceec422075c30b

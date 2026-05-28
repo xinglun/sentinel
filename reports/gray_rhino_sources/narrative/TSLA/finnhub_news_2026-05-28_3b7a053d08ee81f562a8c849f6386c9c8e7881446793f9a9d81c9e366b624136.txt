@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Li and XPeng Both Miss Earnings Estimates. One Chinese EV Maker’s Stock Is Rising.
+  summary: Li Auto reports a first-quarter per share loss of 15 cents while Wall Street was looking for a loss of 13 cents. XPeng reports a loss of 13 cents; Wall Street expected a loss of 10 cents.
+  url: https://finnhub.io/api/news?id=73ec6138b5aad973627170e13784f3a7c4d1367a051c1da334356dcd3df3a4b1

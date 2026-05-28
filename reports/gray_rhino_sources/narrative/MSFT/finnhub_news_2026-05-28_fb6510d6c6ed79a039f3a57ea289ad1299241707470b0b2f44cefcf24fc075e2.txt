@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Microsoft to Release New Coding Model Next Week in Comeback Attempt' - The Information
+  summary: https://www.theinformation.com/newsletters/ai-agenda/microsoft-release-new-coding-model-next-week-comeback-attempt
+  url: https://finnhub.io/api/news?id=f047181060cc22e7f0c14eaffe1ba17d0373a4e30b7457b8514d0c76316e5413

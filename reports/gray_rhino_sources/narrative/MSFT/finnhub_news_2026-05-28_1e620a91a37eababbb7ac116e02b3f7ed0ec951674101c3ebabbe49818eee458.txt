@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell lands $9.7bn Pentagon contract just weeks after Trump said 'go out and buy'
+  summary: Dell Technologies has secured a $9.7 billion (€8.3bn) defence contract to supply Microsoft software across the entire US military, just weeks after US President Donald Trump publicly endorsed the company at the White House.View on euronews
+  url: https://finnhub.io/api/news?id=0e71f7a23c2f266ce91cc1c2f6d121be7ccfb4cfa23e70f0b347dd354ba7e63a

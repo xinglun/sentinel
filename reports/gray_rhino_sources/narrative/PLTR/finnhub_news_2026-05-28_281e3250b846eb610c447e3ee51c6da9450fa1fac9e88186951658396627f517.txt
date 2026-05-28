@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Snowflake Stock Went From Software Loser to AI Winner in an Instant
+  summary: Snowflake is counting on its revenue model and data warehousing to flourish with the rise of AI agents. The company reported earnings after the close Wednesday.
+  url: https://finnhub.io/api/news?id=61e5fa8f05f594feeeea1bbd9ea3355f4ece592dba86741fa14c5a2ebaf76e33

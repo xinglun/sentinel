@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Employee Charged With Insider Trading On Polymarket
+  summary: Federal prosecutors in the U.S. have charged an employee of Google parent company Alphabet (NASDAQ: $GOOGL) with fr...
+  url: https://finnhub.io/api/news?id=bc58e1dc6e9c3c7de342f7e53b50fd155943f5220bd21e7ebe12f103f288a7ab

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Palantir Stock Will Trade at This Price Next Year
+  summary: Palantir (NASDAQ:PLTR | PLTR Price Prediction) just reported one of the cleanest growth quarters from a software company at this scale. Q4 2025 revenue of $1.406 billion grew 70% year-over-year, U.S. commercial surged 137%, and the Rule of 40 score hit an absurd 127%. Yet shares are down 22.99% year-to-date. That disconnect raises the key ... Prediction: Palantir Stock Will Trade at This Price Next Year
+  url: https://finnhub.io/api/news?id=26c6514663b009c149e9325b9c2229f80e000851136e34144d374b6bb3ffe3f6

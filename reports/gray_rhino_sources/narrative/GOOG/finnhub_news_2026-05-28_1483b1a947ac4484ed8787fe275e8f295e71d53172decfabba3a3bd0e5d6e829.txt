@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive YouTube Attribution Integration Could Be A Game Changer For TransUnion (TRU)
+  summary: Earlier this month, TransUnion and Google announced an industry-first integration that brings YouTube advertising into TransUnion’s Multi-Touch Attribution solution, enabling marketers to connect YouTube ad exposure with measurable business outcomes across channels. This collaboration positions TransUnion as the only MTA provider measuring YouTube within a unified attribution framework, potentially deepening its role in identity-driven marketing analytics. We’ll now consider how becoming...
+  url: https://finnhub.io/api/news?id=cf604ba87dabe3be1d81092320ff86cdd50e13cc2eed9e663fa15d1f909b4e81

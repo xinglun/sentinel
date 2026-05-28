@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: WD Appoints Manuvir Das to Board of Directors
+  summary: SAN JOSE, Calif., May 28, 2026--Western Digital Corporation (Nasdaq: WDC), the storage foundation of the AI-driven data economy, today announced the appointment of Manuvir Das to its board of directors, effective May 26, 2026. Das previously held senior leadership roles at NVIDIA, Dell EMC, and Microsoft, and brings deep expertise in enterprise AI, data infrastructure, and cloud computing. He currently serves as an Operating Partner in the Digital Infrastructure group at Stonepeak Partners LP, a
+  url: https://finnhub.io/api/news?id=445ddbff8ca76e7f15c68eb80a0e9a82d9f6cda176ba7c4c886c4e06b60dfb7b

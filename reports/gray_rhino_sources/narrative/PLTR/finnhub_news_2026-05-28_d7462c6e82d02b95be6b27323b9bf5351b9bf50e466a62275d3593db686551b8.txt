@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Salesforce Stock Deeply Undervalued At $175?
+  summary: The market reaction to Salesforce (CRM) centers on a mild deceleration in top-line metrics. Current remaining performance obligation (cRPO) growth cooled to 14% year-over-year from 16% in the prior quarter, while second-quarter revenue guidance of $11.27 billion to $11.35 billion fell slightly below expectations. However, focusing solely on this top-line friction misses the structural transformation taking place within the company's business model.
+  url: https://finnhub.io/api/news?id=916f8c012b9f2ab8b2999c006a4653546c1515ba8a7ac84994e597a9c9564a1f

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 AI Software Stocks JPMorgan Loves — And One Could Jump 214%
+  summary: JPMorgan highlighted HubSpot, Figma and ZoomInfo as AI software names with massive upside potential, including one sub-$5 stock the bank sees rallying more than 214%.
+  url: https://finnhub.io/api/news?id=68a6a771b2527a796f91515445a198501ed143c57c09c787839dadffb8d216ab

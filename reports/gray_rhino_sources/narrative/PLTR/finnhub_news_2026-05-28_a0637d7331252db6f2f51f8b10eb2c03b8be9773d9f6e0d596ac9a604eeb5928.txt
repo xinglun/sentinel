@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 AI Stocks Worth Holding Until You Retire
+  summary: Palantir, CrowdStrike, and Alphabet are powerhouses that show the potential for durable growth.
+  url: https://finnhub.io/api/news?id=d2ad08c08f9bc838484b78215c648c4eb3ae1adb92d4b463b960b1b39694f2f2

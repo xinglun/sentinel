@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says Alphabet (GOOGL) Is A “Crucial Position”
+  summary: We recently published Jim Cramer Shared Latest Take On Mega Quantum Computing Investment & Discussed These 13 Stocks. Alphabet Inc (NASDAQ:GOOGL) is one of the stocks discussed by Jim Cramer. Technology giant Alphabet Inc (NASDAQ:GOOGL) is one of Jim Cramer’s favorite stocks in the sector. The shares are up by 121% over the past year […]
+  url: https://finnhub.io/api/news?id=a3dcf5935754cefec0f85defe9a20a6e35f0e53dc840f6eae78bbc6e9aac930c

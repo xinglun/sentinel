@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy 4 Cybersecurity Bigwigs for a Strong and Secure Portfolio in 2026
+  summary: Cybersecurity demand is rising with AI and cloud growth as FFIV, CSCO, DDOG and PLTR expand security and observability offerings.
+  url: https://finnhub.io/api/news?id=ab34f2376483402efdbbbbcba3c12a6b68c585ad4c05d6a4dd7366937958c801

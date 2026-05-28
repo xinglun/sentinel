@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer has bold new take on Elon Musk's SpaceX IPO
+  summary: There is always one IPO that defines a generation of investors. For people who started buying stocks in the 1990s, it was Microsoft (MSFT) and Amazon (AMZN). For millennials, it was Facebook and Tesla (TSLA). Each one arrived with the same problem, a valuation that looked impossible right up until ...
+  url: https://finnhub.io/api/news?id=fe3c7804b7cd84e48ac36ec8b46f9454291ddca651b7e49e20d9e4c7dc8060d7

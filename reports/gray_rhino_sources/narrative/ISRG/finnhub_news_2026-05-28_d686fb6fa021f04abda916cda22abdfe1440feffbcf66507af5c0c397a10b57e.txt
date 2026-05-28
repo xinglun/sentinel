@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: InMode: My Pick For A Major Turnaround In 2026 And 2027
+  summary: Discover why InMode Ltd. looks undervalued: strong free cash flow, buybacks, and global growth catalystsâget the latest outlook and act now. Click for more on INMD.
+  url: https://finnhub.io/api/news?id=13075d978f658d8f7c0a69a140e658c79b13c36bea0e7a612a9e2485762d54d8

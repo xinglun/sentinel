@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Technology Just Proved the AI Memory Boom Is Not Cyclical. Here's Why.
+  summary: Demand for artificial intelligence (AI) memory chips is surging, but some analysts remain skeptical that the boom is durable.
+  url: https://finnhub.io/api/news?id=e9b08730f1f9864ff97b319e3ab1c8dd2ec059f7d0affd3d8ae8a570f2b7cec7

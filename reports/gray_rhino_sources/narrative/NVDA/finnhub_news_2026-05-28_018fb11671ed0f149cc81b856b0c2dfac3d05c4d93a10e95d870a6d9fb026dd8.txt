@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron’s Cheap Stock Valuation Seen as a Contrarian Warning Sign
+  summary: (Bloomberg) -- Micron Technology Inc. is the third-best performer in the S&P 500 Index this year and at the same time one of the least expensive stocks in the market. While that dichotomy looks bullish on the surface, it may be more of a warning sign than a green light for investors.Most Read from BloombergSingapore Hands Byju's Founder His First Ever Jail TermIran’s Khamenei Says No Going Back for Middle East Rocked by WarTwo More Oil Supertankers Exit Hormuz to Help Push Up FlowsEx-President B
+  url: https://finnhub.io/api/news?id=4dbaaf994e4a08958ea2fc8af0a146ef19bce58e5d09973bd52a4d032a84fa1c

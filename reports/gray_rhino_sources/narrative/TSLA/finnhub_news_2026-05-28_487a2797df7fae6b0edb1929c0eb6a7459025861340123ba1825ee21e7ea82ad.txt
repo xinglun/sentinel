@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Could Soon Be Worth $2 Trillion. This $66 Metric Is the One to Watch
+  summary: Average revenue per user for SpaceX's Starlink satellite internet service is falling.
+  url: https://finnhub.io/api/news?id=7127699f9b92b6b6f640b7a8a36f260caba65b996eb8378b506627b15f4dcf87

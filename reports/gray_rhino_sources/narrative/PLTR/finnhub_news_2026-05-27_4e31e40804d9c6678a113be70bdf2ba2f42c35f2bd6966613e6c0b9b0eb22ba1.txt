@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Thomas Cavanagh Construction Limited Extends Strategic Partnership with Palantir Technologies Through December 31, 2035
+  summary: Thomas Cavanagh Construction Limited announced today that it has extended its strategic partnership with Palantir Technologies Inc. for an additional six years, resulting in a total 11-year agreement through December 31, 2035.
+  url: https://finnhub.io/api/news?id=185081a86ed4ee51ea27395407ca379759dffd759364606a3f0ee91e35342184

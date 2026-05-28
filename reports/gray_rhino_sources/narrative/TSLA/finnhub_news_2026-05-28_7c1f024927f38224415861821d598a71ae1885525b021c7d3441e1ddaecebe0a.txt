@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Higher They Climb: 3 Non-Chip ETFs Exposed To An AI Stock Meltdown
+  summary: AI-fueled semiconductor rally (SOXX) looks overbought as RSI extremes and weak leading indicators warn of pullbacks in QQQ/SPY.
+  url: https://finnhub.io/api/news?id=9f471f95d63e572890c2dc79af0986571e2ccfac2be86b64668c47d5e32d5432

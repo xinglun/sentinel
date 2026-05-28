@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says He's 'Frequently Asked' to Have SpaceX Build Weapons — 'We Have Thus Far Declined'
+  summary: War is moving fast into drones, chips, and autonomous systems, and governments are increasingly looking to tech innovators like Elon Musk for a technological edge in modern warfare. But Musk says he's staying out of the weapons business, for now....
+  url: https://finnhub.io/api/news?id=ec832f0229bc82cadc1d3853822d4f759ecd4fb62457a3120a5e760951f9eea2

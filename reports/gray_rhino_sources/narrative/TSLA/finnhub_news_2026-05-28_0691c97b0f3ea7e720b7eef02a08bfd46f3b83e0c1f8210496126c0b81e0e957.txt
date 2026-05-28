@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla and SpaceX Merger Would Make Elon Musk A Major Bitcoin Holder
+  summary: Elon Musk could become one of the world’s top five corporate owners of Bitcoin (CRYPTO: $BTC) should his comp...
+  url: https://finnhub.io/api/news?id=e6ccb020cc341c86ae59d594dcdb5395991f99656c0e31d368dac9b7f3b624ba

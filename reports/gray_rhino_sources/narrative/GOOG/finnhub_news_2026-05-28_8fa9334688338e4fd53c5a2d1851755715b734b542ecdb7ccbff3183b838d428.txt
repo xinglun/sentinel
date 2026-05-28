@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s iOS 27 Siri Overhaul and AI Features Previewed in New Images
+  summary: (Bloomberg) -- Apple Inc.’s much-anticipated Siri overhaul is set to become the centerpiece of its next iPhone, iPad and Mac software updates — and Bloomberg News is offering the first peek at what the new digital assistant will look like.Most Read from BloombergSingapore Hands Byju's Founder His First Ever Jail TermIran’s Khamenei Says No Going Back for Middle East Rocked by WarTwo More Oil Supertankers Exit Hormuz to Help Push Up FlowsEx-President Biden Sues to Stop DOJ Sharing Interview Tapes
+  url: https://finnhub.io/api/news?id=7ac19ffcd44f90b926f1942f18d66d1c5112804a946f9d84efa0e436e736cf92

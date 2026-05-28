@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Quiet AI Winner That Doesn't Show Up on Any Hot Stock List
+  summary: This former telecom wreck now has $13 billion in AI contracts. Here's why it's still under the radar.
+  url: https://finnhub.io/api/news?id=380d704392778bcbc1c14ad8e862e32e8d0840dd50c5bd14e0dcbefb3e78db7f

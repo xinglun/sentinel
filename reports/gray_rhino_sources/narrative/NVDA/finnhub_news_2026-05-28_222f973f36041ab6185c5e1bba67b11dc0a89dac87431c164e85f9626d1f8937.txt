@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan Semiconductor Stock Nearing 52-Week High: Buy, Sell or Hold?
+  summary: Taiwan Semiconductor Manufacturing (NYSE:TSM) trades at $412.32, with the stock pressing against a 52-week high of $421.97 after a relentless run powered by AI chip demand. TSMC just guided full-year 2026 revenue growth above 30% and raised its capital budget into the high end of a $52 billion to $56 billion range. TSMC is the ... Taiwan Semiconductor Stock Nearing 52-Week High: Buy, Sell or Hold?
+  url: https://finnhub.io/api/news?id=931ce9431300a0ed425583e22bc4ed2e2e36edcce03c787afcb5662da3864e26

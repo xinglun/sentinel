@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Drops. 5-Day Winning Streak at Risk Amid AI Fog.
+  summary: Tesla  stock was down in early trading on Tuesday, putting its recent winning streak at risk.  Shares of the electric vehicle maker were down 1.6% in premarket trading at $433.50, while  and  futures were down about 0.2%.  To be sure, any news on the Chinese car market can move Tesla stock.
+  url: https://finnhub.io/api/news?id=fef7e070440f88e65f360d6c12afb05d836ea21dcefdd64547cd609bae8fea08

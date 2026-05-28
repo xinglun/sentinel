@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Private equity firm EQT partners with Google Cloud for AI rollout
+  summary: EQT has partnered with Alphabet's ‌Google Cloud to help more than 300 companies in the Swedish private equity firm's portfolio ​accelerate the adoption of AI, the companies said on Thursday.  Under the agreement, EQT's portfolio companies, spanning sectors from enterprise software to healthcare, will gain access to AI tools including the Gemini Enterprise Agent platform to build programs, as ‌well as cybersecurity services.  The ⁠companies will also get early access to selected Google Cloud AI products in the future, the companies said in ⁠a statement.
+  url: https://finnhub.io/api/news?id=15eb2008fda361da107ae81408dc98c9c1119128a353f3c581e6b2c1e61901db

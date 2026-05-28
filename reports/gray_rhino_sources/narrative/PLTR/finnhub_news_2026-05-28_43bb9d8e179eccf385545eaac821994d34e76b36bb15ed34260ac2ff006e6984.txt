@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTY Promises Income From Palantir’s Wild Ride, But the 70 Percent Yield Hides a Capital Erosion Problem
+  summary: YieldMax PLTR Option Income Strategy ETF (NYSEARCA:PLTY) sells a compelling story: harvest option premium from Palantir’s volatility and collect a distribution rate currently at 66% annualized. The problem is what sits underneath. PLTY’s most recent weekly payout was classified as 95% return of capital and just 5% income, and the fund’s share price has collapsed ... PLTY Promises Income From Palantir’s Wild Ride, But the 70 Percent Yield Hides a Capital Erosion Problem
+  url: https://finnhub.io/api/news?id=52b714c612476e4761b85de0c06f9a11a4829c95b1afc3c4ff0a3c018b236c60

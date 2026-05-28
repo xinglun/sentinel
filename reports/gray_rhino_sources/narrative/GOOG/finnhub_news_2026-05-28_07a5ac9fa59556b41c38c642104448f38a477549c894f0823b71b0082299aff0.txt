@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LOBO Launches LoboToken.ai Intelligent Distribution Platform
+  summary: Providing Cost-Efficient AI Inference Token Services Through Intelligent DistributionWUXI, China, May 28, 2026 (GLOBE NEWSWIRE) -- LOBO TECHNOLOGIES LTD. (NASDAQ: LOBO) (“LOBO” or “the Company”), an innovative electric mobility vehicles manufacturer and seller, today announced the official launch of LoboToken.ai, a new AI inference token distribution platform. The launch marks a significant milestone in the Company’s strategic expansion into AI token distribution services and its broader busines
+  url: https://finnhub.io/api/news?id=a2e50a003708c595a38bdbf185335479af974c7c9f211e4a40e8fe8f5aa66353

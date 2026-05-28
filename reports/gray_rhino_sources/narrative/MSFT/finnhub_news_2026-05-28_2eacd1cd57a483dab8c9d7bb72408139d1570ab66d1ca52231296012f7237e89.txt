@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell wins $9.7 billion Pentagon Microsoft software contract
+  summary: The five-year deal will streamline Microsoft 365 and cloud licensing across the Defense Department, intelligence community, and Coast Guard
+  url: https://finnhub.io/api/news?id=1e7a0a8baded2b0db878c14bc07e4be09b78fbe07fb1d366d5122a0511fa93ea

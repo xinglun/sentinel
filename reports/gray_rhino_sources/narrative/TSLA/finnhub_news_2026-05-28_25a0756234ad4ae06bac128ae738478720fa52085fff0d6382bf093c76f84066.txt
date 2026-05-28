@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Slips Overnight: Retail Turns Cautious On SpaceX Merger Hype As Analyst Questions ‘Absurd’ $2 Trillion Valuation
+  summary: Early SpaceX investor Peter Diamandis reignited merger speculation by saying a Tesla-SpaceX merger is “not a matter of if but only a matter of when.”
+  url: https://finnhub.io/api/news?id=19eeed31650feb8bca5f0c418d72fd176dc79eb5b01dde550b08a6c01c59773c

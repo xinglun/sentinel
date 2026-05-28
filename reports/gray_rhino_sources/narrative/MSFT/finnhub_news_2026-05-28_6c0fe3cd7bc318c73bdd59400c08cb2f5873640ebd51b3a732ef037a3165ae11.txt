@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lightbits Labs Announces Early, Initial Interoperability with Microsoft Windows Server NVMe-oF Initiator Preview
+  summary: SAN JOSE, Calif., May 28, 2026--Lightbits Labs®, inventor of NVMe® over TCP and the Inferra™ KV cache acceleration engine for AI inference, today announced the initial interoperability with the new Microsoft Windows Server NVMe-over-Fabrics (NVMe-oF) Initiator Preview®. Available in Lightbits v3.19.1, this early milestone will enable storage administrators to deliver high-performance, native NVMe over TCP block storage to Windows Server Insider hosts over standard Ethernet once Microsoft® releas
+  url: https://finnhub.io/api/news?id=306eea6c6a4b860383692aee6aa55f5fa2c9a69355081b30bf61aaad6f000c24

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Financial Times Reported Nvidia CEO Jensen Huang To Join Advisory Board At Beijing University
+  summary: https://www.ft.com/content/1c567fe9-6df9-4313-902c-c8c65782c19e
+  url: https://finnhub.io/api/news?id=14ce81bea3083511e9465ad0e878d334db3506fc738c10efbd7d979439bc2cdc

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Alphabet, Microsoft and Baidu
+  summary: Alphabet is expanding AI-powered Search ads with Gemini as Microsoft and Baidu intensify competition in AI search.
+  url: https://finnhub.io/api/news?id=519057226490176e503d438271b4674a157787438358e4e00ac8e8ec0c9ac917

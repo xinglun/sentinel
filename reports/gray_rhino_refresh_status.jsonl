@@ -1,2 +1,3 @@
 {"date":"2026-05-27","status":"partial_failure","sec":"partial_failure","finnhub":"succeeded","fred":"skipped","sec_accepted":8,"sec_rejected":1,"finnhub_accepted":126,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":0,"failed_providers":" sec"}
 {"date":"2026-05-28","status":"partial_failure","sec":"partial_failure","finnhub":"succeeded","fred":"skipped","sec_accepted":8,"sec_rejected":1,"finnhub_accepted":125,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":0,"failed_providers":" sec"}
+{"date":"2026-05-29","status":"partial_failure","sec":"partial_failure","finnhub":"succeeded","fred":"skipped","sec_accepted":8,"sec_rejected":1,"finnhub_accepted":131,"finnhub_rejected":0,"fred_accepted":0,"fred_rejected":0,"failed_providers":" sec"}

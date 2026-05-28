@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang Just Said $40 Trillion. Here Are 5 Physical AI Stocks Wall Street Is Quietly Loading Up On Before the Rest of the Market Catches On
+  summary: NVIDIA CEO Jensen Huang has called humanoid robots and labor automation a $40 trillion total addressable market, and on the Animal Spirits podcast, Derek Yan argued physical AI is “potentially bigger” than EVs or smartphones, with Waymo serving as live proof the underlying autonomy stack already works in the wild. Capital is rotating into this ... Jensen Huang Just Said $40 Trillion. Here Are 5 Physical AI Stocks Wall Street Is Quietly Loading Up On Before the Rest of the Market Catches On
+  url: https://finnhub.io/api/news?id=05c673fc8322a9fc57ba03a91b4a0d37bb76487fd707d4f27051aaf79689825b

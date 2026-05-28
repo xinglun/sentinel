@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic, Palantir, and the theology of AI
+  summary: In presenting these opposing worldviews so starkly, the Pope has undoubtedly raised the stakes in the AI debate.
+  url: https://finnhub.io/api/news?id=b9426f68342140e46d0f93c0d2ff7963703529e64780ef248c30f8444e78e339

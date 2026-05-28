@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Is Pushing 100 Upgrades to Its da Vinci 5 Robot Starting June
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) is one of the best medical technology stocks to buy right now. On May 21, Intuitive Surgical, Inc. (NASDAQ:ISRG) announced a major round of updates to its da Vinci 5 robotic surgical system, including extended instrument use capabilities. The company said more than 100 improvements will roll out to US customers […]
+  url: https://finnhub.io/api/news?id=40140d861d13f3e83c2baff84e3e0f4b87b8edad17152cb5def4c3c122bf7304

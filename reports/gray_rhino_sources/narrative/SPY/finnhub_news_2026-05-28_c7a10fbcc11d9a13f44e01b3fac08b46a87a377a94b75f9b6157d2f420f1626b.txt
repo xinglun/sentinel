@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Sell, or Hold Schwab’s US Large-Cap ETF Now | SCHX
+  summary: The Schwab U.S. Large-Cap ETF (NYSEARCA:SCHX) is a low-cost, passively-managed option if you want broader exposure to the market. Having this broader exposure has made the ETF perform quite interestingly over the past few years, and it’s worth taking a serious look at. The ETF holds everything from your usual large caps to more under-the-radar ... Buy, Sell, or Hold Schwab’s US Large-Cap ETF Now | SCHX
+  url: https://finnhub.io/api/news?id=de08993ad23dfbe8e73baaa1e2ddeebfbc221a11714eca0f67d66d5479fa0b32

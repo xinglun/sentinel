@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Tesla Stock Hit $600 This Year?
+  summary: The question in this article’s title cuts to the heart of the Tesla (NASDAQ:TSLA) debate. With shares having clawed back to $426.01 and momentum building off April lows, bulls are whispering about a run to $600. Our proprietary model has a different view. Tesla sits roughly 17% below its 52-week high of $498.83, and reaching ... Will Tesla Stock Hit $600 This Year?
+  url: https://finnhub.io/api/news?id=cd32db8c554f14a5f8476289f3f68361bc79199042076716100eb3009e07bed4

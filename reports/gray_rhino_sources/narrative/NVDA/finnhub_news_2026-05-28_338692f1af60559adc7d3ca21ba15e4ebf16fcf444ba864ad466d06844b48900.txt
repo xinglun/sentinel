@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tradr Launches Leveraged ETFs on Microchip, NXP, and ON Semi
+  summary: Tradr ETFs, a provider of ETFs designed for sophisticated investors and professional traders, today launched three new leveraged ETFs on single stocks.  The Cboe-listed funds seek to deliver two times long (200%) the daily performance of a specific underlying stock.  All three ETFs are first-to-market strategies.
+  url: https://finnhub.io/api/news?id=e9b63f116839ea2e39dbc6973e8d7aab0b785914cacbbd020833b27be35baa92

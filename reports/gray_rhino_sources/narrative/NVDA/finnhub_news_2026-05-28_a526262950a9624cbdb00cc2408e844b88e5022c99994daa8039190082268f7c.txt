@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst Dan Ives Warns Companies Talking About Job Cuts Are ‘Shooting Themselves in the Foot’
+  summary: Wedbush Securities analyst Dan Ives has a message for tech CEOs racing to publicly tie artificial intelligence to headcount reductions. On a recent segment of The AI Daily Brief, Ives argued that framing AI as a workforce-reduction tool is a strategic mistake at a moment when investors are paying a premium for AI-driven growth stories ... Analyst Dan Ives Warns Companies Talking About Job Cuts Are ‘Shooting Themselves in the Foot’
+  url: https://finnhub.io/api/news?id=70a7c670cc7a669066182399306f92682f4a9b265d8c7a4f7ffa0baa89113bef

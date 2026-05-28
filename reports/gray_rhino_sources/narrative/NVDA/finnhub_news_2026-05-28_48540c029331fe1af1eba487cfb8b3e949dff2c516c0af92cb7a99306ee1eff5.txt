@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Netflix Stock Be Next Year?
+  summary: Netflix (NASDAQ:NFLX) terminated a Warner Bros. acquisition with a $2.8 billion fee, raised full-year free cash flow guidance to $12.5 billion, and built an ad business on pace to do $3 billion in 2026. Yet shares are down 25.42% over the past year and 5.5% year to date. Can NFLX hit $350 by 2027? Here’s ... Where Will Netflix Stock Be Next Year?
+  url: https://finnhub.io/api/news?id=055b0f74b0cadf6d0a7ae4de50d12cc1c560e21588a6ab44e7c8f75578d57357

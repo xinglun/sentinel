@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LongPoint Adds to Its Family of Double Leveraged Single Stock ETFs
+  summary: LongPoint launches three ETFs - RBNU, METU, PLTUNew Savvy ETFs provide two times leveraged long exposure to HOOD, META, and PLTR LongPoint is a Canadian owned and operated ETF providerToronto, Ontario--(Newsfile Corp. - May 28, 2026) - LongPoint Asset Management Inc. ("LongPoint") is proud to announce the launch of three new Savvy Double Leveraged Single Stock ETFs on the Toronto Stock Exchange (the "TSX"). The SavvyLong (2X) HOOD ETF ("RBNU") offers two times leveraged long exposure to...
+  url: https://finnhub.io/api/news?id=eea33247b99eb0f19ef42e64342d2b7a1f809460c6f227d6e52ad0e18ffd2b76

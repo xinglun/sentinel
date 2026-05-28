@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Contract Extension Highlights Long Term Commercial Use And Valuation Gap
+  summary: Thomas Cavanagh Construction Limited has extended its partnership with Palantir Technologies (NasdaqGS:PLTR) for six more years, taking the agreement through 2035. The renewal centers on continued use of Palantir's Foundry platform for data management in a complex, non government construction and infrastructure setting. The agreement underscores recurring enterprise revenue tied to long duration software usage within Palantir's commercial business. For readers tracking NasdaqGS:PLTR, this...
+  url: https://finnhub.io/api/news?id=402ce2c5f416521a3a124a45e87c849ecf0ae97b1bceefd36b3ab6beedf13303

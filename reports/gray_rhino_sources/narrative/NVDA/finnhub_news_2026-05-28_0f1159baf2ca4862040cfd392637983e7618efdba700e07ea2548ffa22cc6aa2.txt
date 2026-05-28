@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Scoop: Groq raising $650 million for its second act
+  summary: Groq is raising up to $650 million from existing investors, after the AI chipmaker previously signed a $20 billion licensing deal with Nvidia that saw much of its senior team depart, Axios has learned.
+  url: https://finnhub.io/api/news?id=aa6cd37f295ae5a9c4a287f1fb825bcc89e1e7692bf85ce603051a1b6a8ab8ba

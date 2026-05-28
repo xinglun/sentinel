@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Settle Mixed on Conflicting US-Iran Signals
+  summary: The S&P 500 Index ($SPX ) (SPY ) on Wednesday closed up +0.02%, the Dow Jones Industrial Average ($DOWI ) (DIA ) closed up +0.36%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) closed down -0.09%. June E-mini S&P futures (ESM26 ) rose +0.04%, and June E-mini Nasdaq futures...
+  url: https://finnhub.io/api/news?id=cd07bedd8f2b81cc7eb73bf61cfc46f8e8a33bb6c04b6fa57191c4278c142828

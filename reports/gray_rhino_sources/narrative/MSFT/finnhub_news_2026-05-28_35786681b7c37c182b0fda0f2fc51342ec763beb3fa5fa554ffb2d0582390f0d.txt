@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Climbs as AI Revenue Run Rate Tops $37 Billion
+  summary: Microsoft Bets Big on AI as Azure Growth Fuels Bullish Outlook
+  url: https://finnhub.io/api/news?id=7ede64a901075b7427dd3dd3b3044491ac13fde5fdf11220d00837f9a2d50e4a

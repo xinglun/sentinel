@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Can’t Escape the Software Slump
+  summary: The cloud firm’s earnings and revenue beat Wall Street forecasts, but the backlog didn’t grow as much as expected.
+  url: https://finnhub.io/api/news?id=cb7e8d98234b48bd9370a85620eb742b9fbe687105b4e7da00036c7b0095338d

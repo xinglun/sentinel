@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $1000 in Alphabet a Decade Ago, This is How Much It'd Be Worth Now
+  summary: Why investing for the long run, especially if you buy certain popular stocks, could reap huge rewards.
+  url: https://finnhub.io/api/news?id=fc90c68044543d18ab4e3be1d80492cf284e7e21f9e7d8674b75a6cb2790db81

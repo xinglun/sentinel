@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 20+ Analysts Back Snowflake and Here’s Why We Agree
+  summary: Snowflake (NYSE:SNOW) just delivered what CEO Sridhar Ramaswamy called “a milestone quarter,” with product revenue of $1.33 billion, up 34% year-over-year. The stock? Down 20.1% year to date. That gap between business momentum and share price makes this name interesting heading into 2030. Can Snowflake shares reach $600 by 2030, more than triple today’s price? ... 20+ Analysts Back Snowflake and Here’s Why We Agree
+  url: https://finnhub.io/api/news?id=a7bdd6e827f298529e7e593c68a9011f53e6ad52d040be670fda7e38293ca5e0

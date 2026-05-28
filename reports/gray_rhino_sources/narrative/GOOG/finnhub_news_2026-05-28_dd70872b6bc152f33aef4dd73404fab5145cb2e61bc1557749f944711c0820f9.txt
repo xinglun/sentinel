@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EQT and Google Accelerate AI Adoption for Global Businesses
+  summary: Global private markets firm EQT and Google Cloud today announced a new partnership poised to accelerate AI transformations among EQT's 300-plus global portfolio companies.
+  url: https://finnhub.io/api/news?id=bf5143b269a8711219d398e87bd813d17ad3dee566e57c7c8d884881f3f3f60a

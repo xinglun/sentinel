@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Wins $9.7 Billion Pentagon Deal
+  summary: The Pentagon says the deal will reduce duplicate spending across agencies.
+  url: https://finnhub.io/api/news?id=c58c71b4c237b5deb2687703e73e84e635b93276b766fe1c54c1ee69730897a6

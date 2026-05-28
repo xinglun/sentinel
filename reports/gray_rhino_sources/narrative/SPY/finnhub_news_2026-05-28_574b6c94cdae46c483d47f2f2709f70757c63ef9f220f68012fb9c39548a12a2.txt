@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everybody Will Own SpaceX, Whether We Like It Or Not
+  summary: Index providers are fast-tracking SpaceX (SPCX) into major indexes, forcing passive investors into losses.
+  url: https://finnhub.io/api/news?id=4a7175cf67505197cc0674ebfe43463c20359c678294f0f56fc3b358456aec1c

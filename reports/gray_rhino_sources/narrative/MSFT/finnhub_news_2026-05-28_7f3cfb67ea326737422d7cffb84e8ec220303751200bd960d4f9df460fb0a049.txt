@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From diapers to drugs: How India's global corporate hubs are putting AI to work
+  summary: Whether they are recruiting the ideal "momfluencer" to sell diapers or trawling through reams of data to fast-track drug launches, global centers of multinational ‌firms in India are increasingly putting AI to work in creative ways. Heads of several Global ‌Capability Centres (GCCs) told Reuters they are deploying AI across a host of functions - from marketing and content creation to finance and human resources - ​to automate time-consuming, repetitive tasks that once required hours of manual effort. And the ambition doesn't stop there.
+  url: https://finnhub.io/api/news?id=146ef447e2af4f85d3c955c447a564b0285435dd3886587faecf38187c712c4e

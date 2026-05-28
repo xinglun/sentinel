@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here is why Nvidia (NVDA) Is Among the Best Steve Cohen Stocks to Invest In
+  summary: NVIDIA Corporation (NASDAQ:NVDA) is one of the 10 Best Stocks in Steve Cohen’s Portfolio. On May 20, 2026, NVIDIA Corporation (NASDAQ:NVDA) announced in the company’s financial results for the first quarter of fiscal 2027 that they have gained the board of directors’ approval for an additional $80 billion share repurchase and an increase in the […]
+  url: https://finnhub.io/api/news?id=1029b57cb5435534b9c47ce055bcfa86da8f482991920296bd3366fd0d318f7b

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LiveOne (Nasdaq: LVO) Doubles Down on Partnership with Tesla and AI Marketing to Increase ARPUs and Convert 1.1M+ Free Subscribers into Paid Users
+  summary: User engagement exceeds 59 minutes daily with positive subscriber trends continuingConverting Tesla dashboard users into paid members through LiveOne’s perpetual in-vehicle app, featuring 500+ music channels, 200+ podcasters, DJs, and VJs Launching AI-driven marketing initiatives with Claude, Meta Platforms, LiveRamp, Jasper, AdCreative.ai, Persado, Mutiny and connected TV advertising partners LOS ANGELES, May 28, 2026 (GLOBE NEWSWIRE) -- LiveOne (Nasdaq: LVO), an award-winning, creator-first mu
+  url: https://finnhub.io/api/news?id=97cbf2b2c7ffc4d62ac09968f331073dbbaae1314783e378f5b1653cfc09bf07

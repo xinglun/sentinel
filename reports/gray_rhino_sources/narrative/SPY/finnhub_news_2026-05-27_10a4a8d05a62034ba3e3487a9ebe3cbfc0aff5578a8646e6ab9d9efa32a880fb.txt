@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Was Wrong About Inflation and Missed a Huge Stock Rally: The One Investing Discipline That Could Have Saved Me
+  summary: Most investors skip the simplest piece of self-accountability available to them. They form a thesis, place a trade, and then let time blur the original reasoning into something vaguer and more flattering. Clare Flynn Levy, the former hedge fund manager who founded behavioral analytics firm Essentia Analytics, has a fix for that, and she shared ... I Was Wrong About Inflation and Missed a Huge Stock Rally: The One Investing Discipline That Could Have Saved Me
+  url: https://finnhub.io/api/news?id=bdcefb3735d1946201fd0d45805b16c63c1129421f04109816a501051fc22dbd

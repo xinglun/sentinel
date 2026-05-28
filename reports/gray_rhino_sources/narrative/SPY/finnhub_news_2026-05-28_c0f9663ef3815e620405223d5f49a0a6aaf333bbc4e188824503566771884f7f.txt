@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Worse Than 1999
+  summary: AI-fueled 2026 stock valuations echo 1999âs bubble, but todayâs fiscal, geopolitical, and AI cost risks are higher. Read more here.
+  url: https://finnhub.io/api/news?id=086995e88a6e55466d2cfa39901c8336f456380b14d46442aeae0016eb422171

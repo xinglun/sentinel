@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Sell, or Hold JPMorgan’s Equity Premium Income ETF Today |JEPI
+  summary: The JPMorgan Equity Premium Income ETF (NYSEARCA:JEPI) is the most popular covered call ETF in the market for a reason. Most ETFs are trying to make covered calls work with tech ETFs, and while they do have significantly higher yields, JEPI does it in a way that is worth paying attention to for some investors. I ... Buy, Sell, or Hold JPMorgan’s Equity Premium Income ETF Today |JEPI
+  url: https://finnhub.io/api/news?id=37bda7031f7cd27b9f9a2f3b0127eb81241d85b44d05eabe12be75dba94079f8

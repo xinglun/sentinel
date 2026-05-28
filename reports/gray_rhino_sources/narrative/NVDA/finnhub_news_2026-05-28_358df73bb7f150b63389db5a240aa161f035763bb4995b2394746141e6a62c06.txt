@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Stock Will Trade At This Price in 2028
+  summary: Intel (NASDAQ:INTC) is the comeback story of the decade so far. Shares are up 224.77% year to date and 483.16% over the past year, riding foundry wins, NVIDIA capital, and a CEO who has the company running on time. Q1 saw Data Center and AI revenue jump 22% YoY to $5.05B and Intel Foundry climb ... Intel Stock Will Trade At This Price in 2028
+  url: https://finnhub.io/api/news?id=b153a5b7d6634bbd8ce393818bd04e01917819e83059b61fa381269fbed71fcd

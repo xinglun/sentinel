@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Energy Transition - SunPower's Solar Project Powers Santa Clara University's Green Future
+  summary: SunPower Inc.'s subsidiary, Cobalt Power Systems, has completed a significant solar and energy storage project at Santa Clara University, reflecting an important advancement in the energy transition landscape. The installation, spanning multiple sites including parking structures and rooftops, boasts a 1.2 megawatt capacity, capable of generating over 2.1 million kilowatt-hours of clean electricity annually. This project not only emphasizes the move towards renewable energy but also...
+  url: https://finnhub.io/api/news?id=924901d9e9416c21d06b677b1e12059e603b311df5c077f8b3bf3d7f354a6320

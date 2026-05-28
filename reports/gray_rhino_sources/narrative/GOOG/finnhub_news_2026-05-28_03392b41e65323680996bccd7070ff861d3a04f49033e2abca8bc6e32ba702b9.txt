@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is Headed for a $1.75 Trillion IPO. History Says the Stock Could Be Down 32% a Year From Now
+  summary: The IPO market is back in full force. After two years of sluggish dealmaking, investors are once again chasing the next mega-listing, and the bigger the valuation, the bigger the excitement seems to get. That enthusiasm is helping to push stock indexes to record highs as valuations across tech and AI expand with a rise ... SpaceX Is Headed for a $1.75 Trillion IPO. History Says the Stock Could Be Down 32% a Year From Now
+  url: https://finnhub.io/api/news?id=180ba65b9821a55987e934a12c82d64aaaa89ed7d498b481b9d4e64e2a87ddc9

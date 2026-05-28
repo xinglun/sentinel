@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Falcon Finance and Anchorage Digital Bank Launch fUSD, a GENIUS-Ready Stablecoin with Rewards on Ceffu
+  summary: GEORGE TOWN, CAYMAN ISLANDS, May 27th, 2026, Chainwire
+  url: https://finnhub.io/api/news?id=6bd9a02fb919759af6bfebf3c43931304ba8e53a607204a8f06e77604ff6b5db

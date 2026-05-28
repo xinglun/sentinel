@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Used to Think Running Out of Money Was the Biggest Retirement Risk. Here's the Flipside.
+  summary: There's another huge issue retirees need to keep in mind.
+  url: https://finnhub.io/api/news?id=7fe3a689520d3ba6eeff88caae4a6d46ac9d5b05d272fdd7cae5617fbef15d66
