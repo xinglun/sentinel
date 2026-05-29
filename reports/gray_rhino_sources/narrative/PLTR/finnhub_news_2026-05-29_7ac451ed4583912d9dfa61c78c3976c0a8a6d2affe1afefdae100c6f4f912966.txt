@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Trades at 42 Times Forward Sales. ServiceNow Trades at 6 Times Forward Sales. One of These Is the Obvious Buy.
+  summary: You have to look beyond the numbers.
+  url: https://finnhub.io/api/news?id=49a41a6c36f4a12a3280054ab1aad95cffb8deb16b929d34ea218c597ff3711d

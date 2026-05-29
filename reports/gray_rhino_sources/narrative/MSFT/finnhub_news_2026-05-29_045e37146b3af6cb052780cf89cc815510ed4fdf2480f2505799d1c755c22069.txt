@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top analyst has harsh words for SpaceX debut: ‘We recommend that investors avoid this IPO’
+  summary: Research firm CEO David Trainer says SpaceX's $1.75 trillion IPO valuation is mathematically indefensible
+  url: https://finnhub.io/api/news?id=19ffd0f41b1daf20e62348f97229a8211d01775cdaf5da0984dc9d9882aca96a

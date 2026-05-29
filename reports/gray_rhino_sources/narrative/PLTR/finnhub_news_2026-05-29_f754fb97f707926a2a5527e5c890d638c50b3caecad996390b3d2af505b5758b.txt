@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir at $136, AMD at $167: Buy, Sell or Hold?
+  summary: Palantir (NASDAQ:PLTR) at $136.88 rates a hold, and AMD (NASDAQ:AMD) at $467.51 rates a hold, according to our analysis. Both are AI infrastructure favorites, but each has reached a price where the easy money has been made and the next leg requires fresh proof. Palantir builds the operating layer for governments and large enterprises deploying ... Palantir at $136, AMD at $167: Buy, Sell or Hold?
+  url: https://finnhub.io/api/news?id=4f37d214c923ccca5c820a8a52e186bac0176e0889647532b19728855ec75c3d

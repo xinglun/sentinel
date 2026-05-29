@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Explains “Why We’ve Stuck With Broadcom”
+  summary: Broadcom Inc. (NASDAQ:AVGO) was among the stocks Jim Cramer discussed on Mad Money, highlighting several companies with market caps over a trillion dollars. Cramer praised the company’s CEO, as he said: Six is Broadcom. Now, this is a sleeper because you don’t see its name anywhere. It makes custom chips for Google, Meta, ByteDance, Anthropic, […]
+  url: https://finnhub.io/api/news?id=f75803d809642d0b533bc8c66e1072c747d3bd8fd55d246dd381bf46de9811ef

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI spending fervor is comparable to industrial push during World War 2
+  summary: Zacks Investment Research senior stock strategist Andrew Rocco comments on the heightened spending seen across the AI trade — particularly in the memory chip landscape amid shortages — comparing to prior buildouts in American history.
+  url: https://finnhub.io/api/news?id=bc619e14152875dbdf791b92eeb3fe1d01bf09e722519f32930b04710024acd7

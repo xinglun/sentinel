@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Dirt Cheap Artificial Intelligence (AI) Stocks That It's Time to Buy the Dip On
+  summary: Meta Platforms and Microsoft are growing rapidly, but trading at cheap valuations.
+  url: https://finnhub.io/api/news?id=df857a35fc92570c1474d5fe87c99e5b16048e4eea16b46a1fee1bdf8ea75357

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Short Sellers Are Hammering These 10 Stocks — One Is 86% Short
+  summary: Short sellers are piling into a wide-ranging group of names, with the latest Benzinga Pro data showing elevated bearish positioning across 10 stocks spanning energy, crypto, AI and enterprise software.
+  url: https://finnhub.io/api/news?id=e011b1e3efccdc41af8e0eff3ae649e71a9f8f79114fbac85f7f229bd8de64e2

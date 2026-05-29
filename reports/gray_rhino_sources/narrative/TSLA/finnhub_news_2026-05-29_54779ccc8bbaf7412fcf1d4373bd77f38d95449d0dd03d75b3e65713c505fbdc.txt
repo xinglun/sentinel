@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's Growth Story Is All About Rockets and AI, but This Is What's Driving Its Business Right Now
+  summary: Starlink is an integral and key part of SpaceX's business, and without it, the company's financials would look much worse.
+  url: https://finnhub.io/api/news?id=31da6bfdda4446a3ec8d039ce0e65ae46c15f9576fd78af4e498bdcd9f6bb7b8

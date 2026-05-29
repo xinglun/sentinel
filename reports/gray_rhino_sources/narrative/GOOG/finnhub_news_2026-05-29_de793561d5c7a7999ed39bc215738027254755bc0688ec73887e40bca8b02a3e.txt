@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Cloud AI - Strengthening AI Security with Zero Trust Solutions
+  summary: Recent advancements in Cloud AI security have been underscored by Xage Security's announcement of enhanced Zero Trust capabilities for AI agents, which aim to provide a secure production environment by ensuring jailbreak-proof autonomy. Xage's solution offers comprehensive visibility and control over AI agents, helping organizations transition AI from a sandbox environment to real-world applications by mitigating risks associated with unauthorized actions and data exfiltration. This...
+  url: https://finnhub.io/api/news?id=b5af4358a516bf3ddd13213173263e9a10ebf3f6b17bea5ad1422a0d3143c11a

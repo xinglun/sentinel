@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sell in May? Hardly. Tech Redefines the Old Wall Street Adage With Stunning Gains.
+  summary: The S&P 500, driven by tech stocks, is on pace to power more than 5% higher this month, marking one of the best performances in May since the 1950s.
+  url: https://finnhub.io/api/news?id=2eec2b34f3feb593c41075ccb6f541d0325083d8bf9249b3ff43994c4c30c97d

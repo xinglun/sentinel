@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Could Soar in the Second Half of 2026. Here's Why.
+  summary: There might be vindication for the bulls on the horizon.
+  url: https://finnhub.io/api/news?id=4285fbfe00e6bc614da11714a52bff6220627a68cb612579220e1e024bd5e1d0

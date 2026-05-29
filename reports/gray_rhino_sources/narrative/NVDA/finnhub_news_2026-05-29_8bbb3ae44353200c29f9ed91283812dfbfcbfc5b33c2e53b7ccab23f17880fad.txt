@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GM Authorized $6 Billion in Buybacks. Will Ford Match the Move?
+  summary: Ford (NYSE: F) and General Motors (NYSE: GM) recently posted Q1 2026 results, and the contrast in how each is returning cash was the most striking takeaway. GM authorized a new $6 billion buyback in January and lifted its dividend. Ford kept its payout flat and bought back a fraction of that. Same industry, very ... GM Authorized $6 Billion in Buybacks. Will Ford Match the Move?
+  url: https://finnhub.io/api/news?id=2b96c7b773854cfa0ffe1d0e0679a6e31202348783df59f2c3d6bccffa769a70

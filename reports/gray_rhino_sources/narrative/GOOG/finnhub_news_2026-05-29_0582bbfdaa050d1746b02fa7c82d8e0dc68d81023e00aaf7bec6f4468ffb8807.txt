@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lim Meng Hoong Attends Science x AI Summit 2026, Focusing On New Trends In AI Industry Collaboration
+  summary: SAN FRANCISCO, May 29, 2026 (GLOBE NEWSWIRE) -- MengHoong Intelligent Investment Academy announced that its founder, Lim Meng Hoong, was invited to attend the Science x AI Summit 2026 held in Silicon Valley, where he joined global scientists, AI researchers, industry leaders, and investment institutions to discuss the development direction of next-generation artificial intelligence. During the summit, a number of technology institutions released new perspectives on AI-driven scientific research
+  url: https://finnhub.io/api/news?id=be8549f9893b7cc87a5052c2b4188392ed0a26656eadd21688cafaeb715d4101

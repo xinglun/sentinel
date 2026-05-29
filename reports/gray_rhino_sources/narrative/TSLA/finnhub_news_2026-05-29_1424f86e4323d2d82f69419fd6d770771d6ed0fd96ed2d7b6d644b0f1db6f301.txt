@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Future Still Looks Far Away
+  summary: Wall Street remains divided over whether Tesla's future justifies its premium valuation.
+  url: https://finnhub.io/api/news?id=73871f1a579542b47846a3dac800caad80ad4803203374ef22dee5e323bb1572

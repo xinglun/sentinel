@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon’s AWS hits fastest growth in 15 quarters as Bezos doubles down on AI infrastructure
+  summary: Jeff Bezos used a CNBC Squawk Box interview that aired May 20, 2026 to deliver the clearest statement yet of his current operating philosophy: artificial intelligence has become the single connective tissue across every company he touches. “My through line for the last few years has been AI. My time at Amazon is spent on ... Amazon’s AWS hits fastest growth in 15 quarters as Bezos doubles down on AI infrastructure
+  url: https://finnhub.io/api/news?id=65bdd9d37770e43e8fa74b7cb76c96b2c2a5ad32eced4a48fe1aa9cb16f456ff

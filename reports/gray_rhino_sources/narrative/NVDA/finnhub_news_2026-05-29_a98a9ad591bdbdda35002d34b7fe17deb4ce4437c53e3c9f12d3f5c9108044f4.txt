@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Needs 1.4 Gigawatts of Power. It Called a Michigan Utility Nobody’s Ever Heard Of. That Stock Could Beat the Nasdaq
+  summary: The hot ticker right now is OpenAI’s compute footprint, which is fueling everything from Oracle (NYSE:ORCL) to NVIDIA (NASDAQ:NVDA) to a half dozen private power developers, and the consensus is that the only way to play the AI buildout is to pay nosebleed multiples for the names printing the headlines. But the real story is ... OpenAI Needs 1.4 Gigawatts of Power. It Called a Michigan Utility Nobody’s Ever Heard Of. That Stock Could Beat the Nasdaq
+  url: https://finnhub.io/api/news?id=24d6cbebd9f04594f94cb896f32be9bf71f437b049a3ea5a272d5a11f63e5b86

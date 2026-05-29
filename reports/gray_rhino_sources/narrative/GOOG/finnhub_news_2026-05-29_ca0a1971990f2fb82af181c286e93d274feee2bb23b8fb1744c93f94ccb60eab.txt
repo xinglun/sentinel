@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apollo, Blackstone arrange $36B debt deal for Anthropic AI chips
+  summary: The firms plan to buy Google tensor processing units through a special-purpose vehicle and lease them to the AI startup
+  url: https://finnhub.io/api/news?id=f311936709da960276f473fabb012ed569b3a5ac00115a82e241210daf6f31ed

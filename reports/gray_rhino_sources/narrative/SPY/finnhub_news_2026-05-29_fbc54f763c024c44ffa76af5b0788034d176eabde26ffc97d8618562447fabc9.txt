@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds, Equity Futures Rise Pre-Bell Friday Amid US-Iran Deal Hopes
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was up 0.1% and the actively trad
+  url: https://finnhub.io/api/news?id=9018151747dffc60084c94fb2c810dce5154fcc294f319e7dd7ab9f27063b006

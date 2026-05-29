@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Announces New Chief Commercial and Marketing Officer Taylor Patton
+  summary: Current Chief Commercial and Marketing Officer Henry Charlton to become SVP of Global Business OperationsSUNNYVALE, Calif., May 28, 2026 (GLOBE NEWSWIRE) -- Intuitive (NASDAQ: ISRG), a global technology leader in minimally invasive care and the pioneer of robotic-assisted surgery, today announced the promotion of Global Senior Vice President of Intuitive’s endoluminal business Taylor Patton to Chief Commercial and Marketing Officer, effective July 1. Patton will join Intuitive’s Executive Leader
+  url: https://finnhub.io/api/news?id=9bd53f37cecccbad556410c93b73d9de3cf33f4a2a2271f671679db445f26c4b

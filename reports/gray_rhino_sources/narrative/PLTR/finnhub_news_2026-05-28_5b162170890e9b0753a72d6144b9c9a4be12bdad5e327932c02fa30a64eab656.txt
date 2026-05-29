@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Is Soaring Today
+  summary: Still down 20% year to date, could Palantir be poised for a stronger rebound?
+  url: https://finnhub.io/api/news?id=067faf6e54c51e7e1676461ad6ab5ede996c12a4a4adc8bbbc05f340789f8165

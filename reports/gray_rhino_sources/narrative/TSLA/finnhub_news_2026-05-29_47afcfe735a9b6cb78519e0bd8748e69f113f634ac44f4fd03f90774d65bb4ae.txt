@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Safe Is a Tesla Robo-Taxi
+  summary: Tesla stock is trying for seven consecutive gains on Friday, as investors look for progress on its artificial intelligence applications, including robo-taxis and robots.  There is reason for some optimism on the AI front, according to a recent report from Morgan Stanley.  Tesla launched a robo-taxi business in Austin, Texas, in June.
+  url: https://finnhub.io/api/news?id=06cdc1ab124c2b2c512b60cdf20c959993cd618cdcbe9ad101488994e4e84220

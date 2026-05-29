@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Evolution Metals & Technologies Stock Is Plunging This Week
+  summary: For a newly public company, disappointing financial results can shake investors' resolve to maintain their positions.
+  url: https://finnhub.io/api/news?id=2263420eea60cdebc629b39410c2a26fec2e0a0099aa457928c74c1e683d1adf

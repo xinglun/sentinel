@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Next Mega Move -- Tesla-SpaceX Merger Talk Heats Up
+  summary: Tesla-SpaceX Merger Buzz Ignites Fresh Elon Musk Speculation
+  url: https://finnhub.io/api/news?id=1e7637d53d6f755bc6218544c325865e53a28e5019778a78d600be07abb4d99b

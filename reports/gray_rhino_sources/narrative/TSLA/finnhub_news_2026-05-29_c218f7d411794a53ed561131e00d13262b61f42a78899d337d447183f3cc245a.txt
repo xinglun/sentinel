@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Self-Driving Cars. This Company Just Flew Passengers Over New York City. And the FAA Approved 9 More States
+  summary: Everyone is still looking at Tesla (NASDAQ:TSLA), because the robotaxi is always six months away and Optimus is always one demo away from changing the world. But the more interesting flight path is happening elsewhere. While Tesla bulls keep paying 405 times earnings for promises pushed into 2026 and beyond, an actual eVTOL aircraft just ... Forget Self-Driving Cars. This Company Just Flew Passengers Over New York City. And the FAA Approved 9 More States
+  url: https://finnhub.io/api/news?id=1e69d091443573ab71d9aec98d983f426a6430ce725acf3bbde8460207e57906

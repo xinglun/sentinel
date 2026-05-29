@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Price Prediction: Arm Holdings Has Limited Upside Despite 177% Rally
+  summary: I’ll cut to the chase. Arm Holdings (NASDAQ:ARM) has more than doubled year-to-date, and our proprietary model now sees only a sliver of upside left in the near term. Our 24/7 Wall St. price target for Arm is $314.30 over the next 12 months, implying roughly 3.83% upside from the recent close of $302.71. The ... Stock Price Prediction: Arm Holdings Has Limited Upside Despite 177% Rally
+  url: https://finnhub.io/api/news?id=4b9783c2afb5f5ac1c72dab51a193ad84716e0ca917d34c68c8a87abb2746ab0

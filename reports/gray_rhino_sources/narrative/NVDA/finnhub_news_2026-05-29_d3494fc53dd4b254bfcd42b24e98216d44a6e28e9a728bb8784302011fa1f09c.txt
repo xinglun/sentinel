@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSM vs Broadcom: Both Nearing 52-Week High, Only One is a Buy
+  summary: Broadcom (NASDAQ:AVGO) and Taiwan Semiconductor Manufacturing (NYSE:TSM) just reported quarters that put both stocks within striking distance of fresh 52-week highs. Broadcom designs custom AI accelerators for a handful of hyperscalers. TSMC fabricates leading-edge chips for nearly every major designer on the planet, including Broadcom itself. Their results tell the same AI story from opposite ... TSM vs Broadcom: Both Nearing 52-Week High, Only One is a Buy
+  url: https://finnhub.io/api/news?id=a9f74d3b357516a2b464b006d3faa7ecad228469b9186d819af30eb0a9b52659

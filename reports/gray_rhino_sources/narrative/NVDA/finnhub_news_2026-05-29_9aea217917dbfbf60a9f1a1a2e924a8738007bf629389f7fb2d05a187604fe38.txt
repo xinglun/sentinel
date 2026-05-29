@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VGT Has Doubled VUG and MGK Since April’s Split and Here’s Why
+  summary: The Vanguard triple split is now five weeks old, and the scoreboard tells a clear story. On April 21, 2026, Vanguard executed an 8-for-1 split on Vanguard Information Technology ETF (NYSEARCA: VGT), a 6-for-1 split on Vanguard Growth ETF (NYSEARCA: VUG), and a 5-for-1 split on Vanguard Mega Cap Growth ETF (NYSEARCA: MGK). Investors choosing ... VGT Has Doubled VUG and MGK Since April’s Split and Here’s Why
+  url: https://finnhub.io/api/news?id=6c55c2deda45420fc1d1c30658e86a80edf2389eff5d2670359674aaa785ae5a

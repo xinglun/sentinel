@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The tech trade is overcrowded. Here's your ETF escape route: Chart of the Day
+  summary: The tech trade isn't just leading the market — it's swallowing the ETF tape.
+  url: https://finnhub.io/api/news?id=484e99d2ea7970dd449e97a551eeb162db651d6ca6ab3c3716affff281fc861a

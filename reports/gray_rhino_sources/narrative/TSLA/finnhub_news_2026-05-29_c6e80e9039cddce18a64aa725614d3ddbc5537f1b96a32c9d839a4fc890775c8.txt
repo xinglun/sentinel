@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microcap Investors Worldwide: An Opportunity to Participate in the Future of Hard Rock Lithium Mining and EV Patent Technology - Discover Elektros Inc.
+  summary: WEST PALM BEACH, FL / ACCESS Newswire / May 29, 2026 / Elektros Inc. Ticker Symbol: ELEK: As global financial markets continue surging with renewed investor enthusiasm, Elektros Inc. is pleased to announce increasing worldwide awareness surrounding ...
+  url: https://finnhub.io/api/news?id=ffc2d147ddbedc2aec158f02801aeec86b8bf2ae81ea13fd5760edaeff3e9fb7

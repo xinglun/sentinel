@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What To Do After Dell's Breakout Boosted Hewlett-Packard Enterprise Stock
+  summary: Buy Hewlett Packard Enterprise Company now: AI/server demand and networking momentum drive upgrades and a $39 Citi target. Click for this HPE update.
+  url: https://finnhub.io/api/news?id=7a5036ab7c2009ae566c721740252879572c26fbbc146e5faa224a42996b08c3

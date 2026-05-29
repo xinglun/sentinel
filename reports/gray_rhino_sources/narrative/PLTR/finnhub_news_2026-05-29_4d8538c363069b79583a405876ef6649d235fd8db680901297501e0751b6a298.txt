@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Palantir Technologies (PLTR) Stock Soaring Today
+  summary: Shares of data analytics company Palantir Technologies (NASDAQ:PLTR) jumped 7.3% in the afternoon session after SaaS peer Snowflake reported impressive first quarter results.
+  url: https://finnhub.io/api/news?id=d4f0e4f833f10841764e1c1c52cfcbf28ae7fa23ed4d05f42034607e8be538d7

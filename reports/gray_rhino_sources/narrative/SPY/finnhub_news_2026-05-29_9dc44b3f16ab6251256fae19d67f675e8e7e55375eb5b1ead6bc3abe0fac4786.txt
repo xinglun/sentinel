@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CONY’s 100% Yield Hides a 37% Decline That Distributions Cannot Reverse
+  summary: The YieldMax COIN Option Income Strategy ETF (NYSEARCA:CONY) is built for one purpose: turn the wild volatility of Coinbase stock into a fat monthly check. CONY sells calls against a synthetic long position in Coinbase Global (NASDAQ:COIN) and passes the option premium to shareholders, which is how the fund has advertised distribution rates north of ... CONY’s 100% Yield Hides a 37% Decline That Distributions Cannot Reverse
+  url: https://finnhub.io/api/news?id=a3b03ad80d123fcbb363206d20e5153bbce14ea3953475993df0b1ea539722b3

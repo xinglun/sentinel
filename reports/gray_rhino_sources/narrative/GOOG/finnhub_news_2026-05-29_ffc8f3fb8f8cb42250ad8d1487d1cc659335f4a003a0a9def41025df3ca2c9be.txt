@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan's MediaTek says it supports both TSMC and Intel's advanced packaging technologies
+  summary: Taiwan chip designer MediaTek said on Friday it supports both TSMC's and Intel's ‌advanced packaging technologies, allowing customers to choose between the ‌two approaches.  CoWoS, or Chip-on-Wafer-on-Substrate, is TSMC's advanced packaging technology widely used for artificial intelligence chips, including those designed ‌by Nvidia.
+  url: https://finnhub.io/api/news?id=a10ab93cfbe50ee8cdd053fb58090c88aa5537dc824b30b05b3b02c07d8a2ae1

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Top Cryptocurrency to Buy Before It Soars 2,280%, According to Analysts
+  summary: A top Ethereum challenger could be on the cusp of spectacular gains.
+  url: https://finnhub.io/api/news?id=cfe07556f03a87fcf4113d1c62f7e4718115866fe85f0e431f4438df130b6064

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Texas robotaxi fleet dwarfed by Waymo in new filings
+  summary: New Texas DMV registration data reveals Tesla has just 42 autonomous vehicles in the state, versus 577 for Alphabet's Waymo
+  url: https://finnhub.io/api/news?id=eea27c95a8ce4841f404cfa021ec7825912a242f8a8934cbdada385167600287

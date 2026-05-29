@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Microsoft (MSFT) Still Attractive After Mixed Returns And Growing AI Expectations?
+  summary: Investors may be wondering whether Microsoft stock still offers good value at current levels, or if most of the potential upside is already reflected in the price. The stock last closed at US$426.99, with returns of 1.9% over the past week, a small decline of 0.5% over the past month, a larger decline of 9.7% year to date, a decline of 6.2% over the past year, and gains of 31.4% and 81.1% over the past 3 and 5 years respectively. Recent coverage has focused on how Microsoft fits into long...
+  url: https://finnhub.io/api/news?id=143a344b696d0c5fbf75004f9ab198bbb86f7dbcdc4eb20ea8ffd2bbda7a58a6

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Invests 3X More on AI Than Rockets and Lost $6.3 Billion on the Segment Last Year. Should Investors Be Worried?
+  summary: SpaceX is going all-in on AI spending. It could be years before shareholders know whether it was the right move.
+  url: https://finnhub.io/api/news?id=2b31e28214babdfa150b2fb7171c631f37be8e6324fd68cbc4c758a8eba1b10c

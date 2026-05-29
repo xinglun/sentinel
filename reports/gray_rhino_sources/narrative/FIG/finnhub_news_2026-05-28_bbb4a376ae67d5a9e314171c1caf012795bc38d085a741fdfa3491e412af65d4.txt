@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan's AI Call Shifts ETF Focus Beyond Nvidia And Microsoft To Software Underdogs
+  summary: JPMorgan&#39;s bullish AI software calls are shifting ETF focus beyond Nvidia and Microsoft toward enterprise automation and workflow monetization plays.
+  url: https://finnhub.io/api/news?id=9546822827b965e493d32ec95e7a8099f0d9d93790fc1ae0315a112095b1a8a3

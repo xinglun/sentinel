@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Early Retirees Face a Dangerous Choice, Says Wes Moss: Bonds in IRAs or Access to Cash
+  summary: On the May 19 episode of The Clark Howard Podcast, financial planner Wes Moss answered a question from a listener named Justin in Illinois who faced a contradiction every early retiree hits. The conventional rule says bonds belong in an IRA because they throw off taxable income, and stocks belong in taxable brokerage accounts because ... Early Retirees Face a Dangerous Choice, Says Wes Moss: Bonds in IRAs or Access to Cash
+  url: https://finnhub.io/api/news?id=835f194fcbd3eecb19be32f43a3cd966d691ef545a5626f4a917df22417c633f

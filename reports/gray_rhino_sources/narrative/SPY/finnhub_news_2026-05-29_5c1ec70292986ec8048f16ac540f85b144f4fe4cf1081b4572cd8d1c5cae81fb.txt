@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Small-Cap Lead Might Be The Most Dangerous Trade Right Now
+  summary: Is the Russell 2000 rally a trap? Why sticky inflation and a hawkish Fed could soon crush the small-cap stock broadening narrative.
+  url: https://finnhub.io/api/news?id=d651b07c6c34255a24e2c1d2f4cd97685fbdda67b1bf7af4a38c30456cfc8eeb

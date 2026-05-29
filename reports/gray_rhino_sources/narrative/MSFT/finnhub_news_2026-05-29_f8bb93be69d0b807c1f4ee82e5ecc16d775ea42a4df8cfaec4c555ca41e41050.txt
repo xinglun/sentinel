@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Social Buzz: Wallstreetbets Stocks Mostly Advancing Premarket Friday; Dell Technologies, Super Micro Computer to Open Higher
+  summary: The most-talked-about stocks in the Reddit subforum Wallstreetbets were mostly higher hours before F
+  url: https://finnhub.io/api/news?id=184b6913276319ff9ba980f36ac898d4c3a223e2bf1e09ef606723dd660be414

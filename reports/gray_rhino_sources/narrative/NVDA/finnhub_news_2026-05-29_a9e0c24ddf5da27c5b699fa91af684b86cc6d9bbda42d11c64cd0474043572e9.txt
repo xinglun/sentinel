@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoFi Technologies Surges 12% on Stablecoin Launch; Robinhood, Upstart Extend Fintech Bounce
+  summary: SoFi Technologies (NASDAQ:SOFI) stock is ripping in early Friday trading, up 12% to around $19, as investors react to the company’s push into bank-issued stablecoins. The pop builds on a fintech bounce that started earlier this week. The rally is extending across SoFi’s peers. Robinhood Markets (NASDAQ:HOOD) stock is ticking up another 1% to approximately ... SoFi Technologies Surges 12% on Stablecoin Launch; Robinhood, Upstart Extend Fintech Bounce
+  url: https://finnhub.io/api/news?id=1b905f942a1207fd29d7491fd38126d806840be766c3d0d2f0e036d3c75c65b1

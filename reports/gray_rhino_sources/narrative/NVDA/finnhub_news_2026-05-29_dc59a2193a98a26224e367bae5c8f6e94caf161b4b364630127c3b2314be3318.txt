@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Artificial Intelligence (AI) Is Moving Beyond Data Centers. Nvidia Has Already Turned This Opportunity Into a Multibillion-Dollar Business
+  summary: The integration of AI into objects such as cars and robots is opening a new growth opportunity for Nvidia.
+  url: https://finnhub.io/api/news?id=963b8d097eee9cd9fb8c2e15c16542be81d9b51e1432af0e0a805bd9804ec993

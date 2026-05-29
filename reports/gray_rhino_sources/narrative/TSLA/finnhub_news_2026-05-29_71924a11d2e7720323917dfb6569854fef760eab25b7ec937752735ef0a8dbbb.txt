@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As SpaceX reportedly snips IPO valuation, prediction markets are still saying it will be a $2 trillion company
+  summary: Prediction market traders are pricing a 78% chance that SpaceX closes its first day of trading above $2 trillion, a valuation that would rank it among the ten most valuable companies in the world, ahead of Saudi Aramco, Tesla, and Meta Platforms. Polymarket contracts also show a 15%...
+  url: https://finnhub.io/api/news?id=66680e4695c1d5f6a369d8519d6dd2a0562096293c3814e4c51e90dfa67104b9

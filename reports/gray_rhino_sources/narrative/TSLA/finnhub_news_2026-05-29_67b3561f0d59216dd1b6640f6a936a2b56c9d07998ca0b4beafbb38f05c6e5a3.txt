@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Republican lawmakers are trading like Trump, piling into Big Tech stocks
+  summary: Republican lawmakers are adjusting their investment portfolios to keep up with President Trump's latest trades, the US leader favoring Nvidia (NVDA), Intel (INTC), and other Big Tech names. Yahoo Finance Washington Correspondent Ben Werschkul reports on this trend, giving rise to renewed concerns around Congressional stock trading.
+  url: https://finnhub.io/api/news?id=8e3ebbe440c550ac238db3954669bf37fbc0290faed110533865255482ffebd2

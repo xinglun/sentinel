@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data layer emerges as the defining battleground of the AI revolution
+  summary: The contest for AI supremacy is shifting away from foundation models and toward the data infrastructure sitting beneath them, with enterprises that have spent decades accumulating proprietary data now positioned to extract the greatest value from the technology, according to Wedbush...
+  url: https://finnhub.io/api/news?id=3c2c50cfde249e8981e646e4d52bef11cf4e0e6f9884b828f570d8f6d13dc5df

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Indian court ruling on Google keyword ads could reshape online advertising
+  summary: An Indian court ruling that Google infringed the trademark rights of a ‌bathroom fittings maker by allowing rivals to use its ‌name as an advertising keyword could reshape the online ads market, Indian ​businesses said on Friday.  The court ordered Google to pay damages of $31,600 in a ruling issued on May 22 by the Delhi High Court, which businesses have since been responding to.  • ‌Delhi High Court says ⁠Google allowed rival companies of India's Hindware to use "Hindware" as a keyword to target their ⁠own advertising.
+  url: https://finnhub.io/api/news?id=66b27b7e77a8a26665d3cad6a14d220177f55e813e277d434a328ba2a324aa87

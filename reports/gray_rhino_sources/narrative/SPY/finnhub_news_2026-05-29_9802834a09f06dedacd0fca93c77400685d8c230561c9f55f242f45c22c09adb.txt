@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BB Seguridade: Upside Potential Seems Limited, Hold For Its 12% Dividend Yield
+  summary: BB Seguridade ParticipaÃ§Ãµes S.A. rated hold: 12%+ yield offsets near-term earnings pressure from lower Brazil rates; valuation fair. Click for this BBSEY update.
+  url: https://finnhub.io/api/news?id=bb8e58a0c8e623fd118314b13b85f3f31c675f9b81ce14d1c53a7fa597176324

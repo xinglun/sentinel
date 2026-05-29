@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Alphabet: “There’s a Lot to Like Here”
+  summary: Alphabet Inc. (NASDAQ:GOOGL) was among the stocks Jim Cramer discussed on Mad Money, highlighting several companies with market caps over a trillion dollars. Cramer was bullish on the company during the episode, as he remarked: Next member of the club, Alphabet. Oh, there’s a lot to like here: YouTube, the largest video company in the […]
+  url: https://finnhub.io/api/news?id=381ba1c499f71340e5b25e4b99cac353377e56799ea082a854e9dbe6ac5cea96

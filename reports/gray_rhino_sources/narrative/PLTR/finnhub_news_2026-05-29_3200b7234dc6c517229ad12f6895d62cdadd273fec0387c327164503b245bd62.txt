@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Jumps as Defense Tech Momentum Returns to AI Trade
+  summary: Palantir Stock Soars on Fresh Optimism Around Military Drone Spending
+  url: https://finnhub.io/api/news?id=246dcbd12bffc324f3b079bda03372a8686ba04dcb701d6c74a44dccc784cf93

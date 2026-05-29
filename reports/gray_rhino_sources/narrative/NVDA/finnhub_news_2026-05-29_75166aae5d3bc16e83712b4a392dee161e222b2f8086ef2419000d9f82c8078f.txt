@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Schiff: U.S. Borrowing Costs Now Top Germany and Japan, and It’s Not About the War
+  summary: Peter Schiff has spent his career predicting bond market trouble. On the latest episode of his podcast he thinks the trouble finally has nowhere left to hide. Oil prices have softened, war headlines have improved, and yet the long end of the Treasury curve refuses to behave. The 30-year yield sits at 5%, the 10-year ... Peter Schiff: U.S. Borrowing Costs Now Top Germany and Japan, and It’s Not About the War
+  url: https://finnhub.io/api/news?id=dee704f33655c7181bfe98d2c2c1789619bcbd1ccb09fefed2df6e04a3a149d8

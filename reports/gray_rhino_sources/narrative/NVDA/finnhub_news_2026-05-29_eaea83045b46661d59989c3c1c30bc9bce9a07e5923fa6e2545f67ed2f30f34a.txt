@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chasing a $400 Billion Prize: Google's New AI Cloud Company Is a Threat to Nvidia and CoreWeave
+  summary: Google is slowly encroaching on established AI infrastructure players.
+  url: https://finnhub.io/api/news?id=44924199d1674705fb7ab0a4430adb4fb2f293970996e69e6655ecf997df0bb5

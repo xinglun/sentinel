@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Stock Soars 35% as AI Revenue Supercharges Growth
+  summary: Dell Technologies  revenue is growing at an accelerating pace as demand soars for hardware that powers artificial intelligence.  For the fiscal first-quarter, the PC and server maker reported adjusted earnings of $4.86 per share on revenue of $43.8 billion.  In the same period last year, Dell posted adjusted earnings of $1.55 a share on revenue of $23.4 billion.
+  url: https://finnhub.io/api/news?id=2e8d2249e9e66fbd65d7a515e3911e98d72e504a6bef8784956ba9c85ed89155

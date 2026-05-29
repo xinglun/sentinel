@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can’t Buy SpaceX Yet? Wall Street Says This $150 Stock Is the Next Best Thing. But There’s a Catch
+  summary: Rocket Lab (NASDAQ:RKLB) has become Wall Street’s go-to substitute for SpaceX, which Polymarket traders now give a 94.6% probability of going public by June 30, 2026, and retail money chasing the space theme has to land somewhere. Rocket Lab operates small-payload launch with Electron, hypersonic test work with HASTE, and a fast-growing Space Systems business ... Can’t Buy SpaceX Yet? Wall Street Says This $150 Stock Is the Next Best Thing. But There’s a Catch
+  url: https://finnhub.io/api/news?id=37608d12d3fd4c889580c59b85ad81580645cad438381819c6e3c9d4d85a3bce

@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow Futures Inch Up As US-Iran Deal Awaits Trump Approval — Dell, Agilent, Hewlett Packard Enterprise In Focus
+  summary: U.S. stock futures edged up on Friday after closing higher on Thursday, with all the major indexes gaining as investors kept a close watch on the Iran war developments.
+
+
+
+The U.S. and Iran have reportedly reached an agreement to extend the ongoing ceasefire by 60 days, but it is currently awaiting final approval from President Donald Trump.
+  url: https://finnhub.io/api/news?id=438b9b58b77b59b9d8e1312673dbebed220915b204132ec99a6119819412f681

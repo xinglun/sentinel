@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's $965 Billion Valuation Eclipses OpenAI
+  summary: The round nearly triples Anthropic's February valuation as chip partners and hyperscalers join the round.
+  url: https://finnhub.io/api/news?id=b9d1ad782508d969bbfd05ecf849c23b2c2142c596eb89a398fbf237cbdde061

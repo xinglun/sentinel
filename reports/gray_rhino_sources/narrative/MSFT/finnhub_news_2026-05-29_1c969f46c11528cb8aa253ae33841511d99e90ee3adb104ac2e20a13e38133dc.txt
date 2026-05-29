@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Microsoft: “Terrific Cloud Business, But It’s Weighed Down By Enterprise Software”
+  summary: Microsoft Corporation (NASDAQ:MSFT) was among the stocks Jim Cramer discussed on Mad Money, highlighting several companies with market caps over a trillion dollars. Cramer highlighted why his Charitable Trust owns the stock, as he said: Now, here’s a tough one, Mr. Softee, Microsoft. It has a terrific cloud business, but it’s weighed down by enterprise […]
+  url: https://finnhub.io/api/news?id=a20ab48a287b58785eec57e8ef5c44250ecb4e87fe8d07407819503df0fd07ec

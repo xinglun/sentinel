@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Great Debt Debacle Has Arrived
+  summary: We are staring at a debt structure of nearly $180 trillion, in an economy with a GDP of $32 trillion. This is now colliding with a very dangerous force: rising interest rates. Read more here
+  url: https://finnhub.io/api/news?id=010f0be84353a02df163f0bd49efcdae0cbba787662be1dc1246d97cceecb311

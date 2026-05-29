@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell raises outlook on surging AI infrastructure demand, sending shares sharply higher (DELL)
+  summary: Dell (NYSE:DELL) increased its full-year revenue and earnings guidance on Thursday, highlighting robust demand for its artificial intelligence-focused server portfolio as businesses accelerate investments in data center infrastructure powered by advanced Nvidia technology. The upbeat forecast triggered a strong market reaction, with Dell shares jumping around 39% in extended trading as investors welcomed evidence that spending on AI infrastructure continues to gather momentum.
+  url: https://finnhub.io/api/news?id=2297e4accd21375bbae19666353a523da92710d25e941ef2a701e512e89dc2c7

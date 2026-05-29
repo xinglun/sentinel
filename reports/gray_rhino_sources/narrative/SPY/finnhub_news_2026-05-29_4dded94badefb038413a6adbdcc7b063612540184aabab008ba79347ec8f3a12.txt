@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'China's ByteDance Developing New AI Chips Like Those from Nvidia Partner Groq' - The Information
+  summary: https://www.theinformation.com/articles/chinas-bytedance-developing-new-ai-chips-like-nvidia-partner-groq
+  url: https://finnhub.io/api/news?id=6f11c2c80575e7f4cc7106a32b8b203c9d925e0582b0326d41fb837a8663f1de

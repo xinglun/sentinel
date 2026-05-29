@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rick Santelli: Core PCE Hits 3.3% as Durable Goods Surge 7.9% in April
+  summary: Rick Santelli walked through Thursday morning’s data dump from the CME floor and the story he told was one of an economy that refuses to pick a direction. Inflation is sticky, factory orders are ripping, and the consumer is quietly stepping back. For anyone trying to time a Fed pivot, that combination matters. Start with ... Rick Santelli: Core PCE Hits 3.3% as Durable Goods Surge 7.9% in April
+  url: https://finnhub.io/api/news?id=e26b5bc06b21501bce95718df3e180604e4324043c8d27cb2198931dce343552

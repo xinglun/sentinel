@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mark Cuban Made More Money Hedging Yahoo Stock Than From the $5.7 Billion Sale Itself
+  summary: Mark Cuban sold Broadcast.com to Yahoo in April 1999 for $5.7 billion in stock. He then made more money hedging that Yahoo stock than he did from the sale itself. Read that twice. The hedge beat the headline. Cuban’s collar is the one story I keep coming back to whenever a megacap rips into nosebleed ... Mark Cuban Made More Money Hedging Yahoo Stock Than From the $5.7 Billion Sale Itself
+  url: https://finnhub.io/api/news?id=d9f90f06f5755a734620bdd1a9a170ee609c19e3d66a8aee83c087a428e8ce41

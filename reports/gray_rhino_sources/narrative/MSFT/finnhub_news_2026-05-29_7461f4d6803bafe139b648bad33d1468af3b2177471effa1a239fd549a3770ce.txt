@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Stellar Fundamentals Tied To Discounted Valuation
+  summary: Microsoft stock is a "Buy" as Q3 2026 shows strong revenue/EPS growth and AI Copilot momentum. Here's what AI investors need to know.
+  url: https://finnhub.io/api/news?id=93a2d591c9a9c5ad8b18dab8592ebb849e1d1e519a1c7a6830705feb30ecfa02

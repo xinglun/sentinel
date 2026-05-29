@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why SoundHound AI (SOUN) Stock Is Up Today
+  summary: Shares of voice AI technology company SoundHound AI (NASDAQ:SOUN) jumped 5.7% in the afternoon session after Snowflake's impressive earnings results provided clearer evidence that the "SaaSpocalypse" — a rolling selloff that had erased approximately $2 trillion from software market values since late 2025 on fears that AI would make subscription software obsolete — had been overstated for platforms sitting at the centre of AI workflows.
+  url: https://finnhub.io/api/news?id=c9518a13f3d80107cc8433ec9bc072cd1ff0bb63045b924069b264d112590825

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Billionaire Investor Says AI, Geopolitics Matter More Than Inflation And Interest Rates: 'You Have To Be A Tech Person Today'
+  summary: Investors must now prioritize AI and geopolitics over traditional indicators. Technology is driving the economy.
+  url: https://finnhub.io/api/news?id=a61f01ed9185db55f3158ba78a32a5559fd0a7a1d7e9d6df70782102c574d1e7

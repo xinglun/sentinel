@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart Worth Less Than Anthropic
+  summary: It is a staggering valuation. AI superstar Anthropic raised $65 billion with a post-money valuation of $965 billion. That pushed it ahead of arch-rival OpenAI, which was most recently valued at $852 billion. It also puts the Anthropic’s figure ahead of Walmart (NYSE: WMT), which has a market cap of $948 billion. Walmart is the ... Walmart Worth Less Than Anthropic
+  url: https://finnhub.io/api/news?id=80b87c16541934a37b8e58c06fc4e369ca5f6c9bbe8b4c5def568ee3169bfed3

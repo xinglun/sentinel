@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As OpenAI, Anthropic Prep IPOs, Here's One Thing To Know
+  summary: OpenAI and Anthropic are expected to launch IPOs, perhaps in 2026. Google stock could be pressured as its AI rivals build bigger war chests.
+  url: https://finnhub.io/api/news?id=706e68660c071734f55927f5b24c96cb7abbf0c91f8d8cfbc5db6ba8da76ac8c

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Slid from the Threat of Margin Compression Due to AI
+  summary: Auxier Asset Management, an investment advisory firm, released its first quarter 2026 investor letter. A copy of the letter is available to download here. Following a robust start to the year, the market was impacted by the Strait of Hormuz crisis. Concerns over AI disruption, excessive stock-based compensation, and high valuations caused the technology sector […]
+  url: https://finnhub.io/api/news?id=87dc5ed6c93cf46f3971c0fedd0bda8c9187557c1628d383167395e202bb245a

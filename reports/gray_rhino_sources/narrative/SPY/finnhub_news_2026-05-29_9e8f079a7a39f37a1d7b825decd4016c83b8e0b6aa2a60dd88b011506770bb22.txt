@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Just How Volatile Are U.S. Stocks Overnight?
+  summary: Markets are already able to trade 24 hours, but for now, all of the overnight trading happens off-exchange. In this article, we break down the data from dark pool trades overnight.
+  url: https://finnhub.io/api/news?id=a5b339480c477da718d73f2832ce16c7a96007c76b0f2c29feb187160b73f914

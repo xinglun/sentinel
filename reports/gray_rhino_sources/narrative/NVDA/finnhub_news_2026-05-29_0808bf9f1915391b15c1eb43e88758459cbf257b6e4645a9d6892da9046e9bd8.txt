@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: AI Rally Exhaustion Could Send Rambus Lower
+  summary: Rambus (NASDAQ:RMBS) has been one of the loudest AI memory winners of the past year, with shares up 162.25% over the trailing 12 months and 55.6% year to date. After that move, my proprietary model says the easy money has been made. The 24/7 Wall St. Price Target Says Take Some Off the Table Our ... Prediction: AI Rally Exhaustion Could Send Rambus Lower
+  url: https://finnhub.io/api/news?id=375b0f506a7c33ead8dd76be201b75c0524a86dff8f9247b6f3ead32ec3e14ae

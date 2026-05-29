@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: SMCI Stock Will Trade At This Price In 2027
+  summary: Super Micro Computer (NASDAQ:SMCI) just printed $10.24 billion in Q3 FY2026 revenue, up 122.68% year over year, while CEO Charles Liang declared that “Supermicro’s transformation into a total datacenter infrastructure provider is accelerating.” Shares are up 41.1% year to date, yet still sit miles below last cycle’s highs. Can SMCI reach $60 per share in ... Prediction: SMCI Stock Will Trade At This Price In 2027
+  url: https://finnhub.io/api/news?id=7afeb67a2fdbe69a1804ab17097afccf0d8e4db47eb1123eca7c969ea1c03a54

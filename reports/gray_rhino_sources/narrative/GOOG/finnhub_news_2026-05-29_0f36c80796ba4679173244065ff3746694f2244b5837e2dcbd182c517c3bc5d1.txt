@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The £500m plan to stop Britain becoming America’s ‘AI vassal state’
+  summary: Arthur Mensch had a stark warning for the Assemblée nationale.
+  url: https://finnhub.io/api/news?id=dbb8a3a0f30c6f04b9f62f916779e8b7dc4f43fc421f661471b7a2968f1e0281

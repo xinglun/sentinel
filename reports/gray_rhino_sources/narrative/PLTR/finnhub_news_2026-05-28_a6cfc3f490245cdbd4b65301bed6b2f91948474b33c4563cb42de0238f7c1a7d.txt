@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Engineer Charged After Alleged $1.2 Million Polymarket Bets
+  summary: Prosecutors allege employee used Google search data to profit from prediction market wagers.
+  url: https://finnhub.io/api/news?id=642d9acc6fe4d8469fbb0e20f022c34a82bfeacfb6b1b3c308736238d9ba015a

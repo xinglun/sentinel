@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Trump Administration Wants Autos Under USMCA to Be at Least 50% Made in America'- WSJ
+  summary: https://www.wsj.com/politics/policy/trump-administration-wants-autos-under-usmca-to-be-at-least-50-made-in-america-c6204c18
+  url: https://finnhub.io/api/news?id=1ba59122bd4b5b52f280c4c408b5b3a9ea6683fc398a47a4dc76dc5096d6f132

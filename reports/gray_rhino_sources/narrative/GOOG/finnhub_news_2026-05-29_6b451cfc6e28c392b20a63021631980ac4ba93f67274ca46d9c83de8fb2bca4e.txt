@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Believes “Nothing Comes Out of Apple Unless It’s Near Perfect”
+  summary: Apple Inc. (NASDAQ:AAPL) was among the stocks Jim Cramer discussed on Mad Money, highlighting several companies with market caps over a trillion dollars. Cramer praised the company’s hardware, as he said: Third, Apple, okay, it’s got the best hardware, and it’s now snared one of the best AI platforms with Gemini, the logical extension of […]
+  url: https://finnhub.io/api/news?id=31d36120bf7f4233aa24117f8497b66d73c01b1628354d0984199e076a872ad9

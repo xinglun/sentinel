@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s Why Tesla (TSLA) Fell Sharply in Q1
+  summary: Impax Asset Management, an investment management firm based in London, specializing in sustainable investing, released its first-quarter 2026 investor letter for its “Impax US Sustainable Economy Fund”. A copy of the letter is available to download here. The US Sustainable Economy portfolio underperformed the Russell 1000 benchmark in Q1 2026, primarily due to its lack of […]
+  url: https://finnhub.io/api/news?id=a7ee6515ca9574610fa390d55322912f42b588e1881212d6e56ec562d7b5acde

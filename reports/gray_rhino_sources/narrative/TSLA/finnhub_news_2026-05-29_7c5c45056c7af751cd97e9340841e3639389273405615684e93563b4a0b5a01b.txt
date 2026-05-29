@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Discusses Elon Musk and the Potential to Shift Tesla Toward SpaceX
+  summary: Tesla, Inc. (NASDAQ:TSLA) was among the stocks Jim Cramer discussed on Mad Money, highlighting several companies with market caps over a trillion dollars. Cramer highlighted what people’s predictions of the company CEO’s future plans are, as he commented: Seven is Tesla. When we think of Tesla, we think of cars, but we really should be […]
+  url: https://finnhub.io/api/news?id=b36e7654aca5f0133f41957c4c6235583df53d2d9df164d3474aeb53b86f42d4
