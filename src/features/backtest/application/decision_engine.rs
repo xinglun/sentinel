@@ -1,7 +1,6 @@
-use crate::features::radar::application::provider::TickerHistory;
-use crate::features::radar::domain::decision::DecisionPacket;
-use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
-use crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord;
+use crate::features::backtest::application::model::{
+    BacktestDecisionSnapshot, BacktestTickerHistory,
+};
 use anyhow::Result;
 use std::collections::HashMap;
 
@@ -9,10 +8,8 @@ use std::collections::HashMap;
 pub trait BacktestDecisionEngine {
     fn run_daily_pipeline<'a>(
         &self,
-        ticker_histories: &[(TickerHistory<'a>, &WatchlistEntry)],
-        rules: &ParsedRules,
-        history: &[DecisionPacket],
-        evidence_history: &[AutomatedEvidenceRecord],
+        ticker_histories: &[BacktestTickerHistory<'a>],
+        history: &[BacktestDecisionSnapshot],
         positions: &HashMap<String, (f64, f64)>,
-    ) -> Result<DecisionPacket>;
+    ) -> Result<BacktestDecisionSnapshot>;
 }

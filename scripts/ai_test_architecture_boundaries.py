@@ -398,6 +398,18 @@ def test_backtest_interface_rejects_direct_radar_engine_dependency() -> None:
         assert violations, "backtest interface から radar engine への直結は ACL に寄せるべき"
 
 
+def test_backtest_application_rejects_radar_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/backtest/application/simulation.rs",
+            "use crate::features::radar::domain::decision::DecisionPacket;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "backtest application は radar DTO に依存せず backtest DTO を使うべき"
+
+
 def test_acl_allows_adapter_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)

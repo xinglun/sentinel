@@ -1,11 +1,12 @@
 use crate::features::backtest::application::decision_engine::BacktestDecisionEngine;
+use crate::features::backtest::application::model::{
+    BacktestAssetAction, BacktestAssetState, BacktestBreakoutStatus, BacktestDecisionSnapshot,
+    BacktestRules, BacktestTickerHistory, BacktestTrendStatus, BacktestTrendTopology,
+    BacktestWatchlistEntry,
+};
 use crate::features::backtest::domain::metrics::{
     BacktestRunArtifacts, RegimeStats, StateMachineMetrics,
 };
-use crate::features::radar::application::provider::TickerHistory;
-use crate::features::radar::domain::action_matrix::AssetAction;
-use crate::features::radar::domain::decision::DecisionPacket;
-use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
 use anyhow::Result;
 use chrono::NaiveDate;
 use std::borrow::Cow;
@@ -13,34 +14,28 @@ use std::collections::HashMap;
 
 pub fn run_core_simulation(
     decision_engine: &dyn BacktestDecisionEngine,
-    histories: &HashMap<String, TickerHistory>,
-    watchlist: &[WatchlistEntry],
+    histories: &HashMap<String, BacktestTickerHistory>,
+    watchlist: &[BacktestWatchlistEntry],
     simulation_dates: &[NaiveDate],
-    parsed_rules: &ParsedRules,
+    parsed_rules: &BacktestRules,
     use_memory: bool,
     dir_name: &str,
 ) -> Result<BacktestRunArtifacts> {
     let mut transition_matrix: HashMap<(String, String), usize> = HashMap::new();
-    let mut prev_packet: Option<DecisionPacket> = None;
-    let mut history_window: Vec<DecisionPacket> = Vec::with_capacity(20);
+    let mut prev_packet: Option<BacktestDecisionSnapshot> = None;
+    let mut history_window: Vec<BacktestDecisionSnapshot> = Vec::with_capacity(20);
     let mut reliability: HashMap<String, (usize, usize)> = HashMap::new();
 
     let mut regime_tracking: HashMap<String, RegimeStats> = HashMap::new();
     let mut potential_records: Vec<(NaiveDate, f64)> = Vec::new();
     let mut sm_metrics = StateMachineMetrics::default();
-    let mut state_history: Vec<crate::features::radar::domain::market_regime::MarketState> =
-        Vec::new();
+    let mut state_history: Vec<String> = Vec::new();
 
     let mut asset_indices: HashMap<String, usize> = HashMap::new();
     let mut raw_top3_first_seen: HashMap<String, NaiveDate> = HashMap::new();
     let mut mem_top3_first_seen: HashMap<String, NaiveDate> = HashMap::new();
 
-    let optimal_threshold = parsed_rules
-        .sorted_bands
-        .iter()
-        .find(|(name, _)| name.to_lowercase().contains("optimal"))
-        .map(|(_, t)| *t)
-        .unwrap_or(f64::MAX);
+    let optimal_threshold = parsed_rules.optimal_threshold;
 
     for sym in histories.keys() {
         asset_indices.insert(sym.clone(), 0);
@@ -57,28 +52,25 @@ pub fn run_core_simulation(
                 }
 
                 if *idx > 0 {
-                    let segmented_history = TickerHistory {
+                    let segmented_history = BacktestTickerHistory {
                         symbol: entry.symbol.clone(),
                         bars: Cow::Borrowed(&hist.bars[0..*idx]),
                         total_trading_days: hist.total_trading_days,
-                        latest_quote_timestamp: None,
                     };
-                    daily_histories.push((segmented_history, entry));
+                    daily_histories.push(segmented_history);
                 }
             }
         }
 
         // core decision pipeline。
-        let effective_window: &[DecisionPacket] = if use_memory {
+        let effective_window: &[BacktestDecisionSnapshot] = if use_memory {
             history_window.as_slice()
         } else {
             &[]
         };
         let current_packet = decision_engine.run_daily_pipeline(
             &daily_histories,
-            parsed_rules,
             effective_window,
-            &[],
             &std::collections::HashMap::new(),
         )?;
 
@@ -90,62 +82,58 @@ pub fn run_core_simulation(
 
         // metrics を集計する。
         sm_metrics.total_days += 1;
-        state_history.push(current_packet.market_regime.market_state);
-        if !current_packet.trend_cohesion.gate_passed {
+        state_history.push(current_packet.market_state.clone());
+        if !current_packet.trend_gate_passed {
             sm_metrics.trend_gate_blocked_days += 1;
         }
-        match current_packet.trend_cohesion.status {
-            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed => {
+        match current_packet.trend_status {
+            BacktestTrendStatus::Dispersed => {
                 sm_metrics.trend_status_dispersed_days += 1;
             }
-            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Forming => {
+            BacktestTrendStatus::Forming => {
                 sm_metrics.trend_status_forming_days += 1;
             }
-            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Formed => {
+            BacktestTrendStatus::Formed => {
                 sm_metrics.trend_status_formed_days += 1;
             }
         }
-        match current_packet.trend_cohesion.topology {
-            crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader => {
+        match current_packet.trend_topology {
+            BacktestTrendTopology::NoLeader => {
                 sm_metrics.topology_no_leader_days += 1;
             }
-            crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::SingleLeader => {
+            BacktestTrendTopology::SingleLeader => {
                 sm_metrics.topology_single_leader_days += 1;
             }
-            crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::FragmentedLeaders => {
+            BacktestTrendTopology::FragmentedLeaders => {
                 sm_metrics.topology_fragmented_leaders_days += 1;
             }
         }
         for asset in &current_packet.assets {
             sm_metrics.evaluated_asset_days += 1;
-            if asset.breakout.breakout_eligible {
+            if asset.breakout_eligible {
                 sm_metrics.breakout_eligible_asset_days += 1;
             }
-            match asset.breakout.status {
-                crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout => {
+            match asset.breakout_status {
+                BacktestBreakoutStatus::NoBreakout => {
                     sm_metrics.breakout_no_breakout_count += 1;
                 }
-                crate::features::radar::domain::breakout_detection::BreakoutStatus::EmergingBreakout => {
+                BacktestBreakoutStatus::EmergingBreakout => {
                     sm_metrics.breakout_emerging_count += 1;
                 }
-                crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout => {
+                BacktestBreakoutStatus::ConfirmedBreakout => {
                     sm_metrics.breakout_confirmed_count += 1;
                 }
             }
-            if asset
-                .breakout
-                .reasons
-                .contains(&crate::features::radar::domain::breakout_detection::BreakoutReason::FailedBreakoutRisk)
-            {
+            if asset.breakout_failed_risk {
                 sm_metrics.breakout_failed_risk_count += 1;
             }
         }
 
         if let Some(ref prev) = prev_packet {
-            if prev.market_regime.market_state != current_packet.market_regime.market_state {
+            if prev.market_state != current_packet.market_state {
                 let key = (
-                    format!("{:?}", prev.market_regime.market_state),
-                    format!("{:?}", current_packet.market_regime.market_state),
+                    prev.market_state.clone(),
+                    current_packet.market_state.clone(),
                 );
                 *transition_matrix.entry(key).or_insert(0) += 1;
             }
@@ -164,11 +152,8 @@ pub fn run_core_simulation(
             }
         }
 
-        if let Some(audit) = &current_packet.market_regime.transition_audit {
-            if audit.to == crate::features::radar::domain::market_regime::LifecycleState::IGNITION
-                && audit.from
-                    != crate::features::radar::domain::market_regime::LifecycleState::NEWBORN
-            {
+        if let Some(audit) = &current_packet.transition_audit {
+            if audit.to == "IGNITION" && audit.from != "NEWBORN" {
                 sm_metrics.reset_count += 1;
             }
             if audit.is_reset_blocked {
@@ -188,10 +173,7 @@ pub fn run_core_simulation(
             }
         }
 
-        potential_records.push((
-            *current_date,
-            current_packet.market_features.potential_energy,
-        ));
+        potential_records.push((*current_date, current_packet.potential_energy));
 
         // Asset Level Stability & Behavior Calibration (V1.4+)
         let current_top_actions: Vec<String> = current_packet
@@ -217,8 +199,7 @@ pub fn run_core_simulation(
         for asset in &current_packet.assets {
             let raw_score = asset.deviation.unwrap_or(0.0);
             let is_raw_optimal = raw_score >= optimal_threshold;
-            let is_actual_optimal = asset.asset_state.state
-                == crate::features::radar::domain::asset_state::AssetState::OPTIMAL;
+            let is_actual_optimal = asset.asset_state == BacktestAssetState::Optimal;
 
             if is_actual_optimal && !is_raw_optimal {
                 sm_metrics.total_raw_vs_actual_divergence_days += 1;
@@ -275,7 +256,7 @@ pub fn run_core_simulation(
 
         // reliability を確認する。
         for asset in &current_packet.assets {
-            let state_str = format!("{:?}", asset.asset_state.state);
+            let state_str = format!("{:?}", asset.asset_state);
             let reg_entry = regime_tracking.entry(state_str.clone()).or_default();
             if let Some(full_hist) = histories.get(&asset.symbol) {
                 let current_idx = asset_indices
@@ -299,9 +280,9 @@ pub fn run_core_simulation(
                     }
                     reg_entry.sum_max_drawdown_20d += (min_price - curr.close) / curr.close;
                     reg_entry.count_drawdowns += 1;
-                    let is_bear = asset.action == AssetAction::REDUCE
-                        || asset.action == AssetAction::FREEZE
-                        || asset.action == AssetAction::AVOID;
+                    let is_bear = asset.action == BacktestAssetAction::Reduce
+                        || asset.action == BacktestAssetAction::Freeze
+                        || asset.action == BacktestAssetAction::Avoid;
                     let is_correct = if is_bear {
                         fwd_return < 0.0
                     } else {
@@ -310,15 +291,14 @@ pub fn run_core_simulation(
                     if is_correct {
                         reg_entry.correct_signals += 1;
                     }
-                    let conf_bucket =
-                        match current_packet.market_features.system_confidence as usize {
-                            90..=100 => "90-100",
-                            80..=89 => "80-90",
-                            70..=79 => "70-80",
-                            60..=69 => "60-70",
-                            50..=59 => "50-60",
-                            _ => "<50",
-                        };
+                    let conf_bucket = match current_packet.system_confidence as usize {
+                        90..=100 => "90-100",
+                        80..=89 => "80-90",
+                        70..=79 => "70-80",
+                        60..=69 => "60-70",
+                        50..=59 => "50-60",
+                        _ => "<50",
+                    };
                     let rel_entry = reliability.entry(conf_bucket.to_string()).or_insert((0, 0));
                     rel_entry.0 += 1;
                     if is_correct {

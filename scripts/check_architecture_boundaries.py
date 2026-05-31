@@ -365,6 +365,10 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
             and import_path.startswith("crate::features::radar::application::engine")
         ):
             violations.append(Violation(path, line_no, import_path, "backtest interface -> radar engine"))
+        if feature == "backtest" and layer == "application" and import_path.startswith(
+            "crate::features::radar"
+        ):
+            violations.append(Violation(path, line_no, import_path, "backtest application -> radar"))
         for forbidden in FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES.get(layer, ()):
             if import_path.startswith(forbidden):
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} forbidden import"))
