@@ -1657,7 +1657,13 @@ fn gray_rhino_renderer_is_interface_owned() {
             .expect("failed to read discovery application");
     let interface =
         fs::read_to_string(root.join("src/features/research/interface/gray_rhino_report.rs"))
-            .expect("failed to read gray rhino interface");
+            .expect("failed to read gray rhino interface")
+            + &fs::read_to_string(
+                root.join(
+                    "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+                ),
+            )
+            .expect("failed to read gray rhino inline reference renderer");
     let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
         .expect("failed to read contract checker");
 

@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-report-structural-split",
+  "mode": "code",
+  "title": "gray_rhino_report構造分割",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/gray-rhino-report-structural-split.contract.json",
+    ".ai/work-items/active/gray-rhino-report-structural-split.summary.json",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+    "tests/research_attention_cli_integration.rs",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "outOfScope": [
+    "domain / application の灰犀牛判定ロジック変更",
+    "CLI command behavior の変更",
+    "Telegram / Markdown 出力文言の意味変更",
+    "trading / radar / evidence ingestion の変更"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "分割対象の大型 interface report。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_read_model_builder.rs",
+      "reason": "既存の候補 group helper 依存を維持するため参照する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_renderer.rs",
+      "reason": "既存 renderer 分割方針に合わせるため参照する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "interface renderer 所有権 checker の参照先を更新する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "interface renderer 所有権 test の参照先を更新する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "gray_rhino_report.rs から inline reference / monitoring renderer を専用 module へ分離する。",
+    "既存の public report entrypoint と CLI behavior は維持する。",
+    "gray_rhino_report.rs の責務を daily report composition と core assessment rendering に寄せる。",
+    "architecture / gray rhino contract checker の interface renderer 所有権確認を新 module に追従する。",
+    "format、quality、AI Cockpit checks が通過している。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-report-structural-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-report-structural-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gray-rhino-report-structural-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-structural-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-report-structural-split.summary.json CONTRACT=.ai/work-items/active/gray-rhino-report-structural-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-report-structural-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-structural-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-report-structural-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-structural-split.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

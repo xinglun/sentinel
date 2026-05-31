@@ -23,6 +23,7 @@ DAILY_REPORT_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_r
 DAILY_REPORT_REPOSITORY_PATH = PROJECT_ROOT / "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs"
 EVIDENCE_STORE_PATH = PROJECT_ROOT / "src/features/research/infrastructure/gray_rhino_evidence_store.rs"
 REPORT_INTERFACE_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_report.rs"
+INLINE_REFERENCE_RENDERER_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_inline_reference_renderer.rs"
 MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
 MONITORING_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_monitoring_policy.rs"
 GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
@@ -75,6 +76,7 @@ def main() -> int:
         DAILY_REPORT_REPOSITORY_PATH,
         EVIDENCE_STORE_PATH,
         REPORT_INTERFACE_PATH,
+        INLINE_REFERENCE_RENDERER_PATH,
         MONITORING_STATE_PATH,
         MONITORING_POLICY_PATH,
         GOVERNANCE_SOURCE_PATH,
@@ -103,6 +105,8 @@ def main() -> int:
     daily_report_repository = DAILY_REPORT_REPOSITORY_PATH.read_text(encoding="utf-8")
     evidence_store = EVIDENCE_STORE_PATH.read_text(encoding="utf-8")
     report_interface = REPORT_INTERFACE_PATH.read_text(encoding="utf-8")
+    inline_reference_renderer = INLINE_REFERENCE_RENDERER_PATH.read_text(encoding="utf-8")
+    research_interface = report_interface + inline_reference_renderer
     monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
     monitoring_policy = MONITORING_POLICY_PATH.read_text(encoding="utf-8")
     governance_source = GOVERNANCE_SOURCE_PATH.read_text(encoding="utf-8")
@@ -395,7 +399,7 @@ def main() -> int:
         "fn is_scoreable_evidence_record",
         "GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating",
     ]:
-        if item in report_interface:
+        if item in research_interface:
             errors.append(f"interface must not contain evidence eligibility policy `{item}`")
     for item in [
         "fn is_scoreable_evidence_record",
@@ -469,7 +473,7 @@ def main() -> int:
         "render_gray_rhino_inline_reference",
         "reference only",
     ]:
-        if item not in report_interface:
+        if item not in research_interface:
             errors.append(f"research interface missing `{item}`")
     for item in [
         "render_gray_rhino_inline_reference",

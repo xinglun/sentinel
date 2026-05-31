@@ -10,29 +10,46 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-05-31T11:24:31.177445+00:00`
-- Task: `none`
-- Mode: `none`
-- State: `no_active_work_item`
-- Contract Path: ``
-- Summary Path: ``
+- Generated At: `2026-05-31T12:03:00.781990+00:00`
+- Task: `gray-rhino-report-renderer-split`
+- Mode: `code`
+- State: `blocked`
+- Contract Path: `.ai/work-items/active/gray-rhino-report-renderer-split.contract.json`
+- Summary Path: `.ai/work-items/active/gray-rhino-report-renderer-split.summary.json`
 
 ## Blocking
 
-- none
+- notCodable: true
+- unknowns: 1
+- required check not passed: make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json
+- required check not passed: make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json
+- required check not passed: make fmt-check
+- required check not passed: make check-ai-backtrack
+- required check not passed: make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json
+- required check not passed: make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json
+- required check not passed: make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json
 
 ## Required Checks
 
-- none
+- `make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json`: not_run
+- `make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json`: not_run
+- `make fmt-check`: not_run
+- `make check-ai-backtrack`: not_run
+- `make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json`: not_run
+- `make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json`: not_run
+- `make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json`: not_run
 
 ## Changed Files
 
-- none
+- `.ai/work-items/active/gray-rhino-report-renderer-split.contract.json`: Work Item Contract skeleton を作成した。
+- `.ai/work-items/active/gray-rhino-report-renderer-split.summary.json`: AI Change Summary skeleton を作成した。
 
 ## Backtrack
 
-- Status: `not_run`
+- Status: `none`
+- Report: `target/ai_backtrack_report.json`
+- Items: none
 
 ## Next Action
 
-- create a Work Item with `make ai-start TASK=<task>`
+- human review / commit decision
