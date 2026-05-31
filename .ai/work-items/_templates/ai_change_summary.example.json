@@ -27,5 +27,15 @@
   },
   "generatedFiles": [],
   "destructiveChanges": [],
-  "observedIssues": []
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "not_applicable | verified | changed",
+    "reportOutput": "not_applicable | verified | changed",
+    "persistence": "not_applicable | data_branch | weekly_only | no_persistence",
+    "i18n": "not_applicable | verified | changed",
+    "makeEntrypoints": "not_applicable | verified | changed"
+  },
+  "userCorrectionsCaptured": [],
+  "knownGaps": [],
+  "overclaimPrevention": "完了報告では未確認項目を未確認として明記する。"
 }

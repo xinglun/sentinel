@@ -19,9 +19,22 @@
   "unknowns": [],
   "notCodable": false,
   "acceptance": [
-    "期待される振る舞いがテストで固定されている。"
+    "期待される振る舞いがテストまたは文書契約で固定されている。",
+    "Gate / execution / trader / action matrix へ接続するか、表示・監査専用かが明記されている。",
+    "Telegram / Markdown / CLI / audit daily / weekly review の表示範囲が明記されている。",
+    "data branch / reports / JSONL / snapshot / weekly metrics の保存範囲が明記されている。",
+    "i18n と snapshot / contract test の要否が明記されている。",
+    "新しい運用 command は make target 経由で提供されている。"
   ],
   "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/<task>.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/<task>.contract.json",
+      "required": true
+    },
     {
       "command": "make fmt-check",
       "required": true
@@ -32,6 +45,14 @@
     },
     {
       "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json",
       "required": true
     }
   ],

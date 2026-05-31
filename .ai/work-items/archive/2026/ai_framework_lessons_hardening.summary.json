@@ -1,0 +1,102 @@
+{
+  "workItemId": "ai_framework_lessons_hardening",
+  "contractPath": ".ai/work-items/archive/2026/ai_framework_lessons_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai_framework_lessons_hardening.contract.json",
+      "reason": "AI framework hardening の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai_framework_lessons_hardening.summary.json",
+      "reason": "変更内容と検証結果を記録する。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Work Item 開始時の境界 checklist と完了時の過大主張防止を repository-wide rule に追加した。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "AI governance 入口に Gate、表示、永続化、言語、証拠、command、data branch 境界を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Cockpit 手順に作業前の境界定義と Summary 記録対象を追加した。"
+    },
+    {
+      "path": "skills/sentinel-ai-cockpit/SKILL.md",
+      "reason": "Codex/Gemini が実行時に参照する skill へ境界 checklist と user correction 固化ルールを追加した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "新規 Work Item template に Gate、表示、永続化、i18n、make entrypoint の acceptance を追加した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/ai_change_summary.example.json",
+      "reason": "Summary template に boundaryChecks、userCorrectionsCaptured、knownGaps、overclaimPrevention を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    "skills/sentinel-ai-cockpit/SKILL.md",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/_templates/ai_change_summary.example.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_framework_lessons_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_framework_lessons_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai_framework_lessons_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai_framework_lessons_hardening.contract.json SUMMARY=.ai/work-items/active/ai_framework_lessons_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_framework_lessons_hardening.summary.json CONTRACT=.ai/work-items/active/ai_framework_lessons_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_framework_lessons_hardening.contract.json SUMMARY=.ai/work-items/active/ai_framework_lessons_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_framework_lessons_hardening.contract.json SUMMARY=.ai/work-items/active/ai_framework_lessons_hardening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "AI governance 文書と template のみを変更し、production code、test、CI、Makefile は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "i18n": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "タスク開始時に Gate / 表示 / 永続化 / 週次記録 / i18n / make command の境界を明示する。",
+    "完了報告で未確認項目を過大主張しない。",
+    "data branch は長期記録用だが、認知校正全文は日次保存せず週次粒度を標準とする。"
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "Summary に未確認項目と known gap を残し、ready / done の前に required checks を make 経由で実行する。"
+}

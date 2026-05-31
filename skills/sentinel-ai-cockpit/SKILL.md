@@ -24,8 +24,23 @@ Sentinel repository で変更を行う時は、この Skill を実行纪律と�
    - 変更対象が `scope` に含まれる。
    - 変更対象が `outOfScope` に含まれない。
 4. `notCodable: true` または `unknowns` が残る場合、production code を変更しない。調査、TODO、blocker 記録に限定する。
-5. 作業後、summary の `changedFiles`、`sourcesUsed`、`verification`、`observedIssues` を更新する。
-6. 必ず `make` 経由で check を実行する。
+5. 実装前に、Gate / execution、report output、data branch、weekly calibration、i18n、evidence source、Make command の境界を Contract に反映する。
+6. 作業後、summary の `changedFiles`、`sourcesUsed`、`verification`、`observedIssues` に加え、未解決の user correction / known gap / 未確認項目を更新する。
+7. 必ず `make` 経由で check を実行する。
+
+
+## Boundary Checklist
+
+Work Item が機能追加、report 変更、データ永続化、AI governance 変更のいずれかを含む場合、次を明示する。
+
+- Gate / execution / trader / action matrix へ影響するか。影響しない場合は表示・監査専用と書く。
+- Telegram、Markdown、CLI、audit daily、weekly review のどこに表示するか。
+- data branch に保存するか、週次成果物だけに集約するか、保存しないか。
+- zh / en / ja の i18n と snapshot / contract test が必要か。
+- fact、manual observation、hypothesis、fixture、local cache を分離しているか。
+- 新しい command は `make` target として提供されるか。
+
+User correction が発生した場合は、単に修正せず、次回の backtrack 防止として Contract、Summary、doc、template、guard のどれへ固化するかを判断する。
 
 ## Required Commands
 
@@ -55,9 +70,10 @@ make ai-finish TASK=<task>
 
 Commit 前に確認する。
 
-- `make quality` が通っている。
+- `make quality` または Work Item required checks が通っている。
 - active Work Item が不要に残っていない。
 - `.ai/cockpit/current_status.md` が現在状態と一致している。
+- code / test / docs / i18n / report output / data or weekly record / Make or CI guard の確認結果が Summary に残っている。
 - commit message は日本語。
 
 ## Prohibited

@@ -30,6 +30,22 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 
 `status_policy.yaml` は Cockpit の machine-readable SSOT である。状態名、archive 後の `no_active_work_item` 表示、参照整合性 check はこの file と `make` target の契約に従う。script 実装と衝突する場合は `status_policy.yaml` と Makefile target を正とする。
 
+
+## 作業前の境界定義
+
+`mode: code` の Work Item では、実装前に次を Contract に落とし込む。
+
+| 境界 | 確認内容 |
+|---|---|
+| Gate / execution | Gate、execution、action matrix、trader、position sizing に影響するか。 |
+| 表示 | Telegram、Markdown、CLI、audit daily、weekly review のどこに出すか。 |
+| 永続化 | data branch、reports、JSONL、snapshot、weekly metrics のどこへ残すか。 |
+| 言語 | zh / en / ja の i18n、snapshot、contract test が必要か。 |
+| 証拠 | fact、manual observation、hypothesis、fixture、local cache を混同していないか。 |
+| command | 新しい検証・運用入口が `make` target に収まっているか。 |
+
+機能完了の報告では、少なくとも code / test / docs / i18n / report output / data or weekly record / CI or Make guard のどれを確認したかを Summary に残す。未確認項目がある場合は「未確認」と明記し、完了を過大主張しない。
+
 ## 推奨コマンド
 
 ```bash
