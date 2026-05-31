@@ -252,6 +252,8 @@ language = "en-us"
 
 これらは状態理解の補助であり、スコア、推奨、売買判断を生成しません。
 
+`daily-calibration` は日中または手動確認用の表示 report であり、全文を日次 artifact として保存することは標準ではありません。長期校正は `weekly_state_metrics.json` と `weekly_state_review_auto.md` の週次粒度で確認します。
+
 ### 5.4 ステップ 4：手動レビューファイルの生成
 
 テンプレートファイルを直接編集しないでください。
