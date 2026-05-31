@@ -1,0 +1,62 @@
+Finnhub narrative source for TSLA
+Purpose: normalize company news for structural-risk discovery.
+- headline: Why Tesla Robotaxi Dreams Can't Rescue Today's Weak Fundamentals
+  summary: Tesla's Growth Story Is Cracking Under Margin and Demand Pressure
+  url: https://finnhub.io/api/news?id=4cddc231470bd086faadd7e4aaee60c6a08fe877d45da2831ee31d2d0003dfbc
+- headline: This Week In Electric Vehicles - Liquid-Cooled Cables Propel Ultra-Fast Charging Growth
+  summary: The global market for liquid-cooled EV charging cables is experiencing significant growth due to the accelerating adoption of electric vehicles and the increasing demand for ultra-fast charging capabilities. With the pursuit of higher power outputs, advanced cable systems are being developed to handle the substantial electrical loads required for high-speed charging, enhancing efficiency, safety, and performance. The deployment of high-capacity charging infrastructure is crucial as newer...
+  url: https://finnhub.io/api/news?id=d188afe4a497e1d775ea78472715841d00ed135f64c76ee36413904a4aa423d3
+- headline: Dow Jones Futures Rise, Oil Prices Fall: Trump Says No 'Rush' For Iran Deal
+  summary: President Donald Trump said an interim agreement is close that would open the Strait of Hormuz, but negotiations continue.
+  url: https://finnhub.io/api/news?id=3727e804f2df9f5256bd896ee2db51355a9040a548227146bddcdd9923a06786
+- headline: Qualcomm Stock Is the Sleeping Giant of the AI Revolution. It’s Starting to Wake Up.
+  summary: Long weighed down by smartphone market stagnation and the impending loss of Apple as a client, Qualcomm is staging a powerful comeback as it transitions to an aggressive offensive in AI data center inference and physical AI.
+  url: https://finnhub.io/api/news?id=01bc7c7c09c114d4f4fd8dd76f75ecae04438e6b7de9f47cf5be1d3c10b20edf
+- headline: ‘He Knows the Flaws Because He Knows the Man’: Why Elon Musk’s OpenAI Attack Is Really About xAI
+  summary: Rashaad Bilal of Earn Your Leisure distilled the Musk-versus-Altman saga down to one sharp line: “He knows the flaws because he knows the man.” That framing reorients how investors should read every legal filing, every X post, and every interview Elon Musk aims at OpenAI. The litigation is a competitive weapon. xAI is the business ... ‘He Knows the Flaws Because He Knows the Man’: Why Elon Musk’s OpenAI Attack Is Really About xAI
+  url: https://finnhub.io/api/news?id=5b92a3a2045939e7b1861ba3f3ac001940de1f0a1bdb69706bd512b4db92caf9
+- headline: Tesla Investors Beware? SpaceX IPO Could Pull Cash, Attention And Musk Away From EV Giant
+  summary: Elon Musk-led commercial spaceflight giant SpaceX‘s IPO could become a problem for Tesla Inc. investors and shareholders as the market readies itself for the June IPO date. Muskonomy The upcoming IPO could take investors’ appetite away from Tesla and onto...
+  url: https://finnhub.io/api/news?id=e6c4b5392aff22a1180acd3e7d57b34cf6b8350c3c8d2955a25cd6b1e978d09a
+- headline: As U.S. Markets Surge Like the Dot-Com Boom Era, ELEKTROS Inc. Celebrates a Powerful Rise in Global Momentum As Penny Stock and Microcap Investors Worldwide Continue Discovering the Company's Vision for Hard Rock Lithium Mining and EV Patent Technology
+  summary: ELEKTROS Inc. - Publicly Traded (Ticker Symbol:ELEK) WEST PALM BEACH, FL / ACCESS Newswire / May 24, 2026 / Management Celebrates Friday Trading Momentum of 7.96% and States That Growing Worldwide Awareness of ELEKTROS Represents a Paradigm Shift ...
+  url: https://finnhub.io/api/news?id=55658250ce2e4ac5b7922871aa283d3c28911fbcf2a29517e3367f83b1e81c97
+- headline: Elon Musk’s Bugs Bunny Moment: Will SpaceX IPO Tank Tesla Stock?
+  summary: The episode aired in 1948, but the idea is strangely valid today, except that it’s Elon Musk squaring off with himself.  SpaceX is on the cusp of its initial public offering, which will raise a record amount of money.  SpaceX plans to offer a relatively large amount of its stock to smaller retail investors, the same ones who hold Tesla shares.
+  url: https://finnhub.io/api/news?id=7cd1ec6ed5a86f504fc4b72674604fd33fdcbcd98ff003e51a496e22be8cd698
+- headline: ELEKTROS Inc. Celebrates Booming U.S. Markets and Friday's 7.96% Gain As Growing Numbers of Penny Stock and Microcap Investors Worldwide Discover the Company's Vision for Hard Rock Lithium Mining and Advanced EV Patent Technology
+  summary: WEST PALM BEACH, FL / ACCESS Newswire / May 24, 2026 / Management Celebrates Friday Trading Momentum of 7.96% and States That Growing Worldwide Awareness of ELEKTROS Represents a Paradigm Shift for the Company's Expanding Global Shareholder Base. ...
+  url: https://finnhub.io/api/news?id=b2a4392b77e87c5743403be373738daba787619add9db40028ed8de069428a73
+- headline: Intel Urges PC Makers to Switch to Its Latest Chips Amid AI Demand. This Could Be the Margin Boost INTC Stock Needs.
+  summary: Intel wants to capture higher margins amid surging AI PC demand and tightening supply of advanced nodes.
+  url: https://finnhub.io/api/news?id=95686bb0ac7433f9dd7b63c0fe6336324a12173e9dac5641ed9a030b7e4bcda0
+- headline: Did SpaceX’s $28.5 Trillion Bombshell Reveal Elon Musk’s Genius — or Peak Galaxy Brain?
+  summary: The stock market has spent the past year rewarding companies tied to artificial intelligence, data centers, and energy infrastructure. Yet all of those themes may soon take a back seat to a single IPO. On June 12, SpaceX is expected to begin trading publicly in what many investors believe could become the largest IPO in ... Did SpaceX’s $28.5 Trillion Bombshell Reveal Elon Musk’s Genius — or Peak Galaxy Brain?
+  url: https://finnhub.io/api/news?id=30f6cbd5f11f516eefa44ec9c5e39de4df223448352f4fd873374935338100c1
+- headline: Ford Takes Aim At Tesla And BYD In Europe With New Electric Hatchback, SUV Roadmap
+  summary: Ford Motor Co. CEO Jim Farley on Thursday outlined the automaker’s renewed push towards expanding in the European market with multiple new vehicles and powertrains. Seven New Vehicles, Including New Bronco, EVs In a post on X, Farley outlined that...
+  url: https://finnhub.io/api/news?id=0280f7ab14098f926213cda560c819391c2af46e0efe9eedd25e49a403414851
+- headline: 'There's mania': Strategists weigh in on looming SpaceX IPO
+  summary: It may be best for investors to wait until some of the excitement surrounding SpaceX fades before jumping in.
+  url: https://finnhub.io/api/news?id=f89c0b85cc1aa015a6fe1a1145fb91c8c923212afbf4f5d6f750e1cf57371fec
+- headline: Tesla Model S Sparked Elon Musk's AI, Robotics And Space Revolution: 'Little Did We Know,' Says Cathie Wood
+  summary: Investor Cathie Wood of ARK Invest has hailed the Tesla Inc. Model S following its sunset for kicking off a “revolution” led by Elon Musk in the artificial intelligence, outer space exploration and robotics sectors. Little Did We Know Wood,...
+  url: https://finnhub.io/api/news?id=5ddd447a79131c2eff5e9e6362962e48cd8f4c324d1f6c6a1be32a578debf586
+- headline: SpaceX: This IPO Could Be The One That Pops The AI Bubble
+  summary: SpaceX is preparing for a potentially historic IPO, targeting a valuation driven by Elon Muskâs vision and dominant control. Find out why SPCX stock is a hold.
+  url: https://finnhub.io/api/news?id=c40122eaba2774bb949a9712b3d6abb66a1e7f91c708bc243a20180e011041c7
+- headline: This Week In Tesla: Musk's AI Revolution, SpaceX Merger, Robotaxi Crashes And More
+  summary: Elon Musk and Tesla had a busy week with talks of AI revolution, SpaceX IPO, FSD launch in China, Tesla Cybertruck incident and more.
+  url: https://finnhub.io/api/news?id=1280a28aad1418c44d295640ff03ebea4133280c5283a853879bff1535f7074b
+- headline: 3 Monster Stocks to Hold for the Next 20 Years
+  summary: Three "monster stocks" -- Amazon, O'Reilly Automotive, and Nike -- show how dominant companies can keep compounding for decades by layering new growth engines on top of durable, real-world demand trends.
+  url: https://finnhub.io/api/news?id=c69d536ab82689aea15f8c835549cf988cc4c6ed0ad14835b4e0e6d67dcf28a7
+- headline: Did Tesla's SpaceX Stake And China FSD Rollout Just Reframe TSLA's AI And Autonomy Story?
+  summary: In recent days, Tesla’s previously disclosed US$2.00 billion investment in SpaceX, now nearly 19 million SpaceX shares, has drawn fresh attention as SpaceX’s IPO plans, deep commercial ties with Tesla, and Tesla’s long-awaited rollout of Full Self‑Driving (Supervised) in China reshape how investors view the company’s AI and autonomy ambitions. This combination of economic exposure to SpaceX and new FSD access in the world’s largest EV market gives Tesla shareholders a rare dual link to both...
+  url: https://finnhub.io/api/news?id=9ca15858d194f460885076f2f904ed9277c3639bb6dac87274640452f90a0f6d
+- headline: Ten things to know about humanoids
+  summary: Investing.com -- Humanoid robots could become a market worth as much as $200 billion by 2035 as advances in artificial intelligence, robotics, and battery technology accelerate adoption across industries, according to a Barclays report.
+  url: https://finnhub.io/api/news?id=bff8864d82a80892f91318fcfe06e591f323890a11bf78c96e2e466edb6460ce
+- headline: Ford Motor vs. Tesla: What Their Revenue Trends Tell Investors
+  summary: Quarterly filings reveal how Ford and Tesla are managing revenue shifts amid evolving strategies and margin pressures. The latest numbers highlight key trends.
+  url: https://finnhub.io/api/news?id=859dd112567dbea5a739c5cbe6f737089789281a7b23ae7be97ae87373d74215

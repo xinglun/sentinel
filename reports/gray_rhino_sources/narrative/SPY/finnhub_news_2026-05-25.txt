@@ -1,0 +1,62 @@
+Finnhub narrative source for SPY
+Purpose: normalize company news for structural-risk discovery.
+- headline: The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  summary: Here is the data point that should make every passive index investor pause. On Retire SMART Podcast Ep 416, the host laid out the math: “If we removed the Nvidias, the AMDs, so AI chips, these are the chipmaking companies, the storage companies, and the companies that are facilitating AI that are publicly traded. And ... The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  url: https://finnhub.io/api/news?id=6ff2e07bf8048115335b671f4a956bc778e86c33987343331dd0c97ee6a519a7
+- headline: AOR’s 60/40 Allocation Has Lagged a Simple S&P 500 by 60 Points Over a Decade, And Built In Rebalancing Did Not Help
+  summary: The iShares Core Growth Allocation ETF (NYSEARCA:AOR) is the kind of fund a financial advisor recommends when they want to give a client one ticker and never think about it again. AOR holds roughly 60% equities and 40% bonds through a stack of underlying iShares funds, charges 0.15%, and manages around $3 billion in assets. ... AOR’s 60/40 Allocation Has Lagged a Simple S&P 500 by 60 Points Over a Decade, And Built In Rebalancing Did Not Help
+  url: https://finnhub.io/api/news?id=bebd13af78fb8c664bc5adf352eb60a3fa827340d76767216b544188a3640e60
+- headline: Iran: It Ain't Over 'Til It's Over
+  summary: The market is currently pricing a swift resolution to the Iran war. Read why it has been pricing this in pretty much since the war started.
+  url: https://finnhub.io/api/news?id=08fc6f2fba191065093e1995b9fcc800902045ddc884b1e21e78d95cd60d317c
+- headline: Above The Noise: Solid Ground For Markets
+  summary: The economic environment is relatively stable, but the balance of risks may become less favorable if inflation expectations continue to move higher from here. Read more here...
+  url: https://finnhub.io/api/news?id=ddf6d87b4180b797d4dc970a916dd2ce2abdd3bb972b6296830cd8d8442217e6
+- headline: The US-Iran War: Deal Unlikely, Brace For Inflationary Shock
+  summary: The IEA warns oil inventories may hit critical levels by June, risking $150+ oil and inflation if Hormuz reopening talks fail. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=83c30dec4d0e4ec767c8a7e90b72e36f9c24c6864585a728d32e4b0c9ea6b951
+- headline: CIO Weekly: Interest Rates Come Back Into Focus
+  summary: Government bond yields came back into sharp focus as fears over the inflationary impact of the Middle East conflict drove yields higher across the curve in most developed markets.
+  url: https://finnhub.io/api/news?id=775b7cba25c7ccb8c7ec88d1bc02075ae1066edbbe98e7530e7fbad0bd3b99c9
+- headline: The ‘Stock Market Maestros’ Author Has a Brutally Simple Rule for Long-Term Investors
+  summary: Clare Flynn Levy, author of Stock Market Maestros, recently appeared on the Afford Anything podcast and delivered what may be the most deflating advice a long-term investor can hear: stop trying to be clever. “If you’re being long-term, and you are actually being it, that’s all you need to do,” she told host Paula Pant. ... The ‘Stock Market Maestros’ Author Has a Brutally Simple Rule for Long-Term Investors
+  url: https://finnhub.io/api/news?id=4fcc85d849156c4aa58b4550ddb378362876477fabbe60f67ff0ae33d5572a12
+- headline: After Years of Watching Volatility Spikes These Are the 3 Utility ETFs Built for Investors Who Want Income Without Sleepless Nights
+  summary: The VIX ripped to 31.05 in late March before settling back near 18, and anyone who watched their growth holdings whip around during that stretch is probably re-reading the case for boring stocks. That is the backdrop for three utility ETFs that get mentioned in the same breath whenever income investors want defensive exposure: The ... After Years of Watching Volatility Spikes These Are the 3 Utility ETFs Built for Investors Who Want Income Without Sleepless Nights
+  url: https://finnhub.io/api/news?id=53274bd15f8c4297de3758098ef9f016eb4c655e1f151d0bdd40815a7205256c
+- headline: Why Are Global Investors Looking To Asia As An Investment Destination?
+  summary: A lot of the investment that's happening behind the AI thematic is in the physical layer, and that's where Asia really shines. Read more here.
+  url: https://finnhub.io/api/news?id=e6474136a86cdfb73d6334949feb57437af8daa9950bc5fc72828fd1d2aa39ff
+- headline: How a $450,000 Portfolio Could Deliver $31,500 a Year While Limiting Market Drawdowns
+  summary: A 69-year-old couple with $850,000 in investable assets faces a specific problem: they want equity exposure without the risk of a bear market gutting their principal in the first years of retirement, and they want predictable income they can spend. The pairing strategy splits that problem in two. $400,000 goes into buffered S&P 500 ETFs ... How a $450,000 Portfolio Could Deliver $31,500 a Year While Limiting Market Drawdowns
+  url: https://finnhub.io/api/news?id=eba9fba3195c3783fe88fb6b773300804e86e51308c2c7f5b658c2e866b85fbe
+- headline: Why This Couple Shouldn’t Pay Off Their $475K Mortgage (Even With $175K Cash)
+  summary: On a recent Rich Habits Podcast Q&A, co-host Robert Croak gave a 40-year-old listener named Angela a blunt answer about the $175,000 she and her spouse netted from a recent home sale. They were weighing whether to throw it at their $475,000 mortgage at 5% or invest it. Robert’s verdict: “I would definitely not pay ... Why This Couple Shouldn’t Pay Off Their $475K Mortgage (Even With $175K Cash)
+  url: https://finnhub.io/api/news?id=775a294ea47b9206c0eef8f327916a7a6b085a25f1a558b939c59e13f9056194
+- headline: S&P 500 Index Perpetual Futures Hit ATH As Top Republicans Blast Iran Deal
+  summary: The S&amp;P 500 Index perpetual futures jumped to a record high on Hyperliquid as the US announced a deal to reopen the Strait of Hormuz
+  url: https://finnhub.io/api/news?id=b7d3db51d63cc08efdb07b9e2ebfb16d152eec6fd55aeac816851967cba3ea26
+- headline: Forward S&P 500 Earnings Estimates Power Higher Once Again; Quick Notes On IBM And Ford
+  summary: Surprised to see, with earnings season done, the continued jump this week in the forward S&P 500 EPS estimates. There is no discernible change in the trend in S&P 500 EPS estimates.
+  url: https://finnhub.io/api/news?id=690afe086bb1d207168065cb31790d15ad79bd181c701ad7d15d8353cddd5c01
+- headline: Covered-Call ETF MSTY Caps Your Gains While You Ride All the Losses
+  summary: YieldMax MSTR Option Income Strategy ETF (NYSEARCA:MSTY) sells investors on a single promise: harvest unusually rich option premiums on Strategy (NASDAQ:MSTR) shares and pay them out monthly. At a distribution rate that has ranged from roughly 60% to 100% annualized since launch, MSTY has become one of the most discussed single-stock income ETFs in the ... Covered-Call ETF MSTY Caps Your Gains While You Ride All the Losses
+  url: https://finnhub.io/api/news?id=0ade2b62d90a6dc9431131a0f3ce0852ced7b6276b4f2caec3dd25a0a6fb6b40
+- headline: CNBC Analyst Exposes the April 9 Pivot That Changed Everything for the S&P 500
+  summary: A CNBC commentator delivered the line of the week on the network’s market coverage: "Trump has been responsible for the five best and five worst trading days of his second term." Strip those five up days out of the index since inauguration and the broad market is essentially flat. Leave them in and you get ... CNBC Analyst Exposes the April 9 Pivot That Changed Everything for the S&P 500
+  url: https://finnhub.io/api/news?id=21b703193e545b9beb5b188b972bf3991393ac8228add4b6bd1f3b391b4d6ebe
+- headline: A Final Path To Peace? Markets Weekly Outlook
+  summary: Market participants endured a rollercoaster of emotions over the past five sessions. As the geopolitical clouds begin to clear, traders are aggressively recalibrating their portfolios.
+  url: https://finnhub.io/api/news?id=e986cc0c83d17f6be2e71d7843d36973b68f8f7618813c0c90449e5ef9f12228
+- headline: Moving From Measuring Markets To Measuring The Real Economy: The FTSE All-World GDP Adjusted Index
+  summary: GDP weighting asserts that a countryâs role in a global benchmark should reflect the scale of its economy. Market-cap weighting is a highly efficient way to hold the market. Read more here.
+  url: https://finnhub.io/api/news?id=bca81c40eae3be037514a41ecbaecc46e32faa5e7aacdab0b48785de7c0c7775
+- headline: A $100 Billion Liquidity Drain May Hit Markets This Week
+  summary: Treasury issuance is tightening liquidity and pressuring stocks & Bitcoin through mid-June and into September. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=7d6455cfefe9ebca008dd5463828a5521e1c045df53ae8562ad7fdf2a6619197
+- headline: Gold's Collapse Is Ignoring The Stagflationary Recession Ahead
+  summary: Gold drops 13.9% post-US attack on Iran, but central bank and bar investment demand remain bullish. Read more about the latest gold forecast here.
+  url: https://finnhub.io/api/news?id=07788ccf9b1ef8ecc0faccc5a2b3e65d2774e3518316ca2a0cbbbcbfde19528c
+- headline: SpaceX IPO: Should I Buy It, Or Wait?
+  summary: S&P 500 closed Friday at 7,473.47, up 0.37% on the day and 0.9% for the week, notching its eighth straight winning week. SpaceX IPO will be the largest in history. Read more here.
+  url: https://finnhub.io/api/news?id=754069ff190d6839eb51f93debbc56ca04cf56cb32f90647ba1a2afb866d7942

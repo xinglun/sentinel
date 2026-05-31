@@ -1,0 +1,11 @@
+Finnhub narrative source for ISRG
+Purpose: normalize company news for structural-risk discovery.
+- headline: BME: Discount Narrows, But A Strong Long-Term Hold Candidate Anyway
+  summary: 
+  url: https://finnhub.io/api/news?id=03ee8b7d2dc91333d09e506cb90c69c111f62c04f464b3bf328124e2908dbc82
+- headline: 3 Big Reasons ISRG Should Be On Your Watchlist
+  summary: Over the last six months, Intuitive Surgical’s shares have sunk to $442.32, producing a disappointing 19.9% loss - a stark contrast to the S&P 500’s 13.2% gain. This might have investors contemplating their next move.
+  url: https://finnhub.io/api/news?id=e6241b11fdc51481b3ba41c85ddde7ede2c83c66b0670be85363a526b37fa32a
+- headline: Intuitive Surgical’s Da Vinci 5 Upgrades Aim To Deepen Moat For Investors
+  summary: Intuitive Surgical (NasdaqGS:ISRG) has outlined more than 100 new features coming to its da Vinci 5 surgical platform. Key additions include extended-use Force Feedback instruments, security and reliability upgrades, and telepresence tools for remote collaboration. The company expects these updates to broaden the platform’s capabilities in minimally invasive robotic surgery and support surgeon autonomy. For investors watching NasdaqGS:ISRG at a share price of $439.8, this product update...
+  url: https://finnhub.io/api/news?id=791ebadef235fad7a8f3526c455192bac69447e037299dbbf5ff1263713fea2d

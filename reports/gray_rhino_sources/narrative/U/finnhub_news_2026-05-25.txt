@@ -1,0 +1,2 @@
+Finnhub narrative source for U
+Purpose: normalize company news for structural-risk discovery.

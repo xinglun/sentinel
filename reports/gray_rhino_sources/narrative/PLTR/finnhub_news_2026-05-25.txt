@@ -1,0 +1,62 @@
+Finnhub narrative source for PLTR
+Purpose: normalize company news for structural-risk discovery.
+- headline: The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  summary: Here is the data point that should make every passive index investor pause. On Retire SMART Podcast Ep 416, the host laid out the math: “If we removed the Nvidias, the AMDs, so AI chips, these are the chipmaking companies, the storage companies, and the companies that are facilitating AI that are publicly traded. And ... The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  url: https://finnhub.io/api/news?id=6ff2e07bf8048115335b671f4a956bc778e86c33987343331dd0c97ee6a519a7
+- headline: High Growth Tech Stocks To Watch In The US This May 2026
+  summary: The United States market has experienced a notable upswing, rising 1.1% over the last week and showing an impressive 29% increase over the past year, with earnings forecasted to grow by 17% annually. In this dynamic environment, identifying high growth tech stocks involves focusing on companies that demonstrate robust innovation and scalability potential to capitalize on these favorable market conditions.
+  url: https://finnhub.io/api/news?id=074f9938941fdd2af1689ac5b1c905b5c567cd4387265d5243273ab199976de2
+- headline: Nasdaq Rebound: 3 Stocks to Buy Before They Hit New All-Time Highs
+  summary: These three stocks are well off their highs but could stage big rallies.
+  url: https://finnhub.io/api/news?id=4c1915e65cffd3e4256b65c40fe2dc8e268b36d7ad3e4ed7a91fed8ae201a9c6
+- headline: Palantir’s AI Surge Meets Market Correction. Buy the PLTR Stock Dip Now.
+  summary: Palantir recently became one of the worst mega-cap performers YTD, but can the AI company ride out the storm?
+  url: https://finnhub.io/api/news?id=f53b1c165470cc81f007b536ec16f720a4a801e34880e94b8fd41f94ebc6431a
+- headline: Palantir Is 1 of the Fastest-Growing AI Companies, but Does That Make It a Buy?
+  summary: Palantir delivers compelling revenue growth and generates recurring sales from its customers, but its valuation is quite high.
+  url: https://finnhub.io/api/news?id=bc924d935d843367414b48cfbc2a8aa2b09eba334418a84c60fecb952bbd5c04
+- headline: Palantir’s DIA Contract Challenge And What It Means For PLTR Valuation
+  summary: Palantir Technologies (NasdaqGS:PLTR) is challenging the Pentagon's Defense Intelligence Agency analytics contract as competition for U.S. government data projects intensifies. The dispute centers on how the DIA sources and structures a major analytics engagement at a time when demand for AI driven tools is expanding across federal agencies. Palantir builds data analytics and AI software that is widely used by government and commercial customers, with federal contracts forming a core part...
+  url: https://finnhub.io/api/news?id=6dec19ad1b6fd4b5cc8a14f28e2cd6da536070b19db5e23200b79310e9b6bbf8
+- headline: 1 S&P 500 Stock to Target This Week and 2 That Underwhelm
+  summary: The S&P 500 (^GSPC) is home to the biggest and most well-known companies in the market, making it a go-to index for investors seeking stability. But not all large-cap stocks are created equal - some are struggling with slowing growth, declining margins, or increased competition.
+  url: https://finnhub.io/api/news?id=bf719e0888404da29e70e0d898a69bdbb0f3df4d3f2903e6589eb5a80f24fd1b
+- headline: Elise Stefanik Eyes Next Move As Congressional Tenure Nears End
+  summary: Elise Stefanik is leaving Congress after evolving into one of Donald Trump&#39;s strongest allies while keeping future political ambitions alive.
+  url: https://finnhub.io/api/news?id=ac355461fa6622baec61e1546cd61781260099f42243c74e3fce25564780040d
+- headline: Palantir CEO Alex Karp Says 'Just Copy The Norwegians' When It Comes To Building Endurance And Strength: 'Run Like A Snail'
+  summary: Palantir CEO Alex Karp prioritizes VO2 max and muscle for long-term health. He advises starting with aerobic capacity, then adding strength.
+  url: https://finnhub.io/api/news?id=ab3d2d5fe22135e101b84acde3bf0239c815a739d9bc8c8b2bc10ec3437e9701
+- headline: Trump Praises Palantir (PLTR) on Truth Social after Buying the Company’s Stock, Records Show
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the 10 Best ARK Stocks to Buy Right Now. On May 15, CNBC reported that US President Donald Trump bought shares of Palantir Technologies Inc. (NASDAQ:PLTR) weeks before praising the company on Truth Social, noting records from the U.S. Office of Government Ethics. The filings show Trump purchased […]
+  url: https://finnhub.io/api/news?id=6a1b9c891b58a04abbfb56e3426657493473ddc257a3bf26a50f7e837b10dba2
+- headline: Palo Alto Networks Is Beating Palantir by 60% This Year. Is a Rebalancing Imminent?
+  summary: The story for investors who own shares of both Palo Alto Networks (NASDAQ:PANW) and Palantir Technologies (NASDAQ:PLTR) this year has been a study in divergence. Palo Alto Networks stock is up 2% midday Friday, extending a year-to-date gain of 41%. Palantir stock, by contrast, is essentially flat today and is down 23% year to date. ... Palo Alto Networks Is Beating Palantir by 60% This Year. Is a Rebalancing Imminent?
+  url: https://finnhub.io/api/news?id=c08733aa520d9d5c0e857e112bd2b0875a7671fb238007ce9a92c27bf3c2f510
+- headline: Salesforce, Other Software Stocks Are Scraping Themselves Off the Floor
+  summary: Now software stocks are scraping themselves off the floor—but are still behind the curve as big investors stick with what has worked.  Jefferies software analyst Brent Thill calls the rebound a correction from an overblown selloff.  While semi stocks rode the wave of the AI data center investment boom last year, sentiment soured on enterprise software makers like Atlassian,  Workday  and Salesforce.
+  url: https://finnhub.io/api/news?id=628455ebaa5834e9fb6de2e6beb9e2282b313f43cea12dae3e537f4647cd7746
+- headline: 2nd Princeton CorpGov Forum Video Recap
+  summary: Watch Recap Video Below: CorpGov is pleased to share a recap of the second Princeton CorpGov Forum that took place on May 21, 2026, at The Nassau Inn in Princeton, […]
+  url: https://finnhub.io/api/news?id=3606b24f5eec21be74308d2e080ca24822bd0f62aa865b73b316939788d86156
+- headline: Cantor Fitzgerald Delivers Blunt Message on Palantir Stock
+  summary: Palantir Stuck in Neutral: Cantor Flags AI Upside but Warns Valuation Too Rich
+  url: https://finnhub.io/api/news?id=07a6a19afafd021e55048963a8027f1309a58c0013db4d448f7e95e48c84fcd2
+- headline: Palantir Stock Is Down 35% From Its All-Time High. Should You Buy the Dip?
+  summary: The data analytics company has been delivering solid financial results, but it has a long way to go to justify its current stock price.
+  url: https://finnhub.io/api/news?id=1e8e89bee496d6621502a7ea8beda8e7e55d5c82a7f021239d542df3052145cd
+- headline: Palantir Technologies (PLTR) is an Incredible Growth Stock: 3 Reasons Why
+  summary: Palantir Technologies (PLTR) could produce exceptional returns because of its solid growth attributes.
+  url: https://finnhub.io/api/news?id=0054819c60c543790d4f99967611130f2e4e7b7f8fbdbbdc1403c797e473ce26
+- headline: Palantir: I Sold After The Q1 Miss, But I'm Not Bearish
+  summary: Sold Palantir (PLTR) after Q1 as market wonât reward faster guidance; watch U.S.
+  url: https://finnhub.io/api/news?id=59de8d0e32d59d51d622a9ec09555805c93413d155739ada608c316669cd5d93
+- headline: Should You Invest in Palantir Technologies (PLTR) Based on Bullish Wall Street Views?
+  summary: According to the average brokerage recommendation (ABR), one should invest in Palantir Technologies (PLTR). It is debatable whether this highly sought-after metric is effective because Wall Street analysts' recommendations tend to be overly optimistic. Would it be worth investing in the stock?
+  url: https://finnhub.io/api/news?id=d8478bdc9050b920ccabc23e141172ff6bde87178a203f33e0b8cd0c74f68553
+- headline: Palantir Technologies Inc. (PLTR) Is a Trending Stock: Facts to Know Before Betting on It
+  summary: Zacks.com users have recently been watching Palantir Technologies (PLTR) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects.
+  url: https://finnhub.io/api/news?id=d8c0d0afc549ceaf4aab5c7cf707c6f402ead45f58c1ac467ed490408db437c6
+- headline: Dell Technologies Stock Hits 52-Week High - Here's Why
+  summary: Dell hits a 52-week high as analysts boost price targets ahead of Q1 earnings, citing &#34;parabolic&#34; AI infrastructure demand.
+  url: https://finnhub.io/api/news?id=8d82c61e1da1d6649b683c2ece4a1f82ae005af80d87337ba208189e0c9e3b88

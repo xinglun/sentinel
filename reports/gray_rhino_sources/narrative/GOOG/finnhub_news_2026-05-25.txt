@@ -1,0 +1,62 @@
+Finnhub narrative source for GOOG
+Purpose: normalize company news for structural-risk discovery.
+- headline: As Alphabet Makes Agentic AI Push, Is the Stock a Buy?
+  summary: Alphabet is going all-in on consumer-centric AI, looking to play to its strengths.
+  url: https://finnhub.io/api/news?id=1f609a8472fb68b72c875e57b065b12fc76c193b744ed34f7fc42f60219c0d98
+- headline: Why Apple and Microsoft’s Capex Wars Will Make or Break Your MGK Income This Year
+  summary: The Vanguard Mega Cap Growth ETF (NYSEARCA:MGK) is built for capital appreciation, with dividends an afterthought. With a 0.05% expense ratio and a portfolio engineered for capital appreciation, MGK pays a yield so thin it barely registers next to a money market fund. But MGK still distributes cash every quarter, and that cash comes from ... Why Apple and Microsoft’s Capex Wars Will Make or Break Your MGK Income This Year
+  url: https://finnhub.io/api/news?id=a23fd6b7fe5ea5a24f4e8272fd6c8c4d7ee4e8546bec0c01780d2f4881bbc1ad
+- headline: Move Over, AST SpaceMobile: Alphabet Has a Surprising New No. 1 Holding... and It's From the Financial Sector
+  summary: Google parent Alphabet has taken a $1 billion stake in a company that holds a virtual monopoly in a niche segment of the financial services market.
+  url: https://finnhub.io/api/news?id=eee5608468234aba273d1a20dbc131ec852f2c9244f9d107aca72438f4c13b27
+- headline: Smart Home Products Market Report 2026-2035 Featuring Apple, Amazon, Bosch, Dyson, Ecobee, Google, Honeywell, LG, Panasonic, Ring, Samsung, Schneider Electric, Siemens, Sonos, and Xiaomi
+  summary: Smart Home Market Surges as AI, Energy Efficiency, and IoT Drive Modern Living Trends Smart Home Products Market Smart Home Products Market Dublin, May 25, 2026 (GLOBE NEWSWIRE) -- The "Smart Home Products Market Opportunity, Growth Drivers, Industry Trend Analysis, and Forecast 2026-2035" has been added to ResearchAndMarkets.com's offering. The Global Smart Home Products Market was valued at USD 169 billion in 2025 and is estimated to grow at a CAGR of 8.5% to reach USD 385 billion by 2035. The
+  url: https://finnhub.io/api/news?id=ff2ed5677cb069ba952d60e5eccdc773de466f163453ba40022d7e4e7beb570b
+- headline: Prediction: Alphabet Stock Is a Buy Before June 2026
+  summary: Shares in the leading AI company have skyrocketed 130% during the past 12 months.
+  url: https://finnhub.io/api/news?id=f9cf8bcfb248ac577500522fdc302d3d4046d204f04ea753dbd0776df82256fb
+- headline: 3 Made in USA Coins to Watch as US Iran War Nears End
+  summary: 3 Made-in-USA coins to watch show bullish setups as Trump's patient Iran strategy resets risk premium for three US AI tokens.
+  url: https://finnhub.io/api/news?id=0152e28af3bf8876f00f18fed8c546a8ff35c4634ed4de07c5555e6c23ac4ed7
+- headline: This Tech Stock Is Trading Below Where It Was a Year Ago -- but Its Business Has Never Been Stronger
+  summary: Despite a surge in revenue and a massive opportunity ahead of it, Microsoft's stock has slipped over the last year.
+  url: https://finnhub.io/api/news?id=57ecad8ab2500d1dc39a5f72d8d9f2f39ac802d8ea2b269655acfb95fe5d617f
+- headline: ‘Expect Corrections and Don’t Rely on Hope’: Cramer’s Reality Check for a First-Time Homebuyer
+  summary: Jim Cramer’s blunt line to a young first-time homebuyer on the May 22 episode of Mad Money: “Expect corrections and don’t rely on hope as an investing strategy.” The caller, a younger investor, had just used a significant portion of his investment assets as a down payment on his first home and asked how to ... ‘Expect Corrections and Don’t Rely on Hope’: Cramer’s Reality Check for a First-Time Homebuyer
+  url: https://finnhub.io/api/news?id=8f88de00f02691e21df9dcf44ce1f4cad1ea3eb3276a52e256e0554c35292758
+- headline: This Billionaire Dumped Cloud Stocks for These New AI Stocks. Should Investors Follow Suit?
+  summary: Philippe Laffont was busy buying Taiwan Semiconductor Manufacturing Company and ASML Holding stock in the first three months of the year.
+  url: https://finnhub.io/api/news?id=7df33448d10b7337f53fa6b76bc47ccb9bd20f504a737f3292c20c9d4485f546
+- headline: Google Just Shared Bad News for Nvidia, and Even Worse News For CoreWeave and Nebius
+  summary: Alphabet's latest side project could be a huge boost to this rapidly growing business.
+  url: https://finnhub.io/api/news?id=0cdcc0f300aaec8dd9214067066260882bd510715ae4942ca5966e2190ff59e2
+- headline: ‘He Knows the Flaws Because He Knows the Man’: Why Elon Musk’s OpenAI Attack Is Really About xAI
+  summary: Rashaad Bilal of Earn Your Leisure distilled the Musk-versus-Altman saga down to one sharp line: “He knows the flaws because he knows the man.” That framing reorients how investors should read every legal filing, every X post, and every interview Elon Musk aims at OpenAI. The litigation is a competitive weapon. xAI is the business ... ‘He Knows the Flaws Because He Knows the Man’: Why Elon Musk’s OpenAI Attack Is Really About xAI
+  url: https://finnhub.io/api/news?id=5b92a3a2045939e7b1861ba3f3ac001940de1f0a1bdb69706bd512b4db92caf9
+- headline: XOVR ETF: Watch Hyperscaler AI Capex Before Summer 2026 Earnings Season
+  summary: The ERShares Private-Public Crossover ETF (NYSEARCA:XOVR) sits at an awkward crossroad heading into summer 2026. Shares trade near $19.08, down 5% year-to-date even as the public-side AI mega-caps it holds have ripped higher. That disconnect matters because XOVR is the rare ETF that pairs late-stage private growth (SpaceX is the publicly known anchor) with public ... XOVR ETF: Watch Hyperscaler AI Capex Before Summer 2026 Earnings Season
+  url: https://finnhub.io/api/news?id=981c7218f03f20f05e0d202ea65b887b7f1118f8d4d1e8e775cdf06cd30d6fbd
+- headline: Debt Spirals vs. AI Factories: The Great Macro Divide of 2026
+  summary: On a recent All-In Podcast episode featuring guest Gavin Baker, the roundtable looked at the exact same economic data and came away with completely different investment outlooks. David Friedberg is highly focused on building a global bond crisis and a sovereign debt spiral. Gavin Baker is far more bullish, arguing that America’s energy independence and ... Debt Spirals vs. AI Factories: The Great Macro Divide of 2026
+  url: https://finnhub.io/api/news?id=e20fd69b9262cc0290e314b751c76a721436db0a8bb36ce4389c1a57e9821ec3
+- headline: 3 Ridiculously Cheap AI Stocks That Could Turn $5,000 Into at Least $10,000 by 2028
+  summary: These AI stocks have reasonable valuations and appealing long-term growth prospects.
+  url: https://finnhub.io/api/news?id=19f837ea1ad438fddbe5d8cf0e3f0b52637fa257c18fec8192049d8be2140fa0
+- headline: Berkshire Hathaway’s latest stock purge sends a clear message
+  summary: For decades, Berkshire Hathaway’s quarterly stock filings have been treated like a roadmap into Warren Buffett’s thinking. However, the latest one feels very special. Berkshire Hathaway (BRK.A) (BRK.B) unveiled a wide-ranging portfolio overhaul in its latest 13F filing, adding a big new stake in ...
+  url: https://finnhub.io/api/news?id=94aa939cff18e7a6d6b101f11dcbe60179a88da12ca28dcd1245ceaf283192f2
+- headline: The Broadcom Stock Paradox: Why a $2 Trillion Valuation Ignores the Base Economics of Custom Chips
+  summary: Broadcom's nearly $2 trillion valuation is built on a dangerous misconception. While the market prices the company like a high-margin product monopoly similar to NVIDIA, its custom AI chip business may dilute overall profitability as the segment grows.
+  url: https://finnhub.io/api/news?id=88e9f816d018692f5eb12a6e7ed4db5e140b4e1f64728ae089fb256ad4157581
+- headline: Berkshire Hathaway Rebalances Under Greg Abel With Bigger AI And Tech Bet
+  summary: Greg Abel, now CEO of Berkshire Hathaway (NYSE:BRK.B), has overseen a major reshaping of the stock portfolio, including full exits from Amazon, Visa, Mastercard, and UnitedHealth. Berkshire has built a top 5 position in Alphabet and has sharply increased AI related holdings, which now account for more than a third of the portfolio’s value. These moves reflect the biggest shift in Berkshire’s capital allocation approach in decades, with a clearer tilt toward technology and AI focused...
+  url: https://finnhub.io/api/news?id=aca9dfd6de99b809526c9d58400f2809372635eebcca52c181cf6f05270be216
+- headline: DTE Energy Ties Data Center Growth To Renewables And Microgrid Plans
+  summary: DTE Energy (NYSE:DTE) has signed a 1.4 GW power agreement to supply Oracle data centers, reinforcing its role in large scale digital infrastructure. The company has received approvals tied to a 1 GW Google project, supporting additional clean power needs in Michigan. DTE Energy has issued a request for proposals for 1 GW of new renewable capacity as part of its long term clean energy plan. A new partnership with Delta Electronics focuses on a microgrid project that aims to improve...
+  url: https://finnhub.io/api/news?id=cf099acb92a26509b5436f3137087f7305f6bb3f794827f8b0ff77e91dc44f24
+- headline: Google Cloud Security Uses Instruqt Platform to Train 150+ Practitioners on Agentic AI at Google Next 2026
+  summary: Instruqt's hands-on platform delivers a dedicated Vertex AI environment per participant, demonstrating a new operational model for closing the AI-adoption gap at conference scaleAMSTERDAM, May 24, 2026 (GLOBE NEWSWIRE) -- Instruqt, the hands-on product experience platform used by MongoDB, Elastic, Google, and SUSE, today announced that Google Cloud Security used Instruqt to train more than 150 practitioners on Agentic AI capabilities at Google Next 2026. The session, branded the Agentic SOC Expe
+  url: https://finnhub.io/api/news?id=6f809e53fae0336b66f8811b9f7f19288756ec4f1536c138d55552994199ff6e
+- headline: Elon Musk wants to put data centers in space — here's what that could actually look like
+  summary: SpaceX founder Elon Musk has said that he wants to put data centers in space for efficiency. One expert told Yahoo Finance how it would actually work.
+  url: https://finnhub.io/api/news?id=c854488826e2d0326567804abae1d6368a97796ce98c840cf7143c9acbd21c31

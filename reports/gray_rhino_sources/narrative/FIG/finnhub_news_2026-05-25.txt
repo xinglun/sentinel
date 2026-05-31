@@ -1,0 +1,8 @@
+Finnhub narrative source for FIG
+Purpose: normalize company news for structural-risk discovery.
+- headline: Figma: 46% Growth At A Discount Amidst Software Apocalypse
+  summary: Figma (FIG) stock analysis: 46% YoY revenue growth, 139% net retention, $1.6B cash and no debt. Read now.
+  url: https://finnhub.io/api/news?id=f20ed01393af21bf4495e7f1d764a7196e98943afd056dd0861d2992428933c6
+- headline: Figma: Expansion Trends Boost My Confidence (Rating Upgrade)
+  summary: Figma demonstrates hypergrowth with 43% y/y revenue growth, targeting over $1.4 billion in revenue this year. Read why FIG stock is upgraded to a buy.
+  url: https://finnhub.io/api/news?id=7b17c0179a204519cefaa5a8b8daa03f24bd25c86ec93de5871af6b2051efd89

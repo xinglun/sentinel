@@ -1,0 +1,62 @@
+Finnhub narrative source for MSFT
+Purpose: normalize company news for structural-risk discovery.
+- headline: The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  summary: Here is the data point that should make every passive index investor pause. On Retire SMART Podcast Ep 416, the host laid out the math: “If we removed the Nvidias, the AMDs, so AI chips, these are the chipmaking companies, the storage companies, and the companies that are facilitating AI that are publicly traded. And ... The Math That Should Terrify Index Investors: AI Chips Account for Nearly All S&P 500 Gains
+  url: https://finnhub.io/api/news?id=6ff2e07bf8048115335b671f4a956bc778e86c33987343331dd0c97ee6a519a7
+- headline: Why Apple and Microsoft’s Capex Wars Will Make or Break Your MGK Income This Year
+  summary: The Vanguard Mega Cap Growth ETF (NYSEARCA:MGK) is built for capital appreciation, with dividends an afterthought. With a 0.05% expense ratio and a portfolio engineered for capital appreciation, MGK pays a yield so thin it barely registers next to a money market fund. But MGK still distributes cash every quarter, and that cash comes from ... Why Apple and Microsoft’s Capex Wars Will Make or Break Your MGK Income This Year
+  url: https://finnhub.io/api/news?id=a23fd6b7fe5ea5a24f4e8272fd6c8c4d7ee4e8546bec0c01780d2f4881bbc1ad
+- headline: NVIDIA Extends AI Story With Quantum Center And Alice And Bob Bet
+  summary: NVIDIA (NasdaqGS:NVDA) has launched a quantum research center as part of its push into quantum computing. The company is partnering with and investing in quantum startups, including French firm Alice & Bob, which focuses on error resistant qubits. These steps come while other companies such as Microsoft and IonQ are also focusing on quantum computing progress. NVIDIA is widely known for AI chips and data center hardware, which sit at the core of many current AI and accelerated computing...
+  url: https://finnhub.io/api/news?id=55b44a2717056ba1dccfa9882505ecff075f149a1ab4607d8cc7f5c83b3580e9
+- headline: This Tech Stock Is Trading Below Where It Was a Year Ago -- but Its Business Has Never Been Stronger
+  summary: Despite a surge in revenue and a massive opportunity ahead of it, Microsoft's stock has slipped over the last year.
+  url: https://finnhub.io/api/news?id=57ecad8ab2500d1dc39a5f72d8d9f2f39ac802d8ea2b269655acfb95fe5d617f
+- headline: IAC Conference Highlights People Inc. Pivot, AI Licensing Upside and MGM Bet
+  summary: IAC (NASDAQ:IAC) is continuing its transformation from a holding company into People Incorporated, with executives describing the shift as a continuation of a strategy outlined earlier this year that includes asset sales, cost reductions and a sharper focus on People Inc. and MGM Resorts Internation
+  url: https://finnhub.io/api/news?id=e622439504b13ab1b3b44eec98c74fa5fe373eb5ce28839f3766877635f25eec
+- headline: Billionaire Bill Gates' Foundation Sold Its Microsoft Stake and Has 43% of Its $33 Billion Portfolio Invested in 2 Other Stocks
+  summary: Microsoft has always been a standout stock for the foundation's portfolio.
+  url: https://finnhub.io/api/news?id=77e98717c864328450a4c4dea5c351138474636d1593aa52615182aaa0e42bff
+- headline: Apple vs. Microsoft: What Their Revenue Trends Reveal for Investors
+  summary: One tech giant delivers record-setting sales surges, while the other posts unwavering growth. Recent earnings reveal how each strategy plays out over time.
+  url: https://finnhub.io/api/news?id=089752e4f52c122f544a9c14ef19a487dc7b6c654db44e39b1059a7a339d611a
+- headline: His piano lessons strike a chord with kids. It's music to parents' ears.
+  summary: This 32-year-old piano teacher's method won over kids. Now a tech maverick, a Shark Tank tycoon and a Hollywood composer are helping him go national.
+  url: https://finnhub.io/api/news?id=a1efb7cc5ba8bccd661cec487cca45dcc6ef500829bc70611139cf7e509e540d
+- headline: 2 Quantum Computing Stocks That Are Further Along Than Anyone Is Giving Them Credit For
+  summary: One of these players is a tech giant, while the other is a small pure-play quantum company.
+  url: https://finnhub.io/api/news?id=321215c6200dc66bfa75e68c241c40707e14f1bd5c185a38f956fcb70e251df4
+- headline: ‘Expect Corrections and Don’t Rely on Hope’: Cramer’s Reality Check for a First-Time Homebuyer
+  summary: Jim Cramer’s blunt line to a young first-time homebuyer on the May 22 episode of Mad Money: “Expect corrections and don’t rely on hope as an investing strategy.” The caller, a younger investor, had just used a significant portion of his investment assets as a down payment on his first home and asked how to ... ‘Expect Corrections and Don’t Rely on Hope’: Cramer’s Reality Check for a First-Time Homebuyer
+  url: https://finnhub.io/api/news?id=8f88de00f02691e21df9dcf44ce1f4cad1ea3eb3276a52e256e0554c35292758
+- headline: This Billionaire Dumped Cloud Stocks for These New AI Stocks. Should Investors Follow Suit?
+  summary: Philippe Laffont was busy buying Taiwan Semiconductor Manufacturing Company and ASML Holding stock in the first three months of the year.
+  url: https://finnhub.io/api/news?id=7df33448d10b7337f53fa6b76bc47ccb9bd20f504a737f3292c20c9d4485f546
+- headline: ‘He Knows the Flaws Because He Knows the Man’: Why Elon Musk’s OpenAI Attack Is Really About xAI
+  summary: Rashaad Bilal of Earn Your Leisure distilled the Musk-versus-Altman saga down to one sharp line: “He knows the flaws because he knows the man.” That framing reorients how investors should read every legal filing, every X post, and every interview Elon Musk aims at OpenAI. The litigation is a competitive weapon. xAI is the business ... ‘He Knows the Flaws Because He Knows the Man’: Why Elon Musk’s OpenAI Attack Is Really About xAI
+  url: https://finnhub.io/api/news?id=5b92a3a2045939e7b1861ba3f3ac001940de1f0a1bdb69706bd512b4db92caf9
+- headline: AI Cost Crisis Emerges as Claude Usage and Agentic Coding Bills Spiral
+  summary: The first cracks in the AI boom are starting to show, hitting select firms more than others, and this could only be the beginning.
+  url: https://finnhub.io/api/news?id=3276df60b7c4e13e5d541672b866f5ef6be54be520999e8deccf81aa9d08c8c3
+- headline: Wall Street Is Warming Back Up to CoreWeave Stock. Long-Term Demand Is Helping.
+  summary: The firm expects the company to reach profitability by 2028.
+  url: https://finnhub.io/api/news?id=0c257ec8f7d6b83ecb120cf90056b5473e2b2869ba9a86d4631a498129e60c09
+- headline: Palantir’s AI Surge Meets Market Correction. Buy the PLTR Stock Dip Now.
+  summary: Palantir recently became one of the worst mega-cap performers YTD, but can the AI company ride out the storm?
+  url: https://finnhub.io/api/news?id=f53b1c165470cc81f007b536ec16f720a4a801e34880e94b8fd41f94ebc6431a
+- headline: XOVR ETF: Watch Hyperscaler AI Capex Before Summer 2026 Earnings Season
+  summary: The ERShares Private-Public Crossover ETF (NYSEARCA:XOVR) sits at an awkward crossroad heading into summer 2026. Shares trade near $19.08, down 5% year-to-date even as the public-side AI mega-caps it holds have ripped higher. That disconnect matters because XOVR is the rare ETF that pairs late-stage private growth (SpaceX is the publicly known anchor) with public ... XOVR ETF: Watch Hyperscaler AI Capex Before Summer 2026 Earnings Season
+  url: https://finnhub.io/api/news?id=981c7218f03f20f05e0d202ea65b887b7f1118f8d4d1e8e775cdf06cd30d6fbd
+- headline: Debt Spirals vs. AI Factories: The Great Macro Divide of 2026
+  summary: On a recent All-In Podcast episode featuring guest Gavin Baker, the roundtable looked at the exact same economic data and came away with completely different investment outlooks. David Friedberg is highly focused on building a global bond crisis and a sovereign debt spiral. Gavin Baker is far more bullish, arguing that America’s energy independence and ... Debt Spirals vs. AI Factories: The Great Macro Divide of 2026
+  url: https://finnhub.io/api/news?id=e20fd69b9262cc0290e314b751c76a721436db0a8bb36ce4389c1a57e9821ec3
+- headline: 2 Tech Stocks Down More Than 20% That I Think Are Coiled Springs Right Now
+  summary: These cloud giants continue to report strong results.
+  url: https://finnhub.io/api/news?id=1574f78592afadbfdb6fd4d996a61cb6ec3436a1067e7d722e92cd60b293ce79
+- headline: Is Microsoft Stock a Steal Right Now?
+  summary: Microsoft stock hasn't been this cheap, measured by the price-to-cash flow ratio, since 2019.
+  url: https://finnhub.io/api/news?id=dc38afe952806bffc0f9b4d37bf3af90eed8920b403fabb442a1135cc317f65a
+- headline: Microsoft Settlement And OpenAI Shift Reframe Growth And Valuation Story
+  summary: Microsoft reached a $250 million settlement to resolve shareholder litigation tied to its Activision Blizzard acquisition. The settlement addresses claims related to disclosures and governance around one of the company’s largest deals. Separately, Microsoft finalized a restructured partnership with OpenAI, ending its exclusivity agreement while retaining key cloud and IP rights. NasdaqGS:MSFT last closed at $418.57, with the stock down 0.8% over the past week and 1.4% over the past month...
+  url: https://finnhub.io/api/news?id=8e4a62d7784d9ec6e3306bedb5f2a04de6534009cd92ee3f2453b8f21387b2a3
