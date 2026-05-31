@@ -2,13 +2,16 @@
 """DDD / Clean Architecture の依存方向を検証する軽量 checker。"""
 from __future__ import annotations
 
+import json
 import re
 import sys
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+REPORT_PATH = PROJECT_ROOT / "target" / "architecture_boundary_report.json"
 IMPORT_START_RE = re.compile(r"^\s*(?:use|pub\s+use)\s+(.+)")
 INLINE_CRATE_PATH_RE = re.compile(
     r"\bcrate\s*::\s*features(?:\s*::\s*[A-Za-z_][A-Za-z0-9_]*)+"
@@ -769,10 +772,44 @@ def report_only_warnings(root: Path = PROJECT_ROOT) -> list[ReportOnlyWarning]:
     return warnings
 
 
+def write_report(
+    violations: list[Violation],
+    warnings: list[ReportOnlyWarning],
+    root: Path = PROJECT_ROOT,
+) -> None:
+    """architecture boundary の結果を CI artifact 向け JSON として保存する。"""
+    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    report = {
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "status": "error" if violations else ("warning" if warnings else "none"),
+        "reportOnly": bool(warnings) and not violations,
+        "violations": [
+            {
+                "path": violation.path.relative_to(root).as_posix(),
+                "line": violation.line,
+                "importPath": violation.import_path,
+                "forbiddenPrefix": violation.forbidden_prefix,
+                "message": violation.format(root),
+            }
+            for violation in violations
+        ],
+        "warnings": [
+            {
+                "path": warning.path.relative_to(root).as_posix(),
+                "line": warning.line,
+                "message": warning.message,
+            }
+            for warning in warnings
+        ],
+    }
+    REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     root = PROJECT_ROOT
     violations = check_project(root)
     warnings = report_only_warnings(root)
+    write_report(violations, warnings, root)
     for warning in warnings:
         print(f"⚠️ architecture boundary warning: {warning.format(root)}", file=sys.stderr)
     if violations:

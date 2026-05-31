@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 import tempfile
 from pathlib import Path
@@ -674,6 +675,50 @@ def test_gray_rhino_size_warning_is_report_only() -> None:
         assert warnings, "行数超過は report-only warning として観測されるべき"
 
 
+def test_architecture_report_json_records_warning_without_violation() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "\n".join("// facade line" for _ in range(checker.GRAY_RHINO_FACADE_LINE_WARNING_LIMIT + 1)),
+        )
+        violations = checker.check_project(root)
+        warnings = checker.report_only_warnings(root)
+        original_report_path = checker.REPORT_PATH
+        checker.REPORT_PATH = root / "target/architecture_boundary_report.json"
+        try:
+            checker.write_report(violations, warnings, root)
+            report = json.loads(checker.REPORT_PATH.read_text(encoding="utf-8"))
+        finally:
+            checker.REPORT_PATH = original_report_path
+
+        assert report["status"] == "warning"
+        assert report["reportOnly"] is True
+        assert report["violations"] == []
+        assert report["warnings"], "report-only warning は JSON artifact に残すべき"
+
+
+def test_architecture_report_json_records_violation_as_error() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/domain/model.rs", "use crate::core::report::Report;\n")
+        violations = checker.check_project(root)
+        warnings = checker.report_only_warnings(root)
+        original_report_path = checker.REPORT_PATH
+        checker.REPORT_PATH = root / "target/architecture_boundary_report.json"
+        try:
+            checker.write_report(violations, warnings, root)
+            report = json.loads(checker.REPORT_PATH.read_text(encoding="utf-8"))
+        finally:
+            checker.REPORT_PATH = original_report_path
+
+        assert report["status"] == "error"
+        assert report["reportOnly"] is False
+        assert report["violations"], "hard violation は JSON artifact に記録されるべき"
+
+
 def main() -> int:
     tests = [
         test_domain_rejects_outer_dependency,
@@ -727,6 +772,8 @@ def main() -> int:
         test_gray_rhino_report_facade_rejects_i18n_detail_regression,
         test_gray_rhino_renderer_rejects_infrastructure_and_io,
         test_gray_rhino_size_warning_is_report_only,
+        test_architecture_report_json_records_warning_without_violation,
+        test_architecture_report_json_records_violation_as_error,
     ]
     for test in tests:
         test()
