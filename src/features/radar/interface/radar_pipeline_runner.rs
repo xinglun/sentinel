@@ -12,8 +12,15 @@ use crate::features::radar::domain::rules::{
 };
 use crate::features::radar::infrastructure::radar_runtime_factory::build_radar_runtime_services;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
-use crate::features::radar::interface::report;
-use crate::features::radar::interface::weekly_state_report::persist_weekly_state_outputs;
+use crate::features::radar::interface::report::{self, ReportRenderContext};
+use crate::features::radar::interface::weekly_state_report::{
+    persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
+};
+use crate::features::research::interface::cognitive_reports::{
+    credit_stress_label, enabled_asset_thesis_count, enabled_research_attention_count,
+    growth_valuation_impact_label, liquidity_condition_label, macro_pressure_label,
+    yield_curve_label,
+};
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
 use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
@@ -22,6 +29,7 @@ use crate::features::shared::acl::notification_factory::{
 use crate::features::shared::application::run_status::{
     DeliveryStatus, GrayRhinoCollectionStatus, GrayRhinoProviderStatus,
 };
+use crate::features::shared::interface::threshold_format::format_threshold_value;
 
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
@@ -31,7 +39,6 @@ pub(crate) async fn run_pipeline(
     let parsed_rules = app_config.get_parsed_rules();
     let domain_rules = DomainParsedRules::from(&parsed_rules);
     let config_arc = Arc::new(app_config);
-    let rules_arc = Arc::new(parsed_rules);
     let domain_rules_arc = Arc::new(domain_rules);
     let radar_context = crate::features::radar::application::radar::RadarRunContext::new(
         &config_arc.output.save_to,
@@ -113,13 +120,13 @@ pub(crate) async fn run_pipeline(
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres_packet = PresentationAssembler::assemble(
             &packet,
-            &rules_arc,
+            &domain_rules_arc,
             &positions,
             failed_symbols.clone(),
             lang,
         );
 
-        let default_trading_config = crate::config::TradingConfig {
+        let default_trading_config = config::TradingConfig {
             enabled: false,
             global_budget: 0.0,
             max_daily_budget: None,
@@ -183,7 +190,7 @@ pub(crate) async fn run_pipeline(
         }
 
         let mut report_result = report::generate_refined_report(
-            &config_arc,
+            &build_report_render_context(config_arc.as_ref()),
             &pres_packet,
             realized_pl,
             &positions,
@@ -206,7 +213,7 @@ pub(crate) async fn run_pipeline(
             &packet,
             should_persist_history,
             &pres_packet,
-            config_arc.as_ref(),
+            &build_weekly_report_context(config_arc.as_ref()),
         )?;
 
         outcome.notification = send_telegram_with_status(
@@ -217,6 +224,40 @@ pub(crate) async fn run_pipeline(
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
+}
+
+fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderContext {
+    let rules = app_config.get_parsed_rules();
+    ReportRenderContext {
+        compact_transition_in_no_trade: app_config.output.compact_transition_evidence_in_no_trade,
+        compact_stability_threshold: format_threshold_value(
+            rules.trend_cohesion.gate_stability_threshold,
+        ),
+        compact_continuity_threshold: rules.trend_cohesion.gate_continuity_threshold.to_string(),
+    }
+}
+
+fn build_weekly_report_context(app_config: &config::AppConfig) -> WeeklyReportContext {
+    WeeklyReportContext {
+        macro_gravity: app_config
+            .macro_gravity
+            .as_ref()
+            .filter(|macro_gravity| macro_gravity.enable.unwrap_or(true))
+            .map(|macro_gravity| WeeklyMacroGravityContext {
+                rate_pressure: macro_pressure_label(macro_gravity.rate_pressure).to_string(),
+                real_yield_pressure: macro_pressure_label(macro_gravity.real_yield_pressure)
+                    .to_string(),
+                yield_curve: yield_curve_label(macro_gravity.yield_curve).to_string(),
+                credit_stress: credit_stress_label(macro_gravity.credit_stress).to_string(),
+                liquidity: liquidity_condition_label(macro_gravity.liquidity).to_string(),
+                growth_valuation_impact: growth_valuation_impact_label(
+                    macro_gravity.growth_valuation_impact,
+                )
+                .to_string(),
+            }),
+        research_attention_entries: enabled_research_attention_count(app_config),
+        asset_thesis_entries: enabled_asset_thesis_count(app_config),
+    }
 }
 
 fn append_gray_rhino_reference_appendix(

@@ -3,9 +3,11 @@ use crate::features::radar::domain::action_matrix::AssetActionDecision;
 use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::exit::{AssetExitState, ExitDecision, PositionIntent};
+use crate::features::radar::domain::rules::ParsedRules as DomainParsedRules;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
-use crate::features::radar::interface::report::generate_refined_report;
+use crate::features::radar::interface::report::{generate_refined_report, ReportRenderContext};
 use crate::features::shared::interface::i18n::Language;
+use crate::features::shared::interface::threshold_format::format_threshold_value;
 use chrono::Utc;
 use std::collections::{BTreeMap, HashMap};
 
@@ -48,6 +50,21 @@ fn mock_config(lang: Language) -> AppConfig {
     }
 }
 
+fn domain_rules(config: &AppConfig) -> DomainParsedRules {
+    DomainParsedRules::from(&config.get_parsed_rules())
+}
+
+fn report_context(config: &AppConfig) -> ReportRenderContext {
+    let rules = config.get_parsed_rules();
+    ReportRenderContext {
+        compact_transition_in_no_trade: config.output.compact_transition_evidence_in_no_trade,
+        compact_stability_threshold: format_threshold_value(
+            rules.trend_cohesion.gate_stability_threshold,
+        ),
+        compact_continuity_threshold: rules.trend_cohesion.gate_continuity_threshold.to_string(),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -63,13 +80,19 @@ mod tests {
         // Case 1: 1 symbol failed -> Notice (💬)
         let pres1 = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec!["S1".to_string()],
             Language::ZhCn,
         );
-        let rep1 = generate_refined_report(&config, &pres1, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap();
+        let rep1 = generate_refined_report(
+            &report_context(&config),
+            &pres1,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         assert!(rep1.markdown_body.contains("💬"));
         assert!(rep1.markdown_body.contains("提示"));
 
@@ -77,13 +100,19 @@ mod tests {
         let f4 = vec!["A".into(), "B".into(), "C".into(), "D".into()];
         let pres4 = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             f4,
             Language::ZhCn,
         );
-        let rep4 = generate_refined_report(&config, &pres4, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap();
+        let rep4 = generate_refined_report(
+            &report_context(&config),
+            &pres4,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         assert!(rep4.markdown_body.contains("⚠️"));
         assert!(rep4.markdown_body.contains("警告"));
 
@@ -98,13 +127,19 @@ mod tests {
         ];
         let pres6 = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             f6,
             Language::ZhCn,
         );
-        let rep6 = generate_refined_report(&config, &pres6, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap();
+        let rep6 = generate_refined_report(
+            &report_context(&config),
+            &pres6,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         assert!(rep6.markdown_body.contains("🚨"));
         assert!(rep6.markdown_body.contains("严重"));
     }
@@ -123,13 +158,19 @@ mod tests {
 
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             failed,
             Language::ZhCn,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         // High: semantic の正しさを確認する。
         // It should NOT contain default states like "扩张期" (ESTABLISHED) or "启动期" (IGNITION)
@@ -180,7 +221,7 @@ mod tests {
         let config = mock_config(Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::JaJp,
@@ -253,7 +294,7 @@ mod tests {
         let config = mock_config(Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::EnUs,
@@ -298,7 +339,7 @@ mod tests {
         let config = mock_config(Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::JaJp,
@@ -385,7 +426,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -440,7 +481,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -485,7 +526,7 @@ mod tests {
         let config = mock_config(Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::EnUs,
@@ -528,7 +569,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -586,7 +627,7 @@ mod tests {
         let config = mock_config(Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::JaJp,
@@ -638,7 +679,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -686,7 +727,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -730,7 +771,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -802,7 +843,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -854,7 +895,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -924,7 +965,7 @@ mod tests {
         let config_en = mock_config(Language::EnUs);
         let pres_en = PresentationAssembler::assemble(
             &packet,
-            &config_en.get_parsed_rules(),
+            &domain_rules(&config_en),
             &HashMap::new(),
             vec![],
             Language::EnUs,
@@ -937,7 +978,7 @@ mod tests {
         let config_ja = mock_config(Language::JaJp);
         let pres_ja = PresentationAssembler::assemble(
             &packet,
-            &config_ja.get_parsed_rules(),
+            &domain_rules(&config_ja),
             &HashMap::new(),
             vec![],
             Language::JaJp,
@@ -980,13 +1021,19 @@ mod tests {
 
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec!["AAPL".to_string(), "TSLA".to_string(), "NVDA".to_string()],
             Language::ZhCn,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let count = report.markdown_body.matches("获取失败").count();
         assert_eq!(count, 1, "data alert should be rendered exactly once");
@@ -1020,7 +1067,7 @@ mod tests {
         let config = mock_config(Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::EnUs,
@@ -1058,7 +1105,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -1093,7 +1140,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -1173,7 +1220,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -1290,7 +1337,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -1411,7 +1458,7 @@ mod tests {
         let config = mock_config(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -1481,7 +1528,7 @@ mod tests {
 
         let pres = PresentationAssembler::assemble(
             &curr_with_log,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::JaJp,

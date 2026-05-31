@@ -1003,7 +1003,7 @@ impl From<&ParsedRules> for crate::features::radar::domain::rules::ParsedRules {
                     .failed_breakout_no_trade_display_threshold,
             },
             sec: None,
-            macro_gravity: None,
+            macro_gravity: value.macro_gravity.as_ref().map(Into::into),
         }
     }
 }

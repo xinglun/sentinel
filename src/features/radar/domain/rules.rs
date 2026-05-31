@@ -41,7 +41,71 @@ pub struct ParsedRules {
     pub market_state_engine: ParsedMarketStateEngineRules,
     pub breakout: ParsedBreakoutRules,
     pub sec: Option<()>,
-    pub macro_gravity: Option<()>,
+    pub macro_gravity: Option<MacroGravitySnapshot>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct MacroGravitySnapshot {
+    pub rate_pressure: MacroPressure,
+    pub real_yield_pressure: MacroPressure,
+    pub yield_curve: YieldCurveState,
+    pub credit_stress: CreditStress,
+    pub liquidity: LiquidityCondition,
+    pub growth_valuation_impact: GrowthValuationImpact,
+    pub note: Option<String>,
+    pub enabled: bool,
+}
+
+impl Default for MacroGravitySnapshot {
+    fn default() -> Self {
+        Self {
+            rate_pressure: MacroPressure::Neutral,
+            real_yield_pressure: MacroPressure::Neutral,
+            yield_curve: YieldCurveState::Normal,
+            credit_stress: CreditStress::Normal,
+            liquidity: LiquidityCondition::Neutral,
+            growth_valuation_impact: GrowthValuationImpact::Neutral,
+            note: None,
+            enabled: true,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MacroPressure {
+    Falling,
+    Neutral,
+    Rising,
+    Tight,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum YieldCurveState {
+    Normal,
+    Flat,
+    Inverted,
+    Steepening,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum CreditStress {
+    Normal,
+    Watch,
+    Stress,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum LiquidityCondition {
+    Loose,
+    Neutral,
+    Tight,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum GrowthValuationImpact {
+    Supportive,
+    Neutral,
+    Compressing,
 }
 
 #[derive(Debug, Clone, Default, PartialEq)]

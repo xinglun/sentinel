@@ -1,0 +1,119 @@
+{
+  "contractVersion": 1,
+  "workItemId": "clean-arch-interface-config-dependency",
+  "mode": "code",
+  "title": "radar/interface層からcrate::configへの直接依存を排除",
+  "scope": [
+    ".ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+    ".ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+    "src/features/radar/domain/rules.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/acl/macro_gravity_acl.rs",
+    "src/features/radar/acl/mod.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/config.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/hypothesis_read_model.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/hypothesis-read-model-builder.contract.json",
+    ".ai/work-items/archive/2026/hypothesis-read-model-builder.summary.json"
+  ],
+  "outOfScope": [
+    "infrastructure → ACL 逆流の修正（別 Work Item）",
+    "backtest → radar 跨 feature 直結の修正（別 Work Item）",
+    "CLI → domain 直接参照の修正"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "crate::config への直接依存が存在する主要ファイル。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "AppConfig への直接依存が存在。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "AppConfig への直接依存が存在。"
+    },
+    {
+      "path": "src/features/radar/domain/rules.rs",
+      "reason": "MacroGravitySnapshot value object の追加先。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "config DTO から domain value object への ACL 変換を集約する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "interface report / weekly context に config ではなく scalar/context を渡す呼び出し元。"
+    },
+    {
+      "path": "src/features/radar/interface/hypothesis_read_model.rs",
+      "reason": "前段 Work Item の未提交差分で、scope guard の対象に含めて維持する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "radar/interface/ 配下の production .rs ファイルに crate::config import が 0 件（composition root の radar_pipeline_runner.rs と test file は除外）。",
+    "全テスト pass。",
+    "architecture boundary check pass。",
+    "Clippy 警告 0 件。",
+    "PresentationAssembler が domain::rules::ParsedRules のみを参照。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

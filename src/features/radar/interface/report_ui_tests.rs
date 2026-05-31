@@ -6,8 +6,10 @@ use crate::features::radar::domain::exit::{AssetExitState, ExitDecision, Positio
 use crate::features::radar::domain::market_regime::{
     MarketRegimeSnapshot, MarketState, RiskOverlay,
 };
+use crate::features::radar::domain::rules::ParsedRules as DomainParsedRules;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
-use crate::features::radar::interface::report::generate_refined_report;
+use crate::features::radar::interface::report::{generate_refined_report, ReportRenderContext};
+use crate::features::shared::interface::threshold_format::format_threshold_value;
 use chrono::{NaiveDate, Utc};
 use std::collections::{BTreeMap, HashMap};
 
@@ -56,6 +58,21 @@ fn mock_config_with_language(
     let mut config = mock_config();
     config.output.language = Some(language);
     config
+}
+
+fn domain_rules(config: &AppConfig) -> DomainParsedRules {
+    DomainParsedRules::from(&config.get_parsed_rules())
+}
+
+fn report_context(config: &AppConfig) -> ReportRenderContext {
+    let rules = config.get_parsed_rules();
+    ReportRenderContext {
+        compact_transition_in_no_trade: config.output.compact_transition_evidence_in_no_trade,
+        compact_stability_threshold: format_threshold_value(
+            rules.trend_cohesion.gate_stability_threshold,
+        ),
+        compact_continuity_threshold: rules.trend_cohesion.gate_continuity_threshold.to_string(),
+    }
 }
 
 #[cfg(test)]
@@ -127,12 +144,19 @@ mod tests {
         let config = mock_config_with_language(language);
         let pres = PresentationAssembler::assemble(
             &no_trade_snapshot_packet(),
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             language,
         );
-        generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap()
+        generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap()
     }
 
     fn build_no_trade_transition_report(
@@ -142,12 +166,19 @@ mod tests {
         let config = mock_config_with_language(language);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             language,
         );
-        generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap()
+        generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap()
     }
 
     fn no_trade_transition_order_packet() -> DecisionPacket {
@@ -268,15 +299,21 @@ mod tests {
             .collect();
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
 
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &prices)
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &prices,
+        )
+        .unwrap()
+        .markdown_body;
 
         // 更新後 layout（report.rs logic de-bloat 版）を確認する。
         assert!(card.contains("市场状态"));
@@ -320,13 +357,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let result =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let result = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(result.telegram_html_body.contains("<b>🌍 市场摘要</b>"));
         assert!(result.telegram_html_body.contains("<b>🚫 决策结论</b>"));
@@ -375,15 +418,21 @@ mod tests {
             .collect();
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
 
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &prices)
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &prices,
+        )
+        .unwrap()
+        .markdown_body;
 
         assert!(card.contains("保命期"));
         assert!(card.contains("SPY"));
@@ -411,14 +460,20 @@ mod tests {
 
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             failed_symbols,
             lang,
         );
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap()
+        .markdown_body;
 
         // 新しい 3 段階 alert format を確認する。
         assert!(card.contains("💬"));
@@ -451,13 +506,19 @@ mod tests {
             mock_config_with_language(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec!["AAPL".to_string()],
             crate::features::shared::interface::i18n::Language::ZhCn,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(!report.markdown_body.contains("N/A/10"));
         assert!(!report.markdown_body.contains("N/A/3"));
@@ -509,13 +570,19 @@ mod tests {
 
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             crate::features::shared::interface::i18n::Language::ZhCn,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("稳定性 7.5/11"));
         assert!(report.markdown_body.contains("连续性 sustained"));
@@ -780,14 +847,19 @@ mod tests {
             config.output.compact_transition_evidence_in_no_trade = false;
             let pres = PresentationAssembler::assemble(
                 &packet,
-                &config.get_parsed_rules(),
+                &domain_rules(&config),
                 &HashMap::new(),
                 vec![],
                 crate::features::shared::interface::i18n::Language::ZhCn,
             );
-            let report =
-                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-                    .unwrap();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
 
             if case.should_suppress {
                 assert!(
@@ -840,13 +912,19 @@ mod tests {
         config.output.compact_transition_evidence_in_no_trade = false;
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             language,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         report.markdown_body.contains(reason)
     }
 
@@ -1168,14 +1246,20 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap()
+        .markdown_body;
 
         assert!(card.contains("未就绪原因"));
         assert!(card.contains("主线结构"));
@@ -1302,16 +1386,21 @@ mod tests {
             let config = mock_config_with_language(language);
             let pres = PresentationAssembler::assemble(
                 &packet,
-                &config.get_parsed_rules(),
+                &domain_rules(&config),
                 &HashMap::new(),
                 vec![],
                 language,
             );
             assert!(!pres.decision_summary.gate_passed);
 
-            let report =
-                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-                    .unwrap();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
             assert!(report.markdown_body.contains(mainline));
             assert!(report.markdown_body.contains(topology));
             assert!(!report.markdown_body.contains(forbidden));
@@ -1361,15 +1450,21 @@ mod tests {
             .collect();
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
 
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &prices)
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &prices,
+        )
+        .unwrap()
+        .markdown_body;
 
         assert!(card.contains("市場サマリー"));
         assert!(card.contains("行動判断"));
@@ -1417,14 +1512,20 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap()
+        .markdown_body;
 
         assert!(card.contains("市場サマリー"));
         assert!(card.contains("行動判断"));
@@ -1489,13 +1590,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(!report.telegram_html_body.trim_end().ends_with("---"));
         assert!(!report.markdown_body.trim_end().ends_with("---"));
@@ -1531,14 +1638,19 @@ mod tests {
             mock_config_with_language(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres_zh = PresentationAssembler::assemble(
             &packet,
-            &config_zh.get_parsed_rules(),
+            &domain_rules(&config_zh),
             &HashMap::new(),
             vec![],
             crate::features::shared::interface::i18n::Language::ZhCn,
         );
-        let report_zh =
-            generate_refined_report(&config_zh, &pres_zh, 0.0, &HashMap::new(), &HashMap::new())
-                .unwrap();
+        let report_zh = generate_refined_report(
+            &report_context(&config_zh),
+            &pres_zh,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         assert!(report_zh
             .telegram_html_body
             .contains("SPY · 最优 (候选标的)"));
@@ -1547,14 +1659,19 @@ mod tests {
             mock_config_with_language(crate::features::shared::interface::i18n::Language::EnUs);
         let pres_en = PresentationAssembler::assemble(
             &packet,
-            &config_en.get_parsed_rules(),
+            &domain_rules(&config_en),
             &HashMap::new(),
             vec![],
             crate::features::shared::interface::i18n::Language::EnUs,
         );
-        let report_en =
-            generate_refined_report(&config_en, &pres_en, 0.0, &HashMap::new(), &HashMap::new())
-                .unwrap();
+        let report_en = generate_refined_report(
+            &report_context(&config_en),
+            &pres_en,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         assert!(report_en
             .telegram_html_body
             .contains("SPY · Optimal (Candidate)"));
@@ -1563,14 +1680,19 @@ mod tests {
             mock_config_with_language(crate::features::shared::interface::i18n::Language::JaJp);
         let pres_ja = PresentationAssembler::assemble(
             &packet,
-            &config_ja.get_parsed_rules(),
+            &domain_rules(&config_ja),
             &HashMap::new(),
             vec![],
             crate::features::shared::interface::i18n::Language::JaJp,
         );
-        let report_ja =
-            generate_refined_report(&config_ja, &pres_ja, 0.0, &HashMap::new(), &HashMap::new())
-                .unwrap();
+        let report_ja = generate_refined_report(
+            &report_context(&config_ja),
+            &pres_ja,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         assert!(report_ja.telegram_html_body.contains("SPY · 最適 (候補)"));
     }
 
@@ -1606,13 +1728,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("回撤结构，观察强度"));
         assert!(!report.markdown_body.contains("核心回撤"));
@@ -1679,14 +1807,20 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap()
+        .markdown_body;
 
         assert!(card.contains("### 📉 风险处置建议"));
         assert!(card.contains("- NVDA · 持有"));
@@ -1719,14 +1853,20 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let card = generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-            .unwrap()
-            .markdown_body;
+        let card = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap()
+        .markdown_body;
 
         assert!(card.contains("### 📉 风险处置建议"));
         assert!(card.contains("> 未触发减仓或退出条件。"));
@@ -1783,13 +1923,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 突破识别"));
         assert!(report.markdown_body.contains("- PLTR · 结构突破"));
@@ -1830,13 +1976,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 突破识别"));
         assert!(report.markdown_body.contains("- QQQ · 无突破"));
@@ -1921,13 +2073,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 Breakout Detection"));
         assert!(report.markdown_body.contains("QQQ · No Breakout"));
@@ -2028,13 +2186,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 突破認識"));
         assert!(report.markdown_body.contains("QQQ · 突破未成立"));
@@ -2129,13 +2293,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 突破识别"));
         assert!(report.markdown_body.contains("GOOG · 突破萌芽"));
@@ -2216,13 +2386,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("GOOG · Emerging Breakout"));
         assert!(report
@@ -2302,13 +2478,19 @@ mod tests {
             .unwrap_or(crate::features::shared::interface::i18n::Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.markdown_body.contains("GOOG · 突破初動"));
         assert!(report.markdown_body.contains("GOOG · 突破初動（1日目）"));
@@ -2357,14 +2539,20 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let md = report.archival_markdown;
         // localize された section title を確認する。
@@ -2426,14 +2614,20 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let md = report.archival_markdown;
         assert!(md.contains("🧭 战略背景"));
@@ -2496,14 +2690,20 @@ mod tests {
         let config = mock_config_with_language(Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::JaJp,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let md = report.archival_markdown;
         assert!(md.contains("🎯 トレンド特徴認識"));
@@ -2575,14 +2775,19 @@ mod tests {
             });
             let pres = PresentationAssembler::assemble(
                 &curr,
-                &config.get_parsed_rules(),
+                &domain_rules(&config),
                 &HashMap::new(),
                 vec![],
                 language,
             );
-            let report =
-                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-                    .unwrap();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
 
             assert!(!report
                 .telegram_html_body
@@ -2794,14 +2999,19 @@ mod tests {
             });
             let pres = PresentationAssembler::assemble(
                 &curr,
-                &config.get_parsed_rules(),
+                &domain_rules(&config),
                 &HashMap::new(),
                 vec![],
                 language,
             );
-            let report =
-                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-                    .unwrap();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
 
             let markdown_section = strategic_section(&report.archival_markdown, title);
             let telegram_section = strategic_section(&report.telegram_html_body, title);
@@ -2897,13 +3107,19 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         assert!(report.archival_markdown.contains("禁止动作（NO TRADE）"));
         assert!(report.archival_markdown.contains("新开仓上限 · 0%"));
@@ -2922,6 +3138,7 @@ mod tests {
         assert!(report.telegram_html_body.contains("假设年龄: 30 天"));
         assert!(report.telegram_html_body.contains("命题验证: 3/5"));
         assert!(report.telegram_html_body.contains("✓ CapEx 持续投入"));
+        assert!(report.telegram_html_body.contains("✓ 订单或需求能见度提升"));
         assert!(report
             .telegram_html_body
             .contains("✗ 平台 / workflow 付费入口"));
@@ -2962,13 +3179,19 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let hypothesis_start = report
             .telegram_html_body
             .find("未来地图")
@@ -3018,7 +3241,7 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let mut pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
@@ -3027,8 +3250,14 @@ mod tests {
             .failure_risks
             .clear();
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         assert!(!report.telegram_html_body.contains("未来地图"));
         assert!(!report.archival_markdown.contains("未来地图"));
     }
@@ -3122,14 +3351,19 @@ mod tests {
             let config = mock_config_with_language(language);
             let pres = PresentationAssembler::assemble(
                 &curr,
-                &config.get_parsed_rules(),
+                &domain_rules(&config),
                 &HashMap::new(),
                 vec![],
                 language,
             );
-            let report =
-                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-                    .unwrap();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
 
             assert!(report.telegram_html_body.contains(title));
             assert!(report.telegram_html_body.contains(notice));
@@ -3286,7 +3520,7 @@ mod tests {
             let config = mock_config_with_language(language);
             let pres = PresentationAssembler::assemble(
                 &curr,
-                &config.get_parsed_rules(),
+                &domain_rules(&config),
                 &HashMap::new(),
                 vec![],
                 language,
@@ -3303,9 +3537,14 @@ mod tests {
             assert_eq!(transition.holding_efficiency, HoldingEfficiency::Neutral);
             assert!(!transition.trend_cohesion_gate_passed);
 
-            let report =
-                generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new())
-                    .unwrap();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
 
             assert!(report.archival_markdown.contains(expected_regime));
             assert!(!report.archival_markdown.contains(forbidden_regime));
@@ -3349,14 +3588,20 @@ mod tests {
         let config = mock_config_with_language(Language::EnUs);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::EnUs,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let md = report.archival_markdown;
         assert!(md.contains("🔄 State Transition Evidence"));
@@ -3403,14 +3648,20 @@ mod tests {
         let config = mock_config_with_language(Language::JaJp);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::JaJp,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let md = report.archival_markdown;
         // localize された section title を確認する。
@@ -3511,14 +3762,20 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let md = report.archival_markdown;
 
         assert!(md.contains("**关键变化**"));
@@ -3570,14 +3827,20 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let md = report.archival_markdown;
         assert!(md.contains("🔄 状态转移证据"));
         assert!(!md.contains("关键变化"));
@@ -3626,14 +3889,20 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let html = report.telegram_html_body;
 
         assert!(html.contains("<b>🔄 状态转移证据</b>"));
@@ -3705,14 +3974,20 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let html = report.telegram_html_body;
 
         assert!(html.contains("侦察状态"));
@@ -3763,14 +4038,19 @@ mod tests {
         let config_en = mock_config_with_language(Language::EnUs);
         let pres_en = PresentationAssembler::assemble(
             &curr,
-            &config_en.get_parsed_rules(),
+            &domain_rules(&config_en),
             &HashMap::new(),
             vec![],
             Language::EnUs,
         );
-        let report_en =
-            generate_refined_report(&config_en, &pres_en, 0.0, &HashMap::new(), &HashMap::new())
-                .unwrap();
+        let report_en = generate_refined_report(
+            &report_context(&config_en),
+            &pres_en,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let html_en = report_en.telegram_html_body;
         assert!(html_en.contains("<b>🔄 State Transition Evidence</b>"));
         assert!(html_en.contains("Scout Status"));
@@ -3781,14 +4061,19 @@ mod tests {
         let config_ja = mock_config_with_language(Language::JaJp);
         let pres_ja = PresentationAssembler::assemble(
             &curr,
-            &config_ja.get_parsed_rules(),
+            &domain_rules(&config_ja),
             &HashMap::new(),
             vec![],
             Language::JaJp,
         );
-        let report_ja =
-            generate_refined_report(&config_ja, &pres_ja, 0.0, &HashMap::new(), &HashMap::new())
-                .unwrap();
+        let report_ja = generate_refined_report(
+            &report_context(&config_ja),
+            &pres_ja,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let html_ja = report_ja.telegram_html_body;
         assert!(html_ja.contains("<b>🔄 状態遷移エビデンス</b>"));
         assert!(html_ja.contains("偵察状態"));
@@ -3804,14 +4089,20 @@ mod tests {
         let config = mock_config_with_language(language);
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             language,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let md_compact = report.markdown_body.clone();
         let html_compact = report.telegram_html_body.clone();
@@ -3878,13 +4169,19 @@ mod tests {
         config.output.compact_transition_evidence_in_no_trade = false;
         let pres = PresentationAssembler::assemble(
             &curr,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             Language::ZhCn,
         );
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
 
         let md = report.markdown_body;
         assert!(md.contains("新增阻碍: 主导方向分散或领导者缺失"));
@@ -3983,14 +4280,20 @@ mod tests {
         let lang = Language::ZhCn;
         let pres = PresentationAssembler::assemble(
             &packet,
-            &config.get_parsed_rules(),
+            &domain_rules(&config),
             &HashMap::new(),
             vec![],
             lang,
         );
 
-        let report =
-            generate_refined_report(&config, &pres, 0.0, &HashMap::new(), &HashMap::new()).unwrap();
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
         let body = report.markdown_body;
 
         // 1. 「市场状态」marker が dual engine で重複しないことを確認する。

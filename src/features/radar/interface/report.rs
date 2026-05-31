@@ -1,13 +1,17 @@
-use crate::config::AppConfig;
 use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary};
-use crate::features::shared::interface::threshold_format::format_threshold_value;
 use std::collections::HashMap;
 
 pub struct ReportResult {
     pub telegram_html_body: String,
     pub markdown_body: String,
     pub archival_markdown: String,
+}
+
+pub struct ReportRenderContext {
+    pub compact_transition_in_no_trade: bool,
+    pub compact_stability_threshold: String,
+    pub compact_continuity_threshold: String,
 }
 
 #[derive(Clone, Copy)]
@@ -17,37 +21,32 @@ enum RenderMode {
 }
 
 pub fn generate_refined_report(
-    config: &AppConfig,
+    context: &ReportRenderContext,
     pres: &PresentationPacket,
     _realized_pl: f64,
     _positions: &HashMap<String, (f64, f64)>,
     _prices: &HashMap<String, f64>,
 ) -> anyhow::Result<ReportResult> {
-    let compact_transition_in_no_trade = config.output.compact_transition_evidence_in_no_trade;
-    let rules = config.get_parsed_rules();
-    let compact_stability_threshold =
-        format_threshold_value(rules.trend_cohesion.gate_stability_threshold);
-    let compact_continuity_threshold = rules.trend_cohesion.gate_continuity_threshold.to_string();
     let telegram_html = generate_telegram_html_report(
         pres,
         false,
-        compact_transition_in_no_trade,
-        &compact_stability_threshold,
-        &compact_continuity_threshold,
+        context.compact_transition_in_no_trade,
+        &context.compact_stability_threshold,
+        &context.compact_continuity_threshold,
     );
     let markdown = generate_markdown_report(
         pres,
         false,
-        compact_transition_in_no_trade,
-        &compact_stability_threshold,
-        &compact_continuity_threshold,
+        context.compact_transition_in_no_trade,
+        &context.compact_stability_threshold,
+        &context.compact_continuity_threshold,
     );
     let archival_markdown = generate_markdown_report(
         pres,
         true,
-        compact_transition_in_no_trade,
-        &compact_stability_threshold,
-        &compact_continuity_threshold,
+        context.compact_transition_in_no_trade,
+        &context.compact_stability_threshold,
+        &context.compact_continuity_threshold,
     );
 
     Ok(ReportResult {

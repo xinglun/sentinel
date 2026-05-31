@@ -350,6 +350,30 @@ def test_feature_interface_rejects_adapter_dependency() -> None:
         assert violations, "feature interface から adapter への依存は検出されるべき"
 
 
+def test_feature_interface_rejects_root_config_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/interface/presenter.rs",
+            "use crate::config::ParsedRules;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "feature interface は root config DTO に依存してはならない"
+
+
+def test_radar_pipeline_runner_allows_root_config_as_composition_root() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/interface/radar_pipeline_runner.rs",
+            "use crate::config::AppConfig;\n",
+        )
+        violations = checker.check_project(root)
+        assert not violations, f"composition root の config 依存は許可する: {violations}"
+
+
 def test_acl_allows_adapter_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)

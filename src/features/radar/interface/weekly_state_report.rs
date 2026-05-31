@@ -1,12 +1,22 @@
 use anyhow::Result;
 use serde_json::json;
 
-use crate::config;
-use crate::features::research::interface::cognitive_reports::{
-    credit_stress_label, enabled_asset_thesis_count, enabled_research_attention_count,
-    growth_valuation_impact_label, liquidity_condition_label, macro_pressure_label,
-    yield_curve_label,
-};
+#[derive(Clone)]
+pub(crate) struct WeeklyReportContext {
+    pub macro_gravity: Option<WeeklyMacroGravityContext>,
+    pub research_attention_entries: usize,
+    pub asset_thesis_entries: usize,
+}
+
+#[derive(Clone)]
+pub(crate) struct WeeklyMacroGravityContext {
+    pub rate_pressure: String,
+    pub real_yield_pressure: String,
+    pub yield_curve: String,
+    pub credit_stress: String,
+    pub liquidity: String,
+    pub growth_valuation_impact: String,
+}
 
 pub(crate) fn persist_weekly_state_outputs(
     save_dir: &std::path::Path,
@@ -14,7 +24,7 @@ pub(crate) fn persist_weekly_state_outputs(
     current_packet: &crate::features::radar::domain::decision::DecisionPacket,
     include_current_packet: bool,
     pres_packet: &crate::features::radar::interface::presentation::PresentationPacket,
-    app_config: &config::AppConfig,
+    context: &WeeklyReportContext,
 ) -> Result<()> {
     let mut recent_packets: Vec<&crate::features::radar::domain::decision::DecisionPacket> =
         history.iter().rev().take(7).collect();
@@ -57,7 +67,7 @@ pub(crate) fn persist_weekly_state_outputs(
     } else {
         0.0
     };
-    let latest_context = build_weekly_latest_context(pres_packet, app_config);
+    let latest_context = build_weekly_latest_context(pres_packet, context);
 
     let metrics = json!({
         "generated_at": chrono::Local::now().to_rfc3339(),
@@ -123,8 +133,8 @@ pub(crate) fn persist_weekly_state_outputs(
         review.push_str(&format!("- {}: {}\n", state, count));
     }
     push_weekly_strategic_context_snapshot(&mut review, pres_packet);
-    push_weekly_macro_gravity_snapshot(&mut review, app_config);
-    push_weekly_cognitive_calibration_snapshot(&mut review, app_config);
+    push_weekly_macro_gravity_snapshot(&mut review, context);
+    push_weekly_cognitive_calibration_snapshot(&mut review, context);
 
     std::fs::write(save_dir.join("weekly_state_review_auto.md"), review)?;
     Ok(())
@@ -132,7 +142,7 @@ pub(crate) fn persist_weekly_state_outputs(
 
 fn build_weekly_latest_context(
     pres_packet: &crate::features::radar::interface::presentation::PresentationPacket,
-    app_config: &config::AppConfig,
+    context: &WeeklyReportContext,
 ) -> serde_json::Value {
     let trend_breadth_mode = pres_packet
         .transition_evidence
@@ -157,20 +167,16 @@ fn build_weekly_latest_context(
         "market_cycle_position": market_cycle_position,
         "holding_efficiency": holding_efficiency,
         "strategic_context": strategic_context,
-        "macro_gravity": build_weekly_macro_gravity_context(app_config),
+        "macro_gravity": build_weekly_macro_gravity_context(context),
         "cognitive_calibration": {
-            "research_attention_entries": enabled_research_attention_count(app_config),
-            "asset_thesis_entries": enabled_asset_thesis_count(app_config)
+            "research_attention_entries": context.research_attention_entries,
+            "asset_thesis_entries": context.asset_thesis_entries
         }
     })
 }
 
-fn build_weekly_macro_gravity_context(app_config: &config::AppConfig) -> serde_json::Value {
-    let Some(macro_gravity) = app_config
-        .macro_gravity
-        .as_ref()
-        .filter(|macro_gravity| macro_gravity.enable.unwrap_or(true))
-    else {
+fn build_weekly_macro_gravity_context(context: &WeeklyReportContext) -> serde_json::Value {
+    let Some(macro_gravity) = context.macro_gravity.as_ref() else {
         return json!({
             "configured": false
         });
@@ -178,12 +184,12 @@ fn build_weekly_macro_gravity_context(app_config: &config::AppConfig) -> serde_j
 
     json!({
         "configured": true,
-        "rate_pressure": macro_pressure_label(macro_gravity.rate_pressure),
-        "real_yield_pressure": macro_pressure_label(macro_gravity.real_yield_pressure),
-        "yield_curve": yield_curve_label(macro_gravity.yield_curve),
-        "credit_stress": credit_stress_label(macro_gravity.credit_stress),
-        "liquidity": liquidity_condition_label(macro_gravity.liquidity),
-        "growth_valuation_impact": growth_valuation_impact_label(macro_gravity.growth_valuation_impact)
+        "rate_pressure": macro_gravity.rate_pressure,
+        "real_yield_pressure": macro_gravity.real_yield_pressure,
+        "yield_curve": macro_gravity.yield_curve,
+        "credit_stress": macro_gravity.credit_stress,
+        "liquidity": macro_gravity.liquidity,
+        "growth_valuation_impact": macro_gravity.growth_valuation_impact
     })
 }
 
@@ -222,13 +228,9 @@ fn push_weekly_strategic_context_snapshot(
     review.push_str("- Boundary: snapshot only; no score, advice, or trade decision.\n");
 }
 
-fn push_weekly_macro_gravity_snapshot(review: &mut String, app_config: &config::AppConfig) {
+fn push_weekly_macro_gravity_snapshot(review: &mut String, context: &WeeklyReportContext) {
     review.push_str("\n## Macro Gravity Snapshot\n");
-    let Some(macro_gravity) = app_config
-        .macro_gravity
-        .as_ref()
-        .filter(|macro_gravity| macro_gravity.enable.unwrap_or(true))
-    else {
+    let Some(macro_gravity) = context.macro_gravity.as_ref() else {
         review.push_str("- Macro gravity: not configured\n");
         review.push_str(
             "- Boundary: macro gravity explains discount-rate and liquidity context only.\n",
@@ -238,40 +240,34 @@ fn push_weekly_macro_gravity_snapshot(review: &mut String, app_config: &config::
 
     review.push_str(&format!(
         "- Rate pressure: {}\n",
-        macro_pressure_label(macro_gravity.rate_pressure)
+        macro_gravity.rate_pressure
     ));
     review.push_str(&format!(
         "- Real yield: {}\n",
-        macro_pressure_label(macro_gravity.real_yield_pressure)
+        macro_gravity.real_yield_pressure
     ));
-    review.push_str(&format!(
-        "- Yield curve: {}\n",
-        yield_curve_label(macro_gravity.yield_curve)
-    ));
+    review.push_str(&format!("- Yield curve: {}\n", macro_gravity.yield_curve));
     review.push_str(&format!(
         "- Credit stress: {}\n",
-        credit_stress_label(macro_gravity.credit_stress)
+        macro_gravity.credit_stress
     ));
-    review.push_str(&format!(
-        "- Liquidity: {}\n",
-        liquidity_condition_label(macro_gravity.liquidity)
-    ));
+    review.push_str(&format!("- Liquidity: {}\n", macro_gravity.liquidity));
     review.push_str(&format!(
         "- Growth valuation: {}\n",
-        growth_valuation_impact_label(macro_gravity.growth_valuation_impact)
+        macro_gravity.growth_valuation_impact
     ));
     review.push_str("- Boundary: context only; no Gate input or trade instruction.\n");
 }
 
-fn push_weekly_cognitive_calibration_snapshot(review: &mut String, app_config: &config::AppConfig) {
+fn push_weekly_cognitive_calibration_snapshot(review: &mut String, context: &WeeklyReportContext) {
     review.push_str("\n## Cognitive Calibration Snapshot\n");
     review.push_str(&format!(
         "- Research attention entries: {}\n",
-        enabled_research_attention_count(app_config)
+        context.research_attention_entries
     ));
     review.push_str(&format!(
         "- Asset thesis entries: {}\n",
-        enabled_asset_thesis_count(app_config)
+        context.asset_thesis_entries
     ));
     review.push_str(
         "- Boundary: cognitive calibration manages attention and thesis review only; it does not generate trade signals.\n",
