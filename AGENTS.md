@@ -131,6 +131,7 @@ make check-ai-contract CONTRACT=.ai/work-items/active/<task>.contract.json
 make check-ai-scope CONTRACT=.ai/work-items/active/<task>.contract.json
 make fmt-check
 make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json
+make check-architecture-all
 make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
 make check-ai-coverage-guard
 make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
