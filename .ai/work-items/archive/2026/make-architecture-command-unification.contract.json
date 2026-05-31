@@ -1,0 +1,84 @@
+{
+  "contractVersion": 1,
+  "workItemId": "make-architecture-command-unification",
+  "mode": "code",
+  "title": "architecture検証コマンドをmake入口へ統一",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/make-architecture-command-unification.contract.json",
+    ".ai/work-items/active/make-architecture-command-unification.summary.json",
+    "Makefile",
+    "AGENTS.md"
+  ],
+  "outOfScope": [
+    "architecture checker の判定ロジック変更",
+    "production Rust code の変更",
+    "report / trading / evidence の仕様変更"
+  ],
+  "sources": [
+    {
+      "path": "Makefile",
+      "reason": "architecture check と checker test の make entrypoint を統一する対象。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "標準 verification command を make entrypoint に統一する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "architecture boundary check と architecture boundary checker test をまとめて実行する make target がある。",
+    "AI Cockpit 標準 command に裸の python architecture command ではなく make target が記載されている。",
+    "quality / check-rust は make target 経由で architecture verification を実行する。",
+    "format、AI checks、quality が通過している。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/make-architecture-command-unification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/make-architecture-command-unification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/make-architecture-command-unification.contract.json SUMMARY=.ai/work-items/active/make-architecture-command-unification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/make-architecture-command-unification.summary.json CONTRACT=.ai/work-items/active/make-architecture-command-unification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/make-architecture-command-unification.contract.json SUMMARY=.ai/work-items/active/make-architecture-command-unification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/make-architecture-command-unification.contract.json SUMMARY=.ai/work-items/active/make-architecture-command-unification.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

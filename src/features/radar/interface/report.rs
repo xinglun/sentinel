@@ -1,13 +1,17 @@
-use crate::config::AppConfig;
 use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary};
-use crate::features::shared::interface::threshold_format::format_threshold_value;
 use std::collections::HashMap;
 
 pub struct ReportResult {
     pub telegram_html_body: String,
     pub markdown_body: String,
     pub archival_markdown: String,
+}
+
+pub struct ReportRenderContext {
+    pub compact_transition_in_no_trade: bool,
+    pub compact_stability_threshold: String,
+    pub compact_continuity_threshold: String,
 }
 
 #[derive(Clone, Copy)]
@@ -17,37 +21,32 @@ enum RenderMode {
 }
 
 pub fn generate_refined_report(
-    config: &AppConfig,
+    context: &ReportRenderContext,
     pres: &PresentationPacket,
     _realized_pl: f64,
     _positions: &HashMap<String, (f64, f64)>,
     _prices: &HashMap<String, f64>,
 ) -> anyhow::Result<ReportResult> {
-    let compact_transition_in_no_trade = config.output.compact_transition_evidence_in_no_trade;
-    let rules = config.get_parsed_rules();
-    let compact_stability_threshold =
-        format_threshold_value(rules.trend_cohesion.gate_stability_threshold);
-    let compact_continuity_threshold = rules.trend_cohesion.gate_continuity_threshold.to_string();
     let telegram_html = generate_telegram_html_report(
         pres,
         false,
-        compact_transition_in_no_trade,
-        &compact_stability_threshold,
-        &compact_continuity_threshold,
+        context.compact_transition_in_no_trade,
+        &context.compact_stability_threshold,
+        &context.compact_continuity_threshold,
     );
     let markdown = generate_markdown_report(
         pres,
         false,
-        compact_transition_in_no_trade,
-        &compact_stability_threshold,
-        &compact_continuity_threshold,
+        context.compact_transition_in_no_trade,
+        &context.compact_stability_threshold,
+        &context.compact_continuity_threshold,
     );
     let archival_markdown = generate_markdown_report(
         pres,
         true,
-        compact_transition_in_no_trade,
-        &compact_stability_threshold,
-        &compact_continuity_threshold,
+        context.compact_transition_in_no_trade,
+        &context.compact_stability_threshold,
+        &context.compact_continuity_threshold,
     );
 
     Ok(ReportResult {
@@ -1118,6 +1117,39 @@ fn render_hypothesis_section(
                     "    - {}: {}\n",
                     h.horizon_label, candidate.time_horizon
                 ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.materialization_window_label, candidate.materialization_window
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.tactical_isolation_label, candidate.tactical_isolation_notice
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.narrative_saturation_label, candidate.narrative_saturation
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.reality_override_label, candidate.reality_override_notice
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.reality_override_priority_label, candidate.reality_override_priority
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.confidence_decay_label, candidate.confidence_decay_notice
+                ));
+                block.push_str(&format!("    - {}: {}\n", h.age_label, candidate.age_label));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.validation_label, candidate.validation_summary
+                ));
+                for check in &candidate.validation_checks {
+                    let mark = if check.passed { "✓" } else { "✗" };
+                    block.push_str(&format!("      - {mark} {}\n", check.label));
+                }
                 block.push_str(&format!("    - {}:\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {
                     block.push_str(&format!(
@@ -1176,6 +1208,42 @@ fn render_hypothesis_section(
                     "    - <i>{}: {}</i>\n",
                     h.horizon_label, candidate.time_horizon
                 ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.materialization_window_label, candidate.materialization_window
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.tactical_isolation_label, candidate.tactical_isolation_notice
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.narrative_saturation_label, candidate.narrative_saturation
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.reality_override_label, candidate.reality_override_notice
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.reality_override_priority_label, candidate.reality_override_priority
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.confidence_decay_label, candidate.confidence_decay_notice
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.age_label, candidate.age_label
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.validation_label, candidate.validation_summary
+                ));
+                for check in &candidate.validation_checks {
+                    let mark = if check.passed { "✓" } else { "✗" };
+                    block.push_str(&format!("      - <i>{mark} {}</i>\n", check.label));
+                }
                 block.push_str(&format!("    - <i>{}:</i>\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {
                     block.push_str(&format!(

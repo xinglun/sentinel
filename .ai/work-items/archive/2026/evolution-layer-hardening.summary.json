@@ -1,0 +1,128 @@
+{
+  "workItemId": "evolution-layer-hardening",
+  "contractPath": ".ai/work-items/archive/2026/evolution-layer-hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Gray Rhino Temperature / Velocity の architecture metadata を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 作成に伴う Cockpit status を更新した。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino evolution view と survivability view の表示専用契約を追記した。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Hypothesis age と thesis validation checklist の契約を追記した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Hypothesis candidate の age / validation view model を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Hypothesis age と validation checklist を実体 evidence から組み立てるようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Hypothesis age と validation checklist を Markdown / Telegram HTML に表示した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Hypothesis age / validation の zh/en/ja 表示契約を固定した。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_temporal_policy.rs",
+      "reason": "Gray Rhino Temperature / Velocity の domain policy を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino report に Temperature / Velocity を表示した。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Hypothesis age / validation の三語ラベルを追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino Temperature / Velocity の CLI report 契約を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    "src/features/research/domain/gray_rhino_evidence.rs",
+    "src/features/radar/interface/presentation_assembler.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture",
+      "result": "passed"
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Gate / execution / trading path は変更せず、表示専用 evolution metadata と契約テストに限定した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

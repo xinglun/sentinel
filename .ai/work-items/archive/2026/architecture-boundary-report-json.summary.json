@@ -1,0 +1,80 @@
+{
+  "workItemId": "architecture-boundary-report-json",
+  "contractPath": ".ai/work-items/archive/2026/architecture-boundary-report-json.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/architecture-boundary-report-json.contract.json",
+      "reason": "architecture boundary JSON report の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/architecture-boundary-report-json.summary.json",
+      "reason": "変更内容と verification 結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の進行状態を Cockpit status に反映した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "violations / report-only warnings を target/architecture_boundary_report.json に出力するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "warning / violation の JSON report 出力契約テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "checker artifact 出力のみで production code / business output は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

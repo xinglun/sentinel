@@ -1,1 +1,2 @@
-// Backtest feature の外部 adapter 防腐層は必要になった時点でここへ追加する。
+pub(crate) mod radar_backtest_mapper;
+pub(crate) mod radar_decision_engine;

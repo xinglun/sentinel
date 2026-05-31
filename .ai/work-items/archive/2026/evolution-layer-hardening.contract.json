@@ -1,0 +1,127 @@
+{
+  "contractVersion": 1,
+  "workItemId": "evolution-layer-hardening",
+  "mode": "code",
+  "title": "Evolution Layer Hardening",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/evolution-layer-hardening.contract.json",
+    ".ai/work-items/active/evolution-layer-hardening.summary.json",
+    "src/features/research/domain/**",
+    "src/features/research/application/**",
+    "src/features/research/infrastructure/**",
+    "src/features/research/interface/**",
+    "src/features/radar/domain/**",
+    "src/features/radar/interface/**",
+    "src/features/shared/interface/i18n.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/**",
+    ".ai/architecture/**"
+  ],
+  "outOfScope": [
+    "src/features/trading/**",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/trader_agent.rs",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino evidence boundary と audit contract の根拠。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Hypothesis Layer の表示専用境界と failure path 契約。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "DDD / Clean Architecture 境界の根拠。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "Gray Rhino evidence architecture checker の SSOT。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "Gray Rhino evidence validator と scoreability policy の SSOT。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Hypothesis Layer 表示用 ViewModel 組み立て箇所。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Gray Rhino persisted evidence は read boundary で Domain validation され、rejected evidence が日次 report に監査表示される。",
+    "Gray Rhino report は Temperature / Velocity と Survivability を表示し、Gate / execution / trading logic を変更しない。",
+    "Hypothesis Layer は age と thesis validation checklist を表示し、Reality Layer と混在しない。",
+    "Hypothesis validation は failure risks と同様に表示専用で、Gate / execution / trend_cohesion を変更しない。",
+    "zh/en/ja の表示契約が test で固定される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture",
+      "required": true
+    },
+    {
+      "command": "make check-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make test-gray-rhino-evidence-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evolution-layer-hardening.contract.json SUMMARY=.ai/work-items/active/evolution-layer-hardening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、Gray Rhino / Hypothesis 表示契約と関連 test を元に戻す。"
+}

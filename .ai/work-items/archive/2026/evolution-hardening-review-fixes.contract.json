@@ -1,0 +1,157 @@
+{
+  "contractVersion": 1,
+  "workItemId": "evolution-hardening-review-fixes",
+  "mode": "code",
+  "title": "Evolution Hardening Review Fixes",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/evolution-hardening-review-fixes.contract.json",
+    ".ai/work-items/active/evolution-hardening-review-fixes.summary.json",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/research/domain/gray_rhino_temporal_policy.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml",
+    ".ai/work-items/archive/2026/evolution-layer-hardening.contract.json",
+    ".ai/work-items/archive/2026/evolution-layer-hardening.summary.json",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/execution_gate.rs",
+    "src/features/trading/**",
+    ".github/workflows/**",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Hypothesis validation の derivation source を確認する。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_temporal_policy.rs",
+      "reason": "Gray Rhino temperature / velocity の domain mapping を確認する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino temperature value の表示文言を確認する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino daily output contract を確認する。"
+    },
+    {
+      "path": ".ai/architecture/gray_rhino_evidence_schema.yaml",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/evolution-layer-hardening.contract.json",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/evolution-layer-hardening.summary.json",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    },
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "未提交の前段 evolution layer 変更を同一 review scope として検証する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis validation は i18n 表示文字列ではなく typed evidence flag / EvidenceType から推導される。",
+    "Gray Rhino temperature / velocity の domain-level contract tests が LOW / MEDIUM / HIGH / CRITICAL と FALLING / STABLE / RISING / ACCELERATING をロックする。",
+    "Gray Rhino temperature / velocity values は zh/en/ja の表示で自然言語化され、CLI contract test が更新されている。",
+    "Gate / execution / trader_agent / action_matrix には接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/evolution-hardening-review-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/evolution-hardening-review-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_temporal_policy -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test hypothesis_layer -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "cargo test gray_rhino_daily_report_uses_evidence_backed_sensor_health -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/evolution-hardening-review-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/evolution-hardening-review-fixes.contract.json SUMMARY=.ai/work-items/active/evolution-hardening-review-fixes.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/evolution-hardening-review-fixes.summary.json CONTRACT=.ai/work-items/active/evolution-hardening-review-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/evolution-hardening-review-fixes.contract.json SUMMARY=.ai/work-items/active/evolution-hardening-review-fixes.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/evolution-hardening-review-fixes.contract.json SUMMARY=.ai/work-items/active/evolution-hardening-review-fixes.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

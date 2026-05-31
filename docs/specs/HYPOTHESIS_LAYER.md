@@ -21,6 +21,11 @@ Hypothesis Layer は、現在の事実を扱う Reality Layer とは分離して
 - 潜在的受益者
 - コンセンサス状態
 - 市場織り込み状態
+- ナラティブ飽和度
+- 時間軸と実現ウィンドウ
+- hypothesis age
+- thesis validation checklist
+- 現実優先による確信度減衰
 - 失敗パス
 
 ## 境界
@@ -39,6 +44,37 @@ Hypothesis Layer は表示専用であり、次へ接続してはならない。
 
 Reality Layer の結果を参照してよいが、Reality Layer を上書きしてはならない。
 
+## Anti-Narrative Governance
+
+Hypothesis Layer は、未来の物語を強化するだけの narrative machine になってはならない。すべての長期 thesis は、次の問いを表示または設定で表現できる必要がある。
+
+- この hypothesis は市場に先行しているのか、すでに consensus を増幅しているだけなのか。
+- この hypothesis はどの時間軸で検証されるのか。
+- どの observable reality が継続的に反証した場合、confidence を減衰させるのか。
+
+`asset_thesis` は次の optional governance fields を持てる。
+
+```toml
+[asset_thesis.MSFT]
+time_horizon = "LONG"
+materialization_window = "12-36 months"
+
+[asset_thesis.MSFT.narrative_state]
+consensus_level = "EARLY | DEVELOPING | CROWDED | SATURATED"
+skepticism_level = "HIGH | NORMAL | LOW"
+valuation_reflection = "UNDERREFLECTED | PARTIAL | FULLY_PRICED"
+
+[asset_thesis.MSFT.reality_override]
+observable_contradiction = true
+confidence_decay = true
+```
+
+`consensus_level = "CROWDED"` または `valuation_reflection = "FULLY_PRICED"` は売却 signal ではない。これは「正しいか」ではなく「すでに信じられすぎていないか」を観測するための metadata である。
+
+`time_horizon` は `SHORT`、`MEDIUM`、`LONG`、`CIVILIZATION` のいずれかとする。短期の `NO TRADE` と長期 thesis は同じ意味層に混ぜない。
+
+Reality Override Rule は憲法級の制約である。observable reality が hypothesis と継続的に矛盾する場合、hypothesis の confidence は自動的に下がるべきであり、物語の整合性だけで維持してはならない。
+
 ## Responsibility Split
 
 Reality Layer の責任主体はシステムである。現在の市場状態、価格構造、Breakout、Breadth、Macro Gravity、Crowding Risk、Gate、NO TRADE、Main Theme Persistence を厳格に観測する。
@@ -56,6 +92,22 @@ Hypothesis Layer の責任主体はユーザーである。未来の可能性、
 Hypothesis Candidate は必ず failure risks を持つ。failure risks が空の candidate は表示しない。
 
 `Confirmed` という confidence は使わない。Hypothesis Layer で confirmed を使うと Reality Layer と混同するためである。
+
+## Aging と Validation
+
+Hypothesis は、生成された事実ではなく観察仮説であるため、時間経過を明示する。
+
+`hypothesis age` は、candidate を支える実体 evidence record のうち、該当する最古の `event_date` から report date までの日数として表示する。永続化された hypothesis registry を持たない Phase 1 では、age は evidence 由来の proxy であり、投資判断や Gate には接続しない。
+
+`thesis validation` は固定 checklist として表示する。初期 candidate `ProfitPoolMigration` は 5 項目を持つ。
+
+- CapEx 継続投資と回収検証
+- 業績品質による AI 投資の裏付け
+- 受注または需要可視性
+- platform / workflow の課金入口
+- AI service pricing の粘着性
+
+checklist は hypothesis を Reality Layer へ近づけるための監査補助であり、`5/5` でも `Confirmed` とは表示しない。未検証項目は `✗` として残し、future story が自動的に事実化しないようにする。
 
 ## Phase 1
 
@@ -110,6 +162,7 @@ Hypothesis Layer は次の語を実行文脈で使ってはならない。
 
 - Hypothesis が存在しても Gate / NO TRADE / 新規建玉上限は変化しない。
 - Telegram / Markdown に speculative notice が表示される。
+- Hypothesis age と thesis validation が表示される。
 - failure risks が空の candidate は表示されない。
 - `HypothesisConfidence` に `Confirmed` を追加しない。
 - Reality section に Hypothesis 専用語が混入しない。

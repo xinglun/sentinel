@@ -51,6 +51,10 @@ Persisted evidence read boundary は Domain validation を再実行する。`gra
 
 monitoring state は `Gray Rhino Monitoring State` として Daily report に表示する。これは臨界点の接近を観察する reference であり、trade、Gate、execution、trend、market state を変更してはならない。
 
+Phase 4-H では Gray Rhino を「存在するか」だけでなく「温度が上がっているか」で扱う。追加する monitoring metadata は、少なくとも `attention_decay`、`evidence_acceleration`、`institutional_response` を候補とする。`evidence_acceleration` は `RISING`、`STABLE`、`FALLING`、`institutional_response` は `STRONG`、`ADEQUATE`、`WEAK` のような列挙値で扱い、自由記述 narrative から直接 signal を作らない。これは escalation velocity の観測であり、trade、Gate、execution、trend、market state を変更してはならない。
+
+Survivability Assessment は、会社が誤った後にどれだけ再試行できるかを観測する補助 layer とする。初期 field は `capital_access`、`compute_control`、`governance_resilience`、`dependency_risk`、`retry_capacity` を候補とし、Gray Rhino evidence や redundancy evidence と接続しても、売買 signal へ接続しない。
+
 Phase 4-E では FRED threshold calibration を導入する。FRED source adapter は `DGS10`、`T10Y2Y`、`FEDFUNDS`、`BAMLH0A0HYM2`、`WALCL`、`RRPONTSYD` を deterministic threshold assessment に変換し、rate pressure、yield curve constraint、credit stress、liquidity fragility、capex payback risk を `Visible`、`Expanding`、`Critical` の candidate state に投影する。
 
 日次更新の operational entrypoint は `make gray-rhino-refresh` とする。この target は SEC / Finnhub / FRED source collection を provider 単位で実行し、date 付き status を `reports/gray_rhino_refresh_status.jsonl`、`reports/gray_rhino_refresh_status_latest.json`、`reports/gray_rhino_refresh_status_YYYY-MM-DD.json` に更新する。GitHub Actions では主 Radar report を生成する前に refresh を実行し、Telegram と archive が同じ日次 Gray Rhino 状態を参照する。pre-radar refresh は当日の audit record に依存してはならないため、`make daily-calibration` は呼び出さない。refresh loop は source と candidate store を更新するだけであり、trade、Gate、execution、trend、market state を変更してはならない。
@@ -334,6 +338,10 @@ Report ops view は report date 時点の最新 backfill run、failed source、s
 sensor health は readiness score を表示する。readiness score は category completeness に基づく evidence quality の説明指標であり、trade、Gate、execution、trend cohesion へ接続しない。
 
 evidence-driven escalation は category completeness を calibration input として使う。insufficient category は report に表示するが、narrative な推測で補完しない。
+
+Phase v1.4 では evolution view を追加する。Gray Rhino report は `Temperature` と `Velocity` を表示し、risk が存在するかではなく、risk が温まっているかを観測する。`Temperature` は LOW / MEDIUM / HIGH / CRITICAL、`Velocity` は FALLING / STABLE / RISING / ACCELERATING とする。これは Gray Rhino report の表示専用 read model であり、trade、Gate、execution、trend cohesion へ接続しない。
+
+Phase v1.4 では survivability view も表示する。Dependency risk、governance resilience、compute control、retry capacity は scoreable evidence record から派生する。survivability は「risk が存在するが耐性がある」状態と「risk が存在し耐性も弱い」状態を分けるための補助であり、risk category を増やさない。
 
 Phase v1.2 の evidence quality model は `v2` とし、traceability、metric completeness、freshness、confidence、source diversity、rejection ratio を表示する。report は `Evidence Explanation Graph` として dimension -> supporting evidence category -> source class を示す。
 

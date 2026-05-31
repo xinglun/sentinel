@@ -1,0 +1,86 @@
+{
+  "contractVersion": 1,
+  "workItemId": "architecture-boundary-report-json",
+  "mode": "code",
+  "title": "architecture boundary reportをJSON出力する",
+  "scope": [
+    ".ai/work-items/active/architecture-boundary-report-json.contract.json",
+    ".ai/work-items/active/architecture-boundary-report-json.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [
+    "src/** の production code 変更",
+    "architecture rule の意味変更",
+    "行数 warning を hard fail に変更すること",
+    "CI workflow 変更"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "architecture boundary の violations / report-only warnings を target JSON report に出力する。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "JSON report 出力と warning 非阻断の契約テストを追加する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "check_architecture_boundaries.py が target/architecture_boundary_report.json を常に生成する。",
+    "report には status、violations、warnings、generatedAt、reportOnly が含まれる。",
+    "report-only warning は JSON に残るが exit code を失敗にしない。",
+    "violation がある場合は JSON に記録され、exit code は失敗する。",
+    "既存 architecture hard gate と make entrypoint は維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-boundary-report-json.contract.json SUMMARY=.ai/work-items/active/architecture-boundary-report-json.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-survivability-assessment",
+  "mode": "code",
+  "title": "Gray Rhino survivability assessment",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+    ".ai/work-items/active/gray-rhino-survivability-assessment.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/domain/gray_rhino_survivability_policy.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/domain/gray_rhino_evidence.rs",
+      "reason": "Existing evidence category and risk_effect are the only inputs for survivability derivation."
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_daily_report.rs",
+      "reason": "Daily report ViewModel already carries scoreable evidence records."
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino report is the reference-only rendering boundary."
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Survivability is already defined as a reference-only future layer and must not connect to signals."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Survivability policy is owned by Research domain and derives read-only capital_access, compute_control, governance_resilience, dependency_risk, and retry_capacity from existing evidence categories.",
+    "capital_access is reported as UNKNOWN until a dedicated evidence SSOT exists, rather than inferred from narrative.",
+    "No persistence schema or trading/Gate/execution path is changed.",
+    "Gray Rhino daily report renders Survivability Assessment as reference-only metadata with an explicit boundary.",
+    "Domain and CLI integration tests cover survivability derivation and report rendering.",
+    "Required checks pass and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib gray_rhino_survivability_policy",
+      "required": true
+    },
+    {
+      "command": "cargo test --test research_attention_cli_integration gray_rhino_daily_report_uses_evidence_backed_sensor_health",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-survivability-assessment.summary.json CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-survivability-assessment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-survivability-assessment.contract.json SUMMARY=.ai/work-items/active/gray-rhino-survivability-assessment.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

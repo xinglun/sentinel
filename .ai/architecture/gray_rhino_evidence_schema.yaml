@@ -151,6 +151,24 @@ mitigatingEvidenceProjectsResolvedCandidate: true
 mitigatingEvidenceRequiresPriorRiskForResolvedCandidate: true
 grayRhinoEvidenceProjectionPolicy: src/features/research/domain/gray_rhino_evidence_projection_policy.rs
 grayRhinoEvidenceProjectionRulesInApplicationAllowed: false
+grayRhinoTemporalPolicy: src/features/research/domain/gray_rhino_temporal_policy.rs
+grayRhinoTemporalPolicyInApplicationAllowed: false
+grayRhinoTemperatureEnabled: true
+grayRhinoTemperatureValues:
+  - LOW
+  - MEDIUM
+  - HIGH
+  - CRITICAL
+grayRhinoVelocityEnabled: true
+grayRhinoVelocityValues:
+  - FALLING
+  - STABLE
+  - RISING
+  - ACCELERATING
+grayRhinoSurvivabilityPolicy: src/features/research/domain/gray_rhino_survivability_policy.rs
+grayRhinoSurvivabilityPolicyInApplicationAllowed: false
+grayRhinoEvidenceScoreabilityDomain: src/features/research/domain/gray_rhino_evidence.rs
+grayRhinoEvidenceScoreabilityInApplicationAllowed: false
 grayRhinoAssessmentPolicy: src/features/research/domain/gray_rhino_assessment_policy.rs
 grayRhinoDiscoveryRulesInApplicationAllowed: false
 grayRhinoMonitoringPolicy: src/features/research/domain/gray_rhino_monitoring_policy.rs

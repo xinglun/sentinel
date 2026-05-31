@@ -16,11 +16,15 @@ DISCOVERY_DOMAIN_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_
 DISCOVERY_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_discovery_policy.rs"
 ASSESSMENT_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_assessment_policy.rs"
 EVIDENCE_PROJECTION_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_evidence_projection_policy.rs"
+TEMPORAL_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_temporal_policy.rs"
+SURVIVABILITY_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_survivability_policy.rs"
 DISCOVERY_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_discovery.rs"
 DAILY_REPORT_APP_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_daily_report.rs"
 DAILY_REPORT_REPOSITORY_PATH = PROJECT_ROOT / "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs"
 EVIDENCE_STORE_PATH = PROJECT_ROOT / "src/features/research/infrastructure/gray_rhino_evidence_store.rs"
 REPORT_INTERFACE_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_report.rs"
+INLINE_REFERENCE_RENDERER_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_inline_reference_renderer.rs"
+SENSOR_HEALTH_RENDERER_PATH = PROJECT_ROOT / "src/features/research/interface/gray_rhino_sensor_health_renderer.rs"
 MONITORING_STATE_PATH = PROJECT_ROOT / "src/features/research/application/gray_rhino_monitoring_state.rs"
 MONITORING_POLICY_PATH = PROJECT_ROOT / "src/features/research/domain/gray_rhino_monitoring_policy.rs"
 GOVERNANCE_SOURCE_PATH = PROJECT_ROOT / "src/features/research/domain/governance_source.rs"
@@ -66,11 +70,15 @@ def main() -> int:
         DISCOVERY_POLICY_PATH,
         ASSESSMENT_POLICY_PATH,
         EVIDENCE_PROJECTION_POLICY_PATH,
+        TEMPORAL_POLICY_PATH,
+        SURVIVABILITY_POLICY_PATH,
         DISCOVERY_APP_PATH,
         DAILY_REPORT_APP_PATH,
         DAILY_REPORT_REPOSITORY_PATH,
         EVIDENCE_STORE_PATH,
         REPORT_INTERFACE_PATH,
+        INLINE_REFERENCE_RENDERER_PATH,
+        SENSOR_HEALTH_RENDERER_PATH,
         MONITORING_STATE_PATH,
         MONITORING_POLICY_PATH,
         GOVERNANCE_SOURCE_PATH,
@@ -92,11 +100,16 @@ def main() -> int:
     discovery_policy = DISCOVERY_POLICY_PATH.read_text(encoding="utf-8")
     assessment_policy = ASSESSMENT_POLICY_PATH.read_text(encoding="utf-8")
     evidence_projection_policy = EVIDENCE_PROJECTION_POLICY_PATH.read_text(encoding="utf-8")
+    temporal_policy = TEMPORAL_POLICY_PATH.read_text(encoding="utf-8")
+    survivability_policy = SURVIVABILITY_POLICY_PATH.read_text(encoding="utf-8")
     discovery_app = DISCOVERY_APP_PATH.read_text(encoding="utf-8")
     daily_report_app = DAILY_REPORT_APP_PATH.read_text(encoding="utf-8")
     daily_report_repository = DAILY_REPORT_REPOSITORY_PATH.read_text(encoding="utf-8")
     evidence_store = EVIDENCE_STORE_PATH.read_text(encoding="utf-8")
     report_interface = REPORT_INTERFACE_PATH.read_text(encoding="utf-8")
+    inline_reference_renderer = INLINE_REFERENCE_RENDERER_PATH.read_text(encoding="utf-8")
+    sensor_health_renderer = SENSOR_HEALTH_RENDERER_PATH.read_text(encoding="utf-8")
+    research_interface = report_interface + inline_reference_renderer + sensor_health_renderer
     monitoring_state = MONITORING_STATE_PATH.read_text(encoding="utf-8")
     monitoring_policy = MONITORING_POLICY_PATH.read_text(encoding="utf-8")
     governance_source = GOVERNANCE_SOURCE_PATH.read_text(encoding="utf-8")
@@ -116,6 +129,12 @@ def main() -> int:
         "monitoringStateMachine: src/features/research/domain/gray_rhino_monitoring_policy.rs",
         "grayRhinoEvidenceProjectionPolicy: src/features/research/domain/gray_rhino_evidence_projection_policy.rs",
         "grayRhinoEvidenceProjectionRulesInApplicationAllowed: false",
+        "grayRhinoTemporalPolicy: src/features/research/domain/gray_rhino_temporal_policy.rs",
+        "grayRhinoTemporalPolicyInApplicationAllowed: false",
+        "grayRhinoSurvivabilityPolicy: src/features/research/domain/gray_rhino_survivability_policy.rs",
+        "grayRhinoSurvivabilityPolicyInApplicationAllowed: false",
+        "grayRhinoEvidenceScoreabilityDomain: src/features/research/domain/gray_rhino_evidence.rs",
+        "grayRhinoEvidenceScoreabilityInApplicationAllowed: false",
         "grayRhinoSummaryUsesMonitoringStatuses: true",
         "grayRhinoSummaryActiveExcludesCoolingResolved: true",
         "grayRhinoSensorHealthScoreableReadinessEnabled: true",
@@ -383,8 +402,37 @@ def main() -> int:
         "fn is_scoreable_evidence_record",
         "GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating",
     ]:
-        if item in report_interface:
+        if item in research_interface:
             errors.append(f"interface must not contain evidence eligibility policy `{item}`")
+    for item in [
+        "fn is_scoreable_evidence_record",
+        "fn scoreable_evidence_records",
+    ]:
+        if item not in domain:
+            errors.append(f"evidence domain missing scoreability policy `{item}`")
+    if "fn scoreable_evidence_records" in daily_report_app:
+        errors.append("daily report application must not define evidence scoreability policy")
+    if "GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating" in daily_report_app:
+        errors.append("daily report application must not inline evidence scoreability filter")
+    for item in [
+        "build_temporal_summary",
+        "EscalationVelocity",
+        "EvidenceAcceleration",
+        "InstitutionalResponseSummary",
+    ]:
+        if item not in temporal_policy:
+            errors.append(f"temporal domain policy missing `{item}`")
+    if "fn build_temporal_summary" in daily_report_app:
+        errors.append("daily report application must not define temporal policy")
+    for item in [
+        "build_survivability_summary",
+        "capital_access",
+        "SurvivabilityLevel::Unknown",
+    ]:
+        if item not in survivability_policy:
+            errors.append(f"survivability domain policy missing `{item}`")
+    if "fn build_survivability_summary" in daily_report_app:
+        errors.append("daily report application must not define survivability policy")
     for item in [
         "validate_source_type_for_category",
         "source_type_allowed_for_category",
@@ -422,13 +470,13 @@ def main() -> int:
         "MissingRedundancyMetric",
         "InvalidRedundancyMetric",
     ]:
-        if item not in report_interface:
+        if item not in research_interface:
             errors.append(f"report interface missing rejected reason label `{item}`")
     for item in [
         "render_gray_rhino_inline_reference",
         "reference only",
     ]:
-        if item not in report_interface:
+        if item not in research_interface:
             errors.append(f"research interface missing `{item}`")
     for item in [
         "render_gray_rhino_inline_reference",

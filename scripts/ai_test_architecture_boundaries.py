@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 import tempfile
 from pathlib import Path
@@ -88,6 +89,18 @@ def test_feature_interface_rejects_same_feature_infrastructure_dependency() -> N
         )
         violations = checker.check_project(root)
         assert violations, "feature interface から同一 feature infrastructure への直接依存は検出されるべき"
+
+
+def test_feature_infrastructure_rejects_same_feature_acl_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/infrastructure/radar_runtime_factory.rs",
+            "use crate::features::radar::acl::evidence_store_factory::build_radar_evidence_store;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "feature infrastructure から同一 feature ACL への逆流は検出されるべき"
 
 
 def test_research_interface_rejects_gray_rhino_store_or_file_scan() -> None:
@@ -289,6 +302,20 @@ def write_feature_manifest(root: Path) -> None:
         "      acl:\n"
         "        - src/features/evidence/acl\n"
         "    allowedDependencies: []\n"
+        "  research:\n"
+        "    roots:\n"
+        "      domain:\n"
+        "        - src/features/research/domain\n"
+        "      application:\n"
+        "        - src/features/research/application\n"
+        "      interface:\n"
+        "        - src/features/research/interface\n"
+        "      infrastructure:\n"
+        "        - src/features/research/infrastructure\n"
+        "      acl:\n"
+        "        - src/features/research/acl\n"
+        "    allowedDependencies:\n"
+        "      - shared\n"
         "  shared:\n"
         "    roots:\n"
         "      domain:\n"
@@ -350,6 +377,54 @@ def test_feature_interface_rejects_adapter_dependency() -> None:
         assert violations, "feature interface から adapter への依存は検出されるべき"
 
 
+def test_feature_interface_rejects_root_config_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/interface/presenter.rs",
+            "use crate::config::ParsedRules;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "feature interface は root config DTO に依存してはならない"
+
+
+def test_radar_pipeline_runner_allows_root_config_as_composition_root() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/interface/radar_pipeline_runner.rs",
+            "use crate::config::AppConfig;\n",
+        )
+        violations = checker.check_project(root)
+        assert not violations, f"composition root の config 依存は許可する: {violations}"
+
+
+def test_backtest_interface_rejects_direct_radar_engine_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/backtest/interface/backtest.rs",
+            "use crate::features::radar::application::engine::Engine;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "backtest interface から radar engine への直結は ACL に寄せるべき"
+
+
+def test_backtest_application_rejects_radar_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/backtest/application/simulation.rs",
+            "use crate::features::radar::domain::decision::DecisionPacket;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "backtest application は radar DTO に依存せず backtest DTO を使うべき"
+
+
 def test_acl_allows_adapter_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -359,13 +434,13 @@ def test_acl_allows_adapter_dependency() -> None:
         assert not violations, f"ACL から adapter への依存は許可されるべき: {violations}"
 
 
-def test_infrastructure_allows_acl_dependency() -> None:
+def test_infrastructure_rejects_acl_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         write_feature_manifest(root)
         write(root / "src/features/radar/infrastructure/runtime.rs", "use crate::features::radar::acl::market_data::build;\n")
         violations = checker.check_project(root)
-        assert not violations, f"infrastructure から同 feature ACL への依存は許可されるべき: {violations}"
+        assert violations, "infrastructure から同 feature ACL への逆流は検出されるべき"
 
 
 def test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency() -> None:
@@ -559,6 +634,91 @@ def test_non_acl_rejects_external_fetcher() -> None:
         assert violations, "非 ACL の external fetcher 型利用は検出されるべき"
 
 
+def test_gray_rhino_report_facade_rejects_i18n_detail_regression() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "fn leaked_label(language: Language) -> &'static str {\n"
+            "    match language { Language::EnUs => \"Leak\" }\n"
+            "}\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "gray_rhino_report facade に i18n 詳細が戻る回帰は検出されるべき"
+
+
+def test_gray_rhino_renderer_rejects_infrastructure_and_io() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_sensor_health_renderer.rs",
+            "use crate::features::research::infrastructure::gray_rhino_evidence_store::GrayRhinoEvidenceStore;\n"
+            "fn render() { let _ = std::fs::read_to_string(\"gray_rhino_evidence.jsonl\"); }\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "gray rhino renderer が infrastructure / file IO を持つ回帰は検出されるべき"
+
+
+def test_gray_rhino_size_warning_is_report_only() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "\n".join("// facade line" for _ in range(checker.GRAY_RHINO_FACADE_LINE_WARNING_LIMIT + 1)),
+        )
+        violations = checker.check_project(root)
+        warnings = checker.report_only_warnings(root)
+        assert not violations, "行数超過は hard fail ではなく report-only に留めるべき"
+        assert warnings, "行数超過は report-only warning として観測されるべき"
+
+
+def test_architecture_report_json_records_warning_without_violation() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "\n".join("// facade line" for _ in range(checker.GRAY_RHINO_FACADE_LINE_WARNING_LIMIT + 1)),
+        )
+        violations = checker.check_project(root)
+        warnings = checker.report_only_warnings(root)
+        original_report_path = checker.REPORT_PATH
+        checker.REPORT_PATH = root / "target/architecture_boundary_report.json"
+        try:
+            checker.write_report(violations, warnings, root)
+            report = json.loads(checker.REPORT_PATH.read_text(encoding="utf-8"))
+        finally:
+            checker.REPORT_PATH = original_report_path
+
+        assert report["status"] == "warning"
+        assert report["reportOnly"] is True
+        assert report["violations"] == []
+        assert report["warnings"], "report-only warning は JSON artifact に残すべき"
+
+
+def test_architecture_report_json_records_violation_as_error() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(root / "src/features/radar/domain/model.rs", "use crate::core::report::Report;\n")
+        violations = checker.check_project(root)
+        warnings = checker.report_only_warnings(root)
+        original_report_path = checker.REPORT_PATH
+        checker.REPORT_PATH = root / "target/architecture_boundary_report.json"
+        try:
+            checker.write_report(violations, warnings, root)
+            report = json.loads(checker.REPORT_PATH.read_text(encoding="utf-8"))
+        finally:
+            checker.REPORT_PATH = original_report_path
+
+        assert report["status"] == "error"
+        assert report["reportOnly"] is False
+        assert report["violations"], "hard violation は JSON artifact に記録されるべき"
+
+
 def main() -> int:
     tests = [
         test_domain_rejects_outer_dependency,
@@ -590,7 +750,7 @@ def main() -> int:
         test_feature_domain_rejects_cross_feature_dependency,
         test_feature_interface_rejects_adapter_dependency,
         test_acl_allows_adapter_dependency,
-        test_infrastructure_allows_acl_dependency,
+        test_infrastructure_rejects_acl_dependency,
         test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency,
         test_feature_acl_rejects_cross_feature_infrastructure_adapter_dependency,
         test_shared_rejects_concrete_feature_dependency,
@@ -609,6 +769,11 @@ def main() -> int:
         test_non_acl_rejects_futu_client,
         test_non_acl_rejects_yahoo_provider,
         test_non_acl_rejects_external_fetcher,
+        test_gray_rhino_report_facade_rejects_i18n_detail_regression,
+        test_gray_rhino_renderer_rejects_infrastructure_and_io,
+        test_gray_rhino_size_warning_is_report_only,
+        test_architecture_report_json_records_warning_without_violation,
+        test_architecture_report_json_records_violation_as_error,
     ]
     for test in tests:
         test()

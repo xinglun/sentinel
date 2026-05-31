@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis-time-horizon-guard",
+  "mode": "code",
+  "title": "Hypothesis time horizon guard",
+  "scope": [
+    ".ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+    ".ai/work-items/active/hypothesis-time-horizon-guard.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Hypothesis ViewModel is the display-only boundary for speculative reference data."
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Existing hypothesis time_horizon is assembled here."
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Hypothesis section renders display-only metadata without changing Gate or execution."
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Hypothesis labels and guard notices are localized through the shared interface dictionary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis ViewModel exposes materialization_window and tactical_isolation_notice as display-only metadata.",
+    "Assembler derives materialization window and tactical isolation notice without changing Gate, execution, action tags, or trading state.",
+    "Report renders time horizon, materialization window, and tactical isolation boundary in Markdown and HTML.",
+    "Tests cover mapping and rendering, and verify the layer remains speculative / non-signal.",
+    "Required checks pass and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_mapping_requires_failure_risks",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_renders_speculative_notice_without_gate_change",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis-time-horizon-guard.summary.json CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json SUMMARY=.ai/work-items/active/hypothesis-time-horizon-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json SUMMARY=.ai/work-items/active/hypothesis-time-horizon-guard.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -72,6 +72,17 @@ invalidation = ["AI 投資が利益率を継続的に圧迫する", "検索広�
 thesis = "Azure、Copilot、企業 AI 導入がデータセンター投資を正当化し続けるかを観測する。"
 observation_focus = ["Azure 成長率と AI 寄与", "Copilot の実利用と単価改善", "Capex 増加と営業利益率のバランス"]
 invalidation = ["AI 関連 Capex が収益成長に接続しない", "Copilot の導入が期待を下回る", "クラウド成長が構造的に鈍化する"]
+time_horizon = "LONG"
+materialization_window = "12-36 months"
+
+[asset_thesis.MSFT.narrative_state]
+consensus_level = "CROWDED"
+skepticism_level = "LOW"
+valuation_reflection = "PARTIAL"
+
+[asset_thesis.MSFT.reality_override]
+observable_contradiction = true
+confidence_decay = true
 
 [asset_thesis.TSLA]
 thesis = "EV 企業から Physical AI / 自動運転 / ロボティクス企業へ転換できるかを観測する。"

@@ -1,0 +1,157 @@
+{
+  "workItemId": "clean-arch-interface-config-dependency",
+  "contractPath": ".ai/work-items/archive/2026/clean-arch-interface-config-dependency.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+      "reason": "scope / acceptance を実装対象と既存未提交差分に合わせて更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+      "reason": "本 Work Item の変更内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "前段 Work Item の完了状態を保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis-read-model-builder.contract.json",
+      "reason": "前段 Work Item の archive artifact を scope 内で保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/hypothesis-read-model-builder.summary.json",
+      "reason": "前段 Work Item の archive artifact を scope 内で保持した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "config DTO から domain rules へ macro gravity snapshot を変換するようにした。"
+    },
+    {
+      "path": "src/features/radar/domain/rules.rs",
+      "reason": "MacroGravitySnapshot と関連 enum を domain value object として追加した。"
+    },
+    {
+      "path": "src/features/radar/acl/mod.rs",
+      "reason": "macro gravity ACL module を公開した。"
+    },
+    {
+      "path": "src/features/radar/acl/macro_gravity_acl.rs",
+      "reason": "config macro gravity DTO から domain value object への変換を集約した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "crate::config 依存を削除し、domain ParsedRules / MacroGravitySnapshot を参照するようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "AppConfig 引数を ReportRenderContext に置換し、出力層から config DTO 依存を削除した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "AppConfig 引数を WeeklyReportContext に置換し、weekly 出力から config DTO 依存を削除した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "composition root で config から report / weekly context を組み立てるようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "PresentationAssembler / report の新境界に合わせて domain rules と render context を渡すようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "PresentationAssembler / report の新境界に合わせて domain rules と render context を渡すようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "前段 Work Item の hypothesis read model module を保持した。"
+    },
+    {
+      "path": "src/features/radar/interface/hypothesis_read_model.rs",
+      "reason": "前段 Work Item の hypothesis read model builder を保持した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "radar interface の crate::config 依存を checker で検出するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "radar interface config 禁止と composition root 例外を regression test に追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/config.rs",
+    "src/features/radar/domain/rules.rs",
+    "scripts/check_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "cargo check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "rg 'crate::config|MacroGravityConfig|AppConfig' -n src/features/radar/interface --glob '!**/*_tests.rs' --glob '!radar_pipeline_runner.rs'",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/clean-arch-interface-config-dependency.contract.json SUMMARY=.ai/work-items/active/clean-arch-interface-config-dependency.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "radar_pipeline_runner.rs は composition root として config を受け取り、interface presentation/report/weekly へは domain/context に変換して渡す。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "前段 hypothesis-read-model-builder の archive / source diff が未提交だったため、本 Work Item scope に含めて guard 対象化した。",
+    "最初の test / clippy で test helper の batch replace 誤変換を検出し、修正後に再実行して通過した。"
+  ]
+}

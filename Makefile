@@ -22,7 +22,7 @@ GRAY_RHINO_REFRESH_ARGS ?= --date $(GRAY_RHINO_REFRESH_DATE)
 GRAY_RHINO_REFRESH_DAILY_ARGS ?= $(DAILY_CALIBRATION_ARGS)
 GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -47,6 +47,7 @@ help:
 	@printf '%s\n' '  make audit-docs'
 	@printf '%s\n' '  make check-doc-forbidden-terms'
 	@printf '%s\n' '  make check-architecture'
+	@printf '%s\n' '  make check-architecture-all'
 	@printf '%s\n' '  make check-gray-rhino-evidence-contract'
 	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make clippy'
@@ -60,6 +61,7 @@ help:
 	@printf '%s\n' '  make test-ai-finish-archive-flow'
 	@printf '%s\n' '  make test-ai-lifecycle'
 	@printf '%s\n' '  make test-ai-work-item-contract'
+	@printf '%s\n' '  make test-ai-verification-commands'
 	@printf '%s\n' '  make test-ai-start'
 	@printf '%s\n' '  make test-architecture-boundaries'
 	@printf '%s\n' '  make test-gray-rhino-evidence-contract'
@@ -127,6 +129,9 @@ test-ai-lifecycle:
 test-ai-work-item-contract:
 	python3 scripts/ai_test_work_item_contract.py
 
+test-ai-verification-commands:
+	python3 scripts/ai_test_verification_commands.py
+
 test-ai-generate-status:
 	python3 scripts/ai_test_generate_status.py
 
@@ -139,7 +144,9 @@ test-architecture-boundaries:
 test-gray-rhino-evidence-contract:
 	python3 scripts/ai_test_gray_rhino_evidence_contract.py
 
-check-rust: fmt-check audit-docs check-doc-forbidden-terms check-architecture check-gray-rhino-evidence-contract test-architecture-boundaries test-gray-rhino-evidence-contract test clippy diff-check
+check-architecture-all: check-architecture test-architecture-boundaries
+
+check-rust: fmt-check audit-docs check-doc-forbidden-terms check-architecture-all check-gray-rhino-evidence-contract test-gray-rhino-evidence-contract test clippy diff-check
 
 check-ai-contract check-ai-work-item:
 	python3 scripts/ai_check_work_item.py $(CONTRACT)
@@ -177,7 +184,7 @@ ai-preflight:
 archive-work-item:
 	python3 scripts/ai_archive_work_item.py $(CONTRACT) $(ARGS)
 
-check-ai: test-ai-generate-status test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-coverage-guard
+check-ai: test-ai-generate-status test-ai-verification-commands test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-coverage-guard
 	@if [ -n "$(CONTRACT)" ]; then \
 		"$${MAKE:-make}" check-ai-contract CONTRACT="$(CONTRACT)" && \
 		"$${MAKE:-make}" check-ai-scope CONTRACT="$(CONTRACT)" && \

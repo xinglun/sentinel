@@ -1,0 +1,102 @@
+{
+  "workItemId": "hypothesis-time-horizon-guard",
+  "contractPath": ".ai/work-items/archive/2026/hypothesis-time-horizon-guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+      "reason": "Hypothesis time horizon guard の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis-time-horizon-guard.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "AI Cockpit の active Work Item 状態を生成した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "HypothesisCandidateViewModel に materialization_window と tactical_isolation_notice を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Profit pool migration hypothesis に 12-36 months の実現ウィンドウと tactical isolation notice を付与した。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Hypothesis section に実現ウィンドウと戦術隔離を表示した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "Hypothesis mapping が materialization window と tactical isolation notice を保持することを確認した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "UI report が実現ウィンドウと戦術隔離 label を表示することを確認した。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Materialization window と tactical isolation の多言語 label / value を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_mapping_requires_failure_risks",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_renders_speculative_notice_without_gate_change",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis-time-horizon-guard.summary.json CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json SUMMARY=.ai/work-items/active/hypothesis-time-horizon-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis-time-horizon-guard.contract.json SUMMARY=.ai/work-items/active/hypothesis-time-horizon-guard.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Hypothesis Layer の表示 metadata に限定し、Gate、execution、action tag、trading state は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

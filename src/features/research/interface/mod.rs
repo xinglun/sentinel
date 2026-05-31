@@ -1,3 +1,12 @@
+pub(crate) mod cli_command_handler;
 pub(crate) mod cognitive_reports;
 mod default_cognitive_localizations;
+mod gray_rhino_assessment_renderer;
+pub(crate) mod gray_rhino_cli_handler;
+pub(crate) mod gray_rhino_i18n_adapter;
+mod gray_rhino_inline_reference_renderer;
+pub(crate) mod gray_rhino_read_model_builder;
+pub(crate) mod gray_rhino_renderer;
 pub(crate) mod gray_rhino_report;
+mod gray_rhino_sensor_health_renderer;
+mod gray_rhino_temporal_survivability_renderer;

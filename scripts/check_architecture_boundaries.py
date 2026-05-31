@@ -2,13 +2,16 @@
 """DDD / Clean Architecture の依存方向を検証する軽量 checker。"""
 from __future__ import annotations
 
+import json
 import re
 import sys
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+REPORT_PATH = PROJECT_ROOT / "target" / "architecture_boundary_report.json"
 IMPORT_START_RE = re.compile(r"^\s*(?:use|pub\s+use)\s+(.+)")
 INLINE_CRATE_PATH_RE = re.compile(
     r"\bcrate\s*::\s*features(?:\s*::\s*[A-Za-z_][A-Za-z0-9_]*)+"
@@ -137,6 +140,17 @@ class Violation:
 
 
 @dataclass(frozen=True)
+class ReportOnlyWarning:
+    path: Path
+    line: int
+    message: str
+
+    def format(self, root: Path) -> str:
+        rel = self.path.relative_to(root)
+        return f"{rel}:{self.line}: {self.message}"
+
+
+@dataclass(frozen=True)
 class FeatureAclManifest:
     feature_roots: dict[str, dict[str, tuple[str, ...]]]
     allowed_dependencies: dict[str, tuple[str, ...]]
@@ -177,6 +191,29 @@ APPLICATION_IO_IMPORT_PREFIXES = (
     "tokio::fs",
     "tokio::net",
     "reqwest",
+)
+
+GRAY_RHINO_REPORT_FACADE = "src/features/research/interface/gray_rhino_report.rs"
+GRAY_RHINO_FACADE_LINE_WARNING_LIMIT = 700
+GRAY_RHINO_RENDERER_LINE_WARNING_LIMIT = 900
+GRAY_RHINO_RENDERER_PREFIX = "src/features/research/interface/gray_rhino_"
+GRAY_RHINO_RENDERER_SUFFIX = "_renderer.rs"
+GRAY_RHINO_RENDERER_FORBIDDEN_IMPORT_PREFIXES = (
+    "crate::config",
+    "crate::features::research::acl",
+    "crate::features::research::infrastructure",
+    "std::fs",
+    "tokio::fs",
+    "reqwest",
+)
+GRAY_RHINO_RENDERER_FORBIDDEN_TEXT = (
+    "std::fs::",
+    "tokio::fs::",
+    "reqwest::",
+    "GrayRhinoCandidateStore",
+    "GrayRhinoEvidenceStore",
+    "GrayRhinoSnapshotStore",
+    "build_gray_rhino_daily_report_repository",
 )
 
 
@@ -306,6 +343,114 @@ def feature_layer_for_import(import_path: str) -> tuple[str, str] | None:
     return feature, layer
 
 
+def production_code_lines(path: Path) -> Iterable[tuple[int, str]]:
+    """#[cfg(test)] module を除いた production code 行を返す。"""
+    skip_next_cfg_test_item = False
+    cfg_test_brace_depth: int | None = None
+    block_comment_depth = 0
+    raw_string_hashes: int | None = None
+
+    for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        code_line, block_comment_depth, raw_string_hashes = code_only_line(
+            line,
+            block_comment_depth,
+            raw_string_hashes,
+        )
+        stripped = code_line.strip()
+        if stripped == "#[cfg(test)]":
+            skip_next_cfg_test_item = True
+            continue
+        if cfg_test_brace_depth is not None:
+            cfg_test_brace_depth += code_line.count("{") - code_line.count("}")
+            if cfg_test_brace_depth <= 0:
+                cfg_test_brace_depth = None
+            continue
+        if skip_next_cfg_test_item and stripped:
+            if stripped.startswith("mod ") and "{" in stripped:
+                cfg_test_brace_depth = stripped.count("{") - stripped.count("}")
+                if cfg_test_brace_depth <= 0:
+                    cfg_test_brace_depth = None
+                skip_next_cfg_test_item = False
+                continue
+            skip_next_cfg_test_item = False
+        if skip_next_cfg_test_item:
+            continue
+        yield line_no, code_line
+
+
+def is_gray_rhino_renderer(rel_path: str) -> bool:
+    return (
+        rel_path.startswith(GRAY_RHINO_RENDERER_PREFIX)
+        and rel_path.endswith(GRAY_RHINO_RENDERER_SUFFIX)
+    )
+
+
+def gray_rhino_renderer_boundary_violations(path: Path, root: Path) -> list[Violation]:
+    rel_path = relative_posix(path, root)
+    violations: list[Violation] = []
+
+    if rel_path == GRAY_RHINO_REPORT_FACADE:
+        for line_no, code_line in production_code_lines(path):
+            stripped = code_line.strip()
+            if "match language" in stripped:
+                violations.append(
+                    Violation(path, line_no, "match language", "gray rhino facade owns i18n detail")
+                )
+            if stripped.startswith("fn ") and "_label(" in stripped:
+                violations.append(
+                    Violation(path, line_no, stripped, "gray rhino facade owns label rendering")
+                )
+        return violations
+
+    if not is_gray_rhino_renderer(rel_path):
+        return violations
+
+    for line_no, import_path in imports_from(path):
+        for forbidden in GRAY_RHINO_RENDERER_FORBIDDEN_IMPORT_PREFIXES:
+            if import_path.startswith(forbidden):
+                violations.append(
+                    Violation(path, line_no, import_path, "gray rhino renderer boundary")
+                )
+    for line_no, code_line in production_code_lines(path):
+        stripped = code_line.strip()
+        if stripped.startswith("//"):
+            continue
+        for forbidden_text in GRAY_RHINO_RENDERER_FORBIDDEN_TEXT:
+            if forbidden_text in stripped:
+                violations.append(
+                    Violation(path, line_no, forbidden_text, "gray rhino renderer boundary")
+                )
+    return violations
+
+
+def gray_rhino_size_warnings(path: Path, root: Path) -> list[ReportOnlyWarning]:
+    rel_path = relative_posix(path, root)
+    line_count = len(path.read_text(encoding="utf-8").splitlines())
+    if rel_path == GRAY_RHINO_REPORT_FACADE and line_count > GRAY_RHINO_FACADE_LINE_WARNING_LIMIT:
+        return [
+            ReportOnlyWarning(
+                path,
+                1,
+                (
+                    "report-only: gray_rhino_report.rs facade exceeds "
+                    f"{GRAY_RHINO_FACADE_LINE_WARNING_LIMIT} lines ({line_count})"
+                ),
+            )
+        ]
+    if is_gray_rhino_renderer(rel_path) and line_count > GRAY_RHINO_RENDERER_LINE_WARNING_LIMIT:
+        return [
+            ReportOnlyWarning(
+                path,
+                1,
+                (
+                    "report-only: gray rhino renderer exceeds "
+                    f"{GRAY_RHINO_RENDERER_LINE_WARNING_LIMIT} lines ({line_count})"
+                ),
+            )
+        ]
+    return []
+
+
 def cli_feature_infrastructure_violations(path: Path) -> list[Violation]:
     violations: list[Violation] = []
     for line_no, import_path in imports_from(path):
@@ -344,6 +489,11 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
         return []
 
     feature, layer = feature_layer
+    if layer == "interface" and (
+        rel_path.endswith("_tests.rs")
+        or rel_path == "src/features/radar/interface/radar_pipeline_runner.rs"
+    ):
+        return []
     violations: list[Violation] = []
     text = path.read_text(encoding="utf-8")
     is_acl = layer == "acl"
@@ -352,6 +502,18 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
     allowed_dependencies = set(manifest.allowed_dependencies.get(feature, ()))
 
     for line_no, import_path in imports_from(path):
+        if feature == "radar" and layer == "interface" and import_path.startswith("crate::config"):
+            violations.append(Violation(path, line_no, import_path, "radar interface config dependency"))
+        if (
+            feature == "backtest"
+            and layer == "interface"
+            and import_path.startswith("crate::features::radar::application::engine")
+        ):
+            violations.append(Violation(path, line_no, import_path, "backtest interface -> radar engine"))
+        if feature == "backtest" and layer == "application" and import_path.startswith(
+            "crate::features::radar"
+        ):
+            violations.append(Violation(path, line_no, import_path, "backtest application -> radar"))
         for forbidden in FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES.get(layer, ()):
             if import_path.startswith(forbidden):
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} forbidden import"))
@@ -376,6 +538,8 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} -> {imported_layer}"))
             if layer == "infrastructure" and imported_layer == "interface":
                 violations.append(Violation(path, line_no, import_path, "feature infrastructure -> interface"))
+            if imported_feature == feature and layer == "infrastructure" and imported_layer == "acl":
+                violations.append(Violation(path, line_no, import_path, "feature infrastructure -> acl"))
             if (
                 feature == "research"
                 and layer == "interface"
@@ -595,12 +759,59 @@ def check_project(root: Path = PROJECT_ROOT) -> list[Violation]:
     if features_root.exists():
         for path in rust_files(features_root):
             violations.extend(feature_acl_violations(path, root, manifest))
+            violations.extend(gray_rhino_renderer_boundary_violations(path, root))
     return violations
+
+
+def report_only_warnings(root: Path = PROJECT_ROOT) -> list[ReportOnlyWarning]:
+    warnings: list[ReportOnlyWarning] = []
+    features_root = root / "src/features"
+    if features_root.exists():
+        for path in rust_files(features_root):
+            warnings.extend(gray_rhino_size_warnings(path, root))
+    return warnings
+
+
+def write_report(
+    violations: list[Violation],
+    warnings: list[ReportOnlyWarning],
+    root: Path = PROJECT_ROOT,
+) -> None:
+    """architecture boundary の結果を CI artifact 向け JSON として保存する。"""
+    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    report = {
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "status": "error" if violations else ("warning" if warnings else "none"),
+        "reportOnly": bool(warnings) and not violations,
+        "violations": [
+            {
+                "path": violation.path.relative_to(root).as_posix(),
+                "line": violation.line,
+                "importPath": violation.import_path,
+                "forbiddenPrefix": violation.forbidden_prefix,
+                "message": violation.format(root),
+            }
+            for violation in violations
+        ],
+        "warnings": [
+            {
+                "path": warning.path.relative_to(root).as_posix(),
+                "line": warning.line,
+                "message": warning.message,
+            }
+            for warning in warnings
+        ],
+    }
+    REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def main() -> int:
     root = PROJECT_ROOT
     violations = check_project(root)
+    warnings = report_only_warnings(root)
+    write_report(violations, warnings, root)
+    for warning in warnings:
+        print(f"⚠️ architecture boundary warning: {warning.format(root)}", file=sys.stderr)
     if violations:
         print("❌ architecture boundary violations:", file=sys.stderr)
         for violation in violations:

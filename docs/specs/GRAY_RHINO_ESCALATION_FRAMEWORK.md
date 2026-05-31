@@ -106,6 +106,10 @@ formal escalation snapshot は次を含む。`manual fallback baseline` は `sou
 
 自動発見候補は formal escalation snapshot と分離して `gray_rhino_candidates.jsonl` に保存する。monitoring state machine は candidate state（`Background`、`Visible`、`Expanding`、`Critical`、`Cooling`、`Resolved`）と direction（`new`、`stable`、`intensifying`、`cooling`、`resolved`）を別軸で評価する。候補は watchlist inline reference、market reference、other company reference として表示されるが、Gate、execution、trend、market state を変更しない。
 
+次段階では、candidate state とは別に escalation velocity を表示する。これは risk の存在確認ではなく、長期存在する risk への市場・組織の麻痺を観測するための温度計である。`attention_decay`、`evidence_acceleration`、`institutional_response` は Daily report の reference metadata として扱い、手動 escalation state や取引判断を直接変更しない。
+
+Survivability Assessment は Gray Rhino の反対側にある安全余裕を観測する。`capital_access`、`compute_control`、`governance_resilience`、`dependency_risk`、`retry_capacity` は、企業が誤った後に再試行できるかを示す reference であり、楽観 narrative を生成するための採点ではない。
+
 ## 状態
 
 `RhinoEscalationState` は manual / formal escalation snapshot の状態であり、candidate monitoring state とは別の型として扱う。candidate monitoring の語彙は Evidence Contract を SSOT とする。`RhinoEscalationState` は次の状態を持つ。

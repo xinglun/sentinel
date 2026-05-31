@@ -1,0 +1,118 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis-anti-narrative-display",
+  "mode": "code",
+  "title": "Hypothesis anti narrative display",
+  "scope": [
+    ".ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+    ".ai/work-items/active/hypothesis-anti-narrative-display.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/anti-narrative-governance.contract.json",
+    ".ai/work-items/archive/2026/anti-narrative-governance.summary.json",
+    "src/config.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/DAILY_CALIBRATION_CONFIG_SNIPPET.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Hypothesis Layer is display-only SSOT and now defines anti-narrative governance."
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Hypothesis ViewModel owns Future Map display data."
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Hypothesis candidates are assembled from reality evidence in interface layer."
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Radar report renderer is the only consumer of Hypothesis display fields."
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Hypothesis labels must stay localized and avoid enum leakage."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Radar Hypothesis candidate view model carries narrative saturation and reality override display fields.",
+    "Presentation assembler derives anti-narrative fields from existing MarketCyclePosition / consensus / pricing context without touching domain, application, Gate, execution, or trading layers.",
+    "Markdown and Telegram Hypothesis sections render narrative saturation and reality override as speculative reference metadata.",
+    "Tests prove the fields render and the Hypothesis layer remains separated from Reality/Gate sections.",
+    "Required checks pass and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_mapping_requires_failure_risks",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_renders_speculative_notice_without_gate_change",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis-anti-narrative-display.summary.json CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json SUMMARY=.ai/work-items/active/hypothesis-anti-narrative-display.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis-anti-narrative-display.contract.json SUMMARY=.ai/work-items/active/hypothesis-anti-narrative-display.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

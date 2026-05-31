@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis-reality-override-priority",
+  "mode": "code",
+  "title": "Hypothesis reality override priority",
+  "scope": [
+    ".ai/work-items/active/hypothesis-reality-override-priority.contract.json",
+    ".ai/work-items/active/hypothesis-reality-override-priority.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Hypothesis ViewModel is the display-only boundary for speculative reference data."
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Existing market_cycle_position-derived narrative saturation and reality override notice are the source for override priority derivation."
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Hypothesis section renders display-only metadata without changing Gate or execution."
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Hypothesis labels and values are localized through the shared interface dictionary."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis ViewModel exposes reality_override_priority and confidence_decay_notice as display-only metadata.",
+    "Assembler derives override priority from existing market cycle / narrative crowding semantics without changing HypothesisConfidence enum or trade/Gate/execution paths.",
+    "Report renders reality override priority and confidence decay notice in Markdown and HTML.",
+    "Tests cover mapping and rendering, and verify the layer remains speculative / non-signal.",
+    "Required checks pass and Work Item is archived."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis-reality-override-priority.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis-reality-override-priority.contract.json",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_mapping_requires_failure_risks",
+      "required": true
+    },
+    {
+      "command": "cargo test --lib test_hypothesis_layer_renders_speculative_notice_without_gate_change",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis-reality-override-priority.summary.json CONTRACT=.ai/work-items/active/hypothesis-reality-override-priority.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis-reality-override-priority.contract.json SUMMARY=.ai/work-items/active/hypothesis-reality-override-priority.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis-reality-override-priority.contract.json SUMMARY=.ai/work-items/active/hypothesis-reality-override-priority.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

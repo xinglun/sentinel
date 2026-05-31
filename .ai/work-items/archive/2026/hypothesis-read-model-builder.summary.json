@@ -1,0 +1,101 @@
+{
+  "workItemId": "hypothesis-read-model-builder",
+  "contractPath": ".ai/work-items/archive/2026/hypothesis-read-model-builder.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を現在の active Work Item と同期した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "reason": "Hypothesis read model builder refactor の Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/hypothesis-read-model-builder.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "hypothesis_read_model module を interface layer に追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/hypothesis_read_model.rs",
+      "reason": "Hypothesis Layer の read model 構築責務を専用 builder へ抽出した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Hypothesis 構築処理を builder 呼び出しへ置き換え、assembler を composition 責務に寄せた。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Hypothesis validation の表示 contract を追加で固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "cargo test hypothesis_layer -- --nocapture",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Hypothesis 表示用 read model builder の抽出に限定し、domain / Gate / execution / trading boundary は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

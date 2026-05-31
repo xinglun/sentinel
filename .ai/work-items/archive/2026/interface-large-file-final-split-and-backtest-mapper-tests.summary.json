@@ -1,0 +1,143 @@
+{
+  "workItemId": "interface-large-file-final-split-and-backtest-mapper-tests",
+  "contractPath": ".ai/work-items/archive/2026/interface-large-file-final-split-and-backtest-mapper-tests.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の進行状態を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json",
+      "reason": "骨格 Contract を実装可能な scope / acceptance / verification に確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.summary.json",
+      "reason": "変更内容と検証結果を記録した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Gray Rhino command family を research interface handler へ移し、CLI entrypoint の責務を分離した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_cli_handler.rs",
+      "reason": "Gray Rhino ingest / collect / discover command orchestration を CLI から分離した。"
+    },
+    {
+      "path": "src/features/research/acl/gray_rhino_file_reader.rs",
+      "reason": "research interface から local file IO を分離する ACL helper を追加した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Gray Rhino file reader ACL module を公開した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Gray Rhino CLI handler module を公開した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_i18n_adapter.rs",
+      "reason": "Backfill / discovery / refresh status の表示文言を i18n adapter へ移した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_renderer.rs",
+      "reason": "Backfill / discovery / refresh status rendering を report 本体から分離した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "ops / refresh rendering と文言関数を削除し、report composition に責務を寄せた。"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "reason": "Radar DecisionPacket から Backtest DTO への mapper と単体 test を追加した。"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_decision_engine.rs",
+      "reason": "DTO mapping を専用 mapper に委譲し、adapter は pipeline 呼び出しに集中させた。"
+    },
+    {
+      "path": "src/features/backtest/acl/mod.rs",
+      "reason": "Backtest radar mapper module を公開した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest_mapper.rs",
+      "reason": "Backtest interface の history / watchlist / rules 変換と単体 test を追加した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "Backtest DTO conversion を mapper に委譲し、run_backtest の orchestration を軽量化した。"
+    },
+    {
+      "path": "src/features/backtest/interface/mod.rs",
+      "reason": "Backtest interface mapper module を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/backtest/acl/radar_decision_engine.rs",
+    "src/features/backtest/interface/backtest.rs",
+    "scripts/check_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json SUMMARY=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.summary.json CONTRACT=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json SUMMARY=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.contract.json SUMMARY=.ai/work-items/active/interface-large-file-final-split-and-backtest-mapper-tests.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "責務分割と DTO mapper test 追加に限定し、判断ロジックと出力契約は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

@@ -414,6 +414,13 @@ fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Evidence-backed sensor store"));
+    assert!(stdout.contains("Gray Rhino Temperature Change"));
+    assert!(stdout.contains("Temperature: High"));
+    assert!(stdout.contains("Velocity: Rising"));
+    assert!(stdout.contains("Evidence acceleration: RISING"));
+    assert!(stdout.contains("Survivability Assessment"));
+    assert!(stdout.contains("Capital access: UNKNOWN"));
+    assert!(stdout.contains("Dependency risk: MEDIUM"));
     assert!(stdout.contains("Gray Rhino Sensor Health"));
     assert!(stdout.contains("Dependency Concentration: 1 evidence record"));
     assert!(stdout.contains("It does not generate trading signals."));
@@ -1509,6 +1516,9 @@ fn gray_rhino_interface_does_not_own_evidence_scoreability() {
     let interface =
         fs::read_to_string(root.join("src/features/research/interface/gray_rhino_report.rs"))
             .expect("failed to read gray rhino report");
+    let domain =
+        fs::read_to_string(root.join("src/features/research/domain/gray_rhino_evidence.rs"))
+            .expect("failed to read evidence domain");
     let application = fs::read_to_string(
         root.join("src/features/research/application/gray_rhino_daily_report.rs"),
     )
@@ -1520,8 +1530,39 @@ fn gray_rhino_interface_does_not_own_evidence_scoreability() {
     assert!(
         !interface.contains("GrayRhinoRiskEffect::Amplifying | GrayRhinoRiskEffect::Mitigating")
     );
-    assert!(application.contains("scoreable_evidence_records"));
+    assert!(application.contains("scoreable_evidence_records("));
+    assert!(!application.contains("fn scoreable_evidence_records"));
+    assert!(domain.contains("fn is_scoreable_evidence_record"));
+    assert!(domain.contains("fn scoreable_evidence_records"));
     assert!(checker.contains("interface must not contain evidence eligibility policy"));
+    assert!(
+        checker.contains("daily report application must not define evidence scoreability policy")
+    );
+}
+
+#[test]
+fn gray_rhino_temporal_and_survivability_policies_are_domain_owned() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let application = fs::read_to_string(
+        root.join("src/features/research/application/gray_rhino_daily_report.rs"),
+    )
+    .expect("failed to read daily report app");
+    let temporal =
+        fs::read_to_string(root.join("src/features/research/domain/gray_rhino_temporal_policy.rs"))
+            .expect("failed to read temporal policy");
+    let survivability = fs::read_to_string(
+        root.join("src/features/research/domain/gray_rhino_survivability_policy.rs"),
+    )
+    .expect("failed to read survivability policy");
+    let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
+        .expect("failed to read contract checker");
+
+    assert!(temporal.contains("fn build_temporal_summary"));
+    assert!(survivability.contains("fn build_survivability_summary"));
+    assert!(!application.contains("fn build_temporal_summary"));
+    assert!(!application.contains("fn build_survivability_summary"));
+    assert!(checker.contains("grayRhinoTemporalPolicy:"));
+    assert!(checker.contains("grayRhinoSurvivabilityPolicy:"));
 }
 
 #[test]
@@ -1616,7 +1657,13 @@ fn gray_rhino_renderer_is_interface_owned() {
             .expect("failed to read discovery application");
     let interface =
         fs::read_to_string(root.join("src/features/research/interface/gray_rhino_report.rs"))
-            .expect("failed to read gray rhino interface");
+            .expect("failed to read gray rhino interface")
+            + &fs::read_to_string(
+                root.join(
+                    "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+                ),
+            )
+            .expect("failed to read gray rhino inline reference renderer");
     let checker = fs::read_to_string(root.join("scripts/check_gray_rhino_evidence_contract.py"))
         .expect("failed to read contract checker");
 
@@ -2530,6 +2577,41 @@ invalidation = ["AI 投資が利益率を継続的に圧迫"]
     assert!(!stdout.contains("データセンター注文の継続性"));
     assert!(!stdout.contains("主要クラウドの Capex 減速"));
     assert!(stdout.contains("观察命题 ≠ 买入理由"));
+}
+
+#[test]
+fn asset_thesis_outputs_anti_narrative_governance() {
+    let tmp = prepare_workspace(
+        r#"
+
+[asset_thesis.MSFT]
+thesis = "Azure、Copilot、企業 AI 導入がデータセンター投資を正当化し続けるかを観測する。"
+observation_focus = ["Azure 成長率と AI 寄与"]
+invalidation = ["AI 関連 Capex が収益成長に接続しない"]
+time_horizon = "LONG"
+materialization_window = "12-36 months"
+
+[asset_thesis.MSFT.narrative_state]
+consensus_level = "CROWDED"
+skepticism_level = "LOW"
+valuation_reflection = "PARTIAL"
+
+[asset_thesis.MSFT.reality_override]
+observable_contradiction = true
+confidence_decay = true
+"#,
+    );
+
+    let out = run_cli(&tmp, &["asset-thesis"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("反叙事治理:"));
+    assert!(stdout.contains("共识 CROWDED / 怀疑 LOW / 定价反映 PARTIAL"));
+    assert!(stdout.contains("时间尺度 LONG / 兑现窗口 12-36 months"));
+    assert!(stdout.contains("现实覆盖 TRUE / 置信衰减 TRUE"));
+    assert!(stdout.contains("叙事越顺，越需要现实覆盖"));
+    assert!(!stdout.contains("自动买入"));
 }
 
 #[test]

@@ -40,6 +40,19 @@ def non_empty_string(value: Any) -> bool:
     return isinstance(value, str) and bool(value.strip())
 
 
+def is_make_command(command: str) -> bool:
+    stripped = command.strip()
+    return stripped == "make" or stripped.startswith("make ")
+
+
+def validate_verification_command(command: str, index: int) -> list[str]:
+    if is_make_command(command):
+        return []
+    return [
+        f"verification[{index}].command は make entrypoint を使ってください: {command}"
+    ]
+
+
 def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -70,6 +83,8 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
                 continue
             if not non_empty_string(item.get("command")):
                 issues.append(f"verification[{index}].command は必須です。")
+            else:
+                issues.extend(validate_verification_command(item["command"], index))
             if item.get("result") not in RESULTS:
                 issues.append(f"verification[{index}].result は {sorted(RESULTS)} のいずれかにしてください。")
 

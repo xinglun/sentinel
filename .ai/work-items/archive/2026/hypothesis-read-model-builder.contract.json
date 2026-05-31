@@ -1,0 +1,106 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hypothesis-read-model-builder",
+  "mode": "code",
+  "title": "Hypothesis Read Model Builder",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/hypothesis-read-model-builder.contract.json",
+    ".ai/work-items/active/hypothesis-read-model-builder.summary.json",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/hypothesis_read_model.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/execution_gate.rs",
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/trading/**",
+    "src/features/shared/interface/i18n.rs",
+    ".github/workflows/**",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Hypothesis Layer read model 構築責務を抽出する対象。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "既存 Hypothesis ViewModel contract を確認する。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "表示 contract を回帰検証する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Hypothesis Layer の read model 構築責務が presentation_assembler.rs から専用 builder module へ移動している。",
+    "PresentationAssembler は packet から必要 context を渡す composition 責務に限定される。",
+    "既存 Hypothesis Layer 出力と Gate / execution boundary は変化しない。",
+    "report_ui_tests の Hypothesis contract が通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "cargo test hypothesis_layer -- --nocapture",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hypothesis-read-model-builder.contract.json SUMMARY=.ai/work-items/active/hypothesis-read-model-builder.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

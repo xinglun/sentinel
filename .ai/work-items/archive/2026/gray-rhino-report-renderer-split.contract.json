@@ -1,0 +1,98 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-report-renderer-split",
+  "mode": "code",
+  "title": "gray_rhino_report.rsからrendererを分離しcomposition facadeに縮退",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+    ".ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+    "src/features/research/interface/gray_rhino_sensor_health_renderer.rs",
+    "src/features/research/interface/gray_rhino_temporal_survivability_renderer.rs",
+    "src/features/research/interface/mod.rs",
+    "scripts/check_gray_rhino_evidence_contract.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    ".ai/architecture/gray_rhino_evidence_schema.yaml"
+  ],
+  "outOfScope": [
+    "domain / application 層の変更",
+    "config 依存排除（別 Work Item）",
+    "test ロジックの変更（移動のみ許可）"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "1673 行の巨大ファイルからrendererを分離する。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "report_interface で rejection labels を検索しているため、新 renderer を含むよう更新が必要。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "gray_rhino_report.rs が 700 行以下に収まり composition facade として機能する。",
+    "gray_rhino_assessment_renderer.rs が assessment rendering と関連 i18n labels を持つ。",
+    "gray_rhino_sensor_health_renderer.rs が sensor health rendering と関連 i18n labels を持つ。",
+    "gray_rhino_temporal_survivability_renderer.rs が temporal + survivability rendering と関連 i18n labels を持つ。",
+    "全テスト pass。",
+    "architecture boundary check pass。",
+    "gray rhino evidence contract check pass。",
+    "Clippy 警告 0 件。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
