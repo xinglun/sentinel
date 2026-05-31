@@ -1,0 +1,106 @@
+{
+  "contractVersion": 1,
+  "workItemId": "gray-rhino-renderer-boundary-guard",
+  "mode": "code",
+  "title": "灰犀牛renderer职责境界guardを追加",
+  "scope": [
+    ".ai/work-items/active/gray-rhino-renderer-boundary-guard.contract.json",
+    ".ai/work-items/active/gray-rhino-renderer-boundary-guard.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py"
+  ],
+  "outOfScope": [
+    "src/** の production code 変更",
+    "Gray Rhino 表示仕様の変更",
+    "DDD / Clean Architecture の構造移動",
+    "行数超過を hard fail にする変更"
+  ],
+  "sources": [
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "既存の architecture hard gate に renderer / facade 職責境界を追加する。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "新しい職責境界 guard と report-only 行数 warning の回帰テストを追加する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "facade が 441 行へ縮退済みで、職責境界 guard の対象となる。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+      "reason": "renderer 分割後の境界 guard 対象。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_sensor_health_renderer.rs",
+      "reason": "renderer 分割後の境界 guard 対象。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_temporal_survivability_renderer.rs",
+      "reason": "renderer 分割後の境界 guard 対象。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "reason": "既存 inline renderer の行数 report-only warning 対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "gray_rhino_report.rs facade に language label / sensor / temporal / survivability の詳細実装が戻った場合、architecture checker が hard fail する。",
+    "gray_rhino_*_renderer.rs が infrastructure / ACL / config / file IO / network IO / persistence を直接扱った場合、architecture checker が hard fail する。",
+    "facade 700 行超過、renderer 900 行超過は report-only warning として表示し、exit code は失敗にしない。",
+    "新 guard の回帰テストが追加されている。",
+    "既存 business output は変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-renderer-boundary-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-renderer-boundary-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-architecture-boundaries",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gray-rhino-renderer-boundary-guard.contract.json SUMMARY=.ai/work-items/active/gray-rhino-renderer-boundary-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-renderer-boundary-guard.summary.json CONTRACT=.ai/work-items/active/gray-rhino-renderer-boundary-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-renderer-boundary-guard.contract.json SUMMARY=.ai/work-items/active/gray-rhino-renderer-boundary-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-renderer-boundary-guard.contract.json SUMMARY=.ai/work-items/active/gray-rhino-renderer-boundary-guard.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

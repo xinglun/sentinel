@@ -301,6 +301,20 @@ def write_feature_manifest(root: Path) -> None:
         "      acl:\n"
         "        - src/features/evidence/acl\n"
         "    allowedDependencies: []\n"
+        "  research:\n"
+        "    roots:\n"
+        "      domain:\n"
+        "        - src/features/research/domain\n"
+        "      application:\n"
+        "        - src/features/research/application\n"
+        "      interface:\n"
+        "        - src/features/research/interface\n"
+        "      infrastructure:\n"
+        "        - src/features/research/infrastructure\n"
+        "      acl:\n"
+        "        - src/features/research/acl\n"
+        "    allowedDependencies:\n"
+        "      - shared\n"
         "  shared:\n"
         "    roots:\n"
         "      domain:\n"
@@ -619,6 +633,47 @@ def test_non_acl_rejects_external_fetcher() -> None:
         assert violations, "非 ACL の external fetcher 型利用は検出されるべき"
 
 
+def test_gray_rhino_report_facade_rejects_i18n_detail_regression() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "fn leaked_label(language: Language) -> &'static str {\n"
+            "    match language { Language::EnUs => \"Leak\" }\n"
+            "}\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "gray_rhino_report facade に i18n 詳細が戻る回帰は検出されるべき"
+
+
+def test_gray_rhino_renderer_rejects_infrastructure_and_io() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_sensor_health_renderer.rs",
+            "use crate::features::research::infrastructure::gray_rhino_evidence_store::GrayRhinoEvidenceStore;\n"
+            "fn render() { let _ = std::fs::read_to_string(\"gray_rhino_evidence.jsonl\"); }\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "gray rhino renderer が infrastructure / file IO を持つ回帰は検出されるべき"
+
+
+def test_gray_rhino_size_warning_is_report_only() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/research/interface/gray_rhino_report.rs",
+            "\n".join("// facade line" for _ in range(checker.GRAY_RHINO_FACADE_LINE_WARNING_LIMIT + 1)),
+        )
+        violations = checker.check_project(root)
+        warnings = checker.report_only_warnings(root)
+        assert not violations, "行数超過は hard fail ではなく report-only に留めるべき"
+        assert warnings, "行数超過は report-only warning として観測されるべき"
+
+
 def main() -> int:
     tests = [
         test_domain_rejects_outer_dependency,
@@ -669,6 +724,9 @@ def main() -> int:
         test_non_acl_rejects_futu_client,
         test_non_acl_rejects_yahoo_provider,
         test_non_acl_rejects_external_fetcher,
+        test_gray_rhino_report_facade_rejects_i18n_detail_regression,
+        test_gray_rhino_renderer_rejects_infrastructure_and_io,
+        test_gray_rhino_size_warning_is_report_only,
     ]
     for test in tests:
         test()
