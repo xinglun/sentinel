@@ -1,0 +1,103 @@
+{
+  "workItemId": "gray-rhino-report-renderer-split",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-report-renderer-split.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+      "reason": "gray_rhino_report renderer 分割の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+      "reason": "変更内容と make 経由 verification の結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の進行状態を Cockpit status に反映した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "assessment / sensor health / temporal survivability renderer module を interface 境界に追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "灰犀牛 report を composition facade へ縮退し、renderer 実装を専用 module へ委譲した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+      "reason": "assessment rendering と関連 i18n label を専用 renderer へ分離した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_sensor_health_renderer.rs",
+      "reason": "sensor health rendering と evidence rejection label を専用 renderer へ分離した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_temporal_survivability_renderer.rs",
+      "reason": "temporal summary / survivability summary rendering と関連 label を専用 renderer へ分離した。"
+    },
+    {
+      "path": "scripts/check_gray_rhino_evidence_contract.py",
+      "reason": "分割後の interface renderer 群も gray rhino evidence contract の検査対象に含めた。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+    "src/features/research/interface/gray_rhino_sensor_health_renderer.rs",
+    "src/features/research/interface/gray_rhino_temporal_survivability_renderer.rs",
+    "scripts/check_gray_rhino_evidence_contract.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-report-renderer-split.contract.json SUMMARY=.ai/work-items/active/gray-rhino-report-renderer-split.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "変更は interface renderer 分割に限定し、domain / application の灰犀牛判定、CLI behavior、出力意味は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}
