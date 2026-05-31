@@ -1,0 +1,91 @@
+{
+  "contractVersion": 1,
+  "workItemId": "data_branch_weekly_record_docs",
+  "mode": "code",
+  "title": "data分岐の週次記録方針を文書同期",
+  "scope": [
+    ".ai/work-items/active/data_branch_weekly_record_docs.contract.json",
+    ".ai/work-items/active/data_branch_weekly_record_docs.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/DATA_BRANCH_LAYOUT.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+    "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+    "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    ".github/workflows/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DATA_BRANCH_LAYOUT.md",
+      "reason": "data branch の保存対象と日次/週次粒度を定義する文書。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md",
+      "reason": "Gray Rhino snapshot と daily-calibration 境界を定義する文書。"
+    },
+    {
+      "path": "docs/specs/GRAY_RHINO_EVIDENCE_CONTRACT.md",
+      "reason": "Gray Rhino refresh と daily-calibration の operational boundary を定義する文書。"
+    },
+    {
+      "path": "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+      "reason": "週次レビューの latest_context と認知校正 snapshot の運用文書。"
+    },
+    {
+      "path": "origin/data README.md",
+      "reason": "data branch に追記した保存対象 README の内容。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "data branch は長期検証用だが、認知校正全文は日次保存せず週次記録を標準粒度とする方針が文書化されている。",
+    "daily-calibration は表示・手動校正用であり、標準保存対象ではないことが明確である。",
+    "Gray Rhino の構造化 snapshot / refresh status は保存対象として残し、全文 daily calibration 保存とは区別されている。",
+    "code、test、CI、Makefile は変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/data_branch_weekly_record_docs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/data_branch_weekly_record_docs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/data_branch_weekly_record_docs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/data_branch_weekly_record_docs.contract.json SUMMARY=.ai/work-items/active/data_branch_weekly_record_docs.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/data_branch_weekly_record_docs.summary.json CONTRACT=.ai/work-items/active/data_branch_weekly_record_docs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/data_branch_weekly_record_docs.contract.json SUMMARY=.ai/work-items/active/data_branch_weekly_record_docs.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/data_branch_weekly_record_docs.contract.json SUMMARY=.ai/work-items/active/data_branch_weekly_record_docs.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "docs/specs の data branch 週次記録方針同期と Work Item 更新を revert する。"
+}

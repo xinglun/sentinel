@@ -1,13 +1,13 @@
 ---
 author: Ray
 title: データブランチのレイアウト標準
-description: data ブランチに保存する日次・週次成果物の配置、命名規則、検収基準を定義する。
+description: data ブランチに保存する日次成果物と週次校正成果物の配置、命名規則、検収基準を定義する。
 key: data-branch-layout
 ---
 
 # データブランチのレイアウト標準 (DATA_BRANCH_LAYOUT.md)
 
-本ドキュメントは、`data` ブランチの目標とするディレクトリ構造、命名規則、および検収基準を定義します。
+本ドキュメントは、`data` ブランチの目標とするディレクトリ構造、命名規則、および検収基準を定義します。`data` ブランチは長期検証用の記録分岐であり、日次 Radar の事実 artifact と週次校正 artifact を分けて保持します。
 
 ## 1. 目標と戦略的価値 (Goal & Strategic Value)
 
@@ -31,6 +31,7 @@ key: data-branch-layout
 1. `daily_radar.yml` 毎日のアーカイブ成果物
 2. `weekly_backtest.yml` 毎週のバックテスト成果物
 3. `reports/` および `backtest/` の長期保持構造
+4. 認知校正、Gray Rhino、Macro Gravity などの読み取り専用 context の週次保存方針
 
 ## 3. コアルール (Core Rule)
 
@@ -63,6 +64,14 @@ data branch
 │   ├── account_snapshot_YYYY-MM-DD.json
 │   ├── run_status_YYYY-MM-DD.json
 │   ├── evidence_collection_status_latest.json
+│   ├── weekly_state_metrics.json
+│   ├── weekly_state_review_auto.md
+│   ├── gray_rhino_candidates.jsonl
+│   ├── gray_rhino_discovery_runs.jsonl
+│   ├── gray_rhino_snapshots.jsonl
+│   ├── gray_rhino_refresh_status.jsonl
+│   ├── gray_rhino_refresh_status_latest.json
+│   ├── gray_rhino_sources/
 │   ├── decision_history.jsonl
 │   ├── evidence_records.jsonl
 │   ├── state_transitions.csv
@@ -122,6 +131,37 @@ data branch
 8. `ledger.csv`
    - 取引帳簿。
 
+### 週次校正ファイル (Weekly calibration files)
+
+1. `weekly_state_metrics.json`
+   - 週次レビューの machine-readable metric。
+   - `latest_context` として Strategic Context、Macro Gravity、Cognitive Calibration の最新読み取り専用 snapshot を保持する。
+   - 長期校正の標準粒度はこの週次ファイルであり、`daily-calibration` の全文を毎日保存することは標準ではありません。
+
+2. `weekly_state_review_auto.md`
+   - 週次レビューの人間向け下書き。
+   - `Strategic Context Snapshot`、`Macro Gravity Snapshot`、`Cognitive Calibration Snapshot` を含む。
+   - スコア、推奨、売買判断は生成しない。
+
+### Gray Rhino ファイル (Gray Rhino files)
+
+1. `gray_rhino_candidates.jsonl`
+   - 自動発見 candidate の追記型記録。
+
+2. `gray_rhino_discovery_runs.jsonl`
+   - discovery run の監査 log。
+
+3. `gray_rhino_snapshots.jsonl`
+   - Gray Rhino escalation の構造化 snapshot。
+   - `daily-calibration` の全文保存ではなく、Gray Rhino 状態を再生するための最小構造 record として扱う。
+
+4. `gray_rhino_refresh_status.jsonl` / `gray_rhino_refresh_status_latest.json` / `gray_rhino_refresh_status_YYYY-MM-DD.json`
+   - SEC、Finnhub、FRED refresh の provider-level outcome。
+
+5. `gray_rhino_sources/**`
+   - SEC、Finnhub、FRED などの source cache。
+   - candidate / evidence の追跡可能性を確保するために保存する。
+
 ### 補助ファイル (Auxiliary file)
 
 1. `freshness.json`
@@ -164,8 +204,12 @@ data branch
 
 `reports/evidence_records.jsonl` は実体的証拠がない日には空であることが正当なため、存在確認のみを行い、非空は強制しません。
 
+`daily-calibration` の全文 Markdown は標準検証対象に含めません。認知校正の長期比較は `weekly_state_metrics.json` と `weekly_state_review_auto.md` の週次粒度で行います。
+
 ## 8. 運用の注意点 (Operational Notes)
 
 1. `reports/` 内で `run_status` の日付と `decision_packet` の日付が一致しない場合、アーカイブの命名異常とみなします。
 2. `reports/` 内に再び `YYYY-MM-DD.json` が現れた場合、旧成果物の回帰とみなします。
 3. `backtest/` は週単位のリズムであり、日次の `reports/` 資産と混ぜないでください。
+4. 認知校正の全文を毎日保存しないでください。必要な校正 context は週次成果物に集約します。
+5. Gray Rhino の snapshot や refresh status は構造化検証用 record であり、daily-calibration の全文保存とは区別します。

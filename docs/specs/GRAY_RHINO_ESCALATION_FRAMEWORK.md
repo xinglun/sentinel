@@ -90,9 +90,9 @@ notes = []
 
 各 risk 入力は `LOW`、`MODERATE`、`ELEVATED`、`HIGH` を取る。
 
-## 日次監査 snapshot と自動観測
+## 監査 snapshot と自動観測
 
-`make daily-calibration` 実行時、表示された評価は `gray_rhino_snapshots.jsonl` に追記型 snapshot として保持する。
+`gray_rhino_snapshots.jsonl` は Gray Rhino escalation を再生するための構造化 snapshot である。`make daily-calibration` の全文 Markdown を毎日保存するための file ではない。長期校正の標準粒度は `weekly_state_metrics.json` と `weekly_state_review_auto.md` の週次記録とする。
 
 formal escalation snapshot は次を含む。`manual fallback baseline` は `source: ManualConfiguration`、validated evidence store 由来の評価は `source: EvidenceStore` として記録する。
 
@@ -100,9 +100,9 @@ formal escalation snapshot は次を含む。`manual fallback baseline` は `sou
 - `source`: `ManualConfiguration` または `EvidenceStore`。
 - `escalation`: 状態と入力観測項目。
 
-日報には評価日、入力由来、前回日次評価との差分を表示する。同一日の同一 snapshot の再実行は重複追記しない。これにより、灰色のサイ観測値がいつ変更されたかを監査可能にする。
+日報には評価日、入力由来、前回評価との差分を表示する。同一日の同一 snapshot の再実行は重複追記しない。これにより、灰色のサイ観測値がいつ変更されたかを監査可能にする。
 
-日報は `手動構造ベースライン -> 7 観測項目 -> 日次 snapshot` という監査チェーンと、明示ルール判定で再生可能であることを表示する。このチェーンは外部 fact evidence chain ではなく、現在の手動入力評価がどの経路で状態へ変換されたかを示す lineage である。
+日報は `手動構造ベースライン -> 7 観測項目 -> 構造化 snapshot` という監査チェーンと、明示ルール判定で再生可能であることを表示する。このチェーンは外部 fact evidence chain ではなく、現在の手動入力評価がどの経路で状態へ変換されたかを示す lineage である。
 
 自動発見候補は formal escalation snapshot と分離して `gray_rhino_candidates.jsonl` に保存する。monitoring state machine は candidate state（`Background`、`Visible`、`Expanding`、`Critical`、`Cooling`、`Resolved`）と direction（`new`、`stable`、`intensifying`、`cooling`、`resolved`）を別軸で評価する。候補は watchlist inline reference、market reference、other company reference として表示されるが、Gate、execution、trend、market state を変更しない。
 
