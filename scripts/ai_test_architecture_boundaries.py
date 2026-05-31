@@ -90,6 +90,18 @@ def test_feature_interface_rejects_same_feature_infrastructure_dependency() -> N
         assert violations, "feature interface から同一 feature infrastructure への直接依存は検出されるべき"
 
 
+def test_feature_infrastructure_rejects_same_feature_acl_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/infrastructure/radar_runtime_factory.rs",
+            "use crate::features::radar::acl::evidence_store_factory::build_radar_evidence_store;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "feature infrastructure から同一 feature ACL への逆流は検出されるべき"
+
+
 def test_research_interface_rejects_gray_rhino_store_or_file_scan() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -374,6 +386,18 @@ def test_radar_pipeline_runner_allows_root_config_as_composition_root() -> None:
         assert not violations, f"composition root の config 依存は許可する: {violations}"
 
 
+def test_backtest_interface_rejects_direct_radar_engine_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/backtest/interface/backtest.rs",
+            "use crate::features::radar::application::engine::Engine;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "backtest interface から radar engine への直結は ACL に寄せるべき"
+
+
 def test_acl_allows_adapter_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
@@ -383,13 +407,13 @@ def test_acl_allows_adapter_dependency() -> None:
         assert not violations, f"ACL から adapter への依存は許可されるべき: {violations}"
 
 
-def test_infrastructure_allows_acl_dependency() -> None:
+def test_infrastructure_rejects_acl_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)
         write_feature_manifest(root)
         write(root / "src/features/radar/infrastructure/runtime.rs", "use crate::features::radar::acl::market_data::build;\n")
         violations = checker.check_project(root)
-        assert not violations, f"infrastructure から同 feature ACL への依存は許可されるべき: {violations}"
+        assert violations, "infrastructure から同 feature ACL への逆流は検出されるべき"
 
 
 def test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency() -> None:
@@ -614,7 +638,7 @@ def main() -> int:
         test_feature_domain_rejects_cross_feature_dependency,
         test_feature_interface_rejects_adapter_dependency,
         test_acl_allows_adapter_dependency,
-        test_infrastructure_allows_acl_dependency,
+        test_infrastructure_rejects_acl_dependency,
         test_feature_infrastructure_rejects_cross_feature_infrastructure_dependency,
         test_feature_acl_rejects_cross_feature_infrastructure_adapter_dependency,
         test_shared_rejects_concrete_feature_dependency,

@@ -2,6 +2,7 @@ use anyhow::{Context, Result};
 use std::sync::Arc;
 
 use crate::config;
+use crate::features::radar::acl::evidence_store_factory::build_radar_evidence_store;
 use crate::features::radar::application::delivery_plan::{
     RadarDeliveryInput, RadarDeliveryPlanner,
 };
@@ -50,13 +51,13 @@ pub(crate) async fn run_pipeline(
     }
 
     let runtime_services = build_radar_runtime_services(save_dir);
+    let evidence_store = build_radar_evidence_store(save_dir);
 
     let history = runtime_services
         .persistence
         .load_recent_packets(20)
         .unwrap_or_default();
-    let all_evidence = runtime_services
-        .evidence_store
+    let all_evidence = evidence_store
         .load_all()
         .unwrap_or_default()
         .into_iter()
@@ -158,9 +159,7 @@ pub(crate) async fn run_pipeline(
             .filter(|record| record.is_production_eligible())
             .cloned()
             .collect::<Vec<_>>();
-        let _ = runtime_services
-            .evidence_store
-            .save_records(&production_records);
+        let _ = evidence_store.save_records(&production_records);
         runtime_services
             .persistence
             .save_execution_gate_result(&packet, &delivery_plan.execution_result)?;

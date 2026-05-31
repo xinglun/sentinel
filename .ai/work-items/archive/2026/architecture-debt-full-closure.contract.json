@@ -1,0 +1,135 @@
+{
+  "contractVersion": 1,
+  "workItemId": "architecture-debt-full-closure",
+  "mode": "code",
+  "title": "interface大文件分割とfeature依存債務の完全収束",
+  "scope": [
+    ".ai/work-items/active/architecture-debt-full-closure.contract.json",
+    ".ai/work-items/active/architecture-debt-full-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/risk_taxonomy_read_model.rs",
+    "src/features/radar/interface/strategic_context_read_model.rs",
+    "src/features/radar/interface/trend_recognition_read_model.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/interface/gray_rhino_i18n_adapter.rs",
+    "src/features/research/interface/gray_rhino_read_model_builder.rs",
+    "src/features/research/interface/gray_rhino_renderer.rs",
+    "src/features/research/interface/mod.rs",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/shared/interface/cli_command_handler.rs",
+    "src/features/shared/interface/mod.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/backtest/application/decision_engine.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/interface/backtest.rs",
+    "src/features/backtest/acl/radar_decision_engine.rs",
+    "src/features/backtest/acl/mod.rs",
+    "src/features/evidence/infrastructure/mod.rs",
+    "src/features/evidence/infrastructure/evidence_fetcher_factory.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "src/features/radar/infrastructure/radar_runtime_factory.rs",
+    "src/features/trading/infrastructure/trader_agent.rs",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "src/features/evidence/acl/evidence_ingestion.rs",
+    "src/features/evidence/acl/evidence_store_factory.rs",
+    "src/features/evidence/infrastructure/evidence_ingestion.rs",
+    "src/features/research/interface/cli_command_handler.rs"
+  ],
+  "outOfScope": [
+    "売買判断・Gate・MarketState の仕様変更",
+    "出力文言や既存スナップショットの意図的な仕様変更",
+    "外部 API / provider behavior の変更"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "risk / strategic / trend recognition read model が集中している大文件。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "灰犀牛 report rendering / read model / i18n が集中している大文件。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "CLI command dispatch と handler logic が集中している大文件。"
+    },
+    {
+      "path": "src/features/backtest/application/decision_engine.rs",
+      "reason": "backtest → radar 直結の主要箇所。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "依存債務を防回退する checker。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "presentation_assembler.rs から risk taxonomy / strategic context / trend recognition read model の主要組み立てを分離する。",
+    "gray_rhino_report.rs から i18n / read model / renderer の少なくとも一部を分離し、責務境界を明確化する。",
+    "cli.rs から command handler の少なくとも一部を shared/interface module に分離する。",
+    "radar_pipeline_runner.rs の config 例外が composition root だけであることを維持する。",
+    "architecture checker が backtest→radar 直結と infrastructure→ACL 逆流を検出できる。",
+    "既存 report / Telegram / gray rhino / hypothesis の契約テストを維持する。",
+    "make fmt-check / make test / make clippy / architecture check が全て pass。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

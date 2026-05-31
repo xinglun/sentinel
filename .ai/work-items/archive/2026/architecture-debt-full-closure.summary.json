@@ -1,0 +1,179 @@
+{
+  "workItemId": "architecture-debt-full-closure",
+  "contractPath": ".ai/work-items/archive/2026/architecture-debt-full-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item scope 内の architecture debt closure に伴う更新。"
+    },
+    {
+      "path": "scripts/ai_test_architecture_boundaries.py",
+      "reason": "新しい architecture boundary rule の回帰テストを追加・更新した。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "infrastructure→ACL 逆流と backtest interface→radar engine 直結を検出する rule を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "研究系 command の一部を handler 呼び出しへ置き換えた。"
+    },
+    {
+      "path": "src/features/backtest/acl/mod.rs",
+      "reason": "Work Item scope 内の architecture debt closure に伴う更新。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "radar engine 直接実装を ACL adapter 呼び出しへ移した。"
+    },
+    {
+      "path": "src/features/evidence/acl/evidence_ingestion.rs",
+      "reason": "既存 import path 互換の ACL re-export にした。"
+    },
+    {
+      "path": "src/features/evidence/acl/evidence_store_factory.rs",
+      "reason": "Work Item scope 内の architecture debt closure に伴う更新。"
+    },
+    {
+      "path": "src/features/evidence/infrastructure/evidence_fetcher_factory.rs",
+      "reason": "infrastructure が ACL 実装へ逆流しない import に修正した。"
+    },
+    {
+      "path": "src/features/evidence/infrastructure/mod.rs",
+      "reason": "evidence ingestion infrastructure module を公開した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/radar_runtime_factory.rs",
+      "reason": "radar infrastructure から ACL evidence store 依存を除去した。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "Work Item scope 内の architecture debt closure に伴う更新。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "risk taxonomy / strategic context / trend recognition read model を分離して presentation assembly の責務を縮小した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "composition root 側で radar evidence store を構成するようにした。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "灰犀牛 report から分组・renderer・i18n の一部を外部 module へ移した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Work Item scope 内の architecture debt closure に伴う更新。"
+    },
+    {
+      "path": ".ai/work-items/active/architecture-debt-full-closure.contract.json",
+      "reason": "Work Item scope 内の architecture debt closure に伴う更新。"
+    },
+    {
+      "path": ".ai/work-items/active/architecture-debt-full-closure.summary.json",
+      "reason": "Work Item scope 内の architecture debt closure に伴う更新。"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_decision_engine.rs",
+      "reason": "backtest interface から radar engine 直結を外す ACL adapter を追加した。"
+    },
+    {
+      "path": "src/features/evidence/infrastructure/evidence_ingestion.rs",
+      "reason": "evidence ingestion concrete implementation を infrastructure 側へ移した。"
+    },
+    {
+      "path": "src/features/radar/interface/risk_taxonomy_read_model.rs",
+      "reason": "risk taxonomy / breadth / cycle / holding efficiency の表示用 read model を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/strategic_context_read_model.rs",
+      "reason": "strategic context と macro gravity 表示行の組み立てを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "reason": "trend recognition と substantive evidence detail の表示用 read model を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/cli_command_handler.rs",
+      "reason": "研究系 CLI command handler の一部を cli.rs から分離した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_i18n_adapter.rs",
+      "reason": "灰犀牛 governance sensor 表示の i18n adapter を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_read_model_builder.rs",
+      "reason": "灰犀牛 company candidate/status grouping read model builder を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_renderer.rs",
+      "reason": "灰犀牛 governance sensor renderer を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/architecture-debt-full-closure.contract.json",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/cli.rs",
+    "scripts/check_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/check_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "python3 scripts/ai_test_architecture_boundaries.py",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-debt-full-closure.contract.json SUMMARY=.ai/work-items/active/architecture-debt-full-closure.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "大文件の完全分割ではなく、主要責務の read model / handler / ACL 抽出に限定した。既存出力契約と gate 仕様は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "cli.rs はまだ 2500 行超であり、command family ごとの handler 分割は継続余地がある。",
+    "gray_rhino_report.rs は 2600 行超であり、renderer と i18n の追加分割余地が残る。",
+    "backtest application は radar domain model を simulation input として扱うため、完全な bounded context 分離は次段階の DTO 化が必要。"
+  ]
+}

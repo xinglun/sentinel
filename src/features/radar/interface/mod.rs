@@ -5,7 +5,10 @@ pub mod presentation;
 pub mod presentation_assembler;
 pub mod radar_pipeline_runner;
 pub mod report;
+pub(crate) mod risk_taxonomy_read_model;
+pub(crate) mod strategic_context_read_model;
 pub mod telemetry;
+pub(crate) mod trend_recognition_read_model;
 pub(crate) mod weekly_state_report;
 
 #[cfg(test)]

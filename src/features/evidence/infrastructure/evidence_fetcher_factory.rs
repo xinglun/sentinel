@@ -1,8 +1,8 @@
 use crate::config::AppConfig;
-use crate::features::evidence::acl::evidence_ingestion::{
+use crate::features::evidence::application::evidence_ingestion::SourceFetcher;
+use crate::features::evidence::infrastructure::evidence_ingestion::{
     FinnhubFetcher, FixtureFetcher, RuleBasedExtractor, SECEDGARFetcher, WebFetcher,
 };
-use crate::features::evidence::application::evidence_ingestion::SourceFetcher;
 use crate::features::evidence::infrastructure::evidence_store::EvidenceStore;
 use anyhow::{anyhow, Result};
 use std::path::Path;

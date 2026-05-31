@@ -15,7 +15,7 @@ pub fn build_evidence_store_adapter(save_dir: &Path) -> EvidenceStoreAdapter {
 }
 
 pub fn build_evidence_extractor_adapter(
-) -> crate::features::evidence::acl::evidence_ingestion::RuleBasedExtractor {
+) -> crate::features::evidence::infrastructure::evidence_ingestion::RuleBasedExtractor {
     build_evidence_extractor()
 }
 

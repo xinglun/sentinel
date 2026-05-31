@@ -1,39 +1,15 @@
 use crate::config::AppConfig;
-use crate::features::backtest::application::decision_engine::BacktestDecisionEngine;
+use crate::features::backtest::acl::radar_decision_engine::RadarBacktestDecisionEngine;
 use crate::features::backtest::application::simulation::run_core_simulation;
 use crate::features::backtest::infrastructure::output::{
     generate_comparison_report, publish_primary_backtest_outputs, write_run_artifacts,
 };
 use crate::features::radar::application::provider::MarketDataProvider;
-use crate::features::radar::application::{engine::Engine, provider::TickerHistory};
-use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
-use crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord;
 use anyhow::Result;
 use chrono::NaiveDate;
 use std::collections::HashMap;
 use time::OffsetDateTime;
-
-struct RadarBacktestDecisionEngine;
-
-impl BacktestDecisionEngine for RadarBacktestDecisionEngine {
-    fn run_daily_pipeline<'a>(
-        &self,
-        ticker_histories: &[(TickerHistory<'a>, &WatchlistEntry)],
-        rules: &ParsedRules,
-        history: &[DecisionPacket],
-        evidence_history: &[AutomatedEvidenceRecord],
-        positions: &HashMap<String, (f64, f64)>,
-    ) -> Result<DecisionPacket> {
-        Engine::run_daily_pipeline(
-            ticker_histories,
-            rules,
-            history,
-            evidence_history,
-            positions,
-        )
-    }
-}
 
 pub async fn run_backtest(
     config: &AppConfig,

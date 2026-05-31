@@ -28,10 +28,14 @@ use crate::features::research::domain::gray_rhino_temporal_policy::{
     GrayRhinoTemporalSummary, InstitutionalResponseState, TemperatureLevel, TemperatureVelocity,
     TemporalTrend,
 };
+use crate::features::research::interface::gray_rhino_read_model_builder::{
+    group_company_candidates, group_company_statuses,
+};
+use crate::features::research::interface::gray_rhino_renderer::render_governance_sensor_health;
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeSet;
 use std::path::Path;
 
 pub(crate) fn build_gray_rhino_escalation_report(
@@ -2253,147 +2257,6 @@ fn enabled_watch_symbols(app_config: &config::AppConfig) -> Vec<String> {
         .filter(|entry| entry.enable)
         .map(|entry| entry.symbol.clone())
         .collect()
-}
-
-fn group_company_candidates(
-    candidates: &[GrayRhinoCandidate],
-) -> BTreeMap<String, Vec<&GrayRhinoCandidate>> {
-    let mut by_subject: BTreeMap<String, Vec<&GrayRhinoCandidate>> = BTreeMap::new();
-    for candidate in candidates
-        .iter()
-        .filter(|candidate| candidate.scope == GrayRhinoCandidateScope::Company)
-    {
-        by_subject
-            .entry(candidate.subject.to_uppercase())
-            .or_default()
-            .push(candidate);
-    }
-    by_subject
-}
-
-fn group_company_statuses(
-    statuses: &[GrayRhinoMonitoringStatus],
-) -> BTreeMap<String, Vec<&GrayRhinoMonitoringStatus>> {
-    let mut by_subject: BTreeMap<String, Vec<&GrayRhinoMonitoringStatus>> = BTreeMap::new();
-    for status in statuses
-        .iter()
-        .filter(|status| status.scope == GrayRhinoCandidateScope::Company)
-    {
-        by_subject
-            .entry(status.subject.to_uppercase())
-            .or_default()
-            .push(status);
-    }
-    by_subject
-}
-
-fn render_governance_sensor_health(
-    audits: &[crate::features::research::domain::governance_source::GovernanceExtractionAuditRecord],
-    language: Language,
-) -> String {
-    if audits.is_empty() {
-        return String::new();
-    }
-    let source_count = audits.len();
-    let accepted_count = audits.iter().filter(|audit| audit.accepted).count();
-    let rejected_count = source_count.saturating_sub(accepted_count);
-    let latest_observed = audits.iter().map(|audit| audit.observed_at).max();
-    let coverage_ratio = accepted_count as f64 / source_count as f64;
-
-    let mut out = String::new();
-    out.push_str(governance_sensor_health_heading(language));
-    out.push('\n');
-    out.push_str(&format!(
-        "- {}: {}\n",
-        governance_sensor_source_count_label(language),
-        source_count
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        governance_sensor_accepted_label(language),
-        accepted_count
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        governance_sensor_rejected_label(language),
-        rejected_count
-    ));
-    out.push_str(&format!(
-        "- {}: {:.1}%\n",
-        governance_sensor_coverage_label(language),
-        coverage_ratio * 100.0
-    ));
-    if let Some(latest) = latest_observed {
-        out.push_str(&format!(
-            "- {}: {}\n",
-            governance_sensor_latest_label(language),
-            latest
-        ));
-    }
-    out.push_str(governance_sensor_boundary_label(language));
-    out
-}
-
-fn governance_sensor_health_heading(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "治理传感器健康度",
-        Language::EnUs => "Governance Sensor Health",
-        Language::JaJp => "ガバナンスセンサー健全性",
-    }
-}
-
-fn governance_sensor_source_count_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "来源数",
-        Language::EnUs => "Source count",
-        Language::JaJp => "由来数",
-    }
-}
-
-fn governance_sensor_accepted_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "已接受",
-        Language::EnUs => "Accepted",
-        Language::JaJp => "受理済み",
-    }
-}
-
-fn governance_sensor_rejected_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "已拒绝",
-        Language::EnUs => "Rejected",
-        Language::JaJp => "拒否済み",
-    }
-}
-
-fn governance_sensor_coverage_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "覆盖率",
-        Language::EnUs => "Coverage ratio",
-        Language::JaJp => "カバー率",
-    }
-}
-
-fn governance_sensor_latest_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "最新观测日",
-        Language::EnUs => "Latest observed date",
-        Language::JaJp => "最新観測日",
-    }
-}
-
-fn governance_sensor_boundary_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => {
-            "边界声明: 治理传感器健康度仅用于证据覆盖检查，不更新升级状态、交易执行或交易状态。"
-        }
-        Language::EnUs => {
-            "Boundary: Governance sensor health only; no escalation, Gate, execution, or trading state is updated."
-        }
-        Language::JaJp => {
-            "境界声明: ガバナンスセンサー健全性は証拠カバー率の確認のみで、昇格状態、実行、取引状態を更新しない。"
-        }
-    }
 }
 
 fn comparison_label(assessment: &GrayRhinoAssessment, language: Language) -> String {

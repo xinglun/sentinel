@@ -53,6 +53,9 @@ use crate::features::research::domain::gray_rhino_evidence::{
     DependencyConcentrationEvidence, GovernanceConcentrationEvidence,
     InstitutionalMaturityEvidence, RedundancyEvidence,
 };
+use crate::features::research::interface::cli_command_handler::{
+    run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
+};
 use crate::features::research::interface::cognitive_reports::{
     build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
     daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
@@ -66,8 +69,7 @@ use crate::features::research::interface::cognitive_reports::{
     enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_report::{
-    build_gray_rhino_daily_report_read_only, build_gray_rhino_escalation_report,
-    render_gray_rhino_inline_reference,
+    build_gray_rhino_daily_report_read_only, render_gray_rhino_inline_reference,
 };
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
@@ -135,28 +137,11 @@ pub async fn run() -> Result<()> {
             )?;
         }
         CliCommand::ResearchAttention => {
-            let report = build_research_attention_report(&app_config, audit_language);
-            println!("{}", report);
-            if options.research_notify {
-                send_required_telegram_notification(
-                    app_config.telegram.as_ref(),
-                    &report,
-                    "research-attention",
-                )
+            run_research_attention_command(&app_config, audit_language, options.research_notify)
                 .await?;
-            }
         }
         CliCommand::AssetThesis => {
-            let report = build_asset_thesis_report(&app_config, audit_language);
-            println!("{}", report);
-            if options.research_notify {
-                send_required_telegram_notification(
-                    app_config.telegram.as_ref(),
-                    &report,
-                    "asset-thesis",
-                )
-                .await?;
-            }
+            run_asset_thesis_command(&app_config, audit_language, options.research_notify).await?;
         }
         CliCommand::DailyCalibration => {
             let report = build_daily_calibration_report(
@@ -176,16 +161,8 @@ pub async fn run() -> Result<()> {
             }
         }
         CliCommand::GrayRhinoEscalation => {
-            let report = build_gray_rhino_escalation_report(&app_config, audit_language);
-            println!("{}", report);
-            if options.research_notify {
-                send_required_telegram_notification(
-                    app_config.telegram.as_ref(),
-                    &report,
-                    "gray-rhino-escalation",
-                )
+            run_gray_rhino_escalation_command(&app_config, audit_language, options.research_notify)
                 .await?;
-            }
         }
         CliCommand::DiscoverGrayRhino => {
             if let Some(err) = &options.evidence_arg_error {

@@ -359,6 +359,12 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
     for line_no, import_path in imports_from(path):
         if feature == "radar" and layer == "interface" and import_path.startswith("crate::config"):
             violations.append(Violation(path, line_no, import_path, "radar interface config dependency"))
+        if (
+            feature == "backtest"
+            and layer == "interface"
+            and import_path.startswith("crate::features::radar::application::engine")
+        ):
+            violations.append(Violation(path, line_no, import_path, "backtest interface -> radar engine"))
         for forbidden in FEATURE_LAYER_FORBIDDEN_IMPORT_PREFIXES.get(layer, ()):
             if import_path.startswith(forbidden):
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} forbidden import"))
@@ -383,6 +389,8 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
                 violations.append(Violation(path, line_no, import_path, f"feature {layer} -> {imported_layer}"))
             if layer == "infrastructure" and imported_layer == "interface":
                 violations.append(Violation(path, line_no, import_path, "feature infrastructure -> interface"))
+            if imported_feature == feature and layer == "infrastructure" and imported_layer == "acl":
+                violations.append(Violation(path, line_no, import_path, "feature infrastructure -> acl"))
             if (
                 feature == "research"
                 and layer == "interface"
