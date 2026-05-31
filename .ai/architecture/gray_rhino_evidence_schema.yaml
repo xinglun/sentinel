@@ -153,6 +153,18 @@ grayRhinoEvidenceProjectionPolicy: src/features/research/domain/gray_rhino_evide
 grayRhinoEvidenceProjectionRulesInApplicationAllowed: false
 grayRhinoTemporalPolicy: src/features/research/domain/gray_rhino_temporal_policy.rs
 grayRhinoTemporalPolicyInApplicationAllowed: false
+grayRhinoTemperatureEnabled: true
+grayRhinoTemperatureValues:
+  - LOW
+  - MEDIUM
+  - HIGH
+  - CRITICAL
+grayRhinoVelocityEnabled: true
+grayRhinoVelocityValues:
+  - FALLING
+  - STABLE
+  - RISING
+  - ACCELERATING
 grayRhinoSurvivabilityPolicy: src/features/research/domain/gray_rhino_survivability_policy.rs
 grayRhinoSurvivabilityPolicyInApplicationAllowed: false
 grayRhinoEvidenceScoreabilityDomain: src/features/research/domain/gray_rhino_evidence.rs

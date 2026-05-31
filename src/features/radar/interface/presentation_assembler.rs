@@ -11,20 +11,30 @@ use crate::features::radar::domain::hypothesis_governance_policy::{
     HypothesisRealityOverridePriorityKey,
 };
 use crate::features::radar::domain::market_regime::{MarketState, RiskOverlay};
-use crate::features::radar::domain::trend_cohesion::{EvidenceSourceType, EvidenceType};
+use crate::features::radar::domain::trend_cohesion::{
+    AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType,
+};
 use crate::features::radar::interface::display::{DisplayAdapter, DisplayContext, DisplayIntent};
 use crate::features::radar::interface::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
     ExitDisplayIntent, HoldingEfficiency, HypothesisBeneficiaryViewModel,
     HypothesisCandidateViewModel, HypothesisConfidence, HypothesisEvidenceNodeViewModel,
-    HypothesisFailureRiskViewModel, HypothesisLayerViewModel, MacroDisplayContext,
-    MarketCyclePosition, PresentationPacket, RiskOpportunitySummaryViewModel,
+    HypothesisFailureRiskViewModel, HypothesisLayerViewModel, HypothesisValidationCheckViewModel,
+    MacroDisplayContext, MarketCyclePosition, PresentationPacket, RiskOpportunitySummaryViewModel,
     SignalSummaryViewModel, StateTransitionViewModel, TrendBreadthMode, UnmetDiffViewModel,
 };
 use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary, Language};
+use chrono::NaiveDate;
 use std::cmp::Ordering;
 use std::collections::{HashMap, HashSet};
+
+#[derive(Debug, Clone, Copy)]
+struct HypothesisEvidencePresence {
+    capex: bool,
+    earnings: bool,
+    order: bool,
+}
 
 pub struct PresentationAssembler;
 
@@ -1207,28 +1217,28 @@ impl PresentationAssembler {
         let trend_recognition = packet.trend_recognition.as_ref()?;
         let substantive = trend_recognition.substantive.as_ref()?;
         let mut substantive_signals = Vec::new();
-        if substantive.capex_payoff_signal
+        let has_capex = substantive.capex_payoff_signal
             || substantive
                 .records
                 .iter()
-                .any(|record| record.evidence_type == EvidenceType::CapexPayoff)
-        {
+                .any(|record| record.evidence_type == EvidenceType::CapexPayoff);
+        if has_capex {
             substantive_signals.push(dict.trend_recognition.capex_payoff.clone());
         }
-        if substantive.earnings_validation
+        let has_earnings = substantive.earnings_validation
             || substantive
                 .records
                 .iter()
-                .any(|record| record.evidence_type == EvidenceType::EarningsValidation)
-        {
+                .any(|record| record.evidence_type == EvidenceType::EarningsValidation);
+        if has_earnings {
             substantive_signals.push(dict.trend_recognition.earnings_validation.clone());
         }
-        if substantive.order_visibility
+        let has_order = substantive.order_visibility
             || substantive
                 .records
                 .iter()
-                .any(|record| record.evidence_type == EvidenceType::OrderVisibility)
-        {
+                .any(|record| record.evidence_type == EvidenceType::OrderVisibility);
+        if has_order {
             substantive_signals.push(dict.trend_recognition.order_visibility.clone());
         }
         let breadth_mode = Self::classify_trend_breadth_mode(packet);
@@ -1240,35 +1250,59 @@ impl PresentationAssembler {
         );
         Self::build_hypothesis_layer(
             &substantive_signals,
+            &substantive.records,
+            HypothesisEvidencePresence {
+                capex: has_capex,
+                earnings: has_earnings,
+                order: has_order,
+            },
             Some(trend_recognition.conviction_score),
             market_cycle_position,
+            packet.date,
             dict,
         )
     }
 
     fn build_hypothesis_layer(
         substantive_signals: &[String],
+        substantive_records: &[AutomatedEvidenceRecord],
+        evidence_presence: HypothesisEvidencePresence,
         conviction_score: Option<f64>,
         market_cycle_position: MarketCyclePosition,
+        as_of_date: NaiveDate,
         dict: &DisplayDictionary,
     ) -> Option<HypothesisLayerViewModel> {
-        let has_capex = substantive_signals
-            .iter()
-            .any(|signal| signal == &dict.trend_recognition.capex_payoff);
-        let has_earnings = substantive_signals
-            .iter()
-            .any(|signal| signal == &dict.trend_recognition.earnings_validation);
-        let has_order = substantive_signals
-            .iter()
-            .any(|signal| signal == &dict.trend_recognition.order_visibility);
-        let enough_reality_evidence =
-            has_capex && (has_earnings || has_order) && conviction_score.unwrap_or(0.0) >= 3.0;
+        debug_assert_eq!(
+            substantive_signals.len(),
+            [
+                evidence_presence.capex,
+                evidence_presence.earnings,
+                evidence_presence.order,
+            ]
+            .into_iter()
+            .filter(|present| *present)
+            .count()
+        );
+        let enough_reality_evidence = evidence_presence.capex
+            && (evidence_presence.earnings || evidence_presence.order)
+            && conviction_score.unwrap_or(0.0) >= 3.0;
 
         if !enough_reality_evidence {
             return None;
         }
 
-        let candidate = Self::build_profit_pool_migration_hypothesis(market_cycle_position, dict);
+        let validation_checks = Self::build_hypothesis_validation_checks(evidence_presence, dict);
+        let validation_passed = validation_checks
+            .iter()
+            .filter(|check| check.passed)
+            .count();
+        let candidate = Self::build_profit_pool_migration_hypothesis(
+            market_cycle_position,
+            Self::hypothesis_age_days(substantive_records, as_of_date),
+            validation_passed,
+            validation_checks,
+            dict,
+        );
         if candidate.failure_risks.is_empty() {
             return None;
         }
@@ -1282,6 +1316,9 @@ impl PresentationAssembler {
 
     fn build_profit_pool_migration_hypothesis(
         market_cycle_position: MarketCyclePosition,
+        age_days: Option<i64>,
+        validation_passed: usize,
+        validation_checks: Vec<HypothesisValidationCheckViewModel>,
         dict: &DisplayDictionary,
     ) -> HypothesisCandidateViewModel {
         let h = &dict.hypothesis;
@@ -1340,6 +1377,12 @@ impl PresentationAssembler {
             reality_override_notice,
             reality_override_priority,
             confidence_decay_notice,
+            age_days,
+            age_label: age_days
+                .map(|days| format!("{days} {}", h.age_days_unit))
+                .unwrap_or_else(|| h.age_unknown.clone()),
+            validation_summary: format!("{validation_passed}/{}", validation_checks.len()),
+            validation_checks,
             evidence_chain: vec![
                 HypothesisEvidenceNodeViewModel {
                     label: h.evidence_capex_expansion.clone(),
@@ -1418,6 +1461,55 @@ impl PresentationAssembler {
             ],
             responsibility_notice: h.responsibility_notice.clone(),
         }
+    }
+
+    fn build_hypothesis_validation_checks(
+        evidence_presence: HypothesisEvidencePresence,
+        dict: &DisplayDictionary,
+    ) -> Vec<HypothesisValidationCheckViewModel> {
+        let h = &dict.hypothesis;
+        vec![
+            HypothesisValidationCheckViewModel {
+                label: h.validation_capex_payoff.clone(),
+                passed: evidence_presence.capex,
+            },
+            HypothesisValidationCheckViewModel {
+                label: h.validation_earnings_quality.clone(),
+                passed: evidence_presence.earnings,
+            },
+            HypothesisValidationCheckViewModel {
+                label: h.validation_order_visibility.clone(),
+                passed: evidence_presence.order,
+            },
+            HypothesisValidationCheckViewModel {
+                label: h.validation_platform_adoption.clone(),
+                passed: false,
+            },
+            HypothesisValidationCheckViewModel {
+                label: h.validation_pricing_power.clone(),
+                passed: false,
+            },
+        ]
+    }
+
+    fn hypothesis_age_days(
+        records: &[AutomatedEvidenceRecord],
+        as_of_date: NaiveDate,
+    ) -> Option<i64> {
+        records
+            .iter()
+            .filter(|record| {
+                matches!(
+                    record.evidence_type,
+                    EvidenceType::CapexPayoff
+                        | EvidenceType::EarningsValidation
+                        | EvidenceType::OrderVisibility
+                )
+            })
+            .filter_map(|record| NaiveDate::parse_from_str(&record.event_date, "%Y-%m-%d").ok())
+            .filter(|event_date| *event_date <= as_of_date)
+            .map(|event_date| (as_of_date - event_date).num_days())
+            .max()
     }
 
     fn format_macro_gravity_lines(

@@ -339,6 +339,10 @@ sensor health は readiness score を表示する。readiness score は category
 
 evidence-driven escalation は category completeness を calibration input として使う。insufficient category は report に表示するが、narrative な推測で補完しない。
 
+Phase v1.4 では evolution view を追加する。Gray Rhino report は `Temperature` と `Velocity` を表示し、risk が存在するかではなく、risk が温まっているかを観測する。`Temperature` は LOW / MEDIUM / HIGH / CRITICAL、`Velocity` は FALLING / STABLE / RISING / ACCELERATING とする。これは Gray Rhino report の表示専用 read model であり、trade、Gate、execution、trend cohesion へ接続しない。
+
+Phase v1.4 では survivability view も表示する。Dependency risk、governance resilience、compute control、retry capacity は scoreable evidence record から派生する。survivability は「risk が存在するが耐性がある」状態と「risk が存在し耐性も弱い」状態を分けるための補助であり、risk category を増やさない。
+
 Phase v1.2 の evidence quality model は `v2` とし、traceability、metric completeness、freshness、confidence、source diversity、rejection ratio を表示する。report は `Evidence Explanation Graph` として dimension -> supporting evidence category -> source class を示す。
 
 ### Phase 5: Long-term Civilization Risk Mapping

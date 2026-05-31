@@ -2836,12 +2836,14 @@ mod tests {
     #[test]
     fn test_hypothesis_layer_renders_speculative_notice_without_gate_change() {
         use crate::features::radar::domain::trend_cohesion::{
-            SubstantiveEvidence, TrendCohesionSnapshot, TrendContinuationState,
-            TrendRecognitionEvidence,
+            AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
+            TrendCohesionSnapshot, TrendContinuationState, TrendRecognitionEvidence,
         };
         use crate::features::shared::interface::i18n::Language;
+        use chrono::NaiveDate;
 
         let curr = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 5, 31).unwrap(),
             trend_cohesion: TrendCohesionSnapshot {
                 gate_passed: false,
                 ..Default::default()
@@ -2854,6 +2856,38 @@ mod tests {
                     capex_payoff_signal: true,
                     earnings_validation: true,
                     order_visibility: true,
+                    records: vec![
+                        AutomatedEvidenceRecord::new(
+                            EvidenceSourceType::OfficialIR,
+                            EvidenceType::CapexPayoff,
+                            0.9,
+                            "capex payoff".to_string(),
+                            "2026-05-01".to_string(),
+                            Some("MSFT".to_string()),
+                            Some("https://example.com/capex".to_string()),
+                            "capex".to_string(),
+                        ),
+                        AutomatedEvidenceRecord::new(
+                            EvidenceSourceType::OfficialIR,
+                            EvidenceType::EarningsValidation,
+                            0.9,
+                            "earnings quality".to_string(),
+                            "2026-05-20".to_string(),
+                            Some("MSFT".to_string()),
+                            Some("https://example.com/earnings".to_string()),
+                            "earnings".to_string(),
+                        ),
+                        AutomatedEvidenceRecord::new(
+                            EvidenceSourceType::OfficialIR,
+                            EvidenceType::OrderVisibility,
+                            0.9,
+                            "order visibility".to_string(),
+                            "2026-05-25".to_string(),
+                            Some("MSFT".to_string()),
+                            Some("https://example.com/order".to_string()),
+                            "order".to_string(),
+                        ),
+                    ],
                     ..Default::default()
                 }),
                 ..Default::default()
@@ -2885,6 +2919,12 @@ mod tests {
         assert!(report.telegram_html_body.contains("现实覆盖"));
         assert!(report.telegram_html_body.contains("现实覆盖优先级"));
         assert!(report.telegram_html_body.contains("置信衰减"));
+        assert!(report.telegram_html_body.contains("假设年龄: 30 天"));
+        assert!(report.telegram_html_body.contains("命题验证: 3/5"));
+        assert!(report.telegram_html_body.contains("✓ CapEx 持续投入"));
+        assert!(report
+            .telegram_html_body
+            .contains("✗ 平台 / workflow 付费入口"));
         assert!(report.telegram_html_body.contains("MSFT"));
         assert!(report
             .telegram_html_body
@@ -2997,17 +3037,29 @@ mod tests {
     fn test_hypothesis_layer_renders_in_en_and_ja() {
         use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::radar::domain::trend_cohesion::{
-            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+            AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType, SubstantiveEvidence,
+            TrendContinuationState, TrendRecognitionEvidence,
         };
         use crate::features::shared::interface::i18n::Language;
+        use chrono::NaiveDate;
 
-        for (language, title, notice, beneficiary_label, summary_label) in [
+        for (
+            language,
+            title,
+            notice,
+            beneficiary_label,
+            summary_label,
+            age_label,
+            validation_label,
+        ) in [
             (
                 Language::EnUs,
                 "Future Map / Hypothesis Layer",
                 "not current facts",
                 "Potential Beneficiaries",
                 "Summary: GPU demand",
+                "Hypothesis Age: 30 days",
+                "Thesis Validation: 3/5",
             ),
             (
                 Language::JaJp,
@@ -3015,9 +3067,12 @@ mod tests {
                 "現在の事実ではなく",
                 "潜在的受益者",
                 "要約: GPU 需要",
+                "仮説年齢: 30 日",
+                "命題検証: 3/5",
             ),
         ] {
             let mut curr = DecisionPacket::default();
+            curr.date = NaiveDate::from_ymd_opt(2026, 5, 31).unwrap();
             curr.trend_recognition = Some(TrendRecognitionEvidence {
                 state: TrendContinuationState::StructuralPersistence,
                 diffusion_score: 3.4,
@@ -3026,6 +3081,38 @@ mod tests {
                     capex_payoff_signal: true,
                     earnings_validation: true,
                     order_visibility: true,
+                    records: vec![
+                        AutomatedEvidenceRecord::new(
+                            EvidenceSourceType::OfficialIR,
+                            EvidenceType::CapexPayoff,
+                            0.9,
+                            "capex payoff".to_string(),
+                            "2026-05-01".to_string(),
+                            Some("MSFT".to_string()),
+                            Some("https://example.com/capex".to_string()),
+                            "capex".to_string(),
+                        ),
+                        AutomatedEvidenceRecord::new(
+                            EvidenceSourceType::OfficialIR,
+                            EvidenceType::EarningsValidation,
+                            0.9,
+                            "earnings quality".to_string(),
+                            "2026-05-20".to_string(),
+                            Some("MSFT".to_string()),
+                            Some("https://example.com/earnings".to_string()),
+                            "earnings".to_string(),
+                        ),
+                        AutomatedEvidenceRecord::new(
+                            EvidenceSourceType::OfficialIR,
+                            EvidenceType::OrderVisibility,
+                            0.9,
+                            "order visibility".to_string(),
+                            "2026-05-25".to_string(),
+                            Some("MSFT".to_string()),
+                            Some("https://example.com/order".to_string()),
+                            "order".to_string(),
+                        ),
+                    ],
                     ..Default::default()
                 }),
                 ..Default::default()
@@ -3048,6 +3135,8 @@ mod tests {
             assert!(report.telegram_html_body.contains(notice));
             assert!(report.telegram_html_body.contains(beneficiary_label));
             assert!(report.telegram_html_body.contains(summary_label));
+            assert!(report.telegram_html_body.contains(age_label));
+            assert!(report.telegram_html_body.contains(validation_label));
             assert!(
                 report.telegram_html_body.contains("Failure")
                     || report.telegram_html_body.contains("失敗")

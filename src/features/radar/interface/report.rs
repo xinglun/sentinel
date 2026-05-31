@@ -1142,6 +1142,15 @@ fn render_hypothesis_section(
                     "    - {}: {}\n",
                     h.confidence_decay_label, candidate.confidence_decay_notice
                 ));
+                block.push_str(&format!("    - {}: {}\n", h.age_label, candidate.age_label));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    h.validation_label, candidate.validation_summary
+                ));
+                for check in &candidate.validation_checks {
+                    let mark = if check.passed { "✓" } else { "✗" };
+                    block.push_str(&format!("      - {mark} {}\n", check.label));
+                }
                 block.push_str(&format!("    - {}:\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {
                     block.push_str(&format!(
@@ -1224,6 +1233,18 @@ fn render_hypothesis_section(
                     "    - <i>{}: {}</i>\n",
                     h.confidence_decay_label, candidate.confidence_decay_notice
                 ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.age_label, candidate.age_label
+                ));
+                block.push_str(&format!(
+                    "    - <i>{}: {}</i>\n",
+                    h.validation_label, candidate.validation_summary
+                ));
+                for check in &candidate.validation_checks {
+                    let mark = if check.passed { "✓" } else { "✗" };
+                    block.push_str(&format!("      - <i>{mark} {}</i>\n", check.label));
+                }
                 block.push_str(&format!("    - <i>{}:</i>\n", h.evidence_chain_label));
                 for evidence in &candidate.evidence_chain {
                     block.push_str(&format!(

@@ -25,7 +25,8 @@ use crate::features::research::domain::gray_rhino_survivability_policy::{
     DependencyRiskLevel, GrayRhinoSurvivabilitySummary, SurvivabilityLevel,
 };
 use crate::features::research::domain::gray_rhino_temporal_policy::{
-    GrayRhinoTemporalSummary, InstitutionalResponseState, TemporalTrend,
+    GrayRhinoTemporalSummary, InstitutionalResponseState, TemperatureLevel, TemperatureVelocity,
+    TemporalTrend,
 };
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
@@ -614,6 +615,16 @@ fn render_temporal_summary(summary: &GrayRhinoTemporalSummary, language: Languag
     let mut out = String::new();
     out.push_str(temporal_summary_heading(language));
     out.push('\n');
+    out.push_str(&format!(
+        "- {}: {}\n",
+        temperature_label(language),
+        temperature_level_label(summary.temperature, language)
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        temperature_velocity_label(language),
+        temperature_velocity_value_label(summary.velocity, language)
+    ));
     if let Some(velocity) = &summary.escalation_velocity {
         out.push_str(&format!(
             "- {}: {} ({} {}, {} {}, {} {})\n",
@@ -1679,6 +1690,59 @@ fn evidence_acceleration_label(language: Language) -> &'static str {
         Language::ZhCn => "证据加速度",
         Language::EnUs => "Evidence acceleration",
         Language::JaJp => "証拠加速度",
+    }
+}
+
+fn temperature_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "温度",
+        Language::EnUs => "Temperature",
+        Language::JaJp => "温度",
+    }
+}
+
+fn temperature_velocity_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "速度",
+        Language::EnUs => "Velocity",
+        Language::JaJp => "速度",
+    }
+}
+
+fn temperature_level_label(level: TemperatureLevel, language: Language) -> &'static str {
+    match (level, language) {
+        (TemperatureLevel::Low, Language::ZhCn) => "低",
+        (TemperatureLevel::Medium, Language::ZhCn) => "中",
+        (TemperatureLevel::High, Language::ZhCn) => "高",
+        (TemperatureLevel::Critical, Language::ZhCn) => "临界",
+        (TemperatureLevel::Low, Language::EnUs) => "Low",
+        (TemperatureLevel::Medium, Language::EnUs) => "Medium",
+        (TemperatureLevel::High, Language::EnUs) => "High",
+        (TemperatureLevel::Critical, Language::EnUs) => "Critical",
+        (TemperatureLevel::Low, Language::JaJp) => "低",
+        (TemperatureLevel::Medium, Language::JaJp) => "中",
+        (TemperatureLevel::High, Language::JaJp) => "高",
+        (TemperatureLevel::Critical, Language::JaJp) => "臨界",
+    }
+}
+
+fn temperature_velocity_value_label(
+    velocity: TemperatureVelocity,
+    language: Language,
+) -> &'static str {
+    match (velocity, language) {
+        (TemperatureVelocity::Falling, Language::ZhCn) => "下降",
+        (TemperatureVelocity::Stable, Language::ZhCn) => "稳定",
+        (TemperatureVelocity::Rising, Language::ZhCn) => "上升",
+        (TemperatureVelocity::Accelerating, Language::ZhCn) => "加速",
+        (TemperatureVelocity::Falling, Language::EnUs) => "Falling",
+        (TemperatureVelocity::Stable, Language::EnUs) => "Stable",
+        (TemperatureVelocity::Rising, Language::EnUs) => "Rising",
+        (TemperatureVelocity::Accelerating, Language::EnUs) => "Accelerating",
+        (TemperatureVelocity::Falling, Language::JaJp) => "低下",
+        (TemperatureVelocity::Stable, Language::JaJp) => "安定",
+        (TemperatureVelocity::Rising, Language::JaJp) => "上昇",
+        (TemperatureVelocity::Accelerating, Language::JaJp) => "加速",
     }
 }
 

@@ -415,6 +415,8 @@ fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Evidence-backed sensor store"));
     assert!(stdout.contains("Gray Rhino Temperature Change"));
+    assert!(stdout.contains("Temperature: High"));
+    assert!(stdout.contains("Velocity: Rising"));
     assert!(stdout.contains("Evidence acceleration: RISING"));
     assert!(stdout.contains("Survivability Assessment"));
     assert!(stdout.contains("Capital access: UNKNOWN"));

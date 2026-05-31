@@ -23,6 +23,8 @@ Hypothesis Layer は、現在の事実を扱う Reality Layer とは分離して
 - 市場織り込み状態
 - ナラティブ飽和度
 - 時間軸と実現ウィンドウ
+- hypothesis age
+- thesis validation checklist
 - 現実優先による確信度減衰
 - 失敗パス
 
@@ -91,6 +93,22 @@ Hypothesis Candidate は必ず failure risks を持つ。failure risks が空の
 
 `Confirmed` という confidence は使わない。Hypothesis Layer で confirmed を使うと Reality Layer と混同するためである。
 
+## Aging と Validation
+
+Hypothesis は、生成された事実ではなく観察仮説であるため、時間経過を明示する。
+
+`hypothesis age` は、candidate を支える実体 evidence record のうち、該当する最古の `event_date` から report date までの日数として表示する。永続化された hypothesis registry を持たない Phase 1 では、age は evidence 由来の proxy であり、投資判断や Gate には接続しない。
+
+`thesis validation` は固定 checklist として表示する。初期 candidate `ProfitPoolMigration` は 5 項目を持つ。
+
+- CapEx 継続投資と回収検証
+- 業績品質による AI 投資の裏付け
+- 受注または需要可視性
+- platform / workflow の課金入口
+- AI service pricing の粘着性
+
+checklist は hypothesis を Reality Layer へ近づけるための監査補助であり、`5/5` でも `Confirmed` とは表示しない。未検証項目は `✗` として残し、future story が自動的に事実化しないようにする。
+
 ## Phase 1
 
 Phase 1 は表示層だけを実装する。
@@ -144,6 +162,7 @@ Hypothesis Layer は次の語を実行文脈で使ってはならない。
 
 - Hypothesis が存在しても Gate / NO TRADE / 新規建玉上限は変化しない。
 - Telegram / Markdown に speculative notice が表示される。
+- Hypothesis age と thesis validation が表示される。
 - failure risks が空の candidate は表示されない。
 - `HypothesisConfidence` に `Confirmed` を追加しない。
 - Reality section に Hypothesis 専用語が混入しない。

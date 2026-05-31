@@ -13,6 +13,22 @@ pub(crate) enum TemporalTrend {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum TemperatureLevel {
+    Low,
+    Medium,
+    High,
+    Critical,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum TemperatureVelocity {
+    Falling,
+    Stable,
+    Rising,
+    Accelerating,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum InstitutionalResponseState {
     Strong,
     Adequate,
@@ -44,6 +60,8 @@ pub(crate) struct InstitutionalResponseSummary {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct GrayRhinoTemporalSummary {
+    pub temperature: TemperatureLevel,
+    pub velocity: TemperatureVelocity,
     pub escalation_velocity: Option<EscalationVelocity>,
     pub evidence_acceleration: EvidenceAcceleration,
     pub institutional_response: InstitutionalResponseSummary,
@@ -54,10 +72,58 @@ pub(crate) fn build_temporal_summary(
     records: &[GrayRhinoEvidenceRecord],
     as_of_date: NaiveDate,
 ) -> GrayRhinoTemporalSummary {
+    let escalation_velocity = assessment.and_then(compute_escalation_velocity);
+    let evidence_acceleration = compute_evidence_acceleration(records, as_of_date, 14);
+    let temperature = compute_temperature(assessment, &evidence_acceleration);
+    let velocity =
+        compute_temperature_velocity(escalation_velocity.as_ref(), &evidence_acceleration);
     GrayRhinoTemporalSummary {
-        escalation_velocity: assessment.and_then(compute_escalation_velocity),
-        evidence_acceleration: compute_evidence_acceleration(records, as_of_date, 14),
+        temperature,
+        velocity,
+        escalation_velocity,
+        evidence_acceleration,
         institutional_response: compute_institutional_response(records),
+    }
+}
+
+fn compute_temperature(
+    assessment: Option<&GrayRhinoAssessment>,
+    acceleration: &EvidenceAcceleration,
+) -> TemperatureLevel {
+    match assessment
+        .map(|value| value.current.escalation.escalation_state)
+        .unwrap_or(RhinoEscalationState::Background)
+    {
+        RhinoEscalationState::Critical => TemperatureLevel::Critical,
+        RhinoEscalationState::Expanding | RhinoEscalationState::Normalized => {
+            TemperatureLevel::High
+        }
+        RhinoEscalationState::Visible => TemperatureLevel::Medium,
+        RhinoEscalationState::Background => {
+            if acceleration.recent_count > 0 {
+                TemperatureLevel::Medium
+            } else {
+                TemperatureLevel::Low
+            }
+        }
+    }
+}
+
+fn compute_temperature_velocity(
+    escalation_velocity: Option<&EscalationVelocity>,
+    acceleration: &EvidenceAcceleration,
+) -> TemperatureVelocity {
+    match escalation_velocity.map(|value| value.trend) {
+        Some(TemporalTrend::Rising) if acceleration.trend == TemporalTrend::Rising => {
+            TemperatureVelocity::Accelerating
+        }
+        Some(TemporalTrend::Rising) => TemperatureVelocity::Rising,
+        Some(TemporalTrend::Falling) => TemperatureVelocity::Falling,
+        Some(TemporalTrend::Stable) | None => match acceleration.trend {
+            TemporalTrend::Rising => TemperatureVelocity::Rising,
+            TemporalTrend::Falling => TemperatureVelocity::Falling,
+            TemporalTrend::Stable => TemperatureVelocity::Stable,
+        },
     }
 }
 
@@ -188,12 +254,22 @@ mod tests {
     };
 
     fn escalation(score: RiskLevel) -> GrayRhinoEscalation {
-        GrayRhinoEscalation {
-            escalation_state: if score == RiskLevel::High {
+        escalation_with_state(
+            if score == RiskLevel::High {
                 RhinoEscalationState::Critical
             } else {
                 RhinoEscalationState::Visible
             },
+            score,
+        )
+    }
+
+    fn escalation_with_state(
+        escalation_state: RhinoEscalationState,
+        score: RiskLevel,
+    ) -> GrayRhinoEscalation {
+        GrayRhinoEscalation {
+            escalation_state,
             risk_expansion_rate: score,
             constraint_growth_rate: RiskLevel::Low,
             dependency_centralization: score,
@@ -203,6 +279,18 @@ mod tests {
             fallback_survivability_risk: RiskLevel::Low,
             notes: vec![],
             suppressed_note_count: 0,
+        }
+    }
+
+    fn assessment_with_state(state: RhinoEscalationState) -> GrayRhinoAssessment {
+        GrayRhinoAssessment {
+            current: GrayRhinoAssessmentSnapshot {
+                schema_version: 1,
+                as_of_date: NaiveDate::from_ymd_opt(2026, 5, 28).unwrap(),
+                source: GrayRhinoObservationSource::EvidenceStore,
+                escalation: escalation_with_state(state, RiskLevel::Moderate),
+            },
+            previous: None,
         }
     }
 
@@ -281,6 +369,119 @@ mod tests {
         assert_eq!(acceleration.recent_count, 2);
         assert_eq!(acceleration.prior_count, 1);
         assert_eq!(acceleration.trend, TemporalTrend::Rising);
+    }
+
+    #[test]
+    fn temperature_contract_covers_all_levels() {
+        let as_of = NaiveDate::from_ymd_opt(2026, 5, 28).unwrap();
+        let recent_records = vec![record(
+            "2026-05-27",
+            GrayRhinoEvidenceCategory::DependencyConcentration,
+            GrayRhinoRiskEffect::Amplifying,
+        )];
+
+        assert_eq!(
+            build_temporal_summary(None, &[], as_of).temperature,
+            TemperatureLevel::Low
+        );
+        assert_eq!(
+            build_temporal_summary(None, &recent_records, as_of).temperature,
+            TemperatureLevel::Medium
+        );
+        assert_eq!(
+            build_temporal_summary(
+                Some(&assessment_with_state(RhinoEscalationState::Visible)),
+                &[],
+                as_of
+            )
+            .temperature,
+            TemperatureLevel::Medium
+        );
+        assert_eq!(
+            build_temporal_summary(
+                Some(&assessment_with_state(RhinoEscalationState::Expanding)),
+                &[],
+                as_of
+            )
+            .temperature,
+            TemperatureLevel::High
+        );
+        assert_eq!(
+            build_temporal_summary(
+                Some(&assessment_with_state(RhinoEscalationState::Normalized)),
+                &[],
+                as_of
+            )
+            .temperature,
+            TemperatureLevel::High
+        );
+        assert_eq!(
+            build_temporal_summary(
+                Some(&assessment_with_state(RhinoEscalationState::Critical)),
+                &[],
+                as_of
+            )
+            .temperature,
+            TemperatureLevel::Critical
+        );
+    }
+
+    #[test]
+    fn temperature_velocity_contract_covers_all_values() {
+        let rising_escalation = EscalationVelocity {
+            delta_score: 1,
+            delta_days: 7,
+            changed_dimension_count: 1,
+            trend: TemporalTrend::Rising,
+        };
+        let falling_escalation = EscalationVelocity {
+            trend: TemporalTrend::Falling,
+            ..rising_escalation.clone()
+        };
+        let stable_escalation = EscalationVelocity {
+            trend: TemporalTrend::Stable,
+            ..rising_escalation.clone()
+        };
+        let rising_evidence = EvidenceAcceleration {
+            recent_count: 2,
+            prior_count: 1,
+            trend: TemporalTrend::Rising,
+        };
+        let falling_evidence = EvidenceAcceleration {
+            recent_count: 1,
+            prior_count: 2,
+            trend: TemporalTrend::Falling,
+        };
+        let stable_evidence = EvidenceAcceleration {
+            recent_count: 1,
+            prior_count: 1,
+            trend: TemporalTrend::Stable,
+        };
+
+        assert_eq!(
+            compute_temperature_velocity(Some(&rising_escalation), &rising_evidence),
+            TemperatureVelocity::Accelerating
+        );
+        assert_eq!(
+            compute_temperature_velocity(Some(&rising_escalation), &stable_evidence),
+            TemperatureVelocity::Rising
+        );
+        assert_eq!(
+            compute_temperature_velocity(Some(&falling_escalation), &rising_evidence),
+            TemperatureVelocity::Falling
+        );
+        assert_eq!(
+            compute_temperature_velocity(Some(&stable_escalation), &rising_evidence),
+            TemperatureVelocity::Rising
+        );
+        assert_eq!(
+            compute_temperature_velocity(None, &falling_evidence),
+            TemperatureVelocity::Falling
+        );
+        assert_eq!(
+            compute_temperature_velocity(None, &stable_evidence),
+            TemperatureVelocity::Stable
+        );
     }
 
     #[test]

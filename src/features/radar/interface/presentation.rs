@@ -253,12 +253,26 @@ pub struct HypothesisCandidateViewModel {
     pub reality_override_priority: String,
     pub confidence_decay_notice: String,
     #[serde(default)]
+    pub age_days: Option<i64>,
+    #[serde(default)]
+    pub age_label: String,
+    #[serde(default)]
+    pub validation_summary: String,
+    #[serde(default)]
+    pub validation_checks: Vec<HypothesisValidationCheckViewModel>,
+    #[serde(default)]
     pub evidence_chain: Vec<HypothesisEvidenceNodeViewModel>,
     #[serde(default)]
     pub candidate_beneficiaries: Vec<HypothesisBeneficiaryViewModel>,
     #[serde(default)]
     pub failure_risks: Vec<HypothesisFailureRiskViewModel>,
     pub responsibility_notice: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct HypothesisValidationCheckViewModel {
+    pub label: String,
+    pub passed: bool,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
