@@ -1,11 +1,11 @@
 use crate::config::AppConfig;
 use crate::features::backtest::acl::radar_decision_engine::RadarBacktestDecisionEngine;
-use crate::features::backtest::application::model::{
-    BacktestRules, BacktestTickerHistory, BacktestWatchlistEntry,
-};
 use crate::features::backtest::application::simulation::run_core_simulation;
 use crate::features::backtest::infrastructure::output::{
     generate_comparison_report, publish_primary_backtest_outputs, write_run_artifacts,
+};
+use crate::features::backtest::interface::backtest_mapper::{
+    map_histories_to_backtest, map_rules_to_backtest, map_watchlist_to_backtest,
 };
 use crate::features::radar::application::provider::MarketDataProvider;
 use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
@@ -79,33 +79,9 @@ pub async fn run_backtest(
     let parsed_rules = ParsedRules::from(&config.get_parsed_rules());
     let watchlist: Vec<WatchlistEntry> =
         config.watchlist.iter().map(WatchlistEntry::from).collect();
-    let backtest_histories = histories
-        .iter()
-        .map(|(symbol, history)| {
-            (
-                symbol.clone(),
-                BacktestTickerHistory {
-                    symbol: history.symbol.clone(),
-                    bars: history.bars.clone(),
-                    total_trading_days: history.total_trading_days,
-                },
-            )
-        })
-        .collect::<HashMap<_, _>>();
-    let backtest_watchlist = watchlist
-        .iter()
-        .map(|entry| BacktestWatchlistEntry {
-            symbol: entry.symbol.clone(),
-            enable: entry.enable,
-        })
-        .collect::<Vec<_>>();
-    let optimal_threshold = parsed_rules
-        .sorted_bands
-        .iter()
-        .find(|(name, _)| name.to_lowercase().contains("optimal"))
-        .map(|(_, threshold)| *threshold)
-        .unwrap_or(f64::MAX);
-    let backtest_rules = BacktestRules { optimal_threshold };
+    let backtest_histories = map_histories_to_backtest(&histories);
+    let backtest_watchlist = map_watchlist_to_backtest(&watchlist);
+    let backtest_rules = map_rules_to_backtest(&parsed_rules);
 
     // baseline（memory / friction なし）を実行する。
     println!("   [1/2] Running Baseline...");

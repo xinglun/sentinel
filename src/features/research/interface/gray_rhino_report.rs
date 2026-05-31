@@ -1,8 +1,7 @@
 use crate::config::{self, GrayRhinoRiskLevel};
 use crate::features::research::acl::gray_rhino_daily_report_factory::build_gray_rhino_daily_report_repository;
 use crate::features::research::application::gray_rhino_daily_report::{
-    BackfillOpsSummary, DiscoveryOpsSummary, GrayRhinoDailyReportUseCase,
-    GrayRhinoDailyReportViewModel, GrayRhinoRefreshStatus, GrayRhinoSnapshotPersistence,
+    GrayRhinoDailyReportUseCase, GrayRhinoDailyReportViewModel, GrayRhinoSnapshotPersistence,
 };
 use crate::features::research::application::gray_rhino_monitoring_state::{
     GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
@@ -31,7 +30,10 @@ use crate::features::research::domain::gray_rhino_temporal_policy::{
 use crate::features::research::interface::gray_rhino_read_model_builder::{
     group_company_candidates, group_company_statuses,
 };
-use crate::features::research::interface::gray_rhino_renderer::render_governance_sensor_health;
+use crate::features::research::interface::gray_rhino_renderer::{
+    render_backfill_ops_view, render_discovery_ops_view, render_governance_sensor_health,
+    render_refresh_status,
+};
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
 use chrono::{Local, NaiveDate};
@@ -726,115 +728,6 @@ fn render_survivability_summary(
     ));
     out.push_str(survivability_summary_boundary(language));
     out
-}
-
-fn render_backfill_ops_view(
-    value: Option<&BackfillOpsSummary>,
-    language: Language,
-) -> Option<String> {
-    let value = value?;
-    let mut out = String::new();
-    out.push_str(backfill_ops_title(language));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        latest_run_label(language),
-        value.run_id
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        source_count_label(language),
-        value.source_count
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        failed_sources_label(language),
-        value.rejected
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        stale_sources_label(language),
-        value.stale_sources
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        drift_sources_label(language),
-        value.drift_sources
-    ));
-    Some(out)
-}
-
-fn render_discovery_ops_view(
-    value: Option<&DiscoveryOpsSummary>,
-    language: Language,
-) -> Option<String> {
-    let value = value?;
-    let mut out = String::new();
-    out.push_str(auto_discovery_ops_title(language));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        latest_run_label(language),
-        value.run_id
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        source_count_label(language),
-        value.source_count
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        candidate_count_label(language),
-        value.candidate_count
-    ));
-    Some(out)
-}
-
-fn render_refresh_status(
-    value: Option<&GrayRhinoRefreshStatus>,
-    language: Language,
-) -> Option<String> {
-    let value = value?;
-    let mut out = String::new();
-    out.push_str(refresh_status_title(language));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        refresh_overall_status_label(language),
-        refresh_status_value_label(&value.status, language)
-    ));
-    out.push_str(&format!(
-        "- SEC: {} / Finnhub: {} / FRED: {}\n",
-        refresh_status_value_label(&value.sec, language),
-        refresh_status_value_label(&value.finnhub, language),
-        refresh_status_value_label(&value.fred, language)
-    ));
-    out.push_str(&format!(
-        "- {}: SEC {}/{} / Finnhub {}/{} / FRED {}/{}\n",
-        refresh_coverage_label(language),
-        value.sec_accepted,
-        value.sec_accepted + value.sec_rejected,
-        value.finnhub_accepted,
-        value.finnhub_accepted + value.finnhub_rejected,
-        value.fred_accepted,
-        value.fred_accepted + value.fred_rejected
-    ));
-    if !value.failed_providers.trim().is_empty() {
-        out.push_str(&format!(
-            "- {}: {}\n",
-            failed_providers_label(language),
-            value.failed_providers.trim()
-        ));
-    }
-    if let Some(date) = &value.date {
-        out.push_str(&format!("- {}: {}\n", refresh_date_label(language), date));
-    }
-    if let Some(reason) = &value.reason {
-        out.push_str(&format!(
-            "- {}: {}\n",
-            refresh_reason_label(language),
-            reason
-        ));
-    }
-    out.push_str(refresh_status_boundary(language));
-    Some(out)
 }
 
 fn render_auto_discovery_inline_reference(
@@ -2092,38 +1985,6 @@ fn evidence_explanation_graph_body(language: Language) -> &'static str {
     }
 }
 
-fn backfill_ops_title(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "回填运维视图\n",
-        Language::EnUs => "Backfill Ops View\n",
-        Language::JaJp => "回填運用ビュー\n",
-    }
-}
-
-fn failed_sources_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "失败来源数",
-        Language::EnUs => "failed_sources",
-        Language::JaJp => "失敗した由来数",
-    }
-}
-
-fn stale_sources_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "陈旧来源数",
-        Language::EnUs => "stale_sources",
-        Language::JaJp => "古い由来数",
-    }
-}
-
-fn drift_sources_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "漂移来源数",
-        Language::EnUs => "drift_sources",
-        Language::JaJp => "漂移した由来数",
-    }
-}
-
 fn render_unclassified_evidence_notice(count: usize, language: Language) -> String {
     match language {
         Language::ZhCn => format!(
@@ -2135,118 +1996,6 @@ fn render_unclassified_evidence_notice(count: usize, language: Language) -> Stri
         Language::JaJp => format!(
             "未分類の旧証拠\n- リスク作用が欠落した記録数: {count}\n- 処理: 読み込みは行うが、再投影または再収集まで正式な昇格採点から除外する。"
         ),
-    }
-}
-
-fn auto_discovery_ops_title(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "自动发现运维视图\n",
-        Language::EnUs => "Auto Discovery Ops View\n",
-        Language::JaJp => "自動発見運用ビュー\n",
-    }
-}
-
-fn latest_run_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "最新运行",
-        Language::EnUs => "latest_run",
-        Language::JaJp => "最新実行",
-    }
-}
-
-fn source_count_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "来源数",
-        Language::EnUs => "source_count",
-        Language::JaJp => "由来数",
-    }
-}
-
-fn candidate_count_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "候选数",
-        Language::EnUs => "candidate_count",
-        Language::JaJp => "候補数",
-    }
-}
-
-fn refresh_status_title(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "灰犀牛采集状态\n",
-        Language::EnUs => "Gray Rhino Refresh Status\n",
-        Language::JaJp => "灰色のサイ収集状態\n",
-    }
-}
-
-fn refresh_overall_status_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "整体状态",
-        Language::EnUs => "overall_status",
-        Language::JaJp => "全体状態",
-    }
-}
-
-fn refresh_status_value_label(value: &str, language: Language) -> &'static str {
-    match (value, language) {
-        ("succeeded", Language::ZhCn) => "成功",
-        ("partial_failure", Language::ZhCn) => "部分失败",
-        ("failed", Language::ZhCn) => "失败",
-        ("skipped", Language::ZhCn) => "跳过",
-        ("succeeded", Language::EnUs) => "succeeded",
-        ("partial_failure", Language::EnUs) => "partial_failure",
-        ("failed", Language::EnUs) => "failed",
-        ("skipped", Language::EnUs) => "skipped",
-        ("succeeded", Language::JaJp) => "成功",
-        ("partial_failure", Language::JaJp) => "部分失敗",
-        ("failed", Language::JaJp) => "失敗",
-        ("skipped", Language::JaJp) => "未実行",
-        _ => "unknown",
-    }
-}
-
-fn refresh_coverage_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "覆盖率",
-        Language::EnUs => "coverage",
-        Language::JaJp => "取得カバー率",
-    }
-}
-
-fn failed_providers_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "失败来源",
-        Language::EnUs => "failed_providers",
-        Language::JaJp => "失敗した取得元",
-    }
-}
-
-fn refresh_date_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "采集日期",
-        Language::EnUs => "refresh_date",
-        Language::JaJp => "収集日",
-    }
-}
-
-fn refresh_reason_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "原因",
-        Language::EnUs => "reason",
-        Language::JaJp => "理由",
-    }
-}
-
-fn refresh_status_boundary(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => {
-            "边界声明: 采集状态仅说明自动情报新鲜度；不改变交易、闸门、趋势或市场状态。"
-        }
-        Language::EnUs => {
-            "Boundary: refresh status only explains intelligence freshness; it does not change trading, Gate, trend, or market state."
-        }
-        Language::JaJp => {
-            "境界: 収集状態は自動情報の鮮度だけを説明し、取引、ゲート、トレンド、市場状態を変更しない。"
-        }
     }
 }
 

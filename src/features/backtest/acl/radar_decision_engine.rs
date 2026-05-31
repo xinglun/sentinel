@@ -1,20 +1,13 @@
+use crate::features::backtest::acl::radar_backtest_mapper::decision_packet_to_snapshot;
 use crate::features::backtest::application::decision_engine::BacktestDecisionEngine;
 use crate::features::backtest::application::model::{
-    BacktestAssetAction, BacktestAssetSnapshot, BacktestAssetState, BacktestBreakoutStatus,
-    BacktestDecisionSnapshot, BacktestTickerHistory, BacktestTransitionAudit, BacktestTrendStatus,
-    BacktestTrendTopology,
+    BacktestDecisionSnapshot, BacktestTickerHistory,
 };
 use crate::features::radar::application::engine::Engine;
 use crate::features::radar::application::provider::TickerHistory;
-use crate::features::radar::domain::action_matrix::AssetAction;
-use crate::features::radar::domain::asset_state::AssetState;
-use crate::features::radar::domain::breakout_detection::{BreakoutReason, BreakoutStatus};
 use crate::features::radar::domain::decision::DecisionPacket;
-use crate::features::radar::domain::market_regime::LifecycleState;
 use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
-use crate::features::radar::domain::trend_cohesion::{
-    AutomatedEvidenceRecord, TrendCohesionStatus, TrendCohesionTopology,
-};
+use crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord;
 use anyhow::Result;
 use std::cell::RefCell;
 use std::collections::HashMap;
@@ -37,72 +30,6 @@ impl RadarBacktestDecisionEngine {
                 .collect(),
             evidence_history: Vec::new(),
             radar_history: RefCell::new(Vec::with_capacity(20)),
-        }
-    }
-
-    fn to_snapshot(packet: &DecisionPacket) -> BacktestDecisionSnapshot {
-        BacktestDecisionSnapshot {
-            date: packet.date,
-            market_state: format!("{:?}", packet.market_regime.market_state),
-            trend_gate_passed: packet.trend_cohesion.gate_passed,
-            trend_status: match packet.trend_cohesion.status {
-                TrendCohesionStatus::Dispersed => BacktestTrendStatus::Dispersed,
-                TrendCohesionStatus::Forming => BacktestTrendStatus::Forming,
-                TrendCohesionStatus::Formed => BacktestTrendStatus::Formed,
-            },
-            trend_topology: match packet.trend_cohesion.topology {
-                TrendCohesionTopology::NoLeader => BacktestTrendTopology::NoLeader,
-                TrendCohesionTopology::SingleLeader => BacktestTrendTopology::SingleLeader,
-                TrendCohesionTopology::FragmentedLeaders => {
-                    BacktestTrendTopology::FragmentedLeaders
-                }
-            },
-            transition_audit: packet.market_regime.transition_audit.as_ref().map(|audit| {
-                BacktestTransitionAudit {
-                    from: lifecycle_state_code(audit.from),
-                    to: lifecycle_state_code(audit.to),
-                    is_reset_blocked: audit.is_reset_blocked,
-                    is_downgrade_clamped: audit.is_downgrade_clamped,
-                    duration_locked: audit.duration_locked,
-                    soft_reset_applied: audit.soft_reset_applied,
-                    defensive_override: audit.defensive_override,
-                }
-            }),
-            potential_energy: packet.market_features.potential_energy,
-            system_confidence: packet.market_features.system_confidence,
-            assets: packet
-                .assets
-                .iter()
-                .map(|asset| BacktestAssetSnapshot {
-                    symbol: asset.symbol.clone(),
-                    action: match asset.action {
-                        AssetAction::REDUCE => BacktestAssetAction::Reduce,
-                        AssetAction::FREEZE => BacktestAssetAction::Freeze,
-                        AssetAction::AVOID => BacktestAssetAction::Avoid,
-                        _ => BacktestAssetAction::Other,
-                    },
-                    deviation: asset.deviation,
-                    asset_state: match asset.asset_state.state {
-                        AssetState::OPTIMAL => BacktestAssetState::Optimal,
-                        _ => BacktestAssetState::Other,
-                    },
-                    breakout_eligible: asset.breakout.breakout_eligible,
-                    breakout_status: match asset.breakout.status {
-                        BreakoutStatus::NoBreakout => BacktestBreakoutStatus::NoBreakout,
-                        BreakoutStatus::EmergingBreakout => {
-                            BacktestBreakoutStatus::EmergingBreakout
-                        }
-                        BreakoutStatus::ConfirmedBreakout => {
-                            BacktestBreakoutStatus::ConfirmedBreakout
-                        }
-                    },
-                    breakout_failed_risk: asset
-                        .breakout
-                        .reasons
-                        .contains(&BreakoutReason::FailedBreakoutRisk),
-                    reasons: asset.reasons.clone(),
-                })
-                .collect(),
         }
     }
 }
@@ -149,10 +76,6 @@ impl BacktestDecisionEngine for RadarBacktestDecisionEngine {
         if mutable_history.len() > 20 {
             mutable_history.remove(0);
         }
-        Ok(Self::to_snapshot(&packet))
+        Ok(decision_packet_to_snapshot(&packet))
     }
-}
-
-fn lifecycle_state_code(state: LifecycleState) -> String {
-    format!("{:?}", state)
 }
