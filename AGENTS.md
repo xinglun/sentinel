@@ -124,6 +124,23 @@ Work Item 化の基準は AI が関与したかではなく、repo diff と revi
 6. 作業後は `.ai/work-items/active/<task>.summary.json` を更新し、Contract の required checks を `make` 経由で実行する。
 7. 必須 check が失敗した状態で `ready_for_review` と報告しない。
 
+
+### 5.1 Work Item 境界 checklist
+
+新しい Work Item を実装する前に、次の境界を Contract の acceptance または sources に明記する。
+
+- Gate / execution / trader / action matrix / position sizing に影響するか。影響しない場合は表示・監査専用と明記する。
+- Telegram、Markdown、CLI、audit daily、weekly review のどこに表示するか。表示しない場合も明記する。
+- data branch、reports、JSONL、snapshot、weekly metrics のどこへ保存するか。全文保存と構造化 record を混同しない。
+- zh / en / ja の i18n、snapshot、contract test が必要か。単一言語 report に別言語の設定文を混入させない。
+- fact、manual observation、hypothesis、fixture、local cache を区別し、Reality Layer と Hypothesis Layer を混ぜない。
+- 新しい検証や運用入口は `make` target として提供する。裸の script command を運用手順にしない。
+- data branch は data-only branch とし、code tree、AI governance、local temporary cache を持ち込まない。認知校正の長期比較は週次粒度を標準とする。
+
+作業後の Summary には、code / test / docs / i18n / report output / data or weekly record / Make or CI guard の確認結果を残す。未確認項目は未確認として書き、完了を過大に表現しない。
+
+User correction が発生した場合は、修正だけで終えず、同種の回帰を防ぐために Contract、Summary、document、template、guard のどこへ固化するかを判断する。
+
 標準 command:
 
 ```bash

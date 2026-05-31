@@ -32,6 +32,21 @@ AI 作業は通常の開発品質を免除しません。複雑な diff を伴�
 
 軽微な質問、調査のみ、diff を伴わない説明は Work Item 化しません。対象は reviewer が scope、根拠、検証、リスクを追跡する価値がある変更です。
 
+
+## Work Item 境界 checklist
+
+新しい Work Item を code mode で開始する時は、実装前に次の境界を Contract の acceptance または sources に反映します。
+
+1. **Decision boundary**: Gate、execution、trader、action matrix、新規建玉上限へ接続するか。接続しない場合は「表示 / 監査専用」と明記する。
+2. **Report boundary**: Telegram、Markdown、CLI、audit daily、weekly review のどこに表示するか。表示しない場合も明記する。
+3. **Persistence boundary**: data branch、reports、JSONL、snapshot、weekly metrics のどこへ残すか。全文保存と構造化 record を混同しない。
+4. **Language boundary**: user-facing 出力の対象言語、i18n 追加、snapshot / contract test の必要性を明記する。
+5. **Evidence boundary**: fact、manual observation、hypothesis、fixture、local cache を区別し、Reality Layer と Hypothesis Layer を混ぜない。
+6. **Command boundary**: 検証、補助 script、CI entrypoint は原則 `make` target 経由にする。裸の `python3 scripts/...` を新しい運用手順として追加しない。
+7. **Data branch boundary**: 長期記録は data-only branch に置く。code tree や AI governance file を data branch へ持ち込まない。認知校正の長期比較は週次粒度を標準とする。
+
+この checklist は作業を遅くするためではなく、実装後に「どこへ表示するか」「何を保存するか」「Gate に影響したか」を人間が繰り返し指摘しなくて済むようにするための最小契約である。
+
 ## 最小フロー
 
 1. `make ai-start TASK=<task> TITLE="..." MODE=code` で Contract / Summary を作成する。
