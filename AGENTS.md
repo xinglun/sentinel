@@ -144,6 +144,8 @@ make quality
 
 `make test-ai-guards` は `.ai/**/*.yaml` の parse guard を含み、`make check-ai` と `make quality` から実行される。Work Item 文脈では `CONTRACT` と `SUMMARY` を渡す command を優先し、裸の `make quality` だけで Cockpit status consistency を代替しない。
 
+Contract / Summary の `verification[].command` は `make ...` 形式だけを許可する。`python3 scripts/...`、`cargo ...`、`bash ...`、`git ...` などの裸 command が必要になった場合は、先に Makefile target を追加してから、その `make` target を verification に記録する。
+
 Work Item を完了する時は次を使う。
 
 ```bash

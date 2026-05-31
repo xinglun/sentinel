@@ -1,0 +1,95 @@
+{
+  "workItemId": "make-only-verification-gate",
+  "contractPath": ".ai/work-items/archive/2026/make-only-verification-gate.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/make-only-verification-gate.contract.json",
+      "reason": "make-only verification hard gate の scope / acceptance / verification を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/make-only-verification-gate.summary.json",
+      "reason": "変更内容と make 経由 verification の結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の進行状態を Cockpit status に反映した。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Contract / Summary の verification command を make entrypoint に限定する規約を追加した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "verification command regression test の make target を追加し、check-ai に組み込んだ。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Contract verification[].command が make 以外の場合に失敗する hard gate を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Summary verification[].command が make 以外の場合に失敗する hard gate を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_verification_commands.py",
+      "reason": "Contract / Summary が raw python / cargo / bash / git command を拒否する regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/make-only-verification-gate.contract.json",
+    "AGENTS.md",
+    "Makefile",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_check_summary.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-verification-commands",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Contract / Summary の verification command は make entrypoint だけに制限され、raw command の回帰は regression test と check-ai で検出される。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

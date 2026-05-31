@@ -1,0 +1,97 @@
+{
+  "contractVersion": 1,
+  "workItemId": "make-only-verification-gate",
+  "mode": "code",
+  "title": "verification commandをmake入口へ強制",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/make-only-verification-gate.contract.json",
+    ".ai/work-items/active/make-only-verification-gate.summary.json",
+    "AGENTS.md",
+    "Makefile",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_test_verification_commands.py"
+  ],
+  "outOfScope": [
+    "production Rust code の変更",
+    "既存 checker の判定対象拡張以外の architecture rule 変更",
+    "CI workflow の変更"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Contract verification command の make-only hard gate を実装する対象。"
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "Summary verification command の make-only hard gate を実装する対象。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "新しい checker regression test を make entrypoint に統一する対象。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "verification command は make 経由に限定する運用規約を明文化する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Work Item Contract の verification[].command は make で始まらない command を拒否する。",
+    "AI Change Summary の verification[].command は make で始まらない command を拒否する。",
+    "python3 / cargo / bash などの裸 command は Contract / Summary verification で拒否される。",
+    "新しい regression test は Makefile target から実行でき、check-ai に含まれる。",
+    "AGENTS.md に make-only verification policy が明記されている。",
+    "format、quality、AI Cockpit checks が通過している。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-verification-commands",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/make-only-verification-gate.contract.json SUMMARY=.ai/work-items/active/make-only-verification-gate.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

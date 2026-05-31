@@ -73,6 +73,19 @@ def validate_sources(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def is_make_command(command: str) -> bool:
+    stripped = command.strip()
+    return stripped == "make" or stripped.startswith("make ")
+
+
+def validate_verification_command(command: str, index: int) -> list[str]:
+    if is_make_command(command):
+        return []
+    return [
+        f"verification[{index}].command は make entrypoint を使ってください: {command}"
+    ]
+
+
 def validate_verification(data: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     values = data.get("verification")
@@ -85,6 +98,8 @@ def validate_verification(data: dict[str, Any]) -> list[str]:
             continue
         if not non_empty_string(item.get("command")):
             issues.append(f"verification[{index}].command は必須です。")
+        else:
+            issues.extend(validate_verification_command(item["command"], index))
         if not isinstance(item.get("required"), bool):
             issues.append(f"verification[{index}].required は boolean にしてください。")
         if item.get("required") is True and non_empty_string(item.get("command")):
