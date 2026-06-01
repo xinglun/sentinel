@@ -1,0 +1,71 @@
+{
+  "workItemId": "guard-config-fix",
+  "contractPath": ".ai/work-items/active/guard-config-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "config.toml の aiWrite を forbidden から restricted に変更した。"
+    },
+    {
+      "path": "scripts/ai_test_guards.py",
+      "reason": "forbidden テストの対象を config.toml から reports/daily.md に差し替えた。"
+    },
+    {
+      "path": ".ai/work-items/active/guard-config-fix.contract.json",
+      "reason": "Work Item Contract を作成・更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/guard-config-fix.summary.json",
+      "reason": "AI Change Summary を作成・更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/guards/file_ownership.yaml",
+    "scripts/ai_test_guards.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/guard-config-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/guard-config-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/guard-config-fix.summary.json CONTRACT=.ai/work-items/active/guard-config-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "config.toml の aiWrite を forbidden から restricted に変更し、対応テストを修正するだけの軽微な変更。Gate、execution、trading logic には影響しない。"
+  },
+  "boundaryChecklist": {
+    "detail": "guard 設定とテスト修正のみ。Gate・execution・trader・action matrix・position sizing に影響しない。表示・監査専用でもない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

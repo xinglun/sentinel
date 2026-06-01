@@ -1,0 +1,68 @@
+{
+  "contractVersion": 1,
+  "workItemId": "guard-config-fix",
+  "mode": "code",
+  "title": "config.toml の aiWrite を restricted に変更",
+  "scope": [
+    ".ai/guards/file_ownership.yaml",
+    ".ai/work-items/active/guard-config-fix.contract.json",
+    ".ai/work-items/active/guard-config-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_test_guards.py"
+  ],
+  "outOfScope": ["config.toml"],
+  "sources": [
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "config.toml の aiWrite を forbidden から restricted に変更。"
+    },
+    {
+      "path": "scripts/ai_test_guards.py",
+      "reason": "forbidden テストの対象を config.toml から reports/ に差し替え。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "config.toml の aiWrite が restricted になっている。",
+    "ai_test_guards.py の forbidden テストが reports/ を対象にしている。",
+    "make test-ai-guards が通過する。",
+    "make check-ai-guards が通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/guard-config-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/guard-config-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/guard-config-fix.summary.json CONTRACT=.ai/work-items/active/guard-config-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
