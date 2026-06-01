@@ -196,7 +196,7 @@ participation_ready =
 
 新規ファイルの追加推奨：
 
-1. [participation.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/radar/domain/participation_readiness.rs)
+1. `src/features/radar/domain/participation_readiness.rs`
 
 そして以下の場所で接続します：
 

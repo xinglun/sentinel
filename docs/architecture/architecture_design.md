@@ -9,6 +9,12 @@ keywords: [data-structures, concurrency, error-handling, logic]
 
 # 🐕 Stock Sentinel - アーキテクチャおよび詳細設計ドキュメント
 
+## 現行アーキテクチャとの関係
+
+この文書は初期設計と詳細背景を説明する補助資料です。現行の DDD / Clean Architecture 境界、feature-first 構造、依存方向、architecture checker の判断は `docs/specs/DDD_CLEAN_ARCHITECTURE.md` と `.ai/architecture/feature_acl.yaml` を SSOT とします。
+
+本書内に旧 root module、旧 `src/core/**`、旧 layer 名が残る場合、それらは歴史的説明として扱い、現在の実装指針としては使いません。
+
 本ドキュメントでは、PRDにおけるシステム要件を技術的な観点から詳細化します。主にコアデータ構造の設計と境界条件・例外処理のマトリックスを扱い、Rustによるコーディングの明確な指針を提供します。
 
 ## 1. コアデータ構造の設計 (Data Structures)

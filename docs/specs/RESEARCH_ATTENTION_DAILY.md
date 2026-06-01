@@ -47,6 +47,20 @@ information_density = "STABLE"
 reason = "AI 収益化の理解が進み、辺際的な情報増分は低下。"
 ```
 
+設定変更後は、日次レポートを走らせる前に次の軽量 command で `config.toml` の構文と runtime validation を確認します。
+
+```bash
+make config-check
+```
+
+`config-check` は `config.toml` を読み込むだけであり、Telegram、report、evidence、data branch、Gate、execution には接続しません。
+
+## 標準ローカライズ
+
+Research Attention / Asset Thesis の本文は `config.toml` では日本語の base text を SSOT とし、標準 catalog に登録済みの銘柄は `output.language` に応じて中国語・英語へ投影します。
+
+`SPCX` は標準 catalog に登録済みです。運用者は `reason_zh`、`reason_en`、`thesis_zh`、`thesis_en` を `config.toml` に重複して書く必要はありません。日本語 base text を変更すると catalog の一致条件から外れるため、文面を変更する場合は catalog と regression test を同時に更新します。
+
 ## 値
 
 `cognitive_yield` は次を使います。

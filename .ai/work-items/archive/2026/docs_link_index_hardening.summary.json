@@ -1,0 +1,114 @@
+{
+  "workItemId": "docs_link_index_hardening",
+  "contractPath": ".ai/work-items/archive/2026/docs_link_index_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/docs_link_index_hardening.contract.json",
+      "reason": "docs link / index guard 強化の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/docs_link_index_hardening.summary.json",
+      "reason": "作業結果と検証結果を記録した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-doc-index を追加し、check-rust chain に docs link / index guard を組み込んだ。"
+    },
+    {
+      "path": "scripts/check_markdown_links.py",
+      "reason": "README と docs current documents の相対リンク検査、および docs/specs index 検査へ拡張した。"
+    },
+    {
+      "path": "scripts/ai_test_markdown_links.py",
+      "reason": "archive 除外、specs 対象化、index section 抽出を regression test で固定した。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "GRAY_RHINO_EVIDENCE_CONTRACT.md を specs index に追加した。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "未実装予定 file への absolute Markdown link を code span に修正した。"
+    },
+    {
+      "path": "docs/specs/STATE_MACHINE_V1_2_VALIDATION.md",
+      "reason": "旧 root backtest link を feature-first の backtest interface path へ修正した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/check_markdown_links.py",
+    "scripts/ai_test_markdown_links.py",
+    "docs/README.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    "docs/specs/STATE_MACHINE_V1_2_VALIDATION.md",
+    "Makefile"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/docs_link_index_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/docs_link_index_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-index",
+      "result": "passed"
+    },
+    {
+      "command": "make test-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/docs_link_index_hardening.contract.json SUMMARY=.ai/work-items/active/docs_link_index_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/docs_link_index_hardening.summary.json CONTRACT=.ai/work-items/active/docs_link_index_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/docs_link_index_hardening.contract.json SUMMARY=.ai/work-items/active/docs_link_index_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/docs_link_index_hardening.contract.json SUMMARY=.ai/work-items/active/docs_link_index_hardening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "文書 guard の強化に限定し、runtime code、Gate、execution、market decision rule は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "detail": "拡張 link check により current specs 内の broken link を 2 件検出し、修正した。"
+    },
+    {
+      "detail": "docs/specs に GRAY_RHINO_EVIDENCE_CONTRACT.md が存在するが docs/README.md の specs index に未掲載だったため追加した。"
+    },
+    {
+      "detail": "macOS find は -printf 非対応のため、checker / test は Python Path API で実装した。"
+    }
+  ]
+}

@@ -188,6 +188,15 @@ enable = true              # 是否纳入监控
 trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
 
 [[watchlist]]
+symbol = "SPCX"            # 标的代码
+market = "US"              # 所属市场
+owner_ma_days = 20         # 20 日线作为长期主引力基准
+leash_ma_days = 5          # 5 日线作为短期动能牵引
+deviation_basis = "owner"  # 基于长期主引力观察超买/超卖偏离
+enable = false             # 是否纳入监控
+trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+
+[[watchlist]]
 symbol = "SPY"             # 标的代码
 weight = 10.0              # 组合权重
 market = "US"              # 所属市场
@@ -196,6 +205,7 @@ leash_ma_days = 20         # 牵引均线周期
 deviation_basis = "leash"  # 偏离度基准
 enable = true              # 是否纳入监控
 trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
+
 [research_attention.NVDA]
 cognitive_yield = "HIGH"
 attention_cost = "HIGH"
@@ -238,6 +248,12 @@ attention_cost = "MODERATE"
 information_density = "ACTIVE"
 reason = "低位修復後の再評価、実需、収益構造の改善が続くかを観測する。"
 
+[research_attention.SPCX]
+cognitive_yield = "HIGH"
+attention_cost = "HIGH"
+information_density = "EXPANDING"
+reason = "宇宙輸送、Starlink、衛星通信、政府契約、AI / compute infrastructure との接続が公開市場でどのように評価されるかを観測する価値が高い。"
+
 [research_attention.SPY]
 cognitive_yield = "LOW"
 attention_cost = "LOW"
@@ -278,6 +294,22 @@ invalidation = ["手術件数または導入台数の成長が鈍化する", "�
 thesis = "低位修復後の価格再評価が、実需と収益構造改善で継続できるかを観測する。"
 observation_focus = ["ゲーム以外の利用拡大", "収益性改善とコスト構造", "修復相場から構造成長へ移れるか"]
 invalidation = ["収益改善が一時的に終わる", "主要顧客または開発者エコシステムが弱まる", "価格修復だけで実体が追いつかない"]
+
+[asset_thesis.SPCX]
+thesis = "SpaceX が宇宙輸送、Starlink、衛星通信、政府契約を通じて、長期インフラ企業として公開市場で評価されるかを観測する。"
+observation_focus = [
+  "Starlink の成長率と利益率",
+  "打ち上げ事業の価格競争力",
+  "政府・防衛契約の継続性",
+  "IPO 後の需給、lockup、流通株式数",
+  "Tesla / xAI / Elon Musk ecosystem との市場心理連動"
+]
+invalidation = [
+  "Starlink の成長または利益率が期待を下回る",
+  "打ち上げ競争または規制で収益性が低下する",
+  "公開市場の期待が実体収益に対して過度に先行する",
+  "governance または key-person dependency が評価を圧迫する"
+]
 
 [asset_thesis.SPY]
 thesis = "個別銘柄ではなく、市場全体の流動性、指数トレンド、リスクオン/オフの基準線として観測する。"

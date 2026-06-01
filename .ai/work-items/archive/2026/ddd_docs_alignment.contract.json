@@ -1,0 +1,118 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd_docs_alignment",
+  "mode": "code",
+  "title": "DDD Clean Architecture 文書導線を同期",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/ddd_docs_alignment.contract.json",
+    ".ai/work-items/active/ddd_docs_alignment.summary.json",
+    "Makefile",
+    "README.md",
+    "docs/README.md",
+    "docs/architecture/architecture_design.md",
+    "docs/architecture/IMPLEMENTATION_WALKTHROUGH.md",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "scripts/check_markdown_links.py",
+    "scripts/ai_test_markdown_links.py"
+  ],
+  "outOfScope": [
+    "config.toml",
+    "src/**",
+    "tests/**",
+    "Gate / execution / trader / action matrix / position sizing",
+    "market decision rules",
+    "data branch contents"
+  ],
+  "sources": [
+    {
+      "path": "README.md",
+      "reason": "DDD Clean Architecture の文書導線に broken link がある。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "ドキュメント階層と SSOT の説明を同期する。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "現行 DDD / Clean Architecture の human-readable SSOT。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "architecture checker が読む machine-readable SSOT。"
+    },
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "旧構造説明が現在 SSOT と衝突しないよう位置づけを明確化する。"
+    },
+    {
+      "path": "docs/architecture/IMPLEMENTATION_WALKTHROUGH.md",
+      "reason": "現行 feature-first 実装ガイドとして DDD 文書への導線を補強する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "Markdown link check を make entrypoint に追加する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "README の DDD Clean Architecture link が実在する `docs/specs/DDD_CLEAN_ARCHITECTURE.md` を指す。",
+    "docs/README が DDD / Clean Architecture の current SSOT と checker SSOT を明記する。",
+    "docs/architecture 配下の旧設計文書が specs の DDD SSOT を上書きしない位置づけになっている。",
+    "Markdown link check が Makefile target として提供され、README と docs/README の相対リンク不整合を検出できる。",
+    "この Work Item は文書導線と guard 追加に限定し、runtime code、Gate、execution、market decision rule を変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd_docs_alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd_docs_alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-doc-links",
+      "required": true
+    },
+    {
+      "command": "make test-doc-links",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ddd_docs_alignment.contract.json SUMMARY=.ai/work-items/active/ddd_docs_alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd_docs_alignment.summary.json CONTRACT=.ai/work-items/active/ddd_docs_alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd_docs_alignment.contract.json SUMMARY=.ai/work-items/active/ddd_docs_alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd_docs_alignment.contract.json SUMMARY=.ai/work-items/active/ddd_docs_alignment.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "README、docs、Markdown link checker、Makefile、およびこの Work Item の diff を revert する。"
+}

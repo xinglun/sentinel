@@ -1,0 +1,98 @@
+{
+  "workItemId": "spcx_default_cognitive_catalog",
+  "contractPath": ".ai/work-items/archive/2026/spcx_default_cognitive_catalog.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "reason": "SPCX default catalog 追加の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+      "reason": "変更内容と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item status を生成する。"
+    },
+    {
+      "path": "src/features/research/interface/default_cognitive_localizations.rs",
+      "reason": "SPCX の research attention / asset thesis / focus / invalidation の zh/en default catalog を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "SPCX が明示三語 config なしでも zh/en/ja 出力できる contract test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/research/interface/default_cognitive_localizations.rs",
+    "tests/research_attention_cli_integration.rs",
+    "config.toml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "research sidecar の default localization catalog と contract test のみ。Gate / execution / trader / data branch は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "config.toml は restricted local config のため、AI Work Item の変更対象から除外した。ユーザーの SPCX config diff は検証後に復元する。",
+    "定向確認は実施済みだが、Summary verification には make entrypoint のみを残す。"
+  ],
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "changed",
+    "persistence": "no_persistence",
+    "i18n": "changed",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "新規標準 watchlist 銘柄は config に明示三語を要求せず、default catalog で zh/en/ja を提供する。"
+  ],
+  "knownGaps": [
+    "SPCX を radar watchlist で enable=true にするかは、データ provider が正式 ticker を安定取得できるようになってから判断する。"
+  ],
+  "overclaimPrevention": "この変更は cognitive sidecar の表示 catalog だけであり、SPCX の取引可否、Gate、行情取得成功を保証しない。"
+}

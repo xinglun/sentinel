@@ -38,6 +38,12 @@ Stock Sentinelは、市場の変動を「物理的な観測」として捉え、
 
 > **注意：** Moomoo OpenD ゲートウェイは、ローカルPCまたはサーバー上で実行し、安全スキャン認証を完了させておく必要があります。GitHub Actions などの CI 環境では、自動的に OpenD をスキップし、Yahoo データソースへとフォールバックします。
 
+設定だけを検証する場合は、レポート生成や Telegram 送信を行わない軽量入口を使います。
+
+```bash
+make config-check
+```
+
 ### 2. 日常の観測 (Daily Radar)
 毎日の終値確定後、以下のコマンドで現在の「資本の天気」を確認します。通常、GitHub Actions によって夜間に実行されます。
 ```bash
@@ -152,7 +158,7 @@ language = "ja-jp"
 - [Hosting Spec](./docs/specs/hosting_spec.md) - GitHub Actions のホスティングとアーカイブ要件
 
 ### Implementation
-- [DDD Clean Architecture](./docs/architecture/DDD_CLEAN_ARCHITECTURE.md) - feature-first / Clean Architecture の現行境界
+- [DDD Clean Architecture](./docs/specs/DDD_CLEAN_ARCHITECTURE.md) - feature-first / Clean Architecture の現行境界
 - [Implementation Walkthrough](./docs/architecture/IMPLEMENTATION_WALKTHROUGH.md) - 現行 feature-first 実装ガイド
 - [Architecture Design](./docs/architecture/architecture_design.md) - 構造設計とデータフロー
 - [Strategy Philosophy](./docs/architecture/strategy_philosophy.md) - 戦略設計哲学

@@ -1,0 +1,90 @@
+{
+  "contractVersion": 1,
+  "workItemId": "spcx_default_cognitive_catalog",
+  "mode": "code",
+  "title": "SPCXを標準認知カタログへ追加",
+  "scope": [
+    ".ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+    ".ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/default_cognitive_localizations.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/**",
+    "src/features/trading/**",
+    ".github/workflows/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/default_cognitive_localizations.rs",
+      "reason": "標準 watchlist の認知観測と観測命題の三語 fallback catalog。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "research-attention / asset-thesis の三語 contract test。"
+    },
+    {
+      "path": "config.toml",
+      "reason": "ユーザー追加の SPCX 設定を参照したが、AI は restricted config を変更しない。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "SPCX が標準認知 catalog に追加され、config に明示的な reason_zh / reason_en / reason_ja がなくても三語出力できる。",
+    "SPCX の asset thesis、observation focus、invalidation が zh/en/ja で fallback できる。",
+    "この変更は research sidecar の表示 catalog のみで、Gate、execution、trader、action matrix、data branch 永続化を変更しない。",
+    "既存のカスタム銘柄 fallback behavior は維持する。",
+    "config.toml はユーザー管理変更として編集しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/spcx_default_cognitive_catalog.contract.json SUMMARY=.ai/work-items/active/spcx_default_cognitive_catalog.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "SPCX default cognitive catalog と関連 test 追加を revert する。config.toml のユーザー変更は保持する。"
+}

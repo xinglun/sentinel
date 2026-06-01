@@ -22,6 +22,9 @@ pub(super) fn research_reason_zh(symbol: &str, original: &str) -> Option<&'stati
         ("U", "低位修復後の再評価、実需、収益構造の改善が続くかを観測する。") => {
             Some("观察低位修复后的再评价、真实需求与盈利结构改善能否延续。")
         }
+        ("SPCX", "宇宙輸送、Starlink、衛星通信、政府契約、AI / compute infrastructure との接続が公開市場でどのように評価されるかを観測する価値が高い。") => {
+            Some("观察 SpaceX 在宇宙运输、Starlink、卫星通信、政府合同，以及 AI / compute infrastructure 连接上如何被公开市场定价。")
+        }
         ("SPY", "個別テーマではなく市場構造、流動性、指数トレンドの基準線として観測する。") => {
             Some("作为市场结构、流动性与指数趋势的基准线，而非个别主题进行观察。")
         }
@@ -52,6 +55,9 @@ pub(super) fn research_reason_en(symbol: &str, original: &str) -> Option<&'stati
         }
         ("U", "低位修復後の再評価、実需、収益構造の改善が続くかを観測する。") => {
             Some("Observe whether rerating after the low-base recovery is sustained by real demand and improving earnings structure.")
+        }
+        ("SPCX", "宇宙輸送、Starlink、衛星通信、政府契約、AI / compute infrastructure との接続が公開市場でどのように評価されるかを観測する価値が高い。") => {
+            Some("Observe how public markets price SpaceX across launch, Starlink, satellite communications, government contracts, and its connection to AI / compute infrastructure.")
         }
         ("SPY", "個別テーマではなく市場構造、流動性、指数トレンドの基準線として観測する。") => {
             Some("Observe it as a baseline for market structure, liquidity, and index trends rather than as an individual theme.")
@@ -84,6 +90,9 @@ pub(super) fn asset_thesis_zh(symbol: &str, original: &str) -> Option<&'static s
         ("U", "低位修復後の価格再評価が、実需と収益構造改善で継続できるかを観測する。") => {
             Some("观察低位修复后的价格再评价，能否由真实需求与盈利结构改善延续。")
         }
+        ("SPCX", "SpaceX が宇宙輸送、Starlink、衛星通信、政府契約を通じて、長期インフラ企業として公開市場で評価されるかを観測する。") => {
+            Some("观察 SpaceX 是否能通过宇宙运输、Starlink、卫星通信和政府合同，被公开市场作为长期基础设施企业重新定价。")
+        }
         ("SPY", "個別銘柄ではなく、市場全体の流動性、指数トレンド、リスクオン/オフの基準線として観測する。") => {
             Some("不作为个别标的，而作为全市场流动性、指数趋势与风险偏好的基准线观察。")
         }
@@ -114,6 +123,9 @@ pub(super) fn asset_thesis_en(symbol: &str, original: &str) -> Option<&'static s
         }
         ("U", "低位修復後の価格再評価が、実需と収益構造改善で継続できるかを観測する。") => {
             Some("Observe whether rerating after the low-base recovery can continue through real demand and an improving earnings structure.")
+        }
+        ("SPCX", "SpaceX が宇宙輸送、Starlink、衛星通信、政府契約を通じて、長期インフラ企業として公開市場で評価されるかを観測する。") => {
+            Some("Observe whether SpaceX can be valued by public markets as a long-term infrastructure company through launch, Starlink, satellite communications, and government contracts.")
         }
         ("SPY", "個別銘柄ではなく、市場全体の流動性、指数トレンド、リスクオン/オフの基準線として観測する。") => {
             Some("Observe it not as an individual security, but as a baseline for market-wide liquidity, index trends, and risk appetite.")
@@ -160,6 +172,13 @@ pub(super) fn observation_focus_zh(symbol: &str, thesis: &str) -> Option<Vec<Str
             "游戏以外使用场景扩展",
             "盈利能力改善与成本结构",
             "能否从修复行情转向结构成长",
+        ])),
+        "SPCX" => Some(strings(&[
+            "Starlink 的增长率与利润率",
+            "发射业务的价格竞争力",
+            "政府与防务合同的持续性",
+            "IPO 后的供需、lockup 与流通股结构",
+            "Tesla / xAI / Elon Musk 生态对市场心理的联动",
         ])),
         "SPY" => Some(strings(&[
             "指数趋势与市场广度的关系",
@@ -209,6 +228,13 @@ pub(super) fn observation_focus_en(symbol: &str, thesis: &str) -> Option<Vec<Str
             "Profitability improvement and cost structure",
             "Ability to shift from recovery rally to structural growth",
         ])),
+        "SPCX" => Some(strings(&[
+            "Starlink growth rate and profitability",
+            "Launch business pricing power and cost competitiveness",
+            "Continuity of government and defense contracts",
+            "Post-IPO supply-demand, lockup, and public float structure",
+            "Market psychology linkage with Tesla / xAI / Elon Musk ecosystem",
+        ])),
         "SPY" => Some(strings(&[
             "Relationship between index trend and market breadth",
             "Divergence between mega-cap leadership and the broader market",
@@ -257,6 +283,12 @@ pub(super) fn invalidation_zh(symbol: &str, thesis: &str) -> Option<Vec<String>>
             "主要客户或开发者生态减弱",
             "只有价格修复而实体没有跟上",
         ])),
+        "SPCX" => Some(strings(&[
+            "Starlink 增长或利润率低于预期",
+            "发射竞争或监管导致盈利能力下降",
+            "公开市场预期明显跑在实际收入前面",
+            "治理结构或关键人物依赖压制估值",
+        ])),
         "SPY" => Some(strings(&[
             "指数明确跌破长期趋势",
             "市场广度恶化波及领导资产",
@@ -304,6 +336,12 @@ pub(super) fn invalidation_en(symbol: &str, thesis: &str) -> Option<Vec<String>>
             "Profitability improvement proves temporary",
             "Major customers or the developer ecosystem weaken",
             "Price recovery proceeds without fundamental follow-through",
+        ])),
+        "SPCX" => Some(strings(&[
+            "Starlink growth or profitability falls below expectations",
+            "Launch competition or regulation weakens profitability",
+            "Public market expectations move too far ahead of actual revenue",
+            "Governance or key-person dependency pressures valuation",
         ])),
         "SPY" => Some(strings(&[
             "The index clearly breaks its long-term trend",

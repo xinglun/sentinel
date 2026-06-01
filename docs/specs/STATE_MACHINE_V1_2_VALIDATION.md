@@ -105,7 +105,7 @@ V1.1 が旧状態機と比較して、以下の問題を実際に改善したか
 
 修正範囲：
 
-1. [backtest.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/backtest.rs)
+1. [backtest.rs](/Users/sei-rinn/dev/workspace_rust/sentinel/src/features/backtest/interface/backtest.rs)
 2. `market_regime` 関連の統計集計パス。
 
 要件：
