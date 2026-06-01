@@ -26,7 +26,7 @@ GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality config-check radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
-	collect-evidence-release research-attention daily-calibration gray-rhino-refresh archive-work-item check-work-items-lifecycle
+	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
@@ -44,6 +44,7 @@ help:
 	@printf '%s\n' '  make research-attention RESEARCH_ATTENTION_ARGS="..."'
 	@printf '%s\n' '  make daily-calibration DAILY_CALIBRATION_ARGS="..."'
 	@printf '%s\n' '  make gray-rhino-refresh GRAY_RHINO_REFRESH_ARGS="--date YYYY-MM-DD"'
+	@printf '%s\n' '  make gray-rhino-refresh-report GRAY_RHINO_REFRESH_DAILY_ARGS="..."'
 	@printf '%s\n' '  make fmt-check'
 	@printf '%s\n' '  make audit-docs'
 	@printf '%s\n' '  make check-doc-forbidden-terms'

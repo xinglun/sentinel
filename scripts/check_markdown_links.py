@@ -48,9 +48,12 @@ def find_broken_links(include_archive: bool = False) -> list[str]:
     return errors
 
 
-def specs_index_section(text: str) -> str:
-    start_marker = "## 1. `specs/`"
-    end_marker = "## 2. `architecture/`"
+def docs_index_section(text: str, section: str) -> str:
+    headings = {
+        "specs": ("## 1. `specs/`", "## 2. `architecture/`"),
+        "architecture": ("## 2. `architecture/`", "## 3. `archive/`"),
+    }
+    start_marker, end_marker = headings[section]
     start = text.find(start_marker)
     end = text.find(end_marker)
     if start == -1 or end == -1 or end <= start:
@@ -61,13 +64,14 @@ def specs_index_section(text: str) -> str:
 def docs_index_errors() -> list[str]:
     docs_readme = ROOT / "docs" / "README.md"
     text = docs_readme.read_text(encoding="utf-8")
-    indexed = set(DOC_INDEX_RE.findall(specs_index_section(text)))
-    actual = {path.name for path in (ROOT / "docs" / "specs").glob("*.md")}
     errors: list[str] = []
-    for name in sorted(actual - indexed):
-        errors.append(f"docs/README.md: specs index missing -> {name}")
-    for name in sorted(indexed - actual):
-        errors.append(f"docs/README.md: specs index points to missing file -> {name}")
+    for section in ("specs", "architecture"):
+        indexed = set(DOC_INDEX_RE.findall(docs_index_section(text, section)))
+        actual = {path.name for path in (ROOT / "docs" / section).glob("*.md")}
+        for name in sorted(actual - indexed):
+            errors.append(f"docs/README.md: {section} index missing -> {name}")
+        for name in sorted(indexed - actual):
+            errors.append(f"docs/README.md: {section} index points to missing file -> {name}")
     return errors
 
 

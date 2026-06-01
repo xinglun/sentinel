@@ -1,0 +1,113 @@
+{
+  "workItemId": "interface_doc_guard_hardening",
+  "contractPath": ".ai/work-items/archive/2026/interface_doc_guard_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/interface_doc_guard_hardening.contract.json",
+      "reason": "作業 scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/interface_doc_guard_hardening.summary.json",
+      "reason": "作業結果と検証結果を記録した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "gray-rhino-refresh-report を .PHONY と help に追加し、make entrypoint の発見性を揃えた。"
+    },
+    {
+      "path": "scripts/check_markdown_links.py",
+      "reason": "docs index guard を specs と architecture の両方に拡張した。"
+    },
+    {
+      "path": "scripts/ai_test_markdown_links.py",
+      "reason": "specs / architecture section 抽出と index guard の regression を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "transition evidence read model module を登録した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "State transition evidence の組み立て責務を専用 read model builder へ移譲した。"
+    },
+    {
+      "path": "src/features/radar/interface/transition_evidence_read_model.rs",
+      "reason": "State transition evidence の read model 組み立てと local formatter を分離した。"
+    }
+  ],
+  "sourcesUsed": [
+    "Makefile",
+    "scripts/check_markdown_links.py",
+    "scripts/ai_test_markdown_links.py",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "docs/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interface_doc_guard_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interface_doc_guard_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-index",
+      "result": "passed"
+    },
+    {
+      "command": "make test-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interface_doc_guard_hardening.contract.json SUMMARY=.ai/work-items/active/interface_doc_guard_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interface_doc_guard_hardening.summary.json CONTRACT=.ai/work-items/active/interface_doc_guard_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interface_doc_guard_hardening.contract.json SUMMARY=.ai/work-items/active/interface_doc_guard_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interface_doc_guard_hardening.contract.json SUMMARY=.ai/work-items/active/interface_doc_guard_hardening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Interface read model の抽出と docs guard 強化に限定し、Domain / Application / Gate / execution は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "detail": "presentation_assembler.rs は 1619 行から 1288 行へ縮小した。"
+    },
+    {
+      "detail": "gray-rhino-refresh-report は存在していたが help に表示されていなかったため補正した。"
+    },
+    {
+      "detail": "docs index guard は specs のみ対象だったため architecture も対象に拡張した。"
+    }
+  ]
+}

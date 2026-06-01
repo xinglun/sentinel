@@ -34,9 +34,14 @@ sample = """
 
 ## 2. `architecture/`
 
+1. `B.md`
+
+## 3. `archive/`
+
 1. `legacy.md`
 """
-assert module.DOC_INDEX_RE.findall(module.specs_index_section(sample)) == ["A.md"]
+assert module.DOC_INDEX_RE.findall(module.docs_index_section(sample, "specs")) == ["A.md"]
+assert module.DOC_INDEX_RE.findall(module.docs_index_section(sample, "architecture")) == ["B.md"]
 
 index_errors = module.docs_index_errors()
 assert not index_errors, "docs index errors found: " + "; ".join(index_errors)
