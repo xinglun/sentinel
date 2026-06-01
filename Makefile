@@ -24,13 +24,14 @@ GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
 
 .PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
-	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality radar radar-release daemon backtest \
+	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality config-check radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
 	collect-evidence-release research-attention daily-calibration gray-rhino-refresh archive-work-item check-work-items-lifecycle
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
 	@printf '%s\n' '  make radar RADAR_ARGS="..."'
+	@printf '%s\n' '  make config-check'
 	@printf '%s\n' '  make radar-release RADAR_ARGS="..."'
 	@printf '%s\n' '  make daemon DAEMON_ARGS="..."'
 	@printf '%s\n' '  make backtest'
@@ -210,6 +211,9 @@ ai-finish:
 	python3 scripts/ai_finish.py --task $(TASK)
 
 quality: check-rust check-ai
+
+config-check:
+	cargo run -- config-check
 
 radar:
 	cargo run -- radar $(RADAR_ARGS)

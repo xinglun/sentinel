@@ -77,6 +77,12 @@ pub async fn run() -> Result<()> {
 
     match options.command {
         CliCommand::Help => unreachable!("help command returns before dispatch"),
+        CliCommand::ConfigCheck => {
+            println!(
+                "config.toml OK: {} watchlist entries",
+                app_config.watchlist.len()
+            );
+        }
         CliCommand::Backtest => {
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
             crate::features::backtest::interface::backtest::run_backtest(

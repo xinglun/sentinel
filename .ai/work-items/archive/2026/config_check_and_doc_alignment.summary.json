@@ -1,0 +1,121 @@
+{
+  "workItemId": "config_check_and_doc_alignment",
+  "contractPath": ".ai/work-items/archive/2026/config_check_and_doc_alignment.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/config_check_and_doc_alignment.contract.json",
+      "reason": "config-check と文書整合の実装 scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/config_check_and_doc_alignment.summary.json",
+      "reason": "作業結果と検証結果を記録した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "`make config-check` を標準入口に追加し、help と PHONY に同期した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "`config-check` CLI command と usage 文言を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "`config-check` dispatch を追加し、config load 成功時に watchlist 件数を表示する軽量 validation にした。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "config-check が report / Telegram を実行しないこと、および SPCX default localization が config 多言語 field なしで成立することを固定した。"
+    },
+    {
+      "path": "README.md",
+      "reason": "設定検証の標準入口として `make config-check` を追加した。"
+    },
+    {
+      "path": "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+      "reason": "config-check と SPCX default localization の運用境界を仕様に同期した。"
+    },
+    {
+      "path": "src/features/research/interface/default_cognitive_localizations.rs",
+      "reason": "SPCX default localization を前 Work Item から継続して保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/spcx_default_cognitive_catalog.contract.json",
+      "reason": "前 Work Item の archive 成果物を未 commit diff として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/spcx_default_cognitive_catalog.summary.json",
+      "reason": "前 Work Item の archive 成果物を未 commit diff として保持した。"
+    }
+  ],
+  "sourcesUsed": [
+    "Makefile",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "README.md",
+    "docs/specs/RESEARCH_ATTENTION_DAILY.md",
+    "src/features/research/interface/default_cognitive_localizations.rs",
+    "tests/research_attention_cli_integration.rs",
+    "AGENTS.md",
+    ".ai/cockpit/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/config_check_and_doc_alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/config_check_and_doc_alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make config-check",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/config_check_and_doc_alignment.contract.json SUMMARY=.ai/work-items/active/config_check_and_doc_alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/config_check_and_doc_alignment.summary.json CONTRACT=.ai/work-items/active/config_check_and_doc_alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/config_check_and_doc_alignment.contract.json SUMMARY=.ai/work-items/active/config_check_and_doc_alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/config_check_and_doc_alignment.contract.json SUMMARY=.ai/work-items/active/config_check_and_doc_alignment.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "軽量 config validation command と文書同期であり、Gate、execution、market decision rule は変更していない。config.toml は scope 外として扱い、検証時は一時的に HEAD へ戻して guard を通した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "detail": "既存 README / Research Attention 仕様に `make config-check` が存在しなかったため同期した。"
+    },
+    {
+      "detail": "SPCX の config 多言語 field は不要になったが、運用者が base text を変更すると default catalog の一致条件から外れるため仕様に明記した。"
+    },
+    {
+      "detail": "config.toml は local-config restricted path のため Work Item scope から除外した。ユーザーの local config は検証後に復元する。"
+    }
+  ]
+}

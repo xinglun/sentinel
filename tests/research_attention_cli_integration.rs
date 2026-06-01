@@ -2336,6 +2336,21 @@ fn cli_help_is_explicit_and_does_not_run_radar() {
 }
 
 #[test]
+fn config_check_validates_config_without_running_reports() {
+    let tmp = prepare_workspace("");
+
+    let out = run_cli(&tmp, &["config-check"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("config.toml OK"));
+    assert!(stdout.contains("watchlist entries"));
+    assert!(!stdout.contains("每日认知校准"));
+    assert!(!stdout.contains("Daily Cognitive Calibration"));
+    assert!(!stdout.contains("Telegram notification skipped"));
+}
+
+#[test]
 fn cli_unknown_command_is_rejected_without_radar_fallback() {
     let tmp = prepare_workspace("");
 
@@ -2454,6 +2469,73 @@ fn standard_research_catalog_has_complete_zh_en_ja_content() {
         ),
     ] {
         let tmp = prepare_standard_workspace(language);
+        let attention = run_cli(&tmp, &["research-attention"]);
+        let thesis = run_cli(&tmp, &["asset-thesis"]);
+
+        assert!(attention.status.success());
+        assert!(thesis.status.success());
+        let content = format!(
+            "{}\n{}",
+            String::from_utf8_lossy(&attention.stdout),
+            String::from_utf8_lossy(&thesis.stdout)
+        );
+        assert!(content.contains(expected_reason));
+        assert!(content.contains(expected_thesis));
+        assert!(content.contains(expected_focus));
+        assert!(content.contains(expected_invalidation));
+        assert!(!content.contains("User-defined observation text is not provided"));
+        assert!(!content.contains("用户自定义观察说明未提供"));
+    }
+}
+
+#[test]
+fn spcx_standard_catalog_does_not_require_explicit_config_translations() {
+    let config = r#"
+
+[research_attention.SPCX]
+cognitive_yield = "HIGH"
+attention_cost = "HIGH"
+information_density = "EXPANDING"
+reason = "宇宙輸送、Starlink、衛星通信、政府契約、AI / compute infrastructure との接続が公開市場でどのように評価されるかを観測する価値が高い。"
+
+[asset_thesis.SPCX]
+thesis = "SpaceX が宇宙輸送、Starlink、衛星通信、政府契約を通じて、長期インフラ企業として公開市場で評価されるかを観測する。"
+observation_focus = [
+  "Starlink の成長率と利益率",
+  "打ち上げ事業の価格競争力"
+]
+invalidation = [
+  "Starlink の成長または利益率が期待を下回る",
+  "governance または key-person dependency が評価を圧迫する"
+]
+"#;
+
+    for (language, expected_reason, expected_thesis, expected_focus, expected_invalidation) in [
+        (
+            "zh-cn",
+            "观察 SpaceX 在宇宙运输、Starlink、卫星通信、政府合同",
+            "观察 SpaceX 是否能通过宇宙运输、Starlink、卫星通信和政府合同",
+            "IPO 后的供需、lockup 与流通股结构",
+            "治理结构或关键人物依赖压制估值",
+        ),
+        (
+            "en-us",
+            "Observe how public markets price SpaceX across launch",
+            "Observe whether SpaceX can be valued by public markets as a long-term infrastructure company",
+            "Post-IPO supply-demand, lockup, and public float structure",
+            "Governance or key-person dependency pressures valuation",
+        ),
+        (
+            "ja-jp",
+            "宇宙輸送、Starlink、衛星通信、政府契約",
+            "SpaceX が宇宙輸送、Starlink、衛星通信、政府契約を通じて",
+            "Starlink の成長率と利益率",
+            "governance または key-person dependency が評価を圧迫する",
+        ),
+    ] {
+        let tmp = prepare_workspace(config);
+        set_output_language(&tmp, language);
+
         let attention = run_cli(&tmp, &["research-attention"]);
         let thesis = run_cli(&tmp, &["asset-thesis"]);
 
