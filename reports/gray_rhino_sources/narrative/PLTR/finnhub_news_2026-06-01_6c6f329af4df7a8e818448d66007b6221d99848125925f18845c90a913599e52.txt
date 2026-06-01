@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Seen Ready for Next Move Higher
+  summary: Traders are watching whether the stock can break out after a period of consolidation.
+  url: https://finnhub.io/api/news?id=4b4c60f36329ba071dfd0a34f12f7e5da7e3ff7a86514d639931bf1687603469

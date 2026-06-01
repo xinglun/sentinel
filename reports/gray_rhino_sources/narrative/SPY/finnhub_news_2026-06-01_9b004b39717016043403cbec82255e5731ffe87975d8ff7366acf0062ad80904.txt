@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hyperscaler's CDS Fears Are Rising
+  summary: The S&P 500 AI rally looks crowded as AI capex, debt, and hedge activity surge. See risks from yields, oil & dollarâand why a 10% correction may hit.
+  url: https://finnhub.io/api/news?id=27698c2ecf3c13842a6332a97f712ffb61ef1231e1cbd5fd5eeeaadf9f81e0a0

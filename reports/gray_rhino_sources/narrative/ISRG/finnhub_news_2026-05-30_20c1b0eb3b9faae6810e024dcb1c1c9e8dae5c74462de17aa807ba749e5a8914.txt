@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Thinks Intuitive Surgical Stock Can Soar Over 30%. Here's Why Analysts are Right.
+  summary: Intuitive Surgical's stock is in the middle of a deep drawdown, which is actually pretty common for this stock.
+  url: https://finnhub.io/api/news?id=a0e4a8bbf13d2d11cf974bdbc9cf7efe5a72e7fda603626cf1643cf406009b95

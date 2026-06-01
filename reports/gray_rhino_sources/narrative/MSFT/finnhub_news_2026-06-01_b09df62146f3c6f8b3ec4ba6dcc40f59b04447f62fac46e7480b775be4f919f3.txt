@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Major Accounting Software Brands Are Invisible in AI Search
+  summary: 5W, one of the largest independent public relations and digital marketing firms in the United States, today released The Accounting & Finance Software AI Visibility Index 2026 — the first public ranking of finance software vendors by AI search citation share across ChatGPT, Claude, Perplexity, Gemini, and Microsoft Copilot.
+  url: https://finnhub.io/api/news?id=c5279daa92a6d5a1af9addc28fbd1c6ca1af64b3de4baa524d2dc16de7b17c00

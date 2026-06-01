@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nutanix Unified Storage earns enterprise Nvidia-certified status, sending shares higher
+  summary: Nutanix Inc (NASDAQ:NTNX) has announced that its Nutanix Unified Storage (NUS) solution has achieved Nvidia-Certified status at the enterprise level, validating the product for use with Nvidia Corp (NASDAQ:NVDA, XETRA:NVD)'s accelerated-computing systems. The designation certifies Nutanix at...
+  url: https://finnhub.io/api/news?id=c7cce9fbf7b653efd4dfc867a15f1953f3f0f7e734076b6956b1e910d5b13957

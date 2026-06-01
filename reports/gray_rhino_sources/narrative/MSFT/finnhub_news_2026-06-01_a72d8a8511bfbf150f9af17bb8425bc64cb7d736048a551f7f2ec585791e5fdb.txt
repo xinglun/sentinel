@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta, Alphabet, Amazon, and Microsoft are getting hooked on debt to fuel AI boom
+  summary: Debt is becoming a big tool in the Big Tech arsenal.
+  url: https://finnhub.io/api/news?id=5b6578e5c00acd5276ebc966b3ae007ab46b1a1d6b5bccc0d906e9cc2a2217df

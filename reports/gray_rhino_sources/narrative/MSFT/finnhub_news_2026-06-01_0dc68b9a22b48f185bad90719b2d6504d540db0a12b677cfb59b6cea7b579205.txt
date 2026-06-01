@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Down From Its Highs, This No-Brainer Tech Titan Is a Clear-Cut “Buy and Hold Indefinitely” Stock
+  summary: Microsoft’s entrenched software franchise generates enough cash to fund the next platform shift without ever needing permission from the market, a profile that long-term holders have historically rewarded. Microsoft (NASDAQ:MSFT) trades at $450.24, well off its 52-week high of $551.05 and down 6.49% year to date. For a retirement-focused investor who has been burned chasing ... Down From Its Highs, This No-Brainer Tech Titan Is a Clear-Cut “Buy and Hold Indefinitely” Stock
+  url: https://finnhub.io/api/news?id=6ba2505b676a172775d5eb03a52ed644abccce1c033af7530861be80245c58f9

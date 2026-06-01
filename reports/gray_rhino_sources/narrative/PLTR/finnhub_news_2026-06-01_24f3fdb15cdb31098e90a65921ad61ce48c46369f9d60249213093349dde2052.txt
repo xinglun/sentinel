@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Still a Millionaire-Maker Stock?
+  summary: There's a lot of expected growth already baked into its stock price, but the business is still growing fast.
+  url: https://finnhub.io/api/news?id=f8ce757fdc87ad4191b3e110583e260a2a18599dc1571f8a2388eb87308b8d13

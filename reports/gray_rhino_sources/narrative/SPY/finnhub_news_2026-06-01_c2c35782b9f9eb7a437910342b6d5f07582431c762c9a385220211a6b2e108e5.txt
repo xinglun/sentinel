@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises Amid Continued U.S.-Iran Deal Hopes; Nvidia Rallies On New Chip (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Monday amid ongoing hopes for a U.S.-Iran deal. Nvidia stock jumped on a new chip.
+  url: https://finnhub.io/api/news?id=44be77a8347067bdeef4a08d8d0f6a3837c26c2e556a3c11f577103ca6f12067

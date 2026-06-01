@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reports of a Future SpaceX-Tesla Merger Are Picking Up Steam. But Is Such a Complex Deal Actually Feasible?
+  summary: Media reports and even people betting on Kalshi continue to see an increasing likelihood that all of Elon Musk's companies could soon merge.
+  url: https://finnhub.io/api/news?id=f38167dd13b71e1537e6b56dc577275701204d5256f10e912b77ab10cc6089e7

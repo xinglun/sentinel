@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could SpaceX IPO Be Bad News for Tesla Investors?
+  summary: For years, Tesla dominated Elon Musk's growth narrative. But SpaceX may soon compete for investor attention, capital, and excitement.
+  url: https://finnhub.io/api/news?id=ee261d58f7269ef9c9193bcf37fb0fdf2094ca89c257275c805a184ab2ba47f0

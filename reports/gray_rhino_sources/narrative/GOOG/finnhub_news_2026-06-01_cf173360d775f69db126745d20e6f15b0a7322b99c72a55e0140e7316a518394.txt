@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron: SCA Show The AI Memory Story Has Moved Beyond TurboQuant
+  summary: Micron (MU) posts record memory revenue as AI server demand tightens supply; Q2 revenue surged 196% YoY.
+  url: https://finnhub.io/api/news?id=2fc709e941b91a372d78a51391f96172db75f661a048a194ee5fc30b6fef8df6

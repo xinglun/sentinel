@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Joins the Rally as Breadth Holds Firm
+  summary: Friday’s session was not a broad upside surge, but it was a constructive continuation. SPY and QQQ extended their breakouts, IWM paused after a strong run, and the breadth data remained solid enough to keep the overall trend rating at positive.
+  url: https://finnhub.io/api/news?id=e4e76ed3a79a63932aac85afbe8081a914aab637a8f6ea8c20446767a127d91a

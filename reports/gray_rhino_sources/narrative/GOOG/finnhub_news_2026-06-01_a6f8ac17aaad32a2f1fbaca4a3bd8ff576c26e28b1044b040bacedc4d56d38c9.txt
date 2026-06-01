@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inside the Ambitious Housing Plan That Actually Made Austin Homes Affordable Again
+  summary: A decade of policy changes in the Texas capital set the stage for a construction boom. The result is that prices are down and sales are up. Other cities are taking notice.
+  url: https://finnhub.io/api/news?id=e9656119564681cb5df84971e195742b3c3c49c6833b78fac3269887c367866c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Restraint Comes to Uber From an Unexpected Direction
+  summary: AI is being pushed across many parts of corporate America and beyond, perhaps more aggressively in some places than others. Indeed, there’s a lot of hype building in the AI trade as investors await more signs of a monetization boom of sorts after a historic year for CapEx spend. While time will tell if all ... The AI Restraint Comes to Uber From an Unexpected Direction
+  url: https://finnhub.io/api/news?id=f1b6f396829c28a7298744ccf32abbd42772360a3947485bfff74b05021e4ebc

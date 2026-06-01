@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Stock Climbs as Robotaxi Push Kicks Off in Munich
+  summary: Uber Eyes Autonomous Future as Munich Robotaxi Program Takes Shape
+  url: https://finnhub.io/api/news?id=a9b6d803077d678c56c64da6b34b3c951ed6a0d68e7e1d5c1c323c7ad6feb54d

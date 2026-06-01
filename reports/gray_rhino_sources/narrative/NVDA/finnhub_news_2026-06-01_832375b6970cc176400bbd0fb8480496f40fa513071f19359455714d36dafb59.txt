@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ABB expands collaboration with NVIDIA through integration of DSX Blueprint for AI infrastructure
+  summary: ABB expands collaboration with NVIDIA Bringing SimReady™ 3D digital assets into NVIDIA Omniverse DSX Blueprint Zurich, Switzerland, June 01, 2026 (GLOBE NEWSWIRE) -- ABB brings SimReady™ 3D digital assets – MV switchgear, electrical distribution equipment, and UPS platforms – into NVIDIA Omniverse DSX BlueprintEngineers validate electrical, thermal, and compute systems in digital twins before ordering prefabricated modules, compressing design cycles for AI factoriesBuilds on October 2025 collabo
+  url: https://finnhub.io/api/news?id=93c4d16e7aa5f39ff12193d0eea4c885f2d2cd860dbe5ea87fe64fc117cfbb7a

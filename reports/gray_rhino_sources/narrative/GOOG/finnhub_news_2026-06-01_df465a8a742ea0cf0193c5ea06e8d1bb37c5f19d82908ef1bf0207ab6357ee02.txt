@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ChatGPT Stock Portfolio: Trimming Nebius Group (NBIS) After a ‘Monster Run’
+  summary: We just covered the ChatGPT Stock Portfolio: Top 7 Picks For 2026. Nebius Group (NASDAQ:NBIS) ranks #6 (see ChatGPT Stock Portfolio: Top 4 Picks For 2026). Number of Hedge Funds: 60 ChatGPT bought Nebius Group (NASDAQ:NBIS) in late March and took massive profits on May 15 after a huge bull run. Since the chatbot bought […]
+  url: https://finnhub.io/api/news?id=c2411296a68bdee00f30b8d66a0bd9478b240dad2c21b8b3d2913db616c6c7b1

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons This Unstoppable Dividend Giant Is the Ultimate “Buy and Hold Forever” Stock
+  summary: Visa (NYSE:V) belongs in a portfolio built for the next 20 years because it owns a piece of nearly every digital transaction on Earth and gets paid whether the economy booms or stalls. The reader who has chased AI names, lost on biotech, or rotated in and out of energy needs the opposite of a ... 3 Reasons This Unstoppable Dividend Giant Is the Ultimate “Buy and Hold Forever” Stock
+  url: https://finnhub.io/api/news?id=75e28e95860e68bcf6046989409d8808c310b2c0ec28ed548b7f10563425b2f6

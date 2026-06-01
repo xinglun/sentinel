@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: You’ve Been Contributing to Your 401(k) for Years But Your Money Might Still Be Sitting in Cash
+  summary: Imagine logging into your 401(k) after a decade of contributions, expecting to see a portfolio that grew with the market. Instead, your balance is roughly the sum of what you put in. The money never bought a single share of anything. That scenario is more common than most savers realize. On NerdWallet’s Smart Money Podcast, ... You’ve Been Contributing to Your 401(k) for Years But Your Money Might Still Be Sitting in Cash
+  url: https://finnhub.io/api/news?id=cf0484539418741faf611db54460cf8c5e441c6310a7d6a6e2cd74150d55958f

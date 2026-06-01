@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoftBank's Masayoshi Son Calls AI '50X Bigger' Than The Dot-Com Boom, Says Corrections Could Be The 'Best Investment Opportunity'
+  summary: SoftBank CEO Masayoshi Son says AI is 50x bigger than the dot-com boom and market corrections are buying opportunities.
+  url: https://finnhub.io/api/news?id=f7d969f6ab602c18e5f97bc61119bb26f5ecb8b1d6e938983447818c39a26716

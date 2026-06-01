@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford surges on energy business while US car buying remains slow
+  summary: Ford's (F) plans for a new energy storage business have sent the automaker's stock soaring. RBC Capital Markets lead equity analyst Tom Narayan reacts to what this may mean for the auto company while US car buying remains stilted since the pandemic.
+  url: https://finnhub.io/api/news?id=d45071bf29d708f625fa88d6400c947bf92f9842c517a00c19fea3a6c0a6601f

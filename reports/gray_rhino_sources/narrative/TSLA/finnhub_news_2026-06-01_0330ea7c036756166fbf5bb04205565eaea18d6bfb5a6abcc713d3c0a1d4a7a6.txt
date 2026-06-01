@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Open June On Strong Footing: Why NVDA, DELL, HPE, TSM, TSLA, SPCE, RVMD Are In Focus
+  summary: Data from Stocktwits shows that retail sentiment has held at ‘bullish’ on SPY, but sits at a cautious ‘neutral’ on QQQ.
+  url: https://finnhub.io/api/news?id=ec14daeb06f8b2bf0c964a207dbe0e6a878107d71e5951ef9b7803ac72446820

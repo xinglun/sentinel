@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Best Buy downgrade, Dell upgraded: Wall Street's top analyst calls
+  summary: Best Buy downgrade, Dell upgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=8b1e5f2e14e625180a9f1e4e4d4b6e7e573b5f946d7542420783dc82c1449967

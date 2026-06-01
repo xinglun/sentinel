@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Google Stock Outshines Amazon
+  summary: Amazon (AMZN) commands a persistent premium valuation from the broader market, trading at roughly 32x based on its current market price and TTM EPS. That is great for Amazon. But wait a minute, Alphabet (GOOG) currently sits at a noticeably more attractive 29x multiple. Hard to believe, but the market prices Amazon at a persistent premium to Google. This, despite the fact that Google's top-line revenue growth for the first quarter of 2026 stood at 22% compared to just 17% for Amazon, a growth pr
+  url: https://finnhub.io/api/news?id=c8d28b58f9b2f7db955ae193ba7506cec62cde3625d78f969665a4a2521ce0c4

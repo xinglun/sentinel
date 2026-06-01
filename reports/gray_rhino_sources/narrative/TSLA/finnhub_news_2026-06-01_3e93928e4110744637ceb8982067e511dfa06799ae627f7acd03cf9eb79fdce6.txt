@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Lowered Its IPO Valuation Target by $200 Billion
+  summary: The prospective valuation of Elon Musk's space and artificial intelligence (AI) company would need to fall by an additional $1.25 trillion to escape historical bubble territory.
+  url: https://finnhub.io/api/news?id=380c04aa84fe5941cc7eee9eccddf7719ba6453c9756d0dc0b8d72c01d5500ee

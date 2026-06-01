@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Calling A Bottom For Software - 3 Stocks I'm Buying
+  summary: Software is finally rebounding, outperforming semiconductors recently, as investors distinguish AI beneficiaries from laggards. View the full analysis here.
+  url: https://finnhub.io/api/news?id=15a39a897450fda593e83d5818bb87e9338f304dd34043c59578dac81b8d51fc

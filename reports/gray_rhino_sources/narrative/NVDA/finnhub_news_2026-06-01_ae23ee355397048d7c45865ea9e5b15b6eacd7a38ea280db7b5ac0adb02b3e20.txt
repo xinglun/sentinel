@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Carvana Is Out: This High-Yield Cash Cow Is the Ultimate Inflation-Beating Buy Right Now
+  summary: Carvana (NYSE:CVNA) is back in the spotlight after a blowout quarter, an S&P 500 induction, and a CEO promising 3 million units at 13.5% adjusted EBITDA margins by the next decade. But the details beneath the headline deserve a closer look. The Hype Trade Is Already Cracking Carvana is the textbook crowded trade. The stock ... Carvana Is Out: This High-Yield Cash Cow Is the Ultimate Inflation-Beating Buy Right Now
+  url: https://finnhub.io/api/news?id=33a605a0a9e6c10f5879066c1963581b4a43834a57c7435d5c0417a0d4dde1de

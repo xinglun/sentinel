@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 More Things I Learned from the SpaceX IPO Prospectus
+  summary: Marvel has a Hulk. SpaceX has "the Algorithm."
+  url: https://finnhub.io/api/news?id=7989eb3e8d3a752117f7fc6207244b0d654abf33092869da9fd78577e44dfabb

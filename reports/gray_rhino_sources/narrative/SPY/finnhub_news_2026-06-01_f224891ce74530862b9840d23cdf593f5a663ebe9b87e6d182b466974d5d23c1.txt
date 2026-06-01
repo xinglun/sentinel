@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It Takes A Pin To Burst A Bubble
+  summary: The S&P 500 surges on AI and Q1 profit growth, but stretched valuations suggest a summer correction before a late 2026 rally. Read the outlook now.
+  url: https://finnhub.io/api/news?id=a8c230d4cfbbddbebbded3a44c33d672eca3b28ebb40da0c71b61e032c84622b

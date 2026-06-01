@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Unveils RTX Spark as Arm Surges 14% on PC Push
+  summary: New AI-focused PC chips arrive this fall with Dell, Lenovo, and Windows for Arm support.
+  url: https://finnhub.io/api/news?id=0b75ccf36bace0fdbf3d334346bb2a0af6858360e91f6d039c592e99d24d3359

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bull Case For Intuitive Surgical (ISRG) Could Change Following A Key Commercial Leadership Shakeup
+  summary: In late May 2026, Intuitive Surgical announced that Global Senior Vice President of its endoluminal business Taylor Patton will become Chief Commercial and Marketing Officer from July 1, while Henry Charlton transitions to Senior Vice President of Global Business Operations. This leadership shift pairs Patton’s experience across the da Vinci, Ion, and digital platforms with Charlton’s operational focus, aiming to strengthen Intuitive’s ability to scale robotic-assisted and minimally invasive...
+  url: https://finnhub.io/api/news?id=df7c00b216985ef2c7c2e5a557151d9ffa86e7fa2dbe4fc144f858ea92dd94af

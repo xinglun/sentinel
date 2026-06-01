@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Pushes Into PCs With New Arm Chip
+  summary: The N1X chip will debut in laptops from Microsoft, Dell, HP, ASUS, Lenovo and MSI.
+  url: https://finnhub.io/api/news?id=47ea683786a023ab078a4e7b3cc6bc524fd85a968d68c8b84c52b14bfd94ab4c

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Shell And Total Energize LVHI’s Income Stream As Retirees Seek Stable Foreign Yields
+  summary: Franklin FTSE International Low Volatility High Dividend Index ETF (NYSEARCA:LVHI) closed Friday at $41 after a quarterly distribution cycle that continues to deliver the income international dividend investors buy this fund for. LVHI screens developed-market stocks ex-US for high yield and low share-price volatility, then hedges currency back to dollars. With AUM of roughly $4.6 ... Shell And Total Energize LVHI’s Income Stream As Retirees Seek Stable Foreign Yields
+  url: https://finnhub.io/api/news?id=85ec890453d95266c81abbb2865b3ae454b6ffb1477c97f51be7d84194f4c0a9

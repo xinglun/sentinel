@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Current View Of The S&P 500 Index: June 2026 Edition (Technical Analysis)
+  summary: 
+  url: https://finnhub.io/api/news?id=a4a20e5931eed238923c59347e4034845e2c695e8d22b6c6cc7b1ccc1b3f432b

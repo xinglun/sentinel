@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US Futures Rise As Oil Jumps Nearly 3%
+  summary: S&P 500 futures rose 0.3% as AI momentum offset higher oil and Iran deal uncertainty.
+  url: https://finnhub.io/api/news?id=63e97777b67e8a21064b7eda599036fdfbd090e0c6f8dc90b58f056788ef237e

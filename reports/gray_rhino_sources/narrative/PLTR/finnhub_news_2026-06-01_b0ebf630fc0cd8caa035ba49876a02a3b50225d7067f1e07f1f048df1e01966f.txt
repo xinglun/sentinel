@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir's Stock Price in a Year
+  summary: Most Wall Street analysts think Palantir stock is deeply undervalued.
+  url: https://finnhub.io/api/news?id=da7f600cbfcbe82389ec6345264244570090369f71b3e6d90ae9b101be1b9d3b

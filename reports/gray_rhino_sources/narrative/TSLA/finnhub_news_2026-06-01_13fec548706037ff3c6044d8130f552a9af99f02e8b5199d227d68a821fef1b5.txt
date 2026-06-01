@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO could hit popular index funds — and your 401(k) — in as little as 5 trading days as indexes relax their rules
+  summary: The fastest path doesn't run through the Nasdaq fund everyone's watching — analysts say a plain total-market fund in millions of retirement accounts could be positioned to buy within a week of the IPO. And SpaceX lost $4.9 billion last year. Here's what it means for the money you've already invested.
+  url: https://finnhub.io/api/news?id=0043ee57a36e539e1d709f60895975379493da4510855f778a756cd6c4cdee71

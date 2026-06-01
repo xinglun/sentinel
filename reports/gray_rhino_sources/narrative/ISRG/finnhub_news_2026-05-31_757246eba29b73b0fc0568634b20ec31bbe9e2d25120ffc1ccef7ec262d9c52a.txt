@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Stock: Is ISRG Underperforming the Healthcare Sector?
+  summary: Despite recent underperformance relative to the healthcare sector, analysts remain fairly bullish on Intuitive Surgical's long-term fundamentals and growth potential.
+  url: https://finnhub.io/api/news?id=cad3dfb675295cff3a0bf7dc647507a35ce96eb8152a254200e1d4c203738912

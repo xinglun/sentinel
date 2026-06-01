@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China EV Makers Report Monthly Sales. BYD Barely Grows, XPeng Slumps.
+  summary: Chinese EV companies are in the middle of a major international push as they try to rival Tesla's global success.
+  url: https://finnhub.io/api/news?id=1bf07645d29ad21ec6d08d37289d845489bcf12d15297e55a7007ae08c74053c

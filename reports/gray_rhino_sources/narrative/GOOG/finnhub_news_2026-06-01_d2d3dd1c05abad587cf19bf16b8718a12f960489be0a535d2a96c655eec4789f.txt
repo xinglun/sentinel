@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Yanik Guillemette — "Bill C-22: Ottawa’s Retreat Confirms the Mass Surveillance and Security Risks Warned by Tech Leaders"
+  summary: In this video, Yanik Guillemette discusses how digital transformation fuels sustainable business growth. He explores the role of artificial intelligence, automation, cloud technologies, and data-driven decision-making in improving operational efficiency, competitiveness, and long-term value creation. MONTREAL, June 01, 2026 (GLOBE NEWSWIRE) -- As Public Safety Canada signals its openness to amending provisions in Bill C-22, prominent Canadian technology entrepreneur and strategic investor Yanik
+  url: https://finnhub.io/api/news?id=b907e7e2d2af840a769c197b7530766853167d8382ce11faf2c537b6f1caeb52

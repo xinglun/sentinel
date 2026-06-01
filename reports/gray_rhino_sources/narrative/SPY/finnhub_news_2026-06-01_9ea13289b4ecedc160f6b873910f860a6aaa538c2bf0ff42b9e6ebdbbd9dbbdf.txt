@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 Lost 40% in Real Terms from 1968 to 1982. History Says It Could Happen Again.
+  summary: Although the bull case has rarely sounded louder, with one-year gains running hot and the index pressing new highs, Wall Street has a long memory, and that memory is not kind to stretched valuations that meet an inflation regime. The benchmark S&P 500 sits at $745.64 on the SPDR S&P 500 ETF Trust (NYSEARCA:SPY) proxy ... The S&P 500 Lost 40% in Real Terms from 1968 to 1982. History Says It Could Happen Again.
+  url: https://finnhub.io/api/news?id=2b4495b182263d5de08c143000f2a368bca2a66dbabb2ca066dfd8d4df6fe774

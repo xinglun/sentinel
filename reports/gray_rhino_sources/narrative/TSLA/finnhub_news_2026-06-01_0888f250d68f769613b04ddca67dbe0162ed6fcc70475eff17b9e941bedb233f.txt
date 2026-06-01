@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO filing reveals Mars ambitions, Grok risks and unusual spending disclosures
+  summary: SpaceX’s (NASDAQ:SPCX) newly released investor prospectus has offered the public its clearest look yet at the finances, ambitions and internal workings of Elon Musk’s flagship company ahead of its planned $1. 75 trillion stock market debut next month.
+  url: https://finnhub.io/api/news?id=288916b4349a9c17b294a1320857425f8aedc9a5fefdeb6a872aacc33f3b3f10

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart Caps Usage of an AI Tool for Employees After High Demand
+  summary: (Bloomberg) -- Walmart Inc. is limiting staff’s usage of an artificial-intelligence tool following high demand, illustrating how corporations are adjusting their calculations for incorporating the technology.Most Read from BloombergUS Says Deals With Iran for Safe Hormuz Transit Are ProhibitedBerkshire Hathaway to Buy Taylor Morrison for $6.8 BillionA Rare ‘Super’ El Niño Is Looking More Likely. Here’s What to ExpectStrait of Hormuz Ship Transits Are Rising Thanks to US HelpPro-Trump Outsider Wi
+  url: https://finnhub.io/api/news?id=c63cc54279a36cd283fcf832d58fb6282f29f8738c189f7c292f2de4f6eef048

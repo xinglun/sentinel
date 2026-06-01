@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicle Motor Controller Market to Reach USD 17.99 Billion by 2032, Driven by Rising BEV and PHEV Adoption | Valuates Reports
+  summary: Electric Vehicle Motor Controller Market to Reach USD 17.99 Billion by 2032, Driven by Rising BEV and PHEV Adoption | Valuates Reports
+  url: https://finnhub.io/api/news?id=157b6278e2214d1322e757f329c326bca9c2b0e40233216533d26530f8b5b89d

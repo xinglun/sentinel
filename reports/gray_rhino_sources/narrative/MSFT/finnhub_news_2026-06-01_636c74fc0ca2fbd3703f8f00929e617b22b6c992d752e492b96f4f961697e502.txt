@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Rises Despite Teams Security Warning
+  summary: Microsoft shares rose nearly 4% despite an FBI warning tied to Teams, Outlook and OneDrive.
+  url: https://finnhub.io/api/news?id=9fd6990efcb0d8e668d511e00e529d0c8fd9e3b423aa894eb9bbb4dbfef7e964

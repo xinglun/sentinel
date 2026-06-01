@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Strikes Back - Dell Detonates, Abel Finally Spends, Nvidia Aims at the PC
+  summary: A computer maker most investors had filed under "boring hardware" jumped a third in one session. The Dow crossed 51,000 for the first time. And over the weekend, Greg Abel finally did the thing the market had been waiting for, he wrote an $8.5 billion cheque. Three storylines, three different signals, all worth pulling apart before Monday's open.
+  url: https://finnhub.io/api/news?id=9fb597d17b933a9b9dfe0dd5d9a7a34f70e7f1ef168b48ef35d4ef2074576e5a

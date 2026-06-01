@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The value Nvidia's new chips will add to Windows PCs
+  summary: Nvidia stock (NVDA) cruises higher to start off Monday trading after CEO Jensen Huang revealed its new N1X and RTX Spark chips at Computex Taipei 2026 over the weekend. Yahoo Finance Tech Editor Dan Howley highlights what these new chips could add to Nvidia's specs for personal computer designs.
+  url: https://finnhub.io/api/news?id=889c231ad19dc92d4a8c6a276b8b29758c60b7946677af03976ea2f6d3b1907f

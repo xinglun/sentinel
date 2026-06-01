@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What Nvidia CEO Jensen Huang Said That's Causing Big Moves in The AI Trade Today
+  summary: Shares of Nvidia and its partners climbed, while rivals' stocks sank Monday after CEO Jensen Huang made a number of announcements at a conference in Taiwan.
+  url: https://finnhub.io/api/news?id=c53f81955e6e011ed1f1ed1f7628ff1bedd5950ec7554b3de41b7e3690553bc8

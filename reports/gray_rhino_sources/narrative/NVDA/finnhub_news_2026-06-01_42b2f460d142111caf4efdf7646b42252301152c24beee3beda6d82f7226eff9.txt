@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: D.A. Davidson adds Nvidia to its best-of-breed stock list
+  summary: Investing.com -- D.A. Davidson has added Nvidia to its Best-of-Breed Bison stock list, citing the chipmaker's dominant position in AI infrastructure, durable competitive advantages and exceptional financial profile as evidence of long-term quality that ranks it among the best companies in the firm's coverage universe.
+  url: https://finnhub.io/api/news?id=c1a3f5af278e6d42640d29de6bffc57b5bcd991b66b4f79cd925b1bb9d922b5a

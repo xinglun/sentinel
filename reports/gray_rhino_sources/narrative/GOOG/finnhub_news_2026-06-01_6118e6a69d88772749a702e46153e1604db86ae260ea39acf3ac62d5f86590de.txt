@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Undercovered Dozen: Aeluma, Agnico Eagle, Ciena, Rayonier And More
+  summary: Discover 12 undercovered stocks from Seeking Alpha (May 22â28) for fresh investment ideas.
+  url: https://finnhub.io/api/news?id=8320aa866bf759646ded622b30ed0ffb69a33c22a8c94107498f7f05d9ae67b6

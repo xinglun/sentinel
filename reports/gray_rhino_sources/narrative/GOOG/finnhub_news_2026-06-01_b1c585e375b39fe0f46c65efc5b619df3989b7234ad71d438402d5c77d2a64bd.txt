@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EU Cloud Rules Put Big Tech Tenders at Risk
+  summary: Draft criteria could exclude Amazon, Microsoft and Google from highly sensitive state tenders.
+  url: https://finnhub.io/api/news?id=b75d408fdc529cd5278810efbf4ef0fece62dc1a6429af7e16026f419a8325fa

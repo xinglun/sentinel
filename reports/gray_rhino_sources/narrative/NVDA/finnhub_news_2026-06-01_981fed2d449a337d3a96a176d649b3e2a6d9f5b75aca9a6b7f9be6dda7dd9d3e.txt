@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘We’re in the First or Second Inning’ of AI Revolution, Says Top Analyst
+  summary: Jordi Visser of Weiss Multi-Strategy Advisers is leaning hard into the AI buildout, telling Anthony Pompliano on The Pomp Podcast that “the AI generational situation is still in the first or second inning.” Visser said he holds 15 to 20 international semiconductor and chemical companies in his AI thematic portfolio, naming ASML Holding (NASDAQ:ASML), Soitec, ... ‘We’re in the First or Second Inning’ of AI Revolution, Says Top Analyst
+  url: https://finnhub.io/api/news?id=e14846f2992f2a565a3ee00ee42ed00cebf62df3a6ed2f32acbd28d21f69dfb3

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New climate fund targets "rebuilding the physical economy"
+  summary: Gigascale Capital, the VC firm founded by ex-Meta CTO Mike Schroepfer, just announced a new $250 million fund to back startups "rebuilding the physical economy for climate impact."
+  url: https://finnhub.io/api/news?id=9b74ce4c2182a436777b233279c78a53ce07ddd244440304d61c2f6aa527cbb9

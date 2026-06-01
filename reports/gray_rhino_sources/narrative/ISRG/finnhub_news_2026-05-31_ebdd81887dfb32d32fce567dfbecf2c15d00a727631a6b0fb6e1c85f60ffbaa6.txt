@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Maintains Buy Rating on Intuitive Surgical (ISRG)
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) is one of the 10 Best Debt-Free S&P 500 Stocks to Buy Now. On May 27, 2026, Goldman Sachs lowered the firm’s price target on Intuitive Surgical, Inc. (NASDAQ:ISRG) to $558 from $621 and maintained a Buy rating on the shares. Goldman Sachs said MedTech has gone through one of its […]
+  url: https://finnhub.io/api/news?id=21a08328ccc5085b107b398aa24b496a560a5f2bcfb2e0dec63359ecdb672fe3

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Google engineer bet $2.7M on Polymarket using secret search data — and walked away with $1.2M in profit
+  summary: A Google engineer's insider trading arrest highlights the challenges with prediction market trading. Here's what everyday investors need to know about how these markets work — and the related risks.
+  url: https://finnhub.io/api/news?id=1b7feaf80fd1ffcc4f20d15c46f2ad85aaab37612d502cf889fe71bb32812a0c

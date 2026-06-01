@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are AI stocks getting too expensive?
+  summary: Yahoo Finance Executive Editor Brian Sozzi and the Opening Bid panel — Sevens Report Research Founder Tom Essaye, Yahoo Finance Senior Business Reporter Ines Ferre, and Markets & Data Editor Jared Blikre discuss the state of the AI trade and whether soaring valuations have left AI stocks overpriced.
+  url: https://finnhub.io/api/news?id=a3a783ae00e5703eab5d240ecfca972deac5459de4f5b82123686b69af08212b

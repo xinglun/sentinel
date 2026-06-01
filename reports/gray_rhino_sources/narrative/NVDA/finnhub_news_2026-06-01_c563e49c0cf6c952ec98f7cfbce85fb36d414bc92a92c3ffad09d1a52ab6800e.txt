@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Just Called Nvidia’s SpaceX Chip Deal ‘Fugazi.’ Here’s Why It All Seems Wrong
+  summary: Investors have watched Nvidia (NASDAQ:NVDA) ride the AI wave to extraordinary heights, with data center revenue exploding in recent years. Yet amid the hype, one of Wall Street’s sharpest skeptics keeps raising red flags about its financing arrangements. Michael Burry, the investor who foresaw the 2008 housing crisis, took to his Cassandra Unchained Substack and ... Michael Burry Just Called Nvidia’s SpaceX Chip Deal ‘Fugazi.’ Here’s Why It All Seems Wrong
+  url: https://finnhub.io/api/news?id=5af1222d5e5af04192d1f8747650a6a82dbad6ff6d7a7eff48cb788cc051bccd

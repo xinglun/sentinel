@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intel Stock Just Dropped
+  summary: The new Nvidia RTX Spark processor represents a direct assault on Intel's core business.
+  url: https://finnhub.io/api/news?id=8432463f1e158a7bd39668ab93d5ea2b325e3ce56564b9ac6d73ffd57c4a7cd7

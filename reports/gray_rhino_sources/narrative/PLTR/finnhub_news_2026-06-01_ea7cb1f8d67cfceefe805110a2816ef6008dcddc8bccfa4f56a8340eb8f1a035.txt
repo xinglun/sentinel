@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cognyte to Report Q1 Earnings: How Should Investors Play the Stock?
+  summary: CGNT to report fiscal Q1 2027 on June 3 as revenues expected to be up 10.2% to $105.3M.
+  url: https://finnhub.io/api/news?id=0848bdd3a9ad62f86c79a9b17cf3bcda2331624c88016547a9129cf2db2dff4e

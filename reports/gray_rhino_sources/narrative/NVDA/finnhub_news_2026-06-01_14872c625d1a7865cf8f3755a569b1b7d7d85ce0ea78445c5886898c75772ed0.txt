@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia courts Korea's tech giants at Taipei dinner as AI push deepens
+  summary: Nvidia CEO Jensen Huang hosted top South Korean tech executives including the boss of chipmaker SK Hynix at ‌a boisterous dinner on Monday, as he looks to deepen ties with key partners ‌ahead of what he called an "incredibly busy" stretch for the AI boom.  SK Hynix CEO Kwak Noh-Jung, executives from Samsung ​Electronics, LG Electronics and Naver were among those at the "Korean Partner Night", held at a traditional Taiwanese restaurant in Taipei on the sidelines of the Computex trade show.  "Korea is a critical part of our ecosystem."
+  url: https://finnhub.io/api/news?id=4b813d348b1cb241c2ee10fc662cb7a2ab75c0308d24321c5a692578235f476d

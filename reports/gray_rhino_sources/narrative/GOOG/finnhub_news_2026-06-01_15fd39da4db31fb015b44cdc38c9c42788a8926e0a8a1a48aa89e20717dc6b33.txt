@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Interluxe Group Acquires adMixt to Expand Performance Marketing Capabilities
+  summary: Interluxe Group, a leading luxury marketing agency, has acquired adMixt, a leading performance marketing agency known for its differentiated proprietary technology and expertise across Meta, Google, TikTok, and other digital platforms. The acquisition creates a powerful, integrated, luxury-focused marketing agency, bringing together proprietary audience data with best-in-class strategy, experiential, communications, media, and performance marketing capabilities.
+  url: https://finnhub.io/api/news?id=3daf9f20c554dcca6550ecc354a83bc7d955c5e886eb4d63d531033a50b03f8d

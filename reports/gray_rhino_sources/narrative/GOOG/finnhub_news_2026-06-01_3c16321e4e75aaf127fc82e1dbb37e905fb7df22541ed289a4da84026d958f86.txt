@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analysis-AI debt sales reshape global corporate bond markets
+  summary: From Europe to Japan and Switzerland, huge bond issues by Big Tech companies are proving that smaller markets, often overshadowed by the U.S., can punch above their weight in the $40 trillion world of corporate debt.  Google-parent Alphabet is already one of the biggest ‌outstanding borrowers in the sterling and Swiss franc corporate bond markets, while Amazon raised 14.5 billion euros ($16.88 billion) in March from an eight-part deal, the ‌largest ever in the euro corporate bond market, according to LSEG.  Debt issues by so-called "hyperscalers" - or Big Tech companies - outside the United States are part of a push to diversify their funding early on, bankers said, as ​they look to finance trillions of dollars of investment in AI infrastructure, especially data centers, in the years ahead.
+  url: https://finnhub.io/api/news?id=04f8a1004b8f94d09ea2f881979586dc4c23b9db45d18f0dcac76e0dbac25ce2

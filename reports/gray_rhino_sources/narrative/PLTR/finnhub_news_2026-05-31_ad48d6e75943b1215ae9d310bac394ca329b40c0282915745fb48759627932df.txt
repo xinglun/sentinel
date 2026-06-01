@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rally Mode - Snowflake, MongoDB, Palantir, And ServiceNow Have Much More Upside
+  summary: Custom IT application leaders are breaking out, driven by strong earnings and sector-wide AI adoption tailwinds. Click here for a detailed analysis.
+  url: https://finnhub.io/api/news?id=64c3015dbb34102c1fa95cae25a3c7420d1a32a16155a3e89b0439f96acf9a45

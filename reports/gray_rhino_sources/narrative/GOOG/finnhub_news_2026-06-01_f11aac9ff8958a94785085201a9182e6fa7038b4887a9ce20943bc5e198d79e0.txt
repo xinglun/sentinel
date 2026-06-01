@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salt Security launches Salt Code, the first agentic security solution to enforce security policies inside AI coding assistants
+  summary: Salt Security, the leader in API and Agentic Security, today announced the launch of Salt Code, a new component of its Agentic Security Platform that enforces security policies across the full development lifecycle for AI-generated code. As enterprises standardize on AI coding assistants from Anthropic, OpenAI, Google, GitHub, Cursor, Codeium, and a growing field of new entrants, Salt Code ensures that every line of generated code, regardless of which assistant produced it, is compliant with int
+  url: https://finnhub.io/api/news?id=6fc1c709c329636d0a0e2fbadf00ce8129bfd0746e59883c996f81a6138a0f79

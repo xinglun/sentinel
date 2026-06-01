@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why is Palantir Technologies Inc. (PLTR) One of the Stocks to Buy for The Long Term?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the top stocks to buy for the long-term. On May 21, Rosenblatt reiterated that Palantir Technologies Inc. (NASDAQ:PLTR) is a Buy and maintained a $225 price target following a meeting with the company’s Chief Financial Officer, David Glazer, among other executives. Following the meeting, the research firm reiterated […]
+  url: https://finnhub.io/api/news?id=735ef8bc6025ab43ba86f24e6c5f24943e88687b38685c2b4b1098f394b3ffa3

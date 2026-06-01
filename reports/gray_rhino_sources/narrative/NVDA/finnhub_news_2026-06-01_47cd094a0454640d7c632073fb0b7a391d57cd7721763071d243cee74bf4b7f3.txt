@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coca Cola Stock Will Hit a New All-Time High On This Date
+  summary: Coca-Cola (NYSE:KO) is behaving like a momentum name. Shares sit at $79.01, just 4% below the 52-week high of $82.66, after a Q1 earnings report that delivered 10% organic revenue growth and pushed margins to a new peak. The stock is up 13.79% YTD. Can KO punch through $100 by 2027? Why KO Shares Have ... Coca Cola Stock Will Hit a New All-Time High On This Date
+  url: https://finnhub.io/api/news?id=7e26a51646440dbc387d1ece89dedee8750f73589ee09107bb891877bb1b7e4b

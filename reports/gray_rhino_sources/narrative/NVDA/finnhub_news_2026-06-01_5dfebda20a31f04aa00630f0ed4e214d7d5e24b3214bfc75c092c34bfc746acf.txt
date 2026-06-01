@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel, AMD, Qualcomm shares slide as Nvidia crashes the PC chip market
+  summary: Shares of Intel Corp (NASDAQ:INTC, XETRA:INL), Advanced Micro Devices Inc (NASDAQ:AMD, XETRA:AMD) and Qualcomm Inc (NASDAQ:QCOM, XETRA:QCI) fell sharply on Monday after Nvidia Corp (NASDAQ:NVDA, XETRA:NVD) unveiled a new personal computer chip at the Computex trade show in Taipei, marking a...
+  url: https://finnhub.io/api/news?id=8751c9f138dfe2455bb189ed9b131f8c78182953692a45133e4e48625bc90a43

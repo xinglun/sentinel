@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir soars as Dell earnings validate their Al partnership
+  summary: A stock usually rises or falls on its own news. You report strong earnings, the shares climb. You miss, they drop. That is the deal investors think they are signing up for. The artificial intelligence (AI) trade has quietly broken that rule. It now moves in layers. Chipmakers sit at the bottom, the ...
+  url: https://finnhub.io/api/news?id=913bc3b65ce9cc3aa14059ce5752dc287b7edbcd653c0d9d525dc22a55fb30ff

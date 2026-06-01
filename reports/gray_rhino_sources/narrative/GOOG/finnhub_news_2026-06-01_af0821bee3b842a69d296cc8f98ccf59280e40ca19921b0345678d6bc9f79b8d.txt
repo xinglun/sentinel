@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive-EU cloud rules to curb Amazon, Google access to strategic tenders, draft document shows
+  summary: Europe plans to propose strict criteria for cloud computing services ‌in highly critical state tenders that could exclude Amazon, Microsoft ‌and Google from such projects, according to documents seen by Reuters.  The proposal is part ​of the European Commission's Cloud and AI Development Act, which EU tech chief Henna Virkkunen will announce on Wednesday as part of a package of measures aimed at reducing Europe's dependence on U.S. tech and promoting ‌European businesses.  The drive for ⁠sovereignty requirements in sensitive sectors such as banking, energy, healthcare and comes amid fears of surveillance by the ⁠United States and that it may get unlawful access to Europeans' data on the basis of its laws such as the Cloud Act which ​requires U.S.-based ​providers to grant authorities access to ​data even if it is ‌stored abroad.
+  url: https://finnhub.io/api/news?id=301131b3fdb1cf2d1cfae6cd4dff6487e11450f804cb32db1bcb16b3ad8e293e

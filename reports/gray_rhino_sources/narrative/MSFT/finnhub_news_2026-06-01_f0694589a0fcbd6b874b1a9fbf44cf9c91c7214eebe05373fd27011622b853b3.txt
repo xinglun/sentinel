@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Up 3x, How Dell Went From Box Assembler to AI Powerhouse
+  summary: Dell Technologies (DELL) has become one of the market's biggest AI winners, with the stock tripling this year and jumping nearly 60% in the past week alone. The rally has pushed Dell's price-to-sales multiple from less than 0.8x to more than 2.5x, a valuation once reserved for much faster-growing software companies, while lifting the stock to roughly 23x forward earnings, levels that would have seemed unthinkable for a company long associated with PCs and commodity servers. Is this simply AI-fue
+  url: https://finnhub.io/api/news?id=0bd4d64a8cb0acbf6a858534e4bfb3d947949f9cdbe899f5af98ccb58a77e110

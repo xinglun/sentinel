@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran's Tasnim News Agency Reports There Will Be No Talks Until Iran's Demands On Cessation Of Israeli Operations In Lebanon And Gaza Are Met
+  summary: - Reuters Citing Iran&#39;s Tasnim News Agency
+  url: https://finnhub.io/api/news?id=93ef45fa54140b3b073cd05d88db37f99fabaea5ed34be3112e07383dc52716c

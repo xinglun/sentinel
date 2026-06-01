@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Selloff Changed Everything
+  summary: Palantir Technologies relies on record US commercial demand and cash flow to offset its high valuation. Learn why PLTR stock is a strong buy.
+  url: https://finnhub.io/api/news?id=5b3e74d56de075fabbdcdbe1f10662a5749baee5ea049c289507f42a1ff64747

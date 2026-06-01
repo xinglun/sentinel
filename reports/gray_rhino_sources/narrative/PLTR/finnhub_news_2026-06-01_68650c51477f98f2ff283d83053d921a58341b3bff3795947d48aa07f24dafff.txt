@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Enterprise Software Leaders Build AI Agents With NVIDIA
+  summary: Enterprise Software Leaders Build AI Agents With NVIDIA NVIDIA today announced new software, open source models and partnerships with the world’s leading software platform providers to build autonomous AI agents for industries and enterprises across engineering, healthcare, software development and business operations. News Summary: New NVIDIA Agent Toolkit software — including latest NVIDIA NemoClaw blueprints, Nemotron models, OpenShell secure runtime and CUDA-X libraries with agent skills — d
+  url: https://finnhub.io/api/news?id=221816ce034e4532b4260e21e5332eae90cfad6dde40b91fcb8bccb0884a2d56

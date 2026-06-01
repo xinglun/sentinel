@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software stocks surge as Nvidia’s Huang dismisses AI disruption fears
+  summary: Investing.com -- Software stocks rallied broadly on Monday after Nvidia CEO Jensen Huang dismissed concerns that the industry faces disruption from advanced AI tools.
+  url: https://finnhub.io/api/news?id=67e191fb11f1e2b5f2e4da1ed01ac6d8e542eb94334779f70d21105731fdf155

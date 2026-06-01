@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Palantir Technologies Stock Trending Higher On Monday?
+  summary: PLTR stock climbs on Monday amid massive tech tailwinds and an on-premises AI operating system deal with Dell. Read Dan Ives&#39; perspective on software infrastructure.
+  url: https://finnhub.io/api/news?id=cea2dccd52e70378f8a81dbe36b56cc80d14d0960df02dca1bc9fa8f47f5de60

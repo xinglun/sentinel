@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft shares rise as Citizens starts coverage with  bullish AI outlook
+  summary: Investing.com --Shares of Microsoft were higher on Monday after Citizens JMP Securities initiated coverage with a Market Outperform rating.
+  url: https://finnhub.io/api/news?id=1ac09e35556888974d3fcd43dd14175c4b6393851abd9d5d59ef782956d9874e

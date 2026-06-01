@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: Oil Rises After Iran Reportedly Says It's Halting Messages With US; Nvidia Launches New AI Chip for Laptops
+  summary: The Dow Jones Industrial Average was down, while the S&P 500 Index and Nasdaq Composite were roughly
+  url: https://finnhub.io/api/news?id=3b5d6ca421c3c6b1a083ac89f15622fba4eebf1da4679dff68994af250f62164

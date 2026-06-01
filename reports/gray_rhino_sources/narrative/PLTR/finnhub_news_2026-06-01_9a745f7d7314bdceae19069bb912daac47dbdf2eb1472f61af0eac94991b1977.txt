@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Eyes Buy Point As Software Stocks Extend Rally On Snowflake, Dell Earnings
+  summary: Palantir stock rose Monday, eyeing an early buy point, as software names again rallied, boosted by financial results at Snowflake and Dell.
+  url: https://finnhub.io/api/news?id=67e4778c345a331b8241f22411d490cc1727ebd0fd1078c77dd5db26c3d8f8b8

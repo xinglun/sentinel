@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Cloud ETFs to Buy as Hyperscalers Pivot to AI-First Platforms
+  summary: AI-first cloud platforms are boosting hyperscalers' growth. See how ETFs like CLOD offer diversified exposure to this shift.
+  url: https://finnhub.io/api/news?id=9ec4726bde7c8ecdbce346649fccdf3abc80a708844ba5bb9625bb060eebc245

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia RTX Spark Targets Intel and AMD PC Dominance
+  summary: Jensen Huang unveiled the RTX Spark Superchip at Nvidia's Computex keynote
+  url: https://finnhub.io/api/news?id=6d12b8e28ba7bd6e5f2f8a96c537fdf9d772f5ab50827c1f6341e28be47f7512

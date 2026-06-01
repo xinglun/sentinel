@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Major Growth Engine Just Took A Hit
+  summary: Tesla, Inc. remains massively overvalued, trading at over 400x TTM GAAP EPS despite weak earnings. Click here to read more on the TSLA stock.
+  url: https://finnhub.io/api/news?id=6106bd325f177dd130fc090d626d4430d9ca86ddbbcb57be93804c4b9551c973

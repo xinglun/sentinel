@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures, Oil Prices Rise As Trump Makes This Iran Move; Nvidia, Tesla Lead 5 Titans Near Buy Points
+  summary: Crude oil prices rose Sunday as President Trump reportedly stiffened Iran deal terms. Nvidia, Tesla lead five titans near buy points.
+  url: https://finnhub.io/api/news?id=2195932d48ad82b4d38160d4678da0f4450dc9ab5f9b56bd4fd66902bcc63c52

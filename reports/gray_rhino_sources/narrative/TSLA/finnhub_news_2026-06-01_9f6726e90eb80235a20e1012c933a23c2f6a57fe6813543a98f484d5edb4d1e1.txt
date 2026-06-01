@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Odds SpaceX Merges With Tesla Are Higher Than You Think
+  summary: Wedbush analyst Dan Ives believes there is better than an 80% chance Tesla and SpaceX merger in 2027.
+  url: https://finnhub.io/api/news?id=25cb7c555d8f749377d4de9b3849277448d8da8ee178b28ec120484db0d10241

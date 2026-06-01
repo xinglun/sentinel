@@ -1,15 +1,15 @@
 {
-  "as_of_date": "2026-05-29",
-  "avg_confidence": 53.004001301819876,
-  "avg_stability": 9.244584621797904,
+  "as_of_date": "2026-06-01",
+  "avg_confidence": 52.748913548266785,
+  "avg_stability": 9.942316421231803,
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-05-30T00:50:05.750105912+09:00",
+  "generated_at": "2026-06-02T01:32:58.334048283+09:00",
   "include_current_packet": true,
   "latest_context": {
     "cognitive_calibration": {
-      "asset_thesis_entries": 8,
-      "research_attention_entries": 8
+      "asset_thesis_entries": 9,
+      "research_attention_entries": 9
     },
     "holding_efficiency": "TimeCostRising",
     "macro_gravity": {
@@ -32,7 +32,7 @@
       "宏观重力: 只解释折现率与流动性环境，不生成交易信号",
       "证据持续性: 持续累积",
       "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)",
-      "战术状态: NO TRADE，等待结构扩散"
+      "战术状态: READY，等待执行层确认"
     ],
     "trend_breadth_mode": "NarrowLeadership"
   },
@@ -41,9 +41,9 @@
   "market_state_counts": {
     "IGNITION": 7
   },
-  "participation_ready_days": 1,
+  "participation_ready_days": 2,
   "risk_overlay_counts": {
     "NORMAL": 7
   },
-  "trend_cohesion_ready_days": 1
+  "trend_cohesion_ready_days": 2
 }

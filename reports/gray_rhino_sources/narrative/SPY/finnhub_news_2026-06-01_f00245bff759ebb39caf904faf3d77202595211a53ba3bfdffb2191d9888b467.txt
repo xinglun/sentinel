@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SOXL: How Disciplined Tactical Moves In And Out Could Compound Wealth Over 30 Years
+  summary: Simplicity in investment strategy often outperforms complexity for most investors, enabling generational wealth creation. Read more on SOXL ETF here.
+  url: https://finnhub.io/api/news?id=81316a121af4dc60db6b5ad2b71170e05ab4b03abd56530fcf83892439a2551a

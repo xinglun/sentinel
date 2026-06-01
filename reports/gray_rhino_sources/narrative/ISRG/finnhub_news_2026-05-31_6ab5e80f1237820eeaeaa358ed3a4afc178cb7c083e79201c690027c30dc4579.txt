@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Rare Buying Opportunity May Be Here With This Top Stock
+  summary: This highly focused healthcare company has seen its shares fall 30% in 2026 despite still strong business growth.
+  url: https://finnhub.io/api/news?id=9b456ade11114b418a9e5ac8dd6cba2840b9bfbd81f652dad3f89a40cb0d6974

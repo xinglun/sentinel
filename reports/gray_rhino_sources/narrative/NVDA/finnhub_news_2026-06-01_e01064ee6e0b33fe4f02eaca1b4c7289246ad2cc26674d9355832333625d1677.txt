@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Breakwave Tanker ETF Just Posted a 1,406% Return. Here’s What Actually Happened.
+  summary: A share of Amplify Commodity Trust (NYSEARCA:BWET), the fund most people know as the Breakwave Tanker Shipping ETF, cost $10.55 on May 29, 2025. Twelve months later it closed at $158.86, a roughly 1,406% one-year gain that, for a brief window in mid-May, looked even larger before the fund gave back roughly 9% in a ... The Breakwave Tanker ETF Just Posted a 1,406% Return. Here’s What Actually Happened.
+  url: https://finnhub.io/api/news?id=a6c828b532f764d602891ce4806b4f4aad766213aecf0f216b8f38cb21d66206

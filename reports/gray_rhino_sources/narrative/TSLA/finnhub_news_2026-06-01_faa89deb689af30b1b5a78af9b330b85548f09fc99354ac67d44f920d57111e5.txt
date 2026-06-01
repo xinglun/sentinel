@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Tech Stocks Rally Can Rage Into June But Markets Face 3 Big Obstacles
+  summary: Memory chip inflation is just beginning, Berkshire Hathaway buys homebuilder in CEO Abel’s first takeover, and other news to start your day.
+  url: https://finnhub.io/api/news?id=c1f50c8446fe63bbd6564d9dce143935db9b6f5eb608e633cf36018861a297d8

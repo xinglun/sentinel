@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Stock Is Impossible to Ignore Right Now. Here's What to Do With It.
+  summary: The technology company has shocked most investors, but the crowd may have also gotten a little ahead of itself.
+  url: https://finnhub.io/api/news?id=00b490139c33a1fc9e9170ee1e8ab5e6318ce64245d3a3fcae8117d26b888c66

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A SpaceX-Tesla union would mark the largest merger of all time. But does the math work?
+  summary: A new Fortune analysis gauges what a merger would mean financially.
+  url: https://finnhub.io/api/news?id=5558b8a079c249edb71a7a6a0f1b3c5647109b191c7415db48b90e2170d44f3f

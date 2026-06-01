@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 30% of Americans Leave IRA Rollovers in Cash for 7 Years: Here’s What That Costs You
+  summary: A staggering behavioral pattern is quietly draining retirement wealth. According to research cited by the Money Guy Show, nearly 30% of IRA rollovers remain uninvested in cash seven years later. The issue is not limited to rollovers. Vanguard’s data also shows that 55% of direct contributions into employer-sponsored retirement plans sit in cash for 12 ... 30% of Americans Leave IRA Rollovers in Cash for 7 Years: Here’s What That Costs You
+  url: https://finnhub.io/api/news?id=0971202f4ed24220468f7cd1d40b30fc09128d61c574f222781f8244f7d8261a

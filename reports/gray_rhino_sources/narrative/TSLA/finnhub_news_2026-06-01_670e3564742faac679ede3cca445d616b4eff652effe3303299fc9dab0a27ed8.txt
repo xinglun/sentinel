@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX unveils plans for blockbuster market debut that could push Elon Musk toward trillionaire status
+  summary: Elon Musk’s SpaceX (NASDAQ:SPCX)has disclosed plans to launch a public listing in the US, opening the door for investors to trade shares of the aerospace company on the stock market. The company builds rockets, operates the Starlink satellite internet network, and also controls Musk’s controversial artificial intelligence venture xAI.
+  url: https://finnhub.io/api/news?id=c7c0b072f4a68eabd3ab6a75047b1e6a4e99c0ebc13a5ecbc62e110deb58c4ab

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BofA doubles down on cautious S&P 500 view for rest of 2026
+  summary: There's a difference between owning the market and owning the companies inside it, and most savers never notice the gap until it costs them money. For more than a year, the gap hasn't mattered. The S&P 500 has climbed in a nearly straight line, printing record after record, and the laziest ...
+  url: https://finnhub.io/api/news?id=ed2accb8a226206df54de6288ba4c78bb82ececc634ee8d119768d6014a7d8cc

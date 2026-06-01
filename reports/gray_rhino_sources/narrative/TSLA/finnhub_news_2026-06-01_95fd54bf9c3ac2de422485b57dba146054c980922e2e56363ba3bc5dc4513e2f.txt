@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Broadcom's June 3 Earnings Report Will Matter More Than Any "Magnificent Seven" Stock This Quarter
+  summary: Broadcom's quarterly results and earnings calls are worth following for AI growth stock investors.
+  url: https://finnhub.io/api/news?id=8061e9cf8ea4ceb04165815aa947cab921635e80a446d4be0f1290cba46ba431

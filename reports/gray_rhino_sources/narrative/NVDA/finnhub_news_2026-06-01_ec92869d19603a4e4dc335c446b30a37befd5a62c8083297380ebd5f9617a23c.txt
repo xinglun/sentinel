@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Falls On U.S.-Iran News; Nvidia Rallies On New Chip (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index drops Monday after Iran halts ceasefire talks with the U.S. Nvidia stock jumps on a new chip.
+  url: https://finnhub.io/api/news?id=dab3f6454181d50f2453c5d5eee38f4beb2d736d08d6b671194254ab537582d1

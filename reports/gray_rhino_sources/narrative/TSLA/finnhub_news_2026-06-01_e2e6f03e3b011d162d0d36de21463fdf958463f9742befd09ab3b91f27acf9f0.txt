@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Keeps Syrah Graphite Deal Alive
+  summary: Tesla dropped its threat to terminate a graphite supply deal with Syrah Resources.
+  url: https://finnhub.io/api/news?id=4aef6d5670b623933aa412fbddc1396dea4321ea3d4f8a07b6679ad4097974fb

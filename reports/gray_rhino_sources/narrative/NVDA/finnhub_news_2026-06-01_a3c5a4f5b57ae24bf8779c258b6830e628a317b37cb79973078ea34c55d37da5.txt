@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Will SoFi Stock Double This Year?
+  summary: SoFi Technologies (NASDAQ:SOFI) stock spent much of late 2025 looking like a fintech comeback story before giving back gains in 2026. Doubling from current levels would require a move to roughly $36.44, well above the 52-week high of $32.73. Our model says that is a stretch in the next 12 months, even with the bull ... Prediction: Will SoFi Stock Double This Year?
+  url: https://finnhub.io/api/news?id=e6566d57384632cd08c08d50190b3b6d3e39ecbe3212d6777e5e15e6ed36e902
