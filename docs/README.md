@@ -14,6 +14,8 @@ key: docs-index
 現在有効な仕様ドキュメント。  
 これらのファイルはドキュメント層の SSOT（Single Source of Truth：信頼できる唯一の情報源）を構成し、エンジニアリングの実装およびワークフローはこれらに準拠する必要があります。
 
+DDD / Clean Architecture の human-readable SSOT は `specs/DDD_CLEAN_ARCHITECTURE.md` です。実行時 checker が参照する machine-readable SSOT は `.ai/architecture/feature_acl.yaml` であり、文書と checker manifest が衝突する場合は `feature_acl.yaml` を優先して文書を更新します。
+
 内容：
 
 1. `ACTION_MATRIX.md`
@@ -68,6 +70,7 @@ key: docs-index
 
 現在の実装に関する設計説明と実装ガイド。  
 これらのファイルは「システムがどのように実装されているか」を説明しますが、`specs/` の仕様優先順位を上書きすることはありません。
+古いアーキテクチャ説明が残る場合も、DDD / Clean Architecture の境界判断では `specs/DDD_CLEAN_ARCHITECTURE.md` と `.ai/architecture/feature_acl.yaml` を優先します。
 
 内容：
 
@@ -120,4 +123,3 @@ key: docs-index
 1. 仕様に矛盾がある場合は、`specs/` を優先します。
 2. `archive/` 内の履歴ドキュメントが現在の仕様を上書きしてはなりません。
 3. 一時的な監査や修正ドキュメントを追加する場合、リポジトリのルートディレクトリに配置してはなりません。
-

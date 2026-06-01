@@ -22,7 +22,7 @@ GRAY_RHINO_REFRESH_ARGS ?= --date $(GRAY_RHINO_REFRESH_DATE)
 GRAY_RHINO_REFRESH_DAILY_ARGS ?= $(DAILY_CALIBRATION_ARGS)
 GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
 
-.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract \
+.PHONY: help fmt-check test clippy diff-check audit-docs check-doc-forbidden-terms check-doc-links check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality config-check radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
@@ -47,6 +47,7 @@ help:
 	@printf '%s\n' '  make fmt-check'
 	@printf '%s\n' '  make audit-docs'
 	@printf '%s\n' '  make check-doc-forbidden-terms'
+	@printf '%s\n' '  make check-doc-links'
 	@printf '%s\n' '  make check-architecture'
 	@printf '%s\n' '  make check-architecture-all'
 	@printf '%s\n' '  make check-gray-rhino-evidence-contract'
@@ -92,6 +93,9 @@ audit-docs:
 
 check-doc-forbidden-terms:
 	bash scripts/check_doc_forbidden_terms.sh
+
+check-doc-links:
+	python3 scripts/check_markdown_links.py
 
 check-architecture:
 	python3 scripts/check_architecture_boundaries.py
@@ -145,9 +149,12 @@ test-architecture-boundaries:
 test-gray-rhino-evidence-contract:
 	python3 scripts/ai_test_gray_rhino_evidence_contract.py
 
+test-doc-links:
+	python3 scripts/ai_test_markdown_links.py
+
 check-architecture-all: check-architecture test-architecture-boundaries
 
-check-rust: fmt-check audit-docs check-doc-forbidden-terms check-architecture-all check-gray-rhino-evidence-contract test-gray-rhino-evidence-contract test clippy diff-check
+check-rust: fmt-check audit-docs check-doc-forbidden-terms check-doc-links check-architecture-all check-gray-rhino-evidence-contract test-gray-rhino-evidence-contract test clippy diff-check
 
 check-ai-contract check-ai-work-item:
 	python3 scripts/ai_check_work_item.py $(CONTRACT)

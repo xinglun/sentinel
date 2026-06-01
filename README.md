@@ -158,7 +158,7 @@ language = "ja-jp"
 - [Hosting Spec](./docs/specs/hosting_spec.md) - GitHub Actions のホスティングとアーカイブ要件
 
 ### Implementation
-- [DDD Clean Architecture](./docs/architecture/DDD_CLEAN_ARCHITECTURE.md) - feature-first / Clean Architecture の現行境界
+- [DDD Clean Architecture](./docs/specs/DDD_CLEAN_ARCHITECTURE.md) - feature-first / Clean Architecture の現行境界
 - [Implementation Walkthrough](./docs/architecture/IMPLEMENTATION_WALKTHROUGH.md) - 現行 feature-first 実装ガイド
 - [Architecture Design](./docs/architecture/architecture_design.md) - 構造設計とデータフロー
 - [Strategy Philosophy](./docs/architecture/strategy_philosophy.md) - 戦略設計哲学

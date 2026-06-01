@@ -9,6 +9,8 @@ key: docs-architecture-implementation-walkthrough
 
 本ドキュメントでは、Sentinel 意思決定エンジン 2.0 の feature-first / Clean Architecture 実装、日次 Radar 実行、および Research intelligence の境界について説明します。
 
+DDD / Clean Architecture の最終的な境界判断は `docs/specs/DDD_CLEAN_ARCHITECTURE.md` と `.ai/architecture/feature_acl.yaml` に従います。本書は実装の読み方を補助する guide であり、依存方向や bounded context の SSOT ではありません。
+
 ## 1. コアパイプライン (The Pipeline)
 
 意思決定パイプラインは feature-first 構造で分割されています。日次実行の入口は `src/features/radar/interface/radar_pipeline_runner.rs`、意思決定の use case は `src/features/radar/application/**`、表示生成は `src/features/radar/interface/**`、共有 i18n は `src/features/shared/interface/i18n.rs` にあります。Gray Rhino などの Research intelligence は `src/features/research/**` に閉じ、Radar の Gate や売買判断へは入力しません。
