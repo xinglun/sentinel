@@ -93,7 +93,7 @@ skills/**:
 
 config.toml:
   owner: local-config
-  aiWrite: forbidden
+  aiWrite: restricted
   reason: local secrets / runtime config を含む可能性がある。
 
 reports/**:
