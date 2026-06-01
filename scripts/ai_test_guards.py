@@ -29,8 +29,8 @@ def test_restricted_write_with_contract_scope_passes() -> None:
 
 
 def test_forbidden_write_cannot_be_authorized() -> None:
-    items = detect(["config.toml"], [["config.toml"]])
-    assert_kinds(items, ["forbidden_write"], "forbidden path must remain blocked")
+    items = detect(["reports/daily.md"], [["reports/daily.md"]])
+    assert_kinds(items, ["forbidden_write", "forbidden_boundary"], "forbidden path must remain blocked")
 
 
 def test_regular_production_change_also_requires_contract() -> None:
