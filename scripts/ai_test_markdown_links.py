@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Markdown link checker の最小 regression test。"""
+"""Markdown link / docs index checker の regression test。"""
 from __future__ import annotations
 
 import importlib.util
@@ -18,6 +18,27 @@ assert module.normalize_target("mailto:test@example.com") is None
 assert module.normalize_target("./docs/specs/DDD_CLEAN_ARCHITECTURE.md#x") == "./docs/specs/DDD_CLEAN_ARCHITECTURE.md"
 assert module.normalize_target("#section") is None
 
-errors = module.find_broken_links()
-assert not errors, "broken links found: " + "; ".join(errors)
+targets = [path.relative_to(ROOT).as_posix() for path in module.markdown_targets()]
+assert "README.md" in targets
+assert "docs/README.md" in targets
+assert any(path.startswith("docs/specs/") for path in targets)
+assert not any(path.startswith("docs/archive/") for path in targets)
+
+link_errors = module.find_broken_links()
+assert not link_errors, "broken links found: " + "; ".join(link_errors)
+
+sample = """
+## 1. `specs/`
+
+1. `A.md`
+
+## 2. `architecture/`
+
+1. `legacy.md`
+"""
+assert module.DOC_INDEX_RE.findall(module.specs_index_section(sample)) == ["A.md"]
+
+index_errors = module.docs_index_errors()
+assert not index_errors, "docs index errors found: " + "; ".join(index_errors)
+
 print("✅ markdown link checker tests passed")
