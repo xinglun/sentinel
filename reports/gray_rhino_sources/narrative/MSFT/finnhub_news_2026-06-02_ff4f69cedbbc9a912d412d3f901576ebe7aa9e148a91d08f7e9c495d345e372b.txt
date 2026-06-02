@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Qualcomm Hit $300 This Year? Here’s The Answer
+  summary: Qualcomm (NASDAQ:QCOM) just had one of its most violent single-day reversals of the year, and the question on every shareholder’s mind is whether $228.99 can become $300 before the calendar flips. Based on our proprietary model, the answer is yes, though the path will be volatile. Our 24/7 Wall St. price target for QCOM stock ... Can Qualcomm Hit $300 This Year? Here’s The Answer
+  url: https://finnhub.io/api/news?id=77524092016498a2115da67474e05f8eeab65a68381a63754655cba4830c36fc

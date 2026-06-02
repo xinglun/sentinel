@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why a massive Nvidia stock rally may be just getting started
+  summary: Nvidia stock may have a lot more upside, Goldman Sachs says.
+  url: https://finnhub.io/api/news?id=fdbe6033ec0d264cc206ced61f62762b9124e995307b775c43578206666690a3

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Top 12 Most-Searched Tickers In May On Benzinga Pro — Micron, SanDisk, Qualcomm Surge Up Leaderboard
+  summary: A look at the 12 most-searched tickers on Benzinga Pro for the month of May and how they compare to past months in 2026.
+  url: https://finnhub.io/api/news?id=0a5b1087ee1afdc2da1b6142cf9701c4b96b4fae01c66a910007714147df3621

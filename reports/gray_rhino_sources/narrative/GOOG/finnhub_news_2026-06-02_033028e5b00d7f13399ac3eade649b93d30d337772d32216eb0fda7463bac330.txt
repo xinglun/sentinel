@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Pivots From Buybacks to a Massive Stock Offering. What It Means for Shares.
+  summary: Alphabet  said it would issue $80 billion of equity, including $10 billion of stock to  Berkshire Hathaway  as it funds its huge AI computing infrastructure buildout.  Alphabet said it plans to issue $30 billion in concurrent underwritten public offerings consisting of $15 billion of mandatory convertible preferred stock and $15 billion in its class A and class C common equity.  Another $10 billion of stock will be sold to Berkshire in a private placement.
+  url: https://finnhub.io/api/news?id=8156b687cbdf5e03893f716119cdf7fd54302238d7a80d44d447e42c4a0f5b1d

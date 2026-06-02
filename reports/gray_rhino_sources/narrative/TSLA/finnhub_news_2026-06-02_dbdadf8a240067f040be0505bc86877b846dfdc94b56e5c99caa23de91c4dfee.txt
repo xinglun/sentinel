@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Anthropic-SpaceX Deal Is Short-Term 'Because We Might Need The Compute Back' — Here's What That Means
+  summary: SpaceX filed an amended IPO prospectus on Monday, stating that its agreement with Anthropic has an initial term of three months.
+  url: https://finnhub.io/api/news?id=690ede490a7591c51746658a70cc9663ce409b190d173cbc3bdcdf5895639ae3

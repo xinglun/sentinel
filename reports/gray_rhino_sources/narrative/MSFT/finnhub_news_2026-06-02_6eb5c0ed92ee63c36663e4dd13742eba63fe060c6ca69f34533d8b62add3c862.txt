@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cortechs.ai Collaborates with Microsoft to Bring AI-Powered Imaging Insights Directly into Radiology Workflows
+  summary: Cortechs.ai, a global leader in AI-powered neuroimaging and quantitative analysis solutions, today announced a strategic collaboration with Microsoft to integrate advanced imaging biomarkers and AI-driven insights into clinical radiology workflows. This collaboration aims to enhance diagnostic precision, streamline reporting, and accelerate clinical decision-making at scale.
+  url: https://finnhub.io/api/news?id=6b4f0ebdcbd7a879b8b6a02ae20d49eaa9f4076e7da98d6e3753f33ab677ca30

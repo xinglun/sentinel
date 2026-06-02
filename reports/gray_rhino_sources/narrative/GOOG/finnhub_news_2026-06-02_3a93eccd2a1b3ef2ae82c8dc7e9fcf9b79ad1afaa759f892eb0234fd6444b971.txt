@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Raises $80 Billion in Equity to Fund AI Infrastructure Push
+  summary: A private placement, public offering, and ATM program fund a capex plan of up to $190 billion.
+  url: https://finnhub.io/api/news?id=94ffd2fca495f0510aba25c5c0faa12b37953b27e5d40359d85311c31e808e2a

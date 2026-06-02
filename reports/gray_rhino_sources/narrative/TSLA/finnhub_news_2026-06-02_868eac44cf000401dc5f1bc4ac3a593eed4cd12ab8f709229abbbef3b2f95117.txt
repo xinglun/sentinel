@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla EU Sales Recovery Gains Steam in May
+  summary: Registrations rose sharply in France and Norway as regional demand improved.
+  url: https://finnhub.io/api/news?id=0c0f6ebe3dbee0f218d9563af21451c9d8b096e35198ee17cbfc7d3e6c115dbb

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Sell or Hold Broadcom Before Earnings Tomorrow?
+  summary: At $459.97, Broadcom (NASDAQ:AVGO) looks attractively positioned for investors with a 12-month horizon. The stock just touched a 52-week high of $465.99 and sits on the doorstep of an earnings report that prediction markets are pricing as a near-certain beat, which makes the next 90 days a real test of the bull thesis. Broadcom designs ... Buy, Sell or Hold Broadcom Before Earnings Tomorrow?
+  url: https://finnhub.io/api/news?id=320b10ae138142389155195aaee27e5c628d798805a99f224d671e89a051c3ac

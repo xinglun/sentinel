@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Trillion-Dollar AI Stock Has Seen a Steeper Increase in Market Cap Than Nvidia This Year. Is It a Buy?
+  summary: It's important to consider valuation and the AI revenue opportunity.
+  url: https://finnhub.io/api/news?id=2ce85366676dbe839b11a624a23ea533effaf13eee40ef3598e391b932393cde

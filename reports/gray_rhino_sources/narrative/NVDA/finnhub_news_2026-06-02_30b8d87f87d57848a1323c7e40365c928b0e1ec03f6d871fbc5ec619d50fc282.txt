@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $1,000 in Alphabet 15 Years ago, This Is How Much You Have Now (and It’s a Masterclass in 1 Vital Investing Lesson)
+  summary: If you bought Alphabet (NASDAQ:GOOGL) 15 years ago and never touched it, you would be sitting on one of the cleaner compounding stories in mega-cap tech. The company you bought in 2011 was an ad-revenue machine bolted to a dominant search engine. The company you own today is something much stranger: a cloud hyperscaler, an ... If You Invested $1,000 in Alphabet 15 Years ago, This Is How Much You Have Now (and It’s a Masterclass in 1 Vital Investing Lesson)
+  url: https://finnhub.io/api/news?id=4e5d5dd1009098242dc27dfcfafc90ae6288b0c3d7b06a348da362257a2f3c50

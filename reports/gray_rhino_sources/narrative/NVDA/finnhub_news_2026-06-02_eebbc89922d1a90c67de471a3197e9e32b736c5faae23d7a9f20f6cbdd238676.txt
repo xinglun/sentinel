@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Applied Materials: The AI Stock That Wins No Matter Which Chip Wins
+  summary: When investors think about AI winners, the usual names come to mind: Nvidia (NVDA), TSMC, or memory makers like Micron (MU). Semiconductor equipment giant Applied Materials (AMAT) rarely gets the same attention, despite supplying the tools needed to manufacture nearly every critical component of an AI chip.
+  url: https://finnhub.io/api/news?id=6b216661c00361cd288f443dd823a66612d701d7d2239ed3966e6aec67116b10

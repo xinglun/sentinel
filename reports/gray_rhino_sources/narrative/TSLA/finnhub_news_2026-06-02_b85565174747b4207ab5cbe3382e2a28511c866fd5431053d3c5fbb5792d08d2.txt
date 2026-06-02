@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Market Cap Is Up 1,000-Fold Since Its 2010 IPO. What That Means for SpaceX.
+  summary: Tesla  stock rebounded early Tuesday as CEO Elon Musk reminded investors about where his EV company started and how far it’s come.  The move came after Musk tweeted that Tesla’s IPO market cap was only 0.1% of its current market cap.  The tweet also comes just ahead of SpaceX’s massive IPO, which is expected to raise a record amount of cash, and could value the rocket company at $2 trillion.
+  url: https://finnhub.io/api/news?id=cd513d67dd46a81f2fb5c9c6b2cad1447a2d5e6188646c5e1ed3596158abc523

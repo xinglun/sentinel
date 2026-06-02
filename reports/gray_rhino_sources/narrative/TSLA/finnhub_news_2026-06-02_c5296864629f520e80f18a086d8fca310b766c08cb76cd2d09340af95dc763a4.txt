@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy Nvidia Stock, Sell Its Rival. How Cathie Wood’s ARK Is Playing the Chips Rally.
+  summary: Nvidia stock was gaining after Cathie Wood’s ARK Invest funds acquired a total of 300,017 Nvidia shares on Monday.
+  url: https://finnhub.io/api/news?id=e7dd0d03248317c87a41a264f85e51db0dfa2c520b56dc3bbcefe5c8b2c88f3a

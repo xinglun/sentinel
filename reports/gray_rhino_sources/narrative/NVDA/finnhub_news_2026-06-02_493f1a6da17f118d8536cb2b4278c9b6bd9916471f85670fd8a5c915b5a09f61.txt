@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How The NVIDIA (NVDA) Investment Narrative Is Evolving Without Fresh Analyst Guidance
+  summary: NVIDIA’s latest analyst update comes with no change to the current price targets, leaving existing expectations in place without a new directional push. With no fresh analyst commentary provided alongside this update, the lack of revision speaks for itself and puts more weight on how you interpret the status quo. In the sections that follow, you will see how to track these kinds of updates and use them to follow the evolving narrative around the stock over time. Stay updated as the Fair Value...
+  url: https://finnhub.io/api/news?id=fce3a0d4f9771f0a984527f7d11e7cf43f29d6f11e0cba0528ff7cf64bff99d7

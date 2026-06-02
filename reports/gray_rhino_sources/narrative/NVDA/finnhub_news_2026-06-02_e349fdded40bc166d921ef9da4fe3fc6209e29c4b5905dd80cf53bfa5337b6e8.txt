@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Foxconn Boosts Production Throughput With DeepHow Live SOP Verification Powered By NVIDIA
+  summary: ROYAL OAK, Mich., June 02, 2026--DeepHow today announced an advancement in live SOP verification that brings physical AI into Foxconn’s manufacturing center, enabling teams to identify procedural drift and drive quality and productivity as work is performed.
+  url: https://finnhub.io/api/news?id=0a54eff58e7cb614b3c45d067dfd84c6d2394963790379e00190a1bf711e5e6c

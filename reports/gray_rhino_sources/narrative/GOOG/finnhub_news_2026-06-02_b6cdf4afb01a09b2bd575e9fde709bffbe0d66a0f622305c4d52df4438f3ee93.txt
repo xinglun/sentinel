@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How To Earn 12% While Waiting For Arista Stock To Fall
+  summary: At about $170.68 a share, Arista Networks (ANET) is trading near its 52-week high, fueled by a surge in demand for AI networking infrastructure. The world's largest tech companies, including hyperscalers such as Microsoft (MSFT) and Meta Platforms (META), are spending hundreds of billions of dollars to build AI data centers. Arista's high-speed Ethernet switches and routers provide the networking fabric that enables massive clusters of AI GPUs to communicate efficiently at scale. The company rec
+  url: https://finnhub.io/api/news?id=702b968341295f205007c01f3f58b755525fe9bee9d3f17335d139aa603d39c0

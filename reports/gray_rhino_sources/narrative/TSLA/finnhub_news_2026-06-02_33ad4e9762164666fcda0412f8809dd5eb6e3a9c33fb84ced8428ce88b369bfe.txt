@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why Tesla Stock Soared in May (And What the SpaceX IPO Means to Tesla Investors)
+  summary: Investors grew optimistic over the robotaxi rollout in early May, but there's a need to be realistic here. The SpaceX IPO is also of great significance to Tesla investors.
+  url: https://finnhub.io/api/news?id=5d578cf30ece5dcbbfc485994409d57132c66b554ebcf261c9f30b09b9f0555b

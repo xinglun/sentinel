@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Is Making Hackers Smarter — And Palo Alto And CrowdStrike Richer
+  summary: AI is making cyberattacks more sophisticated, creating a major opportunity for cybersecurity leaders Palo Alto Networks and CrowdStrike.
+  url: https://finnhub.io/api/news?id=99eefcd9391a9e30cb5d0a21010efe8adbc9d50c8b1481143c81e3653d5f71f7

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Technologies (PLTR) Is Up 17.4% After Cavanagh Extends Foundry And Becomes Channel Partner
+  summary: In late May 2026, Thomas Cavanagh Construction Limited announced it had extended its partnership with Palantir Technologies’ Foundry platform through 2035 to serve as the digital backbone of its construction operations and workflow execution. An interesting angle is that Cavanagh is now commercializing its Foundry-based tools to support Palantir deployments across the wider construction industry, effectively becoming a channel for Palantir’s technology. Against this backdrop of a long-term...
+  url: https://finnhub.io/api/news?id=b9837db8a1827402904e3e53098a3b3c05584be7fa0b60ada252749e82cecb47

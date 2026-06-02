@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Zoom Stock A Buy After The Anthropic IPO Hype?
+  summary: Zoom (ZM) is actively shedding its reputation as a single-use utility. Following a robust Q1 FY27 earnings beat and a speculative surge tied to Anthropic's IPO plans, shares have rallied to $112. As the stock trades at a notable premium, investors must determine if Zoom's AI-driven enterprise pivot truly justifies this momentum.
+  url: https://finnhub.io/api/news?id=7200fd67eb647fe7facb160918eaacec05516b6b4ef3d6d35784b1985c2d46d2

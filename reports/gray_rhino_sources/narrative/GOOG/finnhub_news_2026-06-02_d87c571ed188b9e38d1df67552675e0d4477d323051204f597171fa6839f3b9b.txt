@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Things to Know Before the Stock Market Opens
+  summary: News of the day for June 2, 2026
+  url: https://finnhub.io/api/news?id=19dd30976b58b81a4db9bc6d4da87d99c8b53f27a5a4c2137a48dc4849f6785c

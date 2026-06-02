@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet raises $80 billion in stock to fund AI infrastructure
+  summary: Berkshire Hathaway is putting in $10 billion through a private placement, with the rest coming from underwritten offerings and an at-the-market program
+  url: https://finnhub.io/api/news?id=e3b39c7edcc2fffc946c8cac7a879fb957968014b4a0810704717b252898481c

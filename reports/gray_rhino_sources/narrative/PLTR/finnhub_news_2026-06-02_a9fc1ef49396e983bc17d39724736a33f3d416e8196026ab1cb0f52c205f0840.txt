@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Look At Palantir Technologies (PLTR) Valuation After Its Recent Share Price Momentum
+  summary: Recent performance snapshot Palantir Technologies (PLTR) has drawn fresh attention after a sustained run in its stock price, with moves over the past week and month prompting investors to reassess how current market pricing aligns with fundamentals. The stock shows a 2.6% gain over the past day and a 17.4% rise over the past week, with a further 11.5% increase over the past month and a 9.1% gain over the past 3 months. See our latest analysis for Palantir Technologies. While the recent 1-week...
+  url: https://finnhub.io/api/news?id=98fa89d546fdc39480595fffea6ccd8ef593df077914475b12894fc946618a04

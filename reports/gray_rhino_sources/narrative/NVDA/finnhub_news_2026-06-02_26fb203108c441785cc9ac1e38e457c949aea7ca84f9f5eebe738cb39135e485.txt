@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elizabeth Warren Branded Kevin Warsh Trump’s ‘Sock Puppet.’ His First Fed Meeting May Prove Her Wrong
+  summary: Few things move markets more than interest rates. Lower rates can boost stock prices, support home sales, and make borrowing cheaper. Higher rates do the opposite. That’s why investors spend so much time trying to figure out what the Federal Reserve will do next. But when the person expected to lead the Fed was chosen ... Elizabeth Warren Branded Kevin Warsh Trump’s ‘Sock Puppet.’ His First Fed Meeting May Prove Her Wrong
+  url: https://finnhub.io/api/news?id=d54229c709dadd7fd8dd698bfe58f3cb903b73c5f06d782bc1871f17212dfbc0

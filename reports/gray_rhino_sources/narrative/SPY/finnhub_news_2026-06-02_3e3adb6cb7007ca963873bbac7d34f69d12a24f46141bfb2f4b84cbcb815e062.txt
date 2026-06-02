@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Nasdaq Futures Fall As Trump Says He 'Couldn't Care Less' If Iran Talks Collapse—Marvell, Alphabet In Focus  (UPDATED)
+  summary: (Editor’s note: The future prices of benchmark tracking ETFs, and the headline were updated in the story.)
+
+
+
+U.S. stock futures fell on Tuesday, after a record close on Monday, starting the month of June on a positive note.
+  url: https://finnhub.io/api/news?id=b5bb84ca795c9b6a3fe12103df7317173fa78e6d1e7d0aa86c037b90e01eb873

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wayleadr Announces Majority Growth Investment to Accelerate Global Expansion
+  summary: SAN FRANCISCO, June 02, 2026--Wayleadr, the category-defining Arrival Platform transforming how people and vehicles access workplaces and parking, today announced a majority growth investment to accelerate the company’s next phase of global expansion.
+  url: https://finnhub.io/api/news?id=a1f48380242b3b2661ee53bfcff9ea4a087218969521b68bfa1a5954305cb742

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Highlights New AI Products at Computex
+  summary: Jensen Huang outlined agentic AI, physical AI and major partnerships.
+  url: https://finnhub.io/api/news?id=60231cde01a36df415c733295f42e29288b014ce1bdb997513e81055cccd34ba

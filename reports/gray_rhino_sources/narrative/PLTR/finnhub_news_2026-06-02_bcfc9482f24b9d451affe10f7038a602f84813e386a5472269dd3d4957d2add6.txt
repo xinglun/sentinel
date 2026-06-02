@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Shares Why Palantir (PLTR) Is Higher
+  summary: We recently published Jim Cramer Warned About Market Manipulation & Discussed These 22 Stocks. Palantir Technologies Inc. (NASDAQ:PLTR) is one of the stocks discussed by Jim Cramer. Data analytics firm Palantir Technologies Inc. (NASDAQ:PLTR)’s shares are up by 18% over the past year and are down by 6.7% year-to-date. After meeting with the firm’s management, […]
+  url: https://finnhub.io/api/news?id=be82f7622e328a568f9c78eae1477a2358dfb2bfe95bdb4059a2fcf473816e59

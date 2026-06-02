@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: STMicro Raises Data Centre Revenue Forecast to $1 Billion as AI Demand Accelerates (STM)
+  summary: STMicroelectronics (NYSE:STM) increased its revenue expectations for its data centre business on Tuesday, citing strong momentum from artificial intelligence infrastructure investment and ongoing expansion of manufacturing capacity. The Franco-Italian semiconductor manufacturer, which counts Tesla and Apple among its customers, now expects its data centre operations to generate approximately $1 billion in revenue during 2026.
+  url: https://finnhub.io/api/news?id=be61283985535cffd25365d78bd6fc0de5027886559d2740c2e374cb28afc7e8

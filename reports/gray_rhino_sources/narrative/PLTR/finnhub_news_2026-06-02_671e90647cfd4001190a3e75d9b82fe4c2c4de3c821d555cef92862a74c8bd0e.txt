@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zapata Strengthens Product and Commercial Leadership with Quantum Pioneer Romero Fontalvo and Palantir Veteran Rotondi-Gray
+  summary: Dr. Jhonathan Romero Fontalvo rejoins Zapata as VP of Product alongside enterprise software veteran Ian Rotondi-Gray as Head of Go-To-Market StrategyBOSTON, June 02, 2026 (GLOBE NEWSWIRE) -- Zapata Quantum (OTC: ZPTA) (“Zapata,” “Zapata Quantum” or the “Company”), a leader in quantum computing algorithm and application development, today announced the appointment of Jhonathan Romero Fontalvo, Ph.D.as Vice President of Product and Ian Rotondi-Gray as Senior Director of Partnerships and Go-To-Mark
+  url: https://finnhub.io/api/news?id=42cb500e76e89a269552b46b1dba323118a5b3406141aaf3ffe7c04444b349e8

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Palantir: “Maybe It’s Coming Back”
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) was one of the stocks on Jim Cramer’s radar on Mad Money as he explained that many investors might be missing out on the market’s biggest winners. When a caller inquired about the stock, Cramer said: Okay, right now, other companies are shining so brightly that they’re taking away the sheen […]
+  url: https://finnhub.io/api/news?id=0d9f20ae500644f10e786fdf27f4cd93656267bcfb32a71d723712d23dd1e49b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Should Be More Worried About Google’s AI Funding Plan
+  summary: Anthropic files confidential IPO paperwork, Marvell can be the next trillion-dollar company, IBM stock notches record high, and more news to start your day.
+  url: https://finnhub.io/api/news?id=f2658e88a2842ecb0b88a8007280afb8b219559bbb24046df25a8751192d398d

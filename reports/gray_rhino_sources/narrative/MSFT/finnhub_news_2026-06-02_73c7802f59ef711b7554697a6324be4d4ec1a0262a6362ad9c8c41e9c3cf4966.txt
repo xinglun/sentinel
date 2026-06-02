@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: Wall Street's Ultimate Paradox In 2026
+  summary: In June 2026, a unique paradox arose around Nvidia Corporation shares, dividing Wall Street into two irreconcilable camps. Click for this NVDA stock update.
+  url: https://finnhub.io/api/news?id=80381311d56bf7a2a6e82c0f88d6191c9e296037b93cc61e6c5f7cbb03aa7286

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises With U.S.-Iran Talks 'Continuing'; AI Name Marvell Tech Soars By 19% (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Tuesday with U.S.-Iran talks ongoing. AI name Marvell stock soared 19%.
+  url: https://finnhub.io/api/news?id=2357d8c83aae44198f6afe294f9761ec94a084e751f2e6d78e31af7584e7552c

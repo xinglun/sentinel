@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX-Tesla Merger Could Trigger Elon Musk's $1 Trillion Pay Package: Report
+  summary: A merger between Tesla Inc. and SpaceX could reportedly trigger Elon Musk‘s $1 trillion Tesla pay package without the EV giant having to reach any operational milestones. $1 Trillion Package Kicks In With Merger? The package, which features operational milestones...
+  url: https://finnhub.io/api/news?id=0b119be19f9789ec2e7a4b488dd2e2663e645ba9fe05d03396766db6fb05fd7d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Shares Advance Following BNP Paribas Upgrade and Ongoing AI Sector Strength (CRWV)
+  summary: CoreWeave Inc. (NASDAQ:CRWV) moved higher in premarket trading on Tuesday, gaining 4% as investors responded to a favorable analyst initiation and continued enthusiasm surrounding artificial intelligence infrastructure companies.
+  url: https://finnhub.io/api/news?id=d9d730176caa023f035225c32eb956b80209b503e01055fc62a6c0ad4b6bbab1

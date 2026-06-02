@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google $80 Billion Equity Offering Comes Amid Rising Debt, Slowed Buybacks
+  summary: Google stock fell after Alphabet announced equity offerings totaling $80 billion in a capital rise amid higher spending on AI data centers.
+  url: https://finnhub.io/api/news?id=cb0e7ea5610e0419cac7abe120e5760dc482b9ed0928f5191efe4b1af6da4aaa

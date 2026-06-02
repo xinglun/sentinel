@@ -27,3 +27,4 @@ Timestamp,No_Trade_Persists,Opportunity_Mode_From,Opportunity_Mode_To,Scout_Days
 2026-05-29T00:51:19.128925007+09:00,false,Ready,NoTradeCold,0,3,false,1,IGNITION,IGNITION,NORMAL,NORMAL,true,false,Formed,Dispersed,FragmentedLeaders,FragmentedLeaders,"ContinuityThreshold","","","","","",""
 2026-05-30T00:50:05.745515779+09:00,true,NoTradeCold,NoTradeCold,0,3,false,1,IGNITION,IGNITION,NORMAL,NORMAL,false,false,Dispersed,Dispersed,FragmentedLeaders,FragmentedLeaders,"","","ContinuityThreshold","PLTR:NoBreakout(risk+)","","",""
 2026-06-02T01:32:58.329409509+09:00,false,NoTradeCold,Ready,0,3,false,2,IGNITION,IGNITION,NORMAL,NORMAL,false,true,Dispersed,Formed,FragmentedLeaders,FragmentedLeaders,"","ContinuityThreshold","","GOOG:NoBreakout->EmergingBreakout(risk+)","","",""
+2026-06-03T00:53:32.245165743+09:00,false,Ready,Ready,0,3,false,2,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","TSLA:NoBreakout(risk+)","","",""

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell stock soars as Nvidia CEO calls chipmaker 'the next trillion-dollar company'
+  summary: Marvell stock jumped after Nvidia CEO Jensen Huang called the custom chip maker 'the next trillion dollar company.'
+  url: https://finnhub.io/api/news?id=f05c4de53646cb312b36af842850cad9a24c9ef4b4764718a97e871d70b11651

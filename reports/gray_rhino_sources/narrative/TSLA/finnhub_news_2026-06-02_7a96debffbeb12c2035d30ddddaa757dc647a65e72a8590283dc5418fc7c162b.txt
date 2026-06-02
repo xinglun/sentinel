@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Elon Musk Selling 'Hopium' With the $1.8 Trillion SpaceX IPO?
+  summary: The numbers don't add up for SpaceX's astronomical IPO valuation.
+  url: https://finnhub.io/api/news?id=6d67a20d3e644c74819e33f0edd4c5e0c927756ddb08930e5b0a14b6e872e625

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Total Return Forecasts: Major Asset Classes - June 2, 2026
+  summary: The expected long-term total return for the Global Market Index (GMI) continued to tick higher in May, rising to the highest level in recent history.
+  url: https://finnhub.io/api/news?id=b30b48cf1578baedcae2656c87de6a5fab7ba6ab26988259d995afab947c008a

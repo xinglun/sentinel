@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Down 54% From Its All-Time High, This Ultra-High-Yield Dividend Stock Under $30 Is a Screaming Buy Right Now
+  summary: For income investors hunting yield in a choppy rate environment, business development companies (BDCs) trading under $30 deserve a fresh look. These middle-market lenders pass through interest income as eye-watering distributions, and several names in the group now sit well off their highs after a year of yield compression and dividend resets. That combination, depressed ... Down 54% From Its All-Time High, This Ultra-High-Yield Dividend Stock Under $30 Is a Screaming Buy Right Now
+  url: https://finnhub.io/api/news?id=0807cc6a7c3d828a4b512ab0c45954fc482c9ec075048dcc696fdf7868aeb517

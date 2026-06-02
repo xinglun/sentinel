@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Could Crash In June
+  summary: The S&P500 is approaching the highest valuation ever, led by tech, so, it's a major bubble.
+  url: https://finnhub.io/api/news?id=4a2e0ed7a056eb7de519e2b82a5c142a033a5d67e5ca6f611d8d3932047a21bb

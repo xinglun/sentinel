@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang Says Nvidia and Microsoft Just Reinvented the PC. But There Might Be 1 Problem
+  summary: For years, the PC industry has been stuck in a rut. Consumers stretched upgrade cycles from three years to five or more, smartphone sales stole attention, and innovation often boiled down to slightly faster processors and better battery life. So when Nvidia (NASDAQ:NVDA) CEO Jensen Huang declares that the PC has been “reinvented,” investors should ... Jensen Huang Says Nvidia and Microsoft Just Reinvented the PC. But There Might Be 1 Problem
+  url: https://finnhub.io/api/news?id=91fc63429be812bcb6311d6448f80fa79a58e888b2a86ffa9e52bc0a0f00f4c8

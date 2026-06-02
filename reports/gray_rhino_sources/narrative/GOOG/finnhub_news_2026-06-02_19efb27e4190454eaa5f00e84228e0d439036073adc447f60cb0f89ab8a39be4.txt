@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX At 100x Revenue: A Warning From 2000
+  summary: In 2002, Scott McNealy, then CEO of Sun Microsystems, reflected on his company's valuation during the dot-com peak in an interview with BusinessWeek. Sun had traded at about 10x revenue. McNealy walked through what that price implied. To give investors a 10-year payback at 10x revenue, he would have to pay out 100% of revenues as dividends for a decade. That assumed zero cost of goods sold, which is very hard for a computer company. It assumed zero expenses across 39,000 employees. It assumed no
+  url: https://finnhub.io/api/news?id=e0975320d750475cc4eb1dfd1cbb2218b23c1304c754a58010770582e4656b8d

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Edge Lower Despite AI Momentum As Iran Risks Linger: Why HPE, MRVL, INTC, TSLA, SPCE, ASTS Are In Focus
+  summary: Data from Stocktwits shows that retail sentiment has held at ‘bullish’ on SPY, but sits at a cautious ‘neutral’ on QQQ.
+  url: https://finnhub.io/api/news?id=2062b6a0d2cb32b282b999a1754e3c5f2d09892dab84f44b256c3246b7b4926e

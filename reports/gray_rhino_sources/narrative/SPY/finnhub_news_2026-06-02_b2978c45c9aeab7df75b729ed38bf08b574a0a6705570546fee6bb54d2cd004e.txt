@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macro Insights: The 'Dangerous Market' Playbook, 1999 Redux, And Navigating RAMpocalypse
+  summary: Welcome to the SAâs The Macro Brief! This official SA Profile will highlight our analysts' latest economic and market analysis to help investors gauge the...
+  url: https://finnhub.io/api/news?id=7358f4b7e7c7d219a31280bc89b9da8c81f9225a51f913c0b1f4eb06917b7c9a

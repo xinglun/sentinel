@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is The S&P 500 Rising Too Much Too Fast?
+  summary: The rise of stock prices hasn't slowed down very much, which makes it different from previous recoveries in recent years.
+  url: https://finnhub.io/api/news?id=dcac98f62f8b67ba6044c12075e23b53a2c5c68f4c53553e78e7eadf4375c031

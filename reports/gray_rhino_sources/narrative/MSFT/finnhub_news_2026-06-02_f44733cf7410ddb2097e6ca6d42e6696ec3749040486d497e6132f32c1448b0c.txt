@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: U.S. Big Tech Holds 85% of Canadian Cloud Market, report says ahead of AI strategy
+  summary: Three big U.S. tech companies control the vast majority of Canada's publicly-available cloud infrast
+  url: https://finnhub.io/api/news?id=c3e5b6c440770930880e10e1eec01d3ce2a7b59f68b44534963a26e6a7128a14

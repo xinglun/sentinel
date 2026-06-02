@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘We Will Get Into a Lost Decade Again. That’s Almost a Guarantee,’ Says Top Portfolio Strategist
+  summary: Lance Roberts of RIA Advisors believes investors are underestimating a risk that has appeared more than once throughout market history. Speaking on a recent episode of Thoughtful Money with Adam Taggart, Roberts delivered a stark warning: “We will get into a lost decade again. That’s almost a guarantee.” Roberts’ argument is not that a crash is imminent. ... ‘We Will Get Into a Lost Decade Again. That’s Almost a Guarantee,’ Says Top Portfolio Strategist
+  url: https://finnhub.io/api/news?id=58a4f03f4a6b44767e6233208b90c2e8c33cbb68e21c976c56c8297b1a6ceb45

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top 5 Stocks That Will Profit From the Silicon Valley Defense Tech Surge
+  summary: Steve Eisman said on a recent podcast: “I’m sort of bewildered, given that there’s a war going on, why people would be selling defense stocks.” The reason that bewilderment matters to your portfolio is sitting on top of a wall of capital nobody is talking about. Peter Arment, on the same segment, laid out the ... Top 5 Stocks That Will Profit From the Silicon Valley Defense Tech Surge
+  url: https://finnhub.io/api/news?id=9e7deb55f62b7dc2d5f6e09d251c922d9eb8f20e64490ee44d8155e86101923c

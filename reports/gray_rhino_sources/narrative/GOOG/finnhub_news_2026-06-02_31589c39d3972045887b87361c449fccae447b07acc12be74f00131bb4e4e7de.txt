@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Voltus and Google to Deliver Grid Capacity and Local Economic Benefits Through Bring Your Own Capacity Agreement
+  summary: First-of-its-kind agreement aggregates up to 100 megawatts (MW) of accredited distributed capacity in PJM and channels grid investment to homes and businessesSAN FRANCISCO, June 02, 2026 (GLOBE NEWSWIRE) -- Voltus, Inc. (“Voltus”), the leading virtual power plant (VPP) operator and distributed energy resource (DER) platform, today announced a landmark Bring Your Own Capacity™ (BYOC) three-year agreement with Google. With this first-of-its-kind agreement, Voltus will aggregate up to 100 megawatts
+  url: https://finnhub.io/api/news?id=c9b6769729642cd3ad9a97b83b608aaa5724717789ee8e24037d4010d17406c4

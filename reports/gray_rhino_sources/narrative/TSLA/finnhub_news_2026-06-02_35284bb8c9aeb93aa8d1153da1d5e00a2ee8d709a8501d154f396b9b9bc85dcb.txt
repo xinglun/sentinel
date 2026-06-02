@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If S&P Dow Jones rewrites its listing rules, SpaceX and Anthropic will benefit—investors won’t
+  summary: As SpaceX, Anthropic, and OpenAI line up to go public, S&P Dow Jones is poised to waive the profitability rule that kept Tesla out for years.
+  url: https://finnhub.io/api/news?id=69855c686ddb53f4cf319c584cffdc60791ba94f0f63ec46a4ef32c92fa09966

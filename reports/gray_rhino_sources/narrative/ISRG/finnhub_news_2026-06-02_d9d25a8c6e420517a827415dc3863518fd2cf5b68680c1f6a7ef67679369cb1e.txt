@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Cash-Heavy Stock to Consider Right Now and 2 We Brush Off
+  summary: A cash-heavy balance sheet is often a sign of strength, but not always. Some companies avoid debt because they have weak business models, limited expansion opportunities, or inconsistent cash flow.
+  url: https://finnhub.io/api/news?id=752c7e5e75fab8e8216dd44cd5dc27f999daf4a72a1108deb22c45a4bf2d0d11

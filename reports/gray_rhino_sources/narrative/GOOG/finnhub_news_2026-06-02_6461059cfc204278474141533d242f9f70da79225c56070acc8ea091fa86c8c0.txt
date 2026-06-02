@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Equity Raise Tests AI Growth Plans And Shareholder Value
+  summary: Alphabet (NasdaqGS:GOOGL) announced a US$80b equity raise to fund a large scale build out of AI infrastructure. The offering includes a US$10b private placement from Berkshire Hathaway, bringing in a new long term institutional investor. The transaction represents Alphabet's largest equity raise to date and a rare use of stock issuance to fund capital spending. For you as an investor, this move highlights how central AI computing capacity has become to Alphabet's core business across...
+  url: https://finnhub.io/api/news?id=61ebd6fa8e3ec68d1e2d94fc7f4f28953a1f11a23c6f6daad8b2355e0173b0d2

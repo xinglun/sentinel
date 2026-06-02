@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI is carrying the S&P 500 rally: Chart of the Day
+  summary: The S&P 500's rebound looks a lot thinner once AI enablers are stripped out.
+  url: https://finnhub.io/api/news?id=9352a558f1ef28600612d2b71e885038e349ed43dbaece10f3f856847a44676e

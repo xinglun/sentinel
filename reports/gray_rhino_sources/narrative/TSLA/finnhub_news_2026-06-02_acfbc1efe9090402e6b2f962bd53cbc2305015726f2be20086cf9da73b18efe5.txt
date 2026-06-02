@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Climbs Premarket: Elon Musk Revives Tesla's IPO-Era Bull Case To Defend SpaceX's $1.8 Trillion Valuation
+  summary: Musk defended SpaceX's lofty valuation, noting that Tesla's IPO market cap was just 0.1% of its current $1.3 trillion value.
+  url: https://finnhub.io/api/news?id=ab62c17bd3b2526ecea6f25c033471705a8f92e98db509df7a287d29bd72ff19

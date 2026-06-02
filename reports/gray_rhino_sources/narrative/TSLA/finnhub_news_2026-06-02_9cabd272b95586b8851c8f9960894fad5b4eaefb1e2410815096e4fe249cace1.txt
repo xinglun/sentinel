@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Stopped Buying VOO And QQQ - And What I Am Buying Instead
+  summary: VOO & QQQ pause: S&P 500 valuations and concentration risk look extreme. Click here to read more on my analysis of the funds.
+  url: https://finnhub.io/api/news?id=647734a3d1b509bdd65090738d1aa5aad02b037b5f54ac5df9bfa6b874c99f9c

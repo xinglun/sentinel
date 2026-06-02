@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet plans $80bn equity raise as Berkshire invests $10bn
+  summary: Alphabet unveils public and private share offerings as it targets record capital expenditure for AI and cloud growth.
+  url: https://finnhub.io/api/news?id=d066f6ef69a928766c04efa63e305255084043edd24f3cd9111af609830aaea0

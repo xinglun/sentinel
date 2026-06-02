@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Cloud AI - Bridging The Adoption Gap With Hands-On Experiences
+  summary: The rapidly evolving landscape of Cloud AI has highlighted a significant challenge as the pace of AI technology advancements outstrips customers' ability to adopt them. According to Instruqt's 2026 State of Developer Adoption Report, conducted by SlashData, many software companies face operational hurdles, including team misalignment and maintaining content accuracy amid frequent product updates. This gap in adoption is being addressed through innovative hands-on labs, which have proven...
+  url: https://finnhub.io/api/news?id=b147ca3e32254e679618b5e736c380147001449e6bc05c00931cad5026de017a

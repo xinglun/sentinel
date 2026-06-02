@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want Exposure to SpaceX? These 2 ETFs May Be the Ticket.
+  summary: This could be a safe and easy way to get in on the SpaceX story.
+  url: https://finnhub.io/api/news?id=5324c9ea6acd489571145eae27d4eb0b7724a682fa91c7dd2275aadfa2480e34

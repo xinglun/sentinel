@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Stock Is No Longer Just Riding the AI Wave. It Is Leading the Charge.
+  summary: A major five-year $9.7 billion Pentagon contract under the Microsoft Department of Defense Enterprise Software Agreement II provides Microsoft 365 and cloud services across the U.S. military.
+  url: https://finnhub.io/api/news?id=14d4a6b765090eb9149fe6fc47b4c3be00055146c1ba86725fe5110f6b3d6e10

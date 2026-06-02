@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sam Altman backs Alfred, a physical AI startup for robotics
+  summary: Alfred, founded 9 months ago by former Tesla and Meta employees, is aiming to raise at a $40 million valuation
+  url: https://finnhub.io/api/news?id=cec87aa54aa2a554ed31efedd02b433ca40348b2ce35ef6bf92bfe89a037414d

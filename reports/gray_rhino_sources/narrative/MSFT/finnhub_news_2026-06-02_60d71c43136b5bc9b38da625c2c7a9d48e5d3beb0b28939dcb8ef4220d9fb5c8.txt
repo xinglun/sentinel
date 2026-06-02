@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MessageGears Expands Its Integration Ecosystem With Five New Data Sources and Destinations
+  summary: ATLANTA, June 02, 2026--MessageGears, the cross-channel marketing platform that connects directly to your data sources, today announced five new integrations: Microsoft Azure, Bynder, and SingleStore as three new data sources, and TikTok and Google Drive as two new external destinations. The additions further extend MessageGears’ flexible architecture, which allows enterprise teams to activate data across any channel or tool without duplicating, moving, or re-housing it.
+  url: https://finnhub.io/api/news?id=244cd7075598c5ee45d6b17e2d782a1b5593b17ea9b4cc0a1cfebea8d024ff57

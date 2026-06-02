@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven Slide as Alphabet's Stock Issuance Plan Raises AI Spending Fears
+  summary: Mega-cap tech stocks were sliding on Tuesday after Google owner Alphabet outlined a plan to issue $80 billion in stock to fund its AI spending spree. The Roundhill Magnificent Seven exchange-traded fund slid 0.
+  url: https://finnhub.io/api/news?id=dfacfc45b0fb5943eafd1f0cc52d74b2a48c12b00df3ae384eaf41b461d6a039

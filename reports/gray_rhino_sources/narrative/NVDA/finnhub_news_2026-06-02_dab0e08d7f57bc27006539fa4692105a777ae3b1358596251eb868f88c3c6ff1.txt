@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds, Equity Futures Lower Pre-Bell Tuesday as Traders Assess AI Momentum
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.2% and the actively tr
+  url: https://finnhub.io/api/news?id=309ed926afd80df31a68a673ad440e789e72df230bc57e0a8ef26ff26c79991e

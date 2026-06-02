@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs. Oracle: Which AI Stock Is Worth Buying in 2026?
+  summary: Both benefit from AI, but their valuations tell different stories.
+  url: https://finnhub.io/api/news?id=e5a76d09602ae7b81e7fe9579da567af1ccf5abe81a5b98d38ff99e2c3a2ee38

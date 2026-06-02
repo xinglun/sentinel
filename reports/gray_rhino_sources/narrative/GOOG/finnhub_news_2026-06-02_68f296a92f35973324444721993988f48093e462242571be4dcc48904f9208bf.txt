@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Stock Gets a Double Boost From Google and Marvell
+  summary: Two stories were moving markets on Tuesday—Google parent  Alphabet  unveiled a plan to issue $80 billion of equity, and  Nvidia  CEO Jensen Huang said  Marvell Technology  could top a $1 trillion valuation.  Both events were giving  Broadcom  stock a boost.  Alphabet’s plan to raise tens of billions of dollars to help pay for its AI infrastructure drew a mixed response from the market, but bodes well for Broadcom.
+  url: https://finnhub.io/api/news?id=9b5ea3ad93e3e7b1a79f31dfc85b273f9d301aa803a7febff618fbba1776658c

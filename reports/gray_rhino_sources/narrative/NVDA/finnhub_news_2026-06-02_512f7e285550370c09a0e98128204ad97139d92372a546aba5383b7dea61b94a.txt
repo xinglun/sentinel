@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As Software M&A Heats Up, These 3 Acquisition Targets Are in the Spotlight
+  summary: Software M&A is heating up again as private equity dry powder collides with depressed SaaS (software as a service) multiples and AI-driven stack consolidation among hyperscalers. Public market valuations have compressed enough that strategic buyers and private equity (PE) rollup specialists like Thoma Bravo, Vista, and Silver Lake are circling profitable, sticky enterprise software with ... As Software M&A Heats Up, These 3 Acquisition Targets Are in the Spotlight
+  url: https://finnhub.io/api/news?id=59ba537025dd62751c27aaff129baf6e7b7ae5653161456878d65e05e4657e58

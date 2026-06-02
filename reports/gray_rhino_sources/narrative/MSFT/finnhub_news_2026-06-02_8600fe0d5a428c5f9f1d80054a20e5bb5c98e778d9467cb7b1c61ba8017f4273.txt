@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How The Microsoft (MSFT) Investment Narrative Is Evolving Without New Analyst Commentary
+  summary: Microsoft’s latest analyst update comes with no change to the existing price target, keeping expectations anchored where they are for now. Even without fresh commentary from analysts, the absence of a revision still sends a message about how current assumptions are holding up. As you read on, you will see how to track these kinds of updates so you can stay on top of the evolving narrative around the stock. Analyst Price Targets don't always capture the full story. Head over to our Company...
+  url: https://finnhub.io/api/news?id=f9b977bb7c8aa95e17a0f42b17a1747051c348d9f551d10c571c42135d5d6866

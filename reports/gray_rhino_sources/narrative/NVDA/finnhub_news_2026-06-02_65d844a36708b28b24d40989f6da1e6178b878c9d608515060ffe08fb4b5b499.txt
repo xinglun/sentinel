@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Stock Soars On Nvidia Endorsement, Computex News
+  summary: Marvell Technology stock surged on Tuesday after partner Nvidia gave the company a ringing endorsement.
+  url: https://finnhub.io/api/news?id=91444a3271943f2893964b60fe83176061bb34be917bbd04933de48d12784fd8

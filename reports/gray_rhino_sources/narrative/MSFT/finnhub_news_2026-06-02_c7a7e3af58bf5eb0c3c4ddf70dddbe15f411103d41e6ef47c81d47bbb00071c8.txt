@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Microsoft’s Cloud Dominance Justify a Historic Valuation Premium? Buy, Sell or Hold
+  summary: At $460.52, Microsoft (NASDAQ:MSFT) is a Hold over the next 12 months, with a reasonable target near $560 if AI monetization compounds. The stock is a fortress business priced like one, and the debate is whether cloud dominance justifies a historic valuation premium. Microsoft owns the productivity stack, the second-largest public cloud, and a deep ... Does Microsoft’s Cloud Dominance Justify a Historic Valuation Premium? Buy, Sell or Hold
+  url: https://finnhub.io/api/news?id=28ce76916be847f73664338009ba7eb106f528f70524a15907840c8f2751fd6d

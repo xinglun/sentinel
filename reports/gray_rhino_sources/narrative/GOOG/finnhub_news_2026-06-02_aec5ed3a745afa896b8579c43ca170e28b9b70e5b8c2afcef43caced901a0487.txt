@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. stock futures dip after AI-driven record highs June 2026
+  summary: Anthropic filed for an IPO and Alphabet is seeking to raise $80 billion, even as Middle East tensions weigh on sentiment
+  url: https://finnhub.io/api/news?id=c402ddcbcf01b6c9261ef1a86dfd2254c3faf3a6b8b188e7f0ff77cf0929041e

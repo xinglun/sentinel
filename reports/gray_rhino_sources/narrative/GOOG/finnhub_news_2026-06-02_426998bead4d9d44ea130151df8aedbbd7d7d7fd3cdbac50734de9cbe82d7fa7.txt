@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Jumps 6% on Alphabet $80B AI Raise, Marvell Soars 18% on Jensen Huang’s $1T Endorsement
+  summary: Shares of Broadcom (NASDAQ:AVGO) are up 6% in Tuesday’s premarket session, trading near $486 after closing Monday at $459.97. Marvell Technology (NASDAQ:MRVL) stock is up 17% to around $257, marking one of the sharpest single-session moves of the year for the custom-chip merchant. The double pop is being driven by two separate but reinforcing catalysts ... Broadcom Jumps 6% on Alphabet $80B AI Raise, Marvell Soars 18% on Jensen Huang’s $1T Endorsement
+  url: https://finnhub.io/api/news?id=c4e006275af5d38b056009545d17149a816ca429381451f27208a781b62db5d7

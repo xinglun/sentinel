@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warsh's First Challenge
+  summary: The Fed turns more hawkish as Chair Warshâs first FOMC nears: no cuts, energy-driven inflation, and dissent risks. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=8ec112f83bbc23f99e0b9c5b99a0e8fa19c228d053516922d0ade3ebe82d8ed8

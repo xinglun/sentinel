@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR): One of the Best Stocks to Buy Right Now According to AI
+  summary: We just covered the 10 Best Stocks to Buy Right Now According to AI and Palantir Technologies Inc. (NASDAQ:PLTR) ranks 5th on this list. Palantir Technologies Inc. (NASDAQ:PLTR) is a specialized software company that builds and deploys advanced data analytics and artificial intelligence platforms for government agencies and commercial enterprises. The company’s core offerings include […]
+  url: https://finnhub.io/api/news?id=6da9429ba7085b52e40535336b3037ac6f4c4f509f7bf8b2597dd5939bdac621

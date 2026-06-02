@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Today - Innovative Solar Tracker Tackles Challenging Terrains Efficiently
+  summary: In a significant development for the energy transition sector, Array Technologies has announced an updated version of its OmniTrack terrain-following solar tracker. This enhancement increases its flex capability to accommodate up to 2° of slope change between posts, doubling its previous capacity. The increased adaptability allows for cost savings and faster deployment by reducing the need for extensive site grading, making it a viable solution for more uneven and challenging terrain. The...
+  url: https://finnhub.io/api/news?id=a770f7f290fd34c8e9a33c46d19de9962a7b8dd30aee22c26f368e0b32c9d0f4

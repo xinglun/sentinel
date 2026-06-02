@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Sees Microsoft Emerging as One of AI's Biggest Winners
+  summary: Wall Street Sees Big Opportunity in Microsoft's Expanding AI Infrastructure
+  url: https://finnhub.io/api/news?id=4a7acd557900970f6394ba55f1510c8075e8b87f2d3f96489a0291e4a05eb492

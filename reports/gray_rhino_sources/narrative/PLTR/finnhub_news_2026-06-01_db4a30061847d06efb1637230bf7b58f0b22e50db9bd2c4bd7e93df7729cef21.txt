@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir's Stock Price by the End of 2027
+  summary: The data analytics company's stock has room to decline.
+  url: https://finnhub.io/api/news?id=a2895ee4d90d416434539ed9a8cc6729eac290b963c8f789bd649670726f87af

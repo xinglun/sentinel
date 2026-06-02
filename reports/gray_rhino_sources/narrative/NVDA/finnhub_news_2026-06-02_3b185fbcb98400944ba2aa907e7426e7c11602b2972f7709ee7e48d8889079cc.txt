@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 High-Yield Dividend Stocks I Can't Wait to Buy in June to Boost My Passive Income
+  summary: Buying more of these dividend stocks should help me achieve financial freedom faster.
+  url: https://finnhub.io/api/news?id=02c6e98eb08e7e7c99ec984c121de6ecc47d5927d774833622da83de80851817

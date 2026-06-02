@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will SpaceX and Tesla Merge? I'm Predicting a Megamerger for 1 Surprising Reason
+  summary: Experts are starting to believe in a potential megamerger.
+  url: https://finnhub.io/api/news?id=8b7f07d584fa8981f0536e8947230c4921d0dec0dd9daa4af90465c4fed1509e

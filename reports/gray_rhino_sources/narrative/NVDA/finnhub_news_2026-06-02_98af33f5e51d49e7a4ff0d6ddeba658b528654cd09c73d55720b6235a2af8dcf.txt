@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Calling It: Oklo Will Be a Very Different Stock After July for 1 Reason
+  summary: Oklo shares should receive a momentum boost this summer.
+  url: https://finnhub.io/api/news?id=c1ce16ccfee782f5a52e132d304f156c94b150ec4bdb168abd0bbc49a1025ab1

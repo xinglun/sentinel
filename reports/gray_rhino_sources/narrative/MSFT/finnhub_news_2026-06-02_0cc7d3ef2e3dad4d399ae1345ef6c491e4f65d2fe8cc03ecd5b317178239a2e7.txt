@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Loses Big Because Of Nvidia PC Chips
+  summary: Nvidia (NASDAQ: NVDA) stunned the tech world when it launched its RTX Spark chip for PCs. The company called it “the most efficient PC chip ever built.” In its announcement, it said it has partnerships with PC companies Dell Technologies, Lenovo, Microsoft (NASDAQ: MSFT), HP, Asus, and MSI. Apple (NASDAQ: AAPL) was not on the ... Apple Loses Big Because Of Nvidia PC Chips
+  url: https://finnhub.io/api/news?id=29db8269478021405527f43b6e6ce82fcb649183f49b8cd4ad352f095836d9bb

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Discount retail giant cuts 100s of jobs after customer shift
+  summary: There was a time when Groupon was almost a sure place for getting a deal. People used it to try a new restaurant, book a massage, buy discounted concert tickets, plan a weekend activity, or find a cheaper way to do something local. For small businesses, it was a way to reach customers who might not ...
+  url: https://finnhub.io/api/news?id=db29c12cd9799734c58a9cf92425847315e5254a038c1f3ba08f5710867792de

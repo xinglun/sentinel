@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA Pledges 50% Cash Flow Return as Huang Maps Agentic AI Future
+  summary: NVIDIA (NASDAQ:NVDA) founder and CEO Jensen Huang said the company plans to return at least half of its free cash flow to shareholders while outlining a broader strategy to reshape data centers, PCs and edge devices around “agentic” artificial intelligence. Speaking at a company event that included
+  url: https://finnhub.io/api/news?id=6f6aaa2ddb6919e13f82e1d03d65154236adb222da8114a0b5ec618327d727d7

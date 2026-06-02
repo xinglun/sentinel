@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 High Growth Tech Stocks To Watch In The US Market
+  summary: Over the last 7 days, the United States market has risen 1.6%, and in the past year, it has climbed 28%, with earnings anticipated to grow by 17% per annum over the next few years. In such a dynamic environment, identifying high growth tech stocks that align with these positive trends can be crucial for investors looking to capitalize on potential opportunities in this sector.
+  url: https://finnhub.io/api/news?id=cbc6fa563d7bd82c4e249f3cb03c3ae46fe0dff5c0ea2cb7560992460ed0fc31

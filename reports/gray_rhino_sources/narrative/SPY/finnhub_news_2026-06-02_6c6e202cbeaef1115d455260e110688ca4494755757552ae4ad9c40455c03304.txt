@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Holds Positive, but Small Caps Start to Lag
+  summary: The major index trend remains constructive, with SPY and QQQ still pushing into record territory and broad moving-average participation staying above the neutral line. Under the surface, however, Monday’s session was less convincing: daily breadth turned negative and IWM is starting to lag the large-cap indices.
+  url: https://finnhub.io/api/news?id=382ca179eb0c34e19086be9fbc80d7aa403c7e1036703f141b5fa3d5549b541c

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500: FINRA Margin Ratio Reaches Dot-Com Bubble Level
+  summary: Equity markets face structural risks as margin leverage and passive trading hit crisis-era levels.
+  url: https://finnhub.io/api/news?id=e19e266319c2dd2ba58d6294e7f6c56df95c303567246a4ca3db890d172b270c

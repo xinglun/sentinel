@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gorilla Technology's NeutraDC Deal Changes Everything, And It's Not Yet Priced In
+  summary: Gorilla Technology (GRRR) scales AI data centers to 150 MW by year-end and 500 MW by 2027 as revenue jumps 55%âsee growth drivers and outlook. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=2e032c06dd5a3eb64dc624631e465ec116cfc91d42f6464921ccd70c5a87a17a

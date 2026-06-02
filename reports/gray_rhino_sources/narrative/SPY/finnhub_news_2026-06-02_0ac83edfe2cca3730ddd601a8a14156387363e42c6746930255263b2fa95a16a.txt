@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran: 'Waiting For Godot'
+  summary: Strait of Hormuz closure sparks biggest energy shock since 1973. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=dbf0aa7286c565d2f703582385c5f02c177e026afd048419a04b0acf05075820

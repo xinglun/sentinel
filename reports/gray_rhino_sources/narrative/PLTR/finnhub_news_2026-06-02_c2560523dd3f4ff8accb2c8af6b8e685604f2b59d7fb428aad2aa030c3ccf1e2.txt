@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Rackspace (RXT) Quietly Recasting Its Cloud Identity Around Regulated, AMD-Powered Enterprise AI?
+  summary: Earlier in 2026, Rackspace Technology announced a memorandum of understanding with AMD to integrate Instinct GPUs and EPYC CPUs into a fully managed, governed enterprise AI cloud, while expanding AI collaborations with partners such as Palantir and Uniphore for regulated and sovereign workloads. This pivot toward operating AI at scale within core enterprise systems, supported by embedded platform engineering teams, signals a deeper focus on regulated, higher-value cloud and AI services...
+  url: https://finnhub.io/api/news?id=12638314b5718c6d9a7342e010f525d1dda1541bf7c2c3a94573c3d57b32ffcb
