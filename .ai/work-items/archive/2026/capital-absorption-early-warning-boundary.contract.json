@@ -1,0 +1,94 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-early-warning-boundary",
+  "mode": "code",
+  "title": "Capital Absorption Early Warning Boundary",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+    ".ai/work-items/active/capital-absorption-early-warning-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/capital-absorption-monitor.contract.json",
+    ".ai/work-items/active/capital-absorption-monitor.summary.json",
+    ".ai/work-items/active/guard-config-fix.contract.json",
+    ".ai/work-items/active/guard-config-fix.summary.json",
+    ".ai/work-items/archive/2026/capital-absorption-monitor.contract.json",
+    ".ai/work-items/archive/2026/capital-absorption-monitor.summary.json",
+    ".ai/work-items/archive/2026/guard-config-fix.contract.json",
+    ".ai/work-items/archive/2026/guard-config-fix.summary.json",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "ETF Net Inflow / Mutual Fund Flow / Pension Flow / Foreign Capital Flow / Corporate Buyback の data source 接続",
+    "Capital Absorption Ratio / Rolling 12M Capital Model の実装",
+    "READY / EXECUTE / Gate / Position Sizing / Trend Layer への接続",
+    "ACTIVE / STRESSED の自動出力",
+    "市場結論、リスク格上げ、売買 signal の生成"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "reason": "ユーザーの追加要求を Narrative Observation Only の境界として固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Capital Absorption Monitor は Current Phase: Narrative Observation Only と表示される。",
+    "現段階の観測対象は Potential Future Capital Supply であり、Actual Capital Absorption ではないことを表示する。",
+    "自動 status は NORMAL / WATCH のみを出力し、ACTIVE / STRESSED を自動出力しない。",
+    "Boundary は actual capital absorption、market liquidity、market conclusion、trading signal、risk rating upgrade を測定・生成しないことを明記する。",
+    "Boundary は READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しないことを明記する。",
+    "Event Summary、Supply Event Count、Confidence、Sources Count、AI IPO Queue は維持する。",
+    "ETF Net Inflow、Corporate Buyback、Capital Absorption Ratio、Rolling 12M Capital Model は 3〜6 か月の連続運用後に検討する将来 gap として残す。",
+    "Capital Absorption source adapter は ACL factory 経由で呼び出し、cli / interface から infrastructure へ直接依存しない。",
+    "capital-absorption-monitor と guard-config-fix の Work Item は archive 済みで active に残らない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-early-warning-boundary.summary.json CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json SUMMARY=.ai/work-items/active/capital-absorption-early-warning-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json SUMMARY=.ai/work-items/active/capital-absorption-early-warning-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/work-items/active/capital-absorption-monitor.contract.json",
+      ".ai/work-items/active/capital-absorption-monitor.summary.json",
+      ".ai/work-items/active/guard-config-fix.contract.json",
+      ".ai/work-items/active/guard-config-fix.summary.json"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

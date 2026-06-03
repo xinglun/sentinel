@@ -10,6 +10,8 @@
     "src/config.rs",
     "src/cli.rs",
     "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
     "src/features/research/application/mod.rs",
     "src/features/research/application/capital_absorption.rs",
     "src/features/research/infrastructure/mod.rs",
@@ -43,14 +45,18 @@
     "状態は NORMAL / WATCH / ACTIVE / STRESSED を持ち、WATCH は単一大型 financing event、ACTIVE は複数大型 financing 主体、STRESSED は資本需要の伸びが供給を継続的に上回る状態として定義される。",
     "出力章は Markdown report の独立章 `Capital Absorption Monitor` として設計し、status、observed events、demand、supply、ratio、structural impact、boundary を表示する。",
     "Boundary として、この module は資本需給の市場構造観察のみを行い、売買 signal を生成せず、READY / EXECUTE 状態機械に影響しないことを contract / docs / tests のいずれかで固定する。",
-    "現在の observation trigger は Finnhub company-news の headline / summary から自動抽出し、source_url と provider status を表示する。",
-    "Upgrade to ACTIVE は第二の Mega Cap financing、AI 関連大型 IPO、連続大型 equity financing event のいずれかで判定する設計にする。",
-    "Upgrade to STRESSED は Capital Demand > Capital Supply、ETF net inflow が financing 規模を継続的に下回る、市場に liquidity absorption pressure が観測される、のいずれかを evidence-backed に扱う設計にする。",
+    "現在の observation trigger は Finnhub company-news と general market news の headline / summary から自動抽出し、日報では source_url を表示せず system summary、sources count、confidence を表示する。",
+    "Supply Event Count は Mega Cap Financing、AI IPO Candidate、Secondary Offering、Convertible Debt、Secondary Liquidity の event count を表示する。",
+    "AI IPO Queue は Anthropic、OpenAI、SpaceX、Databricks、Stripe、Figure を Rumor / Expected / Filed / Scheduled / Completed として観測する。",
+    "News Deduplicate は同一 subject / category / event family の複数 news を単一 event に集約し、Sources と Confidence を表示する。",
+    "本段階の自動 status は潜在供給増加の観測に限定し、最高 WATCH とする。ACTIVE / STRESSED は将来の構造確認と供給側 data source 接続後の段階に残す。",
+    "Upgrade to ACTIVE は第二の Mega Cap financing、AI 関連大型 IPO、連続大型 equity financing event のいずれかを将来条件として表示するが、本段階では自動昇格しない。",
+    "Upgrade to STRESSED は Capital Demand > Capital Supply、ETF net inflow が financing 規模を継続的に下回る、市場に liquidity absorption pressure が観測される、のいずれかを将来条件として表示するが、本段階では自動昇格しない。",
     "今回の実装は daily-calibration 実行時に Finnhub company-news を自動 scan し、手動 config は fallback / fixture として扱う。",
     "主 radar の Telegram / Markdown 日報にも Capital Absorption Monitor を reference appendix として追加する。",
     "自動 scan は watchlist ではなく、market-wide default mega cap symbol pool と Finnhub general market news を対象にする。",
-    "今回の実装は data branch、reports JSONL、snapshot persistence、weekly metrics を変更しない。",
-    "今回の実装は zh/en/ja の最小 i18n 表示と CLI integration test で境界を固定する。"
+    "今回の実装は ETF net inflow、corporate buyback、Fed flow、Treasury flow、TIC flow、Capital Absorption Ratio、rolling 12 months capital model、data branch、reports JSONL、snapshot persistence、weekly metrics を変更しない。",
+    "今回の実装は zh/en/ja の i18n 表示と CLI / domain / source adapter test で境界を固定する。"
   ],
   "verification": [
     {

@@ -2786,6 +2786,7 @@ subject = "Alphabet"
 description = "Manual observation: secondary offering for AI CapEx"
 amount_usd_b = 80.0
 ai_capex_related = true
+source_url = "https://example.com/alphabet-offering"
 
 [capital_absorption.capital_demand]
 trend = "INCREASING"
@@ -2841,19 +2842,33 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("- 成长股估值: COMPRESSING"));
     assert!(stdout.contains("不参与 Gate，不生成交易指令"));
     assert!(stdout.contains("## 6. 市场资本吸收监控"));
-    assert!(stdout.contains("📊 Capital Absorption Monitor"));
-    assert!(stdout.contains("Capital Absorption Status: WATCH"));
-    assert!(stdout.contains("Mega Cap Financing · Alphabet ($80.0B) · AI CapEx related"));
-    assert!(stdout.contains("Capital Demand"));
-    assert!(stdout.contains("- Trend: INCREASING"));
-    assert!(stdout.contains("- Secondary offering: $80.0B"));
-    assert!(stdout.contains("Capital Supply"));
-    assert!(stdout.contains("- ETF net inflow: $120.0B"));
-    assert!(stdout.contains("Capital Absorption Ratio: NEUTRAL (0.16)"));
-    assert!(stdout.contains("Structural Impact: Observation Only"));
-    assert!(stdout.contains("Upgrade To ACTIVE"));
-    assert!(stdout.contains("does not generate trading signals"));
-    assert!(stdout.contains("does not affect READY / EXECUTE"));
+    assert!(stdout.contains("📊 资本吸收早期预警传感器"));
+    assert!(stdout.contains("资本吸收状态: 观察（WATCH）"));
+    assert!(stdout.contains("新增供给事件"));
+    assert!(stdout.contains("- Mega Cap 融资: 1"));
+    assert!(stdout.contains("AI IPO 队列"));
+    assert!(stdout.contains("Mega Cap 融资 · Alphabet ($80.0B) · AI CapEx 相关"));
+    assert!(stdout.contains("来源 1 · 可信度 低"));
+    assert!(stdout.contains("资本需求趋势"));
+    assert!(stdout.contains("- 趋势: 上升（INCREASING）"));
+    assert!(stdout.contains("- 增发融资: $80.0B"));
+    assert!(stdout.contains("资本供给趋势"));
+    assert!(stdout.contains("- ETF 净流入: $120.0B"));
+    assert!(stdout.contains("资本吸收比率: 本阶段未启用完整量化"));
+    assert!(stdout.contains("结构影响: Observation Only"));
+    assert!(stdout.contains("当前阶段: Narrative Observation Only"));
+    assert!(stdout
+        .contains("观察对象: Potential Future Capital Supply，而不是 Actual Capital Absorption"));
+    assert!(stdout.contains("IPO 新闻增加不等于资本供给增加"));
+    assert!(stdout.contains("当前阶段仅允许 NORMAL / WATCH"));
+    assert!(!stdout.contains("升级到 ACTIVE 的条件"));
+    assert!(!stdout.contains("升级到 STRESSED 的条件"));
+    assert!(stdout.contains("不生成交易信号"));
+    assert!(stdout.contains("不测量实际资本吸收"));
+    assert!(stdout.contains("不测量市场流动性"));
+    assert!(stdout.contains("不产生市场结论"));
+    assert!(stdout.contains("不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer"));
+    assert!(!stdout.contains("https://example.com/alphabet-offering"));
     assert!(stdout.contains("## 7. 灰犀牛升级监控"));
     assert!(stdout.contains("输入来源: 人工结构基线（配置输入）"));
     assert!(stdout.contains("审计链: 人工结构基线 -> 七项观测 -> 日次快照"));

@@ -17,9 +17,8 @@ use crate::features::radar::interface::report::{self, ReportRenderContext};
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
-use crate::features::research::infrastructure::capital_absorption_source_adapter::build_automatic_capital_absorption_snapshot;
 use crate::features::research::interface::cognitive_reports::{
-    build_capital_absorption_report, credit_stress_label, enabled_asset_thesis_count,
+    build_capital_absorption_report_with_auto, credit_stress_label, enabled_asset_thesis_count,
     enabled_research_attention_count, growth_valuation_impact_label, liquidity_condition_label,
     macro_pressure_label, yield_curve_label,
 };
@@ -273,17 +272,8 @@ async fn append_capital_absorption_reference_appendix(
     as_of_date: chrono::NaiveDate,
     language: crate::features::shared::interface::i18n::Language,
 ) {
-    let auto_enabled = app_config
-        .capital_absorption
-        .as_ref()
-        .and_then(|config| config.auto_enable)
-        .unwrap_or(true);
-    let snapshot = if auto_enabled {
-        Some(build_automatic_capital_absorption_snapshot(app_config, as_of_date, 14).await)
-    } else {
-        None
-    };
-    let appendix = build_capital_absorption_report(app_config, snapshot.as_ref(), language);
+    let appendix =
+        build_capital_absorption_report_with_auto(app_config, as_of_date, 14, language).await;
     append_reference_appendix(report_result, &appendix);
 }
 

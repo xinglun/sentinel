@@ -1,6 +1,6 @@
 {
   "workItemId": "capital-absorption-monitor",
-  "contractPath": ".ai/work-items/active/capital-absorption-monitor.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-monitor.contract.json",
   "changedFiles": [
     {
       "path": ".ai/work-items/active/capital-absorption-monitor.contract.json",
@@ -27,12 +27,20 @@
       "reason": "主 radar の Telegram / Markdown 日報に Capital Absorption Monitor appendix を追加する。"
     },
     {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Capital Absorption source adapter factory を research ACL に登録する。"
+    },
+    {
+      "path": "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+      "reason": "Capital Absorption source adapter の infrastructure 実装を interface から隠蔽する ACL factory を追加する。"
+    },
+    {
       "path": "src/features/research/application/mod.rs",
       "reason": "Capital Absorption application module を登録する。"
     },
     {
       "path": "src/features/research/application/capital_absorption.rs",
-      "reason": "Capital Absorption の自動観測 snapshot / status 判定モデルを追加する。"
+      "reason": "Capital Absorption の自動観測 snapshot に supply event count、AI IPO queue、news deduplicate、sources count、confidence、WATCH 上限 status 判定を追加する。"
     },
     {
       "path": "src/features/research/infrastructure/mod.rs",
@@ -40,11 +48,11 @@
     },
     {
       "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
-      "reason": "Finnhub company-news と general market news から market-wide capital absorption event を自動抽出する adapter を追加する。"
+      "reason": "Finnhub company-news と general market news から AI IPO candidate subject を検出し、market-wide capital absorption event を自動抽出する adapter を更新する。"
     },
     {
       "path": "src/features/research/interface/cognitive_reports.rs",
-      "reason": "Capital Absorption Monitor の read-only Markdown renderer を追加する。"
+      "reason": "Capital Absorption Monitor の read-only renderer を更新し、zh/en/ja 表示、Supply Event Count、AI IPO Queue、deduplicated event summary、URL 非表示を出力する。"
     },
     {
       "path": "src/features/radar/interface/presentation_tests.rs",
@@ -60,12 +68,13 @@
     },
     {
       "path": "tests/research_attention_cli_integration.rs",
-      "reason": "daily-calibration 出力と non-signal boundary を integration test で固定する。"
+      "reason": "daily-calibration 出力、中文表示、URL 非表示、non-signal boundary を integration test で固定する。"
     }
   ],
   "sourcesUsed": [
     ".ai/work-items/active/capital-absorption-monitor.contract.json",
-    "ユーザー提示の System Improvement Proposal"
+    "ユーザー提示の System Improvement Proposal",
+    "ユーザー提示の Capital Absorption Monitor 改善方針"
   ],
   "verification": [
     {
@@ -112,7 +121,7 @@
   "unknownsRemaining": [],
   "risk": {
     "level": "low",
-    "detail": "daily-calibration と主 radar 日報の read-only 自動観測に限定した。Finnhub company-news と general market news から observation event を抽出するが、Gate、execution、trading logic、READY / EXECUTE には接続していない。"
+    "detail": "daily-calibration と主 radar 日報の read-only 自動観測に限定した。Finnhub company-news と general market news から observation event を抽出し、deduplicate / event count / AI IPO queue を表示するが、Gate、execution、trading logic、READY / EXECUTE には接続していない。"
   },
   "generatedFiles": [],
   "destructiveChanges": [],
@@ -125,9 +134,10 @@
     "makeEntrypoints": "not_applicable"
   },
   "knownGaps": [
-    "Alphabet 800 億ドル増発は現時点ではユーザー提示 observation trigger であり、外部 source による fact 固定は未実施。",
     "Capital Supply の ETF net inflow / mutual fund flow / pension allocation / foreign capital / buyback 数値は未自動化。",
-    "Finnhub company-news の headline / summary keyword scan は observation layer であり、公式 filing 抽出や金額正規化は次 step の精度改善対象。"
+    "Capital Absorption Ratio と rolling 12 months capital model は本段階では未実装。",
+    "Finnhub company-news / market-news の headline / summary keyword scan は observation layer であり、公式 filing 抽出や金額正規化は次 step の精度改善対象。",
+    "ACTIVE / STRESSED への自動昇格は本段階では無効化し、将来の構造確認と供給側 data source 接続後に扱う。"
   ],
-  "overclaimPrevention": "完了報告では Finnhub news による自動 observation scan であり、Capital Supply の完全自動集計や market conclusion は未実装と明記する。"
+  "overclaimPrevention": "完了報告では Finnhub news による自動 observation scan、event count、IPO queue、deduplicate であり、Capital Supply の完全自動集計、CapitalAbsorptionRatio、market conclusion、READY / EXECUTE 連動は未実装と明記する。"
 }

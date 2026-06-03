@@ -1,6 +1,6 @@
 {
   "workItemId": "guard-config-fix",
-  "contractPath": ".ai/work-items/active/guard-config-fix.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/guard-config-fix.contract.json",
   "changedFiles": [
     {
       "path": ".ai/guards/file_ownership.yaml",
