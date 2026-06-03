@@ -23,6 +23,10 @@
       "reason": "daily-calibration で Capital Absorption の自動 snapshot を取得して章を表示する。"
     },
     {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "主 radar の Telegram / Markdown 日報に Capital Absorption Monitor appendix を追加する。"
+    },
+    {
       "path": "src/features/research/application/mod.rs",
       "reason": "Capital Absorption application module を登録する。"
     },
@@ -36,7 +40,7 @@
     },
     {
       "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
-      "reason": "Finnhub company-news から capital absorption event を自動抽出する adapter を追加する。"
+      "reason": "Finnhub company-news と general market news から market-wide capital absorption event を自動抽出する adapter を追加する。"
     },
     {
       "path": "src/features/research/interface/cognitive_reports.rs",
@@ -99,12 +103,16 @@
     {
       "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json",
       "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
     }
   ],
   "unknownsRemaining": [],
   "risk": {
     "level": "low",
-    "detail": "daily-calibration の read-only 自動観測に限定した。Finnhub company-news から observation event を抽出するが、Gate、execution、trading logic、READY / EXECUTE には接続していない。"
+    "detail": "daily-calibration と主 radar 日報の read-only 自動観測に限定した。Finnhub company-news と general market news から observation event を抽出するが、Gate、execution、trading logic、READY / EXECUTE には接続していない。"
   },
   "generatedFiles": [],
   "destructiveChanges": [],

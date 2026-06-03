@@ -9,6 +9,7 @@
     ".ai/cockpit/current_status.md",
     "src/config.rs",
     "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
     "src/features/research/application/mod.rs",
     "src/features/research/application/capital_absorption.rs",
     "src/features/research/infrastructure/mod.rs",
@@ -46,6 +47,8 @@
     "Upgrade to ACTIVE は第二の Mega Cap financing、AI 関連大型 IPO、連続大型 equity financing event のいずれかで判定する設計にする。",
     "Upgrade to STRESSED は Capital Demand > Capital Supply、ETF net inflow が financing 規模を継続的に下回る、市場に liquidity absorption pressure が観測される、のいずれかを evidence-backed に扱う設計にする。",
     "今回の実装は daily-calibration 実行時に Finnhub company-news を自動 scan し、手動 config は fallback / fixture として扱う。",
+    "主 radar の Telegram / Markdown 日報にも Capital Absorption Monitor を reference appendix として追加する。",
+    "自動 scan は watchlist ではなく、market-wide default mega cap symbol pool と Finnhub general market news を対象にする。",
     "今回の実装は data branch、reports JSONL、snapshot persistence、weekly metrics を変更しない。",
     "今回の実装は zh/en/ja の最小 i18n 表示と CLI integration test で境界を固定する。"
   ],

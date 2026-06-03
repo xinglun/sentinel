@@ -8,6 +8,10 @@ use anyhow::{anyhow, Context, Result};
 use chrono::{Duration, NaiveDate};
 
 const MAX_NEWS_PER_SYMBOL: usize = 20;
+const DEFAULT_MARKET_SYMBOLS: &[&str] = &[
+    "AAPL", "MSFT", "GOOG", "GOOGL", "AMZN", "META", "NVDA", "TSLA", "AVGO", "ORCL", "AMD", "PLTR",
+    "IBM", "INTC",
+];
 
 pub(crate) async fn build_automatic_capital_absorption_snapshot(
     app_config: &config::AppConfig,
@@ -18,9 +22,9 @@ pub(crate) async fn build_automatic_capital_absorption_snapshot(
         Ok(events) => build_capital_absorption_snapshot_from_events(
             events,
             CapitalAbsorptionSourceStatus {
-                provider: "Finnhub company-news".to_string(),
+                provider: "Finnhub company-news + market-news".to_string(),
                 status: CapitalAbsorptionSourceHealth::Succeeded,
-                message: "automatic scan completed".to_string(),
+                message: "market-wide automatic scan completed".to_string(),
             },
         ),
         Err(err) => unavailable_capital_absorption_snapshot(err.to_string()),
@@ -61,6 +65,18 @@ async fn fetch_finnhub_capital_absorption_events(
             &symbol, &raw, as_of_date,
         )?);
     }
+    let market_news_url = format!("https://finnhub.io/api/v1/news?category=general&token={token}");
+    let response = client.get(&market_news_url).send().await?;
+    if !response.status().is_success() {
+        return Err(anyhow!(
+            "Finnhub market news returned {}",
+            response.status()
+        ));
+    }
+    let raw = response.text().await?;
+    events.extend(extract_capital_absorption_events(
+        "Market", &raw, as_of_date,
+    )?);
     events.sort_by(|a, b| {
         a.observed_at
             .cmp(&b.observed_at)
@@ -71,13 +87,10 @@ async fn fetch_finnhub_capital_absorption_events(
     Ok(events)
 }
 
-fn capital_absorption_symbols(app_config: &config::AppConfig) -> Vec<String> {
-    let mut symbols = app_config
-        .watchlist
+fn capital_absorption_symbols(_app_config: &config::AppConfig) -> Vec<String> {
+    let mut symbols = DEFAULT_MARKET_SYMBOLS
         .iter()
-        .filter(|entry| entry.enable)
-        .map(|entry| entry.symbol.trim().to_uppercase())
-        .filter(|symbol| !symbol.is_empty())
+        .map(|symbol| (*symbol).to_string())
         .collect::<Vec<_>>();
     symbols.sort();
     symbols.dedup();
