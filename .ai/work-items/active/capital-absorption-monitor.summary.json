@@ -20,7 +20,23 @@
     },
     {
       "path": "src/cli.rs",
-      "reason": "daily-calibration に Capital Absorption Monitor 章を追加する。"
+      "reason": "daily-calibration で Capital Absorption の自動 snapshot を取得して章を表示する。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "Capital Absorption application module を登録する。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "Capital Absorption の自動観測 snapshot / status 判定モデルを追加する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Capital Absorption source adapter module を登録する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "reason": "Finnhub company-news から capital absorption event を自動抽出する adapter を追加する。"
     },
     {
       "path": "src/features/research/interface/cognitive_reports.rs",
@@ -88,7 +104,7 @@
   "unknownsRemaining": [],
   "risk": {
     "level": "low",
-    "detail": "config-driven read-only report の追加に限定した。daily-calibration にだけ表示し、Gate、execution、trading logic、READY / EXECUTE には接続していない。"
+    "detail": "daily-calibration の read-only 自動観測に限定した。Finnhub company-news から observation event を抽出するが、Gate、execution、trading logic、READY / EXECUTE には接続していない。"
   },
   "generatedFiles": [],
   "destructiveChanges": [],
@@ -102,7 +118,8 @@
   },
   "knownGaps": [
     "Alphabet 800 億ドル増発は現時点ではユーザー提示 observation trigger であり、外部 source による fact 固定は未実施。",
-    "Capital Demand / Capital Supply の source data は自動収集せず、config-driven manual observation として扱う。"
+    "Capital Supply の ETF net inflow / mutual fund flow / pension allocation / foreign capital / buyback 数値は未自動化。",
+    "Finnhub company-news の headline / summary keyword scan は observation layer であり、公式 filing 抽出や金額正規化は次 step の精度改善対象。"
   ],
-  "overclaimPrevention": "完了報告では config-driven read-only 実装であり、自動 data collection や market conclusion は未実装と明記する。"
+  "overclaimPrevention": "完了報告では Finnhub news による自動 observation scan であり、Capital Supply の完全自動集計や market conclusion は未実装と明記する。"
 }

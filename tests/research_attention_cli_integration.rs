@@ -18,6 +18,25 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
         &format!("save_to = \"{}\"", save_to),
     );
     raw.push_str(extra_config);
+    if !extra_config.contains("[capital_absorption]") {
+        raw.push_str(
+            r#"
+
+[capital_absorption]
+auto_enable = false
+status = "NORMAL"
+
+[capital_absorption.capital_demand]
+trend = "STABLE"
+
+[capital_absorption.capital_supply]
+trend = "STABLE"
+
+[capital_absorption.absorption_ratio]
+state = "LOW"
+"#,
+        );
+    }
 
     fs::write(tmp.path().join("config.toml"), raw).expect("failed to write temp config.toml");
     tmp
@@ -2755,6 +2774,7 @@ growth_valuation_impact = "COMPRESSING"
 note = "長期金利は成長株のバリュエーション重力として観測する。"
 
 [capital_absorption]
+auto_enable = false
 status = "WATCH"
 structural_impact = "Observation Only"
 upgrade_to_active = ["Second mega cap financing", "Large AI IPO starts"]

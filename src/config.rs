@@ -357,6 +357,7 @@ pub struct CapitalAbsorptionConfig {
     pub structural_impact: Option<String>,
     pub upgrade_to_active: Option<Vec<String>>,
     pub upgrade_to_stressed: Option<Vec<String>>,
+    pub auto_enable: Option<bool>,
     pub enable: Option<bool>,
 }
 
