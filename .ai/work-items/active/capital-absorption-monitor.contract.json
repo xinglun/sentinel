@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-monitor",
+  "mode": "code",
+  "title": "Market Capital Absorption Monitor",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-monitor.contract.json",
+    ".ai/work-items/active/capital-absorption-monitor.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "Gate / execution / trader / action matrix / position sizing の挙動変更",
+    "READY / EXECUTE 状態機械への接続",
+    "Trend Layer / Execution Layer / Grey Rhino Layer への分類変更",
+    "売買推奨または取引 signal の生成"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-monitor.contract.json",
+      "reason": "ユーザー提案を Market Structure Layer の新規 Work Item として固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Market Capital Absorption は Market Structure Layer の observation module として定義され、Trend / Execution / Grey Rhino Layer ではないことが明記されている。",
+    "Capital Absorption Sensor は Mega Cap Financing、IPO Supply、Secondary Liquidity を observation event として扱う。",
+    "Capital Demand は自動検出した IPO 融資、増発、二次发行、可轉債、AI 関連融資を集計し、CapitalDemandScore 相当の score を出力する。",
+    "Capital Supply は現時点では trend / unavailable を表示し、ETF net inflow、mutual fund net inflow、pension allocation flow、foreign capital inflow、corporate buyback の自動数値取得は次 step の gap として残す。",
+    "Capital Absorption Ratio は CapitalDemand / CapitalSupply として定義される。",
+    "状態は NORMAL / WATCH / ACTIVE / STRESSED を持ち、WATCH は単一大型 financing event、ACTIVE は複数大型 financing 主体、STRESSED は資本需要の伸びが供給を継続的に上回る状態として定義される。",
+    "出力章は Markdown report の独立章 `Capital Absorption Monitor` として設計し、status、observed events、demand、supply、ratio、structural impact、boundary を表示する。",
+    "Boundary として、この module は資本需給の市場構造観察のみを行い、売買 signal を生成せず、READY / EXECUTE 状態機械に影響しないことを contract / docs / tests のいずれかで固定する。",
+    "現在の observation trigger は Finnhub company-news の headline / summary から自動抽出し、source_url と provider status を表示する。",
+    "Upgrade to ACTIVE は第二の Mega Cap financing、AI 関連大型 IPO、連続大型 equity financing event のいずれかで判定する設計にする。",
+    "Upgrade to STRESSED は Capital Demand > Capital Supply、ETF net inflow が financing 規模を継続的に下回る、市場に liquidity absorption pressure が観測される、のいずれかを evidence-backed に扱う設計にする。",
+    "今回の実装は daily-calibration 実行時に Finnhub company-news を自動 scan し、手動 config は fallback / fixture として扱う。",
+    "主 radar の Telegram / Markdown 日報にも Capital Absorption Monitor を reference appendix として追加する。",
+    "自動 scan は watchlist ではなく、market-wide default mega cap symbol pool と Finnhub general market news を対象にする。",
+    "今回の実装は data branch、reports JSONL、snapshot persistence、weekly metrics を変更しない。",
+    "今回の実装は zh/en/ja の最小 i18n 表示と CLI integration test で境界を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

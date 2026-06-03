@@ -1,4 +1,8 @@
 use crate::config;
+use crate::features::research::application::capital_absorption::{
+    CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoSnapshot,
+    CapitalAbsorptionAutoStatus, CapitalAbsorptionAutoTrend, CapitalAbsorptionSourceHealth,
+};
 use crate::features::research::interface::default_cognitive_localizations as defaults;
 use crate::features::shared::interface::i18n::Language;
 
@@ -713,6 +717,695 @@ fn macro_gravity_boundary(language: Language) -> &'static str {
     }
 }
 
+pub(crate) fn build_capital_absorption_report(
+    app_config: &config::AppConfig,
+    auto_snapshot: Option<&CapitalAbsorptionAutoSnapshot>,
+    language: Language,
+) -> String {
+    let manual = app_config
+        .capital_absorption
+        .as_ref()
+        .filter(|capital_absorption| capital_absorption.enable.unwrap_or(true));
+    let snapshot = if let Some(auto_snapshot) = auto_snapshot.filter(|snapshot| {
+        snapshot.source_status.status != CapitalAbsorptionSourceHealth::Unavailable
+    }) {
+        CapitalAbsorptionRenderSnapshot::from_auto(auto_snapshot)
+    } else if let Some(manual) = manual {
+        CapitalAbsorptionRenderSnapshot::from_config(manual)
+    } else if let Some(auto_snapshot) = auto_snapshot {
+        CapitalAbsorptionRenderSnapshot::from_auto(auto_snapshot)
+    } else {
+        return capital_absorption_empty(language).to_string();
+    };
+
+    let mut out = String::new();
+    out.push_str(capital_absorption_title(language));
+    out.push_str("\n\n");
+    if let Some(source_status) = &snapshot.source_status {
+        out.push_str(&format!(
+            "{} {} · {}\n\n",
+            capital_absorption_source_label(language),
+            source_status.provider,
+            source_status.message
+        ));
+    }
+    out.push_str(&format!(
+        "{} {}\n\n",
+        capital_absorption_status_label(language),
+        snapshot.status
+    ));
+    push_capital_absorption_events(&mut out, &snapshot.observed_events, language);
+    push_capital_demand(&mut out, &snapshot.capital_demand, language);
+    push_capital_supply(&mut out, &snapshot.capital_supply, language);
+    out.push_str(&format!(
+        "{} {}{}\n\n",
+        capital_absorption_ratio_label(language),
+        snapshot.absorption_ratio.state,
+        snapshot
+            .absorption_ratio
+            .value
+            .map(|value| format!(" ({value:.2})"))
+            .unwrap_or_default()
+    ));
+    out.push_str(&format!(
+        "{} {}\n\n",
+        capital_absorption_structural_impact_label(language),
+        snapshot.structural_impact
+    ));
+    push_capital_absorption_conditions(
+        &mut out,
+        capital_absorption_upgrade_active_label(language),
+        &snapshot.upgrade_to_active,
+    );
+    push_capital_absorption_conditions(
+        &mut out,
+        capital_absorption_upgrade_stressed_label(language),
+        &snapshot.upgrade_to_stressed,
+    );
+    out.push_str(capital_absorption_boundary(language));
+    out
+}
+
+struct CapitalAbsorptionRenderSnapshot {
+    source_status: Option<CapitalAbsorptionRenderSourceStatus>,
+    status: &'static str,
+    observed_events: Vec<CapitalAbsorptionRenderEvent>,
+    capital_demand: CapitalDemandRenderSnapshot,
+    capital_supply: CapitalSupplyRenderSnapshot,
+    absorption_ratio: CapitalAbsorptionRenderRatio,
+    structural_impact: String,
+    upgrade_to_active: Vec<String>,
+    upgrade_to_stressed: Vec<String>,
+}
+
+struct CapitalAbsorptionRenderSourceStatus {
+    provider: String,
+    message: String,
+}
+
+struct CapitalAbsorptionRenderEvent {
+    category: &'static str,
+    subject: String,
+    description: String,
+    amount_usd_b: Option<f64>,
+    ai_capex_related: bool,
+    source_url: Option<String>,
+}
+
+struct CapitalDemandRenderSnapshot {
+    rolling_12m_usd_b: Option<f64>,
+    score: Option<f64>,
+    trend: &'static str,
+    ipo_financing_usd_b: Option<f64>,
+    secondary_offering_usd_b: Option<f64>,
+    convertible_debt_usd_b: Option<f64>,
+    ai_related_financing_usd_b: Option<f64>,
+}
+
+struct CapitalSupplyRenderSnapshot {
+    rolling_12m_usd_b: Option<f64>,
+    score: Option<f64>,
+    trend: &'static str,
+    etf_net_inflow_usd_b: Option<f64>,
+    mutual_fund_net_inflow_usd_b: Option<f64>,
+    pension_allocation_flow_usd_b: Option<f64>,
+    foreign_capital_inflow_usd_b: Option<f64>,
+    corporate_buyback_usd_b: Option<f64>,
+}
+
+struct CapitalAbsorptionRenderRatio {
+    value: Option<f64>,
+    state: &'static str,
+}
+
+impl CapitalAbsorptionRenderSnapshot {
+    fn from_config(value: &config::CapitalAbsorptionConfig) -> Self {
+        Self {
+            source_status: None,
+            status: capital_absorption_status_value(value.status),
+            observed_events: value
+                .observed_events
+                .as_deref()
+                .unwrap_or(&[])
+                .iter()
+                .map(CapitalAbsorptionRenderEvent::from_config)
+                .collect(),
+            capital_demand: CapitalDemandRenderSnapshot::from_config(&value.capital_demand),
+            capital_supply: CapitalSupplyRenderSnapshot::from_config(&value.capital_supply),
+            absorption_ratio: CapitalAbsorptionRenderRatio {
+                value: value.absorption_ratio.value,
+                state: capital_absorption_ratio_state_value(value.absorption_ratio.state),
+            },
+            structural_impact: value
+                .structural_impact
+                .clone()
+                .unwrap_or_else(|| "Observation Only".to_string()),
+            upgrade_to_active: value.upgrade_to_active.clone().unwrap_or_default(),
+            upgrade_to_stressed: value.upgrade_to_stressed.clone().unwrap_or_default(),
+        }
+    }
+
+    fn from_auto(value: &CapitalAbsorptionAutoSnapshot) -> Self {
+        Self {
+            source_status: Some(CapitalAbsorptionRenderSourceStatus {
+                provider: value.source_status.provider.clone(),
+                message: value.source_status.message.clone(),
+            }),
+            status: capital_absorption_auto_status_value(value.status),
+            observed_events: value
+                .observed_events
+                .iter()
+                .map(CapitalAbsorptionRenderEvent::from_auto)
+                .collect(),
+            capital_demand: CapitalDemandRenderSnapshot::from_auto(&value.capital_demand),
+            capital_supply: CapitalSupplyRenderSnapshot::from_auto(&value.capital_supply),
+            absorption_ratio: CapitalAbsorptionRenderRatio {
+                value: value.absorption_ratio.value,
+                state: capital_absorption_auto_ratio_state_value(value.absorption_ratio.state),
+            },
+            structural_impact: value.structural_impact.clone(),
+            upgrade_to_active: value.upgrade_to_active.clone(),
+            upgrade_to_stressed: value.upgrade_to_stressed.clone(),
+        }
+    }
+}
+
+impl CapitalAbsorptionRenderEvent {
+    fn from_config(value: &config::CapitalAbsorptionEventConfig) -> Self {
+        Self {
+            category: capital_absorption_event_category_value(value.category),
+            subject: value.subject.clone(),
+            description: value.description.clone(),
+            amount_usd_b: value.amount_usd_b,
+            ai_capex_related: value.ai_capex_related.unwrap_or(false),
+            source_url: value.source_url.clone(),
+        }
+    }
+
+    fn from_auto(value: &CapitalAbsorptionAutoEvent) -> Self {
+        Self {
+            category: capital_absorption_auto_event_category_value(value.category),
+            subject: value.subject.clone(),
+            description: value.description.clone(),
+            amount_usd_b: value.amount_usd_b,
+            ai_capex_related: value.ai_capex_related,
+            source_url: value.source_url.clone(),
+        }
+    }
+}
+
+impl CapitalDemandRenderSnapshot {
+    fn from_config(value: &config::CapitalDemandConfig) -> Self {
+        Self {
+            rolling_12m_usd_b: value.rolling_12m_usd_b,
+            score: value.score,
+            trend: capital_absorption_trend_value(value.trend),
+            ipo_financing_usd_b: value.ipo_financing_usd_b,
+            secondary_offering_usd_b: value.secondary_offering_usd_b,
+            convertible_debt_usd_b: value.convertible_debt_usd_b,
+            ai_related_financing_usd_b: value.ai_related_financing_usd_b,
+        }
+    }
+
+    fn from_auto(
+        value: &crate::features::research::application::capital_absorption::CapitalDemandAutoSnapshot,
+    ) -> Self {
+        Self {
+            rolling_12m_usd_b: value.rolling_12m_usd_b,
+            score: value.score,
+            trend: capital_absorption_auto_trend_value(value.trend),
+            ipo_financing_usd_b: value.ipo_financing_usd_b,
+            secondary_offering_usd_b: value.secondary_offering_usd_b,
+            convertible_debt_usd_b: value.convertible_debt_usd_b,
+            ai_related_financing_usd_b: value.ai_related_financing_usd_b,
+        }
+    }
+}
+
+impl CapitalSupplyRenderSnapshot {
+    fn from_config(value: &config::CapitalSupplyConfig) -> Self {
+        Self {
+            rolling_12m_usd_b: value.rolling_12m_usd_b,
+            score: value.score,
+            trend: capital_absorption_trend_value(value.trend),
+            etf_net_inflow_usd_b: value.etf_net_inflow_usd_b,
+            mutual_fund_net_inflow_usd_b: value.mutual_fund_net_inflow_usd_b,
+            pension_allocation_flow_usd_b: value.pension_allocation_flow_usd_b,
+            foreign_capital_inflow_usd_b: value.foreign_capital_inflow_usd_b,
+            corporate_buyback_usd_b: value.corporate_buyback_usd_b,
+        }
+    }
+
+    fn from_auto(
+        value: &crate::features::research::application::capital_absorption::CapitalSupplyAutoSnapshot,
+    ) -> Self {
+        Self {
+            rolling_12m_usd_b: value.rolling_12m_usd_b,
+            score: value.score,
+            trend: capital_absorption_auto_trend_value(value.trend),
+            etf_net_inflow_usd_b: value.etf_net_inflow_usd_b,
+            mutual_fund_net_inflow_usd_b: value.mutual_fund_net_inflow_usd_b,
+            pension_allocation_flow_usd_b: value.pension_allocation_flow_usd_b,
+            foreign_capital_inflow_usd_b: value.foreign_capital_inflow_usd_b,
+            corporate_buyback_usd_b: value.corporate_buyback_usd_b,
+        }
+    }
+}
+
+fn push_capital_absorption_events(
+    out: &mut String,
+    events: &[CapitalAbsorptionRenderEvent],
+    language: Language,
+) {
+    out.push_str(capital_absorption_events_label(language));
+    out.push_str(":\n");
+    if events.is_empty() {
+        out.push_str(capital_absorption_no_events(language));
+        out.push('\n');
+        return;
+    }
+    for event in events {
+        let amount = event
+            .amount_usd_b
+            .map(|value| format!(" (${value:.1}B)"))
+            .unwrap_or_default();
+        let ai_capex = if event.ai_capex_related {
+            format!(" · {}", capital_absorption_ai_capex_label(language))
+        } else {
+            String::new()
+        };
+        out.push_str(&format!(
+            "- {} · {}{}{} · {}\n",
+            event.category, event.subject, amount, ai_capex, event.description
+        ));
+        if let Some(source_url) = &event.source_url {
+            out.push_str(&format!("  {}\n", source_url));
+        }
+    }
+    out.push('\n');
+}
+
+fn push_capital_demand(out: &mut String, demand: &CapitalDemandRenderSnapshot, language: Language) {
+    out.push_str(capital_absorption_demand_label(language));
+    out.push_str(":\n");
+    out.push_str(&format!(
+        "- {} {}\n",
+        capital_absorption_trend_label(language),
+        demand.trend
+    ));
+    push_optional_usd(
+        out,
+        capital_absorption_rolling_12m_label(language),
+        demand.rolling_12m_usd_b,
+    );
+    push_optional_score(out, capital_absorption_score_label(language), demand.score);
+    push_optional_usd(
+        out,
+        capital_absorption_ipo_label(language),
+        demand.ipo_financing_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_secondary_label(language),
+        demand.secondary_offering_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_convertible_label(language),
+        demand.convertible_debt_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_ai_related_label(language),
+        demand.ai_related_financing_usd_b,
+    );
+    out.push('\n');
+}
+
+fn push_capital_supply(out: &mut String, supply: &CapitalSupplyRenderSnapshot, language: Language) {
+    out.push_str(capital_absorption_supply_label(language));
+    out.push_str(":\n");
+    out.push_str(&format!(
+        "- {} {}\n",
+        capital_absorption_trend_label(language),
+        supply.trend
+    ));
+    push_optional_usd(
+        out,
+        capital_absorption_rolling_12m_label(language),
+        supply.rolling_12m_usd_b,
+    );
+    push_optional_score(out, capital_absorption_score_label(language), supply.score);
+    push_optional_usd(
+        out,
+        capital_absorption_etf_label(language),
+        supply.etf_net_inflow_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_mutual_fund_label(language),
+        supply.mutual_fund_net_inflow_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_pension_label(language),
+        supply.pension_allocation_flow_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_foreign_capital_label(language),
+        supply.foreign_capital_inflow_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_buyback_label(language),
+        supply.corporate_buyback_usd_b,
+    );
+    out.push('\n');
+}
+
+fn push_optional_usd(out: &mut String, label: &str, value: Option<f64>) {
+    if let Some(value) = value {
+        out.push_str(&format!("- {label} ${value:.1}B\n"));
+    }
+}
+
+fn push_optional_score(out: &mut String, label: &str, value: Option<f64>) {
+    if let Some(value) = value {
+        out.push_str(&format!("- {label} {value:.2}\n"));
+    }
+}
+
+fn push_capital_absorption_conditions(out: &mut String, title: &str, conditions: &[String]) {
+    if conditions.is_empty() {
+        return;
+    }
+    out.push_str(title);
+    out.push_str(":\n");
+    for condition in conditions {
+        out.push_str(&format!("- {condition}\n"));
+    }
+    out.push('\n');
+}
+
+fn capital_absorption_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "📊 Capital Absorption Monitor",
+        Language::EnUs => "📊 Capital Absorption Monitor",
+        Language::JaJp => "📊 Capital Absorption Monitor",
+    }
+}
+
+fn capital_absorption_empty(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "📊 Capital Absorption Monitor\n\n未配置资本吸收观察层。\n\n边界: 本模块只观察资本供需结构，不生成交易信号。"
+        }
+        Language::EnUs => {
+            "📊 Capital Absorption Monitor\n\nNo capital absorption context configured.\n\nBoundary: this module only observes capital supply-demand structure; it does not generate trade signals."
+        }
+        Language::JaJp => {
+            "📊 Capital Absorption Monitor\n\n資本吸収観測レイヤーは未設定です。\n\n境界: このモジュールは資本需給構造だけを観測し、売買シグナルは生成しない。"
+        }
+    }
+}
+
+fn capital_absorption_status_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Capital Absorption Status:",
+        Language::EnUs => "Capital Absorption Status:",
+        Language::JaJp => "Capital Absorption Status:",
+    }
+}
+
+fn capital_absorption_source_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Automatic Source:",
+        Language::EnUs => "Automatic Source:",
+        Language::JaJp => "Automatic Source:",
+    }
+}
+
+fn capital_absorption_events_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Observed Events",
+        Language::EnUs => "Observed Events",
+        Language::JaJp => "Observed Events",
+    }
+}
+
+fn capital_absorption_no_events(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- 未观察到大型资本吸收事件。",
+        Language::EnUs => "- No large capital absorption events observed.",
+        Language::JaJp => "- 大型の資本吸収イベントは未観測です。",
+    }
+}
+
+fn capital_absorption_demand_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Capital Demand",
+        Language::EnUs => "Capital Demand",
+        Language::JaJp => "Capital Demand",
+    }
+}
+
+fn capital_absorption_supply_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Capital Supply",
+        Language::EnUs => "Capital Supply",
+        Language::JaJp => "Capital Supply",
+    }
+}
+
+fn capital_absorption_ratio_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Capital Absorption Ratio:",
+        Language::EnUs => "Capital Absorption Ratio:",
+        Language::JaJp => "Capital Absorption Ratio:",
+    }
+}
+
+fn capital_absorption_structural_impact_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Structural Impact:",
+        Language::EnUs => "Structural Impact:",
+        Language::JaJp => "Structural Impact:",
+    }
+}
+
+fn capital_absorption_upgrade_active_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Upgrade To ACTIVE",
+        Language::EnUs => "Upgrade To ACTIVE",
+        Language::JaJp => "Upgrade To ACTIVE",
+    }
+}
+
+fn capital_absorption_upgrade_stressed_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Upgrade To STRESSED",
+        Language::EnUs => "Upgrade To STRESSED",
+        Language::JaJp => "Upgrade To STRESSED",
+    }
+}
+
+fn capital_absorption_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "Boundary: This module observes capital supply-demand dynamics and does not generate trading signals. It does not affect READY / EXECUTE."
+        }
+        Language::EnUs => {
+            "Boundary: This module observes capital supply-demand dynamics and does not generate trading signals. It does not affect READY / EXECUTE."
+        }
+        Language::JaJp => {
+            "Boundary: This module observes capital supply-demand dynamics and does not generate trading signals. It does not affect READY / EXECUTE."
+        }
+    }
+}
+
+fn capital_absorption_trend_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Trend:",
+        Language::EnUs => "Trend:",
+        Language::JaJp => "Trend:",
+    }
+}
+
+fn capital_absorption_rolling_12m_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Rolling 12M:",
+        Language::EnUs => "Rolling 12M:",
+        Language::JaJp => "Rolling 12M:",
+    }
+}
+
+fn capital_absorption_score_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Score:",
+        Language::EnUs => "Score:",
+        Language::JaJp => "Score:",
+    }
+}
+
+fn capital_absorption_ipo_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "IPO financing:",
+        Language::EnUs => "IPO financing:",
+        Language::JaJp => "IPO financing:",
+    }
+}
+
+fn capital_absorption_secondary_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Secondary offering:",
+        Language::EnUs => "Secondary offering:",
+        Language::JaJp => "Secondary offering:",
+    }
+}
+
+fn capital_absorption_convertible_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Convertible debt:",
+        Language::EnUs => "Convertible debt:",
+        Language::JaJp => "Convertible debt:",
+    }
+}
+
+fn capital_absorption_ai_related_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "AI-related financing:",
+        Language::EnUs => "AI-related financing:",
+        Language::JaJp => "AI-related financing:",
+    }
+}
+
+fn capital_absorption_etf_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "ETF net inflow:",
+        Language::EnUs => "ETF net inflow:",
+        Language::JaJp => "ETF net inflow:",
+    }
+}
+
+fn capital_absorption_mutual_fund_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Mutual fund net inflow:",
+        Language::EnUs => "Mutual fund net inflow:",
+        Language::JaJp => "Mutual fund net inflow:",
+    }
+}
+
+fn capital_absorption_pension_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Pension allocation flow:",
+        Language::EnUs => "Pension allocation flow:",
+        Language::JaJp => "Pension allocation flow:",
+    }
+}
+
+fn capital_absorption_foreign_capital_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Foreign capital inflow:",
+        Language::EnUs => "Foreign capital inflow:",
+        Language::JaJp => "Foreign capital inflow:",
+    }
+}
+
+fn capital_absorption_buyback_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Corporate buyback:",
+        Language::EnUs => "Corporate buyback:",
+        Language::JaJp => "Corporate buyback:",
+    }
+}
+
+fn capital_absorption_ai_capex_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "AI CapEx related",
+        Language::EnUs => "AI CapEx related",
+        Language::JaJp => "AI CapEx related",
+    }
+}
+
+fn capital_absorption_status_value(status: config::CapitalAbsorptionStatus) -> &'static str {
+    match status {
+        config::CapitalAbsorptionStatus::Normal => "NORMAL",
+        config::CapitalAbsorptionStatus::Watch => "WATCH",
+        config::CapitalAbsorptionStatus::Active => "ACTIVE",
+        config::CapitalAbsorptionStatus::Stressed => "STRESSED",
+    }
+}
+
+fn capital_absorption_trend_value(trend: config::CapitalAbsorptionTrend) -> &'static str {
+    match trend {
+        config::CapitalAbsorptionTrend::Decreasing => "DECREASING",
+        config::CapitalAbsorptionTrend::Stable => "STABLE",
+        config::CapitalAbsorptionTrend::Increasing => "INCREASING",
+        config::CapitalAbsorptionTrend::Accelerating => "ACCELERATING",
+    }
+}
+
+fn capital_absorption_ratio_state_value(
+    state: config::CapitalAbsorptionRatioState,
+) -> &'static str {
+    match state {
+        config::CapitalAbsorptionRatioState::Low => "LOW",
+        config::CapitalAbsorptionRatioState::Neutral => "NEUTRAL",
+        config::CapitalAbsorptionRatioState::Elevated => "ELEVATED",
+        config::CapitalAbsorptionRatioState::Stressed => "STRESSED",
+    }
+}
+
+fn capital_absorption_event_category_value(
+    category: config::CapitalAbsorptionEventCategory,
+) -> &'static str {
+    match category {
+        config::CapitalAbsorptionEventCategory::MegaCapFinancing => "Mega Cap Financing",
+        config::CapitalAbsorptionEventCategory::IpoSupply => "IPO Supply",
+        config::CapitalAbsorptionEventCategory::SecondaryLiquidity => "Secondary Liquidity",
+    }
+}
+
+fn capital_absorption_auto_status_value(status: CapitalAbsorptionAutoStatus) -> &'static str {
+    match status {
+        CapitalAbsorptionAutoStatus::Normal => "NORMAL",
+        CapitalAbsorptionAutoStatus::Watch => "WATCH",
+        CapitalAbsorptionAutoStatus::Active => "ACTIVE",
+        CapitalAbsorptionAutoStatus::Stressed => "STRESSED",
+    }
+}
+
+fn capital_absorption_auto_trend_value(trend: CapitalAbsorptionAutoTrend) -> &'static str {
+    match trend {
+        CapitalAbsorptionAutoTrend::Decreasing => "DECREASING",
+        CapitalAbsorptionAutoTrend::Stable => "STABLE",
+        CapitalAbsorptionAutoTrend::Increasing => "INCREASING",
+        CapitalAbsorptionAutoTrend::Accelerating => "ACCELERATING",
+    }
+}
+
+fn capital_absorption_auto_ratio_state_value(
+    state: crate::features::research::application::capital_absorption::CapitalAbsorptionAutoRatioState,
+) -> &'static str {
+    match state {
+        crate::features::research::application::capital_absorption::CapitalAbsorptionAutoRatioState::Low => "LOW",
+        crate::features::research::application::capital_absorption::CapitalAbsorptionAutoRatioState::Neutral => "NEUTRAL",
+        crate::features::research::application::capital_absorption::CapitalAbsorptionAutoRatioState::Elevated => "ELEVATED",
+        crate::features::research::application::capital_absorption::CapitalAbsorptionAutoRatioState::Stressed => "STRESSED",
+    }
+}
+
+fn capital_absorption_auto_event_category_value(
+    category: CapitalAbsorptionAutoEventCategory,
+) -> &'static str {
+    match category {
+        CapitalAbsorptionAutoEventCategory::MegaCapFinancing => "Mega Cap Financing",
+        CapitalAbsorptionAutoEventCategory::IpoSupply => "IPO Supply",
+        CapitalAbsorptionAutoEventCategory::SecondaryLiquidity => "Secondary Liquidity",
+    }
+}
+
 pub(crate) fn daily_calibration_title(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "🧭 每日认知校准",
@@ -763,9 +1456,17 @@ pub(crate) fn daily_calibration_macro_gravity_label(language: Language) -> &'sta
 
 pub(crate) fn daily_calibration_gray_rhino_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "## 6. 灰犀牛升级监控",
-        Language::EnUs => "## 6. Gray Rhino Escalation",
-        Language::JaJp => "## 6. 灰色のサイ昇格監視",
+        Language::ZhCn => "## 7. 灰犀牛升级监控",
+        Language::EnUs => "## 7. Gray Rhino Escalation",
+        Language::JaJp => "## 7. 灰色のサイ昇格監視",
+    }
+}
+
+pub(crate) fn daily_calibration_capital_absorption_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 6. 市场资本吸收监控",
+        Language::EnUs => "## 6. Capital Absorption Monitor",
+        Language::JaJp => "## 6. 資本吸収モニター",
     }
 }
 

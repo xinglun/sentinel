@@ -10,12 +10,12 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-06-01T11:41:07.866784+00:00`
-- Task: `guard-config-fix`
+- Generated At: `2026-06-03T12:43:43.356240+00:00`
+- Task: `capital-absorption-monitor`
 - Mode: `code`
 - State: `ready_for_review`
-- Contract Path: `.ai/work-items/active/guard-config-fix.contract.json`
-- Summary Path: `.ai/work-items/active/guard-config-fix.summary.json`
+- Contract Path: `.ai/work-items/active/capital-absorption-monitor.contract.json`
+- Summary Path: `.ai/work-items/active/capital-absorption-monitor.summary.json`
 
 ## Blocking
 
@@ -23,21 +23,34 @@ generated: true
 
 ## Required Checks
 
-- `make check-ai-contract CONTRACT=.ai/work-items/active/guard-config-fix.contract.json`: passed
-- `make check-ai-scope CONTRACT=.ai/work-items/active/guard-config-fix.contract.json`: passed
+- `make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json`: passed
+- `make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json`: passed
 - `make fmt-check`: passed
+- `make test`: passed
+- `make clippy`: passed
 - `make check-ai-backtrack`: passed
-- `make check-ai-change-summary SUMMARY=.ai/work-items/active/guard-config-fix.summary.json CONTRACT=.ai/work-items/active/guard-config-fix.contract.json`: passed
-- `make generate-cockpit-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json`: passed
-- `make check-ai-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json`: passed
+- `make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json`: passed
+- `make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json`: passed
+- `make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json`: passed
+- `make check-ai-status-consistency`: passed
 
 ## Changed Files
 
-- `.ai/guards/file_ownership.yaml`: config.toml の aiWrite を forbidden から restricted に変更した。
-- `scripts/ai_test_guards.py`: forbidden テストの対象を config.toml から reports/daily.md に差し替えた。
-- `.ai/work-items/active/guard-config-fix.contract.json`: Work Item Contract を作成・更新した。
-- `.ai/work-items/active/guard-config-fix.summary.json`: AI Change Summary を作成・更新した。
-- `.ai/cockpit/current_status.md`: Cockpit status を更新した。
+- `.ai/work-items/active/capital-absorption-monitor.contract.json`: Capital Absorption Monitor の code scope と acceptance を確定した。
+- `.ai/work-items/active/capital-absorption-monitor.summary.json`: 実装内容、境界、検証結果を記録した。
+- `.ai/cockpit/current_status.md`: 新規 Work Item の Cockpit status を生成した。
+- `src/config.rs`: Capital Absorption Monitor の config schema を追加する。
+- `src/cli.rs`: daily-calibration で Capital Absorption の自動 snapshot を取得して章を表示する。
+- `src/features/radar/interface/radar_pipeline_runner.rs`: 主 radar の Telegram / Markdown 日報に Capital Absorption Monitor appendix を追加する。
+- `src/features/research/application/mod.rs`: Capital Absorption application module を登録する。
+- `src/features/research/application/capital_absorption.rs`: Capital Absorption の自動観測 snapshot / status 判定モデルを追加する。
+- `src/features/research/infrastructure/mod.rs`: Capital Absorption source adapter module を登録する。
+- `src/features/research/infrastructure/capital_absorption_source_adapter.rs`: Finnhub company-news と general market news から market-wide capital absorption event を自動抽出する adapter を追加する。
+- `src/features/research/interface/cognitive_reports.rs`: Capital Absorption Monitor の read-only Markdown renderer を追加する。
+- `src/features/radar/interface/presentation_tests.rs`: AppConfig literal に capital_absorption: None を追加して既存 test behavior を維持した。
+- `src/features/radar/interface/report_ui_tests.rs`: AppConfig literal に capital_absorption: None を追加して既存 test behavior を維持した。
+- `src/features/research/interface/gray_rhino_report.rs`: AppConfig literal に capital_absorption: None を追加して既存 test behavior を維持した。
+- `tests/research_attention_cli_integration.rs`: daily-calibration 出力と non-signal boundary を integration test で固定する。
 
 ## Backtrack
 

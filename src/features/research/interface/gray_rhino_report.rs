@@ -392,6 +392,7 @@ mod tests {
             research_attention: None,
             asset_thesis: None,
             macro_gravity: None,
+            capital_absorption: None,
             gray_rhino_escalation: Some(config::GrayRhinoEscalationConfig {
                 risk_expansion_rate: GrayRhinoRiskLevel::Elevated,
                 constraint_growth_rate: GrayRhinoRiskLevel::Low,

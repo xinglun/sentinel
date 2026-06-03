@@ -28,6 +28,7 @@ pub struct AppConfig {
     pub research_attention: Option<BTreeMap<String, ResearchAttentionEntry>>,
     pub asset_thesis: Option<BTreeMap<String, AssetThesisEntry>>,
     pub macro_gravity: Option<MacroGravityConfig>,
+    pub capital_absorption: Option<CapitalAbsorptionConfig>,
     pub gray_rhino_escalation: Option<GrayRhinoEscalationConfig>,
     /// 旧 provider registry 設定を読み捨てるための互換フィールド。
     #[allow(dead_code)]
@@ -264,6 +265,99 @@ pub struct MacroGravityConfig {
     pub liquidity: LiquidityCondition,
     pub growth_valuation_impact: GrowthValuationImpact,
     pub note: Option<String>,
+    pub enable: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CapitalAbsorptionStatus {
+    Normal,
+    Watch,
+    Active,
+    Stressed,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CapitalAbsorptionTrend {
+    Decreasing,
+    Stable,
+    Increasing,
+    Accelerating,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CapitalAbsorptionRatioState {
+    Low,
+    Neutral,
+    Elevated,
+    Stressed,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum CapitalAbsorptionEventCategory {
+    MegaCapFinancing,
+    IpoSupply,
+    SecondaryLiquidity,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct CapitalAbsorptionEventConfig {
+    pub category: CapitalAbsorptionEventCategory,
+    pub subject: String,
+    pub description: String,
+    pub amount_usd_b: Option<f64>,
+    pub ai_capex_related: Option<bool>,
+    pub source_url: Option<String>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct CapitalDemandConfig {
+    pub rolling_12m_usd_b: Option<f64>,
+    pub score: Option<f64>,
+    pub trend: CapitalAbsorptionTrend,
+    pub ipo_financing_usd_b: Option<f64>,
+    pub secondary_offering_usd_b: Option<f64>,
+    pub convertible_debt_usd_b: Option<f64>,
+    pub ai_related_financing_usd_b: Option<f64>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct CapitalSupplyConfig {
+    pub rolling_12m_usd_b: Option<f64>,
+    pub score: Option<f64>,
+    pub trend: CapitalAbsorptionTrend,
+    pub etf_net_inflow_usd_b: Option<f64>,
+    pub mutual_fund_net_inflow_usd_b: Option<f64>,
+    pub pension_allocation_flow_usd_b: Option<f64>,
+    pub foreign_capital_inflow_usd_b: Option<f64>,
+    pub corporate_buyback_usd_b: Option<f64>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct CapitalAbsorptionRatioConfig {
+    pub value: Option<f64>,
+    pub state: CapitalAbsorptionRatioState,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct CapitalAbsorptionConfig {
+    pub status: CapitalAbsorptionStatus,
+    pub observed_events: Option<Vec<CapitalAbsorptionEventConfig>>,
+    pub capital_demand: CapitalDemandConfig,
+    pub capital_supply: CapitalSupplyConfig,
+    pub absorption_ratio: CapitalAbsorptionRatioConfig,
+    pub structural_impact: Option<String>,
+    pub upgrade_to_active: Option<Vec<String>>,
+    pub upgrade_to_stressed: Option<Vec<String>>,
+    pub auto_enable: Option<bool>,
     pub enable: Option<bool>,
 }
 
@@ -1167,6 +1261,7 @@ mod tests {
             research_attention: None,
             asset_thesis: None,
             macro_gravity: None,
+            capital_absorption: None,
             gray_rhino_escalation: None,
             gray_rhino_provider_registry: None,
         };

@@ -24,20 +24,22 @@ use crate::features::radar::interface::audit_daily_report::{
     parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
+use crate::features::research::infrastructure::capital_absorption_source_adapter::build_automatic_capital_absorption_snapshot;
 use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
-    daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
-    daily_calibration_evidence_none, daily_calibration_evidence_observed,
-    daily_calibration_evidence_strong, daily_calibration_gray_rhino_label,
-    daily_calibration_macro_gravity_label, daily_calibration_question_attention,
-    daily_calibration_question_boundary, daily_calibration_question_evidence,
-    daily_calibration_question_gate, daily_calibration_question_market,
-    daily_calibration_question_thesis, daily_calibration_questions_label,
-    daily_calibration_thesis_label, daily_calibration_title, enabled_asset_thesis_count,
-    enabled_research_attention_count,
+    build_asset_thesis_report, build_capital_absorption_report, build_macro_gravity_report,
+    build_research_attention_report, daily_calibration_attention_label,
+    daily_calibration_audit_label, daily_calibration_boundary,
+    daily_calibration_capital_absorption_label, daily_calibration_evidence_none,
+    daily_calibration_evidence_observed, daily_calibration_evidence_strong,
+    daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
+    daily_calibration_question_attention, daily_calibration_question_boundary,
+    daily_calibration_question_evidence, daily_calibration_question_gate,
+    daily_calibration_question_market, daily_calibration_question_thesis,
+    daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
+    enabled_asset_thesis_count, enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_cli_handler::{
     run_collect_gray_rhino_backfill, run_collect_gray_rhino_category_source,
@@ -131,7 +133,8 @@ pub async fn run() -> Result<()> {
                 options.audit_date_arg.as_deref(),
                 options.audit_days,
                 audit_language,
-            )?;
+            )
+            .await?;
             println!("{}", report);
             if options.research_notify {
                 send_required_telegram_notification(
@@ -594,7 +597,7 @@ fn run_audit_daily(
     Ok(())
 }
 
-fn build_daily_calibration_report(
+async fn build_daily_calibration_report(
     app_config: &config::AppConfig,
     target_date_arg: Option<&str>,
     window_days: usize,
@@ -658,6 +661,31 @@ fn build_daily_calibration_report(
     out.push_str(daily_calibration_macro_gravity_label(language));
     out.push_str("\n\n");
     out.push_str(&build_macro_gravity_report(app_config, language));
+    out.push_str("\n\n");
+    let capital_absorption_auto_enabled = app_config
+        .capital_absorption
+        .as_ref()
+        .and_then(|config| config.auto_enable)
+        .unwrap_or(true);
+    let capital_absorption_snapshot = if capital_absorption_auto_enabled {
+        Some(
+            build_automatic_capital_absorption_snapshot(
+                app_config,
+                calibration_date,
+                window_days.max(1),
+            )
+            .await,
+        )
+    } else {
+        None
+    };
+    out.push_str(daily_calibration_capital_absorption_label(language));
+    out.push_str("\n\n");
+    out.push_str(&build_capital_absorption_report(
+        app_config,
+        capital_absorption_snapshot.as_ref(),
+        language,
+    ));
     out.push_str("\n\n");
     out.push_str(daily_calibration_gray_rhino_label(language));
     out.push_str("\n\n");
@@ -950,6 +978,7 @@ mod tests {
             research_attention: None,
             asset_thesis: None,
             macro_gravity: None,
+            capital_absorption: None,
             gray_rhino_escalation: None,
             gray_rhino_provider_registry: None,
         }
