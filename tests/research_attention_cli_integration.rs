@@ -31,6 +31,9 @@ fn strip_optional_calibration_sections(raw: &str) -> String {
             skipping = line.starts_with("[research_attention.")
                 || line.starts_with("[asset_thesis.")
                 || line == "[macro_gravity]"
+                || line == "[capital_absorption]"
+                || line.starts_with("[capital_absorption.")
+                || line.starts_with("[[capital_absorption.")
                 || line == "[gray_rhino_escalation]"
                 || line == "[gray_rhino_provider_registry]";
         }
@@ -2751,6 +2754,37 @@ liquidity = "NEUTRAL"
 growth_valuation_impact = "COMPRESSING"
 note = "長期金利は成長株のバリュエーション重力として観測する。"
 
+[capital_absorption]
+status = "WATCH"
+structural_impact = "Observation Only"
+upgrade_to_active = ["Second mega cap financing", "Large AI IPO starts"]
+upgrade_to_stressed = ["Capital Demand > Capital Supply", "ETF net inflow remains weaker than financing scale"]
+
+[[capital_absorption.observed_events]]
+category = "MEGA_CAP_FINANCING"
+subject = "Alphabet"
+description = "Manual observation: secondary offering for AI CapEx"
+amount_usd_b = 80.0
+ai_capex_related = true
+
+[capital_absorption.capital_demand]
+trend = "INCREASING"
+rolling_12m_usd_b = 80.0
+score = 0.60
+secondary_offering_usd_b = 80.0
+ai_related_financing_usd_b = 80.0
+
+[capital_absorption.capital_supply]
+trend = "STABLE"
+rolling_12m_usd_b = 500.0
+score = 0.75
+etf_net_inflow_usd_b = 120.0
+corporate_buyback_usd_b = 380.0
+
+[capital_absorption.absorption_ratio]
+state = "NEUTRAL"
+value = 0.16
+
 [gray_rhino_escalation]
 enable = true
 risk_expansion_rate = "ELEVATED"
@@ -2786,7 +2820,21 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("- 利率压力: RISING"));
     assert!(stdout.contains("- 成长股估值: COMPRESSING"));
     assert!(stdout.contains("不参与 Gate，不生成交易指令"));
-    assert!(stdout.contains("## 6. 灰犀牛升级监控"));
+    assert!(stdout.contains("## 6. 市场资本吸收监控"));
+    assert!(stdout.contains("📊 Capital Absorption Monitor"));
+    assert!(stdout.contains("Capital Absorption Status: WATCH"));
+    assert!(stdout.contains("Mega Cap Financing · Alphabet ($80.0B) · AI CapEx related"));
+    assert!(stdout.contains("Capital Demand"));
+    assert!(stdout.contains("- Trend: INCREASING"));
+    assert!(stdout.contains("- Secondary offering: $80.0B"));
+    assert!(stdout.contains("Capital Supply"));
+    assert!(stdout.contains("- ETF net inflow: $120.0B"));
+    assert!(stdout.contains("Capital Absorption Ratio: NEUTRAL (0.16)"));
+    assert!(stdout.contains("Structural Impact: Observation Only"));
+    assert!(stdout.contains("Upgrade To ACTIVE"));
+    assert!(stdout.contains("does not generate trading signals"));
+    assert!(stdout.contains("does not affect READY / EXECUTE"));
+    assert!(stdout.contains("## 7. 灰犀牛升级监控"));
     assert!(stdout.contains("输入来源: 人工结构基线（配置输入）"));
     assert!(stdout.contains("审计链: 人工结构基线 -> 七项观测 -> 日次快照"));
     assert!(stdout.contains("状态:"));

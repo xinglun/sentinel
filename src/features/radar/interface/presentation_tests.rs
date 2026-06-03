@@ -45,6 +45,7 @@ fn mock_config(lang: Language) -> AppConfig {
         research_attention: None,
         asset_thesis: None,
         macro_gravity: None,
+        capital_absorption: None,
         gray_rhino_escalation: None,
         gray_rhino_provider_registry: None,
     }

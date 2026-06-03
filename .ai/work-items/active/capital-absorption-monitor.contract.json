@@ -1,12 +1,19 @@
 {
   "contractVersion": 1,
   "workItemId": "capital-absorption-monitor",
-  "mode": "investigate",
+  "mode": "code",
   "title": "Market Capital Absorption Monitor",
   "scope": [
     ".ai/work-items/active/capital-absorption-monitor.contract.json",
     ".ai/work-items/active/capital-absorption-monitor.summary.json",
-    ".ai/cockpit/current_status.md"
+    ".ai/cockpit/current_status.md",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "tests/research_attention_cli_integration.rs"
   ],
   "outOfScope": [
     "Gate / execution / trader / action matrix / position sizing の挙動変更",
@@ -31,10 +38,12 @@
     "状態は NORMAL / WATCH / ACTIVE / STRESSED を持ち、WATCH は単一大型 financing event、ACTIVE は複数大型 financing 主体、STRESSED は資本需要の伸びが供給を継続的に上回る状態として定義される。",
     "出力章は Markdown report の独立章 `Capital Absorption Monitor` として設計し、status、observed events、demand、supply、ratio、structural impact、boundary を表示する。",
     "Boundary として、この module は資本需給の市場構造観察のみを行い、売買 signal を生成せず、READY / EXECUTE 状態機械に影響しないことを contract / docs / tests のいずれかで固定する。",
-    "現在の observation trigger は Alphabet 800 億ドル増発として扱うが、fact source が未確定の間は production logic に入れない。",
+    "現在の observation trigger は config 上の manual observation としてのみ扱い、外部 source が未確定の event を production logic の fact として自動注入しない。",
     "Upgrade to ACTIVE は第二の Mega Cap financing、AI 関連大型 IPO、連続大型 equity financing event のいずれかで判定する設計にする。",
     "Upgrade to STRESSED は Capital Demand > Capital Supply、ETF net inflow が financing 規模を継続的に下回る、市場に liquidity absorption pressure が観測される、のいずれかを evidence-backed に扱う設計にする。",
-    "次の実装 Work Item では、module / renderer / persistence / snapshot / i18n file、外部 fact source、rolling 12 months 集計仕様を調査して scope に固定してから production code を変更する。"
+    "今回の実装は config-driven read-only report とし、daily-calibration に独立章を追加する。",
+    "今回の実装は data branch、reports JSONL、snapshot persistence、weekly metrics を変更しない。",
+    "今回の実装は zh/en/ja の最小 i18n 表示と CLI integration test で境界を固定する。"
   ],
   "verification": [
     {
@@ -47,6 +56,14 @@
     },
     {
       "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
       "required": true
     },
     {

@@ -28,16 +28,17 @@ use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
-    daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
-    daily_calibration_evidence_none, daily_calibration_evidence_observed,
-    daily_calibration_evidence_strong, daily_calibration_gray_rhino_label,
-    daily_calibration_macro_gravity_label, daily_calibration_question_attention,
-    daily_calibration_question_boundary, daily_calibration_question_evidence,
-    daily_calibration_question_gate, daily_calibration_question_market,
-    daily_calibration_question_thesis, daily_calibration_questions_label,
-    daily_calibration_thesis_label, daily_calibration_title, enabled_asset_thesis_count,
-    enabled_research_attention_count,
+    build_asset_thesis_report, build_capital_absorption_report, build_macro_gravity_report,
+    build_research_attention_report, daily_calibration_attention_label,
+    daily_calibration_audit_label, daily_calibration_boundary,
+    daily_calibration_capital_absorption_label, daily_calibration_evidence_none,
+    daily_calibration_evidence_observed, daily_calibration_evidence_strong,
+    daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
+    daily_calibration_question_attention, daily_calibration_question_boundary,
+    daily_calibration_question_evidence, daily_calibration_question_gate,
+    daily_calibration_question_market, daily_calibration_question_thesis,
+    daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
+    enabled_asset_thesis_count, enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_cli_handler::{
     run_collect_gray_rhino_backfill, run_collect_gray_rhino_category_source,
@@ -659,6 +660,10 @@ fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(&build_macro_gravity_report(app_config, language));
     out.push_str("\n\n");
+    out.push_str(daily_calibration_capital_absorption_label(language));
+    out.push_str("\n\n");
+    out.push_str(&build_capital_absorption_report(app_config, language));
+    out.push_str("\n\n");
     out.push_str(daily_calibration_gray_rhino_label(language));
     out.push_str("\n\n");
     out.push_str(&build_gray_rhino_daily_report_read_only(
@@ -950,6 +955,7 @@ mod tests {
             research_attention: None,
             asset_thesis: None,
             macro_gravity: None,
+            capital_absorption: None,
             gray_rhino_escalation: None,
             gray_rhino_provider_registry: None,
         }
