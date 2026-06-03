@@ -1,0 +1,73 @@
+{
+  "workItemId": "capital-absorption-monitor",
+  "contractPath": ".ai/work-items/active/capital-absorption-monitor.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-monitor.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-monitor.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "新規 Work Item の Cockpit status を生成した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/capital-absorption-monitor.contract.json",
+    "ユーザー提示の System Improvement Proposal"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "観察 layer の新規 module だが、data source と実装対象が未確定のため production code はまだ変更しない。Gate、execution、trading logic へ接続しない boundary を Contract に固定した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "changed",
+    "persistence": "not_applicable",
+    "i18n": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "knownGaps": [
+    "実装対象 file と test / snapshot / i18n の要否は次の調査 step で確定する。",
+    "Alphabet 800 億ドル増発は現時点ではユーザー提示 observation trigger であり、外部 source による fact 固定は未実施。",
+    "Capital Demand / Capital Supply の source data、単位、rolling 12 months 集計方法、欠損時の扱いは未実装。"
+  ],
+  "overclaimPrevention": "この Work Item は新規 task の起票と境界固定まで。実装完了や market conclusion は報告しない。"
+}

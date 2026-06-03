@@ -10,12 +10,12 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-06-01T11:41:07.866784+00:00`
-- Task: `guard-config-fix`
-- Mode: `code`
+- Generated At: `2026-06-03T12:08:11.883820+00:00`
+- Task: `capital-absorption-monitor`
+- Mode: `investigate`
 - State: `ready_for_review`
-- Contract Path: `.ai/work-items/active/guard-config-fix.contract.json`
-- Summary Path: `.ai/work-items/active/guard-config-fix.summary.json`
+- Contract Path: `.ai/work-items/active/capital-absorption-monitor.contract.json`
+- Summary Path: `.ai/work-items/active/capital-absorption-monitor.summary.json`
 
 ## Blocking
 
@@ -23,21 +23,19 @@ generated: true
 
 ## Required Checks
 
-- `make check-ai-contract CONTRACT=.ai/work-items/active/guard-config-fix.contract.json`: passed
-- `make check-ai-scope CONTRACT=.ai/work-items/active/guard-config-fix.contract.json`: passed
+- `make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json`: passed
+- `make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json`: passed
 - `make fmt-check`: passed
 - `make check-ai-backtrack`: passed
-- `make check-ai-change-summary SUMMARY=.ai/work-items/active/guard-config-fix.summary.json CONTRACT=.ai/work-items/active/guard-config-fix.contract.json`: passed
-- `make generate-cockpit-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json`: passed
-- `make check-ai-status CONTRACT=.ai/work-items/active/guard-config-fix.contract.json SUMMARY=.ai/work-items/active/guard-config-fix.summary.json`: passed
+- `make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json`: passed
+- `make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json`: passed
+- `make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-monitor.contract.json SUMMARY=.ai/work-items/active/capital-absorption-monitor.summary.json`: passed
 
 ## Changed Files
 
-- `.ai/guards/file_ownership.yaml`: config.toml の aiWrite を forbidden から restricted に変更した。
-- `scripts/ai_test_guards.py`: forbidden テストの対象を config.toml から reports/daily.md に差し替えた。
-- `.ai/work-items/active/guard-config-fix.contract.json`: Work Item Contract を作成・更新した。
-- `.ai/work-items/active/guard-config-fix.summary.json`: AI Change Summary を作成・更新した。
-- `.ai/cockpit/current_status.md`: Cockpit status を更新した。
+- `.ai/work-items/active/capital-absorption-monitor.contract.json`: Work Item Contract skeleton を作成した。
+- `.ai/work-items/active/capital-absorption-monitor.summary.json`: AI Change Summary skeleton を作成した。
+- `.ai/cockpit/current_status.md`: 新規 Work Item の Cockpit status を生成した。
 
 ## Backtrack
 
