@@ -1,7 +1,8 @@
 use crate::config;
 use crate::features::research::application::capital_absorption::{
     build_capital_absorption_snapshot_from_events, unavailable_capital_absorption_snapshot,
-    CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoSnapshot,
+    CapitalAbsorptionAutoConfidence, CapitalAbsorptionAutoEvent,
+    CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoSnapshot,
     CapitalAbsorptionSourceHealth, CapitalAbsorptionSourceStatus,
 };
 use anyhow::{anyhow, Context, Result};
@@ -11,6 +12,14 @@ const MAX_NEWS_PER_SYMBOL: usize = 20;
 const DEFAULT_MARKET_SYMBOLS: &[&str] = &[
     "AAPL", "MSFT", "GOOG", "GOOGL", "AMZN", "META", "NVDA", "TSLA", "AVGO", "ORCL", "AMD", "PLTR",
     "IBM", "INTC",
+];
+const AI_IPO_CANDIDATES: &[&str] = &[
+    "Anthropic",
+    "OpenAI",
+    "SpaceX",
+    "Databricks",
+    "Stripe",
+    "Figure",
 ];
 
 pub(crate) async fn build_automatic_capital_absorption_snapshot(
@@ -139,13 +148,47 @@ fn event_from_news_item(
         .map(|url| url.to_string());
     Some(CapitalAbsorptionAutoEvent {
         category,
-        subject: symbol.to_string(),
+        subject: detect_event_subject(symbol, &text),
         description: headline.to_string(),
         amount_usd_b: extract_usd_billions(&text),
         ai_capex_related: is_ai_capex_related(&text),
         source_url,
         observed_at,
+        source_count: 1,
+        confidence: CapitalAbsorptionAutoConfidence::Low,
     })
+}
+
+fn detect_event_subject(symbol: &str, text: &str) -> String {
+    let lower = text.to_ascii_lowercase();
+    for candidate in AI_IPO_CANDIDATES {
+        if lower.contains(&candidate.to_ascii_lowercase()) {
+            return (*candidate).to_string();
+        }
+    }
+    if symbol == "Market" {
+        extract_known_public_subject(&lower).unwrap_or_else(|| symbol.to_string())
+    } else {
+        symbol.to_string()
+    }
+}
+
+fn extract_known_public_subject(lower_text: &str) -> Option<String> {
+    [
+        ("alphabet", "GOOG"),
+        ("google", "GOOG"),
+        ("microsoft", "MSFT"),
+        ("amazon", "AMZN"),
+        ("meta", "META"),
+        ("nvidia", "NVDA"),
+        ("tesla", "TSLA"),
+        ("apple", "AAPL"),
+        ("broadcom", "AVGO"),
+        ("oracle", "ORCL"),
+        ("amd", "AMD"),
+    ]
+    .iter()
+    .find_map(|(name, symbol)| lower_text.contains(name).then(|| (*symbol).to_string()))
 }
 
 fn classify_capital_absorption_event(text: &str) -> Option<CapitalAbsorptionAutoEventCategory> {
@@ -278,5 +321,31 @@ mod tests {
         .unwrap();
 
         assert!(events.is_empty());
+    }
+
+    #[test]
+    fn detects_ai_ipo_candidate_subject_from_market_news() {
+        let raw = r#"[
+          {
+            "headline": "SpaceX IPO expected as investor discussion increases",
+            "summary": "Several reports say the company is preparing for a possible listing.",
+            "url": "https://example.com/spacex-ipo",
+            "datetime": 1780444800
+          }
+        ]"#;
+
+        let events = extract_capital_absorption_events(
+            "Market",
+            raw,
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+        )
+        .unwrap();
+
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].subject, "SpaceX");
+        assert_eq!(
+            events[0].category,
+            CapitalAbsorptionAutoEventCategory::IpoSupply
+        );
     }
 }

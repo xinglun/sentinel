@@ -24,13 +24,12 @@ use crate::features::radar::interface::audit_daily_report::{
     parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
-use crate::features::research::infrastructure::capital_absorption_source_adapter::build_automatic_capital_absorption_snapshot;
 use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_capital_absorption_report, build_macro_gravity_report,
-    build_research_attention_report, daily_calibration_attention_label,
+    build_asset_thesis_report, build_capital_absorption_report_with_auto,
+    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
     daily_calibration_audit_label, daily_calibration_boundary,
     daily_calibration_capital_absorption_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
@@ -662,30 +661,17 @@ async fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(&build_macro_gravity_report(app_config, language));
     out.push_str("\n\n");
-    let capital_absorption_auto_enabled = app_config
-        .capital_absorption
-        .as_ref()
-        .and_then(|config| config.auto_enable)
-        .unwrap_or(true);
-    let capital_absorption_snapshot = if capital_absorption_auto_enabled {
-        Some(
-            build_automatic_capital_absorption_snapshot(
-                app_config,
-                calibration_date,
-                window_days.max(1),
-            )
-            .await,
-        )
-    } else {
-        None
-    };
     out.push_str(daily_calibration_capital_absorption_label(language));
     out.push_str("\n\n");
-    out.push_str(&build_capital_absorption_report(
-        app_config,
-        capital_absorption_snapshot.as_ref(),
-        language,
-    ));
+    out.push_str(
+        &build_capital_absorption_report_with_auto(
+            app_config,
+            calibration_date,
+            window_days.max(1),
+            language,
+        )
+        .await,
+    );
     out.push_str("\n\n");
     out.push_str(daily_calibration_gray_rhino_label(language));
     out.push_str("\n\n");

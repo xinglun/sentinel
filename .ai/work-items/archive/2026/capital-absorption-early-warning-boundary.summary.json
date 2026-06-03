@@ -1,0 +1,146 @@
+{
+  "workItemId": "capital-absorption-early-warning-boundary",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-early-warning-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "reason": "Narrative Observation Only の追加境界、scope、acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-early-warning-boundary.summary.json",
+      "reason": "実装内容、境界、検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "新規 Work Item の Cockpit status を生成した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-absorption-monitor.contract.json",
+      "reason": "完了済み Capital Absorption Work Item を archive に移動した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-absorption-monitor.summary.json",
+      "reason": "完了済み Capital Absorption Summary を archive に移動した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/guard-config-fix.contract.json",
+      "reason": "完了済み guard config Work Item を archive に移動した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/guard-config-fix.summary.json",
+      "reason": "完了済み guard config Summary を archive に移動した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Capital Absorption 自動 report を research interface 経由に変更し、architecture boundary を維持した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "主 radar の Capital Absorption appendix を research interface 経由に変更した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Capital Absorption source adapter factory を research ACL に登録した。"
+    },
+    {
+      "path": "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+      "reason": "Capital Absorption source adapter の infrastructure 実装を interface から隠蔽する ACL factory を追加した。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "自動 status を NORMAL / WATCH に制限し、event count / IPO queue / deduplicate model を維持した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "reason": "Finnhub news から AI IPO candidate subject を検出する observation adapter を維持した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Current Phase、Potential Future Capital Supply、Narrative Observation Only、強化 Boundary を report に追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "中文 report の追加 boundary、status 上限、URL 非表示、non-signal 境界を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+    "ユーザー提示の Capital Absorption Monitor 追加要求"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-early-warning-boundary.summary.json CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json SUMMARY=.ai/work-items/active/capital-absorption-early-warning-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-early-warning-boundary.contract.json SUMMARY=.ai/work-items/active/capital-absorption-early-warning-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示境界と architecture boundary の補強に限定する。Gate、execution、trading logic、READY / EXECUTE、Position Sizing、Trend Layer には接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-monitor.contract.json",
+      "reason": "archive 済み Work Item の active 側削除。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-monitor.summary.json",
+      "reason": "archive 済み Summary の active 側削除。"
+    },
+    {
+      "path": ".ai/work-items/active/guard-config-fix.contract.json",
+      "reason": "archive 済み Work Item の active 側削除。"
+    },
+    {
+      "path": ".ai/work-items/active/guard-config-fix.summary.json",
+      "reason": "archive 済み Summary の active 側削除。"
+    }
+  ],
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "changed",
+    "persistence": "not_applicable",
+    "i18n": "changed",
+    "makeEntrypoints": "not_applicable"
+  },
+  "knownGaps": [
+    "ETF Net Inflow、Mutual Fund Flow、Pension Flow、Foreign Capital Flow、Corporate Buyback は未接続。",
+    "Capital Absorption Ratio と Rolling 12M Capital Model は未実装。",
+    "ACTIVE / STRESSED 自動出力は将来の Capital Supply data source 接続後に再評価する。"
+  ],
+  "overclaimPrevention": "完了報告では Current Phase: Narrative Observation Only であり、Potential Future Capital Supply の早期警戒 sensor に限定し、actual absorption、market liquidity、market conclusion、risk upgrade、trading signal は未実装と明記する。"
+}
