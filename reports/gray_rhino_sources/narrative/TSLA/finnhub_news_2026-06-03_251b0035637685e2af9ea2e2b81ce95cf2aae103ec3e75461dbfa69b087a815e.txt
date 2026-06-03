@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Used Cybertrucks Are Selling Fast, but This Is Tesla’s Most Important Model
+  summary: Tesla  recently added pre-owned Cybertrucks to its website.  Tesla didn’t respond to a request for comment about its pre-owned Cybertruck inventory.  Tesla has sold about 63,000 Cybertrucks in the U.S. since its launch in November 2023.
+  url: https://finnhub.io/api/news?id=0972799625d06fe286ad673330c7b4d7629ce13a5131bee7c796e4e454e401b0

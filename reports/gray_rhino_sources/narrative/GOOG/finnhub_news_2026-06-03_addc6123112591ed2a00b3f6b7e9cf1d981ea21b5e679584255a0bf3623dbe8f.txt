@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buffett’s Berkshire Hathaway Just Made its First Major AI Investment: Here’s the Next AI Buy It Could Make with its $400 Billion Pile of Cash
+  summary: On June 1, CNBC reported that Berkshire Hathaway (NYSE:BRK-B) invested an additional $10 billion in Alphabet (NASDAQ:GOOGL) through a private stock purchase, deepening its bet on artificial intelligence. The move makes Berkshire Hathaway a meaningful participant in Alphabet’s larger $80 billion equity raise aimed at funding AI infrastructure and global computing capacity expansion. This is Berkshire’s ... Buffett’s Berkshire Hathaway Just Made its First Major AI Investment: Here’s the Next AI Bu
+  url: https://finnhub.io/api/news?id=5008f2119481280c6a2cb2114bf64d5499ab30acbef834627783ca757a6a8664

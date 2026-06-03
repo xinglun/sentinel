@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Faces UK Scrutiny Over NHS Deal
+  summary: UK lawmakers questioned Palantir's healthcare and defense contracts.
+  url: https://finnhub.io/api/news?id=0710510fe766e76dffb1ec4dedde6ecde8ab0a1e5dc9e88845edb0f3ee3353bf

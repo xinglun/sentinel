@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Solar’s Most Hated Year Became Its Best Five Months. The Setup That Explains the 120% Gain.
+  summary: If you bought Invesco Solar ETF (NYSEARCA:TAN) on the last trading day of 2025 at about $49 and checked your account at Monday’s close, your shares were worth about $71, a gain of about 45% in roughly five months. A $10,000 position became about $14,480. The SPDR S&P 500 ETF Trust (NYSEARCA:SPY) over the same ... Solar’s Most Hated Year Became Its Best Five Months. The Setup That Explains the 120% Gain.
+  url: https://finnhub.io/api/news?id=af42d942ba467689e443490714d3793b43d9e7979682ee274a1826b0348a92e0

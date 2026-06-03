@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Faces UK Privacy Backlash What It Means For NHS Contract Risk
+  summary: A Labour led UK parliamentary committee has urged the government to remove Palantir Technologies from the £330m NHS Federated Data Platform contract. The committee cites privacy, national data security, and a perceived mismatch with British values, and recommends using a 2027 break clause to seek alternative providers. This move raises questions around Palantir’s position in sensitive government data projects, particularly in healthcare. Palantir Technologies (NasdaqGS:PLTR) is in focus...
+  url: https://finnhub.io/api/news?id=ba2d2e36d0140262dd557ddecb8c9228f01f8d6e0fb213becb09504306e1fce2

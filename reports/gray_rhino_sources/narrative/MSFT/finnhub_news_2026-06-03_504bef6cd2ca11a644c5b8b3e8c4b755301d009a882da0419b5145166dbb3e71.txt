@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vectra AI Delivers Unified Network Observability Across All Major Cloud Platforms to Stop Hybrid Threats Faster
+  summary: Vectra AI, the cybersecurity AI leader in protecting modern networks from modern attacks, today announced expanded cloud network observability capabilities within the Vectra AI Platform across Amazon Web Services (AWS), Microsoft Azure, Google Cloud Platform (GCP), and Oracle Cloud Infrastructure (OCI). The expanded capabilities advance Vectra AI's unified observability strategy across cloud network planes, cloud control planes, identities, and on-premises environments, helping organizations red
+  url: https://finnhub.io/api/news?id=0e1200fa215fd0bbf649f4d1b89d2327b5206a17c2ee4fe1bc1a819f36489109

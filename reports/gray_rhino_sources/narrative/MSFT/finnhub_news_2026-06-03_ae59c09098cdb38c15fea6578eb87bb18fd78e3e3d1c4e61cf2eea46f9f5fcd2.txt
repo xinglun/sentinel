@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Intel: Buy This Ultra-Efficient, Cash-Generative Semiconductor Juggernaut Instead
+  summary: Intel (NASDAQ:INTC) is dominating semiconductor headlines again, riding CHIPS Act drama, a U.S. government equity stake, and CEO Lip-Bu Tan’s sweeping turnaround narrative. Intel’s Financials Tell a Different Story Strip away the headlines and the numbers are ugly. Q1 fiscal 2026 revenue came in at $13.58 billion, up 7.2% year over year, but Intel posted ... Forget Intel: Buy This Ultra-Efficient, Cash-Generative Semiconductor Juggernaut Instead
+  url: https://finnhub.io/api/news?id=cc4c6845e07d0a50326d33b2549154e59d99755333ac7e8d45a696e9ba04045a

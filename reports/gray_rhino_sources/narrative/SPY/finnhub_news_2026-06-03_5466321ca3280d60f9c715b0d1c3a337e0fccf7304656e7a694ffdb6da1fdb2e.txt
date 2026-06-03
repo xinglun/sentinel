@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Market Looks Insane: But It's A Stock Picker's Dream
+  summary: The market is dominated by AI-driven growth, leading to extreme valuations and concentration in a handful of stocks. Click here to read more on my analysis.
+  url: https://finnhub.io/api/news?id=304bf626a0e2b1364ab64334ee1e559837bbaa982ad0d2f64ae589877802e0e0

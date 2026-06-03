@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ondas May Be Just Getting Started
+  summary: Ondas Q1 revenue surged 1,079% YoY; backlog hit $457M; FY2026 guide â¥$390M.
+  url: https://finnhub.io/api/news?id=ecd9f3c023739ab1bce9e2b84f1cd501ade78377fe995cf16d2e5bf8ce7f1dc2

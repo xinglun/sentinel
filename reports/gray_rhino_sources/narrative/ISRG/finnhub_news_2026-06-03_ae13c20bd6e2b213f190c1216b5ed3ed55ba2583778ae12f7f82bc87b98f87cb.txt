@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The New Robotics Giant Trying To Gouge Intuitive Surgical's Lead
+  summary: Medtronic stock jumped Wednesday after the medical products giant said it requested new clearances for its robotic surgery system.
+  url: https://finnhub.io/api/news?id=6cdac8a389191b98a18d1a2b224bfab377e0b6e5f2ad95938883b9a14d597a04

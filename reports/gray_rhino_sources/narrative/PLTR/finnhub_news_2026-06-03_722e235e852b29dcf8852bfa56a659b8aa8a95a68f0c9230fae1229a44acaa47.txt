@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: High Growth Tech Stocks To Watch In US June 2026
+  summary: The United States market has recently seen a 1.2% increase over the past week and an impressive 27% rise over the last year, with earnings expected to grow by 17% annually. In this thriving environment, identifying high-growth tech stocks involves focusing on companies with strong innovation potential and scalability that align well with these positive market trends.
+  url: https://finnhub.io/api/news?id=897dd04e84ee51dc8c6693a83a782ce545f897990a8264313ad497c0d7b14a05

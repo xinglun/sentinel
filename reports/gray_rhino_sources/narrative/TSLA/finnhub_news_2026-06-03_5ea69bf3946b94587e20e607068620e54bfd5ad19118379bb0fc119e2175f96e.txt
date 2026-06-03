@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Tesla's Improving Europe Story Change the Investment Thesis?
+  summary: TSLA's Europe registrations are rebounding fast, but the stock's case still hinges on robotaxis, AI and Optimus as capex rises.
+  url: https://finnhub.io/api/news?id=bb97a6c9050c6a7266797ddb96c18170173c8e77de63caa67ea000ca2a7e2427

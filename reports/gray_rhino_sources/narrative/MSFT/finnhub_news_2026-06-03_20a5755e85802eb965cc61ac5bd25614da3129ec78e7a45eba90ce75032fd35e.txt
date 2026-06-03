@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Deepens Healthcare AI Push And Eases OpenAI Reliance For Investors
+  summary: Microsoft (NasdaqGS:MSFT) has launched new healthcare and life sciences AI collaborations, including a frontier clinical reasoning model co-developed with Mayo Clinic. The company also announced partnerships with Cortechs.ai, First Foundation Labs, and Causaly to embed advanced AI into clinical workflows and R&D. Microsoft introduced seven new in-house AI models, including its first reasoning model, MAI-Thinking-1, developed by its superintelligence team. The company restructured its OpenAI...
+  url: https://finnhub.io/api/news?id=eab5c7bb3d1cf05ea337f46b37b0a2ca60d9f22c7d8e9e0d256cdec93133a71d

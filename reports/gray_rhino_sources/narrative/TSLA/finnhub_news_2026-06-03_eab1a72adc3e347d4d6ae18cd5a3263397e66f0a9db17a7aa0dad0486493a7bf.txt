@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lucid Short Interest Soars Again
+  summary: Lucid (LCID) misses Q1 estimates as cash burn soars, margins dive and short interest spikes.
+  url: https://finnhub.io/api/news?id=2656f4200457a9b5a8ebec68b8d8f46c7e5ea11dcc88e9df3fa21c8af959917f

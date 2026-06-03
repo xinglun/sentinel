@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Falls Amid Latest Trump Comments On Iran; Palo Alto Slides On Earnings (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index dropped Wednesday after Trump's latest U.S.-Iran comments. Palo Alto stock sold off on earnings.
+  url: https://finnhub.io/api/news?id=df501b2d134a4a6e880d8f0ecaabe182a395f90e55882c971584831700771ef7

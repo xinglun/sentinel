@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Shock Looms, But Q2 GDP Still Looks Surprisingly Strong
+  summary: US economy isnât immune to energy shock continuing to reverberate from Middle East, but the fallout may be hard to spot in the upcoming secondâquarter GDP report. Read more here.
+  url: https://finnhub.io/api/news?id=bf0b9a0542c7ee25e3369c65a749321ffe30f352be2a3f1dc388ae0dcd07824f

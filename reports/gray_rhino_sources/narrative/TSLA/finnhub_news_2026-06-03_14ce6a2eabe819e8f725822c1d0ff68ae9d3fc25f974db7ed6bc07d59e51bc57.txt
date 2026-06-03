@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Tim Draper uses AI to screen million-dollar ideas — how you can use the same tech to pick stocks like a pro
+  summary: It starts with pitch decks and ends with your portfolio.
+  url: https://finnhub.io/api/news?id=073d273bdae727bbe1b8b52a38fec74629e73dce5a801d6e2c46d9fa59ecacc9

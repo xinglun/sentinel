@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Not Concerned About Palantir's Valuation Anymore
+  summary: Palantir's Q1 FY26 revenue surged 85% as guidance rose and margins expanded; click here to read why PLTR trades at a discount vs. SNOW/CRWD.
+  url: https://finnhub.io/api/news?id=5df58f2183a2962d1972358849fc3aa808a56e91b5b929fd5c80d1f50a014042

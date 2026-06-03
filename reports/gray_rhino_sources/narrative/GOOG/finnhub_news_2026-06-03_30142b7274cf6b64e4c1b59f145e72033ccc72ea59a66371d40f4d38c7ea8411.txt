@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet to raise $84.75 billion in upsized equity offering to fund AI ambitions
+  summary: Alphabet has increased the size of its equity offerings to $84.75 billion, in a sign ‌of strong investor appetite for big tech companies as ‌they expand their AI infrastructure and computing power.  On Monday, the Google parent ​said it would raise $80 billion, as big tech companies compete to out-build each other with AI data centers to get ahead in what executives see as a once-in-a-generation AI race.  In a ‌filing dated June ⁠2, Alphabet said it now aimed to raise $18 billion through the sale of Class A and ⁠C shares and $16.75 billion from depositary shares.
+  url: https://finnhub.io/api/news?id=bcd06c51f124e9b18726153d86042bbd960a2e2fd376d6f4ba14ca8aa8c0bdda

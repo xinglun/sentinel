@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Underdog Gets $10 Billion Endorsement from an Unlikely Backer
+  summary: It’s hard to believe that some might consider Alphabet (NASDAQ:GOOG) to be an underdog in the AI race. Indeed, it wasn’t all too long ago when it was Gemini that was hogging the headlines as it began to nip away at the market share of ChatGPT, as the model hit the ground running when OpenAI ... AI Underdog Gets $10 Billion Endorsement from an Unlikely Backer
+  url: https://finnhub.io/api/news?id=912902db0a059618fe28920e07fc0e3682764722c70d30d2616ee8e80b014870

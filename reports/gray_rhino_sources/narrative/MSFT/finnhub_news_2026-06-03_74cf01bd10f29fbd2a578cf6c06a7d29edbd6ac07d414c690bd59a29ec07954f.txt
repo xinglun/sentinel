@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EU tech sovereignty package targets U.S. cloud giants
+  summary: The European Commission's Cloud and AI Development Act would bar Amazon, Google, and Microsoft from critical state tenders and triple EU data center capacity
+  url: https://finnhub.io/api/news?id=094f6fdb2c98de6068f6fd7217de13e05f2f1b2ec3cc19499aa29713b27eee0f

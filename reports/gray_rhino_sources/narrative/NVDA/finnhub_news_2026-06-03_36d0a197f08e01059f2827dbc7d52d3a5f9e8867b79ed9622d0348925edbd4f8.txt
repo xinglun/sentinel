@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palo Alto Networks Stock Is Sinking Today
+  summary: Palo Alto just published a strong quarterly report. So why is the stock falling?
+  url: https://finnhub.io/api/news?id=c1d0fb1ab2585d5f9dc79e2397849164a9aa7a7593d9161bb47ff1036e6f3a0b

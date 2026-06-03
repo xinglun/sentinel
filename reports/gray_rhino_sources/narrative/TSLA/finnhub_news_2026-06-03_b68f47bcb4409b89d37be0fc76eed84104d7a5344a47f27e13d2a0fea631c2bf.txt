@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO Could Trigger $30 Trillion Worth Of 401(k), Retirement Money To Buy SPCX As Dan Ives Predicts Tesla Merger In 2027
+  summary: Elon Musk-led SpaceX‘s upcoming IPO could trigger retirement funds, including 401 (k) accounts, worth trillions to invest in the commercial space flight giant following its June public listing. $30 Trillion Worth Of Retirement Funds In a post on X on...
+  url: https://finnhub.io/api/news?id=ba9fe1133b6142b346ee05e96c5cdb1423369471ea2e05f9c6128268c199c27b

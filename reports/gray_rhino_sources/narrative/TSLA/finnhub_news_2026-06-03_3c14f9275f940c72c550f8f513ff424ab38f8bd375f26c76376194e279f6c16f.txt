@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Faces China FSD Lawsuit As Robotics And Valuation Risks Grow
+  summary: Chinese consumers have filed a new class-action lawsuit against Tesla (NasdaqGS:TSLA) alleging fraudulent marketing and consumer deception related to its Full Self-Driving feature in China. The case targets Tesla's largest international market and raises questions around how the company presents its advanced driver assistance capabilities. At the same time, Tesla's humanoid robotics and autonomy ambitions face sharper competition as OpenAI launches a robotics division and Nvidia expands its...
+  url: https://finnhub.io/api/news?id=11f6296e1ac03f66dd7c950915d3cd579edf723ce08b5be749935ae4e0c4597c

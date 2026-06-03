@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arpio Raises $15 Million to Advance AI-Native Automated Recovery Platform for Cloud Environments
+  summary: DURHAM, N.C., June 03, 2026--Arpio, a recovery & resilience platform for cloud environments, announces a $15M Series A financing led by S3 Ventures & Paladin Capital Group.
+  url: https://finnhub.io/api/news?id=21bb10f321c97af6fc80634936713862a9fa6e8559af40d5a53e0e360ee6873d

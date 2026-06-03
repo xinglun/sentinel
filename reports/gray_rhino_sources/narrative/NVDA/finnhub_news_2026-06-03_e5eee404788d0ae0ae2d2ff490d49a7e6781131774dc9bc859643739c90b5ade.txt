@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FuelCell Energy Plunges 10%, Plug Power Falls 6% in Fuel Cell Rout as Bloom Energy Slips
+  summary: Fuel cell stocks are taking a sharp step back midday Wednesday, with FuelCell Energy (NASDAQ:FCEL) leading the decline. FuelCell Energy shares are down 10% to around $22, after closing Tuesday at $24.64. Plug Power (NASDAQ:PLUG) shares are off 6% to around $3.83, while Bloom Energy (NYSE:BE) is slipping a more modest 3% to around $294. ... FuelCell Energy Plunges 10%, Plug Power Falls 6% in Fuel Cell Rout as Bloom Energy Slips
+  url: https://finnhub.io/api/news?id=eec3ddee5ff2f6108f3f1197877a334bb9e5d8110192e87c09f05effe583f3c9

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Geopolitical tensions impact AI, energy, and defense stocks
+  summary: The video discusses how escalating geopolitical tensions are driving changes in the physical economy, affecting crude oil prices and boosting defense companies like Lockheed Martin and Raytheon. It also explores the evolving role of AI in warfare, with OpenAI and Palantir taking different stances on defense contracts. The conversation further delves into the impact on chip technology, highlighting Broadcom's strong performance and the vulnerabilities of memory chip production in South Korea, which could benefit onshore companies like Micron.
+  url: https://finnhub.io/api/news?id=d95c3c528ba6128c477fb4c87b7522c657d23c83b9cc1ed7625d25af9df1574c

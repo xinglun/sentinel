@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Deloitte Collaborates with Google Cloud and Wiz on Human-in-the-Loop, AI-Powered Cyber Defense
+  summary: Deloitte Collaborates with Google Cloud and Wiz on Human-in-the-Loop, AI-Powered Cyber Defense
+  url: https://finnhub.io/api/news?id=7b69c82dff00bd76332ccc753e6415fed17c34449af0c755b806f8b8c822f7ad

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir faces fresh skepticism from Michael Burry
+  summary: PLTR Tests Investor Patience Near Key Resistance Zone
+  url: https://finnhub.io/api/news?id=d6ca46ee793bcee7ca1f7cb1dd4f14b774c0a18a90260aa0c381aeb945dbe830

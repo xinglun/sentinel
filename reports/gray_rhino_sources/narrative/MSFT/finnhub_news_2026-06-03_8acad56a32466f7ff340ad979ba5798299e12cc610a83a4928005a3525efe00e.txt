@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pinecone Nexus Now Integrates with Microsoft OneLake, Bringing AI Agents Directly to Enterprise Data
+  summary: Pinecone, trusted knowledge infrastructure for AI, today at Microsoft Build announced a new integration connecting Pinecone Nexus and Microsoft OneLake. This integration changes how enterprise AI agents get the information they need. It shifts the process from slow, expensive retrieval to fast, structured, cited responses built directly from data organizations already have in the Microsoft ecosystem.
+  url: https://finnhub.io/api/news?id=7dfd2f5bd56a5b9296c9a1b9f13d7508a30927fe46dc85747306c4f72c65b3e4

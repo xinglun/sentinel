@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Longer Can Musk's Vision Support Tesla's 400x P/E
+  summary: Tesla, Inc. stock looks overpriced: 400x P/E, falling margins, surging CapEx and negative FCF as AI/robotaxi bets lag earnings. Click for this TSLA update.
+  url: https://finnhub.io/api/news?id=53aef7a8d301bd62f073ea1e8a97db46d992662b8939605d3f3379f6729159f3

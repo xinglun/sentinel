@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CBOE: Post The CFTC Decision, Let's See If This Is Still A Good Option
+  summary: CBOE Q1 2026 earnings beat: revenue +29% as shares fall 25% on Bitcoin perpetual futures competition.
+  url: https://finnhub.io/api/news?id=05d18dbdd5eee1e76e3305d244b37a7052ff74242c09e1f4a9e6e0fb2d7ec506

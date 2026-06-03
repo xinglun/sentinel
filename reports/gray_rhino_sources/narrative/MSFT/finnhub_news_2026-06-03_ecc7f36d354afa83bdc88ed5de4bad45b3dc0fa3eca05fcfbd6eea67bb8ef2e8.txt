@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unstructured Expands Integration with Microsoft Azure to Power Enterprise AI Workflows
+  summary: SAN FRANCISCO, June 03, 2026--Unstructured, the enterprise platform for transforming unstructured data into AI-ready structured data, today announced a collaboration with Microsoft to help enterprises accelerate adoption of generative AI, retrieval-augmented generation (RAG), and agentic AI workflows on Microsoft Azure.
+  url: https://finnhub.io/api/news?id=b327d49777eff9877eda09a07a028d47ae378d6b08ec4e7aa82cc37fd2871bc8

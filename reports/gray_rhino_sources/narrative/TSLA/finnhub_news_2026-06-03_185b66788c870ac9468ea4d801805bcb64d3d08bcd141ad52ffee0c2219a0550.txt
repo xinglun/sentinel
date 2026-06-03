@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla And SpaceX Merger By 2027? Here's Why Wedbush Believes Odds Have Jumped Above 80%
+  summary: Wedbush highlighted several developments that it believes are bringing Tesla and SpaceX into closer alignment, including the EV giant’s $2 billion investment in SPCX.
+  url: https://finnhub.io/api/news?id=d971bf31f9385317570eb23a962c24f805b11c975f9c9cd8ac47b924f5f16587

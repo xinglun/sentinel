@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Medtronic Stock Is Defying a Market Selloff After Earnings. Here’s Why.
+  summary: The medical device maker posts fiscal fourth-quarter earnings and revenue that narrowly beat analysts’ estimates.
+  url: https://finnhub.io/api/news?id=ebd861180fcb78573359ce78f6c72956695c7f3e8dc937b0b4a2fb609e530255

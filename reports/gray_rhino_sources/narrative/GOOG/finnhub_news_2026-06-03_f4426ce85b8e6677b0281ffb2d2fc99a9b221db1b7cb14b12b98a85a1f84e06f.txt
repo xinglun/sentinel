@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Under Buffett’s Successor Makes $10 Billion AI Bet
+  summary: All eyes were on what Berkshire Hathaway (NYSE:BRK.B) was up to in its very first quarter with Warren Buffett’s successor, Greg Abel, at the helm. We’ve all heard about the size of the shoes that Abel will need to fill as the new CEO of the legendary conglomerate. In the first quarter, Mr. Abel did ... Berkshire Under Buffett’s Successor Makes $10 Billion AI Bet
+  url: https://finnhub.io/api/news?id=126cf53ef2d21b52c52462e39ddb985693a48860f2d09cd0329c2365678d7a5f

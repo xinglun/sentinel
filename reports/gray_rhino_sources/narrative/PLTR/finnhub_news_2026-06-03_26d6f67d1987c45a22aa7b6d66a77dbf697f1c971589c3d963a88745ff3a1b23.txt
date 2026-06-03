@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The Bottom May Be In; Next Stop $250 (Technical Analysis)
+  summary: Palantir is a Strong Buy with a $250 PT by 2027, supported by robust technical momentum and an AI-driven competitive moat. Click to read more on PLTR stock.
+  url: https://finnhub.io/api/news?id=b1e7599221709bafd4cd3b4143e776de70ec1c1f78ad638fdf4d9de45cebd002

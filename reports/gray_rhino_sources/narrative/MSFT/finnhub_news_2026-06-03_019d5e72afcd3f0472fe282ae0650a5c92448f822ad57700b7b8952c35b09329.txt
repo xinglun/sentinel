@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Are 4 Companies Valued at Over $3 Trillion. These Are the 2 That I Would Load Up on Right Now.
+  summary: They've proven to be two of the most thorough tech companies in the world.
+  url: https://finnhub.io/api/news?id=51ee0359a55219083d007edeb31c0e8603b094665d985f781cde88cb2cb28dd7

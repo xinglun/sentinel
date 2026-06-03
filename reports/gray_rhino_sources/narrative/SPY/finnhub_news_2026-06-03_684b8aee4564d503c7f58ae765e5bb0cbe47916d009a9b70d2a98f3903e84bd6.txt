@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inflation Cycle Rotation Drives Gold To World's Premiere Reserve Asset
+  summary: I believe the 60/40 stock-bond allocation model is fundamentally broken in todayâs inflationary environment, requiring a strategic shift in asset allocation.
+  url: https://finnhub.io/api/news?id=32f0c013c6aaf98efd2fabd515b70f73f95bf0be26b1bf397fa9ecda8c48c172

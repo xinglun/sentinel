@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Jumped 13% in May
+  summary: It was on the heels of a favorable report.
+  url: https://finnhub.io/api/news?id=eb7c3aa9878b62ba6c6d6b8d40f53a7a76e13dd681fc93543c2a69903a737511

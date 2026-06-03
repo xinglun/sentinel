@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Not Nvidia. Not Micron. This Underrated Artificial Intelligence (AI) Infrastructure Stock Will Be the Biggest Winner of 2026
+  summary: This AI infrastructure stock took off following its latest quarterly report, and it is still trading at an incredibly attractive valuation.
+  url: https://finnhub.io/api/news?id=a86aaca0b222cad63ec74b1cea47408c4434d18286bd622a1f6f2eb47d9bee19

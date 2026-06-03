@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Steps In As Inflation Reignites And The Treasury Market Hints At A Rate Hike
+  summary: Ahead of Warsh's debut as the top Fed banker, monetary policy is essentially neutral for the first time in 2Â½ yrs, according to TMC Researchâs estimate. Inflation, though, is trending higher
+  url: https://finnhub.io/api/news?id=ac8c7186b5da4e47df20ecc6d6e4aabf511d6b776a42312ec9f0b088449d0d19

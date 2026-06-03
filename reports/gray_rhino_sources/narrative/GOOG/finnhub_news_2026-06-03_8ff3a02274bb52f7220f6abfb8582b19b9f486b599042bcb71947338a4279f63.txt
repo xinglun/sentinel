@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Stock, Google And More Lure Investors In Frothy Market. How To Stay Grounded.
+  summary: Apple stock, Alphabet, ASML and more ride the market's power trend. But they also offer lessons on when and how to buy stocks.
+  url: https://finnhub.io/api/news?id=a81080b3d34a7c49b31cfd3c08fe1545d1b5341f2d81c540a87b9ee165d6e9c3

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: G&A Issues Resource Paper to Help Tech Suppliers Meet Customer Climate Requests
+  summary: New Publication Outlines Big Tech Climate Requirements, Provides Roadmap for Suppliers to Meet Expectations NEW YORK CITY, NY / ACCESS Newswire / June 3, 2026 / Governance & Accountability Institute (G&A), a leading sustainability consulting and research ...
+  url: https://finnhub.io/api/news?id=8f1324147a2d447aad0d662153904ca4636519b5b820322604bbe3108ba06d4b

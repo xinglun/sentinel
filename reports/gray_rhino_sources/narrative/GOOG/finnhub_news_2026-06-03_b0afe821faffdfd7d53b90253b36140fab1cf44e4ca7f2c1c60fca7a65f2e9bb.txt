@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet’s Gemini app surges to 900M users amid $84.75 billion raise
+  summary: Investing.com -- Alphabet Inc. (NASDAQ:GOOG, NASDAQ:GOOGL) announced a $84.75 billion capital raise to fund artificial intelligence infrastructure expansion as the company disclosed record growth across its Gemini platform and cloud services.
+  url: https://finnhub.io/api/news?id=33b9ca21440073ccf65a62122a50c49be59be4294de223bc96424eab24988dca

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs CEO David Solomon Thinks There's Enough "Greed" to Absorb the SpaceX, OpenAI, and Anthropic IPOs
+  summary: Goldman Sachs stands to benefit from a big IPO push, so it's not shocking that its CEO is upbeat about investor demand for now.
+  url: https://finnhub.io/api/news?id=b27a7f8fd4b9842868cb45d767cbe6057d7ddc14c97d5c4521e92f100940f51c

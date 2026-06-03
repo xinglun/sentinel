@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: You Think You Own the S&P 500. You Mostly Own a Few AI Stocks — and the Rest Is Growing at Zero
+  summary: Lance Roberts of RIA Advisors joined Adam Taggart on the Thoughtful Money podcast and brought a sharper version of the market concentration argument that retirement investors holding broad S&P 500 index funds may want to pay attention to. The 0% Growth Finding Roberts walked through cumulative year-to-date changes in consensus 2027 EPS estimates, and the ... You Think You Own the S&P 500. You Mostly Own a Few AI Stocks — and the Rest Is Growing at Zero
+  url: https://finnhub.io/api/news?id=8c637fd5a4165ec8139a7089249214558598c87d2e81f28cd212e31f8aae55e9

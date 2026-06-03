@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Partners Group Exposes Private Equity's Liquidity Mismatch
+  summary: The Swiss alternative asset pioneer locks down its $8.6 billion vehicle, triggering a historic sector-wide sell-off amid intensifying structural strain in the private markets.
+  url: https://finnhub.io/api/news?id=e941ddf21e7c4ec2a18935cb8591074f1bf5d0785d8de498352b79527b80f48f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bonds Are Back - And Retirees Should Be Paying Attention
+  summary: Now, finally, we are seeing a solid case for bond allocations. Learn four reasons to reconsider bond allocations and a concrete strategy to play the bond game.
+  url: https://finnhub.io/api/news?id=20c6ba921e04886b5513918993c0c1513d970b61e469a9ff7f1ecb2242a13b61

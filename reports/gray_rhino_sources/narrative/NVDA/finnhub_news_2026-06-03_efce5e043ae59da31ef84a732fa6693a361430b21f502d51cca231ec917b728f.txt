@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Invest in This Popular ETF Before SpaceX's IPO on June 12?
+  summary: SpaceX is the hottest name in IPOs right now. Should you invest through this ETF?
+  url: https://finnhub.io/api/news?id=c42b816389369046a95d1b58a5066479fe20d888471a3f8be319358d224509f0

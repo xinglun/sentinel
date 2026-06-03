@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uncover Raises $16 Million to Expand Latin America's Leading Media Measurement Platform to The U.S.
+  summary: MMM and media optimization company powers measurement for global brands including Unilever, Burger King and Reckitt, as a large implementation partner for Google's Meridian globally Uncover Founders Uncover Founders SÃO PAULO, June 03, 2026 (GLOBE NEWSWIRE) -- Uncover, Latin America's leading Marketing Mix Modeling (MMM) and media measurement platform, today announced a $16 million Series A led by Cloud9 Capital, with participation from ABSeed Ventures and Endeavor. Already profitable and workin
+  url: https://finnhub.io/api/news?id=574c2ab7948504a7e3bcf9cccbeff15e06cdfee61a4beaffc9883ce2685de647

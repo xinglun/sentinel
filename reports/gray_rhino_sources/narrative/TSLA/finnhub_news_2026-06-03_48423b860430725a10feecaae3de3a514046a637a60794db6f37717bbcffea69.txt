@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are The Latest Odds That Elon Musk Will Merge Tesla And SpaceX
+  summary: Multiple analysts believe a merger between Tesla and SpaceX will happen eventually. Tesla stock was up on Wednesday morning.
+  url: https://finnhub.io/api/news?id=5869e9fbea2f6024dcdc136f8b0f65c1a0c4ca8057be021b33e05ab420a4582a

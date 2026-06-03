@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RLH Equity Partners Announces Agreement for the Acquisition of MCA Connect by Grant Thornton Advisors LLC
+  summary: RLH Equity Partners announced the signing of a definitive agreement by which its portfolio company MCA Connect ("MCA" or the "Company") is to be acquired by Grant Thornton Advisors LLC ("Grant Thornton"). MCA is a premier consulting and technology services provider specializing in digital transformation solutions for manufacturing and distribution enterprises.
+  url: https://finnhub.io/api/news?id=97e32cdd8d2b93ad51fed527f5d80a01ab934b854f085fc0c39b50b0fa83350c

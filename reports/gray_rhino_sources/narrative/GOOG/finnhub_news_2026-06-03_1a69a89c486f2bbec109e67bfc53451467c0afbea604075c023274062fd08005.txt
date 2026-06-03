@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Heads into Earnings as the Quiet Backbone of the AI Build-Out
+  summary: Broadcom has beaten the Zacks Consensus EPS estimate in each of the trailing four quarters.
+  url: https://finnhub.io/api/news?id=2c80fa00e22bd08a429908b2a1778527595feaee7ff2465e7237342631065f24

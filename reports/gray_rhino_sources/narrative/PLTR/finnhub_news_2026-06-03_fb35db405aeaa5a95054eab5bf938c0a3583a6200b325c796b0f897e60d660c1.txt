@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 'Lifeboat Effect': Money Moving From Seat To Stack
+  summary: Shy Balore explains the "Lifeboat Effect" in the software market, where investment is shifting from traditional SaaS companies to the agentic AI stack. He details how AI agents are repricing legacy software and driving growth in orchestration, security, connectivity, and data layers. The discussion includes specific companies like Palantir, Salesforce, CrowdStrike, Zscaler, Cloudflare, Snowflake, and MongoDB.
+  url: https://finnhub.io/api/news?id=bd2c0d00d26f35812109df92140e5ef05e78f963309de5820c1afb4925a4350a

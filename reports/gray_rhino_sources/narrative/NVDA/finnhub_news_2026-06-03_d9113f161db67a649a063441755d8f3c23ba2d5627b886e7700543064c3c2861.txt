@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is UiPath Stock a Buy as Revenue Accelerates?
+  summary: The company saw its revenue and ARR accelerate, but it issued cautious guidance.
+  url: https://finnhub.io/api/news?id=c56610bdc410cddf357ff8a546b6ff2c83a4b4f30d163f3c4491e60e6d54e3a2

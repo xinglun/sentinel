@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Magnificent 7 Stock Is the Ultimate “Set-It-and-Forget-It” Buy
+  summary: Amazon (NASDAQ:AMZN) is a stock worth owning for decades because its three highest-margin engines (AWS, advertising, and subscriptions) are now compounding faster than its low-margin retail business, and that mix shift is structural. For a retirement-focused investor who has watched fads come and go, the appeal here is the unusual combination of a consumer utility, ... This Magnificent 7 Stock Is the Ultimate “Set-It-and-Forget-It” Buy
+  url: https://finnhub.io/api/news?id=f3713eae044f5b7e19c73e005b1581748b57ff38d82b7a9a7f778726e83eb9cb

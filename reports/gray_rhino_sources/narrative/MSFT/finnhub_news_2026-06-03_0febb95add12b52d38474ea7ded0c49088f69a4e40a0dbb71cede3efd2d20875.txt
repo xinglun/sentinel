@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe considering two internal executives for CEO position
+  summary: Investing.com -- Adobe Inc. has narrowed its CEO search to two internal candidates while also exploring external options through a hired search firm, according to a Bloomberg report Wednesday.
+  url: https://finnhub.io/api/news?id=cf0aee110e6b9ae6d369f2ebb018b4f8c00522f666ea02d3ee70d5ac09598f41

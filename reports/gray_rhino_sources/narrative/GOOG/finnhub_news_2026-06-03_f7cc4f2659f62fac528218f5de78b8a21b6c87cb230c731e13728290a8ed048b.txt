@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can META Stock Compound Its Way Higher?
+  summary: Hidden inside Meta's (META) massive advertising machine is a product suite already at a $20 billion annual revenue run rate. This value optimization suite, adopted by businesses for its performance, has more than doubled in the last year. It represents a powerful new layer of monetization, scaling quietly beneath the surface of the core social apps.
+  url: https://finnhub.io/api/news?id=542d8dfa49172355d211fe5a0fbf12a14a812ed287ab1c08a2558c8984e37c10

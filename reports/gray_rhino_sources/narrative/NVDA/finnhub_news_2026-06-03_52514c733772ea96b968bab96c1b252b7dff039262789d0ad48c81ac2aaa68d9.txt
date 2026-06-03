@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agree Realty in a Roth IRA: How to Maximize Income From This Monthly Dividend Net-Lease REIT
+  summary: Real estate investment trust (REIT) distributions do not qualify for preferential dividend tax rates. They flow through to your 1040 as ordinary income, which means every dollar Agree Realty (NYSE: ADC) pays you in a taxable brokerage account gets taxed at your marginal rate. At the 24% federal bracket, a $10,000 Agree dividend stream loses ... Agree Realty in a Roth IRA: How to Maximize Income From This Monthly Dividend Net-Lease REIT
+  url: https://finnhub.io/api/news?id=a5620b119098e3d5faf44e73c6497188cca7de0789d6ff6ccdc33fefdde6d169

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qumulo Announces Expanded Collaboration with Microsoft to Deliver Cloud-Native Storage Relief for the Enterprise Hardware Crisis
+  summary: SEATTLE, June 03, 2026--Qumulo announced an expanded collaboration with Microsoft focused on advanced data services to provide relief for the hardware supply chain crisis.
+  url: https://finnhub.io/api/news?id=5c80fffc62e280c8b986c5a44586eb8073400d3eaf2ffff6e21b2557a856e9be

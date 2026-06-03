@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The SpaceX IPO: 3 of the Biggest Risks to Consider
+  summary: SpaceX's growth story may be captivating, but there are also some significant risks that come with the stock that investors should be wary of.
+  url: https://finnhub.io/api/news?id=a377c51762c50e0d4d0b814c910363171e747d18904a85f2e27b1925a88ff1ab

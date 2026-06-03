@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Investors Finally Get A Benchmark For The Musk Premium
+  summary: For years, Tesla Inc. investors have argued about one question that has never had a clear answer: How much of Tesla’s valuation belongs to Elon Musk? The debate has become increasingly important as Tesla’s market value has grown far beyond...
+  url: https://finnhub.io/api/news?id=c82157c4ead24f960dda1e1381b0b970ebae20994d005fd283d9e1cd231c8284

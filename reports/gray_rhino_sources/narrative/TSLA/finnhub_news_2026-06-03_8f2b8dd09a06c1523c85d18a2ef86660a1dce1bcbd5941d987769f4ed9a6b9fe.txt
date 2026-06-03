@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric vehicles hit 25% of global new car sales in 2025 as China dominates and Norway leads on penetration
+  summary: One in four new cars sold worldwide last year was electric, according to International Energy Agency (IEA) data cited by UBS, marking a landmark moment for the transition away from the internal combustion engine. Global electric vehicle (EV) sales, which include both battery-only cars and...
+  url: https://finnhub.io/api/news?id=f3cda9e18abc45cd7ccd357fe2c5459a4c09f64ae32b294d34a90437a6c6e83d

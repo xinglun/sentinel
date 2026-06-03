@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TeamViewer brings Windows AI API to Assist AR for clearer, smarter remote assistance to frontline workers
+  summary: TeamViewer, the global leader in remote connectivity and digital workplace solutions, has partnered with Microsoft to bring on-device AI capabilities to Assist AR, the remote assistance solution for frontline workers and industrial environments within the TeamViewer Frontline suite. The result is sharper video for remote supporters guiding field technicians, even when the technician is on a weak or unstable mobile connection.
+  url: https://finnhub.io/api/news?id=3bc7f50db8fa74150cc7ac985f45d2f1fd2e3f3d1d640fb1e64c9f4591cd9151

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Navigating Microsoft Corporation (MSFT) Delivered Positive Results Against Market Skepticism
+  summary: Brown Advisory, an investment management company, released its “Brown Advisory Global Leaders Strategy” for the first quarter of 2026 investor letter. A copy of the letter can be downloaded here. The strategy focused on delivering strong long-term performance by investing in a focused portfolio of companies that solve customer problems and provide good returns for […]
+  url: https://finnhub.io/api/news?id=9151450a70b852a9ed66f41df79f9fc2f911a63ef7d59b4442f96e0e66828b26

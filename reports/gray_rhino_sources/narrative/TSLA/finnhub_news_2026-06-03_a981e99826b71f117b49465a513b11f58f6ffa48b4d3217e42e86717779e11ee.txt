@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Lotus Unveils Eletre X Suv With Ultra-Fast Charging
+  summary: Lotus Technology Inc. has announced the launch of orders for the Eletre X, a new hybrid SUV available in mainland Europe. The Eletre X features Lotus' proprietary X-Hybrid architecture, which combines battery electric vehicle performance with internal combustion engine support, allowing for a comprehensive range of over 1,200 kilometers. With ultra-fast charging capabilities, the vehicle can charge from 20-80% in just nine minutes, making it one of the quickest charging electrified vehicles...
+  url: https://finnhub.io/api/news?id=561a9bd0a000cf6e1c8898a367e9d80171db8cb8fa47416678b708c2c0bc87c6

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google to See Variable Margins, Cloud Segment Growth Through 2028, UBS Says
+  summary: Alphabet's (GOOG, GOOGL) Google is set to see "variability" in near-term margins and cloud segment g
+  url: https://finnhub.io/api/news?id=dc263902a4a46e0643969cafdb0b5b2f022292a66827da8f63e0c23c2b951d95

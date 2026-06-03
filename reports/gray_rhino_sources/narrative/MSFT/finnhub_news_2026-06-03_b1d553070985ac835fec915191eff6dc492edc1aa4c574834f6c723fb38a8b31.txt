@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett Bought the World’s Most Dominant AI Company — Then Sold It Within 6 Months
+  summary: The artificial intelligence boom has created plenty of winners, but one company sits at the center of it all. Every major AI player — Nvidia (NASDAQ:NVDA), Advanced Micro Devices (NASDAQ:AMD), Broadcom (NASDAQ:AVGO), Amazon (NASDAQ:AMZN), Microsoft (NASDAQ:MSFT), and Alphabet (NASDAQ:GOOG) — depends on a single manufacturer to turn advanced chip designs into physical products: Taiwan Semiconductor ... Warren Buffett Bought the World’s Most Dominant AI Company — Then Sold It Within 6 Months
+  url: https://finnhub.io/api/news?id=8a64a404cca4a3541f7fe65fbdd793ef43b21f24f1a682456a875bf01c68c7ec

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Plug Power Become the Next Bloom Energy?
+  summary: Booming AI infrastructure spending has sent Bloom Energy soaring. Could Plug Power be the next beneficiary?
+  url: https://finnhub.io/api/news?id=f99f6b35bde86a9fd97824d8852d70728cf323274bac31b2d41011df8d203bbd

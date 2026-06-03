@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: How To Make Money When The Stock Is Choppy
+  summary: Palantir Technologies has bounced between 125 and 160 since February, making the stock a good prospect for a calendar spread.
+  url: https://finnhub.io/api/news?id=9f655732ca24baa7c20c329c87f303a57faeb071c5ce06cd12832ee4519c79ed

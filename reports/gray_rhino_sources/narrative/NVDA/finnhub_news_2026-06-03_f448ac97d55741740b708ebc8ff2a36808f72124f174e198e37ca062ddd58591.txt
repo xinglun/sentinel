@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vanguard Real Estate ETF or Treasuries? You’re Losing Hefty Sums if You Make the Wrong Choice
+  summary: The Vanguard Real Estate ETF (NYSEARCA:VNQ) yields around 3.7% while the 10-year Treasury pays roughly 4.5%, and that gap is making income investors rethink whether VNQ belongs in the portfolio. The honest answer depends entirely on your horizon, because the same fund that looks expensive next to T-bills today is the one that historically rips ... Vanguard Real Estate ETF or Treasuries? You’re Losing Hefty Sums if You Make the Wrong Choice
+  url: https://finnhub.io/api/news?id=e0d26ca21a90193865cff478489030da0c8765d9f0a24a0e91a04692d1cd92f7

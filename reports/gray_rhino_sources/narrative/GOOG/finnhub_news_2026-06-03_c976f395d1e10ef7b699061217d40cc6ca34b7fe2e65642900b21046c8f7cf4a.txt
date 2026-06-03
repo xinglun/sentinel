@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's $80 billion stock sale shows how expensive AI is getting: Chart of the Day
+  summary: Alphabet's planned $80 billion stock sale puts a new price tag on the AI race as Google's cash machine taps Wall Street to keep up.
+  url: https://finnhub.io/api/news?id=33698f028724d2496c79fedbcf1201278998f1dbbebefb82c2d39cb0f4818489

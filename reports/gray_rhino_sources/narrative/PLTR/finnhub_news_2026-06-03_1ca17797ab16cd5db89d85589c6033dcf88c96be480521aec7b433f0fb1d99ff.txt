@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US Equity Futures Mixed Pre-Bell as US, Iran Continue Military Strikes in Middle East
+  summary: US equity futures were mixed pre-bell Wednesday as the US and Iran exchanged military strikes in the
+  url: https://finnhub.io/api/news?id=84f436b4cdab4735eb6db9824a4649c7528f9a05db910847a82dc3d57ab3f78b

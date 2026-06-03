@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Only 4% Of The S&P 500 Is At New Highs: BofA's Hartnett Calls That A March 2000 Echo
+  summary: The S&P 500 keeps printing record highs, yet Bank of America chief investment strategist Michael Hartnett has warned investors that a pattern last seen in March 2000, before the dot-com bubble burst, is unfolding right now. The pattern is breadth....
+  url: https://finnhub.io/api/news?id=c6ac7a8358f60c0a7346bc9eb2122404b141af59d2b9bf8e72d12b7599fef11c

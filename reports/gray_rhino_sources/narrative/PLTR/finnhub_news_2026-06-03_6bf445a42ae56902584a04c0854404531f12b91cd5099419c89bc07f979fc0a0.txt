@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Palantir Will Trade at This Price in Two Years
+  summary: Palantir (NASDAQ:PLTR) just dropped a quarter that should have ended the debate. The company posted 70% revenue growth in Q4 2025, with US commercial revenue exploding 137% year-over-year. CEO Alex Karp called the company “an n of 1”, and the Rule of 40 score hit 127%. Yet shares sit at $160.65, down 9.62% year to ... Prediction: Palantir Will Trade at This Price in Two Years
+  url: https://finnhub.io/api/news?id=c814507bcfd586bca8a639f4b0da31d0744546e8636a9774d3fe8f163a5f981e

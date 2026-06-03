@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Has Been Selling the World's Most Efficient EVs for Years, But Rivian May Have Just Unseated It
+  summary: It's official: Rivian's R2 SUV matches Tesla's industry-leading efficiency and beats Model Y on range.
+  url: https://finnhub.io/api/news?id=c9885e7de267d3fef8d398fc67299102a1261dd59da2b0d374b7e30adc7a367b

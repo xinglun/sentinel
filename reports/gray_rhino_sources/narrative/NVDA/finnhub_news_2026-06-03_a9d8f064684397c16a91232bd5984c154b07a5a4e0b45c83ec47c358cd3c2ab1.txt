@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Jensen Huang: AI Job Losses Are ‘Complete Nonsense,’ AI Driving Hiring Surge Instead
+  summary: Jensen Huang is pushing back hard on the idea that AI is gutting software engineering jobs. Speaking with Bloomberg on June 1, the CEO of NVIDIA (NASDAQ:NVDA) called the prevailing narrative around AI-driven layoffs “Complete nonsense” and argued that the productivity unlocked by agentic AI is pushing companies to hire more engineers. What Huang Actually ... Nvidia CEO Jensen Huang: AI Job Losses Are ‘Complete Nonsense,’ AI Driving Hiring Surge Instead
+  url: https://finnhub.io/api/news?id=b7013f0ba9d843b7077f57a92dceec159a724e5faa59cc2f07ea4433903a9aeb

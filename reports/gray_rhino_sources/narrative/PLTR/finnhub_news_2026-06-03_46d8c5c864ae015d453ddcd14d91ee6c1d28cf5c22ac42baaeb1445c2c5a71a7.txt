@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is About to IPO. History Says a 55% Stock Drop Could Be Coming Next.
+  summary: While SpaceX’s anticipated public debut has Wall Street salivating over what could be the most consequential IPO in a decade, the historical record offers a sobering warning. The company filed its S-1 in May, outlining three business segments: Space (Falcon and Starship launch services), Connectivity (the Starlink broadband network), and AI (X and Grok subscriptions). ... SpaceX Is About to IPO. History Says a 55% Stock Drop Could Be Coming Next.
+  url: https://finnhub.io/api/news?id=e47697534d386cbad38e4c7da98cba4774f9434c45d9fad8f3b90e23295d8747

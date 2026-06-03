@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Hold, or Sell: Palantir Stock At $152?
+  summary: At $152.17, Palantir (NASDAQ:PLTR) looks priced for perfection, even after posting what may be the strongest quarter in enterprise software history. The data analytics firm shattered its Rule of 40 with a score of 145 and grew Q1 2026 revenue 85% year-over-year, yet the stock is down year-to-date while the S&P 500 climbs. Palantir builds ... Buy, Hold, or Sell: Palantir Stock At $152?
+  url: https://finnhub.io/api/news?id=79ef0e055f92c09a5e85f1497988457e3e083a2d21fee302d2b90511842edbaa

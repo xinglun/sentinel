@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Physical Bullion? This Pure-Play Silver Monster Under $30 Is a Screaming Buy
+  summary: Silver crossed deep into record territory this year, and the stocks levered to it have finally started catching up. With bullion prices still elevated and Wall Street’s analyst desks scrambling to update models, single-digit and low-double-digit miners are quietly becoming some of the most interesting risk/reward setups in the market. For retail investors scanning headlines, ... Physical Bullion? This Pure-Play Silver Monster Under $30 Is a Screaming Buy
+  url: https://finnhub.io/api/news?id=2b8cf2c84b1b0ef468638bc7617ad9b3dcc930d09645e7bae13cec14a957f8da

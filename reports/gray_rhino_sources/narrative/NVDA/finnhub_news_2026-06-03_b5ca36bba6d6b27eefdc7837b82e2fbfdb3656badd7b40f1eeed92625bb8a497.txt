@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Technology: How High Can The Stock Realistically Soar?
+  summary: Micron Technology (NASDAQ:MU) just joined the trillion-dollar club after a 19.29% single-day surge on UBS analyst Timothy Arcuri’s price target hike from $535 to $1,625. Micron now trades at $895.88. The question for investors is whether anything is left in the tank. Our 24/7 Wall St. price target for Micron is $476.66 over the next ... Micron Technology: How High Can The Stock Realistically Soar?
+  url: https://finnhub.io/api/news?id=94a737d7d829b2e1dd17f2246f3403a0cbc6be1d277179984ad4f794623c52e9

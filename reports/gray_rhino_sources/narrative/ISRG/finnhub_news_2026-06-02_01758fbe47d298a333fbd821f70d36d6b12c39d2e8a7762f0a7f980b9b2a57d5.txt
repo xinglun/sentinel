@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can ISRG's Digital Roadmap Unlock the Next Phase of Robotic Surgery?
+  summary: Intuitive Surgical is building an AI-driven surgical ecosystem, using da Vinci 5 data and connected workflows to deepen its robotic surgery moat.
+  url: https://finnhub.io/api/news?id=011b95a333e68618e84f5c1580bf13589c43094cbcaca9fbf0203897a1b03ba3

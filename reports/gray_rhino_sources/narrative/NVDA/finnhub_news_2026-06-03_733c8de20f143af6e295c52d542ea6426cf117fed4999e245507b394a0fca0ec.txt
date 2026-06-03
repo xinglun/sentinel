@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's Projected $1.75 Trillion IPO Overvalues the Company By More Than 50%, According to This Wall Street Analyst
+  summary: SpaceX is attempting to go public at the largest valuation ever.
+  url: https://finnhub.io/api/news?id=164978b04b1b7abf8a78a1db58f80ba70c9c7ee45a75a51aa92ab8a92ef1971f

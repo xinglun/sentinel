@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Real Winner in the Anthropic IPO Isn’t Anthropic, OpenAI, or Even Google.
+  summary: As the big wave of mega AI IPOs moves in, the retail crowd is probably eager to punch their ticket. Though it’s tough to tell where valuations will end on day one for the likes of Anthropic, OpenAI, and SpaceX, one thing is almost a guarantee: the trading activity is going to be wild. For ... The Real Winner in the Anthropic IPO Isn’t Anthropic, OpenAI, or Even Google.
+  url: https://finnhub.io/api/news?id=f207acaae0254fc96142da2b4d1198f2a9ab52288e52c76a0c450e67e1110796

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Apple Stock Was Shouting Before the Surge
+  summary: Before the stock took off, management gave investors a live A/B test on its most important product, and the results were unambiguous.
+  url: https://finnhub.io/api/news?id=407a44190c6c974a0632d96d329f42903b045ad8515ffbb005fdc0f8653468eb

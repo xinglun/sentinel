@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ServiceNow vs Palantir: Which Enterprise AI Stock Belongs in a Retirement Portfolio?
+  summary: ServiceNow (NYSE: NOW) and Palantir Technologies (NASDAQ: PLTR) sit on opposite ends of the enterprise artificial intelligence (AI) spectrum, so the question is simple: which one belongs in a retirement portfolio that prioritizes capital preservation and long-term compounding? This is a valuation stress test, not a growth race. Let’s run the numbers. Dimension 1: Valuation ... ServiceNow vs Palantir: Which Enterprise AI Stock Belongs in a Retirement Portfolio?
+  url: https://finnhub.io/api/news?id=881d70aa180a28e41c7a1388a1a6b90f4c766d9e49f4eef60a7a329d5ff9c206

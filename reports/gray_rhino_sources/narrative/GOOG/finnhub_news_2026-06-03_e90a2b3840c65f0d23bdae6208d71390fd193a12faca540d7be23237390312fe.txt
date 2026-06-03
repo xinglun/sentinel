@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta launches enterprise-focused AI 'business agent' to automate daily operations
+  summary: Meta Platforms on Wednesday unveiled an artificial intelligence agent aimed at helping businesses carry out day-to-day operations, positioning the social ‌media giant as a player in the enterprise AI market.  Announced at the company's ‌WhatsApp-focused Conversations conference in London, the new product expands on existing business messaging services by enabling "agentic" capabilities in which ​the assistant can take actions like booking calendar appointments and closing sales on behalf of businesses.  The company said more than 1 million businesses were already using earlier chatbot versions of such agents on WhatsApp and Messenger.
+  url: https://finnhub.io/api/news?id=42d7a3f3772d9140f8286e4062da46d698f17e7f2f9608e5a8ddc720d7a66265

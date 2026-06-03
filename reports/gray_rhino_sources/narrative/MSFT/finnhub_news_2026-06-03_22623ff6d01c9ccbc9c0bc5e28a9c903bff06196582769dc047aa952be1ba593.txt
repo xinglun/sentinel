@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Slid Despite Top and Bottom-Line Beats
+  summary: Impax Asset Management, an investment management firm based in London, specializing in sustainable investing, released its first-quarter 2026 investor letter for its “Impax Global Environmental Markets Fund”. A copy of the letter is available to download here. The Fund stood resilient in the quarter by outperforming its primary benchmark, the MSCI ACWI index. The stock […]
+  url: https://finnhub.io/api/news?id=e00048e071d3e0a28f37ddd5d702dd4935de518e11f12395c5c7fa7d69530fef

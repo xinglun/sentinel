@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Spotify Stock Will Trade at This Price In a Year
+  summary: Spotify (NYSE:SPOT) just delivered a quarter that should have settled the bear case. Premium subscribers hit 293 million, free cash flow surged 54.6% to $824 million, and operating income climbed 40.47%. Yet shares trade at $507.76, down 12.56% year to date. The streaming leader is firing on every operational cylinder, but the stock keeps slipping. ... Spotify Stock Will Trade at This Price In a Year
+  url: https://finnhub.io/api/news?id=434b2f212b467415e0ec8cdd54652c4b18f29d42692b66a95b59a17a10f2d1c9

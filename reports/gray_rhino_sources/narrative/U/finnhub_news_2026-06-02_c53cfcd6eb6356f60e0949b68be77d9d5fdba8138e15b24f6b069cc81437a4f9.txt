@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Piper Sandler Assumes Unity Software at Overweight, Raises Price Target to $40
+  summary: Piper Sandler  analyst James Callahan   assumes Unity Software (NYSE:U) with a Overweight rating and raises Price Target to $40.
+  url: https://finnhub.io/api/news?id=36437a582d5f958e9791eb2c5b3b0eab514e2772b980cdb8d738ec0ddbd8051a

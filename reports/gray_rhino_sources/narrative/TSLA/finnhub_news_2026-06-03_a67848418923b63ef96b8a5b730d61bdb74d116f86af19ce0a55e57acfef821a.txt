@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Andrew Left says he was 'convicted on manipulating Nvidia Facebook and Tesla for telling the truth and making a profit'
+  summary: Prosecutors say the activist author of Citron Research manipulated stocks to pocket $21 million.
+  url: https://finnhub.io/api/news?id=db3fdc31ce0824b63acea3a817b6c2095124c73210561d2244a5b7754b0c9349

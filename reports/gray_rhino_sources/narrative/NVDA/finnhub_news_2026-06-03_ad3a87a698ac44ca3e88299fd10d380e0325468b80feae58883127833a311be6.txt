@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Flex Ties AI Power And Robotics Moves To Long Term Growth Story
+  summary: Flex (NasdaqGS:FLEX) launched new high efficiency power solutions for AI infrastructure at COMPUTEX 2026. The offerings are designed to support NVIDIA's latest AI platforms and other demanding data center workloads. Flex also expanded its robotics partnership with Teradyne Robotics, targeting AI enabled automation in manufacturing. For investors watching the build out of AI hardware, Flex sits in the middle of the action as a global manufacturing and design partner for electronics and...
+  url: https://finnhub.io/api/news?id=f0d9ad56380d9080eba51c800be01e2d1c3b63f2f20c5bd41fc441ed28d7037e

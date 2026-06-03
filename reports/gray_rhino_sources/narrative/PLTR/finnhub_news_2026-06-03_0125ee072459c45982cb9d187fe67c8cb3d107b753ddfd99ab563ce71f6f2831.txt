@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Has Stalled. Now Some Investors Want to Probe Its Human Rights Policies.
+  summary: Two shareholder proposals request independent reports on whether Palantir’s software contributes to human rights abuses by government clients.
+  url: https://finnhub.io/api/news?id=fc5cee3084aac5e0c592a2a1d0ccd29137cbb222bb2f183c680569af0ec68546

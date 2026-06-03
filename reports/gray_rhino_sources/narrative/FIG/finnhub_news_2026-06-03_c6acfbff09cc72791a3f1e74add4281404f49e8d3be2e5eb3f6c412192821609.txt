@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Things To Consider Ahead Of Anthropic's IPO
+  summary: Anthropic is preparing for a high-profile IPO, with recent funding rounds suggesting a potential $1â2.45T valuation. Read why post-IPO volatility is likely.
+  url: https://finnhub.io/api/news?id=880638a4129ae93ac08ded2f0b3f33f1fa2e8a4e1e318b8556d5bebe325c5efc

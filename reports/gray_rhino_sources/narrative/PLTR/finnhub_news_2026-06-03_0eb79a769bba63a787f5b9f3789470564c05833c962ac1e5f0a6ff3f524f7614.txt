@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Platform Shift Rewrites Software Models
+  summary: The market is undergoing a significant platform shift, rewriting software business models in real-time. This transition is causing investor apprehension about software multiples, as the predictability of revenue and cash flow is being challenged. The discussion covers the divergence between the S&P 500 and Nasdaq, the rotation into 'old economy' names, and the impact of AI on software valuations, highlighting companies like Palantir and Jumia, and the implications of Elon Musk's ventures and Google's century bonds.
+  url: https://finnhub.io/api/news?id=f0ed8b326695fe87afd08034bbb1e77beec29a4b14315dc7d535b20edd578b4a
