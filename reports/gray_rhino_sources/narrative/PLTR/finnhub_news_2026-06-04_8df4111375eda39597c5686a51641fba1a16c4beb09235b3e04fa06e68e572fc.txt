@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: McCarthy and Palantir Announce Strategic Partnership to Bring AI to the Construction Field and Beyond
+  summary: ST. LOUIS & MIAMI, June 04, 2026--McCarthy Building Companies Inc., one of America’s oldest privately held national construction companies, and Palantir Technologies Inc. (NASDAQ: PLTR), a global leader in artificial intelligence and data platforms, today announced a multi-year, multi-million dollar strategic partnership to enhance AI and data-driven decision-making across McCarthy’s operations.
+  url: https://finnhub.io/api/news?id=19f51bc9577db0b1de0f101cc5ae7e5a305fa2fd25d3767480030640b2b5a203

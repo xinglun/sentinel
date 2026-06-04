@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: News Flash: You Are the Exit Liquidity for the SpaceX IPO
+  summary: Newly implemented rule changes will allow SpaceX insiders to cash out at the expense of retail investors.
+  url: https://finnhub.io/api/news?id=f81e492cfa20440d8ddc58e702d840b98a79157b5b9629a3d4c7aa62bbd9a2c4

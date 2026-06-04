@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Stock Attracts Cathie Wood’s ARK and Berkshire Hathaway. That’s a Rarity.
+  summary: Cathie Wood and Warren Buffett couldn’t be more different when it comes to investing styles.  Wood’s ARK Invest is known for betting on disruptive tech like AI and robo-taxis, while Buffett spent his 55 years as  Berkshire Hathaway  CEO buying old-fashioned, reliable companies at fair prices.  Google parent Alphabet appears to be the rare stock that fits both strategies.
+  url: https://finnhub.io/api/news?id=a7a96f74a3b7fd81693f4c8e6fe2e96842fe092cdb975cd6c1e07d888f9f7703

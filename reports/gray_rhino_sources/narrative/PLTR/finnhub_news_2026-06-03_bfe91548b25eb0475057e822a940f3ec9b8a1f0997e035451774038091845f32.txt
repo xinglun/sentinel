@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Shares Sink After Michael Burry Calls It a 'Sand Castle'
+  summary: Michael Burry Issues Stark Warning on Palantir Stock
+  url: https://finnhub.io/api/news?id=ed8a627f1e565a4eace87aec0fc5cd010f69135cf62550b413b21bea61c1c945

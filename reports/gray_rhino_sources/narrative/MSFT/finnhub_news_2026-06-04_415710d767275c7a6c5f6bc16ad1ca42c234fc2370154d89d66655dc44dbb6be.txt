@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon's AI ambitions are running into local resistance
+  summary: Layoff Anger Adds Pressure To Big Tech Spending
+  url: https://finnhub.io/api/news?id=c58e2b1b923506332b10617ad85d7b81ff0dbfd5f6a0bfeebeba74b23b60238e

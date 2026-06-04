@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: When Trump Cuts Tariffs on Farm and Construction Equipment, These 5 Stocks Win Big
+  summary: The Trump administration is about to hand five equipment makers a margin gift, and the window to position is closing fast. I’ve been tracking this tariff-relief setup across the industrial complex for months, and per the Marketplace Morning Report’s Nova Safo, tariffs on imported agricultural and manufacturing machinery containing steel, aluminum, and copper drop from ... When Trump Cuts Tariffs on Farm and Construction Equipment, These 5 Stocks Win Big
+  url: https://finnhub.io/api/news?id=b6184afff73e3984b3a41a537939b9e0a77dfba949419df287092027209433af

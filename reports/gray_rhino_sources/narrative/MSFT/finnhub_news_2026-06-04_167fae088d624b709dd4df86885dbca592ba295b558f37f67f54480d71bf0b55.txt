@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix Aims to Use AI to Help Viewers Manage Content Overload
+  summary: (Bloomberg) -- Netflix Inc. is using AI to help customers cut through the noise of content overload, said Elizabeth Stone, the streaming service’s chief product and technology officer.Most Read from BloombergTrump Begins Rebuilding His Tariff Wall, Citing Forced LaborRepublican-Led House Votes to Stop Iran War, Rebuking TrumpGlazer Family Members Study Manchester United Stake SaleTrump to Get Audit Immunity as $1.8 Billion Fund in DoubtRussia Finance Officials Tell Putin War Spending Is Unafford
+  url: https://finnhub.io/api/news?id=6e322a232a18f0a33d9466ec5bdc70e1d16320c74a8b1458655e61489f9b0a76

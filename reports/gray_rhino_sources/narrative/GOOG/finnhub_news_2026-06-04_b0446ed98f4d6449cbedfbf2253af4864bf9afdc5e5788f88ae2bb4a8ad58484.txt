@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A.I. Data Centres Drive Surge In Texas Power Demand
+  summary: Electricity demand in Texas grew 9% in recent months, nearly five ‌times the U.S. average, driven by the expan...
+  url: https://finnhub.io/api/news?id=45de4ce61aa0d726bba09c0e5658ce5e1246a0013db451ada03470b722fe0bf1

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most Income Investors Have Never Heard of These 3 ETFs Paying Over 10 Percent Monthly
+  summary: Three options-overlay ETFs are quietly paying double-digit annual distribution rates on a monthly (or weekly) schedule, and most income investors have never touched them. YieldMax Ultra Option Income Strategy ETF (NYSEARCA:ULTY) is throwing off roughly 50% annualized through weekly checks. NEOS Nasdaq-100 High Income ETF (NASDAQ:QQQI) and NEOS S&P 500 High Income ETF (CBOE:SPYI) sit ... Most Income Investors Have Never Heard of These 3 ETFs Paying Over 10 Percent Monthly
+  url: https://finnhub.io/api/news?id=05552f694b8faddac42bb8a99fd6b46d4ba3dcdeb1e44186441d13e3fb04ec63

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $10 Trillion Bet: Why Insiders Think SpaceX Could Rival Apple by Decade’s End
+  summary: Bloomberg Businessweek aired a segment on June 2, 2026 in which a guest sketched the outer edge of what SpaceX could be worth by the end of the decade. The figure was $10 trillion. That sits at the top of a bull-case range starting at $3 trillion and stepping through $5 trillion. SpaceX is currently ... The $10 Trillion Bet: Why Insiders Think SpaceX Could Rival Apple by Decade’s End
+  url: https://finnhub.io/api/news?id=f35a87a69be102d9e71850a5a2f0a8922ac0617a17533a4e824e334b37ae3600

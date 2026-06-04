@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Investors Vote Down Human Rights Proposals. Why Insiders Prevailed.
+  summary: Two shareholder proposals requested independent reports on whether Palantir’s software contributes to human rights abuses by government clients.
+  url: https://finnhub.io/api/news?id=1cab34e712d910a0b021fb8ac5b7c929df8346893c8338f893294ff76aaa27d9

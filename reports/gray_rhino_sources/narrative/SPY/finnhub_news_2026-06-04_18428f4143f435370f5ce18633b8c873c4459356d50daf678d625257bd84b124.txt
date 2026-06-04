@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Are Signs That A Market Top May Be Forming
+  summary: Market tops rarely announce themselves. They emerge gradually, through overly optimistic expectations and assumptions, subtle shifts in macro picture, and a deterioration in market structure
+  url: https://finnhub.io/api/news?id=25dd2e84e0be2f83f075456f0b7305933bd042470177326e9f9e424b67e1e969

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google's $84 Billion Capital Raise Uses Tools 'Popularized' By Michael Saylor's Strategy, Says Phong Le: Old Wine In A New Bottle? (CORRECTED)
+  summary: Editor’s note: The story has been updated to correct the amount being raised.
+  url: https://finnhub.io/api/news?id=2979a508ba549dae275d124ed81546f9d7e31b746a5e38573e3657fc24124ca2

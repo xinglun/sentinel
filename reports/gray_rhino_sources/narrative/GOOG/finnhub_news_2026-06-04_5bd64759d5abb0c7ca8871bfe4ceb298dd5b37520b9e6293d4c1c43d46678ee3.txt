@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Google’s Record AI Spending May Signal a Turning Point
+  summary: Although the AI buildout has powered Wall Street’s bull market for three years running, the cash required to keep it going is starting to outrun the cash being generated. Google (NASDAQ:GOOGL) guided 2026 capital expenditures to $175 billion to $185 billion, after spending $91.45 billion in 2025. The freshest hook landed this week with reports ... Why Google’s Record AI Spending May Signal a Turning Point
+  url: https://finnhub.io/api/news?id=0110da59c4909fdee8a86f8d7d42813fdbf0044a3d59cb5980855bcf3140ce65

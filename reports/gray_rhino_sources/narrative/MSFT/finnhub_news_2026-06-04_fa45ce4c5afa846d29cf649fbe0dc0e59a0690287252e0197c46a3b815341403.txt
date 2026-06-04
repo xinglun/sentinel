@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Reversing My Sell As Operating Margins Beat Capex Splurge, Revenue Could Surge On AI, Azure
+  summary: Microsoft (MSFT) stock outlook: AI PC launches, Azure growth, and improving margins support upside. Click here to read my most recent analysis.
+  url: https://finnhub.io/api/news?id=94a83d0169158f5d53dd14ed7f6acf69277c932236923300c7971cd748b3a396

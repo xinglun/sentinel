@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $190 Billion and Climbing: Google’s Stunning Equity Raise Signals an Even Bigger AI CapEx Surge
+  summary: The number to focus on is $190 billion, the new top end of Alphabet (NASDAQ:GOOGL)’s 2026 capital expenditure guidance. CFO Anat Ashkenazi walked the Street up to that figure on the Q1 2026 earnings call, telling investors the company was “updating our full year 2026 CapEx guidance range to $180 billion to $190 billion, up ... $190 Billion and Climbing: Google’s Stunning Equity Raise Signals an Even Bigger AI CapEx Surge
+  url: https://finnhub.io/api/news?id=d61eed10cfdbf6bff80ddae0f5b3a424456c46317f842c4872b8d3c864b53d78

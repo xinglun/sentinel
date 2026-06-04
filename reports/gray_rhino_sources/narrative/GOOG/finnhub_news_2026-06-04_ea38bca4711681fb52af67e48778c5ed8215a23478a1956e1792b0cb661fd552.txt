@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Goes Bargain Hunting: 3 Stocks She Just Bought
+  summary: The popular growth investor keeps adding to some of her favorite stocks.
+  url: https://finnhub.io/api/news?id=dcd96d4cb409279a9562306f7ee6181b0b4de65de652bb860d951e320982c7b4

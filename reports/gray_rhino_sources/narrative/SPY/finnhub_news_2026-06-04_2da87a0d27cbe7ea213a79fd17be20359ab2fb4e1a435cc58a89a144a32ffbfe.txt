@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Time To Take Some Chips Off The Table
+  summary: My conviction in the continuation of this rally is now lower, given the lack of healthy pullbacks on the way up since the March lows.
+  url: https://finnhub.io/api/news?id=e6fddfd967f8355be2161ddc0e92321e519ad38a21b6e0572baef51b4aef2688

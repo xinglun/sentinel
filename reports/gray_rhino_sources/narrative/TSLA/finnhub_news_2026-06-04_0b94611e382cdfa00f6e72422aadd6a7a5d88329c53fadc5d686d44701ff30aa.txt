@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian: Wait For The R2 Launch
+  summary: Rivian hit its first full-year gross profit in 2025; the R2 SUV is the key catalyst amid cash burn. Click here to read in detail about the RIVN stock.
+  url: https://finnhub.io/api/news?id=c569a5edc1d8ed77ee7101db144f2f15d0e0c5350ac4412324607dee59999b0d

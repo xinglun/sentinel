@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The White House Is Now Hoarding AI Tokens: How Government Compute Competition Reshapes the AI Trade
+  summary: The hosts of The AI Daily Brief dropped a line this week that should reframe how every investor thinks about the AI capex cycle. “Part of the reason that they were opposing Anthropic’s plan to expand access to Mythos was that they knew that there was a token shortage and they didn’t want other people ... The White House Is Now Hoarding AI Tokens: How Government Compute Competition Reshapes the AI Trade
+  url: https://finnhub.io/api/news?id=31c1ee36edbc990c9cc16313a7573129b767896534a3e93b3ae79524b2de637f

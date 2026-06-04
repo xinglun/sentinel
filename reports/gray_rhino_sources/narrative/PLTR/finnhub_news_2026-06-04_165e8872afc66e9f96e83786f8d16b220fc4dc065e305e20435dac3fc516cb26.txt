@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Lands Major AI Deal With Kirkland & Ellis
+  summary: World's largest law firm deepens AI investment with a custom platform powered by Palantir.
+  url: https://finnhub.io/api/news?id=b01970a23eb4a3d08e7c03d366dc630a3f1a3ae6507e4da22af51179cda30a0b

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google vs. Microsoft: Which Cloud Giant Deserves Your Capital Right Now?
+  summary: If you have room for one mega-cap cloud name in a retirement portfolio right now, the question is simple: Alphabet (NASDAQ:GOOGL) or Microsoft (NASDAQ:MSFT)? Both are minting cash off the AI buildout, but they offer very different risk and reward profiles. Here is the head-to-head across the three dimensions that matter most for income-and-stability investors. ... Google vs. Microsoft: Which Cloud Giant Deserves Your Capital Right Now?
+  url: https://finnhub.io/api/news?id=8b1be52caa2a3c633354015fa7ba28a67e8ac4719c5d125f4285996fef55bdc2

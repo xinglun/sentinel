@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Announces Availability on Google Cloud Marketplace, Including Two-Way Integrations between BigQuery and Foundry and Deep Connectivity between Gemini and AIP
+  summary: MIAMI, June 04, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) today announced a multi-tiered partnership with Google Cloud, enabling first-class integrations across Google Cloud platforms and making Palantir available on Google Cloud Marketplace.
+  url: https://finnhub.io/api/news?id=b3ed35c3285cd76e0e11693cdf64f9835ce82d8304d6c5494dbf1a24b510c5d6

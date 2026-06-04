@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the Market Dipped But Intuitive Surgical, Inc. (ISRG) Gained Today
+  summary: Intuitive Surgical, Inc. (ISRG) reached $407.29 at the closing of the latest trading day, reflecting a +1.24% change compared to its last close.
+  url: https://finnhub.io/api/news?id=c1652266675404cf37908f2c89adf7ea2faba098fdf57e5950a1282b731e51df

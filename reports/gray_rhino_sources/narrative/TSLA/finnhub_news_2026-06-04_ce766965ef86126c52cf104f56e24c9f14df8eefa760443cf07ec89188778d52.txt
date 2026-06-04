@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FTSE 100 Live: Stocks open lower, CMC surges, SpaceX to IPO next week
+  summary: 8.55am: CMC surges to 5yr high but analysts flag risks on outlook On the FTSE 250, CMC Markets has surged 18% to its highest since the summer of 2021. Analyst Julian Roberts at Jefferies said net operating income (NOI) was ahead of the City consensus at £393 million, up 15% YoY and 3%...
+  url: https://finnhub.io/api/news?id=4badfccb776ac8548ee6e782e418ae5ee93aafaa2f0dd2af94ea970610e03475

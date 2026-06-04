@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VOO Becomes First ETF to Reach $1 Trillion: Here's Why
+  summary: VOO became the first ETF to cross $1 trillion in assets, driven by low fees, strong inflows, and a bullish outlook for the S&P 500.
+  url: https://finnhub.io/api/news?id=751c8312942aaa82e906ccbb560c4cd964c7dd3931ef5413a2640c74e3c8d310

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom’s Bloodbath: This Is What a Stock Priced for Perfection Looks Like
+  summary: The stock market has developed a peculiar habit during the artificial intelligence boom: good news is no longer enough. Investors now demand great results, raised guidance, and proof that AI growth is accelerating even faster than expected. Companies can beat earnings estimates, exceed revenue forecasts, and post triple-digit growth in key business segments — and ... Broadcom’s Bloodbath: This Is What a Stock Priced for Perfection Looks Like
+  url: https://finnhub.io/api/news?id=99782790f7db5ebf38ead708d04d25eb50f2cdf0e1a5c2907016134d67c3fd54

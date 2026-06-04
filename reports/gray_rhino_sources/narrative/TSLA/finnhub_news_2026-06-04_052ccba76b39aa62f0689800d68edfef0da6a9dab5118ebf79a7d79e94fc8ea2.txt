@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Targets $75 Billion Capital Raise in Blockbuster IPO
+  summary: Space Exploration Technologies, widely known as SpaceX, is seeking to raise about $75 billion in wha
+  url: https://finnhub.io/api/news?id=3e363bfa4e9dfe94215864cccc372d7e726541830c8178a0b3dae3bd057a3664

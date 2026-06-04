@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm stock under pressure as Nvidia unveils new product
+  summary: Qualcomm's stock was under pressure on June 1 after Nvidia CEO Jensen Huang made a surprise move that rattled the PC chip market. At Taiwan's annual Computex conference, Huang shared that Nvidia (NVDA) is entering the personal computer processor market with a new chip developed in partnership with ...
+  url: https://finnhub.io/api/news?id=11090a04feede06df5c6699888b578349d713dfc68f60713c5e88b2aa4562e18

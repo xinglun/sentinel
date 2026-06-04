@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Oracle Stock A Smart Buy At $230?
+  summary: Oracle (ORCL) stock dropped 5.83% yesterday as investors grew anxious over soaring AI infrastructure costs and locked in gains, snapping a massive three-day rally that had driven shares to annual highs. With the stock now hovering around $230, is it still a smart buy.
+  url: https://finnhub.io/api/news?id=b3fe58142cadfb8429539b97fa1c0d9d6413d604bf4153d8679af18acf9fd34c

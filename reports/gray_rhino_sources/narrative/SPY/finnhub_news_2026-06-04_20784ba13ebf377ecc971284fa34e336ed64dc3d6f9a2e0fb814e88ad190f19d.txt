@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tape Pauses, But the Broader Breadth Trend Is Not Broken Yet
+  summary: Market breadth weakened sharply on June 3, 2026, as daily participation deteriorated across U.S. stocks. SPY and QQQ remain constructive, but IWM continues to lag and the breadth trend moves to neutral-positive.
+  url: https://finnhub.io/api/news?id=ace39a0cdb9d2cac114703903d6983d9cd1610de94f33b20cb7206aa970a5f1f

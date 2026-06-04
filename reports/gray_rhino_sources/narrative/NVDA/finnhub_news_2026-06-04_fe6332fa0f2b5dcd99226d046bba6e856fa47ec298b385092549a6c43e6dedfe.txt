@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Sinks 14% on Soft AI Chip Outlook Despite Earnings Beat, Dragging Down AMD and Intel
+  summary: Shares of Broadcom (NASDAQ:AVGO) are down 14% in Thursday morning trading, sinking to around $410 after closing Wednesday at $479.23. The reversal follows the company’s fiscal Q2 2026 earnings release after the close on June 3. The pain is spreading. Advanced Micro Devices (NASDAQ:AMD) is off 4% to around $521, and Intel (NASDAQ:INTC) is down ... Broadcom Sinks 14% on Soft AI Chip Outlook Despite Earnings Beat, Dragging Down AMD and Intel
+  url: https://finnhub.io/api/news?id=81a30f037615c81b148325cc2e99ed4fe95af168aadf05caaa9dc6d97e9c35c0

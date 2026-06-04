@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lovelace Matches Gemini Deep Research at Less Than 1% of the Cost
+  summary: As enterprises grapple with rising AI infrastructure costs, Lovelace today released benchmark results suggesting that better context, not bigger models, will be the next quantum leap in enterprise AI.
+  url: https://finnhub.io/api/news?id=26384111e213b78a9a6af06429efbecd4b7a0312e50dba550b62b35dbd4741c6

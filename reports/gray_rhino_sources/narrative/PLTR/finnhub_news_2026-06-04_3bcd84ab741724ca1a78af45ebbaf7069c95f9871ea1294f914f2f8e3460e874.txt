@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Space Ecosystem Stocks Rise Ahead Of The SpaceX IPO, What It Means For AI ETF AGIX
+  summary: We believe there is clear demand for SpaceX, but limited options for public market investors to gain exposure.
+  url: https://finnhub.io/api/news?id=7506d752a67cdf939591e8f084c383339830451d34f6175a85bb16d0f8201b09

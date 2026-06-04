@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SCHD-Inspired 4-Factor Dividend Growth Strategy Selections For June 2026
+  summary: The 4-Factor Dividend Growth Strategy, inspired by SCHD, targets high-quality, growth-oriented dividend stocks using a rules-based, four-metric screen.
+  url: https://finnhub.io/api/news?id=112801cad79c1e95a65782eca145a81b188fa5a3487d93b1cd7bf3cdeb15e142

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Energy Transition - SunPower's Strategic Share Move Fuels Financial Flexibility
+  summary: SunPower Inc., a prominent player in the solar technology and services industry, has announced a strategic move to offer bonus shares instead of cash interest for upcoming payments on its Convertible Senior Notes. This approach, aimed at providing the company with increased financial flexibility, aligns with their ongoing efforts to support energy transition goals. As SunPower continues to help customers shift toward more energy-efficient solutions, this proposal indicates a commitment to...
+  url: https://finnhub.io/api/news?id=b6dfc1aa052c224c37120a6577171c4a626c5f39f7df70b589bfef7cc3327291

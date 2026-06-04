@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trend Following, Technical Analysis And Why Price Means Everything
+  summary: Mike Toney-Hoffman shares why he believes in price over everything. Breaking strategy withÂ Marvell. Catching trend trades with miners, SanDiskÂ and Micron. SpaceX excitement.
+  url: https://finnhub.io/api/news?id=baeae295c385f563702331f0b8538aef63e44e7af1a1638c8decdc0d5d82a1ca

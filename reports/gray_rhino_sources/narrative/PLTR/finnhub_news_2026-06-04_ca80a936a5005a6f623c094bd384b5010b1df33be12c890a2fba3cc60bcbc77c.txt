@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Signs AI Platform Agreements With Kirkland & Ellis, McCarthy Building, GNP Seguros
+  summary: Palantir Technologies (PLTR) entered into agreements with Kirkland & Ellis, McCarthy Building and GN
+  url: https://finnhub.io/api/news?id=543f4bb054d864e4a92fec87525623946ba788afd337ddbf3e81cd94a74b4ead

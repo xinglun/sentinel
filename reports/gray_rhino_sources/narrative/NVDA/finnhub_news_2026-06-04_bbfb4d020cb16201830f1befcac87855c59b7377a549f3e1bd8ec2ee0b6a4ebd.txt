@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SuperX Launches First U.S. AI Inference Cloud Hub, Strengthening North American AI Service Capabilities
+  summary: SuperX AI Technology Limited ("SuperX" or the "Company"), a full-stack AI infrastructure solutions provider, today announced the launch of its first U.S. AI Inference Cloud Hub (the "Denver Hub") in Denver, Colorado, marking the Company's first operational cloud deployment in North America and an important milestone in its international growth strategy.
+  url: https://finnhub.io/api/news?id=fb1f848d82191958fd5d4d1c8819a8fcbbd4ce2b6734fa836f9c723f52e4615c

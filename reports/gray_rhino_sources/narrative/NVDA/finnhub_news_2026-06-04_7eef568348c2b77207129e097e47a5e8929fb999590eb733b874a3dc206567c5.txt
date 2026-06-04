@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cerebras CEO Just Dropped Blunt News for Nvidia Stock Investors
+  summary: Cerebras Doubles Down on Amazon, OpenAI Deals While Shutting Out Nvidia
+  url: https://finnhub.io/api/news?id=3e1f04c62a14fb96299e2db65fc68eac8aecd504dca64ad217949fcb5d02d55b

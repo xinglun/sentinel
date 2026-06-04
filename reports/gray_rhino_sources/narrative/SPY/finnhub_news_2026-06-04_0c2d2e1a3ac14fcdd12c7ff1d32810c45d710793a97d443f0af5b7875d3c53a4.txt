@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Balance Sheet Bloated From Paying Interest On Reserves
+  summary: The Fed Chair nominee, Kevin Warsh, has indicated he wants to shrink the size of the Fedâs balance sheet. Right now, that is easier said than done.
+  url: https://finnhub.io/api/news?id=981ca33ba814d911d937cf0fe6a5cf185bdaa693e2dd7b7a02e69e36955fc07e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Hidden Cost of Elon Musk’s AI Ambitions Is Bigger Than Most Public Companies
+  summary: Elon Musk’s empire contains a number larger than the entire annual revenue of most public companies on the NYSE. It sits inside SpaceX’s pre-IPO disclosures, and once you see it, Musk’s AI strategy snaps into focus. The Hidden Number Per IPO paperwork, the AI segment inside the combined SpaceX-xAI entity posted a loss from operations ... The Hidden Cost of Elon Musk’s AI Ambitions Is Bigger Than Most Public Companies
+  url: https://finnhub.io/api/news?id=892659ddad7be41c8adbd6666e63b7d21cbe85df79613777d67ba01c8fbacdfb

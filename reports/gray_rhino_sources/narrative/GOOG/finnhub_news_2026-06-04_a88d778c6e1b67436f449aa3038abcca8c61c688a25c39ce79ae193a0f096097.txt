@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Just Had a Record Quarter—and It Just Wasn’t Good Enough
+  summary: Broadcom reported earnings Wednesday after AI-related revenue more than doubled in the prior quarter, with investors focused on guidance and demand from hyperscale customers.
+  url: https://finnhub.io/api/news?id=0d198395746b23899022fcfa16ed0215a0612ed72df3c73ca2fa8b655412fbbb

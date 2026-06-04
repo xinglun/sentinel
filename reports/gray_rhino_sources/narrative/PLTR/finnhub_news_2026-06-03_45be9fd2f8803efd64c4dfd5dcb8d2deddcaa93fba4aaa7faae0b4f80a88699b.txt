@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Defense tech is flooded with money, but who’s built to last?
+  summary: Defense tech is red hot right now. Anduril and Mach Industries just doubled and quadrupled their valuations, respectively, and the U.S. government is proposing a 40% increase in defense budget. A wave of new startups is chasing those government contracts, but according to Ross Fubini, the venture investor who wrote Anduril’s first check, most of them will get lost in the Valley of Death between prototype contract […]
+  url: https://finnhub.io/api/news?id=456daeb4d3210bc5771ebf6005aace7a08e5eafa03b142090e16a388fba62b85

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wednesday's session: top gainers and losers in the S&P500 index
+  summary: Uncover the latest developments among S&P500 stocks in today's session. Stay tuned to the S&P500 index's top gainers and losers on Wednesday.
+  url: https://finnhub.io/api/news?id=6f8333afdbbc628a16bfbf77815d296ed2239843acfb739d18bf69da09e2db13

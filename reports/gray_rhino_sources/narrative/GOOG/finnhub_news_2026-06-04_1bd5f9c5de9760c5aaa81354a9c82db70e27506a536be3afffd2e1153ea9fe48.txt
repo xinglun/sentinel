@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Greg Abel's Latest Pick Speaks Volumes About Berkshire Hathaway's New Strategy
+  summary: The underlying business of Abel's picks isn't surprising or out of place. It's how Berkshire is investing in it that's so telling.
+  url: https://finnhub.io/api/news?id=d25296a0a64da616e37d14f37ba2310151a6b4cc7c875f5b45fd7c99de74bbdb

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fuel Cycle Appoints Former NVIDIA and Google AI Leader Daryush Laqab as Chief Product & AI Officer to Accelerate AI-Native Growth Strategy
+  summary: Today, Fuel Cycle, the AI-powered consumer intelligence platform trusted by Fortune 500 brands, announced the appointment of Daryush Laqab as Chief Product & AI Officer, effective June 1, 2026. Daryush joins Fuel Cycle with more than 20 years of experience building and scaling enterprise AI products at some of the world's most influential technology companies.
+  url: https://finnhub.io/api/news?id=1aab00f7bc971ffe12a0ed7d693a9ed1ee0587cd62987020927a016ef7ca9e4c

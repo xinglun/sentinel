@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vanguard VOO ETF hits $1 trillion in assets, an industry first
+  summary: The milestone arrived Tuesday, fueled by years of low fees and steady cash inflows that have made VOO the world's largest ETF
+  url: https://finnhub.io/api/news?id=d9507dad0c612615915f7129c35db18de63e990bdcba06ed1a0402daad6ba053

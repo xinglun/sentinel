@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Nvidia Stock Is Riding the Chip Selloff Better Than Its Rivals
+  summary: Nvidia stock was suffering comparatively modest losses after Broadcom earnings triggered a chip sector slump.
+  url: https://finnhub.io/api/news?id=41dd2de45836ae7e4160254dc11b96878d6dd6827aca671093cab444aa9c0d3c

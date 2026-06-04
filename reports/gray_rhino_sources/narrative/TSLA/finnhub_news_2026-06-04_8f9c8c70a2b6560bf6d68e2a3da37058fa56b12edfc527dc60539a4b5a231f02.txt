@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Files $75 Billion IPO at Nearly $1.8 Trillion Valuation
+  summary: SpaceX plans a June listing with 555.6 million shares priced at $135 each.
+  url: https://finnhub.io/api/news?id=45b89dff7d164cc58ef79c97b3b1a83b343e462c8da5365226a1a96c370ea9a1

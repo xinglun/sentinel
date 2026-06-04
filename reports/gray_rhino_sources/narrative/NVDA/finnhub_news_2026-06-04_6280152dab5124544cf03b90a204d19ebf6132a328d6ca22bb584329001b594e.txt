@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan Semiconductor Delivers 2,095% Gain Over 10 Years. Will It Continue To Outperform?
+  summary: A decade ago, Taiwan Semiconductor Manufacturing (NYSE: TSM) was respected but boring. It made chips for Apple, Qualcomm, and a long list of fabless designers, and the market valued it like a cyclical industrial. Then the node race got serious. TSMC pulled away from Samsung and Intel at 7nm, then 5nm, then 3nm, and the ... Taiwan Semiconductor Delivers 2,095% Gain Over 10 Years. Will It Continue To Outperform?
+  url: https://finnhub.io/api/news?id=0f4732036a15ed5974d65d8aa3e0b0db4d86a3c9cab4e17d1818d63d0a85bdae

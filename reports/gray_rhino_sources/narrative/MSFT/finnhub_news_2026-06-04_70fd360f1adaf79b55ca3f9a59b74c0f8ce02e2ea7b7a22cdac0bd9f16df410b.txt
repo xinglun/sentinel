@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BB Or NOK: Which Fallen Phone Giant’s Stock Is The Better AI Bet Right Now?
+  summary: BlackBerry and Nokia have reinvented themselves as AI plays, with shares up 156% and 219%, respectively, over the past year.
+  url: https://finnhub.io/api/news?id=32990dc6bea0928aa73dde1e8df4b3ff034f885c8a45908c0d7240daa3a16951

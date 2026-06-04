@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Falls. Robo-Taxi Progress Isn’t Enough.
+  summary: Broadcom’s results were weighing on Tesla shares. If one AI company stubs its toe, other AI companies will say “ow.”
+  url: https://finnhub.io/api/news?id=c05dfc387879ae5368f1165c0ae7dfd015103df4a576bfabe3efae418a7c8b71

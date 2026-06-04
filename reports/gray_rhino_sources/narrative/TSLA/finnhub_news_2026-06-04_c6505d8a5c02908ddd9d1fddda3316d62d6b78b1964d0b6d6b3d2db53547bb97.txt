@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TrueCar Adds Two New Industry Leaders to Strengthen Partnerships with Automakers and Build out New Insurance Vertical
+  summary: TrueCar, one of the most recognized and trusted automotive brands, today announced two key hires: automotive industry veteran Syl Raymond as Senior Director of OEM, and former Tesla and Marsh executive Nik Huyeng as Vice President of Insurance and Ancillary.
+  url: https://finnhub.io/api/news?id=02851216a3747b56e031f1e754957e6fc2ac4d9568391fad275bcaf5f9a4ea7b

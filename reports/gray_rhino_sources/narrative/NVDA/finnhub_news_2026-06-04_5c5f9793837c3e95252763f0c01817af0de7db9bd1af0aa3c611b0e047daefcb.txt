@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD’s $130,000 Decade: U.S. Chipmaker Rises from Near-Bankruptcy to AI Leader
+  summary: Ten years ago, AMD (NASDAQ:AMD) was a punchline. The stock traded around $4.16 in June 2016, the company was bleeding share to Intel, and bankruptcy chatter was still fresh. Then CEO Lisa Su shipped the Zen architecture, Ryzen launched in 2017, and EPYC began chewing through the data center. The acquisition spree followed: Xilinx for ... AMD’s $130,000 Decade: U.S. Chipmaker Rises from Near-Bankruptcy to AI Leader
+  url: https://finnhub.io/api/news?id=22838a7ff58bef78c7d8b26ebd386fac42f82e7cc0591f5f27b1586359319305

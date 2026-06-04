@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Main Street Capital in a Roth IRA: Why the ‘O of BDCs’ Belongs in Your Tax-Free Account
+  summary: Business development companies (BDCs) pay distributions that are taxed mostly as ordinary income, not qualified dividends. For an investor in the 24% federal bracket (income over $105,700 single, $211,400 married filing jointly), that means roughly a quarter of every BDC payment held in a taxable account walks out the door at tax time. Few names ... Main Street Capital in a Roth IRA: Why the ‘O of BDCs’ Belongs in Your Tax-Free Account
+  url: https://finnhub.io/api/news?id=ca0a06d063c81b006cada77a6313ca5ce307fe05fc2906835eebf87d218dbf1c

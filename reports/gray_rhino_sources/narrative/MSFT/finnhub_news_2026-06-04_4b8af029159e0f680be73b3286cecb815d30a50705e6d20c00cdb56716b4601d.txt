@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech's AI Spending Is on Track to Top $700 Billion This Year. Here's Who May Cash In Next.
+  summary: As the hyperscalers pour record sums into data centers, the electric utilities that power them are emerging as an overlooked way to play the boom.
+  url: https://finnhub.io/api/news?id=e6afc7b1a44bc90390fbae719f16b0b83f82f39279e4938436deabb0d6d766ac

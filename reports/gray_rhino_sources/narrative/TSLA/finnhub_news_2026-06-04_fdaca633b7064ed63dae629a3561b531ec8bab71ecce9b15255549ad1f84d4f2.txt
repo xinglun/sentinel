@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want to Buy SpaceX on IPO Day? Here's How.
+  summary: The IPO may happen as soon as June 12.
+  url: https://finnhub.io/api/news?id=503a8a35bd41d9037e93fc7804b88d7f174803d6abb25e2ac149c15a675fd0ca

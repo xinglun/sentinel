@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Expands Robotaxi Service in Austin
+  summary: Unsupervised rides mark another step in Tesla's autonomous driving push.
+  url: https://finnhub.io/api/news?id=cb2db420e0941268cf3d6aaecd05bb95d28a13eae1a99d1c8a3c9e727dc22f09

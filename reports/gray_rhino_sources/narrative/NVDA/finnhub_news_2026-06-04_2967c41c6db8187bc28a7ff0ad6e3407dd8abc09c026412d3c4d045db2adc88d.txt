@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Victoria's Secret Crushed the Quarter, But These Wall Street Analysts Think the Excitement May Be Overdone
+  summary: Victoria's Secret had a great first quarter, leading investors to rush into the stock.
+  url: https://finnhub.io/api/news?id=dfbbab862a7018d6b5a06dd0f7a82847604369f10123c48506efd6b7340bed78

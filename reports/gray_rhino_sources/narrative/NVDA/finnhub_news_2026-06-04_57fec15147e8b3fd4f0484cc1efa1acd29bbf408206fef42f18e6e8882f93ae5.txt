@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Without a Roth, $60,000 in Dividend Income From These 5 Stocks Means You Owe the IRS $22,200
+  summary: At the 37% top federal bracket, a portfolio throwing off $60,000 in non-qualified dividend income hands the IRS $22,200 every April, before state taxes and before the 3.8% net investment income tax (NIIT) surtax that also applies at this income level. That is the cost of holding REITs, BDCs and other ordinary-income dividend payers in ... Without a Roth, $60,000 in Dividend Income From These 5 Stocks Means You Owe the IRS $22,200
+  url: https://finnhub.io/api/news?id=b289290a5863bee8852f58f10b93ae1dc7569d8855dca9be5643c648820004f8

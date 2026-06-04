@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inside the AI Boom's Arctic Outpost
+  summary: Above the Arctic Circle, Nscale is turning a remote Norwegian valley into one of Europe’s largest AI data centers.
+  url: https://finnhub.io/api/news?id=84149760f903ac100e8f501cd19641af9418453d328a7655ccc373581fbbd2a3

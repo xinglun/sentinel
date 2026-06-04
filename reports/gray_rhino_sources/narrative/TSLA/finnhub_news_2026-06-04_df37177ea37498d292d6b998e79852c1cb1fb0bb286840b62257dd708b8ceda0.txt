@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD Challenges Tesla With Accident-Liability Warranty In China
+  summary: BYD's Urban NOA guarantee could raise investor scrutiny on Tesla's self-driving progress and ADAS liability.
+  url: https://finnhub.io/api/news?id=eda778f1d69bdfc88d2e7eeb3332b75142f84e84c0f48f488cc2a54771101a0f

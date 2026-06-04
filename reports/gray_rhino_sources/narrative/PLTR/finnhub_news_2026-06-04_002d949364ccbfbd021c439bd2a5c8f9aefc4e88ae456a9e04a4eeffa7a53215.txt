@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Kirkland & Ellis Partner to Transform Private Equity Fundraising with Exclusive AI-Powered Fund Enterprise Platform
+  summary: MIAMI & CHICAGO, June 04, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) and Kirkland & Ellis today announced the launch of a proprietary enterprise platform designed to transform private equity fundraising. The platform is part of a multiyear partnership expansion to deliver together custom solutions tailored to the needs of Kirkland’s clients by leveraging Palantir’s Artificial Intelligence Platform (AIP). The fund formation engine will enable Kirkland to securely scale its institutional know
+  url: https://finnhub.io/api/news?id=9f37bb0feadefc43abb6ed6bbdee2559216340f227a1db5bed27e5dcd564ab10

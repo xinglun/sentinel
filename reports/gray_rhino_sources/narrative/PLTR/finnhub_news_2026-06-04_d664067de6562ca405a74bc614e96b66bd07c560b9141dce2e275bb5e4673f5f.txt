@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility to Present at Palantir Technologies' AIPCon on June 4, 2026
+  summary: LOS ANGELES, June 04, 2026--Surf Air Mobility (the "Company") (NYSE: SRFM), a leading air mobility platform, today announced the Company’s Co-Founder, Liam Fayed, is presenting at Palantir Technologies' ("Palantir") AIPCon today, June 4, 2026. The Company will demonstrate BrokerOS, its first commercially available SurfOS™ software product, and other AIP-enabled features.
+  url: https://finnhub.io/api/news?id=4fd38d36230c1536cdee6c7bfa0106210123693405e2fbcf8f663d7d92bc5a34

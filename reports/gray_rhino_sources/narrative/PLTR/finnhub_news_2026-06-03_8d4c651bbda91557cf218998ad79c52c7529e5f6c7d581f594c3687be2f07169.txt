@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Trump-Promoted US Stocks to Watch in June
+  summary: Trump-promoted US stocks are in focus in 2026. Here are the key price levels and the bull and bear case for three of the most-watched names.
+  url: https://finnhub.io/api/news?id=862bd608fcd061cf291f2b1a584e22aa6463488796941c1a57afcf5c75542a98

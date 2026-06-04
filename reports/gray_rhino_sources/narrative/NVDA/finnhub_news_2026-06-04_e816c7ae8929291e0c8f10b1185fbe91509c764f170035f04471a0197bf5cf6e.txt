@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did Walmart and Costco Just Trigger a Major Warning for the Market?
+  summary: Both stocks fell after earnings.
+  url: https://finnhub.io/api/news?id=ba5c3796b45ef5faa4a7bb230fee70904e6ec649a7ab9db89dab5c070bd8af5b

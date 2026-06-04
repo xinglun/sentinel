@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom downgraded as Google moves to reduce reliance on chip supplier
+  summary: Investing.com -- Investment bank Macquarie has downgraded Broadcom from Outperform to Neutral, citing growing concerns that key customer Google is increasingly developing its own artificial intelligence (AI) chip capabilities and diversifying suppliers. The firm also cut its 12-month price target on Broadcom by 15% to $437 per share, down from $513.
+  url: https://finnhub.io/api/news?id=3fc396f119b37feef9e56f371c8ece524e5db21711d4c073d93079c80f724556

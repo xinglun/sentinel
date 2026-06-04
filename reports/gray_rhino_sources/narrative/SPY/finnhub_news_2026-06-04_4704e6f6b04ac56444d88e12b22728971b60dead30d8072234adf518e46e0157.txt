@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises, Nasdaq Falls With Jobless Data Due; Broadcom, CrowdStrike Plunge (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Thursday ahead of jobless claims. Broadcom and CrowdStrike plunged on earnings.
+  url: https://finnhub.io/api/news?id=0808e1e2761df6619c24a61e075c1f4cbcc9ed6888cdea3cf541cd519ac9ec09

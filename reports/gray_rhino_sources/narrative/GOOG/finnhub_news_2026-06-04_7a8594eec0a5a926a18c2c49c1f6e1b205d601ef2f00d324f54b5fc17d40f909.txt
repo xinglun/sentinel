@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Beats Q2 But Fails to Impress Wall Street
+  summary: A software miss and unchanged full-year AI chip guidance overshadow a record Q2 beat.
+  url: https://finnhub.io/api/news?id=cc46480b0e1d3d42a7d147b54d7e1b0aa728a43cb1327ce11faefa9fc5cc7e2e

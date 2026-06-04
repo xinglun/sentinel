@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $20 Billion: Inside Nvidia’s VERA CPU Bet to Break the Intel-AMD Duopoly
+  summary: You can argue about almost every line in a NVIDIA (NASDAQ:NVDA) earnings release. The size, the margins, the customer concentration, the China hole. What you cannot argue about is what happens when a company that did zero CPU revenue last year tells you it expects to do $20 billion in CPU revenue this fiscal year. ... $20 Billion: Inside Nvidia’s VERA CPU Bet to Break the Intel-AMD Duopoly
+  url: https://finnhub.io/api/news?id=8b45bed036c37c7d41f92c10ea4ad3235cabade74e481048e3b4c87ce6a01328

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CyberSentriq Appoints Myles Bray as CEO to Accelerate AI-Native Cybersecurity for MSPs and SMBs
+  summary: Company doubles down on AI-driven threat detection, recovery, and resilience for the SMB market LONDON, UK / ACCESS Newswire / June 4, 2026 /CyberSentriq, the AI-native cybersecurity and data protection platform purpose-built for MSPs and SMBs, today ...
+  url: https://finnhub.io/api/news?id=957c516305c237324238a2bd8aaa3ef5ce0532eee06c305305697d1087536a3f

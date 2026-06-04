@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Gating' Moves To Private Equity
+  summary: Partners Group's $8.6B fund gates redemptions as private credit defaults rise. Check out the key risks, NAV impacts, and what investors should watch now.
+  url: https://finnhub.io/api/news?id=3e1f91f9130ed558df76800c28c74b91ddf6520f8d5de76b77912ea66b8416e4

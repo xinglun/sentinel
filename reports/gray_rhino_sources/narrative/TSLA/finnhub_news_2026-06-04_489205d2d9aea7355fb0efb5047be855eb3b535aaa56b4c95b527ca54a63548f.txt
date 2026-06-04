@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO targets $75 billion at $135 per share
+  summary: The rocket and AI company plans to sell 555 million shares at a fixed price, bypassing the traditional price-range method used in most U.S. offerings
+  url: https://finnhub.io/api/news?id=bae9d97267d988ebae01ad99f7538c22022cab9dee5e2ff50aec8a841eb8c72c

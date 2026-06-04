@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG Falls 11% in a Month: Is a Reversal on the Cards for the Stock?
+  summary: Intuitive Surgical falls 11% in a month despite strong revenues, procedure growth and da Vinci 5 adoption, raising questions about a potential rebound.
+  url: https://finnhub.io/api/news?id=3aa723e676b9fc379090c2e94e94af372410aca72b731c66a8cc98d8eb91ed77

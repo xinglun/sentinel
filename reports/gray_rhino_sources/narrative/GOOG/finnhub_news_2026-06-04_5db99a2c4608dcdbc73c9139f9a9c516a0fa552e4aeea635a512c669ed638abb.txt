@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is OpenAI coming for Tesla's robotics business?
+  summary: OpenAI (OPAI.PVT) recently announced it is returning to the robotics business, potentially rivaling Tesla's (TSLA) Optimus robot. Barron's associate editor Al Root discusses the dynamics of the competition in the video above.
+  url: https://finnhub.io/api/news?id=03331922663a71cfdc836935df4a2c9041bc2f4d84f8aea61097bfcebe321d81

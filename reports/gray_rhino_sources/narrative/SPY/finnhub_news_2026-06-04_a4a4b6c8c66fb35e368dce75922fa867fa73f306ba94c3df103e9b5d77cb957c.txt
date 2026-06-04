@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Come The AI Layoffs
+  summary: Stocks hit record highs on AI earnings beats even as $700B AI capex squeezes free cash flow, boosts debt and layoffs rise.
+  url: https://finnhub.io/api/news?id=a7a7268c619b03ed73af4b993919977a640819e60d02ff1ae68952fd50a20572

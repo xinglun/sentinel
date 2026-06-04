@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will NVIDIA's (NVDA) RTX Spark and Vera AI PC Platform Shift Its End‑to‑End Narrative?
+  summary: NVIDIA recently used Computex and GTC Taipei to unveil RTX Spark, its first AI PC superchip co‑developed with Microsoft and MediaTek, alongside the Vera CPU and rack‑scale Vera Rubin platform for agentic AI factories now ramping into full production. These launches push NVIDIA beyond GPUs into end‑to‑end AI infrastructure for both data centers and Windows PCs, tightening ecosystem ties with hyperscalers, OEMs, chipmakers, and software providers across industries from healthcare to autonomous...
+  url: https://finnhub.io/api/news?id=e5431e845e6d0c975a72db57fa14258d42920b0134ee6e2bf665869f362607d4

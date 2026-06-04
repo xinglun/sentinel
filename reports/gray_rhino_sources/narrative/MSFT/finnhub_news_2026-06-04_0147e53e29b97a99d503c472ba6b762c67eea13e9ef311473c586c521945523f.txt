@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI News You Need To Know - June Edition: Capex, Inference, And Beyond
+  summary: The AI trade keeps broadening across the stack, and the last few weeks have delivered a dense run of news. Read more here...
+  url: https://finnhub.io/api/news?id=985348e1273fbd0efea7582b270f69b9ac555c3db823e634d24e4680338f04c1

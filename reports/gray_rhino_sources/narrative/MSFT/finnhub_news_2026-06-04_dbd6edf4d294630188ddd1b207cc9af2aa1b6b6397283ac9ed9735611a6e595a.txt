@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Strong Execution, But The Budget Ceiling Is Now Visible
+  summary: Palantir (PLTR) Q1 FY26: AI moves into core ops as revenue surges; but 104x EPS and tight IT budgets temper upside.
+  url: https://finnhub.io/api/news?id=934292cfc9d5814894c09e71ad7a6a4081bd12f059d01a417e8664bf26f10d24

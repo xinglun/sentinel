@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Rises Amid Google Cloud Deal, AIPCon 10 Announcements
+  summary: Palantir stock climbed amid news at AIPcon 10, including a marketing partnership with Google's cloud computing business.
+  url: https://finnhub.io/api/news?id=d65fcd55922c19a051d8ee750fc74d9b7b7d87ba66b1c4e297d4f9da7ce04547

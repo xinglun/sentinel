@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why The Tesla-SpaceX Merger Possibility Makes Sense (Rating Upgrade)
+  summary: 
+  url: https://finnhub.io/api/news?id=956fdf091c7b767946ec59a54786911adc612f8f23f77e7159463b1159e4e435

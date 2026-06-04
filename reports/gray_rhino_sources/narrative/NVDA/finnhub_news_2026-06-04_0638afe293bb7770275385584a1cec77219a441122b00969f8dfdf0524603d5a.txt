@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Turns Its Scariest AI Into A Money Printer
+  summary: Months after calling Mythos one of the most dangerous models on the planet, Anthropic announced it was expanding access to 150 new organizations across 15 countries.
+  url: https://finnhub.io/api/news?id=274ca391a08f022998f387b0f40e419efefcade6caecb4fbf89dbeb16f8f4e22

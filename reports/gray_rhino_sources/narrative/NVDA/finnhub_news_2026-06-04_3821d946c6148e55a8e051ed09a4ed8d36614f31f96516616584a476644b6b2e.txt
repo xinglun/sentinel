@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is $150 Oil Really Possible in Two or Three Weeks?
+  summary: With the price of oil settling in the $90s despite the ongoing situation in the Strait of Hormuz, questions linger as to whether there’s another spike in the cards or if we’ll be gradually headed back to more normalized levels (think around $60 per barrel). Indeed, perhaps the days of pre-Iran conflict oil prices are ... Is $150 Oil Really Possible in Two or Three Weeks?
+  url: https://finnhub.io/api/news?id=66f193baf77c410348a4d20960538a5ee9ad16d8152177f9c99a219117bad58e

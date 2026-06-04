@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Becton, Dickinson and Company Stock: Is BDX Underperforming the Healthcare Sector?
+  summary: Although Becton, Dickinson and Company has underperformed its sector peers recently, analysts remain moderately optimistic about the stock’s prospects.
+  url: https://finnhub.io/api/news?id=b34aece556a068012113a6a6f167df3d9e7df800ee4c315b909992311aa6563a

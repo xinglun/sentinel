@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Growth ETF: QQQM vs. VGT
+  summary: The answer depends a lot on your diversification preferences.
+  url: https://finnhub.io/api/news?id=ba37e6c1c5b2f27c82ce17a3ca42bf91348dc9d648d15c6e11d0293c7bb44884

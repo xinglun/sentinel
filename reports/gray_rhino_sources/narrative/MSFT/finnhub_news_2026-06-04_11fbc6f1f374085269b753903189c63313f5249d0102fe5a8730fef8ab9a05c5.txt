@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 of the Best Stocks to Buy With $1,000 Right Now
+  summary: These stocks have been struggling this year, but in the long run, they possess a lot of upside.
+  url: https://finnhub.io/api/news?id=7b886ea8620500df98225003d7694015ec962c114d240606f9f76bf11f65d675

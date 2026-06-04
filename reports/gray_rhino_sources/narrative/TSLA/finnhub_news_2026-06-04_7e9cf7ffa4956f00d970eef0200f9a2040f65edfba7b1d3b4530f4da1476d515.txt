@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As Global Markets Surge to Record Highs, Microcap and Penny Stock Investors Worldwide Discover Elektros Inc.: A Rare Combination of Lithium Mining, Rare Earth Mineral Opportunities, and EV Patent Technology
+  summary: WEST PALM BEACH, FL / ACCESS Newswire / June 4, 2026 / Industry Perspective "Lithium batteries are the new oil." - Elon Musk, Tesla CEO (publicly reported statement regarding the strategic importance of battery materials). "Lithium, nickel, cobalt, ...
+  url: https://finnhub.io/api/news?id=638193e9257a363448ce2f09cdf6b61cc82d0623fd34a3851390ef9b8a0f1efc

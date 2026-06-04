@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Retreat as US-Iran Peace Hopes in Doubt
+  summary: The S&P 500 Index ($SPX ) (SPY ) on Wednesday closed down -0.74%, the Dow Jones Industrial Average ($DOWI ) (DIA ) closed down -1.21%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) closed down -0.29%. June E-mini S&P futures (ESM26 ) fell -0.78%, and June E-mini Nasdaq futures...
+  url: https://finnhub.io/api/news?id=c15b07df8063ea06404970f3a0d4374997f18827fce4fa4ca71d0429485a266d

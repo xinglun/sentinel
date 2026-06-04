@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JP Morgan’s Analyst Focus List for June Has 5 Top Passive Income Dividend Picks
+  summary: All the major Wall Street firms we cover here at 24/7 Wall St. have a list of the top stock picks for their institutional and retail clients to invest in. Typically, these are companies that analysts have a high level of conviction in and feel strongly about their fundamentals and forward-looking prospects. In addition, they ... JP Morgan’s Analyst Focus List for June Has 5 Top Passive Income Dividend Picks
+  url: https://finnhub.io/api/news?id=71e246bbd2456f940b77fa1695a909dfda957b0ab1624d101744f9d800fc9e7d

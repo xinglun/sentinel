@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Q1 Earnings Highlights: Microsoft (NASDAQ:MSFT) Vs The Rest Of The Automation Software Stocks
+  summary: Wrapping up Q1 earnings, we look at the numbers and key takeaways for the automation software stocks, including Microsoft (NASDAQ:MSFT) and its peers.
+  url: https://finnhub.io/api/news?id=fa42f016d30695c5491ac35b2830559ab2f2d69b0acd396f81909c18845706a6

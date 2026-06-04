@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Palantir Signs Multiyear AI Partnership With Kirkland & Ellis
+  summary: Palantir Technologies (PLTR) has signed a multi-year deal with Kirkland & Ellis to develop artificia
+  url: https://finnhub.io/api/news?id=4dca841c4388787868f5abfb25fdcc9db91a8b8759f13ed07c7d370120c4d5dd

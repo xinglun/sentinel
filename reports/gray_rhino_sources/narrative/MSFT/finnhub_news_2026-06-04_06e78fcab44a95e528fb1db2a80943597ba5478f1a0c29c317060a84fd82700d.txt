@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is CrowdStrike Stock A Great Business At A Dangerous Price?
+  summary: CrowdStrike's (CRWD) Q1 FY27 financial disclosures reveal a structural disconnect between operational excellence and equity pricing mechanisms. The central takeaway is not the revenue beat or the pending July 2026 4-for-1 stock split. The fundamental insight is that CrowdStrike has reached a valuation plateau where record execution is increasingly challenged by the mathematical constraints of its own premium.
+  url: https://finnhub.io/api/news?id=2340960f689d70b3d0430402546814c4e834439e2912dc29a1a1c0aff16f6174

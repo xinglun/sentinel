@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global EV Momentum Builds: As Electrification Expands Worldwide, Elektros Inc. Advances Its Patent Protection Strategy and Long-Term Shareholder Vision
+  summary: Industry Perspective: "Lithium batteries are the new oil." - Elon Musk, Tesla CEO (publicly reported statement regarding the strategic importance of battery materials). "Lithium, nickel, cobalt, manganese and graphite are crucial to battery performance, ...
+  url: https://finnhub.io/api/news?id=5acd0f2c805758ba635cf00cdf2c84bf419db3a5c155fc1dfef1a9cf131b62e5
