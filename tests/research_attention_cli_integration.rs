@@ -2844,14 +2844,21 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("## 6. 市场资本吸收监控"));
     assert!(stdout.contains("📊 资本吸收早期预警传感器"));
     assert!(stdout.contains("资本吸收状态: 观察（WATCH）"));
-    assert!(stdout.contains("新增供给事件"));
+    assert!(stdout.contains("实际供给事件"));
     assert!(stdout.contains("- Mega Cap 融资: 1"));
+    assert!(stdout.contains("实际资本供给"));
+    assert!(stdout.contains("- 已观察实际供给: $80.0B"));
+    assert!(stdout.contains("潜在供给趋势"));
+    assert!(stdout.contains("- 趋势: 稳定（STABLE）"));
     assert!(stdout.contains("AI IPO 队列"));
-    assert!(stdout.contains("Mega Cap 融资 · Alphabet ($80.0B) · AI CapEx 相关"));
+    assert!(stdout.contains("Anthropic: 传闻（Rumor） · 事件类型 传闻（Rumor）"));
+    assert!(stdout.contains(
+        "实际供给 · 事件类型 确认（Confirmed） · Mega Cap 融资 · Alphabet ($80.0B) · AI CapEx 相关"
+    ));
     assert!(stdout.contains("来源 1 · 可信度 低"));
-    assert!(stdout.contains("资本需求趋势"));
-    assert!(stdout.contains("- 趋势: 上升（INCREASING）"));
     assert!(stdout.contains("- 增发融资: $80.0B"));
+    assert!(!stdout.contains("资本需求趋势"));
+    assert!(!stdout.contains("ACCELERATING"));
     assert!(stdout.contains("资本供给趋势"));
     assert!(stdout.contains("- ETF 净流入: $120.0B"));
     assert!(stdout.contains("资本吸收比率: 本阶段未启用完整量化"));

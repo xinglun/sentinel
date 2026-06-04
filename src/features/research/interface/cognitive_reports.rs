@@ -3,8 +3,10 @@ use crate::features::research::acl::capital_absorption_source_adapter_factory::b
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoConfidence, CapitalAbsorptionAutoEvent,
     CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoSnapshot, CapitalAbsorptionAutoStatus,
-    CapitalAbsorptionAutoTrend, CapitalAbsorptionIpoQueueItem, CapitalAbsorptionIpoQueueStatus,
-    CapitalAbsorptionSourceHealth, CapitalAbsorptionSupplyEventCounts,
+    CapitalAbsorptionAutoTrend, CapitalAbsorptionIpoQueueHistoryPoint,
+    CapitalAbsorptionIpoQueueItem, CapitalAbsorptionIpoQueueStatus,
+    CapitalAbsorptionObservationEventType, CapitalAbsorptionPotentialSupplyTrend,
+    CapitalAbsorptionSourceHealth, CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
 };
 use crate::features::research::interface::default_cognitive_localizations as defaults;
 use crate::features::shared::interface::i18n::Language;
@@ -758,9 +760,11 @@ pub(crate) fn build_capital_absorption_report(
         snapshot.status
     ));
     push_supply_event_counts(&mut out, &snapshot.supply_event_counts, language);
+    push_actual_capital_supply(&mut out, &snapshot.capital_demand, language);
+    push_potential_supply_trend(&mut out, &snapshot.potential_supply_trend, language);
     push_ai_ipo_queue(&mut out, &snapshot.ai_ipo_queue, language);
+    push_ipo_queue_history(&mut out, &snapshot.ipo_queue_history, language);
     push_capital_absorption_events(&mut out, &snapshot.observed_events, language);
-    push_capital_demand(&mut out, &snapshot.capital_demand, language);
     push_capital_supply(&mut out, &snapshot.capital_supply, language);
     push_capital_absorption_ratio(&mut out, &snapshot.absorption_ratio, language);
     out.push_str(&format!(
@@ -799,6 +803,8 @@ struct CapitalAbsorptionRenderSnapshot {
     observed_events: Vec<CapitalAbsorptionRenderEvent>,
     supply_event_counts: CapitalAbsorptionSupplyEventCounts,
     ai_ipo_queue: Vec<CapitalAbsorptionIpoQueueItem>,
+    ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
+    potential_supply_trend: String,
     capital_demand: CapitalDemandRenderSnapshot,
     capital_supply: CapitalSupplyRenderSnapshot,
     absorption_ratio: CapitalAbsorptionRenderRatio,
@@ -818,12 +824,12 @@ struct CapitalAbsorptionRenderEvent {
     ai_capex_related: bool,
     source_count: usize,
     confidence: String,
+    supply_kind: CapitalAbsorptionSupplyKind,
+    event_type: String,
 }
 
 struct CapitalDemandRenderSnapshot {
     rolling_12m_usd_b: Option<f64>,
-    score: Option<f64>,
-    trend: String,
     ipo_financing_usd_b: Option<f64>,
     secondary_offering_usd_b: Option<f64>,
     convertible_debt_usd_b: Option<f64>,
@@ -860,6 +866,11 @@ impl CapitalAbsorptionRenderSnapshot {
             status: capital_absorption_status_value(capped_config_status(value.status), language),
             supply_event_counts: supply_event_counts_from_render_events(&observed_events),
             ai_ipo_queue: default_capital_absorption_ipo_queue(),
+            ipo_queue_history: Vec::new(),
+            potential_supply_trend: capital_absorption_potential_supply_trend_value(
+                CapitalAbsorptionPotentialSupplyTrend::Stable,
+                language,
+            ),
             observed_events,
             capital_demand: CapitalDemandRenderSnapshot::from_config(
                 &value.capital_demand,
@@ -889,6 +900,11 @@ impl CapitalAbsorptionRenderSnapshot {
             status: capital_absorption_auto_status_value(value.status, language),
             supply_event_counts: value.supply_event_counts.clone(),
             ai_ipo_queue: value.ai_ipo_queue.clone(),
+            ipo_queue_history: value.ipo_queue_history.clone(),
+            potential_supply_trend: capital_absorption_potential_supply_trend_value(
+                value.potential_supply_trend,
+                language,
+            ),
             observed_events: value
                 .observed_events
                 .iter()
@@ -910,6 +926,19 @@ impl CapitalAbsorptionRenderSnapshot {
 
 impl CapitalAbsorptionRenderEvent {
     fn from_config(value: &config::CapitalAbsorptionEventConfig, language: Language) -> Self {
+        let supply_kind = match value.category {
+            config::CapitalAbsorptionEventCategory::IpoSupply => {
+                CapitalAbsorptionSupplyKind::Potential
+            }
+            config::CapitalAbsorptionEventCategory::MegaCapFinancing
+            | config::CapitalAbsorptionEventCategory::SecondaryLiquidity => {
+                CapitalAbsorptionSupplyKind::Actual
+            }
+        };
+        let event_type = match supply_kind {
+            CapitalAbsorptionSupplyKind::Actual => CapitalAbsorptionObservationEventType::Confirmed,
+            CapitalAbsorptionSupplyKind::Potential => CapitalAbsorptionObservationEventType::Rumor,
+        };
         Self {
             category: capital_absorption_event_category_value(value.category, language),
             subject: value.subject.clone(),
@@ -921,6 +950,8 @@ impl CapitalAbsorptionRenderEvent {
                 CapitalAbsorptionAutoConfidence::Low,
                 language,
             ),
+            supply_kind,
+            event_type: capital_absorption_event_type_value(event_type, language).to_string(),
         }
     }
 
@@ -933,16 +964,20 @@ impl CapitalAbsorptionRenderEvent {
             ai_capex_related: value.ai_capex_related,
             source_count: value.source_count,
             confidence: capital_absorption_confidence_value(value.confidence, language),
+            supply_kind: value.supply_kind,
+            event_type: capital_absorption_event_type_value(value.event_type, language).to_string(),
         }
     }
 }
 
 impl CapitalDemandRenderSnapshot {
     fn from_config(value: &config::CapitalDemandConfig, language: Language) -> Self {
+        let _current_phase_hides_demand_trend_and_score = (
+            capital_absorption_trend_value(value.trend, language),
+            value.score,
+        );
         Self {
             rolling_12m_usd_b: value.rolling_12m_usd_b,
-            score: value.score,
-            trend: capital_absorption_trend_value(value.trend, language),
             ipo_financing_usd_b: value.ipo_financing_usd_b,
             secondary_offering_usd_b: value.secondary_offering_usd_b,
             convertible_debt_usd_b: value.convertible_debt_usd_b,
@@ -954,10 +989,12 @@ impl CapitalDemandRenderSnapshot {
         value: &crate::features::research::application::capital_absorption::CapitalDemandAutoSnapshot,
         language: Language,
     ) -> Self {
+        let _current_phase_hides_demand_trend_and_score = (
+            capital_absorption_auto_trend_value(value.trend, language),
+            value.score,
+        );
         Self {
             rolling_12m_usd_b: value.rolling_12m_usd_b,
-            score: value.score,
-            trend: capital_absorption_auto_trend_value(value.trend, language),
             ipo_financing_usd_b: value.ipo_financing_usd_b,
             secondary_offering_usd_b: value.secondary_offering_usd_b,
             convertible_debt_usd_b: value.convertible_debt_usd_b,
@@ -1020,7 +1057,10 @@ fn push_capital_absorption_events(
             String::new()
         };
         out.push_str(&format!(
-            "- {} · {}{}{} · {} · {} {} · {} {}\n",
+            "- {} · {} {} · {} · {}{}{} · {} · {} {} · {} {}\n",
+            capital_absorption_supply_kind_value(event.supply_kind, language),
+            capital_absorption_event_type_label(language),
+            event.event_type,
             event.category,
             event.subject,
             amount,
@@ -1035,6 +1075,60 @@ fn push_capital_absorption_events(
     out.push('\n');
 }
 
+fn push_actual_capital_supply(
+    out: &mut String,
+    demand: &CapitalDemandRenderSnapshot,
+    language: Language,
+) {
+    out.push_str(capital_absorption_actual_supply_label(language));
+    out.push_str(":\n");
+    push_optional_usd(
+        out,
+        capital_absorption_observed_actual_amount_label(language),
+        demand.rolling_12m_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_ipo_label(language),
+        demand.ipo_financing_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_secondary_label(language),
+        demand.secondary_offering_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_convertible_label(language),
+        demand.convertible_debt_usd_b,
+    );
+    push_optional_usd(
+        out,
+        capital_absorption_ai_related_label(language),
+        demand.ai_related_financing_usd_b,
+    );
+    if demand.rolling_12m_usd_b.is_none()
+        && demand.ipo_financing_usd_b.is_none()
+        && demand.secondary_offering_usd_b.is_none()
+        && demand.convertible_debt_usd_b.is_none()
+        && demand.ai_related_financing_usd_b.is_none()
+    {
+        out.push_str(capital_absorption_no_actual_supply(language));
+        out.push('\n');
+    }
+    out.push('\n');
+}
+
+fn push_potential_supply_trend(out: &mut String, trend: &str, language: Language) {
+    out.push_str(capital_absorption_potential_supply_trend_label(language));
+    out.push_str(":\n");
+    out.push_str(&format!(
+        "- {} {}\n\n",
+        capital_absorption_trend_label(language),
+        trend
+    ));
+}
+
 fn push_supply_event_counts(
     out: &mut String,
     counts: &CapitalAbsorptionSupplyEventCounts,
@@ -1046,11 +1140,6 @@ fn push_supply_event_counts(
         "- {}: {}\n",
         capital_absorption_mega_cap_financing_count_label(language),
         counts.mega_cap_financing
-    ));
-    out.push_str(&format!(
-        "- {}: {}\n",
-        capital_absorption_ai_ipo_candidate_count_label(language),
-        counts.ai_ipo_candidate
     ));
     out.push_str(&format!(
         "- {}: {}\n",
@@ -1090,49 +1179,35 @@ fn push_ai_ipo_queue(
             String::new()
         };
         out.push_str(&format!(
-            "- {}: {}{}\n",
+            "- {}: {} · {} {}{}\n",
             item.issuer,
             capital_absorption_ipo_queue_status_value(item.status, language),
+            capital_absorption_event_type_label(language),
+            capital_absorption_event_type_value(item.event_type, language),
             sources
         ));
     }
     out.push('\n');
 }
 
-fn push_capital_demand(out: &mut String, demand: &CapitalDemandRenderSnapshot, language: Language) {
-    out.push_str(capital_absorption_demand_label(language));
+fn push_ipo_queue_history(
+    out: &mut String,
+    history: &[CapitalAbsorptionIpoQueueHistoryPoint],
+    language: Language,
+) {
+    if history.is_empty() {
+        return;
+    }
+    out.push_str(capital_absorption_ipo_queue_history_label(language));
     out.push_str(":\n");
-    out.push_str(&format!(
-        "- {} {}\n",
-        capital_absorption_trend_label(language),
-        demand.trend
-    ));
-    push_optional_usd(
-        out,
-        capital_absorption_rolling_12m_label(language),
-        demand.rolling_12m_usd_b,
-    );
-    push_optional_score(out, capital_absorption_score_label(language), demand.score);
-    push_optional_usd(
-        out,
-        capital_absorption_ipo_label(language),
-        demand.ipo_financing_usd_b,
-    );
-    push_optional_usd(
-        out,
-        capital_absorption_secondary_label(language),
-        demand.secondary_offering_usd_b,
-    );
-    push_optional_usd(
-        out,
-        capital_absorption_convertible_label(language),
-        demand.convertible_debt_usd_b,
-    );
-    push_optional_usd(
-        out,
-        capital_absorption_ai_related_label(language),
-        demand.ai_related_financing_usd_b,
-    );
+    for point in history {
+        out.push_str(&format!(
+            "- {} · {} = {}\n",
+            point.observed_at,
+            capital_absorption_queue_size_label(language),
+            point.queue_size
+        ));
+    }
     out.push('\n');
 }
 
@@ -1194,20 +1269,24 @@ fn push_capital_absorption_ratio(
 fn supply_event_counts_from_render_events(
     events: &[CapitalAbsorptionRenderEvent],
 ) -> CapitalAbsorptionSupplyEventCounts {
+    let actual_events = events
+        .iter()
+        .filter(|event| event.supply_kind == CapitalAbsorptionSupplyKind::Actual)
+        .collect::<Vec<_>>();
     CapitalAbsorptionSupplyEventCounts {
-        mega_cap_financing: events
+        mega_cap_financing: actual_events
             .iter()
             .filter(|event| event.category.contains("Mega Cap"))
             .count(),
-        ai_ipo_candidate: events
+        ai_ipo_candidate: actual_events
             .iter()
             .filter(|event| event.category.contains("IPO"))
             .count(),
-        secondary_offering: events
+        secondary_offering: actual_events
             .iter()
             .filter(|event| event.description.to_ascii_lowercase().contains("secondary"))
             .count(),
-        convertible_debt: events
+        convertible_debt: actual_events
             .iter()
             .filter(|event| {
                 event
@@ -1216,7 +1295,7 @@ fn supply_event_counts_from_render_events(
                     .contains("convertible")
             })
             .count(),
-        secondary_liquidity: events
+        secondary_liquidity: actual_events
             .iter()
             .filter(|event| {
                 event.category.contains("Secondary Liquidity")
@@ -1241,6 +1320,7 @@ fn default_capital_absorption_ipo_queue() -> Vec<CapitalAbsorptionIpoQueueItem> 
         issuer: (*issuer).to_string(),
         status: CapitalAbsorptionIpoQueueStatus::Rumor,
         source_count: 0,
+        event_type: CapitalAbsorptionObservationEventType::Rumor,
     })
     .collect()
 }
@@ -1311,11 +1391,27 @@ fn capital_absorption_no_events(language: Language) -> &'static str {
     }
 }
 
-fn capital_absorption_demand_label(language: Language) -> &'static str {
+fn capital_absorption_actual_supply_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "资本需求趋势",
-        Language::EnUs => "Capital Demand",
-        Language::JaJp => "資本需要トレンド",
+        Language::ZhCn => "实际资本供给",
+        Language::EnUs => "Actual Capital Supply",
+        Language::JaJp => "実際の資本供給",
+    }
+}
+
+fn capital_absorption_potential_supply_trend_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "潜在供给趋势",
+        Language::EnUs => "Potential Supply Trend",
+        Language::JaJp => "潜在供給トレンド",
+    }
+}
+
+fn capital_absorption_no_actual_supply(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "- 未观察到已发生的大型股权/可转债供给。",
+        Language::EnUs => "- No completed large equity or convertible supply observed.",
+        Language::JaJp => "- 発生済みの大型株式・転換社債供給は未観測です。",
     }
 }
 
@@ -1384,6 +1480,14 @@ fn capital_absorption_rolling_12m_label(language: Language) -> &'static str {
         Language::ZhCn => "滚动 12 个月:",
         Language::EnUs => "Rolling 12M:",
         Language::JaJp => "ローリング 12 か月:",
+    }
+}
+
+fn capital_absorption_observed_actual_amount_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已观察实际供给:",
+        Language::EnUs => "Observed actual supply:",
+        Language::JaJp => "観測済み実供給:",
     }
 }
 
@@ -1477,9 +1581,9 @@ fn capital_absorption_ai_capex_label(language: Language) -> &'static str {
 
 fn capital_absorption_supply_event_count_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "新增供给事件",
-        Language::EnUs => "Supply Event Count",
-        Language::JaJp => "供給イベント数",
+        Language::ZhCn => "实际供给事件",
+        Language::EnUs => "Actual Supply Event Count",
+        Language::JaJp => "実供給イベント数",
     }
 }
 
@@ -1491,19 +1595,27 @@ fn capital_absorption_ai_ipo_queue_label(language: Language) -> &'static str {
     }
 }
 
+fn capital_absorption_ipo_queue_history_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "IPO 队列历史",
+        Language::EnUs => "IPO Queue History",
+        Language::JaJp => "IPO キュー履歴",
+    }
+}
+
+fn capital_absorption_queue_size_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Queue Size",
+        Language::EnUs => "Queue Size",
+        Language::JaJp => "Queue Size",
+    }
+}
+
 fn capital_absorption_mega_cap_financing_count_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "Mega Cap 融资",
         Language::EnUs => "Mega Cap Financing",
         Language::JaJp => "Mega Cap 調達",
-    }
-}
-
-fn capital_absorption_ai_ipo_candidate_count_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "AI IPO 候选",
-        Language::EnUs => "AI IPO Candidate",
-        Language::JaJp => "AI IPO 候補",
     }
 }
 
@@ -1544,6 +1656,14 @@ fn capital_absorption_confidence_label(language: Language) -> &'static str {
         Language::ZhCn => "可信度",
         Language::EnUs => "Confidence",
         Language::JaJp => "信頼度",
+    }
+}
+
+fn capital_absorption_event_type_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "事件类型",
+        Language::EnUs => "Event Type",
+        Language::JaJp => "イベント種別",
     }
 }
 
@@ -1598,14 +1718,14 @@ fn capital_absorption_trend_value(
 ) -> String {
     match trend {
         config::CapitalAbsorptionTrend::Decreasing => {
-            capital_absorption_trend_text("DECREASING", language)
+            capital_absorption_trend_text("FALLING", language)
         }
         config::CapitalAbsorptionTrend::Stable => capital_absorption_trend_text("STABLE", language),
         config::CapitalAbsorptionTrend::Increasing => {
-            capital_absorption_trend_text("INCREASING", language)
+            capital_absorption_trend_text("RISING", language)
         }
         config::CapitalAbsorptionTrend::Accelerating => {
-            capital_absorption_trend_text("ACCELERATING", language)
+            capital_absorption_trend_text("RISING", language)
         }
     }
 }
@@ -1670,14 +1790,25 @@ fn capital_absorption_auto_trend_value(
 ) -> String {
     match trend {
         CapitalAbsorptionAutoTrend::Decreasing => {
-            capital_absorption_trend_text("DECREASING", language)
+            capital_absorption_trend_text("FALLING", language)
         }
         CapitalAbsorptionAutoTrend::Stable => capital_absorption_trend_text("STABLE", language),
-        CapitalAbsorptionAutoTrend::Increasing => {
-            capital_absorption_trend_text("INCREASING", language)
+    }
+}
+
+fn capital_absorption_potential_supply_trend_value(
+    trend: CapitalAbsorptionPotentialSupplyTrend,
+    language: Language,
+) -> String {
+    match trend {
+        CapitalAbsorptionPotentialSupplyTrend::Falling => {
+            capital_absorption_trend_text("FALLING", language)
         }
-        CapitalAbsorptionAutoTrend::Accelerating => {
-            capital_absorption_trend_text("ACCELERATING", language)
+        CapitalAbsorptionPotentialSupplyTrend::Stable => {
+            capital_absorption_trend_text("STABLE", language)
+        }
+        CapitalAbsorptionPotentialSupplyTrend::Rising => {
+            capital_absorption_trend_text("RISING", language)
         }
     }
 }
@@ -1731,15 +1862,50 @@ fn capital_absorption_status_text(code: &str, language: Language) -> String {
 
 fn capital_absorption_trend_text(code: &str, language: Language) -> String {
     match (code, language) {
+        ("FALLING", Language::ZhCn) => "下降（FALLING）".to_string(),
+        ("RISING", Language::ZhCn) => "上升（RISING）".to_string(),
         ("DECREASING", Language::ZhCn) => "下降（DECREASING）".to_string(),
         ("STABLE", Language::ZhCn) => "稳定（STABLE）".to_string(),
         ("INCREASING", Language::ZhCn) => "上升（INCREASING）".to_string(),
         ("ACCELERATING", Language::ZhCn) => "加速（ACCELERATING）".to_string(),
+        ("FALLING", Language::JaJp) => "低下（FALLING）".to_string(),
+        ("RISING", Language::JaJp) => "上昇（RISING）".to_string(),
         ("DECREASING", Language::JaJp) => "低下（DECREASING）".to_string(),
         ("STABLE", Language::JaJp) => "安定（STABLE）".to_string(),
         ("INCREASING", Language::JaJp) => "上昇（INCREASING）".to_string(),
         ("ACCELERATING", Language::JaJp) => "加速（ACCELERATING）".to_string(),
         _ => code.to_string(),
+    }
+}
+
+fn capital_absorption_supply_kind_value(
+    supply_kind: CapitalAbsorptionSupplyKind,
+    language: Language,
+) -> &'static str {
+    match (supply_kind, language) {
+        (CapitalAbsorptionSupplyKind::Actual, Language::ZhCn) => "实际供给",
+        (CapitalAbsorptionSupplyKind::Potential, Language::ZhCn) => "潜在队列",
+        (CapitalAbsorptionSupplyKind::Actual, Language::EnUs) => "Actual Supply",
+        (CapitalAbsorptionSupplyKind::Potential, Language::EnUs) => "Potential Queue",
+        (CapitalAbsorptionSupplyKind::Actual, Language::JaJp) => "実供給",
+        (CapitalAbsorptionSupplyKind::Potential, Language::JaJp) => "潜在キュー",
+    }
+}
+
+fn capital_absorption_event_type_value(
+    event_type: CapitalAbsorptionObservationEventType,
+    language: Language,
+) -> &'static str {
+    match (event_type, language) {
+        (CapitalAbsorptionObservationEventType::Confirmed, Language::ZhCn) => "确认（Confirmed）",
+        (CapitalAbsorptionObservationEventType::Reported, Language::ZhCn) => "报道（Reported）",
+        (CapitalAbsorptionObservationEventType::Rumor, Language::ZhCn) => "传闻（Rumor）",
+        (CapitalAbsorptionObservationEventType::Confirmed, Language::EnUs) => "Confirmed",
+        (CapitalAbsorptionObservationEventType::Reported, Language::EnUs) => "Reported",
+        (CapitalAbsorptionObservationEventType::Rumor, Language::EnUs) => "Rumor",
+        (CapitalAbsorptionObservationEventType::Confirmed, Language::JaJp) => "確認（Confirmed）",
+        (CapitalAbsorptionObservationEventType::Reported, Language::JaJp) => "報道（Reported）",
+        (CapitalAbsorptionObservationEventType::Rumor, Language::JaJp) => "噂（Rumor）",
     }
 }
 

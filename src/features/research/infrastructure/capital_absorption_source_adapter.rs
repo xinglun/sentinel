@@ -3,7 +3,8 @@ use crate::features::research::application::capital_absorption::{
     build_capital_absorption_snapshot_from_events, unavailable_capital_absorption_snapshot,
     CapitalAbsorptionAutoConfidence, CapitalAbsorptionAutoEvent,
     CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoSnapshot,
-    CapitalAbsorptionSourceHealth, CapitalAbsorptionSourceStatus,
+    CapitalAbsorptionObservationEventType, CapitalAbsorptionSourceHealth,
+    CapitalAbsorptionSourceStatus, CapitalAbsorptionSupplyKind,
 };
 use anyhow::{anyhow, Context, Result};
 use chrono::{Duration, NaiveDate};
@@ -146,8 +147,11 @@ fn event_from_news_item(
         .and_then(|value| value.as_str())
         .filter(|url| !url.trim().is_empty())
         .map(|url| url.to_string());
+    let event_type = observation_event_type_from_text(&text);
     Some(CapitalAbsorptionAutoEvent {
         category,
+        supply_kind: supply_kind_from_category_and_type(category, event_type),
+        event_type,
         subject: detect_event_subject(symbol, &text),
         description: headline.to_string(),
         amount_usd_b: extract_usd_billions(&text),
@@ -157,6 +161,50 @@ fn event_from_news_item(
         source_count: 1,
         confidence: CapitalAbsorptionAutoConfidence::Low,
     })
+}
+
+fn supply_kind_from_category_and_type(
+    category: CapitalAbsorptionAutoEventCategory,
+    event_type: CapitalAbsorptionObservationEventType,
+) -> CapitalAbsorptionSupplyKind {
+    match category {
+        CapitalAbsorptionAutoEventCategory::MegaCapFinancing
+        | CapitalAbsorptionAutoEventCategory::SecondaryLiquidity => {
+            CapitalAbsorptionSupplyKind::Actual
+        }
+        CapitalAbsorptionAutoEventCategory::IpoSupply
+            if event_type == CapitalAbsorptionObservationEventType::Confirmed =>
+        {
+            CapitalAbsorptionSupplyKind::Actual
+        }
+        CapitalAbsorptionAutoEventCategory::IpoSupply => CapitalAbsorptionSupplyKind::Potential,
+    }
+}
+
+fn observation_event_type_from_text(text: &str) -> CapitalAbsorptionObservationEventType {
+    let lower = text.to_ascii_lowercase();
+    if lower.contains("rumor")
+        || lower.contains("rumour")
+        || lower.contains("speculation")
+        || lower.contains("reportedly considering")
+        || lower.contains("considering an ipo")
+        || lower.contains("pre-ipo discussion")
+    {
+        CapitalAbsorptionObservationEventType::Rumor
+    } else if lower.contains("announced")
+        || lower.contains("prices ipo")
+        || lower.contains("priced ipo")
+        || lower.contains("begins trading")
+        || lower.contains("listed")
+        || lower.contains("completed")
+        || lower.contains("filed")
+        || lower.contains("s-1")
+        || lower.contains("launches")
+    {
+        CapitalAbsorptionObservationEventType::Confirmed
+    } else {
+        CapitalAbsorptionObservationEventType::Reported
+    }
 }
 
 fn detect_event_subject(symbol: &str, text: &str) -> String {
