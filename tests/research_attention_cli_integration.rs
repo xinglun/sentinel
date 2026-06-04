@@ -42,6 +42,24 @@ state = "LOW"
     tmp
 }
 
+fn prepare_workspace_without_capital_absorption_default(extra_config: &str) -> TempDir {
+    let tmp = tempfile::tempdir().expect("failed to create temp dir");
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let config_path = root.join("config.toml");
+    let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
+    let mut raw = strip_finnhub_section(&strip_optional_calibration_sections(&raw));
+
+    let save_to = tmp.path().to_string_lossy().to_string();
+    raw = raw.replace(
+        "save_to = \"./reports\"",
+        &format!("save_to = \"{}\"", save_to),
+    );
+    raw.push_str(extra_config);
+
+    fs::write(tmp.path().join("config.toml"), raw).expect("failed to write temp config.toml");
+    tmp
+}
+
 fn strip_optional_calibration_sections(raw: &str) -> String {
     let mut output = String::new();
     let mut skipping = false;
@@ -70,6 +88,21 @@ fn strip_gray_rhino_provider_registry_section(raw: &str) -> String {
     for line in raw.lines() {
         if line.starts_with('[') {
             skipping = line == "[gray_rhino_provider_registry]";
+        }
+        if !skipping {
+            output.push_str(line);
+            output.push('\n');
+        }
+    }
+    output
+}
+
+fn strip_finnhub_section(raw: &str) -> String {
+    let mut output = String::new();
+    let mut skipping = false;
+    for line in raw.lines() {
+        if line.starts_with('[') {
+            skipping = line == "[finnhub]";
         }
         if !skipping {
             output.push_str(line);
@@ -2886,6 +2919,105 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"));
     assert!(!stdout.contains("State:"));
     assert!(stdout.contains("不生成新的交易指令"));
+}
+
+#[test]
+fn capital_absorption_unavailable_source_does_not_render_default_ipo_queue() {
+    let tmp = prepare_workspace_without_capital_absorption_default("");
+
+    let out = run_cli(&tmp, &["daily-calibration"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("📊 资本吸收早期预警传感器"));
+    assert!(stdout.contains("自动来源: Finnhub company-news"));
+    assert!(stdout.contains("未观察到大型资本吸收事件"));
+    assert!(!stdout.contains("Anthropic:"));
+    assert!(!stdout.contains("OpenAI:"));
+    assert!(!stdout.contains("SpaceX:"));
+    assert!(!stdout.contains("Databricks:"));
+    assert!(!stdout.contains("Stripe:"));
+    assert!(!stdout.contains("Figure:"));
+}
+
+#[test]
+fn capital_absorption_new_sections_are_locked_in_en_and_ja() {
+    for (
+        language,
+        title,
+        actual_supply,
+        potential_trend,
+        event_type,
+        actual_event,
+        boundary,
+    ) in [
+        (
+            "en-us",
+            "📊 Capital Absorption Early Warning Sensor",
+            "Actual Capital Supply",
+            "Potential Supply Trend",
+            "Event Type Confirmed",
+            "Actual Supply · Event Type Confirmed · Mega Cap Financing · Alphabet ($80.0B) · AI CapEx related",
+            "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
+        ),
+        (
+            "ja-jp",
+            "📊 資本吸収早期警戒センサー",
+            "実際の資本供給",
+            "潜在供給トレンド",
+            "イベント種別 確認（Confirmed）",
+            "実供給 · イベント種別 確認（Confirmed） · Mega Cap 調達 · Alphabet ($80.0B) · AI CapEx 関連",
+            "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
+        ),
+    ] {
+        let tmp = prepare_workspace(capital_absorption_manual_config());
+        set_output_language(&tmp, language);
+
+        let out = run_cli(&tmp, &["daily-calibration"]);
+
+        assert!(out.status.success());
+        let stdout = String::from_utf8_lossy(&out.stdout);
+        assert!(stdout.contains(title));
+        assert!(stdout.contains(actual_supply));
+        assert!(stdout.contains("- Observed actual supply: $80.0B") || stdout.contains("- 観測済み実供給: $80.0B"));
+        assert!(stdout.contains(potential_trend));
+        assert!(stdout.contains(event_type));
+        assert!(stdout.contains(actual_event));
+        assert!(stdout.contains(boundary));
+        assert!(!stdout.contains("Capital Demand"));
+        assert!(!stdout.contains("ACCELERATING"));
+    }
+}
+
+fn capital_absorption_manual_config() -> &'static str {
+    r#"
+
+[capital_absorption]
+auto_enable = false
+status = "WATCH"
+structural_impact = "Observation Only"
+
+[[capital_absorption.observed_events]]
+category = "MEGA_CAP_FINANCING"
+subject = "Alphabet"
+description = "Manual observation: secondary offering for AI CapEx"
+amount_usd_b = 80.0
+ai_capex_related = true
+source_url = "https://example.com/alphabet-offering"
+
+[capital_absorption.capital_demand]
+trend = "INCREASING"
+rolling_12m_usd_b = 80.0
+score = 0.60
+secondary_offering_usd_b = 80.0
+ai_related_financing_usd_b = 80.0
+
+[capital_absorption.capital_supply]
+trend = "STABLE"
+
+[capital_absorption.absorption_ratio]
+state = "NEUTRAL"
+"#
 }
 
 #[test]

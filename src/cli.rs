@@ -24,13 +24,13 @@ use crate::features::radar::interface::audit_daily_report::{
     parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
+use crate::features::research::interface::capital_absorption_report_builder::build_capital_absorption_report_with_auto;
 use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_capital_absorption_report_with_auto,
-    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
-    daily_calibration_audit_label, daily_calibration_boundary,
+    build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
+    daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
     daily_calibration_capital_absorption_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
     daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,

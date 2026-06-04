@@ -198,8 +198,17 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
     let unique_subjects = unique_subject_count(&events);
     let status = classify_status(&events, demand_total, unique_subjects);
     let supply_event_counts = build_supply_event_counts(&actual_events);
-    let ai_ipo_queue = build_ai_ipo_queue(&events);
-    let ipo_queue_history = build_ipo_queue_history(&potential_events);
+    let auto_source_available = source_status.status != CapitalAbsorptionSourceHealth::Unavailable;
+    let ai_ipo_queue = if auto_source_available {
+        build_ai_ipo_queue(&events)
+    } else {
+        Vec::new()
+    };
+    let ipo_queue_history = if auto_source_available {
+        build_ipo_queue_history(&potential_events)
+    } else {
+        Vec::new()
+    };
     let potential_supply_trend = classify_potential_supply_trend(&ipo_queue_history);
     let supply_trend = if actual_events
         .iter()
@@ -637,6 +646,20 @@ mod tests {
                 .map(|item| item.status),
             Some(CapitalAbsorptionIpoQueueStatus::Expected)
         );
+    }
+
+    #[test]
+    fn unavailable_source_does_not_emit_default_ipo_queue() {
+        let snapshot = unavailable_capital_absorption_snapshot("429 Too Many Requests".to_string());
+
+        assert_eq!(
+            snapshot.source_status.status,
+            CapitalAbsorptionSourceHealth::Unavailable
+        );
+        assert!(snapshot.observed_events.is_empty());
+        assert!(snapshot.ai_ipo_queue.is_empty());
+        assert!(snapshot.ipo_queue_history.is_empty());
+        assert_eq!(snapshot.capital_demand.rolling_12m_usd_b, None);
     }
 
     fn event(subject: &str, amount_usd_b: f64) -> CapitalAbsorptionAutoEvent {

@@ -17,10 +17,11 @@ use crate::features::radar::interface::report::{self, ReportRenderContext};
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
+use crate::features::research::interface::capital_absorption_report_builder::build_capital_absorption_report_with_auto;
 use crate::features::research::interface::cognitive_reports::{
-    build_capital_absorption_report_with_auto, credit_stress_label, enabled_asset_thesis_count,
-    enabled_research_attention_count, growth_valuation_impact_label, liquidity_condition_label,
-    macro_pressure_label, yield_curve_label,
+    credit_stress_label, enabled_asset_thesis_count, enabled_research_attention_count,
+    growth_valuation_impact_label, liquidity_condition_label, macro_pressure_label,
+    yield_curve_label,
 };
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
 use crate::features::shared::acl::ledger_factory::build_ledger_adapter;

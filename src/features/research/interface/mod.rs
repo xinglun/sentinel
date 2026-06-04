@@ -1,3 +1,4 @@
+pub(crate) mod capital_absorption_report_builder;
 pub(crate) mod cli_command_handler;
 pub(crate) mod cognitive_reports;
 mod default_cognitive_localizations;
