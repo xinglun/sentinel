@@ -1,0 +1,108 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-supply-classification",
+  "mode": "code",
+  "title": "Capital Absorption Supply Classification Fix",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-supply-classification.contract.json",
+    ".ai/work-items/active/capital-absorption-supply-classification.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic への接続",
+    "Capital Absorption Ratio / Rolling 12M Capital Model の実装",
+    "data branch / JSONL / snapshot persistence / weekly metrics の追加",
+    "Market conclusion / trading signal / risk upgrade の生成",
+    "Finnhub company-news / market-news headline / summary keyword scan 以外の data source 追加"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-supply-classification.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "Capital Absorption の Actual / Potential 分類と auto snapshot 集計を確認する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "reason": "Finnhub headline / summary から event を抽出する分類入口を確認する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Actual Capital Supply と Potential Supply Queue の表示境界を確認する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の中文 report contract で Anthropic 誤分類を固定する。"
+    },
+    {
+      "path": "ユーザー提示の Capital Absorption Supply Classification 指摘",
+      "reason": "Actual Supply を confirmed financing event のみに限定し、IPO rumor / candidate / discussion と弱相关新闻を排除する要求。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Actual Capital Supply は confirmed equity raise、confirmed secondary offering、confirmed follow-on offering、confirmed convertible debt issuance、confirmed ATM program、amount confirmed の completed / priced / filed IPO だけを対象にする。",
+    "IPO rumor / candidate / discussion、analyst article、before IPO / consider ahead of IPO article、competitor / related ticker article は Actual Capital Supply に入れない。",
+    "OpenAI、Anthropic、SpaceX、Databricks、Stripe、Figure などの IPO rumor / expectation / pre-IPO discussion は Potential Supply Queue に入り、Actual Supply amount には入らない。",
+    "Wall Street analyst research calls、generic stock recommendation article、3 stocks to buy before X IPO、unrelated ticker mention、IPO keyword mention only の弱相关新闻は観測 event から排除する。",
+    "Actual Supply amount は confirmed financing amount からのみ集計し、rumor / expected IPO valuation / projected IPO size を使わない。",
+    "Anthropic が Actual Supply ではなく Potential Supply Queue として出ることを test で固定する。",
+    "Narrative Observation Only、NORMAL / WATCH only、READY / EXECUTE / Gate / Position Sizing / Trend Layer 非接続、trading signal / market conclusion / risk upgrade 非生成の境界を維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-supply-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-supply-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-supply-classification.contract.json SUMMARY=.ai/work-items/active/capital-absorption-supply-classification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-supply-classification.summary.json CONTRACT=.ai/work-items/active/capital-absorption-supply-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-supply-classification.contract.json SUMMARY=.ai/work-items/active/capital-absorption-supply-classification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-supply-classification.contract.json SUMMARY=.ai/work-items/active/capital-absorption-supply-classification.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

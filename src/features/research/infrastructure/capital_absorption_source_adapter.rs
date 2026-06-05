@@ -135,7 +135,25 @@ fn event_from_news_item(
         .and_then(|value| value.as_str())
         .unwrap_or("");
     let text = format!("{headline} {summary}");
+    if is_weak_related_news(&text) {
+        return None;
+    }
     let category = classify_capital_absorption_event(&text)?;
+    let subject = detect_event_subject(symbol, &text);
+    let event_type = observation_event_type_from_text(&text);
+    let supply_kind = supply_kind_from_category_type_and_text(category, event_type, &text)?;
+    if supply_kind == CapitalAbsorptionSupplyKind::Potential
+        && !is_ai_ipo_candidate_subject(&subject)
+    {
+        return None;
+    }
+    let amount_usd_b = if supply_kind == CapitalAbsorptionSupplyKind::Actual
+        && has_confirmed_financing_amount(category, &text)
+    {
+        extract_usd_billions(&text)
+    } else {
+        None
+    };
     let observed_at = item
         .get("datetime")
         .and_then(|value| value.as_i64())
@@ -147,14 +165,13 @@ fn event_from_news_item(
         .and_then(|value| value.as_str())
         .filter(|url| !url.trim().is_empty())
         .map(|url| url.to_string());
-    let event_type = observation_event_type_from_text(&text);
     Some(CapitalAbsorptionAutoEvent {
         category,
-        supply_kind: supply_kind_from_category_and_type(category, event_type),
+        supply_kind,
         event_type,
-        subject: detect_event_subject(symbol, &text),
+        subject,
         description: headline.to_string(),
-        amount_usd_b: extract_usd_billions(&text),
+        amount_usd_b,
         ai_capex_related: is_ai_capex_related(&text),
         source_url,
         observed_at,
@@ -163,21 +180,29 @@ fn event_from_news_item(
     })
 }
 
-fn supply_kind_from_category_and_type(
+fn supply_kind_from_category_type_and_text(
     category: CapitalAbsorptionAutoEventCategory,
     event_type: CapitalAbsorptionObservationEventType,
-) -> CapitalAbsorptionSupplyKind {
+    text: &str,
+) -> Option<CapitalAbsorptionSupplyKind> {
     match category {
         CapitalAbsorptionAutoEventCategory::MegaCapFinancing
-        | CapitalAbsorptionAutoEventCategory::SecondaryLiquidity => {
-            CapitalAbsorptionSupplyKind::Actual
+        | CapitalAbsorptionAutoEventCategory::SecondaryLiquidity
+            if is_confirmed_non_ipo_financing_event(text) =>
+        {
+            Some(CapitalAbsorptionSupplyKind::Actual)
         }
         CapitalAbsorptionAutoEventCategory::IpoSupply
-            if event_type == CapitalAbsorptionObservationEventType::Confirmed =>
+            if event_type == CapitalAbsorptionObservationEventType::Confirmed
+                && is_confirmed_ipo_financing_event(text) =>
         {
-            CapitalAbsorptionSupplyKind::Actual
+            Some(CapitalAbsorptionSupplyKind::Actual)
         }
-        CapitalAbsorptionAutoEventCategory::IpoSupply => CapitalAbsorptionSupplyKind::Potential,
+        CapitalAbsorptionAutoEventCategory::IpoSupply => {
+            Some(CapitalAbsorptionSupplyKind::Potential)
+        }
+        CapitalAbsorptionAutoEventCategory::MegaCapFinancing
+        | CapitalAbsorptionAutoEventCategory::SecondaryLiquidity => None,
     }
 }
 
@@ -191,13 +216,15 @@ fn observation_event_type_from_text(text: &str) -> CapitalAbsorptionObservationE
         || lower.contains("pre-ipo discussion")
     {
         CapitalAbsorptionObservationEventType::Rumor
-    } else if lower.contains("announced")
+    } else if lower.contains("announces")
+        || lower.contains("announced")
         || lower.contains("prices ipo")
         || lower.contains("priced ipo")
         || lower.contains("begins trading")
         || lower.contains("listed")
         || lower.contains("completed")
-        || lower.contains("filed")
+        || lower.contains(" filed ")
+        || lower.contains("filed for")
         || lower.contains("s-1")
         || lower.contains("launches")
     {
@@ -285,6 +312,132 @@ fn classify_capital_absorption_event(text: &str) -> Option<CapitalAbsorptionAuto
     None
 }
 
+fn is_confirmed_non_ipo_financing_event(text: &str) -> bool {
+    let lower = text.to_ascii_lowercase();
+    contains_any(
+        &lower,
+        &[
+            "announces",
+            "announced",
+            "prices",
+            "priced",
+            "launches",
+            "launched",
+            "closes",
+            "closed",
+            "completes",
+            "completed",
+            "files",
+            "filed",
+        ],
+    ) && contains_any(
+        &lower,
+        &[
+            "equity raise",
+            "secondary offering",
+            "follow-on offering",
+            "stock offering",
+            "share offering",
+            "convertible debt",
+            "convertible notes",
+            "convertible senior notes",
+            "at-the-market",
+            "atm program",
+            "atm offering",
+        ],
+    )
+}
+
+fn is_confirmed_ipo_financing_event(text: &str) -> bool {
+    let lower = text.to_ascii_lowercase();
+    contains_any(
+        &lower,
+        &[
+            "prices ipo",
+            "priced ipo",
+            "ipo priced",
+            "completed ipo",
+            "completes ipo",
+            "begins trading",
+            "filed for ipo",
+            "files for ipo",
+            "filed to raise",
+            "files to raise",
+            "s-1",
+        ],
+    ) && has_confirmed_financing_amount(CapitalAbsorptionAutoEventCategory::IpoSupply, text)
+}
+
+fn has_confirmed_financing_amount(
+    category: CapitalAbsorptionAutoEventCategory,
+    text: &str,
+) -> bool {
+    if extract_usd_billions(text).is_none() {
+        return false;
+    }
+    let lower = text.to_ascii_lowercase();
+    if contains_any(
+        &lower,
+        &[
+            "valuation",
+            "valued at",
+            "could be worth",
+            "expected value",
+            "projected valuation",
+            "target valuation",
+            "market cap",
+        ],
+    ) {
+        return false;
+    }
+    match category {
+        CapitalAbsorptionAutoEventCategory::IpoSupply => contains_any(
+            &lower,
+            &[
+                "raise",
+                "raises",
+                "priced",
+                "prices",
+                "offering size",
+                "gross proceeds",
+                "proceeds",
+            ],
+        ),
+        CapitalAbsorptionAutoEventCategory::MegaCapFinancing
+        | CapitalAbsorptionAutoEventCategory::SecondaryLiquidity => true,
+    }
+}
+
+fn is_weak_related_news(text: &str) -> bool {
+    let lower = text.to_ascii_lowercase();
+    contains_any(
+        &lower,
+        &[
+            "wall street analyst",
+            "analyst research",
+            "analyst rating",
+            "analyst says",
+            "analyst sees",
+            "stock recommendation",
+            "stocks to buy",
+            "stock to buy",
+            "buy before",
+            "before the ipo",
+            "before its ipo",
+            "ahead of the ipo",
+            "ahead of its ipo",
+            "consider ahead of ipo",
+        ],
+    ) || (lower.contains("ipo") && lower.contains("competitor"))
+        || (lower.contains("ipo") && lower.contains("related ticker"))
+}
+
+fn is_ai_ipo_candidate_subject(subject: &str) -> bool {
+    AI_IPO_CANDIDATES
+        .iter()
+        .any(|candidate| subject.eq_ignore_ascii_case(candidate))
+}
+
 fn contains_any(value: &str, needles: &[&str]) -> bool {
     needles.iter().any(|needle| value.contains(needle))
 }
@@ -355,6 +508,11 @@ mod tests {
         );
         assert_eq!(events[0].amount_usd_b, Some(80.0));
         assert!(events[0].ai_capex_related);
+        assert_eq!(events[0].supply_kind, CapitalAbsorptionSupplyKind::Actual);
+        assert_eq!(
+            events[0].event_type,
+            CapitalAbsorptionObservationEventType::Confirmed
+        );
     }
 
     #[test]
@@ -395,5 +553,113 @@ mod tests {
             events[0].category,
             CapitalAbsorptionAutoEventCategory::IpoSupply
         );
+        assert_eq!(
+            events[0].supply_kind,
+            CapitalAbsorptionSupplyKind::Potential
+        );
+        assert_eq!(events[0].amount_usd_b, None);
+    }
+
+    #[test]
+    fn keeps_anthropic_ipo_discussion_in_potential_queue_without_amount() {
+        let raw = r#"[
+          {
+            "headline": "Anthropic IPO discussion grows after private valuation reaches $60 billion",
+            "summary": "Investors are considering the company ahead of a possible IPO.",
+            "url": "https://example.com/anthropic-ipo-discussion",
+            "datetime": 1780444800
+          }
+        ]"#;
+
+        let events = extract_capital_absorption_events(
+            "Market",
+            raw,
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+        )
+        .unwrap();
+
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].subject, "Anthropic");
+        assert_eq!(
+            events[0].supply_kind,
+            CapitalAbsorptionSupplyKind::Potential
+        );
+        assert_eq!(
+            events[0].event_type,
+            CapitalAbsorptionObservationEventType::Reported
+        );
+        assert_eq!(events[0].amount_usd_b, None);
+    }
+
+    #[test]
+    fn ignores_weak_ipo_related_stock_recommendations() {
+        let raw = r#"[
+          {
+            "headline": "3 stocks to buy before the Anthropic IPO",
+            "summary": "A Wall Street analyst research call mentions related tickers.",
+            "url": "https://example.com/stocks-before-ipo",
+            "datetime": 1780444800
+          }
+        ]"#;
+
+        let events = extract_capital_absorption_events(
+            "Market",
+            raw,
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+        )
+        .unwrap();
+
+        assert!(events.is_empty());
+    }
+
+    #[test]
+    fn confirmed_ipo_uses_only_confirmed_financing_amount() {
+        let raw = r#"[
+          {
+            "headline": "Figure filed for IPO to raise $750 million",
+            "summary": "The S-1 confirms expected gross proceeds from the offering.",
+            "url": "https://example.com/figure-ipo-filed",
+            "datetime": 1780444800
+          }
+        ]"#;
+
+        let events = extract_capital_absorption_events(
+            "Market",
+            raw,
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+        )
+        .unwrap();
+
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].subject, "Figure");
+        assert_eq!(events[0].supply_kind, CapitalAbsorptionSupplyKind::Actual);
+        assert_eq!(events[0].amount_usd_b, Some(0.75));
+    }
+
+    #[test]
+    fn ignores_projected_ipo_valuation_amount_for_actual_supply() {
+        let raw = r#"[
+          {
+            "headline": "Stripe IPO expected at $90 billion valuation",
+            "summary": "The company remains an IPO candidate, with no offering amount confirmed.",
+            "url": "https://example.com/stripe-ipo-valuation",
+            "datetime": 1780444800
+          }
+        ]"#;
+
+        let events = extract_capital_absorption_events(
+            "Market",
+            raw,
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+        )
+        .unwrap();
+
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].subject, "Stripe");
+        assert_eq!(
+            events[0].supply_kind,
+            CapitalAbsorptionSupplyKind::Potential
+        );
+        assert_eq!(events[0].amount_usd_b, None);
     }
 }
