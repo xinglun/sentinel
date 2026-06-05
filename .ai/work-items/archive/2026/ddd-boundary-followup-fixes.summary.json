@@ -1,0 +1,129 @@
+{
+  "workItemId": "ddd-boundary-followup-fixes",
+  "contractPath": ".ai/work-items/archive/2026/ddd-boundary-followup-fixes.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "reason": "DDD 境界レビュー指摘の追加修正範囲、受入条件、検証 command を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+      "reason": "本 Work Item の変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の active 状態を Cockpit status に反映した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "simulation date が空の場合は NaN report を生成せず明示 error で停止し、progress log を実際の実行単位に合わせた。"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "Application context から save_dir を除去し、portfolio / account / data quality payload を typed DTO に置き換えた。"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "reason": "Delivery plan が serde_json::Value ではなく typed application DTO を保持するようにした。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "Typed DTO を既存 JSON 保存 schema のまま serialize できるよう persistence API を汎用化した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "save_dir の組み立てを interface / infrastructure composition 側へ移した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_source_collection.rs",
+      "reason": "Gray Rhino source collection request から filesystem path を除去した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "save_dir を infrastructure collector / repository の依存として受け取り、application request から参照しない形にした。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_cli_handler.rs",
+      "reason": "CLI 側で output save_dir を組み立て、source collection infrastructure へ渡すようにした。"
+    },
+    {
+      "path": "tests/backtest_cli_integration.rs",
+      "reason": "Backtest の empty simulation date error contract を regression test で固定した。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "Radar typed DTO 化後も既存 persistence schema と delivery plan contract が維持されることを検証した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "src/features/backtest/interface/backtest.rs",
+    "src/features/radar/application/radar.rs",
+    "src/features/research/application/gray_rhino_source_collection.rs",
+    "tests/pipeline_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "変更は表示・監査・永続化 payload boundary と Backtest 入力検証に限定した。Gate / execution / trader / action matrix / position sizing は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "対象 application boundary の grep 確認では save_dir は残らず、Radar snapshot payload の serde_json::Value / json! も除去済み。execution_gate の audit details JSON は本 Work Item の snapshot / data quality 境界外。",
+    "feature module public surface の大規模収縮は integration test API と利用境界に影響するため、本 Work Item では production behavior を変えず残債として扱った。"
+  ]
+}

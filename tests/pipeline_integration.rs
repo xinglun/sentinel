@@ -367,13 +367,15 @@ fn radar_application_payload_builders_keep_persistence_schema() {
         &failed_symbols,
     );
 
-    assert_eq!(portfolio["date"], "2026-05-24");
-    assert_eq!(portfolio["positions"][0]["symbol"], "NVDA");
-    assert_eq!(account["max_daily_budget"], 300.0);
-    assert_eq!(account["failed_fetch_count"], 1);
-    assert_eq!(quality["successful_fetches"], 1);
-    assert_eq!(quality["failed_symbols"][0], "MSFT");
-    assert_eq!(quality["status"], "WARNING");
+    assert_eq!(portfolio.date, "2026-05-24");
+    assert_eq!(portfolio.positions[0].symbol, "NVDA");
+    assert_eq!(account.max_daily_budget, Some(300.0));
+    assert_eq!(account.failed_fetch_count, 1);
+    assert_eq!(quality.successful_fetches, 1);
+    assert_eq!(quality.failed_symbols[0], "MSFT");
+    assert_eq!(quality.status, "WARNING");
+    let portfolio_json = serde_json::to_value(&portfolio).unwrap();
+    assert_eq!(portfolio_json["positions"][0]["symbol"], "NVDA");
 }
 
 #[test]
@@ -413,9 +415,9 @@ fn radar_delivery_plan_owns_execution_and_audit_payload_composition() {
     assert_eq!(plan.current_exposure, 200.0);
     assert_eq!(plan.buying_power, 800.0);
     assert!(plan.execution_result.trades.is_empty());
-    assert_eq!(plan.portfolio_snapshot["position_count"], 1);
-    assert_eq!(plan.account_snapshot["failed_fetch_count"], 1);
-    assert_eq!(plan.data_quality_log["status"], "WARNING");
+    assert_eq!(plan.portfolio_snapshot.position_count, 1);
+    assert_eq!(plan.account_snapshot.failed_fetch_count, 1);
+    assert_eq!(plan.data_quality_log.status, "WARNING");
     assert_eq!(plan.state_machine.from_state, "IGNITION");
     assert_eq!(plan.state_machine.to_state, "DEFENSIVE");
     assert!(plan.prices.is_empty());
@@ -548,10 +550,7 @@ fn radar_application_run_context_builds_initial_status_metadata() {
     let now = chrono::DateTime::parse_from_rfc3339("2026-05-24T10:15:00+09:00")
         .unwrap()
         .with_timezone(&chrono::Local);
-    let context = stock_sentinel::features::radar::application::radar::RadarRunContext::new(
-        "target/run",
-        now,
-    );
+    let context = stock_sentinel::features::radar::application::radar::RadarRunContext::new(now);
     let outcome = context.initial_run_outcome(
         stock_sentinel::features::shared::application::run_status::DeliveryStatus::Skipped,
     );
@@ -559,7 +558,6 @@ fn radar_application_run_context_builds_initial_status_metadata() {
     let expected_date = now.date_naive().to_string();
     let parsed_timestamp = chrono::DateTime::parse_from_rfc3339(&outcome.timestamp).unwrap();
 
-    assert_eq!(context.save_dir(), std::path::Path::new("target/run"));
     assert_eq!(context.date_string(), expected_date);
     assert_eq!(outcome.date, expected_date);
     assert_eq!(parsed_timestamp.timestamp(), now.timestamp());

@@ -1,0 +1,115 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-boundary-followup-fixes",
+  "mode": "code",
+  "title": "DDD 境界レビュー指摘の追加修正",
+  "scope": [
+    ".ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+    ".ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/backtest/interface/backtest.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "src/features/radar/application/radar.rs",
+    "src/features/radar/application/delivery_plan.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/application/gray_rhino_source_collection.rs",
+    "src/features/research/acl/gray_rhino_source_adapter_factory.rs",
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+    "src/features/research/interface/gray_rhino_cli_handler.rs",
+    "tests/backtest_cli_integration.rs",
+    "tests/pipeline_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Application / Infrastructure / Interface の責務分離ルール。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "Backtest 0-day simulation と progress log の修正対象。"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "Radar application に残る PathBuf / JSON payload boundary の修正対象。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_source_collection.rs",
+      "reason": "Research application request に残る save_dir 境界の修正対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Backtest は simulation date が空の場合に user-facing NaN / inf report を生成せず、明示 error で停止する。",
+    "Backtest progress log は実行時序を誤認させない表現にする。",
+    "Radar application は save_dir を保持せず、snapshot / data quality payload は serde_json::Value ではなく typed application DTO として infrastructure へ渡す。",
+    "Research Gray Rhino source collection request から save_dir を除き、filesystem context は ACL / infrastructure composition に限定する。",
+    "Gate / execution / trader / action matrix / position sizing には影響しない。表示・監査・境界整理のみを行う。",
+    "Telegram / audit daily / weekly review / data branch / snapshot / weekly metrics への新規出力は追加しない。既存 Backtest / Radar / Gray Rhino 保存契約は維持する。",
+    "i18n 追加は不要。既存 integration test と architecture check で regression を固定する。",
+    "feature module public surface の大規模収縮は外部 integration test API に影響するため本 Work Item では production behavior を変えず、残債として Summary に記録する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-boundary-followup-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-boundary-followup-fixes.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -42,11 +42,10 @@ pub(crate) async fn run_pipeline(
     let domain_rules = DomainParsedRules::from(&parsed_rules);
     let config_arc = Arc::new(app_config);
     let domain_rules_arc = Arc::new(domain_rules);
-    let radar_context = crate::features::radar::application::radar::RadarRunContext::new(
-        &config_arc.output.save_to,
-        chrono::Local::now(),
-    );
-    let save_dir = radar_context.save_dir();
+    let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
+    let radar_context =
+        crate::features::radar::application::radar::RadarRunContext::new(chrono::Local::now());
+    let save_dir = save_dir.as_path();
     if !save_dir.exists() {
         std::fs::create_dir_all(save_dir).context("Failed to create output directory")?;
     }
@@ -88,7 +87,7 @@ pub(crate) async fn run_pipeline(
         radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
     outcome.gray_rhino_collection = load_gray_rhino_collection_status(save_dir, radar_context.date);
 
-    let ledger = Arc::new(build_ledger_adapter(radar_context.save_dir.clone()));
+    let ledger = Arc::new(build_ledger_adapter(save_dir.to_path_buf()));
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if pipeline_plan.should_enter_pipeline_body {

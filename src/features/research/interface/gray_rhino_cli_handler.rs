@@ -96,12 +96,13 @@ pub(crate) async fn run_collect_gray_rhino_sources(
             .with_context(|| format!("Invalid Gray Rhino source collection date: {}", raw))?,
         None => chrono::Local::now().date_naive(),
     };
+    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
     let outcomes = collect_gray_rhino_sources(
         app_config,
+        &save_dir,
         GrayRhinoSourceCollectionRequest {
             provider,
             symbols,
-            save_dir: std::path::PathBuf::from(&app_config.output.save_to),
             as_of_date,
             lookback_days: if provider == GrayRhinoSourceProvider::Sec {
                 lookback_days.max(365)

@@ -115,7 +115,11 @@ impl PersistenceLayer {
         Ok(())
     }
 
-    pub fn save_portfolio_snapshot(&self, snapshot: &serde_json::Value, date: &str) -> Result<()> {
+    pub fn save_portfolio_snapshot<T: serde::Serialize>(
+        &self,
+        snapshot: &T,
+        date: &str,
+    ) -> Result<()> {
         let filename = format!("portfolio_snapshot_{}.json", date);
         let path = self.save_dir.join(filename);
         let json = serde_json::to_string_pretty(snapshot)
@@ -124,7 +128,11 @@ impl PersistenceLayer {
         Ok(())
     }
 
-    pub fn save_account_snapshot(&self, snapshot: &serde_json::Value, date: &str) -> Result<()> {
+    pub fn save_account_snapshot<T: serde::Serialize>(
+        &self,
+        snapshot: &T,
+        date: &str,
+    ) -> Result<()> {
         let filename = format!("account_snapshot_{}.json", date);
         let path = self.save_dir.join(filename);
         let json = serde_json::to_string_pretty(snapshot)
@@ -140,7 +148,7 @@ impl PersistenceLayer {
         Ok(())
     }
 
-    pub fn save_data_quality_log(&self, log: &serde_json::Value) -> Result<()> {
+    pub fn save_data_quality_log<T: serde::Serialize>(&self, log: &T) -> Result<()> {
         let path = self.save_dir.join("data_quality_log.jsonl");
         let json = serde_json::to_string(log).context("Failed to serialize data quality log")?;
         let mut file = OpenOptions::new().create(true).append(true).open(path)?;

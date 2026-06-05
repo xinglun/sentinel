@@ -70,6 +70,13 @@ pub async fn run_backtest(
         }
     }
     simulation_dates.sort();
+    if simulation_dates.is_empty() {
+        return Err(anyhow::anyhow!(
+            "No simulation dates found between {} and {}.",
+            from_date_str,
+            to_date_str
+        ));
+    }
 
     println!(
         "🧪 Running Comparative Backtest (Baseline vs Enhanced) over {} days",
@@ -84,8 +91,7 @@ pub async fn run_backtest(
     let backtest_rules = map_rules_to_backtest(&parsed_rules);
 
     // baseline / enhanced の比較 simulation を実行する。
-    println!("   [1/2] Running Baseline...");
-    println!("   [2/2] Running Enhanced (V1.4)...");
+    println!("   Running Baseline and Enhanced (V1.4) simulations...");
     let baseline_engine = RadarBacktestDecisionEngine::new(parsed_rules.clone(), watchlist.clone());
     let enhanced_engine = RadarBacktestDecisionEngine::new(parsed_rules.clone(), watchlist.clone());
     let comparison = run_comparative_backtest(
