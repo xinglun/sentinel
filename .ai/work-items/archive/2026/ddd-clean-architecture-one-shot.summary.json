@@ -1,0 +1,133 @@
+{
+  "workItemId": "ddd-clean-architecture-one-shot",
+  "contractPath": ".ai/work-items/archive/2026/ddd-clean-architecture-one-shot.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "reason": "DDD / Clean Architecture 修正の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+      "reason": "変更内容、検証結果、境界確認を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 作成時に Cockpit status が更新された。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Evidence extractor adapter の trait object 化に合わせて CLI composition root の呼び出しを更新した。"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "reason": "Backtest comparative use case module を公開した。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "Backtest application が返す構造化 simulation / comparison report model を追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/run_backtest.rs",
+      "reason": "baseline / enhanced の比較 simulation orchestration を application use case に分離した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Markdown / JSON output 生成を削除し、純粋な BacktestSimulationReport を返すようにした。"
+    },
+    {
+      "path": "src/features/backtest/domain/metrics.rs",
+      "reason": "Domain から Markdown / JSON artifact を含む BacktestRunArtifacts を削除した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Backtest Markdown / JSON rendering と file output を infrastructure output boundary に集約した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "Backtest CLI facade が comparative use case を呼び、output infrastructure へ保存を委譲する形に更新した。"
+    },
+    {
+      "path": "src/features/evidence/acl/evidence_ingestion.rs",
+      "reason": "Evidence infrastructure の wildcard re-export を削除した。"
+    },
+    {
+      "path": "src/features/evidence/acl/evidence_store_factory.rs",
+      "reason": "Evidence extractor adapter を concrete type ではなく application port trait object として返すようにした。"
+    },
+    {
+      "path": "tests/evidence_ingestion_port_integration.rs",
+      "reason": "Evidence ACL re-export 前提の test 名と import を application port / infrastructure boundary 明示へ更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    ".ai/architecture/feature_acl.yaml",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/domain/metrics.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "src/features/evidence/acl/evidence_ingestion.rs",
+    "src/features/evidence/acl/evidence_store_factory.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Backtest output boundary と Evidence ACL factory の構造整理。Gate / execution / trader / action matrix / position sizing には接続しない。既存 Backtest Markdown / JSON 保存先は維持した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Telegram / audit daily / weekly review / data branch / snapshot / weekly metrics への新規出力追加なし。",
+    "i18n 追加なし。既存 Backtest report text の保存形式のみ infrastructure に移した。"
+  ]
+}

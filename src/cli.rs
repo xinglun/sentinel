@@ -361,7 +361,7 @@ pub async fn run() -> Result<()> {
             };
             let outcome = collect_evidence_from_source(
                 fetcher.as_ref(),
-                &extractor,
+                extractor.as_ref(),
                 repository,
                 CollectEvidenceRequest {
                     url: url.clone(),
@@ -456,7 +456,7 @@ pub async fn run() -> Result<()> {
             };
             let batch_outcome = collect_evidence_batch(
                 fetcher.as_ref(),
-                &extractor,
+                extractor.as_ref(),
                 repository,
                 BatchCollectEvidenceRequest {
                     targets,

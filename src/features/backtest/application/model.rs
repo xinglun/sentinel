@@ -1,3 +1,4 @@
+use crate::features::backtest::domain::metrics::StateMachineMetrics;
 use crate::features::shared::domain::market_data::DailyBar;
 use chrono::NaiveDate;
 use std::borrow::Cow;
@@ -89,4 +90,34 @@ pub struct BacktestTransitionAudit {
     pub duration_locked: bool,
     pub soft_reset_applied: bool,
     pub defensive_override: bool,
+}
+
+#[derive(Debug, Clone)]
+pub struct BacktestReliabilityBucket {
+    pub bucket: String,
+    pub total: usize,
+    pub correct: usize,
+}
+
+#[derive(Debug, Clone)]
+pub struct BacktestRegimeAudit {
+    pub state: String,
+    pub total_signals: usize,
+    pub correct_signals: usize,
+    pub average_20d_return: f64,
+    pub max_drawdown_20d: f64,
+}
+
+#[derive(Debug, Clone)]
+pub struct BacktestSimulationReport {
+    pub name: String,
+    pub metrics: StateMachineMetrics,
+    pub reliability: Vec<BacktestReliabilityBucket>,
+    pub regime_audit: Vec<BacktestRegimeAudit>,
+}
+
+#[derive(Debug, Clone)]
+pub struct BacktestComparisonReport {
+    pub baseline: BacktestSimulationReport,
+    pub enhanced: BacktestSimulationReport,
 }

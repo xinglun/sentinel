@@ -1,5 +1,7 @@
 use crate::config::AppConfig;
-use crate::features::evidence::application::evidence_ingestion::SourceFetcher;
+use crate::features::evidence::application::evidence_ingestion::{
+    EvidenceExtractor, SourceFetcher,
+};
 use crate::features::evidence::infrastructure::evidence_fetcher_factory::{
     build_batch_evidence_fetcher, build_evidence_extractor, build_evidence_store,
     build_url_evidence_fetcher,
@@ -14,9 +16,8 @@ pub fn build_evidence_store_adapter(save_dir: &Path) -> EvidenceStoreAdapter {
     build_evidence_store(save_dir)
 }
 
-pub fn build_evidence_extractor_adapter(
-) -> crate::features::evidence::infrastructure::evidence_ingestion::RuleBasedExtractor {
-    build_evidence_extractor()
+pub fn build_evidence_extractor_adapter() -> Box<dyn EvidenceExtractor> {
+    Box::new(build_evidence_extractor())
 }
 
 pub fn build_url_evidence_fetcher_adapter(

@@ -41,11 +41,3 @@ pub struct StateMachineMetrics {
     pub breakout_confirmed_count: usize,
     pub breakout_failed_risk_count: usize,
 }
-
-#[derive(Debug)]
-pub struct BacktestRunArtifacts {
-    pub metrics: StateMachineMetrics,
-    pub summary_markdown: String,
-    pub state_machine_metrics_markdown: String,
-    pub state_machine_metrics_json: String,
-}

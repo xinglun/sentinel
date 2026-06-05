@@ -1,6 +1,6 @@
 use crate::config::AppConfig;
 use crate::features::backtest::acl::radar_decision_engine::RadarBacktestDecisionEngine;
-use crate::features::backtest::application::simulation::run_core_simulation;
+use crate::features::backtest::application::run_backtest::run_comparative_backtest;
 use crate::features::backtest::infrastructure::output::{
     generate_comparison_report, publish_primary_backtest_outputs, write_run_artifacts,
 };
@@ -83,35 +83,25 @@ pub async fn run_backtest(
     let backtest_watchlist = map_watchlist_to_backtest(&watchlist);
     let backtest_rules = map_rules_to_backtest(&parsed_rules);
 
-    // baseline（memory / friction なし）を実行する。
+    // baseline / enhanced の比較 simulation を実行する。
     println!("   [1/2] Running Baseline...");
-    let baseline_artifacts = run_core_simulation(
-        &RadarBacktestDecisionEngine::new(parsed_rules.clone(), watchlist.clone()),
-        &backtest_histories,
-        &backtest_watchlist,
-        &simulation_dates,
-        &backtest_rules,
-        false,
-        "baseline",
-    )?;
-
-    // enhanced（memory / friction あり）を実行する。
     println!("   [2/2] Running Enhanced (V1.4)...");
-    let enhanced_artifacts = run_core_simulation(
-        &RadarBacktestDecisionEngine::new(parsed_rules.clone(), watchlist.clone()),
+    let baseline_engine = RadarBacktestDecisionEngine::new(parsed_rules.clone(), watchlist.clone());
+    let enhanced_engine = RadarBacktestDecisionEngine::new(parsed_rules.clone(), watchlist.clone());
+    let comparison = run_comparative_backtest(
+        &baseline_engine,
+        &enhanced_engine,
         &backtest_histories,
         &backtest_watchlist,
         &simulation_dates,
         &backtest_rules,
-        true,
-        "enhanced",
     )?;
 
-    write_run_artifacts("baseline", &baseline_artifacts)?;
-    write_run_artifacts("enhanced", &enhanced_artifacts)?;
+    write_run_artifacts(&comparison.baseline)?;
+    write_run_artifacts(&comparison.enhanced)?;
 
     // 比較 report を生成する。
-    generate_comparison_report(&baseline_artifacts.metrics, &enhanced_artifacts.metrics)?;
+    generate_comparison_report(&comparison.baseline.metrics, &comparison.enhanced.metrics)?;
     publish_primary_backtest_outputs()?;
 
     Ok(())

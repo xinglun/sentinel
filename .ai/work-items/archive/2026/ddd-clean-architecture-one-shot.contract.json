@@ -1,0 +1,112 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ddd-clean-architecture-one-shot",
+  "mode": "code",
+  "title": "DDD Clean Architecture 境界の一括修正",
+  "scope": [
+    ".ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+    ".ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/backtest/application/mod.rs",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/run_backtest.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/domain/metrics.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "src/features/backtest/interface/backtest.rs",
+    "src/features/evidence/acl/evidence_ingestion.rs",
+    "src/features/evidence/acl/evidence_store_factory.rs",
+    "tests/evidence_ingestion_port_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "DDD / Clean Architecture の依存方向と layer responsibility の SSOT。"
+    },
+    {
+      "path": ".ai/architecture/feature_acl.yaml",
+      "reason": "feature-first boundary checker の machine-readable SSOT。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Backtest application に残る Markdown / JSON output 境界の修正対象。"
+    },
+    {
+      "path": "src/features/evidence/acl/evidence_ingestion.rs",
+      "reason": "Evidence ACL が infrastructure concrete type を再公開する境界の修正対象。"
+    },
+    {
+      "path": "src/features/evidence/acl/evidence_store_factory.rs",
+      "reason": "Evidence ACL factory が application port を公開する修正対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Backtest application / domain から Markdown / JSON output artifact 生成責務が外側へ移されている。",
+    "Backtest CLI entrypoint は application use case を呼び出し、file output は infrastructure boundary に限定されている。",
+    "Evidence ACL は infrastructure module の wildcard re-export を持たず、必要な adapter factory だけを公開している。",
+    "Gate / execution / trader / action matrix / position sizing には影響しない。Backtest output と Evidence ingest adapter boundary の整理だけを行う。",
+    "Telegram 表示、audit daily、weekly review、data branch、snapshot、weekly metrics には新規出力を追加しない。Backtest Markdown / JSON output の既存保存先だけを維持する。",
+    "i18n 追加は不要。Evidence port integration test と architecture check で boundary regression を固定する。",
+    "新しい運用 command は追加しない。verification は既存 make target のみを使う。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-clean-architecture-one-shot.contract.json SUMMARY=.ai/work-items/active/ddd-clean-architecture-one-shot.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
