@@ -93,6 +93,9 @@
   "observedIssues": [
     "code: Actual / Potential / weak-news / amount 判定は application policy に集約し、infrastructure adapter は raw news field 抽出だけにした。",
     "test: confirmed equity raise、secondary offering、follow-on offering、convertible debt issuance、ATM program、filed IPO with confirmed amount、valuation 除外、weak related news 除外を追加した。",
+    "test: filed IPO が proceeds と valuation を同時に含む場合は proceeds だけを Actual Supply amount に使う回帰 test を追加した。",
+    "test: OpenAI job listing のような generic listing は Potential Queue に入れない回帰 test を追加した。",
+    "code: AI IPO issuer list は AI_IPO_CANDIDATES const を single source とし、queue rendering も同じ list を参照するようにした。",
     "docs: Capital Absorption Observation spec を confirmed-only Actual Supply と Potential Queue 境界に合わせた。",
     "i18n: Anthropic Potential Queue と Actual Supply 空表示を zh / en / ja report contract で固定した。",
     "report output: Anthropic IPO discussion は Potential Queue として表示し、Actual Capital Supply amount は空のままにする test を追加した。",

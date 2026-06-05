@@ -294,10 +294,8 @@ pub(crate) fn classify_capital_absorption_news_observation(
     if supply_kind == CapitalAbsorptionSupplyKind::Potential && !is_ai_ipo_candidate(&subject) {
         return None;
     }
-    let amount_usd_b = if supply_kind == CapitalAbsorptionSupplyKind::Actual
-        && has_confirmed_financing_amount(category, &text)
-    {
-        extract_usd_billions(&text)
+    let amount_usd_b = if supply_kind == CapitalAbsorptionSupplyKind::Actual {
+        extract_confirmed_financing_amount(category, &text)
     } else {
         None
     };
@@ -475,35 +473,28 @@ fn build_supply_event_counts(
 }
 
 fn build_ai_ipo_queue(events: &[CapitalAbsorptionAutoEvent]) -> Vec<CapitalAbsorptionIpoQueueItem> {
-    [
-        "Anthropic",
-        "OpenAI",
-        "SpaceX",
-        "Databricks",
-        "Stripe",
-        "Figure",
-    ]
-    .iter()
-    .map(|issuer| {
-        let mut status = CapitalAbsorptionIpoQueueStatus::Rumor;
-        let mut source_count = 0;
-        let mut event_type = CapitalAbsorptionObservationEventType::Rumor;
-        for event in events
-            .iter()
-            .filter(|event| same_issuer(&event.subject, issuer))
-        {
-            status = status.max(queue_status_from_text(&event.description));
-            source_count += event.source_count.max(1);
-            event_type = event_type.max(event.event_type);
-        }
-        CapitalAbsorptionIpoQueueItem {
-            issuer: (*issuer).to_string(),
-            status,
-            source_count,
-            event_type,
-        }
-    })
-    .collect()
+    AI_IPO_CANDIDATES
+        .iter()
+        .map(|issuer| {
+            let mut status = CapitalAbsorptionIpoQueueStatus::Rumor;
+            let mut source_count = 0;
+            let mut event_type = CapitalAbsorptionObservationEventType::Rumor;
+            for event in events
+                .iter()
+                .filter(|event| same_issuer(&event.subject, issuer))
+            {
+                status = status.max(queue_status_from_text(&event.description));
+                source_count += event.source_count.max(1);
+                event_type = event_type.max(event.event_type);
+            }
+            CapitalAbsorptionIpoQueueItem {
+                issuer: (*issuer).to_string(),
+                status,
+                source_count,
+                event_type,
+            }
+        })
+        .collect()
 }
 
 fn build_ipo_queue_history(
@@ -723,7 +714,10 @@ fn classify_capital_absorption_event(text: &str) -> Option<CapitalAbsorptionAuto
             "ipo",
             "initial public offering",
             "files to go public",
-            "listing",
+            "public listing",
+            "direct listing",
+            "stock listing",
+            "ipo listing",
         ],
     ) {
         return Some(CapitalAbsorptionAutoEventCategory::IpoSupply);
@@ -825,46 +819,20 @@ fn is_confirmed_ipo_financing_event(text: &str) -> bool {
             "files to raise",
             "s-1",
         ],
-    ) && has_confirmed_financing_amount(CapitalAbsorptionAutoEventCategory::IpoSupply, text)
+    ) && extract_confirmed_financing_amount(CapitalAbsorptionAutoEventCategory::IpoSupply, text)
+        .is_some()
 }
 
-fn has_confirmed_financing_amount(
+fn extract_confirmed_financing_amount(
     category: CapitalAbsorptionAutoEventCategory,
     text: &str,
-) -> bool {
-    if extract_usd_billions(text).is_none() {
-        return false;
-    }
-    let lower = text.to_ascii_lowercase();
-    if contains_any(
-        &lower,
-        &[
-            "valuation",
-            "valued at",
-            "could be worth",
-            "expected value",
-            "projected valuation",
-            "target valuation",
-            "market cap",
-        ],
-    ) {
-        return false;
-    }
+) -> Option<f64> {
     match category {
-        CapitalAbsorptionAutoEventCategory::IpoSupply => contains_any(
-            &lower,
-            &[
-                "raise",
-                "raises",
-                "priced",
-                "prices",
-                "offering size",
-                "gross proceeds",
-                "proceeds",
-            ],
-        ),
+        CapitalAbsorptionAutoEventCategory::IpoSupply => {
+            extract_usd_billions_near_confirmed_ipo_amount_context(text)
+        }
         CapitalAbsorptionAutoEventCategory::MegaCapFinancing
-        | CapitalAbsorptionAutoEventCategory::SecondaryLiquidity => true,
+        | CapitalAbsorptionAutoEventCategory::SecondaryLiquidity => extract_usd_billions(text),
     }
 }
 
@@ -928,6 +896,63 @@ fn extract_usd_billions(text: &str) -> Option<f64> {
             if unit.starts_with("million") || unit == "mn" {
                 return Some(number / 1000.0);
             }
+        }
+    }
+    None
+}
+
+fn extract_usd_billions_near_confirmed_ipo_amount_context(text: &str) -> Option<f64> {
+    let tokens = text
+        .split(|ch: char| !(ch.is_ascii_alphanumeric() || ch == '.' || ch == '$'))
+        .filter(|token| !token.is_empty())
+        .map(|token| token.to_ascii_lowercase())
+        .collect::<Vec<_>>();
+    for index in 0..tokens.len().saturating_sub(1) {
+        let number = tokens[index].trim_start_matches('$').parse::<f64>().ok();
+        let unit = tokens[index + 1].as_str();
+        let Some(number) = number else {
+            continue;
+        };
+        let amount = if unit.starts_with("billion") || unit == "bn" {
+            Some(number)
+        } else if unit.starts_with("million") || unit == "mn" {
+            Some(number / 1000.0)
+        } else {
+            None
+        };
+        let Some(amount) = amount else {
+            continue;
+        };
+        let start = index.saturating_sub(5);
+        let end = (index + 7).min(tokens.len());
+        let context = tokens[start..end].join(" ");
+        if contains_any(
+            &context,
+            &[
+                "valuation",
+                "valued",
+                "worth",
+                "market cap",
+                "expected value",
+                "projected valuation",
+                "target valuation",
+            ],
+        ) {
+            continue;
+        }
+        if contains_any(
+            &context,
+            &[
+                "raise",
+                "raises",
+                "proceeds",
+                "gross proceeds",
+                "offering size",
+                "priced",
+                "prices",
+            ],
+        ) {
+            return Some(amount);
         }
     }
     None
@@ -1086,6 +1111,35 @@ mod tests {
         assert_eq!(event.subject, "Stripe");
         assert_eq!(event.supply_kind, CapitalAbsorptionSupplyKind::Potential);
         assert_eq!(event.amount_usd_b, None);
+    }
+
+    #[test]
+    fn filed_ipo_with_proceeds_and_valuation_uses_proceeds_only() {
+        let event = classify_capital_absorption_news_observation(
+            "Market",
+            "Figure files to raise $750 million in IPO at $10 billion valuation",
+            "The S-1 confirms gross proceeds from the offering.",
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+            None,
+        )
+        .expect("filed IPO proceeds should be actual supply even when valuation is mentioned");
+
+        assert_eq!(event.subject, "Figure");
+        assert_eq!(event.supply_kind, CapitalAbsorptionSupplyKind::Actual);
+        assert_eq!(event.amount_usd_b, Some(0.75));
+    }
+
+    #[test]
+    fn generic_job_listing_for_ai_issuer_is_not_potential_supply() {
+        let event = classify_capital_absorption_news_observation(
+            "Market",
+            "OpenAI posts new job listing for infrastructure team",
+            "The role description mentions AI compute and data center operations.",
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+            None,
+        );
+
+        assert!(event.is_none());
     }
 
     #[test]
