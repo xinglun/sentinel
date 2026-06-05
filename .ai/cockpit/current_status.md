@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-06-05T21:26:39.186801+00:00`
+- Generated At: `2026-06-05T22:32:10.240978+00:00`
 - Task: `capital-absorption-supply-classification`
 - Mode: `code`
 - State: `ready_for_review`
@@ -39,8 +39,10 @@ generated: true
 - `.ai/work-items/active/capital-absorption-supply-classification.contract.json`: Actual / Potential Supply 分類修正の scope、acceptance、verification を確定した。
 - `.ai/work-items/active/capital-absorption-supply-classification.summary.json`: 分類修正と検証結果を記録した。
 - `.ai/cockpit/current_status.md`: Work Item 状態を生成した。
-- `src/features/research/infrastructure/capital_absorption_source_adapter.rs`: Finnhub news 抽出で Actual Supply を confirmed financing event のみに限定し、IPO rumor / valuation / weak related article を Potential または除外に分離した。
-- `src/features/research/interface/capital_absorption_report_tests.rs`: Anthropic IPO discussion が Potential Queue に残り、Actual Supply amount に入らない report contract を追加した。
+- `src/features/research/infrastructure/capital_absorption_source_adapter.rs`: Finnhub adapter から Actual / Potential / weak-news / amount 判定を外し、JSON field 抽出と application policy 呼び出しに限定した。
+- `src/features/research/application/capital_absorption.rs`: Capital Absorption news observation policy を application 層に集約し、confirmed Actual Supply allowlist と Potential / weak-news 除外を test で固定した。
+- `src/features/research/interface/capital_absorption_report_tests.rs`: Anthropic IPO discussion が Potential Queue に残り、Actual Supply amount に入らない report contract を zh / en / ja で固定した。
+- `docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md`: confirmed-only Actual Supply、Actual amount source 制約、weak related news 除外、Potential Queue 境界を仕様に反映した。
 
 ## Backtrack
 

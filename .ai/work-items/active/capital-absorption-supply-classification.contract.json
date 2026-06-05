@@ -11,7 +11,8 @@
     "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
     "src/features/research/interface/capital_absorption_report.rs",
     "src/features/research/interface/capital_absorption_report_tests.rs",
-    "tests/research_attention_cli_integration.rs"
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md"
   ],
   "outOfScope": [
     "READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic への接続",
@@ -38,6 +39,10 @@
       "reason": "Actual Capital Supply と Potential Supply Queue の表示境界を確認する。"
     },
     {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "Actual / Potential Supply の仕様文書を実装境界に合わせる。"
+    },
+    {
       "path": "tests/research_attention_cli_integration.rs",
       "reason": "daily-calibration の中文 report contract で Anthropic 誤分類を固定する。"
     },
@@ -55,6 +60,10 @@
     "Wall Street analyst research calls、generic stock recommendation article、3 stocks to buy before X IPO、unrelated ticker mention、IPO keyword mention only の弱相关新闻は観測 event から排除する。",
     "Actual Supply amount は confirmed financing amount からのみ集計し、rumor / expected IPO valuation / projected IPO size を使わない。",
     "Anthropic が Actual Supply ではなく Potential Supply Queue として出ることを test で固定する。",
+    "Actual / Potential / weak-news / amount 判定を application policy に寄せ、infrastructure adapter が raw news field 抽出だけを担当する境界にする。",
+    "confirmed equity raise、confirmed secondary offering、confirmed follow-on offering、confirmed convertible debt issuance、confirmed ATM program、completed / priced / filed IPO with confirmed amount の回帰 test を追加する。",
+    "Anthropic Potential Queue と Actual Supply 空表示を zh / en / ja の report contract で固定する。",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md が confirmed-only Actual Supply、弱相关新闻除外、amount source 制約、Potential Queue 境界を説明する。",
     "Narrative Observation Only、NORMAL / WATCH only、READY / EXECUTE / Gate / Position Sizing / Trend Layer 非接続、trading signal / market conclusion / risk upgrade 非生成の境界を維持する。"
   ],
   "verification": [

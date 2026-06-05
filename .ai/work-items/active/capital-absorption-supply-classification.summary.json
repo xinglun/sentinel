@@ -16,19 +16,29 @@
     },
     {
       "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
-      "reason": "Finnhub news 抽出で Actual Supply を confirmed financing event のみに限定し、IPO rumor / valuation / weak related article を Potential または除外に分離した。"
+      "reason": "Finnhub adapter から Actual / Potential / weak-news / amount 判定を外し、JSON field 抽出と application policy 呼び出しに限定した。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "Capital Absorption news observation policy を application 層に集約し、confirmed Actual Supply allowlist と Potential / weak-news 除外を test で固定した。"
     },
     {
       "path": "src/features/research/interface/capital_absorption_report_tests.rs",
-      "reason": "Anthropic IPO discussion が Potential Queue に残り、Actual Supply amount に入らない report contract を追加した。"
+      "reason": "Anthropic IPO discussion が Potential Queue に残り、Actual Supply amount に入らない report contract を zh / en / ja で固定した。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "confirmed-only Actual Supply、Actual amount source 制約、weak related news 除外、Potential Queue 境界を仕様に反映した。"
     }
   ],
   "sourcesUsed": [
     ".ai/work-items/active/capital-absorption-supply-classification.contract.json",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "src/features/research/application/capital_absorption.rs",
     "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
     "src/features/research/interface/capital_absorption_report_tests.rs",
-    "src/features/research/application/capital_absorption.rs",
     "src/features/research/interface/capital_absorption_report.rs",
+    "全面評审結果",
     "ユーザー提示の Capital Absorption Supply Classification 指摘"
   ],
   "verification": [
@@ -81,6 +91,10 @@
   "generatedFiles": [],
   "destructiveChanges": [],
   "observedIssues": [
+    "code: Actual / Potential / weak-news / amount 判定は application policy に集約し、infrastructure adapter は raw news field 抽出だけにした。",
+    "test: confirmed equity raise、secondary offering、follow-on offering、convertible debt issuance、ATM program、filed IPO with confirmed amount、valuation 除外、weak related news 除外を追加した。",
+    "docs: Capital Absorption Observation spec を confirmed-only Actual Supply と Potential Queue 境界に合わせた。",
+    "i18n: Anthropic Potential Queue と Actual Supply 空表示を zh / en / ja report contract で固定した。",
     "report output: Anthropic IPO discussion は Potential Queue として表示し、Actual Capital Supply amount は空のままにする test を追加した。",
     "data or weekly record: 変更なし。snapshot / JSONL / weekly metrics persistence は追加していない。",
     "Make or CI guard: 既存 make gate のみを使用し、新規 target は追加していない。"

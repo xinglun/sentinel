@@ -26,16 +26,28 @@ Status は現段階では `NORMAL` と `WATCH` だけを許可します。`ACTIV
 
 ## Actual Capital Supply
 
-Actual Capital Supply は、すでに発生した大型供給 event だけを扱います。
+Actual Capital Supply は、すでに発生し、かつ financing amount を確認できる大型供給 event だけを扱います。
 
-- Secondary Offering
-- Equity Raise
-- Convertible Debt
-- Follow-on Offering
-- ATM Program
-- Secondary Liquidity event
+- Confirmed Equity Raise
+- Confirmed Secondary Offering
+- Confirmed Follow-on Offering
+- Confirmed Convertible Debt Issuance
+- Confirmed ATM Program
+- Completed / priced / filed IPO with confirmed amount
 
 Actual event だけが Actual Supply Event Count、observed actual supply amount、現段階の actual financing subtotal に入ります。
+
+Actual Supply amount は confirmed financing amount だけを使います。rumor、expected IPO valuation、projected IPO size、market cap、private valuation は Actual Supply amount に入れません。
+
+次は Actual Capital Supply に入れません。
+
+- IPO rumor
+- IPO candidate
+- IPO discussion
+- Analyst article
+- before IPO / ahead of IPO 型の記事
+- competitor / related ticker 型の記事
+- issuer financing event ではなく IPO keyword だけを含む記事
 
 ## Potential Capital Supply Queue
 
@@ -45,8 +57,11 @@ Potential Capital Supply Queue は、まだ発生していない IPO 候補や�
 - IPO Candidate
 - IPO Preparation
 - Pre-IPO Discussion
+- IPO Expectation
 
 対象例は OpenAI、Anthropic、SpaceX、Databricks、Stripe、Figure です。これらは queue observation であり、Actual Capital Supply ではありません。
+
+Wall Street analyst research calls、generic stock recommendation article、`3 stocks to buy before X IPO` 型の記事、unrelated ticker mention、issuer financing event を含まない IPO keyword mention は queue observation からも除外します。
 
 次の読み替えは禁止します。
 
@@ -78,7 +93,7 @@ IPO Queue History は、current observation window 内の queue size を日付�
 
 Event Type は observation の成熟度を表示するために使います。
 
-- `Confirmed`: filed、announced、priced、listed、completed など、発生または正式進行が確認できるもの。
+- `Confirmed`: confirmed / announced / priced / completed / filed with amount など、発生または正式進行と financing amount が確認できるもの。
 - `Reported`: media report として観測されたが、正式確定ではないもの。
 - `Rumor`: rumor、speculation、considering、pre-IPO discussion など、潜在 queue に留まるもの。
 
