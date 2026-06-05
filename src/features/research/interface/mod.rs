@@ -1,6 +1,12 @@
+mod asset_thesis_report;
+mod capital_absorption_i18n;
+mod capital_absorption_report;
 pub(crate) mod capital_absorption_report_builder;
+#[cfg(test)]
+mod capital_absorption_report_tests;
 pub(crate) mod cli_command_handler;
 pub(crate) mod cognitive_reports;
+mod daily_calibration_i18n;
 mod default_cognitive_localizations;
 mod gray_rhino_assessment_renderer;
 pub(crate) mod gray_rhino_cli_handler;
@@ -11,3 +17,5 @@ pub(crate) mod gray_rhino_renderer;
 pub(crate) mod gray_rhino_report;
 mod gray_rhino_sensor_health_renderer;
 mod gray_rhino_temporal_survivability_renderer;
+mod macro_gravity_report;
+mod research_attention_report;
