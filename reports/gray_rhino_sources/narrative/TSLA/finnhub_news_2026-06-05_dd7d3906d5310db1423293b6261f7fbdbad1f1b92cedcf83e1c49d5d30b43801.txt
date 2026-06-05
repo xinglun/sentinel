@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Wins Over Another Skeptic: JPMorgan Raises TSLA Stock Price Target By More Than 200%
+  summary: JPMorgan hiked its price target for Tesla to $475 from $145, while upgrading the stock to ‘Neutral’ from ‘Underweight’.
+  url: https://finnhub.io/api/news?id=bc3656e121103799e1ca3455497f3a8bb9350ff4cc2d7a6e83d5965fbf1e14af

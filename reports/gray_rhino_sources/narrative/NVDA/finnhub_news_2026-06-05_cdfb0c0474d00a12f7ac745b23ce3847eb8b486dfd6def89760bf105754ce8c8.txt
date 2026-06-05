@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will QQQ Be in 10 Years?
+  summary: After a monster 623% trailing 10-year total return, investors are wondering what this popular exchange-traded fund can do in the future.
+  url: https://finnhub.io/api/news?id=185b55f92c9d5106ef901cb04e250da1874c18cc6ffc406a971f991808c9c343

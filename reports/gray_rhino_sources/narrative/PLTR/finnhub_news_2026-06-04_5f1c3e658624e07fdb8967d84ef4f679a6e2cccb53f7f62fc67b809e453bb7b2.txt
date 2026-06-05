@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir AIPCon 10 Highlights Push Into Core Insurance To Construction
+  summary: Palantir Technologies (NasdaqGS:PLTR) highlighted new partnerships and AI deployments at its AIPCon 10 event. The company announced its first publicly disclosed commercial customer in Mexico through a deal with insurer GNP. Palantir introduced an enterprise AI solution with law firm Kirkland & Ellis for private equity use cases. The company also expanded its work with McCarthy Building Companies to apply AIP in large construction projects. Palantir focuses on data integration and AI...
+  url: https://finnhub.io/api/news?id=65d984dbd8e08f96cc39ea2cc5f126ffe7365f46006a134eaef7d2fe3af014c8

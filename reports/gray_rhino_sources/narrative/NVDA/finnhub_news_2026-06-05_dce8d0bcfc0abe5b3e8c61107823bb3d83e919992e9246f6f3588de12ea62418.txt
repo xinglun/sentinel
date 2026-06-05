@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia certifies Samsung, SK Hynix and Micron for Vera Rubin HBM4 supply
+  summary: The announcement, reported by Bloomberg, ends months of supply-chain speculation about which chipmakers would qualify for Vera Rubin — the successor to Nvidia's Grace Blackwell GPU architecture designed for what Huang calls "agentic AI" workloads. Vera Rubin entered full production after being announced at the GTC Taipei keynote on June 1, 2026, and Nvidia says it delivers 10x agent throughput at scale compared with the Grace Blackwell platform.
+  url: https://finnhub.io/api/news?id=1d54f58711aa4b091fcf7e829fedd44572590c11d9d28fee0a8013368d2c66fb

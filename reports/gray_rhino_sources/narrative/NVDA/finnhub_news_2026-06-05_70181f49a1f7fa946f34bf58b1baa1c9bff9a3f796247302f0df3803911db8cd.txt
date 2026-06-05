@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy the Vanguard S&P 500 ETF As the Market Hits New Highs?
+  summary: Or should you wait for a better entry point?
+  url: https://finnhub.io/api/news?id=1fa4ca67998debb99c69eaa673daba402eadb36361e0ff872addf1700a3cd6d3

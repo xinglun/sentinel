@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Held Up as AI Chips Sold Off. Is It the Safer Megacap Bet Now?
+  summary: While much of the chip sector dropped sharply, the software and cloud giant barely budged -- and its diversified path to AI revenue may be the reason.
+  url: https://finnhub.io/api/news?id=dcffac7093120b9b282a4b9d5a44d5388e4b15c3b6356b29d0a9527856c28e6d

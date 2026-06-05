@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's AI Chief Says Company Is 'Less Concerned' About Google, Meta And OpenAI As Anthropic Battle Heats Up— 'We've Closed An Enormous Gap...'
+  summary: Microsoft Corporation has unveiled a series of new AI models in a bid to compete with Anthropic. Mustafa Suleyman, Microsoft’s AI chief, told The Financial Times that the company’s superintelligence team is focusing more on enterprise use cases, developers, and...
+  url: https://finnhub.io/api/news?id=ea0266c2deb154f42122247a2bed36996a2d9db86dfa93d7dc5b15215995491f

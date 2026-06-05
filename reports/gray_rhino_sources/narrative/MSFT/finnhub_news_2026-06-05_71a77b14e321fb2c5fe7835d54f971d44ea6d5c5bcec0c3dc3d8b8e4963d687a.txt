@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Future Global Cognitive Utility
+  summary: Microsoft stock remains a strong buy as it shifts to AI RaaS. Click here to read more about the MSFT stock.
+  url: https://finnhub.io/api/news?id=09f980a01719e336cd1f9d233875e0c1f5ce9c8def3a0a37ac131dbc1ab8b71d

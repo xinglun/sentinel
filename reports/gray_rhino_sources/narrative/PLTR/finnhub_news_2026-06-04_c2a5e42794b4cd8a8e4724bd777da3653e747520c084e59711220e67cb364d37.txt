@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Jumps After Landmark Google Cloud AI Partnership
+  summary: Palantir Stock Climbs as Google Tie-Up Strengthens AI Strategy
+  url: https://finnhub.io/api/news?id=4bf996704ab050d252ea39b34b0c603f9c037ccb4a6041e2ce84b176e085164f

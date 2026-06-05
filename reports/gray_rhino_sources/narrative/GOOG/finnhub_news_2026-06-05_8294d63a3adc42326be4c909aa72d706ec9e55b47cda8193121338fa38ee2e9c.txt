@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google's $84 Billion Capital Raise Uses Tools 'Popularized' By Michael Saylor's Strategy, Says Phong Le: Old Wine In A New Bottle? (CORRECTED)
+  summary: Editor’s note: The story has been updated to correct the amount being raised. Strategy Inc. CEO Phong Le said on Wednesday that financial tools popularized by the firm were employed in Google parent Alphabet Inc.’s proposed capital raise. CEO Sees...
+  url: https://finnhub.io/api/news?id=9707d750acf09e9e3733c9ccdb2b0fea70ecd5b5218d48cb97d8c0a48e96d81a

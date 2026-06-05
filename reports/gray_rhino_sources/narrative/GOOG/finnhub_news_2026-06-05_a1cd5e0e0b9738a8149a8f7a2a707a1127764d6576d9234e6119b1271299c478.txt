@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These major companies may owe you money. How to apply in Arizona
+  summary: Arizona consumers could be owed hundreds or more from major class action settlements. See who qualifies and how to apply before deadlines pass.
+  url: https://finnhub.io/api/news?id=5d7372a98bc4ade70fea3133d6fea9ba38eaab1ffad29be0963c84bbd9ab8ecc

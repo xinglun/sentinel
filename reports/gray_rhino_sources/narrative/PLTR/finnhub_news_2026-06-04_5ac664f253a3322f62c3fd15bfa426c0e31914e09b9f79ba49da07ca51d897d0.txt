@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Thiel’s family office revealed as tenant signing pricey lease at 830 Brickell
+  summary: Peter Thiel and 830 Brickell (Getty, 830 Brickell) Peter Thiel’s family office leased space at OKO Group and Cain International’s 830 Brickell tower in a record deal for Miami-Dade County. The deal is for $250 per square foot for nearly 18,200 square feet of space on the 44th floor of the building, with Thiel’s family office taking over part of the space previously leased by the now collapsed Brazilian bank Banco Master, according to Bloomberg, which cited an anonymous source familiar with the m
+  url: https://finnhub.io/api/news?id=2290b2263df2f6d56e41f0817e7875d98cad163c1fe7f22f77d0fb1a0c9a278b

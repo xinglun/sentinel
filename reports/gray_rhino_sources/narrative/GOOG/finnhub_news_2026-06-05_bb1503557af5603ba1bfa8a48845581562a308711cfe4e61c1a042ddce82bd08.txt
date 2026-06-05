@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Says World Needs System to Decide on AI Work Pause
+  summary: (Bloomberg) -- Anthropic PBC called for the creation of a system in which governments and artificial intelligence developers collectively decide when to slow work on the technology to stave off the risks it may pose. Most Read from BloombergSpaceX, Other Mega IPOs Denied Fast Index Entry by S&PSaylor’s Bitcoin Machine Is Misfiring on Every Cylinder‘Sell Indonesia’ Sweeps Trading Desks as Prabowo Tightens GripGlazer Family Members Study Manchester United Stake SaleRepublican-Led House Votes to St
+  url: https://finnhub.io/api/news?id=4a0f0790550717fa354fe2dcf368e776d32630b49e9044496700c7e19f68690d

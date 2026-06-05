@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Reveals It’s Really an AI Company — and That Changes Everything for Investors
+  summary: Few IPOs in history have generated as much excitement as SpaceX‘s planned June 12 debut on Nasdaq under the ticker SPCX. The company is targeting a valuation of $1.75 trillion, putting it in the top 10 largest companies in the world by market cap — above Tesla‘s (NASDAQ:TSLA) current $1.57 trillion and within striking distance ... SpaceX Reveals It’s Really an AI Company — and That Changes Everything for Investors
+  url: https://finnhub.io/api/news?id=12506648d971ccc2a3fe0e69163f6a1c0701cf598fea131dc1aac8e854cf6613

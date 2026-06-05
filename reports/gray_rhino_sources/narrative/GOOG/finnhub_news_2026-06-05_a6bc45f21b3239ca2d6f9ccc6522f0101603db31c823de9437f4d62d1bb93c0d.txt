@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud AI Update - Devenex Launches Governance Infrastructure for Enterprise AI Agents
+  summary: Devenex has introduced a new governance infrastructure intended to manage the execution of AI agents within enterprises, highlighting a key development in the Cloud AI sector. As AI agents increasingly perform critical tasks such as modifying financial records and approving workflows, there is a growing need for robust oversight mechanisms. This infrastructure, launched at Google Cloud Next 2026, provides enterprises with a control layer that ensures all AI-initiated actions are governed...
+  url: https://finnhub.io/api/news?id=4c9ec59848dd0ffc8e9e3e44092c97c0ad6ee79b44b68e3620dbc909f097825a

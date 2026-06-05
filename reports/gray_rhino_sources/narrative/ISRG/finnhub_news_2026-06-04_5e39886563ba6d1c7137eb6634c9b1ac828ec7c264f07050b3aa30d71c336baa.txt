@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Medtronic seeks clearance for Hugo surgical robot in more indications
+  summary: Securing 510(k) authorization would position Medtronic to compete with Intuitive in major robotic surgery markets.
+  url: https://finnhub.io/api/news?id=fcfc5d2bfbe7a5f30c9ffab0d734611984c80730ab52e6f0e7716d4e8fedae96

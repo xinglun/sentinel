@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jobs Report Buries Rate Cuts
+  summary: May jobs report shifts Fed outlookârate cuts look less likely. Click for a look at the latest data and the impact this will have on interest rates and the markets.
+  url: https://finnhub.io/api/news?id=31ffce67b3d96338b0746bc46934109d987a7ce483d0c98e6d4ed9eabc4d4eee

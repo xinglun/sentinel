@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GOOGL Stock Drops In Premarket: Report Says Search Giant Trims Cloud Team Amid AI Spending Push
+  summary: Google has cut a small number of roles in its Threat Intelligence Group and the broader cloud division, according to a Business Insider report.
+  url: https://finnhub.io/api/news?id=bd932b347984b6ce19f06d5747377f6ca376291eb19e4df5ab6001cb6dc6b73c

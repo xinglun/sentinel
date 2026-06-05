@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Turns Neutral on Tesla
+  summary: Broker sees robotics and autonomous driving becoming bigger drivers of value than EV sales.
+  url: https://finnhub.io/api/news?id=a4e836476c3857c5dd9e3e6edc195860a56b29cdced7a80aaffef12bd1181d2b

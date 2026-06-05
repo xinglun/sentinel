@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From The Minerals That Power Electric Vehicles To Technologies That May Help Shape Their Future, Electros Inc. Continues To Pursue Its Long-Term Vision
+  summary: Industry Perspective "Lithium batteries are the new oil." - Elon Musk, Tesla CEO (publicly reported statement regarding the strategic importance of battery materials). "Lithium, nickel, cobalt, manganese and graphite are crucial to battery performance, ...
+  url: https://finnhub.io/api/news?id=fec0149d19cdd8b82510925787cbfe3f956d4f7631e2415971a75f471808d1fc

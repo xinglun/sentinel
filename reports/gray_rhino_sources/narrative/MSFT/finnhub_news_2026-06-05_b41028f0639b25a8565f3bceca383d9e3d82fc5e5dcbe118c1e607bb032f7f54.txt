@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Rejected A Key Resistance Level. What's Next
+  summary: 
+  url: https://finnhub.io/api/news?id=eb648d8082e2aa0b04e55915106029dae2a4ba21ea86fde426a03b581fd1df77

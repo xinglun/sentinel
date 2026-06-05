@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Funds Surge In May On AI Optimism — What's Next?
+  summary: Investors who stayed invested in May were winners as a microchip-driven technology stock rally pushed ahead.
+  url: https://finnhub.io/api/news?id=4aab6f4cafc4b461dfd24185ec0539a85ceb206a4ebcb58f76421c5af2e3c8a4

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Takes Aim at Palantir Stock Again, But He’s Missing the Bigger Picture
+  summary: The "Big Short" investor has questioned the company's bullish momentum.
+  url: https://finnhub.io/api/news?id=b808a0f6633bff6a66a0bad244cc6b2bf7869678d92e5a383d3e25e5d200d969

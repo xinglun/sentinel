@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beyond Nvidia: Europe's best-performing AI stocks of 2026
+  summary: Europe may not have a Nvidia of its own, but it has become home to some of the world's best-performing AI stocks. Companies supplying the infrastructure behind artificial intelligence — from lasers and optical chips to testing equipment and servers — have delivered gains of up to 2,200% in 2026.View on euronews
+  url: https://finnhub.io/api/news?id=193e31a7d768151522c7ced5609455ec5b65de792323191e0281f5cc688dacf7

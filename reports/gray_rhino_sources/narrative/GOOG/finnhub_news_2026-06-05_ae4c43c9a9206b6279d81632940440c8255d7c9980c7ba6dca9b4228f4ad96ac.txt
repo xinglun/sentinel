@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: Broadcom, Alphabet and Meta
+  summary: Broadcom, Alphabet and Meta have been highlighted in this Investment Ideas article.
+  url: https://finnhub.io/api/news?id=dfd226dc34c0b933f5d40875105553a01c563f4466ae80033d52bef3b8969935

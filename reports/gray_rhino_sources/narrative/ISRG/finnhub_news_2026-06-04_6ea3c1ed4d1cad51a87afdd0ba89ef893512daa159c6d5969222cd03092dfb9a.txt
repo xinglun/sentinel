@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Stock Has Been Hit Hard in 2026. Is It Finally Time to Buy?
+  summary: The robotic-surgery leader has lost nearly a third of its value since January. Here's what's weighing on the stock.
+  url: https://finnhub.io/api/news?id=a86f0624ca9685822af57e647a8652d42303548e177b60b99b61ef93be7ec396

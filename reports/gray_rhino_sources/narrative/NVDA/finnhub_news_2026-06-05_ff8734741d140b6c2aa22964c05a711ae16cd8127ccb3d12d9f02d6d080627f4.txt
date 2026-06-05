@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hewlett Packard Enterprise Shares Surge on AI Demand. Is It Too Late to Buy the Stock?
+  summary: HPE shares have more than doubled in 2026.
+  url: https://finnhub.io/api/news?id=fb7efbea47e43e7f5517b46357dc933a62d7185b76eb97a668f7772a21eb0fae

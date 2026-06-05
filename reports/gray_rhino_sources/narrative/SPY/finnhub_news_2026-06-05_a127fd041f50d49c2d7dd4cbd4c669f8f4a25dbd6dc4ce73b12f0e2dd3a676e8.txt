@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Time To Start Diversifying Away From AI
+  summary: Broadcomâs weak forecast sparks a tech rotation, raising AI and energy shock risks. Click to read what investors need to know.
+  url: https://finnhub.io/api/news?id=534576eff7d05c9349aeb4d2e7465645ac8ade4166589066f0fbfb715ad53a28

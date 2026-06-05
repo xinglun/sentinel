@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A $500,000 Roth Portfolio Loaded With JEPI Pays $42,250 a Year and the IRS Gets None of It
+  summary: At the 24% federal bracket, a $500,000 position in the JPMorgan Equity Premium Income ETF (NYSEARCA: JEPI) yielding 8.45% generates roughly $42,250 in annual distributions and hands $10,140 of that to the IRS every year it sits in a taxable brokerage account. JEPI’s monthly checks come largely from option-premium income, which the IRS treats as ... A $500,000 Roth Portfolio Loaded With JEPI Pays $42,250 a Year and the IRS Gets None of It
+  url: https://finnhub.io/api/news?id=ba8fe82a99a99aecad353f48806df2d16e7fca6378825422a28dc5fd99a268a0

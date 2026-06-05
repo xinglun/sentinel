@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Magnificent AI Stocks to Buy Before the Anthropic IPO
+  summary: Anthropic recently filed its S-1 with the Securities and Exchange Commission, signaling a public debut later this year.
+  url: https://finnhub.io/api/news?id=b4af6ba2ddc51e415b203063f798ca0360ebf23fcce6b000317e7b6a03c2b127

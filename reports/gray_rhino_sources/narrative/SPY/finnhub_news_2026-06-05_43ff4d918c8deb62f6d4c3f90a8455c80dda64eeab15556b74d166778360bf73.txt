@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May Jobs Report: Too Strong For A Dovish Fed
+  summary: May jobs report shows strong payroll gains, low unemployment and easing wagesâpushing markets toward a hawkish Fed. Click for a look at the data and implications.
+  url: https://finnhub.io/api/news?id=b1d3ca6b30bf8fd70825ee912aa905e5c53645250e6e7848b20e282e71c009f7

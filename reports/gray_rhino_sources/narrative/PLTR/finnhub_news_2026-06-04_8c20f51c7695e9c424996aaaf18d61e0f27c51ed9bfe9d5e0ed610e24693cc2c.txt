@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry drops rare technical warning on Palantir stock
+  summary: When Michael Burry talks, markets listen. Not always immediately, and not always correctly, but they listen. The investor who famously shorted the housing market ahead of the 2008 financial crisis published a new post on his Substack page on June 2, and the subject was Palantir Technologies (PLTR). ...
+  url: https://finnhub.io/api/news?id=8487109eec133e1453fc8ba8bf97ea9f2b3061b32956889fd060cc0800615681

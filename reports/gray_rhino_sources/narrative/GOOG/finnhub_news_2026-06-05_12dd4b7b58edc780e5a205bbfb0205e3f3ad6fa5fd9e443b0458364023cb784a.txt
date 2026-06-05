@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Growing Backlog And Robust Ad Business: The Alphabet Thesis Wall Street Is Ignoring
+  summary: Alphabet is rated Buy with 15â25% upside, driven by underappreciated ad business and backlog revenue potential. Click to read my latest analysis of GOOG stock.
+  url: https://finnhub.io/api/news?id=cbeb15c8e9da812d8f614f94f8e3d7f10b609c48ecd4cddbf74e958aba983fc4

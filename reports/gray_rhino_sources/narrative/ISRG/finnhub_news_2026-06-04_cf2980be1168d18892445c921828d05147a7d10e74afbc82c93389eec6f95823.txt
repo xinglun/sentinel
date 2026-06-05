@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bargain Hunters: These 3 Growth Stocks Recently Hit New 52-Week Lows
+  summary: These stocks are down more than 10% this year, and now could be a great time to buy them for the long haul.
+  url: https://finnhub.io/api/news?id=5f262fee8acc39d67ce573d1e2eb6d968343031635cdaf4a11c006c68e2894a3

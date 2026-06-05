@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broad Rebound Keeps Breadth Positive as Small Caps Rejoin the Move
+  summary: Market breadth improved sharply on June 4, 2026, with advancers leading decliners, small caps rejoining the rally, and SPY, QQQ and IWM all holding constructive chart structures.
+  url: https://finnhub.io/api/news?id=74c169f5c28be00576494e571af3dafa2b073d148b9c7c243a6e63d12da25d8d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Growth Stocks to Invest $500 in Right Now
+  summary: They have historically beaten the market, and they aren't done yet.
+  url: https://finnhub.io/api/news?id=e0503119d9d9c7570d3ed73f5715a6961bdd0cd4697a9d3d9b5c52266adb2c68

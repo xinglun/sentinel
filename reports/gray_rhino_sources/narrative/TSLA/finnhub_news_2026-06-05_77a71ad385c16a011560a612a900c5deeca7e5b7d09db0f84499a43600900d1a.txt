@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Foundations of the Electric Future: As Global Demand for Lithium and Rare Earth Minerals Continues to Expand, Electros Inc. Advances Its Vision for Energy, Innovation, and Long-Term Shareholder Value
+  summary: Industry Perspective "Lithium batteries are the new oil." - Elon Musk, Tesla CEO (publicly reported statement regarding the strategic importance of battery materials). "Lithium, nickel, cobalt, manganese and graphite are crucial to battery performance, ...
+  url: https://finnhub.io/api/news?id=a0821249a9c407aaedfaf68ce0b02f3c27847ed91a82a2ee1fa285e1decdf454

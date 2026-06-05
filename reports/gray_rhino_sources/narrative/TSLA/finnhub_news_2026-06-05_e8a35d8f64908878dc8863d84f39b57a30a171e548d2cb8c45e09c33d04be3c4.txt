@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Friday’s Top Wall Street Analyst Research Calls: Airbnb, Broadcom, Chipotle Mexican Grill, CrowdStrike, Fiserv, Lululemon Athletica, NVIDIA, Tesla, Walmart, and More
+  summary: Pre-Market Stock Futures: Futures are trading mixed on Friday as we prepare to close out one of the craziest weeks on Wall Street this year. On a day when we saw yet another all-time high, investors rotated out of chip stocks and into healthcare and industrials after Broadcom (NASDAQ: AVGO) posted disappointing results. When the ... Here Are Friday’s Top Wall Street Analyst Research Calls: Airbnb, Broadcom, Chipotle Mexican Grill, CrowdStrike, Fiserv, Lululemon Athletica, NVIDIA, Tesla, Walmart,
+  url: https://finnhub.io/api/news?id=609309b0567cab26a15bc430308c2360f0c6ee0c6259e0438d734e58c2834a25

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Growth Stocks Worth Buying Through the Volatility and Holding for a Lifetime
+  summary: E.l.f. Beauty and Vita Coco are building the kind of durable growth stories investors can hold for decades.
+  url: https://finnhub.io/api/news?id=2e3bd10764968d2003130136f68c38412848009ba06685734d50af0ef6ca9d5d

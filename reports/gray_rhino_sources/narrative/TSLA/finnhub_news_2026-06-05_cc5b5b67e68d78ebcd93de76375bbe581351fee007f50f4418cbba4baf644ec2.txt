@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: SpaceX Informs Banks It Will Keep IPO Price at $135 Per Share
+  summary: SpaceX has informed banks in its planned $75 billion initial public offering that it won't change th
+  url: https://finnhub.io/api/news?id=dfaa581e0f81511a8e9bea17285d443acf9b3ebbc94d1523ddadc9aeccdfd889

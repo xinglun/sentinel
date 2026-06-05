@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta's Rerating Path Remains Clouded (Rating Downgrade)
+  summary: Meta Platforms remains deeply undervalued, but persistent weak sentiment and macro headwinds cloud prospects. Read why META stock is downgraded to a hold.
+  url: https://finnhub.io/api/news?id=cb0a6a058c9aab783acff74cac307675916b48829d09d224b72a6adcaa25d953

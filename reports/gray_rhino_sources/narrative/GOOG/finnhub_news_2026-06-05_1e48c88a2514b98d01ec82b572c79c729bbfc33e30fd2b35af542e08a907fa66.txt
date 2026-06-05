@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Alphabet Inc. the Best Goldman Sachs Tech Stock to Buy Now?
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the largest tech stocks held by Goldman Sachs, with a total portfolio value of approximately $16.63 billion, making it to our list of best Goldman Sachs tech stocks to buy now. Over the past month, as of June 2, Alphabet Inc. shares have plunged by over 4.80%, while year-to-date […]
+  url: https://finnhub.io/api/news?id=0ad731083ff33afc88aa2a9ffff9cdc8c0d8ab5f3b5653430666668124dbfb61

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Microsoft-Backed OpenAI Held Talks With US Officials on Potential Government Equity Stakes in AI Firms
+  summary: Microsoft (MSFT)-backed OpenAI has held preliminary discussions with senior US officials about a pro
+  url: https://finnhub.io/api/news?id=56edfb10b31ba447190969a43c09d0c26c392a8929997c6ad708dd8a1e8527ba

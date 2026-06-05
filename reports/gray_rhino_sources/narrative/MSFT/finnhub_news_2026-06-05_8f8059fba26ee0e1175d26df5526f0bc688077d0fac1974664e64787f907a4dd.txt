@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here is why Microsoft (MSFT) Is Among the Best Goldman Sachs Tech Stocks to Buy Now
+  summary: Microsoft Corporation (NASDAQ:MSFT) is the third-largest holding in Goldman Sachs’ portfolio, with a portfolio share of 3.05%, making it one of the top Goldman Sachs tech stocks to buy now. Microsoft Corporation (NASDAQ:MSFT) is using AI to protect its users from cyberattacks, leveraging a new series of models to find and exploit software flaws faster […]
+  url: https://finnhub.io/api/news?id=3505cdc83c8b93f00a3634fa5d2fa39d88194612b861b08459c9dbb2bc7c3715

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Would You Buy IBM Stock At A 35% Discount?
+  summary: Pocket a healthy income stream from IBM today that's yours to keep, while setting a price far below the current market where you'd be happy to own the shares.
+  url: https://finnhub.io/api/news?id=236091d7c4e5a13be8a40686b4f9d7e1296df2145425ca4f15847791ea4bcfdb

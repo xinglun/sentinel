@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DocuSign Stock At 11x Earnings — Bargain Or Value Trap?
+  summary: DocuSign (DOCU) reported a solid earnings beat for Q1 FY2027, delivering $830.2 million in revenue and $1.09 in non-GAAP earnings per share. The company generated $289 million in free cash flow at a 35% margin. Yet, despite these top-line metrics, the stock closed at $50.95 during regular trading and slid nearly 4% to approximately $49 in extended trading. This price implies just 11 times its expected FY2027 earnings of $4.44 per share, significantly lower than the historical software sector ave
+  url: https://finnhub.io/api/news?id=169a94c96c078baeb9041f10fb3a6a736e2aaac9aef5382954bf942ca94bfc06

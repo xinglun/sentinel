@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Today - Net Zero Automotive Transition Highlighted at London Sustainability Summit
+  summary: Sustainability LIVE: The London Summit 2026 has announced its first panel discussion, which will focus on the automotive sector's transition to net zero emissions. Scheduled for September 8-9 at the QEII Centre in London, the event will gather senior industry leaders to discuss decarbonisation challenges and opportunities in the automotive industry. The panel titled 'The Future of Net Zero Automotive' will feature key executives from Toyota Motor Europe, Constellation Automotive Group, and...
+  url: https://finnhub.io/api/news?id=5a3d29d14e94ce7855ab6a88b446b71a99c20360053844086af9ed867588abfd

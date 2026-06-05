@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Microsoft, OpenAI went from partnership to 'situationship'
+  summary: OpenAI (OPAI.PVT) was once the apple of Microsoft's (MSFT) eye, the Big Tech giant currently holding a 27% stake in the private AI developer's for-profit business. But things may have begun to sour between the two, evident of Microsoft revealing its latest MAI-Thinking-1 AI model on Tuesday. The Verge senior AI reporter Hayden Field highlights the timeline of lessening exclusivity that has landed these two tech developers in a "situationship."
+  url: https://finnhub.io/api/news?id=2178056a3c271a3a3d13c5f12e5659ead9feea4cdaaee6b092085d0ff50633ce

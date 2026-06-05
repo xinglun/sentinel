@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Huang arrives in South Korea with 'surprises', bets on robotics
+  summary: Nvidia chief executive Jensen Huang arrived in Seoul Friday for a packed schedule of meetings with tech leaders, promising "some surprises" for South Korea while predicting robotics will be the country's next major growth sector.Huang said robotics would be the "next major sector here in South Korea", and that the country is "extraordinary at manufacturing, mechatronics, and also artificial intelligence".
+  url: https://finnhub.io/api/news?id=605c56b6f3de2f477559c542e2137741833e101b384f109947fb6dd294ae3a39

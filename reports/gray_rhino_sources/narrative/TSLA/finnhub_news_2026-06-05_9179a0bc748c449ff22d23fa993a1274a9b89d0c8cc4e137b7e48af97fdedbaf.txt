@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't expect to see SpaceX on the S&P 500 so soon after IPO
+  summary: S&P Dow Jones Indices stated that it will not be changing its rules to fast-track SpaceX (SPAX.PVT) and other mega-IPOs into the S&P 500 index (^GSPC). Morning Brief Host Julie Hyman and Vanity Fair contributing editor Bethany McLean discuss SpaceX's valuation in the lead up to the space company's public launch a week from now. JPMorgan Chase (JPM) CEO Jamie Dimon hosted Elon Musk as part of SpaceX's (SPAX.PVT) pre-IPO roadshow, as the company sets its sights on an IPO price of $135 per share next Friday, June 12.
+  url: https://finnhub.io/api/news?id=3b91da1fdd386b8c9013102d82a37fc2ae806f4984ca1b4b901b1ee2847dd7f1

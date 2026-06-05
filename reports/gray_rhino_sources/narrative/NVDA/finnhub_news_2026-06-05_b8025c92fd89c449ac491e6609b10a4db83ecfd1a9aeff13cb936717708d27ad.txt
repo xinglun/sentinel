@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Days Before Its IPO, SpaceX Just Got FAA Approval On a New Product That Could Change Space Forever
+  summary: It’s hard to believe that we’re now just days away from the biggest IPO to touchdown on the public markets. It’s T-minus seven days until the big moment, and it feels like there’s no stopping the massive rush of market orders before day one. If space-based (orbital) data centers weren’t enough to get you excited ... Days Before Its IPO, SpaceX Just Got FAA Approval On a New Product That Could Change Space Forever
+  url: https://finnhub.io/api/news?id=51f41f80d53d52fdecfb5b79664e49d34dd6a3b61a72c907a05a7cd7d34e0ab2

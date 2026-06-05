@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is It Time To Reconsider Palantir Technologies (PLTR) After Recent Volatility And Rich Earnings Multiple
+  summary: If you are wondering whether Palantir Technologies' current share price reflects its true worth, starting with the numbers behind the valuation can give you a clearer view of what you are paying for. The stock recently closed at US$142.20, with returns of 7.3% over the past week, a decline of 2.6% over the past month, a decline of 15.3% year to date, and a 9.4% gain over the past year, while the three year and five year returns are very large on a multiple basis. Recent headlines around...
+  url: https://finnhub.io/api/news?id=0ed9df629b3f83ec515e62ac6102d28928e96af362e84154daab99af06f49c43

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Sees SpaceX’s AI Revenue 100 Times Higher by 2030
+  summary: (Bloomberg) -- Research analysts across Wall Street are telling would-be SpaceX IPO buyers that they’re modeling for the company’s artificial intelligence division to see 100 times revenue growth at the end of the decade, to help justify a targeted $1.8 trillion valuation.Most Read from BloombergGlazer Family Members Study Manchester United Stake SaleRepublican-Led House Votes to Stop Iran War, Rebuking TrumpTrump Begins Rebuilding His Tariff Wall, Citing Forced LaborDow Average Hits Peak as Old
+  url: https://finnhub.io/api/news?id=07f8678f3863ce743441cb40c5c52bf2e7d3b7a8a68f56b7f49cc22cb4aebe83

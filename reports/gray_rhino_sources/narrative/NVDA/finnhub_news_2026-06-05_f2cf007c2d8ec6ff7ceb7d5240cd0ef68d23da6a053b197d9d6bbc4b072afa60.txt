@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BitMine Slides 5%, Strategy Falls 4% as Crypto Crash Deepens on Ethereum’s 7% Plunge
+  summary: Shares of Bitmine Immersion Technologies (NYSE:BMNR) are down 5% to $16.91 in early Friday trading, while Strategy (NASDAQ:MSTR) is off 4% to $124.38. The slide tracks a fresh leg lower in crypto. Ethereum (CRYPTO:ETH) is down 7% over the past 24 hours to $1,665, dragging BMNR stock with it as the largest corporate ETH holder. ... BitMine Slides 5%, Strategy Falls 4% as Crypto Crash Deepens on Ethereum’s 7% Plunge
+  url: https://finnhub.io/api/news?id=38a4500339aced3071ae25a222f17661a161fe7bafed4baa3b23683e991ccbdd

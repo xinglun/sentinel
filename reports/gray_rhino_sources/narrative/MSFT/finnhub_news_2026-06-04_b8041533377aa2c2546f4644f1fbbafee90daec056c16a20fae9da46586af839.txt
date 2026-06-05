@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could SpaceX Be Worth More Than Microsoft On Its IPO Day? Some Traders Are Betting On It
+  summary: Some Polymarket users are betting SpaceX's market cap exceeds $4 trillion by the close of its first trading day, valuing the startup higher than Microsoft.
+  url: https://finnhub.io/api/news?id=621b19e4dd13a18bbfe985eed7174dede01595ec1498fc181a58d5a7c9ac5e13

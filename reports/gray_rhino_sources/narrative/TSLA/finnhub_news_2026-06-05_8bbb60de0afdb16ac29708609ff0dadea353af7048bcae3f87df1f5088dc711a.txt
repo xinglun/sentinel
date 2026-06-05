@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Has One Less Sell Rating. J.P. Morgan Raises Its Price Target by 228%.
+  summary: Tesla  stock has one less Sell rating.  J.P. Morgan analyst Rajat Gupta on Friday upgraded Tesla to Hold from Sell.  Gupta recently took over coverage for Ryan Brinkman, who was a longtime Tesla bear.
+  url: https://finnhub.io/api/news?id=0341ed0edefcc6b5aefe645340ca996d4dd2abaec4b4af96bed05eee7629f282

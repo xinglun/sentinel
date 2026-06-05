@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO Brings ‘Prime Time’ for Advisers Ahead of Wealth Surge
+  summary: (Bloomberg) -- If SpaceX’s IPO goes off as planned, it’ll be a pivotal moment for many of the company’s thousands of employees, who’ll finally be able to sell shares into the public market.Most Read from BloombergSpaceX, Other Mega IPOs Denied Fast Index Entry by S&PSaylor’s Bitcoin Machine Is Misfiring on Every Cylinder‘Sell Indonesia’ Sweeps Trading Desks as Prabowo Tightens GripGlazer Family Members Study Manchester United Stake SaleBloomberg Retracts Incorrect Story on RBI GoldThat prospect
+  url: https://finnhub.io/api/news?id=7a0c7d5385affd4797e359bce6dba2e0fdee40a443580489f0985e8aa403691b

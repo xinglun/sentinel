@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA: Bitcoin Selloff Wipes Out $220 Million Tesla Crypto Gains in Brutal Value Drop
+  summary: Tesla Bitcoin Holdings Lose More Than $220 Million as Crypto Selloff Deepens
+  url: https://finnhub.io/api/news?id=6081aaf9fb0cb64dfda684b5b726cff2b87bff212ddcf7e433a2af0492a34870

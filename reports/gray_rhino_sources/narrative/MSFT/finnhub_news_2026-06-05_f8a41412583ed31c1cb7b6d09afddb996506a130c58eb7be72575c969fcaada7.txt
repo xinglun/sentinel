@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rubrik: A Growth Story On Agentic AI Protection
+  summary: Rubrik, Inc. Q1: 39% revenue growth, 32% ARR gains as cyber resilience demand rises. Click for this RBRK stock review following their latest earnings.
+  url: https://finnhub.io/api/news?id=77854d20671a271c30de47ee41b122eaabad96124ebc866715d50cff592fea3d

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. CENTCOM Denies Claims Iran Fired Warning Shots At U.S. Warships, Warning That Doing So Would Violate The Ceasefire
+  summary: https://x.com/CENTCOM/status/2062886477105623083?s=20
+  url: https://finnhub.io/api/news?id=2a15b7312a7aa88d0cb0a296cca0b4ae735aaac84221ea6a40b29c20f99c6a9a

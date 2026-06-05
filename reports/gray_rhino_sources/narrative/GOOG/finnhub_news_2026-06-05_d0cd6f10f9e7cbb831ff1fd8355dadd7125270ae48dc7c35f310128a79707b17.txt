@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet vs Amazon: Which Is the Better Dip Buy Right Now?
+  summary: Two megacap pullbacks, one decision: should a retirement-focused investor add Alphabet (NASDAQ: GOOGL) or Amazon (NASDAQ: AMZN) on this dip? Both have slipped over the past month, both are spending heavily on AI infrastructure, and both just blew past Q1 estimates. Yet only one of them looks like a clean entry for a portfolio built ... Alphabet vs Amazon: Which Is the Better Dip Buy Right Now?
+  url: https://finnhub.io/api/news?id=774477afafba9da99a9c2a2eabd1a3586cdd5da11adfbe3eafb84413c439b498

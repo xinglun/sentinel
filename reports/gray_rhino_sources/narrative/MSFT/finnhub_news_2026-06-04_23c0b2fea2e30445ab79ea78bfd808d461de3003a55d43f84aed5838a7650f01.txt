@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QBIX Becomes Northbank Technology Group, Marking a New Chapter in ERP Modernization for Northern California Businesses
+  summary: Sacramento, CA, June 04, 2026 (GLOBE NEWSWIRE) -- New brand and website reflect 23 years of Microsoft ERP expertise, a deeper focus on Business Central, and a continued commitment to local, personalized service. Northbank Technology Group, formerly QBIX, LLC, today announced the launch of its new brand and website at www.northbanktech.com. The rebrand reflects the company’s long-standing dedication to helping Northern California businesses modernize their finance, operations, and back-office sys
+  url: https://finnhub.io/api/news?id=23b5c55db771db946ddb61adb4c15696137ca53ea3c03cb3ab8f695abcde1cf3

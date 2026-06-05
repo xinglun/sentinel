@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom, Amazon Spearhead Mind-Boggling Bets By Top Funds. See The Full Deluge Here.
+  summary: The best mutual funds continue to show voracious demand for AI stocks. Here's where they're placing their biggest bets.
+  url: https://finnhub.io/api/news?id=7785b7a30f73984df236918bf18d9278b999788edc11d83e2165e83366f2b2f6

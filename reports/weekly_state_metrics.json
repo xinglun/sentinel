@@ -1,10 +1,10 @@
 {
-  "as_of_date": "2026-06-04",
-  "avg_confidence": 52.90281415634934,
-  "avg_stability": 12.642907135752713,
+  "as_of_date": "2026-06-05",
+  "avg_confidence": 53.26174579034556,
+  "avg_stability": 13.818774377848047,
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-05T00:44:39.228097420+09:00",
+  "generated_at": "2026-06-06T00:37:25.189525283+09:00",
   "include_current_packet": true,
   "latest_context": {
     "cognitive_calibration": {

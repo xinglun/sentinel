@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Is Flashing the Same Two Warning Signals It Did Before Past Crashes
+  summary: For much of the past year, the bulls have had every excuse to celebrate. The SPDR S&P 500 ETF Trust (NYSEARCA:SPY) closed at $757.09 on June 4, 2026, up 27% over the prior 12 months and 11% year to date, while the Invesco QQQ Trust (NYSEARCA:QQQ) has tacked on 40% over the same one-year stretch ... The Stock Market Is Flashing the Same Two Warning Signals It Did Before Past Crashes
+  url: https://finnhub.io/api/news?id=dabee37f1947d50b5f0a4dc2ac1de3a2547376a0db03d0ba5a32f6db668a9bbe

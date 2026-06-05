@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Stocks Turn $10,000 Into $220,749 In 5 Months
+  summary: May turned out as one of the best months of the year so far for most S&P 500 investors. But some stocks did even better than the index.
+  url: https://finnhub.io/api/news?id=469a925eab1ad41bc2ec520746ef78efe578790f4bc19e221412d728d28d3bbd

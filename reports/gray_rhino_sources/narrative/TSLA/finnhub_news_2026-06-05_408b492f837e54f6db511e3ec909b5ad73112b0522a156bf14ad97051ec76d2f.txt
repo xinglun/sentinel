@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bitcoin Crash Just Wiped $62 Billion From Corporate Treasury Holders, Is the MicroStrategy Model Broken?
+  summary: The June 2026 crypto rout just erased $62 billion in combined market capitalization from public companies holding Bitcoin as a treasury asset. MicroStrategy, Tesla, and Marathon Digital are leading the damage. The question that matters now is not whether the losses are recoverable; it is whether the entire structural model ...
+  url: https://finnhub.io/api/news?id=7f06306ba2c507a24470a704759a991e01a7634754c334aab658f07000bb963b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: Independence From NVIDIA Will Boost Future Growth
+  summary: Alphabet (GOOG) gets a Buy rating: TPU moat vs NVIDIA, booming Google Cloud backlog and margins, and attractive ~25x P/E.
+  url: https://finnhub.io/api/news?id=274b72769f8c7922b2b872804acb34e50df35fea773035dd9d9460c997328731

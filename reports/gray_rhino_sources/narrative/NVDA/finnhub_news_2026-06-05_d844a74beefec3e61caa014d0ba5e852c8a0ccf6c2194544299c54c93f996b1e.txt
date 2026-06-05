@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Wavers On Surprise Jobs Report; Lululemon Plunges On Earnings (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index dropped Friday on a surprise May jobs report. Lululemon stock plunged on earnings.
+  url: https://finnhub.io/api/news?id=836c4de723ce44ee3729bcf2e983c0c90a2fc6c20380f1724edcc9e9d412af0c

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Upgrades Tesla With A Major Price Target Hike
+  summary: Tesla bear JPMorgan revised its view on Elon Musk's electric vehicle company. The stock is down about 4% this week.
+  url: https://finnhub.io/api/news?id=bc832213fb7b4e1cdb1729ba08014af23542d16c9694565a152dcc720a628315

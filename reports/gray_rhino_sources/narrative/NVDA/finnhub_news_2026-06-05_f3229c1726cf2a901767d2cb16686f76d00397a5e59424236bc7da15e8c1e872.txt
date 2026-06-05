@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sen. Warren calls Jensen Huang to testify on Nvidia China chip sales
+  summary: Warren invited the Nvidia CEO to appear before the Senate Banking Committee on June 11 to answer questions about export controls and China business
+  url: https://finnhub.io/api/news?id=715addbd761e471f543521e21d61a3dbe8d59727f2994ae1de14474514c6d260

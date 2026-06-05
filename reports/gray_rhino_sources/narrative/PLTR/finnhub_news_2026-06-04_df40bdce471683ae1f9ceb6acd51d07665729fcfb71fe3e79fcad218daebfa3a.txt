@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Snowflake the New Market Darling of AI Software -- or Will It Follow Palantir's Path?
+  summary: Snowflake stock surged following its latest quarterly report, but can it sustain that momentum?
+  url: https://finnhub.io/api/news?id=3137c9527187c98848f9bde8737ee28dd79f254112c025e02582acc983f4f15c

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Spoke To SpaceX Investors. Here’s What He Said.
+  summary: SpaceX details are coming out ahead of its expected IPO. Trading in the space stock should start June 12.
+  url: https://finnhub.io/api/news?id=3134ba9586721598122a6dda155be5f2f36efcf552d2808064b0a02e1d4fb0b5

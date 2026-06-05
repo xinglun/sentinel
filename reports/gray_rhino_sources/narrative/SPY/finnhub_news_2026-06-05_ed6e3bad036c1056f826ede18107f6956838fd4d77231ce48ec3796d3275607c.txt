@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cem Karsan Warns The S&P 500 Lost 40% in Real Terms Over 14 Years – And It Could Happen Again
+  summary: Cem Karsan, founder of Kai Volatility Advisors and a recurring guest on Adam Taggart’s Thoughtful Money podcast, delivered a warning that cuts deeper than typical valuation concerns. The danger he sees is a slow erosion of purchasing power stretched across more than a decade, a regime most living investors have never personally invested through. The ... Cem Karsan Warns The S&P 500 Lost 40% in Real Terms Over 14 Years – And It Could Happen Again
+  url: https://finnhub.io/api/news?id=dd9a5d1d699b8a9a0e1cdc39856714a1ab577b966549f4f9bd2154e5bfb7261b

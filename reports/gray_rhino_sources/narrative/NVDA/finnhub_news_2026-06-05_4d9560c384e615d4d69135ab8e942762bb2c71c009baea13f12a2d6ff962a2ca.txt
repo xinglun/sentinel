@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May Jobs Report Crushes Estimates — and Any Hopes For a Fed Rate Cut
+  summary: [Keypoints] For months, investors have been focused on one question: when will the Federal Reserve start cutting interest rates again? The appointment of Kevin Warsh as Fed chairman only intensified that debate, with many on Wall Street betting that a slowing economy would eventually force policymakers to lower borrowing costs. But after inflation started creeping ... May Jobs Report Crushes Estimates — and Any Hopes For a Fed Rate Cut
+  url: https://finnhub.io/api/news?id=d7f7c7178d9b2bd218cd319627991ffe6b0360ea255eab3e19a5bdc6b0ed5fdf

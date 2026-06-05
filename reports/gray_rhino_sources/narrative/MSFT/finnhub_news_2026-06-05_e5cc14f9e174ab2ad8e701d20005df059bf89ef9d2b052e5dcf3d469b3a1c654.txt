@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon vs. Microsoft: Which Cloud Stock Wins for Patient Investors?
+  summary: If you’re a patient, retirement-focused investor weighing Amazon (NASDAQ:AMZN) against Microsoft (NASDAQ:MSFT), the question is straightforward: Which mega-cap cloud stock deserves a core slot in a long-duration portfolio right now? Both run the world’s two largest public clouds. Both are pouring tens of billions into AI infrastructure. But only one is built for the retirement ... Amazon vs. Microsoft: Which Cloud Stock Wins for Patient Investors?
+  url: https://finnhub.io/api/news?id=53958dd16ad3a8aac3aae6d9aecee535e3cdba536d041842f1b195ea27c31207

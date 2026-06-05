@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Planet Labs Stock Zoomed Higher in May
+  summary: The space economy stock is going through major ups and downs along with the rest of the industry.
+  url: https://finnhub.io/api/news?id=5769c525aa0cad69b91c23a4967bc073df5f065319cce9ae4a7c436e8738967a

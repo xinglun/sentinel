@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures Rise, Techs Fall As AI Trade Cools; Jobs Report Looms
+  summary: Dow Jones futures rose slightly early Friday, while S&P 500 futures and Nasdaq futures fell. The May jobs report is on tap before the open. S&P Dow Jones Indices announced late Thursday that it won't fast track SpaceX and other upcoming megacap IPOs such as Anthropic and OpenAI into the benchmark index.
+  url: https://finnhub.io/api/news?id=916d10236b1be2174a34b86b90df9241f141c37f62e9f65c29320bcad300c4f5

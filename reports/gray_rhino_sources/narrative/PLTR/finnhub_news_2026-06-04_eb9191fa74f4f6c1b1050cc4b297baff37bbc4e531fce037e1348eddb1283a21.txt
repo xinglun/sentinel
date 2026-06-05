@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Unveils Google Cloud Partnership At AIPCon
+  summary: Palantir expands Google Cloud integration while announcing new enterprise deals with McCarthy, GNP Seguros, and Kirkland & Ellis.
+  url: https://finnhub.io/api/news?id=9989231b3d82ae444b8bfe90317bc861667ce2d64d36f7f0c7d40e786be83c6b

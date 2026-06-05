@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JP Morgan Triples Tesla's Price Target
+  summary: Gupta shifts the valuation framework to robotics and autonomy to justify the upgrade
+  url: https://finnhub.io/api/news?id=958f62e207a36c40396301bb063630616c175bb48ab8f8943ff1a05c8f0f68ba

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI CEO On CNBC: ‘We Are Replacing Junior Employees with AI.’ The Only Solution is a Tax on AI and Robots
+  summary: On CNBC’s Squawk Box on June 4, 2026, Andrew Yang, CEO of Noble Mobile and founder of the Forward Party, made a candid admission about how AI is reshaping his own company and called for a sweeping change to how the U.S. taxes automation. When he was asked whether companies are cutting entry-level hiring because ... AI CEO On CNBC: ‘We Are Replacing Junior Employees with AI.’ The Only Solution is a Tax on AI and Robots
+  url: https://finnhub.io/api/news?id=b23543346d7c185a2bd712ab6de6815defdfa3487661be466fad33fa8b0cf16e

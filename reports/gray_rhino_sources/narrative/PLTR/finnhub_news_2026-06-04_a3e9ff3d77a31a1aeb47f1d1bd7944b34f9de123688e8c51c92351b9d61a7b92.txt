@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Dips Amid Google Cloud Deal, AIPCon 10 Announcements
+  summary: Palantir stock dipped amid news at AIPcon 10, including a marketing partnership with Google's cloud computing business.
+  url: https://finnhub.io/api/news?id=9c4bb3cb14148b90854ec4024d97bd2912385f504f3a47b47ae03f0ec01d2fb5

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Profitable Stock on Our Buy List and 2 We Turn Down
+  summary: Even if a company is profitable, it doesn’t always mean it’s a great investment. Some struggle to maintain growth, face looming threats, or fail to reinvest wisely, limiting their future potential.
+  url: https://finnhub.io/api/news?id=b32f4ef35a7338ad32f66a252cf9ff73c721d5c2b3e4742993e4abed07fbe032

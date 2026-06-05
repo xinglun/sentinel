@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is PLTR Stock Rising Today?
+  summary: Palantir unveiled a series of AI partnerships and expansions at AIPCon, its annual developer conference, on Thursday.
+  url: https://finnhub.io/api/news?id=9b9ea4a73272ef63d65219d7bfa35de0d8695eaca5bf3cfbb3d5331e77cdf176

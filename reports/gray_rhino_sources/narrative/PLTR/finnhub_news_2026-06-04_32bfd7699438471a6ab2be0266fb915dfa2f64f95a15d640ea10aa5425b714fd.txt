@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Alphabet Stock Popped Today
+  summary: Palantir is tying up with Google in an alliance of AI heavyweights.
+  url: https://finnhub.io/api/news?id=8e362c5bb2bc54786b88eba242dc0b5b0850f56e62713bea691bd64566025657

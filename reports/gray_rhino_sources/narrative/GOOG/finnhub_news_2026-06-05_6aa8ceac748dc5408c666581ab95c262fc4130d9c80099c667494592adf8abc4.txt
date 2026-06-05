@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google vs. Meta: Which Ad Giant Is the Better Long-Term Buy?
+  summary: For retirement-focused investors weighing the two ad giants, the question is direct: Should you own Alphabet (NASDAQ:GOOGL) or Meta Platforms (NASDAQ:META) right now? Both print cash, both dominate digital advertising, and both are spending unprecedented sums on AI infrastructure. The market has rendered very different verdicts on each so far in 2026: Alphabet is up ... Google vs. Meta: Which Ad Giant Is the Better Long-Term Buy?
+  url: https://finnhub.io/api/news?id=64aae8f0175dec2e166ef75feb2c04d31f16cf1af5363372c8209ade9f5b5d23

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: USD.AI Provides $98.1M Debt Financing to Support Duos Edge AI GPU Deployment Managed by Hydra Host
+  summary: USD.AI announced today that it has provided a $98.1 million, three-year debt facility to support the deployment of 2,304 NVIDIA B300 GPUs. The infrastructure will be operated by Duos Edge AI, Inc., a subsidiary of Duos Technologies Group, Inc. (Nasdaq: DUOT), and managed by Hydra Host through its Brokkr AI Factory Operating System™.
+  url: https://finnhub.io/api/news?id=6569152b9011c6c19c015432378b07cd141237be2f411fc40acdfff2e106595a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: J.P. Morgan Turns More Positive on Tesla as Robotics and AI Shape Future Outlook (TSLA)
+  summary: J. P. Morgan has upgraded Tesla (NASDAQ:TSLA) to “neutral” from “underweight”, arguing that the company’s market valuation is becoming increasingly tied to its long-term ambitions in autonomous technology and robotics rather than its near-term financial performance.
+  url: https://finnhub.io/api/news?id=8825a6c5c9758b53b55094618f2433989fbfaeb3725733ddca936f7c40597b97

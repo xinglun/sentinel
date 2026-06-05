@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May Jobs Report: Labor Market Continues Springtime Hum
+  summary: Mayâs U.S. jobs report beat forecasts with 172K added, revisions higher, and unemployment at 4.3%. Click for the impact of this latest data on jobs and markets.
+  url: https://finnhub.io/api/news?id=580cc33a5e2f32cb7fca86f9ef19724c70e2c34a3152f7d56cd595276113c655
