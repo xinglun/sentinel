@@ -1,11 +1,11 @@
 use std::collections::HashMap;
-use stock_sentinel::features::evidence::acl::evidence_ingestion::{
-    FixtureFetcher, RuleBasedExtractor,
-};
 use stock_sentinel::features::evidence::application::evidence_ingestion::{
     EvidenceExtractor, SourceDocument, SourceFetcher,
 };
 use stock_sentinel::features::evidence::domain::evidence::{EvidenceSourceType, EvidenceType};
+use stock_sentinel::features::evidence::infrastructure::evidence_ingestion::{
+    FixtureFetcher, RuleBasedExtractor,
+};
 
 #[test]
 fn rule_based_extractor_works_through_application_port() {
@@ -26,7 +26,7 @@ fn rule_based_extractor_works_through_application_port() {
 }
 
 #[test]
-fn core_reexport_preserves_source_document_import_path() {
+fn application_port_preserves_source_document_import_path() {
     let doc = stock_sentinel::features::evidence::application::evidence_ingestion::SourceDocument {
         title: "GOOG capex".to_string(),
         content: "capex payoff".to_string(),
@@ -41,7 +41,7 @@ fn core_reexport_preserves_source_document_import_path() {
 }
 
 #[test]
-fn infrastructure_extractor_matches_core_reexport_boundary() {
+fn infrastructure_extractor_matches_application_port_boundary() {
     let core_extractor: &dyn EvidenceExtractor = &RuleBasedExtractor::new();
     let infrastructure_extractor: &dyn EvidenceExtractor = &RuleBasedExtractor::new();
     let doc = SourceDocument {
@@ -60,7 +60,7 @@ fn infrastructure_extractor_matches_core_reexport_boundary() {
 }
 
 #[tokio::test]
-async fn infrastructure_fetcher_matches_core_reexport_boundary() -> anyhow::Result<()> {
+async fn infrastructure_fetcher_matches_application_port_boundary() -> anyhow::Result<()> {
     let dir = tempfile::tempdir()?;
     std::fs::write(dir.path().join("sample.txt"), "earnings validation")?;
     let base_path = dir.path().to_string_lossy();

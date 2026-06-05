@@ -1,0 +1,102 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cognitive-reports-split",
+  "mode": "code",
+  "title": "Cognitive Reports Split",
+  "scope": [
+    ".ai/work-items/active/cognitive-reports-split.contract.json",
+    ".ai/work-items/active/cognitive-reports-split.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/research_attention_report.rs",
+    "src/features/research/interface/asset_thesis_report.rs",
+    "src/features/research/interface/macro_gravity_report.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "src/features/research/interface/daily_calibration_i18n.rs"
+  ],
+  "outOfScope": [
+    "report output text / i18n wording の意味変更",
+    "Capital Absorption data source / model / status policy の変更",
+    "READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic への接続",
+    "CLI command behavior の変更",
+    "docs / config / data branch / persistence の変更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/cognitive-reports-split.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "肥大化した report facade を職責別 module に分割する対象。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "新規 report module を登録する。"
+    },
+    {
+      "path": "ユーザー指示: cognitive_reports.rs 全量拆分",
+      "reason": "後続課題として残した cognitive_reports.rs の大規模分割を可能な限り一回で解消する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "cognitive_reports.rs は public compatibility facade に縮小し、実装本体を職責別 module に移す。",
+    "Research Attention report、Asset Thesis report、Macro Gravity report、Capital Absorption report、Daily Calibration i18n を別 file に分離する。",
+    "既存の import path `research::interface::cognitive_reports::*` は re-export で維持し、CLI / radar の呼び出し側 diff を最小化する。",
+    "report output、boundary 文言、i18n、Capital Absorption behavior は変更しない。",
+    "architecture boundary check、full test、clippy を通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cognitive-reports-split.summary.json CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json SUMMARY=.ai/work-items/active/cognitive-reports-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json SUMMARY=.ai/work-items/active/cognitive-reports-split.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

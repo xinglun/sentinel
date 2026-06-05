@@ -1,0 +1,109 @@
+{
+  "workItemId": "research-interface-dto-boundary",
+  "contractPath": ".ai/work-items/archive/2026/research-interface-dto-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "reason": "P3 境界改善の scope、outOfScope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/research-interface-dto-boundary.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "現在の Work Item 状態を Cockpit に反映した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "既存 API 互換 wrapper に AppConfig 参照を集約した。"
+    },
+    {
+      "path": "src/features/research/interface/research_attention_report.rs",
+      "reason": "Research Attention renderer を AppConfig 全体ではなく entries slice から描画する形に変更した。"
+    },
+    {
+      "path": "src/features/research/interface/asset_thesis_report.rs",
+      "reason": "Asset Thesis renderer と count helper を AppConfig 全体ではなく entries slice から処理する形に変更した。"
+    },
+    {
+      "path": "src/features/research/interface/macro_gravity_report.rs",
+      "reason": "Macro Gravity renderer を MacroGravityConfig slice から描画する形に変更した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Capital Absorption renderer を CapitalAbsorptionConfig slice と auto snapshot から描画する形に変更した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_builder.rs",
+      "reason": "auto builder から renderer へ渡す値を明示的な Capital Absorption config slice に縮小した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "互換 facade 経由の Capital Absorption report contract test を維持した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/research-interface-dto-boundary.contract.json",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/research_attention_report.rs",
+    "src/features/research/interface/asset_thesis_report.rs",
+    "src/features/research/interface/macro_gravity_report.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "ユーザー指示: P3 review findings に対応"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/research-interface-dto-boundary.summary.json CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json SUMMARY=.ai/work-items/active/research-interface-dto-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json SUMMARY=.ai/work-items/active/research-interface-dto-boundary.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "report renderer の入力境界を縮小する小規模 refactor。既存 API は cognitive_reports facade で維持し、出力文言と自動観測挙動は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Capital Absorption auto snapshot の ACL orchestration は今回も interface builder に残る。application への大規模移動は outOfScope とし、renderer への入力だけを config slice に縮小した。"
+  ]
+}

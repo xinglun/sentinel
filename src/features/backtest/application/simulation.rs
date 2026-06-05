@@ -1,12 +1,10 @@
 use crate::features::backtest::application::decision_engine::BacktestDecisionEngine;
 use crate::features::backtest::application::model::{
     BacktestAssetAction, BacktestAssetState, BacktestBreakoutStatus, BacktestDecisionSnapshot,
-    BacktestRules, BacktestTickerHistory, BacktestTrendStatus, BacktestTrendTopology,
-    BacktestWatchlistEntry,
+    BacktestRegimeAudit, BacktestReliabilityBucket, BacktestRules, BacktestSimulationReport,
+    BacktestTickerHistory, BacktestTrendStatus, BacktestTrendTopology, BacktestWatchlistEntry,
 };
-use crate::features::backtest::domain::metrics::{
-    BacktestRunArtifacts, RegimeStats, StateMachineMetrics,
-};
+use crate::features::backtest::domain::metrics::{RegimeStats, StateMachineMetrics};
 use anyhow::Result;
 use chrono::NaiveDate;
 use std::borrow::Cow;
@@ -20,7 +18,7 @@ pub fn run_core_simulation(
     parsed_rules: &BacktestRules,
     use_memory: bool,
     dir_name: &str,
-) -> Result<BacktestRunArtifacts> {
+) -> Result<BacktestSimulationReport> {
     let mut transition_matrix: HashMap<(String, String), usize> = HashMap::new();
     let mut prev_packet: Option<BacktestDecisionSnapshot> = None;
     let mut history_window: Vec<BacktestDecisionSnapshot> = Vec::with_capacity(20);
@@ -311,200 +309,35 @@ pub fn run_core_simulation(
         prev_packet = Some(current_packet);
     }
 
-    // この run の output artifact を組み立てる。
-    let mut summary = String::new();
-    summary.push_str(&format!("# 🔭 Backtest Summary ({})\n\n", dir_name));
-    summary.push_str("## 1. Reliability Calibration\n| Bucket | Total | Correct | Win Rate |\n|---|---|---|---|\n");
     let mut rel_vec: Vec<_> = reliability.into_iter().collect();
     rel_vec.sort_by(|a, b| b.0.cmp(&a.0));
-    for (b, (t, c)) in rel_vec {
-        summary.push_str(&format!(
-            "| {} | {} | {} | {:.1}% |\n",
-            b,
-            t,
-            c,
-            (c as f64 / t as f64) * 100.0
-        ));
-    }
-    summary.push_str("\n## 2. Regime Performance Audit\n| State | Signals | Hit Rate | Avg 20d | Max DD |\n|---|---|---|---|---|\n");
+    let reliability = rel_vec
+        .into_iter()
+        .map(|(bucket, (total, correct))| BacktestReliabilityBucket {
+            bucket,
+            total,
+            correct,
+        })
+        .collect();
+
     let mut reg_vec: Vec<_> = regime_tracking.into_iter().collect();
     reg_vec.sort_by_key(|b| std::cmp::Reverse(b.1.total_signals));
-    for (state, s) in reg_vec {
-        if s.total_signals > 0 {
-            summary.push_str(&format!(
-                "| {} | {} | {:.1}% | {:+.2}% | {:+.2}% |\n",
-                state,
-                s.total_signals,
-                (s.correct_signals as f64 / s.total_signals as f64) * 100.0,
-                (s.sum_20d_return / s.total_signals as f64) * 100.0,
-                (s.sum_max_drawdown_20d / s.total_signals as f64) * 100.0
-            ));
-        }
-    }
-    let days = sm_metrics.total_days as f64;
-    let breakout_status_total = sm_metrics.evaluated_asset_days.max(1) as f64;
-    let breakout_eligible_total = sm_metrics.breakout_eligible_asset_days.max(1) as f64;
-    let breakout_failed_rate =
-        (sm_metrics.breakout_failed_risk_count as f64 / breakout_eligible_total) * 100.0;
+    let regime_audit = reg_vec
+        .into_iter()
+        .filter(|(_, stats)| stats.total_signals > 0)
+        .map(|(state, stats)| BacktestRegimeAudit {
+            state,
+            total_signals: stats.total_signals,
+            correct_signals: stats.correct_signals,
+            average_20d_return: stats.sum_20d_return / stats.total_signals as f64,
+            max_drawdown_20d: stats.sum_max_drawdown_20d / stats.total_signals as f64,
+        })
+        .collect();
 
-    summary.push_str("\n## 3. Gate / Topology / Breakout Distribution\n");
-    summary.push_str(&format!(
-        "- **Trend Gate Blocked Days**: {} / {} ({:.1}%)\n",
-        sm_metrics.trend_gate_blocked_days,
-        sm_metrics.total_days,
-        (sm_metrics.trend_gate_blocked_days as f64 / days.max(1.0)) * 100.0
-    ));
-    summary.push_str(&format!(
-        "- **Trend Status**: Dispersed={} | Forming={} | Formed={}\n",
-        sm_metrics.trend_status_dispersed_days,
-        sm_metrics.trend_status_forming_days,
-        sm_metrics.trend_status_formed_days
-    ));
-    summary.push_str(&format!(
-        "- **Topology**: NoLeader={} | SingleLeader={} | FragmentedLeaders={}\n",
-        sm_metrics.topology_no_leader_days,
-        sm_metrics.topology_single_leader_days,
-        sm_metrics.topology_fragmented_leaders_days
-    ));
-    summary.push_str(&format!(
-        "- **Evaluated Asset-Days**: {} | Breakout-Eligible Asset-Days={} ({:.1}% of evaluated)\n",
-        sm_metrics.evaluated_asset_days,
-        sm_metrics.breakout_eligible_asset_days,
-        (sm_metrics.breakout_eligible_asset_days as f64 / breakout_status_total) * 100.0
-    ));
-    summary.push_str(&format!(
-        "- **Breakout Status Counts**: NoBreakout={} | Emerging={} | Confirmed={}\n",
-        sm_metrics.breakout_no_breakout_count,
-        sm_metrics.breakout_emerging_count,
-        sm_metrics.breakout_confirmed_count
-    ));
-    summary.push_str(&format!(
-        "- **Failed Breakout Risk Flags**: {} ({:.1}% of breakout-eligible asset-days)\n",
-        sm_metrics.breakout_failed_risk_count, breakout_failed_rate
-    ));
-    let mut sm_md = String::new();
-    sm_md.push_str(
-        "# 🧭 State Machine Quality Metrics\n\n| Metric | Value | Rate |\n|---|---|---|\n",
-    );
-    sm_md.push_str(&format!(
-        "| Reset | {} | {:.1}% |\n",
-        sm_metrics.reset_count,
-        (sm_metrics.reset_count as f64 / days) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Blocked Reset | {} | {:.1}% |\n",
-        sm_metrics.blocked_reset_count,
-        (sm_metrics.blocked_reset_count as f64 / days) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Duration Locked | {} | {:.1}% |\n",
-        sm_metrics.duration_lock_count,
-        (sm_metrics.duration_lock_count as f64 / days) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Soft Reset | {} | {:.1}% |\n",
-        sm_metrics.soft_reset_count,
-        (sm_metrics.soft_reset_count as f64 / days) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Flips (5d) | {} | {:.1}% |\n",
-        sm_metrics.state_flip_count_5d,
-        (sm_metrics.state_flip_count_5d as f64 / days) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Top Actions Turnover | - | {:.1}% |\n",
-        (sm_metrics.top_actions_turnover_sum / days) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Core Asset Protection Hits | {} | - |\n",
-        sm_metrics.core_asset_protection_hits
-    ));
-    sm_md.push_str(&format!(
-        "| Weak Asset Promotion Cap Hits | {} | - |\n",
-        sm_metrics.weak_asset_promotion_cap_hits
-    ));
-    sm_md.push_str(&format!(
-        "| Raw-vs-Actual Optimal Divergence (Days) | {} | - |\n",
-        sm_metrics.total_raw_vs_actual_divergence_days
-    ));
-    sm_md.push_str(&format!(
-        "| Raw Optimal Suppression (Days) | {} | - |\n",
-        sm_metrics.total_raw_optimal_suppression_days
-    ));
-    sm_md.push_str(&format!(
-        "| Initial Top Actions Latency (Days) | {} | - |\n",
-        sm_metrics.total_initial_top_actions_latency_days
-    ));
-    sm_md.push_str("\n## 2. Gate / Topology / Breakout Distribution\n\n| Metric | Value | Rate |\n|---|---|---|\n");
-    sm_md.push_str(&format!(
-        "| Trend Gate Blocked Days | {} | {:.1}% |\n",
-        sm_metrics.trend_gate_blocked_days,
-        (sm_metrics.trend_gate_blocked_days as f64 / days.max(1.0)) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Trend Status: Dispersed | {} | {:.1}% |\n",
-        sm_metrics.trend_status_dispersed_days,
-        (sm_metrics.trend_status_dispersed_days as f64 / days.max(1.0)) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Trend Status: Forming | {} | {:.1}% |\n",
-        sm_metrics.trend_status_forming_days,
-        (sm_metrics.trend_status_forming_days as f64 / days.max(1.0)) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Trend Status: Formed | {} | {:.1}% |\n",
-        sm_metrics.trend_status_formed_days,
-        (sm_metrics.trend_status_formed_days as f64 / days.max(1.0)) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Topology: NoLeader | {} | {:.1}% |\n",
-        sm_metrics.topology_no_leader_days,
-        (sm_metrics.topology_no_leader_days as f64 / days.max(1.0)) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Topology: SingleLeader | {} | {:.1}% |\n",
-        sm_metrics.topology_single_leader_days,
-        (sm_metrics.topology_single_leader_days as f64 / days.max(1.0)) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Topology: FragmentedLeaders | {} | {:.1}% |\n",
-        sm_metrics.topology_fragmented_leaders_days,
-        (sm_metrics.topology_fragmented_leaders_days as f64 / days.max(1.0)) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Evaluated Asset-Days | {} | - |\n",
-        sm_metrics.evaluated_asset_days
-    ));
-    sm_md.push_str(&format!(
-        "| Breakout-Eligible Asset-Days | {} | {:.1}% |\n",
-        sm_metrics.breakout_eligible_asset_days,
-        (sm_metrics.breakout_eligible_asset_days as f64 / breakout_status_total) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Breakout: NoBreakout | {} | {:.1}% |\n",
-        sm_metrics.breakout_no_breakout_count,
-        (sm_metrics.breakout_no_breakout_count as f64 / breakout_status_total) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Breakout: Emerging | {} | {:.1}% |\n",
-        sm_metrics.breakout_emerging_count,
-        (sm_metrics.breakout_emerging_count as f64 / breakout_status_total) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Breakout: Confirmed | {} | {:.1}% |\n",
-        sm_metrics.breakout_confirmed_count,
-        (sm_metrics.breakout_confirmed_count as f64 / breakout_status_total) * 100.0
-    ));
-    sm_md.push_str(&format!(
-        "| Breakout: Failed Risk Flags | {} | {:.1}% |\n",
-        sm_metrics.breakout_failed_risk_count, breakout_failed_rate
-    ));
-    let state_machine_metrics_json = serde_json::to_string_pretty(&sm_metrics)?;
-
-    Ok(BacktestRunArtifacts {
+    Ok(BacktestSimulationReport {
+        name: dir_name.to_string(),
         metrics: sm_metrics,
-        summary_markdown: summary,
-        state_machine_metrics_markdown: sm_md,
-        state_machine_metrics_json,
+        reliability,
+        regime_audit,
     })
 }

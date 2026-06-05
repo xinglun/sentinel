@@ -5,7 +5,8 @@ use crate::features::radar::application::execution_gate::{
 };
 use crate::features::radar::application::radar::{
     build_account_snapshot, build_data_quality_log, build_portfolio_snapshot,
-    build_state_machine_summary, AccountSnapshotInput, DataAcquisitionSummary,
+    build_state_machine_summary, AccountSnapshot, AccountSnapshotInput, DataAcquisitionSummary,
+    DataQualityLog, PortfolioSnapshot,
 };
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::trend_cohesion::AutomatedEvidenceRecord;
@@ -31,9 +32,9 @@ pub struct RadarDeliveryPlan {
     pub execution_result: ExecutionResult,
     pub current_exposure: f64,
     pub buying_power: f64,
-    pub portfolio_snapshot: serde_json::Value,
-    pub account_snapshot: serde_json::Value,
-    pub data_quality_log: serde_json::Value,
+    pub portfolio_snapshot: PortfolioSnapshot,
+    pub account_snapshot: AccountSnapshot,
+    pub data_quality_log: DataQualityLog,
     pub state_machine: StateMachineSummary,
     pub prices: HashMap<String, f64>,
     pub substantive_records: Vec<AutomatedEvidenceRecord>,

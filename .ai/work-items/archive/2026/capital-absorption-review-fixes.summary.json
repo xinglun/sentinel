@@ -1,0 +1,134 @@
+{
+  "workItemId": "capital-absorption-review-fixes",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-review-fixes.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "reason": "review 指摘の P1 / P2 / P3 対応範囲、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-review-fixes.summary.json",
+      "reason": "実装内容、検証結果、残る設計 gap を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の Cockpit status を生成した。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "source unavailable 時に default AI IPO queue / IPO Queue History を生成しないようにし、unit test を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_builder.rs",
+      "reason": "Capital Absorption の auto snapshot orchestration を cognitive_reports.rs から分離した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Capital Absorption report builder module を登録した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "ACL factory 直接 import を削除し、EN/JA の Capital Absorption auto render contract test を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration の Capital Absorption report 呼び出しを dedicated builder 経由に変更した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "radar appendix の Capital Absorption report 呼び出しを dedicated builder 経由に変更した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "source unavailable 時の default queue 非表示と EN/JA 新 section contract を追加した。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "Actual / Potential 分離、Potential Supply Trend、IPO Queue History、Event Type、Narrative Observation Only 境界を正式 spec 化した。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "新規 Capital Absorption spec を docs index に登録した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/capital-absorption-review-fixes.contract.json",
+    "ユーザー提示の Capital Absorption review 指摘",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-index",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-review-fixes.summary.json CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json SUMMARY=.ai/work-items/active/capital-absorption-review-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json SUMMARY=.ai/work-items/active/capital-absorption-review-fixes.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Capital Absorption Observation Layer の表示・責務境界・spec・test に限定する。READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic には接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "changed",
+    "persistence": "not_applicable",
+    "i18n": "changed",
+    "makeEntrypoints": "not_applicable"
+  },
+  "knownGaps": [
+    "Capital Absorption report builder は dedicated file に分離したが、cognitive_reports.rs 全体の大規模分割は後続 task として残す。",
+    "ETF Net Inflow、Mutual Fund Flow、Foreign Flow、Corporate Buyback は未接続。",
+    "Capital Absorption Ratio と Rolling 12M Capital Model は未実装。",
+    "ACTIVE / STRESSED 自動出力は引き続き無効。"
+  ],
+  "overclaimPrevention": "完了報告では source unavailable queue 修正、orchestration 分離、EN/JA test、spec 追加までを完了範囲とし、完全な cognitive_reports.rs 分割や量化 model 接続は未実装と明記する。"
+}

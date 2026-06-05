@@ -1,0 +1,117 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-review-fixes",
+  "mode": "code",
+  "title": "Capital Absorption Review Fixes",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-review-fixes.contract.json",
+    ".ai/work-items/active/capital-absorption-review-fixes.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "tests/research_attention_cli_integration.rs",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "docs/README.md"
+  ],
+  "outOfScope": [
+    "ETF Net Inflow / Mutual Fund Flow / Foreign Flow / Corporate Buyback data source の追加",
+    "READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic への接続",
+    "Capital Absorption Ratio / Rolling 12M Capital Model の実装",
+    "data branch / JSONL / snapshot persistence の追加",
+    "cognitive_reports.rs 全体の大規模分割"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "unavailable snapshot と default AI IPO queue の生成条件を確認する。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Capital Absorption report rendering と auto snapshot 取得の責務境界を確認する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の zh/en/ja report contract を確認する。"
+    },
+    {
+      "path": "ユーザー提示の Capital Absorption review 指摘",
+      "reason": "P1 unavailable source default queue、P2 orchestration boundary、P2 EN/JA tests、P2 spec、P3 file split の要求。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Finnhub unavailable snapshot では default AI IPO queue と IPO Queue History を表示せず、自動観測失敗を静的候補一覧として誤読させない。",
+    "unavailable source 時の Capital Absorption report contract test が、候補 issuer を表示しないことを検証する。",
+    "cognitive_reports.rs は ACL factory を直接 import せず、auto snapshot orchestration は dedicated report builder に移す。",
+    "daily-calibration / radar の呼び出しは新しい Capital Absorption report builder を使い、既存 output contract を維持する。",
+    "Actual Capital Supply、Potential Supply Trend、IPO Queue History、Event Type、Actual/Potential 分離、boundary を zh/en/ja の contract test で検証する。",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md を追加し、Current Phase、Actual/Potential 分離、status 上限、非 Gate / 非 trading signal 境界、未実装 gap を日本語で明記する。",
+    "P3 の大規模分割は行わず、Capital Absorption auto report builder を別 file に切り出して cognitive_reports.rs の膨張を抑える入口を作る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-doc-links",
+      "required": true
+    },
+    {
+      "command": "make check-doc-index",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-review-fixes.summary.json CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json SUMMARY=.ai/work-items/active/capital-absorption-review-fixes.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-review-fixes.contract.json SUMMARY=.ai/work-items/active/capital-absorption-review-fixes.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

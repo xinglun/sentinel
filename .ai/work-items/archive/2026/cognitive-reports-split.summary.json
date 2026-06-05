@@ -1,0 +1,110 @@
+{
+  "workItemId": "cognitive-reports-split",
+  "contractPath": ".ai/work-items/archive/2026/cognitive-reports-split.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cognitive-reports-split.contract.json",
+      "reason": "cognitive_reports.rs 分割の scope、outOfScope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/cognitive-reports-split.summary.json",
+      "reason": "実装内容と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "現在の Work Item 状態を Cockpit に反映した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "既存 API を維持する compatibility facade に縮小した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "分割した interface report module を登録した。"
+    },
+    {
+      "path": "src/features/research/interface/research_attention_report.rs",
+      "reason": "Research Attention report の rendering と label helper を分離した。"
+    },
+    {
+      "path": "src/features/research/interface/asset_thesis_report.rs",
+      "reason": "Asset Thesis report の rendering と thesis/research helper を分離した。"
+    },
+    {
+      "path": "src/features/research/interface/macro_gravity_report.rs",
+      "reason": "Macro Gravity report の rendering と i18n helper を分離した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Capital Absorption report の read model conversion と rendering を分離した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "Capital Absorption の表示文言と値変換 helper を分離した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "Capital Absorption report の EN/JA contract test を renderer 本体から分離した。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "Daily Calibration の i18n helper を分離した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/cognitive-reports-split.contract.json",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/mod.rs",
+    "ユーザー指示: cognitive_reports.rs 全量拆分"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cognitive-reports-split.summary.json CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json SUMMARY=.ai/work-items/active/cognitive-reports-split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cognitive-reports-split.contract.json SUMMARY=.ai/work-items/active/cognitive-reports-split.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "機械的な module 分割であり、既存 facade の re-export によって呼び出し側 API を維持した。report output と業務ロジックは変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": []
+}

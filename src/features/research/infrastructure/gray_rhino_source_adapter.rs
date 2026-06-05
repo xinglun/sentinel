@@ -29,11 +29,15 @@ const FRED_SERIES: &[&str] = &[
 
 pub(crate) struct FileGrayRhinoSourceCollector<'a> {
     app_config: &'a config::AppConfig,
+    save_dir: &'a Path,
 }
 
 impl<'a> FileGrayRhinoSourceCollector<'a> {
-    pub(crate) fn new(app_config: &'a config::AppConfig) -> Self {
-        Self { app_config }
+    pub(crate) fn new(app_config: &'a config::AppConfig, save_dir: &'a Path) -> Self {
+        Self {
+            app_config,
+            save_dir,
+        }
     }
 }
 
@@ -47,15 +51,24 @@ impl<'a> FileGrayRhinoCandidateRepository<'a> {
     }
 }
 
-pub(crate) struct FileGrayRhinoDiscoveryRunRepository;
+pub(crate) struct FileGrayRhinoDiscoveryRunRepository<'a> {
+    save_dir: &'a Path,
+}
+
+impl<'a> FileGrayRhinoDiscoveryRunRepository<'a> {
+    pub(crate) fn new(save_dir: &'a Path) -> Self {
+        Self { save_dir }
+    }
+}
 
 pub(crate) async fn collect_gray_rhino_sources(
     app_config: &config::AppConfig,
+    save_dir: &Path,
     request: GrayRhinoSourceCollectionRequest,
 ) -> Result<Vec<GrayRhinoSourceCollectionOutcome>> {
-    let fetcher = FileGrayRhinoSourceCollector::new(app_config);
-    let candidate_repository = FileGrayRhinoCandidateRepository::new(&request.save_dir);
-    let run_repository = FileGrayRhinoDiscoveryRunRepository;
+    let fetcher = FileGrayRhinoSourceCollector::new(app_config, save_dir);
+    let candidate_repository = FileGrayRhinoCandidateRepository::new(save_dir);
+    let run_repository = FileGrayRhinoDiscoveryRunRepository::new(save_dir);
     CollectGrayRhinoSourcesUseCase::new(&fetcher, &candidate_repository, &run_repository)
         .collect(&request)
         .await
@@ -67,11 +80,15 @@ impl GrayRhinoSourceFetcherPort for FileGrayRhinoSourceCollector<'_> {
         request: &GrayRhinoSourceCollectionRequest,
     ) -> Result<Vec<GrayRhinoFetchOutcome>> {
         match request.provider {
-            GrayRhinoSourceProvider::Sec => collect_sec_sources(self.app_config, request).await,
-            GrayRhinoSourceProvider::Finnhub => {
-                collect_finnhub_sources(self.app_config, request).await
+            GrayRhinoSourceProvider::Sec => {
+                collect_sec_sources(self.app_config, self.save_dir, request).await
             }
-            GrayRhinoSourceProvider::Fred => collect_fred_sources(self.app_config, request).await,
+            GrayRhinoSourceProvider::Finnhub => {
+                collect_finnhub_sources(self.app_config, self.save_dir, request).await
+            }
+            GrayRhinoSourceProvider::Fred => {
+                collect_fred_sources(self.app_config, self.save_dir, request).await
+            }
         }
     }
 }
@@ -82,18 +99,19 @@ impl GrayRhinoCandidateRepositoryPort for FileGrayRhinoCandidateRepository<'_> {
     }
 }
 
-impl GrayRhinoDiscoveryRunRepositoryPort for FileGrayRhinoDiscoveryRunRepository {
+impl GrayRhinoDiscoveryRunRepositoryPort for FileGrayRhinoDiscoveryRunRepository<'_> {
     async fn append_discovery_run(
         &self,
         request: &GrayRhinoSourceCollectionRequest,
         outcomes: &[GrayRhinoSourceCollectionOutcome],
     ) -> Result<()> {
-        append_discovery_run(request, outcomes).await
+        append_discovery_run(self.save_dir, request, outcomes).await
     }
 }
 
 async fn collect_sec_sources(
     app_config: &config::AppConfig,
+    save_dir: &Path,
     request: &GrayRhinoSourceCollectionRequest,
 ) -> Result<Vec<GrayRhinoFetchOutcome>> {
     let subjects = configured_subjects(app_config, &request.symbols);
@@ -105,7 +123,7 @@ async fn collect_sec_sources(
     }
     let adapter = GovernanceDocumentSourceAdapter::new(
         app_config.sec.as_ref().map(|sec| sec.user_agent.clone()),
-        &request.save_dir,
+        save_dir,
     );
     let mut outcomes = Vec::new();
     for subject in subjects {
@@ -139,6 +157,7 @@ async fn collect_sec_sources(
 
 async fn collect_finnhub_sources(
     app_config: &config::AppConfig,
+    save_dir: &Path,
     request: &GrayRhinoSourceCollectionRequest,
 ) -> Result<Vec<GrayRhinoFetchOutcome>> {
     let subjects = configured_subjects(app_config, &request.symbols);
@@ -170,7 +189,7 @@ async fn collect_finnhub_sources(
                 let raw = response.text().await?;
                 for article in render_finnhub_article_sources(&subject, &raw, request.as_of_date)? {
                     let repository_path = cache_source(
-                        &request.save_dir,
+                        save_dir,
                         "narrative",
                         &subject,
                         &format!(
@@ -205,6 +224,7 @@ async fn collect_finnhub_sources(
 
 async fn collect_fred_sources(
     app_config: &config::AppConfig,
+    save_dir: &Path,
     request: &GrayRhinoSourceCollectionRequest,
 ) -> Result<Vec<GrayRhinoFetchOutcome>> {
     if request.dry_run {
@@ -242,7 +262,7 @@ async fn collect_fred_sources(
     let source_published_at = fred_source_published_at(&series_payloads, request.as_of_date)?;
     let identity = content_sha256(&fred_latest_observation_signature(&series_payloads)?);
     let repository_path = cache_source(
-        &request.save_dir,
+        save_dir,
         "macro",
         "Market",
         &format!("fred_{}_{}.txt", source_published_at, &identity[..12]),
@@ -529,11 +549,12 @@ async fn cache_source(
 }
 
 async fn append_discovery_run(
+    save_dir: &Path,
     request: &GrayRhinoSourceCollectionRequest,
     outcomes: &[GrayRhinoSourceCollectionOutcome],
 ) -> Result<()> {
-    let path = request.save_dir.join("gray_rhino_discovery_runs.jsonl");
-    tokio::fs::create_dir_all(&request.save_dir).await?;
+    let path = save_dir.join("gray_rhino_discovery_runs.jsonl");
+    tokio::fs::create_dir_all(save_dir).await?;
     let record = GrayRhinoDiscoveryRunRecord {
         run_id: format!("{}-{}", request.provider.as_str(), request.as_of_date),
         provider: request.provider,

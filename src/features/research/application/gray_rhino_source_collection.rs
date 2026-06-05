@@ -5,7 +5,6 @@ use crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidate;
 use anyhow::Result;
 use chrono::NaiveDate;
 use serde::Serialize;
-use std::path::PathBuf;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 pub(crate) enum GrayRhinoSourceProvider {
@@ -37,7 +36,6 @@ impl GrayRhinoSourceProvider {
 pub(crate) struct GrayRhinoSourceCollectionRequest {
     pub provider: GrayRhinoSourceProvider,
     pub symbols: Vec<String>,
-    pub save_dir: PathBuf,
     pub as_of_date: NaiveDate,
     pub lookback_days: usize,
     pub dry_run: bool,

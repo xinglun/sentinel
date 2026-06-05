@@ -1,0 +1,105 @@
+{
+  "workItemId": "capital-absorption-observation-structure",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-observation-structure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "reason": "Actual / Potential 分離、Potential Supply Trend、IPO Queue History、Event Type、境界維持の scope と acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-observation-structure.summary.json",
+      "reason": "実装内容、検証結果、未実装 gap を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "新規 Work Item の Cockpit status を生成した。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "Capital Absorption event に Actual / Potential と Event Type を追加し、IPO rumor を actual amount / rolling 12M / actual supply count から除外した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "reason": "Finnhub headline / summary scan で Confirmed / Reported / Rumor と supply kind を分類する。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "日報を Actual Capital Supply、Potential Supply Trend、AI IPO Queue、IPO Queue History、Event Type 表示に分離した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "中文 daily-calibration report の Actual / Potential 分離、Potential Supply Trend、Event Type、境界維持を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/capital-absorption-observation-structure.contract.json",
+    "ユーザー提示の Capital Absorption Early Warning Sensor 下一阶段优化",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-observation-structure.summary.json CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json SUMMARY=.ai/work-items/active/capital-absorption-observation-structure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json SUMMARY=.ai/work-items/active/capital-absorption-observation-structure.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Observation Layer の表示構造と分類に限定する。READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic には接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "changed",
+    "persistence": "not_applicable",
+    "i18n": "changed",
+    "makeEntrypoints": "not_applicable"
+  },
+  "knownGaps": [
+    "IPO Queue History は current observation window 内の累積 queue size であり、長期 persistence / rolling 12M history ではない。",
+    "ETF Net Inflow、Mutual Fund Flow、Foreign Flow、Corporate Buyback は未接続。",
+    "Capital Absorption Ratio と Rolling 12M Capital Model は未実装。",
+    "ACTIVE / STRESSED 自動出力は引き続き無効。"
+  ],
+  "overclaimPrevention": "完了報告では Current Phase: Narrative Observation Only であり、Potential Future Capital Supply の観測構造改善に限定し、実際の capital absorption、market liquidity、market conclusion、risk upgrade、trading signal は未実装と明記する。"
+}

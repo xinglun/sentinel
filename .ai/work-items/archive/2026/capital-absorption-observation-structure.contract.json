@@ -1,0 +1,104 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-observation-structure",
+  "mode": "code",
+  "title": "Capital Absorption Observation Structure",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-observation-structure.contract.json",
+    ".ai/work-items/active/capital-absorption-observation-structure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "ETF Net Inflow / Mutual Fund Flow / Foreign Flow / Buyback data source の追加",
+    "READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic への接続",
+    "Capital Absorption Ratio / Rolling 12M Capital Model の実装",
+    "data branch / JSONL / snapshot persistence の追加",
+    "新しい make 運用入口の追加"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "Capital Absorption Early Warning Sensor の observation model と自動 snapshot 生成を確認する。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Telegram / Markdown 日報の Capital Absorption 表示構造と i18n 文言を確認する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の中文 report contract を固定する。"
+    },
+    {
+      "path": "ユーザー提示の Capital Absorption Early Warning Sensor 下一阶段优化",
+      "reason": "P1 Actual / Potential 分離、P2 Potential Supply Trend、P3 IPO Queue History、Event Type、境界維持の要求。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Actual Capital Supply と Potential Capital Supply Queue を表示上分離し、IPO rumor / candidate / preparation / pre-IPO discussion は Actual Supply、Capital Demand、Rolling 12M、Supply Event Count に混入しない。",
+    "Actual Capital Supply は Secondary Offering、Equity Raise、Convertible Debt、Follow-on Offering、ATM Program など発生済み financing event だけを対象にする。",
+    "Capital Demand Trend 表示をやめ、Current Phase では Potential Supply Trend を STABLE / RISING / FALLING の範囲で表示し、ACCELERATING を出力しない。",
+    "AI IPO Queue に加えて IPO Queue History を current observation window の日付別 cumulative queue size として表示する。長期 persistence は追加しない。",
+    "Event Type を Confirmed / Reported / Rumor として表示し、source count / confidence は維持する。",
+    "Current Phase: Narrative Observation Only、NORMAL / WATCH 上限、no trading signal、no market conclusion、no risk upgrade、READY / EXECUTE / Gate / Position Sizing / Trend Layer 非接続の境界を維持する。",
+    "Finnhub company-news / market-news headline / summary keyword scan 以外の data source を追加しない。",
+    "daily-calibration の中文 integration test が Actual / Potential 分離、Potential Supply Trend、IPO Queue History、Event Type、既存 boundary を検証する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-observation-structure.summary.json CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json SUMMARY=.ai/work-items/active/capital-absorption-observation-structure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-observation-structure.contract.json SUMMARY=.ai/work-items/active/capital-absorption-observation-structure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
