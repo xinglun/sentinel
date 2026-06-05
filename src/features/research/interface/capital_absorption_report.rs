@@ -10,15 +10,12 @@ use crate::features::shared::interface::i18n::Language;
 
 use super::capital_absorption_i18n::*;
 
-pub(crate) fn build_capital_absorption_report(
-    app_config: &config::AppConfig,
+pub(crate) fn build_capital_absorption_report_from_config(
+    manual: Option<&config::CapitalAbsorptionConfig>,
     auto_snapshot: Option<&CapitalAbsorptionAutoSnapshot>,
     language: Language,
 ) -> String {
-    let manual = app_config
-        .capital_absorption
-        .as_ref()
-        .filter(|capital_absorption| capital_absorption.enable.unwrap_or(true));
+    let manual = manual.filter(|capital_absorption| capital_absorption.enable.unwrap_or(true));
     let snapshot = if let Some(auto_snapshot) = auto_snapshot.filter(|snapshot| {
         snapshot.source_status.status != CapitalAbsorptionSourceHealth::Unavailable
     }) {

@@ -1,0 +1,121 @@
+{
+  "contractVersion": 1,
+  "workItemId": "research-interface-dto-boundary",
+  "mode": "code",
+  "title": "Research Interface DTO Boundary",
+  "scope": [
+    ".ai/work-items/active/research-interface-dto-boundary.contract.json",
+    ".ai/work-items/active/research-interface-dto-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/research_attention_report.rs",
+    "src/features/research/interface/asset_thesis_report.rs",
+    "src/features/research/interface/macro_gravity_report.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs"
+  ],
+  "outOfScope": [
+    "report output text / i18n wording の意味変更",
+    "Capital Absorption source discovery / status policy / model の変更",
+    "READY / EXECUTE / Gate / Position Sizing / Trend Layer / trader logic への接続",
+    "CLI command behavior の変更",
+    "docs / config schema / data branch / persistence の変更",
+    "application layer への大規模移動"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "reason": "Work Item の実装境界。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "既存 API を維持する compatibility facade。"
+    },
+    {
+      "path": "src/features/research/interface/research_attention_report.rs",
+      "reason": "Research Attention renderer の AppConfig 依存を縮小する対象。"
+    },
+    {
+      "path": "src/features/research/interface/asset_thesis_report.rs",
+      "reason": "Asset Thesis renderer の AppConfig 依存を縮小する対象。"
+    },
+    {
+      "path": "src/features/research/interface/macro_gravity_report.rs",
+      "reason": "Macro Gravity renderer の AppConfig 依存を縮小する対象。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Capital Absorption renderer の AppConfig 依存を縮小する対象。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_builder.rs",
+      "reason": "自動 snapshot orchestration と renderer 呼び出しの境界を小さくする対象。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "互換 facade と Capital Absorption report contract のテスト呼び出しを維持する対象。"
+    },
+    {
+      "path": "ユーザー指示: P3 review findings に対応",
+      "reason": "大規模再設計ではなく、AppConfig 直接依存と auto builder の小さな境界改善を進める。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "既存の `research::interface::cognitive_reports::*` 呼び出し API は維持する。",
+    "Research Attention / Asset Thesis / Macro Gravity / Capital Absorption renderer 本体は `AppConfig` 全体ではなく必要な config slice を受け取る。",
+    "Capital Absorption auto builder は renderer に渡す config slice を明示し、report output と自動取得挙動を変えない。",
+    "report output、i18n、Capital Absorption status / boundary、Gate 非接続の契約は変更しない。",
+    "fmt、test、clippy、architecture check、AI Cockpit guard を通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/research-interface-dto-boundary.summary.json CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json SUMMARY=.ai/work-items/active/research-interface-dto-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/research-interface-dto-boundary.contract.json SUMMARY=.ai/work-items/active/research-interface-dto-boundary.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

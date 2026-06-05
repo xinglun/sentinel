@@ -1,12 +1,13 @@
 use crate::config;
 use crate::features::research::interface::asset_thesis_report::localized_research_reason;
 use crate::features::shared::interface::i18n::Language;
+use std::collections::BTreeMap;
 
-pub(crate) fn build_research_attention_report(
-    app_config: &config::AppConfig,
+pub(crate) fn build_research_attention_report_from_entries(
+    entries: Option<&BTreeMap<String, config::ResearchAttentionEntry>>,
     language: Language,
 ) -> String {
-    let entries = match &app_config.research_attention {
+    let entries = match entries {
         Some(entries) => entries,
         None => return research_attention_empty(language).to_string(),
     };

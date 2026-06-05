@@ -1,4 +1,4 @@
-use super::capital_absorption_report::build_capital_absorption_report;
+use super::cognitive_reports::build_capital_absorption_report;
 use crate::config;
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoConfidence, CapitalAbsorptionAutoEvent,

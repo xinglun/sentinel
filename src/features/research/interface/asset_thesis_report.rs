@@ -1,12 +1,13 @@
 use crate::config;
 use crate::features::research::interface::default_cognitive_localizations as defaults;
 use crate::features::shared::interface::i18n::Language;
+use std::collections::BTreeMap;
 
-pub(crate) fn build_asset_thesis_report(
-    app_config: &config::AppConfig,
+pub(crate) fn build_asset_thesis_report_from_entries(
+    entries: Option<&BTreeMap<String, config::AssetThesisEntry>>,
     language: Language,
 ) -> String {
-    let entries = match &app_config.asset_thesis {
+    let entries = match entries {
         Some(entries) => entries,
         None => return asset_thesis_empty(language).to_string(),
     };
@@ -51,10 +52,10 @@ pub(crate) fn build_asset_thesis_report(
     out
 }
 
-pub(crate) fn enabled_research_attention_count(app_config: &config::AppConfig) -> usize {
-    app_config
-        .research_attention
-        .as_ref()
+pub(crate) fn enabled_research_attention_count_from_entries(
+    entries: Option<&BTreeMap<String, config::ResearchAttentionEntry>>,
+) -> usize {
+    entries
         .map(|entries| {
             entries
                 .values()
@@ -64,10 +65,10 @@ pub(crate) fn enabled_research_attention_count(app_config: &config::AppConfig) -
         .unwrap_or(0)
 }
 
-pub(crate) fn enabled_asset_thesis_count(app_config: &config::AppConfig) -> usize {
-    app_config
-        .asset_thesis
-        .as_ref()
+pub(crate) fn enabled_asset_thesis_count_from_entries(
+    entries: Option<&BTreeMap<String, config::AssetThesisEntry>>,
+) -> usize {
+    entries
         .map(|entries| {
             entries
                 .values()

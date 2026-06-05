@@ -1,14 +1,12 @@
 use crate::config;
 use crate::features::shared::interface::i18n::Language;
 
-pub(crate) fn build_macro_gravity_report(
-    app_config: &config::AppConfig,
+pub(crate) fn build_macro_gravity_report_from_config(
+    macro_gravity: Option<&config::MacroGravityConfig>,
     language: Language,
 ) -> String {
-    let Some(macro_gravity) = app_config
-        .macro_gravity
-        .as_ref()
-        .filter(|macro_gravity| macro_gravity.enable.unwrap_or(true))
+    let Some(macro_gravity) =
+        macro_gravity.filter(|macro_gravity| macro_gravity.enable.unwrap_or(true))
     else {
         return macro_gravity_empty(language).to_string();
     };
