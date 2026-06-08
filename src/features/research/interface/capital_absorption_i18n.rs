@@ -266,9 +266,9 @@ pub(super) fn capital_absorption_ipo_queue_history_label(language: Language) -> 
 
 pub(super) fn capital_absorption_queue_size_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Queue Size",
+        Language::ZhCn => "队列规模",
         Language::EnUs => "Queue Size",
-        Language::JaJp => "Queue Size",
+        Language::JaJp => "キュー規模",
     }
 }
 
@@ -387,6 +387,18 @@ pub(super) fn capital_absorption_observation_only_value(language: Language) -> &
         Language::ZhCn => "仅观察",
         Language::EnUs => "Observation Only",
         Language::JaJp => "観測のみ",
+    }
+}
+
+pub(super) fn capital_absorption_structural_impact_value(
+    value: Option<&str>,
+    language: Language,
+) -> String {
+    match value.map(str::trim).filter(|value| !value.is_empty()) {
+        Some("Observation Only") | None => {
+            capital_absorption_observation_only_value(language).to_string()
+        }
+        Some(value) => value.to_string(),
     }
 }
 

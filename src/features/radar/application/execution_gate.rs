@@ -13,9 +13,49 @@ pub struct GatedAudit {
     pub action: AssetAction,
     pub passed: bool,
     pub blocked_by: Option<String>,
-    pub details: serde_json::Value,
+    pub details: GatedAuditDetails,
     pub is_liquidation: bool,
     pub is_trim: bool,
+}
+
+#[derive(Debug, Clone, Copy, Default, Serialize)]
+pub struct GatedAuditDetails {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub final_amount: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub available_power: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub running_exposure: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub daily_total: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub effective_limit: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub global_cap: Option<f64>,
+}
+
+impl GatedAuditDetails {
+    fn empty() -> Self {
+        Self::default()
+    }
+
+    fn from_budget_state(
+        final_amount: f64,
+        available_power: f64,
+        running_exposure: f64,
+        daily_total: f64,
+        effective_limit: f64,
+        global_cap: f64,
+    ) -> Self {
+        Self {
+            final_amount: Some(final_amount),
+            available_power: Some(available_power),
+            running_exposure: Some(running_exposure),
+            daily_total: Some(daily_total),
+            effective_limit: Some(effective_limit),
+            global_cap: Some(global_cap),
+        }
+    }
 }
 
 pub struct ExecutionResult {
@@ -66,7 +106,7 @@ impl ExecutionGate {
                     action: asset.action,
                     passed: false,
                     blocked_by: Some("DisabledByWatchlist".to_string()),
-                    details: serde_json::json!({}),
+                    details: GatedAuditDetails::empty(),
                     is_liquidation: false,
                     is_trim: false,
                 });
@@ -99,14 +139,14 @@ impl ExecutionGate {
                 let final_amount = base_amount * policy_multiplier * asset.config_multiplier;
 
                 // audit に残す入力値を捕捉する。
-                let audit_details = serde_json::json!({
-                    "final_amount": final_amount,
-                    "available_power": available_power,
-                    "running_exposure": running_exposure,
-                    "daily_total": current_daily_total,
-                    "effective_limit": effective_limit,
-                    "global_cap": global_cap
-                });
+                let audit_details = GatedAuditDetails::from_budget_state(
+                    final_amount,
+                    available_power,
+                    running_exposure,
+                    current_daily_total,
+                    effective_limit,
+                    global_cap,
+                );
 
                 if final_amount <= 0.0 && !is_liquidation && !is_trim {
                     audits.push(GatedAudit {
@@ -127,7 +167,7 @@ impl ExecutionGate {
                         action: asset.action,
                         passed: false,
                         blocked_by: Some("CircuitBreaker".to_string()),
-                        details: audit_details.clone(),
+                        details: audit_details,
                         is_liquidation: false,
                         is_trim: false,
                     });
@@ -144,7 +184,7 @@ impl ExecutionGate {
                                 action: asset.action,
                                 passed: false,
                                 blocked_by: Some("MarketStateNoTrade".to_string()),
-                                details: audit_details.clone(),
+                                details: audit_details,
                                 is_liquidation: false,
                                 is_trim: false,
                             });
@@ -383,6 +423,10 @@ mod tests {
 
         assert_eq!(result.trades.len(), 0);
         assert_eq!(result.audits[0].blocked_by, Some("BuyingPower".to_string()));
+        assert_eq!(result.audits[0].details.final_amount, Some(1500.0));
+        let details = serde_json::to_value(result.audits[0].details).unwrap();
+        assert_eq!(details["final_amount"], 1500.0);
+        assert_eq!(details["available_power"], 1000.0);
     }
 
     #[test]

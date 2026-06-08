@@ -15,22 +15,53 @@ use chrono::NaiveDate;
 
 #[test]
 fn auto_report_locks_new_sections_in_en_and_ja() {
-    for (language, title, queue_history, queue_stage, summary, boundary) in [
+    for (
+        language,
+        title,
+        actual_supply,
+        potential_trend,
+        queue_history,
+        queue_size,
+        queue_stage,
+        summary,
+        boundary,
+        forbidden_structural_impact,
+    ) in [
+        (
+            Language::ZhCn,
+            "资本吸收早期预警传感器",
+            "实际资本供给",
+            "潜在供给趋势",
+            "IPO 队列历史",
+            "队列规模 = 1",
+            "SpaceX: IPO 阶段 传闻（Rumor） · 事件类型 传闻（Rumor） · 来源 2",
+            "- SpaceX x2",
+            "不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer",
+            Some("结构影响: Observation Only"),
+        ),
         (
             Language::EnUs,
             "Capital Absorption Early Warning Sensor",
+            "Actual Capital Supply",
+            "Potential Supply Trend",
             "IPO Queue History",
+            "Queue Size = 1",
             "SpaceX: IPO Stage Rumor · Event Type Rumor · Sources 2",
             "- SpaceX x2",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
+            None,
         ),
         (
             Language::JaJp,
             "資本吸収早期警戒センサー",
+            "実際の資本供給",
+            "潜在供給トレンド",
             "IPO キュー履歴",
+            "キュー規模 = 1",
             "SpaceX: IPO 段階 噂（Rumor） · イベント種別 噂（Rumor） · ソース数 2",
             "- SpaceX x2",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
+            Some("構造的影響: Observation Only"),
         ),
     ] {
         let report = build_capital_absorption_report(
@@ -40,15 +71,18 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
         );
 
         assert!(report.contains(title));
-        assert!(report.contains("Actual Capital Supply") || report.contains("実際の資本供給"));
-        assert!(report.contains("Potential Supply Trend") || report.contains("潜在供給トレンド"));
+        assert!(report.contains(actual_supply));
+        assert!(report.contains(potential_trend));
         assert!(report.contains(queue_history));
-        assert!(report.contains("Queue Size = 1"));
+        assert!(report.contains(queue_size));
         assert!(report.contains(queue_stage));
         assert!(report.contains(summary));
         assert!(report.contains(boundary));
         assert!(!report.contains("Capital Demand"));
         assert!(!report.contains("ACCELERATING"));
+        if let Some(forbidden) = forbidden_structural_impact {
+            assert!(!report.contains(forbidden));
+        }
     }
 }
 

@@ -2894,7 +2894,8 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("资本供给趋势"));
     assert!(stdout.contains("- ETF 净流入: $120.0B"));
     assert!(stdout.contains("资本吸收比率: 本阶段未启用完整量化"));
-    assert!(stdout.contains("结构影响: Observation Only"));
+    assert!(stdout.contains("结构影响: 仅观察"));
+    assert!(!stdout.contains("结构影响: Observation Only"));
     assert!(stdout.contains("当前阶段: Narrative Observation Only"));
     assert!(stdout
         .contains("观察对象: Potential Future Capital Supply，而不是 Actual Capital Absorption"));

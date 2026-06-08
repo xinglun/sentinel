@@ -147,10 +147,10 @@ impl CapitalAbsorptionRenderSnapshot {
                 value: value.absorption_ratio.value,
                 state: capital_absorption_ratio_state_value(value.absorption_ratio.state, language),
             },
-            structural_impact: value
-                .structural_impact
-                .clone()
-                .unwrap_or_else(|| "Observation Only".to_string()),
+            structural_impact: capital_absorption_structural_impact_value(
+                value.structural_impact.as_deref(),
+                language,
+            ),
         }
     }
 
