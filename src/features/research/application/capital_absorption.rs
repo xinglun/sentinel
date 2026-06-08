@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{Duration, NaiveDate};
 use std::collections::HashMap;
 
 const AI_IPO_CANDIDATES: &[&str] = &[
@@ -65,10 +65,12 @@ pub(crate) enum CapitalAbsorptionAutoConfidence {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub(crate) enum CapitalAbsorptionIpoQueueStatus {
     Rumor,
-    Expected,
+    Reported,
+    Preparing,
     Filed,
-    Scheduled,
-    Completed,
+    Roadshow,
+    Priced,
+    Listed,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -500,14 +502,20 @@ fn build_ai_ipo_queue(events: &[CapitalAbsorptionAutoEvent]) -> Vec<CapitalAbsor
 fn build_ipo_queue_history(
     events: &[&CapitalAbsorptionAutoEvent],
 ) -> Vec<CapitalAbsorptionIpoQueueHistoryPoint> {
-    let mut dates = events
+    let Some(latest_observed_at) = events.iter().map(|event| event.observed_at).max() else {
+        return Vec::new();
+    };
+    let earliest_observed_at = events
         .iter()
         .map(|event| event.observed_at)
-        .collect::<Vec<_>>();
-    dates.sort_unstable();
-    dates.dedup();
-    dates
-        .into_iter()
+        .min()
+        .unwrap_or(latest_observed_at);
+    let first_history_date = earliest_observed_at.max(latest_observed_at - Duration::days(29));
+    let days = latest_observed_at
+        .signed_duration_since(first_history_date)
+        .num_days();
+    (0..=days)
+        .map(|offset| first_history_date + Duration::days(offset))
         .map(|observed_at| {
             let mut issuers = events
                 .iter()
@@ -555,28 +563,44 @@ fn is_ai_ipo_candidate(subject: &str) -> bool {
 
 fn queue_status_from_text(text: &str) -> CapitalAbsorptionIpoQueueStatus {
     let lower = text.to_ascii_lowercase();
-    if lower.contains("completed")
+    if lower.contains("listed")
         || lower.contains("debut")
         || lower.contains("begins trading")
-        || lower.contains("listed")
+        || lower.contains("starts trading")
     {
-        CapitalAbsorptionIpoQueueStatus::Completed
-    } else if lower.contains("scheduled")
+        CapitalAbsorptionIpoQueueStatus::Listed
+    } else if lower.contains("priced ipo")
         || lower.contains("prices ipo")
+        || lower.contains("ipo priced")
         || lower.contains("expected to price")
     {
-        CapitalAbsorptionIpoQueueStatus::Scheduled
+        CapitalAbsorptionIpoQueueStatus::Priced
+    } else if lower.contains("roadshow") {
+        CapitalAbsorptionIpoQueueStatus::Roadshow
     } else if lower.contains("filed")
         || lower.contains("files to go public")
         || lower.contains("s-1")
     {
         CapitalAbsorptionIpoQueueStatus::Filed
-    } else if lower.contains("expected")
+    } else if lower.contains("prepares")
+        || lower.contains("preparing")
         || lower.contains("plans")
-        || lower.contains("prepares")
+        || lower.contains("expected")
+        || lower.contains("candidate")
+        || lower.contains("discussion")
         || lower.contains("considering")
     {
-        CapitalAbsorptionIpoQueueStatus::Expected
+        CapitalAbsorptionIpoQueueStatus::Preparing
+    } else if lower.contains("reported")
+        || lower.contains("report says")
+        || lower.contains("according to")
+    {
+        CapitalAbsorptionIpoQueueStatus::Reported
+    } else if lower.contains("completed")
+        || lower.contains("debut")
+        || lower.contains("begins trading")
+    {
+        CapitalAbsorptionIpoQueueStatus::Listed
     } else {
         CapitalAbsorptionIpoQueueStatus::Rumor
     }
@@ -1029,7 +1053,47 @@ mod tests {
                 .iter()
                 .find(|item| item.issuer == "SpaceX")
                 .map(|item| item.status),
-            Some(CapitalAbsorptionIpoQueueStatus::Expected)
+            Some(CapitalAbsorptionIpoQueueStatus::Preparing)
+        );
+    }
+
+    #[test]
+    fn ipo_queue_history_keeps_recent_thirty_day_window() {
+        let mut first = event("SpaceX", 0.0);
+        first.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        first.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        first.event_type = CapitalAbsorptionObservationEventType::Reported;
+        first.description = "SpaceX IPO reported as preparation continues".to_string();
+        first.amount_usd_b = None;
+        first.observed_at = NaiveDate::from_ymd_opt(2026, 6, 1).unwrap();
+        let mut second = first.clone();
+        second.subject = "Anthropic".to_string();
+        second.description = "Anthropic IPO discussion grows".to_string();
+        second.observed_at = NaiveDate::from_ymd_opt(2026, 6, 6).unwrap();
+
+        let snapshot = build_capital_absorption_snapshot_from_events(
+            vec![first, second],
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Succeeded,
+                message: "fixture".to_string(),
+            },
+        );
+
+        assert_eq!(snapshot.ipo_queue_history.len(), 6);
+        assert_eq!(
+            snapshot
+                .ipo_queue_history
+                .first()
+                .map(|point| point.queue_size),
+            Some(1)
+        );
+        assert_eq!(
+            snapshot
+                .ipo_queue_history
+                .last()
+                .map(|point| point.queue_size),
+            Some(2)
         );
     }
 

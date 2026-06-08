@@ -15,19 +15,21 @@ use chrono::NaiveDate;
 
 #[test]
 fn auto_report_locks_new_sections_in_en_and_ja() {
-    for (language, title, queue_history, potential_event, boundary) in [
+    for (language, title, queue_history, queue_stage, summary, boundary) in [
         (
             Language::EnUs,
             "Capital Absorption Early Warning Sensor",
             "IPO Queue History",
-            "Potential Queue · Event Type Rumor · IPO Supply · SpaceX",
+            "SpaceX: IPO Stage Rumor · Event Type Rumor · Sources 2",
+            "- SpaceX x2",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
         ),
         (
             Language::JaJp,
             "資本吸収早期警戒センサー",
             "IPO キュー履歴",
-            "潜在キュー · イベント種別 噂（Rumor） · IPO 供給 · SpaceX",
+            "SpaceX: IPO 段階 噂（Rumor） · イベント種別 噂（Rumor） · ソース数 2",
+            "- SpaceX x2",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
         ),
     ] {
@@ -42,7 +44,8 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
         assert!(report.contains("Potential Supply Trend") || report.contains("潜在供給トレンド"));
         assert!(report.contains(queue_history));
         assert!(report.contains("Queue Size = 1"));
-        assert!(report.contains(potential_event));
+        assert!(report.contains(queue_stage));
+        assert!(report.contains(summary));
         assert!(report.contains(boundary));
         assert!(!report.contains("Capital Demand"));
         assert!(!report.contains("ACCELERATING"));
@@ -51,13 +54,13 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
 
 #[test]
 fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
-    for (language, actual_label, no_actual, queue, potential_event, actual_event, boundary) in [
+    for (language, actual_label, no_actual, queue, summary, actual_event, boundary) in [
         (
             Language::ZhCn,
             "实际资本供给",
             "未观察到已发生的大型股权/可转债供给。",
-            "Anthropic: 传闻（Rumor） · 事件类型 传闻（Rumor）",
-            "潜在队列 · 事件类型 传闻（Rumor） · IPO 供给 · Anthropic",
+            "Anthropic: IPO 阶段 准备中（Preparing） · 事件类型 传闻（Rumor）",
+            "- Anthropic x1",
             "实际供给 · 事件类型 确认（Confirmed） · IPO 供给 · Anthropic",
             "不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer",
         ),
@@ -65,8 +68,8 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::EnUs,
             "Actual Capital Supply",
             "No completed large equity or convertible supply observed.",
-            "Anthropic: Rumor · Event Type Rumor",
-            "Potential Queue · Event Type Rumor · IPO Supply · Anthropic",
+            "Anthropic: IPO Stage Preparing · Event Type Rumor",
+            "- Anthropic x1",
             "Actual Supply · Event Type Confirmed · IPO Supply · Anthropic",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
         ),
@@ -74,8 +77,8 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::JaJp,
             "実際の資本供給",
             "発生済みの大型株式・転換社債供給は未観測です。",
-            "Anthropic: 噂（Rumor） · イベント種別 噂（Rumor）",
-            "潜在キュー · イベント種別 噂（Rumor） · IPO 供給 · Anthropic",
+            "Anthropic: IPO 段階 準備中（Preparing） · イベント種別 噂（Rumor）",
+            "- Anthropic x1",
             "実供給 · イベント種別 確認（Confirmed） · IPO 供給 · Anthropic",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
         ),
@@ -89,9 +92,10 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
         assert!(report.contains(actual_label));
         assert!(report.contains(no_actual));
         assert!(report.contains(queue));
-        assert!(report.contains(potential_event));
+        assert!(report.contains(summary));
         assert!(!report.contains(actual_event));
         assert!(!report.contains("$60.0B"));
+        assert!(!report.contains("Anthropic IPO discussion after private valuation"));
         assert!(report.contains(boundary));
     }
 }
@@ -196,7 +200,7 @@ fn auto_snapshot_with_anthropic_potential_ipo() -> CapitalAbsorptionAutoSnapshot
         },
         ai_ipo_queue: vec![CapitalAbsorptionIpoQueueItem {
             issuer: "Anthropic".to_string(),
-            status: CapitalAbsorptionIpoQueueStatus::Rumor,
+            status: CapitalAbsorptionIpoQueueStatus::Preparing,
             source_count: 1,
             event_type: CapitalAbsorptionObservationEventType::Rumor,
         }],

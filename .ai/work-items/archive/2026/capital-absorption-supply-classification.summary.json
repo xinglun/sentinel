@@ -1,6 +1,6 @@
 {
   "workItemId": "capital-absorption-supply-classification",
-  "contractPath": ".ai/work-items/active/capital-absorption-supply-classification.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-supply-classification.contract.json",
   "changedFiles": [
     {
       "path": ".ai/work-items/active/capital-absorption-supply-classification.contract.json",
@@ -20,15 +20,27 @@
     },
     {
       "path": "src/features/research/application/capital_absorption.rs",
-      "reason": "Capital Absorption news observation policy を application 層に集約し、confirmed Actual Supply allowlist と Potential / weak-news 除外を test で固定した。"
+      "reason": "Capital Absorption news observation policy を application 層に集約し、confirmed Actual Supply allowlist、IPO Stage 分類、直近 30 日 IPO Queue History を test で固定した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "AI IPO Queue に IPO Stage と Event Type を分離表示し、Observed Events を headline detail ではなく discovery summary として表示した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "IPO Stage と discovery summary の zh / en / ja 表示文言を追加し、不要になった detail 表示文言を削除した。"
     },
     {
       "path": "src/features/research/interface/capital_absorption_report_tests.rs",
-      "reason": "Anthropic IPO discussion が Potential Queue に残り、Actual Supply amount に入らない report contract を zh / en / ja で固定した。"
+      "reason": "Anthropic IPO discussion が Potential Queue に残り、IPO Stage / Event Type 分離と discovery summary 表示を zh / en / ja で固定した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の Capital Absorption 表示 contract を IPO Stage / Event Type 分離と discovery summary に合わせた。"
     },
     {
       "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
-      "reason": "confirmed-only Actual Supply、Actual amount source 制約、weak related news 除外、Potential Queue 境界を仕様に反映した。"
+      "reason": "confirmed-only Actual Supply、IPO Stage / Event Type の職責分離、30 日 IPO Queue History、Discovery Summary 境界を仕様に反映した。"
     }
   ],
   "sourcesUsed": [
@@ -38,7 +50,10 @@
     "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
     "src/features/research/interface/capital_absorption_report_tests.rs",
     "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "tests/research_attention_cli_integration.rs",
     "全面評审結果",
+    "ユーザー提示の Capital Absorption Sensor 改善指示（Review 2026-06-06）",
     "ユーザー提示の Capital Absorption Supply Classification 指摘"
   ],
   "verification": [
@@ -96,9 +111,12 @@
     "test: filed IPO が proceeds と valuation を同時に含む場合は proceeds だけを Actual Supply amount に使う回帰 test を追加した。",
     "test: OpenAI job listing のような generic listing は Potential Queue に入れない回帰 test を追加した。",
     "code: AI IPO issuer list は AI_IPO_CANDIDATES const を single source とし、queue rendering も同じ list を参照するようにした。",
-    "docs: Capital Absorption Observation spec を confirmed-only Actual Supply と Potential Queue 境界に合わせた。",
-    "i18n: Anthropic Potential Queue と Actual Supply 空表示を zh / en / ja report contract で固定した。",
-    "report output: Anthropic IPO discussion は Potential Queue として表示し、Actual Capital Supply amount は空のままにする test を追加した。",
+    "code: IPO Queue は IPO Stage（Rumor / Reported / Preparing / Filed / Roadshow / Priced / Listed）と Event Type（Rumor / Reported / Confirmed）を分離表示する。",
+    "code: IPO Queue History は最新観測日を終点に直近 30 日以内の日次 window を表示する。長期 persistence は追加していない。",
+    "code: Observed Events は headline detail を default report に出さず、issuer / subject 別 source count の discovery summary に集約する。",
+    "docs: Capital Absorption Observation spec を confirmed-only Actual Supply、Potential Queue、IPO Stage / Event Type 分離、30 日 window、Discovery Summary 境界に合わせた。",
+    "i18n: Anthropic Potential Queue と Actual Supply 空表示、IPO Stage、Discovery Summary を zh / en / ja report contract で固定した。",
+    "report output: Anthropic IPO discussion は Potential Queue として表示し、Actual Capital Supply amount は空のままにし、headline detail は本文に出さない test を追加した。",
     "data or weekly record: 変更なし。snapshot / JSONL / weekly metrics persistence は追加していない。",
     "Make or CI guard: 既存 make gate のみを使用し、新規 target は追加していない。"
   ]

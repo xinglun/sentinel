@@ -83,21 +83,39 @@ Wall Street analyst research calls、generic stock recommendation article、`3 s
 
 ## IPO Queue History
 
-IPO Queue History は、current observation window 内の queue size を日付別に集計する表示です。
+IPO Queue History は、current observation window 内の queue size を日付別に集計する表示です。自動観測がある場合、最新観測日を終点として直近 30 日以内の日次 window を表示し、単日の Queue Size だけで trend を判断しません。
 
 これは長期 persistence ではありません。data branch、JSONL、snapshot、weekly metrics には現段階では保存しません。
 
 長期比較が必要になった場合は、別 Work Item で schema、persistence、weekly aggregation、backfill policy を定義します。
 
+## IPO Stage
+
+IPO Stage は IPO lifecycle を表示するために使います。Event Type とは分離し、IPO の進行段階だけを表します。
+
+- `Rumor`: rumor や speculation だけが観測されている。
+- `Reported`: media report として IPO narrative が観測されている。
+- `Preparing`: IPO candidate、IPO preparation、pre-IPO discussion、expected IPO など準備段階の narrative。
+- `Filed`: S-1、filed for IPO、files to go public など filing が観測されている。
+- `Roadshow`: roadshow が観測されている。
+- `Priced`: priced IPO、prices IPO、expected to price など pricing 段階が観測されている。
+- `Listed`: listed、begins trading、debut など listing 後の状態。
+
 ## Event Type
 
-Event Type は observation の成熟度を表示するために使います。
+Event Type は evidence level を表示するために使います。IPO Stage と混用せず、証拠の強さだけを表します。
 
 - `Confirmed`: confirmed / announced / priced / completed / filed with amount など、発生または正式進行と financing amount が確認できるもの。
 - `Reported`: media report として観測されたが、正式確定ではないもの。
 - `Rumor`: rumor、speculation、considering、pre-IPO discussion など、潜在 queue に留まるもの。
 
 Source count と confidence は引き続き表示しますが、Event Type は読者が actual event と potential queue を混同しないための主表示です。
+
+## Discovery Summary
+
+Default report の Discoveries / Observed Events は summary だけを表示します。headline detail は本文に展開しません。
+
+表示は `New`、`Upgraded`、`Downgraded`、`Disappeared` の四区分とし、現段階では current observation window 内の issuer / subject 別 source count を `New` に集約します。前回 snapshot との差分比較、headline appendix、debug mode は将来拡張です。
 
 ## Source Failure
 
