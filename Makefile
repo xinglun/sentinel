@@ -21,6 +21,10 @@ GRAY_RHINO_REFRESH_DATE ?= $(shell date +%F)
 GRAY_RHINO_REFRESH_ARGS ?= --date $(GRAY_RHINO_REFRESH_DATE)
 GRAY_RHINO_REFRESH_DAILY_ARGS ?= $(DAILY_CALIBRATION_ARGS)
 GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
+COVERAGE_MIN_LINES ?= 75
+COVERAGE_MIN_FUNCTIONS ?= 75
+COVERAGE_MIN_REGIONS ?= 75
+COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-under-functions $(COVERAGE_MIN_FUNCTIONS) --fail-under-regions $(COVERAGE_MIN_REGIONS)
 
 .PHONY: help fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
@@ -55,8 +59,8 @@ help:
 	@printf '%s\n' '  make check-gray-rhino-evidence-contract'
 	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make clippy'
-	@printf '%s\n' '  make coverage'
-	@printf '%s\n' '  make coverage-html'
+	@printf '%s\n' '  make coverage COVERAGE_MIN_LINES=75 COVERAGE_MIN_FUNCTIONS=75 COVERAGE_MIN_REGIONS=75'
+	@printf '%s\n' '  make coverage-html COVERAGE_MIN_LINES=75 COVERAGE_MIN_FUNCTIONS=75 COVERAGE_MIN_REGIONS=75'
 	@printf '%s\n' '  make diff-check'
 	@printf '%s\n' '  make test-audit-daily'
 	@printf '%s\n' '  make test-ai-guards'
@@ -118,11 +122,11 @@ clippy:
 
 coverage:
 	@cargo llvm-cov --version >/dev/null 2>&1 || { printf '%s\n' 'cargo-llvm-cov is required. Install with: cargo install cargo-llvm-cov'; exit 1; }
-	cargo llvm-cov --all-targets --summary-only
+	cargo llvm-cov --all-targets --summary-only $(COVERAGE_FAIL_UNDER_ARGS)
 
 coverage-html:
 	@cargo llvm-cov --version >/dev/null 2>&1 || { printf '%s\n' 'cargo-llvm-cov is required. Install with: cargo install cargo-llvm-cov'; exit 1; }
-	cargo llvm-cov --all-targets --html
+	cargo llvm-cov --all-targets --html $(COVERAGE_FAIL_UNDER_ARGS)
 
 diff-check:
 	git diff --check

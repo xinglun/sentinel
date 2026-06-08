@@ -1,0 +1,84 @@
+{
+  "workItemId": "coverage-threshold-gate",
+  "contractPath": ".ai/work-items/archive/2026/coverage-threshold-gate.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/coverage-threshold-gate.contract.json",
+      "reason": "coverage 閾値 gate の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/coverage-threshold-gate.summary.json",
+      "reason": "AI Change Summary を task 内容に合わせて更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 開始時に cockpit status を再生成した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "coverage / coverage-html に line / function / region coverage の fail-under 閾値を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/coverage-threshold-gate.contract.json",
+    "Makefile",
+    "cargo llvm-cov --help"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/coverage-threshold-gate.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/coverage-threshold-gate.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/coverage-threshold-gate.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/coverage-threshold-gate.contract.json SUMMARY=.ai/work-items/active/coverage-threshold-gate.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/coverage-threshold-gate.summary.json CONTRACT=.ai/work-items/active/coverage-threshold-gate.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/coverage-threshold-gate.contract.json SUMMARY=.ai/work-items/active/coverage-threshold-gate.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/coverage-threshold-gate.contract.json SUMMARY=.ai/work-items/active/coverage-threshold-gate.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Makefile の coverage entrypoint だけを変更する。既存 coverage は概ね 75% を上回るため、既定閾値は現在の test suite に対して通過可能な下限として設定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "前回時点の residual risk として、coverage command は存在するが fail-under 閾値がなく、coverage 低下を gate できなかった。",
+    "初回の make quality は summary の verification result が not_run のままだったため、最終 summary guard で失敗した。code / test / clippy / architecture / AI guard はその時点で通過していた。"
+  ]
+}
