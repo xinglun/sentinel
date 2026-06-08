@@ -1,0 +1,130 @@
+{
+  "workItemId": "ddd-i18n-coverage-review-fixes",
+  "contractPath": ".ai/work-items/archive/2026/ddd-i18n-coverage-review-fixes.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json",
+      "reason": "DDD / i18n / coverage 修正の Work Item scope、acceptance、required checks を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ddd-i18n-coverage-review-fixes.summary.json",
+      "reason": "本 Work Item の変更内容、検証結果、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の active 状態を Cockpit status に反映した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "coverage と coverage-html の make entrypoint を追加した。"
+    },
+    {
+      "path": "src/features/radar/application/execution_gate.rs",
+      "reason": "ExecutionGate の audit details を serde_json::Value から typed DTO に変更し、既存 JSON field 名を serialize で維持した。"
+    },
+    {
+      "path": "src/features/research/application/capital_absorption.rs",
+      "reason": "Application 層を Domain policy の薄い re-export facade に縮小した。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "Capital Absorption の classification、dedupe、queue、trend、amount extraction policy を Domain 層へ移した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Capital Absorption domain module を登録した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "Queue Size と Observation Only の zh / en / ja 表示を明示的に localize した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "manual config の標準 structural impact を言語別表示に正規化した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "Capital Absorption report の zh / en / ja section、Queue Size、Observation Only 混入防止を検証した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "中国語 daily calibration report が Observation Only を英語のまま出さない contract を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-i18n-coverage-review-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ddd-i18n-coverage-review-fixes.summary.json CONTRACT=.ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-i18n-coverage-review-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ddd-i18n-coverage-review-fixes.contract.json SUMMARY=.ai/work-items/active/ddd-i18n-coverage-review-fixes.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "変更は DDD 境界整理、audit DTO 型付け、表示 localize、coverage entrypoint 追加に限定した。Gate / execution / trader / action matrix / position sizing の判定結果は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make coverage は cargo-llvm-cov summary-only で lines 78.15%、functions 77.26%、regions 79.88% を確認した。",
+    "coverage は cargo-llvm-cov を導入して summary-only を実行した。CI gate の閾値設定は本 Work Item では追加していない。"
+  ]
+}

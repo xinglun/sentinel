@@ -1,12 +1,13 @@
 use crate::config;
 use crate::features::research::application::capital_absorption::{
-    CapitalAbsorptionAutoConfidence, CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoSnapshot,
+    CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoSnapshot,
     CapitalAbsorptionIpoQueueHistoryPoint, CapitalAbsorptionIpoQueueItem,
     CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationEventType,
     CapitalAbsorptionPotentialSupplyTrend, CapitalAbsorptionSourceHealth,
     CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
 };
 use crate::features::shared::interface::i18n::Language;
+use std::collections::BTreeMap;
 
 use super::capital_absorption_i18n::*;
 
@@ -86,12 +87,8 @@ struct CapitalAbsorptionRenderEvent {
     category: String,
     subject: String,
     description: String,
-    amount_usd_b: Option<f64>,
-    ai_capex_related: bool,
     source_count: usize,
-    confidence: String,
     supply_kind: CapitalAbsorptionSupplyKind,
-    event_type: String,
 }
 
 struct CapitalDemandRenderSnapshot {
@@ -150,10 +147,10 @@ impl CapitalAbsorptionRenderSnapshot {
                 value: value.absorption_ratio.value,
                 state: capital_absorption_ratio_state_value(value.absorption_ratio.state, language),
             },
-            structural_impact: value
-                .structural_impact
-                .clone()
-                .unwrap_or_else(|| "Observation Only".to_string()),
+            structural_impact: capital_absorption_structural_impact_value(
+                value.structural_impact.as_deref(),
+                language,
+            ),
         }
     }
 
@@ -201,23 +198,12 @@ impl CapitalAbsorptionRenderEvent {
                 CapitalAbsorptionSupplyKind::Actual
             }
         };
-        let event_type = match supply_kind {
-            CapitalAbsorptionSupplyKind::Actual => CapitalAbsorptionObservationEventType::Confirmed,
-            CapitalAbsorptionSupplyKind::Potential => CapitalAbsorptionObservationEventType::Rumor,
-        };
         Self {
             category: capital_absorption_event_category_value(value.category, language),
             subject: value.subject.clone(),
             description: value.description.clone(),
-            amount_usd_b: value.amount_usd_b,
-            ai_capex_related: value.ai_capex_related.unwrap_or(false),
             source_count: 1,
-            confidence: capital_absorption_confidence_value(
-                CapitalAbsorptionAutoConfidence::Low,
-                language,
-            ),
             supply_kind,
-            event_type: capital_absorption_event_type_value(event_type, language).to_string(),
         }
     }
 
@@ -226,12 +212,8 @@ impl CapitalAbsorptionRenderEvent {
             category: capital_absorption_auto_event_category_value(value.category, language),
             subject: value.subject.clone(),
             description: value.description.clone(),
-            amount_usd_b: value.amount_usd_b,
-            ai_capex_related: value.ai_capex_related,
             source_count: value.source_count,
-            confidence: capital_absorption_confidence_value(value.confidence, language),
             supply_kind: value.supply_kind,
-            event_type: capital_absorption_event_type_value(value.event_type, language).to_string(),
         }
     }
 }
@@ -312,33 +294,37 @@ fn push_capital_absorption_events(
         out.push('\n');
         return;
     }
-    for event in events {
-        let amount = event
-            .amount_usd_b
-            .map(|value| format!(" (${value:.1}B)"))
-            .unwrap_or_default();
-        let ai_capex = if event.ai_capex_related {
-            format!(" · {}", capital_absorption_ai_capex_label(language))
-        } else {
-            String::new()
-        };
-        out.push_str(&format!(
-            "- {} · {} {} · {} · {}{}{} · {} · {} {} · {} {}\n",
-            capital_absorption_supply_kind_value(event.supply_kind, language),
-            capital_absorption_event_type_label(language),
-            event.event_type,
-            event.category,
-            event.subject,
-            amount,
-            ai_capex,
-            event.description,
-            capital_absorption_sources_count_label(language),
-            event.source_count,
-            capital_absorption_confidence_label(language),
-            event.confidence
-        ));
+    out.push_str(&format!(
+        "{}:\n",
+        capital_absorption_discovery_new_label(language)
+    ));
+    for (subject, source_count) in discovery_summary_counts(events) {
+        out.push_str(&format!("- {subject} x{source_count}\n"));
     }
+    out.push_str(&format!(
+        "{}:\n- {}\n",
+        capital_absorption_discovery_upgraded_label(language),
+        capital_absorption_none_label(language)
+    ));
+    out.push_str(&format!(
+        "{}:\n- {}\n",
+        capital_absorption_discovery_downgraded_label(language),
+        capital_absorption_none_label(language)
+    ));
+    out.push_str(&format!(
+        "{}:\n- {}\n",
+        capital_absorption_discovery_disappeared_label(language),
+        capital_absorption_none_label(language)
+    ));
     out.push('\n');
+}
+
+fn discovery_summary_counts(events: &[CapitalAbsorptionRenderEvent]) -> Vec<(String, usize)> {
+    let mut counts = BTreeMap::new();
+    for event in events {
+        *counts.entry(event.subject.clone()).or_insert(0) += event.source_count.max(1);
+    }
+    counts.into_iter().collect()
 }
 
 fn push_actual_capital_supply(
@@ -445,8 +431,9 @@ fn push_ai_ipo_queue(
             String::new()
         };
         out.push_str(&format!(
-            "- {}: {} · {} {}{}\n",
+            "- {}: {} {} · {} {}{}\n",
             item.issuer,
+            capital_absorption_ipo_stage_label(language),
             capital_absorption_ipo_queue_status_value(item.status, language),
             capital_absorption_event_type_label(language),
             capital_absorption_event_type_value(item.event_type, language),

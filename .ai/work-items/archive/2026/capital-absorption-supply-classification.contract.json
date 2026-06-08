@@ -10,6 +10,7 @@
     "src/features/research/application/capital_absorption.rs",
     "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
     "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
     "src/features/research/interface/capital_absorption_report_tests.rs",
     "tests/research_attention_cli_integration.rs",
     "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md"
@@ -64,7 +65,10 @@
     "confirmed equity raise、confirmed secondary offering、confirmed follow-on offering、confirmed convertible debt issuance、confirmed ATM program、completed / priced / filed IPO with confirmed amount の回帰 test を追加する。",
     "Anthropic Potential Queue と Actual Supply 空表示を zh / en / ja の report contract で固定する。",
     "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md が confirmed-only Actual Supply、弱相关新闻除外、amount source 制約、Potential Queue 境界を説明する。",
-    "Narrative Observation Only、NORMAL / WATCH only、READY / EXECUTE / Gate / Position Sizing / Trend Layer 非接続、trading signal / market conclusion / risk upgrade 非生成の境界を維持する。"
+    "Narrative Observation Only、NORMAL / WATCH only、READY / EXECUTE / Gate / Position Sizing / Trend Layer 非接続、trading signal / market conclusion / risk upgrade 非生成の境界を維持する。",
+    "IPO Stage は IPO lifecycle、Event Type は evidence level として表示し、Preparing / Reported のような読者混乱を避ける。",
+    "AI IPO Queue は直近 30 日の observation window を日別に表示し、単日 Queue Size だけにしない。",
+    "Discoveries / Observed Events は default report では summary だけを表示し、headline detail を本文に展開しない。"
   ],
   "verification": [
     {

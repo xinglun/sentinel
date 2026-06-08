@@ -2884,18 +2884,18 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("潜在供给趋势"));
     assert!(stdout.contains("- 趋势: 稳定（STABLE）"));
     assert!(stdout.contains("AI IPO 队列"));
-    assert!(stdout.contains("Anthropic: 传闻（Rumor） · 事件类型 传闻（Rumor）"));
-    assert!(stdout.contains(
-        "实际供给 · 事件类型 确认（Confirmed） · Mega Cap 融资 · Alphabet ($80.0B) · AI CapEx 相关"
-    ));
-    assert!(stdout.contains("来源 1 · 可信度 低"));
+    assert!(stdout.contains("Anthropic: IPO 阶段 传闻（Rumor） · 事件类型 传闻（Rumor）"));
+    assert!(stdout.contains("发现"));
+    assert!(stdout.contains("新增:"));
+    assert!(stdout.contains("- Alphabet x1"));
     assert!(stdout.contains("- 增发融资: $80.0B"));
     assert!(!stdout.contains("资本需求趋势"));
     assert!(!stdout.contains("ACCELERATING"));
     assert!(stdout.contains("资本供给趋势"));
     assert!(stdout.contains("- ETF 净流入: $120.0B"));
     assert!(stdout.contains("资本吸收比率: 本阶段未启用完整量化"));
-    assert!(stdout.contains("结构影响: Observation Only"));
+    assert!(stdout.contains("结构影响: 仅观察"));
+    assert!(!stdout.contains("结构影响: Observation Only"));
     assert!(stdout.contains("当前阶段: Narrative Observation Only"));
     assert!(stdout
         .contains("观察对象: Potential Future Capital Supply，而不是 Actual Capital Absorption"));
@@ -2947,8 +2947,8 @@ fn capital_absorption_new_sections_are_locked_in_en_and_ja() {
         title,
         actual_supply,
         potential_trend,
-        event_type,
-        actual_event,
+        discovery_label,
+        summary_event,
         boundary,
     ) in [
         (
@@ -2956,8 +2956,8 @@ fn capital_absorption_new_sections_are_locked_in_en_and_ja() {
             "📊 Capital Absorption Early Warning Sensor",
             "Actual Capital Supply",
             "Potential Supply Trend",
-            "Event Type Confirmed",
-            "Actual Supply · Event Type Confirmed · Mega Cap Financing · Alphabet ($80.0B) · AI CapEx related",
+            "Observed Events",
+            "- Alphabet x1",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
         ),
         (
@@ -2965,8 +2965,8 @@ fn capital_absorption_new_sections_are_locked_in_en_and_ja() {
             "📊 資本吸収早期警戒センサー",
             "実際の資本供給",
             "潜在供給トレンド",
-            "イベント種別 確認（Confirmed）",
-            "実供給 · イベント種別 確認（Confirmed） · Mega Cap 調達 · Alphabet ($80.0B) · AI CapEx 関連",
+            "観測イベント",
+            "- Alphabet x1",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
         ),
     ] {
@@ -2979,10 +2979,13 @@ fn capital_absorption_new_sections_are_locked_in_en_and_ja() {
         let stdout = String::from_utf8_lossy(&out.stdout);
         assert!(stdout.contains(title));
         assert!(stdout.contains(actual_supply));
-        assert!(stdout.contains("- Observed actual supply: $80.0B") || stdout.contains("- 観測済み実供給: $80.0B"));
+        assert!(
+            stdout.contains("- Observed actual supply: $80.0B")
+                || stdout.contains("- 観測済み実供給: $80.0B")
+        );
         assert!(stdout.contains(potential_trend));
-        assert!(stdout.contains(event_type));
-        assert!(stdout.contains(actual_event));
+        assert!(stdout.contains(discovery_label));
+        assert!(stdout.contains(summary_event));
         assert!(stdout.contains(boundary));
         assert!(!stdout.contains("Capital Demand"));
         assert!(!stdout.contains("ACCELERATING"));
