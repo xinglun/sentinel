@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Medtronic Finally Challenge Intuitive Surgical's Robotic Surgical Systems Dominance?
+  summary: Medtronic wants a bite of the robotics-assisted surgery market, which could swell to over $63 billion over the next decade.
+  url: https://finnhub.io/api/news?id=ea11a1f4c277a0c6d766c20e2a70dfe438024764b91b6a5bbb5616385a9aa837

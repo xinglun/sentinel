@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NHS England accelerates AI adoption with Microsoft 365 Copilot to improve service delivery, reduce costs and create more time for care
+  summary: NHS England on Sunday announced that it is significantly accelerating AI adoption across healthcare services by providing 505,000 clinicians and support staff with access to Microsoft 365 Copilot.
+  url: https://finnhub.io/api/news?id=a6feffd942a76d0ad44a7b3856a65e951dfbc5442e319a1b88702da71a27d837

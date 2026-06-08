@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is the Countdown to $150 Oil On as the Iran War Drags?
+  summary: With a brutal semiconductor sell-off weighing heavily on the tech sector and the broader stock markets on Friday, as investors ponder the latest hotter-than-expected jobs print, perhaps a major risk is being overlooked: the situation in Iran and its impact on oil prices. Undoubtedly, the stock market has already seemingly paid its dues, with the ... Is the Countdown to $150 Oil On as the Iran War Drags?
+  url: https://finnhub.io/api/news?id=61a98b0225e65fb04d89bdb3df7338d791fe137abbc3af6f5ed9d9b4a6f65393

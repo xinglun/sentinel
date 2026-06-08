@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump's New AI Clock Starts Ticking: Will Microsoft, Oracle Or Palantir Become 'Trusted Partners'?
+  summary: President Donald Trump‘s new AI executive order may have avoided the heavy-handed regulation that some in Silicon Valley feared, but it has opened a new question for investors: who will gain a seat at the table as Washington builds its...
+  url: https://finnhub.io/api/news?id=d5a05e13cbdc381699f8a3335766308df76fc3154f0f3b96288ba4ceb1bf740f

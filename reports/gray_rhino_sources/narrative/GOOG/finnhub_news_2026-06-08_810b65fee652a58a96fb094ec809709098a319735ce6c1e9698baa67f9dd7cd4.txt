@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Is A Top AI Stock In Billionaire Ken Fisher’s Portfolio
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of Billionaire Ken Fisher’s Latest Portfolio: 10 Best Stocks to Buy. Technology giant Alphabet Inc. (NASDAQ:GOOGL)’s shares are among the top performers in Fisher Investments’ portfolio. They are up by 121% over the past year and by 18% year-to-date. The firm started June on a strong note after it announced […]
+  url: https://finnhub.io/api/news?id=5b527230a7abb7a5afef862870f822eaefcde148d158c930147ca710471dcc6e

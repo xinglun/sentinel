@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rallies On Trump, Iran Comments; Marvell Pops On S&P 500 Addition(Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Monday on Trump's latest Iran comments. Marvell stock surged on news that it'll join the S&P 500.
+  url: https://finnhub.io/api/news?id=6f88882c41b453c0be4b24e293eb3af8074e15fd8a0eb4b5e7655d76e1d31b84

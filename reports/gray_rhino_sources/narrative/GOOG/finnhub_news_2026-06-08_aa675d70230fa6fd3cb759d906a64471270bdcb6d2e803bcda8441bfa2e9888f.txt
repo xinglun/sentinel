@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Don't Like Good News Anymore
+  summary: The S&P 500 AI rally faces friction from a hot jobs report, macro data prints, and upcoming mega-cap capital shifts. Read why we need easy credit conditions.
+  url: https://finnhub.io/api/news?id=fc495f0938894de45af5ae94a8ee47723d745a9f5af4a26e9daf1160aaa34710

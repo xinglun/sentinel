@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell: You Snooze, You Lose
+  summary: Nvidiaâs NVLink Fusion backs Marvell Technology, Inc. as a key custom silicon & AI networking partner for hyperscalers. Click for this MRVL stock update.
+  url: https://finnhub.io/api/news?id=2f00858df3643a7200af88c1ec03a2c5daf9a7c6a724ef4e6be5842711211891

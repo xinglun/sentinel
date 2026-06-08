@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Has a Plan for AI That Sounds Like Pure Science Fiction. How It Impacts Your Wealth
+  summary: There’s a pre-IPO document making the rounds that reads like a chapter from an Arthur C. Clarke novel. The company behind it wants to launch 100 gigawatts of compute to space each year, roughly one fifth of total annual U.S. power production in 2025. I’ve been reading every AI infrastructure filing I can get my ... SpaceX Has a Plan for AI That Sounds Like Pure Science Fiction. How It Impacts Your Wealth
+  url: https://finnhub.io/api/news?id=d26b9e4a5f55b54b582938671ebd9bb9f1b647c6b87cc8206e2073022a762f99

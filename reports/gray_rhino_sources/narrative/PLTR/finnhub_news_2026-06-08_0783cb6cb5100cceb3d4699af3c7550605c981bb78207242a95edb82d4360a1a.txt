@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO: Companies Are 'Token Maxing' On AI The Way People Binge Porn
+  summary: Palantir Technologies Inc. CEO Alex Karp has a colorful comparison for corporate AI deployments: pornography. In an appearance on Thursday on the TBPN podcast, Karp argued that most companies aren’t using artificial intelligence to solve real business problems — they’re...
+  url: https://finnhub.io/api/news?id=132a3c096d475ebbc418b2a98f83c598f4d50cabf188a9ed37fd19ad0964a831

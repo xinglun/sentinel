@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starmer gives tech companies ultimatum over children sending naked images
+  summary: The Prime Minister was speaking at London Tech Week.
+  url: https://finnhub.io/api/news?id=3e388e19d4a6c45d844e455b4c75e765aa849019c22200e2db15cf62b7981797

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Gets Buy Rating as BofA Points to AI Capex Demand
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. One of the biggest analyst calls on Thursday, June 4, was for Alphabet Inc. (NASDAQ:GOOGL). Bank of America reiterated the stock as “Buy.” Analysts said that they are sticking with Alphabet following its capital raise earlier […]
+  url: https://finnhub.io/api/news?id=fcb9ed3f9903dbdaf7558f96705d9b389dcebc8cf94fead3629d8f6fc757b671

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Innovative Tool Enhances Design Efficiency for Onsemi Solutions
+  summary: onsemi has unveiled its Elite Pairing Studio, an innovative online design tool aimed at optimizing power electronics applications, including those used in electric vehicles. This first-of-its-kind platform facilitates the pairing of silicon carbide (SiC) MOSFETs and gate drivers, offering engineers enhanced visibility into device-level behavior to make more informed design decisions early in the development process. The Studio aims to reduce design iterations and risks by enabling efficient...
+  url: https://finnhub.io/api/news?id=2381f970eba5b550abd0efce77e69d2f7f71e66def0144a38f5d89ba3e808806

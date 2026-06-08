@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple knows it has a Siri problem. It’s about to fix it
+  summary: During its Worldwide Developers Conference, Apple is expected to announce a new version of Siri that could help it catch up in the AI race.
+  url: https://finnhub.io/api/news?id=b59566ec8ef75a64a6792f37ce8b7d7137eb3c623193be2c0274b79de838092c

@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow, Nasdaq S&P 500 Futures Rise As Israel, Iran Exchange Missile Strikes—SK Telecom, Nebius, AMD In Focus (UPDATED)
+  summary: Editor’s Note: The future prices of benchmark tracking ETFs, and the headline were updated in the story.
+
+
+
+U.S. stock futures rose on Monday, as the Nasdaq 100 and S&amp;P 500, and Dow Jones indices rose, following Thursday&#39;s sharp declines.
+  url: https://finnhub.io/api/news?id=2bfdd8602d0054f20f1d8d592a286f0a98dd90b938f1d1ac5a120276f2b8b841

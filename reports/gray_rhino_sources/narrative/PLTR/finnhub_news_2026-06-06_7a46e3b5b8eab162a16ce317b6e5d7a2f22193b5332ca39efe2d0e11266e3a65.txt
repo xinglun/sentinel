@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: David Sacks Rips Bernie Sanders' 50% AI Ownership Plan, Warns It Could Lead To China's 'CCP-Style' Social Credit System— 'I Can See Why...'
+  summary: David Sacks said Bernie Sanders&#39; AI ownership plan could lead to dangerous government-controlled artificial intelligence systems.
+  url: https://finnhub.io/api/news?id=f40d5ed0d37c87f5fa73c6b49bd5cb3ce489f08f5681c543f81db176afecda22

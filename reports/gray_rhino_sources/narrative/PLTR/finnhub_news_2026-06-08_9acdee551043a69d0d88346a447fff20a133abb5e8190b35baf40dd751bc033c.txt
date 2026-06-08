@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Says He's Been Warning AI Leaders For Months About Nationalization Risks: 'The Momentum Is On The Side Of People Who...'
+  summary: Palantir CEO Alex Karp warned on Thursday that major AI companies risk being nationalized, saying the momentum has shifted toward those pushing for government control, as Sen. Bernie Sanders said he would soon introduce legislation giving the public a 50%...
+  url: https://finnhub.io/api/news?id=3ec931f6d99d9a48c420a61b5d485107533da650f2c02e4e6788ecc56cb5a13a

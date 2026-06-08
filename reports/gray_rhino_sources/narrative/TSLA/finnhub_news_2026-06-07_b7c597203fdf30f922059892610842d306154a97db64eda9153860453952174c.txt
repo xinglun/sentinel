@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starlink Is Incredible—and It’s the Key to the SpaceX IPO
+  summary: What SpaceX’s Starlink is worth is for each investor to decide. How it works is easier to say. It’s remarkable.
+  url: https://finnhub.io/api/news?id=defd99cd68deedb8b19b83e5ca3686c05aa53b95cb072aa19942615f0487944f

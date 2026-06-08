@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Bifurcated Market And Economy Will Lead To Consolidation
+  summary: Tech stock valuations look stretched as rising rates drive a market correction. Click here to read what investors need to know.
+  url: https://finnhub.io/api/news?id=1f274870e40957b59158c286a26d11d38c41ad6e6d467e7e5cbb4516bed46dd6

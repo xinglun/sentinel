@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Monthly Macro Monitor: Nothing To See Here
+  summary: The employment report last week was also fairly positive, with the economy adding 172k jobs. That makes 4 of the last 5 months positive.
+  url: https://finnhub.io/api/news?id=9b26f1068dd9fb66f18d13f55f2d8210b0d86e570e86df3b68cfe4c17b96b2f9

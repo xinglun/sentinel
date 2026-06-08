@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stifel Raises Marvell (MRVL) Price Target on AI Data Center Opportunity
+  summary: Marvell Technology, Inc. (NASDAQ:MRVL) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. Marvell’s infrastructure story is gaining fresh support on Wall Street. On June 2, Stifel analyst Tore Svanberg raised the price target on Marvell (NASDAQ: MRVL) to $321.00 (from $230.00) while maintaining a Buy rating. Stifel […]
+  url: https://finnhub.io/api/news?id=68f7e178b69c181264646b7c03a0b6ae016e5b77cce1a73355222eaaaa8f8a96

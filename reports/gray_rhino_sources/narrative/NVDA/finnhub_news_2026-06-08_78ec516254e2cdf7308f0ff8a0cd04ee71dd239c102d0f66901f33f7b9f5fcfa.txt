@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Micron Quietly Preparing for the Collapse in AI Demand?
+  summary: The cyclicality of the semiconductor industry might give some investors pause, even as the memory chip makers continue to skyrocket past expectations and the price targets set in place by sell-side analysts. Names like Micron (NASDAQ:MU) and SK Hynix have been simply unstoppable of late. That is, until we had that brutal Friday session that ... Is Micron Quietly Preparing for the Collapse in AI Demand?
+  url: https://finnhub.io/api/news?id=a56a45b05edc076051f063ab31a4cb424896f2c357b5a06a4dc41bf2ab676fa1

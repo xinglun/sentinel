@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX signs $920m monthly cloud deal with Google ahead of IPO
+  summary: Under the terms, payments will begin at a reduced rate, before reaching the full agreed monthly fee from October until June 2029.
+  url: https://finnhub.io/api/news?id=52dffa2de1ceef7a7ebfd9921e69ff290e81fd1256feaf16406b76853c3c6417

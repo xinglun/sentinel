@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit’s (RDDT) AI Search Push and Ad Momentum Support Bullish Wall Street View
+  summary: Reddit, Inc. (NYSE:RDDT) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. On June 2, Citizens analyst Andrew Boone reiterated a Market Outperform rating on Reddit, Inc. (NYSE:RDDT) with a $240.00 price target. Boone has particularly defended Reddit’s premium valuation, stating how the company boasts major drivers driving […]
+  url: https://finnhub.io/api/news?id=8e7c78a9cc53c33abe21d8a3de64bd27087022302fbb5e591a5ec2aa44b8f53e

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Guidance Miss Becomes a Bloodbath: DRAM’s 15% Implosion is At The Center
+  summary: The Roundhill Memory ETF (CBOE:DRAM) closed Friday, June 5, 2026 at $55.79, down 15% on the day from a prior close of $65.70. Over the two-day window from June 3 through June 5, the fund dropped 20%, going from $69.71 to that Friday close. If you had $10,000 in DRAM at Wednesday’s open, you had ... Guidance Miss Becomes a Bloodbath: DRAM’s 15% Implosion is At The Center
+  url: https://finnhub.io/api/news?id=cf23ae2522e8aa9ac67ba1226ad4907c6826a98df8c78126d3b534197398927b

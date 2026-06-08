@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cerebras shares climb as Wall Street brokerages back AI chip strategy
+  summary: Cerebras shares gained on Monday as multiple Wall Street firms initiated coverage with bullish calls after the quiet ‌period, backing the chip designer's unconventional AI strategy weeks after its ‌strong debut. Shares of the company rose 3% to $207.54, with at least nine brokerages — including IPO ​bookrunners Morgan Stanley, Citigroup, Barclays and UBS — initiating coverage of the stock. The California-based firm designs wafer-scale engine chips roughly the size of a dinner plate to speed up processing, challenging traditional GPU-based systems, like those of Nvidia, that ‌rely on clusters of ⁠interconnected chips.
+  url: https://finnhub.io/api/news?id=9f454abbaf8704ba197a2f03967bdbcba7f7932f697c94af2f95b5eb8c546f8f

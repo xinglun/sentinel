@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HSBC Raises Broadcom (AVGO) Price Target on AI ASIC Growth Outlook
+  summary: Broadcom Inc. (NASDAQ:AVGO) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. On June 2, HSBC analyst Frank Lee raised the price target on Broadcom Inc. (NASDAQ:AVGO) to $600.00 (from $450.00) while maintaining a Buy rating. The bullish case for Broadcom is based on its ASIC revenue growth, […]
+  url: https://finnhub.io/api/news?id=9aa27fa677a19cebdba22bcbeea5af909a0d55c998fbde4f07100e3f9f865fc0

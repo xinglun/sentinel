@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta (META) Shows Early Signs of GenAI Monetization, UBS Says
+  summary: Meta Platforms Inc. (NASDAQ: META) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. While investors continue to question the payoff from Big Tech spending, UBS sees one tech firm showing early signs of monetization. On June 4, UBS analyst Stephen Ju reiterated a Buy rating and $865.00 […]
+  url: https://finnhub.io/api/news?id=6287157a00d1355e54d96f00dfe8a8d822105c3e1cbf8743c4c184fa13fee8b2

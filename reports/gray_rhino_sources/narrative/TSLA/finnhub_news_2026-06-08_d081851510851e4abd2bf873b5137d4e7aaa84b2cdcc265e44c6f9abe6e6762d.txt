@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 3x Leverage That Built a 192% Year Just Took Back 18% in Hours
+  summary: On Friday, June 5, 2026, the MicroSectors FANG Innovation 3x Leveraged ETN (NYSEARCA:BULZ) closed at $41.05, down roughly 18% from the prior close of $49.89. If you held $10,000 of BULZ at Thursday’s close, you woke up Saturday with roughly $8,228 and a question about what just happened. The honest answer is that nothing exotic ... The 3x Leverage That Built a 192% Year Just Took Back 18% in Hours
+  url: https://finnhub.io/api/news?id=750e4c8955ef24ff93ab28ed1f98beda58368f538a1ad9887f9ebe3807d07678

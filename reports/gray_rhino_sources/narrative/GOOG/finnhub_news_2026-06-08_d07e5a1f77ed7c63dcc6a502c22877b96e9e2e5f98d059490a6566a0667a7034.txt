@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber, Wayve and Waymo are headed towards a robotaxi showdown in London
+  summary: Uber customers in the UK can now join an interest list to increase their chances of being matched with a Wayve robotaxi.
+  url: https://finnhub.io/api/news?id=c28c1f2a91a1abf23996d56d50bb6b56d98df0e61d8ab5ac6fa44cceb57b7088

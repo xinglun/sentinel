@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Favorite 6%+ Yielding REITs For Retirement
+  summary: Three high-yield, investment-grade REITs are trading at massive discounts for a safe 6%+ retirement dividend yield. Click here to read our picks.
+  url: https://finnhub.io/api/news?id=883000cc2b47bad0cae70efe7a9b63b9cc801ea656a8b993015d0468c99057cb

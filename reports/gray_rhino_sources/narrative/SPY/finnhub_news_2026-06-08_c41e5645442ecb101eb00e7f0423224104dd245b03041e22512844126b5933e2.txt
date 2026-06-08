@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Still Don't Use A 60-40 Amid 5% Treasury Bond Yield
+  summary: Current real treasury yields are deeply negative, with inflation pressures and geopolitical risks likely to further erode real yield. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=0c6ee928f4840f1c64e33b725681b38085e2a942f14bd7985fa45df65d1b9686

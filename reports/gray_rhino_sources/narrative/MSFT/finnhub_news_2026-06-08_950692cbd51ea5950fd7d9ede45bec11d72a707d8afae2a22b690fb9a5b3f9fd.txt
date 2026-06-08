@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Citizens Sees Microsoft (MSFT) AI Strategy Supporting Long-Term Upside
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. Wall Street seems a bit skeptical about Microsoft Corporation (NASDAQ:MSFT)’s ability to develop its own frontier models and its dependence on third-party ones. However, Citizens is bullish on the stock, with analyst Patrick Walravens reiterating a […]
+  url: https://finnhub.io/api/news?id=06933ddb352cde6c8e02ec7215ae2389c4f2604734b880d20846f58319fee752

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Needs Power: 5 Dividend Stocks Quietly Funding the Datacenter Boom
+  summary: The Department of Energy now projects data centers will account for up to 12% of U.S. electrical demand by 2028, and somebody has to actually build the power plants, transformers, and transmission lines to feed that monster. The hyperscalers get the headlines. The utilities get the contracts, the rate base, and the 27-year dividend streaks. ... AI Needs Power: 5 Dividend Stocks Quietly Funding the Datacenter Boom
+  url: https://finnhub.io/api/news?id=7c28e20c927a6a498777c6a312176c8cf5e4ebec0cb8bcee663770def78b9600

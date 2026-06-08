@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Palantir Stock at $140 per Share. Buy This Artificial Intelligence (AI) Chip ETF Instead.
+  summary: This ETF has posted a 10-year annualized return of 66%.
+  url: https://finnhub.io/api/news?id=ed717fafdc6f6b18153fb9ef7185aa7b8cac777d4ff5c752d152025da3f53d95

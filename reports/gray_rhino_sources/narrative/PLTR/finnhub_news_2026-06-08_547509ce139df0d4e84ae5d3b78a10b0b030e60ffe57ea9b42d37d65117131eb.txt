@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Happening With BigBear.ai Stock?
+  summary: BigBear.ai (BBAI) is a company telling very different stories right now.  A story is told by the stock ticker, which shows a return of -31.1% over the last six months, a period when the broader S&P 500 gained +10.0%.  Another story comes from management, which insists its strategy of providing “mission-ready AI” to national security and commercial clients is working.
+  url: https://finnhub.io/api/news?id=3a53db2d5cc0f60d6ebfdc98ba3c44e718a5435ca3253e40c551551713c01809

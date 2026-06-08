@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Panasonic repurposes Kansas plant for AI data center batteries
+  summary: The Japanese conglomerate plans to begin U.S. data center battery production by fiscal 2028, with a sales target of at least 950 billion yen
+  url: https://finnhub.io/api/news?id=d72dbbdcbf1c88936909bd3777b06f9ab806379cc38cf742fb2fa75d350f8858

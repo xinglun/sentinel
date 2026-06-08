@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is The Market Pricing For A 1970s Replay?
+  summary: Markets digest hot May payrolls, delaying Fed cuts. Learn why Fridayâs selloff looks like profit-taking, HBM bottlenecks are easing, and tech can runâread the full analysis here.
+  url: https://finnhub.io/api/news?id=680324a75f0f1291a23b2b28d2af7087f685f7421e6e6d2403ee18d1c861e40c

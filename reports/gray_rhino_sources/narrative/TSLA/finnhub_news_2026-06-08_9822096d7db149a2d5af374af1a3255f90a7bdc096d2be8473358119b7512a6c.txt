@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Tesla’s Semi could reshape transform freight transport
+  summary: Tesla is betting its Semi can transform freight transport with lower costs, longer range, and cleaner energy as diesel prices rise
+  url: https://finnhub.io/api/news?id=4efd78eaad9f9c49f0cd8547981d6e8e81af0e77166aaea2c41fb10a2752c7f5

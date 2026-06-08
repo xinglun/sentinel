@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Bitcoin Hit Versus China Growth Puts Focus On Core Value
+  summary: Tesla (NasdaqGS:TSLA) has seen a sharp decline in the value of its Bitcoin holdings following the recent cryptocurrency downturn. The company’s digital asset exposure is back in focus as investors reassess the risk profile of its crypto strategy. At the same time, Tesla reported around 40% sales growth in China for May, highlighting stronger activity in a key market. Tesla is also expanding the rollout of its Full Self-Driving (FSD) software in China, one of its most important international...
+  url: https://finnhub.io/api/news?id=cbee4aec6166e36a1c5b2f81f2b164b2af6d17e31afdc9f716ba3d54c20c42fe

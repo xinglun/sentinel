@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why AMD Can Become a $1 Trillion Company by the End of the Year
+  summary: AMD will reach a $1 trillion market cap sooner than the recently touted Marvell Technology.
+  url: https://finnhub.io/api/news?id=9dfe1af893f91181a0efac480a5d3a32abf217bdf074d384c87598ae3d66c5d7

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds, Equity Futures Higher Pre-Bell Monday as Chip Stocks Rebound
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was up 0.4%, and the actively tra
+  url: https://finnhub.io/api/news?id=68fe33bb4c2e147bccd214a3f0dcae9edd5c8eeb039b15938ccb7b4ec0c50878

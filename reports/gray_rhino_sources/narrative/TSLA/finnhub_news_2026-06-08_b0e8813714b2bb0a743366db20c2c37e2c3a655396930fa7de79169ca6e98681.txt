@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: SpaceX Won't Merge With Tesla. It's Going to Buy This Nvidia-Backed Artificial Intelligence (AI) Company Instead.
+  summary: Some investors think SpaceX could be interested in combining with Tesla following its $75 billion IPO.
+  url: https://finnhub.io/api/news?id=ea23c1fd91ce76f21e6b82e6751f471a946c4b8aaa64e68e0a0fa8ce6b324fde

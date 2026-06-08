@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple (AAPL) Faces Near-Term Pressure as App Store Growth Slows
+  summary: Apple Inc. (NASDAQ:AAPL) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. Apple Inc. (NASDAQ:AAPL) may be facing some near-term pressure owing to its App Store growth. On June 4, UBS analyst David Vogt reiterated a Neutral rating on the stock with a $296.00 price target. The firm […]
+  url: https://finnhub.io/api/news?id=c86fbdbffab797c9f513805dc8e2a3df332605277923660bb20983abf4f4569e

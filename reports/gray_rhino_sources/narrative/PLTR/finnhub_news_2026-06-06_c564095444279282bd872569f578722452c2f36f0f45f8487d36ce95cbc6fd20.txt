@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Sank Today
+  summary: Palantir hasn't participated in this year's AI rally, but that doesn't mean it's immune to new valuation pressures in the space.
+  url: https://finnhub.io/api/news?id=a1ff28f5d147f81367a0c166d5cb9b38ce054d475f67efb608703de868629f80

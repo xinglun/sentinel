@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla China Retail Sales Jump 22%. The Stock Is Bouncing.
+  summary: Tesla retail sales in China grew 22% year-over-year in May, ending a two-month decline. Tesla stock rose modestly early Monday after diving last week.
+  url: https://finnhub.io/api/news?id=1b0fa5d2d69f70873d04cf29c6c061fb9c6497fe834bc43a256dd6d7b742fa71

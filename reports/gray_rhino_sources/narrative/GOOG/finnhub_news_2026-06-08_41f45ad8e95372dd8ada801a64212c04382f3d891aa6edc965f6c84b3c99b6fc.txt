@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Picks From Seeking Alpha's May 2026 New Analysts
+  summary: Discover Seeking Alphaâs May analyst cohort: high-conviction stock picks, Strong Buy/Sell ratings, and catalysts across sectors.
+  url: https://finnhub.io/api/news?id=b7f8a02eb021b29ad09d6dd7a691964702b8635f7cce31a3ab1fb214bc2143da

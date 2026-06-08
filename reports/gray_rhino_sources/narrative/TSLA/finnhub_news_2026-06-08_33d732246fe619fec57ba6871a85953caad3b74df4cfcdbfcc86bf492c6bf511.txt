@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX is being 'rushed' into the public market, strategist says
+  summary: Humilis Investment Strategies chief investment officer and CEO Brian Belski chats with Yahoo Finance's Julie Hyman about why he won't be buying SpaceX (SPAX.PVT) when it goes public.
+  url: https://finnhub.io/api/news?id=4937ef1ca01c5b77bf6fb617ca806f438f94c35557b890ff94f04040d05a57f7

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AUTOCANADA EXPANDS COLLISION PLATFORM WITH ACQUISITION OF CONTEMPORARY COACHWORKS IN CALGARY
+  summary: AutoCanada Inc. ("AutoCanada" or the "Company") (TSX: ACQ), a leading Canadian multi-location automobile dealership and collision repair group, today announced the completion of its acquisition of Contemporary Coachworks, a two-location collision repair business based in Calgary, Alberta.
+  url: https://finnhub.io/api/news?id=5f257b90a9b132c8119217ff6061703aaa7e485260b6fc1db481b538bb161334

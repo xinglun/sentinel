@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk In Direct Talks With ASML For $119B TeraFab Chip Plant: CEO Calls Him 'Very Serious'
+  summary: Elon Musk's proposed TeraFab chip manufacturing facility in Texas, intended to support AI infrastructure expansion, is already drawing attention from chip-equipment supplier ASML (NASDAQ:ASML), according to Reuters. ASML CEO Christophe Fouquet warned that Musk's semiconductor ambitions tied to Tesla Inc.(NASDAQ:TSLA),...
+  url: https://finnhub.io/api/news?id=368b7baf123d649d18bf2b220cff5ed7b6d33ad82589c27f2ff4b3f2158101d1

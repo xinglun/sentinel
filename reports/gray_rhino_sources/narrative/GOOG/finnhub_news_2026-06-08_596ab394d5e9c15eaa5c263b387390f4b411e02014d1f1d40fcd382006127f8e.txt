@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Uses New Financing Playbook to Support AI Power Demand
+  summary: Alphabet supported a roughly $1 billion clean-energy financing deal.
+  url: https://finnhub.io/api/news?id=a1d6cedf20c59f273a47640970c8dc4b761c3e56a90ca77186f4f0949effb8c4

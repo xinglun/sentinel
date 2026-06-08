@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is The AI Bubble About To Burst? Top Experts Deliver Major Warning
+  summary: Some top analysts are warning of a potential AI bubble that may burst soon, concerns that jumped after the recent retreat of AI stocks
+  url: https://finnhub.io/api/news?id=2c40724a484674779aa5eff35d27bae3a348ec00671931375ca6db2b9b5cfacf

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI IPO Wave Could Add $4 Trillion As Markets Face Supply Test
+  summary: SpaceX, OpenAI and Anthropic listings could reshape capital flows as new equity supply rises.
+  url: https://finnhub.io/api/news?id=a258fc54c28ffc18ff3082a41d688e3934daa356efefcbeaca4810c6782af1ee

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle (ORCL) Draws Bullish Long-Term View on AI Cloud Infrastructure Growth
+  summary: Oracle Corporation (NYSE:ORCL) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. Wall Street appears somewhat cautious heading into Oracle’s 4Q print. On June 2, Scotiabank analyst Pat Colville raised the price target on the stock to $290 from $215, reiterating a Sector Outperform rating. Following a 71% […]
+  url: https://finnhub.io/api/news?id=8c03ea6d5a2bc9fb0110a62735e7ae11f0f0d07d48afbdf75594a9de8a56c989

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (NASDAQ:PLTR) Passes Navellier’s Eight Growth Rules with Flying Colors
+  summary: Palantir (PLTR) passes a disciplined eight-point growth screen, showing surging earnings, 51% analyst revisions, and 319% cash flow growth. Despite a high P/E, its explosive fundamentals make it a standout for growth investors.
+  url: https://finnhub.io/api/news?id=143166d7cb560a107f116ac0d49eb3d16342b8e0747cb204b71904ff6b8e0bba

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Stocks Under $10 to Buy Hand Over Fist in June
+  summary: You can find stocks with small price points and big potential in today's market.
+  url: https://finnhub.io/api/news?id=7cb2fe80d325f96a3859e2c88e8119ecf850b05f260d7041b0442485b98c383e

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia (NVDA) Highlights Vera Rubin and RTX Spark as AI Momentum Builds
+  summary: NVIDIA Corporation (NASDAQ:NVDA) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. Nvidia’s Computex 2026 has enabled it to deepen its AI growth story, but Deutsche Bank still maintains a cautious yet constructive view. On June 2nd, the investment firm reiterated a Hold rating on the stock with […]
+  url: https://finnhub.io/api/news?id=3bfd4035972baf18796c358bfaa46e569459a72a95a2b7bdf54893af5af3bb6a

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Silver Miners ETF (SLVR) That Gained 434% Just Dropped 12% in a Day — Leverage Cuts Both Ways
+  summary: If you owned Sprott Silver Miners & Physical Silver ETF (NASDAQ:SLVR) into the close on Friday, you watched a $10,000 position turn into roughly $8,815 in a single session. The fund opened the day at $59.48 and closed at $52.43, a -12% day that the headlines rounded up to 12%. Stretch the lens out a ... The Silver Miners ETF (SLVR) That Gained 434% Just Dropped 12% in a Day — Leverage Cuts Both Ways
+  url: https://finnhub.io/api/news?id=b4aa236da89e6d6effac9d7f3b0503d6186bd4f479c5cac7dcf2aab6bdd0766a

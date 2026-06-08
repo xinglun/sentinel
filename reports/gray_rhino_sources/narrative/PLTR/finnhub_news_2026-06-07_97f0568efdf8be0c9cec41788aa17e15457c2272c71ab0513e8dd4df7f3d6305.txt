@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir And Google Cloud Tie Up As Enterprise AI Bets Grow
+  summary: Palantir Technologies (NasdaqGS:PLTR) announced a multiyear partnership and product integration with Google Cloud, highlighted at its AIPCon 10 event. The agreement includes distribution via Google Cloud Marketplace and technical links with BigQuery and Gemini models. Palantir also showcased new enterprise AI deployments with Kirkland & Ellis in legal, GNP Seguros in Mexican insurance, and McCarthy Building in construction. The GNP Seguros deal marks Palantir’s first major customer in...
+  url: https://finnhub.io/api/news?id=ec40d327ead2b0c2140427505e91acd1f0a2a8c32afa0257030896ecb8f3f17f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Tesla, Inc. (TSLA) among the Top 10 Stocks That Members of Congress Own?
+  summary: With 123 hedge fund holders as of Q1 2026, Tesla, Inc. (NASDAQ:TSLA) is among the Top 10 Stocks That Members of Congress Own. Tesla, Inc. (NASDAQ:TSLA) received a notable vote of confidence from analysts on June 5 when Erste Group upgraded the stock to Hold from Sell. While the firm acknowledged that Tesla’s valuation remains elevated, it […]
+  url: https://finnhub.io/api/news?id=7729d17acffd56c892a64fd633004c5d2ad20c94cc4bb690fb7ebe6e402649a0

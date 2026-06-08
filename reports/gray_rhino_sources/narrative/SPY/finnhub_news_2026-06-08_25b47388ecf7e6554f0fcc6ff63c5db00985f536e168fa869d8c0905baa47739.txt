@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Retreats After Jobs Report Raises Prospect Of Rate Hikes
+  summary: Although it hit a new record high close on Tuesday, the S&P 500Â went on to drop 2.6% from its previous week's close to fall to 7,383.74 on Friday, 5 June 2026.
+  url: https://finnhub.io/api/news?id=c567693aa647225f7fcc1397c251464d8a004cc108ee04de55ce4e887e5917d3

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Feels Expensive At $1.8 Trillion? 85% Of Hyperliquid Traders Are Still Long
+  summary: SpaceX will launch at a $1.8 trillion valuation on Nasdaq on Thursday, yet traders on Hyperliquid are pricing the company as high as $2.15 trillion in pre-IPO perpetual contracts.
+  url: https://finnhub.io/api/news?id=90bbf6d7bd5256cd2e65064b6b813a52ebe64d955a945ebf2e102fca42298e4f

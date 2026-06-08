@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike (CRWD) Gains Analyst Confidence on AI Demand and Platform Strength
+  summary: CrowdStrike Holdings, Inc. (NASDAQ:CRWD) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. On June 4, Morgan Stanley reiterated the stock as “Overweight” and raised its price target on the stock to $690 per share from $610. The rating update follows Crowdstrike’s Q1 2027 earnings. The company reported […]
+  url: https://finnhub.io/api/news?id=4a90a9d247256e7c84d9e6a6a13b177616b24d019a0f0bc5a0f5625af72556b9

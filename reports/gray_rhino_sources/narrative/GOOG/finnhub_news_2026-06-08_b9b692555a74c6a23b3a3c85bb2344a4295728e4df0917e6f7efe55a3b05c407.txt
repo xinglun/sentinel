@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street’s ‘Fear Gauge’ Leaps. What’s Weighing Hard on the Stock Market.
+  summary: Stock market investors could be facing a specter they haven’t had to navigate since early April, when the bull market in tech caught fire and powered domestic indices out of their early year torpor and tensions between Washington and Tehran simmered into a fragile truce effort.  The two-day surge in volatility follows a series of events that have tested the strength of the current tech market wave, pushed the Federal Reserve into a challenging position of moving toward rate hikes while defying President Donald Trump’s public call for easier policy, and unsettled investors hoping for an extended cease-fire agreement between the U.S. and Iran.  “At the same time, growing expectations of Fed tightening have caught an investor base overweight equities and overweight emerging markets,” said ING’s Chris Turner, the bank’s global head of markets.
+  url: https://finnhub.io/api/news?id=1eb9eb1a753c1586a41572ab2794e2f770db76ff3fbb18c134d047c7050ebcbe

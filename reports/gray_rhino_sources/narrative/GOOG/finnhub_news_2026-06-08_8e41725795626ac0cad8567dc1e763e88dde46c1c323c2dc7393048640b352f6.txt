@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD
+  summary: The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, which represents the 30 largest U.S.-listed semiconductor companies, and carries a 0.19% expense ratio, materially cheaper than the older iShares competitor. Since launching ... SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD
+  url: https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rises Ahead of SpaceX’s Friday IPO
+  summary: Shares of the electric-vehicle maker were up 1.4% at $396.65 in premarket trading, while  futures were up 0.4% and  futures were down 0.1%.  Investors are waiting to see if some investors will sell Tesla stock to buy SpaceX shares.  Technical factors like that can create short-term price distortions.
+  url: https://finnhub.io/api/news?id=d12642364b1368e5a439c7aded6799ba9b1686acd08b285b2b1ca6ed4f7cad81

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cerebras Stock Initiated With Buy Ratings For AI Chipmaker
+  summary: Wall Street analysts began coverage of recent initial public offering stock Cerebras Systems on Monday with buy ratings.
+  url: https://finnhub.io/api/news?id=e9ecb766549e9dba3d7b019a050daa7bdb54489bbec616593b1796cc1ea842b4

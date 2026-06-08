@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Stocks I'm Not Selling No Matter What the Market Does for the Next 20 Years
+  summary: One of these has averaged annual gains of 69% over the past decade, and it still looks undervalued.
+  url: https://finnhub.io/api/news?id=d59ad1503089ea1e5f00c528f967271fbd8b3354362b26770208a9c681497c52

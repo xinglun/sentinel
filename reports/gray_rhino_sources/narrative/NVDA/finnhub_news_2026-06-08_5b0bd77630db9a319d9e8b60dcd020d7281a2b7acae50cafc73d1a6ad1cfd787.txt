@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are semiconductor stocks, AI trade in recovery mode after selloff?
+  summary: US stock futures (ES=F, NQ=F, YM=F) attempt to recover from last Friday's sell-off, which saw the Nasdaq Composite (^IXIC) sink by over 4%, Morning Brief Host Julie Hyman and Barron's Investor Circle Newsletter editor Josh Schafer examine how last week's sell-off impacted key components of the AI trade, such as semiconductor stocks.
+  url: https://finnhub.io/api/news?id=ccf075af41a3a225a152d24a7f5ba86e6174c7795ed83a3820ded35547e15f91

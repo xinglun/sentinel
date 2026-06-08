@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD just answered the question Tesla keeps fighting in court
+  summary: Every new piece of car technology eventually runs into the same awkward question. When it works, the carmaker takes the credit. When it fails, who takes the blame? For self-driving software, the industry settled that question years ago, and it settled it in the carmaker's favor. The marketing ...
+  url: https://finnhub.io/api/news?id=4c5dd08bbceb041ec4f1488549da580dd6b2c37c509a04695be25c564c29351a

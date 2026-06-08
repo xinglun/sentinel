@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Technologies Inc. (PLTR) A Good Stock To Buy Now?
+  summary: Is PLTR a good stock to buy? We came across a bullish thesis on Palantir Technologies Inc. on Nikhs’s Substack. In this article, we will summarize the bulls’ thesis on PLTR. Palantir Technologies Inc.’s share was trading at $136.88 as of May 25th. PLTR’s trailing and forward P/E were 153.80 and 93.46 respectively according to Yahoo Finance. […]
+  url: https://finnhub.io/api/news?id=37e594e31b2360a4f33b57466428b1b4436b6ed8c27fbd4f99cdeaa60ec4cf92

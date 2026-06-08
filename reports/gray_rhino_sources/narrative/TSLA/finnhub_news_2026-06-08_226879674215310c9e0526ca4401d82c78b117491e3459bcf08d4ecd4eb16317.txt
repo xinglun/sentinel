@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy SpaceX Stock This Week? Bull, Bear Arguments, and Red Herrings.
+  summary: Depending on who investors read, the SpaceX IPO will either end Western civilization while ruining working-class retirement funds or usher in an AI-enabled global utopia, generating trillions in profits.  For bullish investors, including Baron Capital and ARK Invest, the projected $1.8 trillion valuation for SpaceX feels like a bargain for three main reasons.
+  url: https://finnhub.io/api/news?id=9be0794a28a8dbba5ff430c3c2937595fd9b4972469a053a262d50932a8d7a80

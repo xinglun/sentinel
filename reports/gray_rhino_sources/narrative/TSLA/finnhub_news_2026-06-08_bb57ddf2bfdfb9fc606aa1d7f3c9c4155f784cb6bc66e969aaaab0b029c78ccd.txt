@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Panasonic to start US data centre battery production by fiscal 2028
+  summary: Panasonic Holdings said on Monday it plans to ‌start mass production of battery ‌cells for data centre applications at a plant ​in the U.S. state of Kansas in the financial year 2028, which ends March 2029.  • Panasonic Energy also plans to build a third plant in Mexico with mass production scheduled for the fiscal year 2028.  • Panasonic ‌Energy CEO Kazuo Tadanobu ​said the unit's 950 ​billion yen ​sales target for data centre-related ‌energy storage systems in ​the 2028 ​financial year was a "minimum commitment", adding that the business would aim to ​lift sales ‌to more than 1 trillion yen.
+  url: https://finnhub.io/api/news?id=efef3aa2f0a1e66f4b94063e193ed4618cde4dcd74fb2c58053035166ddafd8b

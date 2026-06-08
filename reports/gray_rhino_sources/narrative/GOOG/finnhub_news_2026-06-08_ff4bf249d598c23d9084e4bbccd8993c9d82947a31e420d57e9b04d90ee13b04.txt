@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle's cloud pivot remains a high-risk bet
+  summary: I've watched plenty of companies chase a hot trend and spend their way into trouble. The story usually looks thrilling on the way up and painful on the way down. Oracle is the latest name testing that thesis. The software giant is pouring tens of billions of dollars into data centers to grab a ...
+  url: https://finnhub.io/api/news?id=7965dad467c43f3d4bf08ecd6fd8b7d0f5c6b04591ea4f25a5df3d59d705b208

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet taps Intel to make three million in-house chips, The Information reports
+  summary: Alphabet's Google has placed an order with Intel to manufacture ‌more than three million tensor processing ‌units in 2028, The Information reported on Monday, citing ​people with direct knowledge of the discussions.  Nvidia has not placed an order with Intel yet, but has been evaluating whether the ‌company's technology can ⁠be used to make a processor that combines four graphics chips ⁠into a single unit, the report said.  Intel's shares surged more than 13% in premarket ​trading.
+  url: https://finnhub.io/api/news?id=8a75a223068b1c23abdfb7d99f1e5c353be6541b26b9faab99bbe652bb3b5e52

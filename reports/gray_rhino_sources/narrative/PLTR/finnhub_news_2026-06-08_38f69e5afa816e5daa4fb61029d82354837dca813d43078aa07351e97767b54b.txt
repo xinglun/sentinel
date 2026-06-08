@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beyond AI Chip Rally: 4 Software Stocks to Buy Now as the Hype Shifts
+  summary: As AI focus shifts from chips to applications, software stocks like PLTR, XYZ, TEAM and DOCU could benefit from rising adoption and projected software spending gains.
+  url: https://finnhub.io/api/news?id=89e51c75c7db36fbbad040767ed9326c19fb6d92d061fdbf479fec72bb8073ac

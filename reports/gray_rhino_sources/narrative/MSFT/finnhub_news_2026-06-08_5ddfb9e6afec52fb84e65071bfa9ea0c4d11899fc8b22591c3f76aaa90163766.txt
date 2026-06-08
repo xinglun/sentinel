@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Microsoft Stock Surged 10.4% Last Month But Is Sinking in June
+  summary: After recent swings, Microsoft stock is down roughly 14% year to date.
+  url: https://finnhub.io/api/news?id=fd529a7a584fcfb51eba05d9a65b0d16e80e31b0bf457c8433f0aba7717b4e40

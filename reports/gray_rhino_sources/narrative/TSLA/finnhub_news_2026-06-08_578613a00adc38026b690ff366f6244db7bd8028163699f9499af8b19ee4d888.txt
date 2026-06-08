@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Futures Mostly Higher After Indexes Plunge to End Last Week; Oil Prices Jump on Israel-Iran Fighting
+  summary: Stock futures were mostly higher to begin a new week of trading after major indexes tumbled Friday, even though oil prices surged on renewed fighting between Iran and Israel.
+  url: https://finnhub.io/api/news?id=c058ae7bd667c2507fbc0db76a3014df5c4bcae4293b6b18a2e48116acb917f5

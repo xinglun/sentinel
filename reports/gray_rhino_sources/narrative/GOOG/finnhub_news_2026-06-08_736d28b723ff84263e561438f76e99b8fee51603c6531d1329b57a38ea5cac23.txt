@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SMCX Sank 67% in a Year While the Underlying Stock Rose 2%
+  summary: A 2x daily leveraged ETF that owns nothing but swaps on a single AI server stock did what 2x daily leveraged ETFs on single AI server stocks do when the AI server trade breaks. Defiance Daily Target 2X Long SMCI ETF (NASDAQ:SMCX) fell 22% on June 5, 2026, closing at $23.22 after opening near $29.95. ... SMCX Sank 67% in a Year While the Underlying Stock Rose 2%
+  url: https://finnhub.io/api/news?id=ebf3755cac05d616ad578edaaa36a00a51e179e79a0c015216283d208bba309b

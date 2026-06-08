@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Breaks Lower as Tech Rout Hits the Indexes
+  summary: Market breadth weakened sharply on June 5, 2026 as SPY, QQQ and IWM all fell below short-term moving averages. Participation deteriorated across daily and weekly measures, shifting the breadth trend back to neutral.
+  url: https://finnhub.io/api/news?id=3d52608820cc87a5e232c4b15a519a34cfeea797afdb0d9031d7ee6306976384

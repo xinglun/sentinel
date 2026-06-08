@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agent Governance Platform from Ares® Networks Now Available in the Microsoft Marketplace
+  summary: Ares® Networks today announced the availability of the Ares® Networks Agent Governance Platform in the Microsoft Marketplace, the unified online destination for customers to buy trusted cloud solutions, AI apps, and agents to meet their business needs. Ares® Networks customers can now discover and deploy trusted solutions through Microsoft Marketplace, with smooth integration and streamlined management across Microsoft Azure and other Microsoft products.
+  url: https://finnhub.io/api/news?id=b3af9e4adb94bc4f47268fa218c3e07ecdc1cc972df5aa822b11bcb814bcaa43

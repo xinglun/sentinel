@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s Huang calls chip sell-off a buying opportunity
+  summary: "We are at the outset of the AI revolution," Huang said, framing last week's $1 trillion-plus wipeout in chip stocks as a near-term positioning event rather than a signal of structural weakness in AI demand.
+  url: https://finnhub.io/api/news?id=724ad690e1f9f148e9fe42ce13a1a2d9d5fe8fae74aae25cf2427b54ddf644d5

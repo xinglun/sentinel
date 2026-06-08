@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Barclays Raises Hewlett Packard Enterprise (HPE) Price Target on Sustained Demand Strength
+  summary: Hewlett Packard Enterprise Company (NYSE:HPE) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. Hewlett Packard Enterprise Company (NYSE:HPE) is drawing a more positive view from analysts based on its robust and sustainable demand. On June 2, Barclays analyst Tim Long raised the price target on the stock to […]
+  url: https://finnhub.io/api/news?id=6718c1d22257401fc56e454da4f5744b29ecaa25757003e63e64ac83d17b6051

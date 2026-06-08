@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Last Year, Wall Street Said This AI Stock Was Overvalued. Now, Wall Street Expects It to Deliver Double-Digit Gains.
+  summary: This stock has soared more than 800% in recent years.
+  url: https://finnhub.io/api/news?id=ce2d42bd65bf1bfb68c576a6847db1f6ef33d148312e61decbe7aabfd1d11559

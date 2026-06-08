@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Sees Qualcomm (QCOM) Investor Day as Potential AI Growth Catalyst
+  summary: QUALCOMM Incorporated (NASDAQ:QCOM) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. On June 5, JPMorgan added a positive catalyst watch on Qualcomm and said that it’s sticking with its neutral rating. However, the firm is also bullish ahead of the company’s investor day. Qualcomm is set to […]
+  url: https://finnhub.io/api/news?id=e0b1fdb941672397e83414a7e02a20d83a8e9c72e4f4aa6f2a26fe0aec427c7e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will SpaceX Merge With Tesla? Here's What Prediction Markets Say.
+  summary: Trends on Kalshi and Polymarket are increasingly showing people betting that Elon Musk will push to combine his two largest companies.
+  url: https://finnhub.io/api/news?id=fad5163ff2b0325ae8621afe34a29797640f6ff425ceb2d7a0b83df058c2d1ba

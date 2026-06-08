@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Correction: Why This S&P 500 ETF Becomes a No-Brainer Buy at a Discount
+  summary: The S&P 500 is running hot right now.
+  url: https://finnhub.io/api/news?id=2ce428daa7e1576dab1a1c20276589b35f36b9e6a6a18689ddc114a919db0186

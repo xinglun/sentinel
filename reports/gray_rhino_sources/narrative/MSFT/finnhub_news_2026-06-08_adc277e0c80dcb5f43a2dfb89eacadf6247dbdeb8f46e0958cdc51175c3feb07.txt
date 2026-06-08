@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rezolve Ai Appoints Microsoft and Amazon Veteran Michele Fisher as Chief Marketing Officer to Define the Agentic Commerce Era
+  summary: Rezolve Ai Names Michele Fisher Chief Marketing Officer as Company Targets $360 Million in 2026 Revenue Michele Fisher Former Global Strategy Director at Microsoft joins Rezolve Ai as CMO. NEW YORK, June 08, 2026 (GLOBE NEWSWIRE) -- Rezolve Ai (NASDAQ: RZLV), a global leader in agentic commerce and AI-native retail infrastructure, today announced the appointment of Michele Fisher as Chief Marketing Officer, adding one of the world’s most recognized voices in AI, commerce, retail media and custom
+  url: https://finnhub.io/api/news?id=707ce380e0638d6f8f2442e271e7dd6a8906c30fbde52f1aeaef23725448ff62

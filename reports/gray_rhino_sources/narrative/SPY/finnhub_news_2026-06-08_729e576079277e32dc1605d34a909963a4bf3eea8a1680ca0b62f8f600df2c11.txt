@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Equity Supply Surge: What Historically Comes Next
+  summary: A record equity supply surge is forming for 2026, stacking mega-IPOs like SpaceX, OpenAI, and Databricks on top of the lockup expirations that follow them.
+  url: https://finnhub.io/api/news?id=dc4ae2d930fca9bea0ed891b1b9f4ff76b0ef14fbf6e732a85fafad713cf932e

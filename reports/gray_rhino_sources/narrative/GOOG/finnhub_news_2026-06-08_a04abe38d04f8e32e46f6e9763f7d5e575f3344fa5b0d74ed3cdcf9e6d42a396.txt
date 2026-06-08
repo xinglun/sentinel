@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta, Google, Snap In Spotlight As UK Reportedly Eyes Crackdown On 'Harmful' Social Media For Under-16s
+  summary: UK PM Keir Starmer reportedly plans new restrictions on harmful social media for under-16s, putting Meta, Google and Snap in focus.
+  url: https://finnhub.io/api/news?id=bb0f20af16687265e8001be24049e3ef3fa52f84c8e3eb7aff50725fff3a9009

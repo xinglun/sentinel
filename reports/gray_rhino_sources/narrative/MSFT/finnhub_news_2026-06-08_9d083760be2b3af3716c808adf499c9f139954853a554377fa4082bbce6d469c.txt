@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel (INTC) and Hitachi Team Up to Accelerate Physical AI Across Industries
+  summary: Intel Corporation (NASDAQ:INTC) is one of the 14 AI Stocks Making Headlines on Wall Street: Qualcomm, Microsoft, and More. On June 5, Hitachi and Intel Corporation (NASDAQ:INTC) announced entering into a strategic collaboration aimed at accelerating physical AI, advanced computing, and next-generation digital infrastructure across sectors such as manufacturing, energy, and other critical industries. Hitachi’s […]
+  url: https://finnhub.io/api/news?id=73dc595fb70e5b40dd092d6bc83e521ffd8d570615f38c9917a3ca67104d41f4
