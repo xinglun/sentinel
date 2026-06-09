@@ -2,7 +2,7 @@ use crate::config;
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoStatus, CapitalAbsorptionAutoTrend,
     CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationEventType,
-    CapitalAbsorptionPotentialSupplyTrend,
+    CapitalAbsorptionPotentialSupplyPressureLevel, CapitalAbsorptionPotentialSupplyTrend,
 };
 use crate::features::shared::interface::i18n::Language;
 
@@ -76,6 +76,16 @@ pub(super) fn capital_absorption_potential_supply_trend_label(language: Language
     }
 }
 
+pub(super) fn capital_absorption_potential_supply_pressure_label(
+    language: Language,
+) -> &'static str {
+    match language {
+        Language::ZhCn => "潜在供给压力",
+        Language::EnUs => "Potential Supply Pressure",
+        Language::JaJp => "潜在供給圧力",
+    }
+}
+
 pub(super) fn capital_absorption_no_actual_supply(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "- 未观察到已发生的大型股权/可转债供给。",
@@ -141,6 +151,14 @@ pub(super) fn capital_absorption_trend_label(language: Language) -> &'static str
         Language::ZhCn => "趋势:",
         Language::EnUs => "Trend:",
         Language::JaJp => "トレンド:",
+    }
+}
+
+pub(super) fn capital_absorption_pressure_level_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "压力:",
+        Language::EnUs => "Pressure:",
+        Language::JaJp => "圧力:",
     }
 }
 
@@ -269,6 +287,30 @@ pub(super) fn capital_absorption_queue_size_label(language: Language) -> &'stati
         Language::ZhCn => "队列规模",
         Language::EnUs => "Queue Size",
         Language::JaJp => "キュー規模",
+    }
+}
+
+pub(super) fn capital_absorption_queue_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Queue Count",
+        Language::EnUs => "Queue Count",
+        Language::JaJp => "Queue Count",
+    }
+}
+
+pub(super) fn capital_absorption_reported_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Reported Count",
+        Language::EnUs => "Reported Count",
+        Language::JaJp => "Reported Count",
+    }
+}
+
+pub(super) fn capital_absorption_confirmed_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Confirmed Count",
+        Language::EnUs => "Confirmed Count",
+        Language::JaJp => "Confirmed Count",
     }
 }
 
@@ -532,6 +574,23 @@ pub(super) fn capital_absorption_potential_supply_trend_value(
     }
 }
 
+pub(super) fn capital_absorption_potential_supply_pressure_level_value(
+    level: CapitalAbsorptionPotentialSupplyPressureLevel,
+    language: Language,
+) -> String {
+    match level {
+        CapitalAbsorptionPotentialSupplyPressureLevel::Low => {
+            capital_absorption_ratio_text("LOW", language)
+        }
+        CapitalAbsorptionPotentialSupplyPressureLevel::Normal => {
+            capital_absorption_pressure_text("NORMAL", language)
+        }
+        CapitalAbsorptionPotentialSupplyPressureLevel::Elevated => {
+            capital_absorption_ratio_text("ELEVATED", language)
+        }
+    }
+}
+
 pub(super) fn capital_absorption_auto_ratio_state_value(
     state: crate::features::research::application::capital_absorption::CapitalAbsorptionAutoRatioState,
     language: Language,
@@ -628,6 +687,14 @@ pub(super) fn capital_absorption_ratio_text(code: &str, language: Language) -> S
     }
 }
 
+pub(super) fn capital_absorption_pressure_text(code: &str, language: Language) -> String {
+    match (code, language) {
+        ("NORMAL", Language::ZhCn) => "正常（NORMAL）".to_string(),
+        ("NORMAL", Language::JaJp) => "通常（NORMAL）".to_string(),
+        _ => code.to_string(),
+    }
+}
+
 pub(super) fn capital_absorption_ipo_queue_status_value(
     status: CapitalAbsorptionIpoQueueStatus,
     language: Language,
@@ -637,38 +704,31 @@ pub(super) fn capital_absorption_ipo_queue_status_value(
         (CapitalAbsorptionIpoQueueStatus::Reported, Language::ZhCn) => {
             "报道（Reported）".to_string()
         }
-        (CapitalAbsorptionIpoQueueStatus::Preparing, Language::ZhCn) => {
-            "准备中（Preparing）".to_string()
+        (CapitalAbsorptionIpoQueueStatus::Preparation, Language::ZhCn) => {
+            "准备（Preparation）".to_string()
+        }
+        (CapitalAbsorptionIpoQueueStatus::PreIpo, Language::ZhCn) => {
+            "Pre-IPO（Pre-IPO）".to_string()
         }
         (CapitalAbsorptionIpoQueueStatus::Filed, Language::ZhCn) => "已提交（Filed）".to_string(),
-        (CapitalAbsorptionIpoQueueStatus::Roadshow, Language::ZhCn) => {
-            "路演（Roadshow）".to_string()
-        }
-        (CapitalAbsorptionIpoQueueStatus::Priced, Language::ZhCn) => "已定价（Priced）".to_string(),
-        (CapitalAbsorptionIpoQueueStatus::Listed, Language::ZhCn) => "已上市（Listed）".to_string(),
+        (CapitalAbsorptionIpoQueueStatus::Ipo, Language::ZhCn) => "已 IPO（IPO）".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Rumor, Language::JaJp) => "噂（Rumor）".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Reported, Language::JaJp) => {
             "報道（Reported）".to_string()
         }
-        (CapitalAbsorptionIpoQueueStatus::Preparing, Language::JaJp) => {
-            "準備中（Preparing）".to_string()
+        (CapitalAbsorptionIpoQueueStatus::Preparation, Language::JaJp) => {
+            "準備（Preparation）".to_string()
+        }
+        (CapitalAbsorptionIpoQueueStatus::PreIpo, Language::JaJp) => {
+            "Pre-IPO（Pre-IPO）".to_string()
         }
         (CapitalAbsorptionIpoQueueStatus::Filed, Language::JaJp) => "提出済み（Filed）".to_string(),
-        (CapitalAbsorptionIpoQueueStatus::Roadshow, Language::JaJp) => {
-            "ロードショー（Roadshow）".to_string()
-        }
-        (CapitalAbsorptionIpoQueueStatus::Priced, Language::JaJp) => {
-            "価格決定済み（Priced）".to_string()
-        }
-        (CapitalAbsorptionIpoQueueStatus::Listed, Language::JaJp) => {
-            "上場済み（Listed）".to_string()
-        }
+        (CapitalAbsorptionIpoQueueStatus::Ipo, Language::JaJp) => "IPO 済み（IPO）".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Rumor, Language::EnUs) => "Rumor".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Reported, Language::EnUs) => "Reported".to_string(),
-        (CapitalAbsorptionIpoQueueStatus::Preparing, Language::EnUs) => "Preparing".to_string(),
+        (CapitalAbsorptionIpoQueueStatus::Preparation, Language::EnUs) => "Preparation".to_string(),
+        (CapitalAbsorptionIpoQueueStatus::PreIpo, Language::EnUs) => "Pre-IPO".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Filed, Language::EnUs) => "Filed".to_string(),
-        (CapitalAbsorptionIpoQueueStatus::Roadshow, Language::EnUs) => "Roadshow".to_string(),
-        (CapitalAbsorptionIpoQueueStatus::Priced, Language::EnUs) => "Priced".to_string(),
-        (CapitalAbsorptionIpoQueueStatus::Listed, Language::EnUs) => "Listed".to_string(),
+        (CapitalAbsorptionIpoQueueStatus::Ipo, Language::EnUs) => "IPO".to_string(),
     }
 }

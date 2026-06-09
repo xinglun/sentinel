@@ -3,6 +3,7 @@ use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoSnapshot,
     CapitalAbsorptionIpoQueueHistoryPoint, CapitalAbsorptionIpoQueueItem,
     CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationEventType,
+    CapitalAbsorptionPotentialSupplyPressure, CapitalAbsorptionPotentialSupplyPressureLevel,
     CapitalAbsorptionPotentialSupplyTrend, CapitalAbsorptionSourceHealth,
     CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
 };
@@ -48,6 +49,7 @@ pub(crate) fn build_capital_absorption_report_from_config(
     push_supply_event_counts(&mut out, &snapshot.supply_event_counts, language);
     push_actual_capital_supply(&mut out, &snapshot.capital_demand, language);
     push_potential_supply_trend(&mut out, &snapshot.potential_supply_trend, language);
+    push_potential_supply_pressure(&mut out, &snapshot.potential_supply_pressure, language);
     push_ai_ipo_queue(&mut out, &snapshot.ai_ipo_queue, language);
     push_ipo_queue_history(&mut out, &snapshot.ipo_queue_history, language);
     push_capital_absorption_events(&mut out, &snapshot.observed_events, language);
@@ -72,6 +74,7 @@ struct CapitalAbsorptionRenderSnapshot {
     ai_ipo_queue: Vec<CapitalAbsorptionIpoQueueItem>,
     ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
     potential_supply_trend: String,
+    potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure,
     capital_demand: CapitalDemandRenderSnapshot,
     capital_supply: CapitalSupplyRenderSnapshot,
     absorption_ratio: CapitalAbsorptionRenderRatio,
@@ -134,6 +137,7 @@ impl CapitalAbsorptionRenderSnapshot {
                 CapitalAbsorptionPotentialSupplyTrend::Stable,
                 language,
             ),
+            potential_supply_pressure: default_capital_absorption_potential_supply_pressure(),
             observed_events,
             capital_demand: CapitalDemandRenderSnapshot::from_config(
                 &value.capital_demand,
@@ -168,6 +172,7 @@ impl CapitalAbsorptionRenderSnapshot {
                 value.potential_supply_trend,
                 language,
             ),
+            potential_supply_pressure: value.potential_supply_pressure.clone(),
             observed_events: value
                 .observed_events
                 .iter()
@@ -381,6 +386,35 @@ fn push_potential_supply_trend(out: &mut String, trend: &str, language: Language
     ));
 }
 
+fn push_potential_supply_pressure(
+    out: &mut String,
+    pressure: &CapitalAbsorptionPotentialSupplyPressure,
+    language: Language,
+) {
+    out.push_str(capital_absorption_potential_supply_pressure_label(language));
+    out.push_str(":\n");
+    out.push_str(&format!(
+        "- {} {}\n",
+        capital_absorption_pressure_level_label(language),
+        capital_absorption_potential_supply_pressure_level_value(pressure.level, language)
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        capital_absorption_queue_count_label(language),
+        pressure.queue_count
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        capital_absorption_reported_count_label(language),
+        pressure.reported_count
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n\n",
+        capital_absorption_confirmed_count_label(language),
+        pressure.confirmed_count
+    ));
+}
+
 fn push_supply_event_counts(
     out: &mut String,
     counts: &CapitalAbsorptionSupplyEventCounts,
@@ -576,6 +610,16 @@ fn default_capital_absorption_ipo_queue() -> Vec<CapitalAbsorptionIpoQueueItem> 
         event_type: CapitalAbsorptionObservationEventType::Rumor,
     })
     .collect()
+}
+
+fn default_capital_absorption_potential_supply_pressure() -> CapitalAbsorptionPotentialSupplyPressure
+{
+    CapitalAbsorptionPotentialSupplyPressure {
+        level: CapitalAbsorptionPotentialSupplyPressureLevel::Low,
+        queue_count: 0,
+        reported_count: 0,
+        confirmed_count: 0,
+    }
 }
 
 fn push_optional_usd(out: &mut String, label: &str, value: Option<f64>) {

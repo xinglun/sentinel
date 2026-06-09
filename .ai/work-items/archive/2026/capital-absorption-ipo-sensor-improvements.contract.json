@@ -1,0 +1,138 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-ipo-sensor-improvements",
+  "mode": "code",
+  "title": "Capital Absorption IPO センサー改善",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json",
+    ".ai/work-items/active/capital-absorption-ipo-sensor-improvements.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs"
+  ],
+  "outOfScope": [
+    "READY / EXECUTE / Gate / Position Sizing / Trader / Action Matrix への接続",
+    "市場結論、売買判断、リスク格上げの生成",
+    "data branch、JSONL、weekly metrics、reports 永続化の新規追加",
+    "外部ニュース取得 provider の変更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "IPO Stage、Event Type、Queue History、Potential Supply Pressure の domain model と分類ロジック。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Capital Absorption Early Warning Sensor の Markdown report 出力。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "Capital Absorption report の zh/en/ja 表示文言。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "Capital Absorption report の snapshot 的 contract test。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "表示専用の観測分類と report contract 変更に限定し、Gate / trading / risk upgrade へ接続しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification が表示専用の Capital Absorption IPO センサー改善に限定されている。"
+  },
+  "preReviewWarnings": [
+    "IPO Stage と Event Type の意味分離が report 表示に反映されているか確認する。",
+    "Potential Supply Pressure が Queue Count / Reported Count / Confirmed Count だけから算出され、売買判断へ接続されていないか確認する。",
+    "IPO Queue History が最低 30 日ウィンドウを表示し、単日の Queue Size だけに退化していないか確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "IPO Stage は Rumor / Reported / Preparation / Pre-IPO / Filed / IPO として Event Type から独立して表示される。",
+    "Event Type は Rumor / Reported / Confirmed の情報確認度として表示され、IPO Stage と同一概念として扱われない。",
+    "SpaceX、OpenAI、Anthropic などの AI IPO candidates は headline 文脈と source_count により Rumor / Reported / Preparation / Pre-IPO / Filed / IPO に分類される。",
+    "IPO Queue History は potential IPO event が存在する場合、最新観測日から少なくとも 30 日分の Queue Size 推移を Markdown report に表示する。",
+    "Potential Supply Pressure は Queue Count / Reported Count / Confirmed Count のみから LOW / NORMAL / ELEVATED に分類され、Markdown report に表示される。",
+    "Narrative Observation Only / No Trading Signal / No Market Conclusion / No Risk Upgrade / READY・EXECUTE・Gate 非接続の境界文言と挙動を維持する。",
+    "zh / en / ja の report contract test が新しい表示語彙を確認する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.summary.json CONTRACT=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-sensor-improvements.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
