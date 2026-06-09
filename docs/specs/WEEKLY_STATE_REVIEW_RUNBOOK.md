@@ -180,6 +180,8 @@ cargo run -- transition_audit_summary --days 30
 language = "en-us"
 ```
 
+`weekly_state_review_auto.md` も `output.language` に従って固定 label と境界文を出力する。`weekly_state_metrics.json` の key は machine-readable contract として英語のまま維持し、表示言語の切替対象にしない。
+
 **先頭セクションの出力差分例:**
 
 ```text
@@ -244,11 +246,18 @@ language = "en-us"
 3. `holding_efficiency`
 4. `macro_gravity`
 5. `strategic_context`
+6. `cognitive_calibration`
+
+`weekly_state_metrics.json` は、状態機械の週次監査用に以下も保持します：
+1. `weekly_totals`
+2. `daily_summaries`
 
 `weekly_state_review_auto.md` には以下の 3 セクションが追加されます：
-1. `Strategic Context Snapshot`
-2. `Macro Gravity Snapshot`
-3. `Cognitive Calibration Snapshot`
+1. `State Machine Weekly Totals`
+2. `Daily State Machine Timeline`
+3. `Strategic Context Snapshot`
+4. `Macro Gravity Snapshot`
+5. `Cognitive Calibration Snapshot`
 
 これらは状態理解の補助であり、スコア、推奨、売買判断を生成しません。
 
@@ -345,6 +354,7 @@ language = "en-us"
 ### 7.1 自動化済み
 - 直近 7 日間の `run_status` スキャン。
 - `weekly_totals` の集計。
+- `daily_summaries` の生成。
 - `weekly_state_metrics.json` の生成。
 - `weekly_state_review_auto.md` の生成。
 - 成果物の `data` ブランチへの同期。

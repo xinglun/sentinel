@@ -18,13 +18,34 @@
   ],
   "unknowns": [],
   "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "実装前に review で問題化しそうな境界を明記する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contract の scope / sources / acceptance / verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "review で重点確認すべき領域を Summary の reviewReadiness に残す。"
+  ],
   "acceptance": [
     "期待される振る舞いがテストまたは文書契約で固定されている。",
     "Gate / execution / trader / action matrix へ接続するか、表示・監査専用かが明記されている。",
     "Telegram / Markdown / CLI / audit daily / weekly review の表示範囲が明記されている。",
     "data branch / reports / JSONL / snapshot / weekly metrics の保存範囲が明記されている。",
     "i18n と snapshot / contract test の要否が明記されている。",
-    "新しい運用 command は make target 経由で提供されている。"
+    "新しい運用 command は make target 経由で提供されている。",
+    "riskAssessment / agentCapability / executionDecision に、実装可能性、検証可能性、review 前のリスクが明記されている。"
   ],
   "verification": [
     {

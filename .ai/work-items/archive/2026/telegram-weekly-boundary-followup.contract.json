@@ -1,0 +1,104 @@
+{
+  "contractVersion": 1,
+  "workItemId": "telegram-weekly-boundary-followup",
+  "mode": "code",
+  "title": "Telegram日報要約と週次集計境界の追補",
+  "scope": [
+    ".ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+    ".ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "outOfScope": [
+    "Gate / execution / trader / action matrix / position sizing の判断ロジック変更",
+    "Telegram 送信基盤、Markdown 永続化先、data branch 運用の変更",
+    "既存 report 全文保存契約の削除または縮小"
+  ],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration Telegram digest と language 境界の実装対象。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Radar reference appendix の Telegram digest と language 境界の実装対象。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_metrics.json / weekly_state_review_auto.md の run_status 集計境界の実装対象。"
+    },
+    {
+      "path": "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+      "reason": "週次集計の既存契約を確認する参照元。今回は実装契約に変更がない限り編集しない。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Daily calibration の Telegram digest は report 文字列からの推定ではなく、既存 Language 設定に基づいて省略 notice を出す。",
+    "Radar reference appendix の Telegram digest は既存 Language 設定に基づいて省略 notice を出し、Markdown / archival Markdown には appendix 全文を保持する。",
+    "weekly_state_metrics.json の weekly_totals / daily_summaries は current_date 以後の未来日 run_status を混入させない。",
+    "Gate / execution / trader / action matrix / position sizing には影響せず、表示・監査専用の変更である。",
+    "Telegram は読みやすい digest、CLI / Markdown / archival output は全文保存という境界を維持する。",
+    "data branch、JSONL、snapshot、weekly metrics の保存先は変更せず、weekly metrics の集計対象境界だけを補強する。",
+    "zh / en / ja の省略 notice と週次 as-of 境界を test で固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、Telegram digest language 境界と weekly as-of 集計境界の追補を元に戻す。"
+}

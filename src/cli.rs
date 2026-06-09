@@ -136,9 +136,11 @@ pub async fn run() -> Result<()> {
             .await?;
             println!("{}", report);
             if options.research_notify {
+                let telegram_report =
+                    build_daily_calibration_telegram_digest(&report, audit_language);
                 send_required_telegram_notification(
                     app_config.telegram.as_ref(),
-                    &report,
+                    &telegram_report,
                     "daily-calibration",
                 )
                 .await?;
@@ -730,6 +732,99 @@ fn build_daily_calibration_questions(
     )
 }
 
+fn build_daily_calibration_telegram_digest(report: &str, language: Language) -> String {
+    const MAX_LINES: usize = 42;
+    const MAX_CHARS: usize = 3200;
+
+    let mut out = String::new();
+    let mut retained = 0usize;
+    let mut omitted = 0usize;
+    let mut keep_next_content_line = false;
+
+    for line in report.lines().map(str::trim_end) {
+        if line.trim().is_empty() {
+            continue;
+        }
+        let keep = should_keep_daily_calibration_digest_line(line) || keep_next_content_line;
+        keep_next_content_line = line.starts_with('#') || line.starts_with("## ");
+        if keep && retained < MAX_LINES && out.len() + line.len() < MAX_CHARS {
+            if !out.is_empty() {
+                out.push('\n');
+            }
+            out.push_str(line);
+            retained += 1;
+        } else {
+            omitted += 1;
+        }
+    }
+
+    if omitted > 0 {
+        if !out.is_empty() {
+            out.push('\n');
+        }
+        out.push_str(&daily_calibration_digest_omission_notice(language, omitted));
+    }
+    out
+}
+
+fn daily_calibration_digest_omission_notice(language: Language, omitted: usize) -> String {
+    match language {
+        Language::ZhCn => format!(
+            "- Telegram 摘要: 已省略 {} 行明细；CLI 输出保留完整 daily calibration report。",
+            omitted
+        ),
+        Language::JaJp => format!(
+            "- Telegram 要約: {} 行の詳細を省略。CLI 出力には daily calibration report の全文を保持。",
+            omitted
+        ),
+        Language::EnUs => format!(
+            "- Telegram digest: {} detail line(s) omitted; CLI output keeps the full daily calibration report.",
+            omitted
+        ),
+    }
+}
+
+fn should_keep_daily_calibration_digest_line(line: &str) -> bool {
+    let trimmed = line.trim_start();
+    is_digest_heading(trimmed)
+        || is_structured_digest_line(trimmed)
+        || is_digest_question_line(trimmed)
+        || contains_decision_status_token(trimmed)
+}
+
+fn is_digest_heading(trimmed: &str) -> bool {
+    trimmed.starts_with('#')
+}
+
+fn is_structured_digest_line(trimmed: &str) -> bool {
+    if is_noisy_digest_detail(trimmed) {
+        return false;
+    }
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    body.contains(':') || body.contains('：')
+}
+
+fn is_digest_question_line(trimmed: &str) -> bool {
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    body.ends_with('?') || body.ends_with('？')
+}
+
+fn contains_decision_status_token(trimmed: &str) -> bool {
+    trimmed.contains("NO TRADE") || trimmed.contains("READY") || trimmed.contains("WATCH")
+}
+
+fn is_noisy_digest_detail(trimmed: &str) -> bool {
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    let lower = body.to_ascii_lowercase();
+    lower.contains("http://")
+        || lower.contains("https://")
+        || lower.starts_with("source detail")
+        || lower.starts_with("raw ")
+        || lower.starts_with("raw extract")
+        || lower.starts_with("source:")
+        || lower.starts_with("sources:")
+}
+
 fn load_transition_audit_days(
     path: &std::path::Path,
     language: Language,
@@ -796,7 +891,7 @@ async fn run_review(config: &crate::config::AppConfig) -> Result<()> {
 
 #[cfg(test)]
 mod tests {
-    use super::{load_latest_daily_report, run_pipeline};
+    use super::{build_daily_calibration_telegram_digest, load_latest_daily_report, run_pipeline};
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
@@ -855,6 +950,122 @@ mod tests {
 
         let error = load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("non-production evidence"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_keeps_judgement_lines_and_omits_details() {
+        let report = r#"# 🧭 每日认知校准
+
+## 1. 日报审计摘要
+
+- 当前 Gate: NO TRADE
+- 证据状态: 已观察
+- noisy detail line 1
+- noisy detail line 2
+
+## 2. 日报校准问题
+
+- 今天的市场判断是否仍然成立？
+- 哪些证据在增强？
+
+## 6. 灰犀牛校准
+
+- Gray Rhino status: monitoring
+- source detail: https://example.com/very-long-source
+
+边界: 本日报只校准系统理解、证据质量、认知资源与观察命题；不生成新的交易指令。
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::ZhCn);
+
+        assert!(digest.contains("# 🧭 每日认知校准"));
+        assert!(digest.contains("当前 Gate: NO TRADE"));
+        assert!(digest.contains("证据状态: 已观察"));
+        assert!(digest.contains("今天的市场判断是否仍然成立"));
+        assert!(digest.contains("Gray Rhino status: monitoring"));
+        assert!(digest.contains("不生成新的交易指令"));
+        assert!(digest.contains("Telegram 摘要"));
+        assert!(!digest.contains("noisy detail line 1"));
+        assert!(!digest.contains("very-long-source"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_keeps_japanese_judgement_lines() {
+        let report = r#"# 🧭 毎日認知校正
+
+## 1. 日次監査サマリー
+
+- 戦術状態: NO TRADE
+- 証拠状態: 構造証拠を観測中
+- noisy detail line 1
+
+## 6. 資本吸収モニター
+
+- 資本吸収状態: 観察（WATCH）
+- 資本供給: STABLE
+- 資本需要: RISING
+- 吸収比率: ELEVATED
+
+## 7. 灰色のサイ校正
+
+- 灰色のサイ状態: リスク可視化
+
+境界: この日報はシステム理解、証拠品質、認知資源、観測命題だけを校正し、新しい売買指示は生成しない。
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::JaJp);
+
+        assert!(digest.contains("戦術状態: NO TRADE"));
+        assert!(digest.contains("証拠状態: 構造証拠を観測中"));
+        assert!(digest.contains("資本吸収状態: 観察（WATCH）"));
+        assert!(digest.contains("資本供給: STABLE"));
+        assert!(digest.contains("資本需要: RISING"));
+        assert!(digest.contains("吸収比率: ELEVATED"));
+        assert!(digest.contains("灰色のサイ状態: リスク可視化"));
+        assert!(digest.contains("生成しない"));
+        assert!(digest.contains("Telegram 要約"));
+        assert!(!digest.contains("noisy detail line 1"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_notice_uses_configured_language() {
+        let report = r#"# 🧭 每日认知校准
+
+## Summary
+
+- 当前 Gate: NO TRADE
+- noisy detail line 1
+- noisy detail line 2
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::EnUs);
+
+        assert!(digest.contains("Telegram digest"));
+        assert!(!digest.contains("Telegram 摘要"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_keeps_structured_renamed_labels() {
+        let report = r#"# Daily Calibration
+
+## Custom Labels
+
+- Market posture: NO TRADE
+- Evidence posture: observed
+- AlphaBetaX: retained without dictionary keyword
+- raw extract: should be omitted
+- source detail: https://example.com/source
+- Should the thesis remain valid?
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::EnUs);
+
+        assert!(digest.contains("Market posture: NO TRADE"));
+        assert!(digest.contains("Evidence posture: observed"));
+        assert!(digest.contains("AlphaBetaX: retained without dictionary keyword"));
+        assert!(digest.contains("Should the thesis remain valid?"));
+        assert!(!digest.contains("raw extract"));
+        assert!(!digest.contains("example.com/source"));
     }
     use time::OffsetDateTime;
 
@@ -1251,6 +1462,15 @@ mod tests {
         assert!(quality_log.contains("CRITICAL"));
         let weekly_metrics = std::fs::read_to_string(weekly_metrics_path).unwrap();
         assert!(weekly_metrics.contains("DATA_UNAVAILABLE"));
+        let weekly_metrics_json: serde_json::Value = serde_json::from_str(&weekly_metrics).unwrap();
+        assert_eq!(
+            weekly_metrics_json["weekly_totals"]["days"],
+            serde_json::Value::from(1)
+        );
+        assert_eq!(
+            weekly_metrics_json["daily_summaries"][0]["to_state"],
+            serde_json::Value::String("DATA_UNAVAILABLE".to_string())
+        );
 
         let run_status: serde_json::Value =
             serde_json::from_str(&std::fs::read_to_string(run_status_path).unwrap()).unwrap();
@@ -1379,12 +1599,22 @@ mod tests {
         assert!(weekly_metrics.contains("\"holding_efficiency\""));
         assert!(weekly_metrics.contains("\"macro_gravity\""));
         assert!(weekly_metrics.contains("\"strategic_context\""));
+        assert!(weekly_metrics.contains("\"weekly_totals\""));
+        assert!(weekly_metrics.contains("\"daily_summaries\""));
+        let weekly_metrics_json: serde_json::Value = serde_json::from_str(&weekly_metrics).unwrap();
+        assert_eq!(
+            weekly_metrics_json["weekly_totals"]["days"],
+            serde_json::Value::from(1)
+        );
+        assert!(weekly_metrics_json["daily_summaries"][0]["to_state"] != serde_json::Value::Null);
         let weekly_review = std::fs::read_to_string(weekly_review_path).unwrap();
-        assert!(weekly_review.contains("## Strategic Context Snapshot"));
-        assert!(weekly_review.contains("## Macro Gravity Snapshot"));
-        assert!(weekly_review.contains("## Cognitive Calibration Snapshot"));
-        assert!(weekly_review.contains("Boundary: snapshot only"));
-        assert!(weekly_review.contains("does not generate trade signals"));
+        assert!(weekly_review.contains("## 状态机周度汇总"));
+        assert!(weekly_review.contains("## 日度状态机时间线"));
+        assert!(weekly_review.contains("## 战略上下文快照"));
+        assert!(weekly_review.contains("## 宏观引力快照"));
+        assert!(weekly_review.contains("## 认知校准快照"));
+        assert!(weekly_review.contains("边界: 仅为快照"));
+        assert!(weekly_review.contains("不生成交易信号"));
     }
 
     #[test]

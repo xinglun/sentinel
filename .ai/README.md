@@ -15,6 +15,7 @@ key: ai-governance-entry
 2. テストや snapshot の無宣言な削除。
 3. Telegram / audit / i18n の契約回帰。
 4. 検証未実行のまま完了扱いにすること。
+5. Agent が実装不能、検証不能、または review risk を認識しているのに、それを表明する合法 channel がないこと。
 
 ## 構成
 
@@ -44,20 +45,42 @@ AI 作業は通常の開発品質を免除しません。複雑な diff を伴�
 5. **Evidence boundary**: fact、manual observation、hypothesis、fixture、local cache を区別し、Reality Layer と Hypothesis Layer を混ぜない。
 6. **Command boundary**: 検証、補助 script、CI entrypoint は原則 `make` target 経由にする。裸の `python3 scripts/...` を新しい運用手順として追加しない。
 7. **Data branch boundary**: 長期記録は data-only branch に置く。code tree や AI governance file を data branch へ持ち込まない。認知校正の長期比較は週次粒度を標準とする。
+8. **Risk / readiness boundary**: `riskAssessment`、`agentCapability`、`executionDecision` で、実装可能性、検証可能性、人間判断の要否、review 前の警告を明記する。
 
 この checklist は作業を遅くするためではなく、実装後に「どこへ表示するか」「何を保存するか」「Gate に影響したか」を人間が繰り返し指摘しなくて済むようにするための最小契約である。
+
+## Risk と review readiness
+
+Work Item は、Agent が問題を認識した時に「できる」と過大主張しないための停止・降格 channel を持ちます。
+
+Contract では次を使います。
+
+- `riskAssessment`: risk level と risk type を記録する。`blocked` は実装前に人間判断が必要な状態を表す。
+- `agentCapability`: Agent が実装できるか、検証できるか、人間判断が必要かを記録する。
+- `executionDecision`: `continue`、`contract_update_required`、`blocked`、`downgraded_to_investigation` のいずれかを記録する。
+- `preReviewWarnings`: review で問題化しそうな観点を事前に記録する。
+
+Summary では次を使います。
+
+- `residualRisks`: required checks 通過後も残る risk を記録する。
+- `reviewReadiness`: `ready`、`ready_with_risks`、`not_ready` のいずれかを記録する。
+- `expectedReviewFocus`: reviewer が重点確認すべき観点を記録する。
+- `userCorrectionSolidification`: user correction を contract、summary、doc、template、guard、skill のどこへ固化したかを記録する。
+
+`ready_with_risks` は失敗状態ではありません。Contract の acceptance と required checks は満たしたが、review で確認すべき残余 risk が明確に残る状態です。`not_ready` は required checks 未通過、Contract 未確定、または人間判断待ちの状態です。
 
 ## 最小フロー
 
 1. `make ai-start TASK=<task> TITLE="..." MODE=code` で Contract / Summary を作成する。
 2. `unknowns` と `notCodable` を確認する。
-3. `scope` と `outOfScope` の範囲内で実装する。
-4. `verification` に記載した command を `make` 経由で実行する。
-5. `.ai/work-items/active/<task>.summary.json` に結果を記録する。
-6. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。
-7. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
-8. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。
-9. 完了時は `make ai-finish TASK=<task>` で required checks を再実行し、成功時だけ archive する。
+3. `riskAssessment`、`agentCapability`、`executionDecision` を確認する。`contract_update_required`、`blocked`、`downgraded_to_investigation` の場合は実装を進めず、Contract 更新、調査、または blocker 記録に切り替える。
+4. `scope` と `outOfScope` の範囲内で実装する。
+5. `verification` に記載した command を `make` 経由で実行する。
+6. `.ai/work-items/active/<task>.summary.json` に結果、residual risk、review readiness、expected review focus を記録する。
+7. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。
+8. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
+9. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。
+10. 完了時は `make ai-finish TASK=<task>` で required checks を再実行し、成功時だけ archive する。
 
 `make test-ai-guards` は `.ai/**/*.yaml` を parse し、YAML として読めない governance 設定を失敗させる。`make check-ai` と `make quality` はこの parse guard を含む。
 

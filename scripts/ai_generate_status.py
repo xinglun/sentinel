@@ -88,7 +88,13 @@ def status_for(
             command = item.get("command")
             if status.get(command) != "passed":
                 blockers.append(f"required check not passed: {command}")
-    return ("blocked", blockers) if blockers else ("ready_for_review", [])
+    if blockers:
+        return "blocked", blockers
+    if isinstance(summary, dict):
+        readiness = summary.get("reviewReadiness")
+        if isinstance(readiness, dict) and readiness.get("status") == "ready_with_risks":
+            return "ready_with_risks", []
+    return "ready_for_review", []
 
 
 def parse_args() -> argparse.Namespace:
@@ -181,6 +187,8 @@ def main() -> int:
     backtrack = load_json(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
     changed_files = summary.get("changedFiles", []) if isinstance(summary, dict) else []
     verification = summary.get("verification", []) if isinstance(summary, dict) else []
+    review_readiness = summary.get("reviewReadiness") if isinstance(summary, dict) else None
+    residual_risks = summary.get("residualRisks", []) if isinstance(summary, dict) else []
 
     lines = [
         "---",
@@ -226,6 +234,28 @@ def main() -> int:
     else:
         lines.append("- none")
 
+    lines.extend(["", "## Review Readiness", ""])
+    if isinstance(review_readiness, dict):
+        lines.append(f"- Status: `{review_readiness.get('status', '')}`")
+        lines.append(f"- Reason: {review_readiness.get('reason', '')}")
+        focus = review_readiness.get("expectedReviewFocus", [])
+        if isinstance(focus, list) and focus:
+            lines.append("- Expected Review Focus:")
+            for item in focus:
+                lines.append(f"  - {item}")
+    else:
+        lines.append("- Status: `not_recorded`")
+
+    lines.extend(["", "## Residual Risks", ""])
+    if isinstance(residual_risks, list) and residual_risks:
+        for item in residual_risks:
+            if isinstance(item, dict):
+                lines.append(
+                    f"- `{item.get('level', '')}` `{item.get('area', '')}`: {item.get('detail', '')}"
+                )
+    else:
+        lines.append("- none")
+
     lines.extend(["", "## Backtrack", ""])
     if isinstance(backtrack, dict):
         lines.append(f"- Status: `{backtrack.get('status', 'unknown')}`")
@@ -252,7 +282,7 @@ def main() -> int:
     obs.status_generated(
         state=state,
         output_path=str(output.relative_to(PROJECT_ROOT)),
-        fields={"blockers": len(blockers), "changedFiles": len(changed_files)},
+        fields={"blockers": len(blockers), "changedFiles": len(changed_files), "reviewState": state},
     )
 
     return 0

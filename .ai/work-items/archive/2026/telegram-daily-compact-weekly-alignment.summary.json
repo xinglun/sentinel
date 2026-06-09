@@ -1,0 +1,112 @@
+{
+  "workItemId": "telegram-daily-compact-weekly-alignment",
+  "contractPath": ".ai/work-items/archive/2026/telegram-daily-compact-weekly-alignment.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "reason": "Telegram 日報圧縮と週次記録整合の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+      "reason": "実装内容、検証結果、境界確認を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 作成に伴い Cockpit status が active task を指すように更新された。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration の CLI 全文出力を維持しつつ、Telegram 通知だけ digest 化した。週次 metrics contract の統合テスト断言も追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "主 Radar Telegram の reference appendix を digest 化し、Markdown / archival は全文 appendix を維持した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_metrics.json に weekly_totals と daily_summaries を追加し、weekly_state_review_auto.md に状態機械の週次集計と日次タイムラインを追加した。"
+    },
+    {
+      "path": "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+      "reason": "週次 metrics / review の実際の出力構造に合わせて Runbook を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+    "src/features/shared/infrastructure/notify.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/cli.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/shared/application/run_status.rs",
+    "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-audit-daily",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Telegram は digest 化されるため表示量は減るが、CLI / archival Markdown は全文を保持する。週次集計は既存 run_status state_machine summary の監査値だけを集約する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "verified: Gate / execution / trader / action matrix / position sizing の production logic は変更していない。",
+    "reportOutput": "changed: Telegram digest と weekly review 表示を変更した。CLI daily-calibration stdout と archival Markdown は全文を維持する。",
+    "persistence": "weekly_only: weekly_state_metrics.json と weekly_state_review_auto.md の週次成果物だけを拡張し、daily-calibration 全文の日次保存は追加していない。",
+    "i18n": "verified: digest 抽出は既存文言を保持する。新規の固定補足文は Telegram digest の省略通知のみ。",
+    "makeEntrypoints": "verified: 新しい運用 command は追加していない。"
+  },
+  "userCorrectionsCaptured": [
+    {
+      "correction": "Telegram 日報圧縮は節度を持ち、分析判断情報を落とさず、目的は可読性改善とする。",
+      "capturedIn": "Contract acceptance と digest helper tests。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "完了報告では Telegram digest が明細を省略すること、全文は CLI / archival Markdown に残ることを明記する。"
+}

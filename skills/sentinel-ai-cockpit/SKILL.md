@@ -21,12 +21,14 @@ Sentinel repository で変更を行う時は、この Skill を実行纪律と�
    - `mode: code`
    - `notCodable: false`
    - `unknowns: []`
+   - `executionDecision: continue`
    - 変更対象が `scope` に含まれる。
    - 変更対象が `outOfScope` に含まれない。
 4. `notCodable: true` または `unknowns` が残る場合、production code を変更しない。調査、TODO、blocker 記録に限定する。
-5. 実装前に、Gate / execution、report output、data branch、weekly calibration、i18n、evidence source、Make command の境界を Contract に反映する。
-6. 作業後、summary の `changedFiles`、`sourcesUsed`、`verification`、`observedIssues` に加え、未解決の user correction / known gap / 未確認項目を更新する。
-7. 必ず `make` 経由で check を実行する。
+5. `executionDecision` が `contract_update_required`、`blocked`、`downgraded_to_investigation` の場合は、実装を止めて Contract 更新、調査、TODO、blocker 記録に切り替える。
+6. 実装前に、Gate / execution、report output、data branch、weekly calibration、i18n、evidence source、Make command、risk / review readiness の境界を Contract に反映する。
+7. 作業後、summary の `changedFiles`、`sourcesUsed`、`verification`、`observedIssues` に加え、未解決の user correction / known gap / 未確認項目、residual risk、review readiness、expected review focus を更新する。
+8. 必ず `make` 経由で check を実行する。
 
 
 ## Boundary Checklist
@@ -39,8 +41,19 @@ Work Item が機能追加、report 変更、データ永続化、AI governance �
 - zh / en / ja の i18n と snapshot / contract test が必要か。
 - fact、manual observation、hypothesis、fixture、local cache を分離しているか。
 - 新しい command は `make` target として提供されるか。
+- Agent が実装できるか、検証できるか、人間判断が必要かを `agentCapability` に明記しているか。
+- review で追加論点が出る可能性を `preReviewWarnings` と `reviewReadiness.expectedReviewFocus` に記録しているか。
 
-User correction が発生した場合は、単に修正せず、次回の backtrack 防止として Contract、Summary、doc、template、guard のどれへ固化するかを判断する。
+User correction が発生した場合は、単に修正せず、次回の backtrack 防止として Contract、Summary、doc、template、guard、skill のどれへ固化するかを `userCorrectionSolidification` に記録する。
+
+## Risk / Readiness Channel
+
+Agent が「できない」「今は危険」「review で追加論点が出る」と判断した場合は、通常の完了報告に混ぜず machine-readable field に記録する。
+
+- Contract: `riskAssessment`、`agentCapability`、`executionDecision`、`preReviewWarnings`
+- Summary: `residualRisks`、`reviewReadiness`、`expectedReviewFocus`、`userCorrectionSolidification`
+
+`ready_with_risks` は required checks が通過したうえで、review focus が残る状態を表す。`not_ready` や `blocked` の task を ready と報告しない。
 
 ## Required Commands
 
@@ -74,6 +87,7 @@ Commit 前に確認する。
 - active Work Item が不要に残っていない。
 - `.ai/cockpit/current_status.md` が現在状態と一致している。
 - code / test / docs / i18n / report output / data or weekly record / Make or CI guard の確認結果が Summary に残っている。
+- `ready_with_risks` の場合は residual risk と expected review focus が Summary と Cockpit status に残っている。
 - commit message は日本語。
 
 ## Prohibited

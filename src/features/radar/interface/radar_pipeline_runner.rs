@@ -220,6 +220,7 @@ pub(crate) async fn run_pipeline(
             should_persist_history,
             &pres_packet,
             &build_weekly_report_context(config_arc.as_ref()),
+            outcome.state_machine.as_ref(),
         )?;
 
         outcome.notification = send_telegram_with_status(
@@ -274,7 +275,7 @@ async fn append_capital_absorption_reference_appendix(
 ) {
     let appendix =
         build_capital_absorption_report_with_auto(app_config, as_of_date, 14, language).await;
-    append_reference_appendix(report_result, &appendix);
+    append_reference_appendix(report_result, &appendix, language);
 }
 
 fn append_gray_rhino_reference_appendix(
@@ -294,25 +295,132 @@ fn append_gray_rhino_reference_appendix(
         Err(err) => {
             let reason = err.to_string();
             let appendix = gray_rhino_failure_appendix(language, &reason);
-            append_gray_rhino_appendix(report_result, &appendix);
+            append_gray_rhino_appendix(report_result, &appendix, language);
             return DeliveryStatus::Failed { reason };
         }
     };
-    append_gray_rhino_appendix(report_result, &appendix);
+    append_gray_rhino_appendix(report_result, &appendix, language);
     DeliveryStatus::Succeeded
 }
 
-fn append_gray_rhino_appendix(report_result: &mut report::ReportResult, appendix: &str) {
-    append_reference_appendix(report_result, appendix);
+fn append_gray_rhino_appendix(
+    report_result: &mut report::ReportResult,
+    appendix: &str,
+    language: crate::features::shared::interface::i18n::Language,
+) {
+    append_reference_appendix(report_result, appendix, language);
 }
 
-fn append_reference_appendix(report_result: &mut report::ReportResult, appendix: &str) {
+fn append_reference_appendix(
+    report_result: &mut report::ReportResult,
+    appendix: &str,
+    language: crate::features::shared::interface::i18n::Language,
+) {
     let markdown_appendix = format!("\n\n---\n\n{appendix}");
     report_result.markdown_body.push_str(&markdown_appendix);
     report_result.archival_markdown.push_str(&markdown_appendix);
-    report_result
-        .telegram_html_body
-        .push_str(&format!("\n\n{}", appendix));
+    report_result.telegram_html_body.push_str(&format!(
+        "\n\n{}",
+        compact_reference_appendix_for_telegram(appendix, language)
+    ));
+}
+
+fn compact_reference_appendix_for_telegram(
+    appendix: &str,
+    language: crate::features::shared::interface::i18n::Language,
+) -> String {
+    const MAX_LINES: usize = 18;
+    const MAX_CHARS: usize = 1400;
+
+    let mut out = String::new();
+    let mut retained = 0usize;
+    let mut omitted = 0usize;
+    for line in appendix.lines().map(str::trim_end) {
+        if line.trim().is_empty() {
+            continue;
+        }
+        if should_keep_reference_line(line)
+            && retained < MAX_LINES
+            && out.len() + line.len() < MAX_CHARS
+        {
+            if !out.is_empty() {
+                out.push('\n');
+            }
+            out.push_str(line);
+            retained += 1;
+        } else {
+            omitted += 1;
+        }
+    }
+
+    if omitted > 0 {
+        if !out.is_empty() {
+            out.push('\n');
+        }
+        out.push_str(&reference_appendix_digest_omission_notice(
+            language, omitted,
+        ));
+    }
+    out
+}
+
+fn reference_appendix_digest_omission_notice(
+    language: crate::features::shared::interface::i18n::Language,
+    omitted: usize,
+) -> String {
+    match language {
+        crate::features::shared::interface::i18n::Language::ZhCn => format!(
+            "- Telegram 摘要: 已省略 {} 行明细；归档 Markdown 保留完整 appendix。",
+            omitted
+        ),
+        crate::features::shared::interface::i18n::Language::JaJp => format!(
+            "- Telegram 要約: {} 行の詳細を省略。アーカイブ Markdown には appendix 全文を保持。",
+            omitted
+        ),
+        crate::features::shared::interface::i18n::Language::EnUs => format!(
+            "- Telegram digest: {} detail line(s) omitted; archival Markdown keeps the full appendix.",
+            omitted
+        ),
+    }
+}
+
+fn should_keep_reference_line(line: &str) -> bool {
+    let trimmed = line.trim_start();
+    is_reference_heading(trimmed)
+        || is_reference_structured_line(trimmed)
+        || contains_reference_status_token(trimmed)
+}
+
+fn is_reference_heading(trimmed: &str) -> bool {
+    trimmed.starts_with('#')
+        || (!trimmed.starts_with('-') && !trimmed.contains(':') && trimmed.len() <= 80)
+}
+
+fn is_reference_structured_line(trimmed: &str) -> bool {
+    if is_noisy_reference_detail(trimmed) {
+        return false;
+    }
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    body.contains(':') || body.contains('：')
+}
+
+fn contains_reference_status_token(trimmed: &str) -> bool {
+    trimmed.contains("NO TRADE")
+        || trimmed.contains("READY")
+        || trimmed.contains("WATCH")
+        || trimmed.contains("FAILED")
+}
+
+fn is_noisy_reference_detail(trimmed: &str) -> bool {
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    let lower = body.to_ascii_lowercase();
+    lower.contains("http://")
+        || lower.contains("https://")
+        || lower.starts_with("source detail")
+        || lower.starts_with("raw ")
+        || lower.starts_with("raw extract")
+        || lower.starts_with("source:")
+        || lower.starts_with("sources:")
 }
 
 fn load_gray_rhino_collection_status(
@@ -393,5 +501,123 @@ fn gray_rhino_failure_appendix(
         crate::features::shared::interface::i18n::Language::JaJp => format!(
             "灰色のサイ: 失敗 / 不明\n- エラー: {error}\n境界声明: 灰色のサイの失敗は監査コンテキストとしてのみ表示し、取引、ゲート、トレンド、市場状態を変更しない。"
         ),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::compact_reference_appendix_for_telegram;
+    use crate::features::shared::interface::i18n::Language;
+
+    #[test]
+    fn telegram_reference_appendix_digest_keeps_judgement_and_omits_detail_lines() {
+        let appendix = r#"# Gray Rhino Reference
+
+- Status: monitoring
+- risk: governance concentration elevated
+- evidence coverage: accepted 3 / rejected 1
+- source detail: https://example.com/noisy-source
+- raw extract: long filing excerpt
+Boundary: context only; no Gate input or trade instruction.
+"#;
+
+        let digest = compact_reference_appendix_for_telegram(appendix, Language::EnUs);
+
+        assert!(digest.contains("# Gray Rhino Reference"));
+        assert!(digest.contains("Status: monitoring"));
+        assert!(digest.contains("risk: governance concentration elevated"));
+        assert!(digest.contains("evidence coverage"));
+        assert!(digest.contains("Boundary: context only"));
+        assert!(digest.contains("Telegram digest"));
+        assert!(!digest.contains("noisy-source"));
+        assert!(!digest.contains("long filing excerpt"));
+    }
+
+    #[test]
+    fn telegram_reference_appendix_digest_keeps_capital_absorption_judgement_lines() {
+        let appendix = r#"📊 Capital Absorption Early Warning Sensor
+
+Capital absorption status: WATCH
+Actual Capital Supply: 12.0B
+Capital Demand: RISING
+Capital Supply: STABLE
+Absorption ratio: ELEVATED
+Structural Impact: observation only
+- raw source detail: https://example.com/capital-source
+Boundary: context only; no Gate input or trade instruction.
+"#;
+
+        let digest = compact_reference_appendix_for_telegram(appendix, Language::EnUs);
+
+        assert!(digest.contains("Capital absorption status: WATCH"));
+        assert!(digest.contains("Actual Capital Supply: 12.0B"));
+        assert!(digest.contains("Capital Demand: RISING"));
+        assert!(digest.contains("Capital Supply: STABLE"));
+        assert!(digest.contains("Absorption ratio: ELEVATED"));
+        assert!(digest.contains("Structural Impact: observation only"));
+        assert!(digest.contains("Boundary: context only"));
+        assert!(digest.contains("Telegram digest"));
+        assert!(!digest.contains("capital-source"));
+    }
+
+    #[test]
+    fn telegram_reference_appendix_digest_keeps_japanese_capital_absorption_lines() {
+        let appendix = r#"📊 資本吸収早期警戒センサー
+
+資本吸収状態: 観察（WATCH）
+資本供給: STABLE
+資本需要: RISING
+吸収比率: ELEVATED
+構造影響: 観測のみ
+- raw source detail: https://example.com/jp-capital-source
+境界: コンテキストのみ。ゲート入力や取引指示ではない。
+"#;
+
+        let digest = compact_reference_appendix_for_telegram(appendix, Language::JaJp);
+
+        assert!(digest.contains("資本吸収状態: 観察（WATCH）"));
+        assert!(digest.contains("資本供給: STABLE"));
+        assert!(digest.contains("資本需要: RISING"));
+        assert!(digest.contains("吸収比率: ELEVATED"));
+        assert!(digest.contains("構造影響: 観測のみ"));
+        assert!(digest.contains("境界: コンテキストのみ"));
+        assert!(digest.contains("Telegram 要約"));
+        assert!(!digest.contains("jp-capital-source"));
+    }
+
+    #[test]
+    fn telegram_reference_appendix_digest_notice_uses_configured_language() {
+        let appendix = r#"# Gray Rhino Reference
+
+- Status: monitoring
+- noisy source detail: https://example.com/noisy-source
+Boundary: context only; no Gate input or trade instruction.
+"#;
+
+        let digest = compact_reference_appendix_for_telegram(appendix, Language::ZhCn);
+
+        assert!(digest.contains("Telegram 摘要"));
+        assert!(!digest.contains("Telegram digest"));
+    }
+
+    #[test]
+    fn telegram_reference_appendix_digest_keeps_structured_renamed_labels() {
+        let appendix = r#"Custom Reference
+
+Posture marker: WATCH
+AlphaBetaX: retained without dictionary keyword
+- raw extract: should be omitted
+- source detail: https://example.com/source
+Boundary: context only; no Gate input or trade instruction.
+"#;
+
+        let digest = compact_reference_appendix_for_telegram(appendix, Language::EnUs);
+
+        assert!(digest.contains("Custom Reference"));
+        assert!(digest.contains("Posture marker: WATCH"));
+        assert!(digest.contains("AlphaBetaX: retained without dictionary keyword"));
+        assert!(digest.contains("Boundary: context only"));
+        assert!(!digest.contains("raw extract"));
+        assert!(!digest.contains("example.com/source"));
     }
 }

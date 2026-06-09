@@ -1,0 +1,121 @@
+{
+  "contractVersion": 1,
+  "workItemId": "telegram-daily-compact-weekly-alignment",
+  "mode": "code",
+  "title": "Telegram 日報圧縮と週次記録整合",
+  "scope": [
+    ".ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+    ".ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/shared/infrastructure/run_status_reader.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/pipeline_integration.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/application/**",
+    "src/features/trader/**",
+    "src/features/backtest/**",
+    ".github/workflows/**",
+    "reports/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "src/features/shared/infrastructure/notify.rs",
+      "reason": "Telegram は 3800 文字単位で分割されるため、今回の圧縮目的は送信成功ではなく可読性改善である。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "主 Radar Telegram への reference appendix 追加箇所。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration の Telegram 通知本文生成箇所。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_metrics.json と weekly_state_review_auto.md の生成箇所。"
+    },
+    {
+      "path": "src/features/shared/application/run_status.rs",
+      "reason": "週次集計に必要な state_machine summary の既存永続化 contract。"
+    },
+    {
+      "path": "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+      "reason": "weekly_totals / daily_summaries を参照する運用 document。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Gate / execution / trader / action matrix / position sizing には影響しない。今回の変更は Telegram / CLI / weekly review / weekly metrics の表示・監査専用である。",
+    "主 Radar Telegram は分析判断に必要な結論、未達条件、主要候補、risk / opportunity、主要 appendix 状態を残し、長い証拠明細だけを節度を持って圧縮する。archival Markdown は全文を維持する。",
+    "daily-calibration の Telegram 通知は全文ではなく可読性重視の digest を送る。CLI 標準出力は既存の全文表示を維持する。",
+    "weekly_state_metrics.json は Runbook が参照する weekly_totals と daily_summaries を出力し、reports の週次記録としてだけ永続化する。daily-calibration 全文 Markdown の日次保存は追加しない。",
+    "weekly_state_review_auto.md は weekly totals / daily timeline を人間向けに表示し、スコア、推奨、売買判断を生成しない境界文言を維持する。",
+    "i18n は既存 report language に合わせ、テストは zh_cn の主経路と構造 JSON contract を固定する。",
+    "新しい運用 command は追加しない。既存 make target と CLI entrypoint の挙動を維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-audit-daily",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-daily-compact-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/telegram-daily-compact-weekly-alignment.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

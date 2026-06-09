@@ -26,7 +26,10 @@ REQUIRED_FIELDS = (
     "observedIssues",
 )
 RESULTS = {"passed", "failed", "not_run"}
-RISK_LEVELS = {"low", "medium", "high"}
+RISK_LEVELS = {"low", "medium", "high", "blocked"}
+RESIDUAL_RISK_LEVELS = {"low", "medium", "high"}
+REVIEW_READINESS_STATUSES = {"ready", "ready_with_risks", "not_ready"}
+SOLIDIFICATION_TARGETS = {"contract", "summary", "doc", "template", "guard", "skill", "none_with_reason"}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -51,6 +54,87 @@ def validate_verification_command(command: str, index: int) -> list[str]:
     return [
         f"verification[{index}].command は make entrypoint を使ってください: {command}"
     ]
+
+
+def validate_string_list(summary: dict[str, Any], key: str, *, allow_empty: bool = True) -> list[str]:
+    issues: list[str] = []
+    value = summary.get(key)
+    if value is None:
+        return issues
+    if not isinstance(value, list):
+        return [f"{key} は list にしてください。"]
+    if not allow_empty and not value:
+        issues.append(f"{key} は 1 件以上必要です。")
+    for index, item in enumerate(value):
+        if not non_empty_string(item):
+            issues.append(f"{key}[{index}] は空でない string にしてください。")
+    return issues
+
+
+def validate_optional_residual_risks(summary: dict[str, Any]) -> list[str]:
+    if "residualRisks" not in summary:
+        return []
+    issues: list[str] = []
+    value = summary.get("residualRisks")
+    if not isinstance(value, list):
+        return ["residualRisks は list にしてください。"]
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            issues.append(f"residualRisks[{index}] は object にしてください。")
+            continue
+        if item.get("level") not in RESIDUAL_RISK_LEVELS:
+            issues.append(f"residualRisks[{index}].level は {sorted(RESIDUAL_RISK_LEVELS)} のいずれかにしてください。")
+        for key in ("area", "detail"):
+            if not non_empty_string(item.get(key)):
+                issues.append(f"residualRisks[{index}].{key} は必須です。")
+        for key in ("reviewRecommended", "followUpCandidate"):
+            if not isinstance(item.get(key), bool):
+                issues.append(f"residualRisks[{index}].{key} は boolean にしてください。")
+    return issues
+
+
+def validate_optional_review_readiness(summary: dict[str, Any]) -> list[str]:
+    if "reviewReadiness" not in summary:
+        return []
+    issues: list[str] = []
+    value = summary.get("reviewReadiness")
+    if not isinstance(value, dict):
+        return ["reviewReadiness は object にしてください。"]
+    status = value.get("status")
+    if status not in REVIEW_READINESS_STATUSES:
+        issues.append(f"reviewReadiness.status は {sorted(REVIEW_READINESS_STATUSES)} のいずれかにしてください。")
+    if not non_empty_string(value.get("reason")):
+        issues.append("reviewReadiness.reason は必須です。")
+    focus = value.get("expectedReviewFocus")
+    if not isinstance(focus, list):
+        issues.append("reviewReadiness.expectedReviewFocus は list にしてください。")
+    elif status == "ready_with_risks" and not focus:
+        issues.append("reviewReadiness.status: ready_with_risks の場合は expectedReviewFocus が必要です。")
+    elif any(not non_empty_string(item) for item in focus):
+        issues.append("reviewReadiness.expectedReviewFocus は空でない string list にしてください。")
+    if status == "ready_with_risks" and not summary.get("residualRisks"):
+        issues.append("reviewReadiness.status: ready_with_risks の場合は residualRisks を記録してください。")
+    return issues
+
+
+def validate_optional_user_correction_solidification(summary: dict[str, Any]) -> list[str]:
+    if "userCorrectionSolidification" not in summary:
+        return []
+    issues: list[str] = []
+    value = summary.get("userCorrectionSolidification")
+    if not isinstance(value, list):
+        return ["userCorrectionSolidification は list にしてください。"]
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            issues.append(f"userCorrectionSolidification[{index}] は object にしてください。")
+            continue
+        if not non_empty_string(item.get("correction")):
+            issues.append(f"userCorrectionSolidification[{index}].correction は必須です。")
+        if item.get("solidifiedTo") not in SOLIDIFICATION_TARGETS:
+            issues.append(f"userCorrectionSolidification[{index}].solidifiedTo は {sorted(SOLIDIFICATION_TARGETS)} のいずれかにしてください。")
+        if not non_empty_string(item.get("reason")):
+            issues.append(f"userCorrectionSolidification[{index}].reason は必須です。")
+    return issues
 
 
 def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
@@ -100,6 +184,15 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
     for key in ("sourcesUsed", "unknownsRemaining", "generatedFiles", "destructiveChanges", "observedIssues"):
         if key in summary and not isinstance(summary.get(key), list):
             issues.append(f"{key} は list にしてください。")
+    issues.extend(validate_string_list(summary, "expectedReviewFocus"))
+    issues.extend(validate_string_list(summary, "userCorrectionsCaptured"))
+    issues.extend(validate_string_list(summary, "knownGaps"))
+    issues.extend(validate_optional_residual_risks(summary))
+    issues.extend(validate_optional_review_readiness(summary))
+    issues.extend(validate_optional_user_correction_solidification(summary))
+
+    if summary.get("userCorrectionsCaptured") and "userCorrectionSolidification" not in summary:
+        issues.append("userCorrectionsCaptured がある場合は userCorrectionSolidification で固化先を記録してください。")
 
     if contract is not None:
         required = [

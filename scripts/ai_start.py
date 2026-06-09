@@ -91,6 +91,22 @@ def main() -> int:
         "sources": [{"path": contract_rel, "reason": "Work Item の初期 skeleton。"}],
         "unknowns": ["scope / sources / acceptance を task に合わせて確定する。"],
         "notCodable": args.mode == "code",
+        "riskAssessment": {
+            "level": "medium",
+            "riskTypes": ["scope_unclear", "review_debt"],
+            "reason": "初期 skeleton のため、実装前に scope / sources / acceptance / verification を確定する必要がある。",
+        },
+        "agentCapability": {
+            "canImplement": args.mode != "code",
+            "canVerify": False,
+            "needsHumanDecision": args.mode == "code",
+            "blockedReason": "code mode の skeleton は Contract 確定まで実装不可。",
+        },
+        "executionDecision": {
+            "status": "contract_update_required",
+            "reason": "実装前に Contract を task に合わせて更新する。",
+        },
+        "preReviewWarnings": ["初期 skeleton のため、このまま ready_for_review にしない。"],
         "acceptance": ["Work Item Contract が task に合わせて更新されている。"],
         "verification": [
             {"command": f"make check-ai-contract CONTRACT={contract_rel}", "required": True},
@@ -118,6 +134,20 @@ def main() -> int:
         "generatedFiles": [],
         "destructiveChanges": [],
         "observedIssues": [],
+        "residualRisks": [
+            {
+                "level": "medium",
+                "area": "contract_readiness",
+                "detail": "初期 skeleton は scope / sources / acceptance 未確定のため review 不可。",
+                "reviewRecommended": True,
+                "followUpCandidate": False,
+            }
+        ],
+        "reviewReadiness": {
+            "status": "not_ready",
+            "reason": "Contract 未確定で required checks も未実行。",
+            "expectedReviewFocus": ["scope", "sources", "acceptance", "verification"],
+        },
     }
     write_json(contract_path, contract)
     write_json(summary_path, summary)
