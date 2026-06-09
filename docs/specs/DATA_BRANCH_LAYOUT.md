@@ -140,6 +140,8 @@ data branch
 
 2. `weekly_state_review_auto.md`
    - 週次レビューの人間向け下書き。
+   - Markdown label と境界文は `output.language` に従う。
+   - `weekly_state_metrics.json` の key は machine-readable contract として英語のまま維持する。
    - `Strategic Context Snapshot`、`Macro Gravity Snapshot`、`Cognitive Calibration Snapshot` を含む。
    - スコア、推奨、売買判断は生成しない。
 

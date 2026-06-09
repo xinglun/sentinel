@@ -386,56 +386,41 @@ fn reference_appendix_digest_omission_notice(
 
 fn should_keep_reference_line(line: &str) -> bool {
     let trimmed = line.trim_start();
+    is_reference_heading(trimmed)
+        || is_reference_structured_line(trimmed)
+        || contains_reference_status_token(trimmed)
+}
+
+fn is_reference_heading(trimmed: &str) -> bool {
     trimmed.starts_with('#')
-        || trimmed.contains("状态")
-        || trimmed.contains("状態")
-        || trimmed.contains("Status")
-        || trimmed.contains("status")
-        || trimmed.contains("Boundary")
-        || trimmed.contains("边界")
-        || trimmed.contains("境界")
-        || trimmed.contains("风险")
-        || trimmed.contains("risk")
-        || trimmed.contains("Risk")
-        || trimmed.contains("リスク")
-        || trimmed.contains("警告")
-        || trimmed.contains("Warning")
-        || trimmed.contains("failure")
-        || trimmed.contains("failed")
+        || (!trimmed.starts_with('-') && !trimmed.contains(':') && trimmed.len() <= 80)
+}
+
+fn is_reference_structured_line(trimmed: &str) -> bool {
+    if is_noisy_reference_detail(trimmed) {
+        return false;
+    }
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    body.contains(':') || body.contains('：')
+}
+
+fn contains_reference_status_token(trimmed: &str) -> bool {
+    trimmed.contains("NO TRADE")
+        || trimmed.contains("READY")
+        || trimmed.contains("WATCH")
         || trimmed.contains("FAILED")
-        || trimmed.contains("evidence")
-        || trimmed.contains("证据")
-        || trimmed.contains("証拠")
-        || trimmed.contains("score")
-        || trimmed.contains("Score")
-        || trimmed.contains("candidate")
-        || trimmed.contains("Candidate")
-        || trimmed.contains("候補")
-        || trimmed.contains("monitor")
-        || trimmed.contains("Monitor")
-        || trimmed.contains("观察")
-        || trimmed.contains("観察")
-        || trimmed.contains("资本")
-        || trimmed.contains("资金")
-        || trimmed.contains("Capital Absorption")
-        || trimmed.contains("capital absorption")
-        || trimmed.contains("資本吸収")
-        || trimmed.contains("Capital Demand")
-        || trimmed.contains("capital demand")
-        || trimmed.contains("資本需要")
-        || trimmed.contains("Capital Supply")
-        || trimmed.contains("capital supply")
-        || trimmed.contains("資本供給")
-        || trimmed.contains("Actual Capital Supply")
-        || trimmed.contains("Potential Supply")
-        || trimmed.contains("吸收")
-        || trimmed.contains("absorption")
-        || trimmed.contains("Absorption")
-        || trimmed.contains("吸収")
-        || trimmed.contains("Structural Impact")
-        || trimmed.contains("structural impact")
-        || trimmed.contains("结构影响")
-        || trimmed.contains("構造影響")
+}
+
+fn is_noisy_reference_detail(trimmed: &str) -> bool {
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    let lower = body.to_ascii_lowercase();
+    lower.contains("http://")
+        || lower.contains("https://")
+        || lower.starts_with("source detail")
+        || lower.starts_with("raw ")
+        || lower.starts_with("raw extract")
+        || lower.starts_with("source:")
+        || lower.starts_with("sources:")
 }
 
 fn load_gray_rhino_collection_status(
@@ -613,5 +598,26 @@ Boundary: context only; no Gate input or trade instruction.
 
         assert!(digest.contains("Telegram 摘要"));
         assert!(!digest.contains("Telegram digest"));
+    }
+
+    #[test]
+    fn telegram_reference_appendix_digest_keeps_structured_renamed_labels() {
+        let appendix = r#"Custom Reference
+
+Posture marker: WATCH
+AlphaBetaX: retained without dictionary keyword
+- raw extract: should be omitted
+- source detail: https://example.com/source
+Boundary: context only; no Gate input or trade instruction.
+"#;
+
+        let digest = compact_reference_appendix_for_telegram(appendix, Language::EnUs);
+
+        assert!(digest.contains("Custom Reference"));
+        assert!(digest.contains("Posture marker: WATCH"));
+        assert!(digest.contains("AlphaBetaX: retained without dictionary keyword"));
+        assert!(digest.contains("Boundary: context only"));
+        assert!(!digest.contains("raw extract"));
+        assert!(!digest.contains("example.com/source"));
     }
 }

@@ -786,43 +786,43 @@ fn daily_calibration_digest_omission_notice(language: Language, omitted: usize) 
 
 fn should_keep_daily_calibration_digest_line(line: &str) -> bool {
     let trimmed = line.trim_start();
+    is_digest_heading(trimmed)
+        || is_structured_digest_line(trimmed)
+        || is_digest_question_line(trimmed)
+        || contains_decision_status_token(trimmed)
+}
+
+fn is_digest_heading(trimmed: &str) -> bool {
     trimmed.starts_with('#')
-        || trimmed.starts_with("- 今天")
-        || trimmed.starts_with("- 当前")
-        || trimmed.starts_with("- 是否")
-        || trimmed.starts_with("- 哪")
-        || trimmed.starts_with("- 如果")
-        || trimmed.contains("Gate")
-        || trimmed.contains("NO TRADE")
-        || trimmed.contains("READY")
-        || trimmed.contains("状态")
-        || trimmed.contains("状態")
-        || trimmed.contains("Status")
-        || trimmed.contains("证据")
-        || trimmed.contains("証拠")
-        || trimmed.contains("evidence")
-        || trimmed.contains("风险")
-        || trimmed.contains("リスク")
-        || trimmed.contains("risk")
-        || trimmed.contains("宏观")
-        || trimmed.contains("マクロ")
-        || trimmed.contains("资金")
-        || trimmed.contains("资本吸收")
-        || trimmed.contains("Capital Absorption")
-        || trimmed.contains("資本吸収")
-        || trimmed.contains("供給")
-        || trimmed.contains("需要")
-        || trimmed.contains("吸収")
-        || trimmed.contains("灰犀牛")
-        || trimmed.contains("灰色のサイ")
-        || trimmed.contains("Gray Rhino")
-        || trimmed.contains("Boundary")
-        || trimmed.contains("边界")
-        || trimmed.contains("境界")
-        || trimmed.contains("不生成")
-        || trimmed.contains("生成しない")
-        || trimmed.contains("不参与 Gate")
-        || trimmed.contains("ゲート")
+}
+
+fn is_structured_digest_line(trimmed: &str) -> bool {
+    if is_noisy_digest_detail(trimmed) {
+        return false;
+    }
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    body.contains(':') || body.contains('：')
+}
+
+fn is_digest_question_line(trimmed: &str) -> bool {
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    body.ends_with('?') || body.ends_with('？')
+}
+
+fn contains_decision_status_token(trimmed: &str) -> bool {
+    trimmed.contains("NO TRADE") || trimmed.contains("READY") || trimmed.contains("WATCH")
+}
+
+fn is_noisy_digest_detail(trimmed: &str) -> bool {
+    let body = trimmed.strip_prefix("- ").unwrap_or(trimmed);
+    let lower = body.to_ascii_lowercase();
+    lower.contains("http://")
+        || lower.contains("https://")
+        || lower.starts_with("source detail")
+        || lower.starts_with("raw ")
+        || lower.starts_with("raw extract")
+        || lower.starts_with("source:")
+        || lower.starts_with("sources:")
 }
 
 fn load_transition_audit_days(
@@ -1042,6 +1042,30 @@ mod tests {
 
         assert!(digest.contains("Telegram digest"));
         assert!(!digest.contains("Telegram 摘要"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_keeps_structured_renamed_labels() {
+        let report = r#"# Daily Calibration
+
+## Custom Labels
+
+- Market posture: NO TRADE
+- Evidence posture: observed
+- AlphaBetaX: retained without dictionary keyword
+- raw extract: should be omitted
+- source detail: https://example.com/source
+- Should the thesis remain valid?
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::EnUs);
+
+        assert!(digest.contains("Market posture: NO TRADE"));
+        assert!(digest.contains("Evidence posture: observed"));
+        assert!(digest.contains("AlphaBetaX: retained without dictionary keyword"));
+        assert!(digest.contains("Should the thesis remain valid?"));
+        assert!(!digest.contains("raw extract"));
+        assert!(!digest.contains("example.com/source"));
     }
     use time::OffsetDateTime;
 
@@ -1584,13 +1608,13 @@ mod tests {
         );
         assert!(weekly_metrics_json["daily_summaries"][0]["to_state"] != serde_json::Value::Null);
         let weekly_review = std::fs::read_to_string(weekly_review_path).unwrap();
-        assert!(weekly_review.contains("## State Machine Weekly Totals"));
-        assert!(weekly_review.contains("## Daily State Machine Timeline"));
-        assert!(weekly_review.contains("## Strategic Context Snapshot"));
-        assert!(weekly_review.contains("## Macro Gravity Snapshot"));
-        assert!(weekly_review.contains("## Cognitive Calibration Snapshot"));
-        assert!(weekly_review.contains("Boundary: snapshot only"));
-        assert!(weekly_review.contains("does not generate trade signals"));
+        assert!(weekly_review.contains("## 状态机周度汇总"));
+        assert!(weekly_review.contains("## 日度状态机时间线"));
+        assert!(weekly_review.contains("## 战略上下文快照"));
+        assert!(weekly_review.contains("## 宏观引力快照"));
+        assert!(weekly_review.contains("## 认知校准快照"));
+        assert!(weekly_review.contains("边界: 仅为快照"));
+        assert!(weekly_review.contains("不生成交易信号"));
     }
 
     #[test]

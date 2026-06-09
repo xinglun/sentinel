@@ -180,6 +180,8 @@ cargo run -- transition_audit_summary --days 30
 language = "en-us"
 ```
 
+`weekly_state_review_auto.md` も `output.language` に従って固定 label と境界文を出力する。`weekly_state_metrics.json` の key は machine-readable contract として英語のまま維持し、表示言語の切替対象にしない。
+
 **先頭セクションの出力差分例:**
 
 ```text
