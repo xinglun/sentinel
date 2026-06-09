@@ -53,12 +53,23 @@ AI 作業は通常の開発品質を免除しません。複雑な diff を伴�
 
 Work Item は、Agent が問題を認識した時に「できる」と過大主張しないための停止・降格 channel を持ちます。
 
+AI Agent の運用 risk は次の三つを前提に扱います。
+
+1. Prompt は助言であり、命令ではない。重要な制約は `make` target、hook、gate、scope guard で検証する。
+2. Agent は実行途中で文脈を失うことがある。Contract と Summary は中間判断を曖昧な会話文脈に残さず、checkpoint ごとに更新する。
+3. Agent には合法に「分からない」「実装できない」「検証できない」と言える channel が必要である。証拠不足や能力不足を実装で埋めない。
+
 Contract では次を使います。
 
 - `riskAssessment`: risk level と risk type を記録する。`blocked` は実装前に人間判断が必要な状態を表す。
 - `agentCapability`: Agent が実装できるか、検証できるか、人間判断が必要かを記録する。
 - `executionDecision`: `continue`、`contract_update_required`、`blocked`、`downgraded_to_investigation` のいずれかを記録する。
 - `preReviewWarnings`: review で問題化しそうな観点を事前に記録する。
+- `checkpointPolicy`: `contract_start`、`before_edit`、`before_ready`、`after_verification` の確認点と reminder を記録する。
+
+`mode: code` かつ `executionDecision: continue` の Contract では、AI governance の hard gate を required verification として持つ必要があります。少なくとも Contract、scope、guard、backtrack、summary、status の `make` gate が必要です。
+
+`agentCapability.canImplement: false`、`agentCapability.canVerify: false`、または `agentCapability.needsHumanDecision: true` の場合、`executionDecision: continue` にはできません。この場合は `blocked`、`contract_update_required`、または `downgraded_to_investigation` に切り替えます。
 
 Summary では次を使います。
 
@@ -74,13 +85,14 @@ Summary では次を使います。
 1. `make ai-start TASK=<task> TITLE="..." MODE=code` で Contract / Summary を作成する。
 2. `unknowns` と `notCodable` を確認する。
 3. `riskAssessment`、`agentCapability`、`executionDecision` を確認する。`contract_update_required`、`blocked`、`downgraded_to_investigation` の場合は実装を進めず、Contract 更新、調査、または blocker 記録に切り替える。
-4. `scope` と `outOfScope` の範囲内で実装する。
-5. `verification` に記載した command を `make` 経由で実行する。
-6. `.ai/work-items/active/<task>.summary.json` に結果、residual risk、review readiness、expected review focus を記録する。
-7. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。
-8. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
-9. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。
-10. 完了時は `make ai-finish TASK=<task>` で required checks を再実行し、成功時だけ archive する。
+4. `checkpointPolicy` を確認し、少なくとも `contract_start`、`before_edit`、`before_ready`、`after_verification` の判断点を保持する。
+5. `scope` と `outOfScope` の範囲内で実装する。
+6. `verification` に記載した command を `make` 経由で実行する。
+7. `.ai/work-items/active/<task>.summary.json` に結果、residual risk、review readiness、expected review focus を記録する。
+8. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。
+9. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
+10. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。
+11. 完了時は `make ai-finish TASK=<task>` で required checks を再実行し、成功時だけ archive する。
 
 `make test-ai-guards` は `.ai/**/*.yaml` を parse し、YAML として読めない governance 設定を失敗させる。`make check-ai` と `make quality` はこの parse guard を含む。
 

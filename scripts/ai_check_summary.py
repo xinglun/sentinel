@@ -30,6 +30,7 @@ RISK_LEVELS = {"low", "medium", "high", "blocked"}
 RESIDUAL_RISK_LEVELS = {"low", "medium", "high"}
 REVIEW_READINESS_STATUSES = {"ready", "ready_with_risks", "not_ready"}
 SOLIDIFICATION_TARGETS = {"contract", "summary", "doc", "template", "guard", "skill", "none_with_reason"}
+REQUIRED_CHECKPOINTS = {"contract_start", "before_edit", "before_ready", "after_verification"}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -137,6 +138,41 @@ def validate_optional_user_correction_solidification(summary: dict[str, Any]) ->
     return issues
 
 
+def validate_optional_checkpoint_review(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
+    if "checkpointReview" not in summary:
+        if (
+            isinstance(contract, dict)
+            and contract.get("mode") == "code"
+            and isinstance(contract.get("executionDecision"), dict)
+            and contract["executionDecision"].get("status") == "continue"
+        ):
+            return ["code mode の executionDecision: continue では checkpointReview が必要です。"]
+        return []
+    issues: list[str] = []
+    value = summary.get("checkpointReview")
+    if not isinstance(value, list):
+        return ["checkpointReview は list にしてください。"]
+    seen: set[str] = set()
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            issues.append(f"checkpointReview[{index}] は object にしてください。")
+            continue
+        checkpoint = item.get("checkpoint")
+        if not non_empty_string(checkpoint):
+            issues.append(f"checkpointReview[{index}].checkpoint は必須です。")
+        else:
+            seen.add(checkpoint)
+        if item.get("status") not in {"confirmed", "updated", "blocked"}:
+            issues.append(f"checkpointReview[{index}].status は confirmed / updated / blocked のいずれかにしてください。")
+        if not non_empty_string(item.get("note")):
+            issues.append(f"checkpointReview[{index}].note は必須です。")
+    if isinstance(contract, dict) and contract.get("mode") == "code":
+        missing = REQUIRED_CHECKPOINTS - seen
+        if missing:
+            issues.append(f"checkpointReview が不足しています: {', '.join(sorted(missing))}")
+    return issues
+
+
 def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -190,6 +226,7 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
     issues.extend(validate_optional_residual_risks(summary))
     issues.extend(validate_optional_review_readiness(summary))
     issues.extend(validate_optional_user_correction_solidification(summary))
+    issues.extend(validate_optional_checkpoint_review(summary, contract))
 
     if summary.get("userCorrectionsCaptured") and "userCorrectionSolidification" not in summary:
         issues.append("userCorrectionsCaptured がある場合は userCorrectionSolidification で固化先を記録してください。")

@@ -52,10 +52,20 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 
 Contract の `riskAssessment`、`agentCapability`、`executionDecision` は、Agent が実装前に問題を表明するための machine-readable channel である。
 
+Agent の三大 risk は、Cockpit では次の hardening target として扱う。
+
+| risk | 対応 |
+|---|---|
+| prompt は助言であり命令ではない | code mode の required verification に Contract / scope / guard / backtrack / summary / status の `make` gate を要求する。 |
+| 実行途中で文脈を失う | `checkpointPolicy` に `contract_start`、`before_edit`、`before_ready`、`after_verification` を要求し、判断点を Contract に残す。 |
+| 分からない時に脳内補完する | `agentCapability` と `executionDecision` を照合し、実装不能・検証不能・人間判断待ちでは `continue` を拒否する。 |
+
 - `executionDecision: continue`: Contract が確定し、scope 内で実装できる。
 - `executionDecision: contract_update_required`: 実装前に scope、acceptance、verification、sources の更新が必要。
 - `executionDecision: blocked`: 人間判断、外部状態、または不足証拠により実装を止める。
 - `executionDecision: downgraded_to_investigation`: production code を変更せず、調査や TODO 整理に降格する。
+
+`mode: code` で `executionDecision: continue` の Work Item は、Agent の自己申告だけで進めない。`make check-ai-contract`、`make check-ai-scope`、`make check-ai-guards`、`make check-ai-backtrack`、`make check-ai-change-summary`、`make generate-cockpit-status`、`make check-ai-status` を required verification として持つ。
 
 Summary の `reviewReadiness` は、完了報告の強さを制御する。
 

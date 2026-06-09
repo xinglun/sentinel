@@ -107,12 +107,23 @@ def main() -> int:
             "reason": "実装前に Contract を task に合わせて更新する。",
         },
         "preReviewWarnings": ["初期 skeleton のため、このまま ready_for_review にしない。"],
+        "checkpointPolicy": {
+            "requiredCheckpoints": [
+                "contract_start",
+                "before_edit",
+                "before_ready",
+                "after_verification",
+            ],
+            "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。",
+        },
         "acceptance": ["Work Item Contract が task に合わせて更新されている。"],
         "verification": [
             {"command": f"make check-ai-contract CONTRACT={contract_rel}", "required": True},
             {"command": f"make check-ai-scope CONTRACT={contract_rel}", "required": True},
             {"command": "make fmt-check", "required": True},
-            {"command": "make check-ai-backtrack", "required": True},
+            {"command": f"make check-ai-guards CONTRACT={contract_rel}", "required": True},
+            {"command": f"make check-ai-backtrack CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},
+            {"command": "make check-ai-coverage-guard", "required": True},
             {"command": f"make check-ai-change-summary SUMMARY={summary_rel} CONTRACT={contract_rel}", "required": True},
             {"command": f"make generate-cockpit-status CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},
             {"command": f"make check-ai-status CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},
@@ -134,6 +145,28 @@ def main() -> int:
         "generatedFiles": [],
         "destructiveChanges": [],
         "observedIssues": [],
+        "checkpointReview": [
+            {
+                "checkpoint": "contract_start",
+                "status": "blocked",
+                "note": "初期 skeleton のため Contract 確定が必要。",
+            },
+            {
+                "checkpoint": "before_edit",
+                "status": "blocked",
+                "note": "scope / sources / acceptance 未確定のため編集不可。",
+            },
+            {
+                "checkpoint": "before_ready",
+                "status": "blocked",
+                "note": "required checks 未実行のため ready 不可。",
+            },
+            {
+                "checkpoint": "after_verification",
+                "status": "blocked",
+                "note": "verification 結果未記録。",
+            },
+        ],
         "residualRisks": [
             {
                 "level": "medium",

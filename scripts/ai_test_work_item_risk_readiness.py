@@ -35,8 +35,38 @@ def base_contract() -> dict:
             "reason": "Contract が確定している。",
         },
         "preReviewWarnings": ["review focus を Summary に残す。"],
+        "checkpointPolicy": {
+            "requiredCheckpoints": [
+                "contract_start",
+                "before_edit",
+                "before_ready",
+                "after_verification",
+            ],
+            "reminder": "Contract と Summary を更新してから進める。",
+        },
         "acceptance": ["risk readiness を検証できる。"],
-        "verification": [{"command": "make fmt-check", "required": True}],
+        "verification": [
+            {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json", "required": True},
+            {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json", "required": True},
+            {"command": "make fmt-check", "required": True},
+            {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json", "required": True},
+            {
+                "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json SUMMARY=.ai/work-items/active/risk-readiness-test.summary.json",
+                "required": True,
+            },
+            {
+                "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/risk-readiness-test.summary.json CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json",
+                "required": True,
+            },
+            {
+                "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json SUMMARY=.ai/work-items/active/risk-readiness-test.summary.json",
+                "required": True,
+            },
+            {
+                "command": "make check-ai-status CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json SUMMARY=.ai/work-items/active/risk-readiness-test.summary.json",
+                "required": True,
+            },
+        ],
         "rollbackNote": "この test fixture を戻す。",
     }
 
@@ -47,12 +77,37 @@ def base_summary() -> dict:
         "contractPath": ".ai/work-items/active/risk-readiness-test.contract.json",
         "changedFiles": [{"path": "src/example.rs", "reason": "test fixture。"}],
         "sourcesUsed": ["docs/spec.md"],
-        "verification": [{"command": "make fmt-check", "result": "passed"}],
+        "verification": [
+            {"command": item["command"], "result": "passed"}
+            for item in base_contract()["verification"]
+        ],
         "unknownsRemaining": [],
         "risk": {"level": "medium", "detail": "review focus が残る。"},
         "generatedFiles": [],
         "destructiveChanges": [],
         "observedIssues": [],
+        "checkpointReview": [
+            {
+                "checkpoint": "contract_start",
+                "status": "confirmed",
+                "note": "Contract を確認した。",
+            },
+            {
+                "checkpoint": "before_edit",
+                "status": "confirmed",
+                "note": "scope を確認した。",
+            },
+            {
+                "checkpoint": "before_ready",
+                "status": "confirmed",
+                "note": "Summary を更新した。",
+            },
+            {
+                "checkpoint": "after_verification",
+                "status": "confirmed",
+                "note": "verification を同期した。",
+            },
+        ],
         "residualRisks": [
             {
                 "level": "medium",
@@ -92,9 +147,25 @@ def main() -> int:
     blocked_contract["executionDecision"] = {"status": "blocked", "reason": "human decision required"}
     assert any("executionDecision.status" in issue for issue in validate_contract(blocked_contract))
 
+    missing_gate_contract = base_contract()
+    missing_gate_contract["verification"] = [{"command": "make fmt-check", "required": True}]
+    assert any("AI gate" in issue for issue in validate_contract(missing_gate_contract))
+
+    missing_checkpoint_contract = base_contract()
+    del missing_checkpoint_contract["checkpointPolicy"]
+    assert any("checkpointPolicy" in issue for issue in validate_contract(missing_checkpoint_contract))
+
+    incapable_contract = base_contract()
+    incapable_contract["agentCapability"]["canVerify"] = False
+    assert any("canVerify" in issue for issue in validate_contract(incapable_contract))
+
     incomplete_summary = base_summary()
     del incomplete_summary["userCorrectionSolidification"]
     assert any("userCorrectionSolidification" in issue for issue in validate_summary(incomplete_summary, contract))
+
+    missing_checkpoint_summary = base_summary()
+    del missing_checkpoint_summary["checkpointReview"]
+    assert any("checkpointReview" in issue for issue in validate_summary(missing_checkpoint_summary, contract))
 
     print("✅ Work Item risk readiness tests passed")
     return 0

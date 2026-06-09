@@ -22,6 +22,10 @@ Sentinel repository で変更を行う時は、この Skill を実行纪律と�
    - `notCodable: false`
    - `unknowns: []`
    - `executionDecision: continue`
+   - `checkpointPolicy` が `contract_start`、`before_edit`、`before_ready`、`after_verification` を含む。
+   - `agentCapability.canImplement: true`
+   - `agentCapability.canVerify: true`
+   - `agentCapability.needsHumanDecision: false`
    - 変更対象が `scope` に含まれる。
    - 変更対象が `outOfScope` に含まれない。
 4. `notCodable: true` または `unknowns` が残る場合、production code を変更しない。調査、TODO、blocker 記録に限定する。
@@ -43,6 +47,8 @@ Work Item が機能追加、report 変更、データ永続化、AI governance �
 - 新しい command は `make` target として提供されるか。
 - Agent が実装できるか、検証できるか、人間判断が必要かを `agentCapability` に明記しているか。
 - review で追加論点が出る可能性を `preReviewWarnings` と `reviewReadiness.expectedReviewFocus` に記録しているか。
+- prompt だけに依存せず、Contract / scope / guard / backtrack / summary / status の `make` gate を required verification にしているか。
+- 実行途中の重要判断を `checkpointPolicy` と Summary に戻しているか。
 
 User correction が発生した場合は、単に修正せず、次回の backtrack 防止として Contract、Summary、doc、template、guard、skill のどれへ固化するかを `userCorrectionSolidification` に記録する。
 
@@ -54,6 +60,12 @@ Agent が「できない」「今は危険」「review で追加論点が出る�
 - Summary: `residualRisks`、`reviewReadiness`、`expectedReviewFocus`、`userCorrectionSolidification`
 
 `ready_with_risks` は required checks が通過したうえで、review focus が残る状態を表す。`not_ready` や `blocked` の task を ready と報告しない。
+
+三大 risk の扱い:
+
+- Prompt は助言であり命令ではない。重要制約は `make` gate と scope guard で確認する。
+- Agent は途中で文脈を失う。checkpoint ごとに Contract / Summary を更新し、重要判断を曖昧な会話文脈へ押し込まない。
+- Agent が分からない、実装できない、検証できない時は `executionDecision` を `blocked`、`contract_update_required`、`downgraded_to_investigation` にする。
 
 ## Required Commands
 
