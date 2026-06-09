@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 'Herd' Panicked, But...
+  summary: Bull market outlook stays strong: June dip may be a buy-the-dip chance. Click here to read my detailed analysis.
+  url: https://finnhub.io/api/news?id=9d96a48efa496c5a08be20baa44ae4356144179267b255329d8cccb858e9cdfb

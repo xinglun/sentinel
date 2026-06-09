@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises On Trump Comments; Micron, Sandisk Continue To Rebound (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Tuesday after Trump said a U.S.-Iran deal could be reached in "two or three days."
+  url: https://finnhub.io/api/news?id=ff453183de35dbd3e177e17aeae5069c0a3afea5bf69d0914e6e6481af24f0d2

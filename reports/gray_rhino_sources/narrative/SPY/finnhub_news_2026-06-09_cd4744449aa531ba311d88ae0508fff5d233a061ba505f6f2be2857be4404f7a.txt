@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Headwinds Building But This Stat Says Stocks Go Higher
+  summary: S&P 500 looks statistically expensive with bear market signals flashing.
+  url: https://finnhub.io/api/news?id=832f20e0c3c95c15d70e60124fc167d85906d32c949fd7b3d51363e36ffe2858

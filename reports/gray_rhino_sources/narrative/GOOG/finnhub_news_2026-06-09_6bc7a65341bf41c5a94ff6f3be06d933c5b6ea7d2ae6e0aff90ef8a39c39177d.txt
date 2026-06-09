@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How SpaceX's pre-IPO demand is rocket fuel ahead of public launch
+  summary: SpaceX (SPAX.PVT) is on the launch pad as it prepares to go public and begin trading on the Nasdaq as soon as this Friday, June 12. Has the IPO market recovered from prior years' slump as SpaceX and other mega-IPOs renew investor enthusiasm? ProShares global investment strategist Simeon Hyman weighs in on 2026's IPO activity and shares his outlook on how a post-IPO SpaceX may perform. SpaceX will trade under the ticker SPCX while Elon Musk's company eyes an IPO price of $135 per share.
+  url: https://finnhub.io/api/news?id=5216578aff19f0dd3cdfbeb63ad118103a1dd1d77f2bc258018dfb553316116f

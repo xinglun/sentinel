@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO: Here's What a $5,000 Investment Could Look Like in 5 Years
+  summary: SpaceX is about to make history with a potential $75 billion IPO -- but before you rush to buy shares, you need to understand what's really driving this $1.8 trillion valuation.
+  url: https://finnhub.io/api/news?id=e3b963f3a4fc29618d32a5588694d5a8391667efa1443d5e3ef6faa85121b631

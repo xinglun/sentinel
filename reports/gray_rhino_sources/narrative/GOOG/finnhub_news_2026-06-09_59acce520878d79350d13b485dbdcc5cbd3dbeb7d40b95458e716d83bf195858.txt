@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Blockspace: Datacenter deals, SpaceX IPO, and Saylor didn’t sell
+  summary: Markets are ripping as Bitcoin miners pivot to AI infrastructure. We cover AWS rumors, Galaxy Digital's surge, Michael Saylor's latest multi-million Bitcoin buy, the Texas 4CP mining curtailment, and Elon Musk’s massive $26B xAI compute deals with Google and Anthropic.
+  url: https://finnhub.io/api/news?id=df696ecf0ad5cbbb22b0ca3ee9ff6d2333846e0aefdf80555371aa2437c66333

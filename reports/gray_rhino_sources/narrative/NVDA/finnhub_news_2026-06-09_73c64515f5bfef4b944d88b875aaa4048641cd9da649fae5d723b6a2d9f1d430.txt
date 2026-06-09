@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Catalyst Is Coming. Here's Why Smart Investors Are Buying MP Materials Before the SpaceX IPO.
+  summary: Permanent magnets are used in satellites for propulsion and stabilization. Could MP and SpaceX partner in the future?
+  url: https://finnhub.io/api/news?id=c0396270019cea7eb9559e36b52c1208b6a4f70bfedd67576dba58d296067454

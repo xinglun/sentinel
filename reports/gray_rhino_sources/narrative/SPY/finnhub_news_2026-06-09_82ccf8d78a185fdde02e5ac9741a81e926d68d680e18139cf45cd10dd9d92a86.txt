@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Rebounds, But Damage Is Not Fully Repaired
+  summary: U.S. market breadth improved after Friday’s sell-off, helped by a chip-led rebound, but weak weekly and monthly participation keeps the breadth trend at neutral with a positive bias.
+  url: https://finnhub.io/api/news?id=a87406057c656f0a6d38ee05213c1672c64a3bd90caff363851bd6e6b2e5c9c3

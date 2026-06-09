@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: More AI Content Won't Fix B2B Email. Better Targeting Will.
+  summary: The problem with B2B email is no longer access. It is overload. Google says 3 billion users rely on Gmail, and that email volume is at an all-time high as the platform moves deeper into what it calls the Gemini era, where AI increasingly helps users manage, interpret, and extract answers from their inboxes. More content is easier to create than ever and making that content matter is harder. That is why Breaker believes the next useful application of AI in B2B email is not faster copy generation,
+  url: https://finnhub.io/api/news?id=f997fc1dd75a130f3e67631fac9f3d3c312eec43e5ca618c25e2b025f62fb552

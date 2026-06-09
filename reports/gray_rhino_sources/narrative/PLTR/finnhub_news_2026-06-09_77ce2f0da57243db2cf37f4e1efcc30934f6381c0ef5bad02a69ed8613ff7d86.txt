@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UK Reviews Palantir NHS Deal
+  summary: UK government weighs future of healthcare data contract.
+  url: https://finnhub.io/api/news?id=cc9be13cea1bcaed393fd6732d30f59231b8754200ca88460933437d3e1aeb83

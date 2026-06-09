@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Shows Detailed Design of AI Data Center Satellite
+  summary: (Bloomberg) -- Elon Musk unveiled a more detailed look at an initial version of an AI data center satellite SpaceX plans to build, providing fresh insight into the ambitious project driving the company’s highly anticipated initial public offering.Most Read from BloombergHouse Republican Says Hegseth’s D-Day Remarks ‘Inappropriate’LA Mayor Race Flips as Socialist Beats Reality TV Star PrattTrump Says He, Not Congress, Is in Charge of Kennedy Center in ReversalTrump’s $100,000 H-1B Visa Applicatio
+  url: https://finnhub.io/api/news?id=49a81057ffc4bfe5e7e21709f65540dbc3d4d0f25a445685944ddbea5ff9811d

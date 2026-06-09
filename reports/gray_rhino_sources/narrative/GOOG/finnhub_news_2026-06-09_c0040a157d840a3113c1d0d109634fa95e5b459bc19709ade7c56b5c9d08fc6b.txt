@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple's AI Siri will be held back by aging devices, Morgan Stanley says
+  summary: Apple's newly introduced AI Siri will have limited use across much ‌of the company's install base because ‌older iPhones lack the capabilities to run advanced AI ​features, Morgan Stanley said in a research note on Tuesday.  More than 850 million iPhones are incapable of running basic Apple Intelligence queries, and ‌more than 1.3 ⁠billion iPhones cannot use advanced Siri features, the brokerage said.  The long-delayed Siri ⁠overhaul was the centrepiece of Apple's annual Worldwide Developers Conference on Monday, with the world's ​most valuable ​smartphone maker betting ​on the feature to ‌keep pace with rivals including OpenAI's ChatGPT, Google's Gemini and Anthropic's Claude.
+  url: https://finnhub.io/api/news?id=0ec66f78282f50d2695656a1e9dff65ebb1b0c67803518564734b66e21243e9b

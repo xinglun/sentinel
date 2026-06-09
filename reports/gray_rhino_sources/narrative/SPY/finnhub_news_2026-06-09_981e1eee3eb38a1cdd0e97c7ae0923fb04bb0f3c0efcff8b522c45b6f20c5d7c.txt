@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPX 500 Weak Market Breadth And Fed Rate Hike Fears Signal Further Downside Risk
+  summary: The S&P 500 remains capped below its 20-day moving average, while the NYSE Advance/Decline line has broken below key support and flashed a bearish divergence. Read more here.
+  url: https://finnhub.io/api/news?id=55fcc53780aa1a053d4460117c3681147e14acf79ec29a4997036e00327da758

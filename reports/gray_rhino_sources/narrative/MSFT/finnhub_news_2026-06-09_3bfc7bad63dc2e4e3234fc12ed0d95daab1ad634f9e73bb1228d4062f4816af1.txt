@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: project44 names Vinay Mathur as Chief Technology Officer
+  summary: Engineering leader from Stripe, SAP Ariba, and Microsoft will scale The Decision Intelligence Platform and AI agent portfolio across the global supply chain Vinay Mathur - headshot Vinay Mathur, Chief Technology Officer CHICAGO, June 09, 2026 (GLOBE NEWSWIRE) -- project44, the Decision Intelligence Platform for the modern supply chain, today named Vinay Mathur as Chief Technology Officer. Mathur will lead engineering, platform infrastructure, and applied AI for project44’s Decision Intelligence
+  url: https://finnhub.io/api/news?id=80cc5aec31fda2c5017a4c6dd682aa9ad57b4ef3e9e60a00d38bcbceb07c26d2

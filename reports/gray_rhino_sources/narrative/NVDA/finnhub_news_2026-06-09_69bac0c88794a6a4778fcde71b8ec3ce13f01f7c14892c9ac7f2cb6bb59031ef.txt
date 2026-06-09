@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Expands UK AI Push With Nvidia
+  summary: Nvidia Infrastructure Will Power 3 New UK Deployments
+  url: https://finnhub.io/api/news?id=a8eae0fee4f8c074b29de816d0c243b98c3a17a772fd46c596b95b159f31642f

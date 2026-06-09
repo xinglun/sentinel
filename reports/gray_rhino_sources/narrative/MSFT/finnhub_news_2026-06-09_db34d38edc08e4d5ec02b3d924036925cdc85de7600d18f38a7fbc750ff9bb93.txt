@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Cloud AI - Rackspace Expands To Riyadh Boosting Middle East Tech Growth
+  summary: Rackspace Technology has announced the establishment of its regional headquarters in Riyadh, Saudi Arabia, aimed at bolstering cloud and AI growth in the Middle East. This strategic move is set to support digital transformation initiatives across the Gulf Cooperation Council (GCC) region, in alignment with Saudi Arabia's Vision 2030. By positioning itself closer to its Middle Eastern clientele and partners, Rackspace Technology aims to enhance its localized delivery of cloud and AI solutions,...
+  url: https://finnhub.io/api/news?id=da0a1b826d55f5a529e526f61ed2da264ff0b7d93625a6285e240ba5f14c0093

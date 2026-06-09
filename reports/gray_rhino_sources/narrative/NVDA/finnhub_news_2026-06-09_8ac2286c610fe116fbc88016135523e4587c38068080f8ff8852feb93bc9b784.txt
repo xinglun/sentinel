@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Broadcom's Recent Lackluster Quarterly Results Show a Crack in the AI Trade? Not Necessarily, But It's an Important Lesson for Investors
+  summary: Broadcom reported strong results but fell short of Wall Street's expectations.
+  url: https://finnhub.io/api/news?id=1cacbd547bd214fce1975b164eea8891dacc85e516dc9d1160c743996463c53b

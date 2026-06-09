@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market May Be Missing What’s Changing at BigBear AI
+  summary: BigBear AI is on track to continue rebounding as its transition to AI powered infrastructure provider to world agencies gains traction.
+  url: https://finnhub.io/api/news?id=bf9d6f0f5ad0f9fec7b3d0c596613fc15e24e87184ad8f64114b7cc4c7f33cf0

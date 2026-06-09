@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Top Artificial Intelligence (AI) Stock Is Benefiting From the Next Infrastructure Bottleneck, and It Just Became an Attractive Buy
+  summary: The demand for optical networking components is exceeding supply, and that's driving remarkable growth for Ciena.
+  url: https://finnhub.io/api/news?id=9eecb2e405fa07ccc2be3f66e9ec7f3fd8207aa9f670af26fd556b4fbad369a9

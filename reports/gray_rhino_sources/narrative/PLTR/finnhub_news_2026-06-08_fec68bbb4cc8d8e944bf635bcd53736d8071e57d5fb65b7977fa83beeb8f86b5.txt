@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Growth Stocks to Buy Now as Strong Jobs Data Delays Fed Rate Cuts
+  summary: Strong jobs data has delayed Fed rate-cut hopes. See why Palantir and another fast-growing stock, Zscaler, may stand out in a higher-for-longer market.
+  url: https://finnhub.io/api/news?id=19c3df3b8de99e8e3f11586b0e3ed628a654c20eebf99a9bb4d5b19c6880465d

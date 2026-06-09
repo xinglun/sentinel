@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Jensen Huang Believes That Marvell Technology Could Become a $1 Trillion Company. Here's Why He Is Right
+  summary: Marvell Technology is solving an important bottleneck in the AI infrastructure space.
+  url: https://finnhub.io/api/news?id=0db14b6c1a4ea37c4ec5db68da7d60c2948b7957ef0af15b4cd415dff336d757

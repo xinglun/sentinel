@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ASML Weighs Musk Terafab Talks Against Valuation And Governance Questions
+  summary: Elon Musk joined ASML Holding’s (ENXTAM:ASML) recent technology conference virtually to discuss chip manufacturing ambitions tied to the proposed Terafab project. Musk and ASML executives held direct talks about supplying advanced lithography equipment for a planned Terafab chip fabrication facility supporting Tesla, SpaceX and xAI. The invitation triggered internal pushback from some ASML employees, who raised concerns about Musk’s involvement and its implications for the company’s values...
+  url: https://finnhub.io/api/news?id=c6d12fd63367a04d6dd66af858bde1e65ee27d7681f7cc4a2efd59b981a303f8

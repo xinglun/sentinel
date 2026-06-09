@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Flags AI Nationalization Risk And Long Term Investor Implications
+  summary: Palantir Technologies (NasdaqGS:PLTR) CEO Alex Karp has warned about the risk of AI companies being nationalized or subject to forced government ownership. The remarks come as political figures, including Sen. Bernie Sanders, promote proposals that would grant the public a 50% ownership stake in leading AI firms. These ideas raise questions about future control, valuation, and operating conditions for Palantir and other large AI providers. Palantir focuses on software that helps governments...
+  url: https://finnhub.io/api/news?id=1a3e829e4cb97cb8ce82bdcd90bae4ff3c31c2da247e44f39cd30e5c0b028f8e

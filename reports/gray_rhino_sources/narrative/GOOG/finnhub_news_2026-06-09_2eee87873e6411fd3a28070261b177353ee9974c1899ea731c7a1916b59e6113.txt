@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Optimum7 Replatforms Posterazzi from BigCommerce to Shopify with Preview Engine
+  summary: Preserving organic search equity was the migration's primary success metric, with a category-, product-, and content-level redirect map tested before go-live.Posterazzi's rebuild pairs an Elasticsearch-driven search and filter system with a real-time poster and frame preview engine, including AI-generated room mockups.AI-enhanced product content was applied at the catalog level during migration, standardizing titles, descriptions, and metadata for both organic discovery and AI engine citation. M
+  url: https://finnhub.io/api/news?id=f313c11dcdd758a45b55dea3b73e330c84673c115f552d4573faea70dc4589e0

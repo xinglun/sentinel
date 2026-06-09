@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Dutch Safety Data Could Open Europe for Tesla
+  summary: Tesla  stock rose early Tuesday, with investors digesting autonomous driving updates from the company and ARK Invest’s Cathie Wood.  Shares of the electric-vehicle maker were up 0.6% at $411.25 in premarket trading, while  and  futures were up 0.5% and 0.2%, respectively.  The modest early move came after Tesla released safety data on Dutch drivers using the company’s Full Self-Driving product, which can handle most driving tasks but still requires 100% driver supervision.
+  url: https://finnhub.io/api/news?id=bbc00d4c8fb8a1564c3c1454930839daf91a1a5480ce9c246f2075e3eff3a670

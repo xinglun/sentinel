@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China Prepares $295 Billion Plan to Fund Nationwide AI Buildout
+  summary: (Bloomberg) -- China is preparing to spend around 2 trillion yuan ($295 billion) over the next five years on building data centers across the country, fueling Beijing’s ambition to propel the domestic AI sector and surpass the US in a potentially game-changing technology. Most Read from BloombergHouse Republican Says Hegseth’s D-Day Remarks ‘Inappropriate’LA Mayor Race Flips as Socialist Beats Reality TV Star PrattTrump’s $100,000 H-1B Visa Application Fee Rejected by JudgeTrump Says He, Not Con
+  url: https://finnhub.io/api/news?id=996bb0772e2e9c0009238720baacc8b39246ed31207b5ef69e3fe67133d5f215

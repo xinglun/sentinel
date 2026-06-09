@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron, Intel, Tesla, Apple, Lilly, and More Stocks That Explain Today’s Market
+  summary: The brutal AI selloff that rocked the market on Friday may end up being short-lived, judging by how chip makers are trading Monday.
+  url: https://finnhub.io/api/news?id=4d110ee2d8af81749f088eca00f7a4dc8fbb9e50b1035fd6bf6efd2a2131d0c1

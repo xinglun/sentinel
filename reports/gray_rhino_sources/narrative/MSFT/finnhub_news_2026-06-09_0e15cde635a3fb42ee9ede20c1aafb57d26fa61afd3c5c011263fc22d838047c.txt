@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Founders Have Dumped $2.3 Billion in Stock Since IPO
+  summary: (Bloomberg) -- CoreWeave Inc.’s stock price has more than doubled since the AI data center operator’s March 2025 initial public offering. Over the same period, the company’s executives have unloaded more than $2.3 billion worth of their own holdings.Most Read from BloombergHouse Republican Says Hegseth’s D-Day Remarks ‘Inappropriate’LA Mayor Race Flips as Socialist Beats Reality TV Star PrattTrump’s $100,000 H-1B Visa Application Fee Rejected by JudgeTrump Says He, Not Congress, Is in Charge of
+  url: https://finnhub.io/api/news?id=955ac40d23fb60ba13271d929702bd04d092301c6db5be3afb15e92563d52e22

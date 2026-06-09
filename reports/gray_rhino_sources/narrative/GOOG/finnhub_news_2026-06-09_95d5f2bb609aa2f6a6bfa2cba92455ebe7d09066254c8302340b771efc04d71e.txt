@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What is Elon Musk's net worth?
+  summary: Elon Musk is the richest person in the world and close to becoming the first-ever trillionaire. How did the Tesla and SpaceX founder make his fortune?
+  url: https://finnhub.io/api/news?id=127f2bcfd21461e7fff02bb9870a1e5a9e8d9e54951fd1cffa8915f0e8c91990

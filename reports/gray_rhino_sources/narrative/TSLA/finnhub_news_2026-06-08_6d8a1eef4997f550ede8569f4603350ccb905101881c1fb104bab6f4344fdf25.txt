@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bolt, Stellantis, Pony.ai to launch autonomous vehicle test program in Luxembourg
+  summary: Estonian vehicle sharing platform Bolt will launch its first ‌autonomous mobility test program in ‌Luxembourg in collaboration with carmaker Stellantis and Chinese ​robotaxi operator Pony.ai, the companies said on Monday. The announcement followed a joint declaration of intent signed by 18 ‌European Union member ⁠states on large-scale cross-border tests for autonomous vehicles under the ⁠European Automotive Action Plan. Their pilot program will focus on validating the safety, ​performance and ​regulatory readiness ​of Pony.ai's autonomous vehicles ‌in Luxembourg's traffic environment, the companies said.
+  url: https://finnhub.io/api/news?id=9fb6db9abae0ffb5671a818b0408702866eea11ffd4548c452cfc887c49b620f

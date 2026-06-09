@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Parabolic 7. The Group Leaving the Mag 7 in the Dust
+  summary: The broad stock market is really taking things into overdrive, and that’s thanks primarily to the new class of heavy-lifters referred to by Ben Emons as the “Parabolic 7.” Indeed, it’s a fitting name for the new leadership group leading tech and the indices higher. But that’s not to say investors should neglect the Magnificent ... Meet the Parabolic 7. The Group Leaving the Mag 7 in the Dust
+  url: https://finnhub.io/api/news?id=7ce4394fc88ea3fddd29e7efa858dd4809ca80047238a902ad1f8348ffea1fe8

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bye-Bye FAANG, Hello MANGOS: Will SpaceX, OpenAI, Anthropic IPOs Herald A New Wall Street Order?
+  summary: MANGOS typically refers to artificial intelligence leaders such as Meta, Anthropic, Nvidia, Google, OpenAI, and SpaceX.
+  url: https://finnhub.io/api/news?id=1766216dff904e52c8e0e861688bc74443d88fbf35f1ff0b5b06b9ef4552560a

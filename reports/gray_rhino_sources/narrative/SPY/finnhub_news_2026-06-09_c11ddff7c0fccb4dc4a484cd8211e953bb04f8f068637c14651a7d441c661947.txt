@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Downside Risks Rise As Tech Volatility Spikes
+  summary: Implied volatilities jumped across asset classes last week as markets grappled with rising US-Iran tensions, higher bond yields, and a sharp pullback in tech. Read more here.
+  url: https://finnhub.io/api/news?id=370667de7824b5162dc25693cda9bbc0ff2d2877937159e80571d459d3b14d03

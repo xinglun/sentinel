@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DELL's Strong Partner Network Drives ISG Growth: What's Ahead?
+  summary: Dell's ISG revenues surge 181% to $29B on AI partnerships, while total revenues rise 88% as AI server demand and backlog fuel a strong growth outlook.
+  url: https://finnhub.io/api/news?id=3865721731e0bb19d128d2a7563fe7e60a6e7d78e24a4d35d5c68b409de507b8

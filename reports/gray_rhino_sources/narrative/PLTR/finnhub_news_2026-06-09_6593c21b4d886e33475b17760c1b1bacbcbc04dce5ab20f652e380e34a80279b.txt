@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Juggernauts Nvidia, Palantir, Micron, and Broadcom Are Sending Shockwaves Through Wall Street With This Nearly $13 Billion Warning
+  summary: The people who knows these foundational artificial intelligence (AI) companies best are sending all the wrong signals.
+  url: https://finnhub.io/api/news?id=18f5067f61189dc3848194942aad3888d58b615ddaab1a673683156ccb58faa4

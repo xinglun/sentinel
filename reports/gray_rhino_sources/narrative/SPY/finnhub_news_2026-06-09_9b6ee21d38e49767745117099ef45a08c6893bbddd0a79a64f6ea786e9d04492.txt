@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 7 Signs Markets Are Near A Top
+  summary: Seven warning signs suggest the stock market may be topping: overbought equities, tech concentration, high valuations, IPO wave and inflation.
+  url: https://finnhub.io/api/news?id=97383680109eaed5493bee839ea78653d945845484a8e29d0574b2bd321becfe

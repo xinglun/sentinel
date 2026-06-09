@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Pounds the Table: Tesla’s Future Is Not in Cars — It’s Robotics
+  summary: The stock market has spent most of the past two years rewarding companies tied to artificial intelligence. Nvidia (NASDAQ:NVDA) became the world’s most valuable business because it supplies the chips powering the AI revolution. Yet a growing number of investors are looking beyond AI software and data centers toward the physical machines AI could eventually ... Wall Street Pounds the Table: Tesla’s Future Is Not in Cars — It’s Robotics
+  url: https://finnhub.io/api/news?id=8ce1b50497ac09232301203d1fa783362967e9cb38b0d4c9ee5dbc7c4c53e9e5

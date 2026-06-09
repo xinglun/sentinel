@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Gains as Google Reportedly Eyes Major AI Chip Order
+  summary: Potential TPU deal could strengthen Intel's foundry ambitions and diversify AI chip manufacturing beyond TSMC.
+  url: https://finnhub.io/api/news?id=a47a5ab5d0c02663d768b027addaab7a245a1feecd14c7708ad118afceb6cf6e

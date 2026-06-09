@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analysts split on Apple’s WWDC as Siri AI debuts with Google tie-up
+  summary: Investing.com -- Apple's annual Worldwide Developers Conference drew a divided response from Wall Street analysts, with bulls pointing to early monetization signals and a rebuilt Siri while bears questioned whether the updates are enough to drive an upgrade cycle.
+  url: https://finnhub.io/api/news?id=4ec1a33d34522a32e3c4cca86949abc81f8f0860095c739fc476bf2385a84e89

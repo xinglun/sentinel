@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s IPO Is Ready for Liftoff. Its Returns Might Not Be Out of This World.
+  summary: IPOs have had juicy first-day gains this year, but it doesn’t take long for the pullback to start. And that is particularly true for mega IPOs.
+  url: https://finnhub.io/api/news?id=d6b22c8556316460d4fc9cd529919da59e27a4d067eae534a8d45951ee1c6bfa

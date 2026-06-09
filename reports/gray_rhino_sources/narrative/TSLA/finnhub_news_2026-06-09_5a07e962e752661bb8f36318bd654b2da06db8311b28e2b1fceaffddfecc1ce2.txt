@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Just Lost One of Its Biggest Bears, but Is the Stock a Buy?
+  summary: J.P. Morgan recently raised its price target on Tesla by more than 3x.
+  url: https://finnhub.io/api/news?id=611fa858c2a08772534d826684f4d09f1e021dd1726a57266ebf72bfedaabef5

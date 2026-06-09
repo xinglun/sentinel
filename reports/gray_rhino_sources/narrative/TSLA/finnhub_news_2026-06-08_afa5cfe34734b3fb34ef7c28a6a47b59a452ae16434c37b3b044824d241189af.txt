@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures: Trump, Iran Comments Spark Tech Rebound; Apple, Micron, Nvidia, Sandisk, Tesla Are Big Movers
+  summary: Dow Jones Futures: President Trump and Iran's comments sparked a tech rebound Monday. Micron, Nvidia and Sandisk were big winners.
+  url: https://finnhub.io/api/news?id=6c3fe0429fb798eee0f4de5fea5d92ccf0516eff705497606522a269999846e3

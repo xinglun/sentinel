@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights SMH, QQQ, SPY, AIQ, EWY, SPY, NVIDIA and Microsoft
+  summary: SMH and other AI-focused funds plunged as chip stocks sold off, but strong semiconductor demand and long-term trends keep investors watching.
+  url: https://finnhub.io/api/news?id=15d44f2c32eb18d9afb03cd29ba9fbc2cb371a508cca58cad6d0f6d31a495e18

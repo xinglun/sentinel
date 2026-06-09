@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Just Dramatically Reversed Course on Tesla Because TSLA Stock Has Massive Physical AI Potential
+  summary: A long-time Tesla bear just changed its tune, and the reason has almost nothing to do with cars.
+  url: https://finnhub.io/api/news?id=83f6d3ba6477d44e47ea876f2a7a3ece123180fe6facef677e64d21563a6cae8

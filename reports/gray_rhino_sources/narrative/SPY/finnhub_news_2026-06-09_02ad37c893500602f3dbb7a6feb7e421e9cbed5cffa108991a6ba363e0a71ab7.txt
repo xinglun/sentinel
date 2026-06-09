@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Crash - Still In Early Phase
+  summary: The Nasdaq 100 drops 5% as Fed hike bets rise on energy-driven inflation with Broadcom signaling peak AI capex. Click here to read what investors need to know.
+  url: https://finnhub.io/api/news?id=0c6d06cd97f2b25b9bdca9e2655caaece1c32625996aec73bd73a71457b934d0

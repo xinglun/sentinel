@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPACEX Heads To Nasdaq — But Steve Eisman Is ‘Not A Fan’ Of The IPO Or Potential Tesla Merger
+  summary: Eisman on Monday expressed skepticism about SpaceX potentially merging with EV Giant Tesla Inc (TSLA), highlighting the latter company’s many challenges.
+  url: https://finnhub.io/api/news?id=72fc08e9368de0eaf0d3db87f9ffbdf8f2109abccf590e179950d4bdc6a92ead

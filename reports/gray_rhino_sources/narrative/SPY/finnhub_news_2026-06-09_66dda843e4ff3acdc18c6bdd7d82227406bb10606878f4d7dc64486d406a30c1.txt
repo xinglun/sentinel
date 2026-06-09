@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 Is Lying To You, The Market Crashed A While Ago, And I Have The Receipts
+  summary: Nearly 50% of the largest US stocks have underperformed T-bills since 2022. Find out why I'm approaching stock selection differently.
+  url: https://finnhub.io/api/news?id=ea21313cffc235d8a5b85d6e74501939258af057cf0be43b85d5e597fc0db255

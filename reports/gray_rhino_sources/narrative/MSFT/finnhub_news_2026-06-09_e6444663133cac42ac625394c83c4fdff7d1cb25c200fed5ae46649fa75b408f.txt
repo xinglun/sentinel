@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoundHound: A Speculative Buy With Real Risks
+  summary: 
+  url: https://finnhub.io/api/news?id=9bcfb3daeda4f44024112326689294e6c07cc9ec9930c0b37ec4b73b1bd33372

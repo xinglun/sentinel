@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May CPI Preview: Lower Oil, Stickier Inflation
+  summary: Track rising inflation forecasts, CPI vs PPI gap, and what it means for Fed rate hikes and markets.
+  url: https://finnhub.io/api/news?id=8d19a42b7c1ec51e8be0344f1fc3554ca57b187f80930c8a55401151893e2aa3

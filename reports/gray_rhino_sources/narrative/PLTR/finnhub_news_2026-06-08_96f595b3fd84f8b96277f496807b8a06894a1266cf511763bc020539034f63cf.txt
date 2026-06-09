@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rackspace: Palantir And AMD Partnerships To Better Face Rivals (Rating Upgrade)
+  summary: Rackspace is pivoting to high-margin, managed AI cloud services through partnerships with Palantir and AMD. Read more on RXT stock here.
+  url: https://finnhub.io/api/news?id=9babdbc25f55c918c383641dc18c98ff2432d05cc7eac7816f8f03c31e245f15

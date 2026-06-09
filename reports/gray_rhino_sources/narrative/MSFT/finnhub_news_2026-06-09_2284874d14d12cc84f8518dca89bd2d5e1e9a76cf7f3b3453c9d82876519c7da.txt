@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inspire Brands Welcomes Sasha Wolfe as Head of Demand Generation
+  summary: ATLANTA, June 09, 2026--Inspire Brands today announced that Sasha Wolfe will join the company as Senior Vice President of Demand Generation and Agency Solutions. As head of this shared capability, Wolfe will lead media strategy, planning and buying, digital performance and acquisition marketing, and brand media partnerships and sponsorships.
+  url: https://finnhub.io/api/news?id=0fce02ff192b3d1fc6eec8589f0b646cb7317832e0a68c1dee0c27a35decf41d

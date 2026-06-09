@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pentagon Claims Beijing Is Making Chinese Tech Giants Helps its Military
+  summary: The Pentagon has expanded its Chinese military company list to 188 entities. And all of Chinese big tech is on there.
+  url: https://finnhub.io/api/news?id=0d1fec23877affd105c8510164ab8be191eae3ded4bb087b7b33eeac80da38a7

@@ -1,24 +1,40 @@
-# Weekly State Review (Auto)
+# 周度状态复盘（自动草稿）
 
-- As of: 2026-06-08
-- Status: using current market decision
-- Latest headline: 启动期 | 无交易窗口
-- Days analyzed: 7
-- Avg confidence: 53.7
-- Avg stability: 15.1
-- Trend cohesion ready days: 6
+- 截至: 2026-06-09
+- 状态: 使用当前市场判断
+- 最新摘要: 启动期 | 无交易窗口
+- 分析天数: 7
+- 平均置信度: 54.6
+- 平均稳定度: 16.8
+- 趋势凝聚 ready 天数: 7
 
-## Market State Counts
+## 市场状态计数
 - IGNITION: 7
 
-## Risk Overlay Counts
+## 风险覆盖计数
 - NORMAL: 7
 
-## Strategic Context Snapshot
-- Trend breadth mode: NarrowLeadership
-- Market cycle position: CrowdedExpectation
-- Holding efficiency: TimeCostRising
-- Strategic context lines:
+## 状态机周度汇总
+- 有状态摘要的天数: 7
+- 重置确认 / 阻止: 0 / 0
+- 软重置 / duration lock / 防御覆盖: 0 / 0 / 0
+- 核心破坏 / 对账不一致: 0 / 0
+
+## 日度状态机时间线
+- 2026-06-01: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-06-02: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-06-03: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-06-04: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-06-05: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-06-08: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-06-09: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 边界: 仅为审计事实；不生成评分、建议或交易判断。
+
+## 战略上下文快照
+- 趋势广度模式: NarrowLeadership
+- 市场周期位置: CrowdedExpectation
+- 持仓效率: Neutral
+- 战略上下文行:
   - 市场结构模式: 核心资产主导期
   - 长期方向: 长期结构趋势增强
   - 周期位置: CROWDED_EXPECTATION
@@ -29,18 +45,18 @@
   - 证据持续性: 持续累积
   - 证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)
   - 战术状态: READY，等待执行层确认
-- Boundary: snapshot only; no score, advice, or trade decision.
+- 边界: 仅为快照；不生成评分、建议或交易判断。
 
-## Macro Gravity Snapshot
-- Rate pressure: RISING
-- Real yield: TIGHT
-- Yield curve: FLAT
-- Credit stress: NORMAL
-- Liquidity: NEUTRAL
-- Growth valuation: COMPRESSING
-- Boundary: context only; no Gate input or trade instruction.
+## 宏观引力快照
+- 利率压力: RISING
+- 实际收益率: TIGHT
+- 收益率曲线: FLAT
+- 信用压力: NORMAL
+- 流动性: NEUTRAL
+- 成长估值: COMPRESSING
+- 边界: 仅说明贴现率与流动性上下文；不作为 Gate 输入或交易指令。
 
-## Cognitive Calibration Snapshot
-- Research attention entries: 9
-- Asset thesis entries: 9
-- Boundary: cognitive calibration manages attention and thesis review only; it does not generate trade signals.
+## 认知校准快照
+- 研究关注条目: 9
+- 资产命题条目: 9
+- 边界: 认知校准只管理注意力和命题复核；不生成交易信号。

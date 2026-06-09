@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Inc. (GOOGL) Reports Doubling of Gemini App Monthly Users to 900 Million
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the 10 Best AI Stocks to Buy in June. On June 3, the company said its Gemini app engagement doubled to over 900 million monthly active users as of May, compared to the same period last year, according to a report by Investing.com. The company said paid subscriptions grew […]
+  url: https://finnhub.io/api/news?id=c4c062d0af8beebad7d9e12b0374c264b03e52f111ef05db0ddb6889bfb891cb

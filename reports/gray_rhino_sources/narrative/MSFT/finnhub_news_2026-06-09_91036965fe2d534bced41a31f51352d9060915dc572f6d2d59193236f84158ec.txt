@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Analyzed the Top Holdings of More Than One Dozen Billionaire Money Managers, and These Are Their 5 Favorite Stocks
+  summary: Sustainable moats and the integration of artificial intelligence (AI) are the common denominators for these five businesses.
+  url: https://finnhub.io/api/news?id=f59b59be7972db423e892e7f672e994cfcf4fd2cfb7b95f2a80fdb938e0446e1

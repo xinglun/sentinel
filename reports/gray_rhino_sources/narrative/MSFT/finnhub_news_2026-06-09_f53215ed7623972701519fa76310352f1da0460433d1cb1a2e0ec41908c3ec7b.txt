@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Microsoft (MSFT) One of the Best AI Stocks to Buy in June?
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the 10 Best AI Stocks to Buy in June. On June 7, Investing.com reported that UBS maintained Buy ratings on three major cloud providers, including Microsoft, driven by their revenue growth. The analyst noted that the combined cloud revenues of Microsoft, Amazon, and Oracle totaled $84.8 billion in the […]
+  url: https://finnhub.io/api/news?id=482c60847ae5768c4959014a90e6aa0f8252b5a048845c80c72d67d21fb89e59

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock: Cathie Wood Slaps $75 Robotaxi Ticket Into ARK’s Bull Case
+  summary: Cathie Wood experienced an unsupervised Tesla Robotaxi ride in Austin on Monday and immediately added a new cost line item to ARK Invest’s valuation model after the vehicle received a $75 parking ticket.
+  url: https://finnhub.io/api/news?id=5519aa6cd24a3d738106707437f849e92235873a71457dccfc69cf5271023215

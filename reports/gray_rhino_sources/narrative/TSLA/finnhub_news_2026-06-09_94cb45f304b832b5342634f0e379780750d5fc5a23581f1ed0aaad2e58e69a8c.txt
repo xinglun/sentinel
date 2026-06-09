@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Tesla (TSLA) Stock Rocketing Higher Today
+  summary: Shares of electric vehicle pioneer Tesla (NASDAQ:TSLA) jumped 5.5% in the afternoon session after the company's unsupervised robotaxi service launched in Austin over the weekend, the most concrete step yet toward the autonomous revenue story the stock has been pricing in, while JPMorgan's upgrade continued to provide institutional support in a broader risk-on session.
+  url: https://finnhub.io/api/news?id=56b04c633e43182ad99c0ac760a01f4cb1879a15da00a2e60bd34fdda73bfc28

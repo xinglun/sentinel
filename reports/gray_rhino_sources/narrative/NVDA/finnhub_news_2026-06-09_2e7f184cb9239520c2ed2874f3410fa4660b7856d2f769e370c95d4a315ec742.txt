@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Just Delivered Its $75 Per Share AI Moment at WWDC. Wall Street Says the Stock Could Hit $440 by Year-End.
+  summary: Apple’s WWDC keynote on June 8 was billed as the most consequential developer conference in the company’s history. From the CNBC Halftime Report broadcasting live from Cupertino, the message from Wall Street was loud: Apple (NASDAQ:AAPL) just delivered the AI moment investors have been waiting two years for, and the upside scenarios now stretch well ... Apple Just Delivered Its $75 Per Share AI Moment at WWDC. Wall Street Says the Stock Could Hit $440 by Year-End.
+  url: https://finnhub.io/api/news?id=566fe282a8470568c2c6d11c0eb9d59255ecc7bdefe0f7e69fbab2b5e57b9554

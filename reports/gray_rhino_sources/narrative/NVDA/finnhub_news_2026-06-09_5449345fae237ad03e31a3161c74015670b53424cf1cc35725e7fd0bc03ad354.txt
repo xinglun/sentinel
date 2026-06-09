@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSMC Gets Pulled Into China Chip Fight
+  summary: Senators Urge Tighter Rules On Overseas Chinese Units
+  url: https://finnhub.io/api/news?id=2315b8ee7ab53e235b88c106145f2de8c9649e96e69cca9fa7da53aa99370d36

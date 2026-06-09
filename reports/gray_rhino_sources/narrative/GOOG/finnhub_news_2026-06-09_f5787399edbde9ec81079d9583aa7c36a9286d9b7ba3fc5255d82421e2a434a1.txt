@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Three Hotly Anticipated AI IPOs: Which One Is Poised to List First?
+  summary: While the SpaceX IPO grabs the headlines, three other private AI and defense names on the 2026 initial public offering (IPO) calendar are also highly anticipated: Anduril, Anthropic, and Databricks. None trades publicly. There are no analyst price targets, no consensus multiples, and no shares to buy in a brokerage account. What exists are prediction-market ... Three Hotly Anticipated AI IPOs: Which One Is Poised to List First?
+  url: https://finnhub.io/api/news?id=91e5c9f732a28b26d5496c895715e34e9ea99fabcecd9580337a970200dbc09d

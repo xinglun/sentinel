@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wedbush Delivers Powerful Message for Palantir Stock Fans After AI Event
+  summary: Top Analyst Reaffirms $230 Target on Palantir After Major AI Event
+  url: https://finnhub.io/api/news?id=0653a6513f1fae06ef8567e8088adcc30479e1d48a97cf3803da6ca45ba2ef61

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why CoreWeave (CRWV) is a Strategically Important firm in AI Infrastructure?
+  summary: CoreWeave Inc. (NASDAQ:CRWV) is one of the 10 Best AI Stocks to Buy in June. Based on 39 analyst ratings compiled by CNN, 62% assigned a Buy rating to CoreWeave, while 33% assigned a Hold rating. The stock currently has an average price target of $140, a 39.46% upside from the current price of $100.39. […]
+  url: https://finnhub.io/api/news?id=1bd8af19d86b38d3889a4e68449cb8c32675a283564fef8f0d392b74e675dbce

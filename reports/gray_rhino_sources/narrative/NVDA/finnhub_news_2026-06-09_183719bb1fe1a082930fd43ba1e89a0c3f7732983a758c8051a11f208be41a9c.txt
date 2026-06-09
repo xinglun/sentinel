@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From $1,000 to $17,070: How Super Micro Computer Became an AI Infrastructure Juggernaut in Ten Years
+  summary: From Niche Server Builder to AI Infrastructure Powerhouse A decade ago, Super Micro Computer (NASDAQ:SMCI) was a quiet Silicon Valley server maker most investors had never heard of. Then the generative AI boom hit, NVIDIA (NASDAQ:NVDA) GPUs became the most coveted silicon on earth, and Supermicro’s modular, liquid-cooled server racks became the shovel of choice. ... From $1,000 to $17,070: How Super Micro Computer Became an AI Infrastructure Juggernaut in Ten Years
+  url: https://finnhub.io/api/news?id=7f7a7372f944d78e5f45ce61cacc66aebbe4265a82b7ca714513f8774f519d61

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Files for IPO. It Will Have Huge Market Consequences.
+  summary: OpenAI announced it has confidentially filed for an initial public offering one week after competitor Anthropic announced it planned to go to market.  The ChatGPT parent said in a blog post on Monday night that it has recently submitted a confidential S-1 to the Securities and Exchange Commission.  “We expect it to leak so we’re just announcing it,” the company said in the blog post.
+  url: https://finnhub.io/api/news?id=e86d66f9000c529cd3daf68ac4d26055aa3371bd22f2084ec1a061e7e2957a54

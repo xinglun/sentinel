@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Siri Didn’t  Rescue Apple
+  summary: Apple’s (NASDAQ: AAPL) new Siri upgrade won’t work in the EU or China for now. China is the world’s largest smartphone market. So, in China, consumers will use old apps on current Apple products. Siri works, supposedly, the way products like OpenAI’s ChatGPT do. Many of its features were teased at the Worldwide Developers Conference, ... Siri Didn’t Rescue Apple
+  url: https://finnhub.io/api/news?id=46df794ca980bc47360436a100d36040665c46583ec09a5247fbbdd635e39862

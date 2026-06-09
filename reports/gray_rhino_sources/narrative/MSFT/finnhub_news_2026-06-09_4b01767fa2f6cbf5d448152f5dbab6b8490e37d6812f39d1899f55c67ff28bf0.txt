@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle's Trillion-Dollar Ghostwriter
+  summary: The company's stock surge had a secret ingredient beyond AI hype: a clever way to get someone else to pay for it.
+  url: https://finnhub.io/api/news?id=af6b9d8b9e3985228fa3c1493598bf49f6b7ffba16f56f89e1a56485abf42ee5

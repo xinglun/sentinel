@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel’s Foundry Turnaround Is Becoming Reality. Just Ask Cadence.
+  summary: FEATURE   Intel stock was rising early Tuesday. A newly expanded deal with Cadence Design Systems looks like a sign of confidence in Intel’s next-generation chip-manufacturing process.  Intel shares were up 2.
+  url: https://finnhub.io/api/news?id=e2f675f8b4461f483ed36a313b1870f270805eb4bd69c55e407b6f619112bfa6

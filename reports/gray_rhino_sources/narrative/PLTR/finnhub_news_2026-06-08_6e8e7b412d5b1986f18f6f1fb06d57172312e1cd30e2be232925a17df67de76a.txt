@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How To Trade The SpaceX IPO By Heeding These Lessons From Google, Palantir And Meta.
+  summary: Some unusual or even unprecedented circumstances could magnify the usual volatility and risks that come with IPOs.
+  url: https://finnhub.io/api/news?id=05f8015200f8dbe0466703220d75c69e8f517a5cc723cfd48a8d897576974403

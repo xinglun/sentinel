@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma (FIG) Down More Than 38% YTD, Here’s What You Need to Know
+  summary: Figma, Inc. (NYSE:FIG) is one of the AI Bubble Stocks to Short Now According to Reddit. The stock has declined more than 38% on a year-to-date basis, and the stock’s short float has exceeded 36%. According to Reddit, many investors are betting against Figma, Inc. (NYSE:FIG) due to the looming threat from AI. However, the […]
+  url: https://finnhub.io/api/news?id=e95782d294b7ab38b6f8f92ca8b5d83223c7c3906b12b015f3db451453f2430d

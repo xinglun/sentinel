@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Record Gold Prices and Cost-of-Living Pressures Drive Surge in Online Jewellery Sales, Research by Cash4Gold-Now Reveals
+  summary: Study of more than 140,000 UK sellers exposes widespread distrust of the industry - and the surprisingly simple things that would fix it.London, United Kingdom--(Newsfile Corp. - June 9, 2026) - Nine in ten UK gold sellers turn to social media, not Google, when choosing a buyer, according to new research revealing just how considered, and often conflicted, that decision really is.Record Gold Prices and Cost-of-Living Pressures Drive Surge in Online Jewellery Sales, Research by Cash4Gold-Now...
+  url: https://finnhub.io/api/news?id=00a41c8a3526f90600d3b06127cadaab85dec737adb48538b1e4551b8d3b3dc4

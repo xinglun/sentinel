@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Recent History Says About SpaceX’s IPO and the Possibility of a First-Day Pop
+  summary: IPOs have had juicy first-day gains this year, but it doesn’t take long for the pullback to start. And that is particularly true for mega IPOs.
+  url: https://finnhub.io/api/news?id=86c0c3f76f54975d48212f83aaf7e6f2b93884e532e0400254ad2642bb5cb0c1

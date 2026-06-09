@@ -1,17 +1,110 @@
 {
-  "as_of_date": "2026-06-08",
-  "avg_confidence": 53.73001260707181,
-  "avg_stability": 15.114785660942845,
+  "as_of_date": "2026-06-09",
+  "avg_confidence": 54.563518232644064,
+  "avg_stability": 16.794250773776387,
+  "daily_summaries": [
+    {
+      "core_breakdown": false,
+      "date": "2026-06-01",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-02",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-03",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-04",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-05",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-08",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-09",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
+    }
+  ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-09T00:51:24.089094112+09:00",
+  "generated_at": "2026-06-10T00:38:10.846683535+09:00",
   "include_current_packet": true,
   "latest_context": {
     "cognitive_calibration": {
       "asset_thesis_entries": 9,
       "research_attention_entries": 9
     },
-    "holding_efficiency": "TimeCostRising",
+    "holding_efficiency": "Neutral",
     "macro_gravity": {
       "configured": true,
       "credit_stress": "NORMAL",
@@ -41,9 +134,20 @@
   "market_state_counts": {
     "IGNITION": 7
   },
-  "participation_ready_days": 6,
+  "participation_ready_days": 7,
   "risk_overlay_counts": {
     "NORMAL": 7
   },
-  "trend_cohesion_ready_days": 6
+  "trend_cohesion_ready_days": 7,
+  "weekly_totals": {
+    "core_breakdown_total": 0,
+    "days": 7,
+    "defensive_override_total": 0,
+    "duration_lock_total": 0,
+    "preflight_failed_total": 0,
+    "reconciliation_mismatch_total": 0,
+    "reset_blocked_total": 0,
+    "reset_confirmed_total": 0,
+    "soft_reset_total": 0
+  }
 }

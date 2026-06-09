@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: Will Broadcom Stock Hit $500 This Year?
+  summary: Broadcom (NASDAQ:AVGO) just took one of the sharpest post-earnings drawdowns of the AI cycle, falling 13.78% in a single week despite posting 47.87% revenue growth and an eighth straight EPS beat. That dislocation is exactly why our model now sees meaningful upside back toward, and through, the $500 line. The stock trades at $396.60 as ... Price Prediction: Will Broadcom Stock Hit $500 This Year?
+  url: https://finnhub.io/api/news?id=89afb9cbc5b69f67983a2783bd8c4079a23de0b75f1d81575da0a2e14257e2f7

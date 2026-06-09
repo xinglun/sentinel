@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Its Monumental Run, Is Marvell Stock's AI Future Already In The Price?
+  summary: The chipmaker's stock has soared on a powerful AI growth story, but owning it means betting on flawless execution at a premium price.
+  url: https://finnhub.io/api/news?id=5f8a9145d52f3db4b031013e4363d9ba6467b42a7087330447b84f7431e8c6f3

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Bitcoin Too Boring for Investors in an AI World?
+  summary: The shine has clearly worn off of bitcoin if the recent price crash is any indicator. Find out what industry experts think this says about the state of the market and investors headed into the summer months on this episode of ETF Zoo.
+  url: https://finnhub.io/api/news?id=c71d0ddba6116f92d4bf8f195f9a8fe418acaf0fef052c68ef96ac0a73c72eee

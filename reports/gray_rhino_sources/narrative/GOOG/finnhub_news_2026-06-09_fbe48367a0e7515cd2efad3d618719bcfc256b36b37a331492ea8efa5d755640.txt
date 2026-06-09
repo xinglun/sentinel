@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Pounces on Nvidia Dip, Dumps AMD in Bold AI Bet
+  summary: Ark Doubles Down on Big Tech Winners as AMD Faces Selling Pressure
+  url: https://finnhub.io/api/news?id=a6c590c9f827d53e863f95a4e2f3372061da6ae4c199c17096de3a2ab8cee9f0

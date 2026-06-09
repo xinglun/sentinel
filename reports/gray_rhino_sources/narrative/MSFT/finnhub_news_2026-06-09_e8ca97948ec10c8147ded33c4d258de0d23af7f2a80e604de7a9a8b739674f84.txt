@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Atos Group and Microsoft Expand Strategic Collaboration to Scale Secure Agentic AI Across Atos Group Workforce and Clients
+  summary: Press Release Atos Group and Microsoft Expand Strategic Collaboration to Scale Secure Agentic AI Across Atos Group Workforce and Clients Atos Group becomes the first French Global System Integrator to deploy Microsoft 365 Copilot and one of the first France- headquartered on Microsoft 365 Frontier Suite, advancing its journey to become a global AI-powered company, embedding secure agentic AI across its operations and bringing the same playbook to its clients worldwide. Redmond, Wash., and Paris,
+  url: https://finnhub.io/api/news?id=57768168375512a5734de1f552c276c3174ab4f6be514425ae124fd18a0f5958

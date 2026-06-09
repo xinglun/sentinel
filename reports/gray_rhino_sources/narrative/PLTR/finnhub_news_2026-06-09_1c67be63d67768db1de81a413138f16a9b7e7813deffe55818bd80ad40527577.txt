@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir's Stock Price in 5 Years
+  summary: Palantir could continue to reward investors if its AI platform keeps turning demand into durable revenue.
+  url: https://finnhub.io/api/news?id=172e9267e623708e7366981969cea96d32b0085cbe4600d6a1f2d11e2eeba42d

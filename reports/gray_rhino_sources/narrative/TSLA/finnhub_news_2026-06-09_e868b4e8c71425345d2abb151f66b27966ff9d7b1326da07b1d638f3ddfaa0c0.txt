@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Update - CIP Boosts Energy Transition With Battery Storage Project
+  summary: Copenhagen Infrastructure Partners (CIP) has announced a partial divestment of its Devilla battery storage project, transferring minority stakes to the Scottish National Investment Bank and Nuclear Liabilities Fund. The 500MW Devilla facility, currently in construction, is poised to become one of Europe’s largest battery energy storage systems upon its commissioning in 2028. This project, strategically located in Kincardine, Scotland, aims to enhance grid stability and support the integration...
+  url: https://finnhub.io/api/news?id=e44bf8b2f704c5a1a8008a4e6190a754f6741f072718784ea03c46437bac706a

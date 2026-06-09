@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 'Insane' Growth Stocks Already Tripled Or More This Year
+  summary: A triple! Talk about an insane gain in the S&P 500 for the year — and June isn't even half over yet.
+  url: https://finnhub.io/api/news?id=38885f99fae938256350355ac3802b898a9a08708574f489eaa28a6ef723a884

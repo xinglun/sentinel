@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Chanos Rejects SpaceX IPO Valuation Comparison To Amazon, Google, Meta's Early Days: 'Isn't Even Remotely True'
+  summary: Investor Jim Chanos challenged the prevailing narrative comparing SpaceX‘s initial public offering (IPO) valuation to early tech giants like Amazon.com, Google, and Meta Platforms. Chanos took to X on Saturday to respond to a user, The_Real_Fly, stating SpaceX, OpenAI and...
+  url: https://finnhub.io/api/news?id=d5bee36d1b98ecb13c794a9e36d8556c7f36d7ac9a1c354e308a7fd8398b916c

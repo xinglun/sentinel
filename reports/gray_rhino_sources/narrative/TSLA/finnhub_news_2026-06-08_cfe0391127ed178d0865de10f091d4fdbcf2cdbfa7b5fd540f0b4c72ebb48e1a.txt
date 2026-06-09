@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Baron Funds Got Boost From Updated Value of Their SpaceX Stock
+  summary: The $17 billion Baron Partners fund and the $3.7 billion Baron Asset both got big gains last Thursday—almost 7% and 8%, respectively.
+  url: https://finnhub.io/api/news?id=1d812b59908d555e37482da2cdb060819dd0d1cc4303ece3e26e04eb9cbd62b6
