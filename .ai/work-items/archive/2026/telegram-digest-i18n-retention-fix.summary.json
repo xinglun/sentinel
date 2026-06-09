@@ -1,0 +1,99 @@
+{
+  "workItemId": "telegram-digest-i18n-retention-fix",
+  "contractPath": ".ai/work-items/archive/2026/telegram-digest-i18n-retention-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "reason": "復評指摘に合わせて scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+      "reason": "保持規則修正、検証結果、境界確認を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 作成と status 生成に伴い更新された。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration Telegram digest の日本語・資本吸収・灰色のサイ保持語と省略通知の言語分岐を追加し、test を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "主 Radar Telegram appendix digest の Capital Absorption 保持語と省略通知の言語分岐を追加し、test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+    ".ai/work-items/archive/2026/telegram-daily-compact-weekly-alignment.summary.json",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/daily_calibration_i18n.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示保持語と test の追加のみ。Telegram digest は詳細を省略するが、CLI stdout と archival Markdown の全文保持は維持する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "boundaryChecks": {
+    "gateExecution": "verified: Gate / execution / trader / action matrix / position sizing の production logic は変更していない。",
+    "reportOutput": "changed: Telegram digest の保持規則と省略通知を調整した。",
+    "persistence": "not_applicable: 新しい日次保存や weekly schema の追加はない。",
+    "i18n": "changed: digest 省略通知を zh / ja / en のテキストに分岐し、日本語保持語を追加した。",
+    "makeEntrypoints": "verified: 新しい運用 command は追加していない。"
+  },
+  "userCorrectionsCaptured": [
+    {
+      "correction": "Capital Absorption appendix と日本語 daily-calibration digest で判断行が落ちるリスクを修正する。",
+      "capturedIn": "src/cli.rs と src/features/radar/interface/radar_pipeline_runner.rs の保持規則と tests。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "完了報告では Telegram digest が明細省略であり、全文保持は CLI / archival Markdown 側であることを明記する。"
+}

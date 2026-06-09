@@ -1,5 +1,7 @@
 use anyhow::Result;
+use chrono::NaiveDate;
 use serde_json::json;
+use std::collections::BTreeMap;
 
 #[derive(Clone)]
 pub(crate) struct WeeklyReportContext {
@@ -25,6 +27,9 @@ pub(crate) fn persist_weekly_state_outputs(
     include_current_packet: bool,
     pres_packet: &crate::features::radar::interface::presentation::PresentationPacket,
     context: &WeeklyReportContext,
+    current_state_machine: Option<
+        &crate::features::shared::application::run_status::StateMachineSummary,
+    >,
 ) -> Result<()> {
     let mut recent_packets: Vec<&crate::features::radar::domain::decision::DecisionPacket> =
         history.iter().rev().take(7).collect();
@@ -36,8 +41,8 @@ pub(crate) fn persist_weekly_state_outputs(
         recent_packets = recent_packets[recent_packets.len() - 7..].to_vec();
     }
 
-    let mut market_state_counts = std::collections::BTreeMap::<String, usize>::new();
-    let mut risk_overlay_counts = std::collections::BTreeMap::<String, usize>::new();
+    let mut market_state_counts = BTreeMap::<String, usize>::new();
+    let mut risk_overlay_counts = BTreeMap::<String, usize>::new();
     let mut total_confidence = 0.0;
     let mut total_stability = 0.0;
     let mut trend_cohesion_ready_days = 0usize;
@@ -68,6 +73,10 @@ pub(crate) fn persist_weekly_state_outputs(
         0.0
     };
     let latest_context = build_weekly_latest_context(pres_packet, context);
+    let state_machine_summaries =
+        load_weekly_state_machine_summaries(save_dir, current_packet.date, current_state_machine);
+    let weekly_totals = build_weekly_totals(&state_machine_summaries);
+    let daily_summaries = build_daily_summaries(&state_machine_summaries);
 
     let metrics = json!({
         "generated_at": chrono::Local::now().to_rfc3339(),
@@ -86,6 +95,8 @@ pub(crate) fn persist_weekly_state_outputs(
         "participation_ready_days": trend_cohesion_ready_days,
         "market_state_counts": market_state_counts,
         "risk_overlay_counts": risk_overlay_counts,
+        "weekly_totals": weekly_totals,
+        "daily_summaries": daily_summaries,
         "latest_context": latest_context,
     });
 
@@ -132,12 +143,123 @@ pub(crate) fn persist_weekly_state_outputs(
     {
         review.push_str(&format!("- {}: {}\n", state, count));
     }
+    push_weekly_state_machine_totals(&mut review, &weekly_totals, &metrics["daily_summaries"]);
     push_weekly_strategic_context_snapshot(&mut review, pres_packet);
     push_weekly_macro_gravity_snapshot(&mut review, context);
     push_weekly_cognitive_calibration_snapshot(&mut review, context);
 
     std::fs::write(save_dir.join("weekly_state_review_auto.md"), review)?;
     Ok(())
+}
+
+#[derive(Clone)]
+struct WeeklyStateMachineEntry {
+    date: NaiveDate,
+    summary: crate::features::shared::application::run_status::StateMachineSummary,
+}
+
+fn load_weekly_state_machine_summaries(
+    save_dir: &std::path::Path,
+    current_date: NaiveDate,
+    current_state_machine: Option<
+        &crate::features::shared::application::run_status::StateMachineSummary,
+    >,
+) -> Vec<WeeklyStateMachineEntry> {
+    let mut entries = std::fs::read_dir(save_dir)
+        .ok()
+        .into_iter()
+        .flat_map(|read_dir| read_dir.filter_map(std::result::Result::ok))
+        .filter_map(|entry| load_state_machine_summary_from_run_status(&entry.path()))
+        .collect::<BTreeMap<_, _>>();
+
+    if let Some(summary) = current_state_machine {
+        entries.insert(current_date, summary.clone());
+    }
+
+    let mut recent = entries
+        .into_iter()
+        .map(|(date, summary)| WeeklyStateMachineEntry { date, summary })
+        .collect::<Vec<_>>();
+    if recent.len() > 7 {
+        recent = recent.split_off(recent.len() - 7);
+    }
+    recent
+}
+
+fn load_state_machine_summary_from_run_status(
+    path: &std::path::Path,
+) -> Option<(
+    NaiveDate,
+    crate::features::shared::application::run_status::StateMachineSummary,
+)> {
+    let file_name = path.file_name()?.to_str()?;
+    let raw_date = file_name
+        .strip_prefix("run_status_")?
+        .strip_suffix(".json")?;
+    let date = NaiveDate::parse_from_str(raw_date, "%Y-%m-%d").ok()?;
+    let raw = std::fs::read_to_string(path).ok()?;
+    let value = serde_json::from_str::<serde_json::Value>(&raw).ok()?;
+    let summary = value.get("state_machine")?;
+    serde_json::from_value(summary.clone())
+        .ok()
+        .map(|summary| (date, summary))
+}
+
+fn build_weekly_totals(entries: &[WeeklyStateMachineEntry]) -> serde_json::Value {
+    let mut reset_confirmed_total = 0usize;
+    let mut reset_blocked_total = 0usize;
+    let mut soft_reset_total = 0usize;
+    let mut duration_lock_total = 0usize;
+    let mut defensive_override_total = 0usize;
+    let mut core_breakdown_total = 0usize;
+    let mut reconciliation_mismatch_total = 0usize;
+    let mut preflight_failed_total = 0usize;
+
+    for entry in entries {
+        let summary = &entry.summary;
+        reset_confirmed_total += usize::from(summary.reset_confirmed);
+        reset_blocked_total += usize::from(summary.reset_blocked);
+        soft_reset_total += usize::from(summary.soft_reset_applied);
+        duration_lock_total += usize::from(summary.duration_locked);
+        defensive_override_total += usize::from(summary.defensive_override);
+        core_breakdown_total += usize::from(summary.core_breakdown);
+        reconciliation_mismatch_total += summary.reconciliation_mismatch_count;
+        preflight_failed_total += usize::from(summary.preflight_failed);
+    }
+
+    json!({
+        "days": entries.len(),
+        "reset_confirmed_total": reset_confirmed_total,
+        "reset_blocked_total": reset_blocked_total,
+        "soft_reset_total": soft_reset_total,
+        "duration_lock_total": duration_lock_total,
+        "defensive_override_total": defensive_override_total,
+        "core_breakdown_total": core_breakdown_total,
+        "reconciliation_mismatch_total": reconciliation_mismatch_total,
+        "preflight_failed_total": preflight_failed_total
+    })
+}
+
+fn build_daily_summaries(entries: &[WeeklyStateMachineEntry]) -> serde_json::Value {
+    json!(entries
+        .iter()
+        .map(|entry| {
+            let summary = &entry.summary;
+            json!({
+                "date": entry.date.to_string(),
+                "from_state": &summary.from_state,
+                "to_state": &summary.to_state,
+                "reset_confirmed": summary.reset_confirmed,
+                "reset_blocked": summary.reset_blocked,
+                "soft_reset_applied": summary.soft_reset_applied,
+                "duration_locked": summary.duration_locked,
+                "defensive_override": summary.defensive_override,
+                "core_breakdown": summary.core_breakdown,
+                "reconciliation_mismatch_count": summary.reconciliation_mismatch_count,
+                "preflight_failed": summary.preflight_failed
+            })
+        })
+        .collect::<Vec<_>>())
 }
 
 fn build_weekly_latest_context(
@@ -257,6 +379,58 @@ fn push_weekly_macro_gravity_snapshot(review: &mut String, context: &WeeklyRepor
         macro_gravity.growth_valuation_impact
     ));
     review.push_str("- Boundary: context only; no Gate input or trade instruction.\n");
+}
+
+fn push_weekly_state_machine_totals(
+    review: &mut String,
+    totals: &serde_json::Value,
+    daily_summaries: &serde_json::Value,
+) {
+    review.push_str("\n## State Machine Weekly Totals\n");
+    review.push_str(&format!(
+        "- Days with state summary: {}\n",
+        totals["days"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- Reset confirmed / blocked: {} / {}\n",
+        totals["reset_confirmed_total"].as_u64().unwrap_or(0),
+        totals["reset_blocked_total"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- Soft reset / duration lock / defensive override: {} / {} / {}\n",
+        totals["soft_reset_total"].as_u64().unwrap_or(0),
+        totals["duration_lock_total"].as_u64().unwrap_or(0),
+        totals["defensive_override_total"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- Core breakdown / reconciliation mismatch: {} / {}\n",
+        totals["core_breakdown_total"].as_u64().unwrap_or(0),
+        totals["reconciliation_mismatch_total"]
+            .as_u64()
+            .unwrap_or(0)
+    ));
+
+    review.push_str("\n## Daily State Machine Timeline\n");
+    if let Some(items) = daily_summaries.as_array() {
+        if items.is_empty() {
+            review.push_str("- No state machine summaries available.\n");
+        }
+        for item in items {
+            review.push_str(&format!(
+                "- {}: {} -> {} | reset C/B {} / {} | soft_reset {} | duration_lock {} | defensive_override {} | mismatch {}\n",
+                item["date"].as_str().unwrap_or("unknown"),
+                item["from_state"].as_str().unwrap_or("unknown"),
+                item["to_state"].as_str().unwrap_or("unknown"),
+                item["reset_confirmed"].as_bool().unwrap_or(false),
+                item["reset_blocked"].as_bool().unwrap_or(false),
+                item["soft_reset_applied"].as_bool().unwrap_or(false),
+                item["duration_locked"].as_bool().unwrap_or(false),
+                item["defensive_override"].as_bool().unwrap_or(false),
+                item["reconciliation_mismatch_count"].as_u64().unwrap_or(0)
+            ));
+        }
+    }
+    review.push_str("- Boundary: audit facts only; no score, advice, or trade decision.\n");
 }
 
 fn push_weekly_cognitive_calibration_snapshot(review: &mut String, context: &WeeklyReportContext) {

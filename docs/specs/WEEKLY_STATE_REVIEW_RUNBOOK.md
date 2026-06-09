@@ -244,11 +244,18 @@ language = "en-us"
 3. `holding_efficiency`
 4. `macro_gravity`
 5. `strategic_context`
+6. `cognitive_calibration`
+
+`weekly_state_metrics.json` は、状態機械の週次監査用に以下も保持します：
+1. `weekly_totals`
+2. `daily_summaries`
 
 `weekly_state_review_auto.md` には以下の 3 セクションが追加されます：
-1. `Strategic Context Snapshot`
-2. `Macro Gravity Snapshot`
-3. `Cognitive Calibration Snapshot`
+1. `State Machine Weekly Totals`
+2. `Daily State Machine Timeline`
+3. `Strategic Context Snapshot`
+4. `Macro Gravity Snapshot`
+5. `Cognitive Calibration Snapshot`
 
 これらは状態理解の補助であり、スコア、推奨、売買判断を生成しません。
 
@@ -345,6 +352,7 @@ language = "en-us"
 ### 7.1 自動化済み
 - 直近 7 日間の `run_status` スキャン。
 - `weekly_totals` の集計。
+- `daily_summaries` の生成。
 - `weekly_state_metrics.json` の生成。
 - `weekly_state_review_auto.md` の生成。
 - 成果物の `data` ブランチへの同期。

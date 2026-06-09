@@ -1,0 +1,108 @@
+{
+  "contractVersion": 1,
+  "workItemId": "telegram-digest-i18n-retention-fix",
+  "mode": "code",
+  "title": "Telegram digest の保持規則と i18n 修正",
+  "scope": [
+    ".ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+    ".ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/telegram-daily-compact-weekly-alignment.contract.json",
+    ".ai/work-items/archive/2026/telegram-daily-compact-weekly-alignment.summary.json",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/application/**",
+    "src/features/trading/**",
+    "src/features/backtest/**",
+    ".github/workflows/**",
+    "reports/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/telegram-daily-compact-weekly-alignment.summary.json",
+      "reason": "前回 Work Item の検証と既知境界。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration Telegram digest の保持規則と test 対象。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "主 Radar Telegram appendix digest の保持規則と test 対象。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Capital Absorption report の判断行を digest で保持する必要がある。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "daily-calibration は zh / en / ja を出力するため、日本語 digest 保持語が必要。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "Gate / execution / trader / action matrix / position sizing には影響しない。Telegram digest の表示保持規則と test だけを修正する。",
+    "主 Radar Telegram の appendix digest は Capital Absorption の status / supply / demand / absorption ratio / structural impact / boundary を保持する。",
+    "daily-calibration digest は日本語 report の状態、証拠、リスク、資本吸収、灰色のサイ、境界文言を保持する。",
+    "CLI daily-calibration stdout と archival Markdown の全文保持は維持する。",
+    "省略通知は少なくとも report 言語ごとに不自然な混在を避けるか、テストで許容範囲を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-digest-i18n-retention-fix.contract.json SUMMARY=.ai/work-items/active/telegram-digest-i18n-retention-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
