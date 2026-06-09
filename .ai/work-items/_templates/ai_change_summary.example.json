@@ -28,6 +28,28 @@
   "generatedFiles": [],
   "destructiveChanges": [],
   "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope / sources / acceptance / verification を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象が scope 内であり、outOfScope に含まれないことを確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "Summary、risk、reviewReadiness、verification 結果を更新した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks の結果を Summary に同期した。"
+    }
+  ],
   "residualRisks": [
     {
       "level": "medium",

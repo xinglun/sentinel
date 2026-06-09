@@ -32,9 +32,19 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "agentCapability",
     "executionDecision",
     "preReviewWarnings",
+    "checkpointPolicy",
 }
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 REQUIRED_VERIFICATION_COMMANDS = ("make fmt-check",)
+REQUIRED_CODE_GATE_PREFIXES = (
+    "make check-ai-contract",
+    "make check-ai-scope",
+    "make check-ai-guards",
+    "make check-ai-backtrack",
+    "make check-ai-change-summary",
+    "make generate-cockpit-status",
+    "make check-ai-status",
+)
 RISK_LEVELS = {"low", "medium", "high", "blocked"}
 RISK_TYPES = {
     "scope_unclear",
@@ -48,6 +58,7 @@ RISK_TYPES = {
     "governance_process",
 }
 EXECUTION_STATUSES = {"continue", "contract_update_required", "blocked", "downgraded_to_investigation"}
+REQUIRED_CHECKPOINTS = {"contract_start", "before_edit", "before_ready", "after_verification"}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -129,6 +140,31 @@ def validate_verification(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def required_verification_commands(data: dict[str, Any]) -> set[str]:
+    commands: set[str] = set()
+    values = data.get("verification")
+    if not isinstance(values, list):
+        return commands
+    for item in values:
+        if isinstance(item, dict) and item.get("required") is True and non_empty_string(item.get("command")):
+            commands.add(item["command"].strip())
+    return commands
+
+
+def validate_code_gate_verification(data: dict[str, Any]) -> list[str]:
+    if data.get("mode") != "code":
+        return []
+    execution = data.get("executionDecision")
+    if isinstance(execution, dict) and execution.get("status") != "continue":
+        return []
+    required = required_verification_commands(data)
+    issues: list[str] = []
+    for prefix in REQUIRED_CODE_GATE_PREFIXES:
+        if not any(command == prefix or command.startswith(f"{prefix} ") for command in required):
+            issues.append(f"code mode の required verification に AI gate が必要です: {prefix}")
+    return issues
+
+
 def validate_optional_risk_assessment(data: dict[str, Any]) -> list[str]:
     if "riskAssessment" not in data:
         return []
@@ -182,6 +218,33 @@ def validate_optional_execution_decision(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_optional_checkpoint_policy(data: dict[str, Any]) -> list[str]:
+    if "checkpointPolicy" not in data:
+        if data.get("mode") == "code":
+            return ["code mode では checkpointPolicy が必要です。"]
+        return []
+    issues: list[str] = []
+    value = data.get("checkpointPolicy")
+    if not isinstance(value, dict):
+        return ["checkpointPolicy は object にしてください。"]
+    checkpoints = value.get("requiredCheckpoints")
+    if not isinstance(checkpoints, list):
+        issues.append("checkpointPolicy.requiredCheckpoints は list にしてください。")
+    else:
+        actual: set[str] = set()
+        for index, checkpoint in enumerate(checkpoints):
+            if not non_empty_string(checkpoint):
+                issues.append(f"checkpointPolicy.requiredCheckpoints[{index}] は空でない string にしてください。")
+                continue
+            actual.add(checkpoint)
+        missing = REQUIRED_CHECKPOINTS - actual
+        if missing:
+            issues.append(f"checkpointPolicy.requiredCheckpoints が不足しています: {', '.join(sorted(missing))}")
+    if not non_empty_string(value.get("reminder")):
+        issues.append("checkpointPolicy.reminder は必須です。")
+    return issues
+
+
 def validate_contract(data: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -208,6 +271,8 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_optional_risk_assessment(data))
     issues.extend(validate_optional_agent_capability(data))
     issues.extend(validate_optional_execution_decision(data))
+    issues.extend(validate_optional_checkpoint_policy(data))
+    issues.extend(validate_code_gate_verification(data))
     if "preReviewWarnings" in data:
         issues.extend(validate_string_list(data, "preReviewWarnings", allow_empty=True))
 
@@ -221,6 +286,16 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
         execution_status = data["executionDecision"].get("status")
         if data.get("mode") == "code" and execution_status in {"contract_update_required", "blocked", "downgraded_to_investigation"}:
             issues.append(f"mode: code で executionDecision.status: {execution_status} の task は ready にできません。")
+    if isinstance(data.get("agentCapability"), dict) and isinstance(data.get("executionDecision"), dict):
+        capability = data["agentCapability"]
+        execution_status = data["executionDecision"].get("status")
+        if execution_status == "continue":
+            if capability.get("canImplement") is not True:
+                issues.append("agentCapability.canImplement: false の task は executionDecision: continue にできません。")
+            if capability.get("canVerify") is not True:
+                issues.append("agentCapability.canVerify: false の task は executionDecision: continue にできません。")
+            if capability.get("needsHumanDecision") is True:
+                issues.append("agentCapability.needsHumanDecision: true の task は executionDecision: continue にできません。")
     return issues
 
 

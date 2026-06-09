@@ -1,0 +1,139 @@
+{
+  "contractVersion": 1,
+  "workItemId": "ai-agent-risk-hardening",
+  "mode": "code",
+  "title": "Agent 三大リスクの hard gate 化",
+  "scope": [
+    ".ai/work-items/active/ai-agent-risk-hardening.contract.json",
+    ".ai/work-items/active/ai-agent-risk-hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/_templates/ai_change_summary.example.json",
+    "AGENTS.md",
+    "Makefile",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_start.py",
+    "scripts/ai_test_work_item_risk_readiness.py",
+    "skills/sentinel-ai-cockpit/SKILL.md"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    ".github/workflows/**",
+    "reports/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/archive/2026/ai-risk-readiness-hardening.contract.json",
+      "reason": "前段で導入した risk / readiness channel の Contract 実例。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-risk-readiness-hardening.summary.json",
+      "reason": "ready_with_risks と user correction 固化の Summary 実例。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "Contract schema と hard gate の実装対象。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "新規 Work Item skeleton の生成元。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_risk_readiness.py",
+      "reason": "risk / readiness policy の regression test。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "AI governance の hard gate と skeleton を強化するため、既存 Work Item 互換を保ちながら新規 code mode task の安全性を上げる。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "変更範囲は AI governance、template、test、skill に限定され、production Rust code は変更しない。"
+  },
+  "preReviewWarnings": [
+    "新しい hard gate は新規 code mode Work Item を厳格化する。既存 archive は遡及移行しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "code mode の executionDecision: continue では、scope / guard / summary / status 系の AI gate が required verification として必須化されている。",
+    "Contract に checkpointPolicy を追加し、contract_start / before_edit / before_ready / after_verification の確認点を guard で検証する。",
+    "agentCapability が実装不能、検証不能、または人間判断待ちを示す場合、executionDecision: continue を拒否する。",
+    "ai-start と template が三大リスクに対応する skeleton を生成する。",
+    "AGENTS、.ai README、Cockpit README、skill が hard boundary、checkpoint、合法な unknown channel を説明している。",
+    "production Rust code、tests/**、docs/**、CI、reports は変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-agent-risk-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-agent-risk-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-risk-readiness",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-agent-risk-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-agent-risk-hardening.contract.json SUMMARY=.ai/work-items/active/ai-agent-risk-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-agent-risk-hardening.summary.json CONTRACT=.ai/work-items/active/ai-agent-risk-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-agent-risk-hardening.contract.json SUMMARY=.ai/work-items/active/ai-agent-risk-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-agent-risk-hardening.contract.json SUMMARY=.ai/work-items/active/ai-agent-risk-hardening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
