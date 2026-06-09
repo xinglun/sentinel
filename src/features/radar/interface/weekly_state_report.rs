@@ -170,6 +170,7 @@ fn load_weekly_state_machine_summaries(
         .into_iter()
         .flat_map(|read_dir| read_dir.filter_map(std::result::Result::ok))
         .filter_map(|entry| load_state_machine_summary_from_run_status(&entry.path()))
+        .filter(|(date, _)| *date <= current_date)
         .collect::<BTreeMap<_, _>>();
 
     if let Some(summary) = current_state_machine {
@@ -446,4 +447,68 @@ fn push_weekly_cognitive_calibration_snapshot(review: &mut String, context: &Wee
     review.push_str(
         "- Boundary: cognitive calibration manages attention and thesis review only; it does not generate trade signals.\n",
     );
+}
+
+#[cfg(test)]
+mod tests {
+    use super::load_weekly_state_machine_summaries;
+    use crate::features::shared::application::run_status::StateMachineSummary;
+    use chrono::NaiveDate;
+    use tempfile::tempdir;
+
+    fn write_run_status(
+        save_dir: &std::path::Path,
+        date: &str,
+        state: &str,
+        reset_confirmed: bool,
+    ) {
+        let value = serde_json::json!({
+            "state_machine": {
+                "from_state": "PREVIOUS",
+                "to_state": state,
+                "reset_confirmed": reset_confirmed,
+                "reset_blocked": false,
+                "soft_reset_applied": false,
+                "duration_locked": false,
+                "defensive_override": false,
+                "core_breakdown": false,
+                "reconciliation_mismatch_count": 0,
+                "preflight_failed": false
+            }
+        });
+        std::fs::write(
+            save_dir.join(format!("run_status_{date}.json")),
+            serde_json::to_string(&value).unwrap(),
+        )
+        .unwrap();
+    }
+
+    #[test]
+    fn weekly_state_machine_summaries_ignore_future_run_status_files() {
+        let tmp = tempdir().unwrap();
+        write_run_status(tmp.path(), "2026-06-07", "VALID_HISTORY", true);
+        write_run_status(tmp.path(), "2026-06-10", "FUTURE_SHOULD_NOT_APPEAR", true);
+        let current = StateMachineSummary {
+            from_state: "VALID_HISTORY".to_string(),
+            to_state: "CURRENT".to_string(),
+            ..Default::default()
+        };
+
+        let entries = load_weekly_state_machine_summaries(
+            tmp.path(),
+            NaiveDate::from_ymd_opt(2026, 6, 9).unwrap(),
+            Some(&current),
+        );
+
+        assert_eq!(entries.len(), 2);
+        assert!(entries
+            .iter()
+            .any(|entry| entry.summary.to_state == "CURRENT"));
+        assert!(entries
+            .iter()
+            .any(|entry| entry.summary.to_state == "VALID_HISTORY"));
+        assert!(!entries
+            .iter()
+            .any(|entry| entry.summary.to_state == "FUTURE_SHOULD_NOT_APPEAR"));
+    }
 }

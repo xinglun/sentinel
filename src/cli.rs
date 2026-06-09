@@ -136,7 +136,8 @@ pub async fn run() -> Result<()> {
             .await?;
             println!("{}", report);
             if options.research_notify {
-                let telegram_report = build_daily_calibration_telegram_digest(&report);
+                let telegram_report =
+                    build_daily_calibration_telegram_digest(&report, audit_language);
                 send_required_telegram_notification(
                     app_config.telegram.as_ref(),
                     &telegram_report,
@@ -731,7 +732,7 @@ fn build_daily_calibration_questions(
     )
 }
 
-fn build_daily_calibration_telegram_digest(report: &str) -> String {
+fn build_daily_calibration_telegram_digest(report: &str, language: Language) -> String {
     const MAX_LINES: usize = 42;
     const MAX_CHARS: usize = 3200;
 
@@ -761,27 +762,25 @@ fn build_daily_calibration_telegram_digest(report: &str) -> String {
         if !out.is_empty() {
             out.push('\n');
         }
-        out.push_str(&daily_calibration_digest_omission_notice(report, omitted));
+        out.push_str(&daily_calibration_digest_omission_notice(language, omitted));
     }
     out
 }
 
-fn daily_calibration_digest_omission_notice(report: &str, omitted: usize) -> String {
-    if report.contains("每日认知校准") || report.contains("边界") {
-        format!(
+fn daily_calibration_digest_omission_notice(language: Language, omitted: usize) -> String {
+    match language {
+        Language::ZhCn => format!(
             "- Telegram 摘要: 已省略 {} 行明细；CLI 输出保留完整 daily calibration report。",
             omitted
-        )
-    } else if report.contains("每日認知校正") || report.contains("境界") {
-        format!(
+        ),
+        Language::JaJp => format!(
             "- Telegram 要約: {} 行の詳細を省略。CLI 出力には daily calibration report の全文を保持。",
             omitted
-        )
-    } else {
-        format!(
+        ),
+        Language::EnUs => format!(
             "- Telegram digest: {} detail line(s) omitted; CLI output keeps the full daily calibration report.",
             omitted
-        )
+        ),
     }
 }
 
@@ -977,7 +976,7 @@ mod tests {
 边界: 本日报只校准系统理解、证据质量、认知资源与观察命题；不生成新的交易指令。
 "#;
 
-        let digest = build_daily_calibration_telegram_digest(report);
+        let digest = build_daily_calibration_telegram_digest(report, Language::ZhCn);
 
         assert!(digest.contains("# 🧭 每日认知校准"));
         assert!(digest.contains("当前 Gate: NO TRADE"));
@@ -1014,7 +1013,7 @@ mod tests {
 境界: この日報はシステム理解、証拠品質、認知資源、観測命題だけを校正し、新しい売買指示は生成しない。
 "#;
 
-        let digest = build_daily_calibration_telegram_digest(report);
+        let digest = build_daily_calibration_telegram_digest(report, Language::JaJp);
 
         assert!(digest.contains("戦術状態: NO TRADE"));
         assert!(digest.contains("証拠状態: 構造証拠を観測中"));
@@ -1026,6 +1025,23 @@ mod tests {
         assert!(digest.contains("生成しない"));
         assert!(digest.contains("Telegram 要約"));
         assert!(!digest.contains("noisy detail line 1"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_notice_uses_configured_language() {
+        let report = r#"# 🧭 每日认知校准
+
+## Summary
+
+- 当前 Gate: NO TRADE
+- noisy detail line 1
+- noisy detail line 2
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::EnUs);
+
+        assert!(digest.contains("Telegram digest"));
+        assert!(!digest.contains("Telegram 摘要"));
     }
     use time::OffsetDateTime;
 

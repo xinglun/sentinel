@@ -1,0 +1,96 @@
+{
+  "workItemId": "telegram-weekly-boundary-followup",
+  "contractPath": ".ai/work-items/archive/2026/telegram-weekly-boundary-followup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "reason": "Telegram digest language 境界と weekly as-of 集計境界を Work Item scope / acceptance に定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+      "reason": "実装内容、検証、残リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 開始に伴う Cockpit status を更新した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration Telegram digest の省略 notice を既存 Language 設定に基づく出力へ変更し、設定言語優先の test を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Radar reference appendix の Telegram digest 省略 notice を既存 Language 設定に基づく出力へ変更し、設定言語優先の test を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly state machine 集計から current_date より未来の run_status を除外し、未来日混入を防ぐ test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-weekly-boundary-followup.contract.json SUMMARY=.ai/work-items/active/telegram-weekly-boundary-followup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "変更は Telegram / weekly review の表示・監査出力境界に限定され、Gate / execution / trader / action matrix / position sizing には接続しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Telegram digest は引き続き行選別型の要約であり、将来 report section が大きく変わる場合は専用 view model 化を検討する。"
+  ]
+}
