@@ -28,6 +28,23 @@
   "generatedFiles": [],
   "destructiveChanges": [],
   "observedIssues": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review_debt",
+      "detail": "required checks は通過したが、review で重点確認すべき論点が残る。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Contract の acceptance は満たしたが、review focus が残る。",
+    "expectedReviewFocus": [
+      "scope 境界",
+      "verification の十分性"
+    ]
+  },
   "boundaryChecks": {
     "gateExecution": "not_applicable | verified | changed",
     "reportOutput": "not_applicable | verified | changed",
@@ -36,6 +53,7 @@
     "makeEntrypoints": "not_applicable | verified | changed"
   },
   "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
   "knownGaps": [],
   "overclaimPrevention": "完了報告では未確認項目を未確認として明記する。"
 }

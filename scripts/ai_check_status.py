@@ -66,8 +66,9 @@ def main() -> int:
         issues.append("status の Contract Path が一致しません。")
     if f"- Summary Path: `{args.summary}`" not in status:
         issues.append("status の Summary Path が一致しません。")
-    if "- State: `ready_for_review`" not in status:
-        issues.append("status が ready_for_review ではありません。")
+    ready_states = ("- State: `ready_for_review`", "- State: `ready_with_risks`")
+    if not any(marker in status for marker in ready_states):
+        issues.append("status が ready_for_review / ready_with_risks ではありません。")
     if "- none" not in status.split("## Required Checks", 1)[0]:
         issues.append("Blocking section が none ではありません。")
 

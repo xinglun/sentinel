@@ -17,6 +17,7 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 |---|---|
 | `blocked` | Contract が invalid、`unknowns` が残っている、または `notCodable: true`。 |
 | `ready_for_review` | Contract と Summary があり、required verification が `passed`。 |
+| `ready_with_risks` | required verification は `passed` だが、Summary の `reviewReadiness` が residual risk と review focus を明示している。 |
 | `blocked_by_ai_loop` | AI loop guard が後退や同一失敗の反復を検出した。 |
 | `no_active_work_item` | active Work Item が存在せず、archive 後の同期も完了している。 |
 
@@ -43,8 +44,26 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 | 言語 | zh / en / ja の i18n、snapshot、contract test が必要か。 |
 | 証拠 | fact、manual observation、hypothesis、fixture、local cache を混同していないか。 |
 | command | 新しい検証・運用入口が `make` target に収まっているか。 |
+| risk / readiness | 実装可能性、検証可能性、人間判断の要否、review focus、残余 risk を記録したか。 |
 
 機能完了の報告では、少なくとも code / test / docs / i18n / report output / data or weekly record / CI or Make guard のどれを確認したかを Summary に残す。未確認項目がある場合は「未確認」と明記し、完了を過大主張しない。
+
+## Risk と review 準備性
+
+Contract の `riskAssessment`、`agentCapability`、`executionDecision` は、Agent が実装前に問題を表明するための machine-readable channel である。
+
+- `executionDecision: continue`: Contract が確定し、scope 内で実装できる。
+- `executionDecision: contract_update_required`: 実装前に scope、acceptance、verification、sources の更新が必要。
+- `executionDecision: blocked`: 人間判断、外部状態、または不足証拠により実装を止める。
+- `executionDecision: downgraded_to_investigation`: production code を変更せず、調査や TODO 整理に降格する。
+
+Summary の `reviewReadiness` は、完了報告の強さを制御する。
+
+- `ready`: required checks が通過し、known residual risk がない。
+- `ready_with_risks`: required checks は通過したが、`residualRisks` と `expectedReviewFocus` が残る。
+- `not_ready`: required checks、Contract、または人間判断待ちが残る。
+
+User correction が発生した場合は、`userCorrectionSolidification` に固化先を記録する。修正だけで終えず、同種の review finding を次回の Contract、template、guard、doc、skill のどこで防ぐかを明示する。
 
 ## 推奨コマンド
 

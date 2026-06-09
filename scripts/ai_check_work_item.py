@@ -26,9 +26,28 @@ REQUIRED_FIELDS = (
     "verification",
     "rollbackNote",
 )
-ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {"destructiveChangePolicy"}
+ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
+    "destructiveChangePolicy",
+    "riskAssessment",
+    "agentCapability",
+    "executionDecision",
+    "preReviewWarnings",
+}
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 REQUIRED_VERIFICATION_COMMANDS = ("make fmt-check",)
+RISK_LEVELS = {"low", "medium", "high", "blocked"}
+RISK_TYPES = {
+    "scope_unclear",
+    "evidence_insufficient",
+    "architecture_boundary",
+    "data_integrity",
+    "i18n_snapshot",
+    "external_dependency",
+    "destructive_change",
+    "review_debt",
+    "governance_process",
+}
+EXECUTION_STATUSES = {"continue", "contract_update_required", "blocked", "downgraded_to_investigation"}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -110,6 +129,59 @@ def validate_verification(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_optional_risk_assessment(data: dict[str, Any]) -> list[str]:
+    if "riskAssessment" not in data:
+        return []
+    issues: list[str] = []
+    value = data.get("riskAssessment")
+    if not isinstance(value, dict):
+        return ["riskAssessment は object にしてください。"]
+    if value.get("level") not in RISK_LEVELS:
+        issues.append(f"riskAssessment.level は {sorted(RISK_LEVELS)} のいずれかにしてください。")
+    risk_types = value.get("riskTypes")
+    if not isinstance(risk_types, list) or not risk_types:
+        issues.append("riskAssessment.riskTypes は 1 件以上の list にしてください。")
+    else:
+        for index, risk_type in enumerate(risk_types):
+            if risk_type not in RISK_TYPES:
+                issues.append(f"riskAssessment.riskTypes[{index}] は {sorted(RISK_TYPES)} のいずれかにしてください。")
+    if not non_empty_string(value.get("reason")):
+        issues.append("riskAssessment.reason は必須です。")
+    return issues
+
+
+def validate_optional_agent_capability(data: dict[str, Any]) -> list[str]:
+    if "agentCapability" not in data:
+        return []
+    issues: list[str] = []
+    value = data.get("agentCapability")
+    if not isinstance(value, dict):
+        return ["agentCapability は object にしてください。"]
+    for key in ("canImplement", "canVerify", "needsHumanDecision"):
+        if not isinstance(value.get(key), bool):
+            issues.append(f"agentCapability.{key} は boolean にしてください。")
+    blocked_reason = value.get("blockedReason")
+    if blocked_reason is not None and not isinstance(blocked_reason, str):
+        issues.append("agentCapability.blockedReason は string にしてください。")
+    if value.get("needsHumanDecision") is True and not non_empty_string(blocked_reason):
+        issues.append("agentCapability.needsHumanDecision: true の場合は blockedReason を記録してください。")
+    return issues
+
+
+def validate_optional_execution_decision(data: dict[str, Any]) -> list[str]:
+    if "executionDecision" not in data:
+        return []
+    issues: list[str] = []
+    value = data.get("executionDecision")
+    if not isinstance(value, dict):
+        return ["executionDecision は object にしてください。"]
+    if value.get("status") not in EXECUTION_STATUSES:
+        issues.append(f"executionDecision.status は {sorted(EXECUTION_STATUSES)} のいずれかにしてください。")
+    if not non_empty_string(value.get("reason")):
+        issues.append("executionDecision.reason は必須です。")
+    return issues
+
+
 def validate_contract(data: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -133,6 +205,11 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_string_list(data, "acceptance", allow_empty=False))
     issues.extend(validate_sources(data))
     issues.extend(validate_verification(data))
+    issues.extend(validate_optional_risk_assessment(data))
+    issues.extend(validate_optional_agent_capability(data))
+    issues.extend(validate_optional_execution_decision(data))
+    if "preReviewWarnings" in data:
+        issues.extend(validate_string_list(data, "preReviewWarnings", allow_empty=True))
 
     if not isinstance(data.get("notCodable"), bool):
         issues.append("notCodable は boolean にしてください。")
@@ -140,6 +217,10 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
         issues.append("mode: code で notCodable: true の task は coding できません。")
     if data.get("mode") == "code" and data.get("unknowns"):
         issues.append("mode: code で unknowns が残っています。")
+    if isinstance(data.get("executionDecision"), dict):
+        execution_status = data["executionDecision"].get("status")
+        if data.get("mode") == "code" and execution_status in {"contract_update_required", "blocked", "downgraded_to_investigation"}:
+            issues.append(f"mode: code で executionDecision.status: {execution_status} の task は ready にできません。")
     return issues
 
 

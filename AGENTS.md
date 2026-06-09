@@ -120,9 +120,10 @@ Work Item 化の基準は AI が関与したかではなく、repo diff と revi
 2. 現在 task の `.ai/work-items/active/<task>.contract.json` を確認する。存在しない場合は `make ai-start TASK=<task> TITLE="..." MODE=code` で作成する。template は `.ai/work-items/_templates/work_item_contract.example.json` を参照する。
 3. Work Item Contract の `mode`、`unknowns`、`notCodable`、`scope`、`outOfScope`、`acceptance`、`verification` を確認する。
 4. `notCodable: true` または `unknowns` が残る場合、production code を変更せず、調査、TODO 整理、または blocker 記録に限定する。
-5. coding する場合は `mode: code`、`notCodable: false`、`unknowns: []` を確認し、`scope` に含まれる範囲だけを変更する。
-6. 作業後は `.ai/work-items/active/<task>.summary.json` を更新し、Contract の required checks を `make` 経由で実行する。
-7. 必須 check が失敗した状態で `ready_for_review` と報告しない。
+5. Contract の `riskAssessment`、`agentCapability`、`executionDecision`、`preReviewWarnings` を確認する。`executionDecision` が `contract_update_required`、`blocked`、`downgraded_to_investigation` の場合、production code を変更せず Contract 更新、調査、TODO 整理、または blocker 記録に切り替える。
+6. coding する場合は `mode: code`、`notCodable: false`、`unknowns: []`、`executionDecision: continue` を確認し、`scope` に含まれる範囲だけを変更する。
+7. 作業後は `.ai/work-items/active/<task>.summary.json` を更新し、Contract の required checks を `make` 経由で実行する。
+8. 必須 check が失敗した状態で `ready_for_review` と報告しない。required checks が通過しても残余 risk がある場合は、`ready_with_risks` と `expectedReviewFocus` を Summary に記録する。
 
 
 ### 5.1 Work Item 境界 checklist
@@ -136,10 +137,13 @@ Work Item 化の基準は AI が関与したかではなく、repo diff と revi
 - fact、manual observation、hypothesis、fixture、local cache を区別し、Reality Layer と Hypothesis Layer を混ぜない。
 - 新しい検証や運用入口は `make` target として提供する。裸の script command を運用手順にしない。
 - data branch は data-only branch とし、code tree、AI governance、local temporary cache を持ち込まない。認知校正の長期比較は週次粒度を標準とする。
+- Agent が実装できるか、検証できるか、人間判断が必要かを `agentCapability` に明記する。
+- review で追加論点が出る可能性がある場合は、`preReviewWarnings` と Summary の `expectedReviewFocus` に先に記録する。
+- Contract 内で危険を認識した場合は、`executionDecision` を `contract_update_required`、`blocked`、または `downgraded_to_investigation` にして止める。実装を続けながら後で Summary だけに risk を書かない。
 
-作業後の Summary には、code / test / docs / i18n / report output / data or weekly record / Make or CI guard の確認結果を残す。未確認項目は未確認として書き、完了を過大に表現しない。
+作業後の Summary には、code / test / docs / i18n / report output / data or weekly record / Make or CI guard の確認結果を残す。未確認項目は未確認として書き、完了を過大に表現しない。required checks 通過後も残る risk は `residualRisks` に分け、review で確認すべき観点は `reviewReadiness.expectedReviewFocus` に記録する。
 
-User correction が発生した場合は、修正だけで終えず、同種の回帰を防ぐために Contract、Summary、document、template、guard のどこへ固化するかを判断する。
+User correction が発生した場合は、修正だけで終えず、同種の回帰を防ぐために Contract、Summary、document、template、guard、skill のどこへ固化するかを `userCorrectionSolidification` に記録する。
 
 標準 command:
 
