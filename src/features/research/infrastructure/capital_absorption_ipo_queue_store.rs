@@ -48,6 +48,47 @@ pub(crate) fn persist_and_replay_ipo_queue_history(
     Ok(())
 }
 
+pub(crate) fn load_ipo_queue_weekly_summary(
+    save_dir: &Path,
+    as_of_date: NaiveDate,
+) -> serde_json::Value {
+    let records = load_ipo_queue_records(save_dir, as_of_date).unwrap_or_default();
+    let Some(latest) = records
+        .iter()
+        .filter_map(|record| {
+            NaiveDate::parse_from_str(&record.date, "%Y-%m-%d")
+                .ok()
+                .map(|date| (date, record))
+        })
+        .max_by_key(|(date, _)| *date)
+    else {
+        return serde_json::json!({
+            "configured": false
+        });
+    };
+    let window_start = as_of_date - Duration::days(6);
+    let weekly_queue_counts = records
+        .iter()
+        .filter_map(|record| {
+            NaiveDate::parse_from_str(&record.date, "%Y-%m-%d")
+                .ok()
+                .map(|date| (date, record.queue_count))
+        })
+        .filter(|(date, _)| *date >= window_start && *date <= as_of_date)
+        .map(|(_, queue_count)| queue_count)
+        .collect::<Vec<_>>();
+    serde_json::json!({
+        "configured": true,
+        "latest_date": latest.1.date,
+        "queue_count_latest": latest.1.queue_count,
+        "queue_count_min_7d": weekly_queue_counts.iter().min().copied().unwrap_or(latest.1.queue_count),
+        "queue_count_max_7d": weekly_queue_counts.iter().max().copied().unwrap_or(latest.1.queue_count),
+        "reported_count_latest": latest.1.reported_count,
+        "confirmed_count_latest": latest.1.confirmed_count,
+        "pressure_latest": latest.1.pressure
+    })
+}
+
 fn load_ipo_queue_records(
     save_dir: &Path,
     as_of_date: NaiveDate,

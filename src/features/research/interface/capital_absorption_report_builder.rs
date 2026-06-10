@@ -1,5 +1,8 @@
 use crate::config;
-use crate::features::research::acl::capital_absorption_source_adapter_factory::build_capital_absorption_auto_snapshot;
+use crate::features::research::acl::capital_absorption_source_adapter_factory::{
+    build_capital_absorption_auto_snapshot,
+    build_capital_absorption_ipo_queue_weekly_summary as build_capital_absorption_ipo_queue_weekly_summary_from_acl,
+};
 use crate::features::research::interface::capital_absorption_report::build_capital_absorption_report_from_config;
 use crate::features::shared::interface::i18n::Language;
 
@@ -25,4 +28,12 @@ pub(crate) async fn build_capital_absorption_report_with_auto(
         snapshot.as_ref(),
         language,
     )
+}
+
+/// IPO Queue ledger から週次 review 用 summary を組み立てる。
+pub(crate) fn build_capital_absorption_ipo_queue_weekly_summary(
+    save_dir: &std::path::Path,
+    as_of_date: chrono::NaiveDate,
+) -> serde_json::Value {
+    build_capital_absorption_ipo_queue_weekly_summary_from_acl(save_dir, as_of_date)
 }

@@ -1598,6 +1598,7 @@ mod tests {
         assert!(weekly_metrics.contains("\"market_cycle_position\""));
         assert!(weekly_metrics.contains("\"holding_efficiency\""));
         assert!(weekly_metrics.contains("\"macro_gravity\""));
+        assert!(weekly_metrics.contains("\"capital_absorption_ipo_queue\""));
         assert!(weekly_metrics.contains("\"strategic_context\""));
         assert!(weekly_metrics.contains("\"weekly_totals\""));
         assert!(weekly_metrics.contains("\"daily_summaries\""));
@@ -1612,6 +1613,7 @@ mod tests {
         assert!(weekly_review.contains("## 日度状态机时间线"));
         assert!(weekly_review.contains("## 战略上下文快照"));
         assert!(weekly_review.contains("## 宏观引力快照"));
+        assert!(weekly_review.contains("## Capital Absorption IPO Queue 快照"));
         assert!(weekly_review.contains("## 认知校准快照"));
         assert!(weekly_review.contains("边界: 仅为快照"));
         assert!(weekly_review.contains("不生成交易信号"));
