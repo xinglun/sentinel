@@ -803,6 +803,16 @@ fn gray_rhino_refresh_status_ledger_replays_as_of_date() {
 }
 
 #[test]
+fn capital_absorption_ipo_queue_persistence_make_target_is_operational_entrypoint() {
+    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let makefile = fs::read_to_string(root.join("Makefile")).expect("failed to read Makefile");
+
+    assert!(makefile.contains("test-capital-absorption-ipo-queue-persistence:"));
+    assert!(makefile.contains("cargo test capital_absorption_ipo_queue --all-targets"));
+    assert!(makefile.contains("test-capital-absorption-ipo-queue-persistence"));
+}
+
+#[test]
 fn gray_rhino_candidate_store_feeds_daily_inline_reference() {
     let tmp = prepare_standard_workspace("en-us");
     fs::write(
