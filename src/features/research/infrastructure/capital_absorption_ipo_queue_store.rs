@@ -129,14 +129,39 @@ fn write_ipo_queue_record(save_dir: &Path, record: &CapitalAbsorptionIpoQueueRec
         .with_context(|| format!("Failed to write {}", latest.display()))?;
     fs::write(&daily, format!("{serialized}\n"))
         .with_context(|| format!("Failed to write {}", daily.display()))?;
+
+    // ledger の重複書き込みを防止するため、同一日付の既存レコードを上書きする
     let ledger = save_dir.join(LEDGER_FILE);
+    let mut records = Vec::new();
+    if ledger.exists() {
+        let file = fs::File::open(&ledger)
+            .with_context(|| format!("Failed to open {}", ledger.display()))?;
+        let reader = BufReader::new(file);
+        for line in reader.lines() {
+            let line = line.with_context(|| format!("Failed to read {}", ledger.display()))?;
+            if line.trim().is_empty() {
+                continue;
+            }
+            let r: CapitalAbsorptionIpoQueueRecord = serde_json::from_str(&line)
+                .with_context(|| format!("Failed to parse {}", ledger.display()))?;
+            if r.date != record.date {
+                records.push(r);
+            }
+        }
+    }
+    records.push(record.clone());
+    records.sort_by(|a, b| a.date.cmp(&b.date));
+
     let mut file = OpenOptions::new()
         .create(true)
-        .append(true)
+        .write(true)
+        .truncate(true)
         .open(&ledger)
         .with_context(|| format!("Failed to open {}", ledger.display()))?;
-    writeln!(file, "{serialized}")
-        .with_context(|| format!("Failed to write {}", ledger.display()))?;
+    for r in records {
+        let ser = serde_json::to_string(&r)?;
+        writeln!(file, "{ser}").with_context(|| format!("Failed to write {}", ledger.display()))?;
+    }
     Ok(())
 }
 
@@ -281,6 +306,42 @@ mod tests {
         assert!(latest.contains(r#""date":"2026-06-10""#));
         assert!(latest.contains(r#""issuer":"OpenAI""#));
         assert!(!latest.contains("2026-06-20"));
+    }
+
+    #[test]
+    fn capital_absorption_ipo_queue_store_is_idempotent() {
+        let tmp = tempfile::tempdir().expect("tempdir should be created");
+        let mut snapshot = build_capital_absorption_snapshot_from_events(
+            vec![event("OpenAI", "OpenAI IPO reported by multiple outlets")],
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Succeeded,
+                message: "fixture".to_string(),
+            },
+        );
+
+        // 1回目の書き込み
+        persist_and_replay_ipo_queue_history(
+            tmp.path(),
+            NaiveDate::from_ymd_opt(2026, 6, 10).unwrap(),
+            &mut snapshot,
+        )
+        .expect("first write should succeed");
+
+        // 2回目の書き込み（同日）
+        persist_and_replay_ipo_queue_history(
+            tmp.path(),
+            NaiveDate::from_ymd_opt(2026, 6, 10).unwrap(),
+            &mut snapshot,
+        )
+        .expect("second write should succeed");
+
+        // ledgerファイルに同一日付のレコードが1行だけ存在することを確認
+        let ledger = tmp.path().join(LEDGER_FILE);
+        let content = fs::read_to_string(&ledger).expect("ledger should be readable");
+        let lines: Vec<&str> = content.lines().filter(|l| !l.trim().is_empty()).collect();
+        assert_eq!(lines.len(), 1);
+        assert!(lines[0].contains(r#""date":"2026-06-10""#));
     }
 
     fn event(subject: &str, description: &str) -> CapitalAbsorptionAutoEvent {

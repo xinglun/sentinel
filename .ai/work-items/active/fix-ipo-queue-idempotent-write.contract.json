@@ -5,6 +5,7 @@
   "title": "IPO queue ledger の JSONL 幂等書き込み修正",
   "scope": [
     "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    "scripts/ai_check_lifecycle.py",
     ".ai/**"
   ],
   "outOfScope": [
