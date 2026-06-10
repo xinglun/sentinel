@@ -1,0 +1,117 @@
+{
+  "contractVersion": 1,
+  "workItemId": "fix-weekly-report-i18n-labels",
+  "mode": "code",
+  "title": "weekly report zh/ja 固定ラベル i18n 修正",
+  "scope": [
+    "src/features/radar/interface/weekly_state_report.rs",
+    ".ai/**"
+  ],
+  "outOfScope": [
+    "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "修正対象。WEEKLY_TEXT_ZH（line 440-445）と WEEKLY_TEXT_JA（line 545-550）の capital_absorption 関連フィールドに英語固定ラベルが残っている。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "zh/ja の WeeklyText 構造体フィールドに英語文字列が残っており、weekly_state_review_auto.md の言語契約に違反する。テストが現在の混合テキストをロックしているため、修正後はテストも更新が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / sources / acceptance / verification が確定した。変更は static text 定数のみ（表示層）。Gate / execution / trader / action matrix への影響なし。"
+  },
+  "preReviewWarnings": [
+    "テストが現在の混合テキスト（英語ラベル混在）をアサートしているため、テストも同時に修正する必要がある。テスト修正後のアサートが i18n 契約に準拠することを review で確認する。",
+    "capital_absorption_ipo_queue_snapshot / capital_absorption_ipo_queue_not_configured は zh で既に一部日本語を含むため、各フィールドの修正内容を review で確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "WEEKLY_TEXT_ZH の capital_absorption_* フィールドがすべて中国語（zh-cn）のみで記述されている。",
+    "WEEKLY_TEXT_JA の capital_absorption_* フィールドがすべて日本語（ja-jp）のみで記述されている。",
+    "WEEKLY_TEXT_EN は変更しない（既に英語のみ）。",
+    "修正後のテストが zh/ja の各フィールドに英語固定ラベル（Capital Absorption IPO Queue / min / max / Reported / Confirmed）が含まれないことを確認する。",
+    "make test-capital-absorption-weekly-alignment が通過する。",
+    "変更は WeeklyText 定数と対応するテストのみ。Gate / execution / trader / action matrix への影響なし（表示・監査専用）。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make test-capital-absorption-weekly-alignment",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "fix-weekly-report-i18n-labels の diff を revert する。"
+}
