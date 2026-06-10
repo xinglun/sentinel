@@ -63,6 +63,30 @@ def check_directory(directory: Path) -> list[str]:
                     f"Summary 'contractPath' points to wrong location: {contract_path_rel} "
                     f"(should be {actual_contract_path.relative_to(PROJECT_ROOT)})"
                 )
+
+            # Contract と Summary の verification 整合性を検証する (未確定な WIP 状態でも、キーの不足は検知する、active のみ対象)
+            if directory.name == "active" and expected_contract_path.exists():
+                try:
+                    contract = load_json(expected_contract_path)
+                    required = [
+                        item.get("command")
+                        for item in contract.get("verification", [])
+                        if isinstance(item, dict) and item.get("required") is True and item.get("command")
+                    ]
+                    status = {
+                        item.get("command")
+                        for item in summary.get("verification", [])
+                        if isinstance(item, dict) and item.get("command")
+                    }
+                    missing = [cmd for cmd in required if cmd not in status]
+                    if missing:
+                        issues.append(
+                            f"Summary {summary_path.relative_to(PROJECT_ROOT)} is missing required verification from Contract: {', '.join(missing)}"
+                        )
+                except Exception as exc:
+                    issues.append(
+                        f"Failed to verify verification alignment for {work_item_id} summary & contract: {exc}"
+                    )
         except Exception as exc:
             issues.append(f"Failed to read summary {summary_path.relative_to(PROJECT_ROOT)}: {exc}")
 

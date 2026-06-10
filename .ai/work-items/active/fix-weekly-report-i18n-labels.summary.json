@@ -28,6 +28,18 @@
       "result": "not_run"
     },
     {
+      "command": "make test",
+      "result": "not_run"
+    },
+    {
+      "command": "make clippy",
+      "result": "not_run"
+    },
+    {
+      "command": "make test-capital-absorption-weekly-alignment",
+      "result": "not_run"
+    },
+    {
       "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
       "result": "not_run"
     },
