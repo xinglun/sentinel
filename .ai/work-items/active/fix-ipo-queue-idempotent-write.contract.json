@@ -1,0 +1,117 @@
+{
+  "contractVersion": 1,
+  "workItemId": "fix-ipo-queue-idempotent-write",
+  "mode": "code",
+  "title": "IPO queue ledger の JSONL 幂等書き込み修正",
+  "scope": [
+    "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    ".ai/**"
+  ],
+  "outOfScope": [
+    "src/features/research/application/capital_absorption.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+      "reason": "修正対象。write_ipo_queue_record（line 121-141）が append-only で同日重複を書き込む。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "JSONL ledger に同日重複行が永続化されると weekly summary の min/max が汚染される。修正は write_ipo_queue_record を同日行の上書きに変える（ledger 全体を rewrite する）。既存テストは未来日フィルタのみ確認しており、同日重複ケースをカバーしない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / sources / acceptance / verification が確定した。修正は storage 層のみ。Gate / execution / trader / action matrix への接続なし（表示・監査専用データ）。"
+  },
+  "preReviewWarnings": [
+    "ledger rewrite は既存の重複行を除去しないため、既に重複が蓄積されたデータブランチは手動クリーンアップが必要。Contract の scope 外。",
+    "同日上書きのために ledger 全体を read→filter→rewrite する実装になるため、大きな ledger ではパフォーマンスに影響する可能性がある。現状の ledger サイズは小さいと判断している。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "同一日付で persist_and_replay_ipo_queue_history を複数回呼んでも、JSONL ledger に同日行が 1 行だけ存在することをテストで確認する。",
+    "weekly summary の min/max は最新の同日書き込みに基づく正確な値となる。",
+    "既存テスト（未来日フィルタ）がすべて通過する。",
+    "変更は storage 層（capital_absorption_ipo_queue_store.rs）のみ。Gate / execution / trader / action matrix への影響なし（表示・監査専用）。",
+    "新しい運用 command は既存の make target 経由で提供（make test-capital-absorption-ipo-queue-persistence）。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make test-capital-absorption-ipo-queue-persistence",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json SUMMARY=.ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json SUMMARY=.ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json SUMMARY=.ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "fix-ipo-queue-idempotent-write の diff を revert する。data branch に重複行が既に存在する場合は手動でクリーンアップする。"
+}

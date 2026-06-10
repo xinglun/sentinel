@@ -1,0 +1,106 @@
+{
+  "workItemId": "improve-coverage-gate-thresholds",
+  "contractPath": ".ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/improve-coverage-gate-thresholds.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/improve-coverage-gate-thresholds.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json",
+      "result": "not_run"
+    }
+  ],
+  "unknownsRemaining": [
+    "scope / sources / acceptance を task に合わせて確定する。"
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "初期 skeleton のため、実装前に Contract を確定する必要がある。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "blocked",
+      "note": "初期 skeleton のため Contract 確定が必要。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "blocked",
+      "note": "scope / sources / acceptance 未確定のため編集不可。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "blocked",
+      "note": "required checks 未実行のため ready 不可。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "blocked",
+      "note": "verification 結果未記録。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "contract_readiness",
+      "detail": "初期 skeleton は scope / sources / acceptance 未確定のため review 不可。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Contract 未確定で required checks も未実行。",
+    "expectedReviewFocus": [
+      "scope",
+      "sources",
+      "acceptance",
+      "verification"
+    ]
+  }
+}

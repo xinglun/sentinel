@@ -1,0 +1,145 @@
+{
+  "workItemId": "capital-absorption-ipo-queue-persistence",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-ipo-queue-persistence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json",
+      "reason": "Capital Absorption IPO Queue History 永続化の scope / acceptance / verification / boundary を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-ipo-queue-persistence.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の Cockpit status を生成した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "IPO Queue History 永続化の検証入口として make test-capital-absorption-ipo-queue-persistence を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Capital Absorption IPO Queue store module を infrastructure に登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+      "reason": "IPO Queue History の latest / daily / JSONL ledger 保存と as_of_date replay を実装した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "reason": "automatic snapshot 成功時に IPO Queue History を output.save_to 配下へ永続化し、ledger から 30 日 history を再構築する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "新しい make target が運用入口であることを確認する integration contract を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "tests/research_attention_cli_integration.rs",
+    "Makefile"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-capital-absorption-ipo-queue-persistence",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-queue-persistence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-ipo-queue-persistence.summary.json CONTRACT=.ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-queue-persistence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-ipo-queue-persistence.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-queue-persistence.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "reports 配下に IPO Queue History ledger / latest / daily artifact を追加し、as_of_date replay と表示契約を検証する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope / sources / acceptance を Capital Absorption IPO Queue History 永続化に合わせて確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "unknowns は空で notCodable=false、executionDecision=continue。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装と required checks の記録が完了し、ready 判定可能。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification は passed として記録済み。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "data_integrity",
+      "detail": "JSONL ledger replay と latest/daily artifact の整合を integration test で確認する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "required checks は passed として記録済みで、reports 永続化と replay は test で確認済み。",
+    "expectedReviewFocus": [
+      "reports artifact schema",
+      "as_of_date ledger replay",
+      "future record exclusion",
+      "READY / EXECUTE / Gate 非接続"
+    ]
+  }
+}

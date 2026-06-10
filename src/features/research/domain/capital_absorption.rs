@@ -36,6 +36,13 @@ pub(crate) enum CapitalAbsorptionPotentialSupplyTrend {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CapitalAbsorptionPotentialSupplyPressureLevel {
+    Low,
+    Normal,
+    Elevated,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CapitalAbsorptionAutoEventCategory {
     MegaCapFinancing,
     IpoSupply,
@@ -66,11 +73,10 @@ pub(crate) enum CapitalAbsorptionAutoConfidence {
 pub(crate) enum CapitalAbsorptionIpoQueueStatus {
     Rumor,
     Reported,
-    Preparing,
+    Preparation,
+    PreIpo,
     Filed,
-    Roadshow,
-    Priced,
-    Listed,
+    Ipo,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -112,6 +118,14 @@ pub(crate) struct CapitalAbsorptionIpoQueueHistoryPoint {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+pub(crate) struct CapitalAbsorptionPotentialSupplyPressure {
+    pub level: CapitalAbsorptionPotentialSupplyPressureLevel,
+    pub queue_count: usize,
+    pub reported_count: usize,
+    pub confirmed_count: usize,
+}
+
+#[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CapitalAbsorptionAutoSnapshot {
     pub source_status: CapitalAbsorptionSourceStatus,
     pub status: CapitalAbsorptionAutoStatus,
@@ -120,6 +134,7 @@ pub(crate) struct CapitalAbsorptionAutoSnapshot {
     pub ai_ipo_queue: Vec<CapitalAbsorptionIpoQueueItem>,
     pub ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
     pub potential_supply_trend: CapitalAbsorptionPotentialSupplyTrend,
+    pub potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure,
     pub capital_demand: CapitalDemandAutoSnapshot,
     pub capital_supply: CapitalSupplyAutoSnapshot,
     pub absorption_ratio: CapitalAbsorptionAutoRatio,
@@ -221,6 +236,7 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
         Vec::new()
     };
     let potential_supply_trend = classify_potential_supply_trend(&ipo_queue_history);
+    let potential_supply_pressure = classify_potential_supply_pressure(&ai_ipo_queue);
     let supply_trend = if actual_events
         .iter()
         .any(|event| event.category == CapitalAbsorptionAutoEventCategory::SecondaryLiquidity)
@@ -241,6 +257,7 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
         ai_ipo_queue,
         ipo_queue_history,
         potential_supply_trend,
+        potential_supply_pressure,
         capital_demand: CapitalDemandAutoSnapshot {
             rolling_12m_usd_b: demand_total,
             score: demand_total.map(|value| (value / 100.0).min(1.0)),
@@ -485,10 +502,11 @@ fn build_ai_ipo_queue(events: &[CapitalAbsorptionAutoEvent]) -> Vec<CapitalAbsor
                 .iter()
                 .filter(|event| same_issuer(&event.subject, issuer))
             {
-                status = status.max(queue_status_from_text(&event.description));
                 source_count += event.source_count.max(1);
                 event_type = event_type.max(event.event_type);
+                status = status.max(queue_status_from_event(event));
             }
+            status = ipo_queue_status_from_observation(status, event_type, source_count);
             CapitalAbsorptionIpoQueueItem {
                 issuer: (*issuer).to_string(),
                 status,
@@ -505,12 +523,7 @@ fn build_ipo_queue_history(
     let Some(latest_observed_at) = events.iter().map(|event| event.observed_at).max() else {
         return Vec::new();
     };
-    let earliest_observed_at = events
-        .iter()
-        .map(|event| event.observed_at)
-        .min()
-        .unwrap_or(latest_observed_at);
-    let first_history_date = earliest_observed_at.max(latest_observed_at - Duration::days(29));
+    let first_history_date = latest_observed_at - Duration::days(29);
     let days = latest_observed_at
         .signed_duration_since(first_history_date)
         .num_days();
@@ -531,6 +544,41 @@ fn build_ipo_queue_history(
             }
         })
         .collect()
+}
+
+fn classify_potential_supply_pressure(
+    queue: &[CapitalAbsorptionIpoQueueItem],
+) -> CapitalAbsorptionPotentialSupplyPressure {
+    let queue_count = queue.iter().filter(|item| item.source_count > 0).count();
+    let reported_count = queue
+        .iter()
+        .filter(|item| {
+            item.source_count > 0
+                && (item.status >= CapitalAbsorptionIpoQueueStatus::Reported
+                    || item.event_type >= CapitalAbsorptionObservationEventType::Reported)
+        })
+        .count();
+    let confirmed_count = queue
+        .iter()
+        .filter(|item| {
+            item.source_count > 0
+                && (item.status >= CapitalAbsorptionIpoQueueStatus::Filed
+                    || item.event_type == CapitalAbsorptionObservationEventType::Confirmed)
+        })
+        .count();
+    let level = if confirmed_count > 0 || reported_count >= 3 || queue_count >= 4 {
+        CapitalAbsorptionPotentialSupplyPressureLevel::Elevated
+    } else if reported_count > 0 || queue_count > 0 {
+        CapitalAbsorptionPotentialSupplyPressureLevel::Normal
+    } else {
+        CapitalAbsorptionPotentialSupplyPressureLevel::Low
+    };
+    CapitalAbsorptionPotentialSupplyPressure {
+        level,
+        queue_count,
+        reported_count,
+        confirmed_count,
+    }
 }
 
 fn classify_potential_supply_trend(
@@ -561,48 +609,85 @@ fn is_ai_ipo_candidate(subject: &str) -> bool {
         .any(|issuer| same_issuer(subject, issuer))
 }
 
-fn queue_status_from_text(text: &str) -> CapitalAbsorptionIpoQueueStatus {
-    let lower = text.to_ascii_lowercase();
+fn queue_status_from_event(event: &CapitalAbsorptionAutoEvent) -> CapitalAbsorptionIpoQueueStatus {
+    let lower = event.description.to_ascii_lowercase();
     if lower.contains("listed")
         || lower.contains("debut")
         || lower.contains("begins trading")
         || lower.contains("starts trading")
-    {
-        CapitalAbsorptionIpoQueueStatus::Listed
-    } else if lower.contains("priced ipo")
+        || lower.contains("completed ipo")
+        || lower.contains("completes ipo")
+        || lower.contains("priced ipo")
         || lower.contains("prices ipo")
         || lower.contains("ipo priced")
         || lower.contains("expected to price")
     {
-        CapitalAbsorptionIpoQueueStatus::Priced
-    } else if lower.contains("roadshow") {
-        CapitalAbsorptionIpoQueueStatus::Roadshow
+        CapitalAbsorptionIpoQueueStatus::Ipo
     } else if lower.contains("filed")
         || lower.contains("files to go public")
+        || lower.contains("files for ipo")
+        || lower.contains("filed for ipo")
         || lower.contains("s-1")
     {
         CapitalAbsorptionIpoQueueStatus::Filed
+    } else if lower.contains("pre-ipo")
+        || lower.contains("pre ipo")
+        || lower.contains("as soon as")
+        || lower.contains("targeting")
+        || lower.contains("target ipo")
+        || lower.contains("expected in")
+        || lower.contains("expected ipo")
+        || contains_any(
+            &lower,
+            &[
+                "ipo valuation",
+                "listing valuation",
+                "ipo terms",
+                "listing terms",
+            ],
+        )
+        || lower.contains("roadshow")
+    {
+        CapitalAbsorptionIpoQueueStatus::PreIpo
     } else if lower.contains("prepares")
         || lower.contains("preparing")
+        || lower.contains("preparation")
+        || lower.contains("readiness")
+        || lower.contains("hire")
+        || lower.contains("hiring")
+        || lower.contains("banker")
+        || lower.contains("adviser")
+        || lower.contains("advisor")
+    {
+        CapitalAbsorptionIpoQueueStatus::Preparation
+    } else if lower.contains("reported")
+        || lower.contains("report says")
+        || lower.contains("according to")
         || lower.contains("plans")
         || lower.contains("expected")
         || lower.contains("candidate")
         || lower.contains("discussion")
         || lower.contains("considering")
-    {
-        CapitalAbsorptionIpoQueueStatus::Preparing
-    } else if lower.contains("reported")
-        || lower.contains("report says")
-        || lower.contains("according to")
+        || event.source_count >= 2
+        || event.event_type >= CapitalAbsorptionObservationEventType::Reported
     {
         CapitalAbsorptionIpoQueueStatus::Reported
-    } else if lower.contains("completed")
-        || lower.contains("debut")
-        || lower.contains("begins trading")
-    {
-        CapitalAbsorptionIpoQueueStatus::Listed
     } else {
         CapitalAbsorptionIpoQueueStatus::Rumor
+    }
+}
+
+fn ipo_queue_status_from_observation(
+    status: CapitalAbsorptionIpoQueueStatus,
+    event_type: CapitalAbsorptionObservationEventType,
+    source_count: usize,
+) -> CapitalAbsorptionIpoQueueStatus {
+    if status == CapitalAbsorptionIpoQueueStatus::Rumor
+        && (source_count >= 2 || event_type >= CapitalAbsorptionObservationEventType::Reported)
+    {
+        CapitalAbsorptionIpoQueueStatus::Reported
+    } else {
+        status
     }
 }
 
@@ -1045,16 +1130,29 @@ mod tests {
             snapshot.potential_supply_trend,
             CapitalAbsorptionPotentialSupplyTrend::Rising
         );
-        assert_eq!(snapshot.ipo_queue_history.len(), 1);
-        assert_eq!(snapshot.ipo_queue_history[0].queue_size, 1);
+        assert_eq!(snapshot.ipo_queue_history.len(), 30);
+        assert_eq!(
+            snapshot
+                .ipo_queue_history
+                .last()
+                .map(|point| point.queue_size),
+            Some(1)
+        );
         assert_eq!(
             snapshot
                 .ai_ipo_queue
                 .iter()
                 .find(|item| item.issuer == "SpaceX")
                 .map(|item| item.status),
-            Some(CapitalAbsorptionIpoQueueStatus::Preparing)
+            Some(CapitalAbsorptionIpoQueueStatus::Reported)
         );
+        assert_eq!(
+            snapshot.potential_supply_pressure.level,
+            CapitalAbsorptionPotentialSupplyPressureLevel::Normal
+        );
+        assert_eq!(snapshot.potential_supply_pressure.queue_count, 1);
+        assert_eq!(snapshot.potential_supply_pressure.reported_count, 1);
+        assert_eq!(snapshot.potential_supply_pressure.confirmed_count, 0);
     }
 
     #[test]
@@ -1080,13 +1178,13 @@ mod tests {
             },
         );
 
-        assert_eq!(snapshot.ipo_queue_history.len(), 6);
+        assert_eq!(snapshot.ipo_queue_history.len(), 30);
         assert_eq!(
             snapshot
                 .ipo_queue_history
                 .first()
                 .map(|point| point.queue_size),
-            Some(1)
+            Some(0)
         );
         assert_eq!(
             snapshot
@@ -1217,6 +1315,89 @@ mod tests {
         );
 
         assert!(event.is_none());
+    }
+
+    #[test]
+    fn classifies_ipo_stage_independently_from_event_type() {
+        let cases = [
+            (
+                "SpaceX IPO rumor circulates after private investor comments",
+                1,
+                CapitalAbsorptionObservationEventType::Rumor,
+                CapitalAbsorptionIpoQueueStatus::Rumor,
+            ),
+            (
+                "OpenAI IPO reported by multiple outlets",
+                2,
+                CapitalAbsorptionObservationEventType::Reported,
+                CapitalAbsorptionIpoQueueStatus::Reported,
+            ),
+            (
+                "Anthropic hires bankers for IPO preparation",
+                1,
+                CapitalAbsorptionObservationEventType::Reported,
+                CapitalAbsorptionIpoQueueStatus::Preparation,
+            ),
+            (
+                "SpaceX targets IPO as soon as 2027 at updated valuation",
+                1,
+                CapitalAbsorptionObservationEventType::Reported,
+                CapitalAbsorptionIpoQueueStatus::PreIpo,
+            ),
+            (
+                "Anthropic IPO discussion grows after private valuation reaches $60 billion",
+                1,
+                CapitalAbsorptionObservationEventType::Reported,
+                CapitalAbsorptionIpoQueueStatus::Reported,
+            ),
+            (
+                "OpenAI IPO valuation terms become central to listing discussions",
+                1,
+                CapitalAbsorptionObservationEventType::Reported,
+                CapitalAbsorptionIpoQueueStatus::PreIpo,
+            ),
+            (
+                "Figure files for IPO with S-1 registration statement",
+                1,
+                CapitalAbsorptionObservationEventType::Confirmed,
+                CapitalAbsorptionIpoQueueStatus::Filed,
+            ),
+            (
+                "Stripe completed IPO and begins trading",
+                1,
+                CapitalAbsorptionObservationEventType::Confirmed,
+                CapitalAbsorptionIpoQueueStatus::Ipo,
+            ),
+        ];
+
+        for (description, source_count, event_type, expected_status) in cases {
+            let mut event = event("SpaceX", 0.0);
+            event.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+            event.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+            event.event_type = event_type;
+            event.description = description.to_string();
+            event.amount_usd_b = None;
+            event.source_count = source_count;
+
+            assert_eq!(queue_status_from_event(&event), expected_status);
+        }
+    }
+
+    #[test]
+    fn private_valuation_discussion_does_not_become_pre_ipo_stage() {
+        let mut event = event("Anthropic", 0.0);
+        event.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        event.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        event.event_type = CapitalAbsorptionObservationEventType::Reported;
+        event.description =
+            "Anthropic IPO discussion grows after private valuation reaches $60 billion"
+                .to_string();
+        event.amount_usd_b = None;
+
+        assert_eq!(
+            queue_status_from_event(&event),
+            CapitalAbsorptionIpoQueueStatus::Reported
+        );
     }
 
     fn event(subject: &str, amount_usd_b: f64) -> CapitalAbsorptionAutoEvent {

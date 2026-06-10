@@ -1,0 +1,162 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-weekly-alignment",
+  "mode": "code",
+  "title": "Capital Absorption IPO Queue 週次対齐",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+    ".ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/cli.rs"
+  ],
+  "outOfScope": [
+    "READY / EXECUTE / Gate / Position Sizing / Trader / Action Matrix への接続",
+    "市場結論、売買判断、リスク格上げの生成",
+    "GitHub Actions workflow の変更",
+    "data branch 同期方式の変更",
+    "Capital Absorption provider / classifier の変更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "Capital Absorption の永続化と weekly aggregation 境界を更新する対象。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_builder.rs",
+      "reason": "IPO Queue weekly summary を research interface 経由で radar に渡す境界。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+      "reason": "IPO Queue History ledger の schema と replay source。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "weekly context に Capital Absorption IPO Queue summary を注入する入口。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_metrics.json / weekly_state_review_auto.md の生成元。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "weekly output contract を確認する既存 test。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "週次対齐の検証入口を make target として提供する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "i18n_snapshot"
+    ],
+    "reason": "週次 metrics / review に Capital Absorption IPO Queue summary を追加し、as_of_date replay と表示境界を維持する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope は Capital Absorption IPO Queue の weekly metrics / review 表示と spec 更新に限定され、取引判断系への接続は outOfScope。"
+  },
+  "preReviewWarnings": [
+    "weekly metrics は observation summary に限定し、Gate / trading / risk upgrade に接続しない。",
+    "weekly replay は as_of_date 以前の ledger record だけを使う。",
+    "単一言語 weekly review に別言語文言を混入させない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "weekly_state_metrics.json の latest_context に capital_absorption_ipo_queue summary を追加する。",
+    "summary は configured / latest_date / queue_count_latest / queue_count_min_7d / queue_count_max_7d / reported_count_latest / confirmed_count_latest / pressure_latest を含む。",
+    "weekly_state_review_auto.md に Capital Absorption IPO Queue の観測専用 section を zh/en/ja で表示する。",
+    "ledger に未来日 record があっても weekly as_of_date には混入しない。",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md の IPO Queue History / Stage / weekly aggregation 記述を現行実装に合わせる。",
+    "READY / EXECUTE / Gate / Position Sizing / Trader / Action Matrix、市場結論、売買判断、リスク格上げへ接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-capital-absorption-weekly-alignment",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

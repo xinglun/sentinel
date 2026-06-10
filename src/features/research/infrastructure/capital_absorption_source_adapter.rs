@@ -4,8 +4,10 @@ use crate::features::research::application::capital_absorption::{
     unavailable_capital_absorption_snapshot, CapitalAbsorptionAutoEvent,
     CapitalAbsorptionAutoSnapshot, CapitalAbsorptionSourceHealth, CapitalAbsorptionSourceStatus,
 };
+use crate::features::research::infrastructure::capital_absorption_ipo_queue_store::persist_and_replay_ipo_queue_history;
 use anyhow::{anyhow, Context, Result};
 use chrono::{Duration, NaiveDate};
+use std::path::Path;
 
 const MAX_NEWS_PER_SYMBOL: usize = 20;
 const DEFAULT_MARKET_SYMBOLS: &[&str] = &[
@@ -18,14 +20,27 @@ pub(crate) async fn build_automatic_capital_absorption_snapshot(
     lookback_days: usize,
 ) -> CapitalAbsorptionAutoSnapshot {
     match fetch_finnhub_capital_absorption_events(app_config, as_of_date, lookback_days).await {
-        Ok(events) => build_capital_absorption_snapshot_from_events(
-            events,
-            CapitalAbsorptionSourceStatus {
-                provider: "Finnhub company-news + market-news".to_string(),
-                status: CapitalAbsorptionSourceHealth::Succeeded,
-                message: "market-wide automatic scan completed".to_string(),
-            },
-        ),
+        Ok(events) => {
+            let mut snapshot = build_capital_absorption_snapshot_from_events(
+                events,
+                CapitalAbsorptionSourceStatus {
+                    provider: "Finnhub company-news + market-news".to_string(),
+                    status: CapitalAbsorptionSourceHealth::Succeeded,
+                    message: "market-wide automatic scan completed".to_string(),
+                },
+            );
+            if let Err(err) = persist_and_replay_ipo_queue_history(
+                Path::new(&app_config.output.save_to),
+                as_of_date,
+                &mut snapshot,
+            ) {
+                snapshot.source_status.message = format!(
+                    "{}; IPO queue history persistence warning: {err}",
+                    snapshot.source_status.message
+                );
+            }
+            snapshot
+        }
         Err(err) => unavailable_capital_absorption_snapshot(err.to_string()),
     }
 }

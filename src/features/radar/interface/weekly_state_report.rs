@@ -10,6 +10,7 @@ pub(crate) struct WeeklyReportContext {
     pub macro_gravity: Option<WeeklyMacroGravityContext>,
     pub research_attention_entries: usize,
     pub asset_thesis_entries: usize,
+    pub capital_absorption_ipo_queue: serde_json::Value,
 }
 
 #[derive(Clone)]
@@ -74,7 +75,8 @@ pub(crate) fn persist_weekly_state_outputs(
     } else {
         0.0
     };
-    let latest_context = build_weekly_latest_context(pres_packet, context);
+    let latest_context =
+        build_weekly_latest_context(pres_packet, context, &context.capital_absorption_ipo_queue);
     let state_machine_summaries =
         load_weekly_state_machine_summaries(save_dir, current_packet.date, current_state_machine);
     let weekly_totals = build_weekly_totals(&state_machine_summaries);
@@ -164,6 +166,11 @@ pub(crate) fn persist_weekly_state_outputs(
     );
     push_weekly_strategic_context_snapshot(&mut review, pres_packet, text);
     push_weekly_macro_gravity_snapshot(&mut review, context, text);
+    push_weekly_capital_absorption_ipo_queue_snapshot(
+        &mut review,
+        &context.capital_absorption_ipo_queue,
+        text,
+    );
     push_weekly_cognitive_calibration_snapshot(&mut review, context, text);
 
     std::fs::write(save_dir.join("weekly_state_review_auto.md"), review)?;
@@ -284,6 +291,7 @@ fn build_daily_summaries(entries: &[WeeklyStateMachineEntry]) -> serde_json::Val
 fn build_weekly_latest_context(
     pres_packet: &crate::features::radar::interface::presentation::PresentationPacket,
     context: &WeeklyReportContext,
+    capital_absorption_ipo_queue: &serde_json::Value,
 ) -> serde_json::Value {
     let trend_breadth_mode = pres_packet
         .transition_evidence
@@ -309,6 +317,7 @@ fn build_weekly_latest_context(
         "holding_efficiency": holding_efficiency,
         "strategic_context": strategic_context,
         "macro_gravity": build_weekly_macro_gravity_context(context),
+        "capital_absorption_ipo_queue": capital_absorption_ipo_queue,
         "cognitive_calibration": {
             "research_attention_entries": context.research_attention_entries,
             "asset_thesis_entries": context.asset_thesis_entries
@@ -368,6 +377,14 @@ struct WeeklyText {
     credit_stress: &'static str,
     liquidity: &'static str,
     growth_valuation: &'static str,
+    capital_absorption_ipo_queue_snapshot: &'static str,
+    capital_absorption_ipo_queue_not_configured: &'static str,
+    capital_absorption_latest_date: &'static str,
+    capital_absorption_queue_latest: &'static str,
+    capital_absorption_queue_min_max_7d: &'static str,
+    capital_absorption_reported_confirmed: &'static str,
+    capital_absorption_pressure: &'static str,
+    boundary_capital_absorption: &'static str,
     cognitive_calibration_snapshot: &'static str,
     research_attention_entries: &'static str,
     asset_thesis_entries: &'static str,
@@ -420,6 +437,14 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     credit_stress: "信用压力",
     liquidity: "流动性",
     growth_valuation: "成长估值",
+    capital_absorption_ipo_queue_snapshot: "## Capital Absorption IPO Queue 快照",
+    capital_absorption_ipo_queue_not_configured: "Capital Absorption IPO Queue 未保存",
+    capital_absorption_latest_date: "最新观测日",
+    capital_absorption_queue_latest: "最新队列规模",
+    capital_absorption_queue_min_max_7d: "7 日队列规模 min / max",
+    capital_absorption_reported_confirmed: "Reported / Confirmed",
+    capital_absorption_pressure: "潜在供给压力",
+    boundary_capital_absorption: "边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。",
     cognitive_calibration_snapshot: "## 认知校准快照",
     research_attention_entries: "研究关注条目",
     asset_thesis_entries: "资产命题条目",
@@ -464,6 +489,15 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     credit_stress: "Credit stress",
     liquidity: "Liquidity",
     growth_valuation: "Growth valuation",
+    capital_absorption_ipo_queue_snapshot: "## Capital Absorption IPO Queue Snapshot",
+    capital_absorption_ipo_queue_not_configured: "Capital absorption IPO queue: not persisted",
+    capital_absorption_latest_date: "Latest observation date",
+    capital_absorption_queue_latest: "Latest queue size",
+    capital_absorption_queue_min_max_7d: "7D queue size min / max",
+    capital_absorption_reported_confirmed: "Reported / Confirmed",
+    capital_absorption_pressure: "Potential supply pressure",
+    boundary_capital_absorption:
+        "Boundary: potential future supply observation only; no market conclusion, risk upgrade, or trade signal.",
     cognitive_calibration_snapshot: "## Cognitive Calibration Snapshot",
     research_attention_entries: "Research attention entries",
     asset_thesis_entries: "Asset thesis entries",
@@ -508,6 +542,15 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     credit_stress: "信用ストレス",
     liquidity: "流動性",
     growth_valuation: "成長評価",
+    capital_absorption_ipo_queue_snapshot: "## Capital Absorption IPO キュースナップショット",
+    capital_absorption_ipo_queue_not_configured: "Capital Absorption IPO キューは未保存",
+    capital_absorption_latest_date: "最新観測日",
+    capital_absorption_queue_latest: "最新キュー規模",
+    capital_absorption_queue_min_max_7d: "7 日キュー規模 min / max",
+    capital_absorption_reported_confirmed: "Reported / Confirmed",
+    capital_absorption_pressure: "潜在供給圧力",
+    boundary_capital_absorption:
+        "境界: 潜在的な将来供給の観測のみ。市場結論、リスク格上げ、取引信号は生成しない。",
     cognitive_calibration_snapshot: "## 認知校正スナップショット",
     research_attention_entries: "Research attention 件数",
     asset_thesis_entries: "Asset thesis 件数",
@@ -610,6 +653,56 @@ fn push_weekly_macro_gravity_snapshot(
     review.push('\n');
 }
 
+fn push_weekly_capital_absorption_ipo_queue_snapshot(
+    review: &mut String,
+    summary: &serde_json::Value,
+    text: &WeeklyText,
+) {
+    review.push('\n');
+    review.push_str(text.capital_absorption_ipo_queue_snapshot);
+    review.push('\n');
+    if !summary["configured"].as_bool().unwrap_or(false) {
+        review.push_str(&format!(
+            "- {}\n",
+            text.capital_absorption_ipo_queue_not_configured
+        ));
+        review.push_str("- ");
+        review.push_str(text.boundary_capital_absorption);
+        review.push('\n');
+        return;
+    }
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.capital_absorption_latest_date,
+        summary["latest_date"].as_str().unwrap_or("unknown")
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.capital_absorption_queue_latest,
+        summary["queue_count_latest"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- {}: {} / {}\n",
+        text.capital_absorption_queue_min_max_7d,
+        summary["queue_count_min_7d"].as_u64().unwrap_or(0),
+        summary["queue_count_max_7d"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- {}: {} / {}\n",
+        text.capital_absorption_reported_confirmed,
+        summary["reported_count_latest"].as_u64().unwrap_or(0),
+        summary["confirmed_count_latest"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.capital_absorption_pressure,
+        summary["pressure_latest"].as_str().unwrap_or("unknown")
+    ));
+    review.push_str("- ");
+    review.push_str(text.boundary_capital_absorption);
+    review.push('\n');
+}
+
 fn push_weekly_state_machine_totals(
     review: &mut String,
     totals: &serde_json::Value,
@@ -696,7 +789,10 @@ fn push_weekly_cognitive_calibration_snapshot(
 
 #[cfg(test)]
 mod tests {
-    use super::{load_weekly_state_machine_summaries, weekly_text};
+    use super::{
+        load_weekly_state_machine_summaries, push_weekly_capital_absorption_ipo_queue_snapshot,
+        weekly_text,
+    };
     use crate::features::shared::application::run_status::StateMachineSummary;
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
@@ -778,5 +874,34 @@ mod tests {
         assert!(weekly_text(Language::JaJp)
             .boundary_cognitive
             .contains("取引信号を生成しない"));
+    }
+
+    #[test]
+    fn weekly_capital_absorption_review_section_keeps_observation_boundary() {
+        let summary = serde_json::json!({
+            "configured": true,
+            "latest_date": "2026-06-08",
+            "queue_count_latest": 3,
+            "queue_count_min_7d": 1,
+            "queue_count_max_7d": 3,
+            "reported_count_latest": 2,
+            "confirmed_count_latest": 1,
+            "pressure_latest": "ELEVATED"
+        });
+        let mut review = String::new();
+
+        push_weekly_capital_absorption_ipo_queue_snapshot(
+            &mut review,
+            &summary,
+            weekly_text(Language::ZhCn),
+        );
+
+        assert!(review.contains("## Capital Absorption IPO Queue 快照"));
+        assert!(review.contains("最新队列规模: 3"));
+        assert!(review.contains("7 日队列规模 min / max: 1 / 3"));
+        assert!(review.contains("潜在供给压力: ELEVATED"));
+        assert!(review.contains("不生成市场结论、风险升级或交易信号"));
+        assert!(!review.contains("READY"));
+        assert!(!review.contains("EXECUTE"));
     }
 }

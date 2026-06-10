@@ -83,11 +83,17 @@ Wall Street analyst research calls、generic stock recommendation article、`3 s
 
 ## IPO Queue History
 
-IPO Queue History は、current observation window 内の queue size を日付別に集計する表示です。自動観測がある場合、最新観測日を終点として直近 30 日以内の日次 window を表示し、単日の Queue Size だけで trend を判断しません。
+IPO Queue History は、current observation window と保存済み ledger から queue size を日付別に集計する表示です。自動観測がある場合、`output.save_to` 配下の `capital_absorption_ipo_queue_history.jsonl` を `as_of_date` 以前に限定して replay し、最新観測日を終点として直近 30 日の日次 window を表示します。単日の Queue Size だけで trend を判断しません。
 
-これは長期 persistence ではありません。data branch、JSONL、snapshot、weekly metrics には現段階では保存しません。
+自動観測成功時は、同じ保存先に次の構造化 artifact を保存します。
 
-長期比較が必要になった場合は、別 Work Item で schema、persistence、weekly aggregation、backfill policy を定義します。
+- `capital_absorption_ipo_queue_history_latest.json`
+- `capital_absorption_ipo_queue_history_YYYY-MM-DD.json`
+- `capital_absorption_ipo_queue_history.jsonl`
+
+保存 record は `date`、`queue_count`、`reported_count`、`confirmed_count`、`pressure`、`items` を持つ構造化 record です。全文 Markdown report の保存ではありません。
+
+週次成果物では、`weekly_state_metrics.json -> latest_context.capital_absorption_ipo_queue` と `weekly_state_review_auto.md` の観測専用 section に集約します。週次集約は `as_of_date` 以前の ledger record だけを使い、未来日 record を混入させません。
 
 ## IPO Stage
 
@@ -95,11 +101,10 @@ IPO Stage は IPO lifecycle を表示するために使います。Event Type �
 
 - `Rumor`: rumor や speculation だけが観測されている。
 - `Reported`: media report として IPO narrative が観測されている。
-- `Preparing`: IPO candidate、IPO preparation、pre-IPO discussion、expected IPO など準備段階の narrative。
+- `Preparation`: IPO preparation、banker / adviser hiring、readiness など準備報道。
+- `Pre-IPO`: 上場時期、条件、valuation、roadshow などが具体化している。
 - `Filed`: S-1、filed for IPO、files to go public など filing が観測されている。
-- `Roadshow`: roadshow が観測されている。
-- `Priced`: priced IPO、prices IPO、expected to price など pricing 段階が観測されている。
-- `Listed`: listed、begins trading、debut など listing 後の状態。
+- `IPO`: priced IPO、listed、begins trading、debut など IPO 実施済み。
 
 ## Event Type
 

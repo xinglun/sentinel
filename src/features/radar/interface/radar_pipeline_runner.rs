@@ -17,7 +17,9 @@ use crate::features::radar::interface::report::{self, ReportRenderContext};
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
-use crate::features::research::interface::capital_absorption_report_builder::build_capital_absorption_report_with_auto;
+use crate::features::research::interface::capital_absorption_report_builder::{
+    build_capital_absorption_ipo_queue_weekly_summary, build_capital_absorption_report_with_auto,
+};
 use crate::features::research::interface::cognitive_reports::{
     credit_stress_label, enabled_asset_thesis_count, enabled_research_attention_count,
     growth_valuation_impact_label, liquidity_condition_label, macro_pressure_label,
@@ -219,7 +221,7 @@ pub(crate) async fn run_pipeline(
             &packet,
             should_persist_history,
             &pres_packet,
-            &build_weekly_report_context(config_arc.as_ref()),
+            &build_weekly_report_context(config_arc.as_ref(), save_dir, packet.date),
             outcome.state_machine.as_ref(),
         )?;
 
@@ -244,7 +246,11 @@ fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderCo
     }
 }
 
-fn build_weekly_report_context(app_config: &config::AppConfig) -> WeeklyReportContext {
+fn build_weekly_report_context(
+    app_config: &config::AppConfig,
+    save_dir: &std::path::Path,
+    as_of_date: chrono::NaiveDate,
+) -> WeeklyReportContext {
     WeeklyReportContext {
         macro_gravity: app_config
             .macro_gravity
@@ -264,6 +270,9 @@ fn build_weekly_report_context(app_config: &config::AppConfig) -> WeeklyReportCo
             }),
         research_attention_entries: enabled_research_attention_count(app_config),
         asset_thesis_entries: enabled_asset_thesis_count(app_config),
+        capital_absorption_ipo_queue: build_capital_absorption_ipo_queue_weekly_summary(
+            save_dir, as_of_date,
+        ),
     }
 }
 

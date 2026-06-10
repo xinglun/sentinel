@@ -1,0 +1,156 @@
+{
+  "workItemId": "capital-absorption-weekly-alignment",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-weekly-alignment.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "reason": "Capital Absorption IPO Queue weekly alignment の scope / acceptance / verification / boundary を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の Cockpit status を生成した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "Capital Absorption weekly alignment の検証入口を追加した。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "IPO Queue History の永続化、weekly aggregation、現行 IPO Stage を仕様に反映した。"
+    },
+    {
+      "path": "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+      "reason": "IPO Queue weekly summary を research ACL 経由で infrastructure から取得する境界を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_builder.rs",
+      "reason": "radar 側へ渡す IPO Queue weekly summary の research interface wrapper を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+      "reason": "IPO Queue ledger から weekly summary を読み出す関数を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "weekly context に Capital Absorption IPO Queue summary を注入した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly metrics / review に Capital Absorption IPO Queue summary を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "weekly output contract test に Capital Absorption weekly section を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+    "Makefile",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-capital-absorption-weekly-alignment",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-weekly-alignment.contract.json SUMMARY=.ai/work-items/active/capital-absorption-weekly-alignment.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "週次 metrics / review に IPO Queue summary を追加し、as_of_date replay と表示境界を検証する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope / sources / acceptance を Capital Absorption IPO Queue weekly alignment に合わせて確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "unknowns は空で notCodable=false、executionDecision=continue。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "code / docs / tests / architecture guard の主要 required checks が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "status 系 checks を除く required verification は通過済み。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "weekly metrics / review / i18n / as_of_date replay / architecture boundary / Rust checks を確認済み。",
+    "expectedReviewFocus": [
+      "weekly metrics schema",
+      "weekly review i18n",
+      "future record exclusion",
+      "READY / EXECUTE / Gate 非接続"
+    ]
+  }
+}
