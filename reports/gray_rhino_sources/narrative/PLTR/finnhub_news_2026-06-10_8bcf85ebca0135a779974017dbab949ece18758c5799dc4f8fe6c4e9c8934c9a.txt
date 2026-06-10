@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Defense Contractor Nobody Wanted Became an AI Darling That Turned $1,000 Into $14k and There’s a Play Today
+  summary: From Defense Contractor Curiosity to AI Poster Child When Palantir (NASDAQ:PLTR) went public via direct listing on September 30, 2020, most investors saw a slow-growth government data shop with messy stock-based comp. Gotham powered defense and intel work, Foundry served a handful of commercial clients, and the stock drifted for years with an “overhyped” label ... The Defense Contractor Nobody Wanted Became an AI Darling That Turned $1,000 Into $14k and There’s a Play Today
+  url: https://finnhub.io/api/news?id=319601aaa52e77f353c828392dacfca4aeda3b5010734827e6397b85a53d8a0f

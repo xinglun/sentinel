@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Crusoe campus delay not a sign of AI demand weakness: Analyst
+  summary: Investing.com -- Artificial intelligence-related stocks remained under pressure this week as investors grappled with concerns about AI infrastructure spending, but one analyst argues that the market may be misinterpreting the significance of a high-profile project delay.
+  url: https://finnhub.io/api/news?id=e0f076cd66a4f43ed2d3a5af24a71d47b7c46f1904abc670a443925ee5d9f658

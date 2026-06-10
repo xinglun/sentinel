@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XEL Energy: Wildfires And Surging Electrical Demand
+  summary: Xcel Energy (XEL) outlook: rising U.S. power demand, $60B capex, EPS growth and valuation upsideâplus wildfire and rate-hike risks.
+  url: https://finnhub.io/api/news?id=37072c82036c875bfb9c579c562131075d5d62c99f9dcd087abd9af5244d4968

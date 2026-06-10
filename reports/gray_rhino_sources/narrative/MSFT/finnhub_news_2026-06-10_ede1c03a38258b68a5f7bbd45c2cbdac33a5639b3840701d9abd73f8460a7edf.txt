@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ICAEW urges caution on changes to uncertain tax treatment regime
+  summary: The institute said that new measures must be tightly focused and avoid imposing excessive compliance burdens.
+  url: https://finnhub.io/api/news?id=fa22126e1d9870be5a89a5e0a3d44057c4fa46c68917536aa604f04bf11144a0

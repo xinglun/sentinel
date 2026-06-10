@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Legal and AI Leaders from Google, Anthropic, Datadog, Reddit, and Ramp to Gather at The L Suite’s 2026 Legal AI Conference
+  summary: Conference brings together General Counsels and legal executives to discuss governance, regulation, operational risk, and the future of enterprise AINEW YORK, June 10, 2026 (GLOBE NEWSWIRE) -- The L Suite, the premier peer community for in-house legal leaders, will host its 2026 Legal AI Conference today in New York City. The event convenes senior legal and AI leaders from some of the world’s leading technology companies to examine the rapidly evolving impact of artificial intelligence on busine
+  url: https://finnhub.io/api/news?id=6b5ebf652c35d13959f1a6bc9757e4b1dd074c934c4da21db8d94ff7ad53f472

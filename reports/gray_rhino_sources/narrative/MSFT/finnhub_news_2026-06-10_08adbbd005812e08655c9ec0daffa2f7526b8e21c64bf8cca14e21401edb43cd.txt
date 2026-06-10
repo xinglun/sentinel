@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LinkedIn launches new effort in push to capture business advertisers
+  summary: LinkedIn is aiming to burnish its position as a go-to platform for business advertisers with a new team of marketing experts ‌that it expects to generate an annualized run rate of $100 million next fiscal year, ‌a source familiar with the matter said.  The Microsoft-owned platform on Wednesday unveiled BrandWorks, the newly assembled team that aims ​to deliver higher-performing ad campaigns for customers ranging from software giant SAP to privately held website hosting platform Webflow.  "We're developing services that are designed to meet the marketer where they are," said Alex Josephson, VP of BrandWorks, who previously built a similar offering called Twitter Next.
+  url: https://finnhub.io/api/news?id=ad174250d114eb868052f43753cd863743f01f1b827f194bb8a369b8dff4ee75

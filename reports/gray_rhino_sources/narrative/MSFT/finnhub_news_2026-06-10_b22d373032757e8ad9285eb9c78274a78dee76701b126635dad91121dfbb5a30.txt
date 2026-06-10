@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corporation (MSFT): Valuation Gap Signals Opportunity?
+  summary: Dodge & Cox Fund, an investment management company, released its first-quarter 2026 investor letter for “Dodge and Cox Stock Fund”. A copy of the letter is available to download here. U.S. equities declined broadly in Q1 2026, with the S&P 500 falling 4.3% amid inflation concerns fueled by the conflict in Iran and disruptions in […]
+  url: https://finnhub.io/api/news?id=7f297c3b5f83a57381b4b4d4a7eefb7af2d41c30993709b5dd64f2859b723642

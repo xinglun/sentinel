@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This CPI Print Is Not A Buy Signal
+  summary: Despite a slightly softer core CPI, headline inflation at 4.2%, and strong labor data, the Fed is boxed in, limiting rate cut prospects. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=a4489de16a377b5af69de45ec5a919a3dc0457597fd5a72a1556410954657ea9

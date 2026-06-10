@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street is Braced for Massive Inflation Numbers Wednesday Morning. Here’s What Numbers Could Cause Stocks to Sink or Soar.
+  summary: At 8:30 a.m. ET this morning, the Bureau of Labor Statistics releases the May Consumer Price Index. There has not been a more loaded macro release in months. The Federal Reserve has already cut its policy rate 75 basis points from last September’s peak, to an upper bound of 3.75%, and the bond market is ... Wall Street is Braced for Massive Inflation Numbers Wednesday Morning. Here’s What Numbers Could Cause Stocks to Sink or Soar.
+  url: https://finnhub.io/api/news?id=11433917344699aa9c42da964d07e3eabfbdc51c17dace35582b2e33580b6001

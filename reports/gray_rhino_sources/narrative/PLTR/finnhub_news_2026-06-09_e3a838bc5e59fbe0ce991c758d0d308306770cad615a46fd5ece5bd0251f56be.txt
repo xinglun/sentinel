@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) and McCarthy Building Companies Announce Multi-Year, Multi-Million Dollar Strategic AI Partnership
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the best NASDAQ stocks to buy and hold for 3 years. Palantir Technologies Inc. (NASDAQ:PLTR) and McCarthy Building Companies Inc. announced on June 4 a multi-year, multi-million dollar strategic partnership to bolster AI and data-driven decision-making across McCarthy’s operations. McCarthy Building Companies Inc. is one of the oldest […]
+  url: https://finnhub.io/api/news?id=e9a81574678c865f89b97cae9a9afe35fd31bed4c2f2fc65f2d5c115b1b40f54

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From $4 To $500? Eric Jackson's Bold Thesis Pitches Opendoor As Real Estate's Tesla Moment
+  summary: Why Eric Jackson&#39;s asymmetric thesis predicts Opendoor (OPEN) could be the next Tesla, offering a &#39;30x to 200x&#39; upside via tokenization.
+  url: https://finnhub.io/api/news?id=d688a79d784d14a1ca376db99cfba691d8a10b66bc7219dca64285eb9d51a4f0

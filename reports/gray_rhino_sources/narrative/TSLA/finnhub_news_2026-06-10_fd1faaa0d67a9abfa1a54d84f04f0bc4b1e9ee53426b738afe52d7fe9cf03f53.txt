@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GM Follows Tesla’s Playbook — Expands Into Energy Storage With Peak Partnership
+  summary: GM partnered with Peak Energy to develop and exclusively manufacture sodium-ion cells in Michigan.
+  url: https://finnhub.io/api/news?id=35b69f07c3cb0cdf7f064785e972c200f74add3e2ba19d0ca8094d9e3aeea49b

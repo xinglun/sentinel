@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How The Intuitive Surgical (ISRG) Narrative Is Shifting With Reset Valuations And Mixed Analyst Views
+  summary: Intuitive Surgical’s fair value estimate has been reset from US$611.82 to US$565.25, signaling a lower price target that analysts are now using in their models. This shift lines up with recent research that blends optimism about the company’s long term growth potential with caution around weaker medtech sentiment and a reset in sector valuations, leaving opinions on the stock’s risk reward profile divided. As you read on, you will see how this evolving narrative may shape how you track...
+  url: https://finnhub.io/api/news?id=fc078a262bb57c537a2b3c1b535d377a1840dcded3688c1c6278ce6c4fd23b27

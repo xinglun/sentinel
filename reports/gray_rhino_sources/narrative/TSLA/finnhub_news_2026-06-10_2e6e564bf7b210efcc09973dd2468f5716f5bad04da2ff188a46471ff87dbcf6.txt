@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Centene and UFP Industries have been highlighted as Zacks Bull and Bear of the Day
+  summary: Centene's margin recovery, cash-flow surge and rising earnings estimates fuel a sharp rebound as Zacks names it Bull of the Day.
+  url: https://finnhub.io/api/news?id=3cfaccee3d5801b5acb17b68192845ebfbf9bdbb885081ac2b718ca681a3b881

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Has Tesla solved the self-driving puzzle? This analyst thinks so
+  summary: Investing.com -- In a note to clients on Wednesday, Piper Sandler analyst Alexander Potter argued that Tesla has effectively achieved Level 4 autonomy in most conditions, laying out six reasons why he believes the company has solved the self-driving puzzle despite persistent skepticism from clients and investors.
+  url: https://finnhub.io/api/news?id=98224ef3fdf6d38a6fac6f5d9cc3fbae92f9be4ce62ac5bd52778646b6316907

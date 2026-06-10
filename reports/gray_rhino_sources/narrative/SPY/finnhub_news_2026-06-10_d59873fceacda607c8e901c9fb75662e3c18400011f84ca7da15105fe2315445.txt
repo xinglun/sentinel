@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: South Korea And Iran Crash The Stock Market
+  summary: Double black swan hits markets: Korea deleveraging + Middle East tensions.
+  url: https://finnhub.io/api/news?id=86e58eb9f2f7be49fc33904a3f7cb15a8a7495f28491b9996bebd65f83360cd7

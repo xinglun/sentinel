@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX just got a superchip ahead of its June 12th IPO — but no one’s talking about it. 3 red-hot stocks to watch now
+  summary: Make sure to grab some chips before liftoff.
+  url: https://finnhub.io/api/news?id=62a3b1b50ad26ea0c9800ba127f6091ad81fe51d788311ccd6267730c232bd61

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Cash-Producing Stocks Walking a Fine Line
+  summary: Generating cash is essential for any business, but not all cash-rich companies are great investments. Some produce plenty of cash but fail to allocate it effectively, leading to missed opportunities.
+  url: https://finnhub.io/api/news?id=aca9a9d8b666032540b54fb3c981f6fd343e6417269bf442a38a135ca9c96b3c

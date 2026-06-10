@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broader Market Settles Lower as Chip Stocks Sink
+  summary: The S&P 500 Index ($SPX ) (SPY ) on Tuesday closed down -0.26%, the Dow Jones Industrial Average ($DOWI ) (DIA ) closed up +0.17%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) closed down -1.12%. June E-mini S&P futures (ESM26 ) fell -0.36%, and June E-mini Nasdaq futures...
+  url: https://finnhub.io/api/news?id=bcc959a3c7e1e0be16f14bc6c45755af87a23723537381f05dd09eb76f7a7ffd

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Glorious Growth Stocks to Buy During the Latest Tech Sell-Off
+  summary: These two companies couldn't be more different, yet both could deliver significant returns for investors.
+  url: https://finnhub.io/api/news?id=4dfe9fa289826d9cb78c03a177a9ed588ded549ef327f661aea4e40981f979dc

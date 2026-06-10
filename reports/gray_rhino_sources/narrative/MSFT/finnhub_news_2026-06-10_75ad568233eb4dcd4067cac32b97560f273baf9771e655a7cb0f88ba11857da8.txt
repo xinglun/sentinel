@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global AI debt issuance to top $500 billion in 2026, Morgan Stanley says
+  summary: Morgan Stanley forecasts AI-related global debt issuance to more than double ‌to nearly $570 billion in 2026, pointing to ‌rising bond supply and credit market activity as hyperscalers turn ​to alternative funding sources to meet massive AI-driven capex needs. Here are some details: • Tech companies that have long relied on strong cash flows are ‌increasingly turning to ⁠debt financing as investment needs surge • Morgan Stanley estimates AI-related global debt issuance ⁠stood at nearly $236 billion as of May 31, 2026, fourfold more than the same period last ​year • Hyperscalers ​Alphabet, Amazon, Microsoft and ​Meta are expected to ‌spend $700 billion in outlays this year • Morgan Stanley ex...
+  url: https://finnhub.io/api/news?id=e81285d76e67d6fbfd9b849ddf7f77d62287b45eed14153e76014e4b37be56b1

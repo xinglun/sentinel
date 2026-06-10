@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can PLTR Stock Live Up To Its Multiple?
+  summary: This is a demand-constrained year for Palantir Technologies. The company's Artificial Intelligence Platform is pitched as the only reliable option for its core government and industrial customers.
+  url: https://finnhub.io/api/news?id=a5d3447ee213418a0d12b39fc67764dbbf64117e345068507756e8c1722592ff

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Celestica: The Broadcom Scare Looks Overdone
+  summary: Celestica Inc.âs selloff may be overdone: TPU momentum, AMD Helios upside, and 1.6T/CPO switching wins support long-term AI growth. Click for this CLS update.
+  url: https://finnhub.io/api/news?id=0880f181e520d6854bae199e395353d45b570a9c7dde515c9ef741dc9413ef53

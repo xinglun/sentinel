@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Broadcom Stock Falling Wednesday?
+  summary: Broadcom stock tests key moving averages after post-earnings profit-taking. Get the latest AVGO chart levels and support zones.
+  url: https://finnhub.io/api/news?id=497a3559813343f1d124ff62c14f67e8904ab142d6fb4976f819fd2ebc695afd

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Solid-State Battery Development Gains Momentum with New Partnership
+  summary: ProLogium and OPmobility have signed a Memorandum of Understanding to collaborate on developing solid-state battery modules for electric vehicles. This partnership aims to integrate ProLogium's advanced solid-state battery cells into battery modules and packs suitable for EV applications, enhancing system-level solutions to meet the increasing demand in the global EV market. Initial efforts will focus on performance testing and module development, with the goal of creating OEM-adoptable...
+  url: https://finnhub.io/api/news?id=5b550bb1a01f39e39b8cdc98a6c4a04e0ef9b6cd6f642bc64f17c216a0170984

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Scaling Into The AI Data Fortress
+  summary: Palantir Technologies Inc. AIP drives governed AI ROI beyond token burn. Click for this updated look at PLTR stock and see if it is right for you.
+  url: https://finnhub.io/api/news?id=4481aa0600ab2dda3ff29d16bd8979de30d439aac6e18080533ba91b7b817bf3

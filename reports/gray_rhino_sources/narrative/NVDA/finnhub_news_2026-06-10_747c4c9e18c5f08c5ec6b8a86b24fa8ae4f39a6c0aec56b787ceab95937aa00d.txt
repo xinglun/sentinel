@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Red Cat Holdings vs. Unusual Machines: Which Drone Stock Is a Better Buy Today?
+  summary: Drones are becoming more important for defense and national security, and these two companies should be on investors' radar.
+  url: https://finnhub.io/api/news?id=a874d27cc9efce43e68a790eef5d50e47a59205f130fc488f7a225929975ce16

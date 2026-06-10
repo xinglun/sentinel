@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Marvell Technology Stock Falling Wednesday?
+  summary: Marvell Technology (MRVL) pulls back amid tech sell-off. Discover the critical support and resistance levels to watch for the stock.
+  url: https://finnhub.io/api/news?id=47bef147cb06945cad84a5bcebd68159cd136c1a361ace1f02a0342f3f92bc4a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everything you need to know about SpaceX’s stratospheric listing
+  summary: Applications to participate in SpaceX’s IPO close on 10 June. How much could SpaceX be worth at its IPO, and what does it mean for investors?
+  url: https://finnhub.io/api/news?id=c04d5f753fe53c370a1021be15e699eb4426e8a608ef5c1f29a8985f927a4286

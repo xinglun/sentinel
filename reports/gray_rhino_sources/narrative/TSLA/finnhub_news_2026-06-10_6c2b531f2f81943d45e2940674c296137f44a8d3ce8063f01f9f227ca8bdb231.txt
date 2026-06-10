@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ProShares Plans 2x SpaceX ETF Launch on Day of Record IPO
+  summary: ProShares will launch SPCF, a 2x daily SpaceX ETF, on June 12 as the record IPO draws $250 billion in demand.
+  url: https://finnhub.io/api/news?id=00d252899491a00f26090025a58ed00ca30950e9c9686a095a51a0619b23f487

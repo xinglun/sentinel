@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) and Kirkland & Ellis Launch AI-Powered Platform to Streamline Private Equity Fundraising
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the most profitable growth stocks to buy. On June 4, Palantir Technologies and Kirkland & Ellis launched a proprietary enterprise platform built on Palantir’s Artificial Intelligence Platform/AIP to transform private equity fundraising. By integrating Kirkland’s institutional legal knowledge and market expertise into a unified operational system, the platform […]
+  url: https://finnhub.io/api/news?id=22052f8f7eebf8661db052f7dc3c098c5ad55b8d064f389affbd95c80a37fcc5

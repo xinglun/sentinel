@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Is Plunging Today
+  summary: Following a fresh round of sell-offs, Palantir stock is now down 26% this year.
+  url: https://finnhub.io/api/news?id=0adb123d5b272d03429163dbee5351d2f0e8b3a2576f822ec949d7f484fe84b7

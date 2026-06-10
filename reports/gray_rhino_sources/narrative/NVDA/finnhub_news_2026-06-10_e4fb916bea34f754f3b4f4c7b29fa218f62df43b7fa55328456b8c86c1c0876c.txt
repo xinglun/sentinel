@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How SoFi Is Using Artificial Intelligence (AI) and Why It Matters. Hint: It Could Be a Game-Changer.
+  summary: The stock is down, but the future looks bright.
+  url: https://finnhub.io/api/news?id=85a442d24f70a90550ca3560a61f804263720d7e57b743117bc55bd1b7080d63

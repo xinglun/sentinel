@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow Futures Fall As May Inflation Rises The Most In 37 Months— Autozi Internet, Cracker Barrel In Focus (UPDATED)
+  summary: (Editor’s note: The future prices of benchmark tracking ETFs and the headline were updated in the story.)
+
+
+
+U.S. stock futures fell on Wednesday, as the Nasdaq 100, S&amp;P 500, and the Dow Jones indices declined, following Tuesday’s mixed close.
+  url: https://finnhub.io/api/news?id=7c6c92ac60d1ee8d255e07117103d2904c6007315cc3c4cdf5c8d4cec9c77306

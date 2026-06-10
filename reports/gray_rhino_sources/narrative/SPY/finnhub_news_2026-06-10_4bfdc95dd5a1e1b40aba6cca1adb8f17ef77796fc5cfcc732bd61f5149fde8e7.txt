@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Hold, or Sell: Shaking Off a 21% Flash Crash, Is IonQ the Ultimate Quantum Speculation at $56?
+  summary: At $56.69, IonQ (NYSE:IONQ) looks fully valued, with a more compelling risk/reward setup emerging only at $50.00 or below. The trapped-ion quantum pioneer absorbed a 20.6% one-week flush that punished speculative positioning without breaking the operational story. IonQ designs trapped-ion quantum computers and sells them alongside quantum networking, sensing, and post-quantum security products into commercial ... Buy, Hold, or Sell: Shaking Off a 21% Flash Crash, Is IonQ the Ultimate Quantum Spe
+  url: https://finnhub.io/api/news?id=18b9f9e5c61ec4784d6efce582ed05922bce487f759a688e0a16314a6454c621

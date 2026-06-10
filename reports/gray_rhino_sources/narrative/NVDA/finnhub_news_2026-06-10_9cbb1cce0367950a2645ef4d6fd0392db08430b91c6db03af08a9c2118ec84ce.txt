@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian vs Lucid: This EV Stock Is The Better Buy
+  summary: Rivian (NASDAQ:RIVN) and Lucid (NASDAQ:LCID) just gave us two very different EV stories. Rivian’s Q1 FY26 showed a real business taking shape, with software pulling weight while the R2 launch begins. Lucid’s Q4 FY25 revealed an unfinished luxury bet still burning cash faster than it can sell cars. Software Saves Rivian. Luxury Still Costs Lucid ... Rivian vs Lucid: This EV Stock Is The Better Buy
+  url: https://finnhub.io/api/news?id=8efc8b9e14ec48bf7cab5c41ce4febbbe0b3fc79a20f0edee072fda9815e0fb6

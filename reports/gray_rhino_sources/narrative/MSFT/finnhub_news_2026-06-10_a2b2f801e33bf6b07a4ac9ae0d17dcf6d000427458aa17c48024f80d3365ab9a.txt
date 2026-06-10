@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Acsense Achieves FedRAMP Certification, Extending IAM Resilience to Federal Agencies
+  summary: Acsense, the leader in IAM Resilience, today announced it has achieved Federal Risk and Authorization Management Program (FedRAMP) Certification in partnership with Knox Systems ("Knox"), the largest federal AI-managed cloud provider. This certification signals to federal agencies and system integrators that Acsense's enterprise-grade capabilities for protecting, recovering, and continuously validating identity infrastructure meet the most stringent federal security requirements and are ready fo
+  url: https://finnhub.io/api/news?id=b26a3aed200a596acab78d0d693e3e03dab7c9de54b6ff43ddd44e52a9d64361

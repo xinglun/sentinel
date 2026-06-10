@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's Growth Is Exploding. Palantir Says That's Exactly The Problem
+  summary: As enterprises push back against rising AI costs, Palantir argues that managing AI spending may become more important than choosing the most powerful model.
+  url: https://finnhub.io/api/news?id=aaed06510cba7fa120aba6570c17d84ac88a8c3f8105006c94756dfe89c7774c

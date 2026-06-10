@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI eyes 10 GW Ohio facility: The Information
+  summary: OpenAI is in talks to lease a proposed 10-gigawatt data center campus on federal land in southern Ohio, with Nvidia potentially providing financial backing for the deal.
+  url: https://finnhub.io/api/news?id=1581fe0c1f014690a06f416f94fcc82fed23409838f48378cfb00d4af9ec8062

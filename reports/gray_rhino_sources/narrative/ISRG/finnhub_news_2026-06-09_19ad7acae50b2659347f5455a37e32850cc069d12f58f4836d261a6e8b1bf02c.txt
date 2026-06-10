@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will ISRG's Cost Leverage Aid Margins Amid Tariff & Input Inflation?
+  summary: ISRG lifts margins despite tariffs, using scale, cost cuts and da Vinci 5 adoption to offset inflation as 2026 cost pressures build.
+  url: https://finnhub.io/api/news?id=46db3f2ddb8f68a9fda811f499351527e0ebbe2252337876f92aa9582fde5c35

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Leading Public AI Company RLTR Supports No Data Center in Monterey Park and Calls for AI Progress Without Massive Data Center Expansion
+  summary: RI’s Proprietary Fully Distributed, Infrastructure-Light Architecture Signals a Break from Traditional AI Models as Microsoft, NVIDIA, Alphabet, Meta Platforms, Palantir, OpenAI, Anthropic, xAI, Luma AI, Amazon, and Apple Continue Advancing Capital-Intensive AI Systems RI - Everything. Bothell, WA, June 10, 2026 (GLOBE NEWSWIRE) -- ReelTime Media, Inc. (OTCID:RLTR) today announced its support for No Data Center in Monterey Park No Data Center in Monterey Park! and the community-led effort that h
+  url: https://finnhub.io/api/news?id=add96f8abc71280f3afe7fc5f972f01cf3f0657d259091163f81ba287e44cfa3

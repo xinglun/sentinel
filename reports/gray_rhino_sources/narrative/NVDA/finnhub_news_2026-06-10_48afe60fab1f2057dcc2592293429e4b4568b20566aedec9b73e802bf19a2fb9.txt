@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock futures slide, volatility spikes in response to May CPI
+  summary: US stock futures (ES=F, NQ=F, YM=F) tick lower in Wednesday's pre-market trading after consumer prices rose 0.5% month over month and 4.2% year over year in May, according to the latest Consumer Price Index (CPI) survey. Yahoo Finance Markets and Data Editor Jared Blikre takes a closer look at the market reaction to the inflation data, especially in the bond market (^TYX, ^TNX, ^FVX) and various commidites. Additionally, core CPI — which excludes food and energy costs — rose 0.3% monthly and 2.9% yearly. All numbers met economists' estimates.
+  url: https://finnhub.io/api/news?id=dc8a82139e2d70073cf906ecf07f4b8ed458aea8a1a40f44e670c8d7eea8d700

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Super Micro Stock Sale Lays Bare Market’s AI Growing Pains
+  summary: The server and storage system maker is planning to raise $7 billion to fulfill $39 billion worth of recent orders.
+  url: https://finnhub.io/api/news?id=40d77f8cc4a3c1dc3616f5f5f4d4e19bf3c4ebae45ed0da321a7f8a452e4c5db

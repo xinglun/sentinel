@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Unwind Pressures Indexes, But Breadth Holds Up Better Than Price Suggests
+  summary: U.S. indexes pulled back as the AI and tech unwind continued, but market breadth improved modestly beneath the surface. The breadth trend remains neutral with a positive bias, though short-term pressure has increased.
+  url: https://finnhub.io/api/news?id=df5b445cbff72ac62cf00722e2b5eb5f0c6a6a15e5af9dd92c9721c786b50d9c

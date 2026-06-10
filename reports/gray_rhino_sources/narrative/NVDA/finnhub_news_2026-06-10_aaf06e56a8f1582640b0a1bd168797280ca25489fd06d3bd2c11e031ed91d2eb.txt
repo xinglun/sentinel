@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA Gets the Headlines, But Micron Could Offer More Upside
+  summary: MU has surged 232.7% in 2026 on booming AI memory demand, strong earnings and raised guidance, even as NVDA dominates AI headlines.
+  url: https://finnhub.io/api/news?id=0e2a027bbb59ef8cede68229621cc06d7666a099f9532486fea23cbb9080d6d4

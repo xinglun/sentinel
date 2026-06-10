@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons Tesla Stock Is So Volatile This Week
+  summary: Tesla  stock was lower early Wednesday after a flare-up in tensions in the Middle East, leaving investors nervous.  Shares of the electric-vehicle maker were down 1.5% at $390.91 in premarket trading, while  and  futures were down 0.8% and 0.7%, respectively.  The move came after the U.S. military retaliated after Iran downed an Apache helicopter, threatening a fragile cease-fire.
+  url: https://finnhub.io/api/news?id=332dcce320754d5456790014c5aa0145c3e885a6ecb5738d92283c587f5e0a34

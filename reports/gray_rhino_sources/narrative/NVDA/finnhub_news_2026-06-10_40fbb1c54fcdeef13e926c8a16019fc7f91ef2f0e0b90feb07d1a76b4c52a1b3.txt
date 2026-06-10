@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Telecom Stock: Verizon or Rogers Communications?
+  summary: U.S.-based Verizon and Canada's Rogers Communications are the largest telecom companies by market cap in their respective countries. Which of these dividend stocks is a better buy?
+  url: https://finnhub.io/api/news?id=58ef1e65b586fd4edab142838250ea89d3979b441a8b1d3938c6fd9acd4a0d9d

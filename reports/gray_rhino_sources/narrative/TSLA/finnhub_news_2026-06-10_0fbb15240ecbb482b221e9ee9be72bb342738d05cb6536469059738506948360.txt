@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Opinion: SpaceX Stock Will Initially Soar, but Its Smoke-and-Mirror Optics Won't Last Beyond 2 Months
+  summary: The SpaceX rug pull is coming, and retail investors will be left holding the bag.
+  url: https://finnhub.io/api/news?id=5908fb929403e79df4bf8413a033e965ab478afbf7761535839f781eca9b7000

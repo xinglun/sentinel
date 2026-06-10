@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which S&P500 stocks are the most active on Tuesday?
+  summary: Explore the S&P500 index on Tuesday and find out which stocks are the most active in today's session. Stay updated with the stocks that are capturing market interest.
+  url: https://finnhub.io/api/news?id=fc721202adde94c0a97f7c79befcb283435aa8f5effb3c9c9b6f5d9629910171

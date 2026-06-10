@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs. Apple: Which Stock Offers More Upside in 2026?
+  summary: Apple (NASDAQ: AAPL) and Palantir (NASDAQ: PLTR) both posted their eighth straight EPS beat this spring, but the businesses behind the numbers could not look more different. Apple is selling more iPhone 17 units to a 2.5 billion device installed base. Palantir is signing AI deployment contracts at a pace that doubled its U.S. business. ... Palantir vs. Apple: Which Stock Offers More Upside in 2026?
+  url: https://finnhub.io/api/news?id=b55c1cd3fee88455d13240080bd4c33cc99f8f55689557b26e3ff746ff4473eb

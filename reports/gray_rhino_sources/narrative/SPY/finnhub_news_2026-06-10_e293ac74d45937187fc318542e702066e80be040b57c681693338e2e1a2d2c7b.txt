@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nowcast Data Suggest U.S. Growth Is Accelerating In Q2
+  summary: Growth for the AprilâthroughâJune period continues to track at a 2.5% annualized rate, based on the median nowcast from several sources compiled by CapitalSpectator.com. Read more here.
+  url: https://finnhub.io/api/news?id=74eff86ae6c4f4ade93425bdae312ec34f4f00a46619f972492c9e7470eddfe0

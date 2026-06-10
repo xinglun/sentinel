@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Israel Divestment Could Cost NYC Taxpayers $37 Billion, New ADL-JLens Analysis Finds
+  summary: NEW YORK, June 10, 2026--Israel divestment could put New York City taxpayers at risk for more than $37 billion over a decade, according to a new report released today by ADL (the Anti-Defamation League) and its affiliate, JLens, examining the potential impact of BDS-aligned investment restrictions on the city's pension funds.
+  url: https://finnhub.io/api/news?id=fad6e820571502375515723114f22f87aba13e05b892fd2bbd9f8bc4d204acb4

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian begins deliveries of cheaper electric vehicles
+  summary: Rivian will deliver its first R2 Performance vehicles to public customers this week. The new EV starts at $57,990.
+  url: https://finnhub.io/api/news?id=5faa950c9ff0c622159c162522f83ef9366908a91df298198159dfc746f0bbb1

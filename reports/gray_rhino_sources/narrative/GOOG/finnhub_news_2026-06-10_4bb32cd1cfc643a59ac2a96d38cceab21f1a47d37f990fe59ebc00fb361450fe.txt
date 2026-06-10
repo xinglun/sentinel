@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Infrastructure Short-Circuits But Now Sparks Not One, But Two Buy Points
+  summary: Riding demand for AI data centers, AI infrastructure leader Amphenol looks to connect with a fresh breakout.
+  url: https://finnhub.io/api/news?id=7610c8d3daf3b2242a0f367f8d33e318d85cb3091e36bd3db71226431b293fc5

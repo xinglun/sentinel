@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Hits 1-Month Low Amid SpaceX Merger Jitters — But Analyst Sees Tesla Holders Getting 66% Of Deal Within A Year
+  summary: Analysts also flagged risks, including shareholder opposition and regulatory scrutiny from Tesla's China exposure.
+  url: https://finnhub.io/api/news?id=7cf63e7bc3edd83838e05e6c36dabdb11235b85bdcc13f2fe55077eaa81b12a8

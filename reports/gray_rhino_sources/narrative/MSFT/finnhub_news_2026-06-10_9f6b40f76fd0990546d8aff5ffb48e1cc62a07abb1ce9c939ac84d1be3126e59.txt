@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Akamai Earns the Solutions Partner with Certified Software Designation for Security
+  summary: This designation recognizes Akamai API Security for delivering software solutions compatible with the Microsoft Cloud that demonstrate interoperability and meet program requirementsCAMBRIDGE, Mass., June 10, 2026 (GLOBE NEWSWIRE) -- Akamai (NASDAQ: AKAM), a Microsoft partner, today announced it has earned the Solutions Partner* with certified software** designation for API Security within the Microsoft AI Cloud Partner Program. This designation recognizes software that demonstrates interoperabil
+  url: https://finnhub.io/api/news?id=9fe0c80c7f9e848403db52caa212a2352e2679a3e252c9ceb86011297afe36bb

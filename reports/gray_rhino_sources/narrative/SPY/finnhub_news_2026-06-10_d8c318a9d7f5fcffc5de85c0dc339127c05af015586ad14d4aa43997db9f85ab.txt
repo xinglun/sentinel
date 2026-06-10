@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Overweight Financials Could Benefit DFSV In A Higher Rate Environment
+  summary: The DFA Dimensional US Small Cap Value ETF earns a Buy rating for its active management, attractive valuation, and sector tilt. Click to read more on DFSV.
+  url: https://finnhub.io/api/news?id=721ffe4f4e069464256f28d393b25a8cd8bc3911dc3defc34b285a4e141c96bd

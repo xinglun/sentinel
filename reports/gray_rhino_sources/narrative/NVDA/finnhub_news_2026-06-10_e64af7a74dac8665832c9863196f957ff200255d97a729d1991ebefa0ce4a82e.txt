@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Up 200% YTD, This Is Where Arm Holdings Will End The Year
+  summary: Arm (NASDAQ: ARM) has been one of the most explosive AI infrastructure trades of 2026, with shares rocketing 197.19% year to date as the chip designer cements its position at the center of the agentic AI buildout. After a 52.32% surge over the past month, the stock is consolidating. Our 24/7 Wall St. price target ... Up 200% YTD, This Is Where Arm Holdings Will End The Year
+  url: https://finnhub.io/api/news?id=565e72c4baa35e82627da139f0fcbfa961a7734d8f9ab8ae34a475ceca28a9cb

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Supermicro Computer stock sinks on $7 billion equity raise
+  summary: Supermicro Computer stock was poised to decline as much as 12% at the open on Wednesday.
+  url: https://finnhub.io/api/news?id=5e93f5d1df48d076c8838961caa372f134f4e4a94ec28c6241dd0a27ea4819c5

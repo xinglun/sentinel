@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk, after DOGE and politics, bets on SpaceX IPO
+  summary: Elon Musk has become the most powerful, prolific and bewildering human on earth and is about to become the world's first trillionaire if his latest brainchild -- the IPO of his rocket and AI company SpaceX -- goes as planned.Without Musk, OpenAI would go on to become the dominant AI giant, and this year he lost a blockbuster lawsuit against the company and its CEO Sam Altman over Musk's claims that it had reneged on its original mission of being a non-profit working for AI to benefit humanity.
+  url: https://finnhub.io/api/news?id=236308615ea40056a60f6ee3b53cc5ed24b8047fbcdf46119943e07e04bc56f5

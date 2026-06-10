@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TritenIAG Expands Advisory Board to Meet AI-Era Infrastructure Demand
+  summary: TritenIAG today announced the appointment of Doug Mouton to its Advisory Board, strengthening the firm's expertise as demand for AI-era data center and power infrastructure accelerates.
+  url: https://finnhub.io/api/news?id=a4ed185f21d15d98febbf377e7e7bd1e82d59d602efbfe9111207daae0f55128

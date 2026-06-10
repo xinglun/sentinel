@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Boom Sends TSMC Sales Soaring 30% as Chip Appetite Explodes
+  summary: TSMC Delivers Massive Revenue Jump as Nvidia, Apple Demand Ramps Up
+  url: https://finnhub.io/api/news?id=75483cd85a921eae0dabdd1c0d80266bac97b7971de1d6aa6b2a7f793dd08052

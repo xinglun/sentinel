@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO Set to Test Strength of the ‘Elon Premium’ as Valuation Nears $1.8 Trillion
+  summary: SpaceX (NASDAQ:SPCX) is preparing for one of the most closely watched stock market debuts in recent history, with its upcoming listing expected to provide a major test of the so-called “Elon premium” that has helped propel Tesla (NASDAQ:TSLA) to among the highest valuations in the U. S.
+  url: https://finnhub.io/api/news?id=5a5d6ff35856c15d2a49ba13dfc114d4b06f049e4c77ae4bc86b956b15203e84

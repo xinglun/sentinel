@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EigenQ Names Rika Nakazawa Chief Growth Officer to Accelerate Global Expansion
+  summary: EigenQ today announced the appointment of global technology executive Rika Nakazawa as Chief Growth Officer, strengthening the company's leadership team as it expands its AI, cybersecurity, and quantum infrastructure business.
+  url: https://finnhub.io/api/news?id=84fe6f5b8e61518b906065b6c84b3d268798a875b687edde29cacc9ed47345ef

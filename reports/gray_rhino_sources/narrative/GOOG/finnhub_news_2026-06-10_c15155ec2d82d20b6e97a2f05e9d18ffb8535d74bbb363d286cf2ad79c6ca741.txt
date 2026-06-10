@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TrustRadius, an HG Insights Company, Names Top Rated Winners for 2026 as Verified Reviews Become Fuel for AI Discovery
+  summary: Today, TrustRadius, an HG Insights company and the most trusted B2B buyer intelligence platform, revealed the winners of its 2026 Top Rated Awards. This year's class includes 375 product winners from 209 vendors across 519 different categories.
+  url: https://finnhub.io/api/news?id=82d51adc327338786f679cb0a5016a673a6811b2133758b4ab962104bcbf4741

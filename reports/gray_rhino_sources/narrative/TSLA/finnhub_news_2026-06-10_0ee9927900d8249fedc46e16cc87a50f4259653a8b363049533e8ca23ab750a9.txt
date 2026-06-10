@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says SpaceX Could Put One Million Tons Of Payload In Orbit Within The Next Five Years
+  summary: SpaceX and Tesla CEO Elon Musk predicts exceeding payload timelines and expectations, with potential for 1M tons to orbit in 5 years.
+  url: https://finnhub.io/api/news?id=e0494250cc90f759f72f15eea7cff6f8e7c167f4a03fa7f3b269a40f6d277e0c

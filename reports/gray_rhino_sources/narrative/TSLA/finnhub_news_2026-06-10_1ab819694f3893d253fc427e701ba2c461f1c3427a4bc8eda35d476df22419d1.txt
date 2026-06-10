@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Scott Galloway Says Tesla, Nvidia, Broadcom Could Get Caught In The Crossfire Of The Space X IPO
+  summary: NYU professor Scott Galloway warns a wave of upcoming AI IPOs could trigger an 80% collapse for one new market debut, and the aftershocks may hit already-public AI names like Nvidia Corp and Tesla Inc. The Prof G Markets co-host...
+  url: https://finnhub.io/api/news?id=ff76cf1de8159ffd7cb0374df1b3b99640b500bedfc1580cc6d7a4047601a293

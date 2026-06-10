@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May CPI: Tone Setting As Inflation Crosses 4%
+  summary: Mayâs CPI jumps to 4.2% and core inflation hits 2.9%, signaling Fed rate cuts may be off and hikes possible. Click for this updated look at the latest data.
+  url: https://finnhub.io/api/news?id=633d3e1b6b78c42dec4f2f6c118a2fed2391fcdc74111928cd9de57b992cdd38

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Will Adobe Stock React To Its Upcoming Earnings?
+  summary: Adobe (NASDAQ: ADBE) is set to report its earnings on Thursday, June 11, 2026. Heading into the results, the stock has experienced notable pressure, dropping roughly 8% over the past five days as investors heavily scrutinize the company's ability to successfully monetize its generative AI tools.
+  url: https://finnhub.io/api/news?id=d6c053316e575594725c526d0672523f19c7985141cb93baac6f5e0dbc67f80e

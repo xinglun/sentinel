@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The World's Most Important Chipmaker Has Fantastic News for Artificial Intelligence (AI) Stock Investors
+  summary: TSMC's CEO believes the semiconductor market will remain undersupplied due to booming demand for AI chips.
+  url: https://finnhub.io/api/news?id=fa777decd6233f7bf1538bcac51a65ddc6e4cc027922c72253fe926e4a8ea37e

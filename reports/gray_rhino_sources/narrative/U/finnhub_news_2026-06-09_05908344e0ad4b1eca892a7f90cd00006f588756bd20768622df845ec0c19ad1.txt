@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Information Technology Stocks Whale Activity In Today's Session
+  summary:  
+  url: https://finnhub.io/api/news?id=ba929e11df49d8d9588fd459438f8d16f18a6ad4b9268ac60ccaa7972495c192

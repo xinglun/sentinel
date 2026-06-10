@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Workday, Oracle, and Palantir Technologies Shares Plummet, What You Need To Know
+  summary: A number of stocks fell in the afternoon session after Anthropic released new models (Claude Fable 5 and Claude Mythos 5) which were described as built for "the hardest knowledge work and coding problems."
+  url: https://finnhub.io/api/news?id=b039afb5ec8b4bde1ceb0d460b292203ca6f140d2a0fefdc5d406427f23f3f8a

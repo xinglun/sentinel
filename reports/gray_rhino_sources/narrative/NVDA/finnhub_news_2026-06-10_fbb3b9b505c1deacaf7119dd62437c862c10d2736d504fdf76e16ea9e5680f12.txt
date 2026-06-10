@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HAProxy Continues Winning Streak into DevOps and AI in G2 Summer 2026 Reports
+  summary: Load Balancing leader and the only traffic management tool in the DevOps top 100 becomes the industry standard for Kubernetes and AI routing. NEWTON, Mass., June 10, 2026 (GLOBE NEWSWIRE) -- HAProxy Technologies, the company behind HAProxy One, the world's fastest application delivery and security platform, today announced its G2 Summer 2026 Grid® and Index Report results. The company earned 86 badges across eight categories, including 33 Leader and Momentum Leader badges. Key results: #1 in Loa
+  url: https://finnhub.io/api/news?id=c5103308b775e15e19bce2e7c9b822ee65748980ad35a4a98a04221eb60f152a

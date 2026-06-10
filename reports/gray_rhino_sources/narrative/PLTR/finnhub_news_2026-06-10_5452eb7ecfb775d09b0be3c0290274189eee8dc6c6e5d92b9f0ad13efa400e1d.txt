@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QuSecure Named a 2026 Technology Pioneer by World Economic Forum for its Post-Quantum Cryptography Leadership
+  summary: SAN MATEO, Calif., June 10, 2026--QuSecure named a 2026 Technology Pioneer by World Economic Forum for its post-quantum cryptography leadership.
+  url: https://finnhub.io/api/news?id=fec0e25ab5fd610f3468129f8c900f8b30966920b4a9edd72d0690869cabd686

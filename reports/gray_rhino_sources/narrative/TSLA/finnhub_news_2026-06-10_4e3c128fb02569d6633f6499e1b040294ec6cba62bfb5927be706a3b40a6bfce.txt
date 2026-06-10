@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD threatens to sue Trump administration over Chinese military claims
+  summary: BYD has threatened to sue the US government after the Pentagon accused the Chinese carmaker of aiding Beijing’s military.
+  url: https://finnhub.io/api/news?id=ce4eb5c18d65cab85eb53874e96b921588e3f9343083865d875bcef8611415f6

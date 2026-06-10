@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Co-Founder Issues Stark Warning on AI Layoff Claims
+  summary: Jack Dorsey Faces Scrutiny as Pandemic Hiring Boom Backfires in Layoffs
+  url: https://finnhub.io/api/news?id=6fde99cecfe0392401a0e10e6f9bb8c52882f7c49f6639a072c329a6711c66c0

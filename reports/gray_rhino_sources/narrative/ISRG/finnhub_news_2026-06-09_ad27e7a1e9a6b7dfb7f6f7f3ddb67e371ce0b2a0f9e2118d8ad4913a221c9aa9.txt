@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Upgraded to Buy: Here's Why
+  summary: Intuitive Surgical (ISRG) has been upgraded to a Zacks Rank #2 (Buy), reflecting growing optimism about the company's earnings prospects. This might drive the stock higher in the near term.
+  url: https://finnhub.io/api/news?id=5b6d5853c1645cda4ff10d68ba4f49d8d16d449caa2f8c942ef7fc2a5d17762f

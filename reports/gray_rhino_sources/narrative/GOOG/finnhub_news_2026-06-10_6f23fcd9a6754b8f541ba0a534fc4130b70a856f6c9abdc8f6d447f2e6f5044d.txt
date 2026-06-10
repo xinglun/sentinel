@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple's AI Push Deepens Alphabet Dependency
+  summary: Apple's upgraded Siri will rely partly on Google AI infrastructure as privacy and regulatory questions grow.
+  url: https://finnhub.io/api/news?id=a50a4a1671ab8a72b6d1d2721c21f3b90ea6dff5f915891006ec019ee4bc906f

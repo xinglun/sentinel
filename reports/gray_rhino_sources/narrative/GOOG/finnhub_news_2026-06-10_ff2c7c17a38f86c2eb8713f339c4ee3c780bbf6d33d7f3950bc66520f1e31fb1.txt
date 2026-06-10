@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kalshi rolls out employer disclosure, risk scoring to fight insider trading
+  summary: The prediction market platform also announced a risk scoring framework and expanded whistleblower tools, effective immediately
+  url: https://finnhub.io/api/news?id=4dfdd15e742cbc50a83b0bb04ba95f2480bb27545f0d394b427b923fb002e981

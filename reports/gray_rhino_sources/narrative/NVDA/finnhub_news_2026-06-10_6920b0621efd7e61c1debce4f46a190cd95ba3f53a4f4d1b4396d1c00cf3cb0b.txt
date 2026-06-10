@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US-Iran Flare-Up Drags US Equity Futures Pre-Bell as Middle East Tensions Re-Escalate
+  summary: US equity futures were edging lower pre-bell Wednesday as the US and Iran once again exchanged attac
+  url: https://finnhub.io/api/news?id=51fdbc66ee2735694c0475f8a3f17c8baa731f786215b3dcc4740a26debc1e63

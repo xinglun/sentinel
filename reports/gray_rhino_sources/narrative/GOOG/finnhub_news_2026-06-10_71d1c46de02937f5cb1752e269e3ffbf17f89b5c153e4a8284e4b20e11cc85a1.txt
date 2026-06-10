@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic leans into AI’s nascent slice-and-dice era
+  summary: As investments go, Beignet and Big Sky may not be household names. But that doesn’t mean households aren’t going to be exposed to their financial...
+  url: https://finnhub.io/api/news?id=9e7c7c336bd3f934bd398f1188dbaab5cb8fe80a69aff5444edcc43e0e9cd995

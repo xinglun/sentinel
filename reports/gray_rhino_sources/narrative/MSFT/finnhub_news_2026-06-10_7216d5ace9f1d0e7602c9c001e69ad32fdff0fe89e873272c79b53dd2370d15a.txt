@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Monetization Timelines Weighed on Microsoft Corporation (MSFT) in Q1
+  summary: The London Company, an investment management company, released its first-quarter 2026 investor letter for its “The London Company Income Equity Strategy”. A copy of the letter is available to download here. In early 2026, US equities declined, with the Russell 3000 falling 4% and the S&P posting losses. The year began positively on a broad rally, […]
+  url: https://finnhub.io/api/news?id=0dc8a05638994568155fb676fa490bdce3e67e1987f6d070a057b4f3658d7a96

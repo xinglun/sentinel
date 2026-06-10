@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OneMedNet Executes on Growth Strategy: Secures Over $3 Million in New Bookings, Surpassing Full-Year 2025
+  summary: Strong Commercial Momentum Fueled by Demand for Regulatory-Grade Multi-Modal Real-World DataMINNEAPOLIS, June 10, 2026 (GLOBE NEWSWIRE) -- OneMedNet Corporation (Nasdaq: ONMD) (“OneMedNet,” the “Company,” “we,” “us” or “our”), a leading provider of regulatory decision-grade, AI-driven Real-World Data (RWD), today announced it has secured more than $3 million in new bookings to date for 2026 as of this announcement – surpassing the Company’s total bookings for all of full-year 2025. The Company e
+  url: https://finnhub.io/api/news?id=9adffd5ad94446bdc49a09f7f4b51378723d73cf932d230e1135031167d6b985

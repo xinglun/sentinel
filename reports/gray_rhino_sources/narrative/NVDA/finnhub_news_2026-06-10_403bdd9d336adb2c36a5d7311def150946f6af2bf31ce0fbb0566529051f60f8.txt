@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How AMD Is Mimicking Nvidia’s Circular Funding Deals
+  summary: AMD stock was slipping Wednesday. The chip maker is following in Nvidia's footsteps by investing in a neocloud company.
+  url: https://finnhub.io/api/news?id=4db29ccbd002773e99d7b98cc801f28f6435a18aba04506c1d27cba93bdc36ef

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MN8 Energy Delivers 260 MW of Solar to Microsoft Across Two U.S. Power Markets
+  summary: NEW YORK, June 10, 2026--MN8 Energy LLC (MN8), a leading independent power producer in the United States, today announced the commercial operation of two utility-scale solar projects totaling 260 megawatts (MWac) of capacity under long-term power purchase agreements with Microsoft. Long Point Solar, a 120 MW project in Brazoria County, Texas, and American Beech, a 140 MW project in Halifax County, North Carolina, are both fully online.
+  url: https://finnhub.io/api/news?id=7a605519e64d01a982783cd7c9aa6dee2a716e66177a8fdedfab8a44a7ab8786

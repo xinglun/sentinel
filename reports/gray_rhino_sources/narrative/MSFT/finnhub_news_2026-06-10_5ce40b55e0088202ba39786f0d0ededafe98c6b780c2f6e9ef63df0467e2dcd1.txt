@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QDVO: Attractive Yield, But Dividend Growth Is The Real Story
+  summary: QDVO ETF blends growth and income with tactical covered calls, double-digit yields, and tax-efficient ROC. Click here to read more about the fund.
+  url: https://finnhub.io/api/news?id=0aa5238fa91b8ad99ccaaf00a4b061ae65ec025dc020b112c828b4495163c540

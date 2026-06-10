@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta signs first AI data center deal in India with Reliance
+  summary: The 168-megawatt facility will support Meta's global AI computing needs and can be expanded over time.
+  url: https://finnhub.io/api/news?id=0f21f84ce384b663391898007575330c5f44180c067127b904702528161f9683

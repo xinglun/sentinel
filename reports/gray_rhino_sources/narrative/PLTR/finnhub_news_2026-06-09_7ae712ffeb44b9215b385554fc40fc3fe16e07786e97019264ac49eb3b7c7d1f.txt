@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs Oracle: Two AI Plays, One Winner
+  summary: Palantir (NASDAQ:PLTR) and Oracle (NYSE:ORCL) both just put out earnings that read like AI manifestos, but the businesses underneath could not be more different. Palantir closed Q4 2025 as a capital-light software shop riding U.S. commercial adoption. Oracle finished Q3 FY2026 as a balance-sheet-heavy hyperscaler pouring tens of billions into GPUs and concrete. AIP Floods ... Palantir vs Oracle: Two AI Plays, One Winner
+  url: https://finnhub.io/api/news?id=920b9b3cdaf0dc7f9a66f9688ada36c72a3cc19fd844337ccc48cc054a0f1ff4

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Super Micro Shares Drop After $7 Billion AI Server Financing Plan
+  summary: Super Micro plans equity and equity-linked offerings to fund components for about $39 billion in AI server orders.
+  url: https://finnhub.io/api/news?id=26ec75a81c344a5bfc018cdf270c6d95cf011a11335452889def2d7b7daf3aa2

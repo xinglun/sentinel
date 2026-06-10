@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RIVN Stock Slides Overnight: Rivian's 'Affordable' R2 Draws Backlash – Buyers Question Value Against Tesla Model Y
+  summary: Buyers compared the R2 unfavorably to Tesla's Model Y and Rivian's own R1S.
+  url: https://finnhub.io/api/news?id=4979310ec347b6cf5516b5f5a6b031e083e59b4bcdac8f9ef5b33965e2705485

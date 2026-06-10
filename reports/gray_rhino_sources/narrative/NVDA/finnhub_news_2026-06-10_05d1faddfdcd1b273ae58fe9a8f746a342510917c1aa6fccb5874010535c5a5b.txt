@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Falls 500 Points On Trump Comments; CPI Inflation Data Next (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index sold off 500 points Wednesday on Trump's comments. The CPI inflation report is next.
+  url: https://finnhub.io/api/news?id=a8ce687f9626f0cb22ea951008b548a4532845aa58f7d0ef209a5845b67755c4

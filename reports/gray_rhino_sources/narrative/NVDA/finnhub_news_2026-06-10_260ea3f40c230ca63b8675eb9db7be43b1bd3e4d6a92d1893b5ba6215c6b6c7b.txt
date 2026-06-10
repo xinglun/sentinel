@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why One AI Giant Is Paying ~2.2X per GPU More Than What Anthropic Pays SpaceX
+  summary: Just in time for that big SpaceX (SPCX) IPO, the firm announced that Alphabet‘s (NASDAQ:GOOG) Google has inked a $920 million per-month deal for AI compute that’ll run through the middle of 2029. Undoubtedly, the deal entails 110,000 worth of Nvidia (NASDAQ:NVDA) GPUs, which might seem like a worse deal than Anthropic got when it ... Why One AI Giant Is Paying ~2.2X per GPU More Than What Anthropic Pays SpaceX
+  url: https://finnhub.io/api/news?id=a5f4131191aaae577109a25fb56c217bf32c2f26c89a32957de2e286f6e00498

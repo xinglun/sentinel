@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is AMD Stock Falling Wednesday?
+  summary: AMD stock dips amid a broader chip sector pullback. Analysts stay bullish as tech investors weigh valuations and long-term AI trends.
+  url: https://finnhub.io/api/news?id=33c3e8ae84058d127db681503560620dee2df76255a3957b07b26621c23e9a2d

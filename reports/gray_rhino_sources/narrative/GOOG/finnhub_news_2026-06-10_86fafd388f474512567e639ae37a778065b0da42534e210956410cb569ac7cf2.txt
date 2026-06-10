@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI: Mega IPO Faces Anthropic Claude Mythos Reckoning
+  summary: 
+  url: https://finnhub.io/api/news?id=c36bc05596efa9dc5c83ed5646bebfbab2965059372840cf4ca188e9154c4fef

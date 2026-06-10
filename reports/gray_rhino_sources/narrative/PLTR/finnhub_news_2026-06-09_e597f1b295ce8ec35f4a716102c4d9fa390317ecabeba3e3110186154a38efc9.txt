@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Launches Retaliatory Strikes Against Iran — Defense Stocks, ETFs On Watch
+  summary: U.S. retaliates against Iran with self-defense strikes after Apache helicopter downing. Defense stocks moving in after-hours trading.
+  url: https://finnhub.io/api/news?id=e51e9df18134dc2ea5ff05cd6612feca01e24d2e5fd89b2a31f140d874ce8fad

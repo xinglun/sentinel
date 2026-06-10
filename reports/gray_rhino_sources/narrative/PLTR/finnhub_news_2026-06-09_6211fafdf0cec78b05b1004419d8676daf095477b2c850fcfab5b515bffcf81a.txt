@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir flashes a warning signal Wall Street can’t ignore
+  summary: Palantir Technologies (PLTR) just delivered one of the strongest quarters in software, and its stock is sliding anyway. Shares of the artificial intelligence company fell about 13% in five trading days, closing near $136 on June 8 after trading above $158 a week earlier. That kind of drop usually ...
+  url: https://finnhub.io/api/news?id=d510d5881baaea103af1977353af3cb8de0848a268dc1473a8e1532eda8f51b1

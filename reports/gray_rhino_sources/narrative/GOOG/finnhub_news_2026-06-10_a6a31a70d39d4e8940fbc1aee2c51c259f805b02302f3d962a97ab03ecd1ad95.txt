@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Just Committed to Spending $920 Million a Month at SpaceX. Here's What That Means for This Week's IPO.
+  summary: Some investors didn't even realize the company is in the artificial intelligence (AI) infrastructure business.
+  url: https://finnhub.io/api/news?id=1eb9d0d621c2566e8b03628a1ed86538d3325a251ee225f4dd9b6a3472f37428

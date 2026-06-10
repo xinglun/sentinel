@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Gates Arrives for Closed-Door Epstein Panel Testimony
+  summary: (Bloomberg) -- Microsoft Corp. co-founder Bill Gates arrived at the US Capitol complex Wednesday for closed-door testimony to the House Committee investigating the late financier Jeffrey Epstein.Most Read from BloombergHouse Republican Says Hegseth’s D-Day Remarks ‘Inappropriate’US Launches Strikes Against Iran After Helicopter Shot DownUS Strikes Iran After Helicopter Downed, Testing Peace TalksStocks Pare Tech-Led Drop as Rotation Gains Speed: Markets WrapStocks Fall as US-Iran Tensions Offset
+  url: https://finnhub.io/api/news?id=dfa853d4f5238a3d6bfecf570d7676bf9aa1e55295804100ac58ccd21267eef7

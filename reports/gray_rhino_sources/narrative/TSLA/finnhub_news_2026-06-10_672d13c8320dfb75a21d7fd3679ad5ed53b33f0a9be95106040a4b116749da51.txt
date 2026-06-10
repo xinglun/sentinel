@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why everyone’s an energy company now
+  summary: Electricity demand from AI data centers is pushing everyone — including automakers like GM and Ford — into the energy storage business.
+  url: https://finnhub.io/api/news?id=8b4f26e616520955d8913f49e83a89ac3c6caad5c3ffd0f43ee61c751577b3dc
