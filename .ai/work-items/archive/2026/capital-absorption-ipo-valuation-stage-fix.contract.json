@@ -1,0 +1,129 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-ipo-valuation-stage-fix",
+  "mode": "code",
+  "title": "Capital Absorption IPO valuation stage 誤分類修正",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json",
+    ".ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/domain/capital_absorption.rs"
+  ],
+  "outOfScope": [
+    "READY / EXECUTE / Gate / Position Sizing / Trader / Action Matrix への接続",
+    "市場結論、売買判断、リスク格上げの生成",
+    "weekly metrics / weekly review schema の変更",
+    "IPO Queue persistence schema の変更",
+    "Capital Absorption provider / source acquisition の変更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json",
+      "reason": "Work Item の scope / acceptance / verification を確定する。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "IPO Stage classification と unit test の対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "private valuation を Pre-IPO と誤読すると Queue quality が過大評価されるため、Stage classification の精度を修正する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope は IPO Stage classification と unit test に限定され、取引判断系への接続は outOfScope。"
+  },
+  "preReviewWarnings": [
+    "private valuation は単独では Pre-IPO 条件具体化として扱わない。",
+    "IPO valuation / listing terms / roadshow / targeting year など IPO 条件に直接結びつく表現は Pre-IPO のまま維持する。",
+    "分類修正は Narrative Observation Only の範囲に限定し、Gate / trading / risk upgrade に接続しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "private valuation を含む IPO discussion は Reported に留まり、Pre-IPO に昇格しない。",
+    "IPO valuation、listing terms、roadshow、targeting year など IPO 条件や時期が具体化した表現は Pre-IPO に分類される。",
+    "既存の Rumor / Reported / Preparation / Filed / IPO の分類挙動を維持する。",
+    "READY / EXECUTE / Gate / Position Sizing / Trader / Action Matrix、市場結論、売買判断、リスク格上げへ接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-capital-absorption-ipo-queue-persistence",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.summary.json CONTRACT=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.contract.json SUMMARY=.ai/work-items/active/capital-absorption-ipo-valuation-stage-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

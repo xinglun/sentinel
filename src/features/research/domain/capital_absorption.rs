@@ -637,8 +637,15 @@ fn queue_status_from_event(event: &CapitalAbsorptionAutoEvent) -> CapitalAbsorpt
         || lower.contains("target ipo")
         || lower.contains("expected in")
         || lower.contains("expected ipo")
-        || lower.contains("valuation")
-        || lower.contains("terms")
+        || contains_any(
+            &lower,
+            &[
+                "ipo valuation",
+                "listing valuation",
+                "ipo terms",
+                "listing terms",
+            ],
+        )
         || lower.contains("roadshow")
     {
         CapitalAbsorptionIpoQueueStatus::PreIpo
@@ -1338,6 +1345,18 @@ mod tests {
                 CapitalAbsorptionIpoQueueStatus::PreIpo,
             ),
             (
+                "Anthropic IPO discussion grows after private valuation reaches $60 billion",
+                1,
+                CapitalAbsorptionObservationEventType::Reported,
+                CapitalAbsorptionIpoQueueStatus::Reported,
+            ),
+            (
+                "OpenAI IPO valuation terms become central to listing discussions",
+                1,
+                CapitalAbsorptionObservationEventType::Reported,
+                CapitalAbsorptionIpoQueueStatus::PreIpo,
+            ),
+            (
                 "Figure files for IPO with S-1 registration statement",
                 1,
                 CapitalAbsorptionObservationEventType::Confirmed,
@@ -1362,6 +1381,23 @@ mod tests {
 
             assert_eq!(queue_status_from_event(&event), expected_status);
         }
+    }
+
+    #[test]
+    fn private_valuation_discussion_does_not_become_pre_ipo_stage() {
+        let mut event = event("Anthropic", 0.0);
+        event.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        event.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        event.event_type = CapitalAbsorptionObservationEventType::Reported;
+        event.description =
+            "Anthropic IPO discussion grows after private valuation reaches $60 billion"
+                .to_string();
+        event.amount_usd_b = None;
+
+        assert_eq!(
+            queue_status_from_event(&event),
+            CapitalAbsorptionIpoQueueStatus::Reported
+        );
     }
 
     fn event(subject: &str, amount_usd_b: f64) -> CapitalAbsorptionAutoEvent {
