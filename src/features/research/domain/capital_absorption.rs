@@ -427,7 +427,7 @@ fn normalize_subject(subject: &str) -> String {
         .collect()
 }
 
-fn event_family(description: &str) -> &'static str {
+pub(crate) fn event_family(description: &str) -> &'static str {
     let lower = description.to_ascii_lowercase();
     if lower.contains("convertible") {
         "convertible_debt"
@@ -506,7 +506,6 @@ fn build_ai_ipo_queue(events: &[CapitalAbsorptionAutoEvent]) -> Vec<CapitalAbsor
                 event_type = event_type.max(event.event_type);
                 status = status.max(queue_status_from_event(event));
             }
-            status = ipo_queue_status_from_observation(status, event_type, source_count);
             CapitalAbsorptionIpoQueueItem {
                 issuer: (*issuer).to_string(),
                 status,
@@ -566,9 +565,13 @@ fn classify_potential_supply_pressure(
                     || item.event_type == CapitalAbsorptionObservationEventType::Confirmed)
         })
         .count();
-    let level = if confirmed_count > 0 || reported_count >= 3 || queue_count >= 4 {
+    let level = if confirmed_count >= 2
+        || (confirmed_count >= 1 && queue_count >= 2)
+        || reported_count >= 3
+        || queue_count >= 4
+    {
         CapitalAbsorptionPotentialSupplyPressureLevel::Elevated
-    } else if reported_count > 0 || queue_count > 0 {
+    } else if confirmed_count > 0 || reported_count > 0 || queue_count > 0 {
         CapitalAbsorptionPotentialSupplyPressureLevel::Normal
     } else {
         CapitalAbsorptionPotentialSupplyPressureLevel::Low
@@ -668,26 +671,10 @@ fn queue_status_from_event(event: &CapitalAbsorptionAutoEvent) -> CapitalAbsorpt
         || lower.contains("candidate")
         || lower.contains("discussion")
         || lower.contains("considering")
-        || event.source_count >= 2
-        || event.event_type >= CapitalAbsorptionObservationEventType::Reported
     {
         CapitalAbsorptionIpoQueueStatus::Reported
     } else {
         CapitalAbsorptionIpoQueueStatus::Rumor
-    }
-}
-
-fn ipo_queue_status_from_observation(
-    status: CapitalAbsorptionIpoQueueStatus,
-    event_type: CapitalAbsorptionObservationEventType,
-    source_count: usize,
-) -> CapitalAbsorptionIpoQueueStatus {
-    if status == CapitalAbsorptionIpoQueueStatus::Rumor
-        && (source_count >= 2 || event_type >= CapitalAbsorptionObservationEventType::Reported)
-    {
-        CapitalAbsorptionIpoQueueStatus::Reported
-    } else {
-        status
     }
 }
 

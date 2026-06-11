@@ -1,3 +1,4 @@
+// 資本吸収警告センサーのレポート生成検証テスト
 use super::cognitive_reports::build_capital_absorption_report;
 use crate::config;
 use crate::features::research::application::capital_absorption::{

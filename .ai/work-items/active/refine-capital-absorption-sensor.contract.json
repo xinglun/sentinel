@@ -1,0 +1,118 @@
+{
+  "contractVersion": 1,
+  "workItemId": "refine-capital-absorption-sensor",
+  "mode": "code",
+  "title": "Capital Absorption Sensor 改善実装",
+  "scope": [
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    ".ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+    ".ai/work-items/active/refine-capital-absorption-sensor.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "しきい値緩和（修正②）およびIPO StageとEvent Typeの完全分離（修正④）を実装する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Pressure判定理由の表示（修正①）およびActual Supply貢献者ログ表示（修正③）を実装する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "センサーの表示およびしきい値ロジックの改善。取引や注文ロジックへの直接的影響はない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "すべてのスコープと受け入れ基準が確定し、実装に入ることが可能。"
+  },
+  "preReviewWarnings": [
+    "表示フォーマットの変更に伴い、関連するレポート生成テストの文言アサーションを更新する必要がある。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Pressureの判定レベルに応じたReason要因が、Actual Supply額とQueue上位企業から最大5件まで正しく抽出・表示されること。",
+    "ELEVATEDの判定しきい値が緩和され、Confirmedが1件かつ全体のqueue_count=1の場合はNORMALと判定されること。",
+    "Actual SupplyのContributorsセクションが追加され、個別実際の資金調達イベントがMETA Financing: $30Bのように内訳リストとして表示されること。",
+    "IPO Stage（進捗フェーズ）とEvent Type（ニュースイベント種別）の判定処理が完全に分離されていること。",
+    "既存のテスト（特にテストコードでのアサーション）がすべて通過すること。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/refine-capital-absorption-sensor.contract.json SUMMARY=.ai/work-items/active/refine-capital-absorption-sensor.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/refine-capital-absorption-sensor.summary.json CONTRACT=.ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/refine-capital-absorption-sensor.contract.json SUMMARY=.ai/work-items/active/refine-capital-absorption-sensor.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/refine-capital-absorption-sensor.contract.json SUMMARY=.ai/work-items/active/refine-capital-absorption-sensor.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

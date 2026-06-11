@@ -352,6 +352,24 @@ pub(super) fn capital_absorption_secondary_liquidity_count_label(
     }
 }
 
+pub(super) fn capital_absorption_reason_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Reason",
+        Language::EnUs => "Reason",
+        Language::JaJp => "Reason",
+    }
+}
+
+pub(super) fn capital_absorption_actual_supply_contributors_label(
+    language: Language,
+) -> &'static str {
+    match language {
+        Language::ZhCn => "Actual Supply Contributors",
+        Language::EnUs => "Actual Supply Contributors",
+        Language::JaJp => "Actual Supply Contributors",
+    }
+}
+
 pub(super) fn capital_absorption_sources_count_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "来源",
