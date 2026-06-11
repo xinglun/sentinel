@@ -75,8 +75,23 @@ pub(crate) enum CapitalAbsorptionIpoQueueStatus {
     Reported,
     Preparation,
     PreIpo,
+    NearTerm,
     Filed,
     Ipo,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CapitalAbsorptionSupplyTimelineBucket {
+    Next30Days,
+    Next12Months,
+    Unknown,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CapitalAbsorptionPressureDriverStrength {
+    High,
+    Medium,
+    Low,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -112,17 +127,32 @@ pub(crate) struct CapitalAbsorptionIpoQueueItem {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+pub(crate) struct CapitalAbsorptionSupplyTimelineItem {
+    pub issuer: String,
+    pub bucket: CapitalAbsorptionSupplyTimelineBucket,
+}
+
+#[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CapitalAbsorptionIpoQueueHistoryPoint {
     pub observed_at: NaiveDate,
     pub queue_size: usize,
 }
 
 #[derive(Debug, Clone, PartialEq)]
+pub(crate) struct CapitalAbsorptionPotentialSupplyPressureDriver {
+    pub label: String,
+    pub strength: CapitalAbsorptionPressureDriverStrength,
+}
+
+#[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CapitalAbsorptionPotentialSupplyPressure {
     pub level: CapitalAbsorptionPotentialSupplyPressureLevel,
+    pub near_term_supply_count: usize,
+    pub future_queue_count: usize,
     pub queue_count: usize,
     pub reported_count: usize,
     pub confirmed_count: usize,
+    pub drivers: Vec<CapitalAbsorptionPotentialSupplyPressureDriver>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -131,7 +161,9 @@ pub(crate) struct CapitalAbsorptionAutoSnapshot {
     pub status: CapitalAbsorptionAutoStatus,
     pub observed_events: Vec<CapitalAbsorptionAutoEvent>,
     pub supply_event_counts: CapitalAbsorptionSupplyEventCounts,
+    pub near_term_supply: Vec<CapitalAbsorptionIpoQueueItem>,
     pub ai_ipo_queue: Vec<CapitalAbsorptionIpoQueueItem>,
+    pub upcoming_supply_timeline: Vec<CapitalAbsorptionSupplyTimelineItem>,
     pub ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
     pub potential_supply_trend: CapitalAbsorptionPotentialSupplyTrend,
     pub potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure,
@@ -225,18 +257,20 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
     let status = classify_status(&events, demand_total, unique_subjects);
     let supply_event_counts = build_supply_event_counts(&actual_events);
     let auto_source_available = source_status.status != CapitalAbsorptionSourceHealth::Unavailable;
-    let ai_ipo_queue = if auto_source_available {
-        build_ai_ipo_queue(&events)
+    let (near_term_supply, ai_ipo_queue) = if auto_source_available {
+        split_supply_queue(build_ai_ipo_queue(&events))
     } else {
-        Vec::new()
+        (Vec::new(), Vec::new())
     };
+    let upcoming_supply_timeline = build_upcoming_supply_timeline(&near_term_supply, &ai_ipo_queue);
     let ipo_queue_history = if auto_source_available {
-        build_ipo_queue_history(&potential_events)
+        build_ipo_queue_history(&ai_ipo_queue, &potential_events)
     } else {
         Vec::new()
     };
     let potential_supply_trend = classify_potential_supply_trend(&ipo_queue_history);
-    let potential_supply_pressure = classify_potential_supply_pressure(&ai_ipo_queue);
+    let potential_supply_pressure =
+        classify_potential_supply_pressure(&near_term_supply, &ai_ipo_queue);
     let supply_trend = if actual_events
         .iter()
         .any(|event| event.category == CapitalAbsorptionAutoEventCategory::SecondaryLiquidity)
@@ -254,7 +288,9 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
         status,
         observed_events: events,
         supply_event_counts,
+        near_term_supply,
         ai_ipo_queue,
+        upcoming_supply_timeline,
         ipo_queue_history,
         potential_supply_trend,
         potential_supply_pressure,
@@ -516,7 +552,74 @@ fn build_ai_ipo_queue(events: &[CapitalAbsorptionAutoEvent]) -> Vec<CapitalAbsor
         .collect()
 }
 
+fn split_supply_queue(
+    queue: Vec<CapitalAbsorptionIpoQueueItem>,
+) -> (
+    Vec<CapitalAbsorptionIpoQueueItem>,
+    Vec<CapitalAbsorptionIpoQueueItem>,
+) {
+    let (mut near_term_supply, mut future_queue): (Vec<_>, Vec<_>) =
+        queue.into_iter().partition(is_near_term_supply);
+    near_term_supply.sort_by(|a, b| a.issuer.cmp(&b.issuer));
+    future_queue.sort_by(|a, b| a.issuer.cmp(&b.issuer));
+    (near_term_supply, future_queue)
+}
+
+fn is_near_term_supply(item: &CapitalAbsorptionIpoQueueItem) -> bool {
+    item.source_count > 0
+        && (item.status >= CapitalAbsorptionIpoQueueStatus::NearTerm
+            || item.event_type == CapitalAbsorptionObservationEventType::Confirmed)
+}
+
+fn build_upcoming_supply_timeline(
+    near_term_supply: &[CapitalAbsorptionIpoQueueItem],
+    future_queue: &[CapitalAbsorptionIpoQueueItem],
+) -> Vec<CapitalAbsorptionSupplyTimelineItem> {
+    let mut timeline = Vec::new();
+    for item in near_term_supply.iter().filter(|item| item.source_count > 0) {
+        timeline.push(CapitalAbsorptionSupplyTimelineItem {
+            issuer: item.issuer.clone(),
+            bucket: CapitalAbsorptionSupplyTimelineBucket::Next30Days,
+        });
+    }
+    for item in future_queue.iter().filter(|item| item.source_count > 0) {
+        let bucket = match item.status {
+            CapitalAbsorptionIpoQueueStatus::Preparation
+            | CapitalAbsorptionIpoQueueStatus::PreIpo => {
+                CapitalAbsorptionSupplyTimelineBucket::Next12Months
+            }
+            CapitalAbsorptionIpoQueueStatus::Rumor | CapitalAbsorptionIpoQueueStatus::Reported => {
+                CapitalAbsorptionSupplyTimelineBucket::Unknown
+            }
+            CapitalAbsorptionIpoQueueStatus::NearTerm
+            | CapitalAbsorptionIpoQueueStatus::Filed
+            | CapitalAbsorptionIpoQueueStatus::Ipo => {
+                CapitalAbsorptionSupplyTimelineBucket::Next30Days
+            }
+        };
+        timeline.push(CapitalAbsorptionSupplyTimelineItem {
+            issuer: item.issuer.clone(),
+            bucket,
+        });
+    }
+    timeline.sort_by(|a, b| {
+        timeline_bucket_order(a.bucket)
+            .cmp(&timeline_bucket_order(b.bucket))
+            .then_with(|| a.issuer.cmp(&b.issuer))
+    });
+    timeline
+}
+
+fn timeline_bucket_order(bucket: CapitalAbsorptionSupplyTimelineBucket) -> u8 {
+    match bucket {
+        CapitalAbsorptionSupplyTimelineBucket::Next30Days => 0,
+        CapitalAbsorptionSupplyTimelineBucket::Next12Months => 1,
+        CapitalAbsorptionSupplyTimelineBucket::Unknown => 2,
+    }
+}
+
 fn build_ipo_queue_history(
+    future_queue: &[CapitalAbsorptionIpoQueueItem],
     events: &[&CapitalAbsorptionAutoEvent],
 ) -> Vec<CapitalAbsorptionIpoQueueHistoryPoint> {
     let Some(latest_observed_at) = events.iter().map(|event| event.observed_at).max() else {
@@ -533,6 +636,11 @@ fn build_ipo_queue_history(
                 .iter()
                 .filter(|event| event.observed_at <= observed_at)
                 .filter(|event| is_ai_ipo_candidate(&event.subject))
+                .filter(|event| {
+                    future_queue
+                        .iter()
+                        .any(|item| same_issuer(&event.subject, &item.issuer))
+                })
                 .map(|event| normalize_subject(&event.subject))
                 .collect::<Vec<_>>();
             issuers.sort_unstable();
@@ -546,10 +654,18 @@ fn build_ipo_queue_history(
 }
 
 fn classify_potential_supply_pressure(
-    queue: &[CapitalAbsorptionIpoQueueItem],
+    near_term_supply: &[CapitalAbsorptionIpoQueueItem],
+    future_queue: &[CapitalAbsorptionIpoQueueItem],
 ) -> CapitalAbsorptionPotentialSupplyPressure {
-    let queue_count = queue.iter().filter(|item| item.source_count > 0).count();
-    let reported_count = queue
+    let near_term_supply_count = near_term_supply
+        .iter()
+        .filter(|item| item.source_count > 0)
+        .count();
+    let future_queue_count = future_queue
+        .iter()
+        .filter(|item| item.source_count > 0)
+        .count();
+    let reported_count = future_queue
         .iter()
         .filter(|item| {
             item.source_count > 0
@@ -557,7 +673,7 @@ fn classify_potential_supply_pressure(
                     || item.event_type >= CapitalAbsorptionObservationEventType::Reported)
         })
         .count();
-    let confirmed_count = queue
+    let confirmed_count = near_term_supply
         .iter()
         .filter(|item| {
             item.source_count > 0
@@ -565,22 +681,71 @@ fn classify_potential_supply_pressure(
                     || item.event_type == CapitalAbsorptionObservationEventType::Confirmed)
         })
         .count();
-    let level = if confirmed_count >= 2
-        || (confirmed_count >= 1 && queue_count >= 2)
+    let drivers = build_potential_supply_pressure_drivers(near_term_supply, future_queue);
+    let level = if near_term_supply_count >= 2
+        || (near_term_supply_count >= 1 && future_queue_count >= 2)
         || reported_count >= 3
-        || queue_count >= 4
+        || future_queue_count >= 4
     {
         CapitalAbsorptionPotentialSupplyPressureLevel::Elevated
-    } else if confirmed_count > 0 || reported_count > 0 || queue_count > 0 {
+    } else if near_term_supply_count > 0 || reported_count > 0 || future_queue_count > 0 {
         CapitalAbsorptionPotentialSupplyPressureLevel::Normal
     } else {
         CapitalAbsorptionPotentialSupplyPressureLevel::Low
     };
     CapitalAbsorptionPotentialSupplyPressure {
         level,
-        queue_count,
+        near_term_supply_count,
+        future_queue_count,
+        queue_count: future_queue_count,
         reported_count,
         confirmed_count,
+        drivers,
+    }
+}
+
+fn build_potential_supply_pressure_drivers(
+    near_term_supply: &[CapitalAbsorptionIpoQueueItem],
+    future_queue: &[CapitalAbsorptionIpoQueueItem],
+) -> Vec<CapitalAbsorptionPotentialSupplyPressureDriver> {
+    let mut drivers = Vec::new();
+    for item in near_term_supply.iter().filter(|item| item.source_count > 0) {
+        drivers.push(CapitalAbsorptionPotentialSupplyPressureDriver {
+            label: format!("{} IPO", item.issuer),
+            strength: CapitalAbsorptionPressureDriverStrength::High,
+        });
+    }
+    for item in future_queue.iter().filter(|item| item.source_count > 0) {
+        drivers.push(CapitalAbsorptionPotentialSupplyPressureDriver {
+            label: format!("{} IPO Discussion", item.issuer),
+            strength: pressure_driver_strength_from_item(item),
+        });
+    }
+    drivers.sort_by(|a, b| {
+        pressure_driver_strength_rank(b.strength)
+            .cmp(&pressure_driver_strength_rank(a.strength))
+            .then_with(|| a.label.cmp(&b.label))
+    });
+    drivers
+}
+
+fn pressure_driver_strength_from_item(
+    item: &CapitalAbsorptionIpoQueueItem,
+) -> CapitalAbsorptionPressureDriverStrength {
+    if item.status >= CapitalAbsorptionIpoQueueStatus::Preparation
+        || item.event_type >= CapitalAbsorptionObservationEventType::Reported
+    {
+        CapitalAbsorptionPressureDriverStrength::Medium
+    } else {
+        CapitalAbsorptionPressureDriverStrength::Low
+    }
+}
+
+fn pressure_driver_strength_rank(strength: CapitalAbsorptionPressureDriverStrength) -> u8 {
+    match strength {
+        CapitalAbsorptionPressureDriverStrength::High => 3,
+        CapitalAbsorptionPressureDriverStrength::Medium => 2,
+        CapitalAbsorptionPressureDriverStrength::Low => 1,
     }
 }
 
@@ -614,7 +779,7 @@ fn is_ai_ipo_candidate(subject: &str) -> bool {
 
 fn queue_status_from_event(event: &CapitalAbsorptionAutoEvent) -> CapitalAbsorptionIpoQueueStatus {
     let lower = event.description.to_ascii_lowercase();
-    if lower.contains("listed")
+    let status = if lower.contains("listed")
         || lower.contains("debut")
         || lower.contains("begins trading")
         || lower.contains("starts trading")
@@ -675,6 +840,13 @@ fn queue_status_from_event(event: &CapitalAbsorptionAutoEvent) -> CapitalAbsorpt
         CapitalAbsorptionIpoQueueStatus::Reported
     } else {
         CapitalAbsorptionIpoQueueStatus::Rumor
+    };
+    if event.event_type == CapitalAbsorptionObservationEventType::Confirmed
+        && status < CapitalAbsorptionIpoQueueStatus::NearTerm
+    {
+        CapitalAbsorptionIpoQueueStatus::NearTerm
+    } else {
+        status
     }
 }
 
@@ -1140,6 +1312,78 @@ mod tests {
         assert_eq!(snapshot.potential_supply_pressure.queue_count, 1);
         assert_eq!(snapshot.potential_supply_pressure.reported_count, 1);
         assert_eq!(snapshot.potential_supply_pressure.confirmed_count, 0);
+    }
+
+    #[test]
+    fn confirmed_spacex_moves_to_near_term_supply_with_driver_and_timeline() {
+        let mut spacex = event("SpaceX", 0.0);
+        spacex.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        spacex.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        spacex.event_type = CapitalAbsorptionObservationEventType::Confirmed;
+        spacex.description = "SpaceX IPO confirmed for near-term supply window".to_string();
+        spacex.amount_usd_b = None;
+
+        let mut openai = event("OpenAI", 0.0);
+        openai.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        openai.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        openai.event_type = CapitalAbsorptionObservationEventType::Reported;
+        openai.description = "OpenAI IPO discussion continues".to_string();
+        openai.amount_usd_b = None;
+
+        let snapshot = build_capital_absorption_snapshot_from_events(
+            vec![spacex, openai],
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Succeeded,
+                message: "fixture".to_string(),
+            },
+        );
+
+        assert_eq!(
+            snapshot
+                .near_term_supply
+                .iter()
+                .map(|item| item.issuer.as_str())
+                .collect::<Vec<_>>(),
+            vec!["SpaceX"]
+        );
+        assert_eq!(
+            snapshot.near_term_supply.first().map(|item| item.status),
+            Some(CapitalAbsorptionIpoQueueStatus::NearTerm)
+        );
+        assert_eq!(
+            snapshot
+                .near_term_supply
+                .first()
+                .map(|item| item.event_type),
+            Some(CapitalAbsorptionObservationEventType::Confirmed)
+        );
+        assert!(snapshot
+            .ai_ipo_queue
+            .iter()
+            .any(|item| item.issuer == "OpenAI"));
+        assert!(!snapshot
+            .ai_ipo_queue
+            .iter()
+            .any(|item| item.issuer == "SpaceX"));
+        assert_eq!(snapshot.potential_supply_pressure.near_term_supply_count, 1);
+        assert_eq!(snapshot.potential_supply_pressure.future_queue_count, 1);
+        assert_eq!(
+            snapshot
+                .potential_supply_pressure
+                .drivers
+                .first()
+                .map(|driver| { (driver.label.as_str(), driver.strength) }),
+            Some(("SpaceX IPO", CapitalAbsorptionPressureDriverStrength::High))
+        );
+        assert_eq!(
+            snapshot
+                .upcoming_supply_timeline
+                .iter()
+                .find(|item| item.issuer == "SpaceX")
+                .map(|item| item.bucket),
+            Some(CapitalAbsorptionSupplyTimelineBucket::Next30Days)
+        );
     }
 
     #[test]

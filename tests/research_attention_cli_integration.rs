@@ -2893,8 +2893,8 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("- 已观察实际供给: $80.0B"));
     assert!(stdout.contains("潜在供给趋势"));
     assert!(stdout.contains("- 趋势: 稳定（STABLE）"));
-    assert!(stdout.contains("AI IPO 队列"));
-    assert!(stdout.contains("Anthropic: IPO 阶段 传闻（Rumor） · 事件类型 传闻（Rumor）"));
+    assert!(stdout.contains("Future IPO 队列"));
+    assert!(stdout.contains("Anthropic: IPO 阶段 传闻（Rumor） · Evidence 传闻（Rumor）"));
     assert!(stdout.contains("发现"));
     assert!(stdout.contains("新增:"));
     assert!(stdout.contains("- Alphabet x1"));

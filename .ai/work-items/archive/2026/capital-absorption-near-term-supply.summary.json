@@ -1,0 +1,163 @@
+{
+  "workItemId": "capital-absorption-near-term-supply",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-near-term-supply.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "reason": "Near-Term Supply 分離の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+      "reason": "実装内容、検証結果、review readiness を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 開始と status 生成により更新された。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "Near-Term Supply / Future IPO Queue / Upcoming Supply Timeline / pressure drivers / stage-evidence 分離を domain model と分類ロジックに追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "Near-Term Supply、Future Queue Count、Drivers、Evidence、Near-Term stage の zh/en/ja 表示文言を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Capital Absorption report に Near-Term Supply、Future IPO Queue、Drivers、Upcoming Supply Timeline、分離 count を表示する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "zh/en/ja report contract を Near-Term / Future 分離と Evidence 表示に合わせた。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+      "reason": "IPO queue 永続化に near_term_supply_count / future_queue_count を追加し、旧 queue_count 読み取り互換を維持した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly review summary に Near-Term Supply Count と Future Queue Count を表示する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration CLI contract を Future IPO Queue と Evidence 表示に更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "表示契約と IPO queue 永続化 schema の拡張を含むが、旧 queue_count 読み取り互換を維持し、売買判断系には接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "scope / sources / acceptance / verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "mode code、notCodable false、unknowns empty、executionDecision continue を確認してから実装した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required make checks の通過を Summary に記録した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required make checks と Cockpit status check の通過を確認した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "persistence_compatibility",
+      "detail": "旧 JSONL record は queue_count のみを持つため、読み取り時は future_queue_count として扱う互換 fallback を維持している。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks は通過し、旧 JSONL 互換の review focus のみ残る。",
+    "expectedReviewFocus": [
+      "Near-Term Supply と Future IPO Queue の分離表示",
+      "Pressure Drivers の強度表示",
+      "Upcoming Supply Timeline の bucket 分類",
+      "旧 IPO queue JSONL record の読み取り互換",
+      "Narrative Observation Only 境界が維持されていること"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "Confirmed SpaceX を普通 queue member として扱わず Near-Term Supply に分離する。",
+      "solidifiedTo": "summary",
+      "reason": "domain test と report contract に回帰防止を追加し、この Summary の review focus に固定した。"
+    }
+  ]
+}

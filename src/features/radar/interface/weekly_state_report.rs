@@ -380,6 +380,7 @@ struct WeeklyText {
     capital_absorption_ipo_queue_snapshot: &'static str,
     capital_absorption_ipo_queue_not_configured: &'static str,
     capital_absorption_latest_date: &'static str,
+    capital_absorption_near_term_latest: &'static str,
     capital_absorption_queue_latest: &'static str,
     capital_absorption_queue_min_max_7d: &'static str,
     capital_absorption_reported_confirmed: &'static str,
@@ -440,8 +441,9 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     capital_absorption_ipo_queue_snapshot: "## 资金吸收 IPO 队列快照",
     capital_absorption_ipo_queue_not_configured: "资金吸收 IPO 队列未保存",
     capital_absorption_latest_date: "最新观测日",
-    capital_absorption_queue_latest: "最新队列规模",
-    capital_absorption_queue_min_max_7d: "7 日队列规模最小值 / 最大值",
+    capital_absorption_near_term_latest: "最新 Near-Term Supply 数量",
+    capital_absorption_queue_latest: "最新 Future Queue 数量",
+    capital_absorption_queue_min_max_7d: "7 日 Future Queue 最小值 / 最大值",
     capital_absorption_reported_confirmed: "已报道 / 已确认",
     capital_absorption_pressure: "潜在供给压力",
     boundary_capital_absorption: "边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。",
@@ -492,8 +494,9 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     capital_absorption_ipo_queue_snapshot: "## Capital Absorption IPO Queue Snapshot",
     capital_absorption_ipo_queue_not_configured: "Capital absorption IPO queue: not persisted",
     capital_absorption_latest_date: "Latest observation date",
-    capital_absorption_queue_latest: "Latest queue size",
-    capital_absorption_queue_min_max_7d: "7D queue size min / max",
+    capital_absorption_near_term_latest: "Latest Near-Term Supply Count",
+    capital_absorption_queue_latest: "Latest Future Queue Count",
+    capital_absorption_queue_min_max_7d: "7D Future Queue min / max",
     capital_absorption_reported_confirmed: "Reported / Confirmed",
     capital_absorption_pressure: "Potential supply pressure",
     boundary_capital_absorption:
@@ -545,8 +548,9 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     capital_absorption_ipo_queue_snapshot: "## 資金吸収 IPO キュースナップショット",
     capital_absorption_ipo_queue_not_configured: "資金吸収 IPO キューは未保存",
     capital_absorption_latest_date: "最新観測日",
-    capital_absorption_queue_latest: "最新キュー規模",
-    capital_absorption_queue_min_max_7d: "7 日キュー規模 最小 / 最大",
+    capital_absorption_near_term_latest: "最新 Near-Term Supply 数",
+    capital_absorption_queue_latest: "最新 Future Queue 数",
+    capital_absorption_queue_min_max_7d: "7 日 Future Queue 最小 / 最大",
     capital_absorption_reported_confirmed: "報道済み / 確認済み",
     capital_absorption_pressure: "潜在供給圧力",
     boundary_capital_absorption:
@@ -678,8 +682,17 @@ fn push_weekly_capital_absorption_ipo_queue_snapshot(
     ));
     review.push_str(&format!(
         "- {}: {}\n",
+        text.capital_absorption_near_term_latest,
+        summary["near_term_supply_count_latest"]
+            .as_u64()
+            .unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
         text.capital_absorption_queue_latest,
-        summary["queue_count_latest"].as_u64().unwrap_or(0)
+        summary["future_queue_count_latest"]
+            .as_u64()
+            .unwrap_or_else(|| summary["queue_count_latest"].as_u64().unwrap_or(0))
     ));
     review.push_str(&format!(
         "- {}: {} / {}\n",
@@ -922,6 +935,8 @@ mod tests {
         let summary = serde_json::json!({
             "configured": true,
             "latest_date": "2026-06-08",
+            "near_term_supply_count_latest": 1,
+            "future_queue_count_latest": 3,
             "queue_count_latest": 3,
             "queue_count_min_7d": 1,
             "queue_count_max_7d": 3,
@@ -938,8 +953,9 @@ mod tests {
         );
 
         assert!(review.contains("## 资金吸收 IPO 队列快照"));
-        assert!(review.contains("最新队列规模: 3"));
-        assert!(review.contains("7 日队列规模最小值 / 最大值: 1 / 3"));
+        assert!(review.contains("最新 Near-Term Supply 数量: 1"));
+        assert!(review.contains("最新 Future Queue 数量: 3"));
+        assert!(review.contains("7 日 Future Queue 最小值 / 最大值: 1 / 3"));
         assert!(review.contains("已报道 / 已确认: 2 / 1"));
         assert!(review.contains("潜在供给压力: ELEVATED"));
         assert!(review.contains("不生成市场结论、风险升级或交易信号"));

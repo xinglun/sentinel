@@ -1,0 +1,150 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-near-term-supply",
+  "mode": "code",
+  "title": "Capital Absorption Sensor Near-Term Supply",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+    ".ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    "src/features/research/acl/capital_absorption_source_adapter_factory.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "READY / EXECUTE / Gate / action matrix / trader / position sizing / Trend Layer の挙動変更",
+    "ETF Net Inflow / Mutual Fund Flow / Foreign Capital Flow / Corporate Buyback の新規データ接続",
+    "Capital Absorption Ratio または Rolling 12M Capital Model の実装",
+    "市場吸収失敗、リスク上昇、売買シグナルを導く結論"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "Potential Supply、IPO queue、pressure、stage/evidence 分類の domain 実装。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Capital Absorption Sensor の Markdown 表示層。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "zh/en/ja 表示 label と stage/evidence の文言。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+      "reason": "IPO queue の JSONL / latest record 永続化と weekly summary。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration CLI output contract。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "表示契約と IPO queue 永続化 schema に触れるが、Narrative Observation Only に限定し、売買判断・Gate・position sizing へ接続しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "要求は既存 Capital Absorption Sensor の表示・分類改善として scope 内で実装可能。外部データや売買判断の追加は不要。"
+  },
+  "preReviewWarnings": [
+    "既存 JSONL の queue_count は後方互換のため維持しつつ、near_term_supply_count / future_queue_count を追加する可能性がある。",
+    "Pressure は Narrative Observation の説明に限定し、市場結論や risk upgrade として扱わない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Near-Term Supply と Future IPO Queue が表示上分離され、Confirmed / Near-Term の SpaceX が通常 queue member として数えられない。",
+    "Potential Supply Pressure は level に加えて driver と High / Medium / Low の強度を表示する。",
+    "Upcoming Supply Timeline が 0-30 Days / 1-12 Months / Unknown の区分で表示される。",
+    "Near-Term Supply Count と Future Queue Count が Queue Count の代わりに表示される。",
+    "IPO Stage と Evidence が分離され、Rumor + Confirmed の表示矛盾が発生しない。",
+    "変更は Narrative Observation Only に限定し、READY / EXECUTE / Gate / Position Sizing / Trend Layer を変更しない。",
+    "zh / en / ja の表示テストまたは CLI contract が更新される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-near-term-supply.contract.json SUMMARY=.ai/work-items/active/capital-absorption-near-term-supply.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

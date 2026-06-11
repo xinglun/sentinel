@@ -6,6 +6,7 @@ use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionPotentialSupplyPressure, CapitalAbsorptionPotentialSupplyPressureLevel,
     CapitalAbsorptionPotentialSupplyTrend, CapitalAbsorptionSourceHealth,
     CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
+    CapitalAbsorptionSupplyTimelineBucket, CapitalAbsorptionSupplyTimelineItem,
 };
 use crate::features::shared::interface::i18n::Language;
 use std::collections::BTreeMap;
@@ -57,11 +58,19 @@ pub(crate) fn build_capital_absorption_report_from_config(
     push_potential_supply_pressure(
         &mut out,
         &snapshot.potential_supply_pressure,
+        &snapshot.near_term_supply,
         &snapshot.ai_ipo_queue,
         &snapshot.capital_demand,
         language,
     );
+    push_supply_queue(
+        &mut out,
+        capital_absorption_near_term_supply_label(language),
+        &snapshot.near_term_supply,
+        language,
+    );
     push_ai_ipo_queue(&mut out, &snapshot.ai_ipo_queue, language);
+    push_upcoming_supply_timeline(&mut out, &snapshot.upcoming_supply_timeline, language);
     push_ipo_queue_history(&mut out, &snapshot.ipo_queue_history, language);
     push_capital_absorption_events(&mut out, &snapshot.observed_events, language);
     push_capital_supply(&mut out, &snapshot.capital_supply, language);
@@ -82,7 +91,9 @@ struct CapitalAbsorptionRenderSnapshot {
     status: String,
     observed_events: Vec<CapitalAbsorptionRenderEvent>,
     supply_event_counts: CapitalAbsorptionSupplyEventCounts,
+    near_term_supply: Vec<CapitalAbsorptionIpoQueueItem>,
     ai_ipo_queue: Vec<CapitalAbsorptionIpoQueueItem>,
+    upcoming_supply_timeline: Vec<CapitalAbsorptionSupplyTimelineItem>,
     ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
     potential_supply_trend: String,
     potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure,
@@ -143,7 +154,9 @@ impl CapitalAbsorptionRenderSnapshot {
             source_status: None,
             status: capital_absorption_status_value(capped_config_status(value.status), language),
             supply_event_counts: supply_event_counts_from_render_events(&observed_events),
+            near_term_supply: Vec::new(),
             ai_ipo_queue: default_capital_absorption_ipo_queue(),
+            upcoming_supply_timeline: Vec::new(),
             ipo_queue_history: Vec::new(),
             potential_supply_trend: capital_absorption_potential_supply_trend_value(
                 CapitalAbsorptionPotentialSupplyTrend::Stable,
@@ -178,7 +191,9 @@ impl CapitalAbsorptionRenderSnapshot {
             }),
             status: capital_absorption_auto_status_value(value.status, language),
             supply_event_counts: value.supply_event_counts.clone(),
+            near_term_supply: value.near_term_supply.clone(),
             ai_ipo_queue: value.ai_ipo_queue.clone(),
+            upcoming_supply_timeline: value.upcoming_supply_timeline.clone(),
             ipo_queue_history: value.ipo_queue_history.clone(),
             potential_supply_trend: capital_absorption_potential_supply_trend_value(
                 value.potential_supply_trend,
@@ -441,7 +456,8 @@ fn push_potential_supply_trend(out: &mut String, trend: &str, language: Language
 fn push_potential_supply_pressure(
     out: &mut String,
     pressure: &CapitalAbsorptionPotentialSupplyPressure,
-    queue: &[CapitalAbsorptionIpoQueueItem],
+    near_term_supply: &[CapitalAbsorptionIpoQueueItem],
+    future_queue: &[CapitalAbsorptionIpoQueueItem],
     demand: &CapitalDemandRenderSnapshot,
     language: Language,
 ) {
@@ -454,8 +470,13 @@ fn push_potential_supply_pressure(
     ));
     out.push_str(&format!(
         "- {}: {}\n",
+        capital_absorption_near_term_supply_count_label(language),
+        pressure.near_term_supply_count
+    ));
+    out.push_str(&format!(
+        "- {}: {}\n",
         capital_absorption_queue_count_label(language),
-        pressure.queue_count
+        pressure.future_queue_count
     ));
     out.push_str(&format!(
         "- {}: {}\n",
@@ -484,8 +505,9 @@ fn push_potential_supply_pressure(
         }
     }
 
-    let mut queue_items = queue
+    let mut queue_items = near_term_supply
         .iter()
+        .chain(future_queue.iter())
         .filter(|item| item.source_count > 0)
         .cloned()
         .collect::<Vec<_>>();
@@ -497,19 +519,32 @@ fn push_potential_supply_pressure(
             .then_with(|| a.issuer.cmp(&b.issuer))
     });
 
+    for driver in &pressure.drivers {
+        reasons.push(format!(
+            "{} ({})",
+            driver.label,
+            capital_absorption_pressure_driver_strength_value(driver.strength, language)
+        ));
+    }
     for item in queue_items {
-        let event_type_str = match item.event_type {
-            CapitalAbsorptionObservationEventType::Confirmed => "Confirmed",
-            CapitalAbsorptionObservationEventType::Reported => "Reported",
-            CapitalAbsorptionObservationEventType::Rumor => "Rumor",
-        };
-        reasons.push(format!("{} ({})", item.issuer, event_type_str));
+        if pressure
+            .drivers
+            .iter()
+            .any(|driver| driver.label.starts_with(&item.issuer))
+        {
+            continue;
+        }
+        reasons.push(format!(
+            "{} ({})",
+            item.issuer,
+            capital_absorption_event_type_value(item.event_type, language)
+        ));
     }
 
     let reasons_to_show = reasons.into_iter().take(5).collect::<Vec<_>>();
     if !reasons_to_show.is_empty() {
         out.push('\n');
-        out.push_str(capital_absorption_reason_label(language));
+        out.push_str(capital_absorption_drivers_label(language));
         out.push_str(":\n");
         for r in reasons_to_show {
             out.push_str(&format!("* {}\n", r));
@@ -552,10 +587,24 @@ fn push_ai_ipo_queue(
     queue: &[CapitalAbsorptionIpoQueueItem],
     language: Language,
 ) {
+    push_supply_queue(
+        out,
+        capital_absorption_ai_ipo_queue_label(language),
+        queue,
+        language,
+    );
+}
+
+fn push_supply_queue(
+    out: &mut String,
+    label: &str,
+    queue: &[CapitalAbsorptionIpoQueueItem],
+    language: Language,
+) {
     if queue.is_empty() {
         return;
     }
-    out.push_str(capital_absorption_ai_ipo_queue_label(language));
+    out.push_str(label);
     out.push_str(":\n");
     for item in queue {
         let sources = if item.source_count > 0 {
@@ -572,10 +621,51 @@ fn push_ai_ipo_queue(
             item.issuer,
             capital_absorption_ipo_stage_label(language),
             capital_absorption_ipo_queue_status_value(item.status, language),
-            capital_absorption_event_type_label(language),
+            capital_absorption_evidence_label(language),
             capital_absorption_event_type_value(item.event_type, language),
             sources
         ));
+    }
+    out.push('\n');
+}
+
+fn push_upcoming_supply_timeline(
+    out: &mut String,
+    timeline: &[CapitalAbsorptionSupplyTimelineItem],
+    language: Language,
+) {
+    if timeline.is_empty() {
+        return;
+    }
+    out.push_str(capital_absorption_upcoming_supply_timeline_label(language));
+    out.push_str(":\n");
+    for (bucket, label) in [
+        (
+            CapitalAbsorptionSupplyTimelineBucket::Next30Days,
+            "0-30 Days",
+        ),
+        (
+            CapitalAbsorptionSupplyTimelineBucket::Next12Months,
+            "1-12 Months",
+        ),
+        (CapitalAbsorptionSupplyTimelineBucket::Unknown, "Unknown"),
+    ] {
+        out.push_str(label);
+        out.push_str(":\n");
+        let mut issuers = timeline
+            .iter()
+            .filter(|item| item.bucket == bucket)
+            .map(|item| item.issuer.clone())
+            .collect::<Vec<_>>();
+        issuers.sort();
+        issuers.dedup();
+        if issuers.is_empty() {
+            out.push_str(&format!("- {}\n", capital_absorption_none_label(language)));
+        } else {
+            for issuer in issuers {
+                out.push_str(&format!("- {issuer}\n"));
+            }
+        }
     }
     out.push('\n');
 }
@@ -697,31 +787,27 @@ fn supply_event_counts_from_render_events(
 }
 
 fn default_capital_absorption_ipo_queue() -> Vec<CapitalAbsorptionIpoQueueItem> {
-    [
-        "Anthropic",
-        "OpenAI",
-        "SpaceX",
-        "Databricks",
-        "Stripe",
-        "Figure",
-    ]
-    .iter()
-    .map(|issuer| CapitalAbsorptionIpoQueueItem {
-        issuer: (*issuer).to_string(),
-        status: CapitalAbsorptionIpoQueueStatus::Rumor,
-        source_count: 0,
-        event_type: CapitalAbsorptionObservationEventType::Rumor,
-    })
-    .collect()
+    ["Anthropic", "OpenAI", "Databricks", "Stripe", "Figure"]
+        .iter()
+        .map(|issuer| CapitalAbsorptionIpoQueueItem {
+            issuer: (*issuer).to_string(),
+            status: CapitalAbsorptionIpoQueueStatus::Rumor,
+            source_count: 0,
+            event_type: CapitalAbsorptionObservationEventType::Rumor,
+        })
+        .collect()
 }
 
 fn default_capital_absorption_potential_supply_pressure() -> CapitalAbsorptionPotentialSupplyPressure
 {
     CapitalAbsorptionPotentialSupplyPressure {
         level: CapitalAbsorptionPotentialSupplyPressureLevel::Low,
+        near_term_supply_count: 0,
+        future_queue_count: 0,
         queue_count: 0,
         reported_count: 0,
         confirmed_count: 0,
+        drivers: Vec::new(),
     }
 }
 

@@ -9,8 +9,9 @@ use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionIpoQueueItem, CapitalAbsorptionIpoQueueStatus,
     CapitalAbsorptionObservationEventType, CapitalAbsorptionPotentialSupplyPressure,
     CapitalAbsorptionPotentialSupplyPressureLevel, CapitalAbsorptionPotentialSupplyTrend,
-    CapitalAbsorptionSourceHealth, CapitalAbsorptionSourceStatus,
-    CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
+    CapitalAbsorptionPressureDriverStrength, CapitalAbsorptionSourceHealth,
+    CapitalAbsorptionSourceStatus, CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
+    CapitalAbsorptionSupplyTimelineBucket, CapitalAbsorptionSupplyTimelineItem,
 };
 use crate::features::shared::interface::i18n::Language;
 use chrono::{Duration, NaiveDate};
@@ -23,7 +24,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
         actual_supply,
         potential_trend,
         potential_pressure,
-        queue_history,
+        timeline,
         queue_size,
         queue_stage,
         summary,
@@ -36,9 +37,9 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "实际资本供给",
             "潜在供给趋势",
             "潜在供给压力",
-            "IPO 队列历史",
-            "队列规模 = 1",
-            "SpaceX: IPO 阶段 报道（Reported） · 事件类型 传闻（Rumor） · 来源 2",
+            "Upcoming Supply Timeline",
+            "队列规模 = 0",
+            "SpaceX: IPO 阶段 近端执行（Near-Term） · Evidence 确认（Confirmed） · 来源 2",
             "- SpaceX x2",
             "不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer",
             Some("结构影响: Observation Only"),
@@ -49,9 +50,9 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "Actual Capital Supply",
             "Potential Supply Trend",
             "Potential Supply Pressure",
-            "IPO Queue History",
-            "Queue Size = 1",
-            "SpaceX: IPO Stage Reported · Event Type Rumor · Sources 2",
+            "Upcoming Supply Timeline",
+            "Queue Size = 0",
+            "SpaceX: IPO Stage Near-Term · Evidence Confirmed · Sources 2",
             "- SpaceX x2",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
             None,
@@ -62,9 +63,9 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "実際の資本供給",
             "潜在供給トレンド",
             "潜在供給圧力",
-            "IPO キュー履歴",
-            "キュー規模 = 1",
-            "SpaceX: IPO 段階 報道（Reported） · イベント種別 噂（Rumor） · ソース数 2",
+            "Upcoming Supply Timeline",
+            "キュー規模 = 0",
+            "SpaceX: IPO 段階 近接実行（Near-Term） · Evidence 確認（Confirmed） · ソース数 2",
             "- SpaceX x2",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
             Some("構造的影響: Observation Only"),
@@ -80,10 +81,14 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
         assert!(report.contains(actual_supply));
         assert!(report.contains(potential_trend));
         assert!(report.contains(potential_pressure));
-        assert!(report.contains("Queue Count: 1"));
-        assert!(report.contains("Reported Count: 1"));
-        assert!(report.contains("Confirmed Count: 0"));
-        assert!(report.contains(queue_history));
+        assert!(report.contains("Near-Term Supply Count: 1"));
+        assert!(report.contains("Future Queue Count: 0"));
+        assert!(report.contains("Drivers"));
+        assert!(report.contains("SpaceX IPO (High)"));
+        assert!(report.contains("Reported Count: 0"));
+        assert!(report.contains("Confirmed Count: 1"));
+        assert!(report.contains(timeline));
+        assert!(report.contains("0-30 Days"));
         assert!(report.contains("2026-05-07"));
         assert!(report.contains(queue_size));
         assert!(report.contains(queue_stage));
@@ -104,7 +109,7 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::ZhCn,
             "实际资本供给",
             "未观察到已发生的大型股权/可转债供给。",
-            "Anthropic: IPO 阶段 报道（Reported） · 事件类型 传闻（Rumor）",
+            "Anthropic: IPO 阶段 报道（Reported） · Evidence 传闻（Rumor）",
             "- Anthropic x1",
             "实际供给 · 事件类型 确认（Confirmed） · IPO 供给 · Anthropic",
             "不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer",
@@ -113,7 +118,7 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::EnUs,
             "Actual Capital Supply",
             "No completed large equity or convertible supply observed.",
-            "Anthropic: IPO Stage Reported · Event Type Rumor",
+            "Anthropic: IPO Stage Reported · Evidence Rumor",
             "- Anthropic x1",
             "Actual Supply · Event Type Confirmed · IPO Supply · Anthropic",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
@@ -122,7 +127,7 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::JaJp,
             "実際の資本供給",
             "発生済みの大型株式・転換社債供給は未観測です。",
-            "Anthropic: IPO 段階 報道（Reported） · イベント種別 噂（Rumor）",
+            "Anthropic: IPO 段階 報道（Reported） · Evidence 噂（Rumor）",
             "- Anthropic x1",
             "実供給 · イベント種別 確認（Confirmed） · IPO 供給 · Anthropic",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
@@ -156,9 +161,9 @@ fn auto_snapshot_with_potential_ipo() -> CapitalAbsorptionAutoSnapshot {
         observed_events: vec![CapitalAbsorptionAutoEvent {
             category: CapitalAbsorptionAutoEventCategory::IpoSupply,
             supply_kind: CapitalAbsorptionSupplyKind::Potential,
-            event_type: CapitalAbsorptionObservationEventType::Rumor,
+            event_type: CapitalAbsorptionObservationEventType::Confirmed,
             subject: "SpaceX".to_string(),
-            description: "SpaceX IPO rumor".to_string(),
+            description: "SpaceX IPO confirmed for near-term listing window".to_string(),
             amount_usd_b: None,
             ai_capex_related: false,
             source_url: None,
@@ -173,19 +178,35 @@ fn auto_snapshot_with_potential_ipo() -> CapitalAbsorptionAutoSnapshot {
             convertible_debt: 0,
             secondary_liquidity: 0,
         },
-        ai_ipo_queue: vec![CapitalAbsorptionIpoQueueItem {
+        near_term_supply: vec![CapitalAbsorptionIpoQueueItem {
             issuer: "SpaceX".to_string(),
-            status: CapitalAbsorptionIpoQueueStatus::Reported,
+            status: CapitalAbsorptionIpoQueueStatus::NearTerm,
             source_count: 2,
-            event_type: CapitalAbsorptionObservationEventType::Rumor,
+            event_type: CapitalAbsorptionObservationEventType::Confirmed,
         }],
-        ipo_queue_history: ipo_queue_history_ending(NaiveDate::from_ymd_opt(2026, 6, 5).unwrap()),
+        ai_ipo_queue: Vec::new(),
+        upcoming_supply_timeline: vec![CapitalAbsorptionSupplyTimelineItem {
+            issuer: "SpaceX".to_string(),
+            bucket: CapitalAbsorptionSupplyTimelineBucket::Next30Days,
+        }],
+        ipo_queue_history: ipo_queue_history_ending_with_size(
+            NaiveDate::from_ymd_opt(2026, 6, 5).unwrap(),
+            0,
+        ),
         potential_supply_trend: CapitalAbsorptionPotentialSupplyTrend::Rising,
         potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure {
             level: CapitalAbsorptionPotentialSupplyPressureLevel::Normal,
-            queue_count: 1,
-            reported_count: 1,
-            confirmed_count: 0,
+            near_term_supply_count: 1,
+            future_queue_count: 0,
+            queue_count: 0,
+            reported_count: 0,
+            confirmed_count: 1,
+            drivers: vec![
+                crate::features::research::application::capital_absorption::CapitalAbsorptionPotentialSupplyPressureDriver {
+                    label: "SpaceX IPO".to_string(),
+                    strength: CapitalAbsorptionPressureDriverStrength::High,
+                },
+            ],
         },
         capital_demand:
             crate::features::research::application::capital_absorption::CapitalDemandAutoSnapshot {
@@ -246,19 +267,32 @@ fn auto_snapshot_with_anthropic_potential_ipo() -> CapitalAbsorptionAutoSnapshot
             convertible_debt: 0,
             secondary_liquidity: 0,
         },
+        near_term_supply: Vec::new(),
         ai_ipo_queue: vec![CapitalAbsorptionIpoQueueItem {
             issuer: "Anthropic".to_string(),
             status: CapitalAbsorptionIpoQueueStatus::Reported,
             source_count: 1,
             event_type: CapitalAbsorptionObservationEventType::Rumor,
         }],
+        upcoming_supply_timeline: vec![CapitalAbsorptionSupplyTimelineItem {
+            issuer: "Anthropic".to_string(),
+            bucket: CapitalAbsorptionSupplyTimelineBucket::Unknown,
+        }],
         ipo_queue_history: ipo_queue_history_ending(NaiveDate::from_ymd_opt(2026, 6, 5).unwrap()),
         potential_supply_trend: CapitalAbsorptionPotentialSupplyTrend::Rising,
         potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure {
             level: CapitalAbsorptionPotentialSupplyPressureLevel::Normal,
+            near_term_supply_count: 0,
+            future_queue_count: 1,
             queue_count: 1,
             reported_count: 1,
             confirmed_count: 0,
+            drivers: vec![
+                crate::features::research::application::capital_absorption::CapitalAbsorptionPotentialSupplyPressureDriver {
+                    label: "Anthropic IPO Discussion".to_string(),
+                    strength: CapitalAbsorptionPressureDriverStrength::Medium,
+                },
+            ],
         },
         capital_demand:
             crate::features::research::application::capital_absorption::CapitalDemandAutoSnapshot {
@@ -292,10 +326,17 @@ fn auto_snapshot_with_anthropic_potential_ipo() -> CapitalAbsorptionAutoSnapshot
 }
 
 fn ipo_queue_history_ending(latest: NaiveDate) -> Vec<CapitalAbsorptionIpoQueueHistoryPoint> {
+    ipo_queue_history_ending_with_size(latest, 1)
+}
+
+fn ipo_queue_history_ending_with_size(
+    latest: NaiveDate,
+    queue_size: usize,
+) -> Vec<CapitalAbsorptionIpoQueueHistoryPoint> {
     (0..30)
         .map(|offset| CapitalAbsorptionIpoQueueHistoryPoint {
             observed_at: latest - Duration::days(29 - offset),
-            queue_size: 1,
+            queue_size,
         })
         .collect()
 }

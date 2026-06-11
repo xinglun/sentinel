@@ -16,6 +16,10 @@ const LATEST_FILE: &str = "capital_absorption_ipo_queue_history_latest.json";
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub(crate) struct CapitalAbsorptionIpoQueueRecord {
     pub date: String,
+    #[serde(default)]
+    pub near_term_supply_count: usize,
+    #[serde(default)]
+    pub future_queue_count: usize,
     pub queue_count: usize,
     pub reported_count: usize,
     pub confirmed_count: usize,
@@ -72,7 +76,7 @@ pub(crate) fn load_ipo_queue_weekly_summary(
         .filter_map(|record| {
             NaiveDate::parse_from_str(&record.date, "%Y-%m-%d")
                 .ok()
-                .map(|date| (date, record.queue_count))
+                .map(|date| (date, record.future_queue_count()))
         })
         .filter(|(date, _)| *date >= window_start && *date <= as_of_date)
         .map(|(_, queue_count)| queue_count)
@@ -80,13 +84,25 @@ pub(crate) fn load_ipo_queue_weekly_summary(
     serde_json::json!({
         "configured": true,
         "latest_date": latest.1.date,
-        "queue_count_latest": latest.1.queue_count,
-        "queue_count_min_7d": weekly_queue_counts.iter().min().copied().unwrap_or(latest.1.queue_count),
-        "queue_count_max_7d": weekly_queue_counts.iter().max().copied().unwrap_or(latest.1.queue_count),
+        "queue_count_latest": latest.1.future_queue_count(),
+        "queue_count_min_7d": weekly_queue_counts.iter().min().copied().unwrap_or(latest.1.future_queue_count()),
+        "queue_count_max_7d": weekly_queue_counts.iter().max().copied().unwrap_or(latest.1.future_queue_count()),
+        "near_term_supply_count_latest": latest.1.near_term_supply_count,
+        "future_queue_count_latest": latest.1.future_queue_count(),
         "reported_count_latest": latest.1.reported_count,
         "confirmed_count_latest": latest.1.confirmed_count,
         "pressure_latest": latest.1.pressure
     })
+}
+
+impl CapitalAbsorptionIpoQueueRecord {
+    fn future_queue_count(&self) -> usize {
+        if self.future_queue_count > 0 {
+            self.future_queue_count
+        } else {
+            self.queue_count
+        }
+    }
 }
 
 fn load_ipo_queue_records(
@@ -171,13 +187,16 @@ fn record_from_snapshot(
 ) -> CapitalAbsorptionIpoQueueRecord {
     CapitalAbsorptionIpoQueueRecord {
         date: as_of_date.to_string(),
-        queue_count: snapshot.potential_supply_pressure.queue_count,
+        near_term_supply_count: snapshot.potential_supply_pressure.near_term_supply_count,
+        future_queue_count: snapshot.potential_supply_pressure.future_queue_count,
+        queue_count: snapshot.potential_supply_pressure.future_queue_count,
         reported_count: snapshot.potential_supply_pressure.reported_count,
         confirmed_count: snapshot.potential_supply_pressure.confirmed_count,
         pressure: pressure_level_code(snapshot.potential_supply_pressure.level).to_string(),
         items: snapshot
-            .ai_ipo_queue
+            .near_term_supply
             .iter()
+            .chain(snapshot.ai_ipo_queue.iter())
             .filter(|item| item.source_count > 0)
             .map(record_item_from_queue_item)
             .collect(),
@@ -208,7 +227,7 @@ fn history_from_records(
                 .filter_map(|record| {
                     NaiveDate::parse_from_str(&record.date, "%Y-%m-%d")
                         .ok()
-                        .map(|date| (date, record.queue_count))
+                        .map(|date| (date, record.future_queue_count()))
                 })
                 .filter(|(date, _)| *date <= observed_at)
                 .max_by_key(|(date, _)| *date)
@@ -228,6 +247,7 @@ fn ipo_stage_code(status: CapitalAbsorptionIpoQueueStatus) -> &'static str {
         CapitalAbsorptionIpoQueueStatus::Reported => "Reported",
         CapitalAbsorptionIpoQueueStatus::Preparation => "Preparation",
         CapitalAbsorptionIpoQueueStatus::PreIpo => "Pre-IPO",
+        CapitalAbsorptionIpoQueueStatus::NearTerm => "Near-Term",
         CapitalAbsorptionIpoQueueStatus::Filed => "Filed",
         CapitalAbsorptionIpoQueueStatus::Ipo => "IPO",
     }
