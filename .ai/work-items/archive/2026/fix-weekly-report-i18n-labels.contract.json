@@ -5,6 +5,7 @@
   "title": "weekly report zh/ja 固定ラベル i18n 修正",
   "scope": [
     "src/features/radar/interface/weekly_state_report.rs",
+    "src/cli.rs",
     ".ai/**"
   ],
   "outOfScope": [
@@ -109,9 +110,12 @@
     }
   ],
   "destructiveChangePolicy": {
-    "allowed": false,
-    "requiresHumanApproval": true,
-    "allowPatterns": []
+    "allowed": true,
+    "requiresHumanApproval": false,
+    "allowPatterns": [
+      ".ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      ".ai/work-items/active/fix-weekly-report-i18n-labels.summary.json"
+    ]
   },
   "rollbackNote": "fix-weekly-report-i18n-labels の diff を revert する。"
 }

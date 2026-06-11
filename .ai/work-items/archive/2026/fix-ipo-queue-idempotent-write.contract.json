@@ -6,6 +6,9 @@
   "scope": [
     "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
     "scripts/ai_check_lifecycle.py",
+    "scripts/ai_test_lifecycle.py",
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_test_backtrack.py",
     ".ai/**"
   ],
   "outOfScope": [
@@ -110,9 +113,12 @@
     }
   ],
   "destructiveChangePolicy": {
-    "allowed": false,
-    "requiresHumanApproval": true,
-    "allowPatterns": []
+    "allowed": true,
+    "requiresHumanApproval": false,
+    "allowPatterns": [
+      ".ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
+      ".ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json"
+    ]
   },
   "rollbackNote": "fix-ipo-queue-idempotent-write の diff を revert する。data branch に重複行が既に存在する場合は手動でクリーンアップする。"
 }

@@ -3,6 +3,12 @@
 
 from __future__ import annotations
 
+import subprocess
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
+
+import ai_check_backtrack
 from ai_check_backtrack import DestructiveApproval, detect_items
 
 
@@ -32,11 +38,83 @@ def test_work_item_evidence_deletion_fails_by_default() -> None:
     assert_count(items, 1, "evidence deletion must fail")
 
 
+def test_active_work_item_archive_move_is_allowed() -> None:
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        target = root / ".ai/work-items/archive/2026/example.contract.json"
+        target.parent.mkdir(parents=True)
+        content = '{"workItemId":"example"}\n'
+        target.write_text(content, encoding="utf-8")
+
+        with (
+            patch.object(ai_check_backtrack, "PROJECT_ROOT", root),
+            patch.object(
+                ai_check_backtrack,
+                "run_git",
+                lambda _args: subprocess.CompletedProcess(_args, 0, stdout=content, stderr=""),
+            ),
+        ):
+            items = detect_items(
+                [
+                    ("D", ".ai/work-items/active/example.contract.json"),
+                    ("A", ".ai/work-items/archive/2026/example.contract.json"),
+                ]
+            )
+
+    assert_count(items, 0, "active evidence moved to archive should pass")
+
+
+def test_active_work_item_stale_archive_counterpart_still_fails() -> None:
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        target = root / ".ai/work-items/archive/2026/example.contract.json"
+        target.parent.mkdir(parents=True)
+        target.write_text('{"workItemId":"example"}\n', encoding="utf-8")
+
+        with patch.object(ai_check_backtrack, "PROJECT_ROOT", root):
+            items = detect_items([("D", ".ai/work-items/active/example.contract.json")])
+
+    assert_count(items, 1, "stale archive counterpart without current diff add must fail")
+
+
+def test_active_work_item_archive_move_requires_matching_content() -> None:
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        target = root / ".ai/work-items/archive/2026/example.contract.json"
+        target.parent.mkdir(parents=True)
+        target.write_text('{"workItemId":"different"}\n', encoding="utf-8")
+
+        with (
+            patch.object(ai_check_backtrack, "PROJECT_ROOT", root),
+            patch.object(
+                ai_check_backtrack,
+                "run_git",
+                lambda _args: subprocess.CompletedProcess(
+                    _args,
+                    0,
+                    stdout='{"workItemId":"example"}\n',
+                    stderr="",
+                ),
+            ),
+        ):
+            items = detect_items(
+                [
+                    ("D", ".ai/work-items/active/example.contract.json"),
+                    ("A", ".ai/work-items/archive/2026/example.contract.json"),
+                ]
+            )
+
+    assert_count(items, 1, "archive move with mismatched content must fail")
+
+
 def main() -> int:
     cases = [
         test_deleted_test_without_approval_fails,
         test_deleted_snapshot_requires_documented_approval,
         test_work_item_evidence_deletion_fails_by_default,
+        test_active_work_item_archive_move_is_allowed,
+        test_active_work_item_stale_archive_counterpart_still_fails,
+        test_active_work_item_archive_move_requires_matching_content,
     ]
     for case in cases:
         case()

@@ -1,6 +1,6 @@
 {
   "workItemId": "refine-capital-absorption-sensor",
-  "contractPath": ".ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/refine-capital-absorption-sensor.contract.json",
   "changedFiles": [
     {
       "path": ".ai/work-items/active/refine-capital-absorption-sensor.contract.json",
@@ -82,7 +82,16 @@
     "detail": "しきい値とロジックの改善作業を安全に進める。"
   },
   "generatedFiles": [],
-  "destructiveChanges": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+      "reason": "Work Item 完了に伴い archive/2026 へ移動した。active evidence の削除ではなく lifecycle cleanup。"
+    },
+    {
+      "path": ".ai/work-items/active/refine-capital-absorption-sensor.summary.json",
+      "reason": "Work Item 完了に伴い archive/2026 へ移動した。active evidence の削除ではなく lifecycle cleanup。"
+    }
+  ],
   "observedIssues": [],
   "checkpointReview": [
     {

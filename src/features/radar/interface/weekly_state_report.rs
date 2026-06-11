@@ -437,12 +437,12 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     credit_stress: "信用压力",
     liquidity: "流动性",
     growth_valuation: "成长估值",
-    capital_absorption_ipo_queue_snapshot: "## Capital Absorption IPO Queue 快照",
-    capital_absorption_ipo_queue_not_configured: "Capital Absorption IPO Queue 未保存",
+    capital_absorption_ipo_queue_snapshot: "## 资金吸收 IPO 队列快照",
+    capital_absorption_ipo_queue_not_configured: "资金吸收 IPO 队列未保存",
     capital_absorption_latest_date: "最新观测日",
     capital_absorption_queue_latest: "最新队列规模",
-    capital_absorption_queue_min_max_7d: "7 日队列规模 min / max",
-    capital_absorption_reported_confirmed: "Reported / Confirmed",
+    capital_absorption_queue_min_max_7d: "7 日队列规模最小值 / 最大值",
+    capital_absorption_reported_confirmed: "已报道 / 已确认",
     capital_absorption_pressure: "潜在供给压力",
     boundary_capital_absorption: "边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。",
     cognitive_calibration_snapshot: "## 认知校准快照",
@@ -542,12 +542,12 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     credit_stress: "信用ストレス",
     liquidity: "流動性",
     growth_valuation: "成長評価",
-    capital_absorption_ipo_queue_snapshot: "## Capital Absorption IPO キュースナップショット",
-    capital_absorption_ipo_queue_not_configured: "Capital Absorption IPO キューは未保存",
+    capital_absorption_ipo_queue_snapshot: "## 資金吸収 IPO キュースナップショット",
+    capital_absorption_ipo_queue_not_configured: "資金吸収 IPO キューは未保存",
     capital_absorption_latest_date: "最新観測日",
     capital_absorption_queue_latest: "最新キュー規模",
-    capital_absorption_queue_min_max_7d: "7 日キュー規模 min / max",
-    capital_absorption_reported_confirmed: "Reported / Confirmed",
+    capital_absorption_queue_min_max_7d: "7 日キュー規模 最小 / 最大",
+    capital_absorption_reported_confirmed: "報道済み / 確認済み",
     capital_absorption_pressure: "潜在供給圧力",
     boundary_capital_absorption:
         "境界: 潜在的な将来供給の観測のみ。市場結論、リスク格上げ、取引信号は生成しない。",
@@ -874,6 +874,47 @@ mod tests {
         assert!(weekly_text(Language::JaJp)
             .boundary_cognitive
             .contains("取引信号を生成しない"));
+        assert!(!weekly_text(Language::ZhCn)
+            .capital_absorption_ipo_queue_snapshot
+            .contains("Capital Absorption IPO Queue"));
+        assert!(!weekly_text(Language::ZhCn)
+            .capital_absorption_queue_min_max_7d
+            .contains("min / max"));
+        assert!(!weekly_text(Language::ZhCn)
+            .capital_absorption_reported_confirmed
+            .contains("Reported / Confirmed"));
+        assert!(!weekly_text(Language::JaJp)
+            .capital_absorption_ipo_queue_snapshot
+            .contains("Capital Absorption IPO"));
+        assert!(!weekly_text(Language::JaJp)
+            .capital_absorption_queue_min_max_7d
+            .contains("min / max"));
+        assert!(!weekly_text(Language::JaJp)
+            .capital_absorption_reported_confirmed
+            .contains("Reported / Confirmed"));
+    }
+
+    #[test]
+    fn weekly_capital_absorption_labels_do_not_leak_english_in_zh_or_ja() {
+        let blocked = [
+            "Capital Absorption IPO Queue",
+            "min / max",
+            "Reported / Confirmed",
+        ];
+        let localized_labels = [
+            weekly_text(Language::ZhCn).capital_absorption_ipo_queue_snapshot,
+            weekly_text(Language::ZhCn).capital_absorption_queue_min_max_7d,
+            weekly_text(Language::ZhCn).capital_absorption_reported_confirmed,
+            weekly_text(Language::JaJp).capital_absorption_ipo_queue_snapshot,
+            weekly_text(Language::JaJp).capital_absorption_queue_min_max_7d,
+            weekly_text(Language::JaJp).capital_absorption_reported_confirmed,
+        ];
+
+        for label in localized_labels {
+            for blocked_label in blocked {
+                assert!(!label.contains(blocked_label));
+            }
+        }
     }
 
     #[test]
@@ -896,11 +937,15 @@ mod tests {
             weekly_text(Language::ZhCn),
         );
 
-        assert!(review.contains("## Capital Absorption IPO Queue 快照"));
+        assert!(review.contains("## 资金吸收 IPO 队列快照"));
         assert!(review.contains("最新队列规模: 3"));
-        assert!(review.contains("7 日队列规模 min / max: 1 / 3"));
+        assert!(review.contains("7 日队列规模最小值 / 最大值: 1 / 3"));
+        assert!(review.contains("已报道 / 已确认: 2 / 1"));
         assert!(review.contains("潜在供给压力: ELEVATED"));
         assert!(review.contains("不生成市场结论、风险升级或交易信号"));
+        assert!(!review.contains("Capital Absorption IPO Queue"));
+        assert!(!review.contains("min / max"));
+        assert!(!review.contains("Reported / Confirmed"));
         assert!(!review.contains("READY"));
         assert!(!review.contains("EXECUTE"));
     }

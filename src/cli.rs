@@ -919,6 +919,20 @@ mod tests {
     use tempfile::tempdir;
 
     #[test]
+    fn review_ignores_weekly_auto_report_with_localized_capital_absorption_heading() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+        fs::write(
+            tmp.path().join("weekly_state_review_auto.md"),
+            "## 资金吸收 IPO 队列快照",
+        )
+        .unwrap();
+        fs::write(tmp.path().join("2026-05-21.md"), "daily").unwrap();
+
+        assert_eq!(load_latest_daily_report(&config).unwrap(), "daily");
+    }
+
+    #[test]
     fn review_loads_latest_dated_report_and_ignores_non_daily_markdown() {
         let tmp = tempdir().unwrap();
         let config = mock_config(tmp.path());
@@ -1613,7 +1627,7 @@ mod tests {
         assert!(weekly_review.contains("## 日度状态机时间线"));
         assert!(weekly_review.contains("## 战略上下文快照"));
         assert!(weekly_review.contains("## 宏观引力快照"));
-        assert!(weekly_review.contains("## Capital Absorption IPO Queue 快照"));
+        assert!(weekly_review.contains("## 资金吸收 IPO 队列快照"));
         assert!(weekly_review.contains("## 认知校准快照"));
         assert!(weekly_review.contains("边界: 仅为快照"));
         assert!(weekly_review.contains("不生成交易信号"));

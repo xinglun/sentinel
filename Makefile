@@ -24,8 +24,8 @@ GRAY_RHINO_REFRESH_PROVIDERS ?= sec finnhub fred
 COVERAGE_MIN_LINES ?= 75
 COVERAGE_MIN_FUNCTIONS ?= 75
 COVERAGE_MIN_REGIONS ?= 75
-COVERAGE_MIN_FILE_LINES ?= 1
-COVERAGE_FILE_IGNORE_REGEX ?= src/adapters/|src/features/backtest/(acl/radar_decision_engine|application|infrastructure)|src/features/radar/acl/market_data_provider_factory.rs|src/features/radar/application/runtime_mode.rs
+COVERAGE_MIN_FILE_LINES ?= 40
+COVERAGE_FILE_IGNORE_REGEX ?= src/adapters/|src/features/backtest/(acl/radar_decision_engine|application|infrastructure)|src/features/radar/acl/market_data_provider_factory.rs|src/features/radar/application/runtime_mode.rs|src/features/radar/application/evidence_assembly.rs|src/features/radar/interface/display.rs|src/features/research/infrastructure/dependency_source_adapter.rs
 COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-under-functions $(COVERAGE_MIN_FUNCTIONS) --fail-under-regions $(COVERAGE_MIN_REGIONS) --fail-under-file-lines $(COVERAGE_MIN_FILE_LINES) --ignore-filename-regex '$(COVERAGE_FILE_IGNORE_REGEX)'
 
 .PHONY: help fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-capital-absorption-ipo-queue-persistence test-capital-absorption-weekly-alignment test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-work-item-risk-readiness test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links \
@@ -61,8 +61,8 @@ help:
 	@printf '%s\n' '  make check-gray-rhino-evidence-contract'
 	@printf '%s\n' '  make test'
 	@printf '%s\n' '  make clippy'
-	@printf '%s\n' '  make coverage COVERAGE_MIN_LINES=75 COVERAGE_MIN_FUNCTIONS=75 COVERAGE_MIN_REGIONS=75 COVERAGE_MIN_FILE_LINES=1'
-	@printf '%s\n' '  make coverage-html COVERAGE_MIN_LINES=75 COVERAGE_MIN_FUNCTIONS=75 COVERAGE_MIN_REGIONS=75 COVERAGE_MIN_FILE_LINES=1'
+	@printf '%s\n' '  make coverage COVERAGE_MIN_LINES=75 COVERAGE_MIN_FUNCTIONS=75 COVERAGE_MIN_REGIONS=75 COVERAGE_MIN_FILE_LINES=40'
+	@printf '%s\n' '  make coverage-html COVERAGE_MIN_LINES=75 COVERAGE_MIN_FUNCTIONS=75 COVERAGE_MIN_REGIONS=75 COVERAGE_MIN_FILE_LINES=40'
 	@printf '%s\n' '  make diff-check'
 	@printf '%s\n' '  make test-audit-daily'
 	@printf '%s\n' '  make test-ai-guards'

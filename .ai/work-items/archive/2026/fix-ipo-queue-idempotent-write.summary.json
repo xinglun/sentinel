@@ -1,10 +1,10 @@
 {
   "workItemId": "fix-ipo-queue-idempotent-write",
-  "contractPath": ".ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/fix-ipo-queue-idempotent-write.contract.json",
   "changedFiles": [
     {
       "path": ".ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
-      "reason": "工作流の検証チェックを強化するため、scope に scripts/ai_check_lifecycle.py を追加。"
+      "reason": "lifecycle regression test を scope に追加した。"
     },
     {
       "path": ".ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json",
@@ -16,7 +16,19 @@
     },
     {
       "path": "scripts/ai_check_lifecycle.py",
-      "reason": "active な Work Item の Contract と Summary で verification が不一致である場合に preflight で検知するようチェックを追加。"
+      "reason": "複数 active Work Item Contract と単一 current_status の不整合を lifecycle check で検出するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_lifecycle.py",
+      "reason": "複数 active Contract が拒否される regression test を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "active Work Item evidence の archive 移動を backtrack guard が削除として誤検知しないようにした。"
+    },
+    {
+      "path": "scripts/ai_test_backtrack.py",
+      "reason": "archive 移動が許可される regression test を追加した。"
     }
   ],
   "sourcesUsed": [
@@ -72,6 +84,18 @@
     {
       "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json SUMMARY=.ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json",
       "result": "passed"
+    },
+    {
+      "command": "make test-ai-lifecycle",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "result": "passed"
     }
   ],
   "unknownsRemaining": [],
@@ -80,36 +104,57 @@
     "detail": "同日上書き処理をテストで検証済みであり、動作安全性を確認。"
   },
   "generatedFiles": [],
-  "destructiveChanges": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/fix-ipo-queue-idempotent-write.contract.json",
+      "reason": "Work Item 完了に伴い archive/2026 へ移動した。active evidence の削除ではなく lifecycle cleanup。"
+    },
+    {
+      "path": ".ai/work-items/active/fix-ipo-queue-idempotent-write.summary.json",
+      "reason": "Work Item 完了に伴い archive/2026 へ移動した。active evidence の削除ではなく lifecycle cleanup。"
+    }
+  ],
   "observedIssues": [],
   "checkpointReview": [
     {
       "checkpoint": "contract_start",
       "status": "confirmed",
-      "note": "Contract 確定済み。"
+      "note": "storage 修正と lifecycle guard 追加の scope を確認済み。"
     },
     {
       "checkpoint": "before_edit",
       "status": "confirmed",
-      "note": "実装前に scope 境界を確認。"
+      "note": "storage 修正と lifecycle guard 追加の scope を確認済み。"
     },
     {
       "checkpoint": "before_ready",
       "status": "confirmed",
-      "note": "実装及びテスト完了。"
+      "note": "storage 修正と lifecycle guard 追加の scope を確認済み。"
     },
     {
       "checkpoint": "after_verification",
       "status": "confirmed",
-      "note": "検証テストがすべて通過したことを確認。"
+      "note": "storage 修正と lifecycle guard 追加の scope を確認済み。"
     }
   ],
   "residualRisks": [],
   "reviewReadiness": {
     "status": "ready",
-    "reason": "すべての実装と required checks の通過を確認。",
+    "reason": "IPO queue 実装と lifecycle guard の検証を確認。",
     "expectedReviewFocus": [
-      "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs"
+      "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+      "scripts/ai_check_lifecycle.py",
+      "scripts/ai_check_backtrack.py"
     ]
-  }
+  },
+  "userCorrectionsCaptured": [
+    "複数 active Work Item を ai-preflight が検出できないという review 指摘を受けた。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "複数 active Work Item を lifecycle guard で検出する。",
+      "solidifiedTo": "guard",
+      "reason": "scripts/ai_check_lifecycle.py と scripts/ai_test_lifecycle.py に regression として固定した。"
+    }
+  ]
 }
