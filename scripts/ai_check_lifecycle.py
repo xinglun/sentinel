@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 import time
 from pathlib import Path
@@ -122,6 +123,32 @@ def check_current_status_consistency() -> list[str]:
     return issues
 
 
+def active_contract_paths() -> list[Path]:
+    if not ACTIVE_DIR.exists():
+        return []
+    return sorted(path for path in ACTIVE_DIR.glob("*.contract.json") if path.is_file())
+
+
+def check_single_active_contract() -> list[str]:
+    """Cockpit が単一 active task を指す構造と active Contract 数を照合する。"""
+    contracts = active_contract_paths()
+    if len(contracts) <= 1:
+        return []
+
+    listed = ", ".join(path.relative_to(PROJECT_ROOT).as_posix() for path in contracts)
+    issues = [f"Multiple active Work Item Contracts are not allowed: {listed}"]
+
+    if CURRENT_STATUS.exists():
+        status_text = CURRENT_STATUS.read_text(encoding="utf-8")
+        task_match = re.search(r"^-\s+Task:\s+`([^`]*)`\s*$", status_text, flags=re.MULTILINE)
+        task = task_match.group(1) if task_match else ""
+        if task:
+            issues.append(
+                f"current_status.md points to a single task ({task}) while multiple active Contracts exist"
+            )
+    return issues
+
+
 def check_active_archive_duplicates() -> list[str]:
     """同一 Work Item が active と archive に同時存在しないことを確認する。"""
     issues: list[str] = []
@@ -156,6 +183,7 @@ def main() -> int:
         if subdir.is_dir() and subdir.name != "_templates":
             issues.extend(check_directory(subdir))
     issues.extend(check_current_status_consistency())
+    issues.extend(check_single_active_contract())
     issues.extend(check_active_archive_duplicates())
 
     duration = elapsed_ms(start)

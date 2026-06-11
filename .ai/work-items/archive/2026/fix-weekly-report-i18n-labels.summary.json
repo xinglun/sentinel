@@ -1,0 +1,125 @@
+{
+  "workItemId": "fix-weekly-report-i18n-labels",
+  "contractPath": ".ai/work-items/archive/2026/fix-weekly-report-i18n-labels.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "reason": "src/cli.rs の既存テスト断言を scope に追加した。"
+    },
+    {
+      "path": ".ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "reason": "AI Change Summary を実装結果に更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly Capital Absorption section の zh/ja 固定英語ラベルを各言語のラベルへ置換し、回帰テストを追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "weekly review の zh-cn 見出し変更に合わせて既存 CLI テストの期待値を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/cli.rs",
+    ".ai/work-items/active/fix-weekly-report-i18n-labels.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make test-capital-absorption-weekly-alignment",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-weekly-report-i18n-labels.contract.json SUMMARY=.ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示ラベルのみの変更。Gate / execution / trader / action matrix への影響なし。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/fix-weekly-report-i18n-labels.contract.json",
+      "reason": "Work Item 完了に伴い archive/2026 へ移動した。active evidence の削除ではなく lifecycle cleanup。"
+    },
+    {
+      "path": ".ai/work-items/active/fix-weekly-report-i18n-labels.summary.json",
+      "reason": "Work Item 完了に伴い archive/2026 へ移動した。active evidence の削除ではなく lifecycle cleanup。"
+    }
+  ],
+  "observedIssues": [],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "weekly i18n label 修正と required checks の通過を確認。",
+    "expectedReviewFocus": [
+      "src/features/radar/interface/weekly_state_report.rs",
+      "src/cli.rs"
+    ]
+  },
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope / acceptance / verification は表示ラベル修正として確認済み。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / acceptance / verification は表示ラベル修正として確認済み。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "scope / acceptance / verification は表示ラベル修正として確認済み。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "scope / acceptance / verification は表示ラベル修正として確認済み。"
+    }
+  ]
+}

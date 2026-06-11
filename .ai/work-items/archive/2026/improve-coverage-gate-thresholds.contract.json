@@ -1,0 +1,111 @@
+{
+  "contractVersion": 1,
+  "workItemId": "improve-coverage-gate-thresholds",
+  "mode": "code",
+  "title": "カバレッジゲートの閾値改善（分層設定）",
+  "scope": [
+    "Makefile",
+    ".ai/**"
+  ],
+  "outOfScope": [
+    "src/features/research/infrastructure/capital_absorption_ipo_queue_store.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "scripts/ai_test_coverage_guard.py"
+  ],
+  "sources": [
+    {
+      "path": "Makefile",
+      "reason": "修正対象。COVERAGE_MIN_FILE_LINES ?= 1（line 27）が象徴的な閾値であり、file-level coverage gate として弱すぎる。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "coverage_gate",
+      "historical_low_coverage"
+    ],
+    "reason": "既存 test suite が通過する範囲で file-level default threshold を 40 に引き上げる。低カバレッジ既存ファイルは明示 ignore とし、後続 Work Item の補測対象として残す。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / acceptance / verification が確定した。変更は Makefile の coverage default と明示 ignore のみであり、production Rust code、Gate / execution / trader / action matrix への影響はない。"
+  },
+  "preReviewWarnings": [
+    "COVERAGE_MIN_FILE_LINES=40 は current suite に対する保守的な default であり、dependency_source_adapter.rs などの既存低カバレッジ debt は ignore に残る。",
+    "より高い file-level threshold や ratchet 方式は別 Work Item で補測・例外整理が必要。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Makefile の COVERAGE_MIN_FILE_LINES default を 1 から current suite で通過可能な実効値へ引き上げる。",
+    "current suite で threshold を満たせない既存低カバレッジファイルは COVERAGE_FILE_IGNORE_REGEX に明示し、Summary の residual risk に記録する。",
+    "make coverage が default 設定で通過する。",
+    "Gate / execution / trader / action matrix への影響なし（検証入口のみ）。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/improve-coverage-gate-thresholds.contract.json SUMMARY=.ai/work-items/active/improve-coverage-gate-thresholds.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": false,
+    "allowPatterns": [
+      ".ai/work-items/active/improve-coverage-gate-thresholds.contract.json",
+      ".ai/work-items/active/improve-coverage-gate-thresholds.summary.json"
+    ]
+  },
+  "rollbackNote": "Makefile の coverage default と ignore regex、およびこの Work Item の Summary 更新を revert する。"
+}

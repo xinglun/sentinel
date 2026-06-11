@@ -1,0 +1,130 @@
+{
+  "workItemId": "hardening-backtrack-archive-move",
+  "contractPath": ".ai/work-items/archive/2026/hardening-backtrack-archive-move.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "reason": "backtrack archive move hardening の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/hardening-backtrack-archive-move.summary.json",
+      "reason": "AI Change Summary を実装結果に更新した。"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "active Work Item evidence の archive move 自動許可を current diff add + content equality に限定した。"
+    },
+    {
+      "path": "scripts/ai_test_backtrack.py",
+      "reason": "stale archive counterpart と content mismatch が失敗する regression test を追加した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/*.contract.json",
+      "reason": "前回修正分の内容変更済み archive cleanup を destructiveChangePolicy で明示承認した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/*.summary.json",
+      "reason": "前回修正分の active evidence 移動を destructiveChanges に記録した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_test_backtrack.py",
+    ".ai/work-items/active/hardening-backtrack-archive-move.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-backtrack",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "AI governance guard の判定強化のみ。production Rust code、Gate / execution / trader / action matrix への影響なし。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "userCorrectionsCaptured": [
+    "archive に同名ファイルが存在するだけで active Work Item 削除を許可できるという review 指摘を受けた。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "active Work Item archive move の自動許可条件を current diff add + content equality に限定する。",
+      "solidifiedTo": "guard",
+      "reason": "scripts/ai_check_backtrack.py と scripts/ai_test_backtrack.py に固定した。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "review 指摘に合わせて archive move hardening scope を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象は backtrack guard/test と Work Item evidence に限定する。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を実行してから ready 判定する。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を Summary に反映する。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "backtrack guard hardening と required checks の通過を確認。",
+    "expectedReviewFocus": [
+      "scripts/ai_check_backtrack.py",
+      "scripts/ai_test_backtrack.py"
+    ]
+  }
+}

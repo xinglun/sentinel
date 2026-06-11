@@ -1,0 +1,128 @@
+{
+  "contractVersion": 1,
+  "workItemId": "hardening-backtrack-archive-move",
+  "mode": "code",
+  "title": "backtrack guard archive move 検証強化",
+  "scope": [
+    ".ai/**",
+    "Makefile",
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_check_lifecycle.py",
+    "scripts/ai_test_backtrack.py",
+    "scripts/ai_test_lifecycle.py",
+    "src/cli.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "修正対象。active Work Item evidence 削除時の archive counterpart 判定が同名存在だけで広すぎる。"
+    },
+    {
+      "path": "scripts/ai_test_backtrack.py",
+      "reason": "回帰テスト対象。stale archive、current diff add、content mismatch の各ケースを固定する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/*.contract.json",
+      "reason": "既存の内容変更済み archive move を destructiveChangePolicy で明示承認する。"
+    },
+    {
+      "path": ".ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "reason": "dirty worktree 上の review 指摘対応を scope / acceptance / verification に固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "変更は AI backtrack guard と lightweight test に限定する。production Rust code、Gate / execution / trader / action matrix への影響なし。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / acceptance / verification が確定した。guard hardening と regression test のみを変更する。"
+  },
+  "preReviewWarnings": [
+    "archive counterpart の自動放行は current diff の archive add と content equality を要求する。既存 archive に同名があるだけでは許可しない。",
+    "今回の既存 Work Item archive は contract / summary 更新後に移動しているため、destructiveChangePolicy と Summary.destructiveChanges で明示承認している。",
+    "dirty worktree のため scope は前回修正分を含む現在の未提交 diff 全体を覆う。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "active Work Item evidence の削除は、current diff に同じ basename の archive counterpart 追加があり、active 側 HEAD 内容と archive 側 working tree 内容が一致する場合だけ自動 archive move として許可する。",
+    "archive に同名ファイルが既に存在するだけで current diff に archive counterpart がない場合は removed_work_item_evidence として失敗する。",
+    "archive counterpart の内容が active 側 HEAD 内容と一致しない場合は removed_work_item_evidence として失敗する。ただし別途 destructiveChangePolicy と Summary.destructiveChanges で明示承認された cleanup は許可する。",
+    "scripts/ai_test_backtrack.py が合法 move / stale archive bypass / content mismatch を検証する。",
+    "production Rust code、Gate / execution / trader / action matrix への影響なし。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/hardening-backtrack-archive-move.contract.json SUMMARY=.ai/work-items/active/hardening-backtrack-archive-move.summary.json",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

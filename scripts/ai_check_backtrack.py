@@ -19,6 +19,7 @@ from ai_observability import create_observability, elapsed_ms
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 REPORT_PATH = PROJECT_ROOT / "target" / "ai_backtrack_report.json"
+ARCHIVE_WORK_ITEMS_DIR = PROJECT_ROOT / ".ai" / "work-items" / "archive"
 
 
 @dataclass(frozen=True)
@@ -128,8 +129,53 @@ def is_approved(path: str, approvals: list[DestructiveApproval]) -> bool:
     return any(approval.documented and any(matches(pattern, path) for pattern in approval.allow_patterns) for approval in approvals)
 
 
+def file_content_at_head(path: str) -> bytes | None:
+    result = run_git(["show", f"HEAD:{path}"])
+    if result.returncode != 0:
+        return None
+    return result.stdout.encode("utf-8")
+
+
+def archive_move_counterparts(changes: list[tuple[str, str]]) -> dict[str, str]:
+    """current diff に含まれる active -> archive 移動候補を返す。"""
+    archive_adds = {
+        path
+        for status, path in changes
+        if status.startswith("A") and path.startswith(".ai/work-items/archive/")
+    }
+    archive_by_basename = {Path(path).name: path for path in archive_adds}
+    pairs: dict[str, str] = {}
+    for status, path in changes:
+        if not path.startswith(".ai/work-items/active/"):
+            continue
+        if not status.startswith("D"):
+            continue
+        archived = archive_by_basename.get(Path(path).name)
+        if archived:
+            pairs[path] = archived
+    return pairs
+
+
+def is_verified_archive_move(path: str, archive_moves: dict[str, str]) -> bool:
+    """active Work Item の削除が current diff 内の archive 移動かを判定する。"""
+    active_prefix = ".ai/work-items/active/"
+    if not path.startswith(active_prefix):
+        return False
+    archived = archive_moves.get(path)
+    if not archived:
+        return False
+    archived_path = PROJECT_ROOT / archived
+    if not archived_path.is_file():
+        return False
+    head_content = file_content_at_head(path)
+    if head_content is None:
+        return False
+    return archived_path.read_bytes() == head_content
+
+
 def detect_items(changes: list[tuple[str, str]], approvals: list[DestructiveApproval] | None = None) -> list[BacktrackItem]:
     approvals = approvals or []
+    archive_moves = archive_move_counterparts(changes)
     items: list[BacktrackItem] = []
     for status, path in changes:
         if status.startswith("D") and (path.startswith("tests/") or path.endswith("_tests.rs")) and not is_approved(path, approvals):
@@ -165,7 +211,12 @@ def detect_items(changes: list[tuple[str, str]], approvals: list[DestructiveAppr
                         f"i18n key / 文言削除候補があります: {len(removed_lines)} 件",
                     )
                 )
-        if path.startswith(".ai/work-items/") and status.startswith("D") and not is_approved(path, approvals):
+        if (
+            path.startswith(".ai/work-items/")
+            and status.startswith("D")
+            and not is_verified_archive_move(path, archive_moves)
+            and not is_approved(path, approvals)
+        ):
             items.append(
                 BacktrackItem(
                     "error",

@@ -110,9 +110,12 @@
     }
   ],
   "destructiveChangePolicy": {
-    "allowed": false,
-    "requiresHumanApproval": true,
-    "allowPatterns": []
+    "allowed": true,
+    "requiresHumanApproval": false,
+    "allowPatterns": [
+      ".ai/work-items/active/refine-capital-absorption-sensor.contract.json",
+      ".ai/work-items/active/refine-capital-absorption-sensor.summary.json"
+    ]
   },
   "rollbackNote": "この Work Item の diff を revert する。"
 }

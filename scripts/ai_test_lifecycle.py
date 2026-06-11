@@ -58,10 +58,33 @@ def test_no_active_status_rejects_active_files(root: Path) -> None:
     assert_true(issues, "no_active_work_item で active file が残る場合は検出されるべき")
 
 
+def test_multiple_active_contracts_are_rejected(root: Path) -> None:
+    active = root / ".ai/work-items/active"
+    write(active / "first.contract.json")
+    write(active / "first.summary.json", '{"contractPath": ".ai/work-items/active/first.contract.json"}\n')
+    write(active / "second.contract.json")
+    write(active / "second.summary.json", '{"contractPath": ".ai/work-items/active/second.contract.json"}\n')
+    write(root / ".ai/cockpit/current_status.md", "- Task: `first`\n- State: `ready_for_review`\n")
+
+    with (
+        patch.object(ai_check_lifecycle, "PROJECT_ROOT", root),
+        patch.object(ai_check_lifecycle, "ACTIVE_DIR", active),
+        patch.object(ai_check_lifecycle, "CURRENT_STATUS", root / ".ai/cockpit/current_status.md"),
+    ):
+        issues = ai_check_lifecycle.check_single_active_contract()
+
+    assert_true(issues, "複数 active Contract は検出されるべき")
+    assert_true(
+        any("current_status.md points to a single task" in issue for issue in issues),
+        "単一 current_status との不整合も検出されるべき",
+    )
+
+
 def main() -> int:
     cases = [
         ("active_archive_duplicate_is_rejected", test_active_archive_duplicate_is_rejected),
         ("no_active_status_rejects_active_files", test_no_active_status_rejects_active_files),
+        ("multiple_active_contracts_are_rejected", test_multiple_active_contracts_are_rejected),
     ]
     root = REPO_ROOT / "target" / "ai_lifecycle_test"
     shutil.rmtree(root, ignore_errors=True)
