@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tether Leads $1.4 Billion Funding Round for NEURA Robotics
+  summary: Tether leads a $1.4 billion Series C for NEURA Robotics, adding wallets and edge AI to power a machine economy.
+  url: https://finnhub.io/api/news?id=639ced430915d66a410c7a3409b2e1f6898264ef188c9c45153cd7db4b08623b

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (NASDAQ:ISRG) Growth Framework Shows Strong Fundamentals and Potential Technical Inflection Point
+  summary: Intuitive Surgical reports 21.4% revenue growth, 25.9% EPS growth, strong profitability, and no debt. With a PEG ratio and a 7/10 setup rating, this growth stock nears a potential technical breakout.
+  url: https://finnhub.io/api/news?id=e53237c49649b488bf19d4a8eb5cbef78f6ffac609822e7da23354e5cedfd871

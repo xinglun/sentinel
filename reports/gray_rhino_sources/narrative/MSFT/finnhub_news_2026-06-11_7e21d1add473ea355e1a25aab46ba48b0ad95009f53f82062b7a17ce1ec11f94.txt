@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Just Showed Wall Street the AI Boom, Then Handed It The Bill
+  summary: The company's backlog of future business is staggering, but the market is focused on the equally staggering cost of building it all.
+  url: https://finnhub.io/api/news?id=a65b864e50f2092fb8f8159f234f97023743e75f643a48812f29f4cb2d08413c

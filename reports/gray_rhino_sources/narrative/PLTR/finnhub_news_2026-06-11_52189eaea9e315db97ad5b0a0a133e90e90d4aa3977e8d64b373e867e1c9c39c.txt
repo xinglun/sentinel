@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Warns AI Could Supercharge Wealth Inequality
+  summary: Palantir CEO Alex Karp warns AI will cause major worker dislocation, says frontier AI labs fail to understand enterprise requirements.
+  url: https://finnhub.io/api/news?id=e1e9e5371470183b964a6d46908f0bce2b12b2aeda2d5080fd84e693660e4209

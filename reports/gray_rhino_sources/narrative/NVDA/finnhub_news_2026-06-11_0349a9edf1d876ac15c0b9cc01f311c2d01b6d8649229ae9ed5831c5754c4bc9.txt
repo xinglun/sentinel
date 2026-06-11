@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Artificial Intelligence (AI) Stock: Marvell Technology vs. Broadcom
+  summary: Investors looking to add one of these AI stocks to their portfolios right now have an easy choice to make.
+  url: https://finnhub.io/api/news?id=e772cc60b508479ed4fdc6d59ffdf8a6885525fdc805f58b65071743bc496ced

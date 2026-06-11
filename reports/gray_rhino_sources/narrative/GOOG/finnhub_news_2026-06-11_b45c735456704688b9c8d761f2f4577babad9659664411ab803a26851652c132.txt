@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SpaceX's New Deal With Google a Game Changer? Here's My Honest Take.
+  summary: SpaceX just disclosed that Google will pay it $920 million per month to access a cluster of about 110,000 Nvidia GPUs.
+  url: https://finnhub.io/api/news?id=be256216c1d9a0734ff738b32e8a9ad5ff83fa3a7ac17f4195f0aa07feccdd93

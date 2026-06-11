@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CAT Stock Hikes Dividend 8%, Leads Dow Jones Rebound
+  summary: Caterpillar announced an 8% dividend hike after Wednesday's close, extending its streak of dividend increases to 32 years.  CAT stock led Dow Jones Industrial Average winners early Thursday, rebounding from a key support level after suffering its sharpest loss since April 3, 2025, the day after President Donald Trump unveiled "Liberation Day" tariffs.  Caterpillar is among 69 members of the S&P 500 that have increased dividends every year for the last 25 years.
+  url: https://finnhub.io/api/news?id=2d4b9248f70b391499db70c907385cdfd11b7f9e61c315fc8ee0f19a49aa949f

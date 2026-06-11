@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google in talks with Samsung to make part of next-gen chip, The Information reports
+  summary: Alphabet's Google is in talks with Samsung Electronics to manufacture part of its ‌next-generation chip, The Information reported on Thursday, citing ‌two people familiar with the matter.  Google plans for Taiwan's TSMC to ​make the main part of the chip, codenamed 'Icefish,' while Samsung may produce a separate component that helps connect it to memory using its 2-nanometer production technology, the report ‌said.  The chip industry has ⁠been grappling with a capacity crunch, as TSMC, the world's largest contract chipmaker, works ⁠to keep up with surging demand and avoid becoming a bottleneck in the global supply chain amid the AI ​boom.
+  url: https://finnhub.io/api/news?id=29cc0fc8f3c84edfe52319cf9009c2e2cc6361ab48c4fa454ea7f5081b073059

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Energy Transition - Trail Road BESS Project Sparks Ontario Clean Energy Growth
+  summary: Scout Clean Energy has marked a significant stride in the energy transition landscape by opening a new office in Ottawa and commencing the construction of the Trail Road Battery Energy Storage System (BESS). This project, undertaken in partnership with the Algonquins of Pikwàkanagàn First Nation, aims to bolster grid reliability in response to increasing electricity demand. The planned 150 MW lithium iron phosphate (LFP) BESS represents an important development in energy infrastructure in...
+  url: https://finnhub.io/api/news?id=ca04ea67ccae9fa4db583ff6ced9294491603026a13a244e6f8e63ed00d4e26a

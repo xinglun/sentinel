@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Just Delivered Bad News for OpenAI and Anthropic, but Alphabet Could Be a Winner
+  summary: The company is finally launching Siri AI.
+  url: https://finnhub.io/api/news?id=9f933dcd9dd8b46e7f277b3b727ae0d09d888c8a2af1d5aec20e110aace3955b

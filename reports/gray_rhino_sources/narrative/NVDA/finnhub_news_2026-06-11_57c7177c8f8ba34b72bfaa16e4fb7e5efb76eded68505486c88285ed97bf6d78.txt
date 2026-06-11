@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is Minting Millionaires and Maybe Even a Trillionaire. It Also Might The Offer a Glimpse of the Future of America’s Blue-Collar Economy.
+  summary: The countdown to the SpaceX (SPCX) IPO has finally come down to T-minus one day, and it’s going to be a shocker how many people are going to be made incredibly rich as investors witness just how high the oversubscribed IPO goes. Who knows? It might even mint the world’s first trillionaire in Elon Musk, given ... SpaceX Is Minting Millionaires and Maybe Even a Trillionaire. It Also Might The Offer a Glimpse of the Future of America’s Blue-Collar Economy.
+  url: https://finnhub.io/api/news?id=e366e67f2855e4a36aee67c878da8a2de41043cd649069a5547f76ad2626febb

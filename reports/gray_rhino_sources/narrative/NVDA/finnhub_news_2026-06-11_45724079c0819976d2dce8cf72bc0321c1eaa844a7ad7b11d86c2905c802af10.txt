@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Plunges 10% After Earnings, Salesforce Slips Near 52-Week Lows as Cloud Stocks Slide
+  summary: Shares of Oracle (NYSE:ORCL) are down 10% to $182.25 in early trading Thursday, following the company’s Q4 FY2026 earnings report released after the bell Wednesday. The slide is dragging on cloud and enterprise software names, with Salesforce (NYSE:CRM) stock down 1.28% to $168.80 and trading near its 52-week lows. Oracle stock closed at $201.26 Wednesday, ... Oracle Plunges 10% After Earnings, Salesforce Slips Near 52-Week Lows as Cloud Stocks Slide
+  url: https://finnhub.io/api/news?id=dcfbbaf0a13bda66957b21f39c982ca47209af839cb374d90856769a4ddfce11

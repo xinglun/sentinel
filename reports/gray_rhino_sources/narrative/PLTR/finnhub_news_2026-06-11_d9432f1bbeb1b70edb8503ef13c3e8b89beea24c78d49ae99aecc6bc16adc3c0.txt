@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 High-Flying Stocks with Promising Prospects and 1 We Question
+  summary: Expensive stocks typically earn their valuations through superior growth rates that other companies simply can’t match. The flip side though is that these lofty expectations make them particularly susceptible to drawdowns when market sentiment shifts.
+  url: https://finnhub.io/api/news?id=96428c2632a004cf80d034c351f879516d386846f5c8eb0b8bd4a352fab1453d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Producer Price Inflation Hits 6.5%, But the Fed May Still Pause Rate Hikes — Here’s Why
+  summary: The inflation story just got another plot twist. Fresh data from the U.S. Bureau of Labor Statistics showed May producer price inflation (PPI) jumped 6.5% year over year, higher than expectations of 6.4% and marking the highest reading since November 2022. On the surface, that sounds like a flashing red warning sign for the Federal ... Producer Price Inflation Hits 6.5%, But the Fed May Still Pause Rate Hikes — Here’s Why
+  url: https://finnhub.io/api/news?id=a10a5429bfa1eb702b3e9d9f4220ba8f01c2c594587c5df24af03e9d11e45941

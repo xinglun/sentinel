@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bespin Global US Named To CRN Solution Provider 500 List For 2026, Ranking #396
+  summary: Bespin Global US, a leading cloud managed services and solutions provider, announced today that CRN®, a brand of The Channel Company, has recognized Bespin Global US at #396 on the 2026 CRN Solution Provider 500 list.
+  url: https://finnhub.io/api/news?id=8701a3731ac8ea73bae69160019c819328f12b7603f2b14018a2aa4ff79f3787

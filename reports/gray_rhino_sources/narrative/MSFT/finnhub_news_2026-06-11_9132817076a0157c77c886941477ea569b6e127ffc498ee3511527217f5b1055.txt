@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Things to Know Before the Stock Market Opens
+  summary: News of the day for June 11, 2026
+  url: https://finnhub.io/api/news?id=aab0beafc10c9099ad91c4105a6fe60d3d5dd80577a7069db7a8c78a7cf39b03

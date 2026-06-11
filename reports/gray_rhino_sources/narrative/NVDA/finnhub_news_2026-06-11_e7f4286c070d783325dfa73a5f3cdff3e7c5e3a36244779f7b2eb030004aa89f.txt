@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Is Ignoring This Part of the Market. That's Why I'm Interested.
+  summary: Small caps trade at a 20% discount to large caps, but their earnings are about to grow faster. It's time to consider buying.
+  url: https://finnhub.io/api/news?id=1797381c5fa3716fd768b3a8727813eed5175a83a6fe499e853e26a6935d0fd8

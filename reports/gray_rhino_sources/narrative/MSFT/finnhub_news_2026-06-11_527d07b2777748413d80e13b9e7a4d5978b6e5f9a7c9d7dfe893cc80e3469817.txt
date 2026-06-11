@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rezolve Ai Data Reveals Seven in Ten Shoppers Now Buy After a Single Search in the New Era of Conversational Commerce
+  summary: 70% of purchases now happen after a single search, up from 60% in 2025Long-form queries have risen from 25% of all searches in 2024 to 40% The use of filters and multi-page searches is declining, as a zero-click economy emerges BARCELONA, Spain, June 11, 2026 (GLOBE NEWSWIRE) -- Rezolve Ai PLC (NASDAQ: RZLV), a global leader in agentic commerce, has published new shopper behavior data showing that the long multi-stage ecommerce journey that has defined two decades of online retail is disappearin
+  url: https://finnhub.io/api/news?id=3a1ab27d4561840eda686f9dd448becaaf14eae41ca4eba1656db887d3eaf8cb

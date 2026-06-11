@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Drops Stark Warning to AI Industry
+  summary: Palantir CEO Sparks AI Shockwave as Enterprise Clients Revolt Over Frontier Labs
+  url: https://finnhub.io/api/news?id=9a8a162514cb554568cfd217db4d68d9b1943051195e0dd77c71c7fd0d86d049

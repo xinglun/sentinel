@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Cuts 200-400 China Azure Jobs as Cloud Revenue Jumps 40%
+  summary: Layoffs reportedly affect Azure staff in China while Microsoft's cloud business continues strong growth.
+  url: https://finnhub.io/api/news?id=417575c390c8b553c21551e7af1e12da4c5e7d192af1bf7e9f392ccd4ccd34b8

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 35 Reasons I'm Still Short Nvidia
+  summary: Nvidia Corporation faces AI capex bubble risks, concentrated customers, and hyperscaler chip competition. Click for this NVDA update.
+  url: https://finnhub.io/api/news?id=1015835416bffe5a4f4b60dac8bc4c098cbc5fcd2e9c8b0401b04b6946a3ce15

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Keeps Thriving Despite Gaming Industry Woes
+  summary: Unity Software delivered excellent Q1 results, and Q2 guidance was similarly upbeat.
+  url: https://finnhub.io/api/news?id=55f7d390232b75b442d0f2885bed83f7cc76939e0c0cef94f3b811e8a018d99b

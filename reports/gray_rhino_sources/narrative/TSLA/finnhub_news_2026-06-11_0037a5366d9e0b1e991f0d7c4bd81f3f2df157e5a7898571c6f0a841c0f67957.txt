@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's $1.75T IPO Valuation Draws Chanos Warning
+  summary: Jim Chanos questions SpaceX's valuation as its New York IPO seeks to raise $75B on Friday.
+  url: https://finnhub.io/api/news?id=5d648a7c019395212aa1a912c12a9b256a8f328f763c215f103bff53053dfb8a

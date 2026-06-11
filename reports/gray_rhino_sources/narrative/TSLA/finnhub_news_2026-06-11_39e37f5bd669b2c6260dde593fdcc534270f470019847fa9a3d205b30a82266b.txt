@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rises. Is SpaceX Selling Pressure Over?
+  summary: Tesla  stock rose early Thursday after the order book for SpaceX’s massive IPO closed.  Coming into Thursday trading, shares were down almost 10% over the past week, leaving investors wondering if Tesla investors were selling stock to fund purchases of SpaceX shares, which are expected to begin trading on Friday.  SpaceX has allocated an estimated 30% of its record-setting IPO to retail investors, much more than in a typical IPO.
+  url: https://finnhub.io/api/news?id=aed6f0b7760353bea2f1bfef4ad4976c1079b37ee16874ab795855d6fe2c1490

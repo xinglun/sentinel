@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Summer Correction Is Here With A Lot Riding On The Stock Market
+  summary: 
+  url: https://finnhub.io/api/news?id=37f6480e0c0ec612a285f22cc905fe9e010e06d2a40e9f6e384ad8a712913d22

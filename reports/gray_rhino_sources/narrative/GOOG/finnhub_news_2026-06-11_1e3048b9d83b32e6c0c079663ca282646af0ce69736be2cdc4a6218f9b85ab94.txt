@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart, Wing Expand Drone Delivery Network to 7 New U.S. Metro Areas
+  summary: Expansion adds seven markets as Wing surpasses 1 million commercial drone deliveries and targets 40 million U.S. residents.
+  url: https://finnhub.io/api/news?id=47f10ea15d9ff8a3b60f3fcfa269b7b8668e1760a42dc5436146f2e54b3dd4e0

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oppenheimer sees little strategic case for Tesla-SpaceX merger
+  summary: Investing.com -- Oppenheimer said Thursday that it has raised its Tesla estimates given the SpaceX IPO but pushed back on the merger narrative gaining traction among investors, arguing that two separate public companies better serve CEO Elon Musk's long-term AI ambitions.
+  url: https://finnhub.io/api/news?id=acd1a177ef8febfdd32ec55eb15d0172a7608212b2e607c28821e31c3094ee09

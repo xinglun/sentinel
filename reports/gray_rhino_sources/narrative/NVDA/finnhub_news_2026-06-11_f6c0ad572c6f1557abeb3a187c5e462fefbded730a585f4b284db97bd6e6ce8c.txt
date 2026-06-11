@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 AI Stocks You Never Saw Coming -- and They Come With Dividends
+  summary: Investors looking for AI plays in the stock market probably wouldn't look at industrial manufacturers -- but there are some hidden gems for the savvy.
+  url: https://finnhub.io/api/news?id=17c701f3a3efa4cef5b4c424777ee01775382f5077b206b6062b886f6f33fb5e

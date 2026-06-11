@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises Despite New Trump Threats; Oracle Plunges On Earnings (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Thursday despite Trump's new threats on Iran. Oracle stock plunged on earnings.
+  url: https://finnhub.io/api/news?id=97c9ac5eaf1b14a38894a0f0fca0dcedb47802102f186b62f00b2ef443ae631f

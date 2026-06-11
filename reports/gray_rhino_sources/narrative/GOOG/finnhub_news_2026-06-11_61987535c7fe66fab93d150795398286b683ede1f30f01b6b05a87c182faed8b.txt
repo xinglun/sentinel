@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple's AI Reveal Hands An Unexpected Win To Google, NVIDIA
+  summary: Apple Inc.’s latest AI announcements sparked a fresh debate on Wall Street, with analysts divided over whether the company’s Siri overhaul positions it for the next phase of artificial intelligence adoption or underscores its growing reliance on partners such as...
+  url: https://finnhub.io/api/news?id=dc1b57d16e33b191e52fcfd4ba27631a0dfcac830511ad2f25c5d7052fde2a4d

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Fake News Became the Most Dangerous Force in Energy Markets
+  summary: AI-generated misinformation is already moving energy markets. Hydaway Digital is building the verification layer financial systems desperately need.
+  url: https://finnhub.io/api/news?id=4d0935d1d22802e0a809db96f906e905dd26952f6cae7794429edb00dcaaced6

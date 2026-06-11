@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon's Record C$14 Billion Bond Sale Pressures Canadian Credit Market
+  summary: The largest-ever Canadian corporate bond deal pushed spreads wider and prompted investors to sell existing high-grade debt.
+  url: https://finnhub.io/api/news?id=f4f0b1be37fb265c05bca2cd1476593dfe8d07cbb1aeb4656dcff4bc3ac0aeee

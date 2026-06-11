@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy The Dip: Why Microsoft Is Heavily Tilted To The Upside
+  summary: Microsoft is rated a Buy, supported by robust growth in Intelligent Cloud and a $625 billion contractually committed backlog. Read more on MSFT stock here.
+  url: https://finnhub.io/api/news?id=b3781e68f6d1c2d36f63a33043782f80126b6f74f6165e362ade21285117fb47

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Magnificent 7' stocks have lost $2 trillion so far this month, driving the S&P 500 decline: Chart of the Day
+  summary: The group has erased roughly $1.8 trillion in market value this month, while the rest of the S&P 500 is still holding up.
+  url: https://finnhub.io/api/news?id=26a1654d53b6663b61e516176a171d1a819cdf2a31ee6328811ebc10ae9a568b

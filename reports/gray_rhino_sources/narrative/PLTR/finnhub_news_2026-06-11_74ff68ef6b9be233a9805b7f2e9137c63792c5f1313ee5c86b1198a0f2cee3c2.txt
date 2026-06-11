@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The ‘Buy Everything AI’ Strategy: Is AIQ Your Ticket to the $2.5 Trillion Supercycle?
+  summary: AIQ has quietly outperformed QQQ this year while charging triple the fee, an inversion of the usual thematic-ETF trap where investors pay up for a story and underperform the index. The Global X Artificial Intelligence & Technology ETF (NASDAQ:AIQ) is one of the rare ones doing both. AIQ is up 20.6% year-to-date through June 10, ... The ‘Buy Everything AI’ Strategy: Is AIQ Your Ticket to the $2.5 Trillion Supercycle?
+  url: https://finnhub.io/api/news?id=a89f20e681ed18d1f0c8b5c132cc8c706126c52c11bfb0242ff12b84ee42ad1f

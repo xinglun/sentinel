@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The First Trillion-Dollar ETF Becomes The 'Elon Musk' Of Funds
+  summary: Just as Elon Musk is set to become the world's first trillionaire, Vanguard's S&P 500 ETF also is the first to hit $1 trillion-in-assets.
+  url: https://finnhub.io/api/news?id=33f1d6271d4d216b3a8c2791223a09fbabd07fc6a10fc7b3a4f440a07524b343

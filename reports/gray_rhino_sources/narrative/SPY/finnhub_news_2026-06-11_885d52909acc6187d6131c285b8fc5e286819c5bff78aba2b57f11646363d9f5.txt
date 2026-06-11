@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Will Be The Impact Of The Largest Order To Purchase VLCCs Since 2008
+  summary: Iran war-driven VLCC freight rates hit record highs, adding inflation risk and steepening the U.S. yield curve. Click here to read more.
+  url: https://finnhub.io/api/news?id=b2eb8ad5d4fd9b6b7d33a215543692998d42b8c7a77b33b6449464dd60fc2a9f

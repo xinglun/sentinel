@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Stocks Are Back From the Dead: IYE Up 27% YTD
+  summary: If you bought iShares U.S. Energy ETF (NYSEARCA:IYE) on the last trading day of 2025 at about $47 and you are still holding it this morning at about $61, you are sitting on an about 29% gain in a little over five months. The SPDR S&P 500 ETF Trust (NYSEARCA:SPY) is up about 8% over ... Energy Stocks Are Back From the Dead: IYE Up 27% YTD
+  url: https://finnhub.io/api/news?id=a530e8bb90ad698e6457d1e26104c3bcb42641dab69a37cc91fd24f8c081be31

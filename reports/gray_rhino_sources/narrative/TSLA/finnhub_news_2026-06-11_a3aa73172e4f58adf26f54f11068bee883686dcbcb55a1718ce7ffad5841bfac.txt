@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: New Street Research sees 22% upside from proposed IPO price
+  summary: Investing.com -- New Street Research has initiated coverage of SpaceX with a 12-month price target of $165, representing 22% upside from the proposed IPO price and corresponding to a $2.3 trillion equity value following the company's potential acquisition of Cursor.
+  url: https://finnhub.io/api/news?id=99c1fa01feb4fbe7ddae2964dc34a1ec73cb0fda622fc3e38d2a663c0a0eb254

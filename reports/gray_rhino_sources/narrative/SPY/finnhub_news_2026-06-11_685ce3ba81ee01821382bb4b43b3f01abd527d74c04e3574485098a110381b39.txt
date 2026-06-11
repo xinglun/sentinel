@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Yes, This Is A Bubble: I'm Buying The Dip Anyway
+  summary: S&P 500 pullback analysis: CPI, no 2026 rate cuts, and IPO-driven equity supply risks (SpaceX/OpenAI).
+  url: https://finnhub.io/api/news?id=9cae2fecf55a5ea5265e997e0ab9feead7caf39351fc5fda76c419c9f21d5d06

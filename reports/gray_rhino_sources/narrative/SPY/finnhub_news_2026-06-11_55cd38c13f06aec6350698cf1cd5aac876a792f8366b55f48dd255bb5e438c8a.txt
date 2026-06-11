@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Justin Wolfers Warns Of 'Affordability Crisis' As Real Wages Fall For Sixth Straight Month
+  summary: Economist Justin Wolfers warns of a 2026 &#39;affordability crisis&#39; as supply shocks drive up inflation and falling real wages hurt consumers
+  url: https://finnhub.io/api/news?id=19b1d2fca921d8002c946f4d1f3b3ff3376f3fbd5cebb98e7865f7fa2a10751b

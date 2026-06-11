@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UK NHS Review Tests Palantir’s Role In Sensitive Health Data Contracts
+  summary: The UK government is reviewing whether to extend or terminate Palantir’s £330 million contract to manage the NHS health data platform. Lawmakers have raised concerns about patient data privacy and dependence on a small group of U.S. technology providers. The decision directly affects one of NasdaqGS:PLTR’s largest international public sector healthcare contracts. For NasdaqGS:PLTR, the NHS platform sits at the intersection of government software and healthcare data infrastructure, an area...
+  url: https://finnhub.io/api/news?id=1e7773efca5fc1b3e80e9b4f1412b8af714222e8734fae378caa0e23fec8d8d0

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Preservica and Cadence Solutions Bring Digital Preservation to Microsoft 365 Users
+  summary: BOSTON, MA AND EDMONTON, AB / ACCESS Newswire / June 11, 2026 / Preservica , the global leader in Active Digital Preservation archiving, announced today the expansion of its reseller program through a new partnership withCadence Solutions.Cadence ...
+  url: https://finnhub.io/api/news?id=ab7bb7101319e2f596af0c99173f114a59182f63eb755c2e24f9648d42900c32

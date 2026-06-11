@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Tesla (TSLA) Quietly Rewriting Its Valuation Story With Robotaxis And Grid-Scale Energy Bets?
+  summary: Tesla has recently expanded its unsupervised robotaxi service across the Austin metro area, while securing additional Full Self-Driving approvals in Europe and filing to produce Megapacks and Bento inverters under US foreign-trade zone procedures in Texas. These moves deepen Tesla’s shift from a pure EV manufacturer toward an AI-, software-, and energy-infrastructure platform, with new regulatory, operational, and cost implications for its autonomy and storage ambitions. We’ll now examine...
+  url: https://finnhub.io/api/news?id=5266232639586479bf761a510dc0107b42a9ec7fdc971f144d18d80a7dd2e0a5

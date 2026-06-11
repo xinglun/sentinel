@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: eBay Can Rally Higher on Online Advertising Momentum
+  summary: Online advertising can boost eBay's profit margins in the long run, but that's not the only growth catalyst.
+  url: https://finnhub.io/api/news?id=9dc0908d27faad7ce407fc3dc678dc077edf029b5e01f17d890268c52e6a6d1a

@@ -35,3 +35,4 @@ Timestamp,No_Trade_Persists,Opportunity_Mode_From,Opportunity_Mode_To,Scout_Days
 2026-06-10T00:38:07.041478554+09:00,false,Ready,Ready,0,3,false,2,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","U:NoBreakout->EmergingBreakout(risk+)","NVDA:EmergingBreakout->NoBreakout","",""
 2026-06-11T00:50:42.316164197+09:00,false,Ready,Ready,0,3,false,2,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","","","",""
 2026-06-11T09:42:09.792723137+09:00,false,Ready,Ready,0,3,false,1,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","U:EmergingBreakout->NoBreakout","","",""
+2026-06-12T00:52:15.412968850+09:00,false,Ready,Ready,0,3,false,0,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","GOOG:EmergingBreakout->NoBreakout","","",""

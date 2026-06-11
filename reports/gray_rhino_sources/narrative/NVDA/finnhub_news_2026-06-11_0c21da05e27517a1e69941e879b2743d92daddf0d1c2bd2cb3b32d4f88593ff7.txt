@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Just Put a Monster Target on Micron. Is the Stock Still Too Cheap?
+  summary: Susquehanna analyst Mehdi Hosseini recently slapped a $1,750 price target on Micron (NASDAQ:MU). The stock is trading at below $900, which means the call implies the shares would have to roughly double from here. The number is conspicuous enough that we should treat it as a high-end outlier rather than a Street base case. The 3-month ... Wall Street Just Put a Monster Target on Micron. Is the Stock Still Too Cheap?
+  url: https://finnhub.io/api/news?id=c4359fed2683e189c6b9b1318fd971b631b1d988b7a5e35ab99e680b8fb9f605

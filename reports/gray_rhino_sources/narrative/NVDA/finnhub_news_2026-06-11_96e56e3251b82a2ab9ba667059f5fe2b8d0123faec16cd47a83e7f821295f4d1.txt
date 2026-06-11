@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Panic Selling Nvidia? Here’s Why the AI Blueprint Says That’s Your Biggest Mistake
+  summary: NVIDIA (NASDAQ:NVDA) has plunged 15% from its peak and closed at $200 yesterday. Multiple AI stocks have pulled back in the past week in the Broadcom (NASDAQ:AVGO)-led AI panic. NVDA has now slipped below the $5 trillion mark as I write this. Reddit lit up with capitulation. Many investors believe the top is in, whereas ... Panic Selling Nvidia? Here’s Why the AI Blueprint Says That’s Your Biggest Mistake
+  url: https://finnhub.io/api/news?id=e4802dcffe37356771ad1198647291ccdc7dfd16994fdd5d2eb2304ee7fd4420

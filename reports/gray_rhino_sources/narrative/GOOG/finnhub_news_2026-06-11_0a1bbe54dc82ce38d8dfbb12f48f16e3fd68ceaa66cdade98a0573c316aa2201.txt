@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle: Why I'm Not Buying The Dip
+  summary: Oracle Corporation Q4 earnings: FY27 CapEx guided to $90B vs $61.7B est, spooking shares. Click for this updated look at ORCL stock following its earnings release.
+  url: https://finnhub.io/api/news?id=8aeda9304af09793df11f0b40056739f8396222c0606323a86db2ffe33163743

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Surprising Stock That's Already Cashing in on the SpaceX IPO Hype
+  summary: SpaceX won't be the only company that benefits if it has a successful IPO.
+  url: https://finnhub.io/api/news?id=0edfc65cb91980042c07f5b78aea4beea4fc1a9ba7fbfce63e245c63019730d7

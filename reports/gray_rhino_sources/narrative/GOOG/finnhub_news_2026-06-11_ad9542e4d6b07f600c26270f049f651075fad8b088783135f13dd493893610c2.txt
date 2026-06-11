@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: The Pullback Is A Gift As AI Demand Goes Parabolic (Rating Upgrade)
+  summary: Nvidia Corporation's Q1 FY27 revenue surged 85% and Q2 guides $91B; AI infrastructure demand stays strong into 2028.
+  url: https://finnhub.io/api/news?id=90a7c9eeb8eba606902f74c49d994f1fe31fb397c5b112aed65d6c912dff0362

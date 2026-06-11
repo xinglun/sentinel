@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ArcBest Adds Tesla Semis to ABF Freight Fleet
+  summary: FORT SMITH, Ark., June 11, 2026--Following a successful 2025 pilot, ArcBest is adding two Tesla Semis to the ABF Freight fleet to expand testing of electric Class 8 trucks.
+  url: https://finnhub.io/api/news?id=7ee9f277cc1a35cabf62246fc4d2d94ef9edbc7dd017ac6fe6fcb4a130c3db4c

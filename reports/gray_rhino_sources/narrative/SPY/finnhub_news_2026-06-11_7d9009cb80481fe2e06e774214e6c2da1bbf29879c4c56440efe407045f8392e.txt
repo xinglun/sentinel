@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May CPI Inflation: The Markets Start Worrying
+  summary: May CPI hit 4.2% YoY, fueling Fed tightening fears and a risk-off market shift into defensives like XLP.
+  url: https://finnhub.io/api/news?id=51c54ae1c2a065792bca8c86de8dfc9638b3c567ca7d3f6f0b3840845708ec94

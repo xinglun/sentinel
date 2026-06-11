@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Curious Case Of Microsoft As Shares Slide Below Key Level; Is Microsoft A Sell Now?
+  summary: Microsoft stock has been struggling despite the software maker's earnings beat for its third quarter.
+  url: https://finnhub.io/api/news?id=dc1d8e49182509928fc0a85ed905cb4843ab28c293be9e2044f519f2b7eba3dc

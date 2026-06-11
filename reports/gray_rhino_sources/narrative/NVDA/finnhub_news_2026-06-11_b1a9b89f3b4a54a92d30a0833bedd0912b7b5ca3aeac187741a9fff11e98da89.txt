@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Ford’s Stock Price Down 6% In Five Years?
+  summary: Ford (NYSE: F) has done everything right recently. It abandoned its expensive EV plans, which will save billions of dollars a year. It has launched “Ford Energy,” which Wall St. loves. This operation manufactures lithium-ion phosphate (LFP) batteries for stationary energy storage. The plan is based in part on a partnership with China’s CATL. Ford ... Why Is Ford’s Stock Price Down 6% In Five Years?
+  url: https://finnhub.io/api/news?id=1dedce9b1a651b271211da7ad5eb20d423da78f73fa34eedd6b2b4cbd4bd3b9f

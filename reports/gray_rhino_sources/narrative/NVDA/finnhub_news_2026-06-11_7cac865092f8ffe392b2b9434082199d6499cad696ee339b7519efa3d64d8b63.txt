@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech Frenzy! Why Wall Street Titans Cannot Stop Buying the MGK Dip
+  summary: The Vanguard Mega Cap Growth ETF (NYSEARCA:MGK) just gave back over 6% in a single week, sliding from about $91 to roughly $95. That kind of pullback in a fund this concentrated tends to attract institutional allocators looking to add mega-cap growth exposure on the cheap, and MGK is the cleanest, lowest-cost way to do ... Tech Frenzy! Why Wall Street Titans Cannot Stop Buying the MGK Dip
+  url: https://finnhub.io/api/news?id=364b6266c402fa81d742e6dca5a35451e972dda985d66e4021e3626a420a35bd

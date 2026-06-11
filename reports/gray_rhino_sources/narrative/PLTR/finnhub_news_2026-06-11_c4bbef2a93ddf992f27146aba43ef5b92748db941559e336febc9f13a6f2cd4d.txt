@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Drops 4% as Karp Warns on AI Lab Frustration
+  summary: Karp says enterprise customers are unhappy with frontier AI labs as OpenAI and Anthropic move toward potential public listings.
+  url: https://finnhub.io/api/news?id=f0be88752ae823495bed6dcff237fbc9e0834551980224eb3e8584693917a65a

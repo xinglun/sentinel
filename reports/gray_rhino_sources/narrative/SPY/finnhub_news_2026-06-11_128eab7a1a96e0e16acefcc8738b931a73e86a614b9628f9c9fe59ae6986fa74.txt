@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Federal Reserve To Resist The Urge To Hike U.S. Rates
+  summary: Fed rate hike expectations are growing, but we think it will instead choose to hold steady in anticipation of a reversal of cost pressures in 2027. Read more here.
+  url: https://finnhub.io/api/news?id=61ca285ec3f960675fca494267ba2147a6f500fc0cc7d014779352ac13ff9284

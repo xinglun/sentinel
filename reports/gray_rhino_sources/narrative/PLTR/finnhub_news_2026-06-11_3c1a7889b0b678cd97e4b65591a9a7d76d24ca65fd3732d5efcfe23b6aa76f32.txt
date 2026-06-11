@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exploring High Growth Tech Stocks In The US Market
+  summary: Over the last 7 days, the United States market has seen a decline of 4.1%, yet it remains up by 21% over the past year with earnings projected to grow by 18% annually in the coming years. In this context, identifying high growth tech stocks involves looking for companies that not only demonstrate robust innovation and scalability but also have strong fundamentals to navigate current market fluctuations.
+  url: https://finnhub.io/api/news?id=a01904c0edf7b35ac412e991ec11b15588bf2b7f74e2d37cdf70d6dc9e96cac1

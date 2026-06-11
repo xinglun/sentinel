@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Alphabet Stock Down 10% From Its All-Time Highs?
+  summary: Alphabet stock has gone straight up over the past year.
+  url: https://finnhub.io/api/news?id=4eb3565739c517ce35c89212df055a6d3ffd0dbf3af7ffbc6c57c7ebf0c0b2de

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This 2x Super Micro ETF Just Soared 175% in One Month. The YTD Number Is Wilder.
+  summary: If you put $10,000 into the Defiance Daily Target 2X Long SMCX ETF (NASDAQ:SMCX) on the morning of May 8, 2026, you were sitting on about $14,100 a month later. That is a 41% one-month run, not the triple-digit headline number floating around screenshots on social media, and the gap between those two figures is ... This 2x Super Micro ETF Just Soared 175% in One Month. The YTD Number Is Wilder.
+  url: https://finnhub.io/api/news?id=206ea6d41c7d644e635fa8317278b0f4785ef9f083cec7eb91bb950360590a86

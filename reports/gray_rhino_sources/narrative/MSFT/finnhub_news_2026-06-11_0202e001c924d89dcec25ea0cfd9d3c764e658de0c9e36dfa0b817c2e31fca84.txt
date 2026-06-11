@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Thinks Your Data Is Too Stubborn to Move (and AI Agrees)
+  summary: Data gravity is real, and IBM is building its AI strategy around it. Here's what you need to know.
+  url: https://finnhub.io/api/news?id=93d51e6019f69329cc2f01d319d8f48151b436c493d9a74ef1f5ea33a5f17cc4

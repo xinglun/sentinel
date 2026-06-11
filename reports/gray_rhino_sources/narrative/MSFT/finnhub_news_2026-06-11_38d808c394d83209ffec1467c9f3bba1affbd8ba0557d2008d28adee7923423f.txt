@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA Corporation (NVDA) Expands Partnership with Microsoft For Agentic AI Deployment
+  summary: NVIDIA Corporation (NASDAQ:NVDA) is one of the analyst-favorite stocks and is widely held by hedge funds, ranking among the 10 best stocks to buy for the next 3 months. NVIDIA Corporation (NASDAQ:NVDA), after announcing its RTX Spark in collaboration with Microsoft, has now partnered with the Windows developer on a unified stack for agentic AI […]
+  url: https://finnhub.io/api/news?id=6a0fa4fd6d6ecaed7d78a5125aa96bd22376b2a18d508a2c182d2eb9739ea0e9

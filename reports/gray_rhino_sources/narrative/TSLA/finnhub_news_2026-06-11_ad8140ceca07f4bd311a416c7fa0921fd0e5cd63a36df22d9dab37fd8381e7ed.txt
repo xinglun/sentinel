@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Got Its First Analyst Ratings
+  summary: While New Street Research analyst Pierre Ferragu went more conservative with no rating, analysts at KGI and Oppenheimer opted for a Buy rating.
+  url: https://finnhub.io/api/news?id=047f8d958e0545bb9863c2a63c8c1b34298cd03a25eb97661bd285aa0fde5d22

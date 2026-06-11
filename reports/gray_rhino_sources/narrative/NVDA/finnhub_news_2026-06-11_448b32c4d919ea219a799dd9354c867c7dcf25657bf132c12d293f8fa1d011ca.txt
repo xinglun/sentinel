@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Elon Musk Will Target 2 Trillion-Dollar Acquisitions After the SpaceX IPO
+  summary: The market is already treating tomorrow’s SpaceX IPO as one of the most important public offerings in decades. Investors are focused on valuation, demand, and whether the company can justify the excitement surrounding a business that spans launch services, Starlink internet, artificial intelligence, robotics, and advanced manufacturing. Yet the bigger story may be what happens ... Prediction: Elon Musk Will Target 2 Trillion-Dollar Acquisitions After the SpaceX IPO
+  url: https://finnhub.io/api/news?id=5f7d9110467c3c58240c9bab35b19a84df69be7b893cec6b6eb5f010395718ab

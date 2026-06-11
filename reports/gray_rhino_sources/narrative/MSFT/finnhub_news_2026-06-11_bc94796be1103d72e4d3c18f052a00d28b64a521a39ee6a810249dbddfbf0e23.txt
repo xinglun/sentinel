@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street’s $800 Billion AI Data Center Bet Is Showing Cracks. Only 84 of 157 Gigawatts Will Be Built by 2030
+  summary: Although Wall Street has rewarded every hyperscaler willing to pledge more silicon, more concrete, and more megawatts over the past 24 months, the math behind the AI data center boom is finally drawing scrutiny. Combined 2026 capital expenditure guidance from Alphabet (NASDAQ:GOOGL), Meta Platforms (NASDAQ:META), Amazon (NASDAQ:AMZN), and Microsoft (NASDAQ:MSFT) now sums to roughly $800 ... Wall Street’s $800 Billion AI Data Center Bet Is Showing Cracks. Only 84 of 157 Gigawatts Will Be Built by
+  url: https://finnhub.io/api/news?id=a9a994ea212a120fe24f5ffbf16cafc0caf8fc0433e100123998002fea0676b0

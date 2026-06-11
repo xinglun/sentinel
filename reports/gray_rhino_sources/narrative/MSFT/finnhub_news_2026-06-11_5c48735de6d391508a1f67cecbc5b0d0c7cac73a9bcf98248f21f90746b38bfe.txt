@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Stocks I'm Looking To Buy If Inflation Sparks A Market Sell-Off
+  summary: 
+  url: https://finnhub.io/api/news?id=30b8be65de0439d566425e85635afcaf9dd431c4bcb2dd59b3b94c065c26c744

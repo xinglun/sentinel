@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did Google Just Give Investors 30 Billion Reasons to Buy the SpaceX IPO?
+  summary: Google just signed a $30 billion compute capacity deal with SpaceX.
+  url: https://finnhub.io/api/news?id=416dd818e5558dbc7e8de6119eb7053e35c130cae8494208134631349476506b

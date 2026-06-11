@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk To Pitch Terafab Semiconductor Factory To ASML Ahead Of SpaceX IPO
+  summary: Elon Musk will attend an ASML event on Thursday to discuss his plans for the Terafab semiconductor factory.
+  url: https://finnhub.io/api/news?id=cf600bb0a25d50b1fc8dbbc2c9ae90480a2585ec9fddae108101b1189f69676e

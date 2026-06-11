@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow, S&P 500, Nasdaq 100 Futures Gain Despite Trump's Threats To Iran—Oracle, CoreWeave, Visa In Focus (UPDATED)
+  summary: (Editor’s note: The ETF futures, headline and economic data were updated in this story)
+
+
+
+U.S. stock futures rose on Thursday, as the Nasdaq 100, S&amp;P 500, and the Dow Jones indices advanced, following Wednesday’s lower close.
+  url: https://finnhub.io/api/news?id=0e28d7af97fa9292e7a8ab10c2da2e01d8c812dade8f696cd1b54873fee05f94

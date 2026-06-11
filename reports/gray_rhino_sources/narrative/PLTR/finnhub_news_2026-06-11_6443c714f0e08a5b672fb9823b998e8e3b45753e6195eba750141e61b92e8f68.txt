@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO Will Mint Billions for a New Silicon Valley Hierarchy
+  summary: (Bloomberg) -- The initial public offering for SpaceX is poised to generate billions of dollars in profits for the fortunate few investors who got in early on Elon Musk’s rocket, satellite and artificial intelligence company.Most Read from BloombergHouse Republican Says Hegseth’s D-Day Remarks ‘Inappropriate’Xbox Plans Significant Layoffs as New CEO Plans OverhaulUS Strikes Iran in Trump Escalation Over Stalled Peace TalksTech Stocks Sink as Oil Jumps on US-Iran Jitters: Markets WrapH-1B Visa Ru
+  url: https://finnhub.io/api/news?id=9d14d3b84e057b77240dea682bb4debb034845efcc87f9267ec54348cf1fa84c

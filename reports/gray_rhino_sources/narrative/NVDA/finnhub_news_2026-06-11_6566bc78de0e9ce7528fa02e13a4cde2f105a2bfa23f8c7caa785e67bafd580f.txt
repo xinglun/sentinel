@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Isn’t Crashing. Investors Are Just Fleeing Technology Stocks.
+  summary: Whenever the Nasdaq 100 slides more than 4% in a single day, as it did on Friday, it can feel like the stock market is crashing. Undoubtedly, it’s never fun when stocks experience their worst days in some number of months or even years. After all, historic stock market crashes tend to happen shortly after ... The Stock Market Isn’t Crashing. Investors Are Just Fleeing Technology Stocks.
+  url: https://finnhub.io/api/news?id=0f272e6c4951d420484191ae815f90e59f5ab0789dbbcff0d3818e44d990445a

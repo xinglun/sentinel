@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave’s Credit Rebound Spurs Cheaper Data Center Funding
+  summary: (Bloomberg) -- When Applied Digital Corp. first tapped the junk-bond market in November to fund a data center project tied to CoreWeave Inc., it had to stomach a hefty yield to get the deal done. Fast forward to this week, and borrowing costs for another portion of the same project tumbled.Most Read from BloombergHouse Republican Says Hegseth’s D-Day Remarks ‘Inappropriate’Xbox Plans Significant Layoffs as New CEO Plans OverhaulUS Strikes Iran in Trump Escalation Over Stalled Peace TalksTech Sto
+  url: https://finnhub.io/api/news?id=8bab9fb8f378458630fe4072ac220f40ce27c724cc2048a85b8a010760119d90

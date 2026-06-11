@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mastercard Launches Agent Pay to Enable AI-Powered Machine-to-Machine Payments
+  summary: Mastercard introduced Agent Pay for Machines on June 10, a service that lets AI agents and connected systems pay one another automatically across its global ...
+  url: https://finnhub.io/api/news?id=91d4a9c79bae27a65b71b518449f423a46774eeb8d348a9d4cdbb95fc0f60955

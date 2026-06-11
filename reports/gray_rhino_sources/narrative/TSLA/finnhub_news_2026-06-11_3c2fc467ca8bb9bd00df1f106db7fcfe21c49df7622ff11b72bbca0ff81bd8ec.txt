@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Am Buying Tesla Before The Market Fully Prices The SpaceX Effect
+  summary: Tesla, Inc. Strong Buy: price target $927 (+137%) driven by FSD subscriptions, Robotaxi, Optimus, energy storage and earnings growth. Click for more on TSLA.
+  url: https://finnhub.io/api/news?id=00c2ea12e0e2f6f602cb8a65c82e6c934a9c7af9ae25cb993dd0571f337a14c8

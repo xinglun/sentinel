@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Heading For The Exits
+  summary: SpaceXâs reported $75B raise and AI IPO wave hint at insider selling, gated private funds, and frothy market valuationsâlearn what it means for investors...
+  url: https://finnhub.io/api/news?id=e4af667488083b73cfa5758a16667785720005a229a1fb5da473ccec909e533c

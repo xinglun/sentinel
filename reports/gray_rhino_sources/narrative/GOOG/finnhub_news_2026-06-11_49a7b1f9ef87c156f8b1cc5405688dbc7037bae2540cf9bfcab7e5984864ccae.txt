@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is Google Hiding Behind Its AI Silence?
+  summary: Management has shifted the spotlight from mass-market AI adoption to a massive enterprise backlog, leaving investors with a critical question: which engine still pays the bills.
+  url: https://finnhub.io/api/news?id=a23c51100d1b61d140cca69d6b7cd19558a2a4ed38edb268d39435d0e8cb4b44

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Super Micro initiated at Neutral as AI boom offset by margin, legal risk
+  summary: Investing.com -- Super Micro Computer shares were in focus Thursday after Wolfe Research initiated coverage of the AI server maker with a Peer Perform rating, arguing that while the company is well positioned to benefit from surging demand for artificial intelligence infrastructure, a range of operational, financial and regulatory risks could limit upside.
+  url: https://finnhub.io/api/news?id=d418498926240e39da6c3a92f7c4297c1473191966cb9aa3dea4e138b65139a6

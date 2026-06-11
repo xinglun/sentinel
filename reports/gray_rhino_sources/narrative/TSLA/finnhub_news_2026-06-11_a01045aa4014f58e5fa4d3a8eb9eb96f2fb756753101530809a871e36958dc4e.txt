@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk's Terafab Plans Put ASML In Investor Spotlight
+  summary: Musk is expected to discuss a chip venture tied to Tesla, SpaceX, and ASML's lithography systems.
+  url: https://finnhub.io/api/news?id=35da2ac8b95d2321ff005786f84a4c4a6f4122ae705e1dd9f84174316322214b

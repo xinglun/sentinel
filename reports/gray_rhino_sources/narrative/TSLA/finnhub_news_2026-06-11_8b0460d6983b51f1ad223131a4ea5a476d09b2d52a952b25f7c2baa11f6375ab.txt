@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk to Address ASML Event as SpaceX IPO Nears and Terafab Plans Advance (SPCX)
+  summary: Elon Musk is set to make a virtual appearance at a technology event hosted by semiconductor equipment leader ASML on Thursday, where he is expected to discuss Terafab, his proposed large-scale semiconductor manufacturing project designed to supply chips for Tesla (NASDAQ:TSLA) and SpaceX (NASDAQ:SPCX). The appearance comes as investors await the pricing of SpaceX’s initial public offering, which is expected later on Thursday and could become the largest IPO ever completed.
+  url: https://finnhub.io/api/news?id=eee9c469eaf0f22df4f56670148e353bb3aa065a53ec02b732b5260cea9de25d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Artificial Agency Names Greg Canessa as Chief Operating Officer
+  summary: Game industry veteran joins executive team to grow commercial capabilities and support studio adoption of generative behavior engineEDMONTON, Alberta, June 11, 2026 (GLOBE NEWSWIRE) -- Artificial Agency, an AI company pioneering generative behavior for gaming, today announced Greg Canessa as its Chief Operating Officer. A seasoned gaming industry veteran for over 25 years, Canessa has previously held senior executive positions at Activision Blizzard, Microsoft Xbox, GSN (a division of Sony), and
+  url: https://finnhub.io/api/news?id=8b29c3e4b1c7ab230bd1ccae84024fe91d5962e9cc98fbdcdaa06ddbc014844b

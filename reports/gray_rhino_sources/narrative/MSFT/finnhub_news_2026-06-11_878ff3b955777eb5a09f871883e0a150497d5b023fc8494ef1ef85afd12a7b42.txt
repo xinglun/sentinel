@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MN8 Energy launches 260MWac solar projects for Microsoft in US
+  summary: The two projects are 120MW Long Point Solar in Brazoria County, Texas, and 140MW American Beech in Halifax County, North Carolina.
+  url: https://finnhub.io/api/news?id=d9229dae11503e21c024e31c3e0aeba0560e946335197f4652a3e5520fb4573c

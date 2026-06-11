@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX is poised to make history with record $75-billion stock IPO
+  summary: SpaceX is seeking to sell 555 million shares at $135 each, raising $75 billion and valuing the rocket maker at $1.77 trillion — making it one of the largest public companies.
+  url: https://finnhub.io/api/news?id=dab0435d7ed377981a202f981aea4da7f0cc81236f120dd6efb8a5c3bafa269a
