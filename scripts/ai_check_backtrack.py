@@ -54,9 +54,9 @@ def changed_name_status() -> list[tuple[str, str]]:
         raise RuntimeError(result.stderr.strip())
     changes: list[tuple[str, str]] = []
     for line in result.stdout.splitlines():
-        parts = line.split("\t", 1)
-        if len(parts) == 2:
-            changes.append((parts[0], parts[1]))
+        parts = line.split("\t")
+        if len(parts) >= 2:
+            changes.append((parts[0], parts[-1]))
 
     if diff_base:
         return changes
@@ -117,6 +117,9 @@ def approvals_for_changes(
         if path.startswith(".ai/work-items/") and path.endswith(".contract.json"):
             contract = PROJECT_ROOT / path
             pairs.append((contract, Path(str(contract).replace(".contract.json", ".summary.json"))))
+        if path.startswith(".ai/work-items/") and path.endswith(".summary.json"):
+            summary = PROJECT_ROOT / path
+            pairs.append((Path(str(summary).replace(".summary.json", ".contract.json")), summary))
     approvals: list[DestructiveApproval] = []
     for contract, summary in dict.fromkeys(pairs):
         approval = load_approval(contract, summary)

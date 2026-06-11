@@ -1,0 +1,121 @@
+{
+  "contractVersion": 1,
+  "workItemId": "fix-backtrack-archive-summary-context",
+  "mode": "code",
+  "title": "backtrack guard archive summary 文脈修正",
+  "scope": [
+    "scripts/ai_check_backtrack.py",
+    "scripts/ai_test_backtrack.py",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/fix-backtrack-archive-summary-context.contract.json",
+    ".ai/work-items/active/fix-backtrack-archive-summary-context.summary.json"
+  ],
+  "outOfScope": [
+    "src/**",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "CI の裸 make check-ai で archive 済み Work Item Summary の destructiveChanges が参照されず、削除済み active evidence が誤検出される。"
+    },
+    {
+      "path": "scripts/ai_test_backtrack.py",
+      "reason": "archive Summary context を持たない裸 backtrack guard の回帰を固定する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix-weekly-report-i18n-labels.summary.json",
+      "reason": "CI failure の対象。destructiveChanges は記録済みだが、裸 check-ai の approval 探索に含まれていない。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "backtrack guard の approval 探索範囲を広げる変更。未文書化 deletion を誤って許可しないよう、archive Summary の destructiveChanges と allowPatterns の両方を必須にする。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "CI failure の原因と修正範囲が特定済み。guard / test / Work Item 記録のみを変更する。"
+  },
+  "preReviewWarnings": [
+    "archive Summary を自動探索するが、destructiveChangePolicy.allowed と Summary destructiveChanges が揃わない deletion は引き続き fail することを test で確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "裸の make check-ai / make check-ai-backtrack でも、archive 済み Work Item の Contract / Summary に記録された destructive cleanup を approval として参照できる。",
+    "archive Summary に destructiveChanges がない場合、または allowPatterns が削除 path に一致しない場合は削除を許可しない。",
+    "active -> archive の同一内容 move 検証は維持し、過去 archive の同名ファイルだけでは削除を許可しない。",
+    "修正は AI guard とその test のみ。product runtime / DDD 境界 / weekly report output には影響しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-backtrack-archive-summary-context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-backtrack-archive-summary-context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-backtrack-archive-summary-context.contract.json SUMMARY=.ai/work-items/active/fix-backtrack-archive-summary-context.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-backtrack-archive-summary-context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-backtrack-archive-summary-context.summary.json CONTRACT=.ai/work-items/active/fix-backtrack-archive-summary-context.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-backtrack-archive-summary-context.contract.json SUMMARY=.ai/work-items/active/fix-backtrack-archive-summary-context.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-backtrack-archive-summary-context.contract.json SUMMARY=.ai/work-items/active/fix-backtrack-archive-summary-context.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "fix-backtrack-archive-summary-context の diff を revert する。"
+}

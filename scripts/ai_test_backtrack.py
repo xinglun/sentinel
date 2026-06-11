@@ -9,7 +9,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 import ai_check_backtrack
-from ai_check_backtrack import DestructiveApproval, detect_items
+from ai_check_backtrack import DestructiveApproval, approvals_for_changes, detect_items
 
 
 def assert_count(items: list[object], expected: int, message: str) -> None:
@@ -107,6 +107,82 @@ def test_active_work_item_archive_move_requires_matching_content() -> None:
     assert_count(items, 1, "archive move with mismatched content must fail")
 
 
+def test_archive_summary_destructive_cleanup_is_loaded_without_explicit_args() -> None:
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        contract = root / ".ai/work-items/archive/2026/example.contract.json"
+        summary = root / ".ai/work-items/archive/2026/example.summary.json"
+        contract.parent.mkdir(parents=True)
+        contract.write_text(
+            """
+{
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "allowPatterns": [
+      ".ai/work-items/active/example.summary.json"
+    ]
+  }
+}
+""".lstrip(),
+            encoding="utf-8",
+        )
+        summary.write_text(
+            """
+{
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/example.summary.json",
+      "reason": "Work Item 完了に伴い archive/2026 へ移動した。"
+    }
+  ]
+}
+""".lstrip(),
+            encoding="utf-8",
+        )
+
+        with patch.object(ai_check_backtrack, "PROJECT_ROOT", root):
+            changes = [
+                ("D", ".ai/work-items/active/example.summary.json"),
+                ("A", ".ai/work-items/archive/2026/example.summary.json"),
+            ]
+            approvals = approvals_for_changes(changes, None, None)
+            items = detect_items(changes, approvals)
+
+    assert_count(items, 0, "archive summary cleanup approval should load without explicit args")
+
+
+def test_archive_summary_cleanup_still_requires_documentation() -> None:
+    with TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        contract = root / ".ai/work-items/archive/2026/example.contract.json"
+        summary = root / ".ai/work-items/archive/2026/example.summary.json"
+        contract.parent.mkdir(parents=True)
+        contract.write_text(
+            """
+{
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "allowPatterns": [
+      ".ai/work-items/active/example.summary.json"
+    ]
+  }
+}
+""".lstrip(),
+            encoding="utf-8",
+        )
+        summary.write_text('{"destructiveChanges":[]}\n', encoding="utf-8")
+
+        with patch.object(ai_check_backtrack, "PROJECT_ROOT", root):
+            changes = [
+                ("D", ".ai/work-items/active/example.summary.json"),
+                ("A", ".ai/work-items/archive/2026/example.summary.json"),
+            ]
+            approvals = approvals_for_changes(changes, None, None)
+            items = detect_items(changes, approvals)
+
+    assert_count(items, 1, "archive summary cleanup approval must be documented")
+
+
 def main() -> int:
     cases = [
         test_deleted_test_without_approval_fails,
@@ -115,6 +191,8 @@ def main() -> int:
         test_active_work_item_archive_move_is_allowed,
         test_active_work_item_stale_archive_counterpart_still_fails,
         test_active_work_item_archive_move_requires_matching_content,
+        test_archive_summary_destructive_cleanup_is_loaded_without_explicit_args,
+        test_archive_summary_cleanup_still_requires_documentation,
     ]
     for case in cases:
         case()
