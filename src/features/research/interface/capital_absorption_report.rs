@@ -47,9 +47,20 @@ pub(crate) fn build_capital_absorption_report_from_config(
         snapshot.status
     ));
     push_supply_event_counts(&mut out, &snapshot.supply_event_counts, language);
-    push_actual_capital_supply(&mut out, &snapshot.capital_demand, language);
+    push_actual_capital_supply(
+        &mut out,
+        &snapshot.capital_demand,
+        &snapshot.observed_events,
+        language,
+    );
     push_potential_supply_trend(&mut out, &snapshot.potential_supply_trend, language);
-    push_potential_supply_pressure(&mut out, &snapshot.potential_supply_pressure, language);
+    push_potential_supply_pressure(
+        &mut out,
+        &snapshot.potential_supply_pressure,
+        &snapshot.ai_ipo_queue,
+        &snapshot.capital_demand,
+        language,
+    );
     push_ai_ipo_queue(&mut out, &snapshot.ai_ipo_queue, language);
     push_ipo_queue_history(&mut out, &snapshot.ipo_queue_history, language);
     push_capital_absorption_events(&mut out, &snapshot.observed_events, language);
@@ -92,6 +103,7 @@ struct CapitalAbsorptionRenderEvent {
     description: String,
     source_count: usize,
     supply_kind: CapitalAbsorptionSupplyKind,
+    amount_usd_b: Option<f64>,
 }
 
 struct CapitalDemandRenderSnapshot {
@@ -209,6 +221,7 @@ impl CapitalAbsorptionRenderEvent {
             description: value.description.clone(),
             source_count: 1,
             supply_kind,
+            amount_usd_b: value.amount_usd_b,
         }
     }
 
@@ -219,6 +232,7 @@ impl CapitalAbsorptionRenderEvent {
             description: value.description.clone(),
             source_count: value.source_count,
             supply_kind: value.supply_kind,
+            amount_usd_b: value.amount_usd_b,
         }
     }
 }
@@ -335,6 +349,7 @@ fn discovery_summary_counts(events: &[CapitalAbsorptionRenderEvent]) -> Vec<(Str
 fn push_actual_capital_supply(
     out: &mut String,
     demand: &CapitalDemandRenderSnapshot,
+    events: &[CapitalAbsorptionRenderEvent],
     language: Language,
 ) {
     out.push_str(capital_absorption_actual_supply_label(language));
@@ -373,6 +388,43 @@ fn push_actual_capital_supply(
         out.push_str(capital_absorption_no_actual_supply(language));
         out.push('\n');
     }
+
+    let mut contributors = Vec::new();
+    for event in events {
+        if event.supply_kind == CapitalAbsorptionSupplyKind::Actual {
+            if let Some(amount) = event.amount_usd_b {
+                if amount > 0.0 {
+                    let family =
+                        match crate::features::research::domain::capital_absorption::event_family(
+                            &event.description,
+                        ) {
+                            "convertible_debt" => "Convertible Debt",
+                            "secondary_offering" => "Secondary Offering",
+                            "ipo" => "IPO",
+                            "secondary_liquidity" => "Secondary Liquidity",
+                            _ => "Financing",
+                        };
+                    contributors.push(format!(
+                        "{} {}: {}",
+                        event.subject,
+                        family,
+                        format_usd(amount)
+                    ));
+                }
+            }
+        }
+    }
+
+    if !contributors.is_empty() {
+        out.push('\n');
+        out.push_str(capital_absorption_actual_supply_contributors_label(
+            language,
+        ));
+        out.push_str("\n\n");
+        for c in contributors {
+            out.push_str(&format!("* {}\n", c));
+        }
+    }
     out.push('\n');
 }
 
@@ -389,6 +441,8 @@ fn push_potential_supply_trend(out: &mut String, trend: &str, language: Language
 fn push_potential_supply_pressure(
     out: &mut String,
     pressure: &CapitalAbsorptionPotentialSupplyPressure,
+    queue: &[CapitalAbsorptionIpoQueueItem],
+    demand: &CapitalDemandRenderSnapshot,
     language: Language,
 ) {
     out.push_str(capital_absorption_potential_supply_pressure_label(language));
@@ -409,10 +463,59 @@ fn push_potential_supply_pressure(
         pressure.reported_count
     ));
     out.push_str(&format!(
-        "- {}: {}\n\n",
+        "- {}: {}\n",
         capital_absorption_confirmed_count_label(language),
         pressure.confirmed_count
     ));
+
+    let mut reasons = Vec::new();
+    if let Some(actual_usd) = demand.rolling_12m_usd_b {
+        if actual_usd > 0.0 {
+            let actual_supply_label = match language {
+                Language::ZhCn => "Actual Supply",
+                Language::EnUs => "Actual Supply",
+                Language::JaJp => "Actual Supply",
+            };
+            reasons.push(format!(
+                "{}: {}",
+                actual_supply_label,
+                format_usd(actual_usd)
+            ));
+        }
+    }
+
+    let mut queue_items = queue
+        .iter()
+        .filter(|item| item.source_count > 0)
+        .cloned()
+        .collect::<Vec<_>>();
+
+    queue_items.sort_by(|a, b| {
+        b.event_type
+            .cmp(&a.event_type)
+            .then_with(|| b.source_count.cmp(&a.source_count))
+            .then_with(|| a.issuer.cmp(&b.issuer))
+    });
+
+    for item in queue_items {
+        let event_type_str = match item.event_type {
+            CapitalAbsorptionObservationEventType::Confirmed => "Confirmed",
+            CapitalAbsorptionObservationEventType::Reported => "Reported",
+            CapitalAbsorptionObservationEventType::Rumor => "Rumor",
+        };
+        reasons.push(format!("{} ({})", item.issuer, event_type_str));
+    }
+
+    let reasons_to_show = reasons.into_iter().take(5).collect::<Vec<_>>();
+    if !reasons_to_show.is_empty() {
+        out.push('\n');
+        out.push_str(capital_absorption_reason_label(language));
+        out.push_str(":\n");
+        for r in reasons_to_show {
+            out.push_str(&format!("* {}\n", r));
+        }
+    }
+    out.push('\n');
 }
 
 fn push_supply_event_counts(
@@ -631,5 +734,13 @@ fn push_optional_usd(out: &mut String, label: &str, value: Option<f64>) {
 fn push_optional_score(out: &mut String, label: &str, value: Option<f64>) {
     if let Some(value) = value {
         out.push_str(&format!("- {label} {value:.2}\n"));
+    }
+}
+
+fn format_usd(val: f64) -> String {
+    if (val - val.round()).abs() < 0.01 {
+        format!("${:.0}B", val)
+    } else {
+        format!("${:.1}B", val)
     }
 }
