@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Karp says businesses are 'unhappy' with the frontier AI labs
+  summary: Palantir CEO Alex Karp says AI will drive the most important political decisions in the U.S. and shouldn't be decided by party lines.
+  url: https://finnhub.io/api/news?id=078c2407832297d7602dc7433d96eb41e631c8e9b65674c00b9fbe0cc2b67147

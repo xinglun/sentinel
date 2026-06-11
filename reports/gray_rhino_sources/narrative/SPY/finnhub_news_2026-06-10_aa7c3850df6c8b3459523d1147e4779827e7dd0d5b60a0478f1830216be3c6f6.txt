@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RSP vs. SPY: Does Equal Weight Beat the Cap-Weighted S&P 500?
+  summary: The choice between the Invesco S&P 500 Equal Weight ETF (NYSEARCA:RSP) and the SPDR S&P 500 ETF Trust (NYSEARCA:SPY) looks trivial on a fund screener. You have the same 500 companies, both tracking the S&P 500, and both are cheap. The weighting scheme is the entire story, as SPY’s cap-weighted holdings allocate 7.58% of the ... RSP vs. SPY: Does Equal Weight Beat the Cap-Weighted S&P 500?
+  url: https://finnhub.io/api/news?id=be39dde876d271e652a29d48d11632d2b8dadb1dc2d1847fd12119671d50e427

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Axios Correspondent Barak Ravid Posts On X "U.S. strikes on Iran started, U.S. official tells me"
+  summary: https://x.com/barakravid/status/2064823507511308577?s=46&amp;t=dtUiyC3dUs5yGRgT9qYHWg
+  url: https://finnhub.io/api/news?id=a3b142b8f127c6f89a149848998390b3527d8ce8cf0494bc729bd0bcc9a90da2

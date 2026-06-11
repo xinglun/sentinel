@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Stock And The Five-Billion Dollar Whisper
+  summary: Before the chipmaker’s triple-digit surge, the most telling signal wasn’t a secret; it was the company’s own rapidly escalating ambition.
+  url: https://finnhub.io/api/news?id=d24c6099e144bbcb3919744e6cbb8410a419d07d3ad6a3b8ecf23a7cd91a405c

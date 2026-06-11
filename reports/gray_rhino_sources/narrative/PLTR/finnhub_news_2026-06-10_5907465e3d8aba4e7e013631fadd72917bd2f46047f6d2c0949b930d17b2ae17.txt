@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wedbush Gives a Thumbs Up to Palantir’s AIPCon, But I Think AIPCon 2026 Was a Dud for PLTR Stock
+  summary: Wedbush maintains an "Outperform" rating on Palantir stock.
+  url: https://finnhub.io/api/news?id=7ec7fc46ad8bf9a6fdd749d2af9df1ab163a37a25c706fd7ff0907f1033952c8

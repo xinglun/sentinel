@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Is the Latest AI Giant to Sign a Blockbuster Deal With This Under-the-Radar Semiconductor Company (Behind Nvidia and Meta)
+  summary: This company is applying its 175 years of experience to transform the artificial intelligence industry.
+  url: https://finnhub.io/api/news?id=e2cf0352e3c6687e1c9923cb35ef15dac3af9ef0a24b51100f900d9fe158ae8a

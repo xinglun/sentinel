@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Is Looking Through The May CPI Report
+  summary: May CPI hit 4.2% but is fuel-skewed. Click here to see why core stays under 3%, shelter is cooling, inflation varies by region, and hikes likely end.
+  url: https://finnhub.io/api/news?id=4915594180e918f8ca1d4123e4724b06256f16609c275f82c300265697626f24

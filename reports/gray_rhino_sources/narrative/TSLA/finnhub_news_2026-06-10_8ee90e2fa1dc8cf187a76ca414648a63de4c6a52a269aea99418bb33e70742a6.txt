@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Challenger XPeng’s CEO Takes Over Robotics Division After Key Executive Departure – XPEV Slides For Sixth Straight Session
+  summary: According to a Reuters report, CEO He Xiaopeng will take over leadership of XPeng's robotics division immediately as the company moves toward starting mass production of its humanoid robots by the end of the year.
+  url: https://finnhub.io/api/news?id=5ca5cbb425670fa090d8bc95d2b9f509de49842602919dba5fac4392e069bfd7

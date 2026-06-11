@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iren's Ability to Rapidly Scale Its Data Center Footprint Makes It a Long-Term Winner
+  summary: Iren has doubled its gigawatt portfolio since the start of the year.
+  url: https://finnhub.io/api/news?id=527e2ff3cd677c7efa99fe0bed2363fe1a536ff4f0c764ca0da6751a55905fbb

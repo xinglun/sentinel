@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: OpenAI in Advanced Talks for Ohio Data Center Lease
+  summary: Microsoft-backed (MSFT) OpenAI is in advanced talks to lease a proposed 10-gigawatt data center camp
+  url: https://finnhub.io/api/news?id=d632ab316f1fec0e297bad8285d6167327f46e39f46ecfc6d7c9de8eceb425f8

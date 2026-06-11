@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley revamps Apple stock target after key event
+  summary: Apple (AAPL) has spent the bulk of the past couple of years trying to convince investors it has not fallen behind in the relentless AI race. Morgan Stanley buys that story. According to TheFly, the firm reset its price target on Apple stock after WWDC 2026, saying the event gave investors a sharper ...
+  url: https://finnhub.io/api/news?id=cc2850a828e689c3aed28bf6131d14dc74ed717fcce9de3554eb8e63471e51aa

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Q4: Back To Buy Territory
+  summary: Oracle Corporation delivered a solid Q4, beating on non-GAAP EPS and revenue, and raised full-year guidance. Learn more about ORCL stock here.
+  url: https://finnhub.io/api/news?id=8f79a679392449f7a4f158712b8cfb905ff5b1466a2d20300c59f0f2e734e489

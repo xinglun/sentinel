@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: McCarthy, Palantir partner on AI
+  summary: The news comes as enterprise-level agreements on artificial intelligence gain ground among large contractors.
+  url: https://finnhub.io/api/news?id=06d96f52177ab306435c17bf4afcd47532b7681c366979f5094ddc1eb52a7b24

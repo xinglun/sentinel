@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft limits employee use of Anthropic's Claude Fable 5 over data retention concerns, The Verge reports
+  summary: Microsoft is limiting employees' use of Anthropic's Claude Fable 5 because of the AI startup's ‌new data retention requirements, The Verge reported on Wednesday, ‌citing sources.  Anthropic on Tuesday said it is rolling out Claude Fable 5, a ​public version of its Mythos AI model, with guardrails barring its use in risky areas such as cybersecurity.  Claude Fable 5 is the most powerful model Anthropic has made available for wider use, with ‌the company citing its ⁠performance in software engineering and analytics.
+  url: https://finnhub.io/api/news?id=cee457702e5958a72771b1a053c2cb2b67291e1d022f0b7821c5d15c34d7f05f

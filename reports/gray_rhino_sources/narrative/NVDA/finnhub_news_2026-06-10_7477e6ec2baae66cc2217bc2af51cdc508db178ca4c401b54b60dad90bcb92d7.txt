@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures Fall As Trump Attacks Iran, Oracle Tumbles Late; SpaceX IPO On Launch Pad
+  summary: Futures fell as Trump launched new U.S. attacks vs. Iran while Oracle tumbled on earnings. The SpaceX IPO is on tap.
+  url: https://finnhub.io/api/news?id=3829a65128e078d0e43e18f2558bb77ff9b691fcfd81df0f2774a68df1bfc051

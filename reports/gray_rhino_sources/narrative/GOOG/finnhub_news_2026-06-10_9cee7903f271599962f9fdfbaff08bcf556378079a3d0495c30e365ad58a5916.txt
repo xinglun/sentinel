@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wing drone delivery might not be a novelty anymore
+  summary: Wing is expanding into seven more U.S. cities through its partnership with Walmart.
+  url: https://finnhub.io/api/news?id=e9802cf51fabba265505a21d0a6db21944bcf6d441f98bf3d6d880ec5960b947

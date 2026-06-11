@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Fall Late Afternoon
+  summary: Tech stocks were lower late Wednesday afternoon, with the State Street Technology Select Sector SPDR
+  url: https://finnhub.io/api/news?id=8f5b58d79dc418f339f13ed1641a28b7c338d0a53b51c9d58b704d98c5cd6d08

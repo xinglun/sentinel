@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Cuts Azure Jobs in China
+  summary: The reported layoffs come as cloud and data rules grow more complex between the U.S. and China.
+  url: https://finnhub.io/api/news?id=86c5610917c9ef6224ebfb0e03b9033f66c00f64f0703e6985c89f78e7ea19aa

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Hidden Flywheel That Could Reignite Salesforce Stock
+  summary: While the market frets about lagging indicators, a powerful link between AI usage and customer spending is quietly taking shape.
+  url: https://finnhub.io/api/news?id=81fdd8e6fe8e80cb0e060f7ade96f8f202dc92107b211d20e5e904f78ea28415

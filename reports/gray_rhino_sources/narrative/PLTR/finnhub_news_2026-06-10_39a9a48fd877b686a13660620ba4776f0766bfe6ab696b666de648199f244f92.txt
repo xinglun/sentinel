@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Information Technology Stocks With Whale Alerts In Today's Session
+  summary:  
+  url: https://finnhub.io/api/news?id=7f44999f2c331c156bdc006dd4811cfcd4f2a6327efd14f3b960febf94437a89

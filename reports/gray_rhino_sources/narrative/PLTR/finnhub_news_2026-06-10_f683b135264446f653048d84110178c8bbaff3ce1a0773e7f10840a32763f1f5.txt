@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Has Fallen More Than 35% From Its High. Is This the Pullback Long-Term AI Investors Have Been Waiting For?
+  summary: The artificial intelligence software specialist's business has never grown faster. But the stock may still have a valuation problem.
+  url: https://finnhub.io/api/news?id=5acae334ff2e6d82c8e5d453f96cb91cc521eb3dc1b757993d69b0bcf91b1a85

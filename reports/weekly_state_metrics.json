@@ -1,7 +1,7 @@
 {
   "as_of_date": "2026-06-10",
-  "avg_confidence": 55.46687388968288,
-  "avg_stability": 18.587708897374227,
+  "avg_confidence": 56.42858842571428,
+  "avg_stability": 20.509328009768417,
   "daily_summaries": [
     {
       "core_breakdown": false,
@@ -97,7 +97,7 @@
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-11T00:50:45.076419882+09:00",
+  "generated_at": "2026-06-11T09:42:12.997103982+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
@@ -105,10 +105,10 @@
       "confirmed_count_latest": 1,
       "latest_date": "2026-06-10",
       "pressure_latest": "ELEVATED",
-      "queue_count_latest": 3,
-      "queue_count_max_7d": 3,
-      "queue_count_min_7d": 3,
-      "reported_count_latest": 3
+      "queue_count_latest": 1,
+      "queue_count_max_7d": 1,
+      "queue_count_min_7d": 1,
+      "reported_count_latest": 1
     },
     "cognitive_calibration": {
       "asset_thesis_entries": 9,

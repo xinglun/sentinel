@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle's AI spending for 2026 exceeds forecast, raising worries over growing debt
+  summary: Oracle's capital spending for 2026 exceeded its projection and the cloud computing company ‌said on Wednesday it would raise more ‌debt in 2027, reflecting the staggering scale of cash burn needed ​to buildout its AI infrastructure.  ⁠This includes its previously announced $20 billion at-the-market equity issuance.  Oracle had said ​in February ​it aimed to raise ​as much as $50 billion ‌this year through a combination of debt and equity sales.
+  url: https://finnhub.io/api/news?id=34e2ccb7a248f2ed55d8805bb3a55816619355936f5344d2aa8d49dbdcce8c7c

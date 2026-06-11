@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Trade Nobody Is Making Right Now -- and Why It Could Be 2026's Best Opportunity
+  summary: ServiceNow and Salesforce could be AI winners in the second half.
+  url: https://finnhub.io/api/news?id=9f62476e622a2c0adbcb4f9b0e461b570a873db98b5084aeb5b7d63d0cf86441

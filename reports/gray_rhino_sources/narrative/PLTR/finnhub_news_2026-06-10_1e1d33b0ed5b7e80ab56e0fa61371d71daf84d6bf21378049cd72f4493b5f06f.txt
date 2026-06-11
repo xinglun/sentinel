@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alex Karp Touts Palantir's Maven System Citing American Successes In Iran War, Venezuela — 'It Was Not Possible To Do These Things…’
+  summary: During an interview with CNBC, Karp argued that America's successes while using this system have fostered a tendency to underestimate just how complex it is.
+  url: https://finnhub.io/api/news?id=e1b294366fb6be2a4dbcf3bc6c70a7b6225f75c166f367437ed00508b1fe97c5

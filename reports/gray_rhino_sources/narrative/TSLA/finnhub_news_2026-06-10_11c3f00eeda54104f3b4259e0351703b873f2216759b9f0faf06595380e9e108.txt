@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock: FSD Approved In Denmark; Elon Musk Says This About AI Chips
+  summary: Tesla is designing a new iteration of AI chips that will be used for self-driving cars and humanoid robots. The stock is down about 2.5% today.
+  url: https://finnhub.io/api/news?id=e6fa66632c93a539982b7f9af84adb693fd1067be3607a0df0980ffff644b91b

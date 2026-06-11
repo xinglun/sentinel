@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Finish Line Is Coming Into View
+  summary: On Tuesday, Anthropic released Fable 5 to the public. This is the guardrailed version of Mythos.
+  url: https://finnhub.io/api/news?id=9897a00f0abf725f11fa4b2c7aad3365221b326d0cc5437e634159f6be95a372

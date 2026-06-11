@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Amazon's $225 Billion AI Chip Bet Too Big To Fail?
+  summary: Amazon's custom AI chip business is a runaway success, with a backlog that underpins the entire bull case. But that's precisely where the risk now lies.
+  url: https://finnhub.io/api/news?id=8f3c03f4bfb3eba000b038bc5dd7e146d65551b3c2bd8d5ff1f96d38d919d85b

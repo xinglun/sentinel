@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Buy Long-Dated Microsoft Call Options in Huge Volumes - A Very Bullish Signal
+  summary: Institutional investors have piled into long-dated (almost 6-month out) Microsoft call options at a 44% higher call strike price. That indicates they are extremely bullish on MSFT stock. Price targets are higher.
+  url: https://finnhub.io/api/news?id=9130b18fc4d53e121f44b80d10f34dcb27329bb5c2180bafe8b4d345601b00fd

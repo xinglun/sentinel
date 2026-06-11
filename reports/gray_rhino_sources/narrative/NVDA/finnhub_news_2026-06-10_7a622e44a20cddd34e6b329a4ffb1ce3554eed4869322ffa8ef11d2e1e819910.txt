@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Marvell Technology Stock Sank Today
+  summary: Marvell stock is up 197% despite recent volatility. What comes next?
+  url: https://finnhub.io/api/news?id=fbf512fca3dc78207b469140b00652ecad10ca76e7205a03f49eb4acee446286

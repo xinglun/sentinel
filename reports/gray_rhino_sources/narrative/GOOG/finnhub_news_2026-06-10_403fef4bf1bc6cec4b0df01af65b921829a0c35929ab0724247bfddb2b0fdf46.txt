@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street CIO: The AI Trade is “Technically Unsustainable.” Buy These Two Industries Instead.
+  summary: Peter Boockvar, Chief Investment Officer at One Point BFG Wealth Partners, told CNBC on June 10 that the technical setup under the AI trade has gotten silly. “Stocks in the AI trade got so far above their moving averages that you just knew that usually chart patterns like that are unsustainable,” he said. His call ... Wall Street CIO: The AI Trade is “Technically Unsustainable.” Buy These Two Industries Instead.
+  url: https://finnhub.io/api/news?id=16846464d87fab7ade4597442c956e44ddf44079f3ef924ca848bb986844dbd2

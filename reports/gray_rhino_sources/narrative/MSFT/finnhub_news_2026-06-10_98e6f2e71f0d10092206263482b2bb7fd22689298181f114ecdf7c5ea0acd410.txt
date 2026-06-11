@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AirPlant™ One Opens in Moses Lake: America's First Commercial E-Jet® Fuel Plant Begins Operations
+  summary: Twelve, a next-gen industrial company on a mission to electrify fuel and chemical production, today opened AirPlant One, the first commercial-scale facility in the United States to produce E-Jet fuel – a power-to-liquid (PtL), drop-in sustainable aviation fuel (SAF) made from CO2 and renewable electricity – and E-Naphtha™, a foundational building block for thousands of everyday products. The ribbon cutting, held at the Moses Lake, Washington facility with Alaska Airlines and Microsoft, marks the
+  url: https://finnhub.io/api/news?id=8233ba1136ccfdb9ca0dc9098963d71d84ccd887be1e2d88e5d2d49c208e0516

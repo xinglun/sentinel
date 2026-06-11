@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.s. Defense Secretary Hegseth On Iran, Says Central Command Will Be Busy Tonight; U.S. Will Be Hitting Iran Hard Tonight; U.S. To Bomb Key Facilities In Iran; Strikes That Happen Tonight Will Be Strong And Clear; Most Iranian Missiles Miss Their Targets
+  summary: https://www.youtube.com/watch?v=k0naIxDW4dM 
+  url: https://finnhub.io/api/news?id=0904dfc5c13088607e11639c39289cd83a337bc8ea5dfc1fd189a1ba20dcd127

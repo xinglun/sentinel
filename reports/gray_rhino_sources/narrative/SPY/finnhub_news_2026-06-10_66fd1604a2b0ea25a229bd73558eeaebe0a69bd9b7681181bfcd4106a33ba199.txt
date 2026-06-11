@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Central Command Posts On X "U.S. Central Command forces began launching additional self-defense strikes today at 5:15 p.m. ET against multiple targets in Iran at the Commander in Chief's direction. The strikes are in response to Iran's unwarranted and continued aggression."
+  summary: https://x.com/CENTCOM/status/2064824143640502670
+  url: https://finnhub.io/api/news?id=0721c0ba0894ef179ff5744088658c133419b9aa37dd63295bb4ddec0abd7251

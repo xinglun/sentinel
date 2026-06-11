@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq, Dow Drop As US-Iran War Jitters, Inflation Risk Spur Tech Selloffs  — SMCI, AMZN, OPEN, SEGG, TSLA In Focus
+  summary: President Donald Trump threatened to strike Iran again after negotiations were taking “too long.”
+  url: https://finnhub.io/api/news?id=cf745f92ad5d5ae3a7e9e1fb65daf29828772b8547b2b23f2719c1f9bc3d260d

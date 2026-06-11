@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 70% of Stock Market Warning Signals Are Now Flashing. On June 16-17, Kevin Warsh Decides Where the Market Heads Next.
+  summary: The Bank of America (NYSE:BAC) checklist of pre-peak warning signs is flashing at 70%, matching the rough average reading seen at the last seven major stock market tops over the past 35 years. That figure, attributed to Bank of America Global Research in a checklist recreated by SSR and circulated on X by @ThierryBorgeat, lands ... 70% of Stock Market Warning Signals Are Now Flashing. On June 16-17, Kevin Warsh Decides Where the Market Heads Next.
+  url: https://finnhub.io/api/news?id=cd0db6cd8baa2fec585e4cc81e609c4f8f9ae723b284d5eef4aa7c9d47960d63

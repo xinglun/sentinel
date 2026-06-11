@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Reason to Buy the SpaceX IPO and 3 Reasons to Avoid It
+  summary: Could you be better off steering clear of the SpaceX IPO, or is this one reason good enough to buy?
+  url: https://finnhub.io/api/news?id=1409f712b5e0c27b87a0b7f5442f022a3ed763987f20830999a3a58737c8a9fb

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp says businesses are 'unhappy' with the frontier AI labs
+  summary: CNBC's Sara Eisen sits down with Palantir CEO Alex Karp to discuss the role of AI in the Iran conflict, his take on SpaceX IPO and Elon Musk, and more.
+  url: https://finnhub.io/api/news?id=ecf84857b2fe733ea4126aacc178c27578c29cde8d6860aee7c5f97402049866

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There’s a New Stock to Play the AI Power Boom, and It’s Down Today
+  summary: Newly-listed power company ERock could appeal to investors looking for another way to play the AI boom.  Erock started trading on the New York Stock Exchange around midday on Wednesday, slipping 5% in early action.  ERock makes natural gas-powered engines and generators that can be placed on-site at data centers or other large businesses to provide electricity.
+  url: https://finnhub.io/api/news?id=78e20cbee0788de0a4e05ed9eac980470807d8e92a1b4d7c6d5651b3feb597f7

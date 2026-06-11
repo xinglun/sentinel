@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GM bets on energy storage business, following rival Ford in EV battery pivot
+  summary: GM announced a new stationary battery initiative for grid-scale energy storage, following rival Ford in a pivot of its battery outlays meant for EVs.
+  url: https://finnhub.io/api/news?id=0eaaddb80d4f9ff4b8f58f58ea24ad84a5998a3b244d88d6606534dfd326c78e

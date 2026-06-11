@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp: In two years, people won't think Bernie Sanders is progressive
+  summary: CNBC's Sara Eisen sits down with Palantir CEO Alex Karp to discuss the role of AI in the Iran conflict, his take on SpaceX IPO and Elon Musk, and more.
+  url: https://finnhub.io/api/news?id=edd10f0470ae1c0be6b0ed5630b0485347fa5d3ebfe84b1e29447848f3dc5d39

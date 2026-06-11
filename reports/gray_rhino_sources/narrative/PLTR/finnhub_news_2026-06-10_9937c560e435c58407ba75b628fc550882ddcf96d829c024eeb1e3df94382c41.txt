@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO says enterprise clients unhappy with frontier labs
+  summary: Investing.com -- Palantir Technologies CEO Alex Karp said Wednesday that enterprise customers are dissatisfied with how frontier AI labs operate.
+  url: https://finnhub.io/api/news?id=43043dc487c45d716eb773532cd0abff6a78add9035b68d48dc324479fa305a6

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: STEW: Deep Discount Gets Deeper (Rating Upgrade)
+  summary: SRH Total Return Fund trades at a wide discount, deeper than its historical range, making it relatively attractive. Learn more about STEW CEF here.
+  url: https://finnhub.io/api/news?id=8c1930efd8c8485506a6b88ecac9288533bf9cdd5b144863c6b93e8abbf21444

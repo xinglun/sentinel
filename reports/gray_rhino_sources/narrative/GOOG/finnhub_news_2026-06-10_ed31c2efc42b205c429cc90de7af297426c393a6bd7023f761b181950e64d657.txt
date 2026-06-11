@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kalshi Requires Users To Reveal Their Employer
+  summary: Prediction market Kalshi now requires users to reveal their employer as it combats charges of insider trading and m...
+  url: https://finnhub.io/api/news?id=b80982ddd8eb556ab64756656a0dd9e013e678743a10693fc728557bf8a4a9d2

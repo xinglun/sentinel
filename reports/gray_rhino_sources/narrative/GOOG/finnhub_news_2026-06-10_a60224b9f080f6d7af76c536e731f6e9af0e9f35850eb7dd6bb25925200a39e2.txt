@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle: 'Existential risk' of underspending is worse than overspending
+  summary: Oracle (ORCL) reported fourth quarter results on Wednesday after the closing bell. Adjusted earnings per share (EPS) came in at $2.11 (compared to analyst estimates of $1.97), and adjusted revenue came in at $19.18 billion (compared to analyst estimates of $19.09 billion). Futurum CEO Daniel Newman joins Yahoo Finance to discuss the results and the landscape of artificial intelligence (AI) spending.
+  url: https://finnhub.io/api/news?id=0fda9fae2ee87fba3cbff72e7e6072e96ffaa398993bde51e57e0f5cf08dcfb1

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang Thinks the Artificial Intelligence (AI) Memory Boom Is Impossible to Ignore. Here's My Top Pick That No One Is Talking About.
+  summary: Nvidia CEO Jensen Huang recently said the AI memory shortage will likely last several more years.
+  url: https://finnhub.io/api/news?id=2f503d2c06d518e8cbaa134d2be6ed757c42ff6204ea5d497e7c5858373a06bf

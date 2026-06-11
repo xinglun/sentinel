@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: General Motors follows Ford's lead into the battery business
+  summary: Yahoo Finance Senior Autos Reporter Pras Subramanian joins Julie Hyman on Market Catalysts to discuss General Motors' (GM) partnership with Peak Energy, placing a big bet on sodium-ion batteries. This comes one month after Ford (F) launched Ford Energy to develop energy storage batteries.
+  url: https://finnhub.io/api/news?id=8c028cca033194ce20e4939d9da0443bd79fa624477582438221883e6366420e

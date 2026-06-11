@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (NasdaqGS:GOOGL) Valuation Check As Share Price Momentum Cools After Strong Year
+  summary: Alphabet stock snapshot after recent moves Alphabet (GOOGL) has been on many investors’ radar after recent trading sessions, with the stock closing at US$356.38 and posting mixed short term returns that differ from its year to date and 1 year performance. See our latest analysis for Alphabet. Recent trading has cooled short term momentum, with the share price return down 2.16% over one day and 8.30% over 30 days. In contrast, the 90 day share price return of 17.40% and 1 year total...
+  url: https://finnhub.io/api/news?id=a57a60e8de21ee0ebbf61ba35cc3f138a9a6b5e70e99a7840418d08f9af0cfcd

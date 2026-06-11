@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did The Market Panic On Oracle’s Best Signal?
+  summary: It’s easy to look at a stock chart after a big run and feel like you missed the party. ORCL surged more than thirty-eight percent in three months, a significant move for a company of its size. More interesting than the rally itself was the trail of breadcrumbs the company left beforehand.
+  url: https://finnhub.io/api/news?id=13c6b25583b7e9260c2b26f4ec2ab813cea40c2404f8a1516ef1930976baaf33

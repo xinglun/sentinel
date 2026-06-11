@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Surges Into Bull Case as JPMorgan Lifts Target 227%
+  summary: Tesla Gets Major Boost as JPMorgan Expands Growth Story Beyond EVs
+  url: https://finnhub.io/api/news?id=ff3f8491f8801d98e31ec73d05cb3cc66eef3173c481b6778d365b5499a526a5

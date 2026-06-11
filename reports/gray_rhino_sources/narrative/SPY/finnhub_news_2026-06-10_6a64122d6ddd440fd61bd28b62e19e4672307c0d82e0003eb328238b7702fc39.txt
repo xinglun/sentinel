@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Consumer Price Index: Inflation At 4.2% In May
+  summary: Inflation surged to its highest level in over three years in May as the headline Consumer Price Index reached 4.2% year-over-year.
+  url: https://finnhub.io/api/news?id=24a7b2154362ac08dd2a1984e8f9b12c98910070bab585c085c8e4faeff2f044

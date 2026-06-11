@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Market Chatter: Google, Meta Platforms Denied New Trial in Youth Social Media Addiction Case by California Judge
+  summary: (Updates with Meta's response in the fifth paragraph.) Alphabet (GOOG, GOOGL) unit Google's YouTu
+  url: https://finnhub.io/api/news?id=faaabc89d5c7c623a1e665c48f54d4f03165632c0d1e27036be355c889f9b6b1

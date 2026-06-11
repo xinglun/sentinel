@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Are Ditching the Magnificent 7 For a New Group of Stocks: The MANGOS
+  summary: Wall Street has never met an acronym it didn’t like. FAANG gave way to the Magnificent 7, and now a fresh label is making the rounds among investors trying to capture the next leg of the artificial intelligence (AI) trade. The new grouping, half marketing slogan and half investment thesis, goes by the name MANGOS: ... Investors Are Ditching the Magnificent 7 For a New Group of Stocks: The MANGOS
+  url: https://finnhub.io/api/news?id=603e7485e276fe82cc06abf0f942f4ac213273fbac4d3db21437493d0937749a

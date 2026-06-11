@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Slashes Hundreds Azure Jobs in China Amid Geopolitical Tensions
+  summary: Microsoft Cloud Unit Under Fire: China Job Cuts Highlight Growing Tech Divide
+  url: https://finnhub.io/api/news?id=21bc4244df162515734eb5f29c508ec2fab766fe037886bab8116622c04cd572

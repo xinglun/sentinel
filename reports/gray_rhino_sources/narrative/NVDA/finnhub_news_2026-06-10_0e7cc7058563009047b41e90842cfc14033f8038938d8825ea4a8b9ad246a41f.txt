@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Newmont Stock Slumped on Wednesday
+  summary: Given how things are shaping up, 2026 could be a tough year for the gold stock.
+  url: https://finnhub.io/api/news?id=5dcba7d08558a4ca76a950281e1a281f2e39ad24c556d5e63cdeeb1905b13043

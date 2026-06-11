@@ -1,0 +1,12 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CPI Saves Market; China-Taiwan Tensions Hurt Semis-Momo Crowd Buys the Dip; Iran Truce Looks More Fragile
+  summary: 
+
+
+
+CPI Saves Stock Market
+
+
+
+  url: https://finnhub.io/api/news?id=fea2834fde1950eff2c8ef098805253dd79d1a2bcb06a4641e536c0aa3f43860

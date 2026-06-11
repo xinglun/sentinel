@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran's Tasnim News Agency Cites Military Source As Saying That Iranian Armed Forces Are Fully Prepared Tonight; Says If The Americans Take Any Aggressive Action, They Will Once Again Face Heavy Responses; Iran Will Target New U.S. Interests If The Americans Take Action
+  summary: - Reuters
+  url: https://finnhub.io/api/news?id=acc45f04be7eebd79545975073a5e129279326e79e6fe59fb8f1dab6afbc25e1

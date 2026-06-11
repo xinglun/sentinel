@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Watches SpaceX IPO While Cheapest Cybertruck Hits Driveways After Long Wait
+  summary: Multiple social media users confirmed they received their vehicles in the past few days.
+  url: https://finnhub.io/api/news?id=b3366d96014d13e7beede130f4c0f67350bdfd8e926d4cd739bd94179f307ce3

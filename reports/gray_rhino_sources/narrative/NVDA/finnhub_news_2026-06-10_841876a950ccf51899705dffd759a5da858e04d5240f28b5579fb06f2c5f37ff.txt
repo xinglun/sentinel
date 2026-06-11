@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy the Dip on Broadcom Stock?
+  summary: The tech giant's stock sold off after a poorly received earnings report.
+  url: https://finnhub.io/api/news?id=411bec21898cc6160f56dfc89a0acc0165202bad8b764be20b90d245716c0537

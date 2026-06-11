@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robinhood Enters This Hot, Lucrative Market. The Stock Is Jumping.
+  summary: Robinhood revealed that it plans to expand in the white-hot IPO market as an underwriter, disrupting a field dominated by three financial giants.  The IPO market has become a hotbed of activity, with several looming or confidential initial public offerings.  Goldman Sachs, Morgan Stanley and Bank of America dominate the highly lucrative IPO underwriting market, capturing a portion of proceeds as underwriting fees in exchange for acting as gatekeepers to new companies coming public.
+  url: https://finnhub.io/api/news?id=2f7614eb358865ecf8e0407daf13e78d5bedb66b84943c10cd550def0fc23116

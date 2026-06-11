@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Just Delivered a Record-Breaking Quarter, Complete with a Beat and Raise. So Why Is the Stock Falling?
+  summary: The cloud infrastructure and AI provider delivered everything investors were expecting. They wanted more.
+  url: https://finnhub.io/api/news?id=cb8dda13d73827d7b58d00e95a561e45fd1b80214c8500b86949f2756f4a7ff3

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Stock Slides on Mixed Earnings. Software Is an Issue.
+  summary: Oracle  shares were sliding in late trading on Wednesday after the company reported mixed earnings results for its fiscal fourth quarter.  Adjusted earnings per share were $2.11, above Wall Street’s consensus estimate of $1.96 and up from $1.70 last year.  Oracle Cloud Infrastructure  the unit that rents out AI servers over the internet, was again the star.
+  url: https://finnhub.io/api/news?id=e1b2d760a638de13e36cc593b3fb69dc79f733337bbef5b2f986ef222f2d15fb

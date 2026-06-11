@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rosenblatt Remains a Buy On Palantir Technologies (PLTR)
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is among the Top 10 Unstoppable Growth Stocks to Invest In. Recently, on June 5, Rosenblatt reiterated a Buy rating on the stock with a price target of $225. The rating comes after the company’s AIPCon 10 event. ​The firm noted that during the event, the company made several customer announcements, […]
+  url: https://finnhub.io/api/news?id=1e0fcb18115f12d9b64634ac1fb647d53053439b5f255e7ba85f5bdcb9f7434b

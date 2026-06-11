@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech is dragging the S&P 500 lower in June
+  summary: Big Tech stocks are having a rough go of it in June as the Magnificent Seven drags the broader market down with it (^DJI, ^IXIC, ^GSPC). Yahoo Finance Markets and Data Editor Jared Blikre examines how the S&P 500's losses are concentrated at the top of the AI trade, also taking a closer look at Oracle's (ORCL) fourth quarter earnings expectations.
+  url: https://finnhub.io/api/news?id=264b30988c42d9ee135f1d6a13604d0b09d8bb56311e3a8d39845adca605d7c4

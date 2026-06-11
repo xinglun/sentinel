@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why Tesla (TSLA) Fell More Than Broader Market
+  summary: Tesla (TSLA) closed at $381.89 in the latest trading session, marking a -3.73% move from the prior day.
+  url: https://finnhub.io/api/news?id=88b135b44e7a7e86116adcbaa86edf9632914b2a520992be324215681b8843eb

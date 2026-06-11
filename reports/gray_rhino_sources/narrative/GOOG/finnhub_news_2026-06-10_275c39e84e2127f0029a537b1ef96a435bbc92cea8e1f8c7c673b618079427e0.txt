@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI stocks: MANGOS ascends, replacing FAANG position
+  summary: Long live the new tech. Wall Street investors are adopting the latest acronym grouping Big Tech leaders: MANGOS. MANGOS consists of Meta Platforms (META), Anthropic (ANTH.PVT), Nvidia (NVDA), Alphabet (GOOG, GOOGL), OpenAI (OPAI.PVT), and SpaceX (SPCX, SPAX.PVT). Yahoo Finance Senior Reporters Ines Ferré and Brooke DiPalma come on Market Domination to talk about how MANGOS is the newest iteration of FAANG.
+  url: https://finnhub.io/api/news?id=ba489e40251b170d8ea5e4544d4b336da35fe2277cc7e8402dd61064d2de6cf7

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Massive SpaceX IPO Is Almost Here. We've Got the Basics for Investors
+  summary: If your crowd likes to talk stocks, chances are the group chat has been busy lately: The SpaceX IPO might be the hottest topic with retail investors since shares of Nvidia began their rocket ride to a $5 trillion market cap.
+  url: https://finnhub.io/api/news?id=462b5104116792fcd85bd61f69a9d75fee1a9fe02b4f7504f3824c9b51dc3275

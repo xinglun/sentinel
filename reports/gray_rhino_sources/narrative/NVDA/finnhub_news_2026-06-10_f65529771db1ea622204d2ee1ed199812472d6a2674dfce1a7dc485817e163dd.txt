@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Smartest Dividend ETF to Buy With $2,000 Right Now
+  summary: Adding exposure to dividend stocks can be a great way to boost portfolio diversification.
+  url: https://finnhub.io/api/news?id=ff368eeb0914d713dfe1550be409b50e2c909c21a3344390c54e0854805be8ce

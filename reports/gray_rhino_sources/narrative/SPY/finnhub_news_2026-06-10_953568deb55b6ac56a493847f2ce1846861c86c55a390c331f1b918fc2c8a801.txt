@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran: Sleepwalking Into A Crisis
+  summary: The ongoing Iran conflict has kept the Strait of Hormuz largely closed, severely disrupting global energy flows and supply chains. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=aae623b7f51e8cea0f839bda6e81eb4b364ebc6d54e30b1a9f615c59d49d4378

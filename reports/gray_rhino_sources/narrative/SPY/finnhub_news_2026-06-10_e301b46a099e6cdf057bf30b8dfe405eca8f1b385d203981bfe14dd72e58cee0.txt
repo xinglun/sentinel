@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Resume Decline as Chipmakers and AI Companies Fall
+  summary: The S&P 500 Index ($SPX ) (SPY ) today is down -0.61%, the Dow Jones Industrial Average ($DOWI ) (DIA ) is down -0.88%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is down -0.80%. June E-mini S&P futures (ESM26 ) are down -0.71%, and June E-mini Nasdaq futures...
+  url: https://finnhub.io/api/news?id=f621a51d7baea8b40197b513cbbaf1c2e0bdd381848d30e7f50c0e117a39a429

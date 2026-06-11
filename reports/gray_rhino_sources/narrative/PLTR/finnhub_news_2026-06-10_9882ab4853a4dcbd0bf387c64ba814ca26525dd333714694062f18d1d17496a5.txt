@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Decoding PLTR Stock's Premium Valuation
+  summary: At $132.07, Palantir Technologies (PLTR) is being priced to deliver 33.9% revenue growth annually for the next 7 years simply to defend today's 138.6x multiple. That sits below the 67.7% the business is currently growing at, which is the unusual part. The multiple has already priced in a slowdown that has not yet appeared.
+  url: https://finnhub.io/api/news?id=cd4eea2b5ef67e0c718d86606b22c07014f362db43773944a79239a9424ebb23

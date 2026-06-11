@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO Faces Last-Minute Challenge From US Senator Elizabeth Warren
+  summary: Elizabeth Warren urged the SEC to delay the SpaceX IPO, but $150 billion in demand keeps Friday's Nasdaq debut on track.
+  url: https://finnhub.io/api/news?id=09f1c0ff5e799007f5fb2035fc59e9b9c047ebea342dc60c748ef5f93871dcc3

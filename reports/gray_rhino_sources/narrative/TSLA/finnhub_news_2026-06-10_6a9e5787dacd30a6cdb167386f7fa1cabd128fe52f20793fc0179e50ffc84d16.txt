@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Breaks Down What Goes Into An AI Satellite And Why It Is 'Easier' To Design Ahead Of Mega SpaceX IPO: 'A Lot Of Solar Cells, A Radiator...'
+  summary: Elon Musk unveiled a more detailed look at an early version of an AI data-center satellite that SpaceX plans to build, offering new insight into one of the most ambitious projects underpinning the company's expected record initial public offering. Musk...
+  url: https://finnhub.io/api/news?id=cc0adf7f6b4f28a58b67fa813efedd7e481bce755f6a3d22e492dccb6eb72f48

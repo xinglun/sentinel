@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Defense industry leaders preparing to meet with Trump as worries grow over missile supply, sources say' - NBC News
+  summary: https://www.nbcnews.com/politics/national-security/defense-industry-leaders-preparing-meet-trump-worries-grow-missile-sup-rcna349289
+  url: https://finnhub.io/api/news?id=214ce8318bb6193f6a56c86c2adf2b7a01696e0a1357344dcfc28dc133725b9e

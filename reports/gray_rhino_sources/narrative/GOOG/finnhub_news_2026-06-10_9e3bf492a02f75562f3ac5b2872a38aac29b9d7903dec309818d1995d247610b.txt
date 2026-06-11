@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon vs. transport stocks, DraftKings sees prediction markets boost
+  summary: Yahoo Finance Senior Autos Reporter Pras Subramanian and Market Domination host Josh Lipton take a closer look at some of Wednesday's trending tickers and stories. Transportation stocks are plunging as Amazon (AMZN) expands its truckload offerings. Super Micro Computer (SMCI) stock is under pressure due to the company's latest artificial intelligence (AI) plans. DraftKings' (DKNG) trading volume saw a boost from prediction markets activity.
+  url: https://finnhub.io/api/news?id=8a17c11f26e5f6ae1a9e1be7a5b2eb0767ee6143f36bad323e11aaf531b6b2f8

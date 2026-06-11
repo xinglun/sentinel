@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Volkswagen Reaffirms ESG Targets, Bets on Circular Economy to Cut Costs
+  summary: Volkswagen (ETR:VOW3) reaffirmed its sustainability targets and outlined new circular economy initiatives during its eighth sustainability conference, with executives saying ESG remains embedded in the company’s broader strategy despite a more difficult economic backdrop. Dirk Voeste, who presented
+  url: https://finnhub.io/api/news?id=273bff8287673e6accd3595cf418b9710be5f5f2a25e73ef99467c032f7970d6

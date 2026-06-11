@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry delivers contrary Lululemon stock verdict
+  summary: Wall Street has plenty of reasons to run from Lululemon Athletica (LULU). The premium athletic apparel firm trimmed its full-year guidance, warned of lower demand in the second quarter, and highlighted further difficulties in its important Americas sector. But when a once-hot growth stock becomes ...
+  url: https://finnhub.io/api/news?id=147102385b9ef1451b35cd449f8abdd2045e6177bfdae00f2049a47f8e16f331

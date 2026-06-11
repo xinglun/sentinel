@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XMAG vs. MAGS: Betting Against or All-In on the Magnificent 7?
+  summary: The Defiance Large Cap ex-Mag 7 ETF (NASDAQ:XMAG) and the Roundhill Magnificent Seven ETF (NASDAQ:MAGS) are photographic negatives of one another. MAGS holds only the seven mega-caps driving the AI cycle, while XMAG holds the S&P 500 with those same seven names surgically removed. Owning one is the inverse of owning the other, and 2026 ... XMAG vs. MAGS: Betting Against or All-In on the Magnificent 7?
+  url: https://finnhub.io/api/news?id=efedfb49a9c64b277831f459f32bb44ee6fce06ad91c1afe928fc42bd1ae0fbf

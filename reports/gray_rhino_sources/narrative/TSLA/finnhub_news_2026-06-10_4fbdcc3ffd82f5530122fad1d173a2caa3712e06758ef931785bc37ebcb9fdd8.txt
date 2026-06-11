@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: On Tesla Becoming X
+  summary: Tesla, Inc. Buy thesis: potential Tesla-SpaceX consolidation into X HoldCo could boost AI/autonomy upside. See 12-month price targets. Click for a TSLA update.
+  url: https://finnhub.io/api/news?id=9aa98af96eb486605d47c67d319ab182b08a1724acb647862b71bd4d5b3cdb20

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian’s Most Important Product Launches And The Stock Falls Apart
+  summary: Rivian (NASDAQ: RIVN) launched the vehicle that it has said for some time will be the key to its future. The R2 SUV is much less expensive than its current models. The base model (Launch Package) will cost about $58,000. The Rivian website put the price at $44,990. However, each is lower than Rivian’s two ... Rivian’s Most Important Product Launches And The Stock Falls Apart
+  url: https://finnhub.io/api/news?id=95879c5bffa4de6a28c3943c68cc33f050e4949ace7446d1f25f2d0c3d3b32c9

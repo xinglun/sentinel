@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: OpenAI Exposure Manageable And Palantir Competition Contained
+  summary: Microsoft Corporation is still a Buy, but AI CapEx is pressuring margins. Can MSFT's scale advantage fend off competitors like Palantir? Click for this update.
+  url: https://finnhub.io/api/news?id=b9149065849d3302e6ace2627cb0eeca739383e56ce2e0f9a0df1bca6aa33738

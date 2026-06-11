@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTY: This Isn't The Right Time For This High Risk Income Bet On Palantir
+  summary: YieldMax PLTR Option Income Strategy ETF offers high-income potential but carries significant risk during PLTR downturns. Read more on PLTY ETF here.
+  url: https://finnhub.io/api/news?id=e1c3ea190e9bd0fbc9bee31aae6aa09c1c84aa4e6261c4e4ffbed7e69ef86588

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hottest Inflation In Over 3 Years: Is The Fed Ready To Hike Interest Rates?
+  summary: Economists read May&#39;s 4.2% CPI as too hot to cut but not enough to hike, expecting a Fed hold June 17 with a more hawkish Dot Plot.
+  url: https://finnhub.io/api/news?id=34608faa56c45c25b0188d1a3b9fd4d1d1a8e1a7070bf22b79594adadeff6b5e

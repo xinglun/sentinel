@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Got It Right This Time
+  summary: Investors are misreading Apple’s latest AI announcement. The updates to Apple Intelligence and Siri are good enough for customers—and the stock.
+  url: https://finnhub.io/api/news?id=6e37ea94c971080046f6fa89239bceb84f11f1ca5a9f5b6ae955b7888b77fff0

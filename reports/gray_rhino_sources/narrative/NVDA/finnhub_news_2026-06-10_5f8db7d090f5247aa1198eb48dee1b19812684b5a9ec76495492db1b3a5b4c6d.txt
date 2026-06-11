@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Spill: Is Broadcom (AVGO) the Other AI Trade?
+  summary: Is Broadcom (AVGO) the Other AI Trade? By IPO Edge Editorial Staff Broadcom’s (AVGO) AI business is growing faster than almost anyone expected. Last quarter, AI semiconductor revenue hit $10.8 billion, […]
+  url: https://finnhub.io/api/news?id=24f0b57e6c6fb2433d376413723c0d4f5036cc9fe55212a313e03d5215f664d0

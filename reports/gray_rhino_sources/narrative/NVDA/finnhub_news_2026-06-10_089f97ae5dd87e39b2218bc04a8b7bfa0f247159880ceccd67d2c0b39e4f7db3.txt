@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Strategist: SpaceX Will Force a Major Stock Market Repositioning. Buy These Stocks Instead.
+  summary: A mega-IPO is about to land in a market already running hot, and one Wall Street strategist sees it as the catalyst that forces investors to broaden their bets. Carol Schleif, Chief Market Strategist at BMO Wealth Management, told CNBC this week that the SpaceX IPO on Friday will pull capital out of the year’s ... Wall Street Strategist: SpaceX Will Force a Major Stock Market Repositioning. Buy These Stocks Instead.
+  url: https://finnhub.io/api/news?id=6f25ef8a58324a4deb06bed8ea2c02efe78f6cf0c78e44bdf921c46bddeebda1

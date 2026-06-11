@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Stocks That Could Soar from SpaceX's $26.5 Trillion Artificial Intelligence (AI) Empire
+  summary: As SpaceX pursues its grand goals, both Tesla and Nvidia are positioned to benefit.
+  url: https://finnhub.io/api/news?id=66ec9835765ccc0b682555fcfc3ba35e6d249000ec7ad566ad8d01a22901554e

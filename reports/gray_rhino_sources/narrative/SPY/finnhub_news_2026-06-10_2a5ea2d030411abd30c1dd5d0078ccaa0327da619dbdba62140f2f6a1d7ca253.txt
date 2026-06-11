@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AIER's Everyday Price Index Rises Again As Energy Shock Fuels Inflation
+  summary: The AIER Everyday Price Index rose to 316.0 in May 2026, up 1.22 from the previous month.
+  url: https://finnhub.io/api/news?id=6b0a4d3ff9cf8a5149b096cf5e51df0641e3ad76c1c38ce60b278653ebc825e9

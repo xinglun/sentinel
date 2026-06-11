@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corp (MSFT): Azure’s Role in Digital Asset Infrastructure Adds Indirect Crypto Exposure
+  summary: Microsoft Corp (NASDAQ:MSFT) is one of the most profitable crypto-exposed stocks to buy now. On May 26, Piper Sandler reiterated an Overweight rating on Microsoft Corp (NASDAQ:MSFT) stock with a price target of $540. The firm cited improvements in the company’s Copilot AI assistant following recent meetings with Microsoft’s investor relations team. Piper Sandler pointed […]
+  url: https://finnhub.io/api/news?id=798177461d2198bef5a257a5911b3e95ed4e3ba4fc7600e52983ba3a5917b303

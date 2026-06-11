@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla gets go-ahead to sell self-driving technology in Belgium
+  summary: Tesla Full Self-Driving supervised driver ‌assistance software has been ‌authorised in Belgium, Annick De Ridder, ​the transport minister of Flanders region said on Wednesday in a post on X.  The approval ​allows Tesla ​to roll ‌out its technology after the company successfully carried out a series of tests in the country, she said.  Belgium is ​the third country in the EU to do so ​after ‌the Netherlands and Lithuania.
+  url: https://finnhub.io/api/news?id=d5d0e0529b27380c0f179b2e6c1284f52402547178e4af99a9ccc3c22568572c

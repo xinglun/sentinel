@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Got Cap Gains? How Portfolios Can Move Into ETFs Tax-Free
+  summary: 351 conversions are the next ETF frontier. Here’s what investors need to know.
+  url: https://finnhub.io/api/news?id=bf47baf73ed3ddaddc046041675535d7cff080d1171c82ba8796231ba0c32252
