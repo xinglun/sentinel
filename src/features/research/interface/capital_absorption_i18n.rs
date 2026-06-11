@@ -3,6 +3,7 @@ use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoStatus, CapitalAbsorptionAutoTrend,
     CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationEventType,
     CapitalAbsorptionPotentialSupplyPressureLevel, CapitalAbsorptionPotentialSupplyTrend,
+    CapitalAbsorptionPressureDriverStrength,
 };
 use crate::features::shared::interface::i18n::Language;
 
@@ -268,9 +269,27 @@ pub(super) fn capital_absorption_supply_event_count_label(language: Language) ->
 
 pub(super) fn capital_absorption_ai_ipo_queue_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "AI IPO 队列",
-        Language::EnUs => "AI IPO Queue",
-        Language::JaJp => "AI IPO キュー",
+        Language::ZhCn => "Future IPO 队列",
+        Language::EnUs => "Future IPO Queue",
+        Language::JaJp => "Future IPO キュー",
+    }
+}
+
+pub(super) fn capital_absorption_near_term_supply_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Near-Term Supply",
+        Language::EnUs => "Near-Term Supply",
+        Language::JaJp => "Near-Term Supply",
+    }
+}
+
+pub(super) fn capital_absorption_upcoming_supply_timeline_label(
+    language: Language,
+) -> &'static str {
+    match language {
+        Language::ZhCn => "Upcoming Supply Timeline",
+        Language::EnUs => "Upcoming Supply Timeline",
+        Language::JaJp => "Upcoming Supply Timeline",
     }
 }
 
@@ -292,9 +311,33 @@ pub(super) fn capital_absorption_queue_size_label(language: Language) -> &'stati
 
 pub(super) fn capital_absorption_queue_count_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Queue Count",
-        Language::EnUs => "Queue Count",
-        Language::JaJp => "Queue Count",
+        Language::ZhCn => "Future Queue Count",
+        Language::EnUs => "Future Queue Count",
+        Language::JaJp => "Future Queue Count",
+    }
+}
+
+pub(super) fn capital_absorption_near_term_supply_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Near-Term Supply Count",
+        Language::EnUs => "Near-Term Supply Count",
+        Language::JaJp => "Near-Term Supply Count",
+    }
+}
+
+pub(super) fn capital_absorption_drivers_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Drivers",
+        Language::EnUs => "Drivers",
+        Language::JaJp => "Drivers",
+    }
+}
+
+pub(super) fn capital_absorption_evidence_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Evidence",
+        Language::EnUs => "Evidence",
+        Language::JaJp => "Evidence",
     }
 }
 
@@ -352,14 +395,6 @@ pub(super) fn capital_absorption_secondary_liquidity_count_label(
     }
 }
 
-pub(super) fn capital_absorption_reason_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "Reason",
-        Language::EnUs => "Reason",
-        Language::JaJp => "Reason",
-    }
-}
-
 pub(super) fn capital_absorption_actual_supply_contributors_label(
     language: Language,
 ) -> &'static str {
@@ -375,14 +410,6 @@ pub(super) fn capital_absorption_sources_count_label(language: Language) -> &'st
         Language::ZhCn => "来源",
         Language::EnUs => "Sources",
         Language::JaJp => "ソース数",
-    }
-}
-
-pub(super) fn capital_absorption_event_type_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "事件类型",
-        Language::EnUs => "Event Type",
-        Language::JaJp => "イベント種別",
     }
 }
 
@@ -728,6 +755,9 @@ pub(super) fn capital_absorption_ipo_queue_status_value(
         (CapitalAbsorptionIpoQueueStatus::PreIpo, Language::ZhCn) => {
             "Pre-IPO（Pre-IPO）".to_string()
         }
+        (CapitalAbsorptionIpoQueueStatus::NearTerm, Language::ZhCn) => {
+            "近端执行（Near-Term）".to_string()
+        }
         (CapitalAbsorptionIpoQueueStatus::Filed, Language::ZhCn) => "已提交（Filed）".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Ipo, Language::ZhCn) => "已 IPO（IPO）".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Rumor, Language::JaJp) => "噂（Rumor）".to_string(),
@@ -740,13 +770,34 @@ pub(super) fn capital_absorption_ipo_queue_status_value(
         (CapitalAbsorptionIpoQueueStatus::PreIpo, Language::JaJp) => {
             "Pre-IPO（Pre-IPO）".to_string()
         }
+        (CapitalAbsorptionIpoQueueStatus::NearTerm, Language::JaJp) => {
+            "近接実行（Near-Term）".to_string()
+        }
         (CapitalAbsorptionIpoQueueStatus::Filed, Language::JaJp) => "提出済み（Filed）".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Ipo, Language::JaJp) => "IPO 済み（IPO）".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Rumor, Language::EnUs) => "Rumor".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Reported, Language::EnUs) => "Reported".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Preparation, Language::EnUs) => "Preparation".to_string(),
         (CapitalAbsorptionIpoQueueStatus::PreIpo, Language::EnUs) => "Pre-IPO".to_string(),
+        (CapitalAbsorptionIpoQueueStatus::NearTerm, Language::EnUs) => "Near-Term".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Filed, Language::EnUs) => "Filed".to_string(),
         (CapitalAbsorptionIpoQueueStatus::Ipo, Language::EnUs) => "IPO".to_string(),
+    }
+}
+
+pub(super) fn capital_absorption_pressure_driver_strength_value(
+    strength: CapitalAbsorptionPressureDriverStrength,
+    language: Language,
+) -> &'static str {
+    match (strength, language) {
+        (CapitalAbsorptionPressureDriverStrength::High, Language::ZhCn) => "High",
+        (CapitalAbsorptionPressureDriverStrength::Medium, Language::ZhCn) => "Medium",
+        (CapitalAbsorptionPressureDriverStrength::Low, Language::ZhCn) => "Low",
+        (CapitalAbsorptionPressureDriverStrength::High, Language::EnUs) => "High",
+        (CapitalAbsorptionPressureDriverStrength::Medium, Language::EnUs) => "Medium",
+        (CapitalAbsorptionPressureDriverStrength::Low, Language::EnUs) => "Low",
+        (CapitalAbsorptionPressureDriverStrength::High, Language::JaJp) => "High",
+        (CapitalAbsorptionPressureDriverStrength::Medium, Language::JaJp) => "Medium",
+        (CapitalAbsorptionPressureDriverStrength::Low, Language::JaJp) => "Low",
     }
 }
