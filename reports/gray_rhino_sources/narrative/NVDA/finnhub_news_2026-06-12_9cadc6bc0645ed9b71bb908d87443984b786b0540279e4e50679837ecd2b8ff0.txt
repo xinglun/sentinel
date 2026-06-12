@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sharon AI surges premarket; New Oriental gains, Medline slips
+  summary: Investing.com - U.S. stock futures advanced on Friday, as investors gauged hopes for a peace deal between the U.S. and Iran as well as anticipation surrounding SpaceX’s highly awaited initial public offering.
+  url: https://finnhub.io/api/news?id=9b7d04abd0fcdc9d287a596163d3959754fb3e5e56c9d25ed2fcd1548c1f26ec

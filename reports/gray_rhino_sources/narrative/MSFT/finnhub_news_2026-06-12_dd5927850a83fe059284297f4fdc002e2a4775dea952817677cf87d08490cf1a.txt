@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab stock surges on Nasdaq-100 index inclusion
+  summary: The Long Beach-based space company will officially join the index on June 22, placing it alongside Nvidia, Apple, and Microsoft
+  url: https://finnhub.io/api/news?id=88bddb6fc1bb1820bb72ebea32ff60e021c880731fd5efefcf920b7493971806

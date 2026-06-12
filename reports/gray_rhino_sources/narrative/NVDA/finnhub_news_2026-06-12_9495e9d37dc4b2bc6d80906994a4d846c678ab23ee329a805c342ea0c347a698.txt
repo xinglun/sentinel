@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Acquisition Odds: How These 4 Cult Stocks Stack Up as Buyout Targets
+  summary: Acquisition speculation is the lifeblood of cult-stock trading. The cleanest takeover targets share three traits: strategic value to a deep-pocketed partner, a cash runway that does not force a fire sale, and proprietary intellectual property that a giant cannot easily replicate. This is a scenario analysis, not a report on any announced or imminent deal. ... Acquisition Odds: How These 4 Cult Stocks Stack Up as Buyout Targets
+  url: https://finnhub.io/api/news?id=311ecb047905b8cacff961d6bf0a02124a539b2db6c90288d9cd473fa51f2e33

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Backlash Against Data Centers Could Start Showing Up in Hyperscalers' Earnings Reports
+  summary: As states like Ohio move to increase their regulation of data centers and reduce their subsidies for the businesses behind them, the costs of building and operating them could increase significantly.
+  url: https://finnhub.io/api/news?id=2afb8033e50f146e79c87bb02e2f6059f82322bd88fc7dc1603c2669c7676795

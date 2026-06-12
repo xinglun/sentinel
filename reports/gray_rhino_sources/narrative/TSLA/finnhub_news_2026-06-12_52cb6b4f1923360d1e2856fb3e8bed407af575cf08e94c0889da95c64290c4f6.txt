@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO: First Indicative Price At $174 Per Share
+  summary: SpaceX&#39;s first indicative share price is $174 per share, a 29% pop over the IPO price of $135, according to data compiled by the Benzinga Pro platform.
+  url: https://finnhub.io/api/news?id=71e723e4e754460bfbba9efd473cc22e0554b102ddcd60fc51995a32769c81e6

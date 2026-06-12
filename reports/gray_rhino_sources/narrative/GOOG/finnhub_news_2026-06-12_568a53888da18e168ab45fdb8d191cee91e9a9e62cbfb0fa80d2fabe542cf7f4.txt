@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hedge funds sold broader tech ahead of SpaceX IPO, JPMorgan data shows
+  summary: Hedge funds sold out of the biggest U.S. tech stocks, and some even added ‌bearish positions, according to data from a JPMorgan note late ‌Thursday, just before SpaceX was set to go public on Friday.  Shares in the "Magnificent Seven" -- ​a group that includes some of the biggest tech names on Wall Street, namely Nvidia, Apple, Amazon.com, Alphabet, Meta, Tesla, and Microsoft, have all declined since last Friday.  The Roundhill Magnificent Seven ETF, which tracks these ‌stocks closely, declined over 2.4% ⁠since June 5, with some analysts saying investors were clearing their decks in order to prepare for the ⁠debut of Elon Musk's Space X on Friday.
+  url: https://finnhub.io/api/news?id=6b6c27e897099ea65650644fd4c17037b2f39b344a630dd1f7be575c7bfb2d50

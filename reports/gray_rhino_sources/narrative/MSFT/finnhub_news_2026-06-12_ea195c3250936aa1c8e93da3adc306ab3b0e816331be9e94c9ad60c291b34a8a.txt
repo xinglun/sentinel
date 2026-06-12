@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Why I Added To My Position And Why Through A Different Strategy
+  summary: Microsoft (MSFT) rated a Buy with $575 fair value (47% upside).
+  url: https://finnhub.io/api/news?id=eb74617dfba329d84b3e657c98d9e7d251f24292e64c34db50a3b00827abd7a4

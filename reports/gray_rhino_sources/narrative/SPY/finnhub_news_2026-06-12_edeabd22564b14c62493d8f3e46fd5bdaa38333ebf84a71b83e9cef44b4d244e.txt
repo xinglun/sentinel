@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Strategist: Stock Market Just Became a “Buyer’s Dream” After Recent Pull-Back
+  summary: Emily Roland, Co-Chief Investment Strategist at Manulife John Hancock Investment Management, reframed this week’s selloff as an opportunity on Thursday, June 11, on CNBC’s Squawk Box. “We have been on a momentum freight train since the market lows back in late March. Certainly, seeing some overbought conditions, and we weren’t overly surprised here to see a little bit ... Wall Street Strategist: Stock Market Just Became a “Buyer’s Dream” After Recent Pull-Back
+  url: https://finnhub.io/api/news?id=44135d946db626d0fa7e37d14c9bbe12757afdf4f51f35212bc150777b3ef9bc

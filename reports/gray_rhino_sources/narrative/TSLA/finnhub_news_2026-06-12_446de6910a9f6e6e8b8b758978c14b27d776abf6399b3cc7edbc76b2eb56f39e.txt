@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX raises $75B in historic IPO, valued at $1.77 trillion
+  summary: The big day is here as SpaceX (SPCX) prepares to go public on the Nasdaq via its historic IPO. Elon Musk's space operator raised $75 billion after pricing 555,555,555 shares at $135 each. Morning Brief Host Julie Hyman is joined by Yahoo Finance Senior Reporter Pras Subramanian and Trustless Media Founder Zack Guzman to discuss SpaceX's IPO pricing.
+  url: https://finnhub.io/api/news?id=8a4f9a935b44a2b579de141866d33550726f19140d86fdaeb8105db37219d6c2

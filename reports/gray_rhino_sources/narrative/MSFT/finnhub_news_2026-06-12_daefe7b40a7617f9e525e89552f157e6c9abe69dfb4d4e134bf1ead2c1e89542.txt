@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Reveals Why It Turned Down Trump Administration's Quantum Funding Deal: 'In This One Specific Case…'
+  summary: Google rejected Trump administration quantum funding, citing restrictive conditions that could slow development.
+  url: https://finnhub.io/api/news?id=521507996d5838330c97deac3f8a3797c600e39e623f59574582bda98b51b399

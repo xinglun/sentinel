@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corporation (MSFT) Announces a New Quantum Chip, Here’s What You Need to Know
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the Good Stocks to Invest in Now. On June 2, Reuters reported that Microsoft Corporation (NASDAQ:MSFT) announced a new quantum computing chip called Majorana 2. The chip is redesigned using AI and is set to be commercially useful for quantum computing by 2029. ​This move puts Microsoft in direct […]
+  url: https://finnhub.io/api/news?id=f9b0c1e7cdcf2cebfa909b419df9050624c5d618933d6e5531423a915bff60c1

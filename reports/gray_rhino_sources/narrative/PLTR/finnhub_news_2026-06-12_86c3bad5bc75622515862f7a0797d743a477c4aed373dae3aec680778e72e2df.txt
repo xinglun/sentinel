@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Expands Commercial AI Footprint With New Multiyear Enterprise Deals
+  summary: Palantir Technologies (NasdaqGS:PLTR) has announced a series of new enterprise AI deployments tied to customer demand. The company unveiled multiyear, multimillion dollar collaborations with McCarthy Building Companies, GNP Seguros in Mexico, and law firm Kirkland & Ellis. These deals, highlighted at AIPCon 10, cover AI operating systems for construction and insurance, plus a legal AI platform focused on private equity fundraising. Palantir is expanding its presence in commercial markets,...
+  url: https://finnhub.io/api/news?id=348417111d0b8b51c60f14a3740a36a4ba88443f1ed253b298c70d5d7818ecf2

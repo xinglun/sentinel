@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Retail ETFs Thrive Amid Sticky Inflation and Robust Job Growth?
+  summary: Retail ETFs face inflation and fuel-price headwinds, but resilient spending, strong jobs data and attractive valuations offer reasons for optimism.
+  url: https://finnhub.io/api/news?id=2f1e649b2c6652a1c3d3a8205a99ef1e40258583a4b620801a9ea9bb1ef06232

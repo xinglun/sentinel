@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons It Might Be Time Buy the Dip in NVIDIA Stock
+  summary: It hasn’t been all too clean a breakout for shares of AI chip giant Nvidia (NASDAQ:NVDA), which is still down close to 13% after tumbling off its mid-May highs. Indeed, it seems like the company can do everything right and still get rewarded with a reaction that’s relatively muted compared to the rest of the ... 3 Reasons It Might Be Time Buy the Dip in NVIDIA Stock
+  url: https://finnhub.io/api/news?id=255f0b843efbcf3abdba8d4021bea5b5441ba01f75ed7f8bc8845a2985210973

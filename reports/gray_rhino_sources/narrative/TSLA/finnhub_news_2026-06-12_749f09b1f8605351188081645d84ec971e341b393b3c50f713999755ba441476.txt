@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX president Gwynne Shotwell floats Tesla merger on IPO day
+  summary: Gwynne Shotwell said a tie-up "might make Elon's life a little easier" but added she is focused on current operations
+  url: https://finnhub.io/api/news?id=36c5ddba2495be118574bbf57ff7ed5390de02bc90170c59494426ede1a3a885

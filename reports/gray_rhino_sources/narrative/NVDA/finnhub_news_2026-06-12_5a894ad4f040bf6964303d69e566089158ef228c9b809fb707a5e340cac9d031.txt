@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: No One Cares About Tesla Anymore
+  summary: When SpaceX goes public with a valuation of $1.75 trillion, it will be worth slightly more than Tesla (NASDAQ: TSLA), which has a market cap of $1.5 billion. Of course, if SpaceX’s stock soars, the difference could become bigger. Despite Tesla’s position in the global EV business and $95 billion in revenue last year, it ... No One Cares About Tesla Anymore
+  url: https://finnhub.io/api/news?id=6e10ea959103d8dc67609862fdedea4d6d27196fbab44be1d52dd18628e2ea61

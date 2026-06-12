@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Wall Street Is Tuning In To Sirius XM Stock
+  summary: The satellite radio giant’s stock found something better than luck: a powerful new partner outside the car.
+  url: https://finnhub.io/api/news?id=07c7368b7f982a754b6e879640c50a89f5b8dbd188d46d93b606a0212988bb96

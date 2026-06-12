@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As Solar M&A Heats Up, These 4 Companies Could Be on the Block
+  summary: Why Solar M&A Logic Is Heating Up Solar faces structural pressure: tariff disruption, policy uncertainty, and capital costs are forcing consolidation. Underlying this trend is surging power demand. The EIA projects U.S. electricity consumption growing 0.9% to 1.6% annually through 2050, with solar, wind, and natural gas together rising to around 80% of generation by ... As Solar M&A Heats Up, These 4 Companies Could Be on the Block
+  url: https://finnhub.io/api/news?id=94ba4403528569c85ed7968d52e89165f5240440dcd0bd39c6572a682ec3a398

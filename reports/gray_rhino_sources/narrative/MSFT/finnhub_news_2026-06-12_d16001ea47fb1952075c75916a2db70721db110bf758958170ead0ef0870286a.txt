@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corp (NASDAQ:MSFT) Tops Dividend Screen with Strong Ratings and Growth Potential
+  summary: Discover quality dividend stocks with ChartMill's screen: minimum Dividend Rating of 7, plus Profitability and Health scores of 5 or higher. Microsoft (MSFT) exemplifies this, offering a sustainable 0.85% yield backed by strong financials.
+  url: https://finnhub.io/api/news?id=fb85c923de3f6cf04e1995ca5cd8bba90a81f8399a2f855c5ebf5deeee21a233

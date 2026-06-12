@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Bullish on Nvidia (NVDA), Is It a Good Stock to Buy?
+  summary: NVIDIA Corporation (NASDAQ:NVDA) is one of the Good Stocks to Invest in Now. Wall Street remains bullish on NVIDIA Corporation (NASDAQ:NVDA) despite around 3% decline over the past few days. The decline stems from investor caution regarding the technology sector’s ability to make a profit from the AI capital expenditure. Analysts see more than 44% […]
+  url: https://finnhub.io/api/news?id=4bd31c5c42540b93078be87deb606aa1a59a93c0c66b632d8b65cd36db714d87

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX May Look Expensive Today — Palantir Co-Founder Says It Could Look 'Really Cheap' In 10 Years
+  summary: SpaceX‘s blockbuster public debut has sparked a familiar debate on Wall Street: Is the valuation already too high? Joe Lonsdale, co-founder of Palantir Technologies Inc. and managing partner at venture firm 8VC, thinks investors may be asking the wrong question....
+  url: https://finnhub.io/api/news?id=763b4ce9d54d07d1a5ebd0e273ef0bdf87d7ca678fd4f76e867cb720a5e714d9

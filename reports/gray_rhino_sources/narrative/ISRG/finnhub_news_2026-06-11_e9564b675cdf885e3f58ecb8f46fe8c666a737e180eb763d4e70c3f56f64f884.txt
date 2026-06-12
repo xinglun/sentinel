@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Stock Reports for Mastercard, Seagate & Intuitive Surgical
+  summary: Mastercard, Seagate and Intuitive Surgical headline new research reports, highlighting growth drivers, outlooks and key challenges shaping performance.
+  url: https://finnhub.io/api/news?id=d6f2fdd582be9259095c6c61c031e8866a0875b2182de21b8b0ba9e50bb60147

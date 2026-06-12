@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Token Spending Crashes: AI In Trouble?
+  summary: 
+  url: https://finnhub.io/api/news?id=5c4ac027b7c4174168b236e5642ee35f4d3091089bcb2c19c82d91fde80dcd1b

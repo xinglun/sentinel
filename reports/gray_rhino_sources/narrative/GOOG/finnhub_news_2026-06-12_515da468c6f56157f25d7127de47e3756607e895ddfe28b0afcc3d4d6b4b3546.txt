@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Nvidia Is a Big Winner If SpaceX Stock Soars
+  summary: Nvidia  stock could be in line for a long-term boost if Elon Musk’s  SpaceX  makes a successful transition to public markets.  Nvidia shares were up 0.5% at $205.94 in premarket trading Friday.  SpaceX’s initial public offering on Friday could help if the rockets, satellites, and artificial-intelligence company gets off to a good start.
+  url: https://finnhub.io/api/news?id=9e175ea78e4dafc464ee832375fe2fc2ae81ae2064e54bf0d2d16d9f2baf16a2

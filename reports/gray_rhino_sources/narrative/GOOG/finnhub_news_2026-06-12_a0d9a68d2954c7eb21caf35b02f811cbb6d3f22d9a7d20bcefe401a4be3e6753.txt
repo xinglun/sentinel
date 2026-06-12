@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Breaks Silence on Rejecting Trump's $2 Billion Quantum Deal
+  summary: Google Chose Speed Over Trump's $2 Billion Quantum Deal
+  url: https://finnhub.io/api/news?id=c8398aca992f42f080345f117b6bdcc4c00c0d2e05b4e985246e7834e3accf6c

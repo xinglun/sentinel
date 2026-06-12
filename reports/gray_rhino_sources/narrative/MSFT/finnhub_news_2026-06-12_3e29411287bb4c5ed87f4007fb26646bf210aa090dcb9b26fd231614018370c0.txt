@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is AMD Stock Gaining Friday?
+  summary: AMD stock continues to rally in premarket trading as Citi and BofA lift price targets on massive AI growth. Get the technical layout.
+  url: https://finnhub.io/api/news?id=d1460a03955bb95e3755d05e2952eea550775fad3f3d6e6e1d444cb37cf55441

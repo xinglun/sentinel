@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ondas Unveils LADOS Defense Platform Ahead of Eurosatory 2026 Launch
+  summary: New command-and-control system connects drones, sensors, robotics, and AI software into a unified operational framework.
+  url: https://finnhub.io/api/news?id=446cfc16c3eb20aceb1b67a296848da0c3160845440c5873bdc61b2a97be838f

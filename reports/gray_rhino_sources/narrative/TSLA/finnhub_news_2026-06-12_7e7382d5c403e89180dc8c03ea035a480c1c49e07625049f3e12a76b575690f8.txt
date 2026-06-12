@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, SpaceX, and the Battle to Be Musk’s Most Valuable Company
+  summary: SpaceX  trading is set to begin, officially making  Tesla  and SpaceX CEO Elon Musk a trillionaire.  SpaceX is worth more to Musk than Tesla, but which company will turn out more valuable to investors is harder to say.  Tesla stock was up 0.8% in premarket trading at $402.18 Friday, while  and  futures were up 0.4% and 0.6%, respectively.
+  url: https://finnhub.io/api/news?id=83b283fafb306d02b19c8deb5f7cb38073285b5ada18fdaf0744d7cd91abbdac

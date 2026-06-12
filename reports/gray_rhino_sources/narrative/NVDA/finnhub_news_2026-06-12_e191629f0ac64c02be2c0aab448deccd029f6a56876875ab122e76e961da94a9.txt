@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sharon AI Shares Jump on Major NVIDIA Compute Infrastructure Partnership (SHAZ)
+  summary: Sharon AI Holdings Inc. (NASDAQ:SHAZ) shares surged 25% on Friday after the company announced a six-year strategic compute collaboration with NVIDIA (NASDAQ:NVDA) aimed at significantly expanding AI infrastructure capacity in Australia.
+  url: https://finnhub.io/api/news?id=6b5645fc7467894d0202f0a3d948ef82b92c36b200af8c28b0547b077d0ca586

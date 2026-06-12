@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ark Sees $300 Billion SpaceX Revenue Opportunity by Late 2020s
+  summary: Brett Winton says Starlink, Starship, and orbital data centers could support massive long-term growth.
+  url: https://finnhub.io/api/news?id=8019bdce3e302292fbf569906eaf5756c4a1daf2366d2e8b47a8bb55dee228c3

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic CEO Warns Advanced AI Could Become Too Powerful For Governments Or Corporations To Control— 'Should Be Blocked Or Reversed As...'
+  summary: Anthropic CEO Dario Amodei says powerful AI should not be controlled solely by governments or corporations.
+  url: https://finnhub.io/api/news?id=c8d7bf63017fd5f10aa4de9e4ed097ce071b8f5aad4759a3483e968d0e7e30d4

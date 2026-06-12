@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Stock Upgraded To Buy On GPU Upside
+  summary: A Wall Street analyst on Friday upgraded AMD stock to buy from neutral, saying its GPU business is undervalued.
+  url: https://finnhub.io/api/news?id=dfa978c0cb02b3381a261f6e9590f0221d9cfffd427aa1ba09c00dc14b158818

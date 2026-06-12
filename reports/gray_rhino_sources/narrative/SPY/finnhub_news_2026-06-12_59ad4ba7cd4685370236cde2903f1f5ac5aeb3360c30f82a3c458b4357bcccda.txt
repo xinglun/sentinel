@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Batteries Beat the S&P 500: BATT Is Up 25% While SPY Hugs 11%
+  summary: The headline number you may have seen is generous. Through the close on June 10, 2026, the Amplify Lithium & Battery Technology ETF (NYSEARCA:BATT) is up about 10% year to date, while the SPDR S&P 500 ETF Trust (NYSEARCA:SPY) has returned about 6%. That is a real gap, though smaller than the 25 versus 11 ... Batteries Beat the S&P 500: BATT Is Up 25% While SPY Hugs 11%
+  url: https://finnhub.io/api/news?id=43bb13c82d883d3ff4031a37abb22bca136168faaa97b7c4a9eb48e883ed8512

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Explains Why It Passed On Trump's $2 Billion Quantum Initiative
+  summary: Alphabet cited funding conditions that could have slowed its quantum computing development pace.
+  url: https://finnhub.io/api/news?id=4e330060379966b5641b69610823f8d2820d8ab7db64cd315d47aa681b161e6f

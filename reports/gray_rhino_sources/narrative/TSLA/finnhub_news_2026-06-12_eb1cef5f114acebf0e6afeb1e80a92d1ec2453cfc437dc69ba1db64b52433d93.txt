@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk’s SpaceX Goes Public: What Makes This IPO Different
+  summary: WSJ’s Becky Peterson reports from the Nasdaq where Elon Musk’s SpaceX launches the largest IPO in history.
+  url: https://finnhub.io/api/news?id=31d96cd687c3f8c97df4749c5af9db8b2cc3455a88b9b0f3d050ef7f38080580

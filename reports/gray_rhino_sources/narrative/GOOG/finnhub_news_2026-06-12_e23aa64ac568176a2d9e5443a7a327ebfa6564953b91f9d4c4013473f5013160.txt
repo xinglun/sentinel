@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic scouts data center leases with Google backing : The Information
+  summary: The AI lab has signed more than a dozen preliminary agreements for U.S. data centers totaling over 1 GW of capacity, marking a shift from pure cloud reliance to direct…
+  url: https://finnhub.io/api/news?id=16e09bad3eea4ebcb38b8ce10d28a3b926d5b9e7dbca0522fdca481927f15b7f

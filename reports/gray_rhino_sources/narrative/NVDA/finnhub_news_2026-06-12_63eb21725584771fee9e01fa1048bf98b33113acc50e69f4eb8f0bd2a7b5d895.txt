@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe Tumbles 9% on CFO Exit, Downgrades: Is the AI Threat Now Salesforce’s Problem Too?
+  summary: Adobe (NASDAQ:ADBE) shares are getting hammered on Friday, down 9% to $198 after the design-software giant reported a beat-and-raise quarter that investors decided to sell anyway. The move follows Thursday’s 6% drop to $218.80, stretching a brutal week into something closer to a capitulation. The selloff is striking because the numbers were strong. Adobe posted ... Adobe Tumbles 9% on CFO Exit, Downgrades: Is the AI Threat Now Salesforce’s Problem Too?
+  url: https://finnhub.io/api/news?id=c63441fddd830457a83c2ebe9f88cb40ab9b249f8ed543cf7bae7870bd3b12cb

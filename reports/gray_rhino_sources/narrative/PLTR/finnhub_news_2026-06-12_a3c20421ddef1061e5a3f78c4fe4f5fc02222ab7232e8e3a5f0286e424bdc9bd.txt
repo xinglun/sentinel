@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Loeb Calls Selling Palantir In The $20s A 'Huge Mistake:' 'I Missed A 10X'
+  summary: Dan Loeb admits selling Palantir (PLTR) in the 20s was a &#34;huge mistake,&#34; causing Third Point to miss a massive 10x post-IPO rally.
+  url: https://finnhub.io/api/news?id=260069f5c313843fa7cfcacbbfbacfa76622484613aea617b0254bcc4ce7242a

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hedge funds dump Magnificent Seven stocks ahead of SpaceX IPO
+  summary: JPMorgan data show hedge funds cut positions in the biggest U.S. tech names, with some adding bearish bets, just before SpaceX began trading Friday
+  url: https://finnhub.io/api/news?id=a964f770a9de3d8e861570ff21dc7efe60fd38a54830e87eb16b9b98cfead570

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Debut Likely Marks An Intermediate Top
+  summary: SpaceX IPO could hit $135 and a $2T cap, but PPI inflation and geopolitical risks may signal an S&P 500 pullback. Click here to read more.
+  url: https://finnhub.io/api/news?id=1987d96c7276f20d28af5132f6be5653f26d428cf7d3773e3cc81200483b35f1

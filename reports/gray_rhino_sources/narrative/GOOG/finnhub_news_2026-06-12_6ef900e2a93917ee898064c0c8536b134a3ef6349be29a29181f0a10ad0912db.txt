@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Among Our Good Stocks to Buy Now
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is among our Good Stocks to Invest in Now. The stock has gained more than 13% over the past 6 months, and the Street expects more than 18% upside from the current levels. ​Recently, on June 9, TD Cowen analyst John Blackledge raised his price target on Alphabet Inc. (NASDAQ:GOOGL) from $450 […]
+  url: https://finnhub.io/api/news?id=f27c144ab755ce4feec4fa6bd6a6be374388ce7d578b5f84b972b9b67fd57f7c

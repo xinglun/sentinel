@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk becomes first trillionaire as SpaceX IPO begins trading
+  summary: The company is set to begin trading under the ticker symbol SPCX at a valuation of $1.77 trillion
+  url: https://finnhub.io/api/news?id=42d9c64640a35f813910dffbfabce72a82415a9dc1129d32d5dfcc0364abd1f0

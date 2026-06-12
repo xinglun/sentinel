@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The SpaceX IPO Trade: 4 Mutual Funds That Could Win Big
+  summary: SpaceX's planned Nasdaq debut could boost mutual funds with large private stakes, including Baron and Fidelity offerings positioned for a NAV lift.
+  url: https://finnhub.io/api/news?id=8833b9a513f2fcf0f2513f4e0c7225e210a5017fb39a996042fe38372d77e959

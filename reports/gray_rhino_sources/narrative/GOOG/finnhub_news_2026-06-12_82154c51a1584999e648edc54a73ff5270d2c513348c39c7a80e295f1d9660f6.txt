@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Meta (META) A Good Stock to Buy Now
+  summary: Meta Platforms, Inc. (NASDAQ:META) is one of the Good Stocks to Invest in Now. Recently, on June 3, Reuters reported that Meta introduced its new AI agent at a WhatsApp-focused conference, suggesting a significant push into the enterprise software market and putting it in direct competition with OpenAI, Anthropic, and Google. ​Reuters noted that this […]
+  url: https://finnhub.io/api/news?id=34b096303286d30519c0475158152f35fe720b912a2fd6b92df1291a3479f1a3

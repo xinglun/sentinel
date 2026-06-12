@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Launches Record $75B IPO
+  summary: The offering values Elon Musk's company at $1.77 trillion ahead of its Nasdaq debut.
+  url: https://finnhub.io/api/news?id=e1013ba0f8633ab78edadb602b48a1c7557604228a2a5c45a6fd54012793a201

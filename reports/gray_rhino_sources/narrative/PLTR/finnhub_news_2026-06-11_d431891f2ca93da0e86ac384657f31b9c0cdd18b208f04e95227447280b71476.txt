@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Voyager Jumps 4.3% As Starlab Confidence Builds
+  summary: NASA's space station review could put Voyager's Starlab project in focus ahead of the ISS retirement.
+  url: https://finnhub.io/api/news?id=e731cef5b7c0fee61ec82a0f69dd03c195e711fa2d44f61f2eff793fa89e127d

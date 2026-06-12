@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Navigating Rising Interest Fuel Savings And Incentives
+  summary: As gas prices continue to be a concern, interest in electric vehicles (EVs) is rising, leading to common questions about aspects like charging, savings, and purchasing. Veloz's Electric For All program, a nonpartisan nonprofit initiative, addresses these inquiries by providing resources such as savings calculators and incentives guides. They emphasize that EVs not only offer lower fueling costs—averaging 5 cents per mile compared to 13 cents per mile for gas—but also boast fewer maintenance...
+  url: https://finnhub.io/api/news?id=5a2ede5ce68965a602d0c300c992bd1745f9aa21593873e8400d4f61926479eb

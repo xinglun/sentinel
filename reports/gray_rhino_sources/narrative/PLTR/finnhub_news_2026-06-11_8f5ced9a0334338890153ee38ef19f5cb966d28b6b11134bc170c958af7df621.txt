@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Questions AI Industry Focus
+  summary: Alex Karp says enterprises care more about real-world results than AI hype.
+  url: https://finnhub.io/api/news?id=fa05169ba1e44bb820b81b4bc6509e0ae840bf40b70b4cce9e40baac7148054b

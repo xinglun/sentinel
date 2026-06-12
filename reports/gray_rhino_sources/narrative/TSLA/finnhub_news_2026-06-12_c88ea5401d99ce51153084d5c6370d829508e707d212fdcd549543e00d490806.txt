@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Leverage Shares by Themes Closing Capped Accelerated Single-Stock ETF Series Due to Lack of Assets
+  summary: GREENWICH, Conn., June 12, 2026 (GLOBE NEWSWIRE) -- Due to their inability to attract sufficient investment assets, the Board of Trustees of the Themes ETF Trust (the “Board”) has decided to liquidate and close five ETFs (each, a “Fund” and collectively, the “Funds”). The Board concluded that liquidating and closing the Funds would be in the best interest of the Funds and their shareholders. The Funds closing are as follows: Leverage Shares 2X Long TSLA Daily ETFTicker: TSLOCUSIP: 88340C602Lever
+  url: https://finnhub.io/api/news?id=9316ca44e168704cad77acf3deb9751f863039586f90f205059492b1ec3033cc

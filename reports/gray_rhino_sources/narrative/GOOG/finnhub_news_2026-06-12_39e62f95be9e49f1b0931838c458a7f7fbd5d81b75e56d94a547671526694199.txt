@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MediaTek Soars 187% as Google AI Chip Partnership Fuels Revaluation
+  summary: Investors are betting MediaTek's AI ASIC business can offset smartphone weakness and drive stronger long-term growth.
+  url: https://finnhub.io/api/news?id=3394c142a7eed443ff184a73707c978926a306f6e30dae276aa2e0415c4fe819

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Conflict Minerals Are Allegedly Reaching NVIDIA, Microsoft Supply Chains: Report
+  summary: Is your tech tainted? New investigation reveals how illicit coltan from the DRC may be reaching NVIDIA, Microsoft, and other tech giants.
+  url: https://finnhub.io/api/news?id=ca06c7ae199c644dc8988bec79635b93ccfd15a323a200aa12e4f54ab9599d16

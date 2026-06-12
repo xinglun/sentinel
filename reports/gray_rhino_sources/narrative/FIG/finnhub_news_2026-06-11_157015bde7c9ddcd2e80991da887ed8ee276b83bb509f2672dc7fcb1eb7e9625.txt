@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe Q2: Too Cheap To Ignore
+  summary: Adobe Inc. beats Q2 estimates & raises FY 2026 guidance as it pivots to AI, freemium, and user growth amid competitionâclick for this updated look at ADBE earnings.
+  url: https://finnhub.io/api/news?id=7e09b7f32fef1512557522bec84e60b73c603cd83b85645d703806ffe9a1ddd3

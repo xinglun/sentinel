@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds, Equity Futures Mixed Pre-Bell Friday Ahead of SpaceX Debut
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was up 0.2% and the actively trad
+  url: https://finnhub.io/api/news?id=0d5ce605c8e3096de6dcd0451ae4dc3dafec0beffc8a26e377a3fd38268c3572

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Nadella's Next Move Could Define The AI Trade
+  summary: Microsoft Corporation's AI monetization upside looks underappreciated. Click for this MSFT update and see if the stock is right for you.
+  url: https://finnhub.io/api/news?id=ae5922f7f81b3fb8019a6197ab4ba4fd78a8ac7c77e66f23ab94d53ad1c09c5e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Only Owns 46% Of SpaceX — Who Has The Rest?
+  summary: Entrepreneur Elon Musk is savvy when it comes to maintaining control of his companies. He owns 46% of SpaceX.
+  url: https://finnhub.io/api/news?id=1111f6af1aedfdaf04d7d13e4e9d145408c5ed16f32d2df926552efe52fdc243

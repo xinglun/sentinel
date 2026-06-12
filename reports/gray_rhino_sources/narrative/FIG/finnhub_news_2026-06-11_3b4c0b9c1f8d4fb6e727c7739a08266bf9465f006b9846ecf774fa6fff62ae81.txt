@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 10 Stocks Are Getting Crushed By Short Sellers Right Now
+  summary: Here&#39;s a list of the top 10 most-shorted stocks in the market right now.
+  url: https://finnhub.io/api/news?id=21a8b0df84976307544d9f13a32264eddfdfca74887503be3393c98f51fea682

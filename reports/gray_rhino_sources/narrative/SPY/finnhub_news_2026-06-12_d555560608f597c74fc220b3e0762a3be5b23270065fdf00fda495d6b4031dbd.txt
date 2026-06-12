@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: We May Have Peace In The Middle East But High Inflation Is Here To Stay
+  summary: Peace deal in the Hormuz oil crisis could spark a short-term market rally, but inflation and bottlenecks may linger.
+  url: https://finnhub.io/api/news?id=65da8bc71b97fa4b8d405aa6e75098c5f9b707aab192ea9d096358f118fa5e18

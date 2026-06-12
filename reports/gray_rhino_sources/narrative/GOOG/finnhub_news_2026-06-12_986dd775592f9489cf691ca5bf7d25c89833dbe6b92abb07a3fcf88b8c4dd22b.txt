@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Expands Real Estate Listings Nationwide, Zillow And CoStar Drop 4%
+  summary: Google rolled out Home Listings across all 50 states, connecting homebuyers directly with real estate agents.
+  url: https://finnhub.io/api/news?id=a9f3d0bf64539e650e811d9ae61989a5b74ab1eeb37fc50a3ecd17bb7e505a60

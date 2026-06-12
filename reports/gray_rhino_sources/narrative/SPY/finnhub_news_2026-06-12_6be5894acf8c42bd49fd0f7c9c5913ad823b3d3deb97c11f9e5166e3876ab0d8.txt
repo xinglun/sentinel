@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises On Iran Peace Deal Hopes; SpaceX May Surge 27% In Debut (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Friday on U.S.-Iran peace deal hopes. The SpaceX stock IPO was indicated up 27%.
+  url: https://finnhub.io/api/news?id=126a5c2ecc8607dd96d9a45fe2f4a0e2db1978cb6074ef3abf89e6d798bc21cf

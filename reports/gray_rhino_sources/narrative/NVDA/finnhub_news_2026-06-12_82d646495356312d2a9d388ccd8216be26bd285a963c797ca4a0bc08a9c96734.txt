@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Taps Veteran Lobbyist for Washington Role
+  summary: The hire comes as the chipmaker navigates growing scrutiny over AI and China.
+  url: https://finnhub.io/api/news?id=834b7b4114b190ad7d424e5bb5668057c27e19d181d3f2154449e222b618ca4b

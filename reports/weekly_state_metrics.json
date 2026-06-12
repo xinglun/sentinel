@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-06-11",
-  "avg_confidence": 57.12616916000591,
-  "avg_stability": 22.23805633660165,
+  "as_of_date": "2026-06-12",
+  "avg_confidence": 57.406095228906906,
+  "avg_stability": 23.491103383914623,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-06-03",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-06-04",
@@ -93,22 +80,37 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-12",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-12T00:52:21.376035451+09:00",
+  "generated_at": "2026-06-13T00:44:06.879768490+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
-      "confirmed_count_latest": 2,
-      "latest_date": "2026-06-11",
-      "pressure_latest": "ELEVATED",
-      "queue_count_latest": 2,
+      "confirmed_count_latest": 1,
+      "future_queue_count_latest": 1,
+      "latest_date": "2026-06-12",
+      "near_term_supply_count_latest": 1,
+      "pressure_latest": "NORMAL",
+      "queue_count_latest": 1,
       "queue_count_max_7d": 2,
       "queue_count_min_7d": 1,
-      "reported_count_latest": 2
+      "reported_count_latest": 1
     },
     "cognitive_calibration": {
       "asset_thesis_entries": 9,

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Cloud AI - Akamai Strengthens Cloud Security With Microsoft Partnership
+  summary: Recent developments in the Cloud AI landscape include Akamai Technologies earning a Solutions Partner with certified software designation for its API Security within the Microsoft AI Cloud Partner Program. This certification underscores the interoperability of Akamai's software with the Microsoft Cloud, offering cross-platform visibility and security for users operating in cloud environments like Microsoft Azure. This advancement emphasizes the growing demand for robust API protection as AI...
+  url: https://finnhub.io/api/news?id=9abfd33ea36969da3dcaa4537d2bdbebc6d00b5d0c369cd4079d9dbccd84e2a3

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chip Stocks Are Tumbling. Is It Time to Sell Cerebras, Broadcom, and Nvidia?
+  summary: Investors are getting jittery about these companies, but ditching them completely may not be the best move.
+  url: https://finnhub.io/api/news?id=c13d5c373fa2b727637a50a71b559a15f95af44834af8b8e85343b890133d202

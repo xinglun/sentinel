@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Stay Risk‑On Despite Alarming Headlines
+  summary: From a global asset allocation perspective, an aggressive strategy [AOA] relative to its conservative counterpart [AOK] offers a useful starting point. Read more here.
+  url: https://finnhub.io/api/news?id=c4c1effc934e3c67d09d2a92ae1f78d932db5f94d9f1db95497da2b596c9cb19

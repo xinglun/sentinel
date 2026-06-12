@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Intuitive Surgical, Inc. (ISRG) A Good Stock To Buy Now?
+  summary: Is ISRG a good stock to buy? We came across a bullish thesis on Intuitive Surgical, Inc. on r/investing_discussion by Variant_Invest. In this article, we will summarize the bulls’ thesis on ISRG. Intuitive Surgical, Inc.’s share was trading at $412.02 as of June 10th. ISRG’s trailing and forward P/E were 50.06 and 39.68 respectively according to Yahoo […]
+  url: https://finnhub.io/api/news?id=153016515cb4d9d40dafcf1b959b4cf777bd45eb2960afb0f74a75639018833d

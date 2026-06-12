@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Going On With Super Micro Stock Friday?
+  summary: Super Micro (SMCI) remains volatile below key moving averages with a mixed technical outlook. Explore key support, resistance, MACD levels.
+  url: https://finnhub.io/api/news?id=3aeb3998dc458ab7f50eb968df341d9ab67e565eb45eeedec61c7e5fd948d52e

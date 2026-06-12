@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO takes pointed shot at Anthropic
+  summary: Palantir (PLTR) CEO Alex Karp isn’t buying into the idea that Anthropic, OpenAI, or any other large language model company can simply move into Palantir’s world. Though he sees the threat that Wall Street is worried about, he feels investors are asking the wrong question. That jab lands ...
+  url: https://finnhub.io/api/news?id=013f4e13cb94e74ca260104d91befd75cf408f1d4f23e6636e2bfe5824c4828c

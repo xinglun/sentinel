@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Stock: What Does Its Valuation Imply?
+  summary: This is a hyper-growth chapter for Palantir Technologies. The company's AIP platform is becoming the operational core for load-bearing institutions like the Department of the Navy.
+  url: https://finnhub.io/api/news?id=9d094434df572c4962060629ba4ddd552bf0f496e1d2aa388687d89961009c5c

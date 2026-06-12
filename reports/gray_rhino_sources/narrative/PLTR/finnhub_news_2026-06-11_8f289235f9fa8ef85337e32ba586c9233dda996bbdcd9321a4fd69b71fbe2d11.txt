@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MoneyMasters Podcast 6-11-26- Palantir, Marvell,  the Three "Hockey Sticks" of AI Growth
+  summary: In this timely episode of the MoneyShow MoneyMasters Podcast, Michael Lee, founder of Michael Lee Strategy, shares his expert perspective on the current volatility within the Artificial Intelligence sector.
+  url: https://finnhub.io/api/news?id=e2b3f6c61ca1c050fd1e731e3853399d7b32897d6d7fd83430c9ab2ac519e599

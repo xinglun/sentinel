@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Xbox Overhaul Tests Gaming Margins And Broader Investment Story
+  summary: Microsoft (NasdaqGS:MSFT) is reportedly overhauling its Xbox division, with large planned layoffs and sharp marketing budget cuts. The gaming unit is set for a broad reset under newly appointed Xbox CEO Asha Sharma. The changes are aimed at addressing declining revenue, low margins, and operational inefficiencies in the gaming business. For investors watching Microsoft at a share price of $390.34, this shift in the Xbox division comes against a mixed return profile. The stock is down 8.8%...
+  url: https://finnhub.io/api/news?id=e1b3012ed0938979ff7ccd3fad65b6875b1588df56f093b118195e29492296ce

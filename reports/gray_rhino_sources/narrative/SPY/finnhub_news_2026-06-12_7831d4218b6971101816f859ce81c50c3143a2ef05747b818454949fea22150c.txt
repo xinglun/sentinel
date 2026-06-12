@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Snaps Back as Small Caps Join the Rebound
+  summary: Market breadth rebounded sharply on June 11, 2026, with 76% of stocks advancing, moving-average participation improving, and IWM joining the rally. The breadth trend rating improves to neutral with a positive bias again, though weekly breadth remains a caution point.
+  url: https://finnhub.io/api/news?id=61b32497227d5d6891583ec0c0aba742a263f65e3c7203158ba94aeebe0d6f7f

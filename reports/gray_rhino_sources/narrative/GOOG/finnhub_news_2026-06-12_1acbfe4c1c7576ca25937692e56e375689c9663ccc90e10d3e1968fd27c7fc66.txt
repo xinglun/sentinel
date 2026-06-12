@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk becomes the world's first trillionaire with SpaceX's IPO
+  summary: The SpaceX CEO's fortune on paper now rivals the annual economic output of many countries, according to World Bank data.
+  url: https://finnhub.io/api/news?id=6b03fd4a361d4a9e5fee3935bda120454093b51ac7e7e37d52a59cef3ef21507

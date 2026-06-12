@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Palantir: As Sticky Macro Volatility Hits Tech, This Stock Is A Better Buy
+  summary: Palantir (NASDAQ:PLTR) is the ticker every retail trader keeps tweeting about, riding an AI government-software narrative into one of the richest valuations in large-cap software. But here’s what you should actually be watching: the unloved data platform that just printed its strongest sequential growth quarter in company history while the headline name was busy cracking. ... Forget Palantir: As Sticky Macro Volatility Hits Tech, This Stock Is A Better Buy
+  url: https://finnhub.io/api/news?id=af12dfb17dc58f1b7f101d34b898aa8ec4ac2f4044fd065de853b5f09b60c60b

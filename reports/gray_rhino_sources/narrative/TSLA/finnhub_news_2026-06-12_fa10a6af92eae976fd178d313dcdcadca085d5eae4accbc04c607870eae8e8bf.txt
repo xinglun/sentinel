@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Rise Pre-Bell Amid Media Reports of US-Iran Peace Deal Progress
+  summary: The benchmark US stock measures were pointing higher before the open Friday amid media reports that
+  url: https://finnhub.io/api/news?id=feb37f801f7a43730db6df6f3b44813b4ff66b783bfdbde774d02e6cefff9326

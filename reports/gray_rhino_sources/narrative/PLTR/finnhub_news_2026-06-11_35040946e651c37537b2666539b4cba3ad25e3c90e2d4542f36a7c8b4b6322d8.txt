@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S.-Iran hostilities escalate, Oracle's fundraising plans, $100,000 colleges and more in Morning Squawk
+  summary: Here are five key things investors need to know to start the trading day.
+  url: https://finnhub.io/api/news?id=afd40960948388f62263d8e18e036640046d1c12ff1d6f2223ab5978c1a81ba5

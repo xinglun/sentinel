@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy SpaceX, Sell Tesla: A Case For Switching Musk Stocks
+  summary: SpaceX (SPCX) hits public markets today at a touted $1.75 trillion valuation, and for the first time, investors have to choose between two of Musk's biggest bets - SpaceX and Tesla (TSLA) - rather than just one.
+  url: https://finnhub.io/api/news?id=24d9bad04317e19193a87e1f461eb6394784be99318cedd1c5aee09edddcb41f

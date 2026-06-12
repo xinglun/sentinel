@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive-South Korea's SK Hynix to opt for Nasdaq for planned US listing, sources say
+  summary: South Korean memory chipmaker SK Hynix is looking to choose the Nasdaq for its planned U.S. listing, two sources familiar with the matter ‌said, opting for the technology-heavy bourse to capitalize on investor appetite for AI-linked stocks.  The planned listing ‌as early as August comes after a 230% surge in SK Hynix's share price this year, lifting its market value above $1 trillion in ​May. The U.S. listing is expected to broaden the company's investor base and raise its profile among global investors.  The company selected Nasdaq over the New York Stock Exchange, said the sources, who declined to be identified because the information was not public.
+  url: https://finnhub.io/api/news?id=891d9d583ed9d546d375591cf44fecda17bee9449031651e3460aaee3251271a

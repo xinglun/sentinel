@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Archer Aviation Stock Your Ticket to Becoming a Millionaire?
+  summary: Archer Aviation could change an entire industry. But can it follow through with its ambitions?
+  url: https://finnhub.io/api/news?id=c1cdfec1f5a3a517d5bd9f33609c1e69ae0ce903d65880fe60f5f8ab72abcd0a

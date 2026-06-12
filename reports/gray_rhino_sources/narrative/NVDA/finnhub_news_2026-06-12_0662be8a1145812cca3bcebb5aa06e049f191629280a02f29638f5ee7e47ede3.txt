@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: In 5 Months, Big Tech Has Borrowed More Than In the Last 5 Years
+  summary: Artificial intelligence is reshaping nearly every corner of the technology industry, but it is also transforming corporate finance. Companies are no longer just competing for customers or market share. They are competing for computing power, data centers, semiconductors, and energy infrastructure. Building that foundation requires enormous amounts of capital, and the U.S.’s largest technology companies ... In 5 Months, Big Tech Has Borrowed More Than In the Last 5 Years
+  url: https://finnhub.io/api/news?id=8baf2cc032293b15ad5c9a9c8a57aa0826fe6e78b9b71fb81eee5e132e170249

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NECA Applauds Google.org for Support of the electrical training ALLIANCE and Skilled Trades Growth
+  summary: The National Electrical Contractor's Association (NECA) is proud to recognize continued funding from Google's philanthropy, Google.org to modernize skilled trades training and expand access to in-demand, high-wage careers across the country. On Thursday, June 11, 2026, Google.org announced a second round of funding for the electrical training ALLIANCE (etA), a training program jointly funded by NECA and the International Brotherhood of Electrical Workers (IBEW).
+  url: https://finnhub.io/api/news?id=5025e17fc197263cdc3bbaf91ca57d872992edefa4bfcfb0d0febd4787f889b7

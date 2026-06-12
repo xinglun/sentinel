@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's at Stake for the Market
+  summary: Venture capitalist Marc Andreessen famously said that software was eating the world.  Now, AI is eating the stock market.  SpaceX, by virtue of its February merger with xAI, is the first of the money-losing frontier artificial intelligence companies to go public, beating OpenAI and Anthropic, albeit with a twist.
+  url: https://finnhub.io/api/news?id=990bb426f72f680e2c4e11fdc0f4b8f5339425f947954d4caada986eb5ff9946

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The K-Shaped Economy: Why The Middle Class Moved Up
+  summary: Strip away the politics, and the K-shaped economy leaves investors with a clear instruction - own the top arm, but respect the bottom one. Read more here.
+  url: https://finnhub.io/api/news?id=8b7de2d771f47e55e5d673c6149c50d49ae2d09b084cec173ad16235cd87de0c
