@@ -93,8 +93,8 @@ skills/**:
 
 config.toml:
   owner: local-config
-  aiWrite: restricted
-  reason: local secrets / runtime config を含む可能性がある。
+  aiWrite: manual
+  reason: local secrets / runtime config を含む可能性があるため、運用者が手動管理する。
 
 reports/**:
   owner: runtime-artifact

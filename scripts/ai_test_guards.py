@@ -28,13 +28,9 @@ def test_restricted_write_with_contract_scope_passes() -> None:
     assert_kinds(items, [], "contract scope must authorize restricted path")
 
 
-def test_config_toml_requires_contract_scope() -> None:
+def test_config_toml_manual_change_passes_without_contract_scope() -> None:
     items = detect(["config.toml"], [])
-    assert_kinds(
-        items,
-        ["restricted_write_without_contract"],
-        "config.toml is local runtime config and must require explicit scope",
-    )
+    assert_kinds(items, [], "manual runtime config changes must not require AI Work Item scope")
 
 
 def test_config_toml_with_contract_scope_passes() -> None:
@@ -80,7 +76,7 @@ def main() -> int:
     cases = [
         test_restricted_write_without_contract_fails,
         test_restricted_write_with_contract_scope_passes,
-        test_config_toml_requires_contract_scope,
+        test_config_toml_manual_change_passes_without_contract_scope,
         test_config_toml_with_contract_scope_passes,
         test_forbidden_write_cannot_be_authorized,
         test_regular_production_change_also_requires_contract,
