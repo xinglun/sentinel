@@ -1,0 +1,121 @@
+{
+  "contractVersion": 1,
+  "workItemId": "fix-ci-config-guard",
+  "mode": "code",
+  "title": "CIのconfig.toml guard誤検出を修正",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/fix-ci-config-guard.contract.json",
+    ".ai/work-items/active/fix-ci-config-guard.summary.json",
+    ".ai/work-items/archive/2026/fix-ci-config-guard.contract.json",
+    ".ai/work-items/archive/2026/fix-ci-config-guard.summary.json",
+    "scripts/ai_test_guards.py"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_guards.py",
+      "reason": "CI failure の原因である restricted_write_without_contract 判定を確認する。"
+    },
+    {
+      "path": "scripts/ai_test_guards.py",
+      "reason": "config.toml restricted write の contract requirement を regression test として固定する。"
+    },
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "push range に対する AI_DIFF_BASE の挙動を確認する。"
+    },
+    {
+      "path": "config.toml",
+      "reason": "直前 push range に含まれた SPCX enable diff の CI failure 原因。今回の変更対象にはしない。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "CI の AI guard failure は config.toml の restricted write 証跡不足が原因。guard を緩めず、test と Work Item evidence で再発時の原因を明確にする。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "guard test と Work Item evidence の追加で対応できる。"
+  },
+  "preReviewWarnings": [
+    "config.toml の既存 diff は直前 commit 済みであり、この Work Item では config.toml を変更しない。",
+    "Gate / execution / trader / action matrix / position sizing には影響しない。",
+    "CI の旧 run は過去 SHA のため、この修正 commit push による新 run で確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "config.toml は contract scope なしでは restricted_write_without_contract として失敗することを test で固定する。",
+    "config.toml は explicit contract scope がある場合だけ許可されることを test で固定する。",
+    "今回の修正は guard evidence / test のみで、config.toml 本体は変更しない。",
+    "required verification が make 経由で通過している。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-guards",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -28,6 +28,20 @@ def test_restricted_write_with_contract_scope_passes() -> None:
     assert_kinds(items, [], "contract scope must authorize restricted path")
 
 
+def test_config_toml_requires_contract_scope() -> None:
+    items = detect(["config.toml"], [])
+    assert_kinds(
+        items,
+        ["restricted_write_without_contract"],
+        "config.toml is local runtime config and must require explicit scope",
+    )
+
+
+def test_config_toml_with_contract_scope_passes() -> None:
+    items = detect(["config.toml"], [["config.toml"]])
+    assert_kinds(items, [], "contract scope must authorize config.toml")
+
+
 def test_forbidden_write_cannot_be_authorized() -> None:
     items = detect(["reports/daily.md"], [["reports/daily.md"]])
     assert_kinds(items, ["forbidden_write", "forbidden_boundary"], "forbidden path must remain blocked")
@@ -66,6 +80,8 @@ def main() -> int:
     cases = [
         test_restricted_write_without_contract_fails,
         test_restricted_write_with_contract_scope_passes,
+        test_config_toml_requires_contract_scope,
+        test_config_toml_with_contract_scope_passes,
         test_forbidden_write_cannot_be_authorized,
         test_regular_production_change_also_requires_contract,
         test_archived_contract_is_evidence_not_recursive_scope_target,
