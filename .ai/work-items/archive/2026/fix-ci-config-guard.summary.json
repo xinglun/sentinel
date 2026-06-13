@@ -1,0 +1,141 @@
+{
+  "workItemId": "fix-ci-config-guard",
+  "contractPath": ".ai/work-items/archive/2026/fix-ci-config-guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/fix-ci-config-guard.contract.json",
+      "reason": "CI failure の原因と guard test 追加の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/fix-ci-config-guard.summary.json",
+      "reason": "CI failure の原因、変更内容、検証結果を記録した。"
+    },
+    {
+      "path": "scripts/ai_test_guards.py",
+      "reason": "config.toml が contract scope なしでは restricted_write_without_contract になること、scope ありでは通ることを regression test に追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item lifecycle により current status が更新された。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    ".github/workflows/develop_checks.yml",
+    ".ai/guards/file_ownership.yaml",
+    "scripts/ai_check_guards.py",
+    "scripts/ai_test_guards.py",
+    "config.toml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-guards",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-ci-config-guard.contract.json SUMMARY=.ai/work-items/active/fix-ci-config-guard.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "CI failure は直前 push range に含まれた config.toml の restricted write が Work Item scope なしだったことによる。guard を緩めず、config.toml の明示 scope requirement を test で固定した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "info",
+      "area": "ci",
+      "detail": "develop_checks.yml は push event の before..HEAD range を AI_DIFF_BASE として使うため、複数 commit push では前 commit の config.toml diff も guard 対象になる。"
+    },
+    {
+      "severity": "info",
+      "area": "config",
+      "detail": "config.toml 本体は今回変更していない。SPCX enable diff は既に commit 済みで、この Work Item は guard rule の明確化と新 CI run のための修正である。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "CI failure の root cause を確認し、config.toml guard test の scope を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象は scripts/ai_test_guards.py と Work Item evidence に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を実行してから ready 判定する。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を Summary に反映する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "old_ci_run",
+      "detail": "失敗済みの旧 SHA run 自体は書き換えられないため、新しい push による CI run で確認する。",
+      "reviewRecommended": false,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "guard test は通過しているが、旧 CI run は過去 SHA のため新 push で再実行する必要がある。",
+    "expectedReviewFocus": [
+      "config.toml の restricted write requirement",
+      "develop_checks.yml の push range AI_DIFF_BASE 挙動"
+    ]
+  },
+  "userCorrectionsCaptured": [
+    "CI の check-ai が config.toml の restricted_write_without_contract で失敗した。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "config.toml は local runtime config として contract scope なしでは CI / local guard ともに失敗する。",
+      "solidifiedTo": "guard",
+      "reason": "scripts/ai_test_guards.py に config.toml の scope なし failure と scope あり pass を追加した。"
+    }
+  ]
+}

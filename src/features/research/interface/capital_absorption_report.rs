@@ -1,11 +1,11 @@
 use crate::config;
 use crate::features::research::application::capital_absorption::{
-    CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoSnapshot,
+    CapitalAbsorptionAutoEvent, CapitalAbsorptionAutoSnapshot, CapitalAbsorptionIpoLifecycleStatus,
     CapitalAbsorptionIpoQueueHistoryPoint, CapitalAbsorptionIpoQueueItem,
     CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationEventType,
-    CapitalAbsorptionPotentialSupplyPressure, CapitalAbsorptionPotentialSupplyPressureLevel,
-    CapitalAbsorptionPotentialSupplyTrend, CapitalAbsorptionSourceHealth,
-    CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
+    CapitalAbsorptionObservationWatchlistItem, CapitalAbsorptionPotentialSupplyPressure,
+    CapitalAbsorptionPotentialSupplyPressureLevel, CapitalAbsorptionPotentialSupplyTrend,
+    CapitalAbsorptionSourceHealth, CapitalAbsorptionSupplyEventCounts, CapitalAbsorptionSupplyKind,
     CapitalAbsorptionSupplyTimelineBucket, CapitalAbsorptionSupplyTimelineItem,
 };
 use crate::features::shared::interface::i18n::Language;
@@ -71,6 +71,7 @@ pub(crate) fn build_capital_absorption_report_from_config(
     );
     push_ai_ipo_queue(&mut out, &snapshot.ai_ipo_queue, language);
     push_upcoming_supply_timeline(&mut out, &snapshot.upcoming_supply_timeline, language);
+    push_observation_watchlist(&mut out, &snapshot.observation_watchlist, language);
     push_ipo_queue_history(&mut out, &snapshot.ipo_queue_history, language);
     push_capital_absorption_events(&mut out, &snapshot.observed_events, language);
     push_capital_supply(&mut out, &snapshot.capital_supply, language);
@@ -94,6 +95,7 @@ struct CapitalAbsorptionRenderSnapshot {
     near_term_supply: Vec<CapitalAbsorptionIpoQueueItem>,
     ai_ipo_queue: Vec<CapitalAbsorptionIpoQueueItem>,
     upcoming_supply_timeline: Vec<CapitalAbsorptionSupplyTimelineItem>,
+    observation_watchlist: Vec<CapitalAbsorptionObservationWatchlistItem>,
     ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
     potential_supply_trend: String,
     potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure,
@@ -157,6 +159,7 @@ impl CapitalAbsorptionRenderSnapshot {
             near_term_supply: Vec::new(),
             ai_ipo_queue: default_capital_absorption_ipo_queue(),
             upcoming_supply_timeline: Vec::new(),
+            observation_watchlist: Vec::new(),
             ipo_queue_history: Vec::new(),
             potential_supply_trend: capital_absorption_potential_supply_trend_value(
                 CapitalAbsorptionPotentialSupplyTrend::Stable,
@@ -194,6 +197,7 @@ impl CapitalAbsorptionRenderSnapshot {
             near_term_supply: value.near_term_supply.clone(),
             ai_ipo_queue: value.ai_ipo_queue.clone(),
             upcoming_supply_timeline: value.upcoming_supply_timeline.clone(),
+            observation_watchlist: value.observation_watchlist.clone(),
             ipo_queue_history: value.ipo_queue_history.clone(),
             potential_supply_trend: capital_absorption_potential_supply_trend_value(
                 value.potential_supply_trend,
@@ -617,10 +621,11 @@ fn push_supply_queue(
             String::new()
         };
         out.push_str(&format!(
-            "- {}: {} {} · {} {}{}\n",
+            "- {}: {} {} · Lifecycle {} · {} {}{}\n",
             item.issuer,
             capital_absorption_ipo_stage_label(language),
             capital_absorption_ipo_queue_status_value(item.status, language),
+            capital_absorption_lifecycle_status_value(item.lifecycle_status, language),
             capital_absorption_evidence_label(language),
             capital_absorption_event_type_value(item.event_type, language),
             sources
@@ -655,17 +660,68 @@ fn push_upcoming_supply_timeline(
         let mut issuers = timeline
             .iter()
             .filter(|item| item.bucket == bucket)
-            .map(|item| item.issuer.clone())
+            .map(|item| {
+                (
+                    item.issuer.clone(),
+                    capital_absorption_lifecycle_status_value(item.lifecycle_status, language),
+                )
+            })
             .collect::<Vec<_>>();
         issuers.sort();
         issuers.dedup();
         if issuers.is_empty() {
             out.push_str(&format!("- {}\n", capital_absorption_none_label(language)));
         } else {
-            for issuer in issuers {
-                out.push_str(&format!("- {issuer}\n"));
+            for (issuer, status) in issuers {
+                out.push_str(&format!("- {issuer} ({status})\n"));
             }
         }
+    }
+    out.push('\n');
+}
+
+fn push_observation_watchlist(
+    out: &mut String,
+    watchlist: &[CapitalAbsorptionObservationWatchlistItem],
+    language: Language,
+) {
+    if watchlist.is_empty() {
+        return;
+    }
+    out.push_str(capital_absorption_observation_watchlist_label(language));
+    out.push_str(":\n");
+    for item in watchlist {
+        let status = capital_absorption_lifecycle_status_value(item.lifecycle_status, language);
+        let observation_day = item
+            .observation_day
+            .map(|day| {
+                format!(
+                    " · {}: {}",
+                    capital_absorption_observation_day_label(language),
+                    day
+                )
+            })
+            .unwrap_or_default();
+        let review_window = item
+            .review_window_days
+            .map(|days| {
+                format!(
+                    " · {}: {} {}",
+                    capital_absorption_review_window_label(language),
+                    days,
+                    capital_absorption_days_unit(language)
+                )
+            })
+            .unwrap_or_default();
+        let review_candidate = if item.review_candidate {
+            format!(" · {}", capital_absorption_review_candidate_label(language))
+        } else {
+            String::new()
+        };
+        out.push_str(&format!(
+            "- {}: Status {}{}{}{}\n",
+            item.issuer, status, observation_day, review_window, review_candidate
+        ));
     }
     out.push('\n');
 }
@@ -794,6 +850,10 @@ fn default_capital_absorption_ipo_queue() -> Vec<CapitalAbsorptionIpoQueueItem> 
             status: CapitalAbsorptionIpoQueueStatus::Rumor,
             source_count: 0,
             event_type: CapitalAbsorptionObservationEventType::Rumor,
+            lifecycle_status: CapitalAbsorptionIpoLifecycleStatus::Rumor,
+            observed_at: None,
+            observation_day: None,
+            near_term_weight: None,
         })
         .collect()
 }

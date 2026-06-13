@@ -193,7 +193,7 @@ market = "US"              # 所属市场
 owner_ma_days = 20         # 20 日线作为长期主引力基准
 leash_ma_days = 5          # 5 日线作为短期动能牵引
 deviation_basis = "owner"  # 基于长期主引力观察超买/超卖偏离
-enable = false             # 是否纳入监控
+enable = true              # 是否纳入监控
 trade_enabled = false      # 自动交易尚未完成实盘验证，当前统一关闭
 
 [[watchlist]]

@@ -51,7 +51,7 @@ Actual Supply amount は confirmed financing amount だけを使います。rumo
 
 ## Potential Capital Supply Queue
 
-Potential Capital Supply Queue は、まだ発生していない IPO 候補や準備段階の narrative を扱います。
+Potential Capital Supply Queue は、まだ発生していない IPO 候補や準備段階の narrative を扱います。IPO 完了済み issuer は Queue から除外し、Observation Asset として Observation Watchlist に移します。
 
 - IPO Rumor
 - IPO Candidate
@@ -59,7 +59,7 @@ Potential Capital Supply Queue は、まだ発生していない IPO 候補や�
 - Pre-IPO Discussion
 - IPO Expectation
 
-対象例は OpenAI、Anthropic、SpaceX、Databricks、Stripe、Figure です。これらは queue observation であり、Actual Capital Supply ではありません。
+対象例は OpenAI、Anthropic、Databricks、Stripe、Figure です。これらは queue observation であり、Actual Capital Supply ではありません。
 
 Wall Street analyst research calls、generic stock recommendation article、`3 stocks to buy before X IPO` 型の記事、unrelated ticker mention、issuer financing event を含まない IPO keyword mention は queue observation からも除外します。
 
@@ -95,6 +95,19 @@ IPO Queue History は、current observation window と保存済み ledger から
 
 週次成果物では、`weekly_state_metrics.json -> latest_context.capital_absorption_ipo_queue` と `weekly_state_review_auto.md` の観測専用 section に集約します。週次集約は `as_of_date` 以前の ledger record だけを使い、未来日 record を混入させません。
 
+## IPO Lifecycle
+
+IPO Lifecycle は IPO 前の queue 管理と IPO 後の observation 管理を同じ読解軸で扱うために使います。
+
+- `Rumor`: rumor や speculation だけが観測されている。
+- `Reported`: media report として IPO narrative が観測されている。
+- `Confirmed`: filing、pricing、listing window など、正式進行が観測されている。
+- `Listed`: 上場済みで、IPO Queue ではなく Observation Asset として扱う。
+- `Observed`: listed 後 30 日以上の observation window に入っている。
+- `Graduated`: observation window を終え、別の投資判断 process に渡せる状態。
+
+`Review Candidate` は lifecycle state ではありません。listed 後 90 日以上で review window に到達したことを示す flag として Observation Watchlist に表示します。
+
 ## IPO Stage
 
 IPO Stage は IPO lifecycle を表示するために使います。Event Type とは分離し、IPO の進行段階だけを表します。
@@ -105,6 +118,61 @@ IPO Stage は IPO lifecycle を表示するために使います。Event Type �
 - `Pre-IPO`: 上場時期、条件、valuation、roadshow などが具体化している。
 - `Filed`: S-1、filed for IPO、files to go public など filing が観測されている。
 - `IPO`: priced IPO、listed、begins trading、debut など IPO 実施済み。
+
+`IPO` stage の issuer は Potential Capital Supply Queue と Near-Term Supply から除外し、Observation Watchlist に表示します。
+
+## Near-Term Supply の時間減衰
+
+Near-Term Supply は古い event を圧力として残し続けないため、最新 observation date からの経過日数で重みを落とします。
+
+- `0-30 Days`: High weight。
+- `31-90 Days`: Medium weight。
+- `90+ Days`: Expired。Near-Term Supply Count と pressure driver から除外する。
+
+この時間減衰は表示・監査専用です。Trading Signal、`READY`、`EXECUTE`、`Position Sizing`、`Trend Layer` には接続しません。
+
+## Upcoming Supply Timeline
+
+Upcoming Supply Timeline は count だけではなく、bucket ごとの issuer と lifecycle status を表示します。
+
+- `0-30 Days`: 近い IPO supply event。
+- `1-12 Months`: preparation、pre-IPO など具体化した future supply。
+- `Unknown`: reported / rumor 段階の timing 未確定候補。
+
+表示例:
+
+```text
+Upcoming Supply Timeline
+
+0-30 Days
+- Figure (Confirmed)
+
+1-12 Months
+- OpenAI (Reported)
+
+Unknown
+- Anthropic (Reported)
+```
+
+## Observation Watchlist
+
+Observation Watchlist は IPO 後の Observation Asset と、学習対象として追跡する private holding / watching 対象を表示するための section です。
+
+例:
+
+```text
+Observation Watchlist
+
+- SpaceX: Status Listed · Observation Day: 1 · Review Window: 90 Days
+```
+
+Observation Watchlist は認知・学習対象管理であり、投資対象管理ではありません。次には接続しません。
+
+- Trading Signal。
+- `READY`。
+- `EXECUTE`。
+- Position Sizing。
+- Trend Layer。
 
 ## Event Type
 
@@ -126,7 +194,7 @@ Default report の Discoveries / Observed Events は summary だけを表示し�
 
 自動 source が unavailable の場合、default AI IPO queue は表示しません。
 
-理由は、静的な候補 issuer list を自動観測結果に見せないためです。source failure 時は source status と no observed event を表示し、Anthropic、OpenAI、SpaceX、Databricks、Stripe、Figure などの default queue は出しません。
+理由は、静的な候補 issuer list を自動観測結果に見せないためです。source failure 時は source status と no observed event を表示し、Anthropic、OpenAI、Databricks、Stripe、Figure などの default queue は出しません。
 
 ## 今後の拡張条件
 

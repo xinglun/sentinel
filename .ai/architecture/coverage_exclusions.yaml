@@ -1,0 +1,44 @@
+coverageExclusions:
+  - pattern: "src/adapters/"
+    reason: "外部 broker / market data adapter は protocol 境界と network transport を含むため、unit coverage ではなく ACL / integration contract で検証する。"
+    risk: "adapter regression may bypass line coverage thresholds."
+    testEvidence:
+      - "tests/evidence_ingestion_port_integration.rs"
+      - "tests/pipeline_integration.rs"
+      - "scripts/ai_test_architecture_boundaries.py"
+  - pattern: "src/features/backtest/(acl/radar_decision_engine|application|infrastructure)"
+    reason: "backtest は radar DTO 変換と CLI integration を中心に検証し、現行 threshold では migration 中の低信号 file coverage を除外する。"
+    risk: "backtest orchestration regression may not be reflected in global coverage."
+    testEvidence:
+      - "tests/backtest_cli_integration.rs"
+      - "src/features/backtest/interface/backtest_mapper.rs"
+      - "scripts/ai_test_architecture_boundaries.py"
+  - pattern: "src/features/radar/acl/market_data_provider_factory.rs"
+    reason: "market data provider factory は external adapter selection の composition root であり、architecture guard と pipeline integration で境界を検証する。"
+    risk: "provider selection regression can hide behind factory-level coverage exclusion."
+    testEvidence:
+      - "tests/pipeline_integration.rs"
+      - "scripts/ai_test_architecture_boundaries.py"
+  - pattern: "src/features/radar/application/runtime_mode.rs"
+    reason: "runtime mode DTO は execution mode の小さな discriminant で、behavior は pipeline / CLI integration 側で検証する。"
+    risk: "new runtime mode variants may require explicit behavior tests."
+    testEvidence:
+      - "tests/pipeline_integration.rs"
+  - pattern: "src/features/radar/application/evidence_assembly.rs"
+    reason: "evidence assembly は radar pipeline の補助変換で、integration と report contract で出力を検証する。"
+    risk: "evidence mapping regression may be missed if integration fixtures do not cover new fields."
+    testEvidence:
+      - "tests/pipeline_integration.rs"
+      - "tests/evidence_domain_integration.rs"
+  - pattern: "src/features/radar/interface/display.rs"
+    reason: "display DTO は presentation assembler / report UI tests で高水準 contract を検証する。"
+    risk: "display-only field additions need presentation tests when user-facing output changes."
+    testEvidence:
+      - "src/features/radar/interface/presentation_tests.rs"
+      - "src/features/radar/interface/report_ui_tests.rs"
+  - pattern: "src/features/research/infrastructure/dependency_source_adapter.rs"
+    reason: "local dependency source adapter は fixture-heavy IO adapter で、CLI integration と source collection contract で検証する。"
+    risk: "source parsing regression may require targeted fixture updates beyond global coverage."
+    testEvidence:
+      - "tests/research_attention_cli_integration.rs"
+      - "scripts/ai_test_architecture_boundaries.py"

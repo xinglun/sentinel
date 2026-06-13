@@ -489,10 +489,7 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
         return []
 
     feature, layer = feature_layer
-    if layer == "interface" and (
-        rel_path.endswith("_tests.rs")
-        or rel_path == "src/features/radar/interface/radar_pipeline_runner.rs"
-    ):
+    if layer == "interface" and rel_path.endswith("_tests.rs"):
         return []
     violations: list[Violation] = []
     text = path.read_text(encoding="utf-8")
@@ -502,7 +499,12 @@ def feature_acl_violations(path: Path, root: Path, manifest: FeatureAclManifest)
     allowed_dependencies = set(manifest.allowed_dependencies.get(feature, ()))
 
     for line_no, import_path in imports_from(path):
-        if feature == "radar" and layer == "interface" and import_path.startswith("crate::config"):
+        if (
+            feature == "radar"
+            and layer == "interface"
+            and rel_path != "src/features/radar/interface/radar_pipeline_runner.rs"
+            and import_path.startswith("crate::config")
+        ):
             violations.append(Violation(path, line_no, import_path, "radar interface config dependency"))
         if (
             feature == "backtest"

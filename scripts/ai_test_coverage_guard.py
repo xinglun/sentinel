@@ -3,7 +3,14 @@
 
 from __future__ import annotations
 
-from ai_check_coverage_guard import detect, is_production_path, is_test_path
+from ai_check_coverage_guard import (
+    detect,
+    detect_coverage_exclusion_manifest_issues,
+    is_production_path,
+    is_test_path,
+    makefile_coverage_exclude_patterns,
+    split_regex_alternatives,
+)
 
 
 def assert_true(value: bool, message: str) -> None:
@@ -51,6 +58,26 @@ def test_non_core_change_is_ignored() -> None:
     assert_equal(items, [], "non core change should be ignored")
 
 
+def test_coverage_exclusions_have_manifest_entries() -> None:
+    patterns = makefile_coverage_exclude_patterns()
+    assert_true(patterns, "Makefile should define coverage exclusions")
+    items = detect_coverage_exclusion_manifest_issues()
+    assert_equal(items, [], "coverage exclusions should have reason, risk, and test evidence")
+
+
+def test_coverage_exclusion_regex_split_preserves_groups() -> None:
+    parts = split_regex_alternatives("src/adapters/|src/features/backtest/(acl|application|infrastructure)|src/main.rs")
+    assert_equal(
+        parts,
+        [
+            "src/adapters/",
+            "src/features/backtest/(acl|application|infrastructure)",
+            "src/main.rs",
+        ],
+        "top-level split should preserve grouped alternation",
+    )
+
+
 def main() -> int:
     cases = [
         ("path_classification", test_path_classification),
@@ -58,6 +85,8 @@ def main() -> int:
         ("production_change_with_test_is_suppressed", test_production_change_with_test_is_suppressed),
         ("inline_test_evidence_is_accepted", test_inline_test_evidence_is_accepted),
         ("non_core_change_is_ignored", test_non_core_change_is_ignored),
+        ("coverage_exclusions_have_manifest_entries", test_coverage_exclusions_have_manifest_entries),
+        ("coverage_exclusion_regex_split_preserves_groups", test_coverage_exclusion_regex_split_preserves_groups),
     ]
     for name, case in cases:
         case()
