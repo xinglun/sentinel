@@ -401,6 +401,18 @@ def test_radar_pipeline_runner_allows_root_config_as_composition_root() -> None:
         assert not violations, f"composition root の config 依存は許可する: {violations}"
 
 
+def test_radar_pipeline_runner_still_rejects_direct_adapter_dependency() -> None:
+    with tempfile.TemporaryDirectory() as tmp:
+        root = Path(tmp)
+        write_feature_manifest(root)
+        write(
+            root / "src/features/radar/interface/radar_pipeline_runner.rs",
+            "use crate::adapters::futu::client::FutuClient;\n",
+        )
+        violations = checker.check_project(root)
+        assert violations, "radar_pipeline_runner の composition root 例外でも adapter 直結は検出されるべき"
+
+
 def test_backtest_interface_rejects_direct_radar_engine_dependency() -> None:
     with tempfile.TemporaryDirectory() as tmp:
         root = Path(tmp)

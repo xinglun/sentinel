@@ -1,9 +1,9 @@
 use crate::config;
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoEventCategory, CapitalAbsorptionAutoStatus, CapitalAbsorptionAutoTrend,
-    CapitalAbsorptionIpoQueueStatus, CapitalAbsorptionObservationEventType,
-    CapitalAbsorptionPotentialSupplyPressureLevel, CapitalAbsorptionPotentialSupplyTrend,
-    CapitalAbsorptionPressureDriverStrength,
+    CapitalAbsorptionIpoLifecycleStatus, CapitalAbsorptionIpoQueueStatus,
+    CapitalAbsorptionObservationEventType, CapitalAbsorptionPotentialSupplyPressureLevel,
+    CapitalAbsorptionPotentialSupplyTrend, CapitalAbsorptionPressureDriverStrength,
 };
 use crate::features::shared::interface::i18n::Language;
 
@@ -290,6 +290,46 @@ pub(super) fn capital_absorption_upcoming_supply_timeline_label(
         Language::ZhCn => "Upcoming Supply Timeline",
         Language::EnUs => "Upcoming Supply Timeline",
         Language::JaJp => "Upcoming Supply Timeline",
+    }
+}
+
+pub(super) fn capital_absorption_observation_watchlist_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Observation Watchlist",
+        Language::EnUs => "Observation Watchlist",
+        Language::JaJp => "Observation Watchlist",
+    }
+}
+
+pub(super) fn capital_absorption_observation_day_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Observation Day",
+        Language::EnUs => "Observation Day",
+        Language::JaJp => "Observation Day",
+    }
+}
+
+pub(super) fn capital_absorption_review_window_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Review Window",
+        Language::EnUs => "Review Window",
+        Language::JaJp => "Review Window",
+    }
+}
+
+pub(super) fn capital_absorption_review_candidate_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Review Candidate",
+        Language::EnUs => "Review Candidate",
+        Language::JaJp => "Review Candidate",
+    }
+}
+
+pub(super) fn capital_absorption_days_unit(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Days",
+        Language::EnUs => "Days",
+        Language::JaJp => "Days",
     }
 }
 
@@ -715,6 +755,52 @@ pub(super) fn capital_absorption_event_type_value(
         (CapitalAbsorptionObservationEventType::Confirmed, Language::JaJp) => "確認（Confirmed）",
         (CapitalAbsorptionObservationEventType::Reported, Language::JaJp) => "報道（Reported）",
         (CapitalAbsorptionObservationEventType::Rumor, Language::JaJp) => "噂（Rumor）",
+    }
+}
+
+pub(super) fn capital_absorption_lifecycle_status_value(
+    status: CapitalAbsorptionIpoLifecycleStatus,
+    language: Language,
+) -> String {
+    match (status, language) {
+        (CapitalAbsorptionIpoLifecycleStatus::Rumor, Language::ZhCn) => "传闻（Rumor）".to_string(),
+        (CapitalAbsorptionIpoLifecycleStatus::Reported, Language::ZhCn) => {
+            "报道（Reported）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Confirmed, Language::ZhCn) => {
+            "确认（Confirmed）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Listed, Language::ZhCn) => {
+            "已上市（Listed）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Observed, Language::ZhCn) => {
+            "观察中（Observed）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Graduated, Language::ZhCn) => {
+            "毕业（Graduated）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Rumor, Language::JaJp) => "噂（Rumor）".to_string(),
+        (CapitalAbsorptionIpoLifecycleStatus::Reported, Language::JaJp) => {
+            "報道（Reported）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Confirmed, Language::JaJp) => {
+            "確認（Confirmed）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Listed, Language::JaJp) => {
+            "上場済み（Listed）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Observed, Language::JaJp) => {
+            "観測中（Observed）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Graduated, Language::JaJp) => {
+            "卒業（Graduated）".to_string()
+        }
+        (CapitalAbsorptionIpoLifecycleStatus::Rumor, Language::EnUs) => "Rumor".to_string(),
+        (CapitalAbsorptionIpoLifecycleStatus::Reported, Language::EnUs) => "Reported".to_string(),
+        (CapitalAbsorptionIpoLifecycleStatus::Confirmed, Language::EnUs) => "Confirmed".to_string(),
+        (CapitalAbsorptionIpoLifecycleStatus::Listed, Language::EnUs) => "Listed".to_string(),
+        (CapitalAbsorptionIpoLifecycleStatus::Observed, Language::EnUs) => "Observed".to_string(),
+        (CapitalAbsorptionIpoLifecycleStatus::Graduated, Language::EnUs) => "Graduated".to_string(),
     }
 }
 

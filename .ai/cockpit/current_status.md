@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-06-11T21:59:52.180692+00:00`
+- Generated At: `2026-06-13T03:42:27.534998+00:00`
 - Task: `none`
 - Mode: `none`
 - State: `no_active_work_item`

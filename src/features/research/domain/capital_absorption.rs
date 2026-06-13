@@ -62,6 +62,16 @@ pub(crate) enum CapitalAbsorptionObservationEventType {
     Confirmed,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub(crate) enum CapitalAbsorptionIpoLifecycleStatus {
+    Rumor,
+    Reported,
+    Confirmed,
+    Listed,
+    Observed,
+    Graduated,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum CapitalAbsorptionAutoConfidence {
     Low,
@@ -85,6 +95,13 @@ pub(crate) enum CapitalAbsorptionSupplyTimelineBucket {
     Next30Days,
     Next12Months,
     Unknown,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CapitalAbsorptionNearTermSupplyWeight {
+    High,
+    Medium,
+    Expired,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -124,12 +141,26 @@ pub(crate) struct CapitalAbsorptionIpoQueueItem {
     pub status: CapitalAbsorptionIpoQueueStatus,
     pub source_count: usize,
     pub event_type: CapitalAbsorptionObservationEventType,
+    pub lifecycle_status: CapitalAbsorptionIpoLifecycleStatus,
+    pub observed_at: Option<NaiveDate>,
+    pub observation_day: Option<i64>,
+    pub near_term_weight: Option<CapitalAbsorptionNearTermSupplyWeight>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct CapitalAbsorptionSupplyTimelineItem {
     pub issuer: String,
     pub bucket: CapitalAbsorptionSupplyTimelineBucket,
+    pub lifecycle_status: CapitalAbsorptionIpoLifecycleStatus,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub(crate) struct CapitalAbsorptionObservationWatchlistItem {
+    pub issuer: String,
+    pub lifecycle_status: CapitalAbsorptionIpoLifecycleStatus,
+    pub observation_day: Option<i64>,
+    pub review_window_days: Option<i64>,
+    pub review_candidate: bool,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -164,6 +195,7 @@ pub(crate) struct CapitalAbsorptionAutoSnapshot {
     pub near_term_supply: Vec<CapitalAbsorptionIpoQueueItem>,
     pub ai_ipo_queue: Vec<CapitalAbsorptionIpoQueueItem>,
     pub upcoming_supply_timeline: Vec<CapitalAbsorptionSupplyTimelineItem>,
+    pub observation_watchlist: Vec<CapitalAbsorptionObservationWatchlistItem>,
     pub ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
     pub potential_supply_trend: CapitalAbsorptionPotentialSupplyTrend,
     pub potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure,
@@ -257,10 +289,10 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
     let status = classify_status(&events, demand_total, unique_subjects);
     let supply_event_counts = build_supply_event_counts(&actual_events);
     let auto_source_available = source_status.status != CapitalAbsorptionSourceHealth::Unavailable;
-    let (near_term_supply, ai_ipo_queue) = if auto_source_available {
+    let (near_term_supply, ai_ipo_queue, observation_watchlist) = if auto_source_available {
         split_supply_queue(build_ai_ipo_queue(&events))
     } else {
-        (Vec::new(), Vec::new())
+        (Vec::new(), Vec::new(), Vec::new())
     };
     let upcoming_supply_timeline = build_upcoming_supply_timeline(&near_term_supply, &ai_ipo_queue);
     let ipo_queue_history = if auto_source_available {
@@ -291,6 +323,7 @@ pub(crate) fn build_capital_absorption_snapshot_from_events(
         near_term_supply,
         ai_ipo_queue,
         upcoming_supply_timeline,
+        observation_watchlist,
         ipo_queue_history,
         potential_supply_trend,
         potential_supply_pressure,
@@ -528,12 +561,14 @@ fn build_supply_event_counts(
 }
 
 fn build_ai_ipo_queue(events: &[CapitalAbsorptionAutoEvent]) -> Vec<CapitalAbsorptionIpoQueueItem> {
+    let latest_observed_at = events.iter().map(|event| event.observed_at).max();
     AI_IPO_CANDIDATES
         .iter()
         .map(|issuer| {
             let mut status = CapitalAbsorptionIpoQueueStatus::Rumor;
             let mut source_count = 0;
             let mut event_type = CapitalAbsorptionObservationEventType::Rumor;
+            let mut observed_at = None;
             for event in events
                 .iter()
                 .filter(|event| same_issuer(&event.subject, issuer))
@@ -541,12 +576,25 @@ fn build_ai_ipo_queue(events: &[CapitalAbsorptionAutoEvent]) -> Vec<CapitalAbsor
                 source_count += event.source_count.max(1);
                 event_type = event_type.max(event.event_type);
                 status = status.max(queue_status_from_event(event));
+                observed_at = Some(observed_at.map_or(event.observed_at, |current: NaiveDate| {
+                    current.max(event.observed_at)
+                }));
             }
+            let lifecycle_status = lifecycle_status_from_queue_status(
+                status,
+                event_type,
+                observed_at,
+                latest_observed_at,
+            );
             CapitalAbsorptionIpoQueueItem {
                 issuer: (*issuer).to_string(),
                 status,
                 source_count,
                 event_type,
+                lifecycle_status,
+                observed_at,
+                observation_day: observation_day(observed_at, latest_observed_at),
+                near_term_weight: near_term_weight(status, observed_at, latest_observed_at),
             }
         })
         .collect()
@@ -557,18 +605,110 @@ fn split_supply_queue(
 ) -> (
     Vec<CapitalAbsorptionIpoQueueItem>,
     Vec<CapitalAbsorptionIpoQueueItem>,
+    Vec<CapitalAbsorptionObservationWatchlistItem>,
 ) {
-    let (mut near_term_supply, mut future_queue): (Vec<_>, Vec<_>) =
-        queue.into_iter().partition(is_near_term_supply);
+    let mut near_term_supply = Vec::new();
+    let mut future_queue = Vec::new();
+    let mut observation_watchlist = Vec::new();
+    for item in queue {
+        if item.source_count > 0 {
+            observation_watchlist.push(observation_watchlist_item(&item));
+        }
+        if !is_observation_asset(&item) {
+            if is_near_term_supply(&item) {
+                near_term_supply.push(item);
+            } else {
+                future_queue.push(item);
+            }
+        }
+    }
     near_term_supply.sort_by(|a, b| a.issuer.cmp(&b.issuer));
     future_queue.sort_by(|a, b| a.issuer.cmp(&b.issuer));
-    (near_term_supply, future_queue)
+    observation_watchlist.sort_by(|a, b| a.issuer.cmp(&b.issuer));
+    (near_term_supply, future_queue, observation_watchlist)
 }
 
 fn is_near_term_supply(item: &CapitalAbsorptionIpoQueueItem) -> bool {
     item.source_count > 0
+        && item.near_term_weight != Some(CapitalAbsorptionNearTermSupplyWeight::Expired)
         && (item.status >= CapitalAbsorptionIpoQueueStatus::NearTerm
             || item.event_type == CapitalAbsorptionObservationEventType::Confirmed)
+}
+
+fn is_observation_asset(item: &CapitalAbsorptionIpoQueueItem) -> bool {
+    item.source_count > 0 && item.lifecycle_status >= CapitalAbsorptionIpoLifecycleStatus::Listed
+}
+
+fn observation_watchlist_item(
+    item: &CapitalAbsorptionIpoQueueItem,
+) -> CapitalAbsorptionObservationWatchlistItem {
+    let post_ipo = item.lifecycle_status >= CapitalAbsorptionIpoLifecycleStatus::Listed;
+    let observation_day = post_ipo.then_some(item.observation_day).flatten();
+    let review_window_days = post_ipo.then_some(90);
+    let review_candidate = observation_day.is_some_and(|day| day >= 90);
+    CapitalAbsorptionObservationWatchlistItem {
+        issuer: item.issuer.clone(),
+        lifecycle_status: item.lifecycle_status,
+        observation_day,
+        review_window_days,
+        review_candidate,
+    }
+}
+
+fn observation_day(
+    observed_at: Option<NaiveDate>,
+    latest_observed_at: Option<NaiveDate>,
+) -> Option<i64> {
+    match (observed_at, latest_observed_at) {
+        (Some(observed_at), Some(latest_observed_at)) => Some(
+            latest_observed_at
+                .signed_duration_since(observed_at)
+                .num_days()
+                .max(0)
+                + 1,
+        ),
+        _ => None,
+    }
+}
+
+fn near_term_weight(
+    status: CapitalAbsorptionIpoQueueStatus,
+    observed_at: Option<NaiveDate>,
+    latest_observed_at: Option<NaiveDate>,
+) -> Option<CapitalAbsorptionNearTermSupplyWeight> {
+    if status < CapitalAbsorptionIpoQueueStatus::NearTerm {
+        return None;
+    }
+    match observation_day(observed_at, latest_observed_at) {
+        Some(day) if day <= 30 => Some(CapitalAbsorptionNearTermSupplyWeight::High),
+        Some(day) if day <= 90 => Some(CapitalAbsorptionNearTermSupplyWeight::Medium),
+        Some(_) => Some(CapitalAbsorptionNearTermSupplyWeight::Expired),
+        None => Some(CapitalAbsorptionNearTermSupplyWeight::High),
+    }
+}
+
+fn lifecycle_status_from_queue_status(
+    status: CapitalAbsorptionIpoQueueStatus,
+    event_type: CapitalAbsorptionObservationEventType,
+    observed_at: Option<NaiveDate>,
+    latest_observed_at: Option<NaiveDate>,
+) -> CapitalAbsorptionIpoLifecycleStatus {
+    if status >= CapitalAbsorptionIpoQueueStatus::Ipo {
+        return match observation_day(observed_at, latest_observed_at) {
+            Some(day) if day >= 180 => CapitalAbsorptionIpoLifecycleStatus::Graduated,
+            Some(day) if day >= 30 => CapitalAbsorptionIpoLifecycleStatus::Observed,
+            _ => CapitalAbsorptionIpoLifecycleStatus::Listed,
+        };
+    }
+    if event_type == CapitalAbsorptionObservationEventType::Confirmed {
+        CapitalAbsorptionIpoLifecycleStatus::Confirmed
+    } else if event_type == CapitalAbsorptionObservationEventType::Reported
+        || status >= CapitalAbsorptionIpoQueueStatus::Reported
+    {
+        CapitalAbsorptionIpoLifecycleStatus::Reported
+    } else {
+        CapitalAbsorptionIpoLifecycleStatus::Rumor
+    }
 }
 
 fn build_upcoming_supply_timeline(
@@ -580,6 +720,7 @@ fn build_upcoming_supply_timeline(
         timeline.push(CapitalAbsorptionSupplyTimelineItem {
             issuer: item.issuer.clone(),
             bucket: CapitalAbsorptionSupplyTimelineBucket::Next30Days,
+            lifecycle_status: item.lifecycle_status,
         });
     }
     for item in future_queue.iter().filter(|item| item.source_count > 0) {
@@ -600,6 +741,7 @@ fn build_upcoming_supply_timeline(
         timeline.push(CapitalAbsorptionSupplyTimelineItem {
             issuer: item.issuer.clone(),
             bucket,
+            lifecycle_status: item.lifecycle_status,
         });
     }
     timeline.sort_by(|a, b| {
@@ -712,7 +854,12 @@ fn build_potential_supply_pressure_drivers(
     for item in near_term_supply.iter().filter(|item| item.source_count > 0) {
         drivers.push(CapitalAbsorptionPotentialSupplyPressureDriver {
             label: format!("{} IPO", item.issuer),
-            strength: CapitalAbsorptionPressureDriverStrength::High,
+            strength: match item.near_term_weight {
+                Some(CapitalAbsorptionNearTermSupplyWeight::Medium) => {
+                    CapitalAbsorptionPressureDriverStrength::Medium
+                }
+                _ => CapitalAbsorptionPressureDriverStrength::High,
+            },
         });
     }
     for item in future_queue.iter().filter(|item| item.source_count > 0) {
@@ -1362,6 +1509,12 @@ mod tests {
             .ai_ipo_queue
             .iter()
             .any(|item| item.issuer == "OpenAI"));
+        assert!(snapshot.observation_watchlist.iter().any(|item| {
+            item.issuer == "OpenAI"
+                && item.lifecycle_status == CapitalAbsorptionIpoLifecycleStatus::Reported
+                && item.observation_day.is_none()
+                && item.review_window_days.is_none()
+        }));
         assert!(!snapshot
             .ai_ipo_queue
             .iter()
@@ -1384,6 +1537,96 @@ mod tests {
                 .map(|item| item.bucket),
             Some(CapitalAbsorptionSupplyTimelineBucket::Next30Days)
         );
+    }
+
+    #[test]
+    fn listed_spacex_moves_from_ipo_queue_to_observation_watchlist() {
+        let mut spacex = event("SpaceX", 0.0);
+        spacex.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        spacex.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        spacex.event_type = CapitalAbsorptionObservationEventType::Confirmed;
+        spacex.description = "SpaceX completed IPO and begins trading".to_string();
+        spacex.amount_usd_b = None;
+        spacex.observed_at = NaiveDate::from_ymd_opt(2026, 6, 12).unwrap();
+
+        let snapshot = build_capital_absorption_snapshot_from_events(
+            vec![spacex],
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Succeeded,
+                message: "fixture".to_string(),
+            },
+        );
+
+        assert!(snapshot.near_term_supply.is_empty());
+        assert!(!snapshot
+            .ai_ipo_queue
+            .iter()
+            .any(|item| item.issuer == "SpaceX"));
+        assert_eq!(
+            snapshot
+                .observation_watchlist
+                .iter()
+                .map(|item| {
+                    (
+                        item.issuer.as_str(),
+                        item.lifecycle_status,
+                        item.observation_day,
+                        item.review_window_days,
+                        item.review_candidate,
+                    )
+                })
+                .collect::<Vec<_>>(),
+            vec![(
+                "SpaceX",
+                CapitalAbsorptionIpoLifecycleStatus::Listed,
+                Some(1),
+                Some(90),
+                false,
+            )]
+        );
+        assert_eq!(snapshot.potential_supply_pressure.near_term_supply_count, 0);
+        assert!(snapshot.potential_supply_pressure.drivers.is_empty());
+    }
+
+    #[test]
+    fn post_ipo_observation_day_marks_review_candidate_after_ninety_days() {
+        let mut spacex = event("SpaceX", 0.0);
+        spacex.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        spacex.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        spacex.event_type = CapitalAbsorptionObservationEventType::Confirmed;
+        spacex.description = "SpaceX completed IPO and begins trading".to_string();
+        spacex.amount_usd_b = None;
+        spacex.observed_at = NaiveDate::from_ymd_opt(2026, 6, 12).unwrap();
+
+        let mut openai = event("OpenAI", 0.0);
+        openai.category = CapitalAbsorptionAutoEventCategory::IpoSupply;
+        openai.supply_kind = CapitalAbsorptionSupplyKind::Potential;
+        openai.event_type = CapitalAbsorptionObservationEventType::Reported;
+        openai.description = "OpenAI IPO reported by multiple outlets".to_string();
+        openai.amount_usd_b = None;
+        openai.observed_at = NaiveDate::from_ymd_opt(2026, 9, 9).unwrap();
+
+        let snapshot = build_capital_absorption_snapshot_from_events(
+            vec![spacex, openai],
+            CapitalAbsorptionSourceStatus {
+                provider: "fixture".to_string(),
+                status: CapitalAbsorptionSourceHealth::Succeeded,
+                message: "fixture".to_string(),
+            },
+        );
+
+        let spacex = snapshot
+            .observation_watchlist
+            .iter()
+            .find(|item| item.issuer == "SpaceX")
+            .expect("SpaceX should remain in observation watchlist");
+        assert_eq!(
+            spacex.lifecycle_status,
+            CapitalAbsorptionIpoLifecycleStatus::Observed
+        );
+        assert_eq!(spacex.observation_day, Some(90));
+        assert!(spacex.review_candidate);
     }
 
     #[test]

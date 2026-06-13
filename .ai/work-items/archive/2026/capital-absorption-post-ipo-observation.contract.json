@@ -1,0 +1,163 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-absorption-post-ipo-observation",
+  "mode": "code",
+  "title": "Capital Absorption Sensor を Post-IPO Observation 前提へ更新",
+  "scope": [
+    ".ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+    ".ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "Locked Position Support",
+    "SQLite 導入",
+    "Capital Absorption Ratio",
+    "Rolling 12M Capital Model",
+    "Trading Logic 変更",
+    "Gate / execution / trader / action matrix / position sizing / Trend Layer の挙動変更",
+    "data branch / reports / weekly metrics の保存形式変更",
+    "新規運用 command の追加"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、Cockpit、verification 境界。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item と review readiness の状態定義。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "Capital Absorption Sensor の現行表示境界と Observation Layer 契約。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "IPO queue、near-term supply、timeline、pressure、event classification の実装。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Markdown report の表示合成。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "zh / en / ja 表示文言。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "report contract test。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "IPO 後観測モデルの追加は表示・監査専用に限定できるが、near-term count と queue 分離の契約を test / docs で固定する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "変更対象、非対象、acceptance、verification が確定し、Observation Only の範囲で実装できる。"
+  },
+  "preReviewWarnings": [
+    "SpaceX の IPO 完了日は外部 reality 前提であり、実装では observed_at から observation day を算出する一般モデルとして固定する。",
+    "Review Candidate は lifecycle state ではなく 90 日経過後の review flag として扱う。",
+    "Near-Term Supply の時間減衰は pressure / count / driver 表示に限定し、Trading Signal には接続しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "IPO lifecycle が Rumor / Reported / Confirmed / Listed / Observed / Graduated を表現でき、Review Candidate は 90 日 window の flag として表示される。",
+    "IPO 完了済み issuer は IPO Queue から除外され、Observation Assets / Observation Watchlist に表示される。",
+    "SpaceX の IPO 後 event fixture は IPO Queue / Near-Term Supply ではなく Observation Watchlist に入り、Status Listed、Observation Day 1、Review Window 90 Days を表示する。",
+    "Near-Term Supply は 0-30 Days High、31-90 Days Medium、90+ Days Expired の時間減衰を持ち、Expired は near-term count / drivers から除外される。",
+    "Upcoming Supply Timeline は bucket ごとに issuer と lifecycle status を具体表示し、0-30 Days / 1-12 Months / Unknown の対象が reader に分かる。",
+    "Observation Watchlist は SpaceX / OpenAI / Anthropic などの観測対象を表示できるが、Trading Signal、READY、EXECUTE、Position Sizing、Trend Layer を変更しない。",
+    "zh / en / ja の i18n と report contract test が更新され、単一言語 report に別言語の設定文を混入させない。",
+    "docs は日本語で Post-IPO Observation 前提、非対象、保存境界、Observation Only 境界を明記する。",
+    "新しい運用 command は追加しない。既存 make target の verification だけを使う。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、Capital Absorption の Post-IPO Observation 表示と contract / summary を元に戻す。"
+}

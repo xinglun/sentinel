@@ -1,0 +1,161 @@
+{
+  "workItemId": "capital-absorption-post-ipo-observation",
+  "contractPath": ".ai/work-items/archive/2026/capital-absorption-post-ipo-observation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "reason": "Post-IPO Observation scope、acceptance、verification、非対象境界を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+      "reason": "実装結果、検証結果、review readiness を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の active status を生成した。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "Post-IPO Observation、IPO lifecycle、Near-Term Supply decay、Upcoming Supply Timeline、Observation Watchlist の契約を日本語で明記した。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "IPO lifecycle、Observation Watchlist、near-term weight、post-IPO queue 分離、review candidate flag を実装した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "zh / en / ja の lifecycle と Observation Watchlist 表示文言を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Upcoming Supply Timeline に lifecycle status を表示し、Observation Watchlist section を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "report contract test に lifecycle 表示と Post-IPO Observation Watchlist 表示を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily calibration 統合出力の lifecycle 追加に合わせて contract assertion を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-post-ipo-observation.contract.json SUMMARY=.ai/work-items/active/capital-absorption-post-ipo-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "実装は Capital Absorption の Observation Layer 表示と domain snapshot に限定し、trading / gate / position sizing には接続していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "area": "test_contract",
+      "detail": "既存の daily calibration integration assertion は lifecycle 表示追加により旧文字列を期待していたため、scope に追加して更新した。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope、acceptance、非対象、verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Contract / scope guard 通過後に production code を編集した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "fmt、test、clippy、architecture、AI guard の主要 verification が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "Summary / status 系 gate を実行対象として記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "external_reality",
+      "detail": "SpaceX IPO 完了日は外部 reality 前提であり、実装は issuer 固有の hard-code ではなく completed IPO / begins trading headline から Post-IPO Observation に分流する一般モデルとしている。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Required checks は通過済み。外部 reality 前提は一般化実装で扱ったため、review では表示契約と post-IPO 分流境界を確認する。",
+    "expectedReviewFocus": [
+      "SpaceX など IPO 完了 issuer が IPO Queue / Near-Term Supply ではなく Observation Watchlist に出ること。",
+      "Near-Term Supply decay が count / drivers に限定され、Trading Signal / READY / EXECUTE / Position Sizing / Trend Layer に接続していないこと。",
+      "Upcoming Supply Timeline と Observation Watchlist の zh / en / ja 表示が単一言語出力を保っていること。",
+      "Review Candidate が lifecycle state ではなく 90 日 flag として扱われていること。"
+    ]
+  },
+  "userCorrectionSolidification": []
+}

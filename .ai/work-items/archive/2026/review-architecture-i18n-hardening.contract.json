@@ -1,0 +1,150 @@
+{
+  "contractVersion": 1,
+  "workItemId": "review-architecture-i18n-hardening",
+  "mode": "code",
+  "title": "レビュー指摘のアーキテクチャと多言語ガード修正",
+  "scope": [
+    ".ai/work-items/active/review-architecture-i18n-hardening.contract.json",
+    ".ai/work-items/active/review-architecture-i18n-hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/architecture/coverage_exclusions.yaml",
+    ".ai/work-items/archive/2026/capital-absorption-post-ipo-observation.contract.json",
+    ".ai/work-items/archive/2026/capital-absorption-post-ipo-observation.summary.json",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "scripts/check_architecture_boundaries.py",
+    "scripts/ai_test_architecture_boundaries.py",
+    "scripts/ai_check_coverage_guard.py",
+    "scripts/ai_test_coverage_guard.py",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "tests/research_attention_cli_integration.rs",
+    "src/features/research/interface/gray_rhino_temporal_survivability_renderer.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/review-architecture-i18n-hardening.contract.json",
+      "reason": "Work Item の初期 skeleton。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "review で指摘された radar_pipeline_runner の整ファイル architecture guard 例外を確認する。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_temporal_survivability_renderer.rs",
+      "reason": "review で指摘された Gray Rhino temporal / survivability renderer の zh/en/ja 表示契約を確認する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "coverage exclude regex と coverage guard entrypoint を確認する。"
+    },
+    {
+      "path": "scripts/ai_check_coverage_guard.py",
+      "reason": "coverage exclude の理由と test evidence を hard gate 化する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "architecture checker、表示 renderer、AI coverage guard を変更するため、guard の過検出 / 見逃しと多言語表示回帰を検証する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "review 指摘は scope 内の guard / renderer / test 変更で実装と検証が可能。"
+  },
+  "preReviewWarnings": [
+    "既存 worktree には別 Work Item の未提交変更があるため、本 Work Item の staged scope を分離する。",
+    "Gate / execution / trader / action matrix / position sizing には影響しない。表示と guard 専用の修正である。",
+    "Gray Rhino temporal / survivability の Markdown / Telegram 表示に影響する。JSONL、reports、data branch、weekly metrics の保存 schema は変更しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "radar_pipeline_runner の architecture checker 例外は root config composition root 例外に限定され、adapter などの禁止依存は検出される。",
+    "Gray Rhino temporal / survivability renderer の trend、survivability、dependency risk、institutional response state が zh-cn / en-us / ja-jp で表示される。",
+    "coverage exclude regex の各 entry が `.ai/architecture/coverage_exclusions.yaml` に理由、risk、test evidence を持つことを `make check-ai-coverage-guard` が検証する。",
+    "production behavior は表示・監査 guard の範囲に限定し、Gate / execution / trader / action matrix / position sizing へ影響しない。",
+    "required verification が `make` 経由で通過している。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review-architecture-i18n-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review-architecture-i18n-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make test-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/review-architecture-i18n-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/review-architecture-i18n-hardening.contract.json SUMMARY=.ai/work-items/active/review-architecture-i18n-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review-architecture-i18n-hardening.summary.json CONTRACT=.ai/work-items/active/review-architecture-i18n-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review-architecture-i18n-hardening.contract.json SUMMARY=.ai/work-items/active/review-architecture-i18n-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review-architecture-i18n-hardening.contract.json SUMMARY=.ai/work-items/active/review-architecture-i18n-hardening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

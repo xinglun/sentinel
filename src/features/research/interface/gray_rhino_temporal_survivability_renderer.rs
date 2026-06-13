@@ -38,7 +38,7 @@ pub(super) fn render_temporal_summary(
         out.push_str(&format!(
             "- {}: {} ({} {}, {} {}, {} {})\n",
             escalation_velocity_label(language),
-            temporal_trend_label(velocity.trend),
+            temporal_trend_label(velocity.trend, language),
             delta_score_label(language),
             velocity.delta_score,
             delta_days_label(language),
@@ -51,7 +51,7 @@ pub(super) fn render_temporal_summary(
         out.push_str(&format!(
             "- {}: {} ({} {}, {} {})\n",
             evidence_acceleration_label(language),
-            temporal_trend_label(summary.evidence_acceleration.trend),
+            temporal_trend_label(summary.evidence_acceleration.trend, language),
             recent_window_count_label(language),
             summary.evidence_acceleration.recent_count,
             prior_window_count_label(language),
@@ -62,7 +62,7 @@ pub(super) fn render_temporal_summary(
         out.push_str(&format!(
             "- {}: {} ({} {}, {} {})\n",
             institutional_response_label(language),
-            institutional_response_state_label(summary.institutional_response.state),
+            institutional_response_state_label(summary.institutional_response.state, language),
             mitigating_evidence_count_label(language),
             summary.institutional_response.mitigating_count,
             amplifying_gap_count_label(language),
@@ -92,12 +92,12 @@ pub(super) fn render_survivability_summary(
     out.push_str(&format!(
         "- {}: {}\n",
         capital_access_label(language),
-        survivability_level_label(summary.capital_access)
+        survivability_level_label(summary.capital_access, language)
     ));
     out.push_str(&format!(
         "- {}: {} ({} {}, {} {})\n",
         compute_control_label(language),
-        survivability_level_label(summary.compute_control.level),
+        survivability_level_label(summary.compute_control.level, language),
         mitigating_evidence_count_label(language),
         summary.compute_control.mitigating_count,
         amplifying_gap_count_label(language),
@@ -106,7 +106,7 @@ pub(super) fn render_survivability_summary(
     out.push_str(&format!(
         "- {}: {} ({} {}, {} {})\n",
         governance_resilience_label(language),
-        survivability_level_label(summary.governance_resilience.level),
+        survivability_level_label(summary.governance_resilience.level, language),
         mitigating_evidence_count_label(language),
         summary.governance_resilience.mitigating_count,
         amplifying_gap_count_label(language),
@@ -115,7 +115,7 @@ pub(super) fn render_survivability_summary(
     out.push_str(&format!(
         "- {}: {} ({} {}, {} {})\n",
         dependency_risk_label(language),
-        dependency_risk_level_label(summary.dependency_risk.level),
+        dependency_risk_level_label(summary.dependency_risk.level, language),
         mitigating_evidence_count_label(language),
         summary.dependency_risk.mitigating_count,
         amplifying_gap_count_label(language),
@@ -124,7 +124,7 @@ pub(super) fn render_survivability_summary(
     out.push_str(&format!(
         "- {}: {} ({} {}, {} {})\n",
         retry_capacity_label(language),
-        survivability_level_label(summary.retry_capacity.level),
+        survivability_level_label(summary.retry_capacity.level, language),
         mitigating_evidence_count_label(language),
         summary.retry_capacity.mitigating_count,
         amplifying_gap_count_label(language),
@@ -353,38 +353,162 @@ fn survivability_summary_boundary(language: Language) -> &'static str {
     }
 }
 
-fn temporal_trend_label(trend: TemporalTrend) -> &'static str {
-    match trend {
-        TemporalTrend::Rising => "RISING",
-        TemporalTrend::Stable => "STABLE",
-        TemporalTrend::Falling => "FALLING",
+fn temporal_trend_label(trend: TemporalTrend, language: Language) -> &'static str {
+    match (trend, language) {
+        (TemporalTrend::Rising, Language::ZhCn) => "上升",
+        (TemporalTrend::Stable, Language::ZhCn) => "稳定",
+        (TemporalTrend::Falling, Language::ZhCn) => "下降",
+        (TemporalTrend::Rising, Language::EnUs) => "Rising",
+        (TemporalTrend::Stable, Language::EnUs) => "Stable",
+        (TemporalTrend::Falling, Language::EnUs) => "Falling",
+        (TemporalTrend::Rising, Language::JaJp) => "上昇",
+        (TemporalTrend::Stable, Language::JaJp) => "安定",
+        (TemporalTrend::Falling, Language::JaJp) => "低下",
     }
 }
 
-fn survivability_level_label(level: SurvivabilityLevel) -> &'static str {
-    match level {
-        SurvivabilityLevel::Extreme => "EXTREME",
-        SurvivabilityLevel::High => "HIGH",
-        SurvivabilityLevel::Medium => "MEDIUM",
-        SurvivabilityLevel::Low => "LOW",
-        SurvivabilityLevel::Unknown => "UNKNOWN",
+fn survivability_level_label(level: SurvivabilityLevel, language: Language) -> &'static str {
+    match (level, language) {
+        (SurvivabilityLevel::Extreme, Language::ZhCn) => "极高",
+        (SurvivabilityLevel::High, Language::ZhCn) => "高",
+        (SurvivabilityLevel::Medium, Language::ZhCn) => "中",
+        (SurvivabilityLevel::Low, Language::ZhCn) => "低",
+        (SurvivabilityLevel::Unknown, Language::ZhCn) => "未知",
+        (SurvivabilityLevel::Extreme, Language::EnUs) => "Extreme",
+        (SurvivabilityLevel::High, Language::EnUs) => "High",
+        (SurvivabilityLevel::Medium, Language::EnUs) => "Medium",
+        (SurvivabilityLevel::Low, Language::EnUs) => "Low",
+        (SurvivabilityLevel::Unknown, Language::EnUs) => "Unknown",
+        (SurvivabilityLevel::Extreme, Language::JaJp) => "極めて高い",
+        (SurvivabilityLevel::High, Language::JaJp) => "高",
+        (SurvivabilityLevel::Medium, Language::JaJp) => "中",
+        (SurvivabilityLevel::Low, Language::JaJp) => "低",
+        (SurvivabilityLevel::Unknown, Language::JaJp) => "不明",
     }
 }
 
-fn dependency_risk_level_label(level: DependencyRiskLevel) -> &'static str {
-    match level {
-        DependencyRiskLevel::High => "HIGH",
-        DependencyRiskLevel::Medium => "MEDIUM",
-        DependencyRiskLevel::Low => "LOW",
-        DependencyRiskLevel::Unknown => "UNKNOWN",
+fn dependency_risk_level_label(level: DependencyRiskLevel, language: Language) -> &'static str {
+    match (level, language) {
+        (DependencyRiskLevel::High, Language::ZhCn) => "高",
+        (DependencyRiskLevel::Medium, Language::ZhCn) => "中",
+        (DependencyRiskLevel::Low, Language::ZhCn) => "低",
+        (DependencyRiskLevel::Unknown, Language::ZhCn) => "未知",
+        (DependencyRiskLevel::High, Language::EnUs) => "High",
+        (DependencyRiskLevel::Medium, Language::EnUs) => "Medium",
+        (DependencyRiskLevel::Low, Language::EnUs) => "Low",
+        (DependencyRiskLevel::Unknown, Language::EnUs) => "Unknown",
+        (DependencyRiskLevel::High, Language::JaJp) => "高",
+        (DependencyRiskLevel::Medium, Language::JaJp) => "中",
+        (DependencyRiskLevel::Low, Language::JaJp) => "低",
+        (DependencyRiskLevel::Unknown, Language::JaJp) => "不明",
     }
 }
 
-fn institutional_response_state_label(state: InstitutionalResponseState) -> &'static str {
-    match state {
-        InstitutionalResponseState::Strong => "STRONG",
-        InstitutionalResponseState::Adequate => "ADEQUATE",
-        InstitutionalResponseState::Weak => "WEAK",
-        InstitutionalResponseState::NoData => "NO_DATA",
+fn institutional_response_state_label(
+    state: InstitutionalResponseState,
+    language: Language,
+) -> &'static str {
+    match (state, language) {
+        (InstitutionalResponseState::Strong, Language::ZhCn) => "强",
+        (InstitutionalResponseState::Adequate, Language::ZhCn) => "充分",
+        (InstitutionalResponseState::Weak, Language::ZhCn) => "弱",
+        (InstitutionalResponseState::NoData, Language::ZhCn) => "无数据",
+        (InstitutionalResponseState::Strong, Language::EnUs) => "Strong",
+        (InstitutionalResponseState::Adequate, Language::EnUs) => "Adequate",
+        (InstitutionalResponseState::Weak, Language::EnUs) => "Weak",
+        (InstitutionalResponseState::NoData, Language::EnUs) => "No data",
+        (InstitutionalResponseState::Strong, Language::JaJp) => "強い",
+        (InstitutionalResponseState::Adequate, Language::JaJp) => "十分",
+        (InstitutionalResponseState::Weak, Language::JaJp) => "弱い",
+        (InstitutionalResponseState::NoData, Language::JaJp) => "データなし",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::features::research::domain::gray_rhino_survivability_policy::{
+        DependencyRiskDimension, SurvivabilityDimension,
+    };
+    use crate::features::research::domain::gray_rhino_temporal_policy::{
+        EscalationVelocity, EvidenceAcceleration, InstitutionalResponseSummary,
+    };
+
+    #[test]
+    fn temporal_summary_localizes_state_values() {
+        let summary = GrayRhinoTemporalSummary {
+            temperature: TemperatureLevel::High,
+            velocity: TemperatureVelocity::Accelerating,
+            escalation_velocity: Some(EscalationVelocity {
+                delta_score: 2,
+                delta_days: 3,
+                changed_dimension_count: 2,
+                trend: TemporalTrend::Rising,
+            }),
+            evidence_acceleration: EvidenceAcceleration {
+                recent_count: 1,
+                prior_count: 3,
+                trend: TemporalTrend::Falling,
+            },
+            institutional_response: InstitutionalResponseSummary {
+                mitigating_count: 2,
+                amplifying_count: 1,
+                state: InstitutionalResponseState::Strong,
+            },
+        };
+
+        let zh = render_temporal_summary(&summary, Language::ZhCn);
+        assert!(zh.contains("上升"));
+        assert!(zh.contains("下降"));
+        assert!(zh.contains("强"));
+        assert!(!zh.contains("RISING"));
+        assert!(!zh.contains("STRONG"));
+
+        let ja = render_temporal_summary(&summary, Language::JaJp);
+        assert!(ja.contains("上昇"));
+        assert!(ja.contains("低下"));
+        assert!(ja.contains("強い"));
+        assert!(!ja.contains("RISING"));
+        assert!(!ja.contains("STRONG"));
+    }
+
+    #[test]
+    fn survivability_summary_localizes_state_values() {
+        let summary = GrayRhinoSurvivabilitySummary {
+            capital_access: SurvivabilityLevel::Unknown,
+            compute_control: SurvivabilityDimension {
+                level: SurvivabilityLevel::High,
+                mitigating_count: 2,
+                amplifying_count: 0,
+            },
+            governance_resilience: SurvivabilityDimension {
+                level: SurvivabilityLevel::Medium,
+                mitigating_count: 1,
+                amplifying_count: 1,
+            },
+            dependency_risk: DependencyRiskDimension {
+                level: DependencyRiskLevel::Medium,
+                mitigating_count: 1,
+                amplifying_count: 1,
+            },
+            retry_capacity: SurvivabilityDimension {
+                level: SurvivabilityLevel::Extreme,
+                mitigating_count: 3,
+                amplifying_count: 0,
+            },
+        };
+
+        let zh = render_survivability_summary(&summary, Language::ZhCn);
+        assert!(zh.contains("极高"));
+        assert!(zh.contains("高"));
+        assert!(zh.contains("中"));
+        assert!(!zh.contains("EXTREME"));
+        assert!(!zh.contains("HIGH"));
+        assert!(!zh.contains("MEDIUM"));
+
+        let en = render_survivability_summary(&summary, Language::EnUs);
+        assert!(en.contains("Extreme"));
+        assert!(en.contains("High"));
+        assert!(en.contains("Medium"));
     }
 }

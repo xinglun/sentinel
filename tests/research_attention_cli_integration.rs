@@ -472,10 +472,10 @@ fn gray_rhino_daily_report_uses_evidence_backed_sensor_health() {
     assert!(stdout.contains("Gray Rhino Temperature Change"));
     assert!(stdout.contains("Temperature: High"));
     assert!(stdout.contains("Velocity: Rising"));
-    assert!(stdout.contains("Evidence acceleration: RISING"));
+    assert!(stdout.contains("Evidence acceleration: Rising"));
     assert!(stdout.contains("Survivability Assessment"));
-    assert!(stdout.contains("Capital access: UNKNOWN"));
-    assert!(stdout.contains("Dependency risk: MEDIUM"));
+    assert!(stdout.contains("Capital access: Unknown"));
+    assert!(stdout.contains("Dependency risk: Medium"));
     assert!(stdout.contains("Gray Rhino Sensor Health"));
     assert!(stdout.contains("Dependency Concentration: 1 evidence record"));
     assert!(stdout.contains("It does not generate trading signals."));
@@ -2894,7 +2894,9 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("潜在供给趋势"));
     assert!(stdout.contains("- 趋势: 稳定（STABLE）"));
     assert!(stdout.contains("Future IPO 队列"));
-    assert!(stdout.contains("Anthropic: IPO 阶段 传闻（Rumor） · Evidence 传闻（Rumor）"));
+    assert!(stdout.contains(
+        "Anthropic: IPO 阶段 传闻（Rumor） · Lifecycle 传闻（Rumor） · Evidence 传闻（Rumor）"
+    ));
     assert!(stdout.contains("发现"));
     assert!(stdout.contains("新增:"));
     assert!(stdout.contains("- Alphabet x1"));
