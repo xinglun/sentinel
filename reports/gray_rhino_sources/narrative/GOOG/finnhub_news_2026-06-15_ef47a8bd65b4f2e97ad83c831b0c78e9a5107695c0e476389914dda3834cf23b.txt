@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's $75 Billion IPO Fuels $1.5 Trillion Equity Supply Wave
+  summary: JPMorgan sees IPOs and share sales adding roughly $1.5 trillion of net stock supply over two years.
+  url: https://finnhub.io/api/news?id=0df637e8756dbf2178d2c19d89eaed5d1c9972589328bc85e25e02f84b9fb36c

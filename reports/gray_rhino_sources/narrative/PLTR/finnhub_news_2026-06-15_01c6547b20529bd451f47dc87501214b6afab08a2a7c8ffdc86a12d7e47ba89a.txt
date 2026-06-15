@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Bulls Face a Key Momentum Test
+  summary: Stock needs support to prevent deeper weakness
+  url: https://finnhub.io/api/news?id=ca79b17676e552a4d3dc8da98d41f445d57d7fd7831fda56b259cc8deb2d5139

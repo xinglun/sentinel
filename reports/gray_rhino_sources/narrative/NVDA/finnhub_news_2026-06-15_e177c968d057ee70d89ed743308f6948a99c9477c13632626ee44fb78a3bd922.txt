@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 15% Yield ETF That Steals Warren Buffett’s Playbook
+  summary: Buffett famously refuses to pay a dividend on Berkshire Hathaway because he can compound your cash better than you can. The VistaShares Target 15 Berkshire Select Income ETF (NYSEARCA:OMAH) disagrees, politely. OMAH holds a Berkshire-style basket of value names and overlays an options strategy designed to push out a 15% annual distribution, paid monthly. You ... The 15% Yield ETF That Steals Warren Buffett’s Playbook
+  url: https://finnhub.io/api/news?id=f24ad67e48f8bc0758220213a46350a29bc431d60f4785bac79e3b54ff70ca6f

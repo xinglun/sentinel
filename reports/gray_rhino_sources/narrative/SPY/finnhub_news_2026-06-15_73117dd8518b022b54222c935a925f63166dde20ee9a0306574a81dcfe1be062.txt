@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Internal Strength Broadens Beyond Mega-Cap Growth
+  summary: U.S. market breadth improved on June 12, 2026, as small caps strengthened, weekly participation rebounded, and the breadth trend shifted to positive.
+  url: https://finnhub.io/api/news?id=0f0ae193602c57d39f44908de70aa6d6e90f17dc96f0a0220170dc9bb3addba7

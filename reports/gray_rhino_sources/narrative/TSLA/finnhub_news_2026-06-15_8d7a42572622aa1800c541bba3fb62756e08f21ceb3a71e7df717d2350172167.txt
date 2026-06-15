@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 12 Scariest Words in SpaceX's Prospectus All but Confirm an Imminent Fleecing of Retail Investors
+  summary: If you thought SpaceX was done raising capital after its $75 billion initial public offering (IPO), guess again!
+  url: https://finnhub.io/api/news?id=f404b4eeeac06e9caa9395fcd3ac55301c5a1f032153101c10396d672b38ac55

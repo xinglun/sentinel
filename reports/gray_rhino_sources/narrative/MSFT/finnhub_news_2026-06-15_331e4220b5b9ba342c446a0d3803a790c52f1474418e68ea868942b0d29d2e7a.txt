@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Falling Knife or Once-in-a-Decade Buying Opportunity?
+  summary: Microsoft stock has dropped 15% in June.
+  url: https://finnhub.io/api/news?id=94de6dd3cc3f7ed5c1114acb0df50a531510a8476da12e4caf0547e3273db5d5

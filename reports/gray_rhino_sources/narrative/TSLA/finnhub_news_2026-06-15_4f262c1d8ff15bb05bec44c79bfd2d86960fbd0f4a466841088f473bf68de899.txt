@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From $4 To $500? Eric Jackson's Bold Thesis Pitches Opendoor As Real Estate's Tesla Moment
+  summary: EMJ Capital’s Founder Eric Jackson has released a new thesis arguing that real estate platform Opendoor Technologies Inc. isn’t just an iBuyer recovering from macro headwinds—it's an asymmetric bet poised to replicate the “30x to 200x” returns of generational stocks...
+  url: https://finnhub.io/api/news?id=51da203c8c979aee9a383d7682742dc8597bf532a2180ebb26afb166ff2ba921

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CIO Weekly: Can The U.S. Consumer's Resilience Last?
+  summary: With so much in geopolitics and markets to be distracted by, the importance of the U.S. consumer can be easily overlooked. In our view, it's time the consumer came back into focus.
+  url: https://finnhub.io/api/news?id=5260c276fffc1428fa77218da51d556a76cd97db5e8363e0c4962a043f68a697

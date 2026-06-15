@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Optimus Could Drive Huge Revenue Upside, Analyst Says
+  summary: Tesla Inc. is well-positioned to scale production of its Optimus humanoid robot by leveraging years of electric vehicle manufacturing experience, artificial intelligence expertise, and an established supplier network, according to a new report. Tesla Leverages EV Expertise for Humanoid Push...
+  url: https://finnhub.io/api/news?id=5177d3cf888c3193b6297d5af03b64824e54a6cf4610dce3095ff61e4b37a7cf

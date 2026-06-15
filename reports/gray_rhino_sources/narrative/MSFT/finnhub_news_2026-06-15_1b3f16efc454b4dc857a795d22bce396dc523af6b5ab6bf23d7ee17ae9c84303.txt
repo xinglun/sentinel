@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft sued by shareholders over expenses, cloud business, AI
+  summary: Microsoft has been sued by shareholders who accused the company of defrauding them and inflating its stock ‌price by failing to disclose slowing growth in its Azure cloud ‌business and the need to spend billions of dollars on AI infrastructure.  The proposed class action ​led by a Michigan pension fund was filed in Seattle federal court on Friday, after Microsoft shares fell 10% on January 29 in response to its quarterly earnings report a day earlier.  About $357 billion of market value was erased, and Microsoft's stock ‌suffered its biggest one-day ⁠decline in nearly six years.
+  url: https://finnhub.io/api/news?id=8af834c07bd77ec44d3909adf03a5b43e63adb94a13e0891ff7f31e3df9d077b

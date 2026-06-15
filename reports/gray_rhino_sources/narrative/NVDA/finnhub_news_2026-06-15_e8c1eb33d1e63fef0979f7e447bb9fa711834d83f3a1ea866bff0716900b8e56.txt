@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: KKR Targets AI Infrastructure And Advisory Growth With Helix And Crowe
+  summary: KKR (NYSE:KKR) has launched Helix Digital Infrastructure, a US$10 billion venture focused on AI-oriented data centers with partners including Nvidia, Kuwait Investment Authority, and Vistra. Helix will be led by former AWS CEO Adam Selipsky and is positioned to develop and operate large-scale digital infrastructure for AI workloads. KKR has also agreed to a major equity investment in Crowe Advisory LLC, becoming the firm’s first institutional capital partner. Crowe Advisory is one of the...
+  url: https://finnhub.io/api/news?id=9202ef2ecc4f255755624ef687dde40a1a88470e0a52515f854316a4c918cacf

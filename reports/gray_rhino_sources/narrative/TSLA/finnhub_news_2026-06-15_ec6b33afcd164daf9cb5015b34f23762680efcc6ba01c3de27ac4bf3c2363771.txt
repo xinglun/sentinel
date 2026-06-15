@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s “Misleading” Numbers
+  summary: Regulators in Sweden and the Netherlands say Tesla (NASDAQ: TSLA) has provided them with “misleading data,” according to Reuters. This data involved Tesla’s “Full Self-Driving” (FSD) system. The regulators said that Tesla supplied the data. Regulators added that the figures were part of Tesla’s attempt to get approval for its broad use. At the heart ... Tesla’s “Misleading” Numbers
+  url: https://finnhub.io/api/news?id=c4ae35707f0a7721bc9effb16cd53fa16eef429ae4ffddd4b095eac06c625f08

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett Successor Greg Abel Pours $10 Billion More Into His Largest Bet Yet
+  summary: This stock is quickly becoming one of Berkshire Hathaway's largest holdings.
+  url: https://finnhub.io/api/news?id=f93c4eee91dc7f53e96d36fddcc553aacbc99742de45661f534d78da5e6e0710

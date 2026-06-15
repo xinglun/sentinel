@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Retirees Are Dropping Traditional Bonds for This 12%-Yielding Income Fund
+  summary: Retirees who built portfolios around the assumption that bonds would carry the income load have spent the past few years watching that math break down, and many are now parked in something like the NEOS S&P 500 High Income ETF (BATS:SPYI) instead. SPYI pays monthly, currently distributes at a rate near 12% annualized, and uses ... Retirees Are Dropping Traditional Bonds for This 12%-Yielding Income Fund
+  url: https://finnhub.io/api/news?id=16574fcbafc5f93dc2be6a12564d41da133e94b911a582be5f9e00d9723be62d

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rallies 500 Points On U.S.-Iran Deal; Oil Prices Tumble (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rallied 500 points Monday on the U.S.-Iran deal. Oil prices dived below $80 a barrel.
+  url: https://finnhub.io/api/news?id=93f78a7f95b9d230e0a3e4096422e2a28ef5e1e459001d7c252ad57a196565df

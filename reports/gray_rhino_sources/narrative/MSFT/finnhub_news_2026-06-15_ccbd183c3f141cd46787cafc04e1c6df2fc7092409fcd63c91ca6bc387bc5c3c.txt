@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: KPMG drops AI report after false case studies exposed
+  summary: The report is accused of falsely describing AI use at UBS, NHS Greater Manchester, Swiss Federal Railways and TfL.
+  url: https://finnhub.io/api/news?id=10694c4d84e48ff0bada28112c7f539bf1e92c4ed727c2a587e37c0fe3b29952

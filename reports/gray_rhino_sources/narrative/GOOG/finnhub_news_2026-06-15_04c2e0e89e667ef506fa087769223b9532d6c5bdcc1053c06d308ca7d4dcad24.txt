@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett's Successor, Greg Abel, Is Betting Big on a Virtual Monopoly That's About to Become Berkshire Hathaway's 4th-Largest Holding
+  summary: This isn't your grandparents' Berkshire anymore -- tech stocks are on the menu!
+  url: https://finnhub.io/api/news?id=6d32fd9b25a4d4fb0d25b90a58fd0ee48399a27d6de8bba8f4a2c6b0fc4f63ea

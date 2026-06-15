@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mistral AI weighs new funding at $23bn valuation
+  summary: The French firm explores fresh funding as it seeks to expand its market position and secure new partnerships.
+  url: https://finnhub.io/api/news?id=b5f2e5bad3b71d12c7cbc1427643b850979299d7281962ad88a2d6a4584b6c74

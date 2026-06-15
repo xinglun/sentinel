@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk’s SpaceX $1 Trillion Revenue Goal
+  summary: Elon Musk thinks SpaceX (NASDAQ: SPCX) will have $1 trillion in revenue in 2031. Its revenue last year was just shy of $19 billion. According to CNBC, Goldman Sachs forecasts $470 in 2030. Morgan Stanley’s forecast is $330 billion. In other words, Musk has an immensely large target based on mainstream expectations. What is not ... Musk’s SpaceX $1 Trillion Revenue Goal
+  url: https://finnhub.io/api/news?id=b8ed8509034604f646a58ee50b5535024c7472108f631ea3c4200308074ce3e6

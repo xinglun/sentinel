@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-06-12",
-  "avg_confidence": 57.406095228906906,
-  "avg_stability": 23.491103383914623,
+  "as_of_date": "2026-06-15",
+  "avg_confidence": 57.02829421180711,
+  "avg_stability": 24.313436071085075,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-06-04",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-06-05",
@@ -93,18 +80,31 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-15",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-13T00:44:06.879768490+09:00",
+  "generated_at": "2026-06-16T01:21:29.650879615+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
       "confirmed_count_latest": 1,
       "future_queue_count_latest": 1,
-      "latest_date": "2026-06-12",
+      "latest_date": "2026-06-15",
       "near_term_supply_count_latest": 1,
       "pressure_latest": "NORMAL",
       "queue_count_latest": 1,

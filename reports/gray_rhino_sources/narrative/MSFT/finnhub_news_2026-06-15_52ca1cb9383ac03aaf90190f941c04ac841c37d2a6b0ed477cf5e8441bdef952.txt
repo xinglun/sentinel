@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is The Market Really Expecting From PLTR Stock?
+  summary: At $127.99, Palantir Technologies (PLTR) is being priced to deliver 33.3% revenue growth annually for the next 7 years simply to defend today's 134.3x multiple. That sits below the 67.7% the business is currently growing at, which is the unusual part. The multiple has already priced in a slowdown that has not yet appeared.
+  url: https://finnhub.io/api/news?id=c317890a578b9603c2b6160913f0de95ca39ed8eb0e64bebff539f03d28e5f3d

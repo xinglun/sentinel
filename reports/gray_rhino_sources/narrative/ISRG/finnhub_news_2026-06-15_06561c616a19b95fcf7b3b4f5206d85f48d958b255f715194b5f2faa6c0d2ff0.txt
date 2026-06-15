@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG's Capital Placement Surge: Demand Strength or Upgrade Cycle Peak?
+  summary: ISRG placed 431 da Vinci systems in Q1 2026, but rising trade-ins and leasing growth raise questions about whether demand is structural or upgrade-driven.
+  url: https://finnhub.io/api/news?id=7037384ba5e309ea334bbbd902fe5240489f007437dae2aca8205baa6d41bafc

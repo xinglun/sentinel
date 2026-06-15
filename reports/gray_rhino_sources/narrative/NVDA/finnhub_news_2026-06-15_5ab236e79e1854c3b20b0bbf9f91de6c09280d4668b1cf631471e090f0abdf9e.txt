@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Coinbase Will Trade at This Price in 2027
+  summary: Coinbase (NASDAQ:COIN) is the most important pure-play crypto stock in the market, and right now it is acting like its best days are behind it. Shares trade around $159.78, down 29.34% year to date even as Brian Armstrong builds out an “Everything Exchange” spanning crypto, equities, prediction markets, and FX. The Deribit deal closed. Prediction ... Prediction: Coinbase Will Trade at This Price in 2027
+  url: https://finnhub.io/api/news?id=fe7e3c4a413ef385f4d7f4ce03a70bad534326fa4fd0a84285d7be86bd0fa63a

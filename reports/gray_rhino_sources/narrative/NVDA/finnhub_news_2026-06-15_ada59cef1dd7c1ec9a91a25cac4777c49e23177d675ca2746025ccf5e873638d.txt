@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could This Single AI ETF Turn $10,000 Into a Fortune by 2030?
+  summary: A $10,000 stake in the Roundhill Generative AI & Technology ETF (NYSEARCA:CHAT) at its May 18, 2023 launch is sitting on a 262% gain. This is a return that makes the 2030 question feel almost rhetorical. Almost. The real question with CHAT is whether the next four years can deliver another run like that, or ... Could This Single AI ETF Turn $10,000 Into a Fortune by 2030?
+  url: https://finnhub.io/api/news?id=60371fec6311c83bb7add137e4c994b8e51f2c84330411f92824e18f034755d1

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ripple and Ethereum Jump 9%, Bitcoin Gains 4% as Iran Truce Sparks Crypto Rally
+  summary: The cryptocurrency market is on fire Monday morning, with Ripple (CRYPTO:XRP) and Ethereum (CRYPTO:ETH) leading the charge. Ripple is up 9% over the past 24 hours to $1.237 while Ethereum up 9% to $1,811. This rally is taking place as risk appetite returns across multiple asset classes. Bitcoin (CRYPTO:BTC), the sector heavyweight, is also participating, ... Ripple and Ethereum Jump 9%, Bitcoin Gains 4% as Iran Truce Sparks Crypto Rally
+  url: https://finnhub.io/api/news?id=73356048f1544aab7e45f5851baada27cb07dfc63d8640bd62f9401952e5c510

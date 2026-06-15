@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX just took Palantir's top spot with one of the most excessive valuation multiples in megacap tech
+  summary: Let the eye-opening valuations for SpaceX begin!
+  url: https://finnhub.io/api/news?id=2954a7fc0eb244adb9608ddd0ca47a2f5556767bc871a6721e3dc685363e5cc7

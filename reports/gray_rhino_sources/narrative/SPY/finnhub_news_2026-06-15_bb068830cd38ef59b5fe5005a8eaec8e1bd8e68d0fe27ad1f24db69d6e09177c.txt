@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intraday Outlook On Nasdaq 100, Dow Jones, AUD/USD And Gold
+  summary: Nasdaq 100, Dow Jones, AUD/USD, and Gold have all posted bullish gap-ups, but their advances remain vulnerable to reversal if key support levels fail.
+  url: https://finnhub.io/api/news?id=f232caa8d83e0fcc81c2b8b0f27431e713304bfd858f0253112291fdea19d5ef

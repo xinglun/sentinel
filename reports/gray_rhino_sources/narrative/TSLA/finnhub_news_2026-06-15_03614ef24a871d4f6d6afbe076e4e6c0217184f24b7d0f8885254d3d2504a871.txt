@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock gains: What its IPO signals about its future success
+  summary: SpaceX stock (SPCX) continues rising in Monday's pre-market trading (maintaining gains at the session open at the time of this video's posting) ahead of the space company's first full day of trading since its historic IPO last Friday. Morning Brief Host Julie Hyman and Barron's Investor Circle Newsletter editor Josh Schafer examine SpaceX's performance thus far and what it may signal about the success of the company in its future lifetime.
+  url: https://finnhub.io/api/news?id=ffa7b74039cb55f088cf729b83724f8a48b4cad130e517730b0ac16aca68a563

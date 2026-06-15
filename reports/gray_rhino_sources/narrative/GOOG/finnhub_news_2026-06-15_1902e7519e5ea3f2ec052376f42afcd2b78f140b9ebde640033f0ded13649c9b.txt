@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Rises as Chip Maker Looks to Sell High-Grade Debt for First Time in 5 Years
+  summary: Nvidia stock was gaining as it outlined plans to issue investment-grade corporate bonds for the first time since 2021.
+  url: https://finnhub.io/api/news?id=f3febd11901fb17142e5daa533687dd1789791cc0b85e777f4de174f131f6904

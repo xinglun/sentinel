@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wiley and IQVIA Release Cross-Sector Report on AI’s Promise and Pressure Points Across Healthcare Value Chain
+  summary: HOBOKEN, N.J., June 15, 2026--Wiley (NYSE: WLY) and IQVIA (NYSE: IQV) today released Scientific Discovery & AI: The Science-to-Patient Journey, a cross-sector intelligence report drawing on candid dialogue among more than 25 senior leaders from pharma R&D, academic medicine, health systems, AI and technology, publishing and learned societies.
+  url: https://finnhub.io/api/news?id=b283c5b93f79af7d26541db6b5dd7d64a59d46f401de9397fd0749521b9c8375

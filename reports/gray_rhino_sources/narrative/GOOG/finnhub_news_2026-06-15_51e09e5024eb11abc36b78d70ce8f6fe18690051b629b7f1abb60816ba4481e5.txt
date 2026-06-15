@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Backblaze: “Solid Company, Just Not the Right Time”
+  summary: Backblaze, Inc. (NASDAQ:BLZE) was among the stocks Jim Cramer highlighted during Mad Money, as he noted the rotation into defensive sectors. Cramer suggested putting a “pin in it,” as he said: For such a tiny company, Backblaze is already starting to put up some pretty impressive numbers… We’re talking about a relatively small-time money loser […]
+  url: https://finnhub.io/api/news?id=0bbbf6905e066b3f0e329a2da3b74a389e85bdfe2e31233d393b3a77395429d3

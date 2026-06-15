@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Up 300% YTD, How High Can CAT Stock Rally This Year?
+  summary: Caterpillar (NYSE:CAT) has been one of the most surprising large-cap winners of 2026. The world’s largest construction and mining equipment maker has ridden an AI-driven power generation boom, a record backlog, and aggressive buybacks to a 59.63% year-to-date gain and a 155% one-year run. The question now is how much rally is left. Our 24/7 ... Up 300% YTD, How High Can CAT Stock Rally This Year?
+  url: https://finnhub.io/api/news?id=1a3bb5afc96e2582242414f03310b3bd1c66659b2ba8207ed1cedf60590733f7

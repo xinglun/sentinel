@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Praises Tesla's 'Awesome' AI Chip Team, Says AI6 May Set New Wafer Intelligence Record
+  summary: Elon Musk said Tesla Inc.'s upcoming AI6 chip could set a record for "usable intelligence" produced from each semiconductor wafer, highlighting the company's effort to pair raw computing power with manufacturing efficiency. Musk Praises Tesla AI Chip Team Musk praised...
+  url: https://finnhub.io/api/news?id=a673866ee27bebee8b4484e0f0ce55003adb2e1f9fff623da091d5963860d1d3

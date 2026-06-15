@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kevin Warsh Ready to Stop Telegraphing Fed Policy. How Will the Market React to Flying Blind?
+  summary: For more than a decade, investors have enjoyed something unusual from the Federal Reserve: clues. Not certainty, but hints. Through quarterly economic projections, the famous “dot plot,” and carefully crafted forward guidance, the Fed has tried to reduce surprises and help markets prepare for future policy moves. That approach may be about to change. As ... Kevin Warsh Ready to Stop Telegraphing Fed Policy. How Will the Market React to Flying Blind?
+  url: https://finnhub.io/api/news?id=525113bccc7abf63f297c70884c0a930afc833ea71589758111e24cbd8c43f89

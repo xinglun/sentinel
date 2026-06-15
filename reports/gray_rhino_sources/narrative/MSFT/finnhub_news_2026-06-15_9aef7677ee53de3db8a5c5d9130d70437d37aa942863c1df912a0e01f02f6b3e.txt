@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Lab Radical Numerics Launches with $50M Seed Round To Build General Biological Intelligence
+  summary: SAN FRANCISCO, June 15, 2026--AI Lab Radical Numerics Launches with $50M Seed Round To Build General Biological Intelligence
+  url: https://finnhub.io/api/news?id=4f5d7dca1382d81806142b037f6e522bf895e6dced24254aabe58aca21bbb8b7

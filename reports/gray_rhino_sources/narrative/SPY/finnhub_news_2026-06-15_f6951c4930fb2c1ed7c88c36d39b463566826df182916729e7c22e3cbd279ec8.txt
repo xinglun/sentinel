@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peace Agreement Sends Pre-Market Futures Higher
+  summary: The pending Memorandum of Understanding comes directly ahead of a new G7 summit this week.
+  url: https://finnhub.io/api/news?id=4866aa0dd9646de7b146cf6b34c217aa451d65549b91df24ad228ff0ff4bcadc

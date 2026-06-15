@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sequoia’s Sean Maguire Compares SpaceX to ‘Nvidia Three Years Ago’ and Plans to Hold Forever
+  summary: Sequoia Capital partner Shaun Maguire went on CNBC last week and said SpaceX (NASDAQ:SPCX), freshly trading, looks to him “more like Nvidia three years ago” than Tesla (NASDAQ:TSLA). He also said he plans to hold his shares “forever.” Sequoia is a longtime SpaceX backer, so the incentive to talk his book is obvious. Still, the comparison is ... Sequoia’s Sean Maguire Compares SpaceX to ‘Nvidia Three Years Ago’ and Plans to Hold Forever
+  url: https://finnhub.io/api/news?id=5046e40b7f9894efa6a75ee22145e2d0a46d339be6f9f4f0700571b31d933bd6

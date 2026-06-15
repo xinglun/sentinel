@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Tops $900B Market Cap For First Time As Ryzen AI Halo Challenges Nvidia DGX Spark
+  summary: AMD's Ryzen AI Halo developer platform is now available for $3,999, undercutting Nvidia's DGX Spark by $700 while offering support for running large AI models locally.
+  url: https://finnhub.io/api/news?id=351cf316169c9d7c93571d39eb30a2282328c2d37d2557b4faf7f894155414ee

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arrow Electronics Attains the Microsoft Frontier Distributor Designation Across EMEA and North America
+  summary: CENTENNIAL, Colo., June 15, 2026--Arrow Electronics announced on June 15, 2026, that it has earned the Frontier Distributor designation within the Microsoft AI Cloud Partner Program.
+  url: https://finnhub.io/api/news?id=fcf658d7c54150acad013347180d3e5362bc7ce5c5ca70aa14c5aab14f405134

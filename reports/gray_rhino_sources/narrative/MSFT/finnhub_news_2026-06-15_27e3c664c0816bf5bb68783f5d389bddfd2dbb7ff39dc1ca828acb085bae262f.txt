@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s SPCX IPO Lifted Off and the Market’s Rallying — Here are Stocks to Buy That Aren’t SpaceX
+  summary: It looks like the Space Exploration Technologies (NASDAQ:SPCX) enjoyed quite a successful lift-off on Friday’s session, with the broad markets both enjoying a big up day as the $2.1 trillion whale found a spot without causing mass profit-taking elsewhere. Now that the SpaceX IPO is in the record books, questions linger as to whether it’s ... Elon Musk’s SPCX IPO Lifted Off and the Market’s Rallying — Here are Stocks to Buy That Aren’t SpaceX
+  url: https://finnhub.io/api/news?id=3b47b58133f74fe5fb09702626507f7860ba82a08b5202aa9a2a67824ed13038

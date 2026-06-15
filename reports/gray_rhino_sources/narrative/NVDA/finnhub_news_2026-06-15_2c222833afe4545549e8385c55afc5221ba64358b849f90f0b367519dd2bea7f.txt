@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: STOXX 600 Rockets to All-Time High on US-Iran Peace Breakthrough
+  summary: A sweeping macro relief rally has erased all conflict-related losses as tumbling oil prices ease Eurozone inflation fears.
+  url: https://finnhub.io/api/news?id=e8685e963cf699183cf643114ed5738c3a82c6a26d3d5705432751b851c3b1a1

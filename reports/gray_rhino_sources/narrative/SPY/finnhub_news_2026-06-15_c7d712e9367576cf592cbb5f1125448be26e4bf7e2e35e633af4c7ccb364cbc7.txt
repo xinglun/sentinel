@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A SpaceX Hangover Should Lead To More Rotation
+  summary: Lower oil prices, a SpaceX IPO pop, and sector rotation lift stocks as rate-hike bets shift.
+  url: https://finnhub.io/api/news?id=2228a84534bfc47440bad717ed82d911a5d38f52be71c17bb402e2987c916eba

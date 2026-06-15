@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sequoia's Shaun Maguire Sees NVIDIA-Like Future For SpaceX, Vows Never To Sell
+  summary: SpaceX (SPCX) jumps 6% in premarket after a historic $2T IPO debut. Analysts draw comparisons to early NVIDIA. Read the full details.
+  url: https://finnhub.io/api/news?id=ad96e8028cc9e9184d37c65c9a782fb12e58c452afcdcb4e1207da9290e93195

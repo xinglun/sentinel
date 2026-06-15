@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Hits $1.05 Trillion As SpaceX Opens 11% Above IPO Price
+  summary: SpaceX's $150 debut valued the company near $2 trillion, pushing Musk's fortune to almost $1.05 trillion.
+  url: https://finnhub.io/api/news?id=ca927994193da3224214778f857b3d8f1bed3d92978083d1176172d9e8ff3b83

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jumps 650 Points On U.S.-Iran Deal; AI Stock Tests Entry, Nvidia Pops (Live Coverage)
+  summary: The Dow Jones index rallied 650 points Monday on the U.S.-Iran deal. SpaceX flew on the stock market today. An AI stock tested an entry.
+  url: https://finnhub.io/api/news?id=d48dd6b68e66bcc4391b328656315222b5c9444885a07d22953018265ffa5459

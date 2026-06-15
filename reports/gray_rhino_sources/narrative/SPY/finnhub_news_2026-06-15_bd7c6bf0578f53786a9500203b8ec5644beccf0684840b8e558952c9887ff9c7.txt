@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kevin Warsh, The Fed's New Era, And The Trimmed Mean Debate
+  summary: Explore how Kevin Warsh as Fed Chair could reshape policy and inflation metrics as markets price hikes. Click here to know more on how interest rates may react.
+  url: https://finnhub.io/api/news?id=b464b01bca32862daa26a238a796bd3053f9c4367eb5195768890e0d6ed01d75

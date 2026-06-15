@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: When SpaceX Rockets And Bulls Can Aim For 2X The Ride With Direxion's LOFF
+  summary: Direxion launched the LOFF ETF, offering traders 2X daily leveraged exposure to SpaceX stock just a day after the company&#39;s historic IPO.
+  url: https://finnhub.io/api/news?id=4731d3c362ece2c3e131b930a816ecf5f59f402381727ef9d3f5ba0bea0d9601

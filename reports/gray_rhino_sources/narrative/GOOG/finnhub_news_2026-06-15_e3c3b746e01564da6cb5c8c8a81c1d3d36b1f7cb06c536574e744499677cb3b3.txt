@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Block Marks US Reversal, Warning to Silicon Valley
+  summary: (Bloomberg) -- The extraordinary move by the US to bar foreign access to Anthropic PBC’s best AI models underscores the Trump administration’s newfound willingness to exert control over a pivotal industry. It also reminds Silicon Valley that it’s working with an imperfectly understood technology with uncertain impact.Most Read from BloombergIran’s Deputy Foreign Minister Confirms Deal Reached With USIran Signals No Deal Will Be Signed by Trump’s Sunday TimelineUS and Iran Agree to Halt War, Rest
+  url: https://finnhub.io/api/news?id=3c5302ee526c5d488c05e0d46dbc082730b7b4ff360cc743af8697e019568c16

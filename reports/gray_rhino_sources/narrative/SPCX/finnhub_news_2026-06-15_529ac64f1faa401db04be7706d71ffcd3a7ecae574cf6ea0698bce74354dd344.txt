@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: The $2 Trillion Valuation Makes No Sense
+  summary: SpaceX rated Strong Sell: $2T valuation, 100x 2025 revenue, losses, Starlink ARPU decline & cash burn. Click here to read more about the SPCX stock.
+  url: https://finnhub.io/api/news?id=ca2e223f94bb61bff366be88142ec4fb41778510deea55085373d4ea5d0677b0

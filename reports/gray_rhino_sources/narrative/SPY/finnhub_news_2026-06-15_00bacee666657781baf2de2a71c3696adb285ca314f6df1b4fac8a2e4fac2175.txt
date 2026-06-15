@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Sees Modest Rise As Biggest IPO Ever Launches
+  summary: The S&P 500 rose a little over 0.6% over where it ended the previous week to close out the trading week ending on Friday, 12 June 2026, at 7,431.46. Read more here.
+  url: https://finnhub.io/api/news?id=b92d24962f2ef6bbc042898ce82bcfc902097d7a02e9b27d82bc58e07bdeef69

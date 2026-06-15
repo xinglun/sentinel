@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Correction Ahead: Warren Buffett's Historical Warning for Investors
+  summary: The Buffett indicator is at an all-time high and far above the level he originally said was "playing with fire."
+  url: https://finnhub.io/api/news?id=91f69840899b27dc6d554a9a4465a8398d5920542e8047ed0a306c1d759d49fa

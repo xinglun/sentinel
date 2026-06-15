@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Stock Rebounds as Memory-Chip Shortage Drives Gains
+  summary: Micron Technology  stock was rising sharply early Monday amid a resurgence of the artificial-intelligence momentum trade, alongside reminders of the shortage in memory chips.  Micron shares were up 8.1% at $1,060.99 in the premarket with markets cheered by the prospect of a U.S.-Iran peace deal.  Shares are volatile as investors debate Micron’s valuation.
+  url: https://finnhub.io/api/news?id=0533aac7fe45559abd899dd5aac6951c70c2cd9d228dd7d097c75f833baa2223

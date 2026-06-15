@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab: The SpaceX IPO Effect Makes It A Buy
+  summary: SpaceXâs public listing has intensified interest in aerospace proxies, with Rocket Lab emerging as a key beneficiary. Click here to read more on the RKLB stock.
+  url: https://finnhub.io/api/news?id=9c18e6d9d5ae05f74c7a4bccf45e344f5d199dc0aaad6c2af70aea82e06ea8dd

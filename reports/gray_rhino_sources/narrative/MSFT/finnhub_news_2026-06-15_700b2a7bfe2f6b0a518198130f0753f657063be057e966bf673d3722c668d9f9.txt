@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's Xbox Business Faces a Cost Shock
+  summary: Wedbush says AI demand is reshaping hardware economics
+  url: https://finnhub.io/api/news?id=3dac78432847b9377b72d8a849708b038975fb958451175661c7b0823dd817db

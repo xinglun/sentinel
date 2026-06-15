@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe’s Pivot: A Genius Bet Or A Costly Distraction?
+  summary: The company just told Wall Street it’s trading today’s predictable profits for a massive, uncertain user-grab tomorrow, and investors are spooked.
+  url: https://finnhub.io/api/news?id=b97a995930cdb33e9f01aff60a1e4df98ceb662f8e6564bde5f1a5f35cb589c0

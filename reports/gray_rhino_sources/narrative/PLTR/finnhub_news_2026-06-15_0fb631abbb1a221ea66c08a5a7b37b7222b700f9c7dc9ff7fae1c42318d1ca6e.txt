@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trading Near Its 52-Week Low, Is Palantir Technologies Stock a Buy?
+  summary: This once-hot artificial intelligence stock is down 28% this year.
+  url: https://finnhub.io/api/news?id=79ea78720f87de4e015f14ac22f4a1b393889ccfd02792c134b23f30bce5718a

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Buzzy IPO, Figma Stock Just Had a $50 Billion Wipeout
+  summary: Figma has plunged and is now hovering near its all-time low, making it one of the worst-performing stocks on Wall Street.
+  url: https://finnhub.io/api/news?id=cc839f355cb96aa739717b847a6eb31b7fcbaa7c912149df518f12003324f725

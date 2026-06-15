@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthony Pompliano Wants Elon Musk To Merge Tesla And SpaceX: 'Give Us One Company To Bet On'
+  summary: Pompliano suggests merging Tesla and SpaceX to give public investors a chance to back this generation&#39;s greatest entrepreneur.
+  url: https://finnhub.io/api/news?id=7d6d0ca4368c67a6a4195b5dd31fcee95b0fb108dab76c73205fd193fa47d4be

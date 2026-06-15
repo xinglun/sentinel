@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After a Record-Breaking Debut, Is There Still Room to Run in SpaceX?
+  summary: The bull case rests less on the rockets that made SpaceX famous and more on the quieter business orbiting overhead.
+  url: https://finnhub.io/api/news?id=6d56ef1398aea0257fc9d6f689c81cbc5e6773e1572db836c947c38c0236e128

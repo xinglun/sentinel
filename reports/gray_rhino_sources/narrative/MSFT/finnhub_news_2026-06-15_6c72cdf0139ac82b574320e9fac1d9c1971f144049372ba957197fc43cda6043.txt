@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rightworks Launches Unified Security and IT Solution Purpose-built for Bookkeepers
+  summary: All-in-One Platform Combines Secure Cloud Applications, Managed Microsoft 365, and Built-in Cybersecurity So Bookkeepers Can Grow Without Managing IT Rightworks for Bookkeepers Rightworks for Bookkeepers ORLANDO, Fla., June 15, 2026 (GLOBE NEWSWIRE) -- Scaling New Heights 2026, Booth #111 -- Rightworks, the only intelligent cloud service provider of purpose-built solutions for accounting firms and tax professionals, today announced a strategic solution built for bookkeepers. Today, Rightworks la
+  url: https://finnhub.io/api/news?id=29fc96d1a8c24ce3353bf9afe307b233c43d4c5bbb43cedfc39134e061f80c7b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Get an Iran Peace Boost. Forget a Return to the Pre-War World.
+  summary: Trump declares Hormuz strait open, what to expect at Warsh’s first Fed meeting, where SpaceX stock goes from here, and more news to start your day.
+  url: https://finnhub.io/api/news?id=2814eb66b90af5839590408c24fcf5aadb72454c1d8bd7f8f7ff66330edc4929

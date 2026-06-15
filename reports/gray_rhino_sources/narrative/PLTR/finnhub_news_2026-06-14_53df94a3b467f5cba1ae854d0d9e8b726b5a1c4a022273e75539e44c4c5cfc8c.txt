@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Swiss Court Defeat Raises European Data Sovereignty And Contract Risks
+  summary: Palantir Technologies (NasdaqGS:PLTR) lost a high profile legal case in Switzerland over its efforts to challenge critical investigative reporting about its pursuit of Swiss federal government contracts. The Swiss court largely dismissed Palantir’s requests to force a magazine to publish its responses, intensifying attention on the company’s data sovereignty practices in Europe. The ruling comes as Palantir faces heightened regulatory and political scrutiny in other key European markets,...
+  url: https://finnhub.io/api/news?id=57905104177a0fddd2bfafed95e6a81846a81153c6278b26e6f28e022c8b41fa

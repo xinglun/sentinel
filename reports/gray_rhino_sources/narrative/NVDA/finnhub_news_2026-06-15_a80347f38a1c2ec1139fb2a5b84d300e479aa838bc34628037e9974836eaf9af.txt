@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Webull Stock Set to Double On This Date
+  summary: Webull (NASDAQ:BULL) runs one of the fastest-growing retail brokerage platforms globally, with more than 27 million registered users and operations across 15 markets. Yet shares trade at $6.54, down 15.83% year to date. Q1 2026 revenue jumped 36% to $159.93 million, customer assets climbed 90% to $24 billion, and equity notional volume doubled to $261 ... Prediction: Webull Stock Set to Double On This Date
+  url: https://finnhub.io/api/news?id=0301062ec1d1ca4baf574894a1716a210004ba5fe2d2414cc83276595de1d2b7

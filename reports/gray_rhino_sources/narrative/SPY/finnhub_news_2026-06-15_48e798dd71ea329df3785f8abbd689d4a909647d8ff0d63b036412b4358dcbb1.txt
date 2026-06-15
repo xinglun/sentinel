@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Hold, or Sell: Dropping 39% From Its All-Time High Under a Hawkish New Fed, Is Netflix an Absolute Buy at $81?
+  summary: At $81.27, Netflix (NASDAQ:NFLX) screens as compelling for investors researching quality growth at compressed multiples. A 39% drawdown from the all-time high has compressed one of the highest-quality compounders in media to a forward multiple that finally looks reasonable, just as the advertising business approaches scale. Netflix runs the world’s largest paid streaming service with ... Buy, Hold, or Sell: Dropping 39% From Its All-Time High Under a Hawkish New Fed, Is Netflix an Absolute Buy a
+  url: https://finnhub.io/api/news?id=ff5c0ca2f19150e40f8344a8f19f23bef6fcf8bddd2261362e365ffd6887358a

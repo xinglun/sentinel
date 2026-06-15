@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why ConocoPhillips Stock Dropped Again Monday
+  summary: Peace in the Middle East could be bad news for oil stocks.
+  url: https://finnhub.io/api/news?id=0bd71fd8554259fddfa253478dcb5379793ab7513bc42f70fcb667ff194b85eb

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX AI Megadeals With Google And Anthropic Recast Growth And Valuation
+  summary: Space Exploration Technologies (NasdaqGS:SPCX) has secured AI infrastructure agreements with Google totaling US$920 million per month. Anthropic has entered a separate AI infrastructure contract with SpaceX valued at US$1.25b per month. Taken together, these multi billion dollar deals position SpaceX as a major hyperscale AI data center provider alongside its existing space and satellite operations. For you as an investor, these contracts point to a broader role for NasdaqGS:SPCX beyond...
+  url: https://finnhub.io/api/news?id=604cfe4f5e511c2057eb7a4225dbab790282108ca81e1e8e8aec369276f3b4f3

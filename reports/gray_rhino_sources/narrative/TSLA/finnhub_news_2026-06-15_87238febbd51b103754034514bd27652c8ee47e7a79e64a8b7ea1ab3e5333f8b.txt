@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's trading debut puts the market on notice
+  summary: Yahoo Finance Senior Reporter Brooke DiPalma discusses Opening Bid's Stock of the Day," SpaceX (SPCX) as the company begins to reshape the space industry. Joined by B. Riley Wealth Chief Market Strategist Art Hogan, Yahoo Finance Senior Business Reporter Ines Ferré, and Markets & Data Editor Jared Blikre.
+  url: https://finnhub.io/api/news?id=a83647249e2f548bef50f782631cb880ccc3f245d690e04d12253e4f3fefb0e8

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia plans to raise at least $20 billion in bond sale
+  summary: Investing.com -- Nvidia Corp. is preparing to sell investment-grade bonds for the first time in approximately five years, according to Bloomberg News. The chipmaker aims to raise at least $20 billion through the offering.
+  url: https://finnhub.io/api/news?id=f1e869562487199878d048d4850b57bce430eea03231e97dcf7d79161ec8d3a8

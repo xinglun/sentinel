@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starmer Announces Full Ban on Social Media for UK’s Under 16s
+  summary: (Bloomberg) -- Prime Minister Keir Starmer announced what he described as a “full ban” on children using social media, one of the strictest online crackdowns in the democratic world and going beyond limits imposed by Australia last year.Most Read from BloombergIran’s Deputy Foreign Minister Confirms Deal Reached With USUS and Iran Agree to Halt War, Restart Middle East Oil ShipmentsIran Signals No Deal Will Be Signed by Trump’s Sunday TimelineWhy Musk Raced to Take SpaceX Public in the World’s B
+  url: https://finnhub.io/api/news?id=87bdbd0d6fb6356f2c1f65bc2653851244361b310b9aedc4f929b839802ec203

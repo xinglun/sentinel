@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AgentDOS by Trust3 AI: Improve AI Adoption with Token Observability
+  summary: AI agents are already operating inside enterprises with little visibility into what they do, what data they access, or how much they cost. Today, Trust3 AI announced AgentDOS, the first enterprise control plane that delivers full observability into AI agents, including real-time token consumption monitoring across platforms such as Databricks Agent Bricks and Microsoft Copilot Studio.
+  url: https://finnhub.io/api/news?id=bec96bb17a25a53ea03cee6c2f122556c95ac9ebfbcf07518aa4b12c4cd84270

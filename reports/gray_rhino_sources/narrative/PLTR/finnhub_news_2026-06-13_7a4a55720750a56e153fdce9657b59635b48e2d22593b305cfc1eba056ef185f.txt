@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Is 'Rooting For Elon'—And Has Clients 'Screaming' About OpenAI, Anthropic
+  summary: Palantir Technologies CEO Alex Karp told CNBC today that enterprises that go to the big AI labs first often arrive at Palantir frustrated, revealing the company has even debated paying clients to try its rivals before signing up. “Should we...
+  url: https://finnhub.io/api/news?id=baf71733ca31d5615c19f3a897d10148e4cfb54077425a10def25ef34a9ffe39

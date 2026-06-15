@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Gains 350 Points As SpaceX Jumps In Debut: Investor Sentiment Improves, Greed Index Remains In 'Fear' Zone
+  summary: CNN Business Fear &amp; Greed Index measures market sentiment based on the premise that fear exerts pressure on stocks.
+  url: https://finnhub.io/api/news?id=d82de9c1dc5d59a00b7f1756edc91b7876f6f18b1b0910fb858fbc6f157b44c1

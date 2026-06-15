@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Rackspace Technology, Inc. (RXT) A Good Stock To Buy Now?
+  summary: Is RXT a good stock to buy? We came across a bullish thesis on Rackspace Technology, Inc. on r/smallstreetbets by lumbridge12. In this article, we will summarize the bulls’ thesis on RXT. Rackspace Technology, Inc.’s share was trading at $4.5100 as of June 8th. RXT’s forward P/E was 91.74 according to Yahoo Finance. Rackspace Technology, Inc. operates […]
+  url: https://finnhub.io/api/news?id=76899f37579e2faec91308bc9b8408f53cd85e8858e9173ad242344eaa9cc498

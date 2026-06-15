@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Dividend Growth Stocks: June 2026
+  summary: Discover June 2026âs top 10 dividend growth stocks, ranked by quality and screened for 15% upside + Chowder 12+.
+  url: https://finnhub.io/api/news?id=6e9896cab1a099acce5441285df5f0fe5fb21fb47d5f05c2bbf410a600ba2226

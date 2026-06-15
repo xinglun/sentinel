@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Elon Is Scared Of This Conversation:' Democrat Fires Back At Musk's Subsidy Defense
+  summary: Senator Markey doubles down on Elon Musk attack over government subsidies for Tesla and SpaceX, citing an old Donald Trump post.
+  url: https://finnhub.io/api/news?id=57b245eb3ff2031179ca9affa3a8c7200b0f1a2e9afd132d2c9db67220aeb7a8

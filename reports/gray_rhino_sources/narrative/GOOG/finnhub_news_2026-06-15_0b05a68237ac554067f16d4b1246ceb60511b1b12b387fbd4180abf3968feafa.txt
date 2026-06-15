@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Dome and SRP to Add Long-Duration Energy Storage Project to the Grid, Expand Google Collaboration
+  summary: PHOENIX, June 15, 2026--Energy Dome, a leading provider of innovative capacity solutions for utilities and AI infrastructure, and Salt River Project (SRP), a not-for-profit public power utility serving the greater Phoenix metropolitan area, today announced an agreement to add a 19 megawatt (MW), 10-hour carbon dioxide-based (CO2) battery system to the grid. The project is planned to be co-located on the site of SRP’s Coronado Generating Station (CGS) in St. Johns, Arizona, and it will be develop
+  url: https://finnhub.io/api/news?id=aae9717bb1de12fa5a297968beeb999c2b76544bd2049153896a8a5e17b5defa

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500's Missing Giant: What Happens If The 6th-Largest Stock Stays Out A Full Year?
+  summary: SpaceX becomes the 6th largest global stock, but it will not join the S&P 500 until at least June 2027. Learn more about the market here.
+  url: https://finnhub.io/api/news?id=33c37e9e747878b8034c353cd063df2293152d4b4d9ffa8e29bc5c92b0f375c2

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang Says Marvell Technology Is the Next Trillion-Dollar Company. How Quickly Can It Get There?
+  summary: At around $250 billion in market cap, Marvell's stock could have considerable upside of Huang's prediction proves to be true.
+  url: https://finnhub.io/api/news?id=59a96d39ed2c545ea44b630cdfdfcebebcfd8cc650c72fd3f95e0a569a75460b

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wix Partners with Microsoft 365 Copilot to Bring Website Creation into the Flow of Work
+  summary: Wix Partners with Microsoft 365 Copilot to Bring Website Creation into the Flow of Work Users can now generate Wix Harmony websites directly within Microsoft 365 Copilot without context switching Users can now generate Wix Harmony websites directly within Microsoft 365 Copilot without context switching NEW YORK - Wix (Nasdaq: WIX) Wix today announced its collaboration with Microsoft to bring Wix Harmony website creation into Microsoft 365 Copilot. Anyone can now create and access Wix Harmony dir
+  url: https://finnhub.io/api/news?id=b89201f70200813a82c560db08b12f79cd32a6a95591514869862bdc9aecb62c

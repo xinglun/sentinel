@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Extends Its Record IPO Gains
+  summary: SpaceX was the largest IPO in history surpassing $2.1 trillion market cap
+  url: https://finnhub.io/api/news?id=0d94aee76cb5a52ba7b8317bb91792b167edbf5a9288df4cf4ff37031b864ca0

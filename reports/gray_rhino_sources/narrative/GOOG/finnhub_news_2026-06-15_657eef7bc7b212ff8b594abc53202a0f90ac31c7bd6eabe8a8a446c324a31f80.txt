@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hut 8 Appoints New Board Chair
+  summary: Bitcoin (CRYPTO: $BTC) miner turned data centre operator Hut 8 (NASDAQ: $HUT) has appointed a new chair to its boar...
+  url: https://finnhub.io/api/news?id=8343b26220fb5dd4d7663ae14731c8b2b7dcfb402d3892f11c21659a21a48e2d

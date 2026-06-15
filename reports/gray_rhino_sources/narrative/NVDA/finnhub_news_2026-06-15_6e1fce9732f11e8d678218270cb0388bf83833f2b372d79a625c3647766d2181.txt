@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum Computing and D-Wave Quantum Jump 12%, Rigetti Climbs 9%, IonQ Gains 6% Amid Risk-On Optimism
+  summary: Shares of Quantum Computing Inc. (NASDAQ:QUBT) stock and D-Wave Quantum (NYSE:QBTS) stock are both up 12% in Monday morning trading, leading a broad rally across the handful of publicly traded quantum-computing pure plays. QUBT stock is changing hands near $11.10, while QBTS stock has climbed to around $26.14. Rigetti Computing (NASDAQ:RGTI) stock is up 9% ... Quantum Computing and D-Wave Quantum Jump 12%, Rigetti Climbs 9%, IonQ Gains 6% Amid Risk-On Optimism
+  url: https://finnhub.io/api/news?id=0f604c7f8cfc00423862f61fa02ea538499dd66d7fd591a06d1c1b7d72000c6e

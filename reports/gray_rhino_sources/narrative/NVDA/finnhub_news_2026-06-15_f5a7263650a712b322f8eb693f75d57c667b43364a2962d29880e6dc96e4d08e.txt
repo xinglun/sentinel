@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: Fox to Acquire Roku for $22 Billion; Truist Names Former Fiserv CEO Lyons as New CEO
+  summary: All three major US stock indexes were up in late-morning trading Monday, after President Donald Trum
+  url: https://finnhub.io/api/news?id=13f7f5a8ab556e8e6043344cb0856cf62e60c204d48042049df0bcc7b8ceb199

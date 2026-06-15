@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO sends a blunt warning on AI and the tech ecosystem
+  summary: For most of the past three years, the AI investment story has been simple. Build the biggest model, train it on the most data, and the market rewards you. On June 14, Microsoft CEO Satya Nadellapublished a lengthy post arguing that story is about to change, and that investors who keep following it ...
+  url: https://finnhub.io/api/news?id=cf9c8cd066fd867dc0aa0abb99b060a427bbf884047add15f7b04f17b4af3980

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Revives A 10-Year-Old Promise After SpaceX's Record-Breaking IPO
+  summary: SpaceX CEO Elon Musk jokingly mentions his promise to get a volcano lair after successful IPO, as company&#39;s valuation surpasses $2 trillion.
+  url: https://finnhub.io/api/news?id=9e01053643e5b70d244f79b0b793285ea91f2f9617b7730d4837cdbfbc6b3c04

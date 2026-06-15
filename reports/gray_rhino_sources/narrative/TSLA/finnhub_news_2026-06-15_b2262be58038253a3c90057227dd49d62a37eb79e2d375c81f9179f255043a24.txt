@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Liftoff for 2X Exposure to SpaceX as Direxion Launches LOFF
+  summary: 2X Daily Leveraged Exposure to SpaceX – the Largest IPO in History Direxion Liftoff for 2X Exposure to SpaceX as Direxion Launches LOFF New York, New York, June 15, 2026 (GLOBE NEWSWIRE) -- Direxion, a leading provider of ETFs for tactical traders, today announced the launch of the Direxion Daily SpaceX Bull 2X ETF (LOFF). LOFF seeks daily investment results, before fees and expenses, of 200% of the daily performance of SpaceX (Nasdaq: SPCX) (“SpaceX”). LOFF launches one day after SpaceX started
+  url: https://finnhub.io/api/news?id=95f1bb2c5f9459959a3ce36b107bc5ab71938aed889c1eec22a8ea4132a20088

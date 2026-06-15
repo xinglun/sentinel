@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Faces Investor Human Rights Push And UK NHS Contract Scrutiny
+  summary: Shareholders of Palantir Technologies (NasdaqGS:PLTR) recently backed a proposal for the company to commission a human rights report, with 56% of non-insider votes in favor. At the same time, UK regulators and politicians are increasing scrutiny of Palantir’s role in a major National Health Service contract, raising data privacy and national sovereignty concerns. Palantir, known for its data analytics platforms used by governments and enterprises, now sits at the center of a broader debate...
+  url: https://finnhub.io/api/news?id=e27617ce0710bb79c2f2fd33669e25e54d15d51f0f8a7fad1e01db827df7df16

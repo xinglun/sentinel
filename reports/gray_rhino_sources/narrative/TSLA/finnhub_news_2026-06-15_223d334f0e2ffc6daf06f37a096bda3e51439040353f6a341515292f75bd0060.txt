@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Momentum Rally Is Back. Mag 7 Stocks Are Finally Joining the Party.
+  summary: The Iran-U.S. deal gave Wall Street a green light to pile into risk assets and chase momentum, and lagging Magnificent Seven stocks were in on the action this time. The Dow rose 577 points, or 1.1%. The S&P 500 jumped 1.
+  url: https://finnhub.io/api/news?id=9e8e5ea2ff4ae0bfb48d007f959be587c1e5e43d9d9975364f8953e52a82222c

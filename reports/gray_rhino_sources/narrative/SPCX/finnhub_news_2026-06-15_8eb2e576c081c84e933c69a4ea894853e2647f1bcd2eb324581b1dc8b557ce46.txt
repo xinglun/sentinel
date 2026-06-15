@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dave and Buster's, SpaceX And 3 Stocks To Watch Heading Into Monday
+  summary: Stocks to watch: CMTL, PLCE, PLAY, SPCX, DOMO. All expected to report earnings. SpaceX&#39;s historic IPO raises $75B. Check out premarket coverage.
+  url: https://finnhub.io/api/news?id=4706d7d3b43dabe4e6bb528ec7ff6c4950d9d8475a3944fcca767c05c3fcdf34

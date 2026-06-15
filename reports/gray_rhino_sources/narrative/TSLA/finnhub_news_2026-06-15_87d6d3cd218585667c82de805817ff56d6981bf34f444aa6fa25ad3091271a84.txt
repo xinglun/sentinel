@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Soars in Historic IPO: Should You Play SPCX ETFs or the Stock?
+  summary: SpaceX shares surged 19% on debut, yet history shows many high-profile IPOs struggle after the initial excitement fades.
+  url: https://finnhub.io/api/news?id=8f0c55a25fbd65556fd4ae1ca97a7aa2960197f4bbc641693d5caa2e0a8ce317

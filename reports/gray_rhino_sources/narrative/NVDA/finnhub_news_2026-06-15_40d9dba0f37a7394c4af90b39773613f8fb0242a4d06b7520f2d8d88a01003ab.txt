@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Bill Ackman Has 42% of His Hedge Fund's $18 Billion Portfolio Invested in 3 Incredible Stocks
+  summary: The billionaire's portfolio is heavily concentrated in his highest conviction stocks.
+  url: https://finnhub.io/api/news?id=dec06333ced8befb0af529cd2d73a5628d70fad3fbd3ca25c288da356279b456

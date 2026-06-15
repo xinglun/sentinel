@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Artificial Intelligence (AI) Is Moving Beyond Data Centers. 1 Semiconductor Stock to Buy Hand Over Fist Before It Skyrockets Thanks to a Massive Opportunity (Hint: It's Not Nvidia)
+  summary: Ambarella's growth rate is likely to improve as the demand for edge AI hardware picks up.
+  url: https://finnhub.io/api/news?id=810d22e6160ffdb5d96e22f4eee28abc6a756c54f0dcb1678c684b53d084475d

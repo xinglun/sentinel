@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Is Getting a U.S.-Iran Deal Bump
+  summary: Oil prices are down and stock prices are up after President Trump announced an outline of a deal to end the Iran war.
+  url: https://finnhub.io/api/news?id=b9203a26970c8c8ccb4f9ed2528fe4782fc1c28687ecf23e7d95d37648965042

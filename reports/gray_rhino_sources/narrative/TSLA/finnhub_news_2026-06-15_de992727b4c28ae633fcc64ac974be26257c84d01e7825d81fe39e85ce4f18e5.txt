@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Tesla, Inc. (TSLA) A Good Stock To Buy Now?
+  summary: Is TSLA a good stock to buy? We came across a bullish thesis on Tesla, Inc. on Joe Gannon’s Substack by Gannon Capital. In this article, we will summarize the bulls’ thesis on TSLA. Tesla, Inc.’s share was trading at $406.43 as of June 12th. TSLA’s trailing and forward P/E were 372.87 and 196.08 respectively according to […]
+  url: https://finnhub.io/api/news?id=7c03e5e15b53bc9b317ca80419fd423347102912f2a8f56ce761ab6ed191fd66

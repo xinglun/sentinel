@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weekly Market Pulse: Questions
+  summary: Vanguardâs S&P 500 index fund recently passed $1 trillion in assets, and passive funds now hold a majority of the assets in the fund complex.
+  url: https://finnhub.io/api/news?id=0ae1d2016ff9e80ccd411efc54d71b42592a68a1af5e0a2a980bd4c2e9471dfb

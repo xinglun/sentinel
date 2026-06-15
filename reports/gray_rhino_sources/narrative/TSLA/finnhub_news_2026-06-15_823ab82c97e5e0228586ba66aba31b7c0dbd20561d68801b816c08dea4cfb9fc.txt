@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock jumps for 2nd day, now up over 25% since debut
+  summary: SpaceX stock jumped nearly 8% in early trade, giving the shares a two day pop of over 25% since the rocket company's market debut on Friday.
+  url: https://finnhub.io/api/news?id=e7eea5148f92f12e6db31079c3171305196b02be723f30cbf5e1ea0484f494bf

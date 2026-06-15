@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CCD: Solid Performance, But Very High-Tech Exposure
+  summary: Explore Calamos Dynamic Convertible and Income Fund: 9.39% yield, tech-heavy convertible strategy, recent outperformanceâclick to read more on the CCD fund.
+  url: https://finnhub.io/api/news?id=07ea9e1d9df155c2e714886d70e4d1046e5b795f3315b59957913b91f3d4dc52

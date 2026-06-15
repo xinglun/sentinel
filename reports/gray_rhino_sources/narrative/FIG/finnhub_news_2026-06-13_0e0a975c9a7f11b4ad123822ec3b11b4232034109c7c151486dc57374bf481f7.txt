@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe's Beat And Selloff: The Best Bargain In U.S. Tech (Rating Upgrade)
+  summary: Adobe put out an earnings release that handily beat estimates; management raised the guidance for full year 2026. See why ADBE stock is a buy.
+  url: https://finnhub.io/api/news?id=f137877fc1bb28d6b19f421f7c0fa29332ea4ab147ba8d0c144189d4473265d4
