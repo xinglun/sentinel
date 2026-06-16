@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Going On With SpaceX Stock Tuesday
+  summary: SpaceX Charges Toward Amazon And Microsoft After Fresh 10% Surge
+  url: https://finnhub.io/api/news?id=fbaec0f1c2334d33573b440f72ec1f94503ff8d20a1247634a4363cf4eeb63bc

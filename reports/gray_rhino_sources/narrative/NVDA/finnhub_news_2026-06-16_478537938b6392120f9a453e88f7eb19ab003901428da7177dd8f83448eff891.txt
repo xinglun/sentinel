@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Options Start Trading Today. It Will Be Wild.
+  summary: Options on  SpaceX  stock are scheduled to begin trading when the stock market opens on Tuesday.  The options trading is likely to boost the stock, though it could create some intraday price swings.  Demand for the stock is so high that the options are likely to be among the most actively traded in the entire options market, joining a pedigreed club that includes  Apple Amazon  com,  Nvidia Meta  Platforms, and others in an exclusive club.
+  url: https://finnhub.io/api/news?id=5244b0f2839c69438bef26837df1438942637e034273fcd19af3c5dc7c96b6e9

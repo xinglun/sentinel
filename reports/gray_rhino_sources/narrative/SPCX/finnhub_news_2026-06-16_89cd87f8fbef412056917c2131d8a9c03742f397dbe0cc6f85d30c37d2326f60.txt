@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chart Of The Day: An Interesting ETF Sideshow To The SpaceX IPO
+  summary: Regulators reportedly forced several ETF sponsors to wait until today to roll out their single-stock ETFs. Read more here.
+  url: https://finnhub.io/api/news?id=9a5846939aba4de481eec9b9660663361496db099bf383b01aa021ea1ce7c6f2

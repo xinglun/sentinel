@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Self-driving tech supplier Mobileye plans US robotaxi service next year
+  summary: Mobileye Global said on Tuesday it would launch its own robotaxi service in the United States next year, ‌putting the self-driving technology supplier in direct competition with some of ‌the very customers it serves.  The move places ‌Mobileye in a fiercely competitive ⁠U.S. market that includes Alphabet's Waymo, Tesla, and Amazon's Zoox, as rising investment in driverless technology intensifies the race ⁠for control over deployment and revenue.  "Operating our own service allows us to accelerate adoption, gain direct operational experience, and showcase the full potential of autonomous mobility," Mobileye ​CEO ​Amnon Shashua said.
+  url: https://finnhub.io/api/news?id=bf4aa6ebac480588a02c9c380701248fd6bab4e840edccf713110cd3538c6d38

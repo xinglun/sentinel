@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Huang pledges AI will boost manufacturing jobs. A test will come in Texas
+  summary: Jensen Huang’s company Nvidia makes the computer chips that unleashed a revolution in artificial intelligence.  Now he's wagering that an AI buildout can revive U.S. manufacturing, pushing past limits facing science and society.  Nvidia is formally unveiling on Tuesday plans for a major upgrade to its AI infrastructure as part of its $2 billion partnership with the factory’s owner, Coherent.
+  url: https://finnhub.io/api/news?id=d5fe00b50c43eae772ba4104c530f02f1eae2ccb862b19b9c3adbbcb85477501

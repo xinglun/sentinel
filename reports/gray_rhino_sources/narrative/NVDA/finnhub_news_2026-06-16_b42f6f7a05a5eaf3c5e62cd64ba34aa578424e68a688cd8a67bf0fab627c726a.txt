@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman Is Right on the Money. Investors Are Ignoring Quality for “New New” Stocks
+  summary: It’s been a month since Pershing Square USA (NYSE:PSUS) and Pershing Square (NYSE:PS), the new plays led by star hedge fund manager Bill Ackman, went live on the public markets. The reception has been far more positive for the latter than the former. And while it’s more exciting to own a piece of the company ... Bill Ackman Is Right on the Money. Investors Are Ignoring Quality for “New New” Stocks
+  url: https://finnhub.io/api/news?id=b5dc17bad728c60df54a8c4dfe2fc88561e623431776cb2c12ba3290ae5cdf46

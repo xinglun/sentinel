@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm Stock Rises Ahead of Fresh Target Catalyst
+  summary: Qualcomm stock has risen 68% in three months ahead of an expected unveiling of its data-center chip plans and it could be lining up an acquisition to bolster its strategy.
+  url: https://finnhub.io/api/news?id=c6da1582e12a5a6292da36354d78376bdfa84eb8b9338938219ef8e7eafb6dc3

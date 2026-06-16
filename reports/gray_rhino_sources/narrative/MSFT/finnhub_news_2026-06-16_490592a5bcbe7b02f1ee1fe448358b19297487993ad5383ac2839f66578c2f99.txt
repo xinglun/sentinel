@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Valona Intelligence Launches MCP Server to Bring Trusted Market Intelligence into the Enterprise AI Ecosystem
+  summary: Valona Intelligence today announced the launch of its Model Context Protocol (MCP) server. MCP is the open standard that allows AI systems to connect to external data sources, making Valona's market and competitive intelligence available directly inside Microsoft Copilot, Claude and other enterprise AI tools and agent frameworks.
+  url: https://finnhub.io/api/news?id=67e2389de28b89ed43759e90087bb583daf8d6eddae2f0336f1908b7c190a2c6

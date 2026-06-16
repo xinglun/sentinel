@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Silver ETF Has Been Crashing. Is Now the Time to Buy?
+  summary: The iShares Silver Trust is down 42% from its 52-week high.
+  url: https://finnhub.io/api/news?id=dcb184fff8185954c6c51e15e868138dfe1fd419cb9ccbe201e113cab12f498e

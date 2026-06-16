@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ed Yardeni Says He Hasn't 'Been Bullish Enough,' Predicts S&P 500 Will Hit 10,000 By 2029
+  summary: Ed Yardeni predicts the S&amp;P 500 will hit 10,000 by 2029, driven by &#34;fabulous earnings momentum&#34; and an $89T baby boomer wealth wave.
+  url: https://finnhub.io/api/news?id=1f3bd3e0b76b121f32cb91287a087697330efd563c7242d7f05dec8b53ce6e2f

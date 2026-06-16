@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Rises 5%, Cloudflare Pops 3% as Investors Pile Into AI Security Plays
+  summary: Palantir Technologies (NASDAQ:PLTR) stock is up 5% in Monday midday trading, changing hands near $134. The move comes alongside a broad risk-on rally, with the NASDAQ 100 tracking ETF Invesco QQQ Trust (NASDAQ:QQQ) up 3% on the session. Cloudflare (NYSE:NET) stock is following the same script, trading higher by 3% to around $235 and change. ... Palantir Rises 5%, Cloudflare Pops 3% as Investors Pile Into AI Security Plays
+  url: https://finnhub.io/api/news?id=67678bc5bf552146660cb31da9ce3b110ff9674b840071de0d9b47d1103bca66

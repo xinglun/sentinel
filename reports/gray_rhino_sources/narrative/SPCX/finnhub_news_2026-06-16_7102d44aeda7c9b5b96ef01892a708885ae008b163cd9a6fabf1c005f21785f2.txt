@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pending Mega IPOs Could Curb Passive Positive Feedback Loop
+  summary: Feedback, whether positive or negative, is arguably the main engine that drives markets in the long cycle arc between fear and greed and gives dimension to...
+  url: https://finnhub.io/api/news?id=002b7226c8d17b7bc8934b3e9054713ea163effca90a6bbd60d35e0672340541

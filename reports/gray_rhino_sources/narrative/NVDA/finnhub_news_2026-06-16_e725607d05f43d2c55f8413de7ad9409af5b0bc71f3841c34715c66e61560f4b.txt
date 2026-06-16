@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Passed the Value of Amazon and Microsoft. At What Share Price Does it Become the World’s Most Valuable Company?
+  summary: SpaceX’s after-hours high last night at $229.85 briefly pushed its market value above $3 trillion, leapfrogging two of the largest companies in the world. Amazon (NASDAQ:AMZN) carries a market cap of $2.57 trillion, and Microsoft (NASDAQ:MSFT) sits at $2.90 trillion. Shares of SpaceX aren’t trading at quite such lofty heights this morning; they’re currently trading for ... SpaceX Just Passed the Value of Amazon and Microsoft. At What Share Price Does it Become the World’s Most Valuable Company?
+  url: https://finnhub.io/api/news?id=4f5a98133fcb3551da37fc7ce843d7e5245e20b2f61bda8c0703aadf41912d5d

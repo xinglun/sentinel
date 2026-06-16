@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How a $500,000 Position in This Schwab Muni ETF Pays a Married Couple in the 32% Bracket an Extra $6,500 a Year in After Tax Income
+  summary: In 2021, Elon Musk paid over $11 billion to the IRS (his 2026 federal tax may be significantly larger, due to the SpaceX IPO). The top bracket is 37%, with an additional 3.8% Net Investment Income Tax (NIIT) for high earning citizens, resulting in a tidal 40.8%. While most working people are not at ... How a $500,000 Position in This Schwab Muni ETF Pays a Married Couple in the 32% Bracket an Extra $6,500 a Year in After Tax Income
+  url: https://finnhub.io/api/news?id=1ec8259b5736daec93a7c324b786a4776ca742cad50a178ad54f16100ca0d867

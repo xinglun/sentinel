@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk $400bn richer days after becoming world’s first trillionaire
+  summary: Elon Musk has added a further $400bn (£300bn) to his wealth just days after becoming the world’s first trillionaire thanks to a surge in SpaceX’s share price.
+  url: https://finnhub.io/api/news?id=2ee95a4c99f0f515310654a4fb948ad33a6f258a3dc19801d6ed0a1c45f9cef3

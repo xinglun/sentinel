@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX is having a week for the history books. It’s only Tuesday
+  summary: SpaceX is now bigger than Amazon. Its shares are more popular than every other stock on the market, combined. And it just bought an AI company for $60 billion.
+  url: https://finnhub.io/api/news?id=ed5494286081d45deeb1d491cc45bd082dd84f5551c5d3927518ff4a063c524f

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors look beyond the 'Magnificent 7' as Wall Street embraces the 'FAB 10'
+  summary: SpaceX's record-breaking market debut has pushed Wall Street to widen its favourite shorthand of the so-called 'Magnificent 7', with strategists folding Elon Musk's firm, OpenAI and Anthropic into a new 'FAB 10' label that captures the next phase of the AI trade.View on euronews
+  url: https://finnhub.io/api/news?id=70fb80989907725f5e191e76e2df807e37198ca1aca8ed858f2497dfedd5eaa4

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Sideways Action Was The Setup, Not The AI Story
+  summary: Palantir AI stock update: why itâs still a buy despite consolidation, key tailwinds, valuation, and risks. Click here to read more about the PLTR stock.
+  url: https://finnhub.io/api/news?id=2368c7327a571151e9b1b78d540b6cf93102a201cec8ee3a0c01cad292175e40

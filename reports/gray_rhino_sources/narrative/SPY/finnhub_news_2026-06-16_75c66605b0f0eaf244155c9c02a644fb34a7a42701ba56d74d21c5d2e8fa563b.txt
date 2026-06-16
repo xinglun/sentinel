@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Vanguard ETF Is Quietly Outpacing the S&P 500 in 2026 and Costs Just 0.04 Percent
+  summary: The Vanguard Growth ETF (NYSEARCA:VUG) trades near $86 after a brutal five-day stretch that lopped 4.5% off the price. Year to date, VUG is up 6.2%, currently trailing the S&P 500’s 8.4% gain as megacap growth digests recent volatility. The longer view is where VUG has earned its reputation: 95% over five years against 75% ... This Vanguard ETF Is Quietly Outpacing the S&P 500 in 2026 and Costs Just 0.04 Percent
+  url: https://finnhub.io/api/news?id=3ed934479d0be645131d7740fbfc2a9aa7676a46b59fa6fb59109aa7bd7e2e47

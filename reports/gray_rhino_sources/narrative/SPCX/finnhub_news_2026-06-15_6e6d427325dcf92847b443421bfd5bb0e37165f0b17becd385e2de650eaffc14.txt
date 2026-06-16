@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Slams UK Under-16 Social Media Ban, Says Real Goal Is To 'Track Everyone': Censorship Law Is A 'Wolf In Sheep's Clothing'
+  summary: Elon Musk criticized the U.K.&#39;s under-16 social media ban, warning it could enable government surveillance.
+  url: https://finnhub.io/api/news?id=23218271713a384468bd538f9d39f1cc747b2a8fc0215a395e2bcb053cd366dc

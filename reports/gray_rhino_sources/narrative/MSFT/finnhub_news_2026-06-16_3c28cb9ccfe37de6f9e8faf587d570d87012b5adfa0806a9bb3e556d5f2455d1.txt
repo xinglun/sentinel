@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft debuts Surface Laptop and Surface Pro amid AI-driven memory shortage
+  summary: Microsoft has debuted its new Surface Laptop and Surface Pro systems.
+  url: https://finnhub.io/api/news?id=4e181440d2e432d9e441ed98cd51670c7164e32f0cdfa6bb63b751da9bcfbf86

@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-06-15",
-  "avg_confidence": 57.02829421180711,
-  "avg_stability": 24.313436071085075,
+  "as_of_date": "2026-06-16",
+  "avg_confidence": 56.576244560720916,
+  "avg_stability": 25.06134824772493,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-06-05",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-06-08",
@@ -93,24 +80,37 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-16",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-16T01:21:29.650879615+09:00",
+  "generated_at": "2026-06-17T01:09:41.040585316+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
       "confirmed_count_latest": 1,
-      "future_queue_count_latest": 1,
-      "latest_date": "2026-06-15",
+      "future_queue_count_latest": 0,
+      "latest_date": "2026-06-16",
       "near_term_supply_count_latest": 1,
       "pressure_latest": "NORMAL",
-      "queue_count_latest": 1,
+      "queue_count_latest": 0,
       "queue_count_max_7d": 2,
-      "queue_count_min_7d": 1,
-      "reported_count_latest": 1
+      "queue_count_min_7d": 0,
+      "reported_count_latest": 0
     },
     "cognitive_calibration": {
       "asset_thesis_entries": 9,

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will The Fed Kill The S&P 500's Relief Rally?
+  summary: The S&P 500 closed Monday at 7,554.29, up 1.65%, as the Nasdaq surged 3.1%. This sharp rally appeared closely tied to geopolitical developments. On Sunday, June 14, President Trump announced the US-Iran peace deal via Truth Social, simultaneously authorizing the toll-free reopening of the Strait of Hormuz and removing the naval blockade. Consequently, WTI crude dropped roughly 5% to around $80, while Brent fell to $83, their lowest levels in months. The S&P now walks into one of the most consequ
+  url: https://finnhub.io/api/news?id=93e1edee4ea058e3b3ddbb76a0849017bc24f0ca403fcf58a775386fd6534c42

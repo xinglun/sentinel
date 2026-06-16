@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Calls This "The Greatest Company in Europe"
+  summary: On social media, Musk recently boasted about a tech giant in Europe, saying that it "should be treasured."
+  url: https://finnhub.io/api/news?id=ed6746c0d350389ba0c08f71c528702c71379d8026635a3d269d51d1dc94960f

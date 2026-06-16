@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Simulations Plus, One Stop Systems, Space Exploration Technologies And Other Big Stocks Moving Higher On Tuesday
+  summary: Stocks up, Dow Jones gains 300 pts. Simulations Plus acquired, shares soar 12.4%. Other big gains: SLBT, WYFI, OSS, PURR, BTBT, SPCX, ARQQ, FCEL, EOSE, WDC, ELF, COHU, KD, LION.
+  url: https://finnhub.io/api/news?id=b9cdea0a7ef2cb1338fe8bf124b3ffcfa7be21633a84fb4d979c6d0a649a8181

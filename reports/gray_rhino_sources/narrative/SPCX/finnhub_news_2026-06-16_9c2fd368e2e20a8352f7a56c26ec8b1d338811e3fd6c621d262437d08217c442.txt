@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Demand For Critical Minerals Will Surge
+  summary: At the moment we are intermediate-term bullish on many commodities because a broad bull market in commodities is underway and probably will continue for another 1-2 years.
+  url: https://finnhub.io/api/news?id=7e5ad6e62306d5b2bb046528199316373ded74ea96cf9e42322b102b05b807a4

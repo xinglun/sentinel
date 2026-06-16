@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Shares Skyrocket, What You Need To Know
+  summary: Shares of data analytics company Palantir Technologies (NASDAQ:PLTR) jumped 5.2% in the afternoon session after yields fell as the Trump administration announced a new peace deal that would lead to the reopening of the Strait of Hormuz.
+  url: https://finnhub.io/api/news?id=62f2636384f5e298ac824b257a375aa4eb397fda76b80bcd44b023273dec9459

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Global ETF Is Beating the S&P 500 in 2026 -- but There's 1 ETF That I Like Better
+  summary: Diversification might be a better long-term bet than dividends.
+  url: https://finnhub.io/api/news?id=caad09a9d21bce6a53b0ff054598cfa3284900bd8c9f828bda82fcea5c2a8baf

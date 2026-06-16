@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market's Biggest Trap Is Hiding In Plain Sight
+  summary: A barbell approachâowning gold and AI beneficiaries like WMB, VRT, and LLYâoffers strategic diversification amid structural shifts. Learn more about the market here.
+  url: https://finnhub.io/api/news?id=524d4edd83281b399090a3ea1ed48a47566372b8c6c84e967d0b906af3f40086

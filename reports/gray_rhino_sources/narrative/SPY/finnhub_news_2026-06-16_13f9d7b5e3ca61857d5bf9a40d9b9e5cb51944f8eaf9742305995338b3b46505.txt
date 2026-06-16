@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Is A Hormuz Hangover Ahead Of Us
+  summary: Geopolitical tensions between the US and Iran are easing, prompting a sharp drop in oil prices and a surge in risk assets. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=097678a34c58203f30e3880b319f1e986a5dea0daa71a65bb832bc4b75574f38

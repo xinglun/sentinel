@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds, Equity Futures Higher Pre-Bell Tuesday Ahead of Fed Policy Meeting
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was up 0.04%, and the actively tr
+  url: https://finnhub.io/api/news?id=b367116b351d603235069bc562230164787245568d9730325908fda16693a0b9

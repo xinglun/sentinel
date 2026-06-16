@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Faces Azure Lawsuit
+  summary: Shareholders allege the company failed to disclose cloud growth and AI spending pressures.
+  url: https://finnhub.io/api/news?id=d277419023793c4487e341c3c61d0fd1d1515736275188abecf573bf9062b3d6

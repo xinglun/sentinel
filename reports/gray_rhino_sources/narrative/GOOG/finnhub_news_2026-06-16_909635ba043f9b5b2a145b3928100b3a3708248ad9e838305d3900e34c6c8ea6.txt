@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Without Starship, Will SpaceX Stock Fall Apart?
+  summary: SpaceX (SPCX) just went public, closing at a $2 trillion-plus valuation on Friday.
+  url: https://finnhub.io/api/news?id=73738bcef8a152245a9d373b833437f60ccdbcbde2f4fce7b1727dd5ba024252

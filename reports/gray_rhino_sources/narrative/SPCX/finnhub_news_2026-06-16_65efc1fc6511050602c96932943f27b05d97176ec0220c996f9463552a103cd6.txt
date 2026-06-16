@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Stock Pulls Back Tuesday: What's Going On?
+  summary: Shares of Rocket Lab (NASDAQ: RKLB) are trading lower Tuesday morning as investor focus shifted to rival SpaceX and broader market weakness.
+  url: https://finnhub.io/api/news?id=a1998567f55a6f27b7e54361dc987e01893e113ffcee85be050230795bcf4913

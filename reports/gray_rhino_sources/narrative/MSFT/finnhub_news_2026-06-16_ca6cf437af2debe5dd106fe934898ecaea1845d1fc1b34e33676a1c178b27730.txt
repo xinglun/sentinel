@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Howard Marks: Investing in AI Stocks Is ‘Closer to Speculating’ Than Analysis
+  summary: Although the AI buildout has minted trillions in fresh market value across Wall Street, Howard Marks thinks buyers of these stocks are kidding themselves about what they actually own. On a recent Prof G Markets appearance, Oaktree Capital co-founder Marks laid out a spectrum running from “analytical investing in prosaic, understandable companies” to “speculative investing ... Howard Marks: Investing in AI Stocks Is ‘Closer to Speculating’ Than Analysis
+  url: https://finnhub.io/api/news?id=719717a74e778279e759b0aabeeed5d443e927e8e4e26cfa0704e6de75f7f036

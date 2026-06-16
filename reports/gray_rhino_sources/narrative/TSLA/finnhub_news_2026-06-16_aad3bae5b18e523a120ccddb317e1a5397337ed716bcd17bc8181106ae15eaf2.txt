@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Cleans House: Another Day Of Heavy Sales
+  summary: Monday's sales follow a major liquidation last week that was used to fund purchases of SpaceX stock.
+  url: https://finnhub.io/api/news?id=66de75151866233e2267cc53491d852854aa8ce7ac25cc203877ca2f9e954758

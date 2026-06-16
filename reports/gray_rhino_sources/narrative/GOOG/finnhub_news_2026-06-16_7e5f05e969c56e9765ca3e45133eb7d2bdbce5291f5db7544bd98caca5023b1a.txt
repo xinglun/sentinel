@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump’s Anthropic Crackdown Sets Off AI Alarms for US Allies
+  summary: (Bloomberg) -- With the recent crackdown on Anthropic, the Trump administration has given global leaders another reason to panic about their place in the technology race.Most Read from BloombergIran’s Deputy Foreign Minister Confirms Deal Reached With USStudios in Microsoft’s Xbox Division Brace for ClosuresNetanyahu Pays a Political Price for Trump’s Iran DealUS and Iran Agree to Halt War, Restart Middle East Oil ShipmentsUS at Odds With Allies Over How Easy It Is to Reopen HormuzOn Friday, the
+  url: https://finnhub.io/api/news?id=a83ea1f40eb43dd8a61a23549a1a2a0c1f3daa4e458c20d2a75372be8ee14243

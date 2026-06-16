@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Marijuana Industry Just Had a Massive Milestone
+  summary: A U.S.-based marijuana company is now trading on the New York Stock Exchange.
+  url: https://finnhub.io/api/news?id=f90b31d218edda052dc15012969ab389b710a3d86a37f9369c830b338d7907ff

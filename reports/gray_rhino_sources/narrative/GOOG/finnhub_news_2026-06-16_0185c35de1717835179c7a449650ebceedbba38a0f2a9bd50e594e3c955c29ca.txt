@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Expands AI Reach With New Lab Deal And Real Estate Ads
+  summary: Google Cloud, part of Alphabet (NasdaqGS:GOOGL), has been selected as the infrastructure provider for Ineffable Intelligence, a new AI lab founded by AlphaGo pioneer David Silver. The partnership includes deployment of one of the largest clusters of NVIDIA-powered GPUs to support Ineffable Intelligence's research and AI workloads. Alphabet has launched a nationwide rollout of Enhanced Local Services Ads that surface home listing data directly in Google Search and connect users instantly with...
+  url: https://finnhub.io/api/news?id=1e348abc0b06004c9f56f5332208dc8212971783f6aa293487ff1c53a3d7d248

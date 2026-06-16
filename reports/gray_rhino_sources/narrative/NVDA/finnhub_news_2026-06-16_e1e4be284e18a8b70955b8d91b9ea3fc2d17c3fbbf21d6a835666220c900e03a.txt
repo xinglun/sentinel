@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX On Track To Overtake AMZN As Fifth-Largest Company By Market Cap Within Days Of Blockbuster Nasdaq Debut
+  summary: SpaceX’s market capitalization at the end of Monday’s regular trading was $2.52 trillion, while Amazon’s market capitalization was $2.646 trillion.
+  url: https://finnhub.io/api/news?id=e01d6303be49896664211d3adf95df8ab89942b00187fd74c6229cf2342c96e0

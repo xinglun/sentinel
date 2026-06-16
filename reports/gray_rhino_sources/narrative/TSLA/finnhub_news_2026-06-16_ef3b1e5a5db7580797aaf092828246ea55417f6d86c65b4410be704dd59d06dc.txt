@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO: What Your $5,000 Investment Could Be Worth
+  summary: The company's valuation prices in lofty growth expectations.
+  url: https://finnhub.io/api/news?id=86a827d8fc0db73dcd07e14bda2acd4f6ca7dda18800c0c63ec24e771ed2bb6a

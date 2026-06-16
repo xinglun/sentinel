@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock gains for third day amid retail-buying frenzy
+  summary: Retail investors have wasted no time jumping aboard the SpaceX rocketship.
+  url: https://finnhub.io/api/news?id=d9f6f1bed5d7b4a47e8ac3d3f203315dea2f0d072dc306c3e25cc3dee843d3ef

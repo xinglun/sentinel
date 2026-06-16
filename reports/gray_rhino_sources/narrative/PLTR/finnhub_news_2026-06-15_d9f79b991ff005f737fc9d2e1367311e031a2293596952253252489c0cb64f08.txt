@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Overtakes Palantir as Wall Street's New Valuation King
+  summary: SpaceX Rockets Past Palantir in Stunning Post-IPO Valuation Race
+  url: https://finnhub.io/api/news?id=1c4023df7cbeb6fb9879eaea2817e759c407fae553f936b5c8f64c9787c62362

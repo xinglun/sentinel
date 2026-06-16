@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: You Can Now Invest in Alphabet With a 6% Dividend Yield, but There's a Catch
+  summary: This new stock offers a high yield and exposure to the AI giant.
+  url: https://finnhub.io/api/news?id=0a060ba205782c748b38bcc32bbcd566944fe7a62a9cc024d24b142041e70209

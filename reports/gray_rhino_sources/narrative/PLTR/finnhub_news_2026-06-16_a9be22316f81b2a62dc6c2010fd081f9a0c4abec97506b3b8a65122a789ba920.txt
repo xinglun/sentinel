@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Palantir Technologies to Stop Working With French Intelligence, PM Lecornu Says
+  summary: (Updates with Palantir's statement in the fourth and sixth paragraphs and additional background deta
+  url: https://finnhub.io/api/news?id=5f6f1d6aedacd6127507ac804ab3b26c9ad9cd5eb079bc99c91e95e4af687fa0

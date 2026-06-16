@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Is Down Nearly 30% in 2026. Here’s What It Will Take to Turn Around.
+  summary: Solid financial results have not been enough to stop Palantir’s stock slide in 2026. What’s holding investors back, and what could spark a turnaround?
+  url: https://finnhub.io/api/news?id=61cb8ce636d684d045bacdcd10049f1344bcde012bee592099057fcf47876586

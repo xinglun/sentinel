@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Falls as It Tries To Escape SpaceX’s Gravity
+  summary: Investors will get new fundamental information for Tesla when it reports second quarter deliveries in early July.
+  url: https://finnhub.io/api/news?id=3c8660903ac1968f35f01d9afb4da49d079a4ebb9eca5d6d57878875062120c7

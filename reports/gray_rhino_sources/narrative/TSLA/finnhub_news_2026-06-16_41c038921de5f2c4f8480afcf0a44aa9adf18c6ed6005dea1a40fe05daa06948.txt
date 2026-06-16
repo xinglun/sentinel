@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Raises Tesla Delivery Forecast as Second-Quarter Performance Appears Stronger Than Expected (TSLA)
+  summary: Tesla Deliveries Seen Beating Market ExpectationsTesla (NASDAQ:TSLA) could report second-quarter vehicle deliveries above current Wall Street forecasts, according to Goldman Sachs, which has increased its projection ahead of the company’s upcoming delivery update. Analyst Mark Delaney said the bank now expects Tesla to deliver 420,000 vehicles during the second quarter of 2026, up from its previous estimate of 405,000 units.
+  url: https://finnhub.io/api/news?id=7443123d23f81fc6afcd888d56acf8fa4fddbd7f92f930f8a74ede399d8733e0

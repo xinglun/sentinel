@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why GM's Newest Strategy Could Top Rival Ford
+  summary: Detroit automakers GM and Ford are both exploring battery energy storage systems, except they're going about it in slightly different ways.
+  url: https://finnhub.io/api/news?id=d985370e40f29053abef61910ef42c4d752b3af87ca6224dd6b8339087749a65

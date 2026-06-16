@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Showcases AIP-Enabled BrokerOS at Palantir AIPCon 10
+  summary: LOS ANGELES, June 16, 2026--Surf Air Mobility Inc. (NYSE: SRFM) ("Surf Air Mobility", the "Company") today highlighted the Company’s recent participation in Palantir Technologies' ("Palantir") AIPCon 10 on June 4, 2026, where the Company showcased its SurfOSTM software enhanced with Palantir's Artificial Intelligence Platform ("AIP").
+  url: https://finnhub.io/api/news?id=effbecb4bfcc65c805a0b0d399ca038dff9ff3f1302b2bfd7f9ed4bfee2f25ad

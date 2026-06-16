@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Approaches $3 Trillion Market Value as Post-IPO Rally Continues
+  summary: SpaceX (NASDAQ:SPCX) shares continued their remarkable advance in premarket trading on Tuesday, building on strong gains from their first two sessions as a public company and pushing the aerospace group toward a market capitalization of nearly $3 trillion. The rocket and satellite operator completed the largest initial public offering in history last week, ending its first day of trading on Friday with a valuation of approximately $2.
+  url: https://finnhub.io/api/news?id=be2b92f4f070ce42f9079d44223b3c171580e8ca67ab2bb2158d79584f116e2b

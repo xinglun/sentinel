@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Passed TSM. Can It Overtake Amazon This Week?
+  summary: SpaceX (NASDAQ:SPCX) spent more than two decades transforming itself from an ambitious rocket startup into one of the world’s most important technology companies. Today, it dominates commercial space launches, operates the largest satellite internet network through Starlink, and has expanded into markets that span telecommunications, defense, aerospace, and space exploration. Led by Elon Musk, the ... SpaceX Just Passed TSM. Can It Overtake Amazon This Week?
+  url: https://finnhub.io/api/news?id=491d67bf1cf22edaec9cb171746729363df17047839e2d7ca58b05a39209d1d0

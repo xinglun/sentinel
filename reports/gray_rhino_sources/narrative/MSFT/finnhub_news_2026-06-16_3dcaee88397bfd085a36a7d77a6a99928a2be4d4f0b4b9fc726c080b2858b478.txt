@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stelo Brings Real-Time Change Data Streaming to Microsoft Fabric Through Open Mirroring Integration
+  summary: Today Stelo announces its Open Mirroring partnership with Microsoft Fabric. Stelo is now listed as an official Open Mirroring partner on Microsoft's webpage, joining a select ecosystem of data providers with solutions ready to integrate directly with Microsoft Fabric.
+  url: https://finnhub.io/api/news?id=09875b05a2900f110542adc262f43a39b42fc792703832e6cb12e5a2bd55cecb

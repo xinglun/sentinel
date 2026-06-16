@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warsh's First Test: Steering The Fed Through A Geopolitical Fog
+  summary: The Warsh era begins during an unsettled period for central banks. Several of the Fedâs counterparts have started raising interest rates, citing inflation as the catalyst.
+  url: https://finnhub.io/api/news?id=35af11477fa4ec6c99dfc907f64d3b329fcefbd0d42cb166d915c085bde3598c

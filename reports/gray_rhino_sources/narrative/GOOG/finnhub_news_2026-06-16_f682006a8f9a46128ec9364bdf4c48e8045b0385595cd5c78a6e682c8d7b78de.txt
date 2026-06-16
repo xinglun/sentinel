@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: French startup bets on non-humanoid design in crowded AI robot race
+  summary: Genesis AI, the French robotics startup backed by former Google CEO Eric Schmidt, unveiled ‌its first general-purpose robot on Tuesday, as AI capabilities expand beyond chatbots and ‌into physical machines.  The robot, named Eno, breaks from the humanoid design usually favoured by leading manufacturers, featuring ​a wheeled base rather than legs, a foldable tower and hands that the company says match the form of a human hand.  Founded in early 2025, Genesis AI has raised $105 million (€90.6 million), one of France's largest and matching the record seed round of Mistral AI - Europe's leading AI company.
+  url: https://finnhub.io/api/news?id=e17f4e13c1af17d10a478f6a8064de6a68c807764cef957da079393de2edc5dd

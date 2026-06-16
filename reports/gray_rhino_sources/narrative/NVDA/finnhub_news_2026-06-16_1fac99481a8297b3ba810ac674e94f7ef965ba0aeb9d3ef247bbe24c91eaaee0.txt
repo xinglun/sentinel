@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Up 770% YTD, How High Can Micron Go?
+  summary: Few stocks have rewritten their own story in 2026 the way Micron Technology (NASDAQ:MU) has. Shares closed at $1,087.99 on June 15, up 281% year to date and 843% over the past year, with net income growing 770.8% year over year last quarter. Our 24/7 Wall St. price target for Micron is $701.69, implying 35.51% ... Up 770% YTD, How High Can Micron Go?
+  url: https://finnhub.io/api/news?id=41bb22dfc5394c3c8b7f08cba2ff80aece74857fa8e4d2d21b7fd7b564efa4d8

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Refutes Earlier Reports That France State Security Service DGSI Was Ending Its Partnership In Favor Of A French Firm; Contract With Remains In Full Force After Renewal At The End Of 2025
+  summary: - Reuters
+  url: https://finnhub.io/api/news?id=0850d14dda5a9b6c5db9d450a53bfdcb4c25e2e8a950f0dd5683a2e8b75f3c8c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Western Digital Jumps 7% on Morgan Stanley’s 33% Price-Target Hike, Seagate Gains 5% as the AI Storage Boom Rolls On
+  summary: Western Digital (NASDAQ:WDC) stock is up 7% in Tuesday morning trading, changing hands near $701 and setting a fresh all-time high. The catalyst is a Morgan Stanley note that reiterated an Overweight rating and lifted its WDC price target by 33%. The upgrade extends a powerful run. Western Digital stock closed Monday up 16.1% at ... Western Digital Jumps 7% on Morgan Stanley’s 33% Price-Target Hike, Seagate Gains 5% as the AI Storage Boom Rolls On
+  url: https://finnhub.io/api/news?id=c3c5c6883795334822ed7b383ec8de7f4521489ac2317fd7a352edc961bb781e

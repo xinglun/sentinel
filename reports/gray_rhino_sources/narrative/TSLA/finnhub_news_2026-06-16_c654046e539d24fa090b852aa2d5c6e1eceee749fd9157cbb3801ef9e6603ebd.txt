@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Energy Transition - Norway Amplifies Hydropower with Statkraft's New Blåfjell Pump
+  summary: Statkraft has announced its decision to construct the Blåfjell Pump to channel more water into Blåsjø, Norway's largest hydropower reservoir, thereby increasing the electricity production in the Ulla-Førre power plants by 54 GWh. This initiative exemplifies Norway's efforts in energy transition, utilizing existing hydropower infrastructure to balance seasonal variations and enhance renewable energy generation with minimal environmental impact. The project aligns with Statkraft's broader...
+  url: https://finnhub.io/api/news?id=da0c0bc845520952ff878b47382af0a17acd90b10f6a15906203c2efd796ef23

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Saylor Says ‘AI Summer’ Is Draining Bitcoin Demand, Expects Capital To Rotate Back By Year-End As Frenzy Around OpenAI, SpaceX Fades
+  summary: Saylor called 2026 "the most exciting year in Bitcoin's history," citing the rise of Bitcoin-backed credit and yield products.
+  url: https://finnhub.io/api/news?id=5c677f48995b773005a88ef3620f94323f5271dca1e1a748a32721be9875dc3f

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR): Among Stocks ChatGPT Predicts Could Make You Wealthy in 3 Years
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is among the 10 Stocks ChatGPT Predicts Could Make You Wealthy in 3 Years. As of the close of business on June 12, Wall Street has a Moderate Buy rating on the stock with an average share price upside potential of 45%. Recent updates include Wedbush, which on June 5 maintained […]
+  url: https://finnhub.io/api/news?id=821778bcb1fe41d3a7d582e85022ee5f167bcc3e79c291027a2f559567e97909

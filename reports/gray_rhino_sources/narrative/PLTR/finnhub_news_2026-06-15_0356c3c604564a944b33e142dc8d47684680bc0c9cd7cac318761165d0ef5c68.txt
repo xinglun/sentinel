@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $1000 Invested In Palantir Technologies 5 Years Ago Would Be Worth This Much Today
+  summary:  
+  url: https://finnhub.io/api/news?id=0db78f656764b11251245ca747c1d7faa1254d86a8b062ca5c1d10cf85acbbb3

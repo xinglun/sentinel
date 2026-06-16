@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Magnificent 7 Just Got Too Small For The AI Boom — Meet The FAB 10
+  summary: The Mag 7 may need an upgrade as investors turn their attention to the FAB 10, including frontier AI giants like OpenAI and SpaceX.
+  url: https://finnhub.io/api/news?id=52e752e8ef353e00e6822b23755d0b4951b9b9e98618140a948d642403ed51dc

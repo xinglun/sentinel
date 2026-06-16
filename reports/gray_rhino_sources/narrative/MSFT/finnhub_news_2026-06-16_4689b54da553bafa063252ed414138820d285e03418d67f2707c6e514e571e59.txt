@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Cloud AI - Enhancing Security Through Zero Trust Visibility Collaboration
+  summary: Gigamon has announced a collaboration with Zscaler to enhance deep observability within Zero Trust environments by integrating Zscaler Private Access with Gigamon's Application Metadata Intelligence. This development aims to improve visibility into application activity in hybrid cloud setups, aiding security teams in addressing the challenges of managing complex security infrastructures. The partnership offers organizations the ability to strengthen threat detection capabilities through...
+  url: https://finnhub.io/api/news?id=fca574b48fd79f753ba3515ebed9aa4954537981db89be07d7abf88326ab2e7d

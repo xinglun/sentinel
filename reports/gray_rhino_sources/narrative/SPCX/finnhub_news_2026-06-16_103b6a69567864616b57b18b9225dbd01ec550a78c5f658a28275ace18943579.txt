@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 12 Communication Services Stocks Moving In Tuesday's Pre-Market Session
+  summary:  
+  url: https://finnhub.io/api/news?id=5b7e38639665301c3910b397374a66066d25f5ea341cadf8eaa936e6579777a1

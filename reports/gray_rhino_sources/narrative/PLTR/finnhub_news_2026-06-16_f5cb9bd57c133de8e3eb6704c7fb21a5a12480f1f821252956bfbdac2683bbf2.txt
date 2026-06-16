@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Stock Could Be 25.9% Overvalued After AI Rally】【。
+  summary: Palantir Technologies (PLTR) stock recently moved higher after a broad rally in AI and software shares tied to lower bond yields following a U.S. Iran peace agreement, highlighting how macro conditions interact with the company’s growth story. See our latest analysis for Palantir Technologies. At a share price of $134.71, Palantir Technologies has seen short term sentiment swing around technical levels, with the 1 day share price return of 5.25% contrasting with a year to date share price...
+  url: https://finnhub.io/api/news?id=516dd7d42d9765fce79149a65ab78d889f3b72834ae193ecb877de704f5822f2

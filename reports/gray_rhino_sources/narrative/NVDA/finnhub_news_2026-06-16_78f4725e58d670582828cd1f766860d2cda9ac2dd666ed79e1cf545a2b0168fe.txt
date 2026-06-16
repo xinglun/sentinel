@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Just Passed a Threshold It's Only Crossed Once in 150 Years. Don't Ignore History.
+  summary: The S&P 500 has surged 79% since 2022, and one closely watched valuation gauge just did something it has done only once in 150 years. Here's what the Shiller P/E hitting 40 says about where the market goes next -- and why history is worth heeding.
+  url: https://finnhub.io/api/news?id=cc7dfd2381c2b4909ccdc1725eb4f2aaa55f405116653256b009382f3d9d1887

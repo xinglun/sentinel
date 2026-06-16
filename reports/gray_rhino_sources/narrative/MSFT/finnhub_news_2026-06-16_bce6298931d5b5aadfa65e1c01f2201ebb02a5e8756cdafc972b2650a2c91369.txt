@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Wins $1.44B Microsoft License Deal
+  summary: Federal unit secures renewal tied to Microsoft 365 services.
+  url: https://finnhub.io/api/news?id=ba612c65680ce33dd94663cccfb270bc3b360869af35a0cf540a7557ee0218a9

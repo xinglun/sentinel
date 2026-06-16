@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Enhanced Raises $50M to Fuel Next Phase, Backed by Major Investors
+  summary: By Karen Roman Enhanced Group Inc. (NYSE: ENHA) said it closed a $50 million private investment in public equity financing. The transaction was led by Apeiron Investment Group, Enhanced co-founder […]
+  url: https://finnhub.io/api/news?id=2f2713397c13503ee86b3faa5c5769529a9d092c142abfbadd24cbbb77f3542b

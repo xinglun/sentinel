@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EeroQ Makes World-First Breakthrough in Electron Qubits Floating on Helium
+  summary: EeroQ, the quantum computing company, today announced the first-ever demonstration of the strong coupling of a microwave photon to the charge qubit state of an electron on helium, a landmark result that establishes the electron-on-helium (eHe) approach to quantum computing as a reality and introduces a powerful new contender in the global race to build a practical quantum computer. The results have been peer reviewed and published in Nature Physics.
+  url: https://finnhub.io/api/news?id=541e71479da38ec5864c9442abcd9509c13fac21eb76214061633ce8ecac925c

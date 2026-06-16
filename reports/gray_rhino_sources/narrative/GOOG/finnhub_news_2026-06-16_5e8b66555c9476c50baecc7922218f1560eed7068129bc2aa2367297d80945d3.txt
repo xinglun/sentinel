@@ -1,0 +1,12 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Crypto Squeeze; Bonds Do Not Share Stock Market Euphoria;  Warsh Era Begins
+  summary: 
+
+
+
+Bonds Not Euphoric Like Stock Market
+
+
+
+  url: https://finnhub.io/api/news?id=2c5a6980d05aba3886b8d29d95f8f3f6ca50454cc19545990853a27989ebff44

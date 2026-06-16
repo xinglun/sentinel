@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Valuation Set to Surpass Amazon. Microsoft Is Next.
+  summary: The rocket and AI company’s shares jumped 20% on Monday. It was the second largest one-day gain in market valuation for a U.S. company ever.
+  url: https://finnhub.io/api/news?id=4128492b3ca5b97ea6627aa99ccc30bd9505671e2c4a67d8167f02b217120f67

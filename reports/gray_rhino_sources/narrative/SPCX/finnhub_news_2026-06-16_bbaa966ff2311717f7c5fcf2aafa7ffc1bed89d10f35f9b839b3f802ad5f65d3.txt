@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Makes An Observation As Investors Embrace AI And SpaceX: 'Been Ridiculous For A Very Very Long Time'
+  summary: &#39;Big Short&#39; investor Michael Burry reignited concerns about market excesses with a cryptic X post.
+  url: https://finnhub.io/api/news?id=05da0b2e3a00063a75eaf65c90747d3cc59ab314b77128652f769810e85d31d9

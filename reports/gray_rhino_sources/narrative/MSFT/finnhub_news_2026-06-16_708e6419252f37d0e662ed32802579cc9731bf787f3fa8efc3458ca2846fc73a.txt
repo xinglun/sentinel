@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Catalent Launches Qai™ to Reimagine Quality Assurance for its Manufacturing Services
+  summary: TAMPA, Fla., June 16, 2026--Catalent announces the launch of Qai, an enterprise AI tool designed to elevate the best quality systems and processes across Catalent’s network.
+  url: https://finnhub.io/api/news?id=3ca0884082bfc7b7bbc0c8a7c218634e10120447debdf4bba6de90539cfcd507

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Dave Ramsey Chooses $5,000 Index Funds Over SpaceX: The Math Explained
+  summary: On the June 12 episode of The Ramsey Show, a debt-free single woman with a roughly $250,000 net worth called in asking whether to buy 10 to 100 shares of SpaceX at about $162 each because a friend told her the stock was “going to skyrocket.” Dave Ramsey’s answer doubled as a personal finance lesson ... Why Dave Ramsey Chooses $5,000 Index Funds Over SpaceX: The Math Explained
+  url: https://finnhub.io/api/news?id=490e030c58bd89144a3ed66df0a4bbd3fa99273a078dac81f91cd8290ed24a25

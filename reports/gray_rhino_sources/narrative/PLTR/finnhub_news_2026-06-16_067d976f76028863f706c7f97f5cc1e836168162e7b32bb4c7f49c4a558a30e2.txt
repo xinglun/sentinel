@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Palantir Faces Scrutiny as NHS Data Show Reported Improvements Driven by Few Hospitals
+  summary: Palantir (PLTR) faces scrutiny after data showed most NHS platform gains occurred in just a few hosp
+  url: https://finnhub.io/api/news?id=efaaefa8e3a656d59844adde900e1653b5c9fd666fe775285c6c004fa73425b3

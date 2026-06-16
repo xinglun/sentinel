@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is Back Above $5 Trillion. Here’s What Comes Next
+  summary: NVIDIA (NASDAQ:NVDA) is back through the $5 trillion mark. CEO Jensen Huang called “the buildout of AI factories, the largest infrastructure expansion in human history” on the most recent earnings call, and the numbers back him up. Data Center revenue hit $75.246 billion in Q1 FY27, up 92% year over year, with Networking alone growing ... Nvidia Is Back Above $5 Trillion. Here’s What Comes Next
+  url: https://finnhub.io/api/news?id=fef3a206561750df5b1f4bfb3c0f191526e83544b63bb02e69a2b4a2cc4ade9b

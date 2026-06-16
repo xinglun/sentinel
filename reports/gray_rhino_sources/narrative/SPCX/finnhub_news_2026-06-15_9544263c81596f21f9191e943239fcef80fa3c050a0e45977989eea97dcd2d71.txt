@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceX Said to Allocate $600 Million to European Retail in Blockbuster IPO' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-06-15/spacex-said-to-allocate-600-million-to-european-retail-in-blockbuster-ipo
+  url: https://finnhub.io/api/news?id=ac0e6ebf32df58feb47efd07eee3c844b6959aac06daca745103e5118b440b45

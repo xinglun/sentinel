@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Bolsters AI Business With $60 Bil Deal. Musk Targets $1 Tril In Revenue.
+  summary: SpaceX boosts AI business with $60 billion deal for Cursor. Elon Musk makes this bold revenue target. SPCX stock surges.
+  url: https://finnhub.io/api/news?id=bdbf50fa17e7327fa6f3b6b69bc1d9d13a8501fa0bb5cc95aa1e33145aae4c8f

@@ -1,0 +1,13 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Nasdaq Futures Fall, Dow Gains Amid US-Iran Deal— SpaceX, Dave And Buster's, Western Digital In Focus (UPDATED)
+  summary: (Editor’s note: The lede, headline, futures and economic data were updated.)
+
+
+
+U.S. stock futures were mixed on Tuesday, as the Dow Jones rose, while the Nasdaq 100 and S&amp;P 500 declined, following Monday’s rally.
+
+
+
+The Labor Department reported that U.S. import prices advanced 1.9% in May, driven by surging fuel costs.
+  url: https://finnhub.io/api/news?id=ea5d95359bcae526e568c077de48b55423f2b46c2a88c7dd95bb75f8539bc68c

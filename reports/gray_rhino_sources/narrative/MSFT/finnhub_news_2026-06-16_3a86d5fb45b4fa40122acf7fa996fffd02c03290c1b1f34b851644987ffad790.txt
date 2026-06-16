@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VyOS 1.5 LTS Now Available on Equinix Network Edge, Bringing VPP-Accelerated Performance and Automation-First Networking to the Global Interconnection Fabric
+  summary: VyOS on Equinix Network Edge gives enterprises a more flexible way to deploy routing and security functions across cloud, edge, and distributed environments, without hardware lock-inPOWAY, Calif., June 16, 2026 (GLOBE NEWSWIRE) -- VyOS Networks today announced the availability of VyOS 1.5 LTS on Equinix Network Edge, bringing the latest long-term support release of the VyOS Universal Networking Platform to Equinix's global interconnection infrastructure. Enterprises, service providers, and infra
+  url: https://finnhub.io/api/news?id=9219d485445c256016282c1a98218bd6dc540062775deaa0acc9843c673c69c9

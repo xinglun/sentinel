@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Should Brace for a SpaceX IPO Reality Check
+  summary: At some point, the speculation behind SpaceX's record-breaking IPO will run out of steam.
+  url: https://finnhub.io/api/news?id=239e81a244933a43400cda044f8c4a9e5196f3a69571658f0d32f823c5df7d66

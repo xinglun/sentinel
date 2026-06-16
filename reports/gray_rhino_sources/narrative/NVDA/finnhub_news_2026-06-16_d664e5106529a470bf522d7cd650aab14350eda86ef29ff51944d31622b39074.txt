@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fear Is Driving the Stock Market: This Is the Single Best Move Investors Can Make Right Now.
+  summary: This one move can make or break your portfolio during the next market pullback.
+  url: https://finnhub.io/api/news?id=783559390032cd6a89cb52221213554fb791638d5d40803eb2a5c9d9766b7aa2

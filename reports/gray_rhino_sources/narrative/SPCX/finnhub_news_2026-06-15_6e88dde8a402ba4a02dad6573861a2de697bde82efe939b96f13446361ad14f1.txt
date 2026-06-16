@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mike Novogratz Is Bullish On Bitcoin But Nervous About SpaceX
+  summary: Galaxy Digital (NASDAQ:GLXY) CEO Mike Novogratz says Bitcoin 
+  url: https://finnhub.io/api/news?id=1805d6925ffc55f40e167a923e1cc86091cbeda0873200b5a4f7374e689cdba0

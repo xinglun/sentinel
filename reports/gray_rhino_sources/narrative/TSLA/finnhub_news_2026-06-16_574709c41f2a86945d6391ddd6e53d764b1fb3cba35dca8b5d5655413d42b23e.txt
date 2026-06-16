@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 deliveries "likely tracking ahead of consensus": Goldman
+  summary: Investing.com -- Tesla's second-quarter vehicle deliveries are on pace to surpass market expectations, according to Goldman Sachs, which has raised its delivery forecast ahead of the update.
+  url: https://finnhub.io/api/news?id=a42fdb1888751e13d3cc5941a9446aeef080346958b3439f84062970e0966e72

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Blue Origin's Rocket Blew Up. What Does That Mean for SpaceX?
+  summary: Blue Origin cannot catch a break -- but its misfortune could hand SpaceX a win.
+  url: https://finnhub.io/api/news?id=b85f34979277df15f282ffe40edea322de714cc3eec4b567c3682c44c146fa36

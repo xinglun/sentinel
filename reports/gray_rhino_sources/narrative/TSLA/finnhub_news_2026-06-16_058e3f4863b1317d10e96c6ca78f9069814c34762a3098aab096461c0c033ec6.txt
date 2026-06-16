@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: How Much Upside Is Left in Tesla?
+  summary: I’m going to put the verdict at the top. Our Tesla (NASDAQ:TSLA) work points to a stock trading right at fair value heading into the back half of 2026. The 24/7 Wall St. price target for Tesla is $417.62, against a current price of $420.55. That implies -0.7% downside over the next 12 months. Our ... Price Prediction: How Much Upside Is Left in Tesla?
+  url: https://finnhub.io/api/news?id=443c2975146cc1a618141f69f3444ba9aa60d3b73f8c4543613c7803dfe707bd

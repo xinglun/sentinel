@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ValuEngine Weekly Market Summary And Commentary
+  summary: 
+  url: https://finnhub.io/api/news?id=c6387300767e7fd821ae2e7a77903126ae7e5dc8ab1ec3a09fc5af158890e82d

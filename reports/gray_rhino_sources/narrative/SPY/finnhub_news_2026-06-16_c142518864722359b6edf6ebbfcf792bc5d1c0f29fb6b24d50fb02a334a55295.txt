@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: World Markets Watchlist: June 15, 2026
+  summary: Through June 15, 2026, six of the nine indexes on our watchlist remain in positive territory. Read more here.
+  url: https://finnhub.io/api/news?id=fd29d62eadc2ad8e97a6340baebc8415ce1157c4e9d537329ff193bc5d5ba058
