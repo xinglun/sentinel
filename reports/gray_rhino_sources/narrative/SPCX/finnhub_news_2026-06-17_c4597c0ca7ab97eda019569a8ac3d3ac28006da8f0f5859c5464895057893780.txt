@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mega-Cap Sales
+  summary: Since its record-breaking IPO last week, SpaceX has been the talk of the town, and understandably so, as the company debuted with a market cap above $1 trillion.
+  url: https://finnhub.io/api/news?id=a9c8889faf0ce97e8a068b52a963fd27710596ebde94f090b4a1b49d387f9d22

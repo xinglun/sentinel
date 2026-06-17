@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's hot debut sheds more light on Microsoft's dreadful stock price
+  summary: While SpaceX made a sizzling debut in public markets, Microsoft's stock has remained stuck in the mud.
+  url: https://finnhub.io/api/news?id=8a783fa4351f62471e921e19c8e2f4d69ee2b1bacd0b5426c0b619433a045648

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's SpaceX Dominates Retail Trading, But Analyst Sees Echoes Of The Meme Stock Era
+  summary: Retail investors are driving up demand for SpaceX stock, but one analyst warns it could turn into a meme stock.
+  url: https://finnhub.io/api/news?id=070ffd33a1b4150c9a98a8acc8125848525be578f65cf4803b46130faa4ea4d1

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 ETFs to Buy With $100 and Hold Forever
+  summary: Investors looking to deploy a small amount of capital ought to examine the Invesco High Yield Equity Dividend Achievers ETF and the Schwab International Dividend Equity ETF.
+  url: https://finnhub.io/api/news?id=9b31a4f960c9560dc57949063b1254d43bac741ed26ebecb89b02758338b1504

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Unstoppable Growth Stock Soared 500% in the Last 12 Months, but Wall Street Expects Limited Upside From Here
+  summary: DigitalOcean's revenue growth is accelerating, but its stock has gotten ahead of itself.
+  url: https://finnhub.io/api/news?id=ad1353b78474dd769e0102056a50fe23e409c670863905aa523dc8a5ecfb4eaf

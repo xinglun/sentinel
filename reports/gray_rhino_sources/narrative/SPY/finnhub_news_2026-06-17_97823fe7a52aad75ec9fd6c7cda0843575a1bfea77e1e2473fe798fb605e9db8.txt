@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPX: Why Consumers, Not Profits, Will Win The AI Race
+  summary: S&P 500 hits record price-to-sales as analysts bet on big margin gains. Click here to read a detailed analysis on SPX.
+  url: https://finnhub.io/api/news?id=b7d22c094f5952b5b9967dabd84911c8244979f4b69eb438fb2e696336801823

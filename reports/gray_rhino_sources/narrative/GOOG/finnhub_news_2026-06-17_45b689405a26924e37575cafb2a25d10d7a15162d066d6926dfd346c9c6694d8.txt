@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI use in UK hits 'tipping point' as companies scale up, Google exec says
+  summary: Adoption of artificial intelligence has reached a "tipping point" in Britain, as companies move from experimentation ‌to large-scale deployment and start seeing returns, a Google Cloud executive ‌said on Wednesday.  Businesses and government bodies that were testing AI tools a year ago are now ​using them to run more complex processes and improve productivity, Maureen Costello, Google Cloud's vice president for the United Kingdom, Ireland and Sub-Saharan Africa, told Reuters in an interview.
+  url: https://finnhub.io/api/news?id=fa4677e58641b9f525d567213589161d78d30f041c261d2b5551a7eb905f5d45

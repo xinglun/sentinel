@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon vs. Alphabet: Which Magnificent Stock Is the Better Buy?
+  summary: Amazon and Alphabet are both leaders in the AI race, but one of them looks more compelling.
+  url: https://finnhub.io/api/news?id=908cbd8056e184cb163aa8c93954e2b9b99c30766114ce32327702c1c3b34df1

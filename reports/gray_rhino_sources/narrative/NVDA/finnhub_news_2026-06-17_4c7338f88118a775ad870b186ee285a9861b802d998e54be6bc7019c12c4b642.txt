@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fortinet (FTNT) Partners with NVIDIA (NVDA) to Accelerate GPU-Powered AI Security
+  summary: Fortinet Inc. (NASDAQ:FTNT) is one of the 12 Best Growth Stocks Trading in Oversold Territory. On May 12, Fortinet partnered with NVIDIA (NASDAQ:NVDA) to accelerate the FortiAIGate solution, providing high-performance, GPU-accelerated security for AI workloads. This integration protects data and autonomous agents in data centers and the cloud, allowing organizations to monitor AI usage and […]
+  url: https://finnhub.io/api/news?id=b23b30c3b6cfe6632118175080ce3c0ed4725f56d4cf52864989984c8af34680

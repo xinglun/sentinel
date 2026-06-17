@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Crowd Is Dumping This Industrial Stock. Here's Why I'd Be Buying the Dip.
+  summary: Joby Aviation is trading about 33% lower on the year. Time to buy the front-runner of the nascent eVTOL industry?
+  url: https://finnhub.io/api/news?id=f1bf8dbd05370d280d6b08ba5492c930a553ffda7cafdcd89e0cde4c0b9ab567

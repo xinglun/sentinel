@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Clearlake-backed Quest Software Acquires Anetac to Advance Identity Security for the Agentic AI Era
+  summary: Acquisition Strengthens Quest’s Security Platform with AI-Powered, Continuous Visibility into Human, Non-human, and Agentic IdentitiesAUSTIN, Texas, June 17, 2026 (GLOBE NEWSWIRE) -- Quest Software, a global leader in data management, cybersecurity, and platform modernization, backed by Clearlake Capital Group, L.P. (together with its affiliates, “Clearlake”), today announced it has acquired Anetac, a provider of AI-powered identity security for human, non-human, and agentic identities. The acqu
+  url: https://finnhub.io/api/news?id=fd420676481699a3a02e177b3e4cbe5e163fa35d8a644b5ced8be6edae6dab9c

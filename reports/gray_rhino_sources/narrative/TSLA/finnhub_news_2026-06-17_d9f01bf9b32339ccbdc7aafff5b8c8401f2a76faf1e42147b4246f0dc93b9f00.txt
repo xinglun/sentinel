@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Rivian Joins ChargeScape For Grid Resilience And Energy Savings
+  summary: American automotive company Rivian has partnered with ChargeScape, a vehicle-grid integration platform backed by major automakers, to enhance the integration of high-capacity electric vehicle (EV) batteries with utility managed-charging programs across North America. This collaboration aims to strengthen grid resilience and offer cost savings for EV drivers by enabling Rivian vehicles to contribute as flexible energy resources during peak electricity demand periods. The partnership highlights...
+  url: https://finnhub.io/api/news?id=96b56cc5f9230da351241fe6e1f99f6d25ef73f3a06cec681ad55af9c7333798

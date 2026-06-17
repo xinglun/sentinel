@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data Center IT Semiconductor and Component Revenue Increased 116 Percent in 1Q 2026, According to Dell'Oro Group
+  summary: According to a recently published report by Dell'Oro Group, the trusted source for market information about the telecommunications, security, networks, and data center industries, the worldwide revenue for Data Center IT Semiconductors and Components for servers and storage systems increased 116 percent year-over-year in 1Q 2026, propelled by ongoing AI Infrastructure expansion and rising memory prices.
+  url: https://finnhub.io/api/news?id=7814908b9bfdab7dfc62ecc3b47bb0b4dcb9d1c43160c31f723509222b2601f1

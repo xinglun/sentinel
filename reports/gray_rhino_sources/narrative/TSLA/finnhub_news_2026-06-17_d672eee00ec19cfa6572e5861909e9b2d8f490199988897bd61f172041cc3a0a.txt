@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Is Down. An Argentina Charger Deal Won’t Help.
+  summary: Tesla  stock is down early Wednesday.  Shares of the electric-vehicle maker were down 0.3% in premarket trading at $404.66, while  futures were up 0.1% and  futures were down 0.1%.  The move came despite Argentina’s energy company,  YPF  and Tesla signing a memorandum of understanding to explore the development of a fast-charger network.
+  url: https://finnhub.io/api/news?id=b556d02356920c1597fb1a3ba40ba4bbbbe1cd9a1f74f037c94afc889b214f53

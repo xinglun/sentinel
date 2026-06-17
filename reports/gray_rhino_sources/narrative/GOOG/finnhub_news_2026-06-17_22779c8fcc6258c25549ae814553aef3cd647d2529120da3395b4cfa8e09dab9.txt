@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Alphabet (GOOGL) The Best AI Stock in Billionaire Dan Loeb’s Portfolio?
+  summary: We just covered Billionaire Dan Loeb Pivots to AI and Sells Old Economy Stocks: His Top 7 AI Picks. Alphabet (NASDAQ:GOOGL) ranks #3 (see Billionaire Dan Loeb’s Top 5 AI Stock Picks). Billionaire Dan Loeb’s Stake: 175,000 Shares Valued at Approximately $50.32 Million (NEW position) Billionaire Dan Loeb piled into Alphabet (NASDAQ:GOOGL) in the first […]
+  url: https://finnhub.io/api/news?id=e4d220a602642a99d72754c42d9c09b98fd79024ca11600cdc6d99ef8161669b

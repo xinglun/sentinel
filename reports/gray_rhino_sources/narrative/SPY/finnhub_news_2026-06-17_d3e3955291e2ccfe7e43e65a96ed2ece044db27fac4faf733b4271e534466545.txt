@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Rotational AI Portfolio Strategy
+  summary: AI is driving real technological change, but market leadership is rotating from chipmakers to energy and electrical infrastructure companies. Read the full analysis now.
+  url: https://finnhub.io/api/news?id=b31d61c7bb0588a5df9d0c688194ebe6682eb97e2c57fa06f5a1045a8bd2eb80

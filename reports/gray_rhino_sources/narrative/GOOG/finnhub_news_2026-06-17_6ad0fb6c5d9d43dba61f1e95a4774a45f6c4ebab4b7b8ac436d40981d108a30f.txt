@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Faces New Ad Pricing Scrutiny
+  summary: Regulators examine pricing disclosures for advertisers
+  url: https://finnhub.io/api/news?id=19540cb5e083c4608ba3feef6a2f9de856cee40f199eb14002ce1acea7be91a2

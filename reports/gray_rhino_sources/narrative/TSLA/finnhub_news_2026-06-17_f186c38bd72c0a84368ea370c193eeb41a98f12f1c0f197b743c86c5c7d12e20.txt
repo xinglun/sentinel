@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Swaps Tesla for SpaceX in $529M Elon Musk Pivot
+  summary: ARK sold Tesla and bought $529M of SpaceX, the world's biggest IPO, the same day. The reason goes beyond Musk loyalty.
+  url: https://finnhub.io/api/news?id=e35567d87d69d12a6826e77b0fbd5c9eefaeb271a04af0b8060495b2125202b4

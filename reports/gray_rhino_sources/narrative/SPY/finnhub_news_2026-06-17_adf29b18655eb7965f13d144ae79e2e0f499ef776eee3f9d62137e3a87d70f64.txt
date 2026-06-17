@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FOMC Trading Playbook: How A Hawkish Fed Could Impact Nasdaq 100, Gold, EUR/USD And AUD/USD
+  summary: A higher dot plot, upward inflation revisions, and a less dovish policy bias would likely support the US dollar while weighing on Gold, the Nasdaq 100, EUR/USD, and AUD/USD.
+  url: https://finnhub.io/api/news?id=262a014c4a0ac7c8964fb20f07ac8334d59a966315e0edb66b66739351f742e0

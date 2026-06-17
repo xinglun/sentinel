@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech ETFs Are Doing Something Unprecedented Right Now. Should Investors Buy or Wait?
+  summary: When you start seeing things that rarely (if ever) happen, it's often a call for a bit of suspicious scrutiny.
+  url: https://finnhub.io/api/news?id=4c35c3e26172ea3e6d4e40499849048764dec7d83a891131c34bf2e17efafd99

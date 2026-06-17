@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Aembit Extends IAM for Agentic AI to Microsoft Copilot Studio
+  summary: LAS VEGAS, June 17, 2026 (GLOBE NEWSWIRE) -- Aembit on Tuesday announced support for Copilot Studio, extending its identity and access management capabilities to Microsoft's enterprise AI agent platform. The integration, unveiled at Identiverse 2026, gives security teams the tools to manage what Copilot Studio agents can access, under what conditions, and with a complete record of every decision. The company also released an interactive enterprise AI readiness checklist to help organizations ass
+  url: https://finnhub.io/api/news?id=a2b7341f03b10441c5a15cd239038f9fc55b6cf49b822ed85229b4730e7aef59

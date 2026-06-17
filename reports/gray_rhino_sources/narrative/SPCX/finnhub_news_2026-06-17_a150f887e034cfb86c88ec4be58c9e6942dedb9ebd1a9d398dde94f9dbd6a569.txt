@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: A 4% Float Built A $2.7 Trillion Price - The Lock-Up Ends It
+  summary: SpaceXâs 53% post-IPO surge to $2.7T may be float-driven, not fundamentals. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=91c5f7372fbaa26dd622f072fce4d3f72bc4ef12ec14e9aa924b741f1e9d8368

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Passive Funds Crossed $2.6 Trillion—Here Is The Percentage That Breaks The Market
+  summary: Has passive investing broken Wall Street? Explore how $2.6T index funds are shifting from market followers to becoming the market.
+  url: https://finnhub.io/api/news?id=d4ac7fad3bd1a49a92c7a2cb3ecbca4e2be8170997976a92dac820b03efce795

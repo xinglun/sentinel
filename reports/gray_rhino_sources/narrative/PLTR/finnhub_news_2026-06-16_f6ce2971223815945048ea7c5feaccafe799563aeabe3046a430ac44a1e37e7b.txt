@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Archer Aviation Could Double as FAA Certification Nears
+  summary: Archer Aviation (NYSE:ACHR) has had a rough year. After running up above $14.62 in the last 52 weeks, the eVTOL hopeful now trades at $5.08, down 32.45% year to date. Our 24/7 Wall St. price target for Archer Aviation is $11.51 over the next 12 months, implying 126.61% upside. The model rates Archer a buy ... Archer Aviation Could Double as FAA Certification Nears
+  url: https://finnhub.io/api/news?id=e48ce3dea31e5b4682da1c03bf088b4eeccc7cd1549ce6f0eb120b1b25613198

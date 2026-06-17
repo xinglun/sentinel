@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Mass-Market Lead Faces A Looming Threat From Rivian's R2, But Prediction Markets Are Still Betting On TSLA
+  summary: Rivian&#39;s R2 lands with an $829/month lease shock, delaying its threat to Tesla. Meanwhile, prediction markets are betting on a massive TSLA delivery beat.
+  url: https://finnhub.io/api/news?id=d094991ef39d2b23c2ff96986e39e120a56287b61a35fb624ddb42bfa95922c2

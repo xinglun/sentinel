@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Down 26% in 2026 Despite a High-Conviction Upgrade. Is the Bottom Finally In?
+  summary: Palantir (NASDAQ:PLTR) stock is sliding again Tuesday, down 3% at midday to $130 and change, even as a notable Wall Street rating change tries to pull the narrative the other way. The drop extends a brutal run that has Palantir stock down 26% in 2026. The catalyst getting attention today: Wolfe Research upgraded Palantir to ... Palantir Is Down 26% in 2026 Despite a High-Conviction Upgrade. Is the Bottom Finally In?
+  url: https://finnhub.io/api/news?id=75ddcce6df446426e2a89c772b5ea4b36be528ce2b8fa3e8efb98ccd3ac3a2f2

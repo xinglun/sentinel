@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock In Focus: Could Optimus Be The Missing Link Between Tesla And SpaceX?
+  summary: Elon Musk has outlined a vision in which large groups of Tesla’s humanoid robots could eventually function as self-replicating machines in space.
+  url: https://finnhub.io/api/news?id=fffb17a400deecceb2f9f95fcf1a2c2c96ad6f7c766021c404d7afa5e7e9bdcf

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Buy Dutch Bros Today, Here's Where It Could Be in 5 Years
+  summary: This growth stock is finding tremendous success in the competitive retail coffee market.
+  url: https://finnhub.io/api/news?id=c9b987025dbffa347e1565148b22d296699b45781d31025a7c430666cbf4a6c5

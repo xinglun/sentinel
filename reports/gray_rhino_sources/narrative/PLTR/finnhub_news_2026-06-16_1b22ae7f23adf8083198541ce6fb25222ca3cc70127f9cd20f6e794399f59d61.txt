@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir stock faces hidden AI risk after Google deal
+  summary: Palantir Technologies (PLTR) has spent years trying to convince Wall Street that it can become one of the most important software companies in the artificial intelligence boom. Its most recent action does just that. Palantir said on June 4 its software is available through the Google Cloud ...
+  url: https://finnhub.io/api/news?id=67f8a34dd517e5e27ffd186c74b6b2507fdbe76bc07ebbe4b49d55fbbe8f0d5b

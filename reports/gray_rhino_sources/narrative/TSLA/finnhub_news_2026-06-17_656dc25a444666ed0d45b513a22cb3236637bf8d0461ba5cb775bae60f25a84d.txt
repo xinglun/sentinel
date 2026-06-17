@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Robotaxi Goals Get A Boost As Texas DOT Official Hails Tesla Cybercab
+  summary: A Texas Department of Transportation (DOT) executive has backed Tesla Inc.‘s (NASDAQ:TSLA) robotaxi efforts, in what could be a boost for Elon Musk‘s self-driving goals. A Significant Shift In Mobility Marc Williams, the Executive Director of the Texas DOT, took to the social media platform LinkedIn on Tuesday, sharing his views on the Tesla Cybercab. Read Also: Yikes! Elon Musk's Robotaxi Fleet Is Smaller Than Pepsi's Doritos Truck Fleet “The introduction of the CyberCab will dramitically scale
+  url: https://finnhub.io/api/news?id=fc692eec7855e8197e0537bd9fcb6191a1857ce3275c657a80339e662402565e

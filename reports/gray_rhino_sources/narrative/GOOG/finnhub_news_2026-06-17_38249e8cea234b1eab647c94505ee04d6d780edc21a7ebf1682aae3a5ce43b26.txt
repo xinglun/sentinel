@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Dan Loeb is Buying This AI Data Center and Crypto Stock
+  summary: We just covered Billionaire Dan Loeb Pivots to AI and Sells Old Economy Stocks: His Top 7 AI Picks. Hut 8 (NASDAQ:HUT) ranks #4 (see Billionaire Dan Loeb’s Top 5 AI Stock Picks). Billionaire Dan Loeb’s Stake: 869,563 Shares Valued at Approximately $40.79 Million (NEW position) Hut 8 (NASDAQ:HUT) is transitioning from Bitcoin mining into […]
+  url: https://finnhub.io/api/news?id=c27416f8091d09e4d6b5caec3e58bac67a656d96590200925be48918df024f16

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macro Insights: Warsh Regime In Play, SpaceX's Capital Squeeze, And Tokenomics
+  summary: Welcome to the SAâs The Macro Brief! This official SA Profile will highlight our analysts' latest economic and market analysis to help investors gauge the...
+  url: https://finnhub.io/api/news?id=00b3c3a835c75ead05f24c9f2fee06416f21a7520da1dd349c62b7a8160ef126

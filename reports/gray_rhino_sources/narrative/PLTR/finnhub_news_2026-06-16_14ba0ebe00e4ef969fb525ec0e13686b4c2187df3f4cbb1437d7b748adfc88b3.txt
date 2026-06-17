@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Dell Story Is No Longer Just About PCs. Here’s Why the Stock Still Looks Undervalued.
+  summary: The market may still be mispricing Dell's AI opportunity.
+  url: https://finnhub.io/api/news?id=1aa937fbb19aa645d38a755a2fe73fc52c01e58df4441a6a79ea56e837820fa2

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Palantir (PLTR) Hold Its £330 Million NHS Contract as the UK Government Turns Up the Heat?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the best tech stocks to invest in on the dip. On June 9, Reuters reported that the UK government has formally launched a comprehensive review of its £330 million ($441 million) NHS contract with Palantir Technologies Inc. (NASDAQ:PLTR). The report detailed that political pressure is mounting on ministers […]
+  url: https://finnhub.io/api/news?id=c3b93b97dda680f7efe81781015267b5b6359fa358e729ece5a7afb5d3bc1c95

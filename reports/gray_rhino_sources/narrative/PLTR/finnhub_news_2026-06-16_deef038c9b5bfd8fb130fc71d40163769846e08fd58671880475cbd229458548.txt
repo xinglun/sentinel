@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Gets an Upgrade on AI Adoption. Why Its Shares Are Underperforming.
+  summary: Palantir stock is having a rocky 2026, underperforming the S&P 500 and the Nasdaq Composite. But a Wall Street firm believes the business is too good to ignore.
+  url: https://finnhub.io/api/news?id=c08deb3213474a2f611a1e66cc3a5d8e5b0dbd1a277955becf42b99808aea218

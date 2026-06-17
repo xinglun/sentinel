@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Faces Senate Inquiry Over FSD Safety Claims In Europe Too
+  summary: Two U.S. senators have requested a federal investigation into Tesla's self-published safety data for its Full Self-Driving system, questioning whether the company has overstated real-world safety performance. Regulators in Sweden and the Netherlands have also accused Tesla of providing misleading information about Full Self-Driving, adding pressure on the company in key European markets. The scrutiny focuses on the accuracy and presentation of data used to support Tesla's autonomy claims,...
+  url: https://finnhub.io/api/news?id=b425cb72eed682f83b72cc210939b8d239f2e7598f80dd892293b23224096900

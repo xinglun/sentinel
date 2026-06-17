@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broader Market Weakens as Energy and Software Stocks Fall
+  summary: The S&P 500 Index ($SPX ) (SPY ) today is down -0.18%, the Dow Jones Industrial Average ($DOWI ) (DIA ) is up +0.69%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is down -0.83%. June E-mini S&P futures (ESM26 ) are down -0.20%, and June E-mini Nasdaq futures...
+  url: https://finnhub.io/api/news?id=ed3cde22831ae1098d949d7d33b72dd9da82db5fee1fc510faa8b2594a4fd5de

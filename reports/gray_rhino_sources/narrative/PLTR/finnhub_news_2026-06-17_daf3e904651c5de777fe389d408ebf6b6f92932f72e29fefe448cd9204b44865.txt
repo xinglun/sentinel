@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Smartest Way to Play the AI Boom in 2026
+  summary: Power has become the binding constraint on the AI boom, and one $130 million stock just signed a 15-year, $2.6 billion lease that validates the entire thesis. Wall Street hasn't priced it yet.
+  url: https://finnhub.io/api/news?id=eb297cc685a7f08606ba0d5c53ea6746c51529ec2c5b9b804c9e8ec87be9dda1

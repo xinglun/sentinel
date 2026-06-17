@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sell SpaceX: Don't Get Trapped By One Of The Most Extreme Valuation Traps In History
+  summary: SpaceX (SPCX) IPO analysis: $2.1T valuation, 112x sales and big losses.
+  url: https://finnhub.io/api/news?id=a4514c8173e547b6e6cf93409e4610f9c3fb443cfe88df1d35323e5ba06c89b4

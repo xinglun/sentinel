@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Has An Overlapping TAM Problem
+  summary: 
+  url: https://finnhub.io/api/news?id=4eb91d1ec0d70a5a5b98044dc31daf51d3df367419e48fa7c89682a10bd39d3c

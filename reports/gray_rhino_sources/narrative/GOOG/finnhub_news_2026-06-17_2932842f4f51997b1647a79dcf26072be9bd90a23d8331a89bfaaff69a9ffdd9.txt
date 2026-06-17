@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global Hedge Funds Doubled Down on Technology and Semiconductor Names in May Despite Persistent Macro Risks, According to Hazeltree
+  summary: NEW YORK & LONDON, June 17, 2026--​Global hedge funds maintained a strong appetite for technology and semiconductor companies in May, continuing a trend that has persisted throughout much of 2026 despite inflation concerns, rising energy prices, ongoing conflict in the Middle East, and questions surrounding fiscal sustainability. As global equities extended April's rally and major benchmarks including the MSCI World Index, S&P 500, and Nasdaq Composite closed the month near record highs, hedge f
+  url: https://finnhub.io/api/news?id=f75226ecd56c2cca5e18dd597ea6f8662496a7f5367611b465a065b789613648

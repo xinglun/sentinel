@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moody’s Launches Decision-Grade AI Skills for Major AI Platforms
+  summary: NEW YORK, June 17, 2026--Moody’s Corporation (NYSE: MCO) today announced the release of its first set of AI skills – purpose-built, platform-agnostic instruction kits that encode Moody’s analytical frameworks and connect AI agents to its decision-grade intelligence. Available across compatible AI platforms beginning with Microsoft 365 Copilot Cowork, Moody’s skills enable customers to execute complex analytical workflows through a single natural-language request, with outputs grounded in Moody’s
+  url: https://finnhub.io/api/news?id=5833bbd40e4497f6f693038a9f973611396c8a1ed7f9da344af51835997f909d

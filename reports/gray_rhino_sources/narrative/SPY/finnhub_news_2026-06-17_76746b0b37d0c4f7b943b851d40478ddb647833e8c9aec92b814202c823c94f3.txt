@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Asian Country Is 1% The Size Of The US — And It Just Delivered 11x The S&P 500's Returns
+  summary: South Korea&#39;s EWY ETF has rocketed 112% in 2026 — 10x the S&amp;P 500 — as SK Hynix and Samsung ride the AI memory super-cycle. Here&#39;s what&#39;s driving the rally.
+  url: https://finnhub.io/api/news?id=b0cde07839c96a8caf2b8fefc44ea6c1a754d6615a1e6ee548555115a766b87f

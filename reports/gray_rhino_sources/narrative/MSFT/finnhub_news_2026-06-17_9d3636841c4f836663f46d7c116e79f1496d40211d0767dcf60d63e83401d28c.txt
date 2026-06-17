@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Weighs DeepSeek Models for Lower-Cost Copilot
+  summary: The move could help Microsoft control AI costs as Copilot usage rises.
+  url: https://finnhub.io/api/news?id=118b818164e110da8e45f7401a75f508259ee0b284a68432daad6b356a67677b

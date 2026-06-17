@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Gave Warsh A Ticking Time Bomb
+  summary: Kevin Warsh starts as Fed chair amid inflation and geopolitical risks.
+  url: https://finnhub.io/api/news?id=316eb623ac558e4aaa76a7ecd40954cfafe33f0f51c0077c7f5aab26718d2374

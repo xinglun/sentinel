@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Robotaxi: The Hype Is The Real Deal, The Numbers Can Wait
+  summary: Tesla buy case: Robotaxi rollout milestones and âMusk premiumâ sustain a 377x P/E. Click here to read more about the TSLA stock.
+  url: https://finnhub.io/api/news?id=410e232f92b23de39bd61b28311e7852cfbd9f392f2224856dc8d0fe1ea53652

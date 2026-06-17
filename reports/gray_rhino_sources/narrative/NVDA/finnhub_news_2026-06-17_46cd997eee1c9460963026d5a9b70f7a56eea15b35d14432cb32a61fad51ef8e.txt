@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Dan Loeb’s Top AI Stock Pick: Taiwan Semiconductor (TSM)
+  summary: We just covered Billionaire Dan Loeb Pivots to AI and Sells Old Economy Stocks: His Top 7 AI Picks. Taiwan Semiconductor (NYSE:TSM) ranks #1 (see Billionaire Dan Loeb’s Top 5 AI Stock Picks). Billionaire Dan Loeb’s Stake: 275,000 Shares Valued at Approximately $92.93 Million Taiwan Semiconductor (NYSE:TSM) manufactures the physical chips designed by virtually every major semiconductor company […]
+  url: https://finnhub.io/api/news?id=87ee565d053e5c530f20aa85a686cfe48bc76e6a847a7b0657d3bdd2a1a70593

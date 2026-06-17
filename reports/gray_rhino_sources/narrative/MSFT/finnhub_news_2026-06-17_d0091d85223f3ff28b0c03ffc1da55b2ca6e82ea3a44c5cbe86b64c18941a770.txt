@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump Says Was A Great Meeting On AI At G7 Summit; Anthropic Negotiations Going Fine
+  summary: https://www.youtube.com/watch?v=asJN9Mi3j1k
+  url: https://finnhub.io/api/news?id=886cfd78ec8a1e57c501566eb95195437430b8f731a777b670b3fc19aaf1003b

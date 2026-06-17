@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chips Crack the Rally - Dow Keeps Climbing, SpaceX Passes Amazon
+  summary: Monday's all-everything rally lasted exactly one session. Tuesday was the kind of split tape that reminds you why an index print can hide more than it reveals, the Dow Jones pushed to another record while the semiconductor complex got taken to the woodshed.
+  url: https://finnhub.io/api/news?id=f186b9ba5a5e821ce8a9a786b8603b1af1d5e1a2591b41e960c2856e0cffe9bf

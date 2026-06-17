@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Down Nearly 40% From Its Highs, Is Palantir Stock a Once-in-a-Decade Buying Opportunity?
+  summary: Palantir hasn't been as good an investment as it once was.
+  url: https://finnhub.io/api/news?id=7d795b86b1ef471b5b34bbbcbed12abd8126ecd27d0b4814c9281a7483f6a17c

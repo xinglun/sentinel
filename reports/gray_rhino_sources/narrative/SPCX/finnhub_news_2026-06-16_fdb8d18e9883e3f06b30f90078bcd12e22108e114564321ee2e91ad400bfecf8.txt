@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Buzzing And Asset Managers Are Rushing To Launch 'MANGOS' ETFs Built Around The Elon Musk-Led Company, OpenAI And Anthropic
+  summary: Two asset managers plan to launch investment funds tied to the new &#34;MANGOS&#34; basket of AI-focused companies. 
+  url: https://finnhub.io/api/news?id=d57f56f3bb628bc73ff6db93d60a0d11bef932f28d4a3a672c1641e1a2068b65

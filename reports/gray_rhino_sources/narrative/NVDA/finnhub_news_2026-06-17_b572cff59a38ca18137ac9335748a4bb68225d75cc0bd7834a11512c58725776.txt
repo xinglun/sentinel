@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ATW Partners Backs QumulusAI With Second $45 Million Facility, Lifting Total Commitment to $90 Million
+  summary: Capital accelerates QumulusAI's buildout as enterprise demand for dedicated, long-term compute climbs ATLANTA, GA / ACCESS Newswire / June 17, 2026 / QumulusAI, an AI cloud infrastructure company, today announced a second $45 million convertible note ...
+  url: https://finnhub.io/api/news?id=45d350915f63a42b50f3b5426aa49b49d021fd279ca835f125a7c75e09ed01a5

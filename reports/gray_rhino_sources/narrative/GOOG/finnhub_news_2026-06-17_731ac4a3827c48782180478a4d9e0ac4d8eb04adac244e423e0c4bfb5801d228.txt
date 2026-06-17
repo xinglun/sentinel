@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech-backed coalition for carbon removal increases funding by $915 million, adds Anthropic
+  summary: A coalition backed by Big Tech companies for ​carbon removal technology, said on Wednesday it would inject an additional $915 million into the sector, and added Anthropic as a new participant. Frontier, launched in ‌2022 by companies ⁠including Stripe and Google, aims to help scale carbon removal technologies by committing ⁠to buy credits in advance, thereby derisking the projects and helping them grow more quickly. The additional ​funding brings ​its total funding ​pledges to $1.8 billion.
+  url: https://finnhub.io/api/news?id=0b5f149c68df624f3b13dca08644374b569a472e272f58c3df765f6e51744172

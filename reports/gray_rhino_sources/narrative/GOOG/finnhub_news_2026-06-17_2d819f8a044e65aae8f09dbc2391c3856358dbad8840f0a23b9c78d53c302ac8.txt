@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber and Lucid pick Houston as next robotaxi market as battle with Waymo, Tesla heats up
+  summary: Uber and Lucid are expanding their robotaxi venture, naming Houston as the second planned market for the autonomous ride-hailing service the two companies are building with self-driving startup Nuro.
+  url: https://finnhub.io/api/news?id=4d00c4a6cb515f7eaac0d21afd57443d196eb2a1e921c8cd80dc7d3cb7a7f24f

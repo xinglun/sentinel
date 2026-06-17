@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rates Spark: The Unveiling Of Warsh
+  summary: We expect the tone to turn more hawkish during today's Fed meeting, but Chair Kevin Warsh might also want to push a relatively more dovish agenda.
+  url: https://finnhub.io/api/news?id=97bd19f2acce0c990c673499c7279e05be00fea3fb4473a45760448e0108f853

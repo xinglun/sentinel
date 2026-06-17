@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Adds to Historic Rally as Market Value Moves Beyond Amazon
+  summary: SpaceX (NASDAQ:SPCX) continued its remarkable post-listing advance on Tuesday, overtaking Amazon. com’s (NASDAQ:AMZN) market capitalization and briefly surpassing Microsoft as it climbed the ranks of the world’s most valuable publicly traded companies.
+  url: https://finnhub.io/api/news?id=c4b88ce5ba35d1cacda807c9ebfdadac5b4c3da2a8f02413e0da5b4f9741cf16

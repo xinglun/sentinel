@@ -1,11 +1,11 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-06-16
+- 截至: 2026-06-17
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 56.6
-- 平均稳定度: 25.1
+- 平均置信度: 56.0
+- 平均稳定度: 25.7
 - 趋势凝聚 ready 天数: 7
 
 ## 市场状态计数
@@ -21,13 +21,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-06-08: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-09: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-10: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-11: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-12: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-15: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-16: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-06-17: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -57,7 +57,7 @@
 - 边界: 仅说明贴现率与流动性上下文；不作为 Gate 输入或交易指令。
 
 ## 资金吸收 IPO 队列快照
-- 最新观测日: 2026-06-16
+- 最新观测日: 2026-06-17
 - 最新 Near-Term Supply 数量: 1
 - 最新 Future Queue 数量: 0
 - 7 日 Future Queue 最小值 / 最大值: 0 / 2

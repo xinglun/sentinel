@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer On SpaceX's Wild Rally: 'This Stock Might As Well Be Called Elon Musk'
+  summary: Jim Cramer says SpaceX&#39;s rally is driven by Elon Musk, while Susquehanna sees high odds of sharp stock swings ahead.
+  url: https://finnhub.io/api/news?id=df3c51f51f4bdafad0237c35357b941cead5163678f33fe58c52260f77a3c8de

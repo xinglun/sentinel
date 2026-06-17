@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Investors Are Tired of AI Promises, Want Tangible Progress
+  summary: (Bloomberg) -- Apple Inc. investors are losing patience with the company’s talk about becoming a more formidable presence in artificial intelligence and want to start seeing some results.Most Read from BloombergRead the 14-Point Draft Memorandum Between the US and IranIran’s Deputy Foreign Minister Confirms Deal Reached With USModi Warns of ‘Shortage of Trust’ Ahead of Trump MeetingNetanyahu Pays a Political Price for Trump’s Iran DealUS Set to Offer Iran Broad Financial Gains in Peace Deal“Ther
+  url: https://finnhub.io/api/news?id=14181efc791a14401110c4c6f5a54d28b4a31fcfdf9ba2330292623e600c948d

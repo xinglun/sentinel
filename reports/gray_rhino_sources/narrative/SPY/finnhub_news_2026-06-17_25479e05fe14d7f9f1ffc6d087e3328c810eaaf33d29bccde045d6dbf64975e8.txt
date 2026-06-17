@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NFJ: Income Seekers Might Have A Lot To Like Here
+  summary: Virtus NFJ closed-end fund review: 8.07% yield, dividend stocks + convertibles, sector mix, discount and payout risks. Click here to read my latest analysis.
+  url: https://finnhub.io/api/news?id=b6b72547268284e5a979adcc316ab13326f1614e69cb10c6a2c79e4bf3b40f6f

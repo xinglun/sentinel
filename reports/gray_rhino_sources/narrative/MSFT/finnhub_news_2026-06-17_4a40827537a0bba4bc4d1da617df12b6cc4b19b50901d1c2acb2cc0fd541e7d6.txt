@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Jensen Huang Just Announced Fantastic News to Microsoft Stock Investors
+  summary: Microsoft could be a great buy on the dip.
+  url: https://finnhub.io/api/news?id=3948392862a819017c048c57536c2df1571bc59cca4ed397f809a06821d926bd

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My 3 Favorite Areas To Invest For Stress-Free Income Now
+  summary: I see limited upside and elevated downside risk in current AI-driven, high-valuation markets.
+  url: https://finnhub.io/api/news?id=94694c88cf37fabd2d17f38c97377829ed7013f9878c21216edf18caba5b34e5

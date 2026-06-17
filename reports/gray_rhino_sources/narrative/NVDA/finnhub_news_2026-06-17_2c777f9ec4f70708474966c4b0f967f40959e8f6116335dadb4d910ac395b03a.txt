@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DoorDash Looks Overvalued Despite High Revenue Growth
+  summary: DoorDash's 30% year-to-date drop may be a sign of things to come.
+  url: https://finnhub.io/api/news?id=d48a148d63282561e059b14885da754856101e3b5aca284ad3fd8ccbe603aa9c

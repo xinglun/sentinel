@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Underrated Dividend Stocks That Could Generate Reliable Cash Flow for Your Portfolio for Decades
+  summary: These stocks may not be your first choices when looking for dividends, but they have been income-generating machines for years.
+  url: https://finnhub.io/api/news?id=350e8b788d381360eb8d054201c4289a8b9d856b02b180cf920aadf240b27435

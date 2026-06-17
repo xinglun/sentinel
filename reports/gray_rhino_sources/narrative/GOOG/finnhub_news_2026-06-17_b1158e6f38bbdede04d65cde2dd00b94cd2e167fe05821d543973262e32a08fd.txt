@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Koddi Expands Commerce Media Access Through New Search Ads 360 Integration
+  summary: New integration enables advertisers to activate and measure commerce media campaigns alongside paid search and shopping efforts within a unified workflowFORT WORTH, Texas, June 17, 2026 (GLOBE NEWSWIRE) -- Koddi, the leading commerce media technology for enterprises, today announced a new integration with Search Ads 360 (SA360), enabling advertisers to seamlessly access and activate commerce media campaigns across Koddi’s retailer ecosystem directly within SA360. As Google's enterprise search ma
+  url: https://finnhub.io/api/news?id=1a9536756c692790677312a2dacd4ab3dbbbc2e5d7d3621747f61d7fdf19e8c4

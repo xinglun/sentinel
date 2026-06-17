@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Dollars Will Be Replaced By 'Mass & Energy,' Reaffirms Lunar Factories, Mass Drivers For AI Goals
+  summary: SpaceX CEO Elon Musk reaffirms plans for space manufacturing and harnessing solar power to achieve AI goals.
+  url: https://finnhub.io/api/news?id=790b546f5620690baf6d9cc30862dd29da9be26b7cd7109d2d49d2688f09da55

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Trump Phone Is More Novelty Than Serious Smartphone Contender
+  summary: (Bloomberg) -- The Trump phone is finally here — sort of — and it bears little resemblance to the original pitch.Most Read from BloombergRead the 14-Point Draft Memorandum Between the US and IranIran’s Deputy Foreign Minister Confirms Deal Reached With USModi Warns of ‘Shortage of Trust’ Ahead of Trump MeetingNetanyahu Pays a Political Price for Trump’s Iran DealUS Set to Offer Iran Broad Financial Gains in Peace DealFirst introduced a year ago at Trump Tower by President Donald Trump’s eldest s
+  url: https://finnhub.io/api/news?id=cf88c786e776f6dced7ff6e06de86d2de42cb59b9a3072c1c7699672dec690cb

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Faces Swiss Legal Loss And French Contract Exit In Europe
+  summary: Palantir Technologies (NasdaqGS:PLTR) has lost a high profile legal challenge in Switzerland over government contract scrutiny and data sovereignty. French authorities have ended Palantir's work with the country's intelligence agency, opting for a domestic provider instead. These moves reflect stronger European emphasis on technological sovereignty and closer review of foreign providers in sensitive public sector data projects. Palantir Technologies, known for its data analytics and AI...
+  url: https://finnhub.io/api/news?id=64eec1141289c3494750ab485da8927b79c030d43d60f8564d5a82b66bf260b5

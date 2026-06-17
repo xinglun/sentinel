@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Expands Robotaxi Ambitions With WeRide Zurich Launch, Stellantis-Wayve Global Partnership
+  summary: The company disclosed two separate updates on Wednesday regarding its plans to scale its robotaxi services internationally.
+  url: https://finnhub.io/api/news?id=621914bc1bf511b07da9847ae64ff3f9462b13ae501bfbcfb370bd88aea5436a

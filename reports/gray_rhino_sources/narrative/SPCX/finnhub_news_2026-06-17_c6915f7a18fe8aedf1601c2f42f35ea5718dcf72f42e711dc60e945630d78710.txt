@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: If You Missed The IPO, You Can Use Options To Get Exposure At Those Levels
+  summary: SpaceX stock surged post-IPO as options launch with extreme volatility. Click for this look at a way to gain exposure to SPCX in a novel way.
+  url: https://finnhub.io/api/news?id=8e3f78d0957273e310d31cef9bb60531846b7ad3cd8d21f637e9c6e5b21adf2d

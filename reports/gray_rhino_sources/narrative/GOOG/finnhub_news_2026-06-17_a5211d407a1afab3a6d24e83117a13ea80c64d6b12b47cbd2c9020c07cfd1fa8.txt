@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber will bring its premium robotaxi service to Houston in 2027
+  summary: This will be the second market to have an Uber robotaxi service outfitted with Lucid EVs equipped with a self-driving system from Nuro.
+  url: https://finnhub.io/api/news?id=9f9fbb190fdee135862f836e41b4c94be10cbb9ab69f58e450d61061086dd9c4

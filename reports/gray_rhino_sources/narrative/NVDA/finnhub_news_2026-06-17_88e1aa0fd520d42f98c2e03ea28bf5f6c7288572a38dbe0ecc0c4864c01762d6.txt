@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Is Suffering as Competition Begins to Bite
+  summary: Nvidia stock is lagging behind the wider semiconductor sector as big customers face pressure to make their AI spending more efficient.
+  url: https://finnhub.io/api/news?id=c0227827eae692c4a753db8d989bade8c2df7f39dda3afa5df9bced75a618d89

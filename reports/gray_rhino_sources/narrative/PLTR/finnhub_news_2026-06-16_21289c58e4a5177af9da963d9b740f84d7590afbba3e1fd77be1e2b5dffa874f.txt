@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Fall Tuesday Afternoon
+  summary: Tech stocks were lower Tuesday afternoon, with the State Street Technology Select Sector SPDR ETF (X
+  url: https://finnhub.io/api/news?id=d4e072bd8dea8e69cedad60dc534f5994001b5354a806b94a8ecc43091389e15

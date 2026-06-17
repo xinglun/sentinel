@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Analyst Just Upgraded Palantir Stock. Here's Why.
+  summary: Wolfe Research upgrades Palantir stock to “Peer Perform.” Here’s why the firm’s analysts turned bullish on PLTR shares for the remainder of 2026.
+  url: https://finnhub.io/api/news?id=aafeeb407f237f255b943d1d25e58d7cdaffda8849c88c86799c85827207195e

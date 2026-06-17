@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's First Wall Street Bear Just Placed A Sell Rating: Here's Why
+  summary: CFRA becomes the first major Wall Street firm to rate SpaceX a Sell, arguing investors are paying too much for unproven AI ambitions despite Starlink&#39;s strong growth.
+  url: https://finnhub.io/api/news?id=7f171d5a8790c695baeb280d81596d963e5ca24db6c4190d294f850c6efcaf9d

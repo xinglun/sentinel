@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SpaceX Stock Overvalued? Here's What the Numbers Say.
+  summary: The stock's been going up.
+  url: https://finnhub.io/api/news?id=340a8b6ce958fb876fb3f39ad2ca1daa026d8203507bcdb29882173efcda5109

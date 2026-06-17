@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Introducing Adobe Brand Visibility: A Unified Solution for the AI Search Era
+  summary: SAN JOSE, Calif., June 17, 2026--Adobe (Nasdaq:ADBE) — the global technology leader that unleashes creativity, productivity and customer experiences through innovative tools and platforms — today announced Adobe Brand Visibility, a new solution for businesses to ensure their brand is visible, trusted and chosen across AI surfaces. The new offering is part of Adobe CX Enterprise, a new end-to-end agentic AI system that simplifies how businesses manage their entire customer lifecycle, from acquiri
+  url: https://finnhub.io/api/news?id=5b17b24950f2b9b0cd43e3fa6d5415a24b6a0ba926623e8c66a8a0379501f382

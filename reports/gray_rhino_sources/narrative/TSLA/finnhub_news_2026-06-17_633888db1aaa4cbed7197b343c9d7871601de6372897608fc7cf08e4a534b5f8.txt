@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Will Face a Reckoning When Investor Lockups End
+  summary: Coming into Wednesday trading, shares were up almost 50% from their $135 IPO price, valuing the company north of $2.6 trillion.
+  url: https://finnhub.io/api/news?id=0cac33a432fe3beeb65a53fa44567d12ee1f7ca6197a406c43e7df48b6f2be03

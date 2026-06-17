@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 stunning stats about the world's most valuable stocks
+  summary: The top 10 US stocks now have a combined market cap of $25.3 trillion.
+  url: https://finnhub.io/api/news?id=bd5431f6a37109f1d9738533b3776c84dc7e3a065732f389272c7d7d87494412

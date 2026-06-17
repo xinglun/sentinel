@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will New AI Partnerships And Governance Votes At AIPCon 10 Change Palantir Technologies' (PLTR) Narrative
+  summary: In early June 2026, Palantir Technologies detailed fresh AI partnerships and customer deployments at its AIPCon 10 event, while shareholders rejected several activist proposals on human rights, political spending disclosure, and due‑diligence reporting at the company’s annual meeting. Together with new multi‑year collaborations in construction, insurance, and legal services, these governance votes highlight how Palantir’s rapid AI adoption is unfolding alongside unresolved concerns about...
+  url: https://finnhub.io/api/news?id=70f84efda6d0b9564c43e7d48b8c70c75ae552a37aa1a4b06f449c0193147e16

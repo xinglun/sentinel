@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: Microsoft and Adobe
+  summary: Adobe and Microsoft boast strong ROIC and durable software franchises, but one trades at a far lower valuation after a deeper pullback.
+  url: https://finnhub.io/api/news?id=4ecf995ddb27951e653fdeacaa18e76c5d65c22b98f7bac0b4f9c89c76eac84e

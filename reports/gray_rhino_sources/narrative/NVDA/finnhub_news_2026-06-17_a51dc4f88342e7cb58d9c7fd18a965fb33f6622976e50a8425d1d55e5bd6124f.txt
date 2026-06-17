@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Gets a China Trade Reprieve
+  summary: Pause may ease pressure on Chinese tech
+  url: https://finnhub.io/api/news?id=7d3a5fe6cf12ada25c7cddb1e3b302b4380d06b1f342440117021c0ed29d0d62

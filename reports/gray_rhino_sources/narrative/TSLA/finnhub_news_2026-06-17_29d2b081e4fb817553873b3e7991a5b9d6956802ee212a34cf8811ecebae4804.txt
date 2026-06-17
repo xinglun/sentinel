@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Defies Auto Industry Sales Slump, Goldman Raises Q2 Delivery Forecast
+  summary: Goldman Sachs expects rising Tesla sales at a time when the broader auto industry is struggling.  Goldman's forecast of 420,000 cars would be a 9.3% increase compared to Q2 2025, when Tesla delivered 384,122 vehicles.  Sales growth of that level would buck current trends for both Tesla — which has had two years of declining sales — and the overall auto industry — with sales projected to slip 2.6% year over year for the quarter, according to Cox Automotive.
+  url: https://finnhub.io/api/news?id=a6a26e516de8fef520ec6e2bfaf1d079c321b37ad2578636bee266b399b67ad7

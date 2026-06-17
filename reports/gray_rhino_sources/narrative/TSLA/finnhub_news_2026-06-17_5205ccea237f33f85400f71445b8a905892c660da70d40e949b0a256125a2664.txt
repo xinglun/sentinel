@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Industry Comparison: Evaluating Tesla Against Competitors In Automobiles Industry
+  summary:  
+  url: https://finnhub.io/api/news?id=8a85ec4de43fb2176f9d1fbe96ed4715a3aee82012154df5ce3ac98b8094b9cb

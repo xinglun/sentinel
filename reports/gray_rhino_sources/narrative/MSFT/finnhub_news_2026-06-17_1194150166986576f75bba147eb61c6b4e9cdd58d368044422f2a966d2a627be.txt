@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Heads Toward Fourth Day of Gains Since Record IPO
+  summary: (Bloomberg) -- SpaceX shares are poised for a fourth straight day of gains, reinforcing the company’s place among the world’s largest after it surpassed Amazon.com Inc. by market value.Most Read from BloombergRead the 14-Point Draft Memorandum Between the US and IranIran’s Deputy Foreign Minister Confirms Deal Reached With USModi Warns of ‘Shortage of Trust’ Ahead of Trump MeetingNetanyahu Pays a Political Price for Trump’s Iran DealUS Set to Offer Iran Broad Financial Gains in Peace DealShares
+  url: https://finnhub.io/api/news?id=b2be2609424c17a6829142ac06bc5ee591880f902b177c569311a98b91183483

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Stock Sees Modest Fair Value Lift As AI Debate Drives Price Target Split
+  summary: Microsoft’s fair value estimate has been adjusted to US$561.39 from US$560.89, a small change that sits alongside other recent shifts in analyst price targets across the stock. These refined targets reflect an active debate over how much weight to give Microsoft’s AI stack, capacity build out and Copilot rollout, with some research tying upside directly to perceived AI leadership and others trimming expectations on execution and dependency risks. As you read on, you will see how these moving...
+  url: https://finnhub.io/api/news?id=254e83b704faad6d46d41ce65bab34b4dd06c838f49794c5ce2059f57739894e

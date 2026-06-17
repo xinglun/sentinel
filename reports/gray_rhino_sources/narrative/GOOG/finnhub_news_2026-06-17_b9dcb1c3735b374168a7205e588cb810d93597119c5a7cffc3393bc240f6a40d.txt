@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dialpad Brings Real-Time Customer Intelligence to Google Workspace and Gemini Enterprise
+  summary: SAN RAMON, Calif., June 17, 2026--Dialpad, the AI platform for customer experience, today announced a new integration with Google’s Gemini Enterprise for Google Workspace. The integration transforms how enterprises access and act on customer intelligence: business conversations happening on Dialpad become a source of synthesized, actionable insight inside Gmail, Docs, and Chat.
+  url: https://finnhub.io/api/news?id=26a6915fddec04bd98072ac88690f56e1954cdeeb69d9fa9a4dd80c56675cac0

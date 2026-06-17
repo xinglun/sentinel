@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Indexes Finish Mostly Lower as Chipmakers Retreat
+  summary: The S&P 500 Index ($SPX ) (SPY ) on Tuesday closed down -0.57%, the Dow Jones Industrial Average ($DOWI ) (DIA ) closed up +0.64%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) closed down -1.89%. June E-mini S&P futures (ESM26 ) fell -0.60%, and June E-mini Nasdaq futures...
+  url: https://finnhub.io/api/news?id=4d3531c17ab01cc674c5d093405b9301938682be5e2f3d2c05b0282b3d78a4fe

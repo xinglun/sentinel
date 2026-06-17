@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A new technology is learning how to move money
+  summary: For the past two years, the story of AI on Wall Street has mostly been about speed. Faster research, faster summaries, faster answers to questions an analyst would otherwise spend an afternoon on. That story is now changing shape. The systems now being built are not just answering questions about ...
+  url: https://finnhub.io/api/news?id=3e8154f9451a361f7d7f35dd6e9ffec459da91d6f437e2e07ddbcd69e97ec95b

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Shocking Company Just Passed Ford -- and Its Sales Could More Than Double
+  summary: This Chinese EV maker has swept the globe with impressive sales momentum, surpassing Ford in the process -- and it's not done yet.
+  url: https://finnhub.io/api/news?id=858adff6be3103b39705bae57ae42834883b280986374871adb9814a91b370ab

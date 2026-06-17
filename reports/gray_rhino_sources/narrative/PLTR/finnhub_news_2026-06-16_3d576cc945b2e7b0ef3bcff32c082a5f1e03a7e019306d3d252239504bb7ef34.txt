@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Veteran Bank Abandons Bearish Call on Palantir Stock
+  summary: Analyst Sees Palantir as 'Too Big to Ignore' in Major Rating Shift
+  url: https://finnhub.io/api/news?id=33d5769d69a8c01e10ec23ae52798847ef8839de6e88202c8616788f73e36195

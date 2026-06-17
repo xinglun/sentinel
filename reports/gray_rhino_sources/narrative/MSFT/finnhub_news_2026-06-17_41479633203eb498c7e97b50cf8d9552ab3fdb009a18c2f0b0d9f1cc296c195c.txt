@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Celebrus Launches Celebrus AI: Bringing Conversational Analytics to Live, Identity-Resolved Compliant Data
+  summary: Celebrus, the global leader in first-party behavioral data and digital identity resolution, today announced the launch of Celebrus AI — a new conversational analytics capability that allows business users to ask questions directly against Celebrus' real-time, identity-resolved customer data and receive trusted answers grounded in live, first-party behavioral data.
+  url: https://finnhub.io/api/news?id=267342b611aca98e63a4738292220c7019e6aa368cb0d2b24e59c4cae2db7f4a

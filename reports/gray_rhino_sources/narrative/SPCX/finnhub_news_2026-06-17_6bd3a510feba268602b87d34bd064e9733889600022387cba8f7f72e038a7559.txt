@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Slams 'Insanely Rigged Economy'; Ro Khanna Says Problem Isn't Elon Musk's Wealth But Rather One Of 'Values'
+  summary: Elon Musk&#39;s wealth surge prompted Bernie Sanders, Elizabeth Warren and Ro Khanna to renew calls for billionaire taxes.
+  url: https://finnhub.io/api/news?id=99d2ccfb250a8232d0f5cfecfae28395a577d518a13a85a8d84dfef430133b56

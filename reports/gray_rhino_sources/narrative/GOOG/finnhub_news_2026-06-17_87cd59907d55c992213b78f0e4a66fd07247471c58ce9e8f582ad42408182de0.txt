@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Amazon Backs AI Startup Developing Models to Simulate Physical World
+  summary: Amazon.com (AMZN) is teaming up with Odyssey ML, a startup that creates AI systems that simulate the
+  url: https://finnhub.io/api/news?id=f5929b680603280b697ad5843942eb177c54b57befd090f426526f9802e42d5c

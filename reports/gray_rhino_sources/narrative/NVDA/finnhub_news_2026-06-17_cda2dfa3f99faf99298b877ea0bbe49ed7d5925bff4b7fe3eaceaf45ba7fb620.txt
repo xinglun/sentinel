@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Retiring With $300,000. How Am I Supposed to Not Run Out of Money?
+  summary: It's not the best situation, but it's also far from hopeless.
+  url: https://finnhub.io/api/news?id=1f4596aa4a8385a1ec654c960911fc3582a1302187b15c1346951923cdc71693

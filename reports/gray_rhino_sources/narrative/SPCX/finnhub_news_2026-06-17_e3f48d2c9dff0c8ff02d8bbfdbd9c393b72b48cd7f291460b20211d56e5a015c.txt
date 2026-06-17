@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Has Meme Stock Worries About SpaceX, While Ross Gerber Says 'No One' Is Talking About Tesla Anymore
+  summary: Ross Gerber says SpaceX now holds more attention than Tesla stock, Jim Cramer believes SPCX is headed into &#39;meme stock&#39; territory.
+  url: https://finnhub.io/api/news?id=563f28a7f68bb9332718addfd38ff75cf368475cf18e5167b8626b7b08febbd2
