@@ -1,12 +1,13 @@
 {
   "contractVersion": 1,
-  "workItemId": "valuation-gravity-final-fixes",
+  "workItemId": "valuation-gravity-ci-hotfix",
   "mode": "code",
-  "title": "Valuation Gravity 最終監査指摘を修正（CI gate 修正含む）",
+  "title": "Valuation Gravity CI gate 修正（Clippy・リンク・guard スコープ）",
   "scope": [
     ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json",
     ".ai/work-items/active/valuation-gravity-final-fixes.contract.json",
-    ".ai/work-items/active/valuation-gravity-final-fixes.summary.json",
     ".ai/work-items/archive/2026/markdown-link-ci-portability.contract.json",
     ".ai/work-items/archive/2026/markdown-link-ci-portability.summary.json",
     ".ai/work-items/archive/2026/valuation-gravity-audit-fixes.contract.json",
@@ -49,20 +50,18 @@
   "outOfScope": [
     "config.toml の credential、環境変数注入、credential rotation、Git history rewrite",
     "READY / EXECUTE / Gate / action matrix / trader / position sizing / Trend の変更",
-    "coverage exclusion policy の全面変更",
     "Valuation Gravity 以外の機能追加"
   ],
   "sources": [
-    {"path": "ユーザー提示の最終評審結論", "reason": "未来日、CI quality、architecture drift の修正根拠。"},
     {"path": ".ai/work-items/archive/2026/valuation-gravity-final-fixes.contract.json", "reason": "先行 contract の scope 継承元。"},
     {"path": "scripts/check_markdown_links.py", "reason": "CI 環境対応の Markdown link 検査ロジック修正対象。"}
   ],
   "unknowns": [],
   "notCodable": false,
   "riskAssessment": {
-    "level": "medium",
-    "riskTypes": ["governance_process", "review_debt"],
-    "reason": "CI guard 修正と Clippy lint 修正のみ。production logic への影響なし。"
+    "level": "low",
+    "riskTypes": ["governance_process"],
+    "reason": "CI guard・lint・doc link の hotfix のみ。production logic への影響なし。"
   },
   "agentCapability": {
     "canImplement": true,
@@ -72,7 +71,7 @@
   },
   "executionDecision": {
     "status": "continue",
-    "reason": "変更済み。guard scope 追加と Clippy fix のみ。"
+    "reason": "変更済み hotfix の guard scope 追加のみ。"
   },
   "preReviewWarnings": [
     "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md のリンクを絶対パスから相対パスへ変更済み。",
@@ -81,30 +80,31 @@
   ],
   "checkpointPolicy": {
     "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
-    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract を更新してから進める。"
   },
   "acceptance": [
-    "make check-doc-links が CI 環境（絶対パスを含む Markdown）で pass する。",
+    "make check-doc-links が pass する。",
     "make clippy が unnecessary_sort_by 警告なしで pass する。",
     "make check-ai-guards が missing_work_item_contract エラーなしで pass する。",
+    "make ai-preflight が Active Work Item files duplicate archived files エラーなしで pass する。",
     "Gate / execution / trader / position sizing は変更しない。"
   ],
   "verification": [
-    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json", "required": true},
-    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json", "required": true},
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "required": true},
     {"command": "make fmt-check", "required": true},
     {"command": "make clippy", "required": true},
     {"command": "make check-doc-links", "required": true},
-    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json", "required": true},
-    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json", "required": true},
-    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json", "required": true},
-    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json", "required": true},
-    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json", "required": true}
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json", "required": true}
   ],
   "destructiveChangePolicy": {
     "allowed": false,
     "requiresHumanApproval": true,
     "allowPatterns": []
   },
-  "rollbackNote": "Runbook リンク、sort_by_key、check_markdown_links.py の CI 対応を revert する。"
+  "rollbackNote": "Runbook リンク、sort_by_key、check_markdown_links.py の CI 対応、本 contract を revert する。"
 }

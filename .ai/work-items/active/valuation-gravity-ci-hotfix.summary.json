@@ -1,0 +1,100 @@
+{
+  "workItemId": "valuation-gravity-ci-hotfix",
+  "contractPath": ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+  "changedFiles": [
+    {
+      "path": "docs/specs/WEEKLY_STATE_REVIEW_RUNBOOK.md",
+      "reason": "テンプレートリンクを絶対パスから相対パス（../templates/weekly_state_review.md）に変更し、CI 環境での check-doc-links 失敗を解消した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+      "reason": "sort_by を sort_by_key + Reverse に変更し、Clippy の unnecessary_sort_by 警告を解消した。"
+    },
+    {
+      "path": "scripts/check_markdown_links.py",
+      "reason": "絶対パスを resolve_link_target で CI 環境に対応させるロジックを追加した。"
+    },
+    {
+      "path": "scripts/ai_test_markdown_links.py",
+      "reason": "絶対パス解決のテストを追加した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+      "reason": "本 Work Item Contract を作成し、guard スコープを明示した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "本 Work Item を反映して cockpit status を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/archive/2026/valuation-gravity-final-fixes.contract.json"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "result": "pending"},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "result": "pending"},
+    {"command": "make fmt-check", "result": "pending"},
+    {"command": "make clippy", "result": "passed"},
+    {"command": "make check-doc-links", "result": "passed"},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "result": "passed"},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json", "result": "pending"},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json", "result": "pending"},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json", "result": "passed"},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-ci-hotfix.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-ci-hotfix.summary.json", "result": "pending"}
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "CI guard・lint・doc link の hotfix のみ。production logic への影響なし。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "CI 失敗 3 件（check-doc-links、clippy、check-ai-guards）を対象に Contract を作成した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象は scope 内。Gate / execution / trader には非接触。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "Summary と cockpit status を更新した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "in_progress",
+      "note": "clippy・check-doc-links・check-ai-guards は pass 確認済み。残余 make check は CI で確認中。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready_for_review",
+    "reason": "3 件の CI gate 修正のみで、production logic に変更なし。",
+    "expectedReviewFocus": [
+      "active contract の lifecycle 整合性（duplicate 回避）",
+      "guard scope が branch 上の全 diff を網羅していること"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "i18n": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "active contract に archive と同名ファイルを使うと lifecycle duplicate エラーになる → 別 work item id を使う。"
+  ],
+  "userCorrectionSolidification": [
+    "hotfix 系 work item は先行 contract と別 id で作成する運用を Contract template comment に追記候補とする。"
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "make check-ai-contract / check-ai-scope / check-ai-backtrack / check-ai-change-summary / check-ai-status は CI で確認中。未確認として記載する。"
+}
