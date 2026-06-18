@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Takes a Hit, but the Medium-Term Structure Holds
+  summary: Market breadth weakened on June 17, 2026 as daily decliners surged and short-term participation deteriorated, but medium-term breadth remains supportive enough to keep the trend at neutral with a positive bias.
+  url: https://finnhub.io/api/news?id=8b97981f8c6b8b0a1b0c858c1770e1bdf0e1aaa23e3f21f13c3ac6c53fb07f0a

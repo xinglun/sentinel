@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Baxter International Stock Underperforming the S&P 500?
+  summary: Due to Baxter International's underperformance relative to the S&P 500 over the past year, Wall Street analysts maintain a cautious outlook on the stock’s prospects.
+  url: https://finnhub.io/api/news?id=6500a89609145bb6f717162dde7cd7ffab56e4c31bb69cad9dd053575d82ba64

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Yann LeCun Calls Elon Musk’s xAI ‘Kind Of A Failure’ – Casts Doubt On Ability to Compete Against OpenAI, Anthropic
+  summary: According to a CNBC report, LeCun said the manner of departure of key members of xAI has made it increasingly difficult for the company to attract top talent.
+  url: https://finnhub.io/api/news?id=bae2f60859bea07d455d019cb66072c26a9b05edf1ffad04112b969a972e091c

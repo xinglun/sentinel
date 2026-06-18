@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Gemini Co-Lead Leaves for OpenAI
+  summary: Noam Shazeer's move adds another twist to the fight for top AI talent.
+  url: https://finnhub.io/api/news?id=cadb6e688e4812007b0f7302936b815c2c116034e2eeca8f6460cc4069da6de4

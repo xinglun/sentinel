@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HIVE Digital’s Stock Jumps 12% On $220 Million Investment
+  summary: HIVE Digital’s (NASDAQ: $HIVE) stock is up 12% on news that the company has secured a $220 million U.S. inves...
+  url: https://finnhub.io/api/news?id=93e3561ecdc9ce9bc560adcecc49cc46386395873bff5a23fdbec01ddec8481b

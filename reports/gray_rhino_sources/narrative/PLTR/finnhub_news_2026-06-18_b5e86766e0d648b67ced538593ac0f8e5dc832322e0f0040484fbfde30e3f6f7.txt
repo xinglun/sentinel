@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Technologies Inc. (PLTR) Becoming the Face of Applied Enterprise AI?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is among the stocks with the best earnings growth for the next 3 years. On June 16, Wolfe Research upgraded Palantir Technologies Inc. (NASDAQ:PLTR) to Peer Perform from Underperform after resuming coverage. According to the firm, the company’s AI platform, ontology, and forward-deployed engineers provide a strong foundation to turn AI […]
+  url: https://finnhub.io/api/news?id=d86ddc748fa32fc8450a7fe93d09cbf576e9d139569addf6212f3bda84ddebbc

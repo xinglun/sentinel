@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow, S&P 500, Nasdaq Futures Climb On US-Iran Agreement Despite Hawkish Fed Outlook: RUM, INTC, NFLX, RXT In Focus
+  summary: The U.S. and Iran electronically signed a 14-point Memorandum of Understanding on Wednesday, extending their ceasefire and establishing a framework for a peace agreement.
+  url: https://finnhub.io/api/news?id=e660b5010902d13ae63767203d1dfd47040a74d8a0d8d8d697a53a1033dc81e3

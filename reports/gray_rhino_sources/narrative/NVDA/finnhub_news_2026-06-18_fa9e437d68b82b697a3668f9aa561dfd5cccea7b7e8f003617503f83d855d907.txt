@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HIVE Digital Rallies on $220 Million AI Infrastructure Agreement and Swedish Data Center Acquisition
+  summary: HIVE Digital Technologies Ltd. (NASDAQ:HIVE) shares surged 11.
+  url: https://finnhub.io/api/news?id=e8da069b3e26c9f486312828f26f8208671defa07afae32087e49a8396d56b57

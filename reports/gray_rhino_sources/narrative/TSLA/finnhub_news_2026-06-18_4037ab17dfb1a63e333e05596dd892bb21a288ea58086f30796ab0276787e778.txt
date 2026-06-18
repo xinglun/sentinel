@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New Insureworks analysis reveals the EVs holding their value best in 2026
+  summary: Electric cars are often seen as a smart long-term purchase, and new research from Insureworks has revealed which popular EVs are holding onto the most value.
+  url: https://finnhub.io/api/news?id=51f9137ddbeeb8aed390e1b23fcf341635738f226f92812bab0ba9611c96db1b

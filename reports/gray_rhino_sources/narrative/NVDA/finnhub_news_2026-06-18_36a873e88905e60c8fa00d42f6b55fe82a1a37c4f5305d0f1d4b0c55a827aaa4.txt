@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PurePlay ETFs Makes Debut with the PurePlay NVIDIA Ecosystem Picks & Shovels Index ETF, the First ETF Designed to Track the NVIDIA Value Chain
+  summary: DETROIT, June 18, 2026--PurePlay ETFs, a thematic ETF issuer, today announced the launch of the PurePlay NVIDIA Ecosystem Picks & Shovels Index ETF (Nasdaq: NVPS), the first ETF in the US market designed to provide end-to-end exposure to the NVIDIA value chain under a single ticker.
+  url: https://finnhub.io/api/news?id=07c212638a44549ab4e005aef7ab558477719da53d5da8606890871f6e370620

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Grows Relatively Stronger In A Stagnant, Post-Incentive U.S. BEV Market
+  summary: Tesla, Inc. maintains dominance in the U.S. BEV market, with Model Y driving robust share gains. Find out why TSLA stock is downgraded to a hold.
+  url: https://finnhub.io/api/news?id=539faae59856174bfb1454f5572e17f9fe76e00b31917a041150829c1c99020d

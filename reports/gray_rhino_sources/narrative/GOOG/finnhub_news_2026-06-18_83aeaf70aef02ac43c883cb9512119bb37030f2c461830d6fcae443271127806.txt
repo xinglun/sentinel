@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI world model startup Odyssey lands $310m in Series B
+  summary: Odyssey plans to use the Series B proceeds to accelerate development and expand deployment of its AI-based world simulation technology.
+  url: https://finnhub.io/api/news?id=9d5dedec1d008b26191cbebf9df62005313f9495354c651d06f22bdc9a6c8c01

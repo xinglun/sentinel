@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech concentration hits dotcom-era extremes; UBS urges portfolio rebalancing
+  summary: The top ten US technology stocks now account for nearly 40% of the S&P 500's total market capitalisation, marking the highest concentration since the late 1990s tech bubble and well above the 25% recorded during the dotcom crash itself. That figure underscores how completely artificial...
+  url: https://finnhub.io/api/news?id=fce1e2a4f9f350ae270ba490a829025095d200fa379ef1d3d21590a117ebebe4

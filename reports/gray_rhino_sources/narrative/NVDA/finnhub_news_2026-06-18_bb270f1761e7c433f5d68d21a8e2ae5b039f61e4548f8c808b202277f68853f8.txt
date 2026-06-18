@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Advanced Micro Devices vs. Arm Holdings: Which AI CPU Stock Is the Better Buy?
+  summary: AMD and Arm are both chasing the next wave of AI CPU demand, but one stock looks better positioned today.
+  url: https://finnhub.io/api/news?id=fdd29684bdb0e53075fc14ea9ee2f909f9ac86ea4ef139afe38ff482d72b0a01

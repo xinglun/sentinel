@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warsh's Hawkish Debut Resets the Rate Curve and Oil Cracks as Iran Deal Lands
+  summary: Kevin Warsh's hawkish Fed debut lifted the dot plot and fully priced an October rate hike, sending the 10-year to 4.49% and the Dow down 1%.
+  url: https://finnhub.io/api/news?id=e5fab6c24cde0ef7330e5d4c79ffa61d08e0c84d206b73662ce0fd55e7a7e813

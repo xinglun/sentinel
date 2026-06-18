@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Richtech Robotics Launches Interactive Livestream Featuring AI-Powered Robot ADAM, Enabling Online Users to Engage with ADAM
+  summary: Initiative is part of the next era of product engagement and the future of embodied AI using NVIDIA technology LAS VEGAS, June 18, 2026 (GLOBE NEWSWIRE) -- Richtech Robotics Inc. (Nasdaq: RR) (“Richtech Robotics” or “the Company”), a Nevada-based provider of AI-driven service robots, announces the launch of a new initiative: a live, 24/7 interactive streaming platform featuring the Company’s AI-powered humanoid robot, ADAM. The immersive experience gives audiences around the world the ability to
+  url: https://finnhub.io/api/news?id=ab48ca3c1dae10d77acab6211cd3af1127fc4fb76a911b2a3ab14a6dbe44a4cf

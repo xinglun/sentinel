@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's Biggest Risk Isn't Competition - It's Expectations
+  summary: Microsoft (MSFT) rated Hold despite strong AI/cloud growth; Q3 FY26 revenue/EPS rose but FCF fell on capex. Read here for a detailed analysis.
+  url: https://finnhub.io/api/news?id=e04fa8fb562d40d772ce1e6a7e00633ed04a21f774e2e9461e9a320a5609d32a

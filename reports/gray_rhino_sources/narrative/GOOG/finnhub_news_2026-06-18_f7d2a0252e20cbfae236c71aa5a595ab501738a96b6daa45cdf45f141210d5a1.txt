@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Waymo Recalling Robotaxis?
+  summary: NHTSA identifies a Fifth Generation ADS flaw that could cause vehicles to enter closed freeway zones at speed
+  url: https://finnhub.io/api/news?id=4f395e7738cd9ea7b21553688b17f274c112ecb34707dd28272d520f4974c57f

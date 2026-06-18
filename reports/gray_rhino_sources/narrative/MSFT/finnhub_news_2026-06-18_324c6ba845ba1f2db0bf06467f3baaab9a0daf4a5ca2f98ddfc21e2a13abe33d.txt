@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Is Burning Billions: Is IBM Stock The Smarter Cloud Play?
+  summary: Oracle’s (ORCL) stock is up by over 120% since the beginning of 2023. That is great for Oracle. But wait a minute, IBM’s (IBM) stock is up a comparatively lower 91% during the same period. Hard to believe, but Oracle’s stock appreciation is well ahead of IBM’s stock. This is despite the stark contrast in how both companies generate cash. Over the trailing twelve months, IBM consistently generated massive free cash flow, pulling in a highly robust $12.2 billion. Oracle, over its most recently rep
+  url: https://finnhub.io/api/news?id=1dc36b146e8ea2f67a87e955db2fe3826d3a20e1e456a1936a6357ec661ddbc0

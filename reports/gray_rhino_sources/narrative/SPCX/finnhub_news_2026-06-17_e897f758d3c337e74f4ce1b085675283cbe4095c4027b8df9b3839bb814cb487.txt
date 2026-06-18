@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Move Over, Bitcoin: New SpaceX ETF Just Doubled IBIT's Historic Debut
+  summary: SpaceX&#39;s IPO sparked a surge in leveraged ETFs, with SPCH dominating volumes. But these 2X products carry volatility risks that make them tools for traders, not long‑term holders.
+  url: https://finnhub.io/api/news?id=e0f90c3723be53d9e234b39ed44b1e7582db80f2f4c722751856c9ca839abb55

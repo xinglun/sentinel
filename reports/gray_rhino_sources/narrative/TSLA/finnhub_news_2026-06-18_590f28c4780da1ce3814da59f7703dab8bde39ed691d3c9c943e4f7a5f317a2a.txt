@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk, The World's First Trillionaire, Holds Bitcoin And 'Some' Dogecoin — 'Let That Sink In,' Says Popular Analyst
+  summary: Popular cryptocurrency analyst Ali Martinez drew attention to the fact that Elon Musk, who became the world’s first trillionaire, owns Bitcoin (CRYPTO: BTC) and Dogecoin (CRYPTO: DOGE). Is Musk ‘Orange-Pilled’? In an X post, Martinez paired a line drawing of Musk with the Bitcoin logo, with the caption, “The world’s first TRILLIONAIRE owns Bitcoin. Let that sink in.” Both of Musk’s companies, Space Exploration Technologies Corp. (NASDAQ:SPCX) and Tesla Inc. (NASDAQ:TSLA), indeed hold BTC in thei
+  url: https://finnhub.io/api/news?id=e932ad8f8fb73fc3d525233e07a5e9919b403a36ce50a95c5cc819b2f3429881

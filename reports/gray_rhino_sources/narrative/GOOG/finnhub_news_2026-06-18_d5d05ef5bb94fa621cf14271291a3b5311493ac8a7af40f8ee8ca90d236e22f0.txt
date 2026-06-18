@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is This Dividend ETF a Millionaire Maker?
+  summary: Dividend stocks aren't necessarily exciting. That's what makes them ideal for long-term wealth creation.
+  url: https://finnhub.io/api/news?id=92b0e0fb98569ca16f2549b4b61459bcb0cb2efa067c6182e51f5482c4516e0c

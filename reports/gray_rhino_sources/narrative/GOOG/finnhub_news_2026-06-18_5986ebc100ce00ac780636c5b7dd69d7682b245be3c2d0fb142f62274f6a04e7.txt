@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wpromote x Giant Spoon Partners with Smartly to Accelerate AI-Powered Client Outcomes
+  summary: NEW YORK, June 18, 2026--Wpromote x Giant Spoon taps Smartly to accelerate AI-powered creative and media activation across paid social, CTV and Google.
+  url: https://finnhub.io/api/news?id=893c7a7714a433190f4ba3455e647ee36afea30b21b81e15ddef350727580489

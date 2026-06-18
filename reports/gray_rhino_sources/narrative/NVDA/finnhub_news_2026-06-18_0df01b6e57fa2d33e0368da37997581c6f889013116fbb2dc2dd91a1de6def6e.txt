@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Verse Raises $54M and Launches “Dispatch Intelligence” to Accelerate Speed to Power for Data Center Developers in Partnership with Calibrant Energy
+  summary: New offering enables data center operators to bring capacity online up to three years faster by managing on-site energy resources and bypassing grid and capacity constraints SAN FRANCISCO, June 18, 2026 (GLOBE NEWSWIRE) -- Verse, the leading energy infrastructure platform for the AI economy, today announced an oversubscribed $54 million Series B, led by Bessemer Venture Partners with participation from GV, NVIDIA, Norrsken VC, and others. To accelerate speed to power for data centers, Verse is l
+  url: https://finnhub.io/api/news?id=bed0ce7222cbaf57ad2dfe40d7d150ac8864579694cd6dca4004873db024e9bc

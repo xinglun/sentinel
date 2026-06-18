@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Small Caps Near Record Highs, Robinhood Rallies 12%: Stock Market Today
+  summary: U.S. stocks traded higher by midday Wednesday, with semiconductor equipment names and small caps leading the tape, as investors held their fire ahead of Kevin Warsh‘s first interest-rate decision as Federal Reserve chair, due at 2 p.m. ET.
+  url: https://finnhub.io/api/news?id=8400c8226861a652f466439c4af0209059d32806214040daa9b717b953aa96d7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A SpaceX-Tesla Merger Could Manufacture A $5 Trillion Giant: Here's What Prediction Markets Say
+  summary: Will Elon Musk merge SpaceX and Tesla into a $5 trillion giant to challenge Nvidia? Here is what the math and prediction markets say about a potential deal.
+  url: https://finnhub.io/api/news?id=a81853687ccfefc85b9d691bbed9efa6223f3af357da2ea8ee42773c05714447

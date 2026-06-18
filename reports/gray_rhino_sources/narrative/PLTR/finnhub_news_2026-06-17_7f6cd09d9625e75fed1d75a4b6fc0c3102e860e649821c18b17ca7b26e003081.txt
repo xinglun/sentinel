@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Stock: What Does Its Valuation Imply?
+  summary: This is a hyper-growth chapter for Palantir, defined by demand it cannot meet. Its Artificial Intelligence Platform, AIP, is positioned as one of the few reliable ways for institutions to deploy AI without operational chaos.
+  url: https://finnhub.io/api/news?id=22dd3bb151680851212fad39b5701d96443decee1589f3b8991d0eff00bdb18c

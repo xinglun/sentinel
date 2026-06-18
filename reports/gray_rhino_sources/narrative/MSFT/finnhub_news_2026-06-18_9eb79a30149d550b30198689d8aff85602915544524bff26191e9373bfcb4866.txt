@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 4 Core Artificial Intelligence (AI) Hyperscalers Are Screaming Buys Today
+  summary: The artificial intelligence (AI) hyperscalers aren't terribly expensive for their strong growth.
+  url: https://finnhub.io/api/news?id=c912b6fca6060a7800f8f6b126d5edc0750f301fbfbf39e8775fff1649dc5d74

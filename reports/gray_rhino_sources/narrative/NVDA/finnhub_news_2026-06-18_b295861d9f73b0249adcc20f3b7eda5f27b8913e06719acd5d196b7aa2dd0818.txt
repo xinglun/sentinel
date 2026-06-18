@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange Traded Concepts Announces Launch of PurePlay Nvidia Ecosystem Picks & Shovels Index ETF (Nasdaq: NVPS) with PurePlay ETFs
+  summary: Exchange Traded Concepts, LLC ("ETC") today announced, in conjunction with PurePlay ETFs, the launch of the PurePlay Nvidia Ecosystem Picks & Shovels Index ETF (Nasdaq: NVPS). This passive exchange-traded funds that seeks to track the total return performance of the Solactive Nvidia Ecosystem Picks & Shovels Index. The Funds began trading on the Nasdaq Stock Market on June 18, 2026.
+  url: https://finnhub.io/api/news?id=0b8153d7be18b419f3982f5253e30061983e41eb52d5a4093446d0df48c97736

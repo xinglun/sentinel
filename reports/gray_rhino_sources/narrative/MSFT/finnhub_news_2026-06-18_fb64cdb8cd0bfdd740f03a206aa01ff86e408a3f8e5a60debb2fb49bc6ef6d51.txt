@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Harini Gokul to Join Afiniti's Board as AI Redefines the Role of the Contact Center
+  summary: WASHINGTON, June 18, 2026--Afiniti appoints Harini Gokul to its Board of Directors, adding a seasoned customer experience leader from Microsoft, AWS, and Entrust.
+  url: https://finnhub.io/api/news?id=96120e7d89588cfe326458bda5b05e97cee6b3c153976f2792ab785324a9deb3

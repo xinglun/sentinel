@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Enters Code Automation Market Via Cursor Acquisition (Rating Downgrade)
+  summary: SpaceX IPO proceeded as anticipated, with strong early trading momentum and index inclusion catalysts on the horizon. Learn more about SPCX stock here.
+  url: https://finnhub.io/api/news?id=204e91059be4d7cfcbcb62c6f570058fd1f0d0e6f4b0623708e8fdcdc9e66896

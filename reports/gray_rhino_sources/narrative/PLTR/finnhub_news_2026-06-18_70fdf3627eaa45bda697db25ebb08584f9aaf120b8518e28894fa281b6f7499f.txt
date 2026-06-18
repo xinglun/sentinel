@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Attractive As Never Before
+  summary: Palantir Technologies (PLTR) is rated 'Buy' following a ~37% pullback, with long-term growth drivers intact and valuation now more reasonable.
+  url: https://finnhub.io/api/news?id=aff692efb3832e34d0756d878e974fc777005ee8784f74fc003468acdde3e6a8

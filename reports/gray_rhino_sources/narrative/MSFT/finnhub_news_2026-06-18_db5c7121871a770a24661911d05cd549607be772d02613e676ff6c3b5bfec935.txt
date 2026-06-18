@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could SpaceX Join the "Magnificent Seven"?
+  summary: SpaceX has quickly become a trillion-dollar company.
+  url: https://finnhub.io/api/news?id=df16fcd1c92dada7f506f38b2a98c8fd40b0646aaf71b3b8bdf63959daf669e8

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Energy Transition - A P Moller Capital Acquires Mainstream Renewable Power South Africa
+  summary: A.P. Moller Capital has agreed to acquire Mainstream Renewable Power South Africa, a prominent renewable energy developer in South Africa, through its Emerging Markets Infrastructure Fund II. This acquisition is part of A.P. Moller Capital's strategy to invest in infrastructure that supports the energy transition in high-growth markets. Mainstream South Africa boasts a significant renewable energy portfolio, including 148 MW of operating and in-construction assets, 351 MW of...
+  url: https://finnhub.io/api/news?id=5fed06179ecc31be5a0fa228fda49a39fd571f6a93eb34c150f4efe4932569e7

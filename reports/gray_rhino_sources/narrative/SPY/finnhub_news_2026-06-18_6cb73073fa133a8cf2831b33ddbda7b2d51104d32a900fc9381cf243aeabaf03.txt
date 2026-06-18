@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Forget AI, Fed Is The Story Now’ – 'Bond King' Jeffrey Gundlach Says Kevin Warsh Faces A 1970s-Style Inflation Challenge
+  summary: Warsh stressed the Fed's commitment to deliver price stability and skipped publishing an individual rate forecast in the dot plot.
+  url: https://finnhub.io/api/news?id=84b06634a281113b222a91a91ea8aacfe17823be8d886c24221a0293065b77fa

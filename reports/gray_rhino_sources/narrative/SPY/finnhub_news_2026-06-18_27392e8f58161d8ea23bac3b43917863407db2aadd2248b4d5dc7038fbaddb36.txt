@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PKW: Mixed Feelings About Invesco's Long-Running Buyback ETF
+  summary: PKW ETF upgraded from sell to hold as value fundamentals improve. Click here to read more about PKW.
+  url: https://finnhub.io/api/news?id=083d3d5adf0cd378a5fdc4d2ee269ca08ec358d4f7c480d32cf052112bc89543

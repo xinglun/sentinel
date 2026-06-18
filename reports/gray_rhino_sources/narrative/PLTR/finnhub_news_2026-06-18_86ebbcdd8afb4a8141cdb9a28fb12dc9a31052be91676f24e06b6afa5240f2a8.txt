@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oligo Security Joins Palantir's FedStart Program to Accelerate Runtime Security for Federal Agencies
+  summary: TEL AVIV, Israel, June 18, 2026--Oligo Security, the runtime security company, today announced it has joined Palantir Technologies' (Nasdaq: PLTR) FedStart program. Through the collaboration, Oligo will accelerate its path toward FedRAMP High and DoD Impact Level 5 (IL5) compliance, enabling government agencies to unify real-time protection across applications, cloud workloads, and AI systems.
+  url: https://finnhub.io/api/news?id=3f332c6e36e3838dc6f369a0539ca3eab05827eed830b50b81a6152b19383791

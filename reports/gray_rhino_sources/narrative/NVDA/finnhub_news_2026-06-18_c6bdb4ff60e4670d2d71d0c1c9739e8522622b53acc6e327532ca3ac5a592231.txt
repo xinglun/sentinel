@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Gains as the Chip Maker Looks to Growth Outside the U.S.
+  summary: Nvidia stock was gaining as the chip maker promoted its growth in Europe, amid a debate about access to U.S. artificial-intelligence models.
+  url: https://finnhub.io/api/news?id=a9d35ba48c67c8f04531f00df51c5a8dfe087a3961fe2e3983d9efc45af8ed37

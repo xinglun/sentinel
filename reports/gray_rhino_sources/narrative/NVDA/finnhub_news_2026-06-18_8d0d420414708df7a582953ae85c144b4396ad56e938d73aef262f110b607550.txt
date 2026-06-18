@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What to Look for Before Buying Your First ETF
+  summary: ETFs can take a variety of different approaches.
+  url: https://finnhub.io/api/news?id=b7be7e8123a55a3d7b65e8ac34c65a01c60954b85e60414364937189f99faf5b

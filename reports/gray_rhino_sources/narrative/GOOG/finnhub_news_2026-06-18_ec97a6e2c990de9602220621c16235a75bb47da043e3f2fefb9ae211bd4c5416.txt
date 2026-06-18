@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Samsung draws advanced chipmaking interest as TSMC capacity tightens
+  summary: Samsung Electronics Co Ltd (ADR) (LSE:BC94) is attracting growing interest from prospective customers seeking advanced semiconductor manufacturing capacity as demand for leading-edge chips continues to outstrip available supply at rival foundry operator Taiwan Semiconductor Manufacturing...
+  url: https://finnhub.io/api/news?id=6c9897afe3458497f805f8a87deb34e13f9c484cb616741b304ace910fbfebaf

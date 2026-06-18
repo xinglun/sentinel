@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why This Analyst Says Palantir Stock Is ‘Too Big to Ignore’
+  summary: Wolfe Research calls Palantir's AI platform best-in-class, but flags its lofty valuation. Here's why one analyst says the stock is "too big to ignore."
+  url: https://finnhub.io/api/news?id=8404fee1304da7f3f0dc23694d0cae2523be00a41d3376647c2c43e4004e5c69

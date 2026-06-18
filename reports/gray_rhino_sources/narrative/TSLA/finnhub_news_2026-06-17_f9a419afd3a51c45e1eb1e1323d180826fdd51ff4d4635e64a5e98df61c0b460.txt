@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PayPal Mafia member and ex-Sequoia steward Roelof Botha joins SpaceX board—reuniting with Elon Musk after decades
+  summary: Roelof Botha, who spent more than two decades at VC firm Sequoia Capital, first worked with Elon Musk at PayPal.
+  url: https://finnhub.io/api/news?id=e7c2a6d7c5afab53449c0bca32bc38c74a54455caa6040e224e9f6c951fe57ee

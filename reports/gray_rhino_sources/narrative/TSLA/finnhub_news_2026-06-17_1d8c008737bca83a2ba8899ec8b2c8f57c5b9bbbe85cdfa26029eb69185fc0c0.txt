@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock: Elon Musk Exercises 2018 Stock Options Award, Boosts Stake In EV Giant
+  summary: No cash changed hands, and no shares were sold into the open market in the process, a filing shows.
+  url: https://finnhub.io/api/news?id=9651447d7d71e52587c56ce0683fd4b3322bfbe6879f79c5c464dd991da86256

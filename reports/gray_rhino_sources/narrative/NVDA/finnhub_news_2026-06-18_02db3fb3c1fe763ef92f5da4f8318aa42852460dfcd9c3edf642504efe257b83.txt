@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 11 Words From Nvidia CFO Colette Kress That Should Have AMD and Intel Investors Worried
+  summary: The giant chipmaker is entering a $200 billion market that it has never competed in before.
+  url: https://finnhub.io/api/news?id=127d3231cde62643751c2d2577cb6c75a35c4e543aef5c20fe46a5b0a5732ccb

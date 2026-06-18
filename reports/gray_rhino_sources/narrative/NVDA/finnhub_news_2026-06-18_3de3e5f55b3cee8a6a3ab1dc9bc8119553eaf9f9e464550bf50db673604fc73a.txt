@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Joins Nvidia, Alphabet, Apple, Microsoft, Amazon, and Taiwan Semiconductor in the $2 Trillion Club. But Will It Last?
+  summary: SpaceX is chock-full of upside potential, but the market is already pricing that in.
+  url: https://finnhub.io/api/news?id=76dc87914d505a711d53ff9f1d623c778833be9eddadda90823cf28089d4a19b

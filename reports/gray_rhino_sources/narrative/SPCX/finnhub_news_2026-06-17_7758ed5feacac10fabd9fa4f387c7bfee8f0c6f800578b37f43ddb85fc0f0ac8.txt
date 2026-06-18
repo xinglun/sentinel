@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Holds Rates Steady; Retail Sales Remain Resilient
+  summary:  
+  url: https://finnhub.io/api/news?id=93f709239c32bb070bbc4eed5af4c62f1426ff7a99c946114a2163634d053be8

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hawkish Shift Opens The Door To Fed Rate Hikes
+  summary: The Federal Reserve has left monetary policy unchanged at Kevin Warshâs first meeting as Chair.
+  url: https://finnhub.io/api/news?id=906d4fb70bf6f517160d3dbb23ce398997419321151dc81c667372cebae01f84

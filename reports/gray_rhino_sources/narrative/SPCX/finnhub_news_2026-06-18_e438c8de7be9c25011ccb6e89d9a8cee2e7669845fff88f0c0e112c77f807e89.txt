@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HYI: Improved Valuation, But Still Likely To Struggle
+  summary: HYI invests primarily in diversified high-yield (junk) bonds, limiting single-issuer risk. Click here to read why HYI is a Hold.
+  url: https://finnhub.io/api/news?id=3e1c4e3a5160c6b14853f4d59e387a108aa50a301665c86d7f206b748ebc4413

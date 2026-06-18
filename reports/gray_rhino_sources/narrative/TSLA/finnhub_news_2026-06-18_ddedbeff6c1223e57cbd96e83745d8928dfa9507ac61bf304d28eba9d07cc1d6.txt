@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bogle Paradox: Are Cheap ETFs Fueling Wall Street's Craziest Product Boom?
+  summary: Cheap ETFs dominate assets but not revenue, pushing issuers toward leveraged products. Here&#39;s the paradox reshaping the industry.
+  url: https://finnhub.io/api/news?id=def315f794a6ba2f7ecfac21aac87d014ff644c04ca69e7e8bef005ff0903a43

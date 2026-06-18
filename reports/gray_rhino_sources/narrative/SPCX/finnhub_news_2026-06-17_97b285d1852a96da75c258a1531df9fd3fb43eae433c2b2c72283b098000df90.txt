@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX ETF Frenzy Reaches 'Bonkers' Levels As Volume Surges Past $1 Billion
+  summary: A wave of leveraged SpaceX ETFs hit the market this week, drawing massive trading volume as investors bet on the stock&#39;s post-IPO volatility.
+  url: https://finnhub.io/api/news?id=8244fce7ba9625c7af516f904e9b64827381110426031d1cf378eb01e477326e

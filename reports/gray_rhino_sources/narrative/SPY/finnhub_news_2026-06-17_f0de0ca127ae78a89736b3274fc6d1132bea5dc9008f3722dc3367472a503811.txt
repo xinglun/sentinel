@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Watch: The Changing Of The Guard Finally Arrives
+  summary: At the June FOMC meeting, Chair Kevin Warsh and policymakers left the fed funds rate unchanged at 3.50%â3.75%
+  url: https://finnhub.io/api/news?id=3f9afb00139cf6c38e16175b740b2dba05fde28c01858560285125da36e96bbd

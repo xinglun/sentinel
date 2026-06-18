@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Loses a Key Gemini Leader
+  summary: Noam Shazeer departure intensifies AI talent war
+  url: https://finnhub.io/api/news?id=7e8d4aa4a78fa9ebe0b35133e8985e0bdedef0a84d9da79c8798a397f8c97afa

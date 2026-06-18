@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is the Most Expensive Stock in the $2 Trillion Club, and It's Not Even Close
+  summary: Stocks like Nvidia, Alphabet, and Apple are significantly cheaper than SpaceX by one widely used valuation metric.
+  url: https://finnhub.io/api/news?id=76c2a74e3ee03f93ad14e9c68326aa7745239baf5e55c2b4d9204f18a9efe501

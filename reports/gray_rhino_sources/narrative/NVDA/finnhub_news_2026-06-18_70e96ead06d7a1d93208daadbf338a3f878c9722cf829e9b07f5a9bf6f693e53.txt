@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Institutional Investors Are Buying This Top Cryptocurrency Hand-Over-Fist, According to Coinbase
+  summary: Investors with lots of capital and lots of patience are buying plenty of Bitcoin.
+  url: https://finnhub.io/api/news?id=c8de855af747e212f5fd600ad8dcb50591a822f569138e13b01d1ecf8ba13cbb

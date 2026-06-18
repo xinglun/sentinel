@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock drops after breaking 3-day winning streak
+  summary: SpaceX opened lower on Thursday, extending losses from the prior session.
+  url: https://finnhub.io/api/news?id=ef9befe70564613a84b2b88e855a08c0d576f51330cf85b314cd3eb034480f5d

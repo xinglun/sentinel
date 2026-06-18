@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Rises Overnight: Analyst Sees Q2 Delivery Beat, Says SPCX Merger Buzz Is Limiting Downside Risk
+  summary: Wolfe expects Tesla to deliver 420,000 vehicles in Q2, above the 400,000-unit consensus.
+  url: https://finnhub.io/api/news?id=2998541c5a8c0b8e2468fd02d5a64370a0bb7ba52186d0e665c228278c5692f2

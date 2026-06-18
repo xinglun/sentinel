@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global Economic Outlook: June 2026
+  summary: Oil prices are forecast to remain high, with Dated Brent projected at $110/barrel in 2026, nearly 90% above pre-conflict assumptions, despite a recent peace deal.
+  url: https://finnhub.io/api/news?id=a948f0caa302673cd69bdef421a1b298a3b7b1893e2956ec3955ac2c4781ae4c

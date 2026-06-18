@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why CRISPR Therapeutics Stock Has Been on a Roller-Coaster Ride This Year
+  summary: The opportunity is enormous, but uncertainty remains.
+  url: https://finnhub.io/api/news?id=a41532ea711bcc1ac4e1da87e2ecce3dbe8b5187bd2a3677049dffb32f4ead0b

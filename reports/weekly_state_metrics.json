@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-06-17",
-  "avg_confidence": 55.980579631653704,
-  "avg_stability": 25.703545481028105,
+  "as_of_date": "2026-06-18",
+  "avg_confidence": 55.33820197628642,
+  "avg_stability": 26.281731826309457,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-06-09",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-06-10",
@@ -93,22 +80,35 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-18",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-18T00:50:22.879956953+09:00",
+  "generated_at": "2026-06-19T00:51:42.710796913+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
-      "confirmed_count_latest": 1,
+      "confirmed_count_latest": 2,
       "future_queue_count_latest": 0,
-      "latest_date": "2026-06-17",
-      "near_term_supply_count_latest": 1,
-      "pressure_latest": "NORMAL",
+      "latest_date": "2026-06-18",
+      "near_term_supply_count_latest": 2,
+      "pressure_latest": "ELEVATED",
       "queue_count_latest": 0,
-      "queue_count_max_7d": 2,
+      "queue_count_max_7d": 1,
       "queue_count_min_7d": 0,
       "reported_count_latest": 0
     },
@@ -137,7 +137,7 @@
       "宏观重力: 只解释折现率与流动性环境，不生成交易信号",
       "证据持续性: 持续累积",
       "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)",
-      "战术状态: READY，等待执行层确认"
+      "战术状态: NO TRADE，等待结构扩散"
     ],
     "trend_breadth_mode": "NarrowLeadership"
   },
@@ -146,11 +146,11 @@
   "market_state_counts": {
     "IGNITION": 7
   },
-  "participation_ready_days": 7,
+  "participation_ready_days": 6,
   "risk_overlay_counts": {
     "NORMAL": 7
   },
-  "trend_cohesion_ready_days": 7,
+  "trend_cohesion_ready_days": 6,
   "weekly_totals": {
     "core_breakdown_total": 0,
     "days": 7,

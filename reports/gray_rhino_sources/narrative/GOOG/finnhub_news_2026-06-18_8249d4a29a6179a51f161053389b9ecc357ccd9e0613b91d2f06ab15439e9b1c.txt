@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rumble Stock Soars as It Follows Allbirds in AI Pivot
+  summary: The video-sharing platform says it will change its name and tweak its business structure after buying German AI company Northern Data.
+  url: https://finnhub.io/api/news?id=2343d7b3e0525b9d82c6f5e9416e5b423bfff801ac78c5c0bc687d1f668c118a

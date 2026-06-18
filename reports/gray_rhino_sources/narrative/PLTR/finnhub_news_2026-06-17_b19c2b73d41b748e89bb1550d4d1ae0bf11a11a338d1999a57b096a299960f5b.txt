@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Predicts a Tesla-SpaceX Megamerger. Here’s What Investors Need to Know.
+  summary: A merger of Elon Musk's companies would be valued at $3.6 trillion.
+  url: https://finnhub.io/api/news?id=119d3216c11291185d23ce0b1927de5f298f7632a7d69986dff9373f1df004be

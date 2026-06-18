@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is It Time to Sell Microsoft Stock? Why This Analyst Is Warning Investors to Exit.
+  summary: Rather than buy the tech dip, one analyst argues current shareholders should wait for the next rally to sell Microsoft stock.
+  url: https://finnhub.io/api/news?id=f40151d28e32f2eb799b46ec5e5d53a5cc0fd74d92b5f2d1b72dc95972b54ecf

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Stock Jumps 10% on Apple Partnership
+  summary: Apple-Intel Chip Alliance Revealed as Trump Pushes U.S. Semiconductor Revival
+  url: https://finnhub.io/api/news?id=875b33e6895054b9ca0f437e565beb60a94e71a113a013ef428a3f834c6e6674

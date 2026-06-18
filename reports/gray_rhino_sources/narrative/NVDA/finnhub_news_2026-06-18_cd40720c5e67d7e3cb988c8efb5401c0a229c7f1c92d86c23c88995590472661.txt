@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How NVIDIA’s Record US$25 Billion AI Bond Sale At NVIDIA (NVDA) Has Changed Its Investment Story
+  summary: NVIDIA recently completed a record-breaking US$25.00 billion multi-tranche bond sale, issuing long-dated investment-grade notes to refinance existing obligations and fund general corporate purposes tied to AI data center and infrastructure expansion. The very large investor order book for this offering highlights credit-market confidence in NVIDIA’s role at the center of the AI factory buildout, even as the company chooses debt rather than new equity to finance its growth. We’ll now examine...
+  url: https://finnhub.io/api/news?id=94edfb3e1adb1060e296e628e66c01e22ed215310f8bca5613ba932d84930d21

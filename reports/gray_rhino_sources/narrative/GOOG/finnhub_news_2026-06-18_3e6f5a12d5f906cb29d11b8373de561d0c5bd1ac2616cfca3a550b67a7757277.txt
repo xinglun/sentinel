@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple CEO Cook warns product price increases are ‘unavoidable’
+  summary: Apple Inc (NASDAQ:AAPL, XETRA:APC) plans to raise prices on some of its products as surging memory and storage chip costs pressure its supply chain, CEO Tim Cook told The Wall Street Journal in an interview. "Unfortunately, price increases are unavoidable," Cook told the publication. "We're...
+  url: https://finnhub.io/api/news?id=ec102543c6770af591eb5610982a2f7ab93ddf18c30154017663854a6f9eb393

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Undervalued Medical-Devices Stock Is Poised for a Rebound
+  summary: Medtronic  is deeply undervalued and a good bet for your portfolio.  At the time, an uncertain growth outlook kept us from recommending the stock.  Four months later, it’s time to retire the narrative of Medtronic as a perpetual laggard.
+  url: https://finnhub.io/api/news?id=8024633e3a63be5d2fd46fef34a9233df23e6fac5b68f3b1d8b5d4f63d737621

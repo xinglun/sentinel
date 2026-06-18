@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Architect Labs raises $24 million to take on Broadcom, Marvell custom chip business
+  summary: Architect Labs said on Thursday it had raised $24 million in seed funding to ‌build a company that will use artificial intelligence to speed and ‌ease the design of custom chips.  The custom chips designed by Marvell and Broadcom generate tens of billions of dollars in revenue and offer an alternative to ‌Nvidia's powerful hardware.  Architect Labs aims ⁠to cheapen and speed the process, which now takes roughly two years and costs hundreds of millions of dollars ⁠in labor costs and research and development.
+  url: https://finnhub.io/api/news?id=dea84520e6b092db241fbd1b8e158b5c6b29113853ca8bfb296e35a70e8885e2

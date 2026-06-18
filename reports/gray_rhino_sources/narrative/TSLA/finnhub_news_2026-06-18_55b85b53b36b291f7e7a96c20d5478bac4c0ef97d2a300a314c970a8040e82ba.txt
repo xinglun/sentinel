@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Eyes Red Week: Elon Musk Says Tesla’s FSD Could Soon Take Directions Like An Uber Driver
+  summary: The feature would allow drivers to make natural-language requests, such as "turn right here" or "drop us off here," while FSD is active.
+  url: https://finnhub.io/api/news?id=698f74149578a33e5c747c895bf71e4c6a39465ed6edd66b422f51b410d42c00

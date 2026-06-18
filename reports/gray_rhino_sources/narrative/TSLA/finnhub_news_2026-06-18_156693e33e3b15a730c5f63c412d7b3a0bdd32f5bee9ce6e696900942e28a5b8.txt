@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Your Tesla Drives Better Than You Do—and That’s Good News for the Stock
+  summary: BofA analyst Alexander Perry recently analyzed safety y data for Waymo and Tesla. Serious incidents are very rare.
+  url: https://finnhub.io/api/news?id=5cfe6c82a95ecba399fa0b177205ee39b9e3a321ca4542387d8e4531db7218d0

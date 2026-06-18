@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile: You Might Not Find A Better Chance To Double Down Now
+  summary: AST SpaceMobile (ASTS) may be bottoming after a 40% dropâbacklog, 2026 revenue ramp and $3.5B liquidity support the bull case.
+  url: https://finnhub.io/api/news?id=731dbcb2413b7b7af67f6e23e307ffb1a023b27fdb64c4b1f220936bb623dc96

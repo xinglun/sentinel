@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The Stock Is Expensive, But The Growth Is Not Normal
+  summary: Palantir Technologies Inc. is rated a Buy with a $183 price target, implying 41% upside from current levels. Read more on PLTR stock here.
+  url: https://finnhub.io/api/news?id=28de6a07faa4820524fc55b932867f2d251f09a0abd95214dc84629ea7ea750c

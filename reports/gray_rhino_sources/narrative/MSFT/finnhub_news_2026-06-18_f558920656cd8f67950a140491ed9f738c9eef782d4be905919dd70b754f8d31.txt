@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Looks Like Meme Stock To Some. Is That A Good Or Bad Thing?
+  summary: Elon Musk's SpaceX pulled off the biggest IPO ever. For investors, there are still issues to sort out. For one, is SPCX a meme stock?
+  url: https://finnhub.io/api/news?id=cbe5bdba53320f0abf339ac34d10d5e964cae8148b025ac749d43ff678259197

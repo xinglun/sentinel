@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tim Cook says Apple price increases are unavoidable, Q3 2026
+  summary: A surge in AI-driven demand for memory chips has made it impossible to shield customers from rising costs, the outgoing CEO said
+  url: https://finnhub.io/api/news?id=291f2ed0880f497679952471e27259aab913bd94f23c8dec60db209e5e901163

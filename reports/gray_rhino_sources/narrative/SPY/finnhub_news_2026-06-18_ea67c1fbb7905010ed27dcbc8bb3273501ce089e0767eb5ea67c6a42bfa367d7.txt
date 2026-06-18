@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hawkish-Leaning Committee, Reform-Minded Chair: Warsh's First Fed Meeting
+  summary: The Federal Reserve held the policy rate steady at 3.50%â3.75% at its June meeting â an outcome that was never really in doubt.
+  url: https://finnhub.io/api/news?id=048c45e6b46b3eb830a43719aa289c491dca3338315cf496fc6cab77957e1c24

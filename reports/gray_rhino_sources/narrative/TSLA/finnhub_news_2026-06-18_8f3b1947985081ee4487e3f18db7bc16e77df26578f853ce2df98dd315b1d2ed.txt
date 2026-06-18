@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla And SpaceX Are Converging - And The Market Hasn't Caught Up
+  summary: Tesla, Inc. faces near-term premium dilution risk as SpaceX IPO offers Musk-led AI exposure. Click for this TSLA stock update.
+  url: https://finnhub.io/api/news?id=1ce48e423c91fe359b5f1e6c7befea5f04311d271d8a46a0a9b36f7e0fa8ed99

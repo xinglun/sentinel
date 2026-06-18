@@ -1,0 +1,13 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow, Nasdaq 100 Futures Jump After Sharp Sell-Off On Fed Rates Pause— Freecast, Smith & Wesson In Focus (UPDATED)
+  summary: (Editor’s note: The headline, ETFs and economic data were updated.)
+
+
+
+U.S. stock futures rose on Thursday, as the Dow Jones, Nasdaq 100, and S&amp;P 500 indices advanced, following Tuesday’s sharp sell-off.
+
+
+
+Weekly initial jobless claims edged down by 4,000 to a seasonally adjusted 226,000 for the week ending June 13, keeping layoffs historically low.
+  url: https://finnhub.io/api/news?id=31978b52059f634fc62695e99c769dd3b50c8f851694c98a39895121c053a38c

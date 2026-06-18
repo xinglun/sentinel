@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber and Lucid team up to bring robotaxis to Houston
+  summary: Yahoo Finance Senior Autos Reporter Pras Subramanian joins the show to discuss why Uber (UBER) and Lucid (LCID) chose Houston, Texas, as their next robotaxi market, what makes the city an attractive testing ground for autonomous ride-hailing and why there's so much riding on this launch for both companies.
+  url: https://finnhub.io/api/news?id=ecae2fc72bd84b6208885e6fad69b00b8ab8ad363fcd958f64b1beff2865fcb7

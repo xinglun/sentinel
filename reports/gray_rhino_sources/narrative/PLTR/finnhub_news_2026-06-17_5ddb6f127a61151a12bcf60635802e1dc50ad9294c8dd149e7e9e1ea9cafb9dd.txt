@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The N-Of-1 AI Tech Single-Seller Is At Its Limit (Rating Downgrade)
+  summary: 
+  url: https://finnhub.io/api/news?id=91421e8a815500ccf2b73f883ebf0f498bae251ee3b161f7f0560f69a958f7d4

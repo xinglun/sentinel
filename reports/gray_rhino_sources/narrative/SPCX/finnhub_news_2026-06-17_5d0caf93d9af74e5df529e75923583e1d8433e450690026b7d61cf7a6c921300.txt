@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: There Are Wrong Times To Buy Great Companies
+  summary: SpaceX has been trading for about three days now, hitting a market cap of $2.76T, surpassing Amazon and briefly Microsoft. Click here to read more.
+  url: https://finnhub.io/api/news?id=7036bd24d0b2fcb7691a796b0c2efab9bb87d7d27f3ce8373512e41da56eddb7

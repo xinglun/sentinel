@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chairman Warsh Offers No Guidance, And Investors Hit The Sell Button
+  summary: Fed holds rates, drops forward guidance; Treasury yields jump as hawks talk hikes. Click here to read more.
+  url: https://finnhub.io/api/news?id=97e527dc6550c2496d55bf70b7ea2aa136c78a07a50ce5acbae44aceb4ea8bc6

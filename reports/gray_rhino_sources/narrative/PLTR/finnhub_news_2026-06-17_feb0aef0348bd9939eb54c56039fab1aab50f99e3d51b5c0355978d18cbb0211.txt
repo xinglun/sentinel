@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Playlist Appoints David Glazer, Chief Financial Officer of Palantir Technologies, to Board of Directors
+  summary: Playlist, the parent company of Mindbody, ClassPass, Booker, EGYM, and Kite, today announced the appointment of David Glazer, Chief Financial Officer of Palantir Technologies (NASDAQ: PLTR), to its Board of Directors.
+  url: https://finnhub.io/api/news?id=d611b0ca67fbaf60ecbc64d601a69373e6852d72eec294fb1556d31d1adfa11a

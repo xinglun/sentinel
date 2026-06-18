@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Shirofune Integrates with Triple Whale to Automate Attribution-Driven Ad Optimization Across Meta, Google, and other Platforms
+  summary: The integration turns third-party attribution insights into real-time, automated campaign optimization, closing the gap between data visibility and executionEL SEGUNDO, Calif., June 18, 2026 (GLOBE NEWSWIRE) -- Shirofune, the award-winning digital advertising automation management platform trusted by over 13,000 accounts worldwide, today announced its integration with Triple Whale, the leading ecommerce attribution and analytics platform trusted by thousands of direct-to-consumer brands. The int
+  url: https://finnhub.io/api/news?id=c57c6ca956886bc8feb0aa74c661dcf312e58a24f9d5e5aad4f085a21e259d44

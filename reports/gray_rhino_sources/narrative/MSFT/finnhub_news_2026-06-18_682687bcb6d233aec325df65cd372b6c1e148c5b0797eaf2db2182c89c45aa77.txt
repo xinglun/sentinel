@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle (ORCL) And Microsoft Cloud Deal Reportedly Fell Apart Over Security Rules
+  summary: Talks for a potential $3b+ cloud infrastructure leasing partnership between Oracle and Microsoft reportedly fell apart over security certification requirements for U.S. government workloads. Reports indicated that Oracle did not agree to add FedRAMP security certification, which is commonly required for regulated public sector contracts. Oracle publicly disputed the characterization of events and emphasized that Microsoft remains both a customer and a partner. Oracle (NYSE:ORCL), trading at...
+  url: https://finnhub.io/api/news?id=b18271c6c9dce10c93ab45abd837977ecb65242ed9efb639642f208b502572b3

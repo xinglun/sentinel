@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Up Almost 50% From Its IPO Price, Could SpaceX Early Investors Sell 37% of Their Shares in August?
+  summary: The stock is off to a roaring start, but its real test could come later this summer.
+  url: https://finnhub.io/api/news?id=57727540996a01d28aa953350d174010d785764a44b77b4a1fc96c7a616f1b24

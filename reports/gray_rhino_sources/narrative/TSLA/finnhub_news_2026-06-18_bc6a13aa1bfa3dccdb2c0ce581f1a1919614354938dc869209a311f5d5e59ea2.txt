@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Tesla Be Acquired by SpaceX? And Does That Make Tesla Stock a Buy?
+  summary: There is speculation that SpaceX will acquire Tesla within the next year.
+  url: https://finnhub.io/api/news?id=a6f329c99fd644510f77b3e09e4cd6a1e92541f9d597c5b7186ba71c269ce8d4

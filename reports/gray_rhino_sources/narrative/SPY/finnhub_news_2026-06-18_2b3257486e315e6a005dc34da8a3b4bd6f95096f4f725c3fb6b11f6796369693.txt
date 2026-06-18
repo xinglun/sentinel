@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget The June Fed Pause: Citadel Warns 'Second-Round Effects' Will Force A September Rate Hike
+  summary: Citadel warns the June Fed pause is temporary. Accelerating inflation and &#39;second-round effects&#39; will force a September rate hike.
+  url: https://finnhub.io/api/news?id=82cf8b9a73f5ccbfe073aaaf4715c5ae05d88f2e6f988f588df3a32a0b218d9a

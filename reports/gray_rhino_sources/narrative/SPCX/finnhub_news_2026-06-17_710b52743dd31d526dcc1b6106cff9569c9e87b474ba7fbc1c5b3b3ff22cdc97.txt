@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Options Just Broke A Record Meta Set In 2012
+  summary: SpaceX options traded 1.8 million contracts on their first day, eclipsing Meta&#39;s long-standing 2012 debut record and highlighting extraordinary investor demand.
+  url: https://finnhub.io/api/news?id=541ca916bd0dbcfe6afbd073fa45397169441bf1543ddaca0bc2a01ce200ca7b

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Can Be Added to the Russell 1000 and Russell 3000 After Today -- Don't Take the Bait
+  summary: The rewriting of several major index inclusion criteria has set retail investors up to be fleeced.
+  url: https://finnhub.io/api/news?id=4b804f54d3bb2d69f8504477de29e1bc6170bada807f70ce35de201ee63a6534

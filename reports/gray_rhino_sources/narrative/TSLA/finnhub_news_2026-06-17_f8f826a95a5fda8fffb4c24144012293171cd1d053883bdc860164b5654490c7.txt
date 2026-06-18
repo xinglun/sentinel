@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm eyes $10 billion AI shortcut as smartphone growth slows
+  summary: Qualcomm (QCOM) helped define the smartphone era. Now the chip giant is striving to prove it can play a far bigger role in the artificial intelligence boom. That may take a lot. Qualcomm is in talks to buy AI chip firm Tenstorrent in a transaction valued at $8 billion to $10 billion, according to ...
+  url: https://finnhub.io/api/news?id=ac7b0e855e7c9fb4f3e76d45ad51e8c29b231b259c3e210eef7105083208d17a

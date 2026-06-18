@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETF Fund Flows: A Beginner's Guide to the ETF.com Tool
+  summary: Learn what ETF fund flows are, why they matter, and how to use ETF.com's Fund Flows Tool to track investor sentiment and spot market trends.
+  url: https://finnhub.io/api/news?id=b10ddcbc0f4da7cc368e64ef0e326672b4e5a60b2fc8e8dd531f97d00315b774

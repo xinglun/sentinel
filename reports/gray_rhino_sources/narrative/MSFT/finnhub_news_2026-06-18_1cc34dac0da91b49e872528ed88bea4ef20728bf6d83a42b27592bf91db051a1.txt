@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Sees Quantum Computing Getting Closer
+  summary: Technology could solve problems beyond classical computers
+  url: https://finnhub.io/api/news?id=4d75a59e95210b9bcdca47077f33c970ce486cdba87d7a7fc96ae734f5566f0a

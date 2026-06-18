@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HSBC signs AI deal with Google Cloud
+  summary: The arrangement is intended to speed up the use of AI-based working methods in its banking operations.
+  url: https://finnhub.io/api/news?id=0ee613fc8aa7a1574390bdcb70b0639d21bfbdf419b5480a59326d5d1de73266

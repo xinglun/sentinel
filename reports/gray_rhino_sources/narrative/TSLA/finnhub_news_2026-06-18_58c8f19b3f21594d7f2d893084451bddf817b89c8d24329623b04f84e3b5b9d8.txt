@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's $25 Billion Capex Plan Is No Longer About Cars. Here's Why Tesla Could Be the Most Undervalued AI and Robotics Stock of 2026.
+  summary: Tesla's embodiment of artificial intelligence (AI) makes it one of the best ways to capitalize on the revolutionary changes driven by AI development.
+  url: https://finnhub.io/api/news?id=c51b8f1a15bae3ee2e9bb3837690c722af111d2ba23e0fff8b989c8d48b163d7

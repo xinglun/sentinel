@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UBS Delivers Stark Message For Palantir Bears Worried About AI Rivals
+  summary: Wall Street Giant Reaffirms Bullish Palantir View Amid AI Battle
+  url: https://finnhub.io/api/news?id=e6828d279f90c72dfe8ebeef375f95d7e13e5a8474b580635c4db5dde00710c6

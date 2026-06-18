@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stole The Show, But These Market-Moving Events Could Drive Stocks Next
+  summary: A busy slate of corporate events, including a slew of Annual General Meetings, put the finishing touches on a wild first half.
+  url: https://finnhub.io/api/news?id=18a421fa1abe6ba4de62e8a81665a5786dad53b7b368fc9d504afb439303f758

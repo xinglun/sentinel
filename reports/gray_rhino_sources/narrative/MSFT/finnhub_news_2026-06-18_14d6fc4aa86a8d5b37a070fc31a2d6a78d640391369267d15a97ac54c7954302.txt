@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Portal Biotechnologies Accelerates Growth with Latest Round Led by NFX, Expanded DARPA Contract, and Broad Adoption Across Top Pharma and Academic Centers
+  summary: WATERTOWN, Mass., June 18, 2026--Today, Portal Biotechnologies, Inc. ("Portal"), a cell engineering and drug discovery platform company, announced updates on significant commercial progress and the closing of an oversubscribed $9M financing round led by NFX and participation from existing investors including IA Ventures, Pear VC, Undeterred Ventures, IKJ Capital, and TechU Ventures.
+  url: https://finnhub.io/api/news?id=c310ad8bce4ee2274e1f7174fc5fe1843735f12bb0df695be7b43742420deaba

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Company News for Jun 18, 2026
+  summary: Companies In The Article Are:LZB,LION,NFLX,ORCL,TWWO
+  url: https://finnhub.io/api/news?id=2bc1c2905a8f29d9f098d9bfdef1bcb222f48906974de53702cf992dc62ff195

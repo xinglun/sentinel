@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Regime Change; At The Fed: Fed Chair Warsh Makes The First Moves
+  summary: Kevin Warsh presided over his first FOMC meeting as Fed Chair â participants voted unanimously to keep policy rates unchanged at 3.5%-3.75%
+  url: https://finnhub.io/api/news?id=140447df24715b74857b022656d7672f2b90acd85c56dda2d9add3b7bc99d9d0

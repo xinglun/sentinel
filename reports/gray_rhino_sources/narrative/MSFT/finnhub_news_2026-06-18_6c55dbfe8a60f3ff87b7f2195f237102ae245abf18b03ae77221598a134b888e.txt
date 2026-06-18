@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Stock Gets Fresh Bull Case: Jefferies Sees AI Pivot Unlocking $3.1B In Annual Revenue
+  summary: Jefferies stated that IREN's 6 GW power portfolio and major deals with Microsoft and Nvidia position it as an emerging AI infrastructure player.
+  url: https://finnhub.io/api/news?id=8fb968f67b981d0809985fb28e492ad6e03ca5ff5f86bbe112bd6eb1fae97bcb

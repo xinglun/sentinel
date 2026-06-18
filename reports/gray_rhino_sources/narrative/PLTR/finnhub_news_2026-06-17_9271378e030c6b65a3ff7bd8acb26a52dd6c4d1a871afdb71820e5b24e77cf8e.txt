@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EnduroSat Names Brandon Tripp as Chief Commercial Officer
+  summary: An experienced industry executive and US Army Special Forces veteran, Tripp will lead commercial strategy as demand accelerates across markets for scalable space constellations Brandon Tripp appointed as Chief Commercial Officer Brandon Tripp alongside EnduroSat founder and CEO, Raycho Raychev SOFIA, Bulgaria, June 17, 2026 (GLOBE NEWSWIRE) -- EnduroSat, a space infrastructure builder, today announced the appointment of Brandon Tripp (“Tripp”) as Chief Commercial Officer. In this role, he will l
+  url: https://finnhub.io/api/news?id=cff392d7fa8e4da14e169bdbdba2e2af8faa2c9cd10872375dab410eda50a6f4

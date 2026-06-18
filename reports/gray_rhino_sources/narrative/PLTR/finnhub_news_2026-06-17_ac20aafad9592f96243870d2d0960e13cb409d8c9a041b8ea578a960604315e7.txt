@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cognyte vs Palantir: Which AI Intelligence Stock Is the Better Buy?
+  summary: PLTR's faster growth and stronger margins contrast with Cognyte's rising recurring revenues and subscription-transition pressures.
+  url: https://finnhub.io/api/news?id=69c89ed0ec015b0db14399eafd95bc7a042c05860fc8b4132cd6c16b69c0a621

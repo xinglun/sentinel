@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech’s AI Spending Spree Is Making Stock Buybacks Disappear
+  summary: (Bloomberg) -- The artificial-intelligence race is becoming so expensive that it’s snuffing out one of the key forces that has helped keep Big Tech stocks soaring for years: steady share buybacks.Most Read from BloombergRead the 14-Point Draft Memorandum Between the US and IranModi Warns of ‘Shortage of Trust’ Ahead of Trump MeetingTrump Blows Through His Iran Red Lines in Justifying Peace DealIran’s Deputy Foreign Minister Confirms Deal Reached With USApple Plans Camera AirPods Alongside Upgrad
+  url: https://finnhub.io/api/news?id=668d7d4ffc360e1fe0b613e130a5992b0346568edcaf4299873573c8b522da24
