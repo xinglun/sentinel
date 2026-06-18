@@ -1,0 +1,50 @@
+{
+  "contractVersion": 1,
+  "workItemId": "markdown-link-ci-portability",
+  "mode": "code",
+  "title": "Markdown link checkerのCI移植性を修正",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/markdown-link-ci-portability.contract.json",
+    ".ai/work-items/active/markdown-link-ci-portability.summary.json",
+    "scripts/check_markdown_links.py",
+    "scripts/ai_test_markdown_links.py"
+  ],
+  "outOfScope": ["docs 内の既存 absolute link 一括書き換え", "Valuation Gravity behavior の追加変更", "P0 credential 対応"],
+  "sources": [
+    {"path": "GitHub Actions run 27734309182 / Build, Lint & Test", "reason": "Linux runner で macOS workspace absolute link が missing link になる failure log。"},
+    {"path": "scripts/check_markdown_links.py", "reason": "Markdown link resolution の実装 SSOT。"},
+    {"path": "scripts/ai_test_markdown_links.py", "reason": "checker regression test。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["governance_process", "review_debt"], "reason": "CI portability fix で link resolution semantics を変更するため。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "failure log と local fixture で root cause を再現可能。"},
+  "preReviewWarnings": ["任意の absolute path を許可せず、repository marker 以降を current ROOT へ再配置する。"],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"},
+  "acceptance": [
+    "repository 外 workspace prefix を持つ absolute Markdown link は repository marker 以降を current ROOT へ解決する。",
+    "repository marker を持たない absolute path と存在しない repository-relative target は broken link のまま扱う。",
+    "relative link、URL、anchor、docs index の既存 behavior を維持する。",
+    "regression test と make check-rust / quality を通過する。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test-doc-links", "required": true},
+    {"command": "make check-doc-links", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json", "required": true},
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make ai-preflight", "required": true},
+    {"command": "make quality CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "absolute link relocation helper と regression test を revert する。"
+}

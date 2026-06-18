@@ -1,0 +1,150 @@
+{
+  "workItemId": "markdown-link-ci-portability",
+  "contractPath": ".ai/work-items/archive/2026/markdown-link-ci-portability.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を同期する。"
+    },
+    {
+      "path": ".ai/work-items/active/markdown-link-ci-portability.contract.json",
+      "reason": "CI failure の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/markdown-link-ci-portability.summary.json",
+      "reason": "root cause、変更、検証結果を記録した。"
+    },
+    {
+      "path": "scripts/check_markdown_links.py",
+      "reason": "別 workspace prefix の repository absolute link を current ROOT へ再配置する。"
+    },
+    {
+      "path": "scripts/ai_test_markdown_links.py",
+      "reason": "absolute relocation、external absolute、relative link の regression test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/markdown-link-ci-portability.contract.json",
+    "GitHub Actions run 27734309182 / Build, Lint & Test failure log",
+    "scripts/check_markdown_links.py",
+    "scripts/ai_test_markdown_links.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/markdown-link-ci-portability.contract.json SUMMARY=.ai/work-items/active/markdown-link-ci-portability.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Markdown absolute link resolution semantics を CI portable に変更した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "CI は macOS workspace absolute links を Linux filesystem の absolute paths として評価して失敗した。",
+    "既存 document を一括変更せず checker の repository relocation で環境差を除去した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "GitHub Actions log を source に scope と acceptance を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "code mode と5 path の scope を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "relative / repository absolute / external absolute behavior を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required make checks を記録し最終 gate で再検証する。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "root cause に対する focused fix と regression test が通過した。",
+    "expectedReviewFocus": [
+      "repository marker relocation の限定性"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "local では通る doc link check が GitHub runner で失敗する。",
+      "solidifiedTo": "guard",
+      "reason": "checker と regression test に workspace-independent resolution を固定した。"
+    }
+  ],
+  "boundaryChecks": {
+    "gateExecution": "not_changed",
+    "reportOutput": "not_changed",
+    "persistence": "not_changed",
+    "i18n": "not_changed",
+    "dataWeeklyRecord": "not_changed",
+    "makeEntrypoints": "existing_test_doc_links_used"
+  },
+  "knownGaps": [
+    "GitHub hosted runner の再実行結果は push 後に確認する。"
+  ],
+  "overclaimPrevention": "完了範囲は Markdown link checker の workspace portability に限定する。"
+}

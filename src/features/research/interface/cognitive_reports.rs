@@ -16,6 +16,7 @@ pub(crate) use super::daily_calibration_i18n::{
     daily_calibration_question_evidence, daily_calibration_question_gate,
     daily_calibration_question_market, daily_calibration_question_thesis,
     daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
+    daily_calibration_valuation_gravity_label,
 };
 pub(crate) use super::macro_gravity_report::{
     build_macro_gravity_report_from_config, credit_stress_label, growth_valuation_impact_label,

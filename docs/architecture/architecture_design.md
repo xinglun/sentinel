@@ -1,19 +1,17 @@
 ---
 author: Ray
-title: 🐕 Stock Sentinel - アーキテクチャおよび詳細設計ドキュメント
-description: 🐕 Stock Sentinel - アーキテクチャおよび詳細設計ドキュメント に関する Sentinel の設計・運用情報。
+title: Stock Sentinel アーキテクチャおよび詳細設計
+description: Sentinel の現行 feature-first 構造、DDD 境界、データフローを説明する。
 key: docs-architecture-architecture-design
 tags: [architecture, design, technical, rust]
 keywords: [data-structures, concurrency, error-handling, logic]
 ---
 
-# 🐕 Stock Sentinel - アーキテクチャおよび詳細設計ドキュメント
+# Stock Sentinel アーキテクチャおよび詳細設計
 
 ## 現行アーキテクチャとの関係
 
-この文書は初期設計と詳細背景を説明する補助資料です。現行の DDD / Clean Architecture 境界、feature-first 構造、依存方向、architecture checker の判断は `docs/specs/DDD_CLEAN_ARCHITECTURE.md` と `.ai/architecture/feature_acl.yaml` を SSOT とします。
-
-本書内に旧 root module、旧 `src/core/**`、旧 layer 名が残る場合、それらは歴史的説明として扱い、現在の実装指針としては使いません。
+この文書は現行実装の構造とデータフローを説明します。DDD / Clean Architecture 境界、feature-first 構造、依存方向、architecture checker の判断は `docs/specs/DDD_CLEAN_ARCHITECTURE.md` と `.ai/architecture/feature_acl.yaml` を SSOT とします。
 
 本ドキュメントでは、PRDにおけるシステム要件を技術的な観点から詳細化します。主にコアデータ構造の設計と境界条件・例外処理のマトリックスを扱い、Rustによるコーディングの明確な指針を提供します。
 
@@ -57,21 +55,19 @@ struct WatchlistEntry {
 
 ### 3. モジュール構成とデータフロー (Module Data Flow)
 
-本システムは以下のステートレスなパイプラインで構成されています：
+本システムは `src/features/<context>/{domain,application,infrastructure,acl,interface}` を基本単位とする feature-first 構造です。
 
-1.  **Fetcher (`fetcher.rs`)**: `config` に基づき Yahoo Finance から時系列データを非同期で取得。
-2.  **Calc (`calc.rs`)**: 移動平均、標準偏差、Z-Score、モメンタム傾斜、曲率（加速度）を算出。
-3.  **Engine (`engine.rs`)**: 物理量ベクトルから `State` を判定し、`Confidence` を算出。
-4.  **Main (`main.rs`)**: 各銘柄の出力を `GravityHealth`（序参量を含む状態ベクトル）に集約。資本配分比率（Trend vs Reversion）を計算し `CAPITAL STATE` を決定。
-5.  **Report (`report.rs`)**: 
-    - **Persistence**: Daily JSON, `run_status_YYYY-MM-DD.json`, `telemetry.csv` (20列 序参量データセット) の追記保存。
-6.  **Backtest (`backtest.rs`)**: 歴史的な価格データを用いて全ロジックをシミュレート。Calibration Error や Alpha 分離度をレポート。
+1. `radar` bounded context は市場データを ACL 経由で取得し、Domain / Application で状態、Gate、アクションを評価します。
+2. `research` bounded context は外部証拠を収集し、監査・観測用の report を生成します。Valuation Gravity はこの context に属する display-only の観測レイヤーです。
+3. `backtest` bounded context は履歴データを使って Radar の判断契約を検証し、実運用の外部取得とは分離します。
+4. `shared` は複数 context で共有する安定した interface と value を提供します。feature 固有の判断ロジックは置きません。
+5. `src/cli.rs` と各 feature の ACL が composition root を担当し、Domain が Infrastructure へ直接依存しないよう port を組み立てます。
 
-#### 3.1 非バイパス原則 (Non-Bypass Principle)
+データフローは `Interface / CLI -> ACL -> Application -> Domain` を基本とし、外部 I/O は Application port を実装する Infrastructure に限定します。Research の display-only レイヤーは Radar report や Telegram に補足表示できますが、READY / EXECUTE / Gate / Position Sizing / Trader の入力にはなりません。
 
-本システムのいかなるモジュールも、`NO TRADE`、`Participation Gate`、`Trend Cohesion Gate`、または `Exit Gate` をバイパスして最終的な取引アクションを直接生成してはなりません。
+### 非バイパス原則
 
-システムは常に以下の順序に従う必要があります：
+どの module も `NO TRADE`、`Participation Gate`、`Trend Cohesion Gate`、`Exit Gate` を迂回して取引 action を生成してはなりません。判断順序は次のとおりです。
 
 ```text
 状態判定
@@ -80,169 +76,46 @@ struct WatchlistEntry {
 → 表示出力 / 実行出力
 ```
 
-これは以下のことを意味します：
+`NO TRADE` は新規 position の構築を禁止しますが、既存 position の強制決済を意味しません。`Participation Gate` は市場参加条件、`Trend Cohesion Gate` は追随可能な主導構造、`Exit Gate` は既存 position の `HOLD / TRIM / EXIT` をそれぞれ判断します。Interface は Gate と矛盾する action へ書き換えません。
 
-1. `NO TRADE` は新規のポジション構築を禁止することのみを意味し、強制的な全決済を意味するものではありません。
-2. `Participation Gate` は「市場への参加条件が整っているか」という問いに答える責任を負います。
-3. `Trend Cohesion Gate` は「追随可能なメインライン（主導権）構造が存在するか」という問いに答える責任を負います。
-4. `Exit Gate` は「既存のポジションを縮小または撤退させる必要があるか」という問いに答える責任を負います。
-5. 表示レイヤーは、Gate と競合する最終アクションを書き換えてはなりません。
+### Gate と action の関係
 
-以下の実装は違反とみなされます：
+Gate 通過後の実行意図は `ADD / HOLD / TRIM / EXIT`、表示上の統一意図は `ADD / HOLD / TRIM / EXIT / WATCH` に収束します。`Trend Cohesion Topology` の `NO_LEADER / SINGLE_LEADER / FRAGMENTED_LEADERS` は構造の説明であり、新しい取引方向や action を追加するものではありません。
 
-1. 特定の「強いシグナル」が直接買いをトリガーする。
-2. 「特定の銘柄が非常に良い」という理由で直接加筆を許可する。
-3. 表示レイヤーまたは一時的なルールが Gate をバイパスして最終アクションを書き換える。
-4. Gate を通過していないにもかかわらず、`ADD / ACCUMULATE` を出力する。
-5. `Trend Cohesion Gate` を通過していないにもかかわらず、`ADD / ACCUMULATE` を出力する。
-6. `Exit Gate` がトリガーされているにもかかわらず、`ADD` やその他の攻撃的な表現を保持する。
+### `NO TRADE` 時の Breakout 表示
 
-本原則はシステムレベルの制約であり、特定のタスクの一時的なルールではありません。「例外的な買い」「特別許可された加筆」「高優先度のショートカット」はいずれもシステムの一貫性を破壊する違反実装とみなされます。
+`Breakout Detection` は構造的な観測証拠であり、取引 action ではありません。`NO TRADE` 時は `EMERGING_BREAKOUT`、`CONFIRMED_BREAKOUT`、失敗 risk が高い観測対象を優先し、通常の反発や押し目修復を長い候補一覧として表示しません。
 
-#### 3.2 現在の3層 Gate と意図レイヤー
+Domain の `BreakoutEvaluator` は分類を担当し、`PresentationAssembler` は表示上の情報量を調整します。`report.rs` は ViewModel を描画するだけで、Domain threshold や Gate を再判定しません。
 
-現在のシステムのアクション制約は、明確に以下の3つの Gate に分かれています：
+### `NO TRADE` 時の表示順序
 
-1. `Participation Gate`
-   - `ParticipationReadiness` によって計算されます。
-   - 「市場への参加条件が整っているか」に答えます。
-   - 市場参加条件の判定であり、メインラインの識別責任は直接負いません。
+`markdown_body` と `telegram_html_body` は、判断、主な理由、監視対象、状態遷移証拠の順に表示します。`archival_markdown` は証拠全文を保持します。状態遷移証拠の圧縮は `output.compact_transition_evidence_in_no_trade` で制御します。
 
-2. `Trend Cohesion Gate`
-   - `TrendCohesionEvaluator` によって計算されます。
-   - 「現在、追随可能なメインライン構造が存在するか」に答えます。
-   - その `gate_passed` は下層のアクションチェーンに入り、能動的な加筆/ポジション構築アクションを直接制約します。
-   - 同時に `status`、`topology`、`formation_conditions`、および `unmet_conditions` を出力します。
+### 1.2 市場データの共有型
 
-3. `Exit Gate`
-   - `ExitDecision` によって計算されます。
-   - 「既存のポジションを HOLD / TRIM / EXIT すべきか」に答えます。
-   - `NO TRADE` とは分離されており、`NO TRADE` は必ずしも売却を意味しません。
+市場データの共有 primitive は `src/features/shared/domain/market_data.rs` に置きます。`DailyBar` は取引日、終値、任意の出来高を保持し、`TickerHistory` は日付昇順の bar、推定取引日数、任意の最新 quote timestamp を保持します。外部 provider 固有の DTO は ACL / Infrastructure でこの共有型へ正規化します。
 
-Gate の後、システムは統一されたアクションレイヤーに入ります：
+### 1.3 判断と表示の主要オブジェクト
 
-- `Position Intent`（実行レイヤーの意図）
-  - `ADD / HOLD / TRIM / EXIT`
-- `Unified Position Intent`（表示レイヤーの統一アクション原語）
-  - `ADD / HOLD / TRIM / EXIT / WATCH`
-  - Entry/Exit の結果を単一の最終アクション言語に収束させる責任を負います。
+Radar の判断結果は `src/features/radar/domain/decision.rs` の `DecisionPacket` に集約します。この packet は基準日、market features、market regime、market state、portfolio policy、asset action decision、trend cohesion、transition log、trend recognition evidence を保持します。
 
-さらに、`Trend Cohesion Topology` はメインライン構造のタイプを区別します：
+表示用の `PresentationPacket` は `src/features/radar/interface/presentation.rs` に置きます。Domain の判断結果から localized な summary、action view、risk view、breakout view、terminal row を構築します。表示層は Domain の Gate や action を再計算せず、`DecisionPacket` の意味を変更しません。
 
-- `NO_LEADER`
-- `SINGLE_LEADER`
-- `FRAGMENTED_LEADERS`
+Valuation Gravity の `ValuationGravitySnapshot` は Research bounded context の観測記録です。Radar の `DecisionPacket` や `PresentationPacket` へ判断入力として格納せず、Markdown / Telegram / daily-calibration の read-only appendix としてのみ合成します。
 
-これは構造解釈レイヤーの強化であり、取引方向の判定や新しい取引アクションと同義ではありません。
+## 2. 境界条件とフォールバック
 
-#### 3.3 `NO TRADE` シナリオにおける Breakout 表示原則
+| 例外シナリオ | 所有レイヤー | 現行の扱い |
+| --- | --- | --- |
+| 外部 market data の取得失敗 | Radar ACL / Application | asset ごとの取得結果を集約し、完全失敗と部分失敗を区別する。完全失敗時は診断 report を生成するが、判断履歴は保存しない。 |
+| 履歴不足 | Radar Domain | 必要な計算値を形成できない場合は推測で補完せず、data quality と観測不能状態へ反映する。 |
+| 休日または最新 bar の不在 | Market data boundary | wall-clock の当日値で上書きせず、取得できた最新取引日を基準日に使用する。 |
+| Valuation Gravity の過去日指定 | Research Application / Infrastructure | 指定日の snapshot だけを replay し、存在しない場合や invariant 違反は typed persistence health として報告する。 |
+| Valuation Gravity の未来日指定 | Research Application / CLI | live quote を未来日の事実として保存せず、source / repository を呼ぶ前に拒否する。 |
+| Research source の失敗 | Research Application / Interface | Reality Layer の欠損として表示し、Gate、execution、position sizing、Trader へ接続しない。 |
+| 設定不整合 | Config boundary | `AppConfig::load` の validation error として返し、実行途中の暗黙 fallback を行わない。 |
 
-`Breakout Detection` はシステムにおいて構造的証拠レイヤーに属し、取引アクションレイヤーには属しません。特に `NO TRADE` シナリオでは、その表示目標は「可能性のあるチャンスの提示」から「監視とアラートへのサービス」へと収束させる必要があります。
+## 3. 並行実行
 
-これは以下のことを意味します：
-
-1. `Breakout Summary` のセマンティック目標は **監視 / アラート** であり、**提案 / ランキング** ではありません。
-2. `Breakout Detection` は、表示の語気によって上位の `NO TRADE / メインライン未形成 / メインラインなし` という主結論を弱めてはなりません。
-3. `NO TRADE` シナリオでは、以下のオブジェクトのみを breakout の主項目として展開することを許可します：
-   - `EMERGING_BREAKOUT`
-   - `CONFIRMED_BREAKOUT`
-   - 失敗リスクが高い異常個体
-4. `NO_BREAKOUT + 通常の反発 / 押し目修復` は、`NO TRADE` シナリオではデフォルトで長いリストとして展開してはなりません。
-5. もしある `NO_BREAKOUT` 個体が `NO TRADE` 下で表示保持される場合、その理由は高い失敗リスクである必要があり、フロントエンドでは中立的な記述ではなくリスクの説明を優先的に表示すべきです。
-
-実装境界の要件は以下の通りです：
-
-1. `BreakoutEvaluator` は引き続きドメイン分類のみを担当し、表示のノイズ除去責任を直接負いません。
-2. `NO TRADE` 下の breakout ノイズ除去は、`PresentationAssembler` で完了させる必要があります。
-3. `report.rs` は breakout の結果をレンダリングするのみで、新しい表示判定を追加してはなりません。
-4. 表示閾値はドメイン閾値と分離し、フロントエンドの外観のためにドメインセマンティクスを逆流汚染することを避ける必要があります。
-
-本原則の目的は情報を減らすことではなく、`NO TRADE` シナリオにおいてユーザーを「銘柄選びモード」に引き戻すことを避けることにあります。
-
-#### 3.4 `NO TRADE` フロントエンド情報階層契約（実行優先）
-
-実行速度と一貫性を保証するため、`NO TRADE` シナリオにおけるフロントエンド表示（`markdown_body` / `telegram_html_body`）は固定された階層を採用します：
-
-1. 意思決定レイヤー：`NO TRADE` + `新規ポジション上限 · 0%`
-2. 簡略化された原因レイヤー：`安定性 x/10`、`連続性 x/3`、`メインライン構造`
-3. 監視重点レイヤー：`Breakout Detection`（`第1日` などの経過時間を含む）
-4. 証拠レイヤー：`状態遷移の証拠` を後方に配置（圧縮表示可）
-
-説明：
-
-1. アーカイブ出力（`archival_markdown`）は完全な証拠を保持し、情報の削除は行いません。
-2. フロントエンドで `NO TRADE` 証拠の展開を圧縮するかどうかは、`output.compact_transition_evidence_in_no_trade` によって制御されます。
-
-### 1.2 基礎データレイヤー (Market Data)
-APIから取得した生の時系列データです。
-```rust
-struct DailyBar {
-    date: NaiveDate,
-    close: f64,
-    volume: Option<f64>,
-}
-
-struct TickerHistory {
-    symbol: String,
-    bars: Vec<DailyBar>, // 日付の昇順にソート
-}
-
-/// 物理量と分配ロジックを集約したマクロ状態ベクトル
-struct GravityHealth {
-    up_count: usize,
-    flat_count: usize,
-    total_count: usize, // ウォッチリストのサイズ
-    up_weight: f64,
-    flat_weight: f64,
-    down_weight: f64,
-    total_weight: f64,
-    global_gravity_strength: f64,
-    global_potential_energy: f64,
-    trend_alloc_weight: f64,
-    reversion_alloc_weight: f64,
-    config_hash: String, // パラメータ宇宙の隔離識別子
-}
-```
-
-### 1.3 コア流転オブジェクト：銘柄スナップショット (TickerSnapshot)
-エンジンモジュールによって生成される中心的なオブジェクトであり、計算結果をすべて含みます。レポート出力層に直接渡されます。
-```rust
-#[derive(Serialize)]
-struct TickerSnapshot {
-    symbol: String,
-    name: String,
-    current_date: NaiveDate,      // データの最終日
-    dog_price: f64,               // 最新の終値
-    owner_ma: Option<f64>,        // 飼い主平均線（データ不足時は None）
-    leash_ma: Option<f64>,        // リード平均線
-    trend_status: TrendStatus,    // トレンド: Up / Down / Flat / Unknown
-    deviation_pct: Option<f64>,   // 乖離率 %
-    deviation_basis_used: String, // "owner" または "leash"
-    state_code: String,           // ヒットした band のステータスキー名 (例: "overheat_1")
-    reason_code: Option<String>,
-    action_text: String,          // 最終的な提案アクション文
-    confidence_score: u8,         // 置信度 (0-100)
-    owner_ma_slope_pct: Option<f64>, // 重力強度
-    dev_z_score: Option<f64>,        // Z-Score
-    curvature: Option<f64>,          // 曲率
-}
-
-enum TrendStatus { Up, Down, Flat, Unknown }
-```
-
-## 2. 境界条件および例外処理マトリックス (Edge Cases Fallback)
-
-| 例外シナリオ | システムの挙動 / 原因 | フォールバック戦略 (Fallback) |
-| :--- | :--- | :--- |
-| **API レート制限** | HTTP 429 エラーまたは接続切断 | 指数バックオフ（ジッター付き）を実装（MaxRetries=3, InitialDelay=2s）。完全に失敗した場合は、その銘柄のみレポートにエラーを表示し、全体の処理は継続する。 |
-| **新規上場銘柄等のデータ不足** | 履歴データが50本しかないが、設定が `owner_ma_days=120` | MA計算は `None` を返す。トレンドは `Unknown`、乖離率は `None` とし、最終ステータス欄に「データ不足」と表示する。ランタイムエラーは発生させない。 |
-| **祝休日・週末の実行** | 当日の新しいK線データが存在しない | 「今日は何日か」を強制せず、取得できた `bars.last()` をそのまま使用する。レポートヘッダーにはデータの最終取引日（Trade Date）を表示する。 |
-| **無状態 V-Shape Recovery**| 暴落から急回復した場合のフラッピング | 外部の JSON に状態を保存せず、推論時に過去60日間の MA を再計算するサンドボックス（Simulation）を実行。`recover_days` の連続条件を満たした場合のみ安全状態に復帰する。 |
-| **重力極端値 (Confidence 計算)** | 異なる銘柄が同じ DEFEND に落ちる | `dev_z_score` (価格がMAから何標準偏差離れているか) と `owner_ma_slope_pct` (下落の加速度)、`curvature` (二階微分による拐点) を用い、システムの確信度を 0~100% でスコアリングし出力する。 |
-| **銘柄の取引停止・上場廃止** | 空の配列を取得、または最終データが数年前のもの | `bars.last().date` が現在の日付から7日以上離れている場合、システムは `[STALE] データが古い` という警告を表示する。 |
-| **構成ステータス名の欠落** | `bands` に `fear_3` があるが `actions` に文案がない | 起動時の `config::load()` フェーズで検証を行い、キーが一致しない場合はプログラムを panic させ、設定エラーを通知する（Fail Fast 原則）。 |
-| **極端な暴落による下限突破** | 乖離率が -50% で、設定した最低閾値 `fear_1: -25%` を下回る | 最下層の閾値状態を使用する（最後の要素にフォールバック）。 |
-| **極端な恐慌と下山モード** | - | (ロジックは大規模なリファクタリングにより MarketRegime と PortfolioPolicy に統合されました) |
-
-## 3. 並列モデルの提案
-50銘柄程度の取得であれば、`tokio` を使用した並列リクエストによりネットワークI/Oの待機時間を大幅に短縮できます。`futures::stream::StreamExt` の `buffer_unordered(10)` などを使用し、Yahoo Finance APIへの過度な負荷を避けるため、最大並列数を10程度に制限することを推奨します。
+外部取得の並行数と timeout は各 Application use case が所有します。Valuation Gravity は最大 10 asset を並行処理し、collection 全体を 10 秒以内に制限します。並行処理の失敗は asset 単位の unavailable observation に閉じ込め、Radar 本体の判断や通知を上書きしません。

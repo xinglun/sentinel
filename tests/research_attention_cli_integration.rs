@@ -10,7 +10,7 @@ fn prepare_workspace(extra_config: &str) -> TempDir {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let config_path = root.join("config.toml");
     let raw = fs::read_to_string(&config_path).expect("failed to read base config.toml");
-    let mut raw = strip_optional_calibration_sections(&raw);
+    let mut raw = strip_finnhub_section(&strip_optional_calibration_sections(&raw));
 
     let save_to = tmp.path().to_string_lossy().to_string();
     raw = raw.replace(
@@ -2377,6 +2377,22 @@ fn run_cli(tmp: &TempDir, args: &[&str]) -> std::process::Output {
         .expect("failed to execute stock-sentinel")
 }
 
+#[test]
+fn daily_calibration_rejects_future_date_without_writing_valuation_snapshot() {
+    let tmp = prepare_workspace("");
+
+    let output = run_cli(&tmp, &["daily-calibration", "--date", "2999-01-01"]);
+
+    assert!(!output.status.success());
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    assert!(stderr.contains("估值重力层不接受未来日期"));
+    assert!(!tmp.path().join("valuation_gravity_latest.json").exists());
+    assert!(!tmp
+        .path()
+        .join("valuation_gravity_2999-01-01.json")
+        .exists());
+}
+
 fn set_output_language(tmp: &TempDir, language: &str) {
     let config_path = tmp.path().join("config.toml");
     let raw = fs::read_to_string(&config_path).expect("failed to read temp config.toml");
@@ -2921,7 +2937,16 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("不产生市场结论"));
     assert!(stdout.contains("不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer"));
     assert!(!stdout.contains("https://example.com/alphabet-offering"));
-    assert!(stdout.contains("## 7. 灰犀牛升级监控"));
+    assert!(stdout.contains("## 7. 估值重力层"));
+    assert!(stdout.contains("🪢 Gravity Layer（估值重力层）"));
+    assert!(stdout.contains("未形成估值分类（外部证据不足）"));
+    assert!(stdout.contains("快照持久化: 已保存"));
+    assert!(stdout.contains("来源状态: 不可用"));
+    assert!(stdout.contains("证据数量: 0"));
+    assert!(stdout.contains("数据质量原因: 未配置外部数据凭证"));
+    assert!(stdout.contains("Gravity 与 Trend 独立"));
+    assert!(!stdout.contains("Gravity: Unknown"));
+    assert!(stdout.contains("## 8. 灰犀牛升级监控"));
     assert!(stdout.contains("输入来源: 人工结构基线（配置输入）"));
     assert!(stdout.contains("审计链: 人工结构基线 -> 七项观测 -> 日次快照"));
     assert!(stdout.contains("状态:"));

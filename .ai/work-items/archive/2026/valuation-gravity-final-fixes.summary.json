@@ -1,0 +1,305 @@
+{
+  "workItemId": "valuation-gravity-final-fixes",
+  "contractPath": ".ai/work-items/archive/2026/valuation-gravity-final-fixes.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を同期する。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-final-fixes.contract.json",
+      "reason": "最終監査指摘の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-final-fixes.summary.json",
+      "reason": "変更、検証、P0 除外、review readiness を記録した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-audit-fixes.contract.json",
+      "reason": "先行 Work Item の archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-audit-fixes.summary.json",
+      "reason": "先行 Work Item の archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-layer.contract.json",
+      "reason": "先行 Work Item の archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-layer.summary.json",
+      "reason": "先行 Work Item の archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-review-fixes.contract.json",
+      "reason": "先行 review Work Item の archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-review-fixes.summary.json",
+      "reason": "先行 review Work Item の archive。"
+    },
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "cargo-llvm-cov を準備し make check-rust で repository quality SSOT を実行する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "先行修正で check-rust に coverage を含め単 file threshold を 50% にした。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "Valuation Gravity spec を index に登録した。"
+    },
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "旧 model と中国語本文を削除し現行 feature-first model と fallback を日本語で記述した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Research / display-only / persisted boundary を更新した。"
+    },
+    {
+      "path": "docs/specs/VALUATION_GRAVITY_LAYER.md",
+      "reason": "Valuation Gravity の表示、保存、非取引契約を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration の未来日を localized error で拒否し Result を伝播する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Valuation report Result と Telegram boundary 保持を統合した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Valuation Gravity ACL module を登録した。"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "reason": "Application の未来日 error を facade から返す。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "Valuation Gravity Application module を登録した。"
+    },
+    {
+      "path": "src/features/research/application/valuation_gravity.rs",
+      "reason": "未来日を source / repository access 前に拒否する Result contract と test を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Valuation Gravity Domain module を登録した。"
+    },
+    {
+      "path": "src/features/research/domain/valuation_gravity.rs",
+      "reason": "分類と persisted snapshot invariant を実装した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Valuation Gravity Infrastructure module を登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_snapshot_store.rs",
+      "reason": "snapshot load で Domain invariant を再検証する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+      "reason": "external source の as-of filter と fallback を実装した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "daily-calibration section label を公開した。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "Valuation Gravity section の三言語 label を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "CLI が localized future-date error を使える crate visibility を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_i18n.rs",
+      "reason": "未来日拒否と report 文言を zh-cn / en-us / ja-jp で提供する。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report.rs",
+      "reason": "read-only report と localized persistence failure を描画する。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "reason": "未来日 error を Result で Interface caller へ返す。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_tests.rs",
+      "reason": "三言語 report と raw error 非露出を固定する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "未来日の daily-calibration が失敗し snapshot を保存しないことを固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/valuation-gravity-final-fixes.contract.json",
+    "ユーザー提示の最終評審結論",
+    "Makefile",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    ".ai/work-items/archive/2026/valuation-gravity-audit-fixes.summary.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/valuation-gravity-final-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-final-fixes.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "high",
+    "detail": "Application API、CLI failure、CI gate、architecture document を変更した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "P0 credential finding はユーザー指示により対象外とし、config.toml、rotation、Git history を変更していない。",
+    "初回 compile は private i18n module access で失敗し、Interface module を pub(crate) に限定して解消した。",
+    "coverage は lines 90.31%、functions 87.89%、regions 88.93% で gate を通過した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "P0 除外と3 finding の scope / acceptance / verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "mode=code、unknowns=[]、notCodable=false、executionDecision=continue を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "future-date、CLI、CI、docs、i18n、test、coverage を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required make checks を Summary に記録し最終 gate で再検証する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "high",
+      "area": "credential_history",
+      "detail": "ユーザー指定により P0 credential rotation / history cleanup は未実施。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "coverage_exclusions",
+      "detail": "既存 adapter / backtest exclusions は evidence 付き policy として残る。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "P0 を除く required checks は通過し、対象外 credential risk を明示した。",
+    "expectedReviewFocus": [
+      "future-date rejection の Result boundary",
+      "CI check-rust と coverage tool setup",
+      "architecture document の現行性",
+      "対象外 P0 の別対応"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "未来日が live data として保存される。",
+      "solidifiedTo": "contract",
+      "reason": "Application / CLI acceptance と deterministic tests に拒否契約を固定した。"
+    },
+    {
+      "correction": "CI が repository quality SSOT を実行しない。",
+      "solidifiedTo": "guard",
+      "reason": "workflow を make check-rust に統一し cargo-llvm-cov setup を追加した。"
+    },
+    {
+      "correction": "architecture document に旧 model と中国語本文が残る。",
+      "solidifiedTo": "doc",
+      "reason": "現行 DecisionPacket / PresentationPacket / fallback 説明へ書き換えた。"
+    }
+  ],
+  "boundaryChecks": {
+    "gateExecution": "unchanged_observation_only",
+    "reportOutput": "future_cli_rejected_and_current_outputs_preserved",
+    "persistence": "future_snapshot_not_written",
+    "i18n": "zh_en_ja_future_error_available",
+    "dataWeeklyRecord": "not_changed",
+    "makeEntrypoints": "ci_runs_check_rust"
+  },
+  "knownGaps": [
+    "P0 credential rotation、environment injection、Git history cleanup は明示的に未実施。",
+    "GitHub hosted CI の実 run は PR push 後に確認する。"
+  ],
+  "overclaimPrevention": "完了範囲は P0 以外の3 finding と先行 Valuation Gravity 実装に限定する。"
+}

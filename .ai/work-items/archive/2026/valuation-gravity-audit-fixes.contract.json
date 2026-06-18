@@ -1,0 +1,101 @@
+{
+  "contractVersion": 1,
+  "workItemId": "valuation-gravity-audit-fixes",
+  "mode": "code",
+  "title": "Valuation Gravity 監査指摘を修正",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/valuation-gravity-audit-fixes.contract.json",
+    ".ai/work-items/active/valuation-gravity-audit-fixes.summary.json",
+    ".ai/work-items/archive/2026/valuation-gravity-layer.contract.json",
+    ".ai/work-items/archive/2026/valuation-gravity-layer.summary.json",
+    ".ai/work-items/archive/2026/valuation-gravity-review-fixes.contract.json",
+    ".ai/work-items/archive/2026/valuation-gravity-review-fixes.summary.json",
+    "Makefile",
+    "docs/README.md",
+    "docs/architecture/architecture_design.md",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/VALUATION_GRAVITY_LAYER.md",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/valuation_gravity.rs",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/domain/valuation_gravity.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/valuation_gravity_snapshot_store.rs",
+    "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/daily_calibration_i18n.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/valuation_gravity_i18n.rs",
+    "src/features/research/interface/valuation_gravity_report.rs",
+    "src/features/research/interface/valuation_gravity_report_builder.rs",
+    "src/features/research/interface/valuation_gravity_report_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "READY / EXECUTE / Gate / action matrix / trader / position sizing / Trend の変更",
+    "外部 provider、分類閾値、snapshot schema version の追加",
+    "data branch / JSONL / weekly metrics / GitHub workflow の変更",
+    "Valuation Gravity 以外の report compact policy の意味変更"
+  ],
+  "sources": [
+    {"path": "ユーザー提示の Valuation Gravity 評審結論", "reason": "Telegram、persisted invariant、未来情報、coverage、i18n、architecture drift の修正根拠。"},
+    {"path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md", "reason": "persisted read boundary と bounded context の責務根拠。"},
+    {"path": "docs/specs/VALUATION_GRAVITY_LAYER.md", "reason": "observation-only、表示、保存、三言語契約の SSOT。"},
+    {"path": ".ai/work-items/archive/2026/valuation-gravity-review-fixes.summary.json", "reason": "既存実装と残余 risk の確認。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": ["data_integrity", "i18n_snapshot", "architecture_boundary", "review_debt"],
+    "reason": "persisted invariant、外部データの as-of 境界、Telegram safety boundary、全 quality 実行時間を同時に変更するため。"
+  },
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "6 finding は local code と deterministic test で再現・検証でき、変更境界が確定している。"},
+  "preReviewWarnings": [
+    "snapshot schema version は追加せず、現行 domain invariant を load 時に再検証する。",
+    "quality へ coverage を追加すると実行時間が増えるが、coverage 未実行で quality が成功する状態を禁止する。",
+    "既存未コミット Valuation Gravity 実装は保持し、本 Work Item の review correction だけを上積みする。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Valuation Gravity の Telegram digest は複数 asset でも observation-only boundary を必ず保持し、専用回帰 test で固定する。",
+    "snapshot load は要求日、snapshot 日、全 asset 日、observation_only、gravity/confidence/source の組み合わせ、health/reason/source の整合性を再検証し、不正 snapshot を read failure とする。",
+    "price target と recommendation は as_of_date より未来の datum を拒否し、recommendation は入力順に依存せず as_of_date 以下の最新 period を選ぶ。",
+    "make quality は make coverage 相当の fail-under gate を必ず実行し、coverage 未実行の quality success を許さない。単 file line threshold は実測に基づき 50% 以上とする。",
+    "zh-cn / ja-jp report は raw filesystem error を混入させず localized user-facing message のみを表示し、raw detail は observation の audit field に保持する。",
+    "architecture_design.md は現行 feature-first / DDD 構造を説明し、存在しない fetcher.rs、calc.rs、旧 main.rs 集約を現在形で記載しない。Valuation Gravity を research bounded context の display-only layer として明記する。",
+    "Gate / execution / trader / action matrix / position sizing は変更せず、Telegram / Markdown / daily-calibration の表示範囲を維持する。",
+    "snapshot は reports の latest/date JSON だけに保存し、data branch / JSONL / weekly metrics へ追加しない。",
+    "zh-cn / en-us / ja-jp の report contract test と snapshot/source adapter regression test を追加する。",
+    "review correction を test、architecture document、Summary userCorrectionSolidification に固定する。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make coverage", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json", "required": true},
+    {"command": "make check-architecture-all", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json", "required": true},
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make ai-preflight", "required": true},
+    {"command": "make quality CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "本 Work Item の Telegram compact、snapshot validation、as-of filter、i18n、Makefile、architecture document、test diff を revert する。"
+}

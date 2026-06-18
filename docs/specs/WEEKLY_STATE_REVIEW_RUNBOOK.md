@@ -268,7 +268,7 @@ language = "en-us"
 テンプレートファイルを直接編集しないでください。
 
 **テンプレート原典:**
-- [weekly_state_review.md](/Users/sei-rinn/dev/workspace_rust/sentinel/docs/templates/weekly_state_review.md)
+- [weekly_state_review.md](../templates/weekly_state_review.md)
 
 毎週、実際の日付を付けた新しいレビューファイルを作成することを推奨します：
 - 例：`reports/weekly_state_review_2026-03-21.md`

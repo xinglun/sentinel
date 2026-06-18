@@ -32,6 +32,19 @@ def normalize_target(raw: str) -> str | None:
     return target
 
 
+def resolve_link_target(source: Path, target: str, root: Path = ROOT) -> Path:
+    candidate = Path(target)
+    if candidate.is_absolute():
+        marker_indexes = [
+            index for index, part in enumerate(candidate.parts) if part == root.name
+        ]
+        if marker_indexes:
+            repository_relative_parts = candidate.parts[marker_indexes[-1] + 1 :]
+            return root.joinpath(*repository_relative_parts).resolve()
+        return candidate
+    return (source.parent / candidate).resolve()
+
+
 def find_broken_links(include_archive: bool = False) -> list[str]:
     errors: list[str] = []
     for path in markdown_targets(include_archive=include_archive):
@@ -40,7 +53,7 @@ def find_broken_links(include_archive: bool = False) -> list[str]:
             target = normalize_target(match.group(1))
             if target is None:
                 continue
-            resolved = (path.parent / target).resolve()
+            resolved = resolve_link_target(path, target)
             if not resolved.exists():
                 line = text[: match.start()].count("\n") + 1
                 rel = path.relative_to(ROOT)

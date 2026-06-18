@@ -10,3 +10,4 @@ pub(crate) mod gray_rhino_monitoring_state;
 pub(crate) mod gray_rhino_source_collection;
 pub(crate) mod institutional_evidence;
 pub(crate) mod redundancy_evidence;
+pub(crate) mod valuation_gravity;

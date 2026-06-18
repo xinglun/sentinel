@@ -1,0 +1,300 @@
+{
+  "workItemId": "valuation-gravity-audit-fixes",
+  "contractPath": ".ai/work-items/archive/2026/valuation-gravity-audit-fixes.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を Work Item と同期する。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-audit-fixes.contract.json",
+      "reason": "6 件の監査指摘、scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-audit-fixes.summary.json",
+      "reason": "変更、検証、残余 risk、user correction の固化先を記録した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-layer.contract.json",
+      "reason": "先行 Work Item の既存未コミット archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-layer.summary.json",
+      "reason": "先行 Work Item の既存未コミット archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-review-fixes.contract.json",
+      "reason": "先行 review fix Work Item の既存未コミット archive。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-review-fixes.summary.json",
+      "reason": "先行 review fix Work Item の既存未コミット archive。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-rust / quality に coverage を接続し、単 file line threshold を 50% へ引き上げた。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "先行実装で Valuation Gravity spec を index に登録した。"
+    },
+    {
+      "path": "docs/architecture/architecture_design.md",
+      "reason": "旧 fetcher/calc/main 説明を現行 feature-first / DDD data flow へ更新した。"
+    },
+    {
+      "path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+      "reason": "Research bounded context、display-only list、persisted invariant に Valuation Gravity を追加した。"
+    },
+    {
+      "path": "docs/specs/VALUATION_GRAVITY_LAYER.md",
+      "reason": "先行実装の表示・保存・非取引契約。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "先行実装の daily-calibration 統合。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Telegram digest が複数 asset 後も boundary を必ず保持するよう修正し回帰 test を追加した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "先行実装の Valuation Gravity ACL module 登録。"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "reason": "先行実装の composition facade。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "先行実装の Application module 登録。"
+    },
+    {
+      "path": "src/features/research/application/valuation_gravity.rs",
+      "reason": "先行実装の use case、port、fallback、persistence health。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "先行実装の Domain module 登録。"
+    },
+    {
+      "path": "src/features/research/domain/valuation_gravity.rs",
+      "reason": "persisted snapshot の replay invariant validator を Domain に追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "先行実装の Infrastructure module 登録。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_snapshot_store.rs",
+      "reason": "load 後に Domain invariant を再検証し、破損 snapshot を read failure にした。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+      "reason": "未来日 price target を拒否し、recommendation を as-of 以下の最新 period から選ぶよう修正した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "先行実装の daily-calibration section 公開。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "先行実装の三言語 section label。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "先行実装の Interface module / test 登録。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_i18n.rs",
+      "reason": "raw persistence error と分離した三言語 user-facing detail を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report.rs",
+      "reason": "raw filesystem detail の代わりに localized failure detail を描画する。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "reason": "先行実装の report composition。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_tests.rs",
+      "reason": "三言語 report が raw permission error を露出しないことを固定した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "先行実装の daily-calibration / Radar integration test。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/valuation-gravity-audit-fixes.contract.json",
+    "ユーザー提示の Valuation Gravity 評審結論",
+    "docs/specs/DDD_CLEAN_ARCHITECTURE.md",
+    "docs/specs/VALUATION_GRAVITY_LAYER.md",
+    ".ai/work-items/archive/2026/valuation-gravity-review-fixes.summary.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality CONTRACT=.ai/work-items/active/valuation-gravity-audit-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-audit-fixes.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "high",
+    "detail": "persisted invariant、as-of boundary、Telegram safety、coverage gate を変更した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "作業開始時点で Valuation Gravity 本体と先行 archive が未コミットだったため、回帰させず同一 worktree 上で修正した。",
+    "make coverage 実測は lines 90.30%、functions 87.92%、regions 88.91%。Valuation source adapter は lines 95.36%、snapshot store は 94.57%。",
+    "未除外 file の最低 line coverage に基づき、default single-file threshold は 40% から 50% へ引き上げた。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "6 finding と既存 worktree を sources / scope / acceptance に記録した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "mode=code、unknowns=[]、notCodable=false、executionDecision=continue、scope 内包含を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "code、test、docs、i18n、coverage、非取引境界を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required make checks の結果を記録し、最終 gate で再検証する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "coverage_exclusions",
+      "detail": "既存 external / migration adapter exclusions は evidence 付き policy として残る。Valuation Gravity adapter は exclusion 対象外。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks を通過し、既存 coverage exclusions だけを残余 risk として明示した。",
+    "expectedReviewFocus": [
+      "persisted invariant の厳格性",
+      "Telegram boundary の常時保持",
+      "coverage exclusions の継続妥当性"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "Telegram で observation-only boundary が切れる。",
+      "solidifiedTo": "contract",
+      "reason": "acceptance と複数 asset regression test に boundary 常時保持を固定した。"
+    },
+    {
+      "correction": "persisted snapshot が Domain invariant を再検証しない。",
+      "solidifiedTo": "doc",
+      "reason": "Domain validator、repository test、DDD persisted boundary 文書へ固定した。"
+    },
+    {
+      "correction": "analyst data に未来情報が混入する。",
+      "solidifiedTo": "contract",
+      "reason": "acceptance と price target / recommendation as-of regression test に固定した。"
+    },
+    {
+      "correction": "quality が coverage を実行しない。",
+      "solidifiedTo": "guard",
+      "reason": "check-rust dependency に coverage を追加し single-file threshold を 50% へ引き上げた。"
+    },
+    {
+      "correction": "raw filesystem error が多言語 report に混入する。",
+      "solidifiedTo": "contract",
+      "reason": "acceptance と localized detail / 三言語非露出 test に固定した。"
+    },
+    {
+      "correction": "architecture document が旧構造のまま漂移する。",
+      "solidifiedTo": "doc",
+      "reason": "現行 feature-first data flow、Research context、display-only list を文書化した。"
+    }
+  ],
+  "boundaryChecks": {
+    "gateExecution": "unchanged_observation_only",
+    "reportOutput": "radar_markdown_telegram_and_daily_calibration_verified",
+    "persistence": "reports_latest_and_date_json_with_domain_revalidation",
+    "i18n": "zh_en_ja_user_message_separated_from_raw_audit_detail",
+    "dataWeeklyRecord": "not_changed",
+    "makeEntrypoints": "quality_now_runs_coverage"
+  },
+  "knownGaps": [
+    "既存 coverage exclusions は本 Work Item で削除していない。各 exclusion は .ai/architecture/coverage_exclusions.yaml に risk と test evidence を持つ。",
+    "live provider は実行せず deterministic fixture / local HTTP test で検証した。"
+  ],
+  "overclaimPrevention": "完了範囲は6件の監査指摘に限定し、外部 provider の可用性や既存 coverage exclusion 全廃は保証しない。"
+}
