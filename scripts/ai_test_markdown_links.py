@@ -18,6 +18,17 @@ assert module.normalize_target("mailto:test@example.com") is None
 assert module.normalize_target("./docs/specs/DDD_CLEAN_ARCHITECTURE.md#x") == "./docs/specs/DDD_CLEAN_ARCHITECTURE.md"
 assert module.normalize_target("#section") is None
 
+source = ROOT / "docs" / "README.md"
+relocated = module.resolve_link_target(
+    source,
+    "/Users/example/dev/sentinel/src/features/radar/domain/decision.rs",
+)
+assert relocated == (ROOT / "src/features/radar/domain/decision.rs").resolve()
+assert module.resolve_link_target(source, "/tmp/outside.md") == Path("/tmp/outside.md")
+assert module.resolve_link_target(source, "./specs/DDD_CLEAN_ARCHITECTURE.md") == (
+    ROOT / "docs/specs/DDD_CLEAN_ARCHITECTURE.md"
+).resolve()
+
 targets = [path.relative_to(ROOT).as_posix() for path in module.markdown_targets()]
 assert "README.md" in targets
 assert "docs/README.md" in targets
