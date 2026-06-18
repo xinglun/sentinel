@@ -1,0 +1,99 @@
+{
+  "contractVersion": 1,
+  "workItemId": "valuation-gravity-review-fixes",
+  "mode": "code",
+  "title": "Valuation Gravity review 指摘を修正",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/valuation-gravity-review-fixes.contract.json",
+    ".ai/work-items/active/valuation-gravity-review-fixes.summary.json",
+    ".ai/work-items/archive/2026/valuation-gravity-layer.contract.json",
+    ".ai/work-items/archive/2026/valuation-gravity-layer.summary.json",
+    "docs/README.md",
+    "docs/specs/VALUATION_GRAVITY_LAYER.md",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/valuation_gravity.rs",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/domain/valuation_gravity.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/valuation_gravity_snapshot_store.rs",
+    "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/daily_calibration_i18n.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/valuation_gravity_i18n.rs",
+    "src/features/research/interface/valuation_gravity_report.rs",
+    "src/features/research/interface/valuation_gravity_report_builder.rs",
+    "src/features/research/interface/valuation_gravity_report_tests.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "READY / EXECUTE / Gate / action matrix / trader / position sizing / Trend の変更",
+    "外部 provider と分類閾値の追加",
+    "weekly metrics / data branch / CI workflow の変更",
+    "architecture guard framework 全体の拡張"
+  ],
+  "sources": [
+    {"path": "ユーザー提示の Valuation Gravity review 結論", "reason": "P1 / P2 finding、coverage gap、i18n gap の修正根拠。"},
+    {"path": "docs/specs/DDD_CLEAN_ARCHITECTURE.md", "reason": "Application use case、port、Infrastructure、ACL facade の責務境界。"},
+    {"path": "docs/specs/VALUATION_GRAVITY_LAYER.md", "reason": "最近 5 年、source health、audit persistence の機能契約。"},
+    {"path": ".ai/work-items/archive/2026/valuation-gravity-layer.summary.json", "reason": "初回実装の境界と残余 risk。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": ["architecture_boundary", "external_dependency", "data_integrity", "i18n_snapshot"],
+    "reason": "外部取得の並行化と全体 timeout、secret 非保存、median、三言語 report contract を同時に変更するため。"
+  },
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "5 finding は再現可能で、修正対象、port boundary、acceptance、verification が確定している。"},
+  "preReviewWarnings": [
+    "source adapter の line coverage を HTTP failure / fallback order / unordered annual data test で引き上げるが、live network は test に使わない。",
+    "raw provider error を user-facing report へそのまま表示せず typed reason を三言語化する。",
+    "外部取得は最大 10 標的を並行化し、全体 10 秒 budget を超えた標的を unavailable として Radar 本体を継続する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Application に ValuationGravityUseCase、ValuationGravitySourcePort、ValuationGravitySnapshotRepository を実装し、現在日/過去日分岐、3 段 fallback、snapshot load/save を所有させる。",
+    "Infrastructure は Finnhub source port と filesystem repository を実装し、ACL factory は composition と use case 呼び出しだけを行う。",
+    "snapshot save/read error を握り潰さず、typed persistence health と reason として report へ返す。",
+    "source_health、evidence_count、typed data quality reason、persistence health/reason を zh-cn / en-us / ja-jp で表示する。raw secret、URL、provider response body は表示しない。",
+    "未設定 credential、entitlement denied、provider failure、invalid response、insufficient evidence、historical snapshot missing/read failure、snapshot write failure を区別する。",
+    "annual P/E record は period を parse し、as_of_date より未来を除外して period 降順に並べた後で最近 5 件を使う。",
+    "偶数件の annual P/E median は中央 2 値の平均を使う。",
+    "現在日の外部取得は最大 10 標的を並行化し、全体 10 秒 budget 内で完了しない標的を unavailable にして Radar report / Telegram を継続する。",
+    "Infrastructure は reqwest error、request URL、token、provider response body を Application に渡さず、snapshot の message は typed reason 由来の固定文だけを保存する。",
+    "ValuationSource は zh-cn / en-us / ja-jp ごとに翻訳し、単一言語 report に英語値を混入させない。",
+    "HTTP failure、timeout 隔離、secret 非露出、price target から market multiple / recommendation への fallback order、snapshot save/read failure、乱順/未来/even annual data、Radar 三言語 reason/source を deterministic test で固定する。",
+    "Gravity enum に Unknown を追加せず、READY / EXECUTE / Gate / Position Sizing / Trader / Trend に接続しない。",
+    "Radar Markdown/Telegram と daily-calibration の表示範囲、latest/date JSON 保存、weekly/data branch 非保存を維持する。",
+    "review correction を spec、test、Summary userCorrectionSolidification に固定する。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json", "required": true},
+    {"command": "make check-architecture-all", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json", "required": true},
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make ai-preflight", "required": true},
+    {"command": "make quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "review fix の use case/port、typed reason、period ordering、report/test/spec diff を revert する。"
+}

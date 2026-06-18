@@ -67,6 +67,7 @@ DDD / Clean Architecture の human-readable SSOT は `specs/DDD_CLEAN_ARCHITECTU
 47. `TREND_RECOGNITION_SUPPLEMENT.md`
 48. `WEEKLY_STATE_REVIEW_RUNBOOK.md`
 49. `hosting_spec.md`
+50. `VALUATION_GRAVITY_LAYER.md`
 
 ## 2. `architecture/`
 

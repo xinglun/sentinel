@@ -50,9 +50,17 @@ pub(crate) fn daily_calibration_macro_gravity_label(language: Language) -> &'sta
 
 pub(crate) fn daily_calibration_gray_rhino_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "## 7. 灰犀牛升级监控",
-        Language::EnUs => "## 7. Gray Rhino Escalation",
-        Language::JaJp => "## 7. 灰色のサイ昇格監視",
+        Language::ZhCn => "## 8. 灰犀牛升级监控",
+        Language::EnUs => "## 8. Gray Rhino Escalation",
+        Language::JaJp => "## 8. 灰色のサイ昇格監視",
+    }
+}
+
+pub(crate) fn daily_calibration_valuation_gravity_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 7. 估值重力层",
+        Language::EnUs => "## 7. Valuation Gravity Layer",
+        Language::JaJp => "## 7. バリュエーション重力レイヤー",
     }
 }
 

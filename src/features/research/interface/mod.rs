@@ -19,3 +19,8 @@ mod gray_rhino_sensor_health_renderer;
 mod gray_rhino_temporal_survivability_renderer;
 mod macro_gravity_report;
 mod research_attention_report;
+pub(crate) mod valuation_gravity_i18n;
+mod valuation_gravity_report;
+pub(crate) mod valuation_gravity_report_builder;
+#[cfg(test)]
+mod valuation_gravity_report_tests;
