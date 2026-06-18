@@ -1,0 +1,247 @@
+{
+  "workItemId": "valuation-gravity-layer",
+  "contractPath": ".ai/work-items/archive/2026/valuation-gravity-layer.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/valuation-gravity-layer.contract.json",
+      "reason": "実装 scope、fallback、分類閾値、非取引境界、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-layer.summary.json",
+      "reason": "実装内容、検証結果、残余 risk を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の Cockpit status を生成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration に Valuation Gravity section を追加し、Radar archive / snapshot の回帰 test を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "主 Radar の Markdown / Telegram に read-only Valuation Gravity appendix を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Valuation Gravity domain module を登録した。"
+    },
+    {
+      "path": "src/features/research/domain/valuation_gravity.rs",
+      "reason": "6 段階 Gravity、Confidence、Source、source health、deterministic classification を実装した。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "Valuation Gravity application module を登録した。"
+    },
+    {
+      "path": "src/features/research/application/valuation_gravity.rs",
+      "reason": "domain contract を application boundary へ公開した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "source adapter と snapshot store module を登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+      "reason": "Finnhub price target、historical P/E、recommendation fallback と JSON parser を実装した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_snapshot_store.rs",
+      "reason": "latest / date 別 JSON snapshot 保存と読み出しを実装した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Valuation Gravity ACL factory module を登録した。"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "reason": "自動取得、保存、過去日 replay の orchestration を infrastructure から隠蔽した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Valuation Gravity i18n / report / builder / test module を登録した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "daily-calibration 用 section label を公開した。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "Valuation Gravity section を追加し、Gray Rhino section 番号を更新した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_i18n.rs",
+      "reason": "zh-cn / en-us / ja-jp の Gravity、Confidence、Source、boundary 文言を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report.rs",
+      "reason": "分類結果と source unavailable を Unknown なしで描画する report を実装した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "reason": "自動取得と read-only report 合成を調停した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_tests.rs",
+      "reason": "三言語表示、Unknown 禁止、非取引境界を固定した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の Gravity section、source unavailable、Trend 独立境界を固定し、fixture の外部 network 依存を除いた。"
+    },
+    {
+      "path": "docs/specs/VALUATION_GRAVITY_LAYER.md",
+      "reason": "source fallback、分類閾値、表示、保存、非取引境界を正式仕様化した。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "新規 Valuation Gravity spec を docs index に登録した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/valuation-gravity-layer.contract.json",
+    "ユーザー提示の Gravity Layer 追加指示と既存または無料 source 優先の補足",
+    "https://finnhub.io/docs/api",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "Finnhub live API smoke test: quote / basic financials / recommendation available、price target entitlement unavailable"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-layer.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-layer.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-layer.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-layer.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "外部 provider entitlement と銘柄 coverage は変動する。fallback の粗さを Low / Very Low confidence と source health で表示し、取引判断系から隔離した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 Contract check は未許可 riskTypes を検出したため、repository 定義の external_dependency / data_integrity / i18n_snapshot に修正した。",
+    "初回 make quality は skeleton Summary の verification 未更新により check-ai-change-summary で停止した。code / test / docs / architecture / clippy は通過しており、Summary 更新後に全体を再実行した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "scope、sources、fallback、acceptance、verification、非取引境界を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "mode code、notCodable false、unknowns empty、executionDecision continue、agent capability を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "全量 Rust gate、architecture、docs、live source smoke test の結果を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required make checks と Cockpit status consistency の通過を確認した。"
+    }
+  ],
+  "boundaryChecks": {
+    "gateExecution": "unchanged_observation_only",
+    "reportOutput": "radar_markdown_telegram_and_daily_calibration_changed",
+    "persistence": "latest_and_date_json_snapshot_added",
+    "i18n": "zh_en_ja_changed",
+    "dataWeeklyRecord": "not_changed",
+    "makeEntrypoints": "existing_radar_and_daily_calibration_only"
+  },
+  "knownGaps": [
+    "現在の Finnhub entitlement では price target endpoint が 403 のため、実運用は historical market multiple または recommendation consensus に自動降格する。",
+    "赤字銘柄、ETF、coverage の薄い新規上場銘柄は分類を形成できない場合がある。推測値で埋めず source unavailable として表示する。",
+    "Morningstar、CFRA、Visible Alpha の有償 connector と Manual Override は第一段階では未実装。",
+    "weekly review、weekly metrics、data branch への保存は scope 外。"
+  ],
+  "overclaimPrevention": "完了報告では Finnhub の既存・無料 access に基づく粗粒度 classification、Confidence、Source、report、snapshot までを完了範囲とし、精密 fair value、全銘柄 coverage、有償 provider、取引 signal は実装していないと明記する。",
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_provider_and_valuation_precision",
+      "detail": "provider schema、entitlement、coverage の変化で fallback または source unavailable が増える可能性があり、historical P/E と recommendation は本源的価値の精密推定ではない。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks は通過した。外部 provider 可用性と低 confidence fallback の妥当性を review focus に残す。",
+    "expectedReviewFocus": [
+      "price target -> historical market multiple -> recommendation の fallback 順序",
+      "6 段階 threshold と Confidence 上限",
+      "source unavailable が Unknown Gravity や推測値を生成しないこと",
+      "過去日 replay が現在データで過去を埋めないこと",
+      "READY / EXECUTE / Gate / Position Sizing / Trader / Trend 非接続"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "外部接入は実際に利用可能な既存 source または無料 source を選び、評価精度は粗くても許容する。",
+      "solidifiedTo": "doc",
+      "reason": "Finnhub entitlement を実測し、price target が使えない場合の free basic financials / recommendation fallback と Low / Very Low confidence 上限を Contract、spec、domain test に固定した。"
+    }
+  ]
+}

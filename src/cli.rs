@@ -38,7 +38,8 @@ use crate::features::research::interface::cognitive_reports::{
     daily_calibration_question_evidence, daily_calibration_question_gate,
     daily_calibration_question_market, daily_calibration_question_thesis,
     daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
-    enabled_asset_thesis_count, enabled_research_attention_count,
+    daily_calibration_valuation_gravity_label, enabled_asset_thesis_count,
+    enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_cli_handler::{
     run_collect_gray_rhino_backfill, run_collect_gray_rhino_category_source,
@@ -48,6 +49,8 @@ use crate::features::research::interface::gray_rhino_cli_handler::{
     run_ingest_gray_rhino_redundancy,
 };
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report_read_only;
+use crate::features::research::interface::valuation_gravity_i18n::future_date_error as valuation_future_date_error;
+use crate::features::research::interface::valuation_gravity_report_builder::build_valuation_gravity_report_with_auto;
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
 };
@@ -616,7 +619,15 @@ async fn build_daily_calibration_report(
         ),
         None => None,
     };
-    let mut calibration_date = target_date.unwrap_or_else(|| chrono::Local::now().date_naive());
+    let current_date = chrono::Local::now().date_naive();
+    if target_date.is_some_and(|date| date > current_date) {
+        return Err(anyhow!(
+            "{}: {}",
+            valuation_future_date_error(language),
+            target_date.expect("future target date is present")
+        ));
+    }
+    let mut calibration_date = target_date.unwrap_or(current_date);
     let audit_section = if days.is_empty() {
         audit_empty_log_message(language).to_string()
     } else {
@@ -673,6 +684,12 @@ async fn build_daily_calibration_report(
             language,
         )
         .await,
+    );
+    out.push_str("\n\n");
+    out.push_str(daily_calibration_valuation_gravity_label(language));
+    out.push_str("\n\n");
+    out.push_str(
+        &build_valuation_gravity_report_with_auto(app_config, calibration_date, language).await?,
     );
     out.push_str("\n\n");
     out.push_str(daily_calibration_gray_rhino_label(language));
@@ -1446,6 +1463,15 @@ mod tests {
             report_path.exists(),
             "diagnostic markdown report should exist"
         );
+        let report = std::fs::read_to_string(&report_path).unwrap();
+        assert!(report.contains("Gravity Layer（估值重力层）"));
+        assert!(report.contains("Gravity 与 Trend 独立"));
+        assert!(!report.contains("Gravity: Unknown"));
+        assert!(tmp.path().join("valuation_gravity_latest.json").exists());
+        assert!(tmp
+            .path()
+            .join(format!("valuation_gravity_{}.json", today))
+            .exists());
         assert!(
             run_status_path.exists(),
             "run status should still be persisted"

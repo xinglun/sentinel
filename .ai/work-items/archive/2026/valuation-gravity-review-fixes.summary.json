@@ -1,0 +1,250 @@
+{
+  "workItemId": "valuation-gravity-review-fixes",
+  "contractPath": ".ai/work-items/archive/2026/valuation-gravity-review-fixes.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/valuation-gravity-review-fixes.contract.json",
+      "reason": "review finding、scope、全体 timeout、secret 非保存、median、i18n acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-review-fixes.summary.json",
+      "reason": "実装内容、検証結果、review correction、残余 risk を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の Cockpit status を生成する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-layer.contract.json",
+      "reason": "先行 Work Item の Contract を archive した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-layer.summary.json",
+      "reason": "先行 Work Item の Summary を archive した。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "Valuation Gravity spec を docs index に登録した。"
+    },
+    {
+      "path": "docs/specs/VALUATION_GRAVITY_LAYER.md",
+      "reason": "全体 timeout、secret 非保存、偶数 median、三言語 Source の correction を仕様化した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration に Valuation Gravity section と snapshot 回帰 test を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Radar Markdown / Telegram に read-only Valuation Gravity appendix を追加した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Valuation Gravity ACL module を登録した。"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "reason": "Infrastructure 実装を組み立てる ACL facade を追加した。"
+    },
+    {
+      "path": "src/features/research/application/mod.rs",
+      "reason": "Valuation Gravity Application module を登録した。"
+    },
+    {
+      "path": "src/features/research/application/valuation_gravity.rs",
+      "reason": "fallback use case、最大 10 並行、collection 全体 10 秒 budget、typed snapshot message を実装した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Valuation Gravity Domain module を登録した。"
+    },
+    {
+      "path": "src/features/research/domain/valuation_gravity.rs",
+      "reason": "Gravity、Confidence、Source、health、quality reason の domain contract を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Valuation Gravity source adapter と snapshot store を登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_snapshot_store.rs",
+      "reason": "latest / date JSON snapshot repository を追加した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+      "reason": "Finnhub fallback、request error 脱敏、偶数 median を実装した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "daily-calibration 用 section label を公開した。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "Valuation Gravity section の三言語 label を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Valuation Gravity interface module と test module を登録した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_i18n.rs",
+      "reason": "Source 値を含む zh-cn / en-us / ja-jp 文言を実装した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report.rs",
+      "reason": "typed reason と言語別 Source を描画する report を実装した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "reason": "自動取得と read-only report 合成を調停した。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_tests.rs",
+      "reason": "三言語 Source、reason、非取引境界の回帰 test を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の Gravity section と外部 network 非依存を固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/valuation-gravity-review-fixes.contract.json",
+    "ユーザー提示の Valuation Gravity review 結論",
+    "docs/specs/VALUATION_GRAVITY_LAYER.md",
+    ".ai/work-items/archive/2026/valuation-gravity-layer.summary.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/valuation-gravity-review-fixes.contract.json SUMMARY=.ai/work-items/active/valuation-gravity-review-fixes.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "high",
+    "detail": "外部取得の可用性、secret 非露出、median、三言語出力を同時に修正する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初回 format 実行時に Makefile に make fmt target が存在しないことを確認し、cargo fmt 後に required make fmt-check で検証した。",
+    "初回 Contract check は未定義 riskTypes を検出したため、repository 定義の external_dependency / data_integrity へ修正した。",
+    "Tokio test-util が無効なため paused time test を追加せず、20 銘柄の deterministic short-budget test で最大 10 並行と collection 全体 deadline を固定した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "user review を source として scope、acceptance、verification を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "mode=code、unknowns=[]、notCodable=false、executionDecision=continue と対象 file の scope 内包含を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "code、test、docs、i18n、snapshot、scope の変更内容と検証証跡を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required make checks の結果を Summary に記録し、最終 gate で再検証する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_provider_availability",
+      "detail": "Finnhub schema、entitlement、coverage の変化では 10 秒以内に source unavailable が増える可能性がある。Radar 本体は継続し、取引判断には接続しない。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks を通過し、外部 provider 可用性だけを残余 risk として明示した。",
+    "expectedReviewFocus": [
+      "外部取得の全体 timeout と並行数",
+      "snapshot の secret 非露出",
+      "偶数 median と三言語 report contract"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "外部取得の直列 blocking、token 保存、Summary 不整合、偶数 median、source 多言語混在を修正する。",
+      "solidifiedTo": "doc",
+      "reason": "Contract acceptance、VALUATION_GRAVITY_LAYER spec、deterministic tests、AI Change Summary に timeout、secret 非保存、median、三言語契約を固定した。"
+    }
+  ],
+  "boundaryChecks": {
+    "gateExecution": "unchanged_observation_only",
+    "reportOutput": "radar_markdown_telegram_and_daily_calibration_verified",
+    "persistence": "latest_and_date_json_typed_reason_only_verified",
+    "i18n": "zh_en_ja_source_and_reason_verified",
+    "dataWeeklyRecord": "not_changed",
+    "makeEntrypoints": "not_changed"
+  },
+  "knownGaps": [
+    "live provider fault injection は実行せず、local deterministic HTTP server と stub source で timeout / secret 非露出を検証した。",
+    "weekly review、weekly metrics、data branch は scope 外。"
+  ],
+  "overclaimPrevention": "完了範囲は外部取得の 10 秒隔離、secret 非保存、median、三言語表示、Cockpit 整合に限定し、provider 可用性や精密 fair value を保証しない。"
+}

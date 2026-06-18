@@ -34,17 +34,11 @@ jobs:
       - name: Cache Dependencies
         uses: Swatinem/rust-cache@v2
 
-      - name: Check Formatting
-        run: make fmt-check
+      - name: Install Coverage Tool
+        uses: taiki-e/install-action@cargo-llvm-cov
 
-      - name: Check Audit Doc Consistency
-        run: make audit-docs
-        
-      - name: Check Warnings (Clippy)
-        run: make clippy
-
-      - name: Run Unit Tests
-        run: make test
+      - name: Run Repository Rust Quality Gates
+        run: make check-rust
 
       - name: Run AI Governance Checks
         env:

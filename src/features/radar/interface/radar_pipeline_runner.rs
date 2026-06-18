@@ -26,6 +26,7 @@ use crate::features::research::interface::cognitive_reports::{
     yield_curve_label,
 };
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
+use crate::features::research::interface::valuation_gravity_report_builder::build_valuation_gravity_report_with_auto;
 use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
     load_latest_evidence_collection_status, send_telegram_with_status,
@@ -197,6 +198,13 @@ pub(crate) async fn run_pipeline(
             &positions,
             &delivery_plan.prices,
         )?;
+        append_valuation_gravity_reference_appendix(
+            &mut report_result,
+            config_arc.as_ref(),
+            packet.date,
+            pres_packet.language,
+        )
+        .await;
         append_capital_absorption_reference_appendix(
             &mut report_result,
             config_arc.as_ref(),
@@ -276,6 +284,19 @@ fn build_weekly_report_context(
     }
 }
 
+async fn append_valuation_gravity_reference_appendix(
+    report_result: &mut report::ReportResult,
+    app_config: &config::AppConfig,
+    as_of_date: chrono::NaiveDate,
+    language: crate::features::shared::interface::i18n::Language,
+) {
+    if let Ok(appendix) =
+        build_valuation_gravity_report_with_auto(app_config, as_of_date, language).await
+    {
+        append_reference_appendix(report_result, &appendix, language);
+    }
+}
+
 async fn append_capital_absorption_reference_appendix(
     report_result: &mut report::ReportResult,
     app_config: &config::AppConfig,
@@ -341,6 +362,17 @@ fn compact_reference_appendix_for_telegram(
     const MAX_LINES: usize = 18;
     const MAX_CHARS: usize = 1400;
 
+    let boundary_lines = appendix
+        .lines()
+        .map(str::trim_end)
+        .filter(|line| !line.trim().is_empty() && is_reference_boundary_line(line))
+        .collect::<Vec<_>>();
+    let reserved_chars = boundary_lines
+        .iter()
+        .map(|line| line.len() + 1)
+        .sum::<usize>();
+    let detail_line_limit = MAX_LINES.saturating_sub(boundary_lines.len());
+    let detail_char_limit = MAX_CHARS.saturating_sub(reserved_chars);
     let mut out = String::new();
     let mut retained = 0usize;
     let mut omitted = 0usize;
@@ -348,9 +380,12 @@ fn compact_reference_appendix_for_telegram(
         if line.trim().is_empty() {
             continue;
         }
+        if is_reference_boundary_line(line) {
+            continue;
+        }
         if should_keep_reference_line(line)
-            && retained < MAX_LINES
-            && out.len() + line.len() < MAX_CHARS
+            && retained < detail_line_limit
+            && out.len() + line.len() < detail_char_limit
         {
             if !out.is_empty() {
                 out.push('\n');
@@ -360,6 +395,13 @@ fn compact_reference_appendix_for_telegram(
         } else {
             omitted += 1;
         }
+    }
+
+    for line in boundary_lines {
+        if !out.is_empty() {
+            out.push('\n');
+        }
+        out.push_str(line);
     }
 
     if omitted > 0 {
@@ -398,6 +440,16 @@ fn should_keep_reference_line(line: &str) -> bool {
     is_reference_heading(trimmed)
         || is_reference_structured_line(trimmed)
         || contains_reference_status_token(trimmed)
+}
+
+fn is_reference_boundary_line(line: &str) -> bool {
+    let trimmed = line.trim_start_matches([' ', '-', '*']);
+    trimmed.starts_with("Boundary:")
+        || trimmed.starts_with("Boundary：")
+        || trimmed.starts_with("边界：")
+        || trimmed.starts_with("边界声明：")
+        || trimmed.starts_with("境界：")
+        || trimmed.starts_with("境界声明：")
 }
 
 fn is_reference_heading(trimmed: &str) -> bool {
@@ -628,5 +680,22 @@ Boundary: context only; no Gate input or trade instruction.
         assert!(digest.contains("Boundary: context only"));
         assert!(!digest.contains("raw extract"));
         assert!(!digest.contains("example.com/source"));
+    }
+
+    #[test]
+    fn telegram_valuation_digest_reserves_boundary_after_multiple_assets() {
+        let mut appendix = String::from("## Gravity Layer (Valuation Gravity)\n");
+        for symbol in ["MSFT", "NVDA", "TSLA"] {
+            appendix.push_str(&format!(
+                "\n### {symbol}\n- Gravity: Fair\n- Confidence: Low\n- Source: Market Multiple\n- Provider: Finnhub\n- As of: 2026-06-18\n- Source Health: Partial\n- Evidence Count: 5\n- Data Quality Reason: historical fallback\n"
+            ));
+        }
+        appendix.push_str("\nBoundary: Gravity is independent from Trend; it does not affect READY / EXECUTE / Gate / Position Sizing / Trader and produces no trading signal.");
+
+        let digest = compact_reference_appendix_for_telegram(&appendix, Language::EnUs);
+
+        assert!(digest.contains("Boundary: Gravity is independent from Trend"));
+        assert!(digest.contains("produces no trading signal"));
+        assert!(digest.contains("Telegram digest"));
     }
 }
