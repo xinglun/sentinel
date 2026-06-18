@@ -204,7 +204,7 @@ pub(crate) fn parse_market_multiple_snapshot(
                 .then_some((period, multiple))
         })
         .collect::<Vec<_>>();
-    history.sort_by(|left, right| right.0.cmp(&left.0));
+    history.sort_by_key(|right| std::cmp::Reverse(right.0));
     let mut history = history
         .into_iter()
         .take(5)
