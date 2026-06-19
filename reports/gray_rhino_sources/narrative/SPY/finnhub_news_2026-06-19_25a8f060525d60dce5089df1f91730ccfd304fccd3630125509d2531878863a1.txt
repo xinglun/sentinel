@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Whale's Insight: Kevin Warsh Killed The Dot Plot - Here's What Replaces It
+  summary: Forward guidance is gone, and Warsh launched five task forces to remake Fed communications and its inflation gauge. Read more here.
+  url: https://finnhub.io/api/news?id=18dc2c846803cf40883acb66cc74b3341280f2a8f447123e7c569d0d208ebad0

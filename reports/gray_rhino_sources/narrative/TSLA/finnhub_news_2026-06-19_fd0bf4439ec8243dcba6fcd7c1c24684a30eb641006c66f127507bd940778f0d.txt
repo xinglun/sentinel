@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Expert Warns: California Taxes Harming “Big Wealth Driver in the State” as Billionaires Flee
+  summary: The competition between states for talent, capital, and businesses has intensified over the past decade. Remote work, lower moving costs, and the rise of digital businesses have made it easier than ever for entrepreneurs to choose where they live and build companies. Investors have watched as states with lower taxes and more business-friendly policies attracted ... Expert Warns: California Taxes Harming “Big Wealth Driver in the State” as Billionaires Flee
+  url: https://finnhub.io/api/news?id=a54db60cdc2494aea5a441b3c6367a850cff0d90572c0501df46a1e96909c2d9

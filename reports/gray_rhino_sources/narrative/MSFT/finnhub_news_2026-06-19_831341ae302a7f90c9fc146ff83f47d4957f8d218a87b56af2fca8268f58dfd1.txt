@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Satya Nadella Has Positioned Microsoft to Grow. Investors Are Missing the Point.
+  summary: When Satya Nadella became  Microsoft  CEO in 2014, the software company was stuck in the mud.  Its Windows and Office franchises had matured, and forays into consumer devices and mobile operating systems had failed.  Nadella, 58, regained investor confidence with a shift to the cloud and a less cutthroat culture.
+  url: https://finnhub.io/api/news?id=f9d45bbaaa2b437f823595491192cbad7e489e552e3612ab15331c353998d58e

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Leads Big Chip Stock Rally
+  summary: Trump comments spark broad semiconductor stock gains
+  url: https://finnhub.io/api/news?id=26e5f23aefea5239ef13e8805527901db201b3acf5f93e97076d2ca7ac50c2fd

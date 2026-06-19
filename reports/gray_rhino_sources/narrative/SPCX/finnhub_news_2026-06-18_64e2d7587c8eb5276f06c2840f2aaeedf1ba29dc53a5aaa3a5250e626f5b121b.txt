@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Had The Best IPO In History—Now Comes The Hard Part
+  summary:  
+  url: https://finnhub.io/api/news?id=819129451448c2338cb4706b976727a59aaab1dca9f9e588b295b4bef025b70c

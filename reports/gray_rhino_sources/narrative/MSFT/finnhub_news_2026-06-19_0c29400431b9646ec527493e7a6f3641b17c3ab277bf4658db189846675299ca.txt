@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why TQQQ’s 112% Gain Masks a Structural Cost That Compounds Every Single Day
+  summary: If you bought ProShares UltraPro QQQ (NASDAQ:TQQQ) thinking you were getting three times the Nasdaq-100 for the long haul, the fund’s own math has a different plan for your money. The product is engineered to deliver 3x the index daily, not annually, and that one word quietly siphons returns every time volatility flares. What You’re ... Why TQQQ’s 112% Gain Masks a Structural Cost That Compounds Every Single Day
+  url: https://finnhub.io/api/news?id=1174b583de11d7facdad668f3c2b6a93eb7247ca430abe0aabdf05c0d2a90ba3

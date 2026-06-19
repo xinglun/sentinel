@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Numbers Highlighting How Insane The Market Has Become
+  summary: Equity markets hit record highs as tech/energy earnings surge, but valuations look extreme (Buffett Indicator 214%, IPO boom, RSI mania).
+  url: https://finnhub.io/api/news?id=f7c3c93af8aaab76fb42f2f2fe598c0016ec98886b7ea7db5e110cbbe80ffd46

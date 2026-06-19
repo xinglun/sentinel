@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud AI Update - Exploring AI's Future Infrastructure Challenges And Solutions
+  summary: Yotta 2026 has announced its preliminary agenda for a major event focusing on the integration of AI, energy, and digital infrastructure. Scheduled for September 28-30 in Las Vegas, the event aims to address the challenges and opportunities of scaling AI infrastructure, including financing, powering, and constructing facilities to support AI's growing demands. The agenda highlights the convergence of compute, power, networks, and capital into single platforms, featuring insights from industry...
+  url: https://finnhub.io/api/news?id=ccf193aaeb6fb3509856d719e1c3811ce414a25d6f6de26bc53464cb7c933e37

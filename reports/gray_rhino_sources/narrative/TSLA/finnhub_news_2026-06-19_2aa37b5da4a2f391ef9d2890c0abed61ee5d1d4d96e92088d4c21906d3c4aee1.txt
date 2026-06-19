@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Hits EU Speed Bump
+  summary: Sweden is pushing back on Tesla's self-driving rollout over speed limit concerns.
+  url: https://finnhub.io/api/news?id=ba5cb200e0be81983d5b2caf96080ed2cecdaf42f74f49b69feeb263cec95d00

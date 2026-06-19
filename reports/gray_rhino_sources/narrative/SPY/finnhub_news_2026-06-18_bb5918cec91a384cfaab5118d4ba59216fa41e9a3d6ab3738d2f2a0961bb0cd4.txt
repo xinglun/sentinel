@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Sharply Higher as US-Iran Peace Deal Eases Inflation Risks
+  summary: The S&P 500 Index ($SPX ) (SPY ) on Thursday closed up +1.08%, the Dow Jones Industrial Average ($DOWI ) (DIA ) closed up +0.14%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) closed up +2.48%. September E-mini S&P futures (ESU26 ) rose +1.15%, and September E-mini Nasdaq futures...
+  url: https://finnhub.io/api/news?id=0553f224dfed08d97c7f9cae8d542032879de9c09d4cdc8aefcddf98b6e6a0cd

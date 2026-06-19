@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MoneyMasters Podcast 6-18-26- Armani on Why the AI Boom Is Different
+  summary: In this timely episode, Sydney Armani shares his perspective on the explosive growth of Artificial Intelligence – and why he believes today’s AI boom is fundamentally different from the Dot-Com Bubble of the late 1990s.
+  url: https://finnhub.io/api/news?id=86972e4d150a789d13ff5523cda139c129486d0edeb6b66cf9cdd4eddd81a04f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETF League Tables: VictoryShares Accumulates $2.6B
+  summary: In a busy day for U.S. equities, VictoryShares netted $2.66 billion while VanEck drew in another $8.5 billion in net flows on ongoing semiconductor popularity.
+  url: https://finnhub.io/api/news?id=a16e4041963d37a89e5cf3a434c2d3f4f1b3eed30062b578add90a570f93ae44

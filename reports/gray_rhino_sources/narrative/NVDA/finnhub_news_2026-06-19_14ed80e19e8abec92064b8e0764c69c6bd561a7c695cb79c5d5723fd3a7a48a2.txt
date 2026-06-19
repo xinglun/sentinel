@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Utility Wants Tech Companies to Help Pay for New Nuclear Energy Developments. Here's What It Could Mean for Nuclear Energy Stocks.
+  summary: Duke Energy's proposed alternative to nuclear power plant funding could change the story for early-stage nuclear technology companies.
+  url: https://finnhub.io/api/news?id=0c0156cc02d9bccacd7054fed64ad32601aea8764a2bb4b42902b89c67cb964f

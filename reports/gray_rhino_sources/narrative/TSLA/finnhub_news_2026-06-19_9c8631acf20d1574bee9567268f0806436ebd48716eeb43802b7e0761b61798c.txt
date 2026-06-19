@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Gets Cathie Wood Boost as Ark Returns After SpaceX Buy
+  summary: Cathie Wood’s ARK Invest funds reiterated their faith in Elon Musk—buying back into  Tesla  after selling shares last week in a move that looked like it was making room for  SpaceX’s  mega IPO.  A trading notice revealed on Thursday it added 54,815 shares across its ARK Innovation ETF—where the electric vehicle maker remains the top holding, making up 9.7% of the fund—and its ARK Next Generation Internet ETF, in which it is second in terms of holdings, making up 8.6% of the fund.  Wood’s admiration for Elon Musk’s companies is no secret and when his SpaceX company went to market last week her ARK funds had a big selloff, including some of its Tesla position.
+  url: https://finnhub.io/api/news?id=b3a6ec6eed4e1fc02a1ec03a1c5bd7f965133bc73c7d90df569396f4f03690d7

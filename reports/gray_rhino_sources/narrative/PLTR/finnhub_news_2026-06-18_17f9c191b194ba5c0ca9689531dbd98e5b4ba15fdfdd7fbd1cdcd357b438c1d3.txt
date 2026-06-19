@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The $185 Billion Contract Nobody's Pricing In
+  summary: Palantir Technologies Inc. stock: why analysts rate it Strong Buy despite pullbacks. Click for this PLTR update and see if it is the right stock for you.
+  url: https://finnhub.io/api/news?id=efa0b6329d2418028e85c21673f5b7cb8935b356242fcc1f56a38c903a4bebf1

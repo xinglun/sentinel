@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Massive Hole In The AI Narrative
+  summary: Goldman Sachs forecasts hyperscaler capex could reach $1.1T in FY2027, with Oracle up to $95 billion in capex for FY2027. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=cc878eb234ca95a8065da8d7041904ff76d8e1e4e735823702394879bb413b1a

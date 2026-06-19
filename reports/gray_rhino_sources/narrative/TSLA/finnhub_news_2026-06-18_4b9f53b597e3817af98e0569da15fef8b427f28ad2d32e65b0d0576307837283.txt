@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RIVN Stock: Rivian Reportedly Hit With Class-Action Lawsuit Over False Gen 1 Vehicle Autonomy Claims
+  summary: The complaint was filed on Wednesday in the U.S. District Court for the Central District of California, TechCrunch reported.
+  url: https://finnhub.io/api/news?id=f500c1033d79a52b4b1df5d532ed55d66e00f43468048731efe4ef5500aa1958

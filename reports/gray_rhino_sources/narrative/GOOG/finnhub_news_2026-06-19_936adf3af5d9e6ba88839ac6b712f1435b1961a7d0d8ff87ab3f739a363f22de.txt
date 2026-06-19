@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon points to water conservation steps in India amid data centre scrutiny
+  summary: Amazon said on Friday its Indian operations had reached a major milestone in ‌water conservation, at a time when global tech giants face increasing pressure ‌over their expansion of resource-hungry AI data centres.  The U.S.-based company announced it had turned "water positive" in ​India this year - meaning it returns more water to communities than it uses across its operations, which include data centres, corporate offices and warehouses.  Amazon, Microsoft and Alphabet's Google are among companies that are facing shareholder and activist pushback ⁠over the environmental impact of data centre projects, Reuters reported earlier this year.
+  url: https://finnhub.io/api/news?id=aca874447e8f245d5578d6c0035169d46f9a93ec10d7ce302bb3da62f8aa129e

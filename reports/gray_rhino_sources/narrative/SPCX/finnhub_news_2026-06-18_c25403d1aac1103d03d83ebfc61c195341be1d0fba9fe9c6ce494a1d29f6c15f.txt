@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceX Bankers Preparing for Bond Sale of at Least $20 Billion' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-06-18/spacex-bankers-preparing-for-bond-sale-of-at-least-20-billion
+  url: https://finnhub.io/api/news?id=64670da66d9d7cf033e349c2921fa62ca38352501a1300cbfa2648fd41afa8bd

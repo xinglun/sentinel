@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk says he is adding a voice interface to full self-driving while regulators investigate it for missed hazards
+  summary: Elon Musk said Tesla Inc (NASDAQ:TSLA) owners will soon be able to speak to Grok, the AI assistant from xAI, as if the car is a chauffeur. Commands like "turn right here" and "drop at the entrance first, then park far away" will be voice-activated instead of requiring touchscreen input or...
+  url: https://finnhub.io/api/news?id=6ca45df2e9c96c7d757b2a45a74cac8cbb4c6f7df4cb5bfcd54d068efd826b31

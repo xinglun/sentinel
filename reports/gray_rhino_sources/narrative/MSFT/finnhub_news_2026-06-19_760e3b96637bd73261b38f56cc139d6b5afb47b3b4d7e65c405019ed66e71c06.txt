@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google's AI Chip Strategy Gets More Ambitious
+  summary: Custom AI chips may become bigger business
+  url: https://finnhub.io/api/news?id=d5a6636e710fadd68a4e6dff01f11a00203036e0d2eec2da5ad56c0eb0aedc1f

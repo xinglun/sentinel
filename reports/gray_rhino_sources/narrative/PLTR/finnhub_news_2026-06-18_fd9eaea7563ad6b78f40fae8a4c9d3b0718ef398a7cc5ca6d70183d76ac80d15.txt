@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's AIP Momentum Continues to Transform U.S. Commercial Growth
+  summary: PLTR's AI platform is driving rapid U.S. commercial growth, with rising revenue, customer additions, and larger contract wins.
+  url: https://finnhub.io/api/news?id=5041964201c9bda72dc0ae97402e81fcac12007f7c0a403cf4921049bee7b06f

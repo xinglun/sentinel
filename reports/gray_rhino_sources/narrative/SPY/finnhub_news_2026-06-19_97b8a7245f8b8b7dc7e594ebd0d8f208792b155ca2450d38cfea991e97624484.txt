@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A New Sheriff At The Fed
+  summary: Anyone who had been paying attention to the US monetary policy conversation in the past few weeks knew, within a very tight margin of error, what was actually going to happen.
+  url: https://finnhub.io/api/news?id=48584851d00ee86add400d3a98fa5c934cc485a82e764bde0f76cf3cfd0cff1e

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Hidden Policy Tightening From Warsh's First FOMC Meeting
+  summary: Fed keeps rates at 3.50%-3.75% under new Chair Kevin Warsh; June dot plot turns hawkish, balance sheet stance tightens. Read more here.
+  url: https://finnhub.io/api/news?id=6243033b53aa1f5b7af2144e16bf0239e43d4698c62a14a1cca2d670f9edf82e

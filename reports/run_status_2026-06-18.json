@@ -1,12 +1,12 @@
 {
   "date": "2026-06-18",
-  "timestamp": "2026-06-19T00:51:41.843591429+09:00",
+  "timestamp": "2026-06-20T00:44:51.626546934+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "evidence_collection": "succeeded",
   "gray_rhino_collection": {
     "status": "partial_failure",
-    "date": "2026-06-19",
+    "date": "2026-06-20",
     "sec": {
       "status": "partial_failure",
       "accepted": 9,
@@ -14,7 +14,7 @@
     },
     "finnhub": {
       "status": "succeeded",
-      "accepted": 146,
+      "accepted": 147,
       "rejected": 0
     },
     "fred": {

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: IPO History Says Sell Now, But Here's Where You Should Buy
+  summary: Space Exploration Technologies receives a Sell rating, citing extreme valuation and technical weakness post-IPO. Read more on SPCX stock here.
+  url: https://finnhub.io/api/news?id=4820d79328a550ed55e148eb607e2da7a364b3c239fcb3b17c7f6ae936949013

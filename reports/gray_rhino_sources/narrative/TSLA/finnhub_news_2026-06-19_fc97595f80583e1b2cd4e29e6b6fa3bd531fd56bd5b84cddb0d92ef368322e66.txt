@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 90% of Amazon's Portfolio Is Invested in This EV Stock (Hint: It's Not Tesla)
+  summary: Can Rivian bounce back from its terrible performance this year?
+  url: https://finnhub.io/api/news?id=a28fa65cd87d9cc99182fed81b5286a5fd0147daa5974f2fa696f6d6a54e6c58

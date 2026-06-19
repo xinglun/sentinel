@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zurich warns data centre boom is outpacing insurance capacity – report
+  summary: Kelly Kinzer, the company's global head of construction and surety, told Bloomberg that securitisation products – which would channel data centre risk to a wider base of investors – do not yet exist in any meaningful form.
+  url: https://finnhub.io/api/news?id=5647a78afe807fa3631054a53b14fd69c6ea7ae39032a4ed5fa78112deb12ff1

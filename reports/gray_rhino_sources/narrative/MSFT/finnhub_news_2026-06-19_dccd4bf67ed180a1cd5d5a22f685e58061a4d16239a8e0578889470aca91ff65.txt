@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta's AI Infrastructure Bet Gets Bigger
+  summary: New agreements deepen massive compute expansion plans
+  url: https://finnhub.io/api/news?id=2df21e0d4bcb62d4b95b35e4df71751f7c577b1f529c4a9d91c23d3c13520915

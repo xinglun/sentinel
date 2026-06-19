@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Faces Fresh FSD Roadblock in Europe
+  summary: Regulators question supervised self-driving speed behavior
+  url: https://finnhub.io/api/news?id=e51a7dc142c897e3e2205a8fd4419ebbf0cb68ed0ce28e2672766ea30f73a712

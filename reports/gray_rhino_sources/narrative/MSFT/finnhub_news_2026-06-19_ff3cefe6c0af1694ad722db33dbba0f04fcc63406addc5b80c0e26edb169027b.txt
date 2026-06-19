@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Has The Best Problem Money Can’t Quite Buy
+  summary: Alphabet’s stock doubled for one simple reason: it’s growing so fast that it literally cannot build fast enough to keep up.
+  url: https://finnhub.io/api/news?id=71c88cf88c73b802721b63e2fd4ce2e04bed7a71d5acd3e2053a75a050775cb5

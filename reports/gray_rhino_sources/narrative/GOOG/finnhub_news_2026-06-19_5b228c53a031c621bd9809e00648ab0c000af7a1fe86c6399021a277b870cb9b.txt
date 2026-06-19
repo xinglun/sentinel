@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The SpaceX Era Is Making the Magnificent Seven Irrelevant
+  summary: What’s the point of the Magnificent Seven? Investors are wondering if the group still makes following SpaceX’s stellar debut.
+  url: https://finnhub.io/api/news?id=3869191a9093a6103492e5be7559c4b1023ac4497c7de3ce609046a59629ddb3

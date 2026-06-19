@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: One Variable Could Change Everything
+  summary: Space Exploration Technologies Corp. expects revenue to climb from $35 billion in 2026 to $188 billion by 2030. Learn more about SPCX stock here.
+  url: https://finnhub.io/api/news?id=8a951d6b285971e36ce79d8790ab4bc7fdb04bc71ff940dc80c746ae16c56a5e

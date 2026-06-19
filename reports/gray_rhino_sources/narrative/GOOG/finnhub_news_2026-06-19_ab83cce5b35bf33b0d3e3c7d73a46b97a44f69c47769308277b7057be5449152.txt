@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adeia: Multiple Growth Paths, Limited Upside At This Price
+  summary: Adeia Inc. stock breakout & strong momentum update: explore key momentum metrics, patent licensing outlook, and lingering financial risks. Click for an ADEA update.
+  url: https://finnhub.io/api/news?id=798a56f6ce6b3182fee3c8466bd6ed113f5583c62549b15271302032f57f3c14

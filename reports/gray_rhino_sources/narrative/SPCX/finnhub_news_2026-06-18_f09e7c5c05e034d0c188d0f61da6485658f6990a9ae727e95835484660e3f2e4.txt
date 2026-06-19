@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oppenheimer Maintains Outperform on SpaceX, Raises Price Target to $250
+  summary: Oppenheimer  analyst Timothy Horan   maintains SpaceX (NASDAQ:SPCX) with a Outperform and raises the price target from $190 to $250.
+  url: https://finnhub.io/api/news?id=85b30f85d1048909e05de442b8f1a79a839b19df2595e87089e3644998ec0f41

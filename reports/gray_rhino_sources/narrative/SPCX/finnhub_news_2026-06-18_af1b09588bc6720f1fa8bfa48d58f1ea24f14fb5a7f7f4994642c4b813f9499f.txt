@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile: From Bear To Bull - FY27 Commercial Commencement Unlocks Substantial Operating Leverage
+  summary: AST SpaceMobile (ASTS) upgraded to Buy with $103 target.
+  url: https://finnhub.io/api/news?id=0f27e2efce2dabce0caadbd6ce59944dc7a7885efdf822f6bcf5c1800314791b

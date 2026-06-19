@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Is Building A Billion Dollar AI Business In China
+  summary: Microsoft (NasdaqGS:MSFT) is building a large AI and cloud business in China, supplying OpenAI models through Azure to major local technology companies. ByteDance is reported to spend over US$1b annually on Microsoft AI and cloud services, with Ant Group, Meituan, and Tencent also using Microsoft models. Microsoft has emerged as a key provider of OpenAI technology in China at a time when several US competitors are not active in the region. For investors watching Microsoft, this growing AI...
+  url: https://finnhub.io/api/news?id=842111d43fac5bfe7b5f41b4fd8dad031bed9be206b75608cb9c46d74bffa083

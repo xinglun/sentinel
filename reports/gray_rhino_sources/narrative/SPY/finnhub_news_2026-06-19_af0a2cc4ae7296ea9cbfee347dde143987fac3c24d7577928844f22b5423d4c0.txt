@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why JEPI Investors Gave Up $3,379 in Five-Year Gains
+  summary: JEPI sells you monthly income. What it quietly sells away is your upside. Over the past five years, a $10,000 stake in the fund grew to roughly $14,479. The same $10,000 in plain S&P 500 exposure grew to roughly $17,858. That gap is the hidden cost of a fund marketed on its yield. What You’re ... Why JEPI Investors Gave Up $3,379 in Five-Year Gains
+  url: https://finnhub.io/api/news?id=e15b985925885de6b31e6fc810ec90eac65b47a45c548d2125f38b27698266ee

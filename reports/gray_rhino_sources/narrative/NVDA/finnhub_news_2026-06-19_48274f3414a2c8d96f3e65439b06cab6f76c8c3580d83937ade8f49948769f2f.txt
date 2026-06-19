@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Handed Intel Stock a 10% Pop, but Markets Are Hedging
+  summary: Intel stock jumped 10% on Trump's Apple chip claim, but short bets, put hedges, and flat money flow show markets staying cautious.
+  url: https://finnhub.io/api/news?id=568511f12c4407db14d0e0cc8d0b14be60fd6651bd691627e053c3e6ed0db8f5

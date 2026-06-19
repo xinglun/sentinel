@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why We Don't Think The Fed Will Hike Rates
+  summary: A more hawkish-than-anticipated FOMC meeting fuelled market expectations of a Fed rate hike. Read more here.
+  url: https://finnhub.io/api/news?id=2d1e93046b1010fe5237410d73c9629c17d2eea108fec290f8eaaf25581139c7

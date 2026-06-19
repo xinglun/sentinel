@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does a SpaceX and Tesla Merger Make Sense? Here's What Investors Should Know
+  summary: One Musk-led mega company isn't an absurd idea.
+  url: https://finnhub.io/api/news?id=2e59b913d5c124f2fa20c6e595c47f1b0b425c5731c483ceecf12db42aa59a42

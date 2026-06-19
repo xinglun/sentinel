@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Brief: SpaceX's Scarcity Trade Won't Last Forever
+  summary: SpaceX sold 639M shares at $135, raising $86B (after full exercise of the overallotment option). Approximately 2B shares become eligible within 90 days. Read more here.
+  url: https://finnhub.io/api/news?id=15428388f1975405b59f3171efc334fc4b3809ef9278d8ba4b4eb2e9ddedd09f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Industrials Stock for Long-Term Investors and 2 We Turn Down
+  summary: Whether you see them or not, industrials businesses play a crucial part in our daily activities. But their prominence also brings high exposure to the ups and downs of economic cycles. Luckily, the tide is turning in their favor as the industry’s 20.4% return over the past six months has topped the S&P 500 by 11.6 percentage points.
+  url: https://finnhub.io/api/news?id=2d948605537761edffba36acc6ef577af522ff26a4db27d65437c3e2f6819ca0

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer sends a stern message to SpaceX buyers
+  summary: Every generational stock reaches a moment where its biggest fans start watching the tape with one eye closed. The story is still good. The buying is still frantic. And somewhere in the back of the room, a few people who own the dream begin asking how much of tomorrow has already been priced into ...
+  url: https://finnhub.io/api/news?id=3007f6899dadd3c3a17ba7d9e646b8d40386ded48c6ae638565420a57a145bcc

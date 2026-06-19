@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: Google Cloud Is Outperforming Azure And AWS; $462 Billion Backlog Requires More AI Investments
+  summary: Alphabet Inc.'s Google Cloud is outpacing AWS and Azure as AI monetization lifts Search. Click here to read why GOOG stock is rated as a Buy.
+  url: https://finnhub.io/api/news?id=a09a74e164841dd955dd91e9c7204cf5b8094e37c77b6f98fe7803148932297e

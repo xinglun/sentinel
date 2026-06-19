@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What’s Wrong With Costco?
+  summary: Costco (NASDAQ: COST) is one of the best-managed companies in the US. Some say it is the best-managed retailer. It has the best model in the big retail business. It makes a huge amount of money by charging customers to shop in its stores before they have even bought anything. However, Costco’s stock is up ... What’s Wrong With Costco?
+  url: https://finnhub.io/api/news?id=b5808c4e05086806d2ab1dc051ffa9328af301d93ae33006da6c11087f10e02b

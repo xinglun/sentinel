@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest Major Central Bank Policy Decisions In Line With PMI Signals
+  summary: While global oil prices have fallen this past week, the knock-on inflationary impact from a sustained period of elevated energy prices means that central banks will need to be on high alert.
+  url: https://finnhub.io/api/news?id=2ab3884dfd2e741d6607879a4ca0db6a8093a14de5660e9fb3db573b84437c1e

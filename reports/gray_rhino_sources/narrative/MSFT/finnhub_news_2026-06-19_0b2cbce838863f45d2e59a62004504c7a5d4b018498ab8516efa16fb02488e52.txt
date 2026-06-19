@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI is turning Nintendo and Sony products into accidental luxury goods
+  summary: The rush to build AI data centres has created all sorts of unexpected winners and losers. It’s a good time to sell electrical components or air...
+  url: https://finnhub.io/api/news?id=3852fd9551c1cd2a4ee0cc32204ef6e7d350df709426f926eb542b7ce7be2601

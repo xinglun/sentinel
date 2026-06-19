@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's ETF Takeover Begins: From Value Funds To Thematic ETFs, SPCX Is Suddenly Everywhere
+  summary: SpaceX&#39;s public debut is reshaping ETFs, with funds from space-focused portfolios to Schwab&#39;s value ETF adding SPCX to their holdings.
+  url: https://finnhub.io/api/news?id=efe7a08581087ac24681f1c53e90a54c61ab45555c3b77f216457f4c5d7dfb48

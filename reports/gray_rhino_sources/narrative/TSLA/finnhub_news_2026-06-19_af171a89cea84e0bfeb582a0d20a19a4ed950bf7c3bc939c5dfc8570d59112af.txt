@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Has a Rapidly Approaching $20 Billion Surprise for Its Shareholders -- and They're Not Going to Be Happy
+  summary: A sizable chunk of SpaceX's $75 billion initial public offering (IPO) capital raise is already spoken for.
+  url: https://finnhub.io/api/news?id=37af5dc114ec4488f331e3edcec35318808906c2433639a132254dd63f409bd6

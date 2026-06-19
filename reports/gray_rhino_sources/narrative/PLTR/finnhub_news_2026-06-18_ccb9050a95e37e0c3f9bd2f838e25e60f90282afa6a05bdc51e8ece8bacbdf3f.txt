@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Some Call SpaceX A Meme Stock. PitchBook Sees An AI Infrastructure Boom.
+  summary: Elon Musk's SpaceX pulled off the biggest IPO ever. For investors, there are still issues to sort out. For one, is SPCX a meme stock?
+  url: https://finnhub.io/api/news?id=fa6eb673df21794b8e1105968a4096efd555c3f6a7ac9272b443ae6f31e64d91

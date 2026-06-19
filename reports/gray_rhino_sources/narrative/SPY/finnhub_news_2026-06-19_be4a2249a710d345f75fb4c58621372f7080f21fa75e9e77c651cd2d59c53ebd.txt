@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Consumer Sentiment Disconnect From Economic Reality
+  summary: The University of Michigan Consumer Sentiment Index plunged to a record low of 44.8 in May 2026. Read more here.
+  url: https://finnhub.io/api/news?id=2d1c7859d2452363100e817c7ff1c14ffbfd8b68153b8a0af2624e88d8feb58c

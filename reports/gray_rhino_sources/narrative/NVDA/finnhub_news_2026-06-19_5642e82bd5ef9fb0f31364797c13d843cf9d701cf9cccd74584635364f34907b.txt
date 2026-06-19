@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SK Hynix Has a Major Warning for Micron Technology Stock Investors
+  summary: The Korean memory giant is planning to significantly increase its production capacity over the next five years.
+  url: https://finnhub.io/api/news?id=975dd03916fa61a1d9a4f1b64e5f42112c573ef086bb322ed63b931ce6e72cd1

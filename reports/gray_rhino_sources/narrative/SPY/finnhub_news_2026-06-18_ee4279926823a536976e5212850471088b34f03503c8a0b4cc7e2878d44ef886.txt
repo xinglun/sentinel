@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq And Dow End Holiday-Shortened Week Higher As Investors Cheer US-Iran Peace Deal — SPCX, AMZN, ONDS, NFLX, TTWO In Focus
+  summary: Donald Trump and Iranian President Masoud Pezeshkian signed a preliminary agreement on Wednesday in a bid to end the conflict between the two countries.
+  url: https://finnhub.io/api/news?id=17df92b589fa467a19ebc6a7d4c50da2d6940047cd2839fd00e5953dcdb8bfda

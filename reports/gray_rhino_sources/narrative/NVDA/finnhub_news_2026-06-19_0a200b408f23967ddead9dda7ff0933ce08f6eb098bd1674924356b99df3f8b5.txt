@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Visa and Mastercard Reportedly Want to Run Stablecoins, Not Fight Them. Here's What It Means for Investors.
+  summary: The dominant card networks are leaning into innovation that is happening within their industry.
+  url: https://finnhub.io/api/news?id=17b5151d05a239c25e60611c4e3f48605a992985d1c64150887ef5eb4df488e1

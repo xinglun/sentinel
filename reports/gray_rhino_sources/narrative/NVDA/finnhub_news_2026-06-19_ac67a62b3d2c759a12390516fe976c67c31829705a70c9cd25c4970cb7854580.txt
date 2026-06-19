@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Elite Trillion-Dollar Giants Worth Loading Up On Right Now
+  summary: Their combination of scale, innovation, and everyday relevance could make these some of the most important companies to buy right now.
+  url: https://finnhub.io/api/news?id=10217cfd6332db5c7dfb0edf277bf8c0dcf916414f68525d8aadcbbca0c0326e

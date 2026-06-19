@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Many Shares of Nvidia You'd Need for $10,000 in Yearly Dividends
+  summary: The company's massive profits allow the management team to return capital to shareholders.
+  url: https://finnhub.io/api/news?id=6f76c63f386a82482df799fb8ca4444cc04d2adcc1ffde6cd206054897f7422d

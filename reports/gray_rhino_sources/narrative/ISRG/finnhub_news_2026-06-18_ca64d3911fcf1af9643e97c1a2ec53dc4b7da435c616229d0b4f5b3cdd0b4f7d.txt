@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Unstoppable Medical Juggernaut to Buy Hand Over Fist and Hold for the Next 50 Years
+  summary: Intuitive Surgical (NASDAQ:ISRG) is positioned for multi-decade compounding because it sits at the center of an aging-world healthcare megatrend with a razor-and-blade business model that compounds quietly whether the broader market is euphoric or fearful. The case for permanence rests on three pillars, and none of them depend on a single quarter, a single product ... 1 Unstoppable Medical Juggernaut to Buy Hand Over Fist and Hold for the Next 50 Years
+  url: https://finnhub.io/api/news?id=47a47682185c45eb1c84373d92c6657272b3aec2c2828e8bdbf2f725b8d13a16

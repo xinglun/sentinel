@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Takes Aim at Nvidia
+  summary: Alphabet is pushing its TPU chips deeper into the AI data center market.
+  url: https://finnhub.io/api/news?id=db2a9afb4ef85d58c9be8f9504f8c97f6c2285d05c012d3e205fc1fb20a78436

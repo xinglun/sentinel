@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week's Market Wrap: Oil Collapse, Fed Reset, And AI's Growing Reach
+  summary: A surprise U.S.-Iran peace framework sent oil prices lower, easing inflation fears and fueling a rally in technology, consumer discretionary, airlines, other economically sensitive sectors
+  url: https://finnhub.io/api/news?id=af6392f7bfcf445d62e554b22a926fce6972c106cf9ff37ef10ed13cb69f096d

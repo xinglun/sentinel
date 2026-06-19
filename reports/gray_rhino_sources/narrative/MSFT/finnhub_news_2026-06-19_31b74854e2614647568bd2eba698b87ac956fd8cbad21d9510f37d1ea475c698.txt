@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Gains the Size of Intel Since IPO. History Has a Warning.
+  summary: The rockets and satellites company has jumped 37% from its $135 offer price in its first five trading days, gaining $673.8 billion in market cap over that period.
+  url: https://finnhub.io/api/news?id=40b591f786beb928877fae736417b32154e80c0f81f25a3ed3e1c29cbf11f051

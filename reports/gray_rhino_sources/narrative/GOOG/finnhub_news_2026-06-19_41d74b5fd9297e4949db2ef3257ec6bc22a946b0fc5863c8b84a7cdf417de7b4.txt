@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Quantum Computing Stock to Buy: IonQ vs. Rigetti
+  summary: IonQ and Rigetti are two of the most popular pure-play stocks on the market.
+  url: https://finnhub.io/api/news?id=901d1818f879fe6f591263521e094b77f653ef77383f2b0d33ca589c709133ee

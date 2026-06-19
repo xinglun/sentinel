@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Called the 2008 Crash. Now He’s Shorting Nvidia to Buy This Boring Healthcare Stock.
+  summary: Before Michael Burry shut down Scion Asset Management in late 2025 and pivoted to publishing a Substack newsletter warning of an “AI Bubble,” his final 13F filings reportedly disclosed put options against NVIDIA (NASDAQ:NVDA) and Palantir (NASDAQ:PLTR) alongside a heavy rotation, around 51% of the disclosed portfolio, into health insurer Molina Healthcare. That is the documented record, a snapshot ... Michael Burry Called the 2008 Crash. Now He’s Shorting Nvidia to Buy This Boring Healthcare Sto
+  url: https://finnhub.io/api/news?id=56c159a2f9182c29a0dce1acc5e6c3b8cad99ea75fa9da540d62e76f6a6cc415

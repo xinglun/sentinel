@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stanley Druckenmiller Has a Secret South American Trade That Has Nothing to Do With AI
+  summary: Stanley Druckenmiller’s Duquesne Family Office spent the first quarter of 2026 quietly accumulating South American equity exposure, with EWZ representing roughly 4.49% of the portfolio as the fifth-largest holding alongside a new position in the Argentina ETF. The financial press has spent six months writing about Druckenmiller’s AI memory chip bets. The other side of ... Stanley Druckenmiller Has a Secret South American Trade That Has Nothing to Do With AI
+  url: https://finnhub.io/api/news?id=a0e8092fd7835a1b6cef9bfae65ee600aacd4072325774eb8cb65fb8b68cc8cf

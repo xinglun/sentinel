@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Calls Noam Shazeer’s Jump to OpenAI a ‘Coup’ as the AI Talent War Heats Up
+  summary: Jim Cramer used his Mad Dash segment on June 18, 2026 to flag what he sees as a serious shift in the AI talent war. Noam Shazeer, co-lead of Google’s Gemini effort and co-founder of Character AI, is leaving Alphabet (NASDAQ:GOOG ,NASDAQ:GOOGL) to join OpenAI. Cramer’s read was blunt. He said: “This is a coup. This is ... Jim Cramer Calls Noam Shazeer’s Jump to OpenAI a ‘Coup’ as the AI Talent War Heats Up
+  url: https://finnhub.io/api/news?id=7b967188278985c0fe8b87c3152460d1408ea082c6e19e691e4dc5b181d104cb

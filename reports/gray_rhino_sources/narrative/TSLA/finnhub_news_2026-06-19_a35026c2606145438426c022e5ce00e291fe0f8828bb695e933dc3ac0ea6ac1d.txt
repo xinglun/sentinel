@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX lands investment-grade credit ratings as shares tumble from record high
+  summary: SpaceX has been awarded investment-grade credit ratings by all three major agencies just days after its record stock market debut, even as its newly listed shares slid sharply on Thursday.View on euronews
+  url: https://finnhub.io/api/news?id=0c4d7d80a2219a756d45b9d0c9400e77b5cb9e81bb91da1eaca268e009a04312

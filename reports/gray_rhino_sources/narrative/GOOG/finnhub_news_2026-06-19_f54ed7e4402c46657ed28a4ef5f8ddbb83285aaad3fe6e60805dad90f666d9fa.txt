@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Partners with Google Cloud to Integrate AIP and Foundry Platforms
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the best US stocks to buy and hold for the next 5 years. On June 4, Palantir partnered with Google Cloud to integrate its Foundry and AIP platforms with BigQuery, Gemini, and the Google Knowledge Catalog. Available via the Google Cloud Marketplace, this partnership enables two-way data federation […]
+  url: https://finnhub.io/api/news?id=ffaf84094cd9d044508e03cdd4bbe955324c261291905c870ee57c221415fc03

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Gets Approval for its Full Self-Driving (FSD) Technology in Denmark
+  summary: Tesla Inc. (NASDAQ:TSLA) is one of the 10 best electric and autonomous driving stocks to buy according to hedge funds. On June 11, Tesla Inc. (NASDAQ:TSLA) announced that its supervised Full Self-Driving (FSD) technology has received approval in Denmark, with a rollout anticipated soon. The Danish Road Traffic Authority clarified that this support is still […]
+  url: https://finnhub.io/api/news?id=0c7d38e93680b9e33831dd03ae0efa5cec4d024ebfef2844b34211d25b7f1409

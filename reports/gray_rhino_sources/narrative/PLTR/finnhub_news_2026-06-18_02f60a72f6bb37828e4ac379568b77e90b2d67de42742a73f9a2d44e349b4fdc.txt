@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Hold, or Sell: Rackspace Is Up 675% This Year, Is It a Buy Today?
+  summary: At $7.53, Rackspace Technology (NASDAQ:RXT) is a Hold, with an aggressive Buy trigger if a macro panic drags shares back to $5.00. After a 675.57% year-to-date rip, the real question is how much is already priced in. Rackspace operates hybrid multicloud services across a shrinking legacy Private Cloud business and a growing Public Cloud managed ... Buy, Hold, or Sell: Rackspace Is Up 675% This Year, Is It a Buy Today?
+  url: https://finnhub.io/api/news?id=7b603652992cc2fed1b29fc69817a73a21fc9d4e141041277e3d8558d874139c

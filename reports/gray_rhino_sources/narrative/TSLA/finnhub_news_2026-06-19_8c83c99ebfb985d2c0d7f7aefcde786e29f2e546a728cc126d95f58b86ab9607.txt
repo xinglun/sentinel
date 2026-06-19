@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nestlé’s Brands, Products, and Prices
+  summary: MAILBAG To the Editor:  Good luck to Nestlé, but I find pretty much all of its brands and products to be boring and stale—and its persistent price increases don’t make them any more enticing to buy versus those of its competitors (“Nestlé Finds Its Sweet Spot.
+  url: https://finnhub.io/api/news?id=87804d9dbf9cb6a1c18cd9b8bd6df27675c4d5328c4347a66f56edbb7d5557ca

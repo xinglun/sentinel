@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft picks Checkout.com as EMEA payments partner for key products
+  summary: Microsoft will connect via the Microsoft Payments API, enabling payments to be routed through a single system.
+  url: https://finnhub.io/api/news?id=e76c34676fc8072d5c478040c1166f36d30c1c33838a0cff33b34abbb434624b

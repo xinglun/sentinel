@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Donald Trump’s Q1 Portfolio Was Just Revealed. He Just Poured Millions Into These 3 Unstoppable AI Stocks.
+  summary: President Trump’s May 2026 OGE Form 278-T disclosure revealed something genuinely unusual in volume, with more than 3,600 individual stock trades in the first quarter of 2026, with heavy concentration in AI infrastructure bought during the March selloff. Executive-branch disclosures report value ranges and dates, not share counts, so any precision beyond brackets like “$1 ... Donald Trump’s Q1 Portfolio Was Just Revealed. He Just Poured Millions Into These 3 Unstoppable AI Stocks.
+  url: https://finnhub.io/api/news?id=e328980e4283edafc38f91056dec6a73f351ce60cbc217a981f334cefcb77d2a

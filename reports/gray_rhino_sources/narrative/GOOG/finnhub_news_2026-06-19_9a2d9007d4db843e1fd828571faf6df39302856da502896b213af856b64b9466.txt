@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Is Up 14.9% After Record IPO And $60 Billion Cursor AI Deal - What's Changed
+  summary: In mid-June 2026, Space Exploration Technologies Corp. completed the largest IPO in history, raising roughly US$75–86 billion and rapidly secured inclusion in major Nasdaq indexes while agreeing to acquire AI coding platform Cursor in an all-stock deal valued at US$60 billion. These moves accelerate SpaceX’s shift from pure launch and satellite operations toward AI infrastructure and enterprise software, with Google and Anthropic signing multiyear GPU and data-center contracts worth tens of...
+  url: https://finnhub.io/api/news?id=a85efb8e51f69fec6c78f611f25301cb8783ae11e5075a531e4eb9931d30930e

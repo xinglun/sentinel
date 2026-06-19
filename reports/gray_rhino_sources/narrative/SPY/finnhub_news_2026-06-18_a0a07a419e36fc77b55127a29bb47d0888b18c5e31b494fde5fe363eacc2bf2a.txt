@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kevin Warsh Comments Send Shiver Down Investors’ Spines. Would He Really ‘Murder This Bull Market?’
+  summary: Federal Reserve Chair Kevin Warsh’s first post-meeting press conference rattled risk assets on Wednesday, and the loudest pushback came from a strategist who thinks the bull market remains structurally intact. On CNBC’s Closing Bell Overtime, Warren Pies, co-founder of 3Fourteen Research, argued that “Bull markets do not die of old age. They’re usually murdered by ... Kevin Warsh Comments Send Shiver Down Investors’ Spines. Would He Really ‘Murder This Bull Market?’
+  url: https://finnhub.io/api/news?id=39d6d686b2572beeb6cdf9c962cefc4ebffe22644c435fc6a0e7f3cb553d4e24

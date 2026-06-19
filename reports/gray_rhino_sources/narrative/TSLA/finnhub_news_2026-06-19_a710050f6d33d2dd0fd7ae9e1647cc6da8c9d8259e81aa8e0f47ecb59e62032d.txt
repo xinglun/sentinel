@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Rotates Into Tesla and Snowflake
+  summary: ARK shifts exposure toward growth and cloud
+  url: https://finnhub.io/api/news?id=4fd506e22e3de3e669a6fe5db3069d264a1e4fffa8c99bb579d65a9d8daa1793

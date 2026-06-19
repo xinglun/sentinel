@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BALI: A Hidden Covered Call ETF That Could Be Better Than You Think
+  summary: iShares BALI ETF review: 7.8% yield, conservative options overlay, lower volatility but capped upside and tax quirks.
+  url: https://finnhub.io/api/news?id=02a554c4616b88be08b547c300e8cfb1217b810ed5588adb0d448e868e75b690

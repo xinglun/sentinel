@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s IPO Run May Already Be Over — and It Could Get a Lot Worse
+  summary: The IPO market has spent years waiting for a blockbuster debut capable of reopening the floodgates for new listings. SpaceX (NASDAQ:SPCX) delivered exactly that. The aerospace and satellite giant completed the largest initial public offering in U.S. history, raising $85.7 billion after underwriters exercised their “greenshoe” option. For a market hungry for growth stories, it ... SpaceX’s IPO Run May Already Be Over — and It Could Get a Lot Worse
+  url: https://finnhub.io/api/news?id=d4406d537efa43492222c3fc287dc65ac07ae3aa163957241f2147f47bd0bfd8

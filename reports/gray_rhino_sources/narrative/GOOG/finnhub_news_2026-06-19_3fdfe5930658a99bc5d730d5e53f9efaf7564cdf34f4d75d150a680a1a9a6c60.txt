@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Addresses Public Concerns Around Self-Driving Cars
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the 10 best electric and autonomous driving stocks to buy according to hedge funds. On June 11, Alphabet Inc.’s (NASDAQ:GOOGL) subsidiary, Waymo, unveiled a nationwide TV commercial campaign geared towards addressing public doubts about self-driving cars as well as establishing itself amid stiff competition. Planned to air Friday on […]
+  url: https://finnhub.io/api/news?id=91f4a916ced79fcb4ce601227fa5505688265f3a9eb147eec96f43fcfdad15af

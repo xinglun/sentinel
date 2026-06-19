@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top analyst calls Palantir too big to ignore, resets rating
+  summary: For years, Wolfe Research maintained a long-standing avoidance strategy on Palantir (PLTR), keeping a bearish “Underperform” rating on the stock due to concerns over its steep valuation multiples. On Tuesday, June 16, that changed, though not by much. Wolfe analysts Alex Zukin and Joshua Tilton ...
+  url: https://finnhub.io/api/news?id=19d6825bd4aa8fb9f78960c6e22a002a736ac3b5c195e6b5a3ff5785327d97d6

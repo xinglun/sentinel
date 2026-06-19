@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Just Upgraded Its Tesla EV Delivery Forecast: Here's What Really Matters
+  summary: Tesla is set for an excellent second quarter of EV deliveries, according to Wall Street, but investors should also keep an eye on developments in its long-term growth initiatives.
+  url: https://finnhub.io/api/news?id=c0b8969c0285ede0a46be0687c1f67fdb0cab199872cab239bf4d0cb313337cc

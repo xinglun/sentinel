@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XRP Has an NVIDIA Connection, But is It Strong Enough This Cycle?
+  summary: XRP price has trailed NVIDIA for years. See what the connection really means and what must happen on-chain before XRP can catch up.
+  url: https://finnhub.io/api/news?id=a1fa894be3177dc1f8383127ff96b36cf50260476a15349b644767b8ef481eae

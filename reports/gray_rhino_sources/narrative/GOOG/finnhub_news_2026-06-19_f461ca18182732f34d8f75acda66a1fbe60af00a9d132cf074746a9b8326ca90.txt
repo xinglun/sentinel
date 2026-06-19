@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gemini Co-Lead Noam Shazeer Quits Google, Joins OpenAI Before IPO
+  summary: Google's Gemini co-lead Noam Shazeer is joining OpenAI, just two years after Google paid $2.7 billion to bring him back.
+  url: https://finnhub.io/api/news?id=1b63c68cb8227319682311a16201fbb1155fc9dea5ecc6108a20caff0f47e95d

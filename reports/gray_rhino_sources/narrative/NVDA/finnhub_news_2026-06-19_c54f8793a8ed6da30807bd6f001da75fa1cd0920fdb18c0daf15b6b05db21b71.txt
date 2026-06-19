@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “They Forgot to Protect Our Industries With TARIFFS!” — Does a Trump Trade War 2.0 Loom?
+  summary: There have been renewed talks about whether tariffs could send us into another phase of trade wars. And while it’s up for debate as to whether a trade war 2.0, so to speak, has already arrived, I do think that investors shouldn’t panic over concerns that further tariffs will further fan the flame that is ... “They Forgot to Protect Our Industries With TARIFFS!” — Does a Trump Trade War 2.0 Loom?
+  url: https://finnhub.io/api/news?id=496015860e6fa7df4ff25ceafb630d193ddfccee2f5049345ec5d885ee7cbb9f

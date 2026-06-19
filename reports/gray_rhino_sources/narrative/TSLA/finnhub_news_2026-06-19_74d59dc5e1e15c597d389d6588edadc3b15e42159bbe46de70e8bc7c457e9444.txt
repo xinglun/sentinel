@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Just 4 "Magnificent Seven" Stocks Are Still More Valuable Than SpaceX. Could SpaceX Be a Better Buy Than All of Them?
+  summary: SpaceX wasted no time surpassing Amazon, Meta Platforms, and Tesla in market cap.
+  url: https://finnhub.io/api/news?id=1a0c937c4635cf2940092c0fa3bc64b1b52826f27049673a9dafe25538589b29

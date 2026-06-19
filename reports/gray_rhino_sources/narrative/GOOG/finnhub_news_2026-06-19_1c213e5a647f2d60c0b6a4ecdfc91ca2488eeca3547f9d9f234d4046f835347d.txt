@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How SpaceX benefits from its Cursor acquisition
+  summary: SpaceX's SpaceXAI should get a solid boost from its Cursor acquisition, but it will still need to compete with rivals like OpenAI and Anthropic.
+  url: https://finnhub.io/api/news?id=67e565a507418bd7c49d6d21f084d145115d1477c1adc3d47f5fc56b5014119b

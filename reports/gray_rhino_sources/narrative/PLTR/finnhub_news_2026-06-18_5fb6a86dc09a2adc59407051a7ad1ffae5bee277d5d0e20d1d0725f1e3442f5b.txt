@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Brings Oligo Security Into FedStart For Federal AI Cybersecurity
+  summary: Oligo Security has joined Palantir's FedStart program to speed up federal security and compliance readiness. The partnership focuses on delivering AI driven cybersecurity tools for U.S. government customers across cloud environments. The move positions Palantir as a key connector between smaller security vendors and federal agencies with strict requirements. Palantir Technologies, ticker NasdaqGS:PLTR, is adding another government focused partnership as Oligo Security enters its FedStart...
+  url: https://finnhub.io/api/news?id=e536f8839d55c2d6c58d0f2861d5ef7e04ac6c634631d9b5ad2987fe35d54927

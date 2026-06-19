@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The VIX Isn’t Broken, It’s Just Being Outplayed
+  summary: Whether it's macro complexity, divergent market performance, or investor uncertainty, any way you slice it, the recipe for volatility is baked in. So why isn’t the VIX reflecting that? “Vixologist” Jim Carroll reveals the truth behind why markets feel much more volatile than the measurements.
+  url: https://finnhub.io/api/news?id=5241d6189a4889e79a4ce3b6e4e3165112d4659b12c2674592b22fb4289353f3

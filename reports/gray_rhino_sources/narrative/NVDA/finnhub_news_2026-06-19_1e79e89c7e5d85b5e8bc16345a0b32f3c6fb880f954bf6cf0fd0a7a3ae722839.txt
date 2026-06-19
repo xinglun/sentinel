@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Is Trump’s Most Controversial Trade of 2026
+  summary: President Donald Trump purchased between $1 million and $5 million in Dell shares on February 10, 2026, nine days before telling a crowd in Rome, Georgia, to “go out and buy a Dell computer” on February 19, 2026. Dell Technologies (NYSE:DELL) was trading around $120.55 on February 9 when the trade was disclosed, and the ... This Is Trump’s Most Controversial Trade of 2026
+  url: https://finnhub.io/api/news?id=0456e226bb34c78e97d09dfa3fafc9227a654abf33dc51616b89ab272d78f3ef

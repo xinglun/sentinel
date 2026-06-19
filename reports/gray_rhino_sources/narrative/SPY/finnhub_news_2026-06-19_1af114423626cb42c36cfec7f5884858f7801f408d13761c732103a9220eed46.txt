@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $100,000 In 7%+ Average Yielding MLPs: Tax-Friendly Retirement Picks
+  summary: Explore top Master Limited Partnerships (MLPs) for tax-advantaged, high-yield income as AI/data centers boost gas demand.
+  url: https://finnhub.io/api/news?id=5d2c9679cbcf72ed3e1360e52988ce93b7316995a0491c30ac99fb32d17c3336

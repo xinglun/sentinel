@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Best Nasdaq Stocks to Buy for Long-Term Upside
+  summary: The best Nasdaq stocks to buy include familiar tech-related names, as well as companies with strong long-term upside potential operating in other sectors.
+  url: https://finnhub.io/api/news?id=ba433d7c187c4254871191270f9041616cd55d3c8c02c8146063ff4fb8acc612

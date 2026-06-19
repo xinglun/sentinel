@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How BHP (BHP) Is Using AI to Improve Copper Extraction as Supply Gets Harder to Grow
+  summary: BHP Group Limited (NYSE:BHP) is one of the best copper stocks to buy for the AI and electrification boom. On June 3, 2026, BHP said it was collaborating with Microsoft and Prescience Insilico to accelerate the discovery of advanced copper leaching solutions. The project uses Microsoft Discovery, high-performance computing, and AI agents to screen molecules […]
+  url: https://finnhub.io/api/news?id=8b2df8df6ed4d487f2676eacada4be9f07c98be07fe2cb5bff3a787dd3d700b4

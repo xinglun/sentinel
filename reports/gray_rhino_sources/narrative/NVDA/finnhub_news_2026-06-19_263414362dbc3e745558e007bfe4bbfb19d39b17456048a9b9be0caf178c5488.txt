@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Memory Bottleneck? These ETFs Let You Buy All the Winners
+  summary: AI's memory bottleneck is fueling a hardware boom. These ETFs offer diversified exposure to leading memory and storage firms riding the surge.
+  url: https://finnhub.io/api/news?id=cbc21126a56b4fb5686b7eb34a424ce8668ad4b324ee37355def6f4082fcc924

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Is Under Pressure Again- Key Levels I'm Watching
+  summary: 
+  url: https://finnhub.io/api/news?id=ff81079f5e9ae337951550629b58cf8065dc89347757435bd6acddaeb758e8eb

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's Valuation Post-IPO: 3 Takes on the $2.5 Trillion Behemoth
+  summary: Some analysts actually believe the company's current share price is justified.
+  url: https://finnhub.io/api/news?id=39a918c6c33ed78d52a2e313d19f83733e6cf7eb8a9b26eb29023ab05f7406fd
