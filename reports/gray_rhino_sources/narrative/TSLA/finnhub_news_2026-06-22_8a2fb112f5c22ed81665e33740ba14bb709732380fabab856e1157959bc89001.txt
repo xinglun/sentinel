@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jefferies sees downside risk for Tesla stock, warns of SpaceX tracker risk
+  summary: Investing.com - Jefferies has trimmed its Tesla (NASDAQ:TSLA) price target to $375 and flagged a new structural risk for the stock: that growing market consensus around a Tesla-SpaceX merger could effectively transform TSLA shares into a de facto SpaceX (NASDAQ:SPCX) tracking stock.
+  url: https://finnhub.io/api/news?id=a8312ad998d59426757e6b8e429fa9ddc3f5beaeb479a1d3e463b7b001c72ac2

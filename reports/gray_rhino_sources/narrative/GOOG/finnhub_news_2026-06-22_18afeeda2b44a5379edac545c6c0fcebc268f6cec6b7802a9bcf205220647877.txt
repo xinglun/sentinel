@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: J.P. Morgan Fires Back at Google Rumors Threatening Broadcom Stock
+  summary: J.P. Morgan Dismisses Google Concerns, Sees Massive Run Ahead for Broadcom
+  url: https://finnhub.io/api/news?id=a124e103f61349c3cbe57dfb84788d30da99891ac96467faa3d681417e6a0424

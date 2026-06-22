@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: French Domestic Intelligence Agency Replaces Palantir (PLTR) for Local Rival, Reuters Reports
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the best AI software stocks to buy according to hedge funds. Reuters reported on June 16 that, according to a statement from the French Prime Minister’s office on Tuesday, France’s domestic intelligence agency DGSI ​will replace tools from Palantir Technologies Inc. (NASDAQ:PLTR) in favour of a French ‌rival, […]
+  url: https://finnhub.io/api/news?id=3ff64da7e67545c31b2b49f0ae13f3095d701634398da4479d01d472a4efb9a5

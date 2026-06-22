@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Hold But Close To Buy, I Do This Instead Of Buying Shares
+  summary: Palantir (PLTR) stock analysis: fair value $141.2 (~10% upside), strong government AI moat but high uncertainty. See here for more details.
+  url: https://finnhub.io/api/news?id=956b6ef5e9f6ee00fef82a826e01af6e0f75ebb3744eef66f5a1ee3e80e23e8a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Happens to a 75 Year Old With a $500,000 IRA Who Takes the RMD in January vs December vs Monthly
+  summary: On the April 21, 2026 episode of Ask An Advisor With Wes Moss, a listener named Scott asked whether RMD withdrawals should come out monthly, in a lump sum at year-end, or left in the market as long as possible. Moss, the certified financial planner and host who co-anchors the segment on Clark Howard’s show, ... What Happens to a 75 Year Old With a $500,000 IRA Who Takes the RMD in January vs December vs Monthly
+  url: https://finnhub.io/api/news?id=06e2758412e25b9c449099a53d063583e296242237185c6d2eb7eee16c0f7828

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fervo Energy Reports First Quarter 2026 Results
+  summary: HOUSTON, June 22, 2026 (GLOBE NEWSWIRE) -- Fervo Energy Company (“Fervo” or the “Company”) (NASDAQ: FRVO), a leading technology-enabled independent power producer of Enhanced Geothermal Systems (EGS), today reported financial and operational results for the first quarter ended March 31, 2026. “This is the geothermal decade, and Fervo is leading the charge,” said Tim Latimer, CEO and Co-founder of Fervo. “2026 is already off to a transformative start. We completed the largest primary energy and p
+  url: https://finnhub.io/api/news?id=ba951297c1a41bae2a50adf4ad42f96fcc4b22f92807e9861331af41d77edd54

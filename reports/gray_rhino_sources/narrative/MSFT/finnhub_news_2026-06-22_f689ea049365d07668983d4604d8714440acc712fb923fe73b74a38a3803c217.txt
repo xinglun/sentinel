@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Pushes AI Beyond Model Wars
+  summary: CEO pushes access, lower costs and trust
+  url: https://finnhub.io/api/news?id=eea51a861230f226ff0cd36b24ac9d774481c183e96e6d13d6b67c198da7de1d

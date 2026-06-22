@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did Leadership Shifts Amid FDA Scrutiny Just Reframe Intuitive Surgical's (ISRG) Investment Narrative?
+  summary: In late May, Intuitive Surgical announced leadership changes effective July 1, promoting nearly 20-year company veteran Taylor Patton to Chief Commercial and Marketing Officer while moving current CCMO Henry Charlton into a new Senior Vice President of Global Business Operations role focused on global value generation. These executive moves come as Intuitive manages FDA safety alerts, product recalls, and rising competition, all while relying on its large installed da Vinci base and...
+  url: https://finnhub.io/api/news?id=c509a5154db4e8cda83b9f447c2158b0f8b7d2ce94c4b535fd1cfffab3f34948

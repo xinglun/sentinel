@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lemonade Brings Autonomous Car Insurance to Colorado
+  summary: DENVER, June 22, 2026--Lemonade (NYSE: LMND), the technology-driven insurance company, today announced that its Autonomous Car insurance is now available in Colorado.
+  url: https://finnhub.io/api/news?id=ddb59a321a70a3e6cd6b7d64ef8fff33b3834707614d1e53a720ca03b6e8b298

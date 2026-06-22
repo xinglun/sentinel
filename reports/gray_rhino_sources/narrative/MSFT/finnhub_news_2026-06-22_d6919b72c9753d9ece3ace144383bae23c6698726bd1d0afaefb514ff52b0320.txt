@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Signs 20-Year Power Agreement with Microsoft for West Texas Data Center
+  summary: HOUSTON, June 22, 2026--Chevron announced a 20‑year agreement with Microsoft to develop Project Kilby, a co‑located power facility in West Texas for a Microsoft data center.
+  url: https://finnhub.io/api/news?id=bb2ba471957e45a1cd4a1d7567258e5619595efce816ce41439b5ba19f732ee4

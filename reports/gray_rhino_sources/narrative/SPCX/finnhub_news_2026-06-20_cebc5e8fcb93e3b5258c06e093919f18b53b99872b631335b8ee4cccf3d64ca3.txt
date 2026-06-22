@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Freak Out Over Fed Chair Kevin Warsh's 'New' Regime
+  summary: June market pullback offers a buying chance ahead of a potential breakout to new highsâdriven by earnings, jobs, and AI momentum.
+  url: https://finnhub.io/api/news?id=2d211d41ac32f5f0ff6752872b47893858ab6921768f737e6cc3543ddd40ba3d

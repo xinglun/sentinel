@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's SpaceX Reportedly Got Same Governance Score As Putin's Russia — One Day Before Its $75 Billion IPO
+  summary: SpaceX received a triple-C ESG rating from MSCI before its record IPO, raising concerns about its governance.
+  url: https://finnhub.io/api/news?id=6759166aa487c1d302400aec48f2ce7ef66265ee0ae1247d4acfbfb01fd22e31

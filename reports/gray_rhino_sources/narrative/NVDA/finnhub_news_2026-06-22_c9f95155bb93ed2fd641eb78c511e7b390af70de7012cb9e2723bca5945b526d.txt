@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Platinum Is Down 6% While Gold Hit Record Highs and One Quiet ETF Sits at the Bottom of a Setup Most Investors Are Missing
+  summary: Price ratios often operate akin to rubber bands: if the ratio starts to increase, the rubber band may get stretched, but will snap back to achieve its baseline of minimal tension. The principle of the slingshot takes this concept into projectile weapons: the projectile is pulled further back, creating even greater tension, so that ... Platinum Is Down 6% While Gold Hit Record Highs and One Quiet ETF Sits at the Bottom of a Setup Most Investors Are Missing
+  url: https://finnhub.io/api/news?id=5d498f1a757598ae690242be1eeab26f5454e8bd8bbb2ef23c8bd07f4ab9f93c

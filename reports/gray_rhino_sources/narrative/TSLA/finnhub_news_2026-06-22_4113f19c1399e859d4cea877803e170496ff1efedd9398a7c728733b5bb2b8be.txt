@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Driver-Assistance Tech Faces New Test
+  summary: Investigators reviewing whether driver-assistance system was active
+  url: https://finnhub.io/api/news?id=84964baffcbbda4aeba2cf2e7f28377621bcab0fc8ef5e34d41b610a73161994

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloudflare Collaborates With Leading Browsers to Develop a Privacy-First Protocol For the Global Internet
+  summary: SAN FRANCISCO, June 22, 2026--Cloudflare, Inc. (NYSE: NET), the leading connectivity cloud company, today announced a new initiative with major Web browsers—Mozilla Firefox, Google Chrome, and Microsoft Edge—committing to developing and submitting for standardization a privacy-preserving protocol to help humans and bots prove that their traffic is not malicious. As the Internet shifts from human-driven clicks to agent activity, website operators must now figure out how to stop aggressive automat
+  url: https://finnhub.io/api/news?id=0e34ff583d3dbd83277c70edd75d935890229e352ea5b95e32f3809df64c394b

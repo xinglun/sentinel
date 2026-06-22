@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron and Western Digital Rise 6%, SanDisk Gains 5% as Memory Stocks Rally Into Micron’s Earnings
+  summary: Micron Technology (NASDAQ:MU) stock is up about 6% in Monday morning trading to around $1,199, leading a broad memory and storage rally into the company’s Wednesday earnings report. Western Digital (NASDAQ:WDC) stock is also up by about 6% to around $788, while SanDisk (NASDAQ:SNDK) stock is up 5% to around $2,294. The group is resisting ... Micron and Western Digital Rise 6%, SanDisk Gains 5% as Memory Stocks Rally Into Micron’s Earnings
+  url: https://finnhub.io/api/news?id=c66778cfd654731eadd8bca00b91c10b3830f6e06bf7426dd60892c7d13c9c49

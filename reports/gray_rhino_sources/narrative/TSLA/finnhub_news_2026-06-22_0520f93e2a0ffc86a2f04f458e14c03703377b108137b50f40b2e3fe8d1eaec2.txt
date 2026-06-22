@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ACHR Stock Slips Premarket: Archer Aviation CEO Reportedly Pitches Tesla-Like Future For Air Taxis
+  summary: The company’s CEO, Adam Goldstein, takes an optimistic outlook on the future of air taxis.
+  url: https://finnhub.io/api/news?id=983ccf6478a68db9b036af1fe34a32ea6c7d50ef4953d361752afef69dc9efc7

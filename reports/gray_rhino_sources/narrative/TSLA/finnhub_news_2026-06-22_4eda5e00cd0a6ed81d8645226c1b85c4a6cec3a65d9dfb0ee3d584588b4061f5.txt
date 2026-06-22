@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla rival says Elon Musk still has one major edge
+  summary: Tesla (TSLA) has taken a lot of criticism for its self-driving ambitions. Regulators have cast doubt on the company’s safety assertions. Critics say Full Self-Driving is still an overhyping of what the system can perform. And competitors in China have been working hard to develop their own superior ...
+  url: https://finnhub.io/api/news?id=dfd5b26519797c24a91aa5d8430ec0a31778ccac3ec26b929c7bb0fc20de9abc

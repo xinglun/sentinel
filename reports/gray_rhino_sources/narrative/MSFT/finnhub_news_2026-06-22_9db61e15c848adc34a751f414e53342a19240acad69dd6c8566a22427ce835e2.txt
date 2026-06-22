@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vena Earns 19 Top Ranks and 21 Leading Positions in Annual BARC Planning Survey
+  summary: TORONTO, June 22, 2026--Vena, the Microsoft-native platform for Orchestrated Planning, Decisioning and Close, today announced it has been recognized with 19 top ranks and 21 leading positions across four peer groups in The Planning Survey 26 by BARC. The results reinforce Vena’s market position as a trusted platform for finance teams looking to modernize planning, budgeting, forecasting and financial consolidation while continuing to work in the tools they know best.
+  url: https://finnhub.io/api/news?id=f57ab28beba038ffdc90aeac6df322f8959b3aabdd6a3e7b925017283db0dd8f

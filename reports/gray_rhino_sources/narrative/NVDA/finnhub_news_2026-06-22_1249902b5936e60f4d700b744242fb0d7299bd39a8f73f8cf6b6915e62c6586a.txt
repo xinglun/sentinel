@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA Announces Halos for Robotics, the Industry’s First Full-Stack Safety System for Physical AI
+  summary: NVIDIA Halos for Robotics NVIDIA Halos for Robotics is the industry’s first full-stack, comprehensive safety system for robotics and physical AI that unifies AI compute and safety. News Summary: NVIDIA Halos for Robotics is the industry’s only full-stack, open robotics safety system, extending NVIDIA Halos’ proven autonomous vehicle safety to robotics and physical AI to give machines that sense, decide and act in the real world a single common safety architecture.Safety is built in every layer,
+  url: https://finnhub.io/api/news?id=54f72d4656f7968e3e396e93ad0d222aca37fb37dfce4592f471101b7118ae3a

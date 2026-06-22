@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises Amid U.S.-Iran Peace Talks; SpaceX Stock Sells Off (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Monday amid U.S.-Iran peace talks. SpaceX stock dived in morning trading.
+  url: https://finnhub.io/api/news?id=46fc4a82758e526416bc3a88cbe2ea52719ac9f29ff64f62e58adbebeb59cac3

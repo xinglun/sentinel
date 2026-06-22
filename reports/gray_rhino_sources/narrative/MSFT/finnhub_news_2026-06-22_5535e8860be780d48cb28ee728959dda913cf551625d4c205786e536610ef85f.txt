@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO Satya Nadella warns of AI concentration risks
+  summary: In an interview with the Wall Street Journal, Microsoft (MSFT) CEO Satya Nadella warned of the growing concentration in the handful of artificial intelligence companies leading the AI boom.  Morning Brief Host Julie Hyman and Semafor business and finance editor Liz Hoffman break down where Nadella's biggest concerns lie. Private developers Anthropic (ANTH.PVT) and OpenAI (OPAI.PVT) are set for mega-IPOs in late 2026, with Microsoft owning 27% of the latter's for-profit arm.
+  url: https://finnhub.io/api/news?id=e2d5750b53ad3c0b0671cd61b5ce1cf67d12020c2f312dba767c0853fdd427f9

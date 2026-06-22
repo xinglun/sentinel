@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Dell AI Factory with NVIDIA Advances Supercomputing-Class Infrastructure Powering the Next Generation of HPC and AI
+  summary: HAMBURG, Germany, June 22, 2026--ISC--Dell Technologies (NYSE: DELL) introduces the Dell PowerEdge XE8812 server, a new addition to the Dell AI Factory with NVIDIA, purpose-built for the world's most demanding HPC and AI workloads, featuring NVIDIA Vera Rubin NVL4 architecture and delivering up to 144 GPUs per rack. The announcement comes as Dell AI Factory deployments accelerate worldwide, advancing sovereign AI initiatives, engineering and design workflows, and genomic science.
+  url: https://finnhub.io/api/news?id=526a97f17103b17037685f1bd1dbc708623ecc75d840ecd97a1d787d80cf0cce

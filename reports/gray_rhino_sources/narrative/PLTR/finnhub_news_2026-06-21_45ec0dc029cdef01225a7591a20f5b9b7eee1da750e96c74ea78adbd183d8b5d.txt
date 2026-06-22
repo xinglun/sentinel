@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 AI Tech Stocks That Just Crushed Earnings: Are They Still Buys for the Long Term?
+  summary: Hewlett Packard Enterprise, Micron, and Palantir blew away analysts' expectations last quarter.
+  url: https://finnhub.io/api/news?id=6982cff82d932a0fecaa7d1b5d5d1b7e9b9799cf13200e2f1008b42ca9cd4762

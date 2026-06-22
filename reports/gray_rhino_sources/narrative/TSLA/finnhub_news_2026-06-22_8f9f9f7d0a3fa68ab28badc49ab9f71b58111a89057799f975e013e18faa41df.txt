@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Effectively Bought Cursor At Half Price In An 'Incredible Deal,' Says Chamath — Tesla-SpaceX Merger Is Next
+  summary: He estimated that if SpaceX grows from $1 trillion to $2 trillion, the stock-based deal becomes far cheaper in hindsight.
+  url: https://finnhub.io/api/news?id=5d06c1656d0d9c859fbbe0663dede547c006e4d641e1480f070d7f439892fef6

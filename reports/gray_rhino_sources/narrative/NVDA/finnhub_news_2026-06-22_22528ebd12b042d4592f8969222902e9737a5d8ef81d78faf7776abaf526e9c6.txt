@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD's Rally Has Wall Street Paying Attention
+  summary: The stock is up more than 150% this year, but many investors believe the story isn't over yet.
+  url: https://finnhub.io/api/news?id=ec652dc8968f03d0a0802a4e72336ccfb02c17d69e8d0cdcf690904ad9a59e0e

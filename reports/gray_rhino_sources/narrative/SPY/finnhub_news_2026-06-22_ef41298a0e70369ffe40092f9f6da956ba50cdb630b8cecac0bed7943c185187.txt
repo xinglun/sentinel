@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Gains As AI And Rate Hikes Take Center Stage For Investors
+  summary: The S&P 500 showed off dueling forces of ongoing AI boom and rising likelihood of interest rate hikes affecting direction of U.S. stock market in Juneteenth holiday-shortened trading week.
+  url: https://finnhub.io/api/news?id=7047610aeecd12c01922721aae08fb1c400158e1a03d8f83e6bd81fee507f73f

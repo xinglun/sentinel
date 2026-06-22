@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: These 16 Words From IBM Will Prove to Be Prophetic About Artificial Intelligence's Future
+  summary: As companies trust AI agents to take on more tasks, this can pose significant risks down the road.
+  url: https://finnhub.io/api/news?id=e50b7c5e6f9134e4a0b3fd87ca5ba16e538f070600733ee569f4ed8d5de073fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Small-Cap Stocks Getting a Russell 2000 Rebalance Boost
+  summary: Three small-cap stocks set to join the Russell 2000 could see increased demand as index funds rebalance portfolios later this month
+  url: https://finnhub.io/api/news?id=293d471c1d11f8b20776af9742e662854033281e80519b1e3a6411fdcfe67946

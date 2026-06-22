@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Stock Could Be 23.6% Undervalued After Recent Share Price Weakness
+  summary: Intuitive Surgical (ISRG) is back in focus after recent trading data showed the stock down about 7% over the past month and around 14% over the past 3 months, sharpening attention on its long term track record. See our latest analysis for Intuitive Surgical. At a share price of $406.78, Intuitive Surgical’s recent 1 month share price return of about 7% down and year to date share price return of about 28% down point to fading short term momentum, even though the 3 year total shareholder...
+  url: https://finnhub.io/api/news?id=be6ac0b43db120744a95b854a73af8dc0b9e2997e2a6257e690b46dd410d3bae

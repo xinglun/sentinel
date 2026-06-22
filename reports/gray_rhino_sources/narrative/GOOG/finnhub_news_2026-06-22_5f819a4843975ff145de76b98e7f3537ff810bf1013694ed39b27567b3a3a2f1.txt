@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones opens higher but Nasdaq flat as hawkish Fed still looms
+  summary: 9.55am: Dow up but Nasdaq flat US stocks were showing a familiar split in opening trades, with the Dow Jones opening up 0.5% as investors rotate into cyclical and defensive blue chips including JPMorgan, Goldman Sachs, Caterpillar, UnitedHealth and Amgen. The S&P 500 climbed just over...
+  url: https://finnhub.io/api/news?id=70c5e23af3b5822b54aedce84730b1a7069c27f3507f3b012fed29b228a2a436

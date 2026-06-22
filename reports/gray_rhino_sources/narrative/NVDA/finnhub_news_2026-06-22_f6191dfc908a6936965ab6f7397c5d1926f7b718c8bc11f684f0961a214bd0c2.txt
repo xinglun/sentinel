@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Much You Can Safely Withdraw From a $1 Million Portfolio in Retirement
+  summary: It's important to make sure that money lasts.
+  url: https://finnhub.io/api/news?id=b6801c8d527fa7e5ec5439a071525f49aa4b7ea365d9ab82685367b723174ba2

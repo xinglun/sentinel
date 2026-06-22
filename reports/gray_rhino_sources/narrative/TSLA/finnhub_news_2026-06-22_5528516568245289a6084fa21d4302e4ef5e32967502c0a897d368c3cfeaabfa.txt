@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ross Gerber Calls Waymo 'Way Safer And Better' Than Tesla's FSD, Questions Whether Elon Musk Can 'Catch Up'
+  summary: Ross Gerber thinks that Waymo&#39;s self-driving system could be better suited to navigate the streets of Los Angeles compared to Tesla.
+  url: https://finnhub.io/api/news?id=2b32af8bba381e8df3a547bc0c6447e09c74355fee7f1840ece9b29535797495

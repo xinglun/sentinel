@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Intel (INTC) Be an Unexpected Winner of the AI Chip Shortage?
+  summary: With a forward P/E of 85.38, Intel Corporation (NASDAQ:INTC) is among the 10 Most Overvalued Quantum Computing Stocks According to Short Sellers. On June 8, reports indicated that Intel Corporation (NASDAQ:INTC) is emerging as a potential beneficiary of tightening capacity at rival semiconductor foundries, reinforcing the company’s growing position in advanced chip manufacturing. According to sources cited by The Information, several […]
+  url: https://finnhub.io/api/news?id=587d50d4a4698c7fc3c130cb7713be1e9c56946b0d9c75f40e46587f0abdf36c

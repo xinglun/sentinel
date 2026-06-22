@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vention and Teradyne Robotics Collaborate on Digital Twin Creation Platform Optimized for UR Robotic Cells
+  summary: Vention, the leading digital-first industrial automation platform, and Teradyne Robotics, today announced a strategic collaboration to accelerate the deployment of modular automation. Built on Vention's MachineBuilder software and centered around Universal Robots' family of collaborative industrial robots (cobots), the initiative extends Vention's MachineBuilder to create a specialized platform that allows manufacturers to design, program, and operate modular work cells within a unified digital
+  url: https://finnhub.io/api/news?id=e623d038f789133505ef75c24cac8fe28d1b4beefd37679818261190060acb80

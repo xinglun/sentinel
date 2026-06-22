@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Quietly Files Megapod Trademark — An AI Data Center Play That Could See Elon Musk Challenging Nvidia's Dominance
+  summary: Tesla wants to sell AI data center hardware with its new trademark Megapod, aligning with Elon Musk&#39;s &#39;Digital Optimus&#39; vision.
+  url: https://finnhub.io/api/news?id=46e121ff47d337a840767b141f14d1e399bf83ad73b6d64194fcb0ab88a4cc3a

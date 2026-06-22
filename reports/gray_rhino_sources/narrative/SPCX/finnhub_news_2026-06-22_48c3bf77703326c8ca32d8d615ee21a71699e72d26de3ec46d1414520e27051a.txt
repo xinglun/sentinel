@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Landed In A Value ETF - That's The Least Interesting Thing About SCHV
+  summary: Schwab US Large-Cap Value ETF beat the S&P 500 since July 2025, boosted by AI/tech shifts and reconstitution effects. Click for this SCHV fund update.
+  url: https://finnhub.io/api/news?id=fc3f64e5ff36bfc2dc7481ac3b88c41b62ade5e57a59406cb5d26238b8b04a83

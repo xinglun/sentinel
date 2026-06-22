@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Energy Stocks Decline Premarket Monday
+  summary: Energy stocks were declining premarket Monday, with the State Street Energy Select Sector SPDR ETF (
+  url: https://finnhub.io/api/news?id=fe59f712a171ae483645216edf51ffbde5e2decf4d8f6210ec40a00a811abeda

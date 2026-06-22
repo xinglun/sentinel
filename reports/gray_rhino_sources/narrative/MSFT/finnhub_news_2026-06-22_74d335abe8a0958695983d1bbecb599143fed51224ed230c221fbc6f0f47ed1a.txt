@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Schneider Electric Advances Open, Software-Defined Automation at Automate 2026
+  summary: Schneider Electric, a global energy technology leader, is participating in Automate 2026, North America's largest robotics and automation event, at McCormick Place in Chicago, Illinois (June 22–25). As manufacturers, system integrators, engineering professionals, and industrial leaders from across the world convene to chart the future of automation, Schneider Electric is headlining the show. The presence builds on Schneider Electric's recent milestone as the first company to earn NEMA Make it Am
+  url: https://finnhub.io/api/news?id=554bd7c1cd083b662d29e9294b8122037f77f32010a96c398474ae5ee86cfa28

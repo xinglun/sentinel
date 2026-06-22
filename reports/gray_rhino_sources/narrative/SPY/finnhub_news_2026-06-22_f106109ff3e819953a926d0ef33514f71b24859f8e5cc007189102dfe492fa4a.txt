@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nothing Stands In The Way Of Earnings Growth
+  summary: Market outlook: optimism despite Middle East tensions, hawkish Fed and higher yields. Click for this updated look at the latest news and its implications.
+  url: https://finnhub.io/api/news?id=b4ab94771b3a14b9b9bc1242df90678b54c12b22060ca5711ce7b500dc7d013e

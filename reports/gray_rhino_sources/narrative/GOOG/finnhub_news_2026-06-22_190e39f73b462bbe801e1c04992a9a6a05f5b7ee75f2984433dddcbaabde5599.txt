@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google EMEA President: AI is a '$25 Trillion Economic Opportunity'
+  summary: Google Europe, Middle East and Africa president Debbie Weinstein discusses the $25 trillion global economic opportunity presented by artificial intelligence. Weinstein also explains how changing search behaviors are transforming marketing and why leaders must adopt the technology to drive growth rather than just efficiency.
+  url: https://finnhub.io/api/news?id=e559445296541306df384cbf8d24833d9ea95426d924822dc19fd812a0e6d7cf

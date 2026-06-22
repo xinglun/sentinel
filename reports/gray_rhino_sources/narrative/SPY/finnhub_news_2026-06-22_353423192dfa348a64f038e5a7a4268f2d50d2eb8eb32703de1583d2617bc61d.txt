@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weekly Market Pulse: Markets Review
+  summary: Technology stocks have been outperforming for a long time. Thatâs how technology gets to be nearly 40% of the S&P 500 and the Russell 1000 and 60% of the NASDAQ 100.
+  url: https://finnhub.io/api/news?id=ee3a4809078c0cbfda976b0827b1a6217ef91138039bd6f47cd69585331194ce

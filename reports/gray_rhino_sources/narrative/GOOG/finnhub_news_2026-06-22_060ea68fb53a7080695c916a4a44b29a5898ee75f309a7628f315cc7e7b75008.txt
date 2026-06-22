@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Money Managers Have Chosen Their Favorite AI Stock (and It's Not Nvidia or Alphabet)
+  summary: A dual-industry leader is the most common top-four holding for six of the savviest billionaire investors.
+  url: https://finnhub.io/api/news?id=2214f1ff57659a6ae36c35c58b07e51f8a78ff8619f06881bbacabb86ce02869

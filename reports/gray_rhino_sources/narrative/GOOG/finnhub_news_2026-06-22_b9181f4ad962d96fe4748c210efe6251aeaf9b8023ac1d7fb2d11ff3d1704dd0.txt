@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Missing 10,000: Is Optimus Falling Behind The Robotics Pack?
+  summary: Tesla (TSLA) is valued at more than $1.2 trillion. The automotive business holding that number up is shrinking. Full-year 2025 revenue came in at $94.8 billion, down 3 percent, the company's first annual revenue decline ever. Auto revenue fell 10 percent to $69.5 billion, margins are tighter, and BYD and other Chinese automakers keep gaining global share.
+  url: https://finnhub.io/api/news?id=2542281f4d8e63105c3b4c42f920ac14c5f90478c053e7d8bb3fc470d4c8962a

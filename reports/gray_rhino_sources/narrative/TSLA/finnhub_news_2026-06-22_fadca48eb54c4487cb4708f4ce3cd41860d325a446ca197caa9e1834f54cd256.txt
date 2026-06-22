@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jefferies Warns Tesla Could Trade Like SpaceX Proxy
+  summary: The firm trimmed its Tesla target to $375 and flagged merger speculation as a new risk.
+  url: https://finnhub.io/api/news?id=3052917b10d136a5845804519c83f01049825d69188610b418cb8aab110a0eae

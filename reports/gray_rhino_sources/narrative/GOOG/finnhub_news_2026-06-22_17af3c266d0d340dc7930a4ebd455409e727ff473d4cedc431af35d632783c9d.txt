@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: US Equity Futures Slightly Higher Pre-Bell As US-Iran Talks Start in Switzerland
+  summary: (Updates with economic data, recent oil price movement, world markets' overview and corporate stock
+  url: https://finnhub.io/api/news?id=7fb6b6afa656cec1fe0bb0120da134cdbca562aa09232c8f9a8045f5a7ddd9a6

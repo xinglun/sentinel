@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Stock After 28% Slide Are Valuation Expectations Reset Enough
+  summary: If you are wondering whether Intuitive Surgical stock is starting to offer better value or still pricing in a lot of optimism, you are not alone. The share price closed at US$406.78, with returns declining 2.3% over the past week, 7.1% over the past month, and 27.6% year to date. The return over the past 1 year is down 21.0% and the 3 and 5 year returns are 25.1% and 33.7% respectively. Recent coverage has focused on how Intuitive Surgical sits within medical technology and minimally...
+  url: https://finnhub.io/api/news?id=3705bf642a16abd75a4b850904b137176139dfd90b80608559dd0cc74a9006a9

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JD Vance Says Trump Backs Government Stakes In AI Giants, But Musk And Cuban Push Back: 'Better Just To Send Money Directly'
+  summary: Vice President JD Vance said that President Donald Trump supports the U.S. government taking ownership stakes in major artificial intelligence companies, likening the idea to a sovereign wealth fund-style approach, while Elon Musk countered that direct cash payments to Americans would work better. Trump Backs AI Ownership Stakes Speaking on an episode of The Diary Of A CEO that aired Thursday, Vance said Trump has stated the position publicly and called it unconventional for a Republican adminis
+  url: https://finnhub.io/api/news?id=a2967cfb13724279552e030843646df0968fd533f2854b4031b920680f85be64

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Deutsche Bank Still Isn’t Convinced About Intuitive Surgical (ISRG)
+  summary: With a short percentage of shares outstanding of 2.05%, Intuitive Surgical, Inc. (NASDAQ:ISRG) is among the 7 Best Longevity and Anti-Aging Stocks to Buy. On June 2, Deutsche Bank reduced its price target on Intuitive Surgical, Inc. (NASDAQ:ISRG) to $366 from $440 while maintaining a Sell rating on the shares. The revised target reflects the firm’s updated valuation outlook for the […]
+  url: https://finnhub.io/api/news?id=ec8f3dd78c5ace92421c0611493ded3bf77cf1779545bab9e154dbd6557f6405

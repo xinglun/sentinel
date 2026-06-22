@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Azure Maps Gen1 Pricing Customers To Be Migrated To Gen2 Pricing in September 2026, A 9x Cost Increase
+  summary: OnTerra Systems Urges Organizations to Evaluate Options Now Before the September 15 Auto-Migration DeadlineDENVER, June 22, 2026 (GLOBE NEWSWIRE) -- OnTerra Systems, a licensed reseller and technical services company specializing in web mapping and geospatial solutions, today issued a reminder to organizations currently operating under Microsoft Azure Maps Gen1 pricing tiers: a significant and automatic price increase is coming on September 15, 2026. Azure Maps customers who don’t act before tha
+  url: https://finnhub.io/api/news?id=61f7b4f15f073b6d513d219dd493a789ab3db2d172d3007d08a00a562dc02adf

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO Calls for Broader AI Access
+  summary: Satya Nadella said the industry should focus less on a few giant models and more on cost, choice and trust.
+  url: https://finnhub.io/api/news?id=7ca7e4deac8631a398ee6f140d7ee893693d30354947fdd429f65323abcfc6f1

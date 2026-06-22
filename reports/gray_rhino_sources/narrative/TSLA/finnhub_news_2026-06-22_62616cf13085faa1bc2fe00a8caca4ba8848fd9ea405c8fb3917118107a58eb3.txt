@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jefferies Lowers Tesla Target and Highlights Potential SpaceX Tracking Stock Risk
+  summary: Jefferies has reduced its price target on Tesla (NASDAQ:TSLA) to $375 and identified what it sees as an emerging structural risk for shareholders: the possibility that expectations surrounding a future combination with SpaceX (NASDAQ:SPCX) could cause Tesla shares to increasingly trade as a proxy for SpaceX. The brokerage argues that growing investor belief in a potential merger between the two companies may begin to influence Tesla’s valuation independently of its own business performance.
+  url: https://finnhub.io/api/news?id=89f5ed4357b33a439ab3051b0596076bce3e20299a4640a3d74aa315e76fa41c

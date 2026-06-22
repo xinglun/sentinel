@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Horizon Media and Smartly Launch Partnership to Turn Audience Intelligence Into Performance
+  summary: NEW YORK, June 22, 2026--Smartly and Horizon Media expand partnership to connect audience intelligence, creative, and media activation in one system.
+  url: https://finnhub.io/api/news?id=f2c3678357b6f08c1bd813cbe146dc8a8c5cdfb09f1b0cf9f9ccea29622fb47f

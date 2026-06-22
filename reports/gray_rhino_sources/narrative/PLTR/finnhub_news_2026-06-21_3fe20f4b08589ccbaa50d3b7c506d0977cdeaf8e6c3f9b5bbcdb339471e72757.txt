@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Stocks To Play The AI And Data Center Boom
+  summary: The more the world turns towards an automated AI future, the more demand will grow for leading AI companies. Check out three stocks to play AI and data center boom.
+  url: https://finnhub.io/api/news?id=0c7be6ef288726423c7b530e1af50302a423f956fc4179cc4068361023baddb9

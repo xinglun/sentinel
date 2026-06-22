@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Apple's Margin Miracle Over?
+  summary: Apple's (AAPL) most impressive achievement over the last five years wasn't a new iPhone or a new chip.
+  url: https://finnhub.io/api/news?id=b5a4175b00602f8ce2c59cc9e3173e8be0bfa06e96b0c5c260dc6733f0d72478

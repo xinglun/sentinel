@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Strikes Power Deal With Microsoft for West Texas AI Data Center
+  summary: The 2.7-gigawatt project will have its own on-site power plant fueled by Chevron’s local natural-gas production.
+  url: https://finnhub.io/api/news?id=1ae25de0a33f0d2bc7a8e2a0fb607b217a15af7a81fce058baf4ea6f3b066c62

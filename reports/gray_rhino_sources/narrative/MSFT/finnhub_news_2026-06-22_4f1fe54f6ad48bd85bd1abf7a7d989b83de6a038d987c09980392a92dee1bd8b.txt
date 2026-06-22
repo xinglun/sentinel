@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Amazon Will Surpass Microsoft's Market Cap and Join the $3 Trillion Club By the End of Summer
+  summary: Amazon has twice as much ground to make up as Microsoft to become the market's fourth $3 trillion company. Don't bet against it.
+  url: https://finnhub.io/api/news?id=e6d39190e36aa91c6efd43881bfa23a4f42284647a3add6633fc85977b651cdc

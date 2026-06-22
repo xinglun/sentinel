@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fermi Still Has A Lot To Prove
+  summary: 
+  url: https://finnhub.io/api/news?id=f91366ee2275293999b1f65c2afb1a9a6aa7299cba111cca09711e7d13b5ba39

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is It Too Late to Buy Palantir Stock? Here Is What Its Valuation Says About Its Future.
+  summary: Palantir has a ton of success already priced into the stock.
+  url: https://finnhub.io/api/news?id=c1e7d656e96b6622480bf26b863cf9f1b1d736e8880a7df8a1265af2edae14f2

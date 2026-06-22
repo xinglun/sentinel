@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron signs 20-year natural gas deal with Microsoft for AI data center
+  summary: Project Kilby, a 2.67-gigawatt natural gas plant in Texas, could be among the largest co-located power and data center developments in the U.S.
+  url: https://finnhub.io/api/news?id=bae6d9728749855362e117f7c83b0574841ac5d1f1de97c58947f3d92fd47202

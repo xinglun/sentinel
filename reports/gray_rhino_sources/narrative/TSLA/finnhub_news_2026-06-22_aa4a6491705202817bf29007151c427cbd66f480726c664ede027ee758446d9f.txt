@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did Elon Musk Just Hint a SpaceX-Tesla Merger Is Imminent?
+  summary: The market’s attention has been fixed on SpaceX‘s (NASDAQ:SPCX) historic public debut and the company’s rapid climb toward a valuation exceeding $2 trillion. Yet the bigger story may not be the IPO itself. It may be what Elon Musk does next. Over the past several years, Musk has increasingly consolidated businesses that share technology, talent, ... Did Elon Musk Just Hint a SpaceX-Tesla Merger Is Imminent?
+  url: https://finnhub.io/api/news?id=cfca0d75738425162b40dfe908048860fec565ef4c82a910e5ac574cc02fca3b

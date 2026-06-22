@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Biggest Threat To REIT Investors?
+  summary: Starlink is revolutionizing global connectivity, but satellites solve the coverage problemânot the capacity problem. Read more about tower REITs here.
+  url: https://finnhub.io/api/news?id=c13ef8da10fc9d3fb4130c20632cdb02bf920c42be7e81f92cb200cec5e6931a

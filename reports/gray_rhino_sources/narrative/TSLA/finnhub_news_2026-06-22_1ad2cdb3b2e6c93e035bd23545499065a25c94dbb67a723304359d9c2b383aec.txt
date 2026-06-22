@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Tesla Investors Are Generating Weekly Income With TSLW Without Selling a Share of TSLA
+  summary: Tesla (NASDAQ:TSLA) doesn’t pay a dividend, and it probably never will, given that investors would probably prefer that Elon Musk reinvest in some of his new, ambitious ideas. For income investors, it might make sense to own Tesla shares alongside some other dividend-paying securities in a “barbell” portfolio of sorts. For those who want income ... How Tesla Investors Are Generating Weekly Income With TSLW Without Selling a Share of TSLA
+  url: https://finnhub.io/api/news?id=14509ecdce58c76ecdfa7a2b148874c176e350e0460de78d44879f5e7ed23097

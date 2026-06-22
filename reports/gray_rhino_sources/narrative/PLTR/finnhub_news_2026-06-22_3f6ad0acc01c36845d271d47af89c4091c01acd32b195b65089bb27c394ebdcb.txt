@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EnduroSat Names Spencer McCollester as SVP of Operations, US
+  summary: A former Palantir leader, McCollester will scale EnduroSat’s US operations as the company expands its footprint to serve defense, government, and commercial customers at scaleSOFIA, Bulgaria, June 22, 2026 (GLOBE NEWSWIRE) -- EnduroSat, a space infrastructure builder, today announced the appointment of Spencer McCollester as Senior Vice President of Operations, US. In this role, he will build the team and processes to scale EnduroSat’s US operations and accelerate growth across the market. McCol
+  url: https://finnhub.io/api/news?id=e121659f17bf2c2030c9b5530086f1e1f3dc1dbc148b5770f8e2d5de8bbba278

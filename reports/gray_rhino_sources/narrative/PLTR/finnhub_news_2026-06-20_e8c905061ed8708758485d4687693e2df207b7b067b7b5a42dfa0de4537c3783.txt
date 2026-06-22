@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s why Palantir Technologies Inc. (PLTR) is Still One of the Best Falling Stocks to Invest In
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the best falling stocks to invest in, according to analysts. On June 16, UBS reiterated its Buy rating on Palantir Technologies Inc. (NASDAQ:PLTR) with a $200 price target. The research firm remains bullish on the stock despite recent underperformance, driven by growing concerns about competition from artificial intelligence […]
+  url: https://finnhub.io/api/news?id=e1cc67f2f1b836e7426e2531025343286406eb009ed9b9c6afb0e86740bbb839

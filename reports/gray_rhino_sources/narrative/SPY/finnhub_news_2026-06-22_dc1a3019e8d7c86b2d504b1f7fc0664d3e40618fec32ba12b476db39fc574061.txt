@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow Futures Gain As Trump Threatens 'Toll' Collection At Strait Of Hormuz— Getty, Intel, Hyperscale In Focus (UPDATED)
+  summary: U.S. stock futures down as Nasdaq 100, Dow Jones, and S&amp;P 500 fall following previous gains. Critical peace talks encounter intense strain.
+  url: https://finnhub.io/api/news?id=8aff0302fe77cef677399eee11b2a71c664d3dd8461964d9a1ffe1a7b044668a

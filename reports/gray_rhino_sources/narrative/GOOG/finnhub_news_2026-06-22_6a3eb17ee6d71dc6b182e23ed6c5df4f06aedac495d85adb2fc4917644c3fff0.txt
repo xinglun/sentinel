@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft, Satya Nadella And The Most Polite Admission in Tech
+  summary: When Satya Nadella sat down with the Wall Street Journal this week, he had a message: the AI race is too concentrated, models should be cheaper, and companies need to "earn social permission." It was measured, statesman-like, and carefully worded. [1.
+  url: https://finnhub.io/api/news?id=1f518eaca95d9a90dcc2a297ba08dad692fa65bda08c35332fc967d888b63885

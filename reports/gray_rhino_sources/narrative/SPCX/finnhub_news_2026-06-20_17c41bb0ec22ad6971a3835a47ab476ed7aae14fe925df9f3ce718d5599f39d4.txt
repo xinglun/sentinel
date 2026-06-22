@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. IPO Weekly Recap: Another Biotech IPO Pops During The Short Holiday Week
+  summary: While the SpaceX IPO may be in the rearview mirror, its trading still dominated financial headlines this week. Read more here.
+  url: https://finnhub.io/api/news?id=4f733f9d2651acb242ca7cf10a59a3aa89bd38d1a2a60076327c343de8ce1bab

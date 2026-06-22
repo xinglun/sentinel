@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock-Bond Dynamics May Be In Flux, But Global Diversification Proved Its Worth In 2026
+  summary: The recent rise in the correlation between stocks and bonds has sparked debate about assumptions for risk models and the role of asset allocation. Read more here...
+  url: https://finnhub.io/api/news?id=52867e916decab5563eb7202e582451543e0dd127c4e655251ff75d371ad629c

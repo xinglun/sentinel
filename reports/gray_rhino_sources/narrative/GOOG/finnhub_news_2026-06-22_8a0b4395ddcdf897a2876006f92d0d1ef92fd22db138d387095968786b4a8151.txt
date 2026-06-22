@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nokia and Google Cloud Partner to Embed AI Agents, Built with Google's Gemini Models, Into Nokia's Autonomous Network Product Suite
+  summary: Google Cloud and Nokia today announced an expanded partnership that will integrate Google's Gemini models into Nokia's network software suite, the Nokia Assurance Center. By developing six specialized AI agents built with Gemini, Google's most capable family of multimodal models, Nokia will advance its capacity to help telecommunication providers lower operational costs, rapidly resolve network issues, and move toward fully automated, self-driving operations.
+  url: https://finnhub.io/api/news?id=abb6e877d6cd6c34d4de51f22eb3231ee7e8b7d14f3c57b12de4c9279aa8ea9a

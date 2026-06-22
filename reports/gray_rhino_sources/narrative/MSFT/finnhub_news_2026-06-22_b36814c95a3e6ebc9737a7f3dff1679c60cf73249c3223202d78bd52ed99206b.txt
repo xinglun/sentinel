@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adcore Enters Strategic Partnership with TikTok as a Channel Sales Partner
+  summary: TORONTO, ON / ACCESS Newswire / June 22, 2026 /Adcore Inc. (TSX:ADCO)(OTCQX:ADCOF)(FSE:ADQ) ("Adcore" or the "Company"), a global leader in AI marketing technology, today announced it has been badged a TikTok Channel Sales Partner, integrating one ...
+  url: https://finnhub.io/api/news?id=a02d72ec13b9d3dc757451187c6fd31fb0725eabd692e7ac547132ac02591ab3

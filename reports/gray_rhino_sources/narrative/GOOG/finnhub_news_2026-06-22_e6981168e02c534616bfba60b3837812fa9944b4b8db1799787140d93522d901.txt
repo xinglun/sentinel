@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SK Hynix surpasses Samsung as South Korea's most valuable company
+  summary: The memory chipmaker's market cap hit $1.35 trillion on Monday, ending Samsung's 26-year run at the top of the Korea Exchange
+  url: https://finnhub.io/api/news?id=2a3fe8295d72e79b149912b13e020cabf92947d8422d9376dc973f1878312f9e

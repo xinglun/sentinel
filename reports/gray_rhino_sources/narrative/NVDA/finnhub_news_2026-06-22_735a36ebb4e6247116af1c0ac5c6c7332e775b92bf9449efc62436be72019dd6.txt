@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Supermicro Delivers NVIDIA Vera Rubin NVL4 End-to-End DCBBS Blueprint with Native FP64 Performance for Converged HPC and AI Infrastructure
+  summary: Super Micro Computer, Inc. (NASDAQ: SMCI), an AI, Enterprise, Storage, and 5G/Edge Total Solution Provider introduces the Data Center Building Block Solutions® (DCBBS) Blueprint for HPC based on the NVIDIA Vera Rubin NVL4 platform, announced at ISC 2026. Following Supermicro's DCBBS Blueprints for NVIDIA Vera Rubin NVL72 and NVIDIA HGX Rubin NVL8 introduced at Computex, the Blueprint for HPC and AI applies the same end-to-end methodology to scientific computing. The Blueprint is based on Supermi
+  url: https://finnhub.io/api/news?id=88bdada3eab0ca24fa2cbc64c41f0a04f1dbe247880926adc41108a0093a17bb

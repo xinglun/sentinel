@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Upscale AI valued at $2 billion after funding extension
+  summary: AI networking infrastructure firm Upscale AI said on Monday it ‌had raised a $190 million extension to ‌its early-stage funding round, bringing its valuation to $2 billion. Here ​are some details: • The investment brings the company's total funding to $500 million. Premji Invest, the investment unit of Indian billionaire Azim ‌Premji, led the ⁠round.
+  url: https://finnhub.io/api/news?id=9fdad2cecff24a912bd752cd246eed18b95ba50627aa6707662f42308ce676b3

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons to Buy Warren Buffett's Favorite Artificial Intelligence (AI) Stock And Never Sell
+  summary: Buffett's final big swing looks dominant enough to grow your savings for decades.
+  url: https://finnhub.io/api/news?id=d2a73aacb84a5ea84426181b8a35b8d735942fde75cf42938fba3565a05aed58

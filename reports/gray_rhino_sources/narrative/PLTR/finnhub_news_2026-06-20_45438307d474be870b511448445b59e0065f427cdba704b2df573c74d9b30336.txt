@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MarketBeat Week in Review – 06/15 - 06/19
+  summary: Markets closed a shortened week higher as lower oil prices and a rally in chip stocks outweighed concerns about future Fed policy.
+  url: https://finnhub.io/api/news?id=994d2ab97e299ecc9a2449365007f64b9a2a66b2adaa9dbad701b13651189694

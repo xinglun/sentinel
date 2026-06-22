@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GE Vernova (GEV) Launches Microsoft Data Center Power Venture With Joulent
+  summary: GE Vernova (NYSE:GEV) and Joulent launch an AI focused energy collaboration to supply multi gigawatt power for Microsoft data centers. Joulent, backed by GE Vernova and Engine No. 1, targets reliable capacity for hyperscale data centers supporting Microsoft’s AI workloads with decarbonisation objectives. GE Vernova reports additional progress across grid modernization contracts, nuclear manufacturing partnerships in Europe and Ontario, and sustainability initiatives. For investors tracking...
+  url: https://finnhub.io/api/news?id=5181211a6fd7e040cf60e4ccb0b1bfbc5434d94ace077524928f41006cd4a7e3

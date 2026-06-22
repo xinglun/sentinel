@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are the three mega-AI IPOs about to break the market?
+  summary: SpaceX just had its IPO, with Anthropic and OpenAI both set to launch initial public offerings soon — their collective financial weight threatens to burst the AI bubble
+  url: https://finnhub.io/api/news?id=4ae2e6a498d830b62e2749c06a68ade17565dd219fb9c3cbc8f870d96222021a

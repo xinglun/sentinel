@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Had Invested $10,000 in Bitcoin 10 Years Ago, Here's How Much You Would Have Today
+  summary: When it comes to the leading cryptocurrency, patience has always been rewarded.
+  url: https://finnhub.io/api/news?id=5be54653a5c7874c109896a64a759085400f2f8cc3387d80cbb9497ca7c27958

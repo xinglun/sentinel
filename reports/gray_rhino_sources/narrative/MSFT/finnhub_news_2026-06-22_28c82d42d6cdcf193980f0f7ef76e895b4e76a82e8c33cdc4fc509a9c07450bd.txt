@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron, Microsoft strike 20-year deal to power massive AI data center
+  summary: Investing.com -- Chevron has struck a 20-year agreement to supply natural gas power to a massive Microsoft data center in West Texas, the latest sign of Big Oil’s push into the booming AI energy market.
+  url: https://finnhub.io/api/news?id=448934766f9ecaae95c88259bf60a66f4efc52e34ddb6134e0b076a52849825b

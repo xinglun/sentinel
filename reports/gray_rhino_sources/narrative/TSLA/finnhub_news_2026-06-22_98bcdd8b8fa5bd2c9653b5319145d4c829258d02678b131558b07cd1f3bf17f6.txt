@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Tesla Stock Before July 2?
+  summary: There are signs Tesla's struggling electric-vehicle business is turning around.
+  url: https://finnhub.io/api/news?id=2def433186d1706f9e7d9c3ef23dd9bcbfaf1311a59befa0cd422d3fb1a23eca

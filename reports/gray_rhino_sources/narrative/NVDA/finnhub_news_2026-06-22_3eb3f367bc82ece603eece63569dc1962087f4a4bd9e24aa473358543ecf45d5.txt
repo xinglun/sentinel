@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FORT Robotics extends its Trust Layer for Physical AI by adding Outside-In Safety in collaboration with NVIDIA Halos for Robotics
+  summary: FORT Robotics, the Trust Layer for physical AI, today announced joining the NVIDIA Halos for Robotics ecosystem that's bringing safety to autonomous robots. FORT will demonstrate an agentic safety application built with the open source NVIDIA Halos Outside-In Safety Blueprint this week at the Automate conference in Chicago and presenting in the Humanoid Robotics Pavilion with NVIDIA on June 23rd.
+  url: https://finnhub.io/api/news?id=0cd3c08a7fc04cb627cd76491607b7548e7783207daa90c958232409c443ca3e

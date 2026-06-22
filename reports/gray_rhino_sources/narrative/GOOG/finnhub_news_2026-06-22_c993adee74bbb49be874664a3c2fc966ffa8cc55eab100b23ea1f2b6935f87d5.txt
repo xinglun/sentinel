@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google CEO says AI has changed revenue picture completely
+  summary: For two decades, Alphabet (GOOGL) generated revenue primarily through advertising, including search ads, YouTube ads, and display ads across its network. On the company's Q1 2026 earnings call in April, CEO Sundar Pichai described a shift in that structure. "Revenue from products built on our gen ...
+  url: https://finnhub.io/api/news?id=1d1f70a58826cc2a671a98b1c18e33204f99e9ca819fd54ddbd466999ee65334

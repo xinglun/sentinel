@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is The Trade Desk Due for a Comeback?
+  summary: The Trade Desk's correction is well overdone, but don't expect it to shoot up like a rocket.
+  url: https://finnhub.io/api/news?id=a857cafc90281ab83f731372d723fa53d91e3390a69e35a6f9b646e93004d298

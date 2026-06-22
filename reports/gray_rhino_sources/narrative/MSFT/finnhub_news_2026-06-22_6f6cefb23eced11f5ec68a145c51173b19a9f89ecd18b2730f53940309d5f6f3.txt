@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO Issues Stark Message on the Future of AI
+  summary: Microsoft Eyes AI Shake-Up as Nadella Questions Industry's Current Path
+  url: https://finnhub.io/api/news?id=520f4c7ecafeeba9d28a9b6a732497c6c7943d2b407b8e97f14fc96f23a10e6e

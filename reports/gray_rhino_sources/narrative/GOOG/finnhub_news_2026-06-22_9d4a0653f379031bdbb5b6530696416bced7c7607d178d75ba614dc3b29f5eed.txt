@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Backs $3.2B AI Chip Push Against Nvidia
+  summary: Google is supporting Lake Mariner as Anthropic prepares to lease computing power from thousands of its TPUs.
+  url: https://finnhub.io/api/news?id=0e52315f4b2554fbcd3114009314c3f30fc3341755eac4b91f297be0ba27f915
