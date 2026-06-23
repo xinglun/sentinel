@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Carle Health Celebrates One Year of Community Solar
+  summary: CHICAGO, June 23, 2026 (GLOBE NEWSWIRE) -- Just over a year ago, Carle Health became the anchor subscriber for two Solstice-managed community solar farms in central Illinois, a move that has already delivered meaningful benefits for families, businesses, and the local community. Developed by ENGIE North America in collaboration with Microsoft, the Knox 3A/3B projects are bringing the benefits of clean, locally produced energy to households and businesses that didn’t have access just a few years
+  url: https://finnhub.io/api/news?id=d3e9de5bbabe020ccce2e98ddbcf1972ea783a3b1dc0d609482b2fa28b135acf

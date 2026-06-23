@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI stocks are getting trampled. South Korean market plunges 10%
+  summary: Volatility has returned to the stock market, and AI is once again the culprit.
+  url: https://finnhub.io/api/news?id=fb670f7ec1bcd4f412ee17ff1059b0a9fd195b6730095db12c720e3ba9acde4f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market: Will S&P 500 Open Up Or Down Today?
+  summary: June 23, 2026: Polymarket traders turn overwhelmingly bearish on the S&amp;P 500 open on Tuesday after a technology-led market selloff.
+  url: https://finnhub.io/api/news?id=9cc104c0030f49c39debc43c88e26f3883acda904b2f9d0585552097b10c14e1

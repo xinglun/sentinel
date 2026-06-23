@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why The Fed May Need To Stay Patient
+  summary: Monetary policy tightening has often occurred in the later stages of market cycles, which is why inflation expectations matter for the next Fed move. Read more here.
+  url: https://finnhub.io/api/news?id=b1fd8018482ae4f21a9649741a430308ba813891b7df3cc602e6c2a77b21c804

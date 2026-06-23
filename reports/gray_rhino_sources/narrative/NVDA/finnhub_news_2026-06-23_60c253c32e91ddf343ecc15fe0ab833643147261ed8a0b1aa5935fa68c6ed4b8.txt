@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SanDisk Plunges 11%, Micron and Western Digital Slide 10% as Korean Market Crash Hits Memory Chips
+  summary: Shares of SanDisk (NASDAQ:SNDK) are leading a sharp memory-chip selloff Tuesday morning session, with SanDisk stock down 11% to $2,027.50. The decline comes one day after the stock closed at a record high, capping a stunning run higher. Micron Technology (NASDAQ:MU) stock is sliding alongside it, off 10% to $1,085, while Western Digital (NASDAQ:WDC) shares ... SanDisk Plunges 11%, Micron and Western Digital Slide 10% as Korean Market Crash Hits Memory Chips
+  url: https://finnhub.io/api/news?id=029b73e1b73c5f9486c6f772dd1f87ee3d91652575335f5d40b61fd67d01e770

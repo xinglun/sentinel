@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ValuEngine Weekly Market Summary And Commentary
+  summary: Markets were broadly weaker over the week, with most major ETF categories posting declines despite ValuEngine ratings remaining constructive in selected growth areas. Read more here...
+  url: https://finnhub.io/api/news?id=0d92b9166e17ff22a1693c0ab484100605d052d3f1f18d8311b73a8681d61555

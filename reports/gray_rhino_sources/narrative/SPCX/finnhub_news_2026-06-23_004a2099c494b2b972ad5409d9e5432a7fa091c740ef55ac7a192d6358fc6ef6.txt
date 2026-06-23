@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Schiff Says Elon Musk Lost 'More Than' Warren Buffett Worth Of Fortune In One Day, But 'Don't Feel Sorry For Him': Here's Why
+  summary: Peter Schiff says Elon Musk lost $150 billion on paper as SpaceX shares tumbled, bigger than Buffett&#39;s net worth.
+  url: https://finnhub.io/api/news?id=4a92f522e20e0217c9bf57f94a4ddebb04814e649bf085af6bd0a7e8ba989c08

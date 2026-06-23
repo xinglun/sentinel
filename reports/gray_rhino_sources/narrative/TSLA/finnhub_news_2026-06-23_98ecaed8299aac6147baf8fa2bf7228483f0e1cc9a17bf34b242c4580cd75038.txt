@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla leads Cars.com's American-Made Index again, even as EV sales slump
+  summary: For a second time Tesla heads the list of Cars.com's most American-made vehicles, which paradoxically comes as the US EV market it helped build shrinks in a post tax credit world.
+  url: https://finnhub.io/api/news?id=6ff890036d927f9f33fc93b38d89276cb6188d386629fde4e35db10a3b71f0b9

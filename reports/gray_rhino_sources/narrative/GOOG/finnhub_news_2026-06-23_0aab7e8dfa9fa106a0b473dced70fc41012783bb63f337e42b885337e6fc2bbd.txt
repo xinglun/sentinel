@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm No Longer Interested in SpaceX, and Elon Musk Is the Reason
+  summary: Elon Musk may have ruined a great space stock by attaching an unprofitable AI business to it.
+  url: https://finnhub.io/api/news?id=44f9ad89ecd192c19dde97bbc5f6998229780c467f2592c0da4b791fa9549a16

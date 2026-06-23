@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Breakfast Podcast: AI Trade Hits A Speed Bump
+  summary: Dan Niles warns about token minimization. Drivers sues gas stations over alleged AI price fixing. Domino's CEO retires.
+  url: https://finnhub.io/api/news?id=10fee2ff7faab05cdc1e69c4b73c0fb5a508c324292becb28b04205ad1fcf1e5

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NatPower and Tesla Launch First Stage of Multi-Billion-Dollar Energy Storage Initiative
+  summary: Expansion Targets 25 GWh of Battery CapacityIndependent energy developer NatPower and Tesla (NASDAQ:TSLA) have entered into an agreement to deploy 25 gigawatt hours of battery storage capacity across Italy and the United Kingdom, marking the opening phase of a broader programme that could be worth as much as $5 billion. The project comes as European countries accelerate investments in energy storage infrastructure to support the growing integration of renewable energy sources and improve grid st
+  url: https://finnhub.io/api/news?id=39eae96f6d8afac836e2679edbeacc108a6cce8b2b74ff4ab2103876ebe2dcf1

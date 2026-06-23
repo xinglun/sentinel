@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Notches Over Twofold Increase in European Monthly Sales
+  summary: Elon Musk’s EV maker continues to rebuild strength in a region where Chinese rivals are gaining ground.
+  url: https://finnhub.io/api/news?id=cd37158816f0c80f1ed3d0cb1d2efe174e1a8a41c40c976d2fa636c057ef284d

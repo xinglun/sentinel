@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm's AI Pivot: Smarter Than It Looks
+  summary: Mobile processor giant Qualcomm (QCOM) was late to the AI party. But that may not be a disadvantage. While Nvidia (NVDA) and AMD (AMD) raced to dominate AI training, Qualcomm has spent decades refining low-power computing.
+  url: https://finnhub.io/api/news?id=634bd751af20555d655ef2c920a1b5d50618ea5d045f11fb9fc0955340ef615c

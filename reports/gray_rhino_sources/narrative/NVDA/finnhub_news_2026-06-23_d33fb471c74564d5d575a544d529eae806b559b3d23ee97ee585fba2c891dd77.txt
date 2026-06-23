@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mara Holdings vs. Soluna Holdings: Which AI Pivot Is More Compelling?
+  summary: Mara Holdings and Soluna Holdings are underrated players in the AI data center boom.
+  url: https://finnhub.io/api/news?id=65c76abe22d1ed608d870f43bb5c40e33d5f9bd43a804d0cdb9a52143f9719c4

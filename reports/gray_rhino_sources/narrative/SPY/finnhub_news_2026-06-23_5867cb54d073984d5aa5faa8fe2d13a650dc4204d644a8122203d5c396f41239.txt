@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: When Is An ETF Too Big?
+  summary: An ETF becomes too big when it becomes the market, meaning when transactions of the ETF impact the market in both directions. A second criterion is the liquidity of the single positions.
+  url: https://finnhub.io/api/news?id=5d69f3f23f636e0c19d103d3733b13510b1532156f93eadd953cfa7ff53785b2

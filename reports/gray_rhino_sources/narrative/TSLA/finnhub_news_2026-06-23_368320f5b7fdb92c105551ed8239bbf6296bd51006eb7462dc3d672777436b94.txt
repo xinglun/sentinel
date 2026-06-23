@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Update - Solar Success Powers Sustainable Growth In The Carolinas
+  summary: Ever.green has successfully completed the Pruger Solar project, a 2-megawatt solar initiative in Marion County, South Carolina, marking its third project in the Carolinas within a year. This development was made possible through the purchase of High-Impact Renewable Energy Certificates (RECs) by various corporate buyers, including REI Co-op and Cutler Development. By securing long-term REC contracts, these companies facilitate the financing of solar projects that may otherwise stall, thereby...
+  url: https://finnhub.io/api/news?id=1ca894a83bfab5d39b2bc1b4147dfe51708ee5600397604529b46c9bd7120f2a

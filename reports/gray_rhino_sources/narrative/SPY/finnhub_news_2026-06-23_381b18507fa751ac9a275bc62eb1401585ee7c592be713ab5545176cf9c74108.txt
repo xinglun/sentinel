@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget 'Animal Spirits'— This Wall Street Strategist Says The S&P 500 Bull Run Is Built Entirely On Earnings: 'Momentum Is Going To Continue...'
+  summary: Could the S&amp;P 500 reach 8,900? JPMorgan explains why this bull case is strictly &#39;earnings driven&#39; and not just &#39;animal spirits.&#39;
+  url: https://finnhub.io/api/news?id=91b2bb2384a1132b6f403960a3e22f4301028892f669a22538031f4648104315

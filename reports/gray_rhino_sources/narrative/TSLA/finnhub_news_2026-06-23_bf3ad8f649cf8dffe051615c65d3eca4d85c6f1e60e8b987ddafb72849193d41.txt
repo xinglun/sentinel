@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Natpower And Tesla Sign A Strategic Agreement For More Than 25 GWh Of Battery Energy Storage Systems In Europe
+  summary: https://natpower.com/2026/06/23/natpower-and-tesla-sign-a-strategic-agreement-for-more-than-25-gwh-of-battery-energy-storage-systems-in-europe-2/
+  url: https://finnhub.io/api/news?id=c82fa01592b9658836311d14f44f6415d3d03c9f8789aef022a79f9bf547d326

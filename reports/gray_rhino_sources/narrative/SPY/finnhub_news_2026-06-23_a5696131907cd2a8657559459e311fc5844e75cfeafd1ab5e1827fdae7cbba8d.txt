@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Signal That Preceded Weak S&P 500 Returns In The Early 2000s Is Back!
+  summary: Hold your S&P 500 index exposure: surging US equity issuance from IPOs and fewer buybacks may cap gains.
+  url: https://finnhub.io/api/news?id=0a86e76070d0e7581ee489584922112da2f6c718fc15de18a8b7045dae55c118

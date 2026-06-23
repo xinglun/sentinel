@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500, Dow Futures Crack On Tech, SpaceX Selloff: Why SPCX, TSLA, INFQ, MU, HOOD, ADTX Are In Focus
+  summary: Stocktwits data showed retail sentiment has turned cautious, sinking to ‘bearish’ on SPY and ‘neutral’ on QQQ.
+  url: https://finnhub.io/api/news?id=d012f62d31602c4e60a8e46aed740c82154a0fc635813946cdbd14828ca6801d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qodo Launches Governance Infrastructure for the AI Coding Era
+  summary: Cross-Repo Code Review, Custom Rules Miner, and Skill Review Standards give enterprises the governance infrastructure to scale AI Quality development without slowing downNEW YORK, June 23, 2026 (GLOBE NEWSWIRE) -- Qodo, the AI code quality and governance platform trusted by Walmart, NVIDIA, Red Hat, and Monday.com, today announced three new platform capabilities: Cross-Repo Code Review, Custom Rules Miner, and Skill Review Standards. These new capabilities address a set of governance gaps that h
+  url: https://finnhub.io/api/news?id=7541a8c66806294d89d4f71008e692aeaa441322df3c61efcb3d317fe664f439

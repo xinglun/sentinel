@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Do, S&P 500, Nasdaq Futures Drop Despite Trump's 60-Day Waiver On Iran Sanctions— Infleqtion, SpaceX, Primoris In Focus (UPDATED)
+  summary: U.S. stock futures declined on Tuesday, as the Nasdaq 100, Dow Jones, and S&amp;P 500 indices fell, following Monday&#39;s mixed close.
+  url: https://finnhub.io/api/news?id=aaf4e2993dd06037fd823190aa4d308498d20eca47701a8b219faec6d0aefc14

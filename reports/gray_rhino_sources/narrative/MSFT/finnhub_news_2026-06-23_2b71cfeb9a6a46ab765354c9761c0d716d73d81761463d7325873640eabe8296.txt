@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netwrix Unveils New AI Governance Capabilities for Hybrid Microsoft Environments
+  summary: Netwrix, a recognized leader in identity and data solutions, today announced new innovations within its 1Secure™ SaaS platform to accelerate securing and governing data, identities, and AI across hybrid Microsoft environments. 1Secure helps organizations address their most urgent security priority first, with a clear path to expand coverage over time.
+  url: https://finnhub.io/api/news?id=8f2255f702c177850cf0b67d66b1acfc7e324901e1527cef48fa1b02a17633f2

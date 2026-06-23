@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Cut 21,000 Jobs Last Year As AI Costs Surged
+  summary: Oracle disclosed a 2026 headcount of 141,000, down by 21,000 from a year earlier, after a round of AI-related layoffs.
+  url: https://finnhub.io/api/news?id=7902a7e47a6b1b15917a3aaa46bf319f5ff23df50b0c5767d1f5a9beea0e14ce

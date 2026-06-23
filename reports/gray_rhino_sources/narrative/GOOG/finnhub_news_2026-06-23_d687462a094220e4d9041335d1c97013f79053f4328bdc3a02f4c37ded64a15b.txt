@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Precision Peptide Company Achieves LegitScript Healthcare Merchant Certification
+  summary: Vancouver, British Columbia--(Newsfile Corp. - June 23, 2026) - The Precision Peptide Company (CSE: BPC) (OTCQB: PNGAF) (the "Company" or "BPC"), a publicly traded wellness company focused on advanced peptide formulations, today announced it has been awarded LegitScript Healthcare Merchant Certification - an independent, third-party seal recognizing the Company's compliance, transparency, and consumer-safety standards.The certification is recognized by Visa, Mastercard, Google, Microsoft, and...
+  url: https://finnhub.io/api/news?id=8e313df1d05c3849094b4648e1eb56d53d76ecbe406b26f5f559a81c69bb5d48

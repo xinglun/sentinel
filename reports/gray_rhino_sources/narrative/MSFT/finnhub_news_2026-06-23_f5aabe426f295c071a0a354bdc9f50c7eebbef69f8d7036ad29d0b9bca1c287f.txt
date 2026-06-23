@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Has Plunged 3 Days in a Row. Is This a Red Flag or a Buying Opportunity?
+  summary: Should investors take another look at SpaceX after its decline?
+  url: https://finnhub.io/api/news?id=2f24d8531caf46a841620abba23fc020db4956641bafd851dd9807ce6a289296

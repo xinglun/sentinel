@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Is the 1 Dirt-Cheap Hardware Juggernaut I Keep Accumulating on Repeat
+  summary: I keep buying NVIDIA, and the recent pullback handed me another reason to do it again. The story behind that buy button is simple. NVIDIA (NASDAQ:NVDA) sells the machinery that every cloud, every frontier model lab, and every sovereign AI project needs to run. Jensen Huang called the current moment “the largest infrastructure expansion in ... Here Is the 1 Dirt-Cheap Hardware Juggernaut I Keep Accumulating on Repeat
+  url: https://finnhub.io/api/news?id=254cdcbf169be85eed77d52d40040f9bc50fde667577a0c6401d8d254eab0bf2

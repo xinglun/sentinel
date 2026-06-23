@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq tipped for steep fall amidst 'rotation not liquidation' in tech
+  summary: US stocks looked set for a sharply weaker open on Tuesday as a sell-off in technology shares deepens across global markets. Futures point to losses for the Nasdaq 100 of around 849 points, or 2.8%, while the S&P 500 is set to shed 1.3% and the Dow Jones to drop 0.4%. The weakness...
+  url: https://finnhub.io/api/news?id=e448aa207c1244e8d5cd5772b75ec4e3257409594205bf76797eb6161048dbc1

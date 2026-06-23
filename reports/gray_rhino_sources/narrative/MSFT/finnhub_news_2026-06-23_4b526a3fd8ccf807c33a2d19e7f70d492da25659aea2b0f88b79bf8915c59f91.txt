@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CData Launches Connect AI Developer Edition, Python SDK, and CLI
+  summary: CData Software today launched three products for developers building AI applications on enterprise data: Connect AI Developer Edition (free), the CData Connect AI Python SDK (open source), and CData CLI.
+  url: https://finnhub.io/api/news?id=452d7efd74f31021f791816e0948f3aa89b0fdf12cf0109caba115f9e6b47e78

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most Income Investors Have Never Heard of the Roundhill ETF Combination That Pays Five Days a Week
+  summary: ETF distributions have come a long way. Depending on the fund, investors can receive income annually, semi-annually, quarterly, monthly, or even weekly. As of June 2026, however, there still isn’t a ETF that pays distributions every single trading day (yet). That hasn’t stopped investors from trying to build their own daily income stream. By carefully ... Most Income Investors Have Never Heard of the Roundhill ETF Combination That Pays Five Days a Week
+  url: https://finnhub.io/api/news?id=daf80c5c845e7bc8f0c71b134c1557ee37adab20c98107dd5f431b6b0362ab95

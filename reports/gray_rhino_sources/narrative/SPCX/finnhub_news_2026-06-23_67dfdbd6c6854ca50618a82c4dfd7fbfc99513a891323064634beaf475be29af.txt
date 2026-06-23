@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Susquehanna Analyst Calls Time-Out On SpaceX Rally After $400 Billion Rout— Says 'Wait For A Better Entry Point' As Stock Rises In Tuesday Premarket
+  summary: SPCX edges higher in pre-market trading, but Susquehanna initiates a Neutral rating, warning investors to &#39;wait for a better entry point&#39;.
+  url: https://finnhub.io/api/news?id=b482dd7fb20bc9097fef78c986f4a3d6407791cd41face4a838fb44659d18a1b

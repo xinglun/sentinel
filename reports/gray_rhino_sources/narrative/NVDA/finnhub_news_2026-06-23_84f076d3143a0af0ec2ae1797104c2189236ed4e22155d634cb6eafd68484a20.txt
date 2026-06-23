@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Simulations Plus Advances Agentic Drug Development with NVIDIA BioNeMo Agent Toolkit
+  summary: RESEARCH TRIANGLE PARK, N.C., June 23, 2026--Simulations Plus, Inc. (Nasdaq: SLP) ("Simulations Plus" or the "Company"), a global leader in model-informed and AI-accelerated drug development that helps advance biopharma innovation, today announced it is building the agentic layer of Composer, its AI-native platform for model-informed drug development, using the NVIDIA BioNeMo Agent Toolkit.
+  url: https://finnhub.io/api/news?id=7840012ced34fbc0203bdd10d2a6c6b5e38ab715d8fe81973ecd65007e56c64d

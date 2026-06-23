@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Only The Valuation Is Astronomical
+  summary: Space Exploration Technologies Corp. analysis: SpaceX Corp. is overvalued post-IPO at 130x sales, with loss-making segments and TAM issues. Click for more on SPCX.
+  url: https://finnhub.io/api/news?id=ae2d36f98a56f2eee22c71bdd6c2c2bc30d0817ceea596db7247285c2720e897

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Drops 16%, Down The Market Capitalization Of Palantir, Robinhood Combined
+  summary: SpaceX stock fell Monday, losing the combined value of Palantir and Robinhood.
+  url: https://finnhub.io/api/news?id=6e3bde158de1ea6a663d833585c2285e2caa63f8ea93b212f5f7ef5b222cd2a7

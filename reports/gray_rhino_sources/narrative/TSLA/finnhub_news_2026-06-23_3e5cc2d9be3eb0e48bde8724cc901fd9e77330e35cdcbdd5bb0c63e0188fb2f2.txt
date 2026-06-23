@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Sinks After Fatal Crash Triggers Federal Probe
+  summary: Tesla Faces New Self-Driving Questions After Fatal Crash, Stock Slides
+  url: https://finnhub.io/api/news?id=959236533d52728d1e90ecb89eedbb93e6ebd741bf6ae4b41abdab709f1613de

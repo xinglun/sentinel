@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Parallels RAS Expands Virtual Desktop Flexibility with New Hypervisor-Agnostic Custom Provider Framework
+  summary: Latest Parallels RAS release delivers expanded Nutanix, Azure, and Azure Virtual Desktop capabilities, greater infrastructure flexibility, and improved browser-based user experiencesAUSTIN, Texas, June 23, 2026 (GLOBE NEWSWIRE) -- Parallels, a leading global provider in virtualization and end-user computing (EUC) solutions, today announced a significant update to Parallels RAS (Remote Application Server), introducing a new Custom Provider Framework that enables organizations to integrate their h
+  url: https://finnhub.io/api/news?id=5b579de44b1ae362842d1df731a2d8b2ec0178be712bd353c602bdce46131c50

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock: Cathie Wood Bought More SPCX As It Dived 16%
+  summary: Cathie Wood's firm ARK Invest bought more than 200,000 shares of Elon Musk's SpaceX on Monday when the stock tumbled 16%.
+  url: https://finnhub.io/api/news?id=0445bb0d52157c0e53d5927548c8924dd1ae37fc8eb5e45713b4181b3501009e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Crash Raises Fresh FSD Questions
+  summary: Texas Model 3 crash raises autonomy questions.
+  url: https://finnhub.io/api/news?id=6a273972cd3fde6a2b953e7be51b8018a621505f6a119e1a64796d62a07a828f

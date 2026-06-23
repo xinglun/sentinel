@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: I See 50% Downside, Even With Cursor
+  summary: Space Exploration Technologies is rated a Sell due to rising losses, a steep valuation, and plans to spend $60 billion on Cursor. Read more on SPCX stock here.
+  url: https://finnhub.io/api/news?id=e9c57e1142d440353338eff73a73c14af10d1308549e277aefc19d92f494a096

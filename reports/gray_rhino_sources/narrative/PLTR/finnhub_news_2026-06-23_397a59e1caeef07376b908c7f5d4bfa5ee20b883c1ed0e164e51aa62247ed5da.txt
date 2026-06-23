@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR, CRM Stocks Can't Stop Sliding While Chip Stocks Shine: Wall Street Isn't Writing Them Off Yet
+  summary: Retail traders say institutional investors are selling software to invest in chip stocks, which have been rallying hard.
+  url: https://finnhub.io/api/news?id=87819ad0a221df264d859bd92c6f55ba4c6b7ad5344726777fd90037044454be

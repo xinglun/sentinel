@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA Announces BioNeMo Agent Toolkit — Tools for Agents to Accelerate Scientific Discovery
+  summary: NVIDIA BioNeMo Agent Toolkit NVIDIA BioNeMo Agent Toolkit provides domain-specific tools and skills for the agentic life sciences era. News Summary: Industry and research leaders including Dassault Systèmes, Databricks, Lilly, OpenAI, Schrödinger, Snowflake, the UW Medicine Institute for Protein Design and dozens others are adopting, and Anthropic and OpenAI are integrating, NVIDIA BioNeMo Agent Toolkit to bring agentic life sciences workflows to researchers and scientists.NVIDIA BioNeMo Agent T
+  url: https://finnhub.io/api/news?id=1ff422fe7dd6e39cb8b9568122968a3d6fd20f54f558a8f79c1dde653957afe5

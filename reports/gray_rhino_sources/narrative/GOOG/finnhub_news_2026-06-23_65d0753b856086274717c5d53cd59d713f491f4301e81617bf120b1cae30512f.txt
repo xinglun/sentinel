@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet, SpaceX, Intel, and More Stocks That Explain Today’s Market
+  summary: Tech stocks are getting battered as investors fret about higher interest rates and mega-cap hyperscalers’ aggressive AI spending plans.
+  url: https://finnhub.io/api/news?id=9b31ba974abeebeac6416e0cebe87c8b80381e06dddc6ac64048f40e7e7d6224

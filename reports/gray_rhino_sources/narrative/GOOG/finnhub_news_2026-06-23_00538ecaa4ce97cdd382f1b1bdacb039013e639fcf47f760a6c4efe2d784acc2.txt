@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Techs Dive As South Korea Leads Global Rout; Sandisk, Micron Dive As SpaceX Nears Lows
+  summary: Hot AI leaders such as Micron and Sandisk dived early Tuesday as South Korea led a global stock market rout.
+  url: https://finnhub.io/api/news?id=bb0a57baab8c3d5d6bb39e2ab4e470afbe35dd27a8a2e106a315fb5ef9ff9cdd

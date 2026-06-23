@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ceva Launches Microsoft-Certified Spatial Audio Software for PC Gaming Headsets
+  summary: Ceva, Inc. (NASDAQ: CEVA), the leading licensor of silicon and software IP for the Smart Edge, today announced RealSpace™ Elevate for Windows, a Microsoft-certified, licensable Windows Audio Processing Object (APO) that enables gaming headset and PC OEMs to deliver fully customizable spatial audio experiences for gaming and entertainment content. RealSpace Elevate expands Ceva's Sense portfolio of audio and sensing technologies, enabling OEMs to deliver richer user experiences across consumer de
+  url: https://finnhub.io/api/news?id=886755047f9ab89e4f0a355b3d668af40cd9b2d06eda1867b94a3e1443c4184a

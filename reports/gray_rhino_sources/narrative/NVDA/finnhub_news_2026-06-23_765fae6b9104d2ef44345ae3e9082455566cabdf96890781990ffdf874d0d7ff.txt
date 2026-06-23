@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amdocs Advances aOS Network Workflows with Live, Multivendor AI-RAN Solution and Industry Blueprint
+  summary: Amdocs, Supermicro and 1Finity deploy NVIDIA AI infrastructure on Red Hat Openshift, creating a unified foundation for today's RAN workloads and tomorrow's edge AI, analytics and physical AI applications JERSEY CITY, NJ / ACCESS Newswire / June 23, ...
+  url: https://finnhub.io/api/news?id=9dcaaf72ae3963cef32efc773d13af88b1a47efa7ad0d8a7c6ba987842fefd9b

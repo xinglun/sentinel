@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Says AI's Water Problem May Already Be Solved — Elon Musk Agrees
+  summary: Nvidia claims its latest AI infrastructure can reduce cooling-related water consumption to nearly zero in some locations. Elon Musk responded &#34;True&#34;.
+  url: https://finnhub.io/api/news?id=e0f07e33ee36d87de4fb4ecf5486319cf52853a3029f99bb7aebc5121be42bad

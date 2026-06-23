@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Makes Microsoft (MSFT) a Strong Position Amid Challenges?
+  summary: Aoris Investment Management, a specialist international equity manager, released its Q1 2026 investor letter for “Aoris International Fund”. A copy of the letter is available to download here. The fund invests in high-quality, wealth-generating businesses managed by prudent and capable teams, targeting an annual return of 8–12% after fees over a 5–7-year market cycle. During […]
+  url: https://finnhub.io/api/news?id=3bd2ee17e92e35349144b84860999b431307f0ae64ee3d07eca3ff52615a97c9

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Has A New Warning For Oil Bulls: EV Adoption Is Accelerating Fast
+  summary: Goldman Sachs report predicts rise in EV sales, offsetting at least 130,000 barrels of oil demand per day by Dec 2027.
+  url: https://finnhub.io/api/news?id=4f8820587a7ef941568214b85c52c0872db4f8f70f1874a93cf788831716fe09

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, Micron Technology, Super Micro Computer, Netflix And Palantir: Why These 5 Stocks Are On Investors' Radars Today
+  summary: Major U.S. indices finished mixed on Monday, with the Dow Jones Industrial Average gaining 0.29% to close at 51,712.71.
+  url: https://finnhub.io/api/news?id=61acf8ffcbb4b443379d04148b7c79ec0dc9591897eb9992fa0e8687503895b7

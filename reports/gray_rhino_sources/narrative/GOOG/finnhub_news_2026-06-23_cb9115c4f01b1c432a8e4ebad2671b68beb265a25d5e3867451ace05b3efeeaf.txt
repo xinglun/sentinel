@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google’s Brain Drain Deepens: Alphabet Braces for Second Day of Losses on Anthropic Poach
+  summary: Alphabet  stock was dropping again on Tuesday after sliding Monday in the first trading session since John Jumper, a senior research scientist and Nobel Prize winner, said he was leaving Google DeepMind for artificial-intelligence start-up Anthropic.  Alphabet  stock fell 5% to $349.56 on Monday, its largest daily percentage decline in more than a year.  On Friday, in a post on X, Jumper said he was leaving Google DeepMind after nine years for Anthropic.
+  url: https://finnhub.io/api/news?id=c7aa63e06cf9a44af8ea6d50d471ffa310bc5c278c5e873686d1cd520602c416

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Cash-Producing Stock Worth Your Attention and 2 Facing Challenges
+  summary: A company that generates cash isn’t automatically a winner. Some businesses stockpile cash but fail to reinvest wisely, limiting their ability to expand.
+  url: https://finnhub.io/api/news?id=89a84af0b85190e2efed7f06ff4e5acfa3d3416d0e9d3b3835635803afd35b09

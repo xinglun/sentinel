@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Up, Big Tech Falls Amid Rate Hike Forecasts; These AI Stocks Test Entries (Live Coverage)
+  summary: The Dow Jones index rises as Treasury Secretary Scott Bessent makes an Iran move. SpaceX skids but some AI stocks test buy points.
+  url: https://finnhub.io/api/news?id=20cd22f08810353a80347f04599a5fddf3421f42508920179f6077f499a1f895

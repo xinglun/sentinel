@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Teams Up With Zeta Global To Build AI Marketing Infrastructure
+  summary: Palantir Technologies (NasdaqGS:PLTR) and Zeta Global announced a new partnership to build unified AI infrastructure for marketing and operational intelligence. The collaboration focuses on rearchitecting Zeta’s Data Cloud on Palantir’s Foundry platform, integrating data governance, real-time AI decisioning, and marketing execution. Palantir Technologies enters this partnership with Zeta Global as its stock trades around $119.5, after declines of 11.3% over the past week, 12.7% over the...
+  url: https://finnhub.io/api/news?id=f4914d0feb3bc1b6afcc87bafe1c90dc61ad3948730ef174cd5144e55f356b3e

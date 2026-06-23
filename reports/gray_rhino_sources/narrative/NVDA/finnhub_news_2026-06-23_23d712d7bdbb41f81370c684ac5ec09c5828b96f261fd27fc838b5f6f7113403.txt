@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Had Invested $1,000 in MARA or Strategy a Decade Ago
+  summary: Two stocks chased the same Bitcoin boom from opposite angles, and a decade later their returns tell a story that might surprise anyone who assumed mining the coin beats holding it.
+  url: https://finnhub.io/api/news?id=cf492444d6cc58a2ec0f298e749fec9531dbb4bde5ed3ab0f0a4e7b2349e51dc

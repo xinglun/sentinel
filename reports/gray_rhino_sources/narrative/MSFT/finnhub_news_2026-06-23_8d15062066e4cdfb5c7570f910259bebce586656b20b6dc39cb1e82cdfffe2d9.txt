@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud AI Today - AI Investment Shifts Focus to Growth Amid Scaling Challenges
+  summary: Akkodis' recent report highlights a shift in the landscape of AI investment, where innovation has overtaken efficiency as the primary driver, signaling a focus on growth and new business models. Despite accelerating AI adoption, CTO confidence in scaling AI has dropped significantly, hindered by challenges in integrating AI across enterprise systems. The report identifies agentic AI as a crucial trend, demanding new governance frameworks, as tasks increasingly require clarification for human...
+  url: https://finnhub.io/api/news?id=408dbf469b4e2972f45a6c39f2a28cc13fc468e4ec40988d0efee2e2da217f83

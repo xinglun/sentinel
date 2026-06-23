@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Net Worth Drops By Market Capitalization Of Uber: Here’s His New Wealth Total
+  summary: Elon Musk became the world&#39;s first trillionaire when SpaceX went public. His net worth is dropping as SpaceX shares sell off.
+  url: https://finnhub.io/api/news?id=9be53fd76ce25a1b99ac764459ada12b42ce9ad63d334ab9b104b98d3b54e638

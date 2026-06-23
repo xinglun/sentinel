@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The ‘Tech Wreck’ Forces Wall Street to Ask How Much Upside Is Left in the High-Flying Stocks
+  summary: Stocks could be facing the end-of-quarter reckoning many investors feared when Elon Musk’s  SpaceX  unveiled plans for its multibillion-dollar initial public offering and Federal Reserve Chairman Kevin Warsh took over the central bank’s policy reigns earlier this month.  The early signs of a late June “tech wreck” started to formulate Monday, with Google parent  Alphabet  shedding more than $225 billion in market value, its biggest slump in more than a year, and  SpaceX  extending its three-day decline to more than $600 billion.  Shares in SpaceX were falling 4.3% in premarket trading Tuesday, putting them below $150 a share.
+  url: https://finnhub.io/api/news?id=5d170cc20812f902c22303e3b4def5a0f2b65b1c0d327db9b0890754f362c38a

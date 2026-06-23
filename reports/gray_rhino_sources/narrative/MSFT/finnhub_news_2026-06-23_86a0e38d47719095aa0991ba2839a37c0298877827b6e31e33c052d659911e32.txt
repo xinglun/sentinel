@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ranking the "Magnificent Seven" From Most to Least Attractive, Based on Future Cash Flow
+  summary: Among Nvidia, Alphabet, Apple, Microsoft, Amazon, Tesla, and Meta Platforms, there are two exceptional bargains that have embraced artificial intelligence (AI).
+  url: https://finnhub.io/api/news?id=923720ea5d213f34a9e6e2705fe3993a92b6d812b37a3dba9190c8d0c3972620

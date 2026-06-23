@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Shares Drop 6% as Top AI Developers Shift to Anthropic and OpenAI
+  summary: Alphabet shares plummet 6% as top developers migrate to Anthropic and OpenAI in a stunning AI talent exodus.
+  url: https://finnhub.io/api/news?id=81c92c938bad9568d4db3764167774a948ba9fd5757c2d30a09614249610bcac

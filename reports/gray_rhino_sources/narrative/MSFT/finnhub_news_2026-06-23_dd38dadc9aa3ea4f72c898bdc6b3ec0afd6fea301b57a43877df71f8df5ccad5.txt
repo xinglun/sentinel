@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock In Focus After Inking 20-Yr, 2.67 GW Power Deal With Chevron To Fuel AI Growth
+  summary: Microsoft shares are in the spotlight Tuesday after 20-year power purchase deal with Chevron for West Texas gas facility.
+  url: https://finnhub.io/api/news?id=5c33cf9ccee6fa281fdd756c89eb3fb3eb85eba3a1a219da2dddd654d4615afe

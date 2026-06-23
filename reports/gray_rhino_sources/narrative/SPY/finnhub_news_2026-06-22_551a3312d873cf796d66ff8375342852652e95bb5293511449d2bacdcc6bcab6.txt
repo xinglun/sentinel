@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETF Zoo: The Leveraged ETF Frenzy Picks Up Momentum
+  summary: It isn’t even the end of the first half and ETFs have already netted $1 trillion in flows. Find out how much is going to leveraged and inverse strategies, why it’s so important to understand what’s under the hood of thematic funds, and ETF hijinks happening around the SpaceX IPO in this episode of ETF Zoo.
+  url: https://finnhub.io/api/news?id=592f03df6efab6e70a15735dab77b811653a749c3d92d92c873f3ff2ba623f2d

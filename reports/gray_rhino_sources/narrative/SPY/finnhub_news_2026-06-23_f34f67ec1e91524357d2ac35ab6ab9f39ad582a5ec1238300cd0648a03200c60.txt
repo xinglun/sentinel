@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GOF: 19-Year 20% Monthly Dividend Streak Is Under Threat
+  summary: GOFâs once-reliable dividend now looks âtoo good to be trueâ as its premium to NAV vanishes. Click here to read more on GOF.
+  url: https://finnhub.io/api/news?id=fe227c0c0658ec13f902c49b38d6f71cfb782f545506e577f117da4f59d94f43

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Hyperscalers Take a Hit, and the Fed Adds Fuel to the Fire
+  summary: AI hyperscalers sold off Monday as talent flight hits Google and circular capex concerns build. Markets now price a Fed rate hike in October. PCE Thursday.
+  url: https://finnhub.io/api/news?id=e1499cb69b687ebe3d4788416d6f43682b4e8adb4772031df4330fbd2b772afe

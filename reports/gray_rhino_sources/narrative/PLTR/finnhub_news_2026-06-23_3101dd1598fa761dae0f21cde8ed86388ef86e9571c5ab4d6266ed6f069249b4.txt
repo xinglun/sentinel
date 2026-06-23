@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zeta Global Gains After Partnering With Palantir to Build AI-Powered Marketing Platform (ZETA)
+  summary: Shares Advance on Strategic Collaboration AnnouncementZeta Global (NYSE:ZETA) shares climbed 5% on Tuesday after the company unveiled a strategic partnership with Palantir Technologies (NASDAQ:PLTR) aimed at creating a unified data and artificial intelligence infrastructure for enterprise marketing. The collaboration is designed to combine Zeta’s marketing intelligence capabilities with Palantir’s data integration and operational software platform, helping businesses make faster and more informe
+  url: https://finnhub.io/api/news?id=31904f5dc4b7a5b1c3887fb155092b015f516db445bbd17fdc6614d011a27e08

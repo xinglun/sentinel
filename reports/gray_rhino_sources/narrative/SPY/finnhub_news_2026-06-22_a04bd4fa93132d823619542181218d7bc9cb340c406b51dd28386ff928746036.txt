@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq Drop As SpaceX, Broader Tech Weakness Outweighs US-Iran Hopes — SPCX, GOOGL, NFLX, COIN, MU In Focus
+  summary: SpaceX shares tanked 16% to their lowest level since listing, marking its third straight daily decline.
+  url: https://finnhub.io/api/news?id=3360ce9880fbfeb2d49c1db2296e0b03d00f3f9dfc9926f375ede9459af46458

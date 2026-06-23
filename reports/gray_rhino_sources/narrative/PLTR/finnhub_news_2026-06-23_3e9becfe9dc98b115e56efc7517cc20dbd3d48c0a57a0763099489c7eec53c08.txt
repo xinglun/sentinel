@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why ZETA Stock Is Climbing Today: A Look Inside Its New Palantir-Powered AI Bet
+  summary: CEO David Steinberg said the collaboration could generate more than $100 million in annual revenue for Zeta over the coming years.
+  url: https://finnhub.io/api/news?id=3f41a15b87b83e7b0c76a2c68a06f39d8a4bc698148bccb2e2cfed62c2ce61cc

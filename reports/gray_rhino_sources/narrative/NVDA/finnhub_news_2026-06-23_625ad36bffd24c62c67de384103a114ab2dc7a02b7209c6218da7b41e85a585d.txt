@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Down 23%, the Iran War Makes This Energy Stock One to Watch
+  summary: The outbreak of hostilities between the U.S. and Iran at the end of February sent energy markets into turmoil. When the Strait of Hormuz was temporarily closed, traders suddenly faced the prospect of a major disruption to global oil supplies. Brent crude briefly surged above $100 per barrel as did U.S. benchmark West Texas Intermediate ... Down 23%, the Iran War Makes This Energy Stock One to Watch
+  url: https://finnhub.io/api/news?id=3084f83ff280139acd34bfc01cf14642f99b503fd39630a4dd63d940a1848daf

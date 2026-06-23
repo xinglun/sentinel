@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Zeta Global Announce Strategic Partnership to Build a Unified Data and AI Infrastructure for the Future of Marketing, with Athena by Zeta™ at the Center
+  summary: MIAMI & NEW YORK, June 23, 2026--Palantir and Zeta Global Announce Strategic Partnership to Build a Unified Data and AI Infrastructure for the Future of Marketing
+  url: https://finnhub.io/api/news?id=c9653109806ec737aa70b7e5da2758a6923cede64538bc6d2f43fa5ef8acf281

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock: The Slide Isn't Over
+  summary: SpaceX (SPCX) 30% drop over the last three trading days looks dramatic.
+  url: https://finnhub.io/api/news?id=ca09163c3878d99559f2d4dcbb849bbec79145a4a08f2637a0eed5e4b051697f

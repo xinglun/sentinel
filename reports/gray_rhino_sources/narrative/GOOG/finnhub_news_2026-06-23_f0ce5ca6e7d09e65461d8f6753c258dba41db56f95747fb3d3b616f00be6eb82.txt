@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stocks In A Bubble? Comparisons To 1999 Appear. What Strategists Say.
+  summary: If tech investors needed any reminders of the 1990s dot-com bubble, strategists made new comparisons to today's AI stocks.
+  url: https://finnhub.io/api/news?id=ecdc558039032d3f11eb61bc5cab2c36e6eb42d925fd160f2911223a222c61c2

@@ -1,0 +1,6 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Bets $32.5 Million On SpaceX Dip As Stock Crashes From Debut Highs — Ark Keeps Dumping Roku Shares
+  summary: On Monday, June 22, 2026 Cathie Wood bought 210,121 SpaceX shares worth ~$32.5 million across four ETFs as the stock slid 16% from its debut highs.
+
+  url: https://finnhub.io/api/news?id=ac2f0aeefa06e1c9b6f006c80365714c2a6a140229c9defcc3a19c568adf8033

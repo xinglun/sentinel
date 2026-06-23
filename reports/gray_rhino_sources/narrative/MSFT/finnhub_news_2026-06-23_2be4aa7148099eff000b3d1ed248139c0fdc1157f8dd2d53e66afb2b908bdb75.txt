@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's CEO Takes Aim At AI Companies: 'We Have To Walk The Walk' To Convince The Public
+  summary: Microsoft Corp. CEO Satya Nadella says a few companies should not be allowed to capture all of AI’s value, and he is building a strategy to stop them. In an interview with the Wall Street Journal this week, Nadella took aim at the firms warning about lost jobs and safety risks while demanding vast resources to expand, a clear shot at OpenAI and Anthropic. "No amount of just narrative is going to do it because where we are now, we have to sort of walk the walk," according to Nadella. The company
+  url: https://finnhub.io/api/news?id=a4b27e0cf3983f1f2373ef6cec8bb611268216354b93dc08a946d957ffebdaf7

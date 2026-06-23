@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Hit by Fatal Crash Investigation, SpaceX Slide
+  summary: Tesla stock slipped as the National Highway Traffic Safety Administration said it would examine a fatal crash.
+  url: https://finnhub.io/api/news?id=46d4c3f2ea2bb57ca1cbf37f429caa3a59aa0e0d35bf114fc746f66eb7aed265

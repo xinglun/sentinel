@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Up As Bessent Makes Iran Move; Microsoft Falls After Nadella Says This (Live Coverage)
+  summary: The Dow Jones index rises as Treasury Secretary Scott Bessent makes an Iran move. Microsoft falls on the stock market today. SpaceX skids.
+  url: https://finnhub.io/api/news?id=f803f5ff3cd9fe096d287ff9054cb7284ce01182381750b0de013b1f7055bdb2

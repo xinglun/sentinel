@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Registers a Bigger Fall Than the Market: Important Facts to Note
+  summary: Palantir Technologies Inc. (PLTR) reached $119.5 at the closing of the latest trading day, reflecting a -6.98% change compared to its last close.
+  url: https://finnhub.io/api/news?id=c7cdffa89009b6045fa3b83b361101e7a747e43f12830e53e61e2b2450cb4a67

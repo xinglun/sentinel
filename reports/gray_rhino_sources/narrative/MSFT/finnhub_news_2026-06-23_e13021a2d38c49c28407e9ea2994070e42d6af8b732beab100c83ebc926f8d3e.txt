@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will The Stock Split Spark CrowdStrike’s Next Big Run?
+  summary: Cybersecurity provider CrowdStrike (CRWD) authorized its first-ever stock split at a 4-for-1 ratio, scheduled for distribution after the market close on July 1. A single share, trading near $680, drops to approximately $170 after the split. The split follows a sustained operational recovery from the global IT outage of July 2024. CrowdStrike shares bottomed at $217.89 on August 2, 2024, under severe regulatory scrutiny. Over the next 22 months, the stock rebounded by more than 210%. The comeback
+  url: https://finnhub.io/api/news?id=c61997d14f71f9673ae2e36ecf3a119798c23dc550ab38d84da845fe7cf362e3

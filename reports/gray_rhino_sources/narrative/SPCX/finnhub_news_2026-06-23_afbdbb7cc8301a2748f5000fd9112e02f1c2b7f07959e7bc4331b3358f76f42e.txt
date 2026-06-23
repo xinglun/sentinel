@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Calling For Elon Musk To Be Investigated, Ro Khanna Faces A $10 Million Challenge From Billionaire David Friedberg
+  summary: Khanna criticized Friedberg&#39;s stance on wealth tax, Friedberg asked Khanna to make a 5% voluntary contribution from his $200M net worth.
+  url: https://finnhub.io/api/news?id=7c706d6336ccbbbcfe72302323c7adcec2c343d81e1203ee0bf64bf98f67c562

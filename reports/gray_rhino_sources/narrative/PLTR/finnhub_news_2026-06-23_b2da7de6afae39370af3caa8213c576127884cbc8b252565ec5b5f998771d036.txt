@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: This Selloff Is A Gift
+  summary: Palantir Technologies Inc. buy thesis amid selloff: contract risks vs. accelerating revenue, Rule of 40, easing valuation, upside targets. Click for a PLTR update.
+  url: https://finnhub.io/api/news?id=3f72c3b6e18fde8fc1403fa702370e29b39ed85dfdec000ae51c7db2f23f6fd8

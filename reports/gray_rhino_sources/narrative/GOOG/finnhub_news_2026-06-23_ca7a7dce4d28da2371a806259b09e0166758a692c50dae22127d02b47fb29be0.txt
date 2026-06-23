@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global Tech Rout Deepens as Kospi Drops 10%, Nasdaq Futures Sink 2.6%
+  summary: Chip stocks tumble, SpaceX falls 4.5%, and investors question returns on massive AI spending.
+  url: https://finnhub.io/api/news?id=de863cd41e7d0e7c22d4b915b451ce0bcfafe5eb79d6dc1ad88e108d6eb72b7c

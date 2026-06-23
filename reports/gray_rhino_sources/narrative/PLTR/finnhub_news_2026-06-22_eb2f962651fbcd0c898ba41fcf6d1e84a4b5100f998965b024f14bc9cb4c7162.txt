@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Secures Foundational Role in NGC2 Data Layer
+  summary: MIAMI, June 22, 2026--Palantir Technologies Inc. (NASDAQ: PLTR), a global leader in artificial intelligence and data platforms, today welcomed the U.S. Army’s announcement that it has established the Next Generation Command and Control common data layer baseline. Palantir is proud to support the Army, its commanders, and Soldiers as they modernize command and control with a data-driven approach built to scale across the force.
+  url: https://finnhub.io/api/news?id=90dd26f716d34295a39a0e99ab99a1bcc112506893e1b815d500cf9a7c6fd92b

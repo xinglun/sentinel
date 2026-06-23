@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Almost Half of Top Websites Now Misconfigure Google Consent Mode in Violation of Privacy Laws, Privado AI Research Finds
+  summary: NEW YORK, June 23, 2026--Privado AI, the agentic privacy platform reducing compliance risk at scale, today released research finding that 48% of the most-visited websites it tested have a misconfigured Google Consent Mode, sending personal data to Google Ads, even when visitors opt out.
+  url: https://finnhub.io/api/news?id=916515ecb679b10f4e40fcc9ded6fb26e4be9ff7fa181bf39e5e77028331d378

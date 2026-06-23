@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet slides on AI talent departures, Jefferies sees buying opportunity ahead
+  summary: Investing.com -- Alphabet shares fell about 5% on Monday after a series of high-profile departures from its artificial intelligence division fueled investor concerns over intensifying competition for top AI researchers.
+  url: https://finnhub.io/api/news?id=c16c31322e24a9b7a27c14f92b0ffe822e0d4c2e5a8443820ab2c8f7c8784104

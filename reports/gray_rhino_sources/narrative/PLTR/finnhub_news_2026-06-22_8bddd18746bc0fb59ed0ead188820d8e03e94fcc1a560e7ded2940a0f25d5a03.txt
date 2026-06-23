@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Technologies (PLTR) Shares Are Trading Lower Today
+  summary: Shares of data analytics company Palantir Technologies (NASDAQ:PLTR) fell 7% in the afternoon session after a confluence of high-profile AI talent departures from Alphabet, and a regulatory overhang pulled the entire communication-services and software complex lower.
+  url: https://finnhub.io/api/news?id=f6a0c65e4ba7c6fa7547e98ad7cb4416d0752f586b4d51d38d469421d59af1a5

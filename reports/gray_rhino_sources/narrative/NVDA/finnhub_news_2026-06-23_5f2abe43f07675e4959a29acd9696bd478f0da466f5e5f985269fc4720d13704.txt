@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Multiverse Computing Launches Pulsar 16B in collaboration with NVIDIA: Frontier-Grade Reasoning at Half the Parameters
+  summary: The new open reasoning model delivers 30B-class intelligence in a 16B-parameter footprint, with 3.1B active parameters, validated independently on NVIDIA accelerated computing infrastructure.DONOSTIA, Spain, June 23, 2026 (GLOBE NEWSWIRE) -- Multiverse Computing today announced the release of Pulsar 16B, a 16.15B-parameter open reasoning model built on NVIDIA Nemotron architecture. Developed using Multiverse Computing’s proprietary technology, leveraging NVIDIA Model Optimizer and Megatron Bridg
+  url: https://finnhub.io/api/news?id=0399ee6ad94e999546a20b24a32b82ffbc079ac6345b2f46b771700efacc3139

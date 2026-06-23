@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Open Source Initiative Launches Open Source AI Fellowship at UN Open Source Week
+  summary: UN Open Source Week — The Open Source Initiative (OSI), globally recognized as the steward of the Open Source Definition and the Open Source AI Definition, today announced the launch of the Open Source AI Fellowship. The announcement was made at UN Open Source Week, the premier global forum for advancing Open Source collaboration in support of the Sustainable Development Goals and the Global Digital Compact, held at United Nations Headquarters in New York from June 22–26, 2026.
+  url: https://finnhub.io/api/news?id=2b0cbad2fdbd99b8d772e9b0de02565a25f37ea4e1c2adccdde8cc6cee8b57c7

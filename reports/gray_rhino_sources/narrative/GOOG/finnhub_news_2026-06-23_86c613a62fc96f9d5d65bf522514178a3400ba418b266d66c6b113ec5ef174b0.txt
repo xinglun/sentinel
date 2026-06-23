@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Futures Down as Tech Sell-Off Weighs on Sentiment
+  summary: US equity futures were tracking in the red on Tuesday amid a broader tech sell-off despite signs of
+  url: https://finnhub.io/api/news?id=979e12a9246d39ae92dec5c29323a1339f4542c6ad63fb07ce134db36d011ded

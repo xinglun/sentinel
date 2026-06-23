@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron's Stock Is Up 861% Over the Past Year. These Analysts See 30% Upside From the Current Price.
+  summary: The stock is reaching dizzying levels.
+  url: https://finnhub.io/api/news?id=599cfb1531919cae34fb1fe545f39c16dfe8b243203064ccee57f14d7ee29d57

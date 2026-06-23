@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s GROW Small Cap Equity Fund‘s Discussion on Palantir Technologies (PLTR)
+  summary: Grow Funds, an investment Advisor, released its Q1 2026 investor letter for “GROW Small Cap Equity Long/Short Fund”. A copy of the letter can be downloaded here. In Q1 2026, GROW Small Cap Equity Long/Short L.P (Fund) returned 4.18%, outperforming the Russell 2000 Growth Index’s –2.80%, HFRI Equity Hedge Index’s -0.24%, and the HFRI Fundamental […]
+  url: https://finnhub.io/api/news?id=91021b296e6a8e813b1c99d764c98dd4a514eb47034bf73f3385129ff8a89c29

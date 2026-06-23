@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Is Disappointed In No Mojo For Palantir (PLTR)
+  summary: We recently published Jim Cramer Discussed Expensive Phones, A Cheap Stock Sector & These 18 Stocks. Palantir Technologies Inc. (NASDAQ:PLTR) is one of the stocks discussed by Jim Cramer. Data analytics firm Palantir Technologies Inc. (NASDAQ:PLTR)’s shares haven’t performed well recently. They are 8% lower over the year and have lost 23% year-to-date. The dip […]
+  url: https://finnhub.io/api/news?id=b6f98b635b1a4f64a426940152308e0ad05e2f9539f916d909975d4fca49c199

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Hasn't Been This Cheap Since 2018 - And History Says This Comes Next
+  summary: Microsoft Corporation analysis: Strong Buy at lowest P/E since 2018, Azure growth, $627B backlog & AI CapEx risksâclick to see the MSFT outlook and your next move.
+  url: https://finnhub.io/api/news?id=222a1afb2ff3becd3723b32d44473380e6d37699953c8ea4ad78cd4dfff60a37

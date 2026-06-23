@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum Computing Stocks Waver Amid Trump Executive Orders, 2028 Target
+  summary: Quantum computing stocks rose after President Trump signed two executive orders aimed at strengthening the U.S. quantum computing ecosystem.
+  url: https://finnhub.io/api/news?id=f338e19259004ee134e545803cf50d2d88d1092dfa5ba0aedbd06663eb773114

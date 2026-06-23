@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Falls Below a Key Price Level. How Low It Could Go.
+  summary: Palantir Technologies shares fdropped below $127 on Monday. The software stock is on a four-day losing streak.
+  url: https://finnhub.io/api/news?id=f7cc7c1895ee11c3dd7c24e7ba894b98a7fc939824946f4ce1addbc85ea5398b

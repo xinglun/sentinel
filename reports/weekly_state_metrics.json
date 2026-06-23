@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-06-22",
-  "avg_confidence": 53.96982399177855,
-  "avg_stability": 27.31444221636384,
+  "as_of_date": "2026-06-23",
+  "avg_confidence": 53.892124434502705,
+  "avg_stability": 28.625655891812364,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-06-11",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-06-12",
@@ -93,24 +80,37 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-23",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-23T01:09:27.969586237+09:00",
+  "generated_at": "2026-06-24T00:36:56.608868415+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
-      "confirmed_count_latest": 1,
-      "future_queue_count_latest": 1,
-      "latest_date": "2026-06-22",
-      "near_term_supply_count_latest": 1,
+      "confirmed_count_latest": 0,
+      "future_queue_count_latest": 2,
+      "latest_date": "2026-06-23",
+      "near_term_supply_count_latest": 0,
       "pressure_latest": "NORMAL",
-      "queue_count_latest": 1,
-      "queue_count_max_7d": 1,
+      "queue_count_latest": 2,
+      "queue_count_max_7d": 2,
       "queue_count_min_7d": 0,
-      "reported_count_latest": 1
+      "reported_count_latest": 2
     },
     "cognitive_calibration": {
       "asset_thesis_entries": 9,
@@ -146,11 +146,11 @@
   "market_state_counts": {
     "IGNITION": 7
   },
-  "participation_ready_days": 4,
+  "participation_ready_days": 3,
   "risk_overlay_counts": {
     "NORMAL": 7
   },
-  "trend_cohesion_ready_days": 4,
+  "trend_cohesion_ready_days": 3,
   "weekly_totals": {
     "core_breakdown_total": 0,
     "days": 7,

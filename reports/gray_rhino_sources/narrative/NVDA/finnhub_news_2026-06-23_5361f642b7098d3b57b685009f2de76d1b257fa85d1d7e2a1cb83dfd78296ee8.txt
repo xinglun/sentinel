@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Makes a Bold Prediction About SpaceX's Future
+  summary: If Musk's prediction proves to be correct, SpaceX could be doubling its sales on a regular basis.
+  url: https://finnhub.io/api/news?id=2efe17197ae1e075c7b2fd3db7cc89182e751ab02fa6bb53ed08fa594dcbc9d8

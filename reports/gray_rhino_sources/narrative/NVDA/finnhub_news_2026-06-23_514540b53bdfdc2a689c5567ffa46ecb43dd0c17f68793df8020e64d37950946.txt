@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two Catalysts Could Trigger Massive IWM Gains Before Year-End, or Signal a Sharp Reversal
+  summary: The iShares Russell 2000 ETF (NYSEARCA:IWM) has given small-cap holders a year worth celebrating. IWM is trading at $296, up 20% year to date and 41% over the trailing 12 months, breaking the three-year range trade that defined the Russell 2000 from 2022 through most of 2025. With the Fed on an extended pause and ... Two Catalysts Could Trigger Massive IWM Gains Before Year-End, or Signal a Sharp Reversal
+  url: https://finnhub.io/api/news?id=e8c442011e5cf68db588e2653f71aeb59b3fd5a69ac1f9ed2f085fd44830aa6e

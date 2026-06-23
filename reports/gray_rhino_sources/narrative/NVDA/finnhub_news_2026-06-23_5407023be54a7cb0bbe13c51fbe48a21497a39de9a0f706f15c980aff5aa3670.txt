@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sigmatic Sciences Powers AI Scientists with NVIDIA’s Latest BioNeMo Agentic Capabilities
+  summary: The First Agentic Operating System for Life Sciences R&D PRESS RELEASE Already running NVIDIA BioNeMo in production, the SigmaticOS now leverages NVIDIA’s latest agentic innovations to connect AI agents, scientific software, and laboratory systems into traceable lab-in-the-loop discovery workflows. Fort Lauderdale, Florida, USA, June 23, 2026 – Sigmatic Sciences, the first agentic operating system for life sciences R&D, today announced integration of NVIDIA BioNeMo Agent Toolkit within SigmaticO
+  url: https://finnhub.io/api/news?id=c8ac67065eb172b877435e84943745d228785bcaa607e226abd61444d54ae7b3

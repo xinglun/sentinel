@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Synopsys upgraded at Piper Sandler on Intel foundry momentum, Apple opportunity
+  summary: Investing.com -- Piper Sandler upgraded semiconductor design software maker Synopsys to Overweight from Neutral and raised its price target to $550 from $450, citing improving prospects for the company's intellectual property (IP) business as Intel's foundry ambitions gain traction.
+  url: https://finnhub.io/api/news?id=072eb604b75045668630444eff2176e3618e66e30f07e7c420c634b0ca0ab88b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Gives A Nod As Nvidia Argues AI Data Centers Aren't The Water Drain Many Believe: 'Numbers May Surprise You'
+  summary: Elon Musk backed Nvidia&#39;s claim that advanced liquid-cooling technology could dramatically reduce AI data center water consumption.
+  url: https://finnhub.io/api/news?id=422c71f0610ed1d9c1e9cb520ec37180fbc64c15d6488cf0863092c938d8958b

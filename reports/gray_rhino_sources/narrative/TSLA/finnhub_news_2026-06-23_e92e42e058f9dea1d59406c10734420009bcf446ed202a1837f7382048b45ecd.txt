@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Right After Becoming a Trillionaire, Elon Musk "Sold" 17.5 Million Tesla Shares. Here's Why This Isn't a Big Deal.
+  summary: While one aspect of his latest stock moves might make investors think Musk was cashing out some of his Tesla stake, there were nuances in play.
+  url: https://finnhub.io/api/news?id=8c60bf979edf95c78afce71dee9134a2ba8cd60c348a9b1981e479e818f06cb4

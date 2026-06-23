@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Bull Case ‘Unraveling in Real Time’? Analyst Says SpaceX Tie-Up Could Leave Trillions Of FSD, Optimus Value ‘On the Table’
+  summary: GLJ Research analyst Gordon Johnson said that a Tesla-SpaceX deal would undercut one of the core pillars of the Tesla bull case.
+  url: https://finnhub.io/api/news?id=7ef170f619869bf22405977d7cd60082ba93979f765910d438363d0389301101

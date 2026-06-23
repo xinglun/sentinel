@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Repricing Of The Dollar
+  summary: The market view on rising rates is fuel for the dollar. But that's short-term cyclical. The dollar breakout looks more like a structural capital flow regime in the early stages.
+  url: https://finnhub.io/api/news?id=91d2041145e1c5cfab02ac22417c47e4112cb037f6d947b142aa0a26e33e6272

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: People Inc. CEO accuses Google of abusing its market power with web crawling
+  summary: CANNES, France — People Inc. CEO Neil Vogel accused Google of abusing its market power by using the same crawler for both search and AI.
+  url: https://finnhub.io/api/news?id=c669d6312a11828b6e3b990aefa38d68198f3c484f80e9b5e37d3429f81208b9
