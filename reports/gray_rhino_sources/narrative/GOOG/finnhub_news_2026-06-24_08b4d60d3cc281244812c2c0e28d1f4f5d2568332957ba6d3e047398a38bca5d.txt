@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Is In. Verizon Is Out.
+  summary: Alphabet replaces Verizon in the Dow Jones Industrial Average
+  url: https://finnhub.io/api/news?id=a9b852c3f44177ec88615c3965d07b499f67e5aaeb4b734c1b8b164e4d9ee230

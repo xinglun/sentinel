@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Principal Financial Group Analyst Turns Bearish; Here Are Top 5 Downgrades For Wednesday
+  summary: Top Wall Street analysts changed outlook on top names. View all changes on analyst ratings page. See what analysts think of these stocks.
+  url: https://finnhub.io/api/news?id=9dcc954a411bcfd92af95d87b0702a5e0a35177f98cad62659ad0f2a7c31004a

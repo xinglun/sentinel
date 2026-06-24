@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reid Hoffman Questions Elon Musk's AI Strategy At SpaceX: 'You're A Premium-Priced CoreWeave'
+  summary: Reid Hoffman criticized Elon Musk&#39;s AI strategy, calling xAI a &#34;train wreck&#34; and likening SpaceX to CoreWeave.
+  url: https://finnhub.io/api/news?id=923bd3175a5ded993f8375e6d0d7b8be8b5e6cfb1dea2687844250eede563fc4

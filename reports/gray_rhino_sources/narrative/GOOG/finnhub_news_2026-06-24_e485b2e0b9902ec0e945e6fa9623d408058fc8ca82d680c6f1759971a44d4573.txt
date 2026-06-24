@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures: Nasdaq Set To Regain Key Level As Korea's Kospi Rebounds, Micron Due; FedEx, Cerebras Tumble
+  summary: Tech stocks rebounded with South Korea's Kospi index after the Nasdaq broke key support Tuesday. Micron earnings loom. FedEx and AI chip IPO Cerebras dived late.
+  url: https://finnhub.io/api/news?id=79ddde4bf9df6ac33be7e8312e7488bc8b1b1175c5d8575105c1fb9bac0ae940

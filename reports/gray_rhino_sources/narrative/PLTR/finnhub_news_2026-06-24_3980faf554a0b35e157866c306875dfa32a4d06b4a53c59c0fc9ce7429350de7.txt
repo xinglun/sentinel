@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Stock Heads for Worst Month Ever: Retail Awaits Dip Below $100, Michael Burry Takes Victory Lap
+  summary: Despite strong financial growth, Palantir’s shares have retreated amid an increasingly negative sentiment for software stocks.
+  url: https://finnhub.io/api/news?id=122358f6002da2831684458462344d086bbafa8322a1875713bb53684e831905

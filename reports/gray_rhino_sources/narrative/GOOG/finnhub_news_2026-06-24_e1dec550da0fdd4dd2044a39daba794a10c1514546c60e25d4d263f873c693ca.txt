@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: L8P8, Inc., Introduces Loop8ID, an Age Verification Solution to Support Online Child Safety Laws Without Collecting Personal Data
+  summary: L8P8, Inc., the privacy-first identity company and creator of the Loop8 passwordless Privacy Controller, today announced the launch of Loop8ID Age Shield. This groundbreaking age verification platform enables companies to navigate the complex landscape of evolving U.S. state-level child safety laws, ensuring strict compliance without the need to collect or store personal identity information.
+  url: https://finnhub.io/api/news?id=dfcd555a6a8b4a74087dc47d58fe02791bc976f11cc80683424254bd2a3452c1

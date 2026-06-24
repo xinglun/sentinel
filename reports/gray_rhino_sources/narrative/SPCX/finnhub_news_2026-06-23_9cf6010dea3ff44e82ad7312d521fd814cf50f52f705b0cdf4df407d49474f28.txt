@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: The Market Has Lost Its Mind
+  summary: SpaceX trades at a $2T+ valuation, vastly exceeding fundamentals and with extreme float scarcity and speculative premium. Read more on SPCX stock here.
+  url: https://finnhub.io/api/news?id=1e61dcad3472da4e9890d5d1fcfcbf202e8087d909be9ad1eca5201b5eb79139

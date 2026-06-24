@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloudflare (NET) Launches Browser Push To Sort Human And AI Traffic
+  summary: Cloudflare announced a new initiative with Mozilla, Google, and Microsoft to standardize privacy-preserving protocols for distinguishing human and AI-generated traffic. The collaboration centers on a proposed Private Access Control Tokens (PACT) standard that aims to verify traffic without exposing personal data. The effort is positioned as an industry-wide response to rising AI-driven and automated bot activity across the internet. Cloudflare, traded as NYSE:NET, is tying this new protocol...
+  url: https://finnhub.io/api/news?id=d2322775062e7edc802fab4ff87848fc8977ff5ee7172e2c9ea4392f761a3b67

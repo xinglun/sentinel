@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: KB Home Posts Upbeat Q2 Sales, Joins Inmode, Icon And Other Big Stocks Moving Higher On Wednesday
+  summary: U.S. stocks rose, with Nasdaq up 50 points. KB Home (NYSE: KBH) reported strong Q2 results, shares jumped 16.2%. Other big gainers: WEN, ABSI, RUN, CCXI, ENRD, SFTX, ICCM, INMD, DFH.
+  url: https://finnhub.io/api/news?id=bdaedddb78ec95e224ad10cc406da12b41a2d878f3a2bc11ab61efb465fee7a8

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's New AI in Education Report highlights widespread adoption and increasing demand for support
+  summary: Microsoft Corp. on Wednesday unveiled the third edition of its annual AI in Education Report1 that reveals both the momentum behind AI adoption in education and the opportunity ahead: helping schools move from interest and experimentation to meaningful, responsible implementation. Microsoft also announced today a new wave of AI-powered teaching and learning experiences, available at no-additional cost ahead of ISTELive 26. Designed with educator feedback and grounded in learning science, the new
+  url: https://finnhub.io/api/news?id=a079c32718b9798e58b6c5320ca24d31e0e40b3ec7fcc291c7e2358cc10aa61c

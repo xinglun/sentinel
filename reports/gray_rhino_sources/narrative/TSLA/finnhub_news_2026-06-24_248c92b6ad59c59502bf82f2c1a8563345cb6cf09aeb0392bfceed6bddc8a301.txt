@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: T1 Energy: Short-Term Opportunity - But Long-Term Uncertainty?
+  summary: T1 Energy (TE) is positioned as a US-based solar panel manufacturer targeting surging demand from AI-driven data centers.
+  url: https://finnhub.io/api/news?id=adb65cdc5f586dd38d1d92cef321e571d2cf493bcdd0232fd6562d38efc6d9de

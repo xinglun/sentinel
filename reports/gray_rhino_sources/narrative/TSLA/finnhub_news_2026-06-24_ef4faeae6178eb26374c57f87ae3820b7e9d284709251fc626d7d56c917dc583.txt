@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk loses trillionaire status as SpaceX stock falls
+  summary: A broad market selloff pushed Musk's net worth below $1 trillion, to $957 billion, according to Bloomberg
+  url: https://finnhub.io/api/news?id=5834fb883c303d7470fe7c0dfd5e65b184b71712924e9c1584a599503f4d9ab2

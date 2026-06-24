@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Engram raises $98M to cut enterprise AI token costs
+  summary: The 13-person company says its models can match frontier AI performance while using up to 100 times fewer tokens
+  url: https://finnhub.io/api/news?id=9d567077bdf3daac13eb0d9cb5b137931b7909c08d3996dc3256fadd9b4868ef

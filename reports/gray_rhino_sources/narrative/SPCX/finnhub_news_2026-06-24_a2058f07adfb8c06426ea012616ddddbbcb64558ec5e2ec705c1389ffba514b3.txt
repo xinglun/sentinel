@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Howard Lutnick Warns Of Chinese Robot Threat, Signals Crackdown On 'The Arms Race That Is Coming': Report
+  summary: Commerce Secretary Howard Lutnick signals scrutiny of Chinese robotics as Trump officials warn subsidized firms threaten U.S. industry.
+  url: https://finnhub.io/api/news?id=0824b2f58fe213a002ab5ea1d94593a72278b1d90e46e59674cb402844b8714d

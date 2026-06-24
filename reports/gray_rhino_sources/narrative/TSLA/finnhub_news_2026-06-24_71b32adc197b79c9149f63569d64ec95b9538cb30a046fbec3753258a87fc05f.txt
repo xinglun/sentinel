@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chip Selloff Deepens as AI Doubts Bleed Into a Second Session
+  summary: Semis took another beating Tuesday as the AI capex narrative wobbled, the dollar punched to a one-year high, and all eyes turn to Micron earnings after the close.
+  url: https://finnhub.io/api/news?id=d4d0c51b7a343f7545fa634afcf3d6c7cfda10ec0ee21023a4e733c769fae414

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zeta Global (ZETA) Clinches New Deal, Shares Climb
+  summary: Zeta Global Holdings Corp. (NYSE:ZETA) is one of the 10 Resilient Stocks Beating Market Slump. Zeta Global saw its share prices jump by 5.63 percent on Tuesday to finish at $19.51 apiece following news that it partnered with Palantir Technologies for the development of an AI infrastructure layer that connects operational intelligence, customer intelligence, and […]
+  url: https://finnhub.io/api/news?id=559d1f1658dace1f1a18af46c2aa0f6ae482c50f8c628e0d75410a776ab94649

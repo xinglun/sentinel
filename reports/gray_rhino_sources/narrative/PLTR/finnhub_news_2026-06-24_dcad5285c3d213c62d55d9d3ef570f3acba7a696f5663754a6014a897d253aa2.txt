@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TCW Concentrated Large Cap Growth Fund Q1 2026 Portfolio Activity
+  summary: We believe McKesson's current share price does not adequately reflect the longer-term cash flow generation potential of the business.
+  url: https://finnhub.io/api/news?id=a364df46986537d26362d6a22ce996ca2eb8ad0f778d3638b3b02c2f6e18e6f4

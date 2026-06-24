@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Wall Street Analysts: History Says SpaceX Will Reach This Price Target Within the Next Year
+  summary: An analysis of 30 of the most-hyped, tech-driven initial public offerings (IPOs) since May 2012 bodes poorly for SpaceX.
+  url: https://finnhub.io/api/news?id=07aa12cccd5dd012bdee2832b9c6906bdedad397f42ed66054a2c275e2ca2247

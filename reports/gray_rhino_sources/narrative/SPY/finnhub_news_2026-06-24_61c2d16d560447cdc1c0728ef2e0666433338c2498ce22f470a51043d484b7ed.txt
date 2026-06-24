@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Strategic Asset Allocation For The Next Decade
+  summary: Market regimes change, and asset allocation must evolve with them. Structural forces are redefining the investment landscape. Portfolios may need broader diversification. Read more here.
+  url: https://finnhub.io/api/news?id=3ac4417a2d941604ce102b0514456dc2754a3489e67b5202266788f975386036

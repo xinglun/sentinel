@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Now That SpaceX Is Public, Should You Ditch Tesla Stock?
+  summary: Tesla is better than SpaceX, and once SpaceX realizes this, it just might buy Tesla.
+  url: https://finnhub.io/api/news?id=01eb7ad9a576af0583a21753cb93d6e5b0513e1d355b853e3a3ef092a48a61d9

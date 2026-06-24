@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla ETFs Could Be The Hidden Winners Of SpaceX Merger Hopes
+  summary: SpaceX&#39;s IPO is fueling Tesla merger speculation, putting Tesla-heavy, AI, and Magnificent Seven ETFs in the spotlight.
+  url: https://finnhub.io/api/news?id=f666298dc566ef4298f0b0b51a20a9d5f955a01c98116473b0d67caf87affcce

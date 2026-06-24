@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway Just Invested $10 Billion in Google at a Private Placement Price. Here's Why Retail Investors Should Pay Attention
+  summary: Berkshire's investments show who it thinks will be a winner in AI.
+  url: https://finnhub.io/api/news?id=1bafecd3fa169bb6dfb4c59840d5006f6dcd7c26ac37cc4ae90d93bce7ac3f91

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: International Business Machines (IBM) Upgraded by JPMorgan as Software Growth Boosts Outlook
+  summary: International Business Machines Corporation (NYSE:IBM) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. On June 23, JPMorgan upgraded International Business Machines Corporation (NYSE:IBM) to Overweight from neutral and hiked its price target to $291 from $270. The firm said it sees “software acceleration” for the stock and that there […]
+  url: https://finnhub.io/api/news?id=6c510352edda261017718f6ab659893330e5e2d32b9221839a5730504b73fc11

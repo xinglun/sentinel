@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Hits 52-Week Low Amid AI Retreat, Rising Interest Rates
+  summary: Palantir shares hit a 52-week low on Monday as software stocks struggled. Palantir stock has dropped over 30% in 2026.
+  url: https://finnhub.io/api/news?id=d344a1cc9ac26ea8bea732e2322a5561e3b79cf4b2e2dcbeaee2d4c9efdbac11

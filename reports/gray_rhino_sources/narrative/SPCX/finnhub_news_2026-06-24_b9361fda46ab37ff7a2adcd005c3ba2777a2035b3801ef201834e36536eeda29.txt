@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Betting Against Starlink - What SpaceX's Record Listing Means For Europe's Sovereign Satellite Players
+  summary: Having filed in May 2026, SpaceX made its Nasdaq debut and closed its first day of trading on 12 June 2026 above a $2tn market capitalisation.
+  url: https://finnhub.io/api/news?id=2adc104e7e44576a969c6ba404e8cd520fa1484deeb832face9dd707fa59d064

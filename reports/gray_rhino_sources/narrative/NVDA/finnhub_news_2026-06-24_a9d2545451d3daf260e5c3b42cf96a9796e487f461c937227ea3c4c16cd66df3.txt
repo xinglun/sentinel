@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Project Kilby Agreement Highlights Data Center Power Demand, Stifel Says
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. On June 23, Stifel analyst Brad Reback reiterated a Hold rating on the stock with a $415.00 price target. The rating affirmation follows Microsoft’s recent announcement of a 20-year power agreement with Chevron, Project Kilby. While this long […]
+  url: https://finnhub.io/api/news?id=7118cf62dbd50c442602b88938c6cd7ab8621aecb80cc7ba0f837d673cf2bf09

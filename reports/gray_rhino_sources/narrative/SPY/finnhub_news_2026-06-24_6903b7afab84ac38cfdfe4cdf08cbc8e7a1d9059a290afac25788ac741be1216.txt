@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Risk-Off, Or A Market Positioning Reset?
+  summary: The selling in AI, chips, and data center names got heavier today, the second hard session in a row. Is it risk-off? Read more here...
+  url: https://finnhub.io/api/news?id=96fd480cc1b9c281e288a8257661eb746c7e23ba247cd3403f272c8325d38dcb

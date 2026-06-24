@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks making big moves yesterday: Shutterstock, Viavi Solutions, Micron, Palantir Technologies, and IonQ
+  summary: Check out the companies making headlines yesterday:
+  url: https://finnhub.io/api/news?id=b92652d5ded7188a6acd55c943e5258872aba4a70c45e5887395aa5351a38451

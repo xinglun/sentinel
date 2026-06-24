@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bain & Company announces partnership with Google Cloud to enable accelerated and secure, enterprise-scale AI transformations
+  summary: Bain & Company today announced a partnership with Google Cloud that offers Google's world-class technology and Bain's deep strategy and implementation expertise to support accelerated adoption of AI solutions.
+  url: https://finnhub.io/api/news?id=1221bbdb81fbf6b38752ea9986887f924e8bed14959ce4e97ed2d329827c3be4

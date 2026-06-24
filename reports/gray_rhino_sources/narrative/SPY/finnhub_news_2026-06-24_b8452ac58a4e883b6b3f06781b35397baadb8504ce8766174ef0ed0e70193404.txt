@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Federal Reserve's New Leader Lays Out His Agenda
+  summary: The decision to leave short-term interest rates unchanged didnât surprise anybody, but there was plenty for markets to chew on.
+  url: https://finnhub.io/api/news?id=47bce369e0436d5b7119e67581c97bf443afa6356788b1bd5173ad51a4cb0b6c

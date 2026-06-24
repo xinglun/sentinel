@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ladybug Resource Group, Inc.'s Jingdiao Division Deepens Strategic Alliance With Global Integration Giant Mino to Power Next-Gen EV Production Lines
+  summary: TULSA, OK - June 24, 2026 (NEWMEDIAWIRE) - Ladybug Resource Group, Inc. ("Ladybug" or the "Company") (OTC ID: LBRG) today announced the continued expansion of its strategic collaboration between its Jingdiao manufacturing division and Mino, a globall...
+  url: https://finnhub.io/api/news?id=f3570f2beb5614ef1d01174d1f0cdc47179f55526a7e2295413cacdf022ee0ea

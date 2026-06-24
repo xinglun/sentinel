@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: An Optimistic Or Unrealistic Forecast May Not Sustain Shares Forever
+  summary: Tesla, Inc. remains overvalued, reliant on future autonomous and robotics growth that faces significant execution risk. Read more on TSLA stock here.
+  url: https://finnhub.io/api/news?id=847f89fdabfc6d8b222cefe89d3921e823e14b016938590f86655a6ec32bdaf4

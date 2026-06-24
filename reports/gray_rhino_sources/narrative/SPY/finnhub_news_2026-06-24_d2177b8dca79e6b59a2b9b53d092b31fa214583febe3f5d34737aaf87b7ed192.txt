@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The U.S. Dollar's Warning To Bulls (And My Game Plan)
+  summary: Rising interest rate expectations and a strong dollar threaten the debt-fueled AI trade. Click here for a detailed analysis.
+  url: https://finnhub.io/api/news?id=2f3f63dfcb526a15753bd1ceba5fcc133e16666be22befb9623834e8ff53d253

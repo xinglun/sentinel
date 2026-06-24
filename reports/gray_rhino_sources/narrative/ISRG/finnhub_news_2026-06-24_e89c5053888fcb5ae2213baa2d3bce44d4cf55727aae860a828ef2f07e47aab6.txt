@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Deutsche Bank Maintains a Sell Rating on Intuitive Surgical (ISRG), Here’s Why
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) is one of the top high-conviction stocks to buy according to hedge funds. Deutsche Bank cut the price target on Intuitive Surgical, Inc. (NASDAQ:ISRG) to $366 from $440 on June 2 while maintaining a Sell rating on the shares. The stock also received a rating update from BofA on May 12, […]
+  url: https://finnhub.io/api/news?id=a0f04b139491d02adf5e0cab47c1297929b82b9923614741237d4e0c0f521b83

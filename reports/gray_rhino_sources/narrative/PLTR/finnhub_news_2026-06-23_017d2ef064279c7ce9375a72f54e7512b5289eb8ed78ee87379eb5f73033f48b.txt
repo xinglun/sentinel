@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir partners with Zeta Global on AI-powered marketing infrastructure, Wedbush sees further enterprise validation
+  summary: Palantir Technologies Inc (NYSE:PLTR) has entered into a partnership with Zeta Global aimed at developing a unified data and artificial intelligence infrastructure for marketing applications, a move Wedbush analysts described as another validation point for enterprise AI adoption. The...
+  url: https://finnhub.io/api/news?id=6de032eaacf88a473e93905151cf3044b0bbc796fa2797170c99f1c8184bc19c

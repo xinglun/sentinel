@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Streamlining Commercial Charging Through Strategic Collaboration
+  summary: Tellus Power has announced a collaboration with Nayax to streamline commercial electric vehicle (EV) charging by integrating charging, payment, and management systems into a single platform. This partnership aims to reduce complexities faced by operators by minimizing the need for multiple vendors and enhancing the deployment speed of charging infrastructure. By combining Tellus Power's AC Level 2 Charger with Nayax's payment and management solutions, the initiative seeks to deliver a...
+  url: https://finnhub.io/api/news?id=0e74424145f6f36945bae57628020a16ac6b142d5126f221b842f53645f6147b

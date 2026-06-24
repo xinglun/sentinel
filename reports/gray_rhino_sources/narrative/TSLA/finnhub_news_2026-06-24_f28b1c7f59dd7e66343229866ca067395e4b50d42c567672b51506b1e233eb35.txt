@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech's $2.7 trillion AI bill comes due: Chart of the Day
+  summary: The “Magnificent Seven” plus Broadcom and Oracle have lost roughly $2.7 trillion in market value in June, according to Yahoo Finance analysis, as investors take a harder look at the companies funding the AI build-out.
+  url: https://finnhub.io/api/news?id=bb682f24c0143dda04f2988a73e4e0da0afae0f67cc4fd73df1b92b6f53f79f3

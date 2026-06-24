@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Silver, Bitcoin, and Palantir Prove That Chasing the ‘Hot Dot’ Is a Great Way to Lose Your Money
+  summary: Professional money managers and algorithmic trading create a mad rush to chase stocks and ETFs at record highs. Let this be a lesson that following the herd can have painful results.
+  url: https://finnhub.io/api/news?id=f9220780570dc4ce2758ed86d8073adb6f445ccaa65832e4aafd6aa009cdc5ba

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX vs Rocket Lab: What's the Better Buy Right Now?
+  summary: These stocks are risky and unprofitable, but they also possess some compelling growth potential.
+  url: https://finnhub.io/api/news?id=62c759434ba06b543ad85bb9a30db84444a02d4a0069817fc530dca1f24a385d

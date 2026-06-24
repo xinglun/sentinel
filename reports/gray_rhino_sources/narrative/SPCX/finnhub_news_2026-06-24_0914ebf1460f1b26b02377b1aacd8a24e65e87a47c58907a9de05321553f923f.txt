@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab: SpaceX Halo Effect
+  summary: Rocket Lab faces sell-off risk as tech sentiment shifts and SpaceX IPO looms. Click here to read more about the RKLB stock.
+  url: https://finnhub.io/api/news?id=be845bf7e46236bb6e19108a6347c13cb7416786f3c855d17ecb1a92b62d7124

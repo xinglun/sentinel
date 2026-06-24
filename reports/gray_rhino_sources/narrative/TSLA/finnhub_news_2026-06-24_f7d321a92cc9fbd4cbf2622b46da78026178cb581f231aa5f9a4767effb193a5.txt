@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Loads Up On Palantir, Cerebras, These Mag 7 Players
+  summary: Cathie Wood and ARK Invest on Tuesday purchased $49 million of Amazon, Tesla, Alphabet, Palantir, CoreWeave and Cerebras.
+  url: https://finnhub.io/api/news?id=a5087e9325add30d1a3f8b158d2875d4c6f65bdbc64a0258d48babd634731265

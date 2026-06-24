@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Mid-Year Outlook: Why 7,795 Remains My 2026 Price Target
+  summary: Constructive S&P 500 2026 outlook: steady valuations and AI-driven earnings growth support bullish thesis. Read here for a detailed analysis.
+  url: https://finnhub.io/api/news?id=79164b78adf4d266e749ccd8cfd4d866839ab44b8513a17a58aa78dc6876b87e

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel (INTC) Advanced Packaging Could Support AI Data Center Growth, Mizuho Says
+  summary: Intel (NASDAQ:INTC) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. Intel Corporation may benefit from tailwinds coming from advanced packaging technologies, which has led one firm to raise estimates and its price target for the stock. On June 22, Mizuho analyst Siti Panigrahi raised the price target on the […]
+  url: https://finnhub.io/api/news?id=b2c53c17adffe159be5f46f4761a7edfa49c3cff87e787a9a961a4432c16fc34

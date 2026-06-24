@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why The S&P 500 Shrugged Off The Iran War - And What Could Finally Break The Rally
+  summary: Year-over-year CPI moved from 2.4% before the war to 4.2% as of May 30th, and the yield on the 30-year Treasury climbed to 5.2%, a level we have not seen.
+  url: https://finnhub.io/api/news?id=0616803c6d04583f3b7f462648a6bf53f56103768873957e19625dc027032f63

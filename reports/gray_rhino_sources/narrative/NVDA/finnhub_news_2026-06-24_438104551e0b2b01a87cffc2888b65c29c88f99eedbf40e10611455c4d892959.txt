@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Enphase Energy (ENPH) Gains Upgrade as Solid-State Transformers Open AI Data Center Opportunity
+  summary: Enphase Energy (NASDAQ:ENPH) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. The data center power market holds significant opportunity, and Enphase Energy is one name that could benefit from it. On June 18, Barclays analyst Christine Cho upgraded the stock from Underweight to Equal weight with a price target […]
+  url: https://finnhub.io/api/news?id=c72d3f2d3856d080ce4a759c1c8ee7b80abcd1511d2f873f046cacf2ab49b54d

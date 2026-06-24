@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stock Theme Splits as Mega-Cap Leaders Wilt and Turnaround Plays Surge
+  summary: AI stocks show divergence: mega-caps like Nvidia and Microsoft stumble while AMD and Intel surge on momentum and turnaround bets, signaling a shift toward value and recovery plays.
+  url: https://finnhub.io/api/news?id=2602496ce98e1ea1691a8d2ddbe48a979e319ea6fddf789ab296d185ab2325d7

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon (AMZN) BofA Sees Q2 Revenue Beat Despite Prime Day Timing Shift
+  summary: Amazon (NASDAQ:AMZN) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. Despite shifts in Prime day expected to weigh on Q3 comparisons, one analyst firm expects Amazon to deliver a revenue beat in Q2. On June 18, BofA Securities analyst Justin Post reiterated a Buy rating on the stock with […]
+  url: https://finnhub.io/api/news?id=0be4cd3d737473d2fe259ab9569f0bbdba0e58bac60c5fb7fb1b445b2f6013c6

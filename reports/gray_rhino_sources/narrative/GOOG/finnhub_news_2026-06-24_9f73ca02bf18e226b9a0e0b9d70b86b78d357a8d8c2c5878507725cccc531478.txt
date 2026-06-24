@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Believes MSFT Is The Most Oversold Large-Cap Stock, Draws Parallels To 'Negative' Narratives Around GOOGL A Year Ago
+  summary: During an interview with Bloomberg, Ives highlighted Microsoft’s potential despite some missteps with Copilot, its AI companion.
+  url: https://finnhub.io/api/news?id=6d3dad19027f27a0410b25c245e236466c1134ce1b0241d13a90967746710375

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Conference Focuses on Turning AI from Promise into Production with 120+ Speakers
+  summary: SAN FRANCISCO, June 24, 2026--The AI Conference, the leading conference for applied AI, has announced the first round of speakers from OpenAI, Anthropic, NVIDIA, Google, Meta, and more, with sessions bringing business leaders and builders together to show how AI systems are built, deployed, and scaled in practice. The conference, in conjunction with inaugural AI Week SF, takes place from September 29 to October 1 at Pier 48 in San Francisco.
+  url: https://finnhub.io/api/news?id=68696def68d9d9aa9a13268b9290a7de9ef4b8264620ee71f3bb684e8b641355

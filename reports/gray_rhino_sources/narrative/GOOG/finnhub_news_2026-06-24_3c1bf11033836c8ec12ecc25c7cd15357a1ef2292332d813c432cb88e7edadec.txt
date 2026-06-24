@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Keeps Market Outperform Rating as Citizens Flags AI Talent Retention Risk
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. One of the leading AI stocks analysts are watching, analysts at Citizens have recently flagged Alphabet over renewed concerns related to the company’s ability to retain top AI talent. On June 22, Citizens analyst Andrew Boone reiterated a […]
+  url: https://finnhub.io/api/news?id=b18db8eccfcd0764f7e406a0ce8a79757e33abbed8b1bbdc6b7a85bf5cf9369e

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Rises on Major AI Infrastructure Pact With Zeta
+  summary: Zeta, Palantir Join Forces in Bold Push to Build Unified AI Marketing Engine
+  url: https://finnhub.io/api/news?id=acf8eaf109a0fad712f5b7ba2650fe19f5b3a07cb559388185cdada78d8a8beb

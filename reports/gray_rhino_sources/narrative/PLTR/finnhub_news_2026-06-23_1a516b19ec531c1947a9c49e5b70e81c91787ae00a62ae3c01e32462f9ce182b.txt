@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Salesforce put software's rebound on trial: AlphaCheck
+  summary: Until both stocks reclaim key levels, software's rebound is still awaiting a verdict.
+  url: https://finnhub.io/api/news?id=267a1c2199f51dd915fc0066edc9ec79bf4d14212faf36beb8cb68095badeec8

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk loses trillionaire status after Wall Street slump
+  summary: Elon Musk is no longer a trillionaire after a global rout in tech shares wiped $500bn (£379bn) off his fortune.
+  url: https://finnhub.io/api/news?id=2fc021c7486fefffbd2b9fdfbc3f8afde28cb757d8f3e515ae85925659851b44

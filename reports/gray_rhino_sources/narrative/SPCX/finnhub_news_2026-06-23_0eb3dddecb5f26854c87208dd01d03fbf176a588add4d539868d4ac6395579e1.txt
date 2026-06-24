@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Needs To Come Down To Earth
+  summary: SpaceXâs $2.4T valuation is driven by a speculative, loss-making AI segmentânot space or Starlink. Click for a realistic look at SPCX and what it can accomplish.
+  url: https://finnhub.io/api/news?id=3dc67a1641fcdacfd60a4c31b482397ec1dd31ee3777dcd6ffe2f5c0767d7969

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Does Microsoft Turn Cloud Dominance Into $223B For Shareholders?
+  summary: In the last five years, Microsoft (MSFT) stock has returned a massive $223 Bil back to its shareholders through cold, hard cash via dividends and buybacks. This impressive capacity to return capital is rooted in Microsoft’s evolution into a high-margin powerhouse, driven primarily by its dominance in cloud computing and enterprise software. The company’s ability to generate such significant "payout power" is fueled by the robust, recurring revenue streams from its Intelligent Cloud segment, spec
+  url: https://finnhub.io/api/news?id=45ea761cd037bae610b0c092577cde9e382a0f624a0758a76b6eb388a0a45c3f

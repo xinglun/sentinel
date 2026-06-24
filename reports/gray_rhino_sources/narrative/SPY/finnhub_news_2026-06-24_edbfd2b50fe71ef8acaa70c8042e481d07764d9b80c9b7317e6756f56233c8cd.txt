@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Private Credit Chart Nobody Is Paying Attention To, But Could Change Everything
+  summary: Private credit outlook: markets are bearish, but one key chart suggests a different story. Click here to read more.
+  url: https://finnhub.io/api/news?id=3726064fea27a263fbc1a0f8b22b2df86eb14d36186279fe4abeec524d749a6c

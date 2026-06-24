@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Faces Its AI Earnings Test
+  summary: The memory-chip maker has outperformed major chip peers ahead of results.
+  url: https://finnhub.io/api/news?id=15c2ed1f383d0018b6ecbb74953aa42191f61975dac82ea6dccf3cd9c65e130e

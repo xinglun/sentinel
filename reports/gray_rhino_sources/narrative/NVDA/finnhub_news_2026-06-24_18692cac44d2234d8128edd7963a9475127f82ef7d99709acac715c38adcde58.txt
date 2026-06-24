@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Credo Technology (CRDO) Starts With Outperform Rating as Optical AI Connectivity Opportunity Expands
+  summary: Credo Tech (NASDAQ:CRDO) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. On June 22, Evercore ISI analyst Mark Lipacis initiates coverage on Credo Tech (NASDAQ:CRDO) with an Outperform rating and a $325 price target. Analysts at the firm believe that Credo could increasingly benefit from growth in optical connectivity. […]
+  url: https://finnhub.io/api/news?id=bb2fab41ba794e2abfa2b33d2c7492fa98248d62ccd84c679eb3fc6deca65779

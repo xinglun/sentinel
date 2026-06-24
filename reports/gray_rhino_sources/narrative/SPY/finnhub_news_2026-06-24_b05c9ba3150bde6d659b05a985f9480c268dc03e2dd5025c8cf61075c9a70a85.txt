@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chip Selloff Pressures Breadth, Longer-Term Participation Still Holds
+  summary: QQQ led Tuesday’s pullback as chip weakness spread through growth stocks, while market breadth slipped but longer-term participation still supports a neutral-positive breadth rating.
+  url: https://finnhub.io/api/news?id=428088e97af61f18609581ffa3520fc0395cf094788212e51a0e8372c4d16c4a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: The Vision Is Real - The Execution Isn't
+  summary: Tesla, Inc. rated Sell: Hardware 3 limits, robotaxi delays, weak Q1 2026 earnings and looming negative FCF raise valuation risks. Click for this TSLA stock update.
+  url: https://finnhub.io/api/news?id=28deccb8a1eaeb30693fdf77477bbc6955473596c15bfef756dfdac203a67fa0

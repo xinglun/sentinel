@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock in Focus as Google Parent Joins Dow, Replacing Verizon
+  summary: Alphabet Lands Coveted Dow Slot, Replacing Verizon on June 29
+  url: https://finnhub.io/api/news?id=4ad45eb5519bd937aee67c02b0e0032555e909f69e972d96edc367aed1fa9bbf

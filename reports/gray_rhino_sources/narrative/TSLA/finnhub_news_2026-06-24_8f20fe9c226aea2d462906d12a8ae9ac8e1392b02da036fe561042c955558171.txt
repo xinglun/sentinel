@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk rips the US system of taxing what you earn, buy, and own. Do this now to keep more of your cash
+  summary: Making the most of your margins is only the first step.
+  url: https://finnhub.io/api/news?id=950a23e6c143f9c7b6194ed8c64c1085849db02bc5e2dff5c4e87d51a71496c3

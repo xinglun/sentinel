@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, Zeta Team Up on Marketing Platform
+  summary: Palantir and Zeta Global announced a strategic partnership.
+  url: https://finnhub.io/api/news?id=fa1d41066ff714d6b70158172b76671341b3f6ffb8f0ebe3f3562211e42e8a83

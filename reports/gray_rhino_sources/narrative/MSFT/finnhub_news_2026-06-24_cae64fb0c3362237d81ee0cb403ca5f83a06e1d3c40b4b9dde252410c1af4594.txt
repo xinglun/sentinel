@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce (CRM) Gets Buy Upgrade as AI Concerns Create Compelling Entry Point
+  summary: Salesforce, Inc. (NYSE:CRM) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. One AI stock Wall Street is bullish on based on its depressed valuation, attractive margin profile, and robust cash flow is Salesforce, Inc. (NYSE:CRM). On June 18, Monness, Crespi, Hardt analyst Brian White upgraded the stock to “Buy” […]
+  url: https://finnhub.io/api/news?id=5d67ebb0c1685784dbf74f9a7b9e58c1b62d39913c199210253d561a9850bc74

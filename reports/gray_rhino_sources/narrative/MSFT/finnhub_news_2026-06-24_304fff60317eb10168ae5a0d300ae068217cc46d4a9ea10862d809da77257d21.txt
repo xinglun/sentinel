@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple (AAPL) BofA Stays Bullish as Price Increases Could Offset Higher Memory Costs
+  summary: Apple (NASDAQ:AAPL) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. Recently, CEO Tim Cook confirmed that Apple Inc. is raising prices to offset rising memory costs. In response, on June 18, BofA Securities analyst Wamsi Mohan reiterated a Buy rating on the stock with a $380.00 price target. The […]
+  url: https://finnhub.io/api/news?id=b322687173b8ec5ac36bbc6295241b1114bd097a51c3208111c767338e6e2451

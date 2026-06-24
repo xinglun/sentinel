@@ -1,0 +1,22 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Semi Mania Gets A Reality Check From South Korea; Investors Should Pay Attention To Shift In AI Tokens
+  summary: 
+
+
+
+Korea Drops 10%
+
+
+
+Please click here for an enlarged chart of Ishares Msci South Korea ETF (NYSE:EWY).
+
+
+
+Note the following:
+
+
+
+
+As we have previously shared, prudent investors pay attention to stocks in South
+  url: https://finnhub.io/api/news?id=20ea064ed3b66ad68f1edbe4e8c767df47f2d2439ebab25a07c8c7af7356a613

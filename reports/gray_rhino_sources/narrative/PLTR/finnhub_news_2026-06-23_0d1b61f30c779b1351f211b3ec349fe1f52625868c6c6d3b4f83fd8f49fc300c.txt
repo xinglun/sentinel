@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is This the Best Tech Stock to Buy Before the End of the Year?
+  summary: Palantir's products are becoming essential for its government and commercial clients.
+  url: https://finnhub.io/api/news?id=607cc934187cb2b2b153efda60d9b24c2a3ea4764589fb38acc52a64369c519b

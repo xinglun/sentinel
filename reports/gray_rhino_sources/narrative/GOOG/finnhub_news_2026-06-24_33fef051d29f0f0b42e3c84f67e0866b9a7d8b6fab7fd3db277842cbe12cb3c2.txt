@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Set to Join Dow Jones Industrial Average as Verizon Exits Index (GOOG)
+  summary: Alphabet (NASDAQ:GOOG) will replace Verizon (NYSE:VZ) in the Dow Jones Industrial Average, with the change scheduled to take effect on June 29, according to an announcement from S&P Dow Jones Indices. Investors responded positively to the news, with Alphabet shares rising 0.
+  url: https://finnhub.io/api/news?id=891878423989073d50b6583a2f8ac75e36fc8da70fa90b82fc1383059019f027

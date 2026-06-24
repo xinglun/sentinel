@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet to replace Verizon in Dow Jones Industrial Average
+  summary: The Google parent will enter the 30-stock index on June 29, giving the blue-chip benchmark broader exposure to AI, cloud, and digital advertising
+  url: https://finnhub.io/api/news?id=a721c28b4be69a13ff461dc7a90b37ca0a3b4e27ebb63e4e5d62f7038f997c75

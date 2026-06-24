@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HSBC Holdings plc (HSBC) is a Top UK Dividend Stock Pursuing AI Integration with Google
+  summary: HSBC Holdings plc (NYSE:HSBC) is one of the UK’s highest-dividend stocks. The company has successfully paid dividends for 27 consecutive years. While the stock pays a quarterly dividend of $0.94 a share, it offers a dividend yield of 4.08%. On May 5, the company’s board approved an interim dividend payment of $0.10 per ordinary share. […]
+  url: https://finnhub.io/api/news?id=9e40413ac6e0d2fdb7d41621a8237719d21be2657f3b05a8cdde5d178ef5059b

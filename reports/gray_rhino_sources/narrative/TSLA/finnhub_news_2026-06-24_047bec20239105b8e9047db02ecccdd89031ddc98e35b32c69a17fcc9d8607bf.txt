@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Extends Rebound as Analysts Highlight Potential Tesla Tie-Up (SPCX)
+  summary: SpaceX (NASDAQ:SPCX) continued to recover in premarket trading on Wednesday after rebounding from losses that briefly pushed the stock below its post-IPO opening price. Shares closed Tuesday up 0.
+  url: https://finnhub.io/api/news?id=ff176dbe6f376b1cc55d12021b24f528507cffedf75f3e56773a0d169002aa9f

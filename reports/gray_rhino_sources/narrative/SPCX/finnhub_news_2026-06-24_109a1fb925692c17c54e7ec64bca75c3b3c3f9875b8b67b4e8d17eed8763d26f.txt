@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Deep Dive: This Dip Is My Cue To Buy
+  summary: SpaceX commands a unique market position with an unmatched $28.5T TAM, spanning space, connectivity, and AI ambitions. Read why SPCX stock is a Buy.
+  url: https://finnhub.io/api/news?id=9be9c1bf1dcef0910b921369165f08ef43a562866f5df486c87e30b93038bf7d

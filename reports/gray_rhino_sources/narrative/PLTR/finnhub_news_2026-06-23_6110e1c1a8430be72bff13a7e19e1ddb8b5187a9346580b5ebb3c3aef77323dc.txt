@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Palantir: “The Growth Hasn’t Slowed Down, Just the Stock”
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) was among the stocks Jim Cramer discussed as he said that the Iran peace negotiations could trigger an oil glut, cool inflation, and pull interest rates down. A caller mentioned that they had started a position in the stock when it went public and asked whether they should add to it […]
+  url: https://finnhub.io/api/news?id=f5bb04aa5c9b555621b6f07d129af673ddd537603e0262290bfda7d21f187e25

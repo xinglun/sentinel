@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is Down 32% From Its High. 4 Reasons Why a Merger with Tesla Would Make SpaceX a Better Long-Term Buy.
+  summary: SpaceX and Tesla have no shortage of big ideas, and putting both companies under one umbrella could make the most sense for long-term investors.
+  url: https://finnhub.io/api/news?id=445c3e1dff72eb8a5788f255f5ec337813f23200ab08658f683ae7f2d957628b

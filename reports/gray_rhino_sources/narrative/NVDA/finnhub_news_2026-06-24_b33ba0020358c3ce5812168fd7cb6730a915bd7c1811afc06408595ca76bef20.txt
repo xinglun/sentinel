@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA (NVDA) Remains a Must-Own for Bernstein Despite Tech Sell-Off
+  summary: NVIDIA Corporation (NASDAQ:NVDA) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. On June 23, Bernstein reiterates Nvidia and Broadcom as outperform Bernstein says both stocks are a must-own. Own both NVDA and AVGO. We get the desire to play the bottlenecks instead, but they won’t ultimately work if these […]
+  url: https://finnhub.io/api/news?id=51dcca0e8ba804c9f7f168fe2812928add1c6895dc55b0a31f8a3718656f0fe2

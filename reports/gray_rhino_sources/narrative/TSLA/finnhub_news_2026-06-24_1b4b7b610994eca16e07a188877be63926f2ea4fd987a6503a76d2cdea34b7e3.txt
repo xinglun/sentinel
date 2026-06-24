@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock, Tesla Woes Cost Elon Musk His Trillionaire Status
+  summary: The stock market selloff this week has been painful for investors but spare a thought for Elon Musk.  The  SpaceX  and  Tesla  CEO has already lost his trillionaire status following a sharp drop in the share price of both companies.  Tesla’s 5.8% drop Tuesday took Musk’s net worth to $957 billion, according to the Bloomberg Billionaires Index.
+  url: https://finnhub.io/api/news?id=755655d1eef3cce82631247411f604841183b91d0bf94c0eb29ae008cc94631d

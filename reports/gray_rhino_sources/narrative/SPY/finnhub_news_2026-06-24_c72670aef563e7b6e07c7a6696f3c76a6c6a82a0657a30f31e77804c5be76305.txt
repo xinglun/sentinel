@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mark Zandi Says Top 20% Of Americans Now Account For Nearly 60% Of Spending As Bottom 80% Fall Behind Inflation
+  summary: Moody’s Analytics chief economist Mark Zandi has warned that America’s stark economic divergence remains “firmly intact,” as newly updated data reveal a bruising financial reality in which the bottom 80% of earners are losing the battle against inflation, while top earners dominate national consumption. The Spending Divide Deepens According to Zandi’s updated estimates, households in the top 20% of the income distribution—defined as those earning over $175k annually—now account for an “astoundin
+  url: https://finnhub.io/api/news?id=bf0c7a031663ec01455095effc8da42be8bff93da53920d550296bfbed4f10eb

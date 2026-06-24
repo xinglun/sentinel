@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Intuitive Surgical: “Too Much Competition”
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) was among the stocks Jim Cramer discussed as he said that the Iran peace negotiations could trigger an oil glut, cool inflation, and pull interest rates down. Inquiring about the stock, a caller asked if it is a buy. Cramer replied: Too much competition, too much competition… Used to be king, […]
+  url: https://finnhub.io/api/news?id=36df4c8d2d3627a25e0461273aa1ea85d2f841a2fac4a2a87ba771accfcfcdf5

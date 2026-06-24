@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Outlook Update: More Upside Left
+  summary: S&P 500 is up 8% YTD despite 2026 geopolitical turmoil. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=90c5da6af10525baa8cef711d65407a2fb5b0d8e0abac82fb52fcc99b9bb9ea5

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where To Find Outperformance In H2
+  summary: I see financials and communication services as attractive for H2, offering growth momentum and reasonable valuations. Read more on the market here.
+  url: https://finnhub.io/api/news?id=be7789fa7ae6d3b3cd82099a831aa2df9ee08d0bf911b63ae91424febb0e4045

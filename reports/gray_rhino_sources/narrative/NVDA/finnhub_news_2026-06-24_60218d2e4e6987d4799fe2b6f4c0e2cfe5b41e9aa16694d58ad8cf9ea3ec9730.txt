@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does the Tech Stock Frenzy Make You Nervous? Here Are 3 Steady, High-Yield Dividend Pipeline Stocks to Invest In Instead.
+  summary: These three pipeline stocks look like great buys.
+  url: https://finnhub.io/api/news?id=dbc962752b0b8ba45052400417cc34ca0c95b98ddf0267a024566960792bac3c

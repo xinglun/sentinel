@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Technologies Stock Finally a Buy?
+  summary: Palantir Technologies stock has pulled back substantially this year, but its growth rate and outlook remain solid.
+  url: https://finnhub.io/api/news?id=1a9d68cce67dc773855bd1b26c8c1902fa980f2df6d933cbb7add73bb2282415

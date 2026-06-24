@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Intuitive Surgical call goes against the grain
+  summary: Intuitive Surgical (ISRG) has been one of the year’s most punished large-cap healthcare names. The maker of the da Vinci surgical robot has watched its stock fall about 28% in 2026, even as revenue keeps climbing. Analysts have piled on. Deutsche Bank slashed its target. Bank of America trimmed its ...
+  url: https://finnhub.io/api/news?id=3812c63e57aca9129ce196c341c867ba32d29280366f365d7108006e0824a163

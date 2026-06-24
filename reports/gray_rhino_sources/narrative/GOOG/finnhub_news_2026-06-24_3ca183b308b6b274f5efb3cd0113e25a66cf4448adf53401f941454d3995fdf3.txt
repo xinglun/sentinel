@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Wins a Seat at the Dow
+  summary: Google's parent will replace Verizon in the blue-chip index on June 29.
+  url: https://finnhub.io/api/news?id=200b32ecd093763c245287a75577fd804b715b9557ce3d8cdda121c024cbc3a9

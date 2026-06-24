@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Technology (MU) Higher Target Reflects Multi-Year Demand Visibility, Needham Says
+  summary: Micron Technology, Inc. (NASDAQ:MU) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. With memory markets continuing to improve over the past three months, Wall Street is becoming more bullish on Micron Technology. On June 22, Needham analyst N. Quinn Bolton raised the price target on the stock to $1,550.00 […]
+  url: https://finnhub.io/api/news?id=ea9ec0114d189289c2ad859ea45e8fb2e5c971102cbf98d3b22f1c7385ac376e

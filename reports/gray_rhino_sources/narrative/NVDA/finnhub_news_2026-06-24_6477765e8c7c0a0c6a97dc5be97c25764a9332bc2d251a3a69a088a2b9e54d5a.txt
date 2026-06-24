@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Lands Reflection AI Deal While KeyBanc Flags Starship Risks
+  summary: SpaceX (NASDAQ:SPCX) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. On June 22, KeyBanc initiated the stock as Sector Weight; noting that it is fairly valued and that it doesn’t see a clear reason to buy or sell the stock at current levels. SPCX possesses significant disruptive growth avenues, […]
+  url: https://finnhub.io/api/news?id=db99314f9ad2ebf0a06dc9a92a3647b8c997fcc251cdbd1bec4406486ea7d9ce

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NICE (NICE) Upgraded to Buy by DA Davidson as AI Disruption Fears Ease
+  summary: NICE Systems Ltd (NASDAQ:NICE) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. On June 18, DA Davidson analyst Clark Wright upgraded NICE Systems Ltd (NASDAQ:NICE) to Buy from Neutral on Thursday, maintaining its price target of $110. The firm believes that investor concerns related to AI disruptions in the […]
+  url: https://finnhub.io/api/news?id=6dec7d204135879fa75831f96bc8de4ec566ca0cbab796c6194da398cbe0d106

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Seen Trading More Like a SpaceX Proxy as Merger Talk Grows
+  summary: Tesla, Inc. (NASDAQ:TSLA) is one of the 15 AI Stocks Analysts Are Watching: Microsoft, Nvidia, and More. On June 22, Jefferies reiterated the stock as hold and raised its price target to $375 per share from $350. The firm has cautioned that Tesla may begin trading more like a SpaceX proxy as merger speculation builds. […]
+  url: https://finnhub.io/api/news?id=1cbef965d7ff9b6e74366ee655c2f169b5e5ab6b812c1e6ba5b5bb10a7dd7dbb

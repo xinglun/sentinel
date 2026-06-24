@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sunrun Surges After Forming Data Centre Energy Alliance With Tesla and Renew Home (RUN)
+  summary: Sunrun (NASDAQ:RUN) shares jumped 16% on Wednesday after the residential solar company announced a partnership with Renew Home and Tesla (NASDAQ:TSLA) aimed at supplying more than 16 gigawatts of flexible energy capacity to hyperscale data centre operators and utility companies. The initiative is designed to help address rapidly growing electricity demand driven by artificial intelligence and large-scale data centre expansion.
+  url: https://finnhub.io/api/news?id=08e66bf5280df32be24ca02a15c16aa11e5bdcdedd088aba35be23c77e0b9742

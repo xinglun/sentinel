@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Took a Swiss Courtroom Loss and a European Credibility Hit
+  summary: France is ditching Palantir, while London has blocked it and Germany has replaced it, making the U.S. military look more like a crutch than just another customer.
+  url: https://finnhub.io/api/news?id=03d578c206e850524b5350d1e6460326130df36a6760afeb2ea631d3ca4a9fd5

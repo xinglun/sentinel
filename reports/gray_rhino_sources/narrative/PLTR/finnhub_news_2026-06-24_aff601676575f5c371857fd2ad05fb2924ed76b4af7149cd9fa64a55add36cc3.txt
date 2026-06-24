@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Rebound As Micron Rally Lifts Chip Stocks: Why SPCX, QCOM, TSM, BABA, PLTR, CBRS, WEN, IBRX Are In Focus
+  summary: Retail sentiment remained cautious, with Stocktwits data showing SPY sentiment stuck in bearish territory while QQQ sentiment improved to bullish.
+  url: https://finnhub.io/api/news?id=00bc8994c0eac0a7dda5af8c630e9c79d5084e2da26a1cb7db58e398cb0956c5

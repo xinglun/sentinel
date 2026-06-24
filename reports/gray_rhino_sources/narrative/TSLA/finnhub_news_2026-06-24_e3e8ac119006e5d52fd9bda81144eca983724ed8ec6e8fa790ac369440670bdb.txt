@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sunrun, Renew Home, and Tesla Team Up to Deliver More Than 16 Gigawatts of Fast, Flexible Power for Data Centers and Large Loads
+  summary: The nation’s largest developers and operators of home battery storage, smart thermostats, and vehicle-to-grid systems can orchestrate more than 16 GW of home energy resources to help meet surging electricity demand from data centers and AI growth, while helping lower household energy costs Sunrun, Renew Home, and Tesla Team Up to Deliver Gigawatts of Fast, Flexible Power Together, the companies offer 16.8 GW of flexible capacity across the nation's largest data center markets, providing a scalab
+  url: https://finnhub.io/api/news?id=4a0529a71876e95bfa45cb8bb379d88d8a7f1923a5d8d0b1340f8fa2c31ec1b4
