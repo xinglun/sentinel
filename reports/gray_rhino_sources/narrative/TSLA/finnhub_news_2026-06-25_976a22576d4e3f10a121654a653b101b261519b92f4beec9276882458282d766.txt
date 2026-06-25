@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EV Charging Station Market worth $120.85 billion by 2033 | MarketsandMarkets™
+  summary: According to MarketsandMarkets™, the EV Charging Station Market is projected to grow from USD 38.55 billion in 2026 to USD 120.85 billion by 2033 at a CAGR of 17.7%
+  url: https://finnhub.io/api/news?id=75ccacdd315bc3cd675039d55ea04a4fea7bff2254f6001d7d877a6da5d7c762

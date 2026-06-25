@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jeff Bezos Challenges Elon Musk’s Tesla And SpaceX With Zoox Robotaxi, Blue Origin Mars Push
+  summary: Jeff Bezos and Elon Musk deepen competion as Zoox unveils its updated Robotaxi and Blue Origin touts Mars technology.
+  url: https://finnhub.io/api/news?id=3ad20021aaa2199d5aad3d77cfe37a0dae700f015a45a186796b7a21e768a781

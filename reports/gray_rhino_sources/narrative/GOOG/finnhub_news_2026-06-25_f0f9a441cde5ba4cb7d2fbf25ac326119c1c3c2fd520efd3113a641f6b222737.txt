@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Continued Oil Price Decline, Micron Earnings Beat Drive US Equity Futures Higher
+  summary: US equity futures were higher pre-bell Thursday as oil prices fell to their lowest since the start o
+  url: https://finnhub.io/api/news?id=c5c7dc647a91faf3d0bfd895c0b325012ba1a24e6898939c5c294e1a5127d3be

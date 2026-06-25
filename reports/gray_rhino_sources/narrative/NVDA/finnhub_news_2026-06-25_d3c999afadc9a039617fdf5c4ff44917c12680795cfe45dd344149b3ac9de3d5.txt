@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IonQ vs. Quantinuum: Which Quantum Computing Accuracy-Leading Stock Looks Like the Better Buy?
+  summary: IonQ and Quantinuum are battling it out for quantum computing supremacy.
+  url: https://finnhub.io/api/news?id=373fb416ee4337482068cf4e9170d7666fd987ca523e81d3059826ba6f17c0b0

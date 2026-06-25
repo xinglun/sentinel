@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dataiku Launches AI Blueprint to Help Manufacturers Modernize Factory Operations With NVIDIA AI
+  summary: NEW YORK, June 25, 2026--Amid evolving labor shortages and supply chain dynamics, manufacturers are focused on delivering more uptime with fewer resources — while many of the systems guiding critical maintenance decisions remain largely manual and fragmented. Dataiku, The Platform for AI Success, today announced a new Manufacturing AI Blueprint, Maintenance Scheduling Assistant, built with NVIDIA AI to help industrial organizations modernize how maintenance decisions are made.
+  url: https://finnhub.io/api/news?id=c4f68e457f4ff4dd4aa5474cca7ad0864c10dc32e93de29c1fae23252d79a5ab

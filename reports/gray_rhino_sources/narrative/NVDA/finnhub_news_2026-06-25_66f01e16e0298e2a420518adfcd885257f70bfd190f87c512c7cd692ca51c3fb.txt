@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple raises prices of MacBooks, iPads as memory costs skyrocket
+  summary: Apple raised iPad and MacBook prices on Thursday, saying it could no longer shield customers from soaring memory and storage chip costs driven by the AI industry's datacenter buildout.  The move does not affect Apple's main cash cow, the ‌iPhone.  The increase shows even the world's most valuable consumer electronics company with supply chain relationships that are the envy of the industry is not immune to a memory price surge that has dulled the ​outlook for smartphone and PC sales.
+  url: https://finnhub.io/api/news?id=80d626551bc59a863908fff997d91533511e0a41c4f31ffddd7beda779587769

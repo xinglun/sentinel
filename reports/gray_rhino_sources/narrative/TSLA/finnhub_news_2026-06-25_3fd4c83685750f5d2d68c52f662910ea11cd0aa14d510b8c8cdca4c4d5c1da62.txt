@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sunrun (RUN) Soars 12.6%: Is Further Upside Left in the Stock?
+  summary: Sunrun (RUN) witnessed a jump in share price last session on above-average trading volume. The latest trend in earnings estimate revisions for the stock doesn't suggest further strength down the road.
+  url: https://finnhub.io/api/news?id=69c2a645ed9f448c72e1b35b5d85a2ac398acb28075d2519d8b2d6f88a529022

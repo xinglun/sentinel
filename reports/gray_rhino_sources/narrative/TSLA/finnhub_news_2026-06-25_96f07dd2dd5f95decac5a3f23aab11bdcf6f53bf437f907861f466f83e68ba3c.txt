@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Today - Romania's Wind Energy Milestone Secures Major Investment
+  summary: Copenhagen Infrastructure Partners (CIP) has achieved a crucial milestone in the Energy Transition with the financial close of the 392 MW Pestera II onshore wind project in Romania. Marking one of the largest renewable energy financings in Central and Eastern Europe, this development underscores Romania’s commitment to enhancing energy security and affordability through sustainable means. The project, supported by a consortium of international banks and backed by a 15-year contract for...
+  url: https://finnhub.io/api/news?id=020ef3667aa6676c0d6ab5eee176ff358056e8535ebfcfd483e39bb3fd60caef

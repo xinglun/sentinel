@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta: An Inconvenient Truth The Market Hasn't Priced In Before Q2
+  summary: Meta Platforms delivered 33% YoY revenue growth and 61% net income growth, but the stock sold off due to higher CapEx guidance. Click here for more on META.
+  url: https://finnhub.io/api/news?id=365925f0a535682f2202761912946737fcb787a23b5470186ba5ed99364d5866

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 High-Flying Stocks Worth Investigating and 1 Facing Challenges
+  summary: “You get what you pay for” often applies to expensive stocks with best-in-class business models and execution. While their quality can sometimes justify the premium, they typically experience elevated volatility during market downturns when expectations change.
+  url: https://finnhub.io/api/news?id=c6b35a504773ae0f51f7355f18e631d48ebab51294818077c6e1524b0c3543ef

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why QQQ Is Pulling Further Ahead Of Bitcoin ETFs In 2026
+  summary: Crypto ETP assets are shrinking while AI-driven ETFs such as QQQ continue attracting investor capital.
+  url: https://finnhub.io/api/news?id=d1568182b705cef13ac87308100e41cc69a32cd540a8fd79e94879c13cfc4ac3

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Cloud Infrastructure Play: Alphabet vs. CoreWeave
+  summary: Both are leaders in the cloud computing space, but their investment cases are quite different.
+  url: https://finnhub.io/api/news?id=74cffa5b71feb42a5fabc4229c24f96754bcf2f1dbdc38bd68ecf79fb7e072ff

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Three Index ETFs Where You Can Sell Your Own 0DTE Covered Calls for Daily Premium Income
+  summary: Are you tired of paying ETF providers a fat management fee to sell covered calls for you? If you think you can do better yourself, especially using a zero-commission brokerage, there is always the do-it-yourself route. One advantage is flexibility. Instead of receiving distributions on a monthly or weekly schedule, you decide when and how ... Three Index ETFs Where You Can Sell Your Own 0DTE Covered Calls for Daily Premium Income
+  url: https://finnhub.io/api/news?id=7484d3854b21d4eb995d01b872acac04de7e8f1e757a1c6030e342163b4ac1a5

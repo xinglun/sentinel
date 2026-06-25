@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wedbush Issues Stark Warning on Broadcom as Google AI Chip Threat Emerges
+  summary: Stark Warning on Broadcom Stock as Google Report Triggers Semiconductor Shakeup Concerns
+  url: https://finnhub.io/api/news?id=2f887232b00aadbdfca4aedbac867e9335ea9a8144c2ee9d659d5ac559bfe6b7

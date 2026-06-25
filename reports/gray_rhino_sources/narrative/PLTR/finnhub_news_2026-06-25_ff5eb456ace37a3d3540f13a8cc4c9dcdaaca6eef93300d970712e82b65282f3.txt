@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Expects Palantir Technologies (PLTR) To Bounce Back Following a 23% YTD Decline
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the Stocks Expected to Bounce Back According to Analysts. The stock has fallen around 23% year-to-date. However, Wall Street expects more than 55% upside from the current level. ​Recently, on June 16, Wolfe Research upgraded Palantir Technologies Inc. (NASDAQ:PLTR) from Underperform to Peer Perform as it resumed coverage. […]
+  url: https://finnhub.io/api/news?id=ab2b7b8711b5532c2cfec84737010af74f1feae3658b6425623306ee542160d9

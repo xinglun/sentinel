@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Volatility Is Taking A Breather Ahead Of Micron Earnings
+  summary: A sense of calm is taking over the markets in early trading after the tech sector took a deep dive Monday and Tuesday.
+  url: https://finnhub.io/api/news?id=b8dcd63238131500c5286645ac234510fb105e0ecf4680827b62b90254c122f0

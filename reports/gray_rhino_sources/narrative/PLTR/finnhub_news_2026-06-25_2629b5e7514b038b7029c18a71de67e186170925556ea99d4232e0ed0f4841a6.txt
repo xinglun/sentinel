@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Did MSTR, PLTR, NFLX Stocks Plummet To 52-Week Lows?
+  summary: Strategy, Palantir Technologies, and Netflix slid to fresh 52-week lows amid profit-taking and a renewed focus on chipmaking stocks.
+  url: https://finnhub.io/api/news?id=adf8fd1a5227d4ac9507da7dd4fb6fc1a0316d857ba554849e28e979e4449c2c

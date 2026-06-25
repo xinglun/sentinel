@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Has Surged Over 14% in 2026 and Still Yields 4.1%. Is It Still Worth Buying for Passive Income Now?
+  summary: This oil supermajor's stock has outperformed the market in 2026. What's the best approach to take now?
+  url: https://finnhub.io/api/news?id=d6e15bec6456f62acb1b60e0f04f429b872c2614c22add0eb30eb53746170ec8

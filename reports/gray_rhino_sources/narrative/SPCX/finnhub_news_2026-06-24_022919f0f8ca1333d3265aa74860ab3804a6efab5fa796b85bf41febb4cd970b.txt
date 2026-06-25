@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Meets Crypto: Tokenized Stock Trading Just Hit A Record
+  summary: Tokenized stock volumes on Solana exceeded $10 billion for the first time, driven by growing demand for real-world assets.
+  url: https://finnhub.io/api/news?id=e7c8e6217cb4e07d4cba2f5f58d202989259947a51a6ab00ea15983e299a8b27

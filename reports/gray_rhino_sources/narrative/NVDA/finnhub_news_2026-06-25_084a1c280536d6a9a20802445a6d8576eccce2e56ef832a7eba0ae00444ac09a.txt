@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon-Backed Agility Robotics Goes Public in Quest to Scale Humanoids
+  summary: The firm expects to raise $620 million via a SPAC merger, and is preparing for the commercial launch of its next-generation humanoid robot, Digit v5.
+  url: https://finnhub.io/api/news?id=12eeb46e8cc323af2a20bfb80295a3899dfa16db55dac6df106e9e6aa61d812b

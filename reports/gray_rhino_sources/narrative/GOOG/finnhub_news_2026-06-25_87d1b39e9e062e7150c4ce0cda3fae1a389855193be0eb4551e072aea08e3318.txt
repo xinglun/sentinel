@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jumio Is the First Identity Intelligence Provider to Offer Global Digital ID Acceptance at Scale
+  summary: SUNNYVALE, Calif., June 25, 2026--Jumio, the leading provider of AI-powered identity intelligence, today announced that it has significantly expanded support for digital IDs across the globe, allowing Jumio customers to accept digital IDs in more than 60 countries and territories when onboarding new users, helping customers drive conversions and meet compliance mandates.
+  url: https://finnhub.io/api/news?id=8e2e10afe592f1589480e5b12309a7ec0361df2a1f0358cc6db16c9c2dd7ddfd

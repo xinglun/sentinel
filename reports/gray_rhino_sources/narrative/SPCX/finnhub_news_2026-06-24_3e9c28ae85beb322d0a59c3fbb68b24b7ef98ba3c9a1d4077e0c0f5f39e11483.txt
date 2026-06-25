@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget The Magnificent 7 And MANGOS—Billionaire Philippe Laffont Adds These Two 'Non-Tech' Giants To His New 'Mag 12'
+  summary: Coatue founder Philippe Laffont redefines the Mag 7 into a trillion-dollar &#34;Mag 12,&#34; adding non-tech giants like Berkshire and Eli Lilly.
+  url: https://finnhub.io/api/news?id=fa5d4616e06e6ef694d837e24b09ae7d899e9799ce6f2e31449c71d0bed066f3

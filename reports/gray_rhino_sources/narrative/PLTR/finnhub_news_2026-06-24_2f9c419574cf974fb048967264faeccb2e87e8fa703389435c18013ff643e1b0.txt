@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Crashes to a 52-Week Low: Why It’s Time to Buy the Dip.
+  summary: Palantir’s solid operational performance suggests that the underlying growth story remains intact.
+  url: https://finnhub.io/api/news?id=98ddaf598d4d7462fdb9eca7928c029e496730f0a9f5c74d17d762a4c13cc8bb

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rand Paul Escalates Long-Running COVID Origins Fight, Subpoenas Anthony Fauci: 'If You Lie To Congress…You Will Answer For It'
+  summary: Rand Paul subpoenas Fauci as COVID lab leak and Wuhan funding controversy resurfaces.
+  url: https://finnhub.io/api/news?id=440c7f6408d817f3f667fa0d754c309c4ed3283f67395f92b58463690e368f0b

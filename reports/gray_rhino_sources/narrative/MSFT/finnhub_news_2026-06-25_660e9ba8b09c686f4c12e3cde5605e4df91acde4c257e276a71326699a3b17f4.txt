@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Profitable Stocks with Questionable Fundamentals
+  summary: Even if a company is profitable, it doesn’t always mean it’s a great investment. Some struggle to maintain growth, face looming threats, or fail to reinvest wisely, limiting their future potential.
+  url: https://finnhub.io/api/news?id=d216f3f4a2ffa785c8420aa7c06f098a2988f5dac8a90e22c9656973a711a294

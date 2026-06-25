@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TTWO Stock Climbs After GTA 6 Preorders Go Live – Retail Fans Debate Discless Physical Edition
+  summary: Preorders for physical and digital copies of GTA 6 went live at midnight on June 25, which is priced at $79.99 for the base edition and $99.99 for the “Ultimate” edition.
+  url: https://finnhub.io/api/news?id=38929a5d019b6473399d38d96a2a07301c34096e8b5d1c037aa308e110ea8988

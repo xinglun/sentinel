@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: So You Want To Sell 0DTE Options: 3 ETFs That Make It Possible
+  summary: If you’re new to options, there are two strategies that are generally less likely to blow up your account than outright speculation. The first is the covered call, where you own 100 shares of a stock or ETF and sell someone else the right to buy them from you at a predetermined price. The second ... So You Want To Sell 0DTE Options: 3 ETFs That Make It Possible
+  url: https://finnhub.io/api/news?id=cd27b9fd1a89a9621ac4b9cb97fc3e8a5c01b40a3c69930f9c2d4a175b5445f5

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron overtakes Meta, Tesla in market value amid relentless AI infrastructure demand
+  summary: Micron Technology edged past the market valuation ‌of Meta Platforms and briefly ‌Tesla's for the first time on Thursday, ​after the memory chipmaker's solid forecast helped extend its AI-driven ascent.  The company's shares were last up 18.4% ‌at $1,236, giving ⁠it a market capitalization of $1.398 trillion, compared with Meta's $1.392 ⁠trillion.  Tesla had a market value stood of $1.4 trillion.
+  url: https://finnhub.io/api/news?id=20bbc2d08962f0362c9792da97eea314069ecc0c6b48fc576146ffd98886b408

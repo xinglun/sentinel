@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Bill Gates Has 78% of His Foundation's $34 Billion Portfolio Invested in 4 Fantastic Stocks
+  summary: Gates prefers relatively boring businesses over high-flying tech stocks for his portfolio.
+  url: https://finnhub.io/api/news?id=e8ce14decab7a908e7e1df25122da2668a1bf51c518cda5acc7f52233ac2350b

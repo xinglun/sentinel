@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hormuz Is Reopening, Oil Might Be Done Falling
+  summary: Oil prices are falling as the Strait of Hormuz ship traffic resumes, signaling normalization and easing supply constraints. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=ba99322daa7da3cf0a29a2d16a81ff5f7cff4e975fe516ffe92ee29b145c2b1d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon, Microsoft cloud computing services should fall under EU tech rules, EU regulators say
+  summary: Amazon and Microsoft's cloud computing services should ‌be designated gatekeepers under EU ‌rules aimed at reining in the power ​of Big Tech, EU antitrust regulators said on Thursday. Amazon Web Services and Microsoft Azure, the two largest ‌cloud providers globally, ⁠should be designated gatekeepers under the Digital Markets Act ⁠which sets out a list of dos and don'ts to ensure ​a level ​playing field, ​the European Commission ‌said. The preliminary findings by the EU competition enforcer came after a seven-month long investigation.
+  url: https://finnhub.io/api/news?id=76c47b1b4933663cf21748a7835521b3b49ed78cc870bd2d5e9c294d16593432

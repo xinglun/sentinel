@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Tesla Under Fresh Scrutiny As Texas Crash Victim’s Family Files Wrongful-Death Lawsuit, NTSB Opens Probe
+  summary: Tesla Inc. (NASDAQ:TSLA) is facing fresh legal and regulatory challenges following the National Transportation Safety Board (NTSB) announcement that it will examine the fatal Texas crash that took place last week involving a Model 3 sedan. NTSB Announces Probe According to a report by Reuters on Wednesday, the agency said it will investigate the incident, which is already under scrutiny of the National Highway Traffic Safety Administration (NHTSA). The collision occurred in Katy, Texas and resul
+  url: https://finnhub.io/api/news?id=75e118d676407a7b622b092aedd1c01df5c02d8900570fe0dd92596ea89e6f92

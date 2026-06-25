@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Tesla Stock Better Than SpaceX? The Answer Might Surprise You.
+  summary: SpaceX went public June 12 and already is more valuable than Tesla.
+  url: https://finnhub.io/api/news?id=400d5b428c50a5f35cab4bf7582d9a92460ec404c01945be70818403c8a24cd7

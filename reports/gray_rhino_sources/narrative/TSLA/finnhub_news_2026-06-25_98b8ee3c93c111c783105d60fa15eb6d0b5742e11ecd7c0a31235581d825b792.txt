@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX, TSLA Eye Weekly Losses: Elon Musk Sheds Trillionaire Crown As SpaceX’s Red-Hot IPO Rally Loses Steam
+  summary: Investors are now watching Starlink's growth and Starship's R&D spending ahead of its first public earnings report.
+  url: https://finnhub.io/api/news?id=cf44635ce40ecff627712cd5aea3e8013ed84731b6c851e581925a0b3be3ae6b

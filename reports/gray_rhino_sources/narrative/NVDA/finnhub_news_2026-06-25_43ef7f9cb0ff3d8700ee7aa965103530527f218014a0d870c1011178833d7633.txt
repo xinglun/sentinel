@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Are Finally Facing a Reality Check
+  summary: Global markets are beginning to question assumptions that investors have largely accepted without challenge for the past two years. Throughout the AI-driven rally, markets rewarded almost every announcement tied to artificial intelligence.
+  url: https://finnhub.io/api/news?id=4158be4b749b362e928abd448b4d30377ea06210c3972166b2056071814b7232

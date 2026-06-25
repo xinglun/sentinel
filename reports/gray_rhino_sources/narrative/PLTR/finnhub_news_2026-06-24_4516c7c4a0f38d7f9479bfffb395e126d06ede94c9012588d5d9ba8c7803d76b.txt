@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock on Pace for Worst Month in 5 Years
+  summary: A bad year for  Palantir Technologies  stock keeps getting worse, with shares set to log their worst monthly decline in five years after breaking below a key level of support on Monday.  Palantir  stock fell 3.1% to $113.07 on Wednesday, set to close at its lowest price in more than a year.  It’s been a rough stretch for the stock, which has fallen nearly 16% during its current six-day losing streak.
+  url: https://finnhub.io/api/news?id=e58a93b789b92f7af9668db246d0b5a7aaa7ebc91fd5d23cee28bbd96706d87c

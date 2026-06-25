@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sunrun Stock Explodes After Landmark Tesla Energy Deal
+  summary: Sunrun Lands Major Tesla Catalyst as AI Data Centers Hunt for Power
+  url: https://finnhub.io/api/news?id=eee03d32354437d44b60ed9ea60327db49284639f9316fc3b0c8430cae20137f

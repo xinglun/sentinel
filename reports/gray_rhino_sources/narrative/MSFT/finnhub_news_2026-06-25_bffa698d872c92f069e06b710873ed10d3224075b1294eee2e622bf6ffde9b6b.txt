@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft’s Stock Is Crippled
+  summary: AI was supposed to be a tide that lifted all ships within the sector. Microsoft (NASDAQ: MSFT) is the leading exception. So far this year, the stock is down 24%. The market is 7% higher, and the market’s long-term trade is just bad or worse. Over the last five years, the stock has risen 38% ... Microsoft’s Stock Is Crippled
+  url: https://finnhub.io/api/news?id=32b854405631b031e8c9fea87277be06ed9ce894d2ea0794e44d8a059effbaaf

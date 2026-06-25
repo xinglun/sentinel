@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s 32% crash may force Musk into radical move
+  summary: Less than two weeks ago, SpaceX became the most valuable company ever to go public, raising $75 billion at a valuation north of $1.7 trillion and closing its debut session up 19%, according to CNBC. On June 22, SpaceX posted its worst single-day loss as a public company, plunging 16% to close at ...
+  url: https://finnhub.io/api/news?id=e93ae364111607f30e51391b274148e5be0d52a2a87889939487208a9a793e04

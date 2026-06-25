@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Really Buy Tech Stocks Now? History Offers a Surprising Answer That's Strikingly Clear.
+  summary: Tech stocks have slipped in recent days.
+  url: https://finnhub.io/api/news?id=bbab8bc61a39ff086ea87c23e8474f32394b72ec3b70d65769532a4d51507f6f

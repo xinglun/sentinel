@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TUGN: An Overlooked, Interesting Covered Call ETF Beating The S&P & Peers
+  summary: Discover TUGN ETFâs dynamic covered call strategy targeting 10â12% yield, tactical shifts, strong returns, and tax-efficient ROC distributionsâread now.
+  url: https://finnhub.io/api/news?id=293924f2ce27031b778cd5bb9a295cf3641d9ed5d078079ee3fb4774939fe96a

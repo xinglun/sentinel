@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla and Waymo duel in the robotaxi race — but the company spending the most builds no cars at all
+  summary: Uber is quietly writing $500 million checks to lock in robotaxis as Waymo threatens to leave it behind.
+  url: https://finnhub.io/api/news?id=f5424f70a672f7d69813a58bc7d8837a3bab727c51c0327d12f0ea5db43c3d45

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm Stock Surges After Chip Maker Reveals Mystery Big Tech Customers
+  summary: The company almost doubles its non-handset sales target, helping to revive faith in the stumbling AI trade.
+  url: https://finnhub.io/api/news?id=4c0dec9a9e3a9f50454f680e37a4989ddbeb4c758aaf6b17541090735891f470

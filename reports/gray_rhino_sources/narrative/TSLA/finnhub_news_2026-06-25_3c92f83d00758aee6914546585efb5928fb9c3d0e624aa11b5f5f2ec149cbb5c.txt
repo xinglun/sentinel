@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk loses trillionaire status after tech sell-off erases billions from fortune
+  summary: Elon Musk's net worth has dropped below $1 trillion after SpaceX and Tesla shares fell during a broader tech sell-off, less than two weeks after the milestone.
+  url: https://finnhub.io/api/news?id=f078a17d9e044521c491d44360b35c33b11036f65bbb0a4a9ba66a84816240b8

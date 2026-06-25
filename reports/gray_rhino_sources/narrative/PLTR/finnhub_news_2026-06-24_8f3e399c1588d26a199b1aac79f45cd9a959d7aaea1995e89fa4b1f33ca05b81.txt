@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Investors Are Reacting To Zeta Global Holdings (ZETA) Palantir-Powered Rebuild Of Its Data Cloud
+  summary: Zeta Global recently announced a partnership with Palantir Technologies to rebuild its Data Cloud on Palantir’s Foundry platform, using Athena by Zeta as the AI layer to connect operational data, customer insights, and marketing execution for large enterprises. This agreement positions Athena as an “operating system” for agentic marketing, potentially making Zeta’s platform more embedded in enterprise workflows where data security and governance are critical. We’ll now examine how this deep...
+  url: https://finnhub.io/api/news?id=1e31a08d849f6a42defaf5de264a87ab901d8f07a49b2a05a015c46f55916562

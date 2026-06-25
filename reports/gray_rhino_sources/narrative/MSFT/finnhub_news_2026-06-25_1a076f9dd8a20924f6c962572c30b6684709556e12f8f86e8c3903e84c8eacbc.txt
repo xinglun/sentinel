@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morningstar Expands AI Integrations with Microsoft to Bring Trusted Investment Intelligence into Enterprise Workflows
+  summary: CHICAGO, June 25, 2026--Morningstar, Inc. (Nasdaq: MORN), a leading provider of independent investment insights, today announced a suite of integrations with Microsoft technologies designed to bring Morningstar’s trusted investment intelligence directly into AI-powered workflows used by financial services firms.
+  url: https://finnhub.io/api/news?id=855e04977be4043657d711425ffe47762ad567374ac94661479f3da259e92dc3

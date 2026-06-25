@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Popular Stocks to Steer Clear Of
+  summary: High levels of optimism about a company's future can lead to risky valuations in the present.
+  url: https://finnhub.io/api/news?id=1b95a8f18398d4868908fb639838ac30fb1a6746d3e18b59484d52d018e284bd

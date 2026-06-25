@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why a fatal crash threatens Tesla’s stock
+  summary: Tesla’s (TSLA) latest federal safety probe isn't a routine crash investigation. It’s a test of one of the greatest assumptions still baked into Tesla’s stock: that the company can turn driver-assistance software into a business considerably more valuable than regular car sales. For years, Tesla has ...
+  url: https://finnhub.io/api/news?id=c2126c22d8b710e5f2cb8b35c938f91d48cc05fbf422240be1bd1a85eef9d349

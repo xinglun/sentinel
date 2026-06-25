@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Socure Reinforces Security-First Strategy with Chief Information Security Officer Appointment
+  summary: INCLINE VILLAGE, Nev., June 25, 2026--Socure, the leading trust infrastructure for global identity and risk intelligence, today announced the appointment of Mark Carter as the company’s Chief Information Security Officer (CISO). The appointment reflects Socure’s continued growth and commitment to operating at the highest levels of security and resilience in the AI era.
+  url: https://finnhub.io/api/news?id=8ffd3b2039f28620d12e3219b37a694b77e620bd08c5452c50e323ca396933b1

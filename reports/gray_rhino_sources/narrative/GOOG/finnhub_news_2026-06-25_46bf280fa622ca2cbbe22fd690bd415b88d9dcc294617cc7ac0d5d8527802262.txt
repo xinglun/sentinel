@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit co-founder predicts the internet's next big move
+  summary: The next 10 years will bring their fair share of innovation to tech.
+  url: https://finnhub.io/api/news?id=f236593964b9e65de5ca8d60ee31be587efb6986c56bddfb5e759802235b6c85

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Tepper, Icahn, and Druckenmiller Dumped These 3 Stocks, They Kept Climbing. Time to Sell?
+  summary: Three legendary hedge fund managers walked away from Alphabet, Delta, and Southwest Gas, yet all three stocks kept climbing after the exit. Whether that makes the billionaires look wrong or simply early is the question every holder needs to answer now.
+  url: https://finnhub.io/api/news?id=b60cb47cb2b3f8516ace3a0e0915763b68d69190c719858c3a67d6c20f6da584

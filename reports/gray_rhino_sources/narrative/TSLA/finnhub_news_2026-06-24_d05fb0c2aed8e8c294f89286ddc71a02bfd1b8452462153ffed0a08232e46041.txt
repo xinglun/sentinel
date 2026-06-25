@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, June 24: Sunrun Jumps After Announcing Deal With Tesla and Renew Home for 16 Gigawatts of Flexible Power
+  summary: On June 24, 2026, Sunrun's new partnership drew investor focus to virtual power plant economics and future growth potential.
+  url: https://finnhub.io/api/news?id=4c98ef672519a350343d8f4dcbe9a4e8214ed9164a8a0f0e1ca27645d8d7d076

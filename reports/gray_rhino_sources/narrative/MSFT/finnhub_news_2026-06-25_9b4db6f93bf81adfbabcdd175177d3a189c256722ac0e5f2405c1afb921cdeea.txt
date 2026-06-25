@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Demand Begins to Justify Massive Cost of Data-Center Buildout
+  summary: (Bloomberg) -- Revenue from artificial intelligence has reached a tipping point, showing that the hundreds of billions of dollars tech companies are spending on it may be economically sustainable, according to a report from research firm Exponential View. Most Read from BloombergInvestor Who Scored 900% Win in 2008 Crisis Has New Big Short BetGrand Ole Opry House Up For Sale by Owner Ryman HospitalityStocks Slide as Wall Street Gets AI Wake-Up Call: Markets WrapStocks Climb Late After Micron’s B
+  url: https://finnhub.io/api/news?id=cfcdbca0af7971c04ddb6ca5ddf1cc21ba416be319c2d31fab2a1680707d36e9

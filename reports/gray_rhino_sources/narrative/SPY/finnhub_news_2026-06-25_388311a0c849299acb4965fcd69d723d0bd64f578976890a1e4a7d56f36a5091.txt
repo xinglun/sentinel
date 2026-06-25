@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week's Plunge In Chip Stocks Is More Ammo For Bulls
+  summary: Risk-off selling hit tech, crypto and space stocks, but Micron earnings and SMH rebound history point to chip upside; oil < $70 eases Fed fears. Click for more.
+  url: https://finnhub.io/api/news?id=0447f813c36104107dbc71c7c5db872234986c02990708df3d68ff60d00733ba

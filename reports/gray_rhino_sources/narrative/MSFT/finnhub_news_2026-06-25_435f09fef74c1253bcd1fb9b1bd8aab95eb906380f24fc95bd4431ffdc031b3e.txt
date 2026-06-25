@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TRUE-See Selected to Participate in Microsoft for Start-Ups Azure AI Program to Accelerate Innovation and Growth
+  summary: Includes $350,000 in non-dilutive Microsoft Azure AI credits for TRUE-See’s R&D that is incorporating AI to increase the utility and diagnostic accuracy of medical photography TRUE-See’s unique patented technology is designed to transform medical photography by making it accurate, reliable and easily accessible NEW ORLEANS, June 25, 2026 (GLOBE NEWSWIRE) -- TRUE-See Systems, the global leader in verifiably accurate and certified authentic photographic medical imaging, today announced that it has
+  url: https://finnhub.io/api/news?id=d646858715abfaf00ca2e892b2a6de664c5e77a54238c79d06aae137e431cf16

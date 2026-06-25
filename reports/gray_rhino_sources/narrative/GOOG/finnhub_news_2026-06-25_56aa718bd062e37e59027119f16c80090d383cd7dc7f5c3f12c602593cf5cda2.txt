@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Dip Looks Increasingly Hard To Ignore
+  summary: Alphabet's ongoing transformation into a sovereign AI infrastructure provider presents significant, yet unrealized catalysts. Learn why GOOG stock is a buy.
+  url: https://finnhub.io/api/news?id=dd9edd11e05cc685fd616b9f9291addf9a112a137bb1311359be961a4d747abf

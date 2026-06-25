@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Says Tesla Stock Continues To Underperform Nasdaq 100 Despite 10-Year Treasury Yield Drop And Crude Falling To $73
+  summary: Gary Black of The Future Fund LLC said Tesla underperforms Nasdaq 100 despite favorable market conditions.
+  url: https://finnhub.io/api/news?id=defb3e551f47fa2cd7e76d8e2a3a0225c4b3d9b7a8c21ea60cc59556c087f2ce

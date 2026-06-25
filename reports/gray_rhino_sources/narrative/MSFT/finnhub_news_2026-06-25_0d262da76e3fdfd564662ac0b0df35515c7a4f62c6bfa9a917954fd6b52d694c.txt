@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Gains Even as AI Chip Competition Hots Up
+  summary: Nvidia  was rising early Thursday.  The chip maker was benefiting from widespread semiconductor cheer, even as more options came onto the artificial-intelligence processor market.  Nvidia shares were up 1.5% at $201.94 in premarket trading with chip stocks generally gaining after  Micron Technology  blowout earnings.
+  url: https://finnhub.io/api/news?id=b87e5f43ad127d3a66faf895f4f4ceb2ea8dab726b36bdee3c29e95d0ea2a10a

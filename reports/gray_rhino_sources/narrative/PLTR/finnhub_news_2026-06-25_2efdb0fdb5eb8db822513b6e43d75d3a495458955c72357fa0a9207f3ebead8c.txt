@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Palantir Stock Be in 5 Years?
+  summary: One of the market's defining AI winners has been struggling recently. Is now finally the time to buy?
+  url: https://finnhub.io/api/news?id=c2d09953a39e8a03f6cdff37a370129d6b28adb9eb8e3e7889aee70cc1a32a37

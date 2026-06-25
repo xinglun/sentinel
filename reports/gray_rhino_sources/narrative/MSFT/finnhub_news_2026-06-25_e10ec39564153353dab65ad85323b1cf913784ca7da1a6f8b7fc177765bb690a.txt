@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PitchBook Expands Premium AI Integrations with Microsoft 365 Copilot and Copilot in Excel
+  summary: SEATTLE, June 25, 2026--PitchBook, a leading private capital market intelligence platform, today announced a new federated Copilot connector with Microsoft, bringing trusted private capital market data into Microsoft 365 Copilot — including Copilot in Excel, Copilot Chat, and Researcher. The connector brings trusted private capital market data into secure enterprise AI environments and enables licensed users to interact with PitchBook intelligence directly within the Microsoft 365 Suite.
+  url: https://finnhub.io/api/news?id=327cee6e0adef4f8bbb2efcbbf239f314b7f6d0206d1d3cd7bec8121203657c4

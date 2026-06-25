@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Faces Reuse Questions As Goldman Sachs Backs Fundamentals
+  summary: Goldman Sachs and several industry analysts have publicly backed Intuitive Surgical's core business, following concerns about new rules on instrument reuse. The commentary argues that regulatory driven changes to reuse policies are unlikely to cause major disruption to Intuitive Surgical's revenue model. The defense comes after a period of share price pressure and renewed debate about the long term outlook for NasdaqGS:ISRG. Intuitive Surgical enters this debate with its stock under...
+  url: https://finnhub.io/api/news?id=5e6506afa5e99ec42148da1f9c4f2de73a1930f1185f7b3fac3a8041399d5b05

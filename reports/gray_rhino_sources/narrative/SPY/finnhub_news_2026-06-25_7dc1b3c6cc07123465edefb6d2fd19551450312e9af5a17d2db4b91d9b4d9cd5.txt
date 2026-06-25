@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cost Conscious? Vanguard S&P 500 ETF Tops SPDR Rival
+  summary: Both ETFs mirror the S&P 500's performance, but their investor bases and expense ratios set them apart.
+  url: https://finnhub.io/api/news?id=59409ccf92fff17d27860734a3443363842704f34b14d12789c5bf4e32e59932

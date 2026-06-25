@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Announces Wheels Up as Launch Customer for Enterprise BrokerOS
+  summary: LOS ANGELES, June 25, 2026--Surf Air Mobility Inc. (NYSE: SRFM) ("Surf Air Mobility") today announced Wheels Up Experience Inc. (NYSE: UP) ("Wheels Up") as the launch customer for Enterprise BrokerOS, Surf Air Mobility's SurfOS charter broker product powered by Palantir Technologies Inc.’s (NASDAQ: PLTR) ("Palantir") Foundry and Artificial Intelligence Platform ("AIP").
+  url: https://finnhub.io/api/news?id=8f620636872bf26da5c85d6d56edd0d70432fe546b63fdff659f18668e926993

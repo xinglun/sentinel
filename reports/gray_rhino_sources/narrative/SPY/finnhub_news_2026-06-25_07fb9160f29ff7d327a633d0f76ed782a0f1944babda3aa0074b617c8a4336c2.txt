@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones, S&P 500, Nasdaq Futures Gain As AI Stocks Rally On Micron’s Strong Outlook—Qualcomm, Wendy's In Focus (UPDATED)
+  summary: U.S. stock futures rose on Thursday, as the Dow Jones, Nasdaq 100, and S&amp;P 500 indices rose, following Wednesday&#39;s mixed close.
+  url: https://finnhub.io/api/news?id=c9b6e4419a75925f65f1df7bb36ef021e664117f2d77e99ed5a737c17e292897

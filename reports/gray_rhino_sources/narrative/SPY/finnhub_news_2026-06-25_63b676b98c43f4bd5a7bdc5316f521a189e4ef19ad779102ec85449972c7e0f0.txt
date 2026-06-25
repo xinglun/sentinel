@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reiterating Our 3 Rate Cut Forecast
+  summary: Fed outlook: 3 rate cuts next year despite hawkish Warsh/dot plot.
+  url: https://finnhub.io/api/news?id=c20593177fecbaf8746bb1101ca743a453791b4a57d3d68fc912cd3b5abf460c

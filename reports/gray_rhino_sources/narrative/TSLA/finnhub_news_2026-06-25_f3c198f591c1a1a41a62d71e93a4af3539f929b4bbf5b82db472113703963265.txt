@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: South Korean chip shares surge after Micron flags strong AI-related demand
+  summary: South Korean semiconductor shares rallied on Thursday after U.S. memory chipmaker Micron Technology's quarterly results and forecast beat expectations, boosting ‌optimism over sustained demand for AI-related chips. Shares of SK Hynix and Samsung Electronics rose ‌as much as 11.6% and 6.2%, respectively, in early trade, tracking a rally in U.S. chip stocks after Micron's ​earnings and outlook reinforced confidence in the memory sector. The rally also followed SK Hynix's announcement on Wednesday of plans to raise up to 45.45 trillion won ($29.52 billion) through a secondary listing on Nasdaq, as it seeks to capitalise on strong investor appetite for AI stocks.
+  url: https://finnhub.io/api/news?id=c252605601f3807db37ac42a4a4dfffc08be052441138d5aaf3b5298bda132df

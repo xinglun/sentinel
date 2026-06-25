@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: A Pullback Without Reason
+  summary: Microsoft stock sold off on Azure growth worries. See valuation vs. peers, OpenAI upside, and key risksâdecide if MSFT is a buy after the pullback.
+  url: https://finnhub.io/api/news?id=f69dd67099bb6e6598e7e8ac7304387aadcd281b7ebe2aec0938f7f88e9c25c4

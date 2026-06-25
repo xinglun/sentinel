@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: Carnival Has 31% Upside as Q2 Earnings Beat Masks Opportunity
+  summary: Carnival Corporation (NYSE:CCL) just delivered its twelfth consecutive quarter of record net yields, yet the stock sold off after Q2 results landed. That dislocation is the setup for our call. Our 24/7 Wall St. price target for Carnival is $37.74 over the next 12 months, implying 31.41% upside from a current price of $28.72. The ... Price Prediction: Carnival Has 31% Upside as Q2 Earnings Beat Masks Opportunity
+  url: https://finnhub.io/api/news?id=c3c8cbfc54465322512b99fd65abf93996f49f443dbbadf49687a2358f3961ec

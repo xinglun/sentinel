@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Dollar Could Break This Market
+  summary: A hawkish Federal Reserve update triggers a DXY breakout, pressuring global markets and mega-cap tech stocks. Learn why investors may be overlooking this.
+  url: https://finnhub.io/api/news?id=85a331b0f0d4aa43192fd6e4117c90746ed42836f52f6e28503a2742dd0bd6bc

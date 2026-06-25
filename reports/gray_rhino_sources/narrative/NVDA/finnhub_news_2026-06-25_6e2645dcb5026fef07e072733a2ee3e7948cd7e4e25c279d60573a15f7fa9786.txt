@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This High-Conviction Dividend Stock Just Triggered a Rare Buying Opportunity for Passive Income Investors
+  summary: Republic Services (NYSE:RSG) is a stock built to be owned for decades, because it sits at the intersection of a non-discretionary service economy and a pricing model that compounds quietly through every macro regime. Republic Services trades at $204.94 after a 16.54% drawdown over the past year, and that pullback is the relevant detail for ... This High-Conviction Dividend Stock Just Triggered a Rare Buying Opportunity for Passive Income Investors
+  url: https://finnhub.io/api/news?id=0e7e7fed4dd4653a1adc96e7071c7f671fe85ebcb9a59ae255f81f8cc4f6baba

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Benefits From Expanding AI Portfolio: Is the Stock a Must-Have?
+  summary: Dell Technologies' AI push accelerates with a record $51.3B backlog, new NVIDIA-powered servers and strong Q2 guidance driven by AI demand.
+  url: https://finnhub.io/api/news?id=3eca0ff13838d0d0490f6276d0c058e835513e918015db84977e0f6c2d33213d

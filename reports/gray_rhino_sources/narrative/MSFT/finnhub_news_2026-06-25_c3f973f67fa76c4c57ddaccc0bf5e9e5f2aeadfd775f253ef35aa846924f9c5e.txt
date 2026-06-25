@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon, Microsoft Face EU Gatekeeper Push
+  summary: EU regulators say AWS and Azure should be designated under bloc tech rules as AI demand strengthens cloud ecosystems.
+  url: https://finnhub.io/api/news?id=1c5478ccfc3c4be8a752e1ac98f09aeade8db3c5ccccec05beed9542b6fe2fc0

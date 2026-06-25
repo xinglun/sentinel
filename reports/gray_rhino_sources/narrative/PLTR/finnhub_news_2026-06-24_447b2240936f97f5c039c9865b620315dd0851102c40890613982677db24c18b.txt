@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Could Double in Next 12 Months
+  summary: Palantir Stock Explodes Into AI Spotlight as Wedbush Calls for Massive 100% Upside
+  url: https://finnhub.io/api/news?id=654cdf1f95e627624b7dd9f435f0f2095270c977a532b6eb6b9c98979f60f75c

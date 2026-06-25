@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta's Mark Zuckerberg, Google's Sundar Pichai Reportedly Spared From Child Safety Senate Testimony As White House Steps In
+  summary: White House reportedly prevented Mark Zuckerberg and Sundar Pichai from testifying at a Senate child safety hearing on social media.
+  url: https://finnhub.io/api/news?id=202bf7b8a4c94069d5eecdc3a5558edc5e3f3a91298ec9468c7398965aafc02a

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Spectacular ETF With 32.8% of Its Portfolio Parked in Nvidia, Apple, Broadcom, and Alphabet
+  summary: This exchange-traded fund regularly outperforms the broader market thanks to its high degree of exposure to the technology industry.
+  url: https://finnhub.io/api/news?id=8b680442795911f9aeda19deaace036b76a31977a1e79310624eed26ee4c08c5

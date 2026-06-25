@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Has the Story Run Ahead Of The Stock — Or The Other Way Around?
+  summary: SpaceX stock has become a battleground in just two weeks, with analysts divided on valuation and potential.
+  url: https://finnhub.io/api/news?id=4f15b02a7206e4c091eca8d8b468d750500627a45f9b29707b485234f6ec93dd

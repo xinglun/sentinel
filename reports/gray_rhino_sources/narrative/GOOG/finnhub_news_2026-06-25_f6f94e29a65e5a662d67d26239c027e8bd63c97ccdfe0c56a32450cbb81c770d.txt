@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Faces TPU Shakeup After 3% Drop
+  summary: Google's possible 2028 MediaTek shift could pressure Broadcom's custom ASIC narrative and lift MediaTek estimates.
+  url: https://finnhub.io/api/news?id=b0a437a9721558f355a7cb79dca7124836520695722526c0098c7d693437eefa

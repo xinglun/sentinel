@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises Ahead Of Key Inflation Data; Micron Rockets On Earnings News (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Thursday ahead of a key inflation gauge. Micron stock rocketed 17% on earnings.
+  url: https://finnhub.io/api/news?id=bd9109f436829c20db7c72726b1f38024719e48ed03e5003d56ef4d40a76f3e4

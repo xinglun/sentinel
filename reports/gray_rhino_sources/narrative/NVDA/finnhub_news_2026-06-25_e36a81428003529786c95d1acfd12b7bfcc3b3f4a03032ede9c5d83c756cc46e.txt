@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Tech ETF Has More than Doubled in 2026. Is It a Good Buy for the Back Half of the Year?
+  summary: It's a good buy, but not if you're trying to duplicate recent results.
+  url: https://finnhub.io/api/news?id=ba2fcc26af33f8179c65ecf6c93d4fe0e90a74717ffcf1251a45155e19767d94

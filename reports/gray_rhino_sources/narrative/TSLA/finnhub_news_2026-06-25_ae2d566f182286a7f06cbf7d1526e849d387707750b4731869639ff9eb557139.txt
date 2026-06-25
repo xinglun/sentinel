@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Is Down 31% From Its High and Is Now Borrowing $25 Billion. Should Investors Be Worried?
+  summary: If I were a shareholder in SpaceX, I'd be worried.
+  url: https://finnhub.io/api/news?id=884b01b782ed710475c2b6c29dfcad52e94fe9ca4e2d183f7372ea9a6f1fca3e

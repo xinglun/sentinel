@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Seeing Catalysts For The Inevitable Housing Upturn: Four ETF "Buy" Ideas
+  summary: 
+  url: https://finnhub.io/api/news?id=e4eb32e647593e7dcce4676a08d64c987b23cbaa7e91b2058cc3d013f2517419

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sail Research Raises $80 Million to Build Max-Efficiency Infrastructure for AI Agents
+  summary: Sail Research, the infrastructure company purpose-built for long-horizon AI agents, today announced it has raised $80 million in Seed and Series A funding at a $450 million valuation. The Series A was led by Kleiner Perkins, and the Seed was led by Sequoia. Other participating investors included Redpoint Ventures, Theory Ventures, Vine Ventures, CRV, A*, and Abstract Ventures, in addition to angel investors, including John Hennessy, chairman of Alphabet Inc., Lip-Bu Tan, CEO of Intel, and Tri Da
+  url: https://finnhub.io/api/news?id=c30bf1ee63288166020f9f10a01b6b20d9e239428b829f1198c2212ce2a07b77

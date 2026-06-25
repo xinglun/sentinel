@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HIVE Digital Technologies inks LOI for 10-year lease at Sweden data center, plans $100M exchangeable notes offering
+  summary: HIVE Digital Technologies Ltd (TSX:HIVE, NASDAQ:HIVE, FRA:YO0, BVC:HIVECO) announced that it has signed a non-binding letter of intent with an investment-grade sovereign Swedish technology company for a potential lease of its 32-megawatt data center in Boden, Sweden, for a term of up to 10...
+  url: https://finnhub.io/api/news?id=6dd8410390de403fbd29a668d3b53e7650b61a31f3cd8541411b108ebe221323

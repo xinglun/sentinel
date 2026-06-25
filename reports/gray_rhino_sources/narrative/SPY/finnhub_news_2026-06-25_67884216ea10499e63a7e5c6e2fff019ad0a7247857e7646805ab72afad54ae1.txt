@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Small-Cap ETFs Beat S&P 500 in 2026: Can the Rally Last?
+  summary: Small-cap ETFs are beating the S&P 500 in 2026. Will the rally continue? Here's what valuations, earnings and macro trends say.
+  url: https://finnhub.io/api/news?id=831d2f97ad4b4c390b6a47d633d5569cf1c3edcb372152b6064f3c187d2d4609

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Artificial Intelligence Opportunity Beyond Big Tech: 3 Healthcare Stocks to Watch
+  summary: These companies' innovative qualities could help them get ahead of their peers in capitalizing on AI.
+  url: https://finnhub.io/api/news?id=9d9dcf6eb6e5fc6bdbe02f891a38bb21d3bde4b48a913b0a2e50e7fd8c2a3b98

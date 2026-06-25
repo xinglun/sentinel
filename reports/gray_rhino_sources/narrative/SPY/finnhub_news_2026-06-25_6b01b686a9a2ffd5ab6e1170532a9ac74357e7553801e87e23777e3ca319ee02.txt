@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Passive Investing May Have Broken The Market
+  summary: Passive investing now dominates U.S. funds, pushing mega-cap concentration and flow-driven gains.
+  url: https://finnhub.io/api/news?id=04f7b8809823758af1e39712c7303aecbdd755c550f6ab83ea638bf11690963d

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Stock Had Its IPO the Same Month as Palantir. Its Price Action Has Been Wildly Different, But You Should Buy the Dip Here.
+  summary: Bentley Systems hit its 39th new 52-week low of the past 12 months on Tuesday at $28.37. The infrastructure software stock went public in the same month and year as Palantir. BSY hasn’t fared nearly as well.
+  url: https://finnhub.io/api/news?id=a40348b2ddec8de68c8d64112f9882826ad62b73f730a70bf082f0d4e60806d7

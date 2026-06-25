@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Lands 16 Gigawatt U.S. Power Plant Deal And 25 Gigawatt Hour Europe Pact
+  summary: Tesla (NasdaqGS:TSLA), Sunrun, and Renew Home agreed to aggregate over 16 gigawatts of flexible residential energy capacity in the U.S. into what they describe as the largest distributed power plant. The U.S. project is intended to serve utilities and power-hungry data centers by coordinating home batteries and other distributed energy resources. Separately, Tesla entered a multi-year partnership with NatPower to deploy more than 25 gigawatt-hours of battery storage capacity across...
+  url: https://finnhub.io/api/news?id=f8343ee9f24249b001663a84ccfcd418c92ebda130a43dd61bf54b4457b4d7ec

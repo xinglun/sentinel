@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Jump As Micron, Qualcomm Reignite AI Rally, All Eyes On PCE Data: Why SPCX, BABA, BB, FRMI, WEN, ADTX Are In Focus
+  summary: Retail sentiment remained split, with Stocktwits data showing SPY sentiment stuck in bearish territory while QQQ sentiment at bullish.
+  url: https://finnhub.io/api/news?id=31f1b0948bf77a3d1525d4c0d4feb60fcdf4b050df0d24888a0e455702e4d915

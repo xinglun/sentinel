@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Garners Acknowledgement for Da Vinci Single Port Robotic Platform
+  summary: Intuitive Surgical Inc. (NASDAQ:ISRG) is one of the 10 best robotics and automation stocks to invest in. On June 17, Good Samaritan Hospital highlighted its use of Intuitive Surgical’s da Vinci Single Port robotic platform, which enables surgeons to perform complex procedures through a single small incision. Dr. Mohammed Al-Temimi explained that the system allows […]
+  url: https://finnhub.io/api/news?id=1b119aa0adf703ff79a11123dad58c319da3de6c4dd47285bcafa91b097fa290

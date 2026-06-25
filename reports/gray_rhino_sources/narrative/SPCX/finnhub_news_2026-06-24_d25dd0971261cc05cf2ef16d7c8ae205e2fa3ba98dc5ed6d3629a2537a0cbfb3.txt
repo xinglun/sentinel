@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Debunking The Bulls' Main Arguments On AI
+  summary: Semiconductor/AI stocks like Nvidia may be in a dotcom-style bubble. Click for this look at the sector and why I think it is overvalued.
+  url: https://finnhub.io/api/news?id=b4c55fae16addefb1ae51b1b10e5d29c701baeef67191108a739543ee0d28135

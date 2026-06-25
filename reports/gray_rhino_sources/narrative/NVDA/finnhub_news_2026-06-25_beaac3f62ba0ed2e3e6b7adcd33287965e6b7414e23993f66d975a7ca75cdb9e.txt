@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May PCE: Inflation ticks up to highest level since 2023
+  summary: May's Personal Consumption Expenditures (PCE) index — the Federal Reserve's preferred inflation gauge — saw inflation rise 0.4% month-over-month and 4.1% year-over-year Core PCE, which excludes food and energy prices, rose 0.3% monthly and 3.4% annually, marking the highest level since 2023. Morning Brief Host Julie Hyman is joined by Yahoo Finance Tech Editor Dan Howley and Epistrophy Capital Research chief market strategist Cory Johnson to further examine rising price trends.
+  url: https://finnhub.io/api/news?id=8be465df7d2ab114b79ef0b55d23430cf5e4c1aa4f1163268672c5ac38e445cf

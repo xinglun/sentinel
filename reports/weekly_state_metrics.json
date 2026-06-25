@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-06-24",
-  "avg_confidence": 54.20077201884227,
-  "avg_stability": 30.058231551451406,
+  "as_of_date": "2026-06-25",
+  "avg_confidence": 54.51503233383,
+  "avg_stability": 31.520923801039213,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-06-15",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-06-16",
@@ -93,24 +80,37 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-25",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-25T00:29:47.714734812+09:00",
+  "generated_at": "2026-06-26T00:32:59.334132796+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
       "confirmed_count_latest": 0,
-      "future_queue_count_latest": 2,
-      "latest_date": "2026-06-24",
+      "future_queue_count_latest": 1,
+      "latest_date": "2026-06-25",
       "near_term_supply_count_latest": 0,
       "pressure_latest": "NORMAL",
-      "queue_count_latest": 2,
+      "queue_count_latest": 1,
       "queue_count_max_7d": 2,
       "queue_count_min_7d": 1,
-      "reported_count_latest": 2
+      "reported_count_latest": 1
     },
     "cognitive_calibration": {
       "asset_thesis_entries": 9,

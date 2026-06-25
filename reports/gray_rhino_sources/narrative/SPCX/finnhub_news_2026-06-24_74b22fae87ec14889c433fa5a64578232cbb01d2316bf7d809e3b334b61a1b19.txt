@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Rocket Lab Still Matters After SpaceX
+  summary: Rocket Lab after SpaceX IPO: scarcity premium fades, but backlog, revenue growth, and Neutron milestones remain. See here for more on RKLB stock.
+  url: https://finnhub.io/api/news?id=4cc4cc710a6bdf96a83b509b854603e5928eb49be058df2be79e63901ea979a3

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Is The Starlink TAM Overstated? A Critical Valuation Review
+  summary: SpaceX's decision to fund the expensive acquisition of Cursor with stock suggests management may believe shares are fully valued. See why SPCX is a Hold.
+  url: https://finnhub.io/api/news?id=adc7c9e1e688826cc5414fef550a00e16d255e93de3004d19fb3408ef07ff7ec
