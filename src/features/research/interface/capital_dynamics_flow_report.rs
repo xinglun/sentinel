@@ -67,7 +67,11 @@ pub(crate) fn build_flow_layer_weekly_summary(
         capital_dynamics.and_then(config::CapitalDynamicsConfig::flow_layer_snapshot)
     else {
         return json!({
-            "configured": false
+            "configured": false,
+            "balance_layer": {
+                "configured": false,
+                "status": "UNAVAILABLE"
+            }
         });
     };
 
@@ -99,6 +103,10 @@ pub(crate) fn build_flow_layer_weekly_summary(
             "observation_only": snapshot.observation_only,
             "decision_weight_percent": snapshot.decision_weight_percent,
             "trend_override_allowed": snapshot.trend_override_allowed
+        },
+        "balance_layer": {
+            "configured": false,
+            "status": "UNAVAILABLE"
         },
         "snapshot": serde_json::to_value(snapshot).unwrap_or(serde_json::Value::Null)
     })
@@ -450,8 +458,23 @@ mod tests {
             serde_json::Value::from(0)
         );
         assert_eq!(
+            summary["balance_layer"]["status"],
+            serde_json::Value::String("UNAVAILABLE".to_string())
+        );
+        assert_eq!(
             summary["snapshot"]["observations"][0]["subject"],
             serde_json::Value::String("NVDA".to_string())
+        );
+    }
+
+    #[test]
+    fn flow_layer_weekly_summary_keeps_balance_placeholder_when_unconfigured() {
+        let summary = build_flow_layer_weekly_summary(None);
+
+        assert_eq!(summary["configured"], serde_json::Value::Bool(false));
+        assert_eq!(
+            summary["balance_layer"]["status"],
+            serde_json::Value::String("UNAVAILABLE".to_string())
         );
     }
 }

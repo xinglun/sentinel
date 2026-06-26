@@ -1,0 +1,119 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-dynamics-balance-refinement",
+  "mode": "code",
+  "title": "Capital Dynamics balance layer refinement",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "src/features/research/interface/capital_dynamics_report.rs",
+    "src/features/research/interface/capital_dynamics_flow_report.rs",
+    ".ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+    ".ai/work-items/active/capital-dynamics-balance-refinement.summary.json"
+  ],
+  "outOfScope": [
+    "src/features/research/application/**",
+    "src/features/research/infrastructure/**",
+    "src/features/research/acl/**",
+    "src/features/research/domain/**",
+    "src/features/radar/**",
+    "Makefile",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "Balance Layer を future placeholder として明文化する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_dynamics_report.rs",
+      "reason": "Capital Dynamics shell に Balance Layer の placeholder section を追加する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_dynamics_flow_report.rs",
+      "reason": "weekly summary に Balance Layer の placeholder state を追加する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "既存の observation-only boundary を保ったまま、report shell と weekly summary に future placeholder を追加する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Balance Layer は future placeholder として安全に追加できる。"
+  },
+  "preReviewWarnings": [
+    "Balance Layer は future placeholder であり、Gate / Execution / Trader / Action Matrix / Position Sizing に接続しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Capital Dynamics shell に Balance Layer の future placeholder section が表示される。",
+    "weekly_state_metrics の Flow summary に Balance Layer の placeholder state が追加される。",
+    "Balance Layer の placeholder は Observation Only であり、Flow Layer の decision weight や boundary を変更しない。",
+    "Balance Layer は Observation Only であり、Gate / Execution / Trader / Action Matrix / Position Sizing には接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

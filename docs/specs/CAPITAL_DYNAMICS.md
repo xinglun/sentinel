@@ -46,6 +46,8 @@ Capital Dynamics
 
 既存の Capital Absorption は Supply Layer の初期実装として扱う。IPO queue、secondary offering、convertible、confirmed financing event は Supply 側の observation であり、Flow Layer と混同しない。
 
+Balance Layer は現段階では未来の派生観測である。Supply と Flow の観測結果を統合して需給の失衡を説明する候補ではあるが、第一段階では source を持たない占位節として扱い、判定や出力の主役にしない。
+
 ## Flow Layer の境界
 
 Flow Layer is Observation Only.
@@ -223,6 +225,7 @@ Phase 1 では次に表示する。
 - Radar Markdown / Telegram appendix。
 - `daily-calibration` の Flow / Capital Dynamics section。
 - `weekly_state_metrics.json -> latest_context.capital_dynamics`。
+- `latest_context.capital_dynamics.balance_layer` は future placeholder として `UNAVAILABLE` を返し、まだ判定へ使わない。
 - Supply 側の canonical path は `latest_context.capital_dynamics.supply_layer` とする。
 - 既存 consumer 互換のため、`latest_context.capital_absorption_ipo_queue` は legacy compatibility alias として段階移行中のみ併存してよい。
 - `weekly_state_review_auto.md` の Capital Dynamics snapshot。

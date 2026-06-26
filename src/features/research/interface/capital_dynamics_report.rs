@@ -19,6 +19,10 @@ pub(crate) fn build_capital_dynamics_report(
         out.push_str(flow_report.trim());
     }
     out.push_str("\n\n");
+    out.push_str(capital_dynamics_balance_layer_label(language));
+    out.push_str("\n\n");
+    out.push_str(capital_dynamics_balance_layer_note(language));
+    out.push_str("\n\n");
     out.push_str(capital_dynamics_boundary(language));
     out
 }
@@ -44,6 +48,28 @@ fn capital_dynamics_demand_layer_label(language: Language) -> &'static str {
         Language::ZhCn => "### 6.2 Demand Layer（Flow Layer）",
         Language::EnUs => "### 6.2 Demand Layer (Flow Layer)",
         Language::JaJp => "### 6.2 Demand Layer（Flow Layer）",
+    }
+}
+
+fn capital_dynamics_balance_layer_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "### 6.3 Balance Layer（Future Placeholder）",
+        Language::EnUs => "### 6.3 Balance Layer (Future Placeholder)",
+        Language::JaJp => "### 6.3 Balance Layer（Future Placeholder）",
+    }
+}
+
+fn capital_dynamics_balance_layer_note(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "Balance Layer は将来の派生観測であり、現段階では未計算の占位節です。Supply と Flow の観測結果を壊さず、Gate、Execution、Trader、Action Matrix、Position Sizing には接続しません。"
+        }
+        Language::EnUs => {
+            "Balance Layer is a future derived observation and is currently a placeholder section. It does not change Supply or Flow observations and does not connect to Gate, Execution, Trader, Action Matrix, or Position Sizing."
+        }
+        Language::JaJp => {
+            "Balance Layer は将来の派生観測であり、現段階では未計算の占位節です。Supply と Flow の観測結果を壊さず、Gate、Execution、Trader、Action Matrix、Position Sizing には接続しません。"
+        }
     }
 }
 
@@ -76,6 +102,8 @@ mod tests {
         assert!(report.contains("SUPPLY_REPORT"));
         assert!(report.contains("### 6.2 Demand Layer"));
         assert!(report.contains("FLOW_REPORT"));
+        assert!(report.contains("### 6.3 Balance Layer"));
+        assert!(report.contains("未計算"));
         assert!(report.contains("不连接 Gate"));
     }
 }
