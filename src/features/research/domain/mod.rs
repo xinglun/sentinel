@@ -1,6 +1,7 @@
 pub(crate) mod capital_absorption;
 pub mod capital_dynamics;
 pub mod dependency_source;
+pub(crate) mod expectation;
 pub mod governance_source;
 pub mod gray_rhino;
 pub(crate) mod gray_rhino_assessment_policy;

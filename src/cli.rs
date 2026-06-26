@@ -29,16 +29,17 @@ use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_capital_dynamics_report, build_flow_layer_report,
-    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
-    daily_calibration_audit_label, daily_calibration_boundary,
+    build_asset_thesis_report, build_capital_dynamics_report, build_expectation_layer_report,
+    build_flow_layer_report, build_macro_gravity_report, build_research_attention_report,
+    daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
     daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
-    daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
-    daily_calibration_question_attention, daily_calibration_question_boundary,
-    daily_calibration_question_evidence, daily_calibration_question_gate,
-    daily_calibration_question_market, daily_calibration_question_thesis,
-    daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
+    daily_calibration_expectation_label, daily_calibration_gray_rhino_label,
+    daily_calibration_macro_gravity_label, daily_calibration_question_attention,
+    daily_calibration_question_boundary, daily_calibration_question_evidence,
+    daily_calibration_question_gate, daily_calibration_question_market,
+    daily_calibration_question_thesis, daily_calibration_questions_label,
+    daily_calibration_thesis_label, daily_calibration_title,
     daily_calibration_valuation_gravity_label, enabled_asset_thesis_count,
     enabled_research_attention_count,
 };
@@ -746,6 +747,10 @@ async fn build_daily_calibration_report(
         language,
     )?);
     out.push_str("\n\n");
+    out.push_str(daily_calibration_expectation_label(language));
+    out.push_str("\n\n");
+    out.push_str(&build_expectation_layer_report(language));
+    out.push_str("\n\n");
     out.push_str(daily_calibration_boundary(language));
     Ok(out)
 }
@@ -1106,6 +1111,46 @@ mod tests {
         assert!(digest.contains("Should the thesis remain valid?"));
         assert!(!digest.contains("raw extract"));
         assert!(!digest.contains("example.com/source"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_keeps_expectation_layer_boundary() {
+        let report = r#"# 🧭 每日认知校准
+
+## 9. Expectation Layer（市场预期观测）
+
+- As of: 2026-06-18
+- decision_weight: 0%
+- trade_signal: false
+- gate_effect: none
+- execution_effect: none
+- position_sizing_effect: none
+- observation_count: 1
+- subjects: TSLA
+
+### TSLA / 2026Q2 / DELIVERY_CONSENSUS
+- Period: 2026Q2
+- Expected: ~401k deliveries
+- Actual: 未发售
+- Surprise: NOT_RELEASED
+- Revision: UP
+- Expectation Pressure: HIGH
+- Source Health: SUCCEEDED
+- Interpretation: 市场はすでに期待を織り込んでいる。
+
+Boundary: Expectation Layer is for observing market expectations only. It does not enter Gate, Execution, Trader, Action Matrix, READY / EXECUTE, or Position Sizing, and it does not generate trade signals.
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::EnUs);
+
+        assert!(digest.contains("Expectation Layer"));
+        assert!(digest.contains("decision_weight: 0%"));
+        assert!(digest.contains("trade_signal: false"));
+        assert!(digest.contains("subjects: TSLA"));
+        assert!(digest
+            .contains("Boundary: Expectation Layer is for observing market expectations only."));
+        assert!(!digest.contains("BUY"));
+        assert!(!digest.contains("SELL"));
     }
     use time::OffsetDateTime;
 
@@ -1651,6 +1696,7 @@ mod tests {
         assert!(weekly_metrics.contains("\"capital_dynamics\""));
         assert!(weekly_metrics.contains("\"supply_layer\""));
         assert!(weekly_metrics.contains("\"flow_layer\""));
+        assert!(weekly_metrics.contains("\"expectation_layer\""));
         assert!(weekly_metrics.contains("\"strategic_context\""));
         assert!(weekly_metrics.contains("\"weekly_totals\""));
         assert!(weekly_metrics.contains("\"daily_summaries\""));
@@ -1662,12 +1708,14 @@ mod tests {
         assert!(
             weekly_metrics_json["latest_context"]["capital_dynamics"]["supply_layer"].is_object()
         );
+        assert!(weekly_metrics_json["latest_context"]["expectation_layer"].is_object());
         assert!(weekly_metrics_json["daily_summaries"][0]["to_state"] != serde_json::Value::Null);
         let weekly_review = std::fs::read_to_string(weekly_review_path).unwrap();
         assert!(weekly_review.contains("## 状态机周度汇总"));
         assert!(weekly_review.contains("## Capital Dynamics（供需观察）"));
         assert!(weekly_review.contains("### 6.1 Supply Layer（Capital Absorption）"));
         assert!(weekly_review.contains("### 6.2 Demand Layer（Flow Layer）"));
+        assert!(weekly_review.contains("## Expectation Layer（市场预期观测）"));
         assert!(weekly_review.contains("## 日度状态机时间线"));
         assert!(weekly_review.contains("## 战略上下文快照"));
         assert!(weekly_review.contains("## 宏观引力快照"));

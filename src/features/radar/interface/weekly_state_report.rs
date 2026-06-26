@@ -12,6 +12,7 @@ pub(crate) struct WeeklyReportContext {
     pub asset_thesis_entries: usize,
     pub capital_absorption_ipo_queue: serde_json::Value,
     pub capital_dynamics_flow_layer: serde_json::Value,
+    pub expectation_layer: serde_json::Value,
 }
 
 #[derive(Clone)]
@@ -81,6 +82,7 @@ pub(crate) fn persist_weekly_state_outputs(
         context,
         &context.capital_absorption_ipo_queue,
         &context.capital_dynamics_flow_layer,
+        &context.expectation_layer,
     );
     let state_machine_summaries =
         load_weekly_state_machine_summaries(save_dir, current_packet.date, current_state_machine);
@@ -178,6 +180,7 @@ pub(crate) fn persist_weekly_state_outputs(
         text,
     );
     push_weekly_cognitive_calibration_snapshot(&mut review, context, text);
+    push_weekly_expectation_snapshot(&mut review, &context.expectation_layer, text);
 
     std::fs::write(save_dir.join("weekly_state_review_auto.md"), review)?;
     Ok(())
@@ -299,6 +302,7 @@ fn build_weekly_latest_context(
     context: &WeeklyReportContext,
     capital_absorption_ipo_queue: &serde_json::Value,
     capital_dynamics_flow_layer: &serde_json::Value,
+    expectation_layer: &serde_json::Value,
 ) -> serde_json::Value {
     let trend_breadth_mode = pres_packet
         .transition_evidence
@@ -329,6 +333,7 @@ fn build_weekly_latest_context(
             "supply_layer": capital_absorption_ipo_queue,
             "flow_layer": capital_dynamics_flow_layer
         },
+        "expectation_layer": expectation_layer,
         "cognitive_calibration": {
             "research_attention_entries": context.research_attention_entries,
             "asset_thesis_entries": context.asset_thesis_entries
@@ -418,6 +423,13 @@ struct WeeklyText {
     boundary_macro: &'static str,
     boundary_macro_not_configured: &'static str,
     boundary_cognitive: &'static str,
+    expectation_layer_snapshot: &'static str,
+    expectation_layer_as_of: &'static str,
+    expectation_layer_decision_weight: &'static str,
+    expectation_layer_trade_signal: &'static str,
+    expectation_layer_observation_count: &'static str,
+    expectation_layer_subjects: &'static str,
+    expectation_layer_boundary: &'static str,
 }
 
 fn weekly_text(language: Language) -> &'static WeeklyText {
@@ -493,6 +505,14 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     boundary_macro: "边界: 仅说明贴现率与流动性上下文；不作为 Gate 输入或交易指令。",
     boundary_macro_not_configured: "边界: 宏观引力仅解释贴现率与流动性上下文。",
     boundary_cognitive: "边界: 认知校准只管理注意力和命题复核；不生成交易信号。",
+    expectation_layer_snapshot: "## Expectation Layer（市场预期观测）",
+    expectation_layer_as_of: "观测日",
+    expectation_layer_decision_weight: "decision_weight",
+    expectation_layer_trade_signal: "trade_signal",
+    expectation_layer_observation_count: "observation_count",
+    expectation_layer_subjects: "subjects",
+    expectation_layer_boundary:
+        "边界: Expectation Layer 仅用于观测市场预期，不进入 Gate、Execution、Trader、Action Matrix、READY / EXECUTE、Position Sizing，也不生成交易信号。",
 };
 
 static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
@@ -562,6 +582,14 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     boundary_macro: "Boundary: context only; no Gate input or trade instruction.",
     boundary_macro_not_configured: "Boundary: macro gravity explains discount-rate and liquidity context only.",
     boundary_cognitive: "Boundary: cognitive calibration manages attention and thesis review only; it does not generate trade signals.",
+    expectation_layer_snapshot: "## Expectation Layer (Market Expectation Observation)",
+    expectation_layer_as_of: "As of",
+    expectation_layer_decision_weight: "decision_weight",
+    expectation_layer_trade_signal: "trade_signal",
+    expectation_layer_observation_count: "observation_count",
+    expectation_layer_subjects: "subjects",
+    expectation_layer_boundary:
+        "Boundary: Expectation Layer is for observing market expectations only. It does not enter Gate, Execution, Trader, Action Matrix, READY / EXECUTE, or Position Sizing, and it does not generate trade signals.",
 };
 
 static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
@@ -632,6 +660,14 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     boundary_macro_not_configured:
         "境界: マクログラビティは割引率と流動性コンテキストだけを説明する。",
     boundary_cognitive: "境界: 認知校正は注意力と命題レビューだけを扱い、取引信号を生成しない。",
+    expectation_layer_snapshot: "## Expectation Layer（市場期待観測）",
+    expectation_layer_as_of: "観測日",
+    expectation_layer_decision_weight: "decision_weight",
+    expectation_layer_trade_signal: "trade_signal",
+    expectation_layer_observation_count: "observation_count",
+    expectation_layer_subjects: "subjects",
+    expectation_layer_boundary:
+        "境界: Expectation Layer は市場期待の観測専用であり、Gate、Execution、Trader、Action Matrix、READY / EXECUTE、Position Sizing に入らず、売買シグナルも生成しない。",
 };
 
 fn push_weekly_strategic_context_snapshot(
@@ -950,12 +986,68 @@ fn push_weekly_cognitive_calibration_snapshot(
     review.push('\n');
 }
 
+fn push_weekly_expectation_snapshot(
+    review: &mut String,
+    summary: &serde_json::Value,
+    text: &WeeklyText,
+) {
+    review.push('\n');
+    review.push_str(text.expectation_layer_snapshot);
+    review.push('\n');
+    if !summary["configured"].as_bool().unwrap_or(false) {
+        review.push_str("- expectation layer not configured\n");
+        review.push_str("- ");
+        review.push_str(text.expectation_layer_boundary);
+        review.push('\n');
+        return;
+    }
+
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.expectation_layer_as_of,
+        summary["as_of_date"].as_str().unwrap_or("unknown")
+    ));
+    review.push_str(&format!(
+        "- {}: {}%\n",
+        text.expectation_layer_decision_weight,
+        summary["decision_weight_percent"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.expectation_layer_trade_signal,
+        summary["trade_signal"].as_bool().unwrap_or(false)
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.expectation_layer_observation_count,
+        summary["observation_count"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.expectation_layer_subjects,
+        summary["subjects"]
+            .as_array()
+            .map(|subjects| {
+                subjects
+                    .iter()
+                    .filter_map(|value| value.as_str())
+                    .collect::<Vec<_>>()
+                    .join(", ")
+            })
+            .unwrap_or_else(|| "unknown".to_string())
+    ));
+    review.push_str("- ");
+    review.push_str(text.expectation_layer_boundary);
+    review.push('\n');
+}
+
 #[cfg(test)]
 mod tests {
     use super::{
         build_weekly_latest_context, load_weekly_state_machine_summaries,
         push_weekly_capital_absorption_ipo_queue_snapshot, push_weekly_capital_dynamics_snapshot,
-        push_weekly_flow_layer_snapshot, weekly_text, WeeklyReportContext,
+        push_weekly_expectation_snapshot, push_weekly_flow_layer_snapshot, weekly_text,
+        WeeklyReportContext,
     };
     use crate::features::radar::interface::presentation::PresentationPacket;
     use crate::features::shared::application::run_status::StateMachineSummary;
@@ -1039,6 +1131,12 @@ mod tests {
         assert!(weekly_text(Language::JaJp)
             .boundary_cognitive
             .contains("取引信号を生成しない"));
+        assert!(weekly_text(Language::ZhCn)
+            .expectation_layer_boundary
+            .contains("不进入 Gate"));
+        assert!(weekly_text(Language::JaJp)
+            .expectation_layer_boundary
+            .contains("売買シグナルも生成しない"));
         assert!(!weekly_text(Language::ZhCn)
             .capital_absorption_ipo_queue_snapshot
             .contains("Capital Absorption IPO Queue Snapshot"));
@@ -1194,6 +1292,33 @@ mod tests {
     }
 
     #[test]
+    fn weekly_expectation_review_section_keeps_read_only_boundary() {
+        let summary = serde_json::json!({
+            "configured": true,
+            "as_of_date": "2026-06-18",
+            "decision_weight_percent": 0,
+            "trade_signal": false,
+            "gate_effect": "none",
+            "execution_effect": "none",
+            "position_sizing_effect": "none",
+            "observation_count": 1,
+            "subjects": ["TSLA"]
+        });
+        let mut review = String::new();
+
+        push_weekly_expectation_snapshot(&mut review, &summary, weekly_text(Language::ZhCn));
+
+        assert!(review.contains("## Expectation Layer（市场预期观测）"));
+        assert!(review.contains("decision_weight: 0%"));
+        assert!(review.contains("trade_signal: false"));
+        assert!(review.contains("observation_count: 1"));
+        assert!(review.contains("subjects: TSLA"));
+        assert!(review.contains("不进入 Gate、Execution、Trader、Action Matrix"));
+        assert!(!review.contains("BUY"));
+        assert!(!review.contains("SELL"));
+    }
+
+    #[test]
     fn weekly_latest_context_keeps_supply_layer_and_legacy_alias_in_sync() {
         let supply = serde_json::json!({
             "configured": true,
@@ -1205,6 +1330,17 @@ mod tests {
             "as_of_date": "2026-06-08",
             "observation_count": 2
         });
+        let expectation = serde_json::json!({
+            "configured": true,
+            "as_of_date": "2026-06-18",
+            "decision_weight_percent": 0,
+            "trade_signal": false,
+            "gate_effect": "none",
+            "execution_effect": "none",
+            "position_sizing_effect": "none",
+            "observation_count": 1,
+            "subjects": ["TSLA"]
+        });
         let latest = build_weekly_latest_context(
             &PresentationPacket::default(),
             &WeeklyReportContext {
@@ -1213,9 +1349,11 @@ mod tests {
                 asset_thesis_entries: 0,
                 capital_absorption_ipo_queue: supply.clone(),
                 capital_dynamics_flow_layer: flow.clone(),
+                expectation_layer: expectation.clone(),
             },
             &supply,
             &flow,
+            &expectation,
         );
 
         assert_eq!(latest["capital_dynamics"]["supply_layer"], supply);
@@ -1225,5 +1363,6 @@ mod tests {
             latest["capital_absorption_ipo_queue"]
         );
         assert_eq!(latest["capital_dynamics"]["flow_layer"], flow);
+        assert_eq!(latest["expectation_layer"], expectation);
     }
 }

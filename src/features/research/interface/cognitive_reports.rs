@@ -15,12 +15,16 @@ pub(crate) use super::daily_calibration_i18n::{
     daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
     daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
-    daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
-    daily_calibration_question_attention, daily_calibration_question_boundary,
-    daily_calibration_question_evidence, daily_calibration_question_gate,
-    daily_calibration_question_market, daily_calibration_question_thesis,
-    daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
+    daily_calibration_expectation_label, daily_calibration_gray_rhino_label,
+    daily_calibration_macro_gravity_label, daily_calibration_question_attention,
+    daily_calibration_question_boundary, daily_calibration_question_evidence,
+    daily_calibration_question_gate, daily_calibration_question_market,
+    daily_calibration_question_thesis, daily_calibration_questions_label,
+    daily_calibration_thesis_label, daily_calibration_title,
     daily_calibration_valuation_gravity_label,
+};
+pub(crate) use super::expectation_report::{
+    build_expectation_layer_report, build_expectation_layer_weekly_summary,
 };
 pub(crate) use super::macro_gravity_report::{
     build_macro_gravity_report_from_config, credit_stress_label, growth_valuation_impact_label,

@@ -2899,7 +2899,8 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("TSLA · 信息密度 EXPANDING · 注意力成本 HIGH"));
     assert!(stdout.contains("## 4. 资产观察命题"));
     assert!(stdout.contains("NVDA · 用户自定义观察说明未提供中文版本。"));
-    assert!(!stdout.contains("AI インフラ需要"));
+    assert!(stdout.contains("## 9. Expectation Layer（市场预期观测）"));
+    assert!(stdout.contains("Boundary: Expectation Layer 仅用于观测市场预期"));
     assert!(!stdout.contains("データセンター注文の継続性"));
     assert!(stdout.contains("## 5. 宏观重力校准"));
     assert!(stdout.contains("- 利率压力: RISING"));
@@ -2963,6 +2964,9 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("边界声明: 灰犀牛升级监控仅观察结构性风险升级，不生成交易信号。"));
     assert!(!stdout.contains("State:"));
     assert!(stdout.contains("不生成新的交易指令"));
+    assert!(stdout.contains("## 9. Expectation Layer（市场预期观测）"));
+    assert!(stdout.contains("decision_weight"));
+    assert!(stdout.contains("trade_signal"));
 }
 
 #[test]
@@ -3171,6 +3175,7 @@ fn daily_calibration_renders_flow_layer_as_observation_only_demand_section() {
     assert!(stdout.contains("不生成新的交易信号"));
     assert!(stdout.contains("不覆盖 Trend Layer"));
     assert!(!stdout.contains("Position Sizing:"));
+    assert!(stdout.contains("## 9. Expectation Layer（市场预期观测）"));
 }
 
 #[test]

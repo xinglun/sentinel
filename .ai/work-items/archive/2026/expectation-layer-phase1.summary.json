@@ -1,0 +1,186 @@
+{
+  "workItemId": "expectation-layer-phase1",
+  "contractPath": ".ai/work-items/archive/2026/expectation-layer-phase1.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "Expectation ドメインを公開モジュールへ追加した。"
+    },
+    {
+      "path": "src/features/research/domain/expectation.rs",
+      "reason": "ExpectationObservation と関連 enum を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Expectation report module と tests module を登録した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Expectation report builder を re-export した。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "daily-calibration に Expectation section を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "Expectation Layer の read-only report と weekly summary を実装した。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "reason": "TSLA を含む first phase fixture snapshot を構築した。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_tests.rs",
+      "reason": "Expectation report と fixture の回帰テストを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Radar Markdown / Telegram appendix に Expectation Layer を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_review_auto.md と latest_context に Expectation Layer を追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration に Expectation Layer を追加し、telegram digest 回帰 test を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "daily-calibration の統合出力に Expectation section を追加した。"
+    },
+    {
+      "path": "tests/fixtures/expectation/tsla_q2_delivery_consensus.json",
+      "reason": "TSLA Q2 delivery consensus の fixture を追加した。"
+    },
+    {
+      "path": ".ai/work-items/active/expectation-layer-phase1.contract.json",
+      "reason": "Work Item Contract を skeleton から実装可能な内容へ更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/expectation-layer-phase1.contract.json",
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "docs/specs/VALUATION_GRAVITY_LAYER.md",
+    "src/features/research/interface/capital_dynamics_report.rs",
+    "src/features/research/interface/valuation_gravity_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/cli.rs"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/expectation-layer-phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/expectation-layer-phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/expectation-layer-phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/expectation-layer-phase1.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-layer-phase1.summary.json CONTRACT=.ai/work-items/active/expectation-layer-phase1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-layer-phase1.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-layer-phase1.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Expectation Layer は report-only だが、Radar / daily-calibration / weekly review / latest_context にまたがるため、表示境界の回帰を review で確認する必要がある。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "Expectation report tests initially failed because the Japanese intro assertion was too narrow and the observation count was undercounted.",
+      "resolution": "Assertion を固定表現に合わせ、summary の observation_count を 16 に修正した。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope / sources / acceptance / verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象が scope 内であり、outOfScope に含まれないことを確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks と AI check 群を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を Summary に同期し、Cockpit status を生成できる状態にした。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review_debt",
+      "detail": "Expectation Layer は first phase の fixture-driven 実装であり、将来の実データ接続時に source stability と interpretation の妥当性を再確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification は通過したが、fixture-driven な first phase であるため review focus が残る。",
+    "expectedReviewFocus": [
+      "Expectation Layer の report-only boundary",
+      "latest_context に追加した JSON の後方互換性",
+      "TSLA fixture の妥当性と将来の source stability"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "verified",
+    "reportOutput": "changed",
+    "persistence": "weekly_only",
+    "i18n": "changed",
+    "makeEntrypoints": "changed"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "knownGaps": [
+    "Expectation Layer は first phase では fixture-driven であり、実データ接続は未実施。"
+  ],
+  "overclaimPrevention": "完了報告では未実行の AI check と将来の source 接続課題を未完了として明記する。"
+}

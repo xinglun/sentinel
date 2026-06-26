@@ -10,6 +10,10 @@ pub(crate) mod cli_command_handler;
 pub(crate) mod cognitive_reports;
 mod daily_calibration_i18n;
 mod default_cognitive_localizations;
+mod expectation_report;
+pub(crate) mod expectation_report_builder;
+#[cfg(test)]
+mod expectation_report_tests;
 mod gray_rhino_assessment_renderer;
 pub(crate) mod gray_rhino_cli_handler;
 pub(crate) mod gray_rhino_i18n_adapter;
