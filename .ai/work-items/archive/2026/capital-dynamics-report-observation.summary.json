@@ -1,0 +1,216 @@
+{
+  "workItemId": "capital-dynamics-report-observation",
+  "contractPath": ".ai/work-items/archive/2026/capital-dynamics-report-observation.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/config.rs",
+      "reason": "capital_dynamics.flow_layer の config schema と Observation Only boundary validation を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_dynamics_flow_report.rs",
+      "reason": "Flow Layer の daily-calibration 表示と weekly summary 生成を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Flow Layer report / weekly summary を CLI と radar path から利用できるようにした。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "daily-calibration 用 Flow Layer subsection label を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Flow Layer report module を interface registry に追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration で configured 時のみ Flow Layer observation section を表示し、weekly output contract test を拡張した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "weekly report context に capital_dynamics.flow_layer summary を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_metrics.json の latest_context.capital_dynamics.flow_layer と weekly review の Flow Layer snapshot section を追加した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "manual Flow Layer config fixture と daily-calibration observation-only integration test を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "AppConfig に capital_dynamics field が追加されたため mock config を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "AppConfig に capital_dynamics field が追加されたため mock config を更新した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "AppConfig に capital_dynamics field が追加されたため test fixture を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "reason": "Flow Layer report-only 実装の scope / acceptance / verification / branch context を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-report-observation.summary.json",
+      "reason": "本 Work Item の summary を実装内容に合わせて追跡する。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "前 Work Item で追加した Capital Dynamics spec を branch context として保持した。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "前 Work Item の spec index 追加を branch context として保持した。"
+    },
+    {
+      "path": "src/features/research/domain/capital_dynamics.rs",
+      "reason": "前 Work Item で追加した Flow Layer domain foundation を report 実装の前提として保持した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "前 Work Item で capital_dynamics module を公開した変更を branch context として保持した。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "前 Work Item で修正した date-sensitive integration test を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-dynamics-domain-foundation.contract.json",
+      "reason": "前 Work Item の archived contract を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-dynamics-domain-foundation.summary.json",
+      "reason": "前 Work Item の archived summary を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-dynamics-flow-layer.contract.json",
+      "reason": "前 Work Item の archived contract を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-dynamics-flow-layer.summary.json",
+      "reason": "前 Work Item の archived summary を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.contract.json",
+      "reason": "旧 active Work Item cleanup の archive evidence を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.summary.json",
+      "reason": "旧 active Work Item cleanup の archive evidence を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+      "reason": "旧 active Work Item cleanup により active path から削除された branch context diff。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json",
+      "reason": "旧 active Work Item cleanup により active path から削除された branch context diff。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "current active Work Item へ cockpit status を同期した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "src/features/research/domain/capital_dynamics.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "report / weekly snapshot 契約と i18n に触れる。Gate 非接続と observation-only 境界を test で固定する必要がある。"
+  },
+  "generatedFiles": [
+    "src/features/research/interface/capital_dynamics_flow_report.rs"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Flow Layer TOML fixture は chrono::NaiveDate の Deserialize 契約に合わせて quoted date string が必要だったため、integration test fixture を \"2026-05-25\" 形式へ修正した。",
+    "AppConfig へ capital_dynamics field を追加した際に ParsedRules へ誤って流し込み、compile error が発生した。Flow Layer は decision rules へ入れない境界に合わせて config.get_parsed_rules() から除外して解消した。",
+    "clippy は single-character newline の push_str を拒否したため、push('\\n') へ修正した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Flow Layer は daily-calibration / weekly metrics / weekly review の display-only 範囲に限定する。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "application / infrastructure / provider adapter には広げず、config / interface / weekly report path のみを変更対象にした。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "Flow Layer report、weekly summary、config validation、integration / unit test を追加し、fmt/test/clippy/guard の結果を反映した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification を通過し、cockpit status へ反映できる状態にした。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "required verification が通過し、変更は Flow Layer の report-only 接線と weekly snapshot 拡張に限定される。",
+    "expectedReviewFocus": [
+      "Flow Layer が Observation Only / 0% weight / Trend 非 override のまま report-only 接線されていること",
+      "weekly_state_metrics.json の latest_context 拡張が既存 key を壊していないこと",
+      "zh / en / ja の Flow Layer 文言と boundary が test で固定されていること"
+    ]
+  }
+}

@@ -71,6 +71,11 @@ fn strip_optional_calibration_sections(raw: &str) -> String {
                 || line == "[capital_absorption]"
                 || line.starts_with("[capital_absorption.")
                 || line.starts_with("[[capital_absorption.")
+                || line == "[capital_dynamics]"
+                || line == "[capital_dynamics.flow_layer]"
+                || line == "[capital_dynamics.flow_layer.breadth]"
+                || line.starts_with("[[capital_dynamics.flow_layer.observations]]")
+                || line.starts_with("[[capital_dynamics.flow_layer.divergences]]")
                 || line == "[gray_rhino_escalation]"
                 || line == "[gray_rhino_provider_registry]";
         }
@@ -2900,7 +2905,9 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("- 利率压力: RISING"));
     assert!(stdout.contains("- 成长股估值: COMPRESSING"));
     assert!(stdout.contains("不参与 Gate，不生成交易指令"));
-    assert!(stdout.contains("## 6. 市场资本吸收监控"));
+    assert!(stdout.contains("## 6. Capital Dynamics（供需观察）"));
+    assert!(stdout.contains("🧱 Capital Dynamics（供需观察）"));
+    assert!(stdout.contains("### 6.1 Supply Layer（Capital Absorption）"));
     assert!(stdout.contains("📊 资本吸收早期预警传感器"));
     assert!(stdout.contains("资本吸收状态: 观察（WATCH）"));
     assert!(stdout.contains("实际供给事件"));
@@ -3060,6 +3067,50 @@ state = "NEUTRAL"
 "#
 }
 
+fn flow_layer_manual_config() -> &'static str {
+    r#"
+
+[capital_dynamics]
+enable = true
+
+[capital_dynamics.flow_layer]
+enable = true
+as_of_date = "2026-05-25"
+observation_only = true
+decision_weight_percent = 0
+trend_override_allowed = false
+
+[capital_dynamics.flow_layer.breadth]
+market_breadth = "UNAVAILABLE"
+sector_breadth = "DIVERGENT"
+watchlist_breadth = "SUPPORTIVE"
+core_holding_breadth = "NEUTRAL"
+
+[[capital_dynamics.flow_layer.observations]]
+as_of_date = "2026-05-25"
+observed_at = "2026-05-25"
+scope = "ASSET"
+subject = "NVDA"
+provider = "Manual"
+source_kind = "CapitalFlow"
+direction = "INFLOW"
+strength = "STRONG"
+quality = "HEALTHY"
+continuity_days = 5
+net_flow = 12.5
+main_net_flow = 8.2
+source_health = "SUCCEEDED"
+
+[[capital_dynamics.flow_layer.divergences]]
+subject = "GOOG"
+price_direction = "UP"
+flow_direction = "OUTFLOW"
+divergence_type = "NEGATIVE"
+severity = "HIGH"
+explanation_key = "negative_divergence"
+"#
+}
+
 #[test]
 fn fixture_keeps_required_config_after_manually_placed_gray_rhino_section() {
     let tmp = prepare_workspace("");
@@ -3098,6 +3149,28 @@ note = "割引率上昇により、好業績でも時間コストが上がる可
     assert!(!stdout.contains("割引率上昇"));
     assert!(stdout.contains("不参与 Gate"));
     assert!(!stdout.contains("买入"));
+}
+
+#[test]
+fn daily_calibration_renders_flow_layer_as_observation_only_demand_section() {
+    let tmp = prepare_workspace(flow_layer_manual_config());
+
+    let out = run_cli(&tmp, &["daily-calibration", "--date", "2026-05-25"]);
+
+    assert!(out.status.success());
+    let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("## 6. Capital Dynamics（供需观察）"));
+    assert!(stdout.contains("🧱 Capital Dynamics（供需观察）"));
+    assert!(stdout.contains("### 6.2 Demand Layer（Flow Layer）"));
+    assert!(stdout.contains("🌊 Flow Layer（需求侧观察）"));
+    assert!(stdout.contains("NVDA [ASSET]"));
+    assert!(stdout.contains("INFLOW"));
+    assert!(stdout.contains("HEALTHY"));
+    assert!(stdout.contains("GOOG"));
+    assert!(stdout.contains("NEGATIVE"));
+    assert!(stdout.contains("不生成新的交易信号"));
+    assert!(stdout.contains("不覆盖 Trend Layer"));
+    assert!(!stdout.contains("Position Sizing:"));
 }
 
 #[test]

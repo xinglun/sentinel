@@ -7,9 +7,13 @@ pub(crate) use super::asset_thesis_report::{
     enabled_research_attention_count_from_entries,
 };
 pub(crate) use super::capital_absorption_report::build_capital_absorption_report_from_config;
+pub(crate) use super::capital_dynamics_flow_report::{
+    build_flow_layer_report_from_config, build_flow_layer_weekly_summary,
+};
+pub(crate) use super::capital_dynamics_report::build_capital_dynamics_report;
 pub(crate) use super::daily_calibration_i18n::{
     daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
-    daily_calibration_capital_absorption_label, daily_calibration_evidence_none,
+    daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
     daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
     daily_calibration_question_attention, daily_calibration_question_boundary,
@@ -56,6 +60,13 @@ pub(crate) fn build_capital_absorption_report(
         auto_snapshot,
         language,
     )
+}
+
+pub(crate) fn build_flow_layer_report(
+    app_config: &config::AppConfig,
+    language: Language,
+) -> String {
+    build_flow_layer_report_from_config(app_config.capital_dynamics.as_ref(), language)
 }
 
 pub(crate) fn enabled_research_attention_count(app_config: &config::AppConfig) -> usize {

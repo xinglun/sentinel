@@ -29,9 +29,10 @@ use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
-    daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
-    daily_calibration_capital_absorption_label, daily_calibration_evidence_none,
+    build_asset_thesis_report, build_capital_dynamics_report, build_flow_layer_report,
+    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
+    daily_calibration_audit_label, daily_calibration_boundary,
+    daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
     daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
     daily_calibration_question_attention, daily_calibration_question_boundary,
@@ -674,17 +675,25 @@ async fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(&build_macro_gravity_report(app_config, language));
     out.push_str("\n\n");
-    out.push_str(daily_calibration_capital_absorption_label(language));
+    let capital_absorption_report = build_capital_absorption_report_with_auto(
+        app_config,
+        calibration_date,
+        window_days.max(1),
+        language,
+    )
+    .await;
+    let flow_report = app_config
+        .capital_dynamics
+        .as_ref()
+        .and_then(config::CapitalDynamicsConfig::flow_layer_snapshot)
+        .map(|_| build_flow_layer_report(app_config, language));
+    out.push_str(daily_calibration_capital_dynamics_label(language));
     out.push_str("\n\n");
-    out.push_str(
-        &build_capital_absorption_report_with_auto(
-            app_config,
-            calibration_date,
-            window_days.max(1),
-            language,
-        )
-        .await,
-    );
+    out.push_str(&build_capital_dynamics_report(
+        &capital_absorption_report,
+        flow_report.as_deref(),
+        language,
+    ));
     out.push_str("\n\n");
     out.push_str(daily_calibration_valuation_gravity_label(language));
     out.push_str("\n\n");
@@ -1207,6 +1216,7 @@ mod tests {
             asset_thesis: None,
             macro_gravity: None,
             capital_absorption: None,
+            capital_dynamics: None,
             gray_rhino_escalation: None,
             gray_rhino_provider_registry: None,
         }
@@ -1638,7 +1648,9 @@ mod tests {
         assert!(weekly_metrics.contains("\"market_cycle_position\""));
         assert!(weekly_metrics.contains("\"holding_efficiency\""));
         assert!(weekly_metrics.contains("\"macro_gravity\""));
-        assert!(weekly_metrics.contains("\"capital_absorption_ipo_queue\""));
+        assert!(weekly_metrics.contains("\"capital_dynamics\""));
+        assert!(weekly_metrics.contains("\"supply_layer\""));
+        assert!(weekly_metrics.contains("\"flow_layer\""));
         assert!(weekly_metrics.contains("\"strategic_context\""));
         assert!(weekly_metrics.contains("\"weekly_totals\""));
         assert!(weekly_metrics.contains("\"daily_summaries\""));
@@ -1647,13 +1659,18 @@ mod tests {
             weekly_metrics_json["weekly_totals"]["days"],
             serde_json::Value::from(1)
         );
+        assert!(
+            weekly_metrics_json["latest_context"]["capital_dynamics"]["supply_layer"].is_object()
+        );
         assert!(weekly_metrics_json["daily_summaries"][0]["to_state"] != serde_json::Value::Null);
         let weekly_review = std::fs::read_to_string(weekly_review_path).unwrap();
         assert!(weekly_review.contains("## 状态机周度汇总"));
+        assert!(weekly_review.contains("## Capital Dynamics（供需观察）"));
+        assert!(weekly_review.contains("### 6.1 Supply Layer（Capital Absorption）"));
+        assert!(weekly_review.contains("### 6.2 Demand Layer（Flow Layer）"));
         assert!(weekly_review.contains("## 日度状态机时间线"));
         assert!(weekly_review.contains("## 战略上下文快照"));
         assert!(weekly_review.contains("## 宏观引力快照"));
-        assert!(weekly_review.contains("## 资金吸收 IPO 队列快照"));
         assert!(weekly_review.contains("## 认知校准快照"));
         assert!(weekly_review.contains("边界: 仅为快照"));
         assert!(weekly_review.contains("不生成交易信号"));

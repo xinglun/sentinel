@@ -64,11 +64,11 @@ pub(crate) fn daily_calibration_valuation_gravity_label(language: Language) -> &
     }
 }
 
-pub(crate) fn daily_calibration_capital_absorption_label(language: Language) -> &'static str {
+pub(crate) fn daily_calibration_capital_dynamics_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "## 6. 市场资本吸收监控",
-        Language::EnUs => "## 6. Capital Absorption Monitor",
-        Language::JaJp => "## 6. 資本吸収モニター",
+        Language::ZhCn => "## 6. Capital Dynamics（供需观察）",
+        Language::EnUs => "## 6. Capital Dynamics (Supply / Demand Observation)",
+        Language::JaJp => "## 6. Capital Dynamics（需給観測）",
     }
 }
 

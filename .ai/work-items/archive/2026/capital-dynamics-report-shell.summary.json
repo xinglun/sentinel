@@ -1,0 +1,153 @@
+{
+  "workItemId": "capital-dynamics-report-shell",
+  "contractPath": ".ai/work-items/archive/2026/capital-dynamics-report-shell.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-dynamics-report-shell.contract.json",
+      "reason": "Capital Dynamics report shell 収斂の scope / acceptance / verification / branch context を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-report-shell.summary.json",
+      "reason": "本 Work Item の summary を実装内容に合わせて追跡する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_dynamics_report.rs",
+      "reason": "daily-calibration 用の Capital Dynamics shell を追加し、Supply Layer と Flow Layer を同一 section に収めた。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Capital Dynamics shell と Flow Layer facade を export し、daily-calibration i18n 呼び出しを新しい shell 名へ寄せた。"
+    },
+    {
+      "path": "src/features/research/interface/daily_calibration_i18n.rs",
+      "reason": "第 6 節の見出しを Capital Dynamics に変更し、旧 Capital Absorption / Flow Layer 分離ラベルを整理した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "Capital Dynamics report shell module を interface facade に追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration の第 6 節を Capital Dynamics shell に収斂し、weekly review / metrics の期待値を新 shell に更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_review_auto.md と latest_context.capital_dynamics を Supply / Flow の統一 shell に更新し、legacy top-level supply key は維持した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Capital Dynamics shell、Supply Layer、Demand Layer の新しい日報見出しと boundary を integration test で固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_dynamics_flow_report.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-report-shell.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-report-shell.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-report-shell.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-report-shell.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-shell.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-report-shell.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-report-shell.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-report-shell.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-shell.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-report-shell.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-shell.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "daily-calibration と weekly review の section hierarchy、および weekly metrics latest_context schema に触れる。legacy output を壊さず shell だけを収斂する必要がある。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "旧 section title を期待する CLI / integration test が 2 箇所残っており、Capital Dynamics shell への rename に合わせて更新した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Capital Dynamics shell へ収斂するが、report-only / observation-only boundary は維持する。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "provider、application、infrastructure、decision path には広げず、report / weekly snapshot / test のみに限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "daily-calibration と weekly review / metrics の shell 収斂、および関連 test の更新を完了した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification、summary check、cockpit status 生成と status check を通過し、ready_with_risks として review 可能にした。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "weekly_state_metrics",
+      "detail": "legacy key の capital_absorption_ipo_queue を維持しつつ capital_dynamics.supply_layer を追加しているため、consumer 側は段階移行を前提に review する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification は完了し、変更は Capital Dynamics shell への report-only 収斂に限定される。weekly metrics では legacy key 併存の移行余地が残る。",
+    "expectedReviewFocus": [
+      "Capital Absorption が Supply Layer として Capital Dynamics shell に収まっていること",
+      "Flow Layer が同 shell 内で Observation Only のまま保たれていること",
+      "weekly_state_metrics.json の capital_dynamics schema が legacy key と整合していること"
+    ]
+  },
+  "implementationCoverage": {
+    "code": "changed",
+    "test": "changed",
+    "docs": "not_changed",
+    "i18n": "changed",
+    "reportOutput": "changed",
+    "dataOrWeeklyRecord": "changed",
+    "makeOrCiGuard": "not_changed"
+  }
+}

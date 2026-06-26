@@ -1,4 +1,5 @@
 pub(crate) mod capital_absorption;
+pub mod capital_dynamics;
 pub mod dependency_source;
 pub mod governance_source;
 pub mod gray_rhino;

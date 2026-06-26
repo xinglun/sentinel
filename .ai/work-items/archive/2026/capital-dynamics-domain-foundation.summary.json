@@ -1,0 +1,180 @@
+{
+  "workItemId": "capital-dynamics-domain-foundation",
+  "contractPath": ".ai/work-items/archive/2026/capital-dynamics-domain-foundation.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/research/domain/capital_dynamics.rs",
+      "reason": "Capital Dynamics / Flow Layer の provider 非依存 domain type、boundary validation、unit test を追加した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "capital_dynamics module を公開した。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "前 Work Item で追加した design spec を branch context として保持した。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "前 Work Item で新 spec の index を追加した変更を branch context として保持した。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "前 Work Item で date-sensitive integration test を現在日基準へ修正した変更を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-dynamics-flow-layer.contract.json",
+      "reason": "前 Work Item の archived contract を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-dynamics-flow-layer.summary.json",
+      "reason": "前 Work Item の archived summary を branch context として保持した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.contract.json",
+      "reason": "旧 active Work Item を archive へ移動した。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.summary.json",
+      "reason": "旧 active Work Item を archive へ移動した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+      "reason": "旧 active Work Item cleanup により active path から削除した。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json",
+      "reason": "旧 active Work Item cleanup により active path から削除した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "reason": "本 Work Item の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+      "reason": "本 Work Item の変更内容、検証結果、review readiness を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "旧 active Work Item cleanup 後に current Work Item を反映するため更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "src/features/research/domain/valuation_gravity.rs",
+    "src/features/research/domain/capital_absorption.rs",
+    "tests/evidence_repository_port_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Domain foundation の追加のみ。provider、report、weekly output、decision path は未接続。"
+  },
+  "generatedFiles": [
+    "src/features/research/domain/capital_dynamics.rs"
+  ],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+      "reason": "旧 active Work Item を archive へ移動済みのため、active evidence を cleanup した。archive counterpart は .ai/work-items/archive/2026/valuation-gravity-ci-hotfix.contract.json に保持される。"
+    },
+    {
+      "path": ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json",
+      "reason": "旧 active Work Item を archive へ移動済みのため、active evidence を cleanup した。archive counterpart は .ai/work-items/archive/2026/valuation-gravity-ci-hotfix.summary.json に保持される。"
+    }
+  ],
+  "observedIssues": [
+    "fmt-check は rustfmt の改行規約で一度失敗し、cargo fmt --all で解消した。",
+    "scope guard は同一 branch 上の未コミット docs/test/archive diff を initially out-of-scope と判定したため、current branch context を Contract scope へ明示的に追加した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Flow Layer domain foundation の scope を domain module と branch context に合わせて確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "application / interface / infrastructure へは広げず、domain module と mod.rs のみに implementation を限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "fmt-check、make test、guard、scope の結果を反映した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification を通し、cockpit status 反映可能な状態にした。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "required verification は通過済み。変更は domain foundation と branch context cleanup に限定される。",
+    "expectedReviewFocus": [
+      "Flow Layer boundary が Observation Only / decision weight 0% / Trend 非 override で code に固定されていること",
+      "FlowObservation / FlowDivergence / FlowBreadth が provider 非依存 domain になっていること",
+      "この Work Item が application / interface / persistence へ広がっていないこと"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "Flow は独立した市場シグナルではなく、Capital Dynamics の Demand 側 Observation Layer として扱う。",
+      "solidifiedTo": "contract",
+      "reason": "acceptance と review focus に Observation Only / decision weight 0% / Trend 非 override を固定し、domain validation に反映した。"
+    }
+  ],
+  "implementationCoverage": {
+    "code": "changed",
+    "test": "changed",
+    "docs": "branch_context_only",
+    "i18n": "not_changed",
+    "reportOutput": "not_changed",
+    "dataOrWeeklyRecord": "not_changed",
+    "makeOrCiGuard": "not_changed"
+  }
+}

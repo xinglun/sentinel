@@ -1,0 +1,154 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-dynamics-consumer-migration",
+  "mode": "code",
+  "title": "Capital Dynamics 下游消费迁移",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+    ".ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json",
+    ".ai/work-items/archive/2026/capital-dynamics-domain-foundation.contract.json",
+    ".ai/work-items/archive/2026/capital-dynamics-domain-foundation.summary.json",
+    ".ai/work-items/archive/2026/capital-dynamics-flow-layer.contract.json",
+    ".ai/work-items/archive/2026/capital-dynamics-flow-layer.summary.json",
+    ".ai/work-items/archive/2026/capital-dynamics-report-observation.contract.json",
+    ".ai/work-items/archive/2026/capital-dynamics-report-observation.summary.json",
+    ".ai/work-items/archive/2026/capital-dynamics-report-shell.contract.json",
+    ".ai/work-items/archive/2026/capital-dynamics-report-shell.summary.json",
+    ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.summary.json",
+    "docs/README.md",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+    ,
+    "src/features/research/domain/capital_dynamics.rs",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/interface/capital_dynamics_flow_report.rs",
+    "src/features/research/interface/capital_dynamics_report.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/daily_calibration_i18n.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/interface/mod.rs",
+    "tests/evidence_repository_port_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/research/application/**",
+    "src/features/research/infrastructure/**",
+    "src/features/research/acl/**",
+    "Makefile",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "Capital Dynamics の primary shell と weekly metrics 保存先を定義している。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "Supply Layer の既存 artifact / weekly output 記述を新 shell 契約へ揃える。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "latest_context.capital_dynamics.supply_layer と legacy key の互換契約を test で固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "weekly metrics の read contract と docs 文言を揃えるだけで、provider / domain / decision path には触れない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "docs と weekly report schema test の互換整理に限定すれば安全に実装できる。"
+  },
+  "preReviewWarnings": [
+    "legacy key の capital_absorption_ipo_queue は削除せず、compatibility alias として残す。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "docs/specs/CAPITAL_DYNAMICS.md で latest_context.capital_dynamics.supply_layer が primary path として明記される。",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md で weekly metrics の主格納先が Capital Dynamics shell 配下へ更新され、capital_absorption_ipo_queue は legacy compatibility alias として明記される。",
+    "weekly_state_report.rs に latest_context が supply_layer と legacy key を同値で保持する test が追加される。",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing には接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
