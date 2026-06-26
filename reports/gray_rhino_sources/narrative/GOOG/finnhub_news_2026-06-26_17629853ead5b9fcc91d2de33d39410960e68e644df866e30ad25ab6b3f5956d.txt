@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMZN Stock Heads For H1 Drop, First Since 2022 — Retail Traders Smell Buying Opportunity
+  summary: Despite its cloud leadership and close ties with AI startup Anthropic, Amazon has largely missed the AI-driven rally.
+  url: https://finnhub.io/api/news?id=bedb5245a3d88239da4d6846bc55392b4777e5f1739042cf88d335e57ee5f03c

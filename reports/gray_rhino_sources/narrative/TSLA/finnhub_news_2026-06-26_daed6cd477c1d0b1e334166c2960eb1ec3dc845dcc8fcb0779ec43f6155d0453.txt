@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Segment Setbacks Are Shifting My Conviction (Rating Downgrade)
+  summary: Tesla, Inc. is now rated Sell, reversing my prior Buy due to deteriorating fundamentals and missed growth expectations in energy storage. Learn more about TSLA stock here.
+  url: https://finnhub.io/api/news?id=a1e7720628a2237b14c9e7dd54e7857486aa9c49b41924c5a858d536984418ec

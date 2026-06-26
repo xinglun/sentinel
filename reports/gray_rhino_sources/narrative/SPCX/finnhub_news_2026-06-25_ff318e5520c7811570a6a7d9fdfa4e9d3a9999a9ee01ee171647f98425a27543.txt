@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Bulls Push Wild Robotaxi Theory, But Gary Black Says The SpaceX Merger Talk Makes No Sense At All
+  summary: Investor Gary Black dismisses arguments that Elon Musk is slowing Tesla&#39;s Robotaxi ramp for a merger with SpaceX.
+  url: https://finnhub.io/api/news?id=a51c7a3e421baae4dd7598ce4abe79afdcd2450cd53afa6338a5133eb45c44e1

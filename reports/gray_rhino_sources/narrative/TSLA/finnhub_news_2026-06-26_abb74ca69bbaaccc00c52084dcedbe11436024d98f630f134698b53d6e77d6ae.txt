@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive-Apple supplier Tata tightens internal controls after data breach, sources say
+  summary: Tata Electronics, a key Indian supplier to Apple, has restricted internal access to sensitive systems as it investigates a leak of thousands of secret client files on the dark web, a Tata source and two industry officials said.  Tata has ‌also hired a global consultant to conduct a forensic audit and has reported the incident to the Indian government and its clients, said the Tata ‌source, declining to be named given the sensitivity of the matter.  Reuters reported this week that ransomware group World Leaks posted more than 200,000 files to the dark web, including purported component design papers from Apple and ​Tesla, both of which are Tata clients.
+  url: https://finnhub.io/api/news?id=d899aa09fcf978dfe7f70190c1663a7347a2b60bdb3944d4208b5f51f4f305e6

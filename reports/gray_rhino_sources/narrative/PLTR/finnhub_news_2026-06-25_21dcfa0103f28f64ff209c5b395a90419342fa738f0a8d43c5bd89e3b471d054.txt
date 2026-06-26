@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Hits New 52-Week Low. Is Meme Magic Gone? Wedbush: Oversold.
+  summary: Palantir shares hit a 52-week low on Thursday, falling for the seventh straight trading session. Palantir stock has dropped 36% in 2026.
+  url: https://finnhub.io/api/news?id=dc5bc3a6ba7f4e17fc264b8b59bec72f90e1d4c66fde62d1c684a8b74abd393e

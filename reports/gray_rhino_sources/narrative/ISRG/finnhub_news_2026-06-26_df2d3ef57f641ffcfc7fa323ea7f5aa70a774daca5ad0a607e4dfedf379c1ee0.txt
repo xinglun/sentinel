@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Piper Sandler Highlights Intuitive Surgical (ISRG) on Long-Term Growth Catalysts
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) ranks among the best set-it-and-forget-it stocks to buy right now. On June 2, Piper Sandler restated its Overweight rating and $580 target on Intuitive Surgical, Inc. (NASDAQ:ISRG). The firm’s recent field check with the head of robotics at a prominent U.S. healthcare institution confirmed the firm’s positive opinion of the company. […]
+  url: https://finnhub.io/api/news?id=483fe006aba4485601e51a13c3b6c2ee4c93715956e5bc053040fc824e92be6e

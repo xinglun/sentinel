@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Gets Hammered as Worst Month in Years Takes Shape
+  summary: Palantir Faces Brutal June Selloff After Losing a Crucial Chart Level
+  url: https://finnhub.io/api/news?id=dc0a8e5038eb2d9b46b9e30447fc7f4af9286afa4da502443ad4b4adf4c01516

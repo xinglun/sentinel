@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ross Gerber Says Slate Auto Is What Happens When 'Top Tesla And Amazon' Execs Build An EV, Predicts Buyers Will ‘Love’ Its $25,000 Pickup
+  summary: Investor Ross Gerber, who is the co-founder of investment firm Gerber Kawasaki, backed Tesla Inc. rival Slate Auto‘s $25,000 electric pickup truck on Wednesday, predicting that it will become popular with customers. People Will Love The Truck In a series...
+  url: https://finnhub.io/api/news?id=0452bf92de73b60387ff8fec87e15afb3425bb0c9545bbd41f5b4a82c8106c90

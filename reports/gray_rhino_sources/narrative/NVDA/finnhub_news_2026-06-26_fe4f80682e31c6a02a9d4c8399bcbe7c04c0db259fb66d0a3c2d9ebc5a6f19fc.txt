@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Semiconductor stocks retreat over worries about memory costs
+  summary: The semiconductor sector declined on Friday as high memory and storage costs weighed on stocks.
+  url: https://finnhub.io/api/news?id=df999755165bbdc2cd8391bae1261414fc97e2bcfbbe6895fe809fe904f6fe60

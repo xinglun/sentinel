@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Should Raise Prices On iPhones
+  summary: Apple (NASDAQ: AAPL) is raising prices on its Macs and iPads (as well as the Vision Pro) by between $100 and $500. Demand for these is already mediocre. This decision will make the demand weaker. Two examples of the increase in the price of the 13-inch MacBook Air from $1,299 from $1,099. The price of ... Apple Should Raise Prices On iPhones
+  url: https://finnhub.io/api/news?id=1d6f12540e20d5eb403284e7106898fd8ec250b1a7005f6e96c5e77f0526bca7

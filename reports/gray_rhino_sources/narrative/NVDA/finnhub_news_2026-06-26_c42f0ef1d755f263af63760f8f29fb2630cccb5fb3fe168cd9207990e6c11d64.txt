@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Slides Amid Global Technology Sell-Off; Micron, Nvidia, Sandisk Fall (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index fell, while the Nasdaq dived amid a global tech sell-off. Micron, Nvidia and Sandisk tumbled.
+  url: https://finnhub.io/api/news?id=97712357d3c40e2ee61379630cbf265c2ff15b49deeb47a26a1e6e5c60ff0b88

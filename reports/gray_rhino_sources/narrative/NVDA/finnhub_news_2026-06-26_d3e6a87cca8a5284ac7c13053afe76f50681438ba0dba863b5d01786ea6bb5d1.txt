@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Reason to Buy Nvidia Stock Right Now
+  summary: Even after an incredible 960% rise in the past five years, the leading AI stock is positioned to keep the hot streak alive.
+  url: https://finnhub.io/api/news?id=1ff7a0d80fa9536f1e02f15321e1635120ac6c63dc39d2e747d924920359fdf7

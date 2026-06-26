@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Did MSFT, PLTR, MSTR Stocks Plunge To 52-Week Lows Today?
+  summary: Investors shifted their attention from long-term AI growth potential to the immediate costs of building the infrastructure needed to support it.
+  url: https://finnhub.io/api/news?id=58fe46c075a0369ad2d9dcc00c40e47bf830108318ca4a16a794653e9d8bb81a

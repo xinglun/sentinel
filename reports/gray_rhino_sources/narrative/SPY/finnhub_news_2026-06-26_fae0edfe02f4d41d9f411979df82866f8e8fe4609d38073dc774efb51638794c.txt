@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Embrace The Rotation, Don't Fear It
+  summary: Middle East tensions and oil spikes meet easing inflation and market rotation. Click for more on the latest news and how it may affect markets.
+  url: https://finnhub.io/api/news?id=9cabaa42f3ed5e3b2d7e97793d6af72bec3761b1e09a068a1f77290c94931746

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Maleficent 7’? Analyst Warns Microsoft Could Crash To $250
+  summary: Meta Description (155 characters):Microsoft heads for its worst month since 2000 as all Magnificent Seven stocks sink in June. One strategist now calls them the &#34;Maleficent 7.&#34;
+  url: https://finnhub.io/api/news?id=18aa1d5cd3118c4fb8613fbe7fec61e53842c91638aedc3e0fc4427a498ebba3

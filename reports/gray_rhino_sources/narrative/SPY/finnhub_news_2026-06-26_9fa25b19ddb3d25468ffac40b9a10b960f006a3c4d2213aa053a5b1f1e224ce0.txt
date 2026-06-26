@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Core PCE Inflation At 3.4% In May, Highest Level Since 2023
+  summary: The Federal Reserveâs preferred inflation gauge, the core PCE price index, climbed 3.4% year-over-year in May, matching the forecast.
+  url: https://finnhub.io/api/news?id=5f676f6f12bd4427953741efd32d4dd92f41b79c85eb147b15a69ac6c40a9d82

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed likely to 'stay put' on rates in 2026 after hot inflation data
+  summary: Coming off of May's hot Personal Consumption Expenditures (PCE) reading, Gradient Investments associate portfolio manager Lisa Schreiber weighs in on how the Federal Reserve may move on interest rates in 2026 based on the latest inflation data.
+  url: https://finnhub.io/api/news?id=89122fcf0b4bfe8bf9e3e3ac4665617f42d8a4bb8e4c7aae53411529e942d091

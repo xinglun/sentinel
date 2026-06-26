@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Is Paying Google $1 Billion a Year for AI. Here's Who the Real Winner Is.
+  summary: Apple's deal to put Google's Gemini AI inside Siri looks like an admission of defeat in the AI race. But a closer look at the numbers tells a very different story -- one where Apple comes out on top.
+  url: https://finnhub.io/api/news?id=f50c696254bfdf9ce6064e20e206395a5691b9ddc9dacc61a72f7fd45bdf3bde

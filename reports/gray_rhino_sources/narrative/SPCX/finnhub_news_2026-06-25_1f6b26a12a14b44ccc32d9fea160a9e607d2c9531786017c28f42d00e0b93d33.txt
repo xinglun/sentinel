@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ARKX: Golden Dome, CLPS, And SpaceX IPO Reshape The Space ETF Investment Case
+  summary: ARK Space & Defense Innovation ETF gets a Buy rating as space/defense spending surges. Click for this updated look at ARKX following the SpaceX IPO.
+  url: https://finnhub.io/api/news?id=75fe3ec3d54007bd73fc73568406e856b1673b6a85491dc9155c15f52a471bab

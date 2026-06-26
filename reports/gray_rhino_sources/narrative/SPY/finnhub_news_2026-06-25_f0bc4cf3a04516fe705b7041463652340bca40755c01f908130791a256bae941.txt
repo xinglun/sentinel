@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inflation In 'Core Services' Surges, Plus AI's Impact On Electricity And Goods: Inflation Beyond Gasoline
+  summary: The price of gasoline was still a big driver of inflation in May, though in recent weeks, gasoline prices have dropped as crude oil prices have plunged
+  url: https://finnhub.io/api/news?id=9e8c350791bd39a83640116633523dfa583457cd6963cc07d357b98d20863a1a

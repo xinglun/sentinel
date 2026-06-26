@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, Sunrun Team Up To Use Home Batteries And Solar To Power AI Data Centers
+  summary: Tesla Inc, Sunrun Inc and Renew Home are working together to free up enough electrical capacity to support the equivalent of 17 large data centers during periods of peak demand, the companies announced on Wednesday. Sunrun is the largest U.S....
+  url: https://finnhub.io/api/news?id=cc4c1759d33419c5b27aa26273b9059c9ec0afe8049bb2749fe78f9879680a32

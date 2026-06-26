@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Stock Is Down More Than 22% From Its Peak and Worth a Closer Look
+  summary: Broadcom looks like a great stock to buy after its recent pullback.
+  url: https://finnhub.io/api/news?id=10dc55366119d38da9afa5fa49125139868d47adb5be7e6102bea42ad547405d

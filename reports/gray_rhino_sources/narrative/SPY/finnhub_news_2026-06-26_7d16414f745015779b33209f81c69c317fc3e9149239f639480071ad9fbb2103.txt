@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mega-Caps Fall, Russell Rebalance
+  summary: There are still a few trading days left in June, but so far it has been a rough month for the world's largest stocks. Read more here...
+  url: https://finnhub.io/api/news?id=ffcf55f395f5ee798be5e78ef7ce78822673b421eb7101aecef887800ec9f2fd

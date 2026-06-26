@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Stock Falls After Report Key Partner OpenAI Could Delay IPO
+  summary: Oracle was among AI stocks that lost ground Friday, following a report that OpenAI is considering delaying its IPO.
+  url: https://finnhub.io/api/news?id=67bcc1277b5d656a0383badd2245f80759bdd4f9ebb87b44a407409c75e5e399

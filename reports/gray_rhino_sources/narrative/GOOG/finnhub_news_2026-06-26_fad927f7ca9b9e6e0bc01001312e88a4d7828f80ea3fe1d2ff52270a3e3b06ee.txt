@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Cloud AI - Quantum-Classical Chemistry Collaboration Leverages AWS in Singapore
+  summary: A recent collaboration between Classiq and Hatch in Singapore has advanced the field of cloud-based quantum-classical computational chemistry by executing a proof-of-concept project through Amazon Web Services (AWS) and Braket. The project, developed as part of Hatch’s Dimension X innovation challenge, demonstrated a hybrid workflow for estimating molecular binding energy, which plays a crucial role in understanding molecular interactions with protein targets. Utilizing Classiq’s quantum...
+  url: https://finnhub.io/api/news?id=8e6893587ac4ea9ba06d116a28a5bb8b3b65f7cf369e95dc4f9911976f2928cb

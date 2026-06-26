@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Nears Fresh Low
+  summary: FEATURE   Palantir Technologies can’t catch a break. The stock sank Thursday for a seventh straight trading session, putting it on track to close at a 12-month low. Shares fell 5.4% to $107.29. If the hold moves, Palantir will end the day at its lowest price since April 23, 2025, according to Dow Jones Market Data.
+  url: https://finnhub.io/api/news?id=a3ab934aa94dea43a0a81915002f85156e9fc082fc7f8c5aa463d391e99af1bf

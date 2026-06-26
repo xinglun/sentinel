@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Parent Alphabet Is Joining the Dow. Time to Buy?
+  summary: The tech giant replaces Verizon — and increases the Mag 7's presence in the blue-chip barometer.
+  url: https://finnhub.io/api/news?id=e715755c74806e651afd7e4f3429230caf4960123898e7d7071fd2b1df4fbde2

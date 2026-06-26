@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much of Your Portfolio Should Be in Index Funds?
+  summary: Most investors understand all the reasons to own them. What's not as clear is the degree to which you should own these super-simple investments.
+  url: https://finnhub.io/api/news?id=dbf4ecd62e50a3ec41985b3b30d7aba746e19e412ff4a0e8413b8f9dedd21c92

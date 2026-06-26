@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Hits New 52-Week Low As Swoon Drags On. Is Meme Stock Luster Gone?
+  summary: Palantir shares hit a 52-week low on Thursday, falling for the seventh straight trading session. Palantir stock has dropped 36% in 2026.
+  url: https://finnhub.io/api/news?id=ead944133e30919c8c6ba2e39387aa1acfc3753261dba82918fb77a529cc0e34

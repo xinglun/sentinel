@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Correction: Exchange-Traded Funds, Equity Futures Decline Pre-Bell Friday as Investors Shift Focus From Middle East to Technology Stocks
+  summary: (Corrects the third paragraph to state that May advance trade deficit widened.) The broad market
+  url: https://finnhub.io/api/news?id=71969e62e940c0a04ec192ce2e4d656020a5487c52581157b8e4ae6035c6c938

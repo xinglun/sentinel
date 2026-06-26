@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple, Microsoft Face Bigger Problems Than Micron’s Memory Prices
+  summary: Cheap drones are upending America’s defense sector, a pure play humanoid robotics stock, gold’s tough year, and more news to start your day.
+  url: https://finnhub.io/api/news?id=1fbd70ec5b9f2ca0b1cc947f451669d5e8df04f22e32b41ec9f97406a27417ab

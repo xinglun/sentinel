@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Buys Long-Dated Microsoft Calls, Adds To JD And Adobe — Trims Palantir Short
+  summary: ‘The Big Short’ investor leans into long-duration tech bets while flagging technical pressure-driven weakness across global markets.
+  url: https://finnhub.io/api/news?id=c3845e8f81aea609f7c8f8a4c1019195919a986c15ad8d42368e5915000fd2d0

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures: S&P 500 Set To Break Key Level As Techs Tumble; What To Do Now
+  summary: The S&P 500 is set to undercut a key level Friday while the Nasdaq tests recent lows. Micron is giving up a slice of Thursday's gains.
+  url: https://finnhub.io/api/news?id=2354f67860768a77109d4ea1fda3904b044ed0df38ae7c027c54f49a132a401e

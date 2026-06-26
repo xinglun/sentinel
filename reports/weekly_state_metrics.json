@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-06-25",
-  "avg_confidence": 54.51503233383,
-  "avg_stability": 31.520923801039213,
+  "as_of_date": "2026-06-26",
+  "avg_confidence": 54.77315406256703,
+  "avg_stability": 32.955194515854544,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-06-16",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-06-17",
@@ -93,24 +80,58 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-06-26",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-06-26T00:32:59.334132796+09:00",
+  "generated_at": "2026-06-27T00:23:20.717952967+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
       "confirmed_count_latest": 0,
       "future_queue_count_latest": 1,
-      "latest_date": "2026-06-25",
+      "latest_date": "2026-06-26",
       "near_term_supply_count_latest": 0,
       "pressure_latest": "NORMAL",
       "queue_count_latest": 1,
       "queue_count_max_7d": 2,
       "queue_count_min_7d": 1,
       "reported_count_latest": 1
+    },
+    "capital_dynamics": {
+      "flow_layer": {
+        "balance_layer": {
+          "configured": false,
+          "status": "UNAVAILABLE"
+        },
+        "configured": false
+      },
+      "supply_layer": {
+        "configured": true,
+        "confirmed_count_latest": 0,
+        "future_queue_count_latest": 1,
+        "latest_date": "2026-06-26",
+        "near_term_supply_count_latest": 0,
+        "pressure_latest": "NORMAL",
+        "queue_count_latest": 1,
+        "queue_count_max_7d": 2,
+        "queue_count_min_7d": 1,
+        "reported_count_latest": 1
+      }
     },
     "cognitive_calibration": {
       "asset_thesis_entries": 9,
@@ -137,7 +158,7 @@
       "宏观重力: 只解释折现率与流动性环境，不生成交易信号",
       "证据持续性: 持续累积",
       "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)",
-      "战术状态: READY，等待执行层确认"
+      "战术状态: NO TRADE，等待结构扩散"
     ],
     "trend_breadth_mode": "NarrowLeadership"
   },
@@ -146,11 +167,11 @@
   "market_state_counts": {
     "IGNITION": 7
   },
-  "participation_ready_days": 3,
+  "participation_ready_days": 2,
   "risk_overlay_counts": {
     "NORMAL": 7
   },
-  "trend_cohesion_ready_days": 3,
+  "trend_cohesion_ready_days": 2,
   "weekly_totals": {
     "core_breakdown_total": 0,
     "days": 7,

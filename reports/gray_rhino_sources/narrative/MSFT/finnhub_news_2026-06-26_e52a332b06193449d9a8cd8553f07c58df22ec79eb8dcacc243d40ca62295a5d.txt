@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Asian stocks suffer fresh rout as rollercoaster week draws to close
+  summary: Seoul tanked more than eight percent Friday, leading another rout across Asia equity markets as the rollercoaster ride that has characterised the week continued into the weekend."Therefore, we believe it will be extremely important to watch how these hyperscalers trade going forward because if they continue to decline, it's going to make it very tough for the rest of the market to advance."
+  url: https://finnhub.io/api/news?id=7829e853fdba0592df509b39d260eda42b1bf61090d3284c68f0402fe993aa74

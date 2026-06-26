@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Price Prediction: Super Micro Computer Set for 10% Climb After Repricing
+  summary: Super Micro Computer (NASDAQ:SMCI) has whipsawed investors over the past year, with the stock down 32.03% over twelve months even as AI server demand has exploded. After a brutal repricing, our model now sees value emerging at current levels. Our 24/7 Wall St. price target for Super Micro is $34.92, implying roughly 10.22% upside from ... Stock Price Prediction: Super Micro Computer Set for 10% Climb After Repricing
+  url: https://finnhub.io/api/news?id=0f52dc3f78d6502300fda4247ec8beba5fad7086a0de1ae2b896deb00f2367e3

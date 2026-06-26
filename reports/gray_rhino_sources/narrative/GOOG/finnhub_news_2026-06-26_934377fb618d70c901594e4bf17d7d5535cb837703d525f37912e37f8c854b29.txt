@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QCOM Stock Eyes Worst Month In 7 Years: Analyst Says MSFT, GOOG May Be Behind Qualcomm’s AI Momentum
+  summary: Meta’s server CPU deal may not be included yet, with the ramp expected in the second half of 2028.
+  url: https://finnhub.io/api/news?id=0bb6034fb8c6143ab75a9c508afaa5d2c2b83173b62a8c5274d4c77d8109a7a1

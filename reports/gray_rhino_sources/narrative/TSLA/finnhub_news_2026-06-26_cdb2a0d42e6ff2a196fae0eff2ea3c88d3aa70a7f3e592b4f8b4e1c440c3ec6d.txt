@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven’s Black June Triggers $1 Billion Exodus From MAGS ETF
+  summary: The Roundhill Magnificent Seven ETF (MAGS) is heading for its worst month since inception as all seven mega-caps fall and over $1 billion exits the fund.
+  url: https://finnhub.io/api/news?id=cc8aa534c6092c50063fe144b364f6703d2bf2c8d3d7698fc1ba956d65d2107f

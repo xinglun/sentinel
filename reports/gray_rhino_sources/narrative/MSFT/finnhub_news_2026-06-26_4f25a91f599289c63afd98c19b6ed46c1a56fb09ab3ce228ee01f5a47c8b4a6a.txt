@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Low Can Microsoft Stock Go?
+  summary: AI growth is accelerating, yet the stock's history shows it offers little shelter in a broad market downturn.
+  url: https://finnhub.io/api/news?id=7df2d0b4dd31db81a0d427d2c3e3a1926c276364247e6b10ede95729d2d62400

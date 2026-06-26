@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why This Underrated S&P 500 ETF May Be the Best Way to Invest in the Index Right Now
+  summary: You can take a different approach and still manage to invest in the same companies.
+  url: https://finnhub.io/api/news?id=85069a4e571c804482d2fa6a40823c4ad2e31c571c1342c5cf6cd858e3ad4dc4

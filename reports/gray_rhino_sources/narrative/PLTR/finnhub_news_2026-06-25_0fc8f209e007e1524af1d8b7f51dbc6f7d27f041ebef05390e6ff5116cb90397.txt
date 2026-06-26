@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, June 25: Micron Surges, Apple Falls, and Inflation Data Weighs on Stocks
+  summary: On June 25, 2026, investors weighed fresh inflation signals and the two sides of high memory chip costs as markets diverged.
+  url: https://finnhub.io/api/news?id=c52f6e8d2fdcc74bb8b685db425ebb1efaf83276c1307ef0d9f938b50242cef0

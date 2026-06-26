@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BofA Boosts Price Target on Nebius (NBIS) Amid Data Center Expansion and AI Infrastructure Demand
+  summary: Nebius Group N.V. (NASDAQ:NBIS) ranks among the best tech stocks to buy now for the “Vera Rubin” chip cycle. On June 9, Bank of America analyst Tal Liani boosted Nebius Group’s price target to $280 from $240, noting strong compute needs and a growing strategic technology stack. The upgrade came after Nebius Group N.V. (NASDAQ:NBIS) […]
+  url: https://finnhub.io/api/news?id=ced72a67a37832f74f917dde69363662c653c51a18f9e38c938f9dd2e0f01710

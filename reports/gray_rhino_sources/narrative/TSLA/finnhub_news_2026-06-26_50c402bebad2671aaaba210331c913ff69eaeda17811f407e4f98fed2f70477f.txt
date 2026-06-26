@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Tesla Settles Lawsuit Over Deadly Crash Involving Full Self-Driving' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-06-26/tesla-settles-lawsuit-over-deadly-crash-involving-full-self-driving
+  url: https://finnhub.io/api/news?id=730b20e87f9b38b5270017679d0eb0c91508ce36d236c84af1e685da71c17c8a

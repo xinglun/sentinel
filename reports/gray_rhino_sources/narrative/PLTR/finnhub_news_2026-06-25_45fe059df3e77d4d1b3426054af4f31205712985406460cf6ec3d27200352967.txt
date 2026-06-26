@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Snaps Up $3.3 Million Worth Of Palantir Stock, Buys Cerebras Shares, But Dumps Alibaba Amid Anthropic Controversy
+  summary: Ark Invest snapped up Palantir shares across three ETFs on Thursday, June 25, 2026.
+  url: https://finnhub.io/api/news?id=8ce69acb28f02155d0ba3db26c5ec6ea636ef8aa63203c26fc93f7bdb8cafc22

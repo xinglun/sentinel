@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Partnership Gets Positive Needham View
+  summary: Foundry Could Strengthen Zeta's Enterprise Marketing Infrastructure
+  url: https://finnhub.io/api/news?id=536ad2e9f3017a2806f0aa82895a75173b1e44c2af598321eb10919edec7f690

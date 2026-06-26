@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Dow Futures Climb As Markets Look Past Big Tech Declines, Hotter-Than-Expected Inflation: AAPL, MSFT, BABA, MSTR, SNDK, FIG In Focus
+  summary: U.S. stock markets are mostly headed for a month in the red amid a downbeat streak for technology names.
+  url: https://finnhub.io/api/news?id=a5312916fc293a413250f245ebc120acc3b3841f5e3361edd2bd0769e9d3b0ee

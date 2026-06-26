@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Down 6% Today and 40% in 2026. Will It Break Below $100 Next?
+  summary: Shares of Palantir (NASDAQ:PLTR) stock are down 6% in Thursday morning trading, changing hands near $106.50 after a prior close of $113.50. The move drops PLTR stock to its lowest level in over a year, deepening a string of fresh 52-week lows. Zoom out and the picture is rougher, as Palantir stock is now down ... Palantir Is Down 6% Today and 40% in 2026. Will It Break Below $100 Next?
+  url: https://finnhub.io/api/news?id=a668baa4a90b017ec09a100d16bb9be3ebb0d49f4b3216a6725069f373fc4c31

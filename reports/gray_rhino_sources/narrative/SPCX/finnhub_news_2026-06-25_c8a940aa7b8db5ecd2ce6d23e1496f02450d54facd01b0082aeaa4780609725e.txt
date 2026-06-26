@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Triller Group Subsidiary To Acquire 3.917M SpaceX Shares Through Sac1 For $411.304M
+  summary: https://www.sec.gov/ix?doc=/Archives/edgar/data/1769624/000121390026071784/ea0295412-8k_triller.htm
+  url: https://finnhub.io/api/news?id=ad9c86ab6b0f5b6a4299b8596aa7016ed176ff854463bf6c9be6b2c3047c8ee5

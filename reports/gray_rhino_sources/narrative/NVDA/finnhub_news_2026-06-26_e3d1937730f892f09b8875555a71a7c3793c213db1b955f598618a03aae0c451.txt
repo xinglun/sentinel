@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AWS raising GPU instance prices 20% on July 1
+  summary: The new hourly rates per accelerator span AWS’s most powerful Nvidia-powered instance families: the P6-B300 will be billed at $14.04, the P6-B200 at $12.355, the P5 (US regions) at $5.191, the P5 (non-US) at $4.72, the P5e at $5.97, the P5en (US) at $6.865, the P5en (non-US) at $6.241, and the P4de (US) at $2.214. All other EC2 prices remain unchanged, according to the AWS documentation.
+  url: https://finnhub.io/api/news?id=480b623e47941d22465a09fe1cc8a75e4b2d4dc601b8abbcd6321705b831e425

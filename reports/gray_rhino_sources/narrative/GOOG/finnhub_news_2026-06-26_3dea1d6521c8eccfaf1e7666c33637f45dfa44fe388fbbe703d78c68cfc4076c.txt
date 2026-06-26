@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Amazon's AWS, Microsoft Azure Should Be Classified as EU Gatekeepers, European Commission Says
+  summary: (Updates to add Amazon and Microsoft's comment in the fifth and sixth paragraphs.) Amazon's (AMZ
+  url: https://finnhub.io/api/news?id=42412b3305db9c5ee64dac88ae36c8b71afe35e8a736f2d1177475bc42fc8c52

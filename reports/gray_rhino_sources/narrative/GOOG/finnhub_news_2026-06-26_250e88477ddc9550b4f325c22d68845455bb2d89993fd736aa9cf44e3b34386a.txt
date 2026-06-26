@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google (GOOGL), Energy Dome Announce 200MWh CO2 Battery Project in Ireland
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the best stocks for beginners to buy now. On June 23, Google and Energy Dome announced a bilateral commercial agreement for a 23MW/200MWh CO2 Battery project in County Offaly, Ireland. This initiative marks the first major deployment under their long-term partnership to scale long-duration energy storage. The system will […]
+  url: https://finnhub.io/api/news?id=d735c4feb7525df1509ea9a6d3b996b3982c728ca0c2bd8fa2071c71f2fe3b3c

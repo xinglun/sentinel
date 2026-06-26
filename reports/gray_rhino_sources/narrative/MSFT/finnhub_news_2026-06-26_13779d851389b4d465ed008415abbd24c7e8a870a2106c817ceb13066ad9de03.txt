@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Tech Stocks Drag Down Equity Index Futures Pre-Bell Amid AI, Gulf Worries
+  summary: (Updates with latest index futures, equity, and oil prices in the second, third, and sixth paragraph
+  url: https://finnhub.io/api/news?id=6c595cfb597ed365ae1da75b18256238dd2b313a97a7a003b90746b71434dde9

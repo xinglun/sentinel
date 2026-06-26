@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceX Credit Derivatives Start to Trade After Debut Bond Sale' - Bloomberg News
+  summary: https://www.bloomberg.com/news/articles/2026-06-25/spacex-credit-derivatives-start-to-trade-after-debut-bond-sale
+  url: https://finnhub.io/api/news?id=44314212de4bcad50fdd2c26b3cb2293a39db03dc67664d66e90d83cfcb8e557

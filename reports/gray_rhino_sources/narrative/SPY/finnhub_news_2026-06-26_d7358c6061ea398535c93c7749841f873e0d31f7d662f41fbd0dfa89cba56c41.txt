@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Steadies as Small Caps Help, but Participation Remains Selective
+  summary: Market breadth improved on June 25, 2026 as weekly participation recovered and IWM strengthened, but mixed breadth metrics keep the trend at neutral with a positive bias.
+  url: https://finnhub.io/api/news?id=909a60ec0de87784cc52c81f930b38bce72f8dec212d8ec3a41ed245c27eedcb

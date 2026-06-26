@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Veteran Bank Cuts Microsoft Stock Price Target on AI Spending Concerns
+  summary: Stifel Cuts Microsoft Price Target on Growing AI Infrastructure Costs
+  url: https://finnhub.io/api/news?id=87990aac3bf3f6913074732f0ef9cf2cbea9ed373afb7238d78896b375a4f954

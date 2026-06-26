@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here is Why Tesla (TSLA) is One of the Best Stocks For Beginners to Buy Now
+  summary: Tesla Inc. (NASDAQ:TSLA) is one of the best stocks for beginners to buy now. On June 24, Sunrun, Renew Home, and Tesla formed a coalition to deliver over 16 gigawatts of flexible energy capacity to help meet surging electricity demand from data centers and AI growth. The companies aim to aggregate existing home batteries, solar […]
+  url: https://finnhub.io/api/news?id=53b5a497042f74e1e6a5d9a3f493e25e00f079d01570fddb80216005aac53fed

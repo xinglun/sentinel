@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Optimism Has Never Been This High — Market Strategist Explains Why That's Exactly The Problem
+  summary: According to Bilello, the higher targets and growing optimism mean the upside is already priced in.
+  url: https://finnhub.io/api/news?id=6cd2cec0ba70f17b81d9fa85f595855c64d6a0e595dd2c198425179a385c902a

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says Microsoft And Meta Are Being Treated Like 'Bear Market' Stocks
+  summary: Dan Ives says investors are favoring Micron over Microsoft and Meta as hyperscalers navigate an AI monetization &#34;air pocket&#34; despite spending $700 billion on AI infrastructure.
+  url: https://finnhub.io/api/news?id=26a8f8c4b26fcb7543f1440cbd2a687ff073254cda65a36f635fed068aa1b3ab

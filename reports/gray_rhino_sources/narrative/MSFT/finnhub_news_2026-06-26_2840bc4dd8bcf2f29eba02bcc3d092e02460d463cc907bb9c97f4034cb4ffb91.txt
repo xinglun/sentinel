@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corp (NASDAQ:MSFT) Shines as a Quality Investment Through Caviar Cruise Screening
+  summary: Microsoft passes the Caviar Cruise quality screener with strong revenue growth, high profitability, and low debt, earning a 7/10 fundamental rating for long-term investors.
+  url: https://finnhub.io/api/news?id=a8cfc4542446a78eb8a6770f2f3450ee5696792fb45250fd1156caaef2b4c43b

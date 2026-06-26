@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A new AI bottleneck is starting to worry investors
+  summary: On June 14, Microsoft CEO Satya Nadella published a 1,200-word essay on X titled "A frontier without an ecosystem is not stable." It got 28 million views. The essay drew a direct line between AI concentration and globalization and argued that the AI industry is heading toward the same kind of ...
+  url: https://finnhub.io/api/news?id=ef228ba605a777189ebae1e3652b46a3b0b62a848454b6a1fb81e2573e81e729

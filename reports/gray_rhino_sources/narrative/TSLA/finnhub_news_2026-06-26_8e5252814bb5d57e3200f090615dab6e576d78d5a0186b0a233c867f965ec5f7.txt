@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Much You'd Have Today If You Had Invested $10,000 in Tesla the Day Before It Completed Its Last 3-for-1 Stock Split.
+  summary: Tesla has been a disappointment since its stock split.
+  url: https://finnhub.io/api/news?id=a432b1719698f8ea63dd4d4519fdd436ac59e6540489777ee67c8bfaf3f7a734

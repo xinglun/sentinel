@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Beats Meta in Market Cap: Can It Catch Nvidia Next?
+  summary: Micron topped Meta in market cap after a 346% revenue jump. With AI memory demand surging, can it catch Nvidia next?
+  url: https://finnhub.io/api/news?id=cb1dcd497d3b446ea6257597a9f5e7e77b9e05167c107d25764d10aa655a51f2

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beyond Rockets: SpaceX's Real Growth Story Is Its AI Infrastructure Business
+  summary: The company's AI revenue was only $3.2 billion in 2025, but one investment bank predicts it will climb to $322 billion by 2030.
+  url: https://finnhub.io/api/news?id=e1a2a84c400671d49ca1342449f54aa9e699be5cf53ae80a31fad11d0fe94a6b

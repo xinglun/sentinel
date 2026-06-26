@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Space Stocks In June Gloom: Rocket Lab, Redwire, Firefly Fade While SpaceX Steals The Show
+  summary: Space stocks give back 2026 gains as SpaceX steals the spotlight with a blockbuster initial public offering.
+  url: https://finnhub.io/api/news?id=56f101ba8ca376ebee2dff59db4a8ce2066c7ace41656e32bcf6ec8e4961b3a6

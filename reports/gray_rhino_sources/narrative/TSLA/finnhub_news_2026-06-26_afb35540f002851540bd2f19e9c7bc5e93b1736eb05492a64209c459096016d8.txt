@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Elon Musk’s SpaceX Buy T-Mobile? Analyst Sees Wireless Giant As ‘Clear Choice’
+  summary: An analyst says SpaceX could acquire T-Mobile to expand Starlink Mobile and compete with Verizon and AT&amp;T in wireless services.
+  url: https://finnhub.io/api/news?id=4849a7d0a904855086d97bd253b6e48e3e12e129a3c806b19036a61453fe001e

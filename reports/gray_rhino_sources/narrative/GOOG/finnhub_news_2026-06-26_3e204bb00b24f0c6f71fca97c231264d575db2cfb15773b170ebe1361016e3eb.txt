@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Joined the Dow—and It Didn’t Help. What to Do With the Stock Now.
+  summary: Alphabet  has gone from AI loser to winner and back again, and its addition to the  this past week has only seemed to make things worse.  After hitting record highs of more than $400 in the first half of May, Alphabet has dropped around 15%.  High-profile departures of artificial-intelligence researchers and an $85 billion equity raise have tested investors’ nerves, culminating in a $225 billion fall in market capitalization on a single day on Monday, the company’s worst-ever one-day loss in value.
+  url: https://finnhub.io/api/news?id=82ca4a60062c59a63ea71b63cfc9f1ae3a3266f0a10283face572ad1d8bd6f8a

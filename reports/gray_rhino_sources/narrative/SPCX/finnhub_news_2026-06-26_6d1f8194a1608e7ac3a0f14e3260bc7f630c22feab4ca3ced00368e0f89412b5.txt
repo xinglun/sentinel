@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Should 'Consider Selling EVs Again,' Says Ross Gerber As TSLA Stock Declines
+  summary: Ross Gerber proposes Tesla Inc. CEO Elon Musk should prioritize selling EVs again amid Slate Auto&#39;s $25,000 truck reveal
+  url: https://finnhub.io/api/news?id=6a2d011f82e8f99c9f8f4dd826603866faf42d67d924d5f5a164f6d0fc271eda

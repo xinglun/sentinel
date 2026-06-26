@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NMAI: Bonds Drag On Performance, But This Hybrid CEF Could Be Attractive For Income
+  summary: Nuveen Multi-Asset Income Fund (NMAI) offers a 10.19% yield, tech-led returns, and a 7.11% NAV discountâsee inflation bond risks & coverage.
+  url: https://finnhub.io/api/news?id=a129f64e4dbfd24d87ff57197118d8c1a8fdd65fc169c2bfaf4b09996dc30f75

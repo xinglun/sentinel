@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2026's Second Half Could Give Us A Massive Buying Opportunity
+  summary: S&P 500 outlook: new 2026 target 7,500 as AI and semiconductor stocks lead. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=e9afd9743451fb144477ad5ba8a98d884a14c989e00864482c35e013b2bf27d9

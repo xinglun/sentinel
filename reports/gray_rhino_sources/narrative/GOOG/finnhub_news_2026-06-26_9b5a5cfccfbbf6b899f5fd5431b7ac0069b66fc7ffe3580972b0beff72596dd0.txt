@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Inc. (NASDAQ:GOOG) Passes 'Caviar Cruise' Quality Screen with High ROIC and Strong Profit Growth
+  summary: Alphabet Inc. (GOOG) passes the "Caviar Cruise" quality stock screen, boasting 16.67% revenue growth, 26.82% EBIT growth, and a 30.55% ROIC, making it a strong long-term investment candidate.
+  url: https://finnhub.io/api/news?id=757106faf922af762cc0d0c89b661d0cbb9de0ca152f590e7ff0f22969571bf4

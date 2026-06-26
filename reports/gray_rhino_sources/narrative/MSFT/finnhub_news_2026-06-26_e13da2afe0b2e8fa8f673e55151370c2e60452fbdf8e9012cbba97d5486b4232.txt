@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Faces Italy Probe Over AI Pricing
+  summary: Watchdog questions AI integration and subscription disclosures.
+  url: https://finnhub.io/api/news?id=6e8b189480092c81d26d8fe415e3ae3bdea454cdc601f0ac6f6140ac558568c9

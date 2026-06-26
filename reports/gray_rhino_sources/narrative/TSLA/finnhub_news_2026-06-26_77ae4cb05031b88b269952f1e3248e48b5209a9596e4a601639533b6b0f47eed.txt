@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Profitable Stocks We Keep Off Our Radar
+  summary: Not all profitable companies are built to last - some rely on outdated models or unsustainable advantages. Just because a business is in the green today doesn’t mean it will thrive tomorrow.
+  url: https://finnhub.io/api/news?id=e6abebbc312e72a5e88a3b37d03c1db7b47d2044c052bfe429abe958ef4f1cf7

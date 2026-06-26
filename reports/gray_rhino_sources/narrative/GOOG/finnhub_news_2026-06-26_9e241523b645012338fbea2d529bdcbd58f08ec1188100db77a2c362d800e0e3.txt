@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ranking the FAANG Stocks From Most to Least Attractive, Based on Future Cash Flow
+  summary: Among Meta Platforms (formerly Facebook), Apple, Amazon, Netflix, and Alphabet (formerly Google), there are two standout bargains and one historically expensive stock.
+  url: https://finnhub.io/api/news?id=684fd2161cd22030b91fb2cbced74da83b4f8757c42e9a8dbdf3c9f584396821

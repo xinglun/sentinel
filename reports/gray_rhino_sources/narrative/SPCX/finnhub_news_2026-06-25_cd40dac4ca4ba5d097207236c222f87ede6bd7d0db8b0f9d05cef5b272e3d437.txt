@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The SpaceX Version Of MSTR Has Arrived—And Its Stock Soared 393%
+  summary: Triller Group (ILLR) stock surges nearly 400% after announcing a $411M SpaceX treasury play. Here is the math behind the high-leverage MicroStrategy-style move.
+  url: https://finnhub.io/api/news?id=757599653f7fb41e17910f1bae38d02d7a049ed5423624cb9ae6b63dcf883bf2

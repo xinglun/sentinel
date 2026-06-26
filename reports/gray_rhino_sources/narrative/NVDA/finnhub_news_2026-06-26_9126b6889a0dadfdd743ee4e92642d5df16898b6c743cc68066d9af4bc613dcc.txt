@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rapidly Rising Data Center Costs May Complicate CoreWeave's Push to 8 Gigawatts of AI Power by 2030
+  summary: The AI cloud provider has secured huge contracts, but its expansion plans are just ramping up.
+  url: https://finnhub.io/api/news?id=d5fb2adc8f7f35cc66bd7c6120b12917568fcffde1c3777d73cf23154d9b5bb2

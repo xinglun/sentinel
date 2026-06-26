@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple vs Microsoft: Which Is the Better Dip Buy Right Now?
+  summary: Apple and Microsoft have both seen notable drawdowns, but the shape of each dip tells a completely different story about risk, growth, and where your retirement money belongs.
+  url: https://finnhub.io/api/news?id=9a7722f25ea1f0818703edb45d3b1788e6bbb0b7074d959f78ae8d466a60ff43

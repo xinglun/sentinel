@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Could Snap Its 7-Day Losing Streak. It’s Been a Rough Month.
+  summary: Palantir rises, putting the stock on pace to end a recent losing streak. Shares remain on track to log their worst monthly decline in five years.
+  url: https://finnhub.io/api/news?id=914c16c018f781ce27a79f9db352550421d0859c0f1f9bdd79d3bfe0c69061a1

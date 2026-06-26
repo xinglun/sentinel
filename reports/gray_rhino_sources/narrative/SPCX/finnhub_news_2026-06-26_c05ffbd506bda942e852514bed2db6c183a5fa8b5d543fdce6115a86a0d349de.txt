@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exposure To Elon Musk's SpaceX Is Sending Triller Group Stock Soaring After Hours: Here's What You Should Know
+  summary: Triller stock jumped after-hours after announcing a $411 million SpaceX-linked treasury deal.
+  url: https://finnhub.io/api/news?id=4bbf0346eb23bfa780e2524acaafbbac27a91dde5af33899e17f616fa1d44a74

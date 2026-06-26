@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Betting Everything on Tesla’s Robot. This Fund Already Owns the Robotics Winners
+  summary: Owning Tesla (NASDAQ:TSLA) for the robotics story is now the dominant retail thesis: bulls argue Optimus and the Cybercab are option value the market has not paid for, and that the auto business is almost a free call on humanoid robots. The case has logic. Tesla is installing first-generation Optimus production lines at Fremont and ... Forget Betting Everything on Tesla’s Robot. This Fund Already Owns the Robotics Winners
+  url: https://finnhub.io/api/news?id=1a23ec5f507e358f8ed83cfee3e33ee16bc0eb9a8b365f0436e6c3be552e18d3

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX May Be Eyeing US Mobile Market – Even As Musk Says ‘Star’ Branding Has Gone Too Far
+  summary: SpaceX’s Star-branded universe expands further with Starmind, Starpipe and reported Starlink mobile plans.
+  url: https://finnhub.io/api/news?id=34327113f1a146c9991114d76a32b6ca88aa7010c0f47fbe895c5a34f05ec95e

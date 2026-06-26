@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Blue Cloud Drives Innovation with Strategic Tech Integrations
+  summary: Recent developments in the electric vehicle (EV) sector include strategic expansions and integration of technologies by companies like Blue Cloud Softech Solutions Ltd. Blue Cloud's ongoing integration of assets acquired from Global Impx, including capabilities in EV and smart mobility, is part of a broader growth initiative that has received a favorable response from investors. This integration supports the expansion of Blue Cloud's AI-linked energy and digital infrastructure platform,...
+  url: https://finnhub.io/api/news?id=ae70cc1ca7aefe0a8af9b9775109ac35a3aac2c0bcb81e2ff0d2d22c09ad1690

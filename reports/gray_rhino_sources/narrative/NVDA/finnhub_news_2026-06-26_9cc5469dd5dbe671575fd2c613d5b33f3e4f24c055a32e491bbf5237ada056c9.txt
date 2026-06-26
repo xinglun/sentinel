@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Smashed Even the Bulls: Evercore Says This AI Rally Has the ‘Earnings Power’ to Last
+  summary: Memory stocks rarely produce 84% gross margins. Commodity DRAM is the business school case study for cyclical pain, where pricing power goes to die. So when Micron Technology (NASDAQ:MU) posted non-GAAP gross margins of 84.9% for its fiscal third quarter, the number stopped being a memory number and became a question about what kind of ... Micron Smashed Even the Bulls: Evercore Says This AI Rally Has the ‘Earnings Power’ to Last
+  url: https://finnhub.io/api/news?id=7ff0c0b94db90c7c051c1df8c1f6d2e72806265a0eb61b3e3b5e25acb6d49380

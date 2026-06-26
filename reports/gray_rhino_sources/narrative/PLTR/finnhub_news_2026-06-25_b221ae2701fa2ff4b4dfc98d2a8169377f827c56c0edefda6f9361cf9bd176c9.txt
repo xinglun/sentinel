@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top S&P500 movers in Thursday's session
+  summary: Stay updated with the movement of S&P500 stocks in today's session. Discover which S&P500 stocks are making waves on Thursday.
+  url: https://finnhub.io/api/news?id=19b8d3e1f78d22c75baf28a003dcfc87d134040772e87e7f7faad4b045a4ba0f

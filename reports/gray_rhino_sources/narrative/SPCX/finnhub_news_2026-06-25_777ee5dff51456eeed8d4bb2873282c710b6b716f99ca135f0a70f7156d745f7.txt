@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Bond Deal Signals Market 'Bubble,' Allianz Exec Warns: Elon Musk Got '$70 Billion Of Funny Money'
+  summary: Allianz CIO Ludovic Subran says SpaceX&#39;s $25 billion bond deal weeks after its $86 billion IPO shows markets have tipped into bubble territory.
+  url: https://finnhub.io/api/news?id=522c055a37f4395802a6d908693af45780800ee022824a79fb8f12b3989803df

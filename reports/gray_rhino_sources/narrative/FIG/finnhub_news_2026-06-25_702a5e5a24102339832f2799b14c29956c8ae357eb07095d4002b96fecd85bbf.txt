@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RBC Capital Maintains Sector Perform on Figma, Lowers Price Target to $22
+  summary: RBC Capital  analyst Rishi Jaluria   maintains Figma (NYSE:FIG) with a Sector Perform and lowers the price target from $28 to $22.
+  url: https://finnhub.io/api/news?id=746c2043f13dfa3564326dbe40a98437b3945cc56d8a7ce6e09a4a79745e245e

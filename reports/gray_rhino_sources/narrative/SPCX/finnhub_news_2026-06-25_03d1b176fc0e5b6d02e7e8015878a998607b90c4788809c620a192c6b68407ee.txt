@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Signs Of A Schizophrenic Market
+  summary: Markets are near all-time highs despite weak consumer sentiment and leveraged retail. Click for a look at how the latest economic data is impacting stocks.
+  url: https://finnhub.io/api/news?id=2b7fee851b1e74255c51294ac303aa246bd7edc363ae669067d4c14b4c6ce341

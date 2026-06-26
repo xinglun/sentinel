@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 REITs Built to Thrive During Inflationary Markets
+  summary: These REITs built their portfolios to capitalize on inflationary periods.
+  url: https://finnhub.io/api/news?id=bed18501486f888f60fd4af03e396a58dc4e487f205d47951d5fd182f777b396

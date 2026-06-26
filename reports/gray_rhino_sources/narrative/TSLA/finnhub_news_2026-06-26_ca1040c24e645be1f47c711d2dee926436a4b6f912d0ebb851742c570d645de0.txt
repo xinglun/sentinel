@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Solar Power Stock Still Has a Bright Future
+  summary: The last big tax breaks for solar energy are ending July 4. Some companies are already looking beyond subsidies.
+  url: https://finnhub.io/api/news?id=590860b2e384facc45a4bcab234e900c3981cf8532b778ccdf049e616586e251

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Just Set a 52-Week Low
+  summary: I never wanted to own Palantir stock before, but the valuation is finally getting attractive.
+  url: https://finnhub.io/api/news?id=b3d737d53ba91e3ad278564beaa4b0bf11f8811315442ef3e45c77dd5ecdaceb

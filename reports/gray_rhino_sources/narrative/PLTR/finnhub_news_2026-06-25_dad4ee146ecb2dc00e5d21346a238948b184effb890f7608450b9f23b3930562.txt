@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Look Past the AI Hype: The Cold, Hard Financial Metric Telling You Exactly Which Enterprise Software Giant to Buy Right Now
+  summary: Salesforce (NYSE:CRM) and Palantir (NASDAQ:PLTR) both delivered blowout quarters this spring, yet the market punished each stock. Salesforce posted $11.13B in revenue, up 13.3% YoY, leaning on Agentforce momentum. Palantir countered with 85% revenue growth and a Rule of 40 score of 145. Despite the strong headline numbers, the valuation math diverges sharply between the ... Look Past the AI Hype: The Cold, Hard Financial Metric Telling You Exactly Which Enterprise Software Giant to Buy Right Now
+  url: https://finnhub.io/api/news?id=5a5843a2d5012f64aec62409b41c3c9f71b7e83aa671e795af1019845db265ce

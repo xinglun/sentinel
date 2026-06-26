@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Was Wrong: The Broadening Has Barely Begun
+  summary: S&P 500 outlook: sector rotation, Fed rate risks, and May PCE signal near-term pressure.
+  url: https://finnhub.io/api/news?id=7de5eb7927602c69e528b7cec174b03d43be7cecbd9d9eab1bf604cdbd16d433

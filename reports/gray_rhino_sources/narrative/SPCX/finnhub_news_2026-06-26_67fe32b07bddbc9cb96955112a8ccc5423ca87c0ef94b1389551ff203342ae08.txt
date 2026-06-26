@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Triller Group Stock Surging On Friday?
+  summary: Triller Group Inc. (NASDAQ: ILLR) stock surged following a definitive agreement to acquire $411 million in economic exposure to Elon Musk&#39;s SpaceX.
+  url: https://finnhub.io/api/news?id=5e9c4c042443e29672c577226a3eaed31c6c3bc4078e1c9f05518a9b3215239e

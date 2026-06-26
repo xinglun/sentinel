@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Upgrading To Bullish After A Record Quarter Meets A 48% Selloff
+  summary: Palantir turns bullish after a 48% drop as Q1 results, raised guidance, and deal momentum shine. Click here to get the key risks and upside now.
+  url: https://finnhub.io/api/news?id=41058a2204bd77d9d5e7f510cfc8ff64621310b504e7b55cf13b42c0a6e2ecd3

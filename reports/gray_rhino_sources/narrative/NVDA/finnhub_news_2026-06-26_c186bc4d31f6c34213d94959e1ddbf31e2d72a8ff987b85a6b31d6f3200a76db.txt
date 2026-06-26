@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Duolingo Rally Is Finally Starting
+  summary: Duolingo's 70% drop over the past year is extremely overdone.
+  url: https://finnhub.io/api/news?id=fe9801f661762f82c8f4c2d7fe18263e8dd1fb15166ad51f4c11197b495a6376

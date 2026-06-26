@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BlackBerry, IBM, and Nokia Are All Trying to Come Back. History Says Only One Survives
+  summary: BlackBerry, Nokia, and IBM have all surged back into the investor conversation, but three decades of fallen-titan history reveals a brutal filter that only one type of comeback ever passes.
+  url: https://finnhub.io/api/news?id=fcafb256b179ac1efea05d57c1dc1a6005b452325f01fa937cc0ea5f7451c1f8

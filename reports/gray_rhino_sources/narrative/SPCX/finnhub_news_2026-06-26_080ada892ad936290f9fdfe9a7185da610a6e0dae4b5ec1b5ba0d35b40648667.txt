@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Synaptics Shares Are Trading Higher By Over 5%; Here Are 20 Stocks Moving Premarket
+  summary: Synaptics Inc (SYNA) rose 5.6% in pre-market trading after announcing a merger with ON Semiconductor. Triller Group Inc (ILLR) soared 126.7%.
+  url: https://finnhub.io/api/news?id=ce9551c4457b0170e223451652c62ac339deb458e7513114021da7edcbab6441

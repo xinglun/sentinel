@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI IPO Delay: A Symptom Of A Tech Bubble?
+  summary: OpenAIâs IPO delay to 2027 may reshape AI valuations and capital flows. Click for more on what such a postponement may mean for the broader market.
+  url: https://finnhub.io/api/news?id=5085a76b59833a38b5fcc12f9829f947a107950246caeed54285d236338cf5a3

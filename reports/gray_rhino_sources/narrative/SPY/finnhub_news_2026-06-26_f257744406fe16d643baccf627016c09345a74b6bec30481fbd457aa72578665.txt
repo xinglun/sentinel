@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JEPI’s Covered-Call Strategy Could Pay You $100,000/Year for Doing Nothing
+  summary: The pitch is seductive. Park enough in JPMorgan Equity Premium Income ETF (NYSEARCA:JEPI) and collect about $100,000 a year in monthly distributions. JEPI throws off a trailing yield in the 8.2% to 8.4% range. The headline works. It also quietly assumes you already have the principal. $100,000 at an 8.2% yield gives you about $1.22 ... JEPI’s Covered-Call Strategy Could Pay You $100,000/Year for Doing Nothing
+  url: https://finnhub.io/api/news?id=ffccfd424cfac7eaecc54841faa54e2c25042c67d740e2841a3efb28810c9c95

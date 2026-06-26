@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Greenblatt Magic Formula: How H&R Block, Molina, and Peabody Stack Up for Retirement Investors
+  summary: Joel Greenblatt's Magic Formula flags Peabody Energy, Molina Healthcare, and H&R Block as cheap businesses worth owning, but cheap and high-quality still fails retirement investors if the income dries up when markets turn ugly.
+  url: https://finnhub.io/api/news?id=3c218021ae3be5fdf8a8b928bcff81d96da9a722652b7e1acd8dfac2561913d5

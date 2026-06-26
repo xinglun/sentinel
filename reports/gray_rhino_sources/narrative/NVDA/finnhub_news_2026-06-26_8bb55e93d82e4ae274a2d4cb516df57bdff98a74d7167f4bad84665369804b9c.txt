@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will NuScale Power Stock Be in 100 Years?
+  summary: NuScale Power's growth trajectory will follow one key market.
+  url: https://finnhub.io/api/news?id=d8363b0452eeacdef4a9e6f7bb934e19d2b838ea1b0adbf69fc4aa3ef618ab3c

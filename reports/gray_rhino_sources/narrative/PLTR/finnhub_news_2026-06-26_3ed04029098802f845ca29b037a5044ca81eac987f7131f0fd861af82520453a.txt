@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $7 Trillion AI Boom Is Running Out of Power
+  summary: Bitzero just signed a binding letter for a 15-year, 110MW lease with OneQode to be backed by an IG counterparty worth $2.6 billion, validating the bitcoin-miner-turned-AI-landlord thesis.
+  url: https://finnhub.io/api/news?id=e8d71d4f4519dcf82d9ba6c40044d2e21c509b8feba584cae7d3079174dac6c0

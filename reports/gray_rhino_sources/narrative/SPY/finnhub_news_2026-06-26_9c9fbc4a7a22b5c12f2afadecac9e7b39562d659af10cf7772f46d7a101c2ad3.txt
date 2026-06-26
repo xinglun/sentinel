@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2026 Mid-Year Outlook: Big Market Risks, AI And Memory Mania Concerns, And My Top Bargain Stock Picks
+  summary: Broad market bearishness prompts defensive buys in oversold defense stocks, high-yield Pfizer, and cash reserves. Read more here.
+  url: https://finnhub.io/api/news?id=6e884268f60dc7bbfe252cddcfbf41ce848ef06d9e43f4d565dffe4b99d91ba6

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Snaps $9.5 Million on Palantir Stock During Market Selloff
+  summary: Palantir Lands Major Vote of Confidence From Cathie Wood
+  url: https://finnhub.io/api/news?id=590482c40f164586e84f65509d8ae987d3e07ccd92bab72587646d9e9817424f

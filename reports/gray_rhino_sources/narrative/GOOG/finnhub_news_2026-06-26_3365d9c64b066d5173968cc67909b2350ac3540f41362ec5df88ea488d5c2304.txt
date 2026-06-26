@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta and Snap Face Australia Youth Crackdown
+  summary: Platforms face tougher scrutiny over under-16 users.
+  url: https://finnhub.io/api/news?id=7bf2ee738f2f39a3ffdba0a6c6cb9863d482883470da4488d4967ea5e9323ff4

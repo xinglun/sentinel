@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI boom now has a price tag — and Micron just sent the bill: Chart of the Day
+  summary: Micron's blowout earnings did not just revive the AI trade — they showed how expensive it is becoming.
+  url: https://finnhub.io/api/news?id=5402d5e41cb78da91642b7dfd6d188d1f78691acd9ca352e81102d81fb66f3f3
