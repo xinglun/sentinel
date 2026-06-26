@@ -55,6 +55,7 @@ use crate::features::research::interface::valuation_gravity_report_builder::buil
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
 };
+use crate::features::shared::application::run_status::DeliveryStatus;
 use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
@@ -113,7 +114,7 @@ pub async fn run() -> Result<()> {
             run_pipeline(app_config, provider, mode).await?;
         }
         CliCommand::Review => {
-            run_review(&app_config).await?;
+            run_review_command(&app_config)?;
         }
         CliCommand::AuditDaily => {
             run_audit_daily(
@@ -602,6 +603,42 @@ fn run_audit_daily(
     Ok(())
 }
 
+fn run_review_command(config: &config::AppConfig) -> Result<()> {
+    println!("{}", load_latest_daily_report(config)?);
+    Ok(())
+}
+
+fn load_latest_daily_report(config: &config::AppConfig) -> Result<String> {
+    let save_dir = std::path::Path::new(&config.output.save_to);
+    let latest_path = std::fs::read_dir(save_dir)
+        .with_context(|| format!("Failed to read report directory: {}", save_dir.display()))?
+        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
+        .filter(|path| {
+            let stem = path.file_stem().and_then(|stem| stem.to_str());
+            path.extension().and_then(|extension| extension.to_str()) == Some("md")
+                && stem
+                    .and_then(|stem| NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
+                    .is_some()
+        })
+        .max();
+    let latest_path =
+        latest_path.ok_or_else(|| anyhow!("No daily report found in {}", save_dir.display()))?;
+
+    let report = std::fs::read_to_string(&latest_path).with_context(|| {
+        format!(
+            "Failed to read latest daily report: {}",
+            latest_path.display()
+        )
+    })?;
+    if report.contains("tests/fixtures/") || report.contains("file://") {
+        return Err(anyhow!(
+            "Latest daily report contains non-production evidence and cannot be reviewed as a valid report: {}",
+            latest_path.display()
+        ));
+    }
+    Ok(report)
+}
+
 async fn build_daily_calibration_report(
     app_config: &config::AppConfig,
     target_date_arg: Option<&str>,
@@ -616,7 +653,7 @@ async fn build_daily_calibration_report(
     let target_date = match target_date_arg {
         Some(raw) => Some(
             NaiveDate::parse_from_str(raw, "%Y-%m-%d")
-                .with_context(|| format!("{}: {}", audit_error_parse_date(language), raw))?,
+                .with_context(|| format!("{}: {}", valuation_future_date_error(language), raw))?,
         ),
         None => None,
     };
@@ -635,9 +672,8 @@ async fn build_daily_calibration_report(
         let target_idx = resolve_target_index(&days, target_date, language)?;
         calibration_date = days[target_idx].date;
         let evidence_collection_status =
-            load_run_evidence_collection_status(&save_dir, days[target_idx].date).unwrap_or(
-                crate::features::shared::application::run_status::DeliveryStatus::Skipped,
-            );
+            load_run_evidence_collection_status(&save_dir, days[target_idx].date)
+                .unwrap_or(DeliveryStatus::Skipped);
         selected_entry = Some(days[target_idx].latest());
         build_audit_daily_report_with_evidence_status(
             &days,
@@ -712,6 +748,34 @@ async fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(daily_calibration_boundary(language));
     Ok(out)
+}
+
+fn load_transition_audit_days(
+    path: &std::path::Path,
+    language: Language,
+) -> Result<Vec<TransitionAuditDay>> {
+    if !path.exists() {
+        return Ok(Vec::new());
+    }
+
+    let content = std::fs::read_to_string(path)
+        .with_context(|| format!("{}: {}", audit_error_read_file(language), path.display()))?;
+
+    let mut raw_entries = Vec::<TransitionAuditEntry>::new();
+    for (idx, raw_line) in content.lines().enumerate() {
+        let line = raw_line.trim();
+        if line.is_empty() {
+            continue;
+        }
+        if let Some(entry) = parse_transition_audit_entry(line, language)
+            .with_context(|| format!("{} {}", audit_error_parse_line(language), idx + 1))?
+        {
+            raw_entries.push(entry);
+        }
+    }
+
+    raw_entries.sort_by_key(|a| a.timestamp);
+    Ok(group_audit_days(raw_entries))
 }
 
 fn build_daily_calibration_questions(
@@ -851,73 +915,9 @@ fn is_noisy_digest_detail(trimmed: &str) -> bool {
         || lower.starts_with("sources:")
 }
 
-fn load_transition_audit_days(
-    path: &std::path::Path,
-    language: Language,
-) -> Result<Vec<TransitionAuditDay>> {
-    if !path.exists() {
-        return Ok(Vec::new());
-    }
-
-    let content = std::fs::read_to_string(path)
-        .with_context(|| format!("{}: {}", audit_error_read_file(language), path.display()))?;
-
-    let mut raw_entries = Vec::<TransitionAuditEntry>::new();
-    for (idx, raw_line) in content.lines().enumerate() {
-        let line = raw_line.trim();
-        if line.is_empty() {
-            continue;
-        }
-        if let Some(entry) = parse_transition_audit_entry(line, language)
-            .with_context(|| format!("{} {}", audit_error_parse_line(language), idx + 1))?
-        {
-            raw_entries.push(entry);
-        }
-    }
-
-    raw_entries.sort_by_key(|a| a.timestamp);
-    Ok(group_audit_days(raw_entries))
-}
-
-fn load_latest_daily_report(config: &crate::config::AppConfig) -> Result<String> {
-    let save_dir = std::path::Path::new(&config.output.save_to);
-    let latest_path = std::fs::read_dir(save_dir)
-        .with_context(|| format!("Failed to read report directory: {}", save_dir.display()))?
-        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
-        .filter(|path| {
-            let stem = path.file_stem().and_then(|stem| stem.to_str());
-            path.extension().and_then(|extension| extension.to_str()) == Some("md")
-                && stem
-                    .and_then(|stem| NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
-                    .is_some()
-        })
-        .max();
-    let latest_path =
-        latest_path.ok_or_else(|| anyhow!("No daily report found in {}", save_dir.display()))?;
-
-    let report = std::fs::read_to_string(&latest_path).with_context(|| {
-        format!(
-            "Failed to read latest daily report: {}",
-            latest_path.display()
-        )
-    })?;
-    if report.contains("tests/fixtures/") || report.contains("file://") {
-        return Err(anyhow!(
-            "Latest daily report contains non-production evidence and cannot be reviewed as a valid report: {}",
-            latest_path.display()
-        ));
-    }
-    Ok(report)
-}
-
-async fn run_review(config: &crate::config::AppConfig) -> Result<()> {
-    println!("{}", load_latest_daily_report(config)?);
-    Ok(())
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{build_daily_calibration_telegram_digest, load_latest_daily_report, run_pipeline};
+    use super::{build_daily_calibration_telegram_digest, run_pipeline};
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
@@ -955,7 +955,7 @@ mod tests {
         .unwrap();
         fs::write(tmp.path().join("2026-05-21.md"), "daily").unwrap();
 
-        assert_eq!(load_latest_daily_report(&config).unwrap(), "daily");
+        assert_eq!(super::load_latest_daily_report(&config).unwrap(), "daily");
     }
 
     #[test]
@@ -966,7 +966,7 @@ mod tests {
         fs::write(tmp.path().join("2026-05-21.md"), "latest").unwrap();
         fs::write(tmp.path().join("weekly_state_review_auto.md"), "weekly").unwrap();
 
-        assert_eq!(load_latest_daily_report(&config).unwrap(), "latest");
+        assert_eq!(super::load_latest_daily_report(&config).unwrap(), "latest");
     }
 
     #[test]
@@ -974,7 +974,7 @@ mod tests {
         let tmp = tempdir().unwrap();
         let config = mock_config(tmp.path());
 
-        let error = load_latest_daily_report(&config).unwrap_err();
+        let error = super::load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("No daily report found"));
     }
 
@@ -988,7 +988,7 @@ mod tests {
         )
         .unwrap();
 
-        let error = load_latest_daily_report(&config).unwrap_err();
+        let error = super::load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("non-production evidence"));
     }
 

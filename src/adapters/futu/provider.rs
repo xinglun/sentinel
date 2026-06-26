@@ -141,3 +141,28 @@ impl MarketDataProvider for FutuProvider {
         })
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::adapters::futu::protocol::generated::qot_common::QotMarket;
+
+    #[test]
+    fn parse_symbol_maps_hk_us_cn_markets() {
+        let hk = FutuProvider::parse_symbol("HK.00700");
+        assert_eq!(hk.market, QotMarket::HkSecurity as i32);
+        assert_eq!(hk.code, "00700");
+
+        let ss = FutuProvider::parse_symbol("600519.SS");
+        assert_eq!(ss.market, QotMarket::CnshSecurity as i32);
+        assert_eq!(ss.code, "600519");
+
+        let sz = FutuProvider::parse_symbol("000001.SZ");
+        assert_eq!(sz.market, QotMarket::CnszSecurity as i32);
+        assert_eq!(sz.code, "000001");
+
+        let us = FutuProvider::parse_symbol("AAPL");
+        assert_eq!(us.market, QotMarket::UsSecurity as i32);
+        assert_eq!(us.code, "AAPL");
+    }
+}

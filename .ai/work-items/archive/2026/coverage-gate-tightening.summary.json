@@ -1,0 +1,152 @@
+{
+  "workItemId": "coverage-gate-tightening",
+  "contractPath": ".ai/work-items/archive/2026/coverage-gate-tightening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/coverage-gate-tightening.contract.json",
+      "reason": "coverage gate の対象範囲を client.rs を含む形に確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/coverage-gate-tightening.summary.json",
+      "reason": "本 Work Item の進捗と検証結果を更新した。"
+    },
+    {
+      "path": ".ai/architecture/coverage_exclusions.yaml",
+      "reason": "src/adapters/ の丸ごと除外をやめ、外部境界ごとの最小限の除外に分解した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "現在の Work Item 状態を cockpit 反映用に更新した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "coverage ignore regex を narrowed boundary に差し替えた。"
+    },
+    {
+      "path": "src/adapters/futu/client.rs",
+      "reason": "local TCP server を使う handshake / request round-trip test を追加した。"
+    },
+    {
+      "path": "src/adapters/futu/codec.rs",
+      "reason": "Futu codec の protocol magic を整合させ、codec unit test を追加した。"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "reason": "symbol parsing の unit test を追加した。"
+    },
+    {
+      "path": "src/adapters/futu/trader.rs",
+      "reason": "header construction と error mapping の unit test を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/coverage-gate-tightening.contract.json",
+    ".ai/work-items/active/coverage-gate-tightening.summary.json",
+    ".ai/architecture/coverage_exclusions.yaml",
+    "Makefile",
+    "src/adapters/futu/client.rs",
+    "src/adapters/futu/codec.rs",
+    "src/adapters/futu/provider.rs",
+    "src/adapters/futu/trader.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/coverage-gate-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/coverage-gate-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/coverage-gate-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/coverage-gate-tightening.contract.json SUMMARY=.ai/work-items/active/coverage-gate-tightening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/coverage-gate-tightening.summary.json CONTRACT=.ai/work-items/active/coverage-gate-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/coverage-gate-tightening.contract.json SUMMARY=.ai/work-items/active/coverage-gate-tightening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/coverage-gate-tightening.contract.json SUMMARY=.ai/work-items/active/coverage-gate-tightening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "client.rs はローカル TCP ハーネスで coverage を押し上げたため、外部接続依存を gate に残していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "coverage は一度 client.rs の file-level threshold で失敗したが、local handshake test を追加して解消した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope と acceptance を確定してから編集を開始した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "contract を client.rs を含む形に更新してから実装した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks をすべて通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification と cockpit status の再生成を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "coverage_drift",
+      "detail": "新しい Futu adapter boundary が増えた場合、coverage_exclusions.yaml の最小除外を維持する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "主要 verification は pass している。",
+    "expectedReviewFocus": [
+      "coverage gate の最小除外が維持されているか",
+      "client.rs の local TCP test が外部接続依存を持ち込んでいないか",
+      "summary / status が最終 verification と一致しているか"
+    ]
+  }
+}

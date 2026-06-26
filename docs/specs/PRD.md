@@ -73,14 +73,18 @@ keywords: [owner-leash-dog, strategy, implementation, rust]
 
 ## 4. システムアーキテクチャの実装案 (Rust)
 
-### 4.1 コアモジュールの分割
-* **`config`**: `serde` と `toml` を使用した設定管理。
-* **`fetcher`**: 市場データ取得とHTTPリトライメカニズム。
-* **`calc`**: 時系列のステートレスな計算（MA、Z-Score、曲率など）。
-* **`engine`**: キャピタル・フィジクス・エンジン。物理量ベクトルから `State` と `Confidence` を算出。
-* **`report`**: レンダラーモジュール。Terminal, Markdown, Telegram HTML および `telemetry.csv` を生成。
-* **`backtest`**: 歴史データに基づくシミュレーションエンジン。
-* **`notify`**: Telegram API をカプセル化した通知。
+### 4.1 Feature-First / Bounded Context 構成
+本システムの実装単位は、旧来の巨大な root module ではなく、`src/features/<context>/` を中心とした feature-first 構成とします。各 bounded context は、必要に応じて `domain`、`application`、`infrastructure`、`interface`、`acl` を持ち、依存方向を内向きに保ちます。
+
+* **`src/features/<context>/domain`**: 状態遷移、ルール、集計ポリシーなどの業務知識を保持します。
+* **`src/features/<context>/application`**: ユースケースとオーケストレーションを担当します。
+* **`src/features/<context>/infrastructure`**: 外部 API、永続化、ファイル I/O、リトライ、変換処理を担当します。
+* **`src/features/<context>/interface`**: CLI、レポート、通知などの出力境界を担当します。
+* **`src/features/<context>/acl`**: 外部プロトコルと内部モデルの変換を担当します。
+* **`src/cli.rs`**: コマンドディスパッチと composition root に限定します。
+* **`src/adapters/**`**: 共通の外部接続実装を配置しますが、ドメイン境界の代替にはしません。
+
+従来の `fetcher`、`calc`、`engine`、`report`、`notify` といった名称は、現在の実装 SSOT ではなく、移行前の説明としてのみ扱います。現在の実装は feature-first の境界定義を優先します。
 
 ### 4.2 データエンジニアリング層 (Data Engineering)
 * **Config Hashing**: `config.toml` の SHA256 ハッシュを付与。
