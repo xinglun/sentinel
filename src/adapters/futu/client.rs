@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{Context, Result};
 use futures::stream::SplitSink;
 use futures::{SinkExt, StreamExt};
 use prost::Message;
@@ -14,6 +14,12 @@ use crate::adapters::futu::protocol::generated::init_connect::{C2s, Request, Res
 
 pub type PendingRequests = Arc<Mutex<HashMap<u32, oneshot::Sender<(FutuHeader, Vec<u8>)>>>>;
 pub type WriteSink = Arc<Mutex<SplitSink<Framed<TcpStream, FutuCodec>, (FutuHeader, Vec<u8>)>>>;
+
+#[derive(Debug)]
+struct InitConnectAck {
+    server_ver: i32,
+    keep_alive_interval: i32,
+}
 
 pub struct FutuClient {
     write_sink: WriteSink,
@@ -66,16 +72,12 @@ impl FutuClient {
                 Ok((res_header, res_body)) => {
                     if res_header.n_proto_id == 1001 {
                         let parsed = Response::decode(&res_body[..])?;
-                        if parsed.ret_type == 0 {
-                            let s2c = parsed.s2c.unwrap();
-                            keep_alive_interval = s2c.keep_alive_interval;
-                            println!(
-                                "✅ Successfully authenticated with Moomoo OpenD! Server Ver: {}",
-                                s2c.server_ver
-                            );
-                        } else {
-                            anyhow::bail!("InitConnect failed: {:?}", parsed.ret_msg);
-                        }
+                        let ack = parse_init_connect_ack(parsed)?;
+                        keep_alive_interval = ack.keep_alive_interval;
+                        println!(
+                            "✅ Successfully authenticated with Moomoo OpenD! Server Ver: {}",
+                            ack.server_ver
+                        );
                     } else {
                         anyhow::bail!(
                             "Expected InitConnect Response (1001) but got {}",
@@ -192,5 +194,156 @@ impl FutuClient {
                 anyhow::bail!("Request timed out waiting for OpenD response")
             }
         }
+    }
+}
+
+fn parse_init_connect_ack(parsed: Response) -> Result<InitConnectAck> {
+    if parsed.ret_type != 0 {
+        anyhow::bail!("InitConnect failed: {:?}", parsed.ret_msg);
+    }
+
+    let s2c = parsed
+        .s2c
+        .context("InitConnect succeeded but response missing s2c")?;
+
+    Ok(InitConnectAck {
+        server_ver: s2c.server_ver,
+        keep_alive_interval: s2c.keep_alive_interval,
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::adapters::futu::codec::{FutuCodec, FutuHeader};
+    use crate::adapters::futu::protocol::generated::init_connect::S2c;
+    use futures::{SinkExt, StreamExt};
+    use prost::Message;
+    use std::time::Duration;
+    use tokio::net::TcpListener;
+    use tokio::time::timeout;
+    use tokio_util::codec::Framed;
+
+    #[test]
+    fn parse_init_connect_ack_rejects_missing_s2c() {
+        let response = Response {
+            ret_type: 0,
+            ret_msg: None,
+            err_code: None,
+            s2c: None,
+        };
+
+        let err = parse_init_connect_ack(response).unwrap_err();
+
+        assert!(
+            err.to_string().contains("missing s2c"),
+            "unexpected error: {}",
+            err
+        );
+    }
+
+    #[test]
+    fn parse_init_connect_ack_extracts_keep_alive_interval() {
+        let response = Response {
+            ret_type: 0,
+            ret_msg: None,
+            err_code: None,
+            s2c: Some(S2c {
+                server_ver: 123,
+                login_user_id: 456,
+                conn_id: 789,
+                conn_aes_key: "key1234567890123".to_string(),
+                keep_alive_interval: 30,
+                aes_cb_civ: None,
+                user_attribution: None,
+            }),
+        };
+
+        let ack = parse_init_connect_ack(response).unwrap();
+
+        assert_eq!(ack.server_ver, 123);
+        assert_eq!(ack.keep_alive_interval, 30);
+    }
+
+    #[tokio::test]
+    async fn connect_and_send_request_round_trip_via_local_server() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = listener.local_addr().unwrap();
+
+        let server = tokio::spawn(async move {
+            let (socket, _) = listener.accept().await.unwrap();
+            let mut framed = Framed::new(socket, FutuCodec);
+
+            let (init_header, init_body) = framed.next().await.unwrap().unwrap();
+            assert_eq!(init_header.n_proto_id, 1001);
+            assert!(!init_body.is_empty());
+
+            let mut ack_body = Vec::new();
+            Response {
+                ret_type: 0,
+                ret_msg: None,
+                err_code: None,
+                s2c: Some(S2c {
+                    server_ver: 456,
+                    login_user_id: 123,
+                    conn_id: 789,
+                    conn_aes_key: "1234567890abcdef".to_string(),
+                    keep_alive_interval: 30,
+                    aes_cb_civ: None,
+                    user_attribution: None,
+                }),
+            }
+            .encode(&mut ack_body)
+            .unwrap();
+
+            framed
+                .send((
+                    FutuHeader::new(1001, init_header.n_serial_no, ack_body.len() as u32),
+                    ack_body,
+                ))
+                .await
+                .unwrap();
+
+            let (request_header, request_body) = framed.next().await.unwrap().unwrap();
+            assert_eq!(request_header.n_proto_id, 3201);
+            assert!(!request_body.is_empty());
+
+            framed
+                .send((
+                    FutuHeader::new(3201, request_header.n_serial_no, 0),
+                    Vec::new(),
+                ))
+                .await
+                .unwrap();
+        });
+
+        let client = timeout(
+            Duration::from_secs(5),
+            FutuClient::connect(&addr.to_string()),
+        )
+        .await
+        .unwrap()
+        .unwrap();
+
+        let request = Request {
+            c2s: C2s {
+                client_ver: 300,
+                client_id: "sentinel_rs_v1".to_string(),
+                recv_notify: Some(true),
+                packet_enc_algo: Some(0),
+                push_proto_fmt: Some(0),
+                programming_language: Some("Rust".to_string()),
+            },
+        };
+
+        let raw = timeout(Duration::from_secs(5), client.send_request(3201, &request))
+            .await
+            .unwrap()
+            .unwrap();
+
+        assert!(raw.is_empty());
+
+        drop(client);
+        server.await.unwrap();
     }
 }

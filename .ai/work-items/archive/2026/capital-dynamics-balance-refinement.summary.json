@@ -1,0 +1,127 @@
+{
+  "workItemId": "capital-dynamics-balance-refinement",
+  "contractPath": ".ai/work-items/archive/2026/capital-dynamics-balance-refinement.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-balance-refinement.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "Balance Layer を future placeholder として明文化する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_dynamics_report.rs",
+      "reason": "Capital Dynamics shell に Balance Layer の placeholder section を追加する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_dynamics_flow_report.rs",
+      "reason": "weekly summary に Balance Layer の placeholder state を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "src/features/research/interface/capital_dynamics_report.rs",
+    "src/features/research/interface/capital_dynamics_flow_report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-balance-refinement.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-balance-refinement.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Balance Layer を future placeholder として追加するだけで、既存の observation boundary を壊さない。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Balance Layer を future placeholder として扱う方針を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象を docs / interface / weekly summary に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を実行し、status 生成へ進める状態にした。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を記録済み。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "balance_placeholder",
+      "detail": "Balance Layer は future placeholder なので、review では observation-only boundary の維持を確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Balance Layer を future placeholder として追加し、既存の observation-only boundary を維持した。",
+    "expectedReviewFocus": [
+      "Balance Layer が future placeholder としてのみ表示されること",
+      "weekly summary に `UNAVAILABLE` の placeholder state が出ること",
+      "Flow / Trend / Gate boundary を変更していないこと"
+    ]
+  }
+}

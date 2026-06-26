@@ -21,9 +21,9 @@ use crate::features::research::interface::capital_absorption_report_builder::{
     build_capital_absorption_ipo_queue_weekly_summary, build_capital_absorption_report_with_auto,
 };
 use crate::features::research::interface::cognitive_reports::{
-    credit_stress_label, enabled_asset_thesis_count, enabled_research_attention_count,
-    growth_valuation_impact_label, liquidity_condition_label, macro_pressure_label,
-    yield_curve_label,
+    build_flow_layer_weekly_summary, credit_stress_label, enabled_asset_thesis_count,
+    enabled_research_attention_count, growth_valuation_impact_label, liquidity_condition_label,
+    macro_pressure_label, yield_curve_label,
 };
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
 use crate::features::research::interface::valuation_gravity_report_builder::build_valuation_gravity_report_with_auto;
@@ -280,6 +280,9 @@ fn build_weekly_report_context(
         asset_thesis_entries: enabled_asset_thesis_count(app_config),
         capital_absorption_ipo_queue: build_capital_absorption_ipo_queue_weekly_summary(
             save_dir, as_of_date,
+        ),
+        capital_dynamics_flow_layer: build_flow_layer_weekly_summary(
+            app_config.capital_dynamics.as_ref(),
         ),
     }
 }

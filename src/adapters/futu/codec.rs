@@ -3,7 +3,7 @@ use bytes::{Buf, BufMut, BytesMut};
 use std::io::Cursor;
 use tokio_util::codec::{Decoder, Encoder};
 
-pub const FUTU_PROTO_MAGIC: [u8; 4] = [b'F', b'T', b'-', b'X'];
+pub const FUTU_PROTO_MAGIC: [u8; 2] = [b'F', b'T'];
 
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
@@ -48,7 +48,7 @@ impl Decoder for FutuCodec {
 
         let mut buf = Cursor::new(&src[..44]);
 
-        let mut magic = [0u8; 4];
+        let mut magic = [0u8; 2];
         std::io::Read::read_exact(&mut buf, &mut magic)?;
 
         if magic != FUTU_PROTO_MAGIC {
@@ -119,5 +119,44 @@ impl Encoder<(FutuHeader, Vec<u8>)> for FutuCodec {
         dst.put_slice(&body);
 
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bytes::BytesMut;
+
+    #[test]
+    fn codec_round_trips_header_and_body() {
+        let header = FutuHeader::new(1001, 42, 3);
+        let body = vec![1, 2, 3];
+        let mut codec = FutuCodec;
+        let mut encoded = BytesMut::new();
+
+        codec
+            .encode((header.clone(), body.clone()), &mut encoded)
+            .unwrap();
+
+        let mut decoded = encoded.clone();
+        let (actual_header, actual_body) = codec.decode(&mut decoded).unwrap().unwrap();
+
+        assert_eq!(actual_header.n_proto_id, header.n_proto_id);
+        assert_eq!(actual_header.n_serial_no, header.n_serial_no);
+        assert_eq!(actual_header.n_body_len, header.n_body_len);
+        assert_eq!(actual_body, body);
+        assert!(decoded.is_empty());
+    }
+
+    #[test]
+    fn codec_rejects_invalid_magic() {
+        let mut codec = FutuCodec;
+        let mut src = BytesMut::new();
+        src.extend_from_slice(b"ZZ");
+        src.resize(44, 0);
+
+        let err = codec.decode(&mut src).unwrap_err();
+
+        assert_eq!(err.kind(), std::io::ErrorKind::InvalidData);
     }
 }

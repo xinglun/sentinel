@@ -10,16 +10,22 @@ fn evidence_store_implements_application_repository_port() -> anyhow::Result<()>
     let dir = tempdir()?;
     let store = EvidenceStore::new(dir.path());
     let repo: &dyn EvidenceRepository = &store;
+    let recent_date = chrono::Local::now()
+        .naive_local()
+        .date()
+        .format("%Y-%m-%d")
+        .to_string();
+    let dedupe_key = format!("GOOG:{recent_date}:capex");
 
     let record = AutomatedEvidenceRecord::new(
         EvidenceSourceType::Manual,
         EvidenceType::CapexPayoff,
         0.8,
         "Capex payoff observed".to_string(),
-        "2026-05-24".to_string(),
+        recent_date,
         Some("GOOG".to_string()),
         None,
-        "GOOG:2026-05-24:capex".to_string(),
+        dedupe_key,
     );
 
     assert_eq!(repo.save_records(std::slice::from_ref(&record))?, 1);

@@ -1,0 +1,119 @@
+{
+  "workItemId": "capital-dynamics-weekly-consumer",
+  "contractPath": ".ai/work-items/archive/2026/capital-dynamics-weekly-consumer.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-dynamics-weekly-consumer.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-weekly-consumer.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "weekly_metrics consumer の期待値を canonical key に移した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "docs/specs/CAPITAL_DYNAMICS.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-weekly-consumer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-weekly-consumer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-weekly-consumer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-weekly-consumer.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-weekly-consumer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-weekly-consumer.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-weekly-consumer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-weekly-consumer.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-weekly-consumer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-weekly-consumer.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-weekly-consumer.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "consumer test の期待値を canonical key に寄せるだけで、production 実装には触れない。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "weekly_metrics consumer の期待値を canonical key へ移す方針を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "src/cli.rs のテスト断言に限定し、production path には広げない。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を実行し、ready 判定に進める状態にした。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification を記録済み。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "compatibility_alias",
+      "detail": "legacy compatibility alias は production 側に残すため、consumer migration と alias retention を混同しない必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification は完了し、変更は legacy 互換 alias の consumer migration に限定される。",
+    "expectedReviewFocus": [
+      "weekly_metrics の consumer が canonical key を参照すること",
+      "legacy alias は compatibility test に留めること",
+      "production path に波及していないこと"
+    ]
+  }
+}

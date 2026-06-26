@@ -1,0 +1,157 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-dynamics-report-observation",
+  "mode": "code",
+  "title": "Capital Dynamics 报告观察层接线",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/capital-dynamics-report-observation.contract.json",
+    ".ai/work-items/active/capital-dynamics-report-observation.summary.json",
+    ".ai/work-items/archive/2026/capital-dynamics-domain-foundation.contract.json",
+    ".ai/work-items/archive/2026/capital-dynamics-domain-foundation.summary.json",
+    ".ai/work-items/archive/2026/capital-dynamics-flow-layer.contract.json",
+    ".ai/work-items/archive/2026/capital-dynamics-flow-layer.summary.json",
+    ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.summary.json",
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json",
+    "docs/README.md",
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "src/cli.rs",
+    "src/config.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/domain/capital_dynamics.rs",
+    "src/features/research/domain/mod.rs",
+    "src/features/research/interface/capital_dynamics_flow_report.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/daily_calibration_i18n.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/research/interface/mod.rs",
+    "tests/evidence_repository_port_integration.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/research/infrastructure/**",
+    "src/features/research/acl/**",
+    "src/features/research/application/**",
+    "src/features/radar/domain/**",
+    "Makefile",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "Flow Layer は Capital Dynamics の Demand 側 Observation Layer とし、Observation Only / 0% weight / Trend 非 override の境界を固定する。"
+    },
+    {
+      "path": "src/features/research/domain/capital_dynamics.rs",
+      "reason": "FlowObservation / FlowLayerSnapshot の domain 型と boundary validation を report 層で再利用する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "既存の research report rendering pattern を踏襲する。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly_state_metrics.json と weekly_state_review_auto.md の既存 snapshot 契約に合わせて Flow Layer を追加する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "daily-calibration / weekly metrics / weekly review の表示契約と i18n に触れる。Gate 非接続を code と report で固定する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / sources / acceptance / verification を確定した。Flow Layer を report / weekly snapshot のみへ接続し、Gate 非接続の範囲で実装できる。"
+  },
+  "preReviewWarnings": [
+    "daily-calibration の既存章番号をむやみに崩さず、Flow は report-only の補助 section として追加する。",
+    "weekly_state_metrics.json の latest_context 拡張では既存 key を壊さず、capital_dynamics.flow_layer を追加する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Flow Layer は manual/config-driven observation としてのみ daily-calibration report に表示される。",
+    "Flow Layer は weekly_state_metrics.json の latest_context.capital_dynamics.flow_layer に snapshot として保存される。",
+    "Flow Layer は weekly_state_review_auto.md に read-only snapshot として表示される。",
+    "Flow Layer is Observation Only / Current decision weight is 0% / Trend override is false の境界が config validation または report path で固定される。",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing には接続しないことが Contract、code、report 文言で維持される。",
+    "zh / en / ja の report 契約が test で固定される。",
+    "既存の Capital Absorption weekly snapshot と daily-calibration 出力は維持される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-report-observation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-report-observation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "Capital Dynamics Flow report、weekly snapshot 拡張、config schema 追加を revert し、daily-calibration / weekly report の既存表示へ戻す。"
+}

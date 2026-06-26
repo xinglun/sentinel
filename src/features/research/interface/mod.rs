@@ -4,6 +4,8 @@ mod capital_absorption_report;
 pub(crate) mod capital_absorption_report_builder;
 #[cfg(test)]
 mod capital_absorption_report_tests;
+mod capital_dynamics_flow_report;
+mod capital_dynamics_report;
 pub(crate) mod cli_command_handler;
 pub(crate) mod cognitive_reports;
 mod daily_calibration_i18n;

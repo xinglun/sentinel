@@ -1,0 +1,136 @@
+{
+  "workItemId": "capital-dynamics-consumer-migration",
+  "contractPath": ".ai/work-items/archive/2026/capital-dynamics-consumer-migration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+      "reason": "AI Change Summary skeleton を作成し、実装内容と verification 結果を追跡する。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "weekly metrics の primary path を Capital Dynamics shell 配下へ寄せ、legacy alias を明記した。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "Supply Layer の canonical weekly metrics path と legacy compatibility alias を明記した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "latest_context.capital_dynamics.supply_layer と capital_absorption_ipo_queue alias が同値であることを test で固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-consumer-migration.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-consumer-migration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "weekly metrics の compatibility contract と docs 文言の整理に限定し、decision path には触れない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "scope guard は branch context に残っている既存の dirty paths も対象にするため、今回未編集の path も Contract scope へ branch context として明示する必要があった。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Capital Dynamics の primary weekly metrics path を docs と test に固化し、legacy key は compatibility alias として残す方針を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "docs/specs と weekly_state_report.rs の test に限定し、provider / domain / decision path には広げない。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "docs と schema test の更新、および fmt/test/clippy の完了を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification、summary check、cockpit status 生成と status check を通過し、ready_with_risks として review 可能にした。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "weekly_metrics_compatibility",
+      "detail": "legacy key の capital_absorption_ipo_queue は互換目的で残るため、consumer 側は段階移行期間に新旧 path 併存を理解しておく必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification は完了し、weekly metrics の新旧 path 併存という互換リスクだけが残る。",
+    "expectedReviewFocus": [
+      "latest_context.capital_dynamics.supply_layer が canonical path として docs と test で一貫していること",
+      "capital_absorption_ipo_queue が compatibility alias としてのみ残されていること",
+      "変更が report / weekly metrics contract に限定され、decision path に波及していないこと"
+    ]
+  },
+  "implementationCoverage": {
+    "code": "changed",
+    "test": "changed",
+    "docs": "changed",
+    "i18n": "not_changed",
+    "reportOutput": "not_changed",
+    "dataOrWeeklyRecord": "changed",
+    "makeOrCiGuard": "not_changed"
+  }
+}

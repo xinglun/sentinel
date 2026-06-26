@@ -1,0 +1,141 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-dynamics-domain-foundation",
+  "mode": "code",
+  "title": "Capital Dynamics / Flow Layer domain foundation",
+  "scope": [
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json",
+    ".ai/work-items/archive/2026/capital-dynamics-flow-layer.contract.json",
+    ".ai/work-items/archive/2026/capital-dynamics-flow-layer.summary.json",
+    ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.contract.json",
+    ".ai/work-items/archive/2026/valuation-gravity-ci-hotfix.summary.json",
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "docs/README.md",
+    "src/features/research/domain/capital_dynamics.rs",
+    "src/features/research/domain/mod.rs",
+    "tests/evidence_repository_port_integration.rs",
+    ".ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+    ".ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "src/features/research/application/**",
+    "src/features/research/interface/**",
+    "src/features/research/infrastructure/**",
+    "src/cli.rs",
+    "Makefile",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "Capital Dynamics と Flow Layer の設計 SSOT。"
+    },
+    {
+      "path": "src/features/research/domain/valuation_gravity.rs",
+      "reason": "Observation-only domain snapshot と validation の style を参照する。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "Research domain enum / snapshot naming pattern を参照する。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "同一 branch 上で進行中の date-sensitive test hardening 変更を scope と整合させる。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary"
+    ],
+    "reason": "Domain foundation の追加のみで provider、report、weekly output、decision path は変更しない。主な risk は boundary を code 上で曖昧にすること。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Flow Layer を Observation Only / decision weight 0% として code 上の stable domain type へ落とし込む。"
+  },
+  "preReviewWarnings": [
+    "Flow Layer は Observation Only とし、Gate / execution / trader / position sizing に接続しない。",
+    "Flow Layer は trend quality を説明してよいが、Trend Layer を override しない。",
+    "本 Work Item では provider adapter、report renderer、persistence、CLI、weekly output を実装しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "src/features/research/domain/capital_dynamics.rs が追加され、Capital Dynamics / Flow Layer の core enum と snapshot type を定義する。",
+    "FlowObservation は provider 非依存 domain とし、scope、direction、strength、quality、source health を表現できる。",
+    "FlowDivergence と FlowBreadth を一級 object として表現できる。",
+    "Observation-only boundary を code 上で保持し、decision weight 0% と Trend 非 override の invariant を validation で確認できる。",
+    "src/features/research/domain/mod.rs から新 module を公開する。",
+    "module 内 unit test で boundary invariant と enum/snapshot contract を確認する。",
+    "同一 branch 上の docs / archive / old active cleanup diff と scope guard が整合する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-domain-foundation.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-domain-foundation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/work-items/active/valuation-gravity-ci-hotfix.contract.json",
+      ".ai/work-items/active/valuation-gravity-ci-hotfix.summary.json"
+    ]
+  },
+  "rollbackNote": "capital_dynamics domain module、mod.rs 登録、Work Item metadata を revert する。"
+}

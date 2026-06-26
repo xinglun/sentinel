@@ -93,7 +93,7 @@ IPO Queue History は、current observation window と保存済み ledger から
 
 保存 record は `date`、`queue_count`、`reported_count`、`confirmed_count`、`pressure`、`items` を持つ構造化 record です。全文 Markdown report の保存ではありません。
 
-週次成果物では、`weekly_state_metrics.json -> latest_context.capital_absorption_ipo_queue` と `weekly_state_review_auto.md` の観測専用 section に集約します。週次集約は `as_of_date` 以前の ledger record だけを使い、未来日 record を混入させません。
+週次成果物では、`weekly_state_metrics.json -> latest_context.capital_dynamics.supply_layer` を primary path とし、`weekly_state_review_auto.md` の Capital Dynamics 配下 `Supply Layer` section に集約します。互換維持のため、`latest_context.capital_absorption_ipo_queue` は legacy compatibility alias として当面併存させます。週次集約は `as_of_date` 以前の ledger record だけを使い、未来日 record を混入させません。
 
 ## IPO Lifecycle
 

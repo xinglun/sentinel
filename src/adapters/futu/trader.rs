@@ -31,18 +31,10 @@ impl FutuTrader {
 
     /// すべての trading API で必要な共通 TrdHeader を組み立てる。
     fn build_trd_header(&self) -> Result<TrdHeader> {
-        let acc_id = self
-            .config
-            .acc_id
-            .ok_or_else(|| anyhow!("Moomoo account ID (FUTU_ACC_ID) is not configured"))?;
-
-        Ok(TrdHeader {
-            trd_env: self.config.trd_env as i32,
-            acc_id,
-            trd_market: self.config.market as i32,
-        })
+        build_trd_header_from_config(&self.config)
     }
-    fn map_futu_error(&self, ret_type: i32, err_code: i32, msg: &str) -> OrderFailureReason {
+
+    fn map_futu_error(ret_type: i32, err_code: i32, msg: &str) -> OrderFailureReason {
         if ret_type == 0 {
             return OrderFailureReason::None;
         }
@@ -181,7 +173,7 @@ impl TradeExecutor for FutuTrader {
         if res.ret_type != 0 {
             let err_code = res.err_code.unwrap_or(0);
             let msg = res.ret_msg.clone().unwrap_or_default();
-            let reason = self.map_futu_error(res.ret_type, err_code, &msg);
+            let reason = Self::map_futu_error(res.ret_type, err_code, &msg);
 
             println!(
                 "⚠️ [Trader - REJECTED] ret_type={}, err_code={}, reason={:?}, msg={}",
@@ -470,5 +462,93 @@ impl TradeExecutor for FutuTrader {
             .collect();
 
         Ok(positions)
+    }
+}
+
+fn build_trd_header_from_config(config: &crate::config::FutuConfig) -> Result<TrdHeader> {
+    let acc_id = config
+        .acc_id
+        .ok_or_else(|| anyhow!("Moomoo account ID (FUTU_ACC_ID) is not configured"))?;
+
+    Ok(TrdHeader {
+        trd_env: config.trd_env as i32,
+        acc_id,
+        trd_market: config.market as i32,
+    })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::FutuConfig;
+
+    #[test]
+    fn build_trd_header_from_config_uses_configured_account_metadata() {
+        let config = FutuConfig {
+            opend_ip: "127.0.0.1".to_string(),
+            opend_port: 11111,
+            trd_env: 1,
+            market: 2,
+            acc_id: Some(987654321),
+            unlock_password_md5: None,
+        };
+
+        let header = build_trd_header_from_config(&config).unwrap();
+
+        assert_eq!(header.trd_env, 1);
+        assert_eq!(header.acc_id, 987654321);
+        assert_eq!(header.trd_market, 2);
+    }
+
+    #[test]
+    fn build_trd_header_from_config_rejects_missing_account_id() {
+        let config = FutuConfig {
+            opend_ip: "127.0.0.1".to_string(),
+            opend_port: 11111,
+            trd_env: 0,
+            market: 1,
+            acc_id: None,
+            unlock_password_md5: None,
+        };
+
+        let err = build_trd_header_from_config(&config).unwrap_err();
+
+        assert!(
+            err.to_string().contains("not configured"),
+            "unexpected error: {}",
+            err
+        );
+    }
+
+    #[test]
+    fn map_futu_error_classifies_known_error_codes() {
+        assert_eq!(
+            FutuTrader::map_futu_error(0, 0, ""),
+            OrderFailureReason::None
+        );
+        assert_eq!(
+            FutuTrader::map_futu_error(1, 1005, "pwd"),
+            OrderFailureReason::TradingPasswordRequired
+        );
+        assert_eq!(
+            FutuTrader::map_futu_error(1, 11003, "funds"),
+            OrderFailureReason::InsufficientFunds
+        );
+        assert_eq!(
+            FutuTrader::map_futu_error(1, 11101, "closed"),
+            OrderFailureReason::MarketClosed
+        );
+        assert_eq!(
+            FutuTrader::map_futu_error(1, 1016, "suspended"),
+            OrderFailureReason::SecuritySuspended
+        );
+        assert_eq!(
+            FutuTrader::map_futu_error(1, 1015, "qty"),
+            OrderFailureReason::InvalidQuantity
+        );
+        assert_eq!(
+            FutuTrader::map_futu_error(1, 9999, "other"),
+            OrderFailureReason::Other(9999, "other".to_string())
+        );
     }
 }

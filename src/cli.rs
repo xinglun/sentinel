@@ -29,9 +29,10 @@ use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_macro_gravity_report, build_research_attention_report,
-    daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
-    daily_calibration_capital_absorption_label, daily_calibration_evidence_none,
+    build_asset_thesis_report, build_capital_dynamics_report, build_flow_layer_report,
+    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
+    daily_calibration_audit_label, daily_calibration_boundary,
+    daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
     daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
     daily_calibration_question_attention, daily_calibration_question_boundary,
@@ -54,6 +55,7 @@ use crate::features::research::interface::valuation_gravity_report_builder::buil
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
 };
+use crate::features::shared::application::run_status::DeliveryStatus;
 use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
@@ -112,7 +114,7 @@ pub async fn run() -> Result<()> {
             run_pipeline(app_config, provider, mode).await?;
         }
         CliCommand::Review => {
-            run_review(&app_config).await?;
+            run_review_command(&app_config)?;
         }
         CliCommand::AuditDaily => {
             run_audit_daily(
@@ -601,6 +603,42 @@ fn run_audit_daily(
     Ok(())
 }
 
+fn run_review_command(config: &config::AppConfig) -> Result<()> {
+    println!("{}", load_latest_daily_report(config)?);
+    Ok(())
+}
+
+fn load_latest_daily_report(config: &config::AppConfig) -> Result<String> {
+    let save_dir = std::path::Path::new(&config.output.save_to);
+    let latest_path = std::fs::read_dir(save_dir)
+        .with_context(|| format!("Failed to read report directory: {}", save_dir.display()))?
+        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
+        .filter(|path| {
+            let stem = path.file_stem().and_then(|stem| stem.to_str());
+            path.extension().and_then(|extension| extension.to_str()) == Some("md")
+                && stem
+                    .and_then(|stem| NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
+                    .is_some()
+        })
+        .max();
+    let latest_path =
+        latest_path.ok_or_else(|| anyhow!("No daily report found in {}", save_dir.display()))?;
+
+    let report = std::fs::read_to_string(&latest_path).with_context(|| {
+        format!(
+            "Failed to read latest daily report: {}",
+            latest_path.display()
+        )
+    })?;
+    if report.contains("tests/fixtures/") || report.contains("file://") {
+        return Err(anyhow!(
+            "Latest daily report contains non-production evidence and cannot be reviewed as a valid report: {}",
+            latest_path.display()
+        ));
+    }
+    Ok(report)
+}
+
 async fn build_daily_calibration_report(
     app_config: &config::AppConfig,
     target_date_arg: Option<&str>,
@@ -615,7 +653,7 @@ async fn build_daily_calibration_report(
     let target_date = match target_date_arg {
         Some(raw) => Some(
             NaiveDate::parse_from_str(raw, "%Y-%m-%d")
-                .with_context(|| format!("{}: {}", audit_error_parse_date(language), raw))?,
+                .with_context(|| format!("{}: {}", valuation_future_date_error(language), raw))?,
         ),
         None => None,
     };
@@ -634,9 +672,8 @@ async fn build_daily_calibration_report(
         let target_idx = resolve_target_index(&days, target_date, language)?;
         calibration_date = days[target_idx].date;
         let evidence_collection_status =
-            load_run_evidence_collection_status(&save_dir, days[target_idx].date).unwrap_or(
-                crate::features::shared::application::run_status::DeliveryStatus::Skipped,
-            );
+            load_run_evidence_collection_status(&save_dir, days[target_idx].date)
+                .unwrap_or(DeliveryStatus::Skipped);
         selected_entry = Some(days[target_idx].latest());
         build_audit_daily_report_with_evidence_status(
             &days,
@@ -674,17 +711,25 @@ async fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(&build_macro_gravity_report(app_config, language));
     out.push_str("\n\n");
-    out.push_str(daily_calibration_capital_absorption_label(language));
+    let capital_absorption_report = build_capital_absorption_report_with_auto(
+        app_config,
+        calibration_date,
+        window_days.max(1),
+        language,
+    )
+    .await;
+    let flow_report = app_config
+        .capital_dynamics
+        .as_ref()
+        .and_then(config::CapitalDynamicsConfig::flow_layer_snapshot)
+        .map(|_| build_flow_layer_report(app_config, language));
+    out.push_str(daily_calibration_capital_dynamics_label(language));
     out.push_str("\n\n");
-    out.push_str(
-        &build_capital_absorption_report_with_auto(
-            app_config,
-            calibration_date,
-            window_days.max(1),
-            language,
-        )
-        .await,
-    );
+    out.push_str(&build_capital_dynamics_report(
+        &capital_absorption_report,
+        flow_report.as_deref(),
+        language,
+    ));
     out.push_str("\n\n");
     out.push_str(daily_calibration_valuation_gravity_label(language));
     out.push_str("\n\n");
@@ -703,6 +748,34 @@ async fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(daily_calibration_boundary(language));
     Ok(out)
+}
+
+fn load_transition_audit_days(
+    path: &std::path::Path,
+    language: Language,
+) -> Result<Vec<TransitionAuditDay>> {
+    if !path.exists() {
+        return Ok(Vec::new());
+    }
+
+    let content = std::fs::read_to_string(path)
+        .with_context(|| format!("{}: {}", audit_error_read_file(language), path.display()))?;
+
+    let mut raw_entries = Vec::<TransitionAuditEntry>::new();
+    for (idx, raw_line) in content.lines().enumerate() {
+        let line = raw_line.trim();
+        if line.is_empty() {
+            continue;
+        }
+        if let Some(entry) = parse_transition_audit_entry(line, language)
+            .with_context(|| format!("{} {}", audit_error_parse_line(language), idx + 1))?
+        {
+            raw_entries.push(entry);
+        }
+    }
+
+    raw_entries.sort_by_key(|a| a.timestamp);
+    Ok(group_audit_days(raw_entries))
 }
 
 fn build_daily_calibration_questions(
@@ -842,73 +915,9 @@ fn is_noisy_digest_detail(trimmed: &str) -> bool {
         || lower.starts_with("sources:")
 }
 
-fn load_transition_audit_days(
-    path: &std::path::Path,
-    language: Language,
-) -> Result<Vec<TransitionAuditDay>> {
-    if !path.exists() {
-        return Ok(Vec::new());
-    }
-
-    let content = std::fs::read_to_string(path)
-        .with_context(|| format!("{}: {}", audit_error_read_file(language), path.display()))?;
-
-    let mut raw_entries = Vec::<TransitionAuditEntry>::new();
-    for (idx, raw_line) in content.lines().enumerate() {
-        let line = raw_line.trim();
-        if line.is_empty() {
-            continue;
-        }
-        if let Some(entry) = parse_transition_audit_entry(line, language)
-            .with_context(|| format!("{} {}", audit_error_parse_line(language), idx + 1))?
-        {
-            raw_entries.push(entry);
-        }
-    }
-
-    raw_entries.sort_by_key(|a| a.timestamp);
-    Ok(group_audit_days(raw_entries))
-}
-
-fn load_latest_daily_report(config: &crate::config::AppConfig) -> Result<String> {
-    let save_dir = std::path::Path::new(&config.output.save_to);
-    let latest_path = std::fs::read_dir(save_dir)
-        .with_context(|| format!("Failed to read report directory: {}", save_dir.display()))?
-        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
-        .filter(|path| {
-            let stem = path.file_stem().and_then(|stem| stem.to_str());
-            path.extension().and_then(|extension| extension.to_str()) == Some("md")
-                && stem
-                    .and_then(|stem| NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
-                    .is_some()
-        })
-        .max();
-    let latest_path =
-        latest_path.ok_or_else(|| anyhow!("No daily report found in {}", save_dir.display()))?;
-
-    let report = std::fs::read_to_string(&latest_path).with_context(|| {
-        format!(
-            "Failed to read latest daily report: {}",
-            latest_path.display()
-        )
-    })?;
-    if report.contains("tests/fixtures/") || report.contains("file://") {
-        return Err(anyhow!(
-            "Latest daily report contains non-production evidence and cannot be reviewed as a valid report: {}",
-            latest_path.display()
-        ));
-    }
-    Ok(report)
-}
-
-async fn run_review(config: &crate::config::AppConfig) -> Result<()> {
-    println!("{}", load_latest_daily_report(config)?);
-    Ok(())
-}
-
 #[cfg(test)]
 mod tests {
-    use super::{build_daily_calibration_telegram_digest, load_latest_daily_report, run_pipeline};
+    use super::{build_daily_calibration_telegram_digest, run_pipeline};
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
@@ -946,7 +955,7 @@ mod tests {
         .unwrap();
         fs::write(tmp.path().join("2026-05-21.md"), "daily").unwrap();
 
-        assert_eq!(load_latest_daily_report(&config).unwrap(), "daily");
+        assert_eq!(super::load_latest_daily_report(&config).unwrap(), "daily");
     }
 
     #[test]
@@ -957,7 +966,7 @@ mod tests {
         fs::write(tmp.path().join("2026-05-21.md"), "latest").unwrap();
         fs::write(tmp.path().join("weekly_state_review_auto.md"), "weekly").unwrap();
 
-        assert_eq!(load_latest_daily_report(&config).unwrap(), "latest");
+        assert_eq!(super::load_latest_daily_report(&config).unwrap(), "latest");
     }
 
     #[test]
@@ -965,7 +974,7 @@ mod tests {
         let tmp = tempdir().unwrap();
         let config = mock_config(tmp.path());
 
-        let error = load_latest_daily_report(&config).unwrap_err();
+        let error = super::load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("No daily report found"));
     }
 
@@ -979,7 +988,7 @@ mod tests {
         )
         .unwrap();
 
-        let error = load_latest_daily_report(&config).unwrap_err();
+        let error = super::load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("non-production evidence"));
     }
 
@@ -1207,6 +1216,7 @@ mod tests {
             asset_thesis: None,
             macro_gravity: None,
             capital_absorption: None,
+            capital_dynamics: None,
             gray_rhino_escalation: None,
             gray_rhino_provider_registry: None,
         }
@@ -1638,7 +1648,9 @@ mod tests {
         assert!(weekly_metrics.contains("\"market_cycle_position\""));
         assert!(weekly_metrics.contains("\"holding_efficiency\""));
         assert!(weekly_metrics.contains("\"macro_gravity\""));
-        assert!(weekly_metrics.contains("\"capital_absorption_ipo_queue\""));
+        assert!(weekly_metrics.contains("\"capital_dynamics\""));
+        assert!(weekly_metrics.contains("\"supply_layer\""));
+        assert!(weekly_metrics.contains("\"flow_layer\""));
         assert!(weekly_metrics.contains("\"strategic_context\""));
         assert!(weekly_metrics.contains("\"weekly_totals\""));
         assert!(weekly_metrics.contains("\"daily_summaries\""));
@@ -1647,13 +1659,18 @@ mod tests {
             weekly_metrics_json["weekly_totals"]["days"],
             serde_json::Value::from(1)
         );
+        assert!(
+            weekly_metrics_json["latest_context"]["capital_dynamics"]["supply_layer"].is_object()
+        );
         assert!(weekly_metrics_json["daily_summaries"][0]["to_state"] != serde_json::Value::Null);
         let weekly_review = std::fs::read_to_string(weekly_review_path).unwrap();
         assert!(weekly_review.contains("## 状态机周度汇总"));
+        assert!(weekly_review.contains("## Capital Dynamics（供需观察）"));
+        assert!(weekly_review.contains("### 6.1 Supply Layer（Capital Absorption）"));
+        assert!(weekly_review.contains("### 6.2 Demand Layer（Flow Layer）"));
         assert!(weekly_review.contains("## 日度状态机时间线"));
         assert!(weekly_review.contains("## 战略上下文快照"));
         assert!(weekly_review.contains("## 宏观引力快照"));
-        assert!(weekly_review.contains("## 资金吸收 IPO 队列快照"));
         assert!(weekly_review.contains("## 认知校准快照"));
         assert!(weekly_review.contains("边界: 仅为快照"));
         assert!(weekly_review.contains("不生成交易信号"));

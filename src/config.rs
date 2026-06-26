@@ -1,3 +1,6 @@
+use crate::features::research::domain::capital_dynamics::{
+    CapitalDynamicsObservation, FlowBreadth, FlowDivergence, FlowLayerSnapshot, FlowObservation,
+};
 use anyhow::{anyhow, Result};
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
@@ -29,6 +32,7 @@ pub struct AppConfig {
     pub asset_thesis: Option<BTreeMap<String, AssetThesisEntry>>,
     pub macro_gravity: Option<MacroGravityConfig>,
     pub capital_absorption: Option<CapitalAbsorptionConfig>,
+    pub capital_dynamics: Option<CapitalDynamicsConfig>,
     pub gray_rhino_escalation: Option<GrayRhinoEscalationConfig>,
     /// 旧 provider registry 設定を読み捨てるための互換フィールド。
     #[allow(dead_code)]
@@ -361,6 +365,56 @@ pub struct CapitalAbsorptionConfig {
     pub enable: Option<bool>,
 }
 
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct CapitalDynamicsConfig {
+    pub flow_layer: Option<FlowLayerConfig>,
+    pub enable: Option<bool>,
+}
+
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct FlowLayerConfig {
+    pub as_of_date: chrono::NaiveDate,
+    #[serde(default)]
+    pub observations: Vec<FlowObservation>,
+    #[serde(default)]
+    pub divergences: Vec<FlowDivergence>,
+    pub breadth: FlowBreadth,
+    pub observation_only: bool,
+    pub decision_weight_percent: u8,
+    pub trend_override_allowed: bool,
+    pub enable: Option<bool>,
+}
+
+impl CapitalDynamicsConfig {
+    pub fn flow_layer_snapshot(&self) -> Option<FlowLayerSnapshot> {
+        if !self.enable.unwrap_or(true) {
+            return None;
+        }
+        self.flow_layer
+            .as_ref()
+            .and_then(FlowLayerConfig::to_snapshot_if_enabled)
+    }
+}
+
+impl FlowLayerConfig {
+    fn to_snapshot_if_enabled(&self) -> Option<FlowLayerSnapshot> {
+        if !self.enable.unwrap_or(true) {
+            return None;
+        }
+        Some(FlowLayerSnapshot {
+            as_of_date: self.as_of_date,
+            observations: self.observations.clone(),
+            divergences: self.divergences.clone(),
+            breadth: self.breadth.clone(),
+            observation_only: self.observation_only,
+            decision_weight_percent: self.decision_weight_percent,
+            trend_override_allowed: self.trend_override_allowed,
+        })
+    }
+}
+
 #[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum GrayRhinoRiskLevel {
@@ -685,6 +739,18 @@ impl AppConfig {
                     sec.user_agent
                 ));
             }
+        }
+        if let Some(snapshot) = self
+            .capital_dynamics
+            .as_ref()
+            .and_then(CapitalDynamicsConfig::flow_layer_snapshot)
+        {
+            CapitalDynamicsObservation {
+                as_of_date: snapshot.as_of_date,
+                flow_layer: snapshot,
+            }
+            .validate()
+            .map_err(|err| anyhow!("Capital Dynamics Flow Layer config invalid: {}", err))?;
         }
         Ok(())
     }
@@ -1262,6 +1328,7 @@ mod tests {
             asset_thesis: None,
             macro_gravity: None,
             capital_absorption: None,
+            capital_dynamics: None,
             gray_rhino_escalation: None,
             gray_rhino_provider_registry: None,
         };

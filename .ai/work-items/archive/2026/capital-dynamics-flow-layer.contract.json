@@ -1,0 +1,149 @@
+{
+  "contractVersion": 1,
+  "workItemId": "capital-dynamics-flow-layer",
+  "mode": "code",
+  "title": "Capital Dynamics Flow Layer 設計",
+  "scope": [
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "docs/README.md",
+    "tests/evidence_repository_port_integration.rs",
+    ".ai/work-items/active/capital-dynamics-flow-layer.contract.json",
+    ".ai/work-items/active/capital-dynamics-flow-layer.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "src/**",
+    "Makefile",
+    ".github/workflows/**",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+      "reason": "既存の Supply / Capital Absorption 観測境界を参照する。"
+    },
+    {
+      "path": "docs/specs/MACRO_GRAVITY_CONTEXT.md",
+      "reason": "Macro Gravity の表示専用境界と Gate 非接続方針を参照する。"
+    },
+    {
+      "path": "docs/specs/VALUATION_GRAVITY_LAYER.md",
+      "reason": "Gravity Layer の Observation / 表示専用設計を参照する。"
+    },
+    {
+      "path": "docs/specs/DATA_BRANCH_LAYOUT.md",
+      "reason": "週次成果物、telemetry、snapshot の保存境界を参照する。"
+    },
+    {
+      "path": "src/adapters/futu/protocol/generated/qot_get_capital_flow.rs",
+      "reason": "将来の Flow provider 候補として Futu Capital Flow の available data shape を確認する。"
+    },
+    {
+      "path": "src/adapters/futu/protocol/generated/qot_get_capital_distribution.rs",
+      "reason": "将来の Flow provider 候補として Futu Capital Distribution の available data shape を確認する。"
+    },
+    {
+      "path": "tests/evidence_repository_port_integration.rs",
+      "reason": "ai-finish を block している date-sensitive integration test の failure root cause を確認し、最小限の baseline 修正を行う。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "新規 design document の追加に加え、ai-finish を block している date-sensitive integration test を最小修正する。production code / CI は変更しない。主な risk は Flow Layer 境界の将来誤用と、baseline test 修正の意図が不十分になること。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザーが Capital Dynamics / Flow Layer の設計方針と必須境界文を確定済み。scope は docs と Work Item metadata に限定される。"
+  },
+  "preReviewWarnings": [
+    "Flow Layer は Observation Only とし、Gate / execution / trader / action matrix / position sizing に接続しない。",
+    "Flow Layer は trend quality を説明してよいが、Trend Layer を override してはならない。",
+    "本 Work Item では code、test、i18n、report renderer、provider adapter、Make target は実装しない。"
+    ,
+    "許可される test 変更は ai-finish を block している evidence repository integration test の date hardening に限定する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "docs/specs/CAPITAL_DYNAMICS.md が front matter 付きで追加され、本文は日本語で記述される。",
+    "docs/README.md の specs index に CAPITAL_DYNAMICS.md が追加される。",
+    "tests/evidence_repository_port_integration.rs の date-sensitive expectation が現在日依存で壊れない形に修正される。",
+    "Capital Dynamics を Supply Layer、Demand Layer、Balance Layer に分け、Flow Layer を Demand 側 Observation として定義する。",
+    "Flow Layer is Observation Only. Current decision weight is 0%. It does not connect to Gate, Execution, Trader, Action Matrix, or Position Sizing. を明記する。",
+    "Flow Layer may explain trend quality, but must not override Trend Layer. を明記する。",
+    "FlowObservation domain は provider 非依存で、Futu は provider adapter 候補に留める。",
+    "Flow strength、quality、divergence、breadth、multi-provider、三段階 evolution を設計として記録する。",
+    "本 Work Item が production code、test、i18n、report output、data branch artifact を変更しないことを Summary に記録する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-dynamics-flow-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-dynamics-flow-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make check-doc-links",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-dynamics-flow-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-dynamics-flow-layer.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-flow-layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-dynamics-flow-layer.summary.json CONTRACT=.ai/work-items/active/capital-dynamics-flow-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-dynamics-flow-layer.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-flow-layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-dynamics-flow-layer.contract.json SUMMARY=.ai/work-items/active/capital-dynamics-flow-layer.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "docs/specs/CAPITAL_DYNAMICS.md と capital-dynamics-flow-layer Work Item metadata の diff を revert する。"
+}

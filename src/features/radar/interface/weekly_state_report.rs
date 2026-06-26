@@ -11,6 +11,7 @@ pub(crate) struct WeeklyReportContext {
     pub research_attention_entries: usize,
     pub asset_thesis_entries: usize,
     pub capital_absorption_ipo_queue: serde_json::Value,
+    pub capital_dynamics_flow_layer: serde_json::Value,
 }
 
 #[derive(Clone)]
@@ -75,8 +76,12 @@ pub(crate) fn persist_weekly_state_outputs(
     } else {
         0.0
     };
-    let latest_context =
-        build_weekly_latest_context(pres_packet, context, &context.capital_absorption_ipo_queue);
+    let latest_context = build_weekly_latest_context(
+        pres_packet,
+        context,
+        &context.capital_absorption_ipo_queue,
+        &context.capital_dynamics_flow_layer,
+    );
     let state_machine_summaries =
         load_weekly_state_machine_summaries(save_dir, current_packet.date, current_state_machine);
     let weekly_totals = build_weekly_totals(&state_machine_summaries);
@@ -166,9 +171,10 @@ pub(crate) fn persist_weekly_state_outputs(
     );
     push_weekly_strategic_context_snapshot(&mut review, pres_packet, text);
     push_weekly_macro_gravity_snapshot(&mut review, context, text);
-    push_weekly_capital_absorption_ipo_queue_snapshot(
+    push_weekly_capital_dynamics_snapshot(
         &mut review,
         &context.capital_absorption_ipo_queue,
+        &context.capital_dynamics_flow_layer,
         text,
     );
     push_weekly_cognitive_calibration_snapshot(&mut review, context, text);
@@ -292,6 +298,7 @@ fn build_weekly_latest_context(
     pres_packet: &crate::features::radar::interface::presentation::PresentationPacket,
     context: &WeeklyReportContext,
     capital_absorption_ipo_queue: &serde_json::Value,
+    capital_dynamics_flow_layer: &serde_json::Value,
 ) -> serde_json::Value {
     let trend_breadth_mode = pres_packet
         .transition_evidence
@@ -318,6 +325,10 @@ fn build_weekly_latest_context(
         "strategic_context": strategic_context,
         "macro_gravity": build_weekly_macro_gravity_context(context),
         "capital_absorption_ipo_queue": capital_absorption_ipo_queue,
+        "capital_dynamics": {
+            "supply_layer": capital_absorption_ipo_queue,
+            "flow_layer": capital_dynamics_flow_layer
+        },
         "cognitive_calibration": {
             "research_attention_entries": context.research_attention_entries,
             "asset_thesis_entries": context.asset_thesis_entries
@@ -377,6 +388,8 @@ struct WeeklyText {
     credit_stress: &'static str,
     liquidity: &'static str,
     growth_valuation: &'static str,
+    capital_dynamics_snapshot: &'static str,
+    boundary_capital_dynamics: &'static str,
     capital_absorption_ipo_queue_snapshot: &'static str,
     capital_absorption_ipo_queue_not_configured: &'static str,
     capital_absorption_latest_date: &'static str,
@@ -386,6 +399,17 @@ struct WeeklyText {
     capital_absorption_reported_confirmed: &'static str,
     capital_absorption_pressure: &'static str,
     boundary_capital_absorption: &'static str,
+    flow_layer_snapshot: &'static str,
+    flow_layer_not_configured: &'static str,
+    flow_layer_latest_date: &'static str,
+    flow_layer_observation_divergence: &'static str,
+    flow_layer_positive_negative_divergence: &'static str,
+    flow_layer_breadth: &'static str,
+    flow_layer_market_breadth: &'static str,
+    flow_layer_sector_breadth: &'static str,
+    flow_layer_watchlist_breadth: &'static str,
+    flow_layer_core_holding_breadth: &'static str,
+    boundary_flow_layer: &'static str,
     cognitive_calibration_snapshot: &'static str,
     research_attention_entries: &'static str,
     asset_thesis_entries: &'static str,
@@ -438,7 +462,10 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     credit_stress: "信用压力",
     liquidity: "流动性",
     growth_valuation: "成长估值",
-    capital_absorption_ipo_queue_snapshot: "## 资金吸收 IPO 队列快照",
+    capital_dynamics_snapshot: "## Capital Dynamics（供需观察）",
+    boundary_capital_dynamics:
+        "边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。",
+    capital_absorption_ipo_queue_snapshot: "### 6.1 Supply Layer（Capital Absorption）",
     capital_absorption_ipo_queue_not_configured: "资金吸收 IPO 队列未保存",
     capital_absorption_latest_date: "最新观测日",
     capital_absorption_near_term_latest: "最新 Near-Term Supply 数量",
@@ -447,6 +474,17 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     capital_absorption_reported_confirmed: "已报道 / 已确认",
     capital_absorption_pressure: "潜在供给压力",
     boundary_capital_absorption: "边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。",
+    flow_layer_snapshot: "### 6.2 Demand Layer（Flow Layer）",
+    flow_layer_not_configured: "Flow Layer 未配置",
+    flow_layer_latest_date: "最新 Flow 观察日",
+    flow_layer_observation_divergence: "Observation / Divergence",
+    flow_layer_positive_negative_divergence: "正向 / 负向背离",
+    flow_layer_breadth: "Flow Breadth",
+    flow_layer_market_breadth: "Market Breadth",
+    flow_layer_sector_breadth: "Sector Breadth",
+    flow_layer_watchlist_breadth: "Watchlist Breadth",
+    flow_layer_core_holding_breadth: "Core Holding Breadth",
+    boundary_flow_layer: "边界: Flow Layer 仅作 Observation Only 观察，decision weight 固定为 0%，不覆盖 Trend Layer，也不生成交易信号。",
     cognitive_calibration_snapshot: "## 认知校准快照",
     research_attention_entries: "研究关注条目",
     asset_thesis_entries: "资产命题条目",
@@ -491,7 +529,10 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     credit_stress: "Credit stress",
     liquidity: "Liquidity",
     growth_valuation: "Growth valuation",
-    capital_absorption_ipo_queue_snapshot: "## Capital Absorption IPO Queue Snapshot",
+    capital_dynamics_snapshot: "## Capital Dynamics (Supply / Demand Observation)",
+    boundary_capital_dynamics:
+        "Boundary: Capital Dynamics is an observation shell only. Current decision weight remains 0%, and it does not connect to Gate, Execution, Trader, Action Matrix, or Position Sizing.",
+    capital_absorption_ipo_queue_snapshot: "### 6.1 Supply Layer (Capital Absorption)",
     capital_absorption_ipo_queue_not_configured: "Capital absorption IPO queue: not persisted",
     capital_absorption_latest_date: "Latest observation date",
     capital_absorption_near_term_latest: "Latest Near-Term Supply Count",
@@ -501,6 +542,18 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     capital_absorption_pressure: "Potential supply pressure",
     boundary_capital_absorption:
         "Boundary: potential future supply observation only; no market conclusion, risk upgrade, or trade signal.",
+    flow_layer_snapshot: "### 6.2 Demand Layer (Flow Layer)",
+    flow_layer_not_configured: "Flow Layer: not configured",
+    flow_layer_latest_date: "Latest Flow observation date",
+    flow_layer_observation_divergence: "Observations / Divergences",
+    flow_layer_positive_negative_divergence: "Positive / Negative divergence",
+    flow_layer_breadth: "Flow Breadth",
+    flow_layer_market_breadth: "Market Breadth",
+    flow_layer_sector_breadth: "Sector Breadth",
+    flow_layer_watchlist_breadth: "Watchlist Breadth",
+    flow_layer_core_holding_breadth: "Core Holding Breadth",
+    boundary_flow_layer:
+        "Boundary: Flow Layer is Observation Only. Decision weight remains 0%, it does not override Trend Layer, and it does not generate trade signals.",
     cognitive_calibration_snapshot: "## Cognitive Calibration Snapshot",
     research_attention_entries: "Research attention entries",
     asset_thesis_entries: "Asset thesis entries",
@@ -545,7 +598,10 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     credit_stress: "信用ストレス",
     liquidity: "流動性",
     growth_valuation: "成長評価",
-    capital_absorption_ipo_queue_snapshot: "## 資金吸収 IPO キュースナップショット",
+    capital_dynamics_snapshot: "## Capital Dynamics（需給観測）",
+    boundary_capital_dynamics:
+        "境界: Capital Dynamics は Observation shell のみであり、Current decision weight は 0% に固定され、Gate、Execution、Trader、Action Matrix、Position Sizing へ接続しない。",
+    capital_absorption_ipo_queue_snapshot: "### 6.1 Supply Layer（Capital Absorption）",
     capital_absorption_ipo_queue_not_configured: "資金吸収 IPO キューは未保存",
     capital_absorption_latest_date: "最新観測日",
     capital_absorption_near_term_latest: "最新 Near-Term Supply 数",
@@ -555,6 +611,18 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     capital_absorption_pressure: "潜在供給圧力",
     boundary_capital_absorption:
         "境界: 潜在的な将来供給の観測のみ。市場結論、リスク格上げ、取引信号は生成しない。",
+    flow_layer_snapshot: "### 6.2 Demand Layer（Flow Layer）",
+    flow_layer_not_configured: "Flow Layer は未設定",
+    flow_layer_latest_date: "最新 Flow 観測日",
+    flow_layer_observation_divergence: "Observation / Divergence",
+    flow_layer_positive_negative_divergence: "正 / 負 divergence",
+    flow_layer_breadth: "Flow Breadth",
+    flow_layer_market_breadth: "Market Breadth",
+    flow_layer_sector_breadth: "Sector Breadth",
+    flow_layer_watchlist_breadth: "Watchlist Breadth",
+    flow_layer_core_holding_breadth: "Core Holding Breadth",
+    boundary_flow_layer:
+        "境界: Flow Layer は Observation Only の観測であり、decision weight は 0% に固定され、Trend Layer を override せず、取引信号を生成しない。",
     cognitive_calibration_snapshot: "## 認知校正スナップショット",
     research_attention_entries: "Research attention 件数",
     asset_thesis_entries: "Asset thesis 件数",
@@ -716,6 +784,88 @@ fn push_weekly_capital_absorption_ipo_queue_snapshot(
     review.push('\n');
 }
 
+fn push_weekly_capital_dynamics_snapshot(
+    review: &mut String,
+    supply_summary: &serde_json::Value,
+    flow_summary: &serde_json::Value,
+    text: &WeeklyText,
+) {
+    review.push('\n');
+    review.push_str(text.capital_dynamics_snapshot);
+    review.push('\n');
+    review.push_str("- ");
+    review.push_str(text.boundary_capital_dynamics);
+    review.push('\n');
+    push_weekly_capital_absorption_ipo_queue_snapshot(review, supply_summary, text);
+    push_weekly_flow_layer_snapshot(review, flow_summary, text);
+}
+
+fn push_weekly_flow_layer_snapshot(
+    review: &mut String,
+    summary: &serde_json::Value,
+    text: &WeeklyText,
+) {
+    review.push('\n');
+    review.push_str(text.flow_layer_snapshot);
+    review.push('\n');
+    if !summary["configured"].as_bool().unwrap_or(false) {
+        review.push_str(&format!("- {}\n", text.flow_layer_not_configured));
+        review.push_str("- ");
+        review.push_str(text.boundary_flow_layer);
+        review.push('\n');
+        return;
+    }
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.flow_layer_latest_date,
+        summary["as_of_date"].as_str().unwrap_or("unknown")
+    ));
+    review.push_str(&format!(
+        "- {}: {} / {}\n",
+        text.flow_layer_observation_divergence,
+        summary["observation_count"].as_u64().unwrap_or(0),
+        summary["divergence_count"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!(
+        "- {}: {} / {}\n",
+        text.flow_layer_positive_negative_divergence,
+        summary["positive_divergence_count"].as_u64().unwrap_or(0),
+        summary["negative_divergence_count"].as_u64().unwrap_or(0)
+    ));
+    review.push_str(&format!("- {}:\n", text.flow_layer_breadth));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        text.flow_layer_market_breadth,
+        summary["breadth"]["market_breadth"]
+            .as_str()
+            .unwrap_or("UNKNOWN")
+    ));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        text.flow_layer_sector_breadth,
+        summary["breadth"]["sector_breadth"]
+            .as_str()
+            .unwrap_or("UNKNOWN")
+    ));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        text.flow_layer_watchlist_breadth,
+        summary["breadth"]["watchlist_breadth"]
+            .as_str()
+            .unwrap_or("UNKNOWN")
+    ));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        text.flow_layer_core_holding_breadth,
+        summary["breadth"]["core_holding_breadth"]
+            .as_str()
+            .unwrap_or("UNKNOWN")
+    ));
+    review.push_str("- ");
+    review.push_str(text.boundary_flow_layer);
+    review.push('\n');
+}
+
 fn push_weekly_state_machine_totals(
     review: &mut String,
     totals: &serde_json::Value,
@@ -803,9 +953,11 @@ fn push_weekly_cognitive_calibration_snapshot(
 #[cfg(test)]
 mod tests {
     use super::{
-        load_weekly_state_machine_summaries, push_weekly_capital_absorption_ipo_queue_snapshot,
-        weekly_text,
+        build_weekly_latest_context, load_weekly_state_machine_summaries,
+        push_weekly_capital_absorption_ipo_queue_snapshot, push_weekly_capital_dynamics_snapshot,
+        push_weekly_flow_layer_snapshot, weekly_text, WeeklyReportContext,
     };
+    use crate::features::radar::interface::presentation::PresentationPacket;
     use crate::features::shared::application::run_status::StateMachineSummary;
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
@@ -889,7 +1041,7 @@ mod tests {
             .contains("取引信号を生成しない"));
         assert!(!weekly_text(Language::ZhCn)
             .capital_absorption_ipo_queue_snapshot
-            .contains("Capital Absorption IPO Queue"));
+            .contains("Capital Absorption IPO Queue Snapshot"));
         assert!(!weekly_text(Language::ZhCn)
             .capital_absorption_queue_min_max_7d
             .contains("min / max"));
@@ -898,7 +1050,7 @@ mod tests {
             .contains("Reported / Confirmed"));
         assert!(!weekly_text(Language::JaJp)
             .capital_absorption_ipo_queue_snapshot
-            .contains("Capital Absorption IPO"));
+            .contains("Capital Absorption IPO Queue Snapshot"));
         assert!(!weekly_text(Language::JaJp)
             .capital_absorption_queue_min_max_7d
             .contains("min / max"));
@@ -952,7 +1104,7 @@ mod tests {
             weekly_text(Language::ZhCn),
         );
 
-        assert!(review.contains("## 资金吸收 IPO 队列快照"));
+        assert!(review.contains("### 6.1 Supply Layer（Capital Absorption）"));
         assert!(review.contains("最新 Near-Term Supply 数量: 1"));
         assert!(review.contains("最新 Future Queue 数量: 3"));
         assert!(review.contains("7 日 Future Queue 最小值 / 最大值: 1 / 3"));
@@ -964,5 +1116,114 @@ mod tests {
         assert!(!review.contains("Reported / Confirmed"));
         assert!(!review.contains("READY"));
         assert!(!review.contains("EXECUTE"));
+    }
+
+    #[test]
+    fn weekly_flow_layer_review_section_keeps_observation_only_boundary() {
+        let summary = serde_json::json!({
+            "configured": true,
+            "as_of_date": "2026-06-08",
+            "observation_count": 2,
+            "divergence_count": 1,
+            "positive_divergence_count": 0,
+            "negative_divergence_count": 1,
+            "breadth": {
+                "market_breadth": "UNAVAILABLE",
+                "sector_breadth": "DIVERGENT",
+                "watchlist_breadth": "SUPPORTIVE",
+                "core_holding_breadth": "NEUTRAL"
+            }
+        });
+        let mut review = String::new();
+
+        push_weekly_flow_layer_snapshot(&mut review, &summary, weekly_text(Language::ZhCn));
+
+        assert!(review.contains("### 6.2 Demand Layer（Flow Layer）"));
+        assert!(review.contains("最新 Flow 观察日: 2026-06-08"));
+        assert!(review.contains("Observation / Divergence: 2 / 1"));
+        assert!(review.contains("正向 / 负向背离: 0 / 1"));
+        assert!(review.contains("Market Breadth: UNAVAILABLE"));
+        assert!(review.contains("Watchlist Breadth: SUPPORTIVE"));
+        assert!(review.contains("decision weight 固定为 0%"));
+        assert!(!review.contains("READY"));
+        assert!(!review.contains("EXECUTE"));
+    }
+
+    #[test]
+    fn weekly_capital_dynamics_review_shell_wraps_supply_and_flow() {
+        let supply = serde_json::json!({
+            "configured": true,
+            "latest_date": "2026-06-08",
+            "near_term_supply_count_latest": 1,
+            "future_queue_count_latest": 3,
+            "queue_count_latest": 3,
+            "queue_count_min_7d": 1,
+            "queue_count_max_7d": 3,
+            "reported_count_latest": 2,
+            "confirmed_count_latest": 1,
+            "pressure_latest": "ELEVATED"
+        });
+        let flow = serde_json::json!({
+            "configured": true,
+            "as_of_date": "2026-06-08",
+            "observation_count": 2,
+            "divergence_count": 1,
+            "positive_divergence_count": 0,
+            "negative_divergence_count": 1,
+            "breadth": {
+                "market_breadth": "UNAVAILABLE",
+                "sector_breadth": "DIVERGENT",
+                "watchlist_breadth": "SUPPORTIVE",
+                "core_holding_breadth": "NEUTRAL"
+            }
+        });
+        let mut review = String::new();
+
+        push_weekly_capital_dynamics_snapshot(
+            &mut review,
+            &supply,
+            &flow,
+            weekly_text(Language::ZhCn),
+        );
+
+        assert!(review.contains("## Capital Dynamics（供需观察）"));
+        assert!(review.contains("Current decision weight 为 0%"));
+        assert!(review.contains("### 6.1 Supply Layer（Capital Absorption）"));
+        assert!(review.contains("### 6.2 Demand Layer（Flow Layer）"));
+        assert!(review.contains("不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing"));
+    }
+
+    #[test]
+    fn weekly_latest_context_keeps_supply_layer_and_legacy_alias_in_sync() {
+        let supply = serde_json::json!({
+            "configured": true,
+            "latest_date": "2026-06-08",
+            "near_term_supply_count_latest": 1
+        });
+        let flow = serde_json::json!({
+            "configured": true,
+            "as_of_date": "2026-06-08",
+            "observation_count": 2
+        });
+        let latest = build_weekly_latest_context(
+            &PresentationPacket::default(),
+            &WeeklyReportContext {
+                macro_gravity: None,
+                research_attention_entries: 0,
+                asset_thesis_entries: 0,
+                capital_absorption_ipo_queue: supply.clone(),
+                capital_dynamics_flow_layer: flow.clone(),
+            },
+            &supply,
+            &flow,
+        );
+
+        assert_eq!(latest["capital_dynamics"]["supply_layer"], supply);
+        assert_eq!(latest["capital_absorption_ipo_queue"], supply);
+        assert_eq!(
+            latest["capital_dynamics"]["supply_layer"],
+            latest["capital_absorption_ipo_queue"]
+        );
+        assert_eq!(latest["capital_dynamics"]["flow_layer"], flow);
     }
 }
