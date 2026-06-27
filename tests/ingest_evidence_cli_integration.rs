@@ -54,7 +54,7 @@ fn test_ingest_evidence_valid() {
     }
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Successfully ingested 1 evidence record"));
+    assert!(stdout.contains("成功摄取 1 条自动证据记录。"));
 
     // Check if file exists and contains the record
     let record_file = tmp.path().join("evidence_records.jsonl");
@@ -162,7 +162,7 @@ fn test_ingest_evidence_deduplication() {
     }
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Evidence record already exists (deduplicated)"));
+    assert!(stdout.contains("证据记录已存在（已去重）。"));
 }
 
 #[test]
@@ -218,7 +218,7 @@ fn test_ingest_evidence_url_dry_run_shows_date_and_url() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     let today = chrono::Local::now().format("%Y-%m-%d").to_string();
-    assert!(stdout.contains("Date:"));
+    assert!(stdout.contains("日期:"));
     assert!(stdout.contains(&today));
     assert!(stdout.contains("URL:  file://GOOG.fixture"));
 }

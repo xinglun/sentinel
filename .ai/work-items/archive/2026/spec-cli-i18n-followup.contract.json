@@ -1,0 +1,129 @@
+{
+  "contractVersion": 1,
+  "workItemId": "spec-cli-i18n-followup",
+  "mode": "code",
+  "title": "仕様残影と CLI 編排・多言語残りの収束",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "docs/specs/ARCHITECTURE_BOUNDARY_HARDENING_TASK.md",
+    "docs/specs/EXIT_DECISION_LAYER_TASK.md",
+    "docs/specs/NO_TRADE_HARDENING_TASK.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    "docs/specs/TREND_COHESION_V2_TASK.md",
+    "src/cli.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/research/interface/gray_rhino_cli_handler.rs",
+    "tests/collect_evidence_cli_integration.rs",
+    "tests/ingest_evidence_cli_integration.rs",
+    "tests/research_attention_cli_integration.rs",
+    ".ai/work-items/active/spec-cli-i18n-followup.contract.json",
+    ".ai/work-items/active/spec-cli-i18n-followup.summary.json"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/ARCHITECTURE_BOUNDARY_HARDENING_TASK.md",
+      "reason": "ParticipationReadiness の旧参照を現行 SSOT に合わせる。"
+    },
+    {
+      "path": "docs/specs/NO_TRADE_HARDENING_TASK.md",
+      "reason": "ParticipationReadiness を current SSOT と誤認させる残影を除去する。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "旧仕様メモを履歴化し、旧語義を残さないようにする。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Daily Calibration の root 編排を削る。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "Daily Calibration の audit/質問生成を feature 側へ寄せる。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_cli_handler.rs",
+      "reason": "operator CLI の残る英語出力を language 対応に寄せる。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "仕様残影の整理と CLI 収束の軽量作業。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope が確定し、実装可能。"
+  },
+  "preReviewWarnings": [
+    "仕様文書の整理は、history 記述を完全削除せずに archived note 化する可能性がある。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "ParticipationReadiness の旧仕様が current SSOT と読めない形に収束している。",
+    "Daily Calibration の audit/質問生成が root CLI から分離されている。",
+    "operator CLI の主要な user-facing 文言が language に応じて表示される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/spec-cli-i18n-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/spec-cli-i18n-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/spec-cli-i18n-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/spec-cli-i18n-followup.contract.json SUMMARY=.ai/work-items/active/spec-cli-i18n-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/spec-cli-i18n-followup.summary.json CONTRACT=.ai/work-items/active/spec-cli-i18n-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/spec-cli-i18n-followup.contract.json SUMMARY=.ai/work-items/active/spec-cli-i18n-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/spec-cli-i18n-followup.contract.json SUMMARY=.ai/work-items/active/spec-cli-i18n-followup.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

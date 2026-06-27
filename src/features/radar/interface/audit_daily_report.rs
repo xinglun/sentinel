@@ -1,7 +1,9 @@
-use anyhow::{Context, Result};
+use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Datelike, FixedOffset, NaiveDate, Weekday};
 use std::collections::BTreeMap;
 
+use crate::features::shared::application::run_status::DeliveryStatus;
+use crate::features::shared::infrastructure::run_status_reader::load_run_evidence_collection_status;
 use crate::features::shared::interface::i18n::Language;
 
 #[derive(Debug, Clone)]
@@ -74,14 +76,81 @@ pub(crate) fn resolve_target_index(
     }
 }
 
-#[cfg(test)]
-pub(crate) fn build_audit_daily_report(
-    days: &[TransitionAuditDay],
-    target_idx: usize,
+#[derive(Debug, Clone)]
+pub(crate) struct DailyCalibrationContext {
+    pub(crate) calibration_date: NaiveDate,
+    pub(crate) audit_section: String,
+    pub(crate) questions_section: String,
+}
+
+pub(crate) async fn build_daily_calibration_context(
+    save_dir: &std::path::Path,
+    target_date_arg: Option<&str>,
     window_days: usize,
+    attention_count: usize,
+    thesis_count: usize,
     language: Language,
-) -> String {
-    build_audit_daily_report_with_evidence_status(days, target_idx, window_days, language, None)
+) -> Result<DailyCalibrationContext> {
+    let path = save_dir.join("state_transitions.jsonl");
+    let days = load_transition_audit_days(&path, language)?;
+
+    let target_date = match target_date_arg {
+        Some(raw) => Some(
+            chrono::NaiveDate::parse_from_str(raw, "%Y-%m-%d").with_context(|| {
+                format!(
+                    "{}: {}",
+                    crate::features::research::interface::valuation_gravity_i18n::future_date_error(
+                        language
+                    ),
+                    raw
+                )
+            })?,
+        ),
+        None => None,
+    };
+    let current_date = chrono::Local::now().date_naive();
+    if target_date.is_some_and(|date| date > current_date) {
+        return Err(anyhow!(
+            "{}: {}",
+            crate::features::research::interface::valuation_gravity_i18n::future_date_error(
+                language
+            ),
+            target_date.expect("future target date is present")
+        ));
+    }
+
+    let mut calibration_date = target_date.unwrap_or(current_date);
+    let mut selected_day: Option<&TransitionAuditDay> = None;
+    let audit_section = if days.is_empty() {
+        audit_empty_log_message(language).to_string()
+    } else {
+        match resolve_target_index(&days, target_date, language) {
+            Ok(target_idx) => {
+                calibration_date = days[target_idx].date;
+                selected_day = Some(&days[target_idx]);
+                let evidence_collection_status =
+                    load_run_evidence_collection_status(save_dir, days[target_idx].date)
+                        .unwrap_or(DeliveryStatus::Skipped);
+                build_audit_daily_report_with_evidence_status(
+                    &days,
+                    target_idx,
+                    window_days.max(1),
+                    language,
+                    Some(&evidence_collection_status),
+                )
+            }
+            Err(_) => audit_empty_log_message(language).to_string(),
+        }
+    };
+
+    let questions_section =
+        build_daily_calibration_questions(attention_count, thesis_count, selected_day, language);
+
+    Ok(DailyCalibrationContext {
+        calibration_date,
+        audit_section,
+        questions_section,
+    })
 }
 
 pub(crate) fn build_audit_daily_report_with_evidence_status(
@@ -575,6 +644,97 @@ fn audit_text(language: Language) -> AuditDailyText {
     }
 }
 
+pub(crate) fn load_transition_audit_days(
+    path: &std::path::Path,
+    language: Language,
+) -> Result<Vec<TransitionAuditDay>> {
+    if !path.exists() {
+        return Ok(Vec::new());
+    }
+
+    let content = std::fs::read_to_string(path)
+        .with_context(|| format!("{}: {}", audit_error_read_file(language), path.display()))?;
+
+    let mut raw_entries = Vec::<TransitionAuditEntry>::new();
+    for (idx, raw_line) in content.lines().enumerate() {
+        let line = raw_line.trim();
+        if line.is_empty() {
+            continue;
+        }
+        if let Some(entry) = parse_transition_audit_entry(line, language)
+            .with_context(|| format!("{} {}", audit_error_parse_line(language), idx + 1))?
+        {
+            raw_entries.push(entry);
+        }
+    }
+
+    raw_entries.sort_by_key(|a| a.timestamp);
+    Ok(group_audit_days(raw_entries))
+}
+
+pub(crate) fn build_daily_calibration_questions(
+    attention_count: usize,
+    thesis_count: usize,
+    selected_entry: Option<&TransitionAuditDay>,
+    language: Language,
+) -> String {
+    let gate_state = selected_entry
+        .map(|entry| {
+            if entry.latest().log.trend_cohesion_gate.to {
+                "READY"
+            } else {
+                "NO TRADE"
+            }
+        })
+        .unwrap_or("NO AUDIT");
+    let evidence_state = selected_entry
+        .and_then(|entry| entry.latest().log.trend_recognition.as_ref())
+        .map(|tr| {
+            if tr.conviction_score >= 3.0 {
+                crate::features::research::interface::cognitive_reports::daily_calibration_evidence_strong(
+                    language,
+                )
+            } else if tr.conviction_score > 0.0 {
+                crate::features::research::interface::cognitive_reports::daily_calibration_evidence_observed(
+                    language,
+                )
+            } else {
+                crate::features::research::interface::cognitive_reports::daily_calibration_evidence_none(
+                    language,
+                )
+            }
+        })
+        .unwrap_or(
+            crate::features::research::interface::cognitive_reports::daily_calibration_evidence_none(
+                language,
+            ),
+        );
+
+    format!(
+        "{}\n{} {}\n{} {}\n{} {}\n{} {}\n{}",
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_market(language),
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_gate(language),
+        gate_state,
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_evidence(language),
+        evidence_state,
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_attention(language),
+        attention_count,
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_thesis(language),
+        thesis_count,
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_boundary(language),
+    )
+}
+
+#[cfg(test)]
+pub(crate) fn build_audit_daily_report(
+    days: &[TransitionAuditDay],
+    target_idx: usize,
+    window_days: usize,
+    language: Language,
+) -> String {
+    build_audit_daily_report_with_evidence_status(days, target_idx, window_days, language, None)
+}
+
 fn opportunity_mode_label(
     mode: crate::features::radar::domain::transition_log::OpportunityMode,
     language: Language,
@@ -1006,5 +1166,127 @@ pub(crate) fn audit_daily_usage(language: Language) -> &'static str {
         Language::JaJp => {
             "使い方:\n  cargo run -- audit_daily [--date YYYY-MM-DD] [--days N]\n  cargo run -- transition_audit_summary [--date YYYY-MM-DD] [--days N]"
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::fs;
+    use tempfile::NamedTempFile;
+
+    fn sample_transition_json(
+        timestamp: &str,
+        gate_to: bool,
+        status_to: &str,
+    ) -> serde_json::Value {
+        serde_json::json!({
+            "timestamp": timestamp,
+            "date": "2026-04-21",
+            "transition": {
+                "no_trade_persists": true,
+                "market_state": {"from":"IGNITION","to":"IGNITION","changed": false},
+                "risk_overlay": {"from":"NORMAL","to":"NORMAL","changed": false},
+                "trend_cohesion_gate": {
+                    "from": false,
+                    "to": gate_to,
+                    "unmet_conditions_changed": false,
+                    "added": [],
+                    "removed": [],
+                    "persisting": []
+                },
+                "trend_cohesion_status": {"from":"Dispersed","to": status_to,"changed": true},
+                "trend_cohesion_topology": {"from":"NoLeader","to":"SingleLeader","changed": true},
+                "breakout_changes": [],
+                "opportunity_mode": {"from":"NoTradeCold","to":"Ready","changed": true},
+                "scout_days_without_expansion": 0,
+                "scout_abort_days": 0,
+                "scout_reset_triggered": false,
+                "breakout_active_count": 0,
+                "trend_recognition": {
+                    "state":"EarlyLeader",
+                    "diffusion_score": 0.45,
+                    "lag_state": true,
+                    "single_asset_decay_day": 1,
+                    "single_asset_decay_max": 2,
+                    "conviction_score": 0.45,
+                    "substantive": {
+                        "capex_payoff_signal": false,
+                        "earnings_validation": false,
+                        "order_visibility": false,
+                        "event_days_since": 0,
+                        "records": []
+                    }
+                }
+            }
+        })
+    }
+
+    #[test]
+    fn load_transition_audit_days_groups_and_sorts_entries() {
+        let tmp = NamedTempFile::new().unwrap();
+        let content = [
+            sample_transition_json("2026-04-21T09:00:00+00:00", false, "Dispersed"),
+            sample_transition_json("2026-04-21T15:00:00+00:00", true, "Forming"),
+        ]
+        .into_iter()
+        .map(|value| value.to_string())
+        .collect::<Vec<_>>()
+        .join("\n");
+        fs::write(tmp.path(), content).unwrap();
+
+        let days = load_transition_audit_days(tmp.path(), Language::EnUs).unwrap();
+        assert_eq!(days.len(), 1);
+        assert_eq!(days[0].events.len(), 2);
+        assert!(days[0].latest().log.trend_cohesion_gate.to);
+    }
+
+    #[test]
+    fn daily_calibration_questions_include_selected_gate_and_evidence_state() {
+        let entry = TransitionAuditEntry {
+            date: NaiveDate::from_ymd_opt(2026, 4, 21).unwrap(),
+            timestamp: DateTime::parse_from_rfc3339("2026-04-21T15:00:00+00:00").unwrap(),
+            log: serde_json::from_value(serde_json::json!({
+                "trend_cohesion_gate": {"from": false, "to": true, "unmet_conditions_changed": false, "added": [], "removed": [], "persisting": []},
+                "market_state": {"from": "IGNITION", "to": "IGNITION", "changed": false},
+                "risk_overlay": {"from": "NORMAL", "to": "NORMAL", "changed": false},
+                "no_trade_persists": true,
+                "trend_cohesion_status": {"from": "Dispersed", "to": "Forming", "changed": true},
+                "trend_cohesion_topology": {"from": "NoLeader", "to": "SingleLeader", "changed": true},
+                "breakout_changes": [],
+                "opportunity_mode": {"from": "NoTradeCold", "to": "Ready", "changed": true},
+                "scout_days_without_expansion": 0,
+                "scout_abort_days": 0,
+                "scout_reset_triggered": false,
+                "breakout_active_count": 0,
+                "trend_recognition": {
+                    "state": "EarlyLeader",
+                    "diffusion_score": 0.45,
+                    "lag_state": true,
+                    "single_asset_decay_day": 1,
+                    "single_asset_decay_max": 2,
+                    "conviction_score": 0.45,
+                    "substantive": {
+                        "capex_payoff_signal": false,
+                        "earnings_validation": false,
+                        "order_visibility": false,
+                        "event_days_since": 0,
+                        "records": []
+                    }
+                }
+            }))
+            .unwrap(),
+        };
+        let day = TransitionAuditDay {
+            date: entry.date,
+            events: vec![entry],
+        };
+
+        let questions = build_daily_calibration_questions(2, 4, Some(&day), Language::ZhCn);
+        assert!(questions.contains("固定问题: 今天是市场理解变化，还是只是噪音变化？"));
+        assert!(questions.contains("- 战术状态:"));
+        assert!(questions.contains("已有结构证据"));
+        assert!(questions.contains("- 需校准认知对象数: 2"));
+        assert!(questions.contains("- 需复查观察命题数: 4"));
     }
 }

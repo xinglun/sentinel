@@ -271,8 +271,8 @@ fn gray_rhino_governance_evidence_ingest_writes_jsonl_without_escalation() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Successfully ingested GovernanceConcentration evidence."));
-    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(stdout.contains("已摄取 GovernanceConcentration 证据。"));
+    assert!(stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。"));
     let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
         .expect("failed to read gray rhino evidence store");
     assert!(store.contains("\"category\":\"GovernanceConcentration\""));
@@ -321,8 +321,8 @@ fn gray_rhino_dependency_evidence_ingest_writes_jsonl_without_escalation() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Successfully ingested DependencyConcentration evidence."));
-    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(stdout.contains("已摄取 DependencyConcentration 证据。"));
+    assert!(stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。"));
     let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
         .expect("failed to read gray rhino evidence store");
     assert!(store.contains("\"category\":\"DependencyConcentration\""));
@@ -371,8 +371,8 @@ fn gray_rhino_institutional_evidence_ingest_writes_jsonl_without_escalation() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Successfully ingested InstitutionalMaturity evidence."));
-    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(stdout.contains("已摄取 InstitutionalMaturity 证据。"));
+    assert!(stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。"));
     let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
         .expect("failed to read gray rhino evidence store");
     assert!(store.contains("\"category\":\"InstitutionalMaturity\""));
@@ -421,8 +421,8 @@ fn gray_rhino_redundancy_evidence_ingest_writes_jsonl_without_escalation() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Successfully ingested Redundancy evidence."));
-    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(stdout.contains("已摄取 Redundancy 证据。"));
+    assert!(stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。"));
     let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
         .expect("failed to read gray rhino evidence store");
     assert!(store.contains("\"category\":\"Redundancy\""));
@@ -1998,17 +1998,17 @@ fn dependency_local_source_collection_produces_coverage_and_rejections() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Gray Rhino Dependency Evidence Collection"));
-    assert!(stdout.contains("Sources:  1"));
-    assert!(stdout.contains("Accepted: 1"));
-    assert!(stdout.contains("Saved:    0"));
-    assert!(stdout.contains("Manifest: 1"));
-    assert!(stdout.contains("Audit:    1"));
-    assert!(stdout.contains("Formal evidence persisted: false"));
-    assert!(stdout.contains("Field coverage:"));
+    assert!(stdout.contains("--- 灰犀牛依赖证据采集 ---"));
+    assert!(stdout.contains("来源数:  1"));
+    assert!(stdout.contains("已接受: 1"));
+    assert!(stdout.contains("已保存:    0"));
+    assert!(stdout.contains("清单: 1"));
+    assert!(stdout.contains("审计:    1"));
+    assert!(stdout.contains("正式证据已持久化: 否"));
+    assert!(stdout.contains("字段覆盖率:"));
     assert!(stdout.contains("concentration_ratio: 100.0% (1/1 extracted"));
-    assert!(stdout.contains("Rejected: 0"));
-    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(stdout.contains("已拒绝: 0"));
+    assert!(stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。"));
     assert!(tmp
         .path()
         .join("gray_rhino_dependency_source_manifest.jsonl")
@@ -2046,10 +2046,10 @@ fn dependency_source_collection_reports_rejection_taxonomy() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Rejected: 1"));
+    assert!(stdout.contains("已拒绝: 1"));
     assert!(stdout.contains("[REJECTED:MetriclessSource]"));
-    assert!(stdout.contains("Formal evidence persisted: false"));
-    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(stdout.contains("正式证据已持久化: 否"));
+    assert!(stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。"));
     assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());
 }
 
@@ -2100,12 +2100,14 @@ fn institutional_and_redundancy_source_collection_reports_coverage() {
     assert!(redundancy.status.success());
     let institutional_stdout = String::from_utf8_lossy(&institutional.stdout);
     let redundancy_stdout = String::from_utf8_lossy(&redundancy.stdout);
-    assert!(institutional_stdout.contains("Gray Rhino InstitutionalMaturity Evidence Collection"));
-    assert!(institutional_stdout.contains("Coverage: 100.0%"));
-    assert!(institutional_stdout.contains("Formal evidence persisted: false"));
-    assert!(redundancy_stdout.contains("Gray Rhino Redundancy Evidence Collection"));
-    assert!(redundancy_stdout.contains("Coverage: 100.0%"));
-    assert!(redundancy_stdout.contains("Boundary: evidence only"));
+    assert!(institutional_stdout.contains("--- 灰犀牛 InstitutionalMaturity 证据采集 ---"));
+    assert!(institutional_stdout.contains("覆盖率: 100.0%"));
+    assert!(institutional_stdout.contains("正式证据已持久化: 否"));
+    assert!(redundancy_stdout.contains("--- 灰犀牛 Redundancy 证据采集 ---"));
+    assert!(redundancy_stdout.contains("覆盖率: 100.0%"));
+    assert!(
+        redundancy_stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。")
+    );
     assert!(tmp
         .path()
         .join("gray_rhino_institutionalmaturity_source_manifest.jsonl")
@@ -2218,18 +2220,18 @@ fn gray_rhino_governance_source_collection_caches_and_extracts_metrics() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Gray Rhino Governance Evidence Collection"));
-    assert!(stdout.contains("Sources:  1"));
-    assert!(stdout.contains("Accepted: 1"));
-    assert!(stdout.contains("Manifest: 1"));
-    assert!(stdout.contains("Audit:    1"));
-    assert!(stdout.contains("Dry run:  false"));
-    assert!(stdout.contains("Formal evidence persisted: true"));
-    assert!(stdout.contains("Coverage: 100.0%"));
-    assert!(stdout.contains("Field coverage:"));
+    assert!(stdout.contains("--- 灰犀牛治理证据采集 ---"));
+    assert!(stdout.contains("来源数:  1"));
+    assert!(stdout.contains("已接受: 1"));
+    assert!(stdout.contains("清单: 1"));
+    assert!(stdout.contains("审计:    1"));
+    assert!(stdout.contains("干运行:  false"));
+    assert!(stdout.contains("正式证据已持久化: 是"));
+    assert!(stdout.contains("覆盖率: 100.0%"));
+    assert!(stdout.contains("字段覆盖率:"));
     assert!(stdout.contains("founder_voting_power: 100.0% (1/1 extracted"));
-    assert!(stdout.contains("Rejected: 0"));
-    assert!(stdout.contains("Boundary: evidence only"));
+    assert!(stdout.contains("已拒绝: 0"));
+    assert!(stdout.contains("边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。"));
     let store = fs::read_to_string(tmp.path().join("gray_rhino_evidence.jsonl"))
         .expect("failed to read gray rhino evidence store");
     assert!(store.contains("\"category\":\"GovernanceConcentration\""));
@@ -2274,13 +2276,13 @@ fn gray_rhino_governance_source_collection_rejects_metricless_source() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
-    assert!(stdout.contains("Sources:  1"));
-    assert!(stdout.contains("Accepted: 0"));
-    assert!(stdout.contains("Rejected: 1"));
-    assert!(stdout.contains("Dry run:  false"));
-    assert!(stdout.contains("Formal evidence persisted: true"));
-    assert!(stdout.contains("Coverage: 0.0%"));
-    assert!(stdout.contains("Field coverage:"));
+    assert!(stdout.contains("来源数:  1"));
+    assert!(stdout.contains("已接受: 0"));
+    assert!(stdout.contains("已拒绝: 1"));
+    assert!(stdout.contains("干运行:  false"));
+    assert!(stdout.contains("正式证据已持久化: 是"));
+    assert!(stdout.contains("覆盖率: 0.0%"));
+    assert!(stdout.contains("字段覆盖率:"));
     assert!(stdout.contains("succession_disclosure: 0.0% (0/1 extracted"));
     assert!(stdout.contains("MissingGovernanceMetric"));
     assert!(!tmp.path().join("gray_rhino_evidence.jsonl").exists());

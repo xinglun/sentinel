@@ -101,7 +101,7 @@ fn test_collect_evidence_dry_run_fallback_no_key() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Finnhub API key not found. Falling back to Fixture mode"));
-    assert!(stdout.contains("Extracted 1 records"));
+    assert!(stdout.contains("已提取 1"));
     assert!(stdout.contains("AAPL: EarningsValidation"));
 }
 

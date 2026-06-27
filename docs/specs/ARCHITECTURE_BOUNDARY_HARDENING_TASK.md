@@ -14,7 +14,7 @@ key: docs-specs-architecture-boundary-hardening-task
 現在のシステムですでに完了しているもの：
 
 1. `Market Regime`
-2. `Participation Readiness`
+2. `trend_cohesion`
 3. `Asset State / Memory`
 4. `Exit Decision`
 5. `Action Matrix`
@@ -102,7 +102,7 @@ key: docs-specs-architecture-boundary-hardening-task
 Raw Data
 → Features
 → Market Regime
-→ Participation Readiness
+→ trend_cohesion / trend_gate_changed
 → Asset State / Ranking
 → Exit Decision
 → Action Mapping
@@ -132,7 +132,7 @@ Raw Data
    - `NONE` または同等の「退出アクションなし」
 3. 最終的な `ADD / HOLD` は以下の要素によってのみ決定される：
    - `ActionMatrix`
-   - `ParticipationReadiness`
+   - `trend_gate_changed`
    - Intent synthesis
 
 推奨されるリファクタリング：
@@ -165,7 +165,7 @@ pub enum ExitIntent {
 責務：
 
 1. `ActionMatrix` の基礎アクションを受け取る。
-2. `ParticipationReadiness` を受け取る。
+2. `trend_gate_changed` を受け取る。
 3. `ExitDecision` を受け取る。
 4. 唯一の `position_intent` を出力する。
 
@@ -279,7 +279,7 @@ EXIT > TRIM > HOLD > ADD
 本フェーズでは以下のことは行いません：
 
 1. `Market Regime` の閾値の変更。
-2. `ParticipationReadiness` 判定ルールの変更。
+2. `trend_gate_changed` 判定ルールの変更。
 3. `AssetState` 分類基準の変更。
 4. 取引接続層の変更。
 5. Telegram のビジュアルスタイルの変更。

@@ -404,7 +404,7 @@ no_trade_rule
 
 本フェーズでは以下のことは行いません：
 
-1. `ParticipationReadiness` を current SSOT と誤認させる文言の追加。
+1. `trend_gate_changed` を current SSOT と誤認させる旧語義の再導入。
 2. `ExitDecision` 判定ルールの変更。
 3. `Engine` の変更。
 4. `DecisionPacket` の変更。

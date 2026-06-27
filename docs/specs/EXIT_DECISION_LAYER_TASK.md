@@ -16,7 +16,7 @@ key: docs-specs-exit-decision-layer-task
 現在のシステムには以下の要素がすでに備わっています：
 
 1. `Market Regime`
-2. `Participation Readiness`
+2. `trend_cohesion` と `trend_gate_changed`
 3. `Asset State / Ranking`
 4. `ActionMatrix`
 5. `ExecutionGate`
