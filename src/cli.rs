@@ -24,25 +24,16 @@ use crate::features::radar::interface::audit_daily_report::{
     parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
-use crate::features::research::interface::capital_absorption_report_builder::build_capital_absorption_report_with_auto;
 use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_capital_dynamics_report,
-    build_expectation_layer_report_with_config, build_flow_layer_report,
-    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
-    daily_calibration_audit_label, daily_calibration_boundary,
-    daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
+    build_daily_calibration_report_from_context, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
-    daily_calibration_expectation_label, daily_calibration_gray_rhino_label,
-    daily_calibration_macro_gravity_label, daily_calibration_question_attention,
-    daily_calibration_question_boundary, daily_calibration_question_evidence,
-    daily_calibration_question_gate, daily_calibration_question_market,
-    daily_calibration_question_thesis, daily_calibration_questions_label,
-    daily_calibration_thesis_label, daily_calibration_title,
-    daily_calibration_valuation_gravity_label, enabled_asset_thesis_count,
-    enabled_research_attention_count,
+    daily_calibration_question_attention, daily_calibration_question_boundary,
+    daily_calibration_question_evidence, daily_calibration_question_gate,
+    daily_calibration_question_market, daily_calibration_question_thesis,
+    enabled_asset_thesis_count, enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_cli_handler::{
     run_collect_gray_rhino_backfill, run_collect_gray_rhino_category_source,
@@ -51,17 +42,15 @@ use crate::features::research::interface::gray_rhino_cli_handler::{
     run_ingest_gray_rhino_governance, run_ingest_gray_rhino_institutional,
     run_ingest_gray_rhino_redundancy,
 };
-use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report_read_only;
-use crate::features::research::interface::valuation_gravity_i18n::future_date_error as valuation_future_date_error;
-use crate::features::research::interface::valuation_gravity_report_builder::build_valuation_gravity_report_with_auto;
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
 };
-use crate::features::shared::application::run_status::DeliveryStatus;
 use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
 use crate::features::shared::interface::i18n::Language;
+use chrono::Local;
+use std::path::Path;
 
 pub async fn run() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -651,33 +640,43 @@ async fn build_daily_calibration_report(
     let path = save_dir.join("state_transitions.jsonl");
     let days = load_transition_audit_days(&path, language)?;
 
-    let mut selected_entry: Option<&TransitionAuditEntry> = None;
     let target_date = match target_date_arg {
-        Some(raw) => Some(
-            NaiveDate::parse_from_str(raw, "%Y-%m-%d")
-                .with_context(|| format!("{}: {}", valuation_future_date_error(language), raw))?,
-        ),
+        Some(raw) => Some(NaiveDate::parse_from_str(raw, "%Y-%m-%d").with_context(|| {
+            format!(
+                "{}: {}",
+                crate::features::research::interface::valuation_gravity_i18n::future_date_error(
+                    language
+                ),
+                raw
+            )
+        })?),
         None => None,
     };
-    let current_date = chrono::Local::now().date_naive();
+    let current_date = Local::now().date_naive();
     if target_date.is_some_and(|date| date > current_date) {
         return Err(anyhow!(
             "{}: {}",
-            valuation_future_date_error(language),
+            crate::features::research::interface::valuation_gravity_i18n::future_date_error(
+                language
+            ),
             target_date.expect("future target date is present")
         ));
     }
+
     let mut calibration_date = target_date.unwrap_or(current_date);
+    let mut selected_day: Option<&TransitionAuditDay> = None;
     let audit_section = if days.is_empty() {
         audit_empty_log_message(language).to_string()
     } else {
         match resolve_target_index(&days, target_date, language) {
             Ok(target_idx) => {
                 calibration_date = days[target_idx].date;
+                selected_day = Some(&days[target_idx]);
                 let evidence_collection_status =
                     load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-                        .unwrap_or(DeliveryStatus::Skipped);
-                selected_entry = Some(days[target_idx].latest());
+                        .unwrap_or(
+                        crate::features::shared::application::run_status::DeliveryStatus::Skipped,
+                    );
                 build_audit_daily_report_with_evidence_status(
                     &days,
                     target_idx,
@@ -690,82 +689,19 @@ async fn build_daily_calibration_report(
         }
     };
 
-    let mut out = String::new();
-    out.push_str(daily_calibration_title(language));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_audit_label(language));
-    out.push_str("\n\n");
-    out.push_str(&audit_section);
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_questions_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_daily_calibration_questions(
+    let questions_section = build_daily_calibration_questions(app_config, selected_day, language);
+    build_daily_calibration_report_from_context(
         app_config,
-        selected_entry,
-        language,
-    ));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_attention_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_research_attention_report(app_config, language));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_thesis_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_asset_thesis_report(app_config, language));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_macro_gravity_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_macro_gravity_report(app_config, language));
-    out.push_str("\n\n");
-    let capital_absorption_report = build_capital_absorption_report_with_auto(
-        app_config,
+        &audit_section,
+        &questions_section,
         calibration_date,
-        window_days.max(1),
+        window_days,
         language,
     )
-    .await;
-    let flow_report = app_config
-        .capital_dynamics
-        .as_ref()
-        .and_then(config::CapitalDynamicsConfig::flow_layer_snapshot)
-        .map(|_| build_flow_layer_report(app_config, language));
-    out.push_str(daily_calibration_capital_dynamics_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_capital_dynamics_report(
-        &capital_absorption_report,
-        flow_report.as_deref(),
-        language,
-    ));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_valuation_gravity_label(language));
-    out.push_str("\n\n");
-    out.push_str(
-        &build_valuation_gravity_report_with_auto(app_config, calibration_date, language).await?,
-    );
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_gray_rhino_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_gray_rhino_daily_report_read_only(
-        app_config,
-        &save_dir,
-        calibration_date,
-        language,
-    )?);
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_expectation_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_expectation_layer_report_with_config(
-        app_config, language,
-    ));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_boundary(language));
-    Ok(out)
+    .await
 }
 
-fn load_transition_audit_days(
-    path: &std::path::Path,
-    language: Language,
-) -> Result<Vec<TransitionAuditDay>> {
+fn load_transition_audit_days(path: &Path, language: Language) -> Result<Vec<TransitionAuditDay>> {
     if !path.exists() {
         return Ok(Vec::new());
     }
@@ -792,14 +728,14 @@ fn load_transition_audit_days(
 
 fn build_daily_calibration_questions(
     app_config: &config::AppConfig,
-    selected_entry: Option<&TransitionAuditEntry>,
+    selected_entry: Option<&TransitionAuditDay>,
     language: Language,
 ) -> String {
     let attention_count = enabled_research_attention_count(app_config);
     let thesis_count = enabled_asset_thesis_count(app_config);
     let gate_state = selected_entry
         .map(|entry| {
-            if entry.log.trend_cohesion_gate.to {
+            if entry.latest().log.trend_cohesion_gate.to {
                 "READY"
             } else {
                 "NO TRADE"
@@ -807,7 +743,7 @@ fn build_daily_calibration_questions(
         })
         .unwrap_or("NO AUDIT");
     let evidence_state = selected_entry
-        .and_then(|entry| entry.log.trend_recognition.as_ref())
+        .and_then(|entry| entry.latest().log.trend_recognition.as_ref())
         .map(|tr| {
             if tr.conviction_score >= 3.0 {
                 daily_calibration_evidence_strong(language)
@@ -929,7 +865,9 @@ fn is_noisy_digest_detail(trimmed: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::{build_daily_calibration_telegram_digest, run_pipeline};
+    use super::{
+        build_daily_calibration_report, build_daily_calibration_telegram_digest, run_pipeline,
+    };
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
@@ -1094,6 +1032,23 @@ mod tests {
 
         assert!(digest.contains("Telegram digest"));
         assert!(!digest.contains("Telegram 摘要"));
+    }
+
+    #[test]
+    fn daily_calibration_report_builds_from_feature_layer_boundary() {
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        runtime.block_on(async {
+            let tmp = tempdir().unwrap();
+            let config = mock_config(tmp.path());
+
+            let report = build_daily_calibration_report(&config, None, 7, Language::ZhCn)
+                .await
+                .unwrap();
+
+            assert!(report.contains("🧭 每日认知校准"));
+            assert!(report.contains("本日报只校准系统理解"));
+            assert!(report.contains(super::audit_empty_log_message(Language::ZhCn)));
+        });
     }
 
     #[test]
