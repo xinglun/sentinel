@@ -1,0 +1,137 @@
+{
+  "contractVersion": 1,
+  "workItemId": "expectation-layer-phase2-source-discovery",
+  "mode": "investigate",
+  "title": "Expectation Layer 第二阶段真实数据源接入調査",
+  "scope": [
+    "docs/specs/VALUATION_GRAVITY_LAYER.md",
+    "src/features/research/domain/expectation.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_builder.rs",
+    "src/features/research/interface/expectation_report_tests.rs",
+    "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+    "src/features/research/application/valuation_gravity.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
+    ".ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/trading/**",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/cli.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/fixtures/expectation/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/VALUATION_GRAVITY_LAYER.md",
+      "reason": "既存の consensus source / fallback / boundary 契約を参照して、Expectation の実ソース化条件を整理する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+      "reason": "既存の Finnhub 由来 source adapter から、実装可能な consensus 取得パターンを抽出する。"
+    },
+    {
+      "path": "src/features/research/application/valuation_gravity.rs",
+      "reason": "source port と replay / save 境界の既存パターンを参照する。"
+    },
+    {
+      "path": "src/features/research/domain/expectation.rs",
+      "reason": "ExpectationObservation の field 契約を source coverage と突き合わせる。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "report-only boundary を維持したまま、source 未確定の状態をどう表示するかを確認する。"
+    }
+  ],
+  "unknowns": [
+    "どの upstream provider が DELIVERY_CONSENSUS、EARNINGS_CONSENSUS、REVENUE_CONSENSUS、MARGIN_CONSENSUS、CLOUD_GROWTH_CONSENSUS、CAPEX_CONSENSUS、PRODUCT_EVENT_EXPECTATION、USER_GROWTH_CONSENSUS、PROCEDURE_GROWTH_CONSENSUS を実際に覆えるか。",
+    "TSLA / MSFT の non-earnings expectation を Finnhub で足りるか、別 vendor が必要か。",
+    "source が取れない category を NOT_RELEASED / UNKNOWN / fixture fallback のどれで扱うべきか。",
+    "有料 source の entitlement と cache/replay policy をどこまで phase 2 の acceptance に含めるか。"
+  ],
+  "notCodable": true,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "external_dependency",
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "Expectation の実ソースは provider coverage と entitlement に強く依存し、誤接続すると rumor / opinion / fact の境界を壊すため、先に source matrix を確定する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": false,
+    "canVerify": true,
+    "needsHumanDecision": true,
+    "blockedReason": "provider 選定、利用契約、coverage gap の扱いは人間判断が必要で、現時点では code mode に進めない。"
+  },
+  "executionDecision": {
+    "status": "downgraded_to_investigation",
+    "reason": "実装前に source coverage と provider choice を確定する必要があるため、今回は調査タスクとして止める。"
+  },
+  "preReviewWarnings": [
+    "この Work Item は調査専用で、production code の変更は行わない。",
+    "source 選定が固まるまで phase 2 の code task に昇格しない。",
+    "coverage matrix で unsupported と判定した category は fixture fallback に戻すか、別 task に分割する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Expectation Layer の各 category について、real source / alternative source / fixture fallback / unsupported のいずれかを明示した source matrix が作られている。",
+    "DELIVERY_CONSENSUS と PRODUCT_EVENT_EXPECTATION の扱いが、provider coverage に基づいて明文化されている。",
+    "source 未取得時の NOT_RELEASED / UNKNOWN / fallback 方針が、report-only boundary を壊さない形で整理されている。",
+    "次に起こす code Work Item の scope と outOfScope が分割可能な粒度で整理されている。",
+    "production code は変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
+      "required": false
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json",
+      "required": false
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json",
+      "required": false
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の調査結果と Contract を revert し、次の code task に再分割する。"
+}
