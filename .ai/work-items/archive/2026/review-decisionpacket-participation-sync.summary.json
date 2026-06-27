@@ -1,0 +1,152 @@
+{
+  "workItemId": "review-decisionpacket-participation-sync",
+  "contractPath": ".ai/work-items/archive/2026/review-decisionpacket-participation-sync.contract.json",
+  "changedFiles": [
+    {
+      "path": "docs/specs/DECISION_PACKET_SCHEMA.md",
+      "reason": "DecisionPacket の文書が存在しない participation オブジェクトを前提にしないように修正した。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "ParticipationReadiness の独立実装が未完了であることと、現行の trend_cohesion との関係を明示した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "compatibility key の語義を trend_cohesion_ready_days に合わせ、同ファイル内のテストで JSON 互換を固定した。"
+    },
+    {
+      "path": "src/features/trading/application/trade_executor.rs",
+      "reason": "手書きコメントを日本語化し、MockTradeExecutor の最小単体テストを追加した。"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "reason": "手書きコメントを日本語化し、空信号時の早期成功経路を確認する単体テストを追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "現在の Work Item 状態を Cockpit へ同期するために生成される。"
+    },
+    {
+      "path": ".ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "reason": "Work Item Contract の scope / acceptance / verification を実行内容に合わせて更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+      "reason": "本 Work Item の最終結果を記録する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/DECISION_PACKET_SCHEMA.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/trading/application/trade_executor.rs",
+    "src/features/trading/infrastructure/trader_agent.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-index",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "仕様文書、コメント言語、互換キーの整合を小規模に修正し、同一 diff 内の test evidence も追加した。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope / sources / acceptance / verification を確認し、変更対象を限定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象が scope 内であり、outOfScope に含まれないことを確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "docs、コメント、テスト証拠を揃えたうえで required checks を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を Summary に反映できる状態にした。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "required verification が通過し、変更は文書整合・コメント言語・テスト証拠の補強に限定される。",
+    "expectedReviewFocus": [
+      "DecisionPacket 文書と実装の語義一致",
+      "ParticipationReadiness の独立実装を現時点で主張していないこと",
+      "weekly_state_report の互換 key と test evidence の一致",
+      "Trading ファイルのコメント言語と最小テストの妥当性"
+    ]
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "contractVersion": 1,
+  "workItemId": "review-decisionpacket-participation-sync",
+  "mode": "code",
+  "title": "DecisionPacket と ParticipationReadiness の仕様同期",
+  "scope": [
+    ".ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+    ".ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/DECISION_PACKET_SCHEMA.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/trading/application/trade_executor.rs",
+    "src/features/trading/infrastructure/trader_agent.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/interface/report.rs",
+    "src/adapters/futu/**"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/DECISION_PACKET_SCHEMA.md",
+      "reason": "DecisionPacket JSON 仕様の現行表記と実装の差分を確認する。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "ParticipationReadiness を現行実装とどう整合させるかを確認する。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "trend_cohesion_ready_days と互換キーの語義を確認する。"
+    },
+    {
+      "path": "src/features/trading/application/trade_executor.rs",
+      "reason": "手書きコメントの言語規約を確認する。"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "reason": "手書きコメントの言語規約を確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "review_debt",
+      "i18n_snapshot"
+    ],
+    "reason": "DecisionPacket 文書の更新とコメント言語の修正は小規模だが、仕様の語義差分を残すと downstream が誤解するため。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "文書とコメントの同期はこの scope で実施可能。"
+  },
+  "preReviewWarnings": [
+    "P2 の CLI 構成問題はこの Work Item では扱わない。",
+    "ParticipationReadiness の独立実装は行わず、現行の trend_cohesion との語義差を文書に反映する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "DecisionPacket 仕様書が実装に合わせて更新され、存在しない participation オブジェクトを前提にしない。",
+    "ParticipationReadiness タスク文書が現行実装との関係を明示し、誤った SSOT 主張をしない。",
+    "weekly_state_report の互換キー記述が trend_cohesion_ready_days の語義と一致する。",
+    "trade_executor.rs と trader_agent.rs の手書きコメントが日本語で統一される。",
+    "変更後に docs / style / Cockpit の検証が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make check-doc-links",
+      "required": true
+    },
+    {
+      "command": "make check-doc-index",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review-decisionpacket-participation-sync.contract.json SUMMARY=.ai/work-items/active/review-decisionpacket-participation-sync.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

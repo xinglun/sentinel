@@ -69,7 +69,7 @@ impl TraderAgent {
         let mut first = true;
 
         for trade in gated_trades {
-            // 2. Rate Limiting: 1s buffer between orders to comply with Moomoo limits (15/30s)
+            // 2. レート制御: Moomoo の制限（15/30 秒）に合わせて注文間に 1 秒の間隔を置く。
             if !first {
                 tokio::time::sleep(std::time::Duration::from_secs(1)).await;
             }
@@ -179,7 +179,7 @@ impl TraderAgent {
                     crate::features::trading::application::trade_executor::OrderFailureReason::None,
             };
 
-            // 3. submit 時の lock scope を狭める。
+            // 3. submit 時のロック範囲を狭める。
             let submission_result = {
                 let exec = self.executor.lock().await;
                 exec.place_order(req).await
@@ -194,10 +194,10 @@ impl TraderAgent {
                         );
                         audit.order_id = Some(order_id.clone());
 
-                        // --- Polling for Order Status (Lifecycle Closure) ---
+                        // --- 注文状態のポーリング（ライフサイクル完了） ---
                         let mut final_details = None;
                         for attempt in 1..=self.max_poll_attempts {
-                            // 各 status check の lock scope を狭める。
+                            // 各状態確認のロック範囲を狭める。
                             let status_query = {
                                 let exec = self.executor.lock().await;
                                 exec.get_order_status(&order_id).await
@@ -231,7 +231,7 @@ impl TraderAgent {
                                     );
                                 }
                             }
-                            // ここで lock を解放し、sleep 中も他の order を進められるようにする。
+                            // ここでロックを解放し、sleep 中も他の注文を進められるようにする。
                             tokio::time::sleep(self.poll_interval).await;
                         }
 
@@ -273,7 +273,7 @@ impl TraderAgent {
                                 self.poll_interval.as_secs() * self.max_poll_attempts as u64
                             );
 
-                            // --- P2-2: Behavioral Closure - Automatic Cancellation on Timeout ---
+                            // --- P2-2: タイムアウト時の自動キャンセル処理 ---
                             println!(
                                 "📡 [Trader - CANCEL] Attempting to cancel timed-out order {}...",
                                 order_id
@@ -290,7 +290,7 @@ impl TraderAgent {
                                         order_id
                                     );
 
-                                    // --- P2-2: Absolute Closure - Final Confirmation ---
+                                    // --- P2-2: 最終確認 ---
                                     let final_check = {
                                         let exec = self.executor.lock().await;
                                         exec.get_order_status(&order_id).await
@@ -327,7 +327,7 @@ impl TraderAgent {
                             }
                         }
                     } else {
-                        // 即時 reject。
+                        // 即時リジェクト。
                         println!(
                             "❌ [Trader - REJECTED] Order rejected by broker for {}: {:?}",
                             trade.symbol, res.failure_reason
@@ -365,8 +365,8 @@ impl TraderAgent {
         })
     }
 
-    /// position reconciliation を実行する（P2-3）。
-    /// local Ledger 由来の理論 position と broker 側の実 position を比較する。
+    /// ポジションの reconciliation を実行する（P2-3）。
+    /// local Ledger 由来の理論ポジションと broker 側の実ポジションを比較する。
     pub async fn reconcile_positions(&self) -> Result<ReconciliationReport> {
         println!("🔍 Starting position reconciliation...");
 
@@ -382,7 +382,7 @@ impl TraderAgent {
         let mut mismatches = Vec::new();
         let mut matching_count = 0;
 
-        // 3. 对比逻辑
+        // 3. 比較ロジック
         let mut broker_map: std::collections::HashMap<String, f64> = broker_positions
             .into_iter()
             .map(|p| (p.symbol, p.qty))
@@ -522,7 +522,7 @@ mod tests {
             transition_audit: None,
         };
         let mut policy = PortfolioPolicy::from_market_regime(&market);
-        policy.risk_assets_mode = RiskAssetsMode::NEUTRAL; // Force NEUTRAL for test stability
+        policy.risk_assets_mode = RiskAssetsMode::NEUTRAL; // テスト安定性のため NEUTRAL に固定する。
 
         let assets = vec![AssetActionDecision {
             symbol: "AAPL".to_string(),
@@ -600,17 +600,40 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_trader_agent_empty_signal_list_returns_success_without_orders() {
+        let temp = tempdir().unwrap();
+        let save_dir = temp.path().to_path_buf();
+        let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
+        );
+
+        let agent = TraderAgent::new(mock_exec.clone(), ledger);
+        let summary = agent.execute_signals(vec![]).await.unwrap();
+
+        assert!(summary.audits.is_empty());
+        summary.status.expect("empty signal list should succeed");
+
+        let count = mock_exec
+            .lock()
+            .await
+            .placed_orders_count
+            .load(Ordering::SeqCst);
+        assert_eq!(count, 0);
+    }
+
+    #[tokio::test]
     async fn test_trader_agent_capping() {
         let temp = tempdir().unwrap();
         let save_dir = temp.path().to_path_buf();
 
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
 
-        // --- Set Low Capacity ---
+        // --- 低い capacity を設定する ---
         {
             let exec = mock_exec.lock().await;
             let mut cap = exec.mock_capacity.lock().await;
-            cap.max_buy = 5.0; // Very low capacity
+            cap.max_buy = 5.0; // 非常に低い capacity
         }
 
         let ledger = Arc::new(
@@ -621,7 +644,7 @@ mod tests {
         let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "AAPL".to_string(),
             side: TradeSide::Buy,
-            qty: 50.0, // Requested 50
+            qty: 50.0, // 要求数量は 50
             price: 150.0,
             reason: "Test".to_string(),
             is_liquidation: false,
@@ -633,9 +656,9 @@ mod tests {
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
 
-        // SHOULD BE CAPPED TO 5.0
+        // 5.0 に切り詰められること
         assert_eq!(audit.qty_requested, 5.0);
-        assert_eq!(audit.qty_filled, 5.0); // Filled because mock returns status Filled for 2nd query
+        assert_eq!(audit.qty_filled, 5.0); // モックは 2 回目の照会で Filled を返す。
     }
 
     #[tokio::test]
@@ -656,11 +679,11 @@ mod tests {
         );
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
-        // 2. Dispatch a trade with qty=1.0 but is_liquidation=true
+        // 2. qty=1.0 だが is_liquidation=true の注文を送る。
         let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "EXIT_ASSET".to_string(),
             side: TradeSide::Sell,
-            qty: 1.0, // Signal only requested 1 units
+            qty: 1.0, // シグナル上の要求数量は 1.
             price: 150.0,
             reason: "ExitTest".to_string(),
             is_liquidation: true,
@@ -692,11 +715,11 @@ mod tests {
         );
         let agent = TraderAgent::new(mock_exec.clone(), ledger);
 
-        // 2. Dispatch a trade with is_trim=true
+        // 2. is_trim=true の注文を送る。
         let trade = crate::features::radar::application::execution_gate::GatedTrade {
             symbol: "TRIM_ASSET".to_string(),
             side: TradeSide::Sell,
-            qty: 0.0, // Gate doesn't specify qty for trim
+            qty: 0.0, // trim では Gate が数量を指定しない。
             price: 150.0,
             reason: "TrimTest".to_string(),
             is_liquidation: false,
@@ -732,8 +755,8 @@ mod tests {
             is_trim: false,
         };
 
-        // MockTradeExecutor は特定 symbol を扱うようにしない限り失敗しない。
-        // test 用に symbol-based failure を実装する。
+        // MockTradeExecutor は、特定 symbol を扱うようにしない限り失敗しない。
+        // テスト用に symbol ベースの failure を実装する。
 
         let summary = agent.execute_signals(vec![trade]).await.unwrap();
 
@@ -764,17 +787,17 @@ mod tests {
 
         let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
 
-        // --- Configure Mock to stay in Submitted status ---
-        // By default, MockTradeExecutor returns Filled after 2 queries.
+        // --- モックを Submitted 状態に維持する ---
+        // デフォルトでは、MockTradeExecutor は 2 回の照会後に Filled を返す。
         // Mock を変更せずに Filled threshold を直接変える手段はない。
-        // terminal status を返さない場合に Timeout へ到達することだけを確認する。
+        // 終端状態を返さない場合に Timeout へ到達することだけを確認する。
 
         // 特定 symbol では MockTradeExecutor::get_order_status が Submitted のままになるようにする。
 
         let ledger = Arc::new(
             crate::features::shared::acl::ledger_factory::build_ledger_adapter(save_dir.clone()),
         );
-        // Accelerated polling: 5 attempts * 1ms = 5ms total "timeout"
+        // 高速ポーリング: 5 回 × 1ms で合計 5ms の timeout を模擬する。
         let agent = TraderAgent::new(mock_exec.clone(), ledger)
             .with_poll_settings(std::time::Duration::from_millis(1), 5);
 
@@ -908,7 +931,7 @@ mod tests {
                     Position {
                         symbol: "US.AAPL".to_string(),
                         side: PositionSide::Long,
-                        qty: 25.0, // Mismatch (Local 20)
+                        qty: 25.0, // 不一致（Local 20）
                         can_sell_qty: 25.0,
                         cost_price: 150.0,
                         market_val: 3750.0,
@@ -916,7 +939,7 @@ mod tests {
                         pl_ratio: 0.0,
                     },
                     Position {
-                        symbol: "US.NVDA".to_string(), // Broker only
+                        symbol: "US.NVDA".to_string(), // broker のみ
                         side: PositionSide::Long,
                         qty: 5.0,
                         can_sell_qty: 5.0,
@@ -933,7 +956,7 @@ mod tests {
         let report = agent.reconcile_positions().await.unwrap();
 
         // 3. 確認する。
-        assert_eq!(report.matching_count, 1); // Only TSLA matches
+        assert_eq!(report.matching_count, 1); // TSLA のみ一致
         assert_eq!(report.mismatches.len(), 2);
 
         // AAPL の不一致。

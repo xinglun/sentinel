@@ -5,11 +5,11 @@ use async_trait::async_trait;
 #[allow(dead_code)]
 #[derive(Debug, Clone, Default)]
 pub struct AccountFunds {
-    pub power: f64,         // 购买力
-    pub total_assets: f64,  // 总资产
-    pub cash: f64,          // 现金
-    pub market_val: f64,    // 证券市值
-    pub unrealized_pl: f64, // 浮动盈亏
+    pub power: f64,         // 購買力
+    pub total_assets: f64,  // 総資産
+    pub cash: f64,          // 現金
+    pub market_val: f64,    // 有価証券評価額
+    pub unrealized_pl: f64, // 含み損益
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -20,18 +20,18 @@ pub enum OrderSide {
 
 #[derive(Debug, Clone)]
 pub enum OrderType {
-    Normal, // 普通订单
-    Market, // 市价订单
+    Normal, // 通常注文
+    Market, // 成行注文
 }
 
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct PlaceOrderRequest {
-    pub symbol: String, // ticker (e.g., US.TSLA)
+    pub symbol: String, // 銘柄コード（例: US.TSLA）
     pub side: OrderSide,
     pub order_type: OrderType,
     pub qty: f64,           // 数量
-    pub price: Option<f64>, // 价格 (如果是 limit order则需)
+    pub price: Option<f64>, // 価格（指値注文時に使用）
 }
 
 #[derive(Debug, Clone)]
@@ -82,7 +82,7 @@ pub enum OrderFailureReason {
     SecuritySuspended,
     InvalidQuantity,
     InvalidPrice,
-    Other(i32, String), // err_code, msg
+    Other(i32, String), // エラーコードとメッセージ
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize)]
@@ -111,23 +111,23 @@ pub struct OrderExecutionDetails {
     pub status: OrderStatus,
     pub qty_requested: f64,
     pub qty_filled: f64,
-    pub avg_price: f64, // 約定平均価格。
+    pub avg_price: f64, // 約定平均価格
     pub error_msg: Option<String>,
     pub failure_reason: OrderFailureReason,
 }
 
 #[async_trait]
 pub trait TradeExecutor: Send + Sync {
-    /// 取引 unlock を行う（Moomoo / OpenD 固有）。
+    /// 取引ロックを解除する（Moomoo / OpenD 固有）。
     async fn unlock_trade(&self) -> Result<()>;
 
-    /// account funds を照会する。
+    /// 口座資金を照会する。
     async fn get_account_funds(&self) -> Result<AccountFunds>;
 
     /// 注文を発注する。
     async fn place_order(&self, req: PlaceOrderRequest) -> Result<PlaceOrderResponse>;
 
-    /// 注文の最終状態を照会する（回查）。
+    /// 注文の最終状態を照会する。
     async fn get_order_status(&self, order_id: &str) -> Result<OrderExecutionDetails>;
 
     /// market data 権限と quota を照会する（P1-2）。
@@ -139,7 +139,7 @@ pub trait TradeExecutor: Send + Sync {
     /// 注文を取り消す（P2-2）。
     async fn cancel_order(&self, order_id: &str) -> Result<()>;
 
-    /// 現在 position を照会する（P2-3）。
+    /// 現在のポジションを照会する（P2-3）。
     async fn get_positions(&self) -> Result<Vec<Position>>;
 }
 
@@ -317,5 +317,30 @@ impl TradeExecutor for MockTradeExecutor {
 
     async fn get_positions(&self) -> Result<Vec<Position>> {
         Ok(vec![])
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::MockTradeExecutor;
+
+    #[test]
+    fn mock_trade_executor_starts_with_expected_defaults() {
+        let executor = MockTradeExecutor::new();
+
+        assert_eq!(
+            executor
+                .placed_orders_count
+                .load(std::sync::atomic::Ordering::SeqCst),
+            0
+        );
+
+        let capacity = executor
+            .mock_capacity
+            .try_lock()
+            .expect("default capacity mutex should be available")
+            .clone();
+        assert_eq!(capacity.max_buy, 100000.0);
+        assert_eq!(capacity.max_sell, 100000.0);
     }
 }

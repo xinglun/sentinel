@@ -100,9 +100,8 @@ pub(crate) fn persist_weekly_state_outputs(
         "avg_confidence": avg_confidence,
         "avg_stability": avg_stability,
         "trend_cohesion_ready_days": trend_cohesion_ready_days,
-        // semantic shift warning: 'participation_ready_days' は現在 'trend_cohesion_ready_days' を出力する。
-        // この key を読む downstream script は、従来の participation semantics ではなく cohesion gate semantics を受け取る。
-        // script failure を避けるため、後方互換性のためだけにこの key を維持する。
+        // 互換キーとして `participation_ready_days` を残すが、意味は `trend_cohesion_ready_days` です。
+        // downstream script は従来の participation semantics ではなく、cohesion gate semantics を受け取ります。
         "participation_ready_days": trend_cohesion_ready_days,
         "market_state_counts": market_state_counts,
         "risk_overlay_counts": risk_overlay_counts,
@@ -1045,9 +1044,9 @@ fn push_weekly_expectation_snapshot(
 mod tests {
     use super::{
         build_weekly_latest_context, load_weekly_state_machine_summaries,
-        push_weekly_capital_absorption_ipo_queue_snapshot, push_weekly_capital_dynamics_snapshot,
-        push_weekly_expectation_snapshot, push_weekly_flow_layer_snapshot, weekly_text,
-        WeeklyReportContext,
+        persist_weekly_state_outputs, push_weekly_capital_absorption_ipo_queue_snapshot,
+        push_weekly_capital_dynamics_snapshot, push_weekly_expectation_snapshot,
+        push_weekly_flow_layer_snapshot, weekly_text, WeeklyReportContext,
     };
     use crate::features::radar::interface::presentation::PresentationPacket;
     use crate::features::shared::application::run_status::StateMachineSummary;
@@ -1364,5 +1363,76 @@ mod tests {
         );
         assert_eq!(latest["capital_dynamics"]["flow_layer"], flow);
         assert_eq!(latest["expectation_layer"], expectation);
+    }
+
+    #[test]
+    fn weekly_state_metrics_keep_trend_cohesion_alias_in_sync() {
+        let temp = tempdir().unwrap();
+        let save_dir = temp.path().to_path_buf();
+        let packet_date = NaiveDate::from_ymd_opt(2026, 6, 18).unwrap();
+        let market_features = crate::features::radar::domain::features::MarketFeatures {
+            system_confidence: 0.8,
+            stability_score: 0.7,
+            ..Default::default()
+        };
+        let market_regime = crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+            market_state: crate::features::radar::domain::market_regime::MarketState::NEWBORN,
+            lifecycle_state: crate::features::radar::domain::market_regime::LifecycleState::NEWBORN,
+            risk_overlay: crate::features::radar::domain::market_regime::RiskOverlay::NORMAL,
+            reasons: vec![],
+            low_stability_streak: 0,
+            duration_in_state: 1,
+            transition_audit: None,
+        };
+        let packet = crate::features::radar::domain::decision::DecisionPacket::new(
+            packet_date,
+            market_features,
+            market_regime,
+            None,
+            crate::features::radar::domain::portfolio_policy::PortfolioPolicy::default(),
+            vec![],
+            Vec::new(),
+            false,
+            crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                continuity_streak: 3,
+                ..Default::default()
+            },
+            None,
+            None,
+        );
+        let pres_packet = crate::features::radar::interface::presentation::PresentationPacket {
+            date_str: "2026-06-18".to_string(),
+            language: Language::ZhCn,
+            ..Default::default()
+        };
+        let context = WeeklyReportContext {
+            macro_gravity: None,
+            research_attention_entries: 0,
+            asset_thesis_entries: 0,
+            capital_absorption_ipo_queue: serde_json::json!({
+                "configured": false
+            }),
+            capital_dynamics_flow_layer: serde_json::json!({
+                "configured": false
+            }),
+            expectation_layer: serde_json::json!({
+                "configured": false
+            }),
+        };
+
+        persist_weekly_state_outputs(&save_dir, &[], &packet, true, &pres_packet, &context, None)
+            .unwrap();
+
+        let metrics: serde_json::Value = serde_json::from_str(
+            &std::fs::read_to_string(save_dir.join("weekly_state_metrics.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(metrics["trend_cohesion_ready_days"], 1);
+        assert_eq!(metrics["participation_ready_days"], 1);
+        assert_eq!(
+            metrics["trend_cohesion_ready_days"],
+            metrics["participation_ready_days"]
+        );
     }
 }
