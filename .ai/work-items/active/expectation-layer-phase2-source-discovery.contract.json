@@ -1,16 +1,25 @@
 {
   "contractVersion": 1,
   "workItemId": "expectation-layer-phase2-source-discovery",
-  "mode": "investigate",
-  "title": "Expectation Layer 第二阶段真实数据源接入調査",
+  "mode": "code",
+  "title": "Expectation Layer 第二阶段真实数据源接入",
   "scope": [
-    "docs/specs/VALUATION_GRAVITY_LAYER.md",
-    "src/features/research/domain/expectation.rs",
+    "Cargo.toml",
+    "Cargo.lock",
+    "src/cli.rs",
+    "src/features/research/acl/expectation_source_adapter_factory.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/infrastructure/expectation_source_adapter.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/interface/cognitive_reports.rs",
     "src/features/research/interface/expectation_report.rs",
     "src/features/research/interface/expectation_report_builder.rs",
     "src/features/research/interface/expectation_report_tests.rs",
-    "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
-    "src/features/research/application/valuation_gravity.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/fixtures/expectation/**",
+    "tests/fixtures/expectation_source/**",
     ".ai/cockpit/current_status.md",
     ".ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
     ".ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json"
@@ -19,11 +28,7 @@
     "src/features/radar/application/execution_gate.rs",
     "src/features/trading/**",
     "src/features/radar/domain/decision.rs",
-    "src/features/radar/interface/radar_pipeline_runner.rs",
-    "src/features/radar/interface/weekly_state_report.rs",
-    "src/cli.rs",
-    "tests/research_attention_cli_integration.rs",
-    "tests/fixtures/expectation/**"
+    "src/features/research/infrastructure/gray_rhino_source_adapter.rs"
   ],
   "sources": [
     {
@@ -45,38 +50,37 @@
     {
       "path": "src/features/research/interface/expectation_report.rs",
       "reason": "report-only boundary を維持したまま、source 未確定の状態をどう表示するかを確認する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/valuation_gravity_source_adapter.rs",
+      "reason": "Finnhub 由来の blocking / JSON 取得 / error handling パターンを再利用する。"
     }
   ],
-  "unknowns": [
-    "どの upstream provider が DELIVERY_CONSENSUS、EARNINGS_CONSENSUS、REVENUE_CONSENSUS、MARGIN_CONSENSUS、CLOUD_GROWTH_CONSENSUS、CAPEX_CONSENSUS、PRODUCT_EVENT_EXPECTATION、USER_GROWTH_CONSENSUS、PROCEDURE_GROWTH_CONSENSUS を実際に覆えるか。",
-    "TSLA / MSFT の non-earnings expectation を Finnhub で足りるか、別 vendor が必要か。",
-    "source が取れない category を NOT_RELEASED / UNKNOWN / fixture fallback のどれで扱うべきか。",
-    "有料 source の entitlement と cache/replay policy をどこまで phase 2 の acceptance に含めるか。"
-  ],
-  "notCodable": true,
+  "unknowns": [],
+  "notCodable": false,
   "riskAssessment": {
-    "level": "high",
+    "level": "medium",
     "riskTypes": [
       "external_dependency",
       "data_integrity",
       "review_debt"
     ],
-    "reason": "Expectation の実ソースは provider coverage と entitlement に強く依存し、誤接続すると rumor / opinion / fact の境界を壊すため、先に source matrix を確定する必要がある。"
+    "reason": "Finnhub の premium consensus endpoint を利用するため、credential と fallback boundary を contract test で固定する必要がある。"
   },
   "agentCapability": {
-    "canImplement": false,
+    "canImplement": true,
     "canVerify": true,
-    "needsHumanDecision": true,
-    "blockedReason": "provider 選定、利用契約、coverage gap の扱いは人間判断が必要で、現時点では code mode に進めない。"
+    "needsHumanDecision": false,
+    "blockedReason": ""
   },
   "executionDecision": {
-    "status": "downgraded_to_investigation",
-    "reason": "実装前に source coverage と provider choice を確定する必要があるため、今回は調査タスクとして止める。"
+    "status": "continue",
+    "reason": "Finnhub consensus endpoint を使った real source 実装と unavailable fallback が code で実現できる。"
   },
   "preReviewWarnings": [
-    "この Work Item は調査専用で、production code の変更は行わない。",
-    "source 選定が固まるまで phase 2 の code task に昇格しない。",
-    "coverage matrix で unsupported と判定した category は fixture fallback に戻すか、別 task に分割する。"
+    "Finnhub premium endpoints の credential / entitlement がない環境では fallback path になる。",
+    "Delivery / product-event / procedure-growth など direct consensus がない category は unavailable として明示する。",
+    "report-only boundary と historical fixtures を壊さないことを contract test で固定する。"
   ],
   "checkpointPolicy": {
     "requiredCheckpoints": [
@@ -88,11 +92,11 @@
     "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
   },
   "acceptance": [
-    "Expectation Layer の各 category について、real source / alternative source / fixture fallback / unsupported のいずれかを明示した source matrix が作られている。",
-    "DELIVERY_CONSENSUS と PRODUCT_EVENT_EXPECTATION の扱いが、provider coverage に基づいて明文化されている。",
-    "source 未取得時の NOT_RELEASED / UNKNOWN / fallback 方針が、report-only boundary を壊さない形で整理されている。",
-    "次に起こす code Work Item の scope と outOfScope が分割可能な粒度で整理されている。",
-    "production code は変更しない。"
+    "Finnhub の real consensus endpoint を使って、EARNINGS_CONSENSUS / REVENUE_CONSENSUS / MARGIN_CONSENSUS を取得できる。",
+    "DELIVERY_CONSENSUS / CLOUD_GROWTH_CONSENSUS / CAPEX_CONSENSUS / PRODUCT_EVENT_EXPECTATION / USER_GROWTH_CONSENSUS / PROCEDURE_GROWTH_CONSENSUS は unsupported として明示される。",
+    "credential がない場合や upstream が失敗した場合でも report-only boundary を壊さず、fixture fallback または unavailable 表示で継続できる。",
+    "daily-calibration、Radar appendix、weekly_state_review_auto.md、latest_context の表示境界が維持される。",
+    "audit_daily、decision_packet.action、READY / EXECUTE 判定、position sizing、action matrix には接続されない。"
   ],
   "verification": [
     {
@@ -116,16 +120,20 @@
       "required": true
     },
     {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
       "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
-      "required": false
+      "required": true
     },
     {
       "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json",
-      "required": false
+      "required": true
     },
     {
       "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase2-source-discovery.summary.json",
-      "required": false
+      "required": true
     }
   ],
   "destructiveChangePolicy": {
@@ -133,5 +141,5 @@
     "requiresHumanApproval": true,
     "allowPatterns": []
   },
-  "rollbackNote": "この Work Item の調査結果と Contract を revert し、次の code task に再分割する。"
+  "rollbackNote": "この Work Item の diff を revert し、Expectation Layer の real source 接続を元に戻す。"
 }

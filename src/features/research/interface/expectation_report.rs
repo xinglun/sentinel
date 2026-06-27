@@ -1,23 +1,44 @@
 use std::collections::BTreeMap;
 
+use crate::config;
 use crate::features::research::domain::expectation::ExpectationObservation;
 use crate::features::shared::interface::i18n::Language;
 use serde::Serialize;
 use serde_json::json;
 
 use super::expectation_report_builder::{
-    build_expectation_layer_snapshot, ExpectationLayerSnapshot,
+    build_expectation_layer_fixture_snapshot, build_expectation_layer_snapshot_from_config,
+    ExpectationLayerSnapshot,
 };
 
 /// Expectation Layer の read-only report を組み立てる。
+#[allow(dead_code)]
 pub(crate) fn build_expectation_layer_report(language: Language) -> String {
-    let snapshot = build_expectation_layer_snapshot();
+    let snapshot = build_expectation_layer_fixture_snapshot();
+    build_expectation_layer_report_from_snapshot(&snapshot, language)
+}
+
+/// Expectation Layer の read-only report を live source を優先して組み立てる。
+pub(crate) fn build_expectation_layer_report_with_config(
+    app_config: &config::AppConfig,
+    language: Language,
+) -> String {
+    let snapshot = build_expectation_layer_snapshot_from_config(app_config);
     build_expectation_layer_report_from_snapshot(&snapshot, language)
 }
 
 /// Expectation Layer の snapshot を weekly metrics / latest_context 用の JSON に変換する。
+#[allow(dead_code)]
 pub(crate) fn build_expectation_layer_weekly_summary() -> serde_json::Value {
-    let snapshot = build_expectation_layer_snapshot();
+    let snapshot = build_expectation_layer_fixture_snapshot();
+    expectation_layer_summary(&snapshot)
+}
+
+/// Expectation Layer の snapshot を weekly metrics / latest_context 用の JSON に変換する。
+pub(crate) fn build_expectation_layer_weekly_summary_with_config(
+    app_config: &config::AppConfig,
+) -> serde_json::Value {
+    let snapshot = build_expectation_layer_snapshot_from_config(app_config);
     expectation_layer_summary(&snapshot)
 }
 

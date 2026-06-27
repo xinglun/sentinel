@@ -1,6 +1,7 @@
 pub(crate) mod capital_absorption_ipo_queue_store;
 pub(crate) mod capital_absorption_source_adapter;
 pub(crate) mod dependency_source_adapter;
+pub(crate) mod expectation_source_adapter;
 pub(crate) mod gray_rhino_backfill_runner;
 pub(crate) mod gray_rhino_candidate_store;
 pub(crate) mod gray_rhino_daily_report_repository;

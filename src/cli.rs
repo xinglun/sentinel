@@ -29,9 +29,10 @@ use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_capital_dynamics_report, build_expectation_layer_report,
-    build_flow_layer_report, build_macro_gravity_report, build_research_attention_report,
-    daily_calibration_attention_label, daily_calibration_audit_label, daily_calibration_boundary,
+    build_asset_thesis_report, build_capital_dynamics_report,
+    build_expectation_layer_report_with_config, build_flow_layer_report,
+    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
+    daily_calibration_audit_label, daily_calibration_boundary,
     daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
     daily_calibration_evidence_observed, daily_calibration_evidence_strong,
     daily_calibration_expectation_label, daily_calibration_gray_rhino_label,
@@ -670,19 +671,23 @@ async fn build_daily_calibration_report(
     let audit_section = if days.is_empty() {
         audit_empty_log_message(language).to_string()
     } else {
-        let target_idx = resolve_target_index(&days, target_date, language)?;
-        calibration_date = days[target_idx].date;
-        let evidence_collection_status =
-            load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-                .unwrap_or(DeliveryStatus::Skipped);
-        selected_entry = Some(days[target_idx].latest());
-        build_audit_daily_report_with_evidence_status(
-            &days,
-            target_idx,
-            window_days.max(1),
-            language,
-            Some(&evidence_collection_status),
-        )
+        match resolve_target_index(&days, target_date, language) {
+            Ok(target_idx) => {
+                calibration_date = days[target_idx].date;
+                let evidence_collection_status =
+                    load_run_evidence_collection_status(&save_dir, days[target_idx].date)
+                        .unwrap_or(DeliveryStatus::Skipped);
+                selected_entry = Some(days[target_idx].latest());
+                build_audit_daily_report_with_evidence_status(
+                    &days,
+                    target_idx,
+                    window_days.max(1),
+                    language,
+                    Some(&evidence_collection_status),
+                )
+            }
+            Err(_) => audit_empty_log_message(language).to_string(),
+        }
     };
 
     let mut out = String::new();
@@ -749,7 +754,9 @@ async fn build_daily_calibration_report(
     out.push_str("\n\n");
     out.push_str(daily_calibration_expectation_label(language));
     out.push_str("\n\n");
-    out.push_str(&build_expectation_layer_report(language));
+    out.push_str(&build_expectation_layer_report_with_config(
+        app_config, language,
+    ));
     out.push_str("\n\n");
     out.push_str(daily_calibration_boundary(language));
     Ok(out)

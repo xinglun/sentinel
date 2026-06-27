@@ -1,3 +1,5 @@
+use crate::config;
+use crate::features::research::acl::expectation_source_adapter_factory::build_expectation_layer_snapshot_from_config as build_live_expectation_layer_snapshot;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
@@ -19,7 +21,14 @@ pub(crate) struct ExpectationLayerSnapshot {
 
 /// 期待値観測の first phase fixture を組み立てる。
 #[allow(clippy::too_many_lines)]
+#[allow(dead_code)]
 pub(crate) fn build_expectation_layer_snapshot() -> ExpectationLayerSnapshot {
+    build_expectation_layer_fixture_snapshot()
+}
+
+/// 期待値観測の first phase fixture を組み立てる。
+#[allow(clippy::too_many_lines)]
+pub(crate) fn build_expectation_layer_fixture_snapshot() -> ExpectationLayerSnapshot {
     let as_of_date = NaiveDate::from_ymd_opt(2026, 6, 18).expect("valid expectation fixture date");
     ExpectationLayerSnapshot {
         as_of_date,
@@ -367,6 +376,13 @@ pub(crate) fn build_expectation_layer_snapshot() -> ExpectationLayerSnapshot {
             ),
         ],
     }
+}
+
+/// 期待値観測の live source snapshot を組み立てる。
+pub(crate) fn build_expectation_layer_snapshot_from_config(
+    app_config: &config::AppConfig,
+) -> ExpectationLayerSnapshot {
+    build_live_expectation_layer_snapshot(app_config)
 }
 
 #[allow(clippy::too_many_arguments)]

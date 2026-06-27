@@ -21,7 +21,7 @@ use crate::features::research::interface::capital_absorption_report_builder::{
     build_capital_absorption_ipo_queue_weekly_summary, build_capital_absorption_report_with_auto,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_expectation_layer_report, build_expectation_layer_weekly_summary,
+    build_expectation_layer_report_with_config, build_expectation_layer_weekly_summary_with_config,
     build_flow_layer_weekly_summary, credit_stress_label, enabled_asset_thesis_count,
     enabled_research_attention_count, growth_valuation_impact_label, liquidity_condition_label,
     macro_pressure_label, yield_curve_label,
@@ -220,7 +220,11 @@ pub(crate) async fn run_pipeline(
             packet.date,
             pres_packet.language,
         );
-        append_expectation_reference_appendix(&mut report_result, pres_packet.language);
+        append_expectation_reference_appendix(
+            &mut report_result,
+            config_arc.as_ref(),
+            pres_packet.language,
+        );
 
         runtime_services
             .persistence
@@ -286,7 +290,7 @@ fn build_weekly_report_context(
         capital_dynamics_flow_layer: build_flow_layer_weekly_summary(
             app_config.capital_dynamics.as_ref(),
         ),
-        expectation_layer: build_expectation_layer_weekly_summary(),
+        expectation_layer: build_expectation_layer_weekly_summary_with_config(app_config),
     }
 }
 
@@ -349,9 +353,10 @@ fn append_gray_rhino_appendix(
 
 fn append_expectation_reference_appendix(
     report_result: &mut report::ReportResult,
+    app_config: &config::AppConfig,
     language: crate::features::shared::interface::i18n::Language,
 ) {
-    let appendix = build_expectation_layer_report(language);
+    let appendix = build_expectation_layer_report_with_config(app_config, language);
     append_reference_appendix(report_result, &appendix, language);
 }
 

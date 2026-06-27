@@ -23,8 +23,10 @@ pub(crate) use super::daily_calibration_i18n::{
     daily_calibration_thesis_label, daily_calibration_title,
     daily_calibration_valuation_gravity_label,
 };
+#[allow(unused_imports)]
 pub(crate) use super::expectation_report::{
-    build_expectation_layer_report, build_expectation_layer_weekly_summary,
+    build_expectation_layer_report, build_expectation_layer_report_with_config,
+    build_expectation_layer_weekly_summary, build_expectation_layer_weekly_summary_with_config,
 };
 pub(crate) use super::macro_gravity_report::{
     build_macro_gravity_report_from_config, credit_stress_label, growth_valuation_impact_label,
