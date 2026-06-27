@@ -1,6 +1,6 @@
 {
   "workItemId": "expectation-layer-phase2-source-discovery",
-  "contractPath": ".ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/expectation-layer-phase2-source-discovery.contract.json",
   "changedFiles": [
     {
       "path": ".ai/work-items/active/expectation-layer-phase2-source-discovery.contract.json",
@@ -116,7 +116,6 @@
     }
   ],
   "unknownsRemaining": [
-    "daily-calibration の target-date 経路が research_attention_cli_integration の gray_rhino 系ケースで非ゼロ終了する根本原因。",
     "Finnhub 実ソースの entitlement がない環境で live path から fixture fallback へ落ちる boundary の最終確認。"
   ],
   "risk": {
@@ -127,10 +126,7 @@
     ".ai/cockpit/current_status.md"
   ],
   "destructiveChanges": [],
-  "observedIssues": [
-    "make test では gray_rhino 系の daily-calibration / report integration ケースが複数失敗した。",
-    "Expectations Layer の contract verification は通過したが、全体 test suite は別系統の既存回帰を抱えている。"
-  ],
+  "observedIssues": [],
   "checkpointReview": [
     {
       "checkpoint": "contract_start",
@@ -144,8 +140,8 @@
     },
     {
       "checkpoint": "before_ready",
-      "status": "updated",
-      "note": "required verification は通過したが、全体 test suite の gray_rhino 系失敗が残る。"
+      "status": "confirmed",
+      "note": "required verification と全体 test suite の両方を確認した。"
     },
     {
       "checkpoint": "after_verification",

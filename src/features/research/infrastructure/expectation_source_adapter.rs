@@ -3,6 +3,7 @@ use chrono::{Datelike, NaiveDate};
 use reqwest::blocking::Client;
 use serde_json::Value;
 use std::time::Duration;
+use tokio::task::block_in_place;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum FinnhubConsensusMetric {
@@ -24,16 +25,11 @@ pub(crate) struct ConsensusSeries {
 
 pub(crate) struct FinnhubExpectationSourceAdapter<'a> {
     app_config: &'a config::AppConfig,
-    client: Client,
 }
 
 impl<'a> FinnhubExpectationSourceAdapter<'a> {
     pub(crate) fn new(app_config: &'a config::AppConfig) -> Option<Self> {
-        let client = Client::builder()
-            .timeout(Duration::from_secs(15))
-            .build()
-            .ok()?;
-        Some(Self { app_config, client })
+        Some(Self { app_config })
     }
 
     pub(crate) fn has_credential(app_config: &config::AppConfig) -> bool {
@@ -65,7 +61,7 @@ impl<'a> FinnhubExpectationSourceAdapter<'a> {
         let url = format!(
             "https://finnhub.io/api/v1/stock/{endpoint}?symbol={symbol}&freq=quarterly&token={token}"
         );
-        let json = fetch_json(&self.client, &url)?;
+        let json = fetch_json(&url)?;
         let mut series = parse_consensus_series(&json, metric_prefix);
         if series.is_empty() {
             return None;
@@ -99,12 +95,18 @@ impl<'a> FinnhubExpectationSourceAdapter<'a> {
     }
 }
 
-fn fetch_json(client: &Client, url: &str) -> Option<Value> {
-    let response = client.get(url).send().ok()?;
-    if !response.status().is_success() {
-        return None;
-    }
-    response.json().ok()
+fn fetch_json(url: &str) -> Option<Value> {
+    block_in_place(|| {
+        let client = Client::builder()
+            .timeout(Duration::from_secs(15))
+            .build()
+            .ok()?;
+        let response = client.get(url).send().ok()?;
+        if !response.status().is_success() {
+            return None;
+        }
+        response.json().ok()
+    })
 }
 
 #[derive(Debug, Clone)]
