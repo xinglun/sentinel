@@ -1,4 +1,5 @@
 use crate::config;
+#[cfg(test)]
 use crate::features::research::application::capital_absorption::CapitalAbsorptionAutoSnapshot;
 use crate::features::shared::interface::i18n::Language;
 use anyhow::Result;
@@ -7,6 +8,7 @@ pub(crate) use super::asset_thesis_report::{
     build_asset_thesis_report_from_entries, enabled_asset_thesis_count_from_entries,
     enabled_research_attention_count_from_entries,
 };
+#[cfg(test)]
 pub(crate) use super::capital_absorption_report::build_capital_absorption_report_from_config;
 use super::capital_absorption_report_builder::build_capital_absorption_report_with_auto;
 pub(crate) use super::capital_dynamics_flow_report::{
@@ -25,10 +27,8 @@ pub(crate) use super::daily_calibration_i18n::{
     daily_calibration_thesis_label, daily_calibration_title,
     daily_calibration_valuation_gravity_label,
 };
-#[allow(unused_imports)]
 pub(crate) use super::expectation_report::{
-    build_expectation_layer_report, build_expectation_layer_report_with_config,
-    build_expectation_layer_weekly_summary, build_expectation_layer_weekly_summary_with_config,
+    build_expectation_layer_report_with_config, build_expectation_layer_weekly_summary_with_config,
 };
 use super::gray_rhino_report::build_gray_rhino_daily_report_read_only;
 pub(crate) use super::macro_gravity_report::{
@@ -59,7 +59,8 @@ pub(crate) fn build_macro_gravity_report(
     build_macro_gravity_report_from_config(app_config.macro_gravity.as_ref(), language)
 }
 
-#[allow(dead_code)]
+#[cfg(test)]
+#[cfg(test)]
 pub(crate) fn build_capital_absorption_report(
     app_config: &config::AppConfig,
     auto_snapshot: Option<&CapitalAbsorptionAutoSnapshot>,

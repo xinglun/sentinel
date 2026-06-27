@@ -1,0 +1,144 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cli-boundary-operator-i18n-cleanup",
+  "mode": "code",
+  "title": "CLI 境界縮小と operator 文言整理",
+  "scope": [
+    ".ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+    ".ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/radar/domain/market_regime.rs",
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_builder.rs",
+    "src/features/research/interface/gray_rhino_cli_handler.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "Daily Calibration の厚い組み立てを feature facade に下げる。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Daily Calibration の組み立て境界を feature 側へ移す。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_cli_handler.rs",
+      "reason": "operator CLI の多言語文言を収束させる。"
+    },
+    {
+      "path": "src/features/radar/domain/trend_cohesion.rs",
+      "reason": "残余の FIXME を文脈メモへ置き換える。"
+    },
+    {
+      "path": "src/features/radar/domain/market_regime.rs",
+      "reason": "dead_code 象徴を削除できるか確認する。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "fixture-only helper を test-only へ寄せられるか確認する。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "reason": "fixture-only snapshot builder を test-only へ寄せられるか確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "CLI 入口の移設と operator 出力の言語化を同時に行うため、境界確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope と acceptance を task に合わせて確定した。"
+  },
+  "preReviewWarnings": [
+    "Daily Calibration の組み立てを root CLI に戻さない。",
+    "operator CLI の language 変更は gate / execution / trading state に波及させない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "root cli.rs が Daily Calibration の audit / target selection / question assembly を直接担わず、feature facade を呼ぶだけになる。",
+    "Gray Rhino operator CLI の user-facing output が language-aware helper に集約される。",
+    "dead_code / FIXME の残余信号が除去または test-only / 文脈メモへ整理される。",
+    "fmt / test / clippy / AI guards が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

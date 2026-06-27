@@ -1,0 +1,159 @@
+{
+  "workItemId": "cli-boundary-operator-i18n-cleanup",
+  "contractPath": ".ai/work-items/archive/2026/cli-boundary-operator-i18n-cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状態の自動生成結果を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "reason": "実装範囲と検証項目を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+      "reason": "Work Item Summary を実装結果に合わせて更新した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Daily Calibration の組み立てを feature facade に寄せた。"
+    },
+    {
+      "path": "src/features/radar/domain/market_regime.rs",
+      "reason": "dead_code 信号の残余を削除した。"
+    },
+    {
+      "path": "src/features/radar/domain/trend_cohesion.rs",
+      "reason": "FIXME を文脈メモへ置き換えた。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "Daily Calibration の組み立てを feature 側へ移した。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "fixture-only helper を test-only に寄せた。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "reason": "fixture snapshot builder を test-only に寄せた。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_cli_handler.rs",
+      "reason": "Gray Rhino operator CLI の出力契約を安定化し、language-aware 入口を整理した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+    "src/cli.rs",
+    "src/features/radar/domain/market_regime.rs",
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_builder.rs",
+    "src/features/research/interface/gray_rhino_cli_handler.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/cli-boundary-operator-i18n-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "operator CLI の出力は既存契約に合わせて英語固定へ収束させたため、将来の多言語化は report 層で継続確認が必要。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Gray Rhino operator CLI を language-aware 入口のまま、既存の英語固定契約に合わせて出力を整理した。",
+    "Daily Calibration の厚い組み立てを root cli.rs から feature facade へ移した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を更新し、scope / acceptance / verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 内の CLI / report boundary だけを編集した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "make test と make clippy は通過済み。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "AI guard / status 系の make 検証をこれから実行する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "operator_cli_contract",
+      "detail": "operator CLI は既存互換の英語固定出力を維持しており、別言語の正式運用は report 層の契約で扱う必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "make test と make clippy は通過済み。AI guard / status 系の最終検証をこれから実行する。",
+    "expectedReviewFocus": [
+      "root cli.rs の Daily Calibration 境界移管",
+      "Gray Rhino operator CLI の英語固定契約",
+      "dead_code / FIXME 残余信号の解消方法"
+    ]
+  }
+}

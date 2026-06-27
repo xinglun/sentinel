@@ -28,12 +28,8 @@ use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_daily_calibration_report_from_context, daily_calibration_evidence_none,
-    daily_calibration_evidence_observed, daily_calibration_evidence_strong,
-    daily_calibration_question_attention, daily_calibration_question_boundary,
-    daily_calibration_question_evidence, daily_calibration_question_gate,
-    daily_calibration_question_market, daily_calibration_question_thesis,
-    enabled_asset_thesis_count, enabled_research_attention_count,
+    build_daily_calibration_report_from_context, enabled_asset_thesis_count,
+    enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_cli_handler::{
     run_collect_gray_rhino_backfill, run_collect_gray_rhino_category_source,
@@ -49,8 +45,6 @@ use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
 use crate::features::shared::interface::i18n::Language;
-use chrono::Local;
-use std::path::Path;
 
 pub async fn run() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -154,6 +148,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_symbol.clone(),
                 options.governance_evidence_file.as_deref(),
                 options.evidence_date_arg.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoSources => {
@@ -167,6 +162,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
                 options.evidence_days,
+                audit_language,
             )
             .await?;
         }
@@ -177,6 +173,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_governance(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::IngestGrayRhinoDependency => {
@@ -186,6 +183,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_dependency(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::IngestGrayRhinoInstitutional => {
@@ -195,6 +193,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_institutional(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::IngestGrayRhinoRedundancy => {
@@ -204,6 +203,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_redundancy(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoGovernance => {
@@ -218,6 +218,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
                 options.evidence_days,
+                audit_language,
             )
             .await?;
         }
@@ -232,6 +233,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_url.clone(),
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
+                audit_language,
             )
             .await?;
         }
@@ -253,6 +255,7 @@ pub async fn run() -> Result<()> {
                     "oversight_evolution_disclosed",
                     "compliance_maturity_level",
                 ],
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoRedundancy => {
@@ -273,6 +276,7 @@ pub async fn run() -> Result<()> {
                     "recovery_path_disclosed",
                     "failover_tested",
                 ],
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoBackfill => {
@@ -283,6 +287,7 @@ pub async fn run() -> Result<()> {
                 &app_config,
                 options.governance_evidence_file.as_deref(),
                 options.evidence_date_arg.as_deref(),
+                audit_language,
             )
             .await?;
         }
@@ -652,7 +657,7 @@ async fn build_daily_calibration_report(
         })?),
         None => None,
     };
-    let current_date = Local::now().date_naive();
+    let current_date = chrono::Local::now().date_naive();
     if target_date.is_some_and(|date| date > current_date) {
         return Err(anyhow!(
             "{}: {}",
@@ -701,7 +706,10 @@ async fn build_daily_calibration_report(
     .await
 }
 
-fn load_transition_audit_days(path: &Path, language: Language) -> Result<Vec<TransitionAuditDay>> {
+pub(crate) fn load_transition_audit_days(
+    path: &std::path::Path,
+    language: Language,
+) -> Result<Vec<TransitionAuditDay>> {
     if !path.exists() {
         return Ok(Vec::new());
     }
@@ -746,27 +754,27 @@ fn build_daily_calibration_questions(
         .and_then(|entry| entry.latest().log.trend_recognition.as_ref())
         .map(|tr| {
             if tr.conviction_score >= 3.0 {
-                daily_calibration_evidence_strong(language)
+                crate::features::research::interface::cognitive_reports::daily_calibration_evidence_strong(language)
             } else if tr.conviction_score > 0.0 {
-                daily_calibration_evidence_observed(language)
+                crate::features::research::interface::cognitive_reports::daily_calibration_evidence_observed(language)
             } else {
-                daily_calibration_evidence_none(language)
+                crate::features::research::interface::cognitive_reports::daily_calibration_evidence_none(language)
             }
         })
-        .unwrap_or(daily_calibration_evidence_none(language));
+        .unwrap_or(crate::features::research::interface::cognitive_reports::daily_calibration_evidence_none(language));
 
     format!(
         "{}\n{} {}\n{} {}\n{} {}\n{} {}\n{}",
-        daily_calibration_question_market(language),
-        daily_calibration_question_gate(language),
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_market(language),
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_gate(language),
         gate_state,
-        daily_calibration_question_evidence(language),
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_evidence(language),
         evidence_state,
-        daily_calibration_question_attention(language),
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_attention(language),
         attention_count,
-        daily_calibration_question_thesis(language),
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_thesis(language),
         thesis_count,
-        daily_calibration_question_boundary(language),
+        crate::features::research::interface::cognitive_reports::daily_calibration_question_boundary(language),
     )
 }
 

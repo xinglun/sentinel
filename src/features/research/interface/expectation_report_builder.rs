@@ -20,8 +20,8 @@ pub(crate) struct ExpectationLayerSnapshot {
 }
 
 /// 期待値観測の first phase fixture を組み立てる。
+#[cfg(test)]
 #[allow(clippy::too_many_lines)]
-#[allow(dead_code)]
 pub(crate) fn build_expectation_layer_snapshot() -> ExpectationLayerSnapshot {
     build_expectation_layer_fixture_snapshot()
 }
