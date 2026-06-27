@@ -1,0 +1,127 @@
+{
+  "workItemId": "expectation-layer-phase3-live-validation",
+  "contractPath": ".ai/work-items/archive/2026/expectation-layer-phase3-live-validation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "reason": "Expectation Layer 第三阶段の investigation 契約を live validation 向けに具体化した。"
+    },
+    {
+      "path": ".ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+      "reason": "live validation の結果と verification 状態を記録するために更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "検証結果を反映した Cockpit 状態を生成する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+    "src/features/research/infrastructure/expectation_source_adapter.rs",
+    "src/features/research/acl/expectation_source_adapter_factory.rs",
+    "src/features/research/interface/expectation_report_builder.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/cli.rs",
+    "config.toml",
+    ".ai/work-items/archive/2026/expectation-layer-phase2-source-discovery.summary.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make daily-calibration",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Finnhub の live consensus endpoint は entitlement 依存で、現在の環境では直接 probe が access denied を返した。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "daily-calibration は 2026-06-27 の live-aware Expectation snapshot を返したが、TSLA / NVDA / GOOG / MSFT / PLTR / ISRG の観測はすべて unavailable だった。",
+    "Finnhub の NVDA eps-estimate 直叩き probe は `{\"error\":\"You don't have access to this resource.\"}` を返した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "live validation 用の investigation 契約に更新した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "対象は .ai 契約 / summary / Cockpit 状態の記録に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required verification を完了済み。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification と current_status の再生成を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_dependency",
+      "detail": "Expectation Layer の live consensus は provider entitlement に依存し、現在環境では一部 supported endpoint が access denied になる。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification を満たしたが、外部 entitlement の制約が残る。",
+    "expectedReviewFocus": [
+      "live-aware snapshot と fixture fallback の分岐",
+      "entropy / entitlement failure の表示",
+      "report-only boundary"
+    ]
+  }
+}
