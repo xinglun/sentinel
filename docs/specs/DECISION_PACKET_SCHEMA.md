@@ -74,26 +74,25 @@ key: docs-specs-decision-packet-schema
           "is_core_holding": true,
           "is_candidate_only": false,
           "is_top_tier": true,
-          "participation_ready": true
+          "trend_gate_changed": true
       },
       "display_intent": "HOLD"
     }
   ],
-  "participation": {
-    "participation_ready": false,
-    "stability_ready": true,
-    "core_tier_streak_ready": false,
-    "core_tier_streak": 1,
-    "reasons": ["Core Tier streak < 3"]
-  },
-  "participation_changed": false,
   "top_tier_symbols": ["AAPL", "MSFT", "NVDA"],
+  "trend_gate_changed": false,
   "telegram": {
     "headline": "Market State: ESTABLISHED",
     "summary": "Hold core leaders, buy controlled pullbacks, no chasing."
   }
 }
 ```
+
+注記:
+
+1. `trend_gate_changed` は現行実装の正規フィールドです。
+2. `participation_changed` は旧入力の互換性のための alias であり、正規スキーマ名ではありません。
+3. `participation` オブジェクトは現行 `DecisionPacket` には存在しません。参加準備の意味は、別途 `trend_cohesion` と表示層で表現します。
 
 ## 3. 消費の原則
 

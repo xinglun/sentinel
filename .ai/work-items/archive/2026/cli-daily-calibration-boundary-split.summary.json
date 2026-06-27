@@ -1,0 +1,135 @@
+{
+  "workItemId": "cli-daily-calibration-boundary-split",
+  "contractPath": ".ai/work-items/archive/2026/cli-daily-calibration-boundary-split.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "reason": "CLI 日次校准レポートの boundary 分離に合わせて Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+      "reason": "作業結果、検証、残余リスクを記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の最新状態を自動生成ファイルへ反映した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "日次校准レポートの組み立てを feature 層へ委譲する薄い CLI に整理した。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "日次校准レポートの組み立て本体を feature 層へ移動した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+    "src/cli.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    ".ai/cockpit/current_status.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "CLI の report assembly を feature 層へ移したが、今後も boundary が CLI に戻らないよう review で確認したい。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "日次校准レポートの生成経路を CLI から feature 層へ分離し、CLI は委譲中心になった。",
+    "boundary 分離の smoke test を追加し、既存出力の維持を確認した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を作成し、scope と acceptance を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 内の src/cli.rs と feature 層のみを変更した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "fmt / test / clippy と Cockpit 系チェックを通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を summary に反映した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "cli_boundary_regression",
+      "detail": "将来の変更で report assembly が CLI に戻ると再び fat CLI 化するため、boundary 維持を review で確認したい。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Contract と verification は揃い、CLI / feature boundary も分離できたが、boundary regression の再発防止を review で確認したい。",
+    "expectedReviewFocus": [
+      "CLI から feature 層への委譲境界が維持されているか",
+      "日次校准レポートの出力が既存 snapshot と一致しているか",
+      "追加した boundary test が regression を十分に押さえているか"
+    ]
+  }
+}

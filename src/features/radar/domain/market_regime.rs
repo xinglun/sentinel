@@ -7,8 +7,6 @@ pub use crate::features::shared::domain::market_regime::{
 
 pub struct MarketRegimeStateMachine {
     pub current_lifecycle: LifecycleState,
-    #[allow(dead_code)]
-    pub current_risk: RiskOverlay,
 }
 
 impl MarketRegimeStateMachine {
@@ -22,11 +20,7 @@ impl MarketRegimeStateMachine {
         let initial_lifecycle = prev_snapshot
             .map(|s| s.lifecycle_state)
             .unwrap_or(LifecycleState::NONE);
-        let initial_risk = prev_snapshot
-            .map(|s| s.risk_overlay)
-            .unwrap_or(RiskOverlay::NORMAL);
-
-        let sm = Self::new(initial_lifecycle, initial_risk);
+        let sm = Self::new(initial_lifecycle);
 
         // ハーデニング: バックテストにおける1日の遅延を解消するため、
         // 状態が維持された場合に「今日」到達するであろう経過日数（current_potential_age）を遷移ロジックに使用します。
@@ -44,10 +38,9 @@ impl MarketRegimeStateMachine {
         (next_snapshot, next_age)
     }
 
-    pub fn new(lifecycle: LifecycleState, risk: RiskOverlay) -> Self {
+    pub fn new(lifecycle: LifecycleState) -> Self {
         Self {
             current_lifecycle: lifecycle,
-            current_risk: risk,
         }
     }
 
@@ -402,12 +395,12 @@ mod tests {
     #[test]
     fn test_lifecycle_progression() {
         let rules = mock_rules(); // min_duration = 3
-        let sm = MarketRegimeStateMachine::new(LifecycleState::NONE, RiskOverlay::NORMAL);
+        let sm = MarketRegimeStateMachine::new(LifecycleState::NONE);
         let f1 = mock_features(55.0, 0.5, 0.1);
         let (s1, _) = sm.compute_next_state(&f1, 0, None, &rules);
         assert_eq!(s1.lifecycle_state, LifecycleState::IGNITION);
 
-        let sm2 = MarketRegimeStateMachine::new(LifecycleState::IGNITION, RiskOverlay::NORMAL);
+        let sm2 = MarketRegimeStateMachine::new(LifecycleState::IGNITION);
         let f2 = mock_features(65.0, 0.5, 0.1);
         let prev = MarketRegimeSnapshot {
             lifecycle_state: LifecycleState::IGNITION,
@@ -421,7 +414,7 @@ mod tests {
     #[test]
     fn test_defensive_downgrade() {
         let rules = mock_rules();
-        let sm = MarketRegimeStateMachine::new(LifecycleState::ESTABLISHED, RiskOverlay::NORMAL);
+        let sm = MarketRegimeStateMachine::new(LifecycleState::ESTABLISHED);
         let f = mock_features(40.0, 0.5, 0.5);
         let (s, _) = sm.compute_next_state(&f, 30, None, &rules);
         assert_eq!(s.market_state, MarketState::DEFENSIVE);
@@ -435,7 +428,7 @@ mod tests {
     #[test]
     fn test_duration_lock() {
         let rules = mock_rules(); // min_duration = 3
-        let sm = MarketRegimeStateMachine::new(LifecycleState::IGNITION, RiskOverlay::NORMAL);
+        let sm = MarketRegimeStateMachine::new(LifecycleState::IGNITION);
 
         // IGNITION 1日目 (duration = 1)
         let prev = MarketRegimeSnapshot {
@@ -470,7 +463,7 @@ mod tests {
     #[test]
     fn test_duration_lock_reset() {
         let rules = mock_rules(); // min_duration = 3
-        let sm = MarketRegimeStateMachine::new(LifecycleState::ESTABLISHED, RiskOverlay::NORMAL);
+        let sm = MarketRegimeStateMachine::new(LifecycleState::ESTABLISHED);
 
         // ESTABLISHED 1日目 (duration = 1)
         let prev = MarketRegimeSnapshot {

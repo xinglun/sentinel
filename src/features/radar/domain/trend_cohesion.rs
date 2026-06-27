@@ -41,7 +41,7 @@ pub struct SubstantiveEvidence {
 
 impl SubstantiveEvidence {
     /// レコードを元にフラグを更新する。
-    /// FIXME: event_date からの経過日数計算は Engine レイヤーで行う。
+    /// event_date からの経過日数は Engine レイヤーで更新される前提で扱う。
     pub fn aggregate(&mut self) {
         self.capex_payoff_signal = self
             .records

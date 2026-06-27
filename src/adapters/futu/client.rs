@@ -27,9 +27,13 @@ pub struct FutuClient {
     pending_requests: PendingRequests,
 }
 
+fn connect_notice(addr: &str) -> String {
+    format!("🔌 Moomoo OpenD へ接続します: {}", addr)
+}
+
 impl FutuClient {
     pub fn conn_id(&self) -> u64 {
-        0 // Currently OpenD connect doesn't expose conn_id explicitly in InitConnect response in this implementation yet, 0 is safe bypass.
+        0 // 現状の実装では InitConnect 応答から conn_id を明示的に取得しないため、0 を安全な代替値として使う。
     }
 
     pub fn next_serial(&self) -> u32 {
@@ -37,7 +41,7 @@ impl FutuClient {
     }
 
     pub async fn connect(addr: &str) -> Result<Self> {
-        println!("🔌 Connecting to Moomoo OpenD at {}", addr);
+        println!("{}", connect_notice(addr));
         let stream = TcpStream::connect(addr).await?;
         let framed = Framed::new(stream, FutuCodec);
 
@@ -75,20 +79,20 @@ impl FutuClient {
                         let ack = parse_init_connect_ack(parsed)?;
                         keep_alive_interval = ack.keep_alive_interval;
                         println!(
-                            "✅ Successfully authenticated with Moomoo OpenD! Server Ver: {}",
+                            "✅ Moomoo OpenD への認証に成功しました。Server Ver: {}",
                             ack.server_ver
                         );
                     } else {
                         anyhow::bail!(
-                            "Expected InitConnect Response (1001) but got {}",
+                            "InitConnect 応答 (1001) を期待しましたが {} が返りました",
                             res_header.n_proto_id
                         );
                     }
                 }
-                Err(e) => anyhow::bail!("Codec read error during auth: {}", e),
+                Err(e) => anyhow::bail!("認証中の codec 読み取りに失敗しました: {}", e),
             }
         } else {
-            anyhow::bail!("Connection closed during InitConnect");
+            anyhow::bail!("InitConnect 中に接続が閉じられました");
         }
 
         let pending_clone = Arc::clone(&pending_requests);
@@ -124,7 +128,7 @@ impl FutuClient {
             });
         }
 
-        // response を multiplex する background loop。
+        // 応答を多重化する background loop。
         tokio::spawn(async move {
             while let Some(res) = stream_reader.next().await {
                 match res {
@@ -134,16 +138,19 @@ impl FutuClient {
                         if let Some(sender) = pending.remove(&serial) {
                             let _ = sender.send((res_header, res_body));
                         } else if res_header.n_proto_id == 1004 {
-                            // log spam を避けるため、keepalive ACK は静かに破棄する。
+                            // ログ spam を避けるため、keepalive ACK は静かに破棄する。
                         } else {
                             println!(
-                                "📩 Unmatched or Push Notification received! ProtoID: {}",
+                                "📩 一致しない応答または Push 通知を受信しました。ProtoID: {}",
                                 res_header.n_proto_id
                             );
                         }
                     }
                     Err(e) => {
-                        println!("❌ FutuClient background loop error: {}", e);
+                        println!(
+                            "❌ FutuClient の background loop でエラーが発生しました: {}",
+                            e
+                        );
                         break;
                     }
                 }
@@ -181,17 +188,17 @@ impl FutuClient {
                     Ok(res_body)
                 } else {
                     anyhow::bail!(
-                        "Protocol ID mismatch! Expected {} got {}",
+                        "Protocol ID が一致しません。期待値 {} / 実際 {}",
                         proto_id,
                         res_header.n_proto_id
                     )
                 }
             }
-            Ok(Err(_)) => anyhow::bail!("Request cancelled or channel closed"),
+            Ok(Err(_)) => anyhow::bail!("リクエストがキャンセルされたか、channel が閉じられました"),
             Err(_) => {
                 let mut pending = self.pending_requests.lock().await;
                 pending.remove(&serial);
-                anyhow::bail!("Request timed out waiting for OpenD response")
+                anyhow::bail!("OpenD 応答待ちがタイムアウトしました")
             }
         }
     }
@@ -199,12 +206,12 @@ impl FutuClient {
 
 fn parse_init_connect_ack(parsed: Response) -> Result<InitConnectAck> {
     if parsed.ret_type != 0 {
-        anyhow::bail!("InitConnect failed: {:?}", parsed.ret_msg);
+        anyhow::bail!("InitConnect に失敗しました: {:?}", parsed.ret_msg);
     }
 
     let s2c = parsed
         .s2c
-        .context("InitConnect succeeded but response missing s2c")?;
+        .context("InitConnect は成功しましたが応答の s2c がありません")?;
 
     Ok(InitConnectAck {
         server_ver: s2c.server_ver,
@@ -235,11 +242,7 @@ mod tests {
 
         let err = parse_init_connect_ack(response).unwrap_err();
 
-        assert!(
-            err.to_string().contains("missing s2c"),
-            "unexpected error: {}",
-            err
-        );
+        assert!(err.to_string().contains("s2c"), "unexpected error: {}", err);
     }
 
     #[test]
@@ -345,5 +348,10 @@ mod tests {
 
         drop(client);
         server.await.unwrap();
+    }
+
+    #[test]
+    fn connect_notice_is_localized() {
+        assert!(connect_notice("127.0.0.1:11111").contains("接続"));
     }
 }

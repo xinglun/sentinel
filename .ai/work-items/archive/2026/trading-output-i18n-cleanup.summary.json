@@ -1,0 +1,163 @@
+{
+  "workItemId": "trading-output-i18n-cleanup",
+  "contractPath": ".ai/work-items/archive/2026/trading-output-i18n-cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/trading-output-i18n-cleanup.contract.json",
+      "reason": "Work Item Contract を実装 scope に合わせて更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/trading-output-i18n-cleanup.summary.json",
+      "reason": "AI Change Summary を実装結果と検証結果に合わせて更新した。"
+    },
+    {
+      "path": "src/adapters/futu/client.rs",
+      "reason": "Futu client の接続・認証・背景ループの可視文言を日本語へ寄せた。"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "reason": "Futu provider の履歴取得エラー文言を日本語へ寄せた。"
+    },
+    {
+      "path": "src/adapters/futu/trader.rs",
+      "reason": "Futu trader の user-facing 出力と手書きコメントを日本語へ整理した。"
+    },
+    {
+      "path": "src/features/trading/application/trade_executor.rs",
+      "reason": "MockTradeExecutor の可視ログと検証補助を日本語へ整理した。"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "reason": "TraderAgent の可視ログを日本語へ寄せ、回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/trading-output-i18n-cleanup.contract.json",
+    "src/features/trading/infrastructure/trader_agent.rs",
+    "src/adapters/futu/trader.rs",
+    "src/adapters/futu/client.rs",
+    "src/adapters/futu/provider.rs",
+    "src/features/trading/application/trade_executor.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trading-output-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trading-output-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/trading-output-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/trading-output-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/trading-output-i18n-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trading-output-i18n-cleanup.summary.json CONTRACT=.ai/work-items/active/trading-output-i18n-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trading-output-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/trading-output-i18n-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trading-output-i18n-cleanup.contract.json SUMMARY=.ai/work-items/active/trading-output-i18n-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "可視文言の変更は機能に影響しないが、既存の英語ログ依存や差分レビューでの確認が必要。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "Futu trader の missing account-id テストが英語文言を期待していたため、日本語文言へ更新した。",
+      "resolution": "assertion を『設定されていません』に揃え、文言回帰を固定した。"
+    },
+    {
+      "issue": "no_trades_notice ヘルパーが最初は未使用だったため、実行経路から直接呼び出すようにした。",
+      "resolution": "execute_signals() の no-trades 分岐で helper を使い、dead code warning を解消した。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope / sources / acceptance / verification を確定し、Trading/Futu の可視出力整理に限定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "mode=code、unknowns=[]、notCodable=false、executionDecision=continue を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "required checks と Cockpit 生成物を更新し、summary の verification を実測結果へ同期した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification を通過し、cockpit status consistency まで確認した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review_debt",
+      "detail": "Trading / Futu の可視出力変更は機能影響がない一方、既存の英語ログ依存や周辺レビューでの確認が残る。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification は通過したが、可視出力変更のレビュー観点が残る。",
+    "expectedReviewFocus": [
+      "Trading/Futu の変更が gate / execution / position sizing に波及していないこと",
+      "英語直書きメッセージが変更対象ファイルから除去されていること",
+      "追加した inline test が文言回帰を十分に固定していること",
+      "Cockpit current_status が summary と一致していること"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "verified",
+    "reportOutput": "changed",
+    "persistence": "no_persistence",
+    "i18n": "changed",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "knownGaps": [],
+  "overclaimPrevention": "完了報告では Trading/Futu の可視文言とコメント整理に限定し、gate、execution、action matrix、position sizing には影響しないことを明記する。"
+}

@@ -1,0 +1,119 @@
+{
+  "contractVersion": 1,
+  "workItemId": "cli-daily-calibration-boundary-split",
+  "mode": "code",
+  "title": "CLI 日次校准レポート組み立て分離",
+  "scope": [
+    ".ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+    ".ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/research/interface/mod.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "日次校准レポートの組み立てが CLI に残っている箇所を分離する。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "feature 層へ report assembly を移す実装先を確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "CLI の組み立てロジックを feature 層へ移動するため、振る舞いを変えずに boundary を保つ必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "CLI 入口の組み立てを feature 層へ分離する実装はこの scope で可能。"
+  },
+  "preReviewWarnings": [
+    "build_daily_calibration_report の外形は維持し、report body の生成だけを feature 層へ移す。",
+    "CLI は dispatch と IO に寄せ、report 組み立ての詳細は feature layer に置く。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "CLI の日次校准レポート組み立てが feature 層へ移され、cli.rs の責務が薄くなる。",
+    "daily calibration の出力内容は既存テストと snapshot で維持される。",
+    "CLI / feature 層の boundary を示す test が追加される。",
+    "変更後に fmt / test / clippy / Cockpit の検証が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cli-daily-calibration-boundary-split.contract.json SUMMARY=.ai/work-items/active/cli-daily-calibration-boundary-split.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

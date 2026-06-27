@@ -24,7 +24,7 @@ impl FutuProvider {
     }
 
     fn parse_symbol(symbol: &str) -> Security {
-        // 単純 mapping: HK. で始まる場合は HK Security、それ以外は US を default とする。
+        // 単純な mapping: HK. で始まる場合は HK Security、それ以外は US を既定とする。
         if symbol.starts_with("HK.") || symbol.ends_with(".HK") {
             let code = symbol.replace("HK.", "").replace(".HK", "");
             Security {
@@ -79,7 +79,7 @@ impl MarketDataProvider for FutuProvider {
                 dt.month() as u8,
                 dt.day()
             ),
-            None => "2038-01-01 00:00:00".to_string(), // reasonably far future
+            None => "2038-01-01 00:00:00".to_string(), // 十分先の将来日
         };
 
         let req = Request {
@@ -90,7 +90,7 @@ impl MarketDataProvider for FutuProvider {
                 begin_time,
                 end_time,
                 max_ack_kl_num: Some(1000),
-                need_kl_fields_flag: None, // return all fields
+                need_kl_fields_flag: None, // 全フィールドを返す。
             },
         };
 
@@ -98,12 +98,12 @@ impl MarketDataProvider for FutuProvider {
         let res = Response::decode(&raw_res[..])?;
 
         if res.ret_type != 0 {
-            anyhow::bail!("Futu HistoryKL failed: {:?}", res.ret_msg);
+            anyhow::bail!("{}", history_kl_failure_message(res.ret_msg.as_deref()));
         }
 
         let s2c = res
             .s2c
-            .ok_or_else(|| anyhow::anyhow!("Missing s2c payload"))?;
+            .ok_or_else(|| anyhow::anyhow!("s2c payload がありません"))?;
 
         // Futu API は古い順で返す。
         let mut bars = Vec::new();
@@ -127,7 +127,7 @@ impl MarketDataProvider for FutuProvider {
         }
 
         if bars.is_empty() {
-            anyhow::bail!("Futu returned empty KLine list for {}", symbol);
+            anyhow::bail!("{}", empty_kline_list_message(symbol));
         }
 
         let total_trading_days = bars.len();
@@ -140,6 +140,17 @@ impl MarketDataProvider for FutuProvider {
             latest_quote_timestamp: latest_ts,
         })
     }
+}
+
+fn history_kl_failure_message(ret_msg: Option<&str>) -> String {
+    match ret_msg {
+        Some(msg) if !msg.is_empty() => format!("Futu HistoryKL に失敗しました: {}", msg),
+        _ => "Futu HistoryKL に失敗しました。".to_string(),
+    }
+}
+
+fn empty_kline_list_message(symbol: &str) -> String {
+    format!("Futu が {} に対して空の KLine リストを返しました", symbol)
 }
 
 #[cfg(test)]
@@ -164,5 +175,11 @@ mod tests {
         let us = FutuProvider::parse_symbol("AAPL");
         assert_eq!(us.market, QotMarket::UsSecurity as i32);
         assert_eq!(us.code, "AAPL");
+    }
+
+    #[test]
+    fn localized_history_error_message_is_japanese() {
+        assert!(history_kl_failure_message(Some("bad status")).contains("Futu HistoryKL"));
+        assert!(empty_kline_list_message("AAPL").contains("空の KLine リスト"));
     }
 }

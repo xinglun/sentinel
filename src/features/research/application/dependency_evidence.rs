@@ -6,21 +6,19 @@ use anyhow::{anyhow, Result};
 /// DependencyConcentration evidence の永続化 port。
 ///
 /// Phase 3-B 初期段階では collector をまだ接続しないため、port 定義を先行させる。
-#[allow(dead_code)]
 pub trait DependencyEvidenceRepository {
     fn save_dependency_evidence(&self, record: &GrayRhinoEvidenceRecord) -> Result<bool>;
+    #[allow(dead_code)]
     fn load_dependency_evidence(&self) -> Result<Vec<GrayRhinoEvidenceRecord>>;
 }
 
 #[derive(Debug, Clone, PartialEq)]
-#[allow(dead_code)]
 pub struct DependencyEvidenceIngestionOutcome {
     pub saved: bool,
     pub record: GrayRhinoEvidenceRecord,
 }
 
 /// DependencyConcentration evidence を contract validation 後に保存する。
-#[allow(dead_code)]
 pub fn ingest_dependency_concentration_evidence(
     repository: &dyn DependencyEvidenceRepository,
     evidence: DependencyConcentrationEvidence,
@@ -88,6 +86,7 @@ mod tests {
         let outcome = ingest_dependency_concentration_evidence(&repository, evidence).unwrap();
 
         assert!(outcome.saved);
+        assert_eq!(outcome.record.subject, "Example issuer");
         assert_eq!(repository.load_dependency_evidence().unwrap().len(), 1);
     }
 }

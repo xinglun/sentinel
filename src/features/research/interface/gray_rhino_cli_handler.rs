@@ -33,10 +33,364 @@ use crate::features::research::domain::gray_rhino_evidence::{
     InstitutionalMaturityEvidence, RedundancyEvidence,
 };
 use crate::features::research::interface::gray_rhino_report::render_gray_rhino_inline_reference;
+use crate::features::shared::interface::i18n::Language;
+
+fn gray_rhino_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "边界声明: 仅限证据处理，不更新升级、闸门、执行或交易状态。",
+        Language::EnUs => {
+            "Boundary: evidence only; no escalation, gate, execution, or trading state updated."
+        }
+        Language::JaJp => "境界声明: 証拠処理のみで、昇格、ゲート、実行、取引状態は更新しない。",
+    }
+}
+
+fn gray_rhino_success_message(language: Language, category: &str, saved: bool) -> String {
+    match language {
+        Language::ZhCn => {
+            if saved {
+                format!("已摄取 {category} 证据。")
+            } else {
+                format!("{category} 证据已存在（已去重）。")
+            }
+        }
+        Language::EnUs => {
+            if saved {
+                format!("Successfully ingested {category} evidence.")
+            } else {
+                format!("{category} evidence already exists (deduplicated).")
+            }
+        }
+        Language::JaJp => {
+            if saved {
+                format!("{category} の証拠を取り込みました。")
+            } else {
+                format!("{category} の証拠は既に存在します（重複除去済み）。")
+            }
+        }
+    }
+}
+
+fn gray_rhino_title_auto_discovery(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 灰犀牛自动发现 ---",
+        Language::EnUs => "--- Gray Rhino Auto Discovery ---",
+        Language::JaJp => "--- グレイリノ自動発見 ---",
+    }
+}
+
+fn gray_rhino_title_source_collection(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 灰犀牛来源采集 ---",
+        Language::EnUs => "--- Gray Rhino Source Collection ---",
+        Language::JaJp => "--- グレイリノ由来収集 ---",
+    }
+}
+
+fn gray_rhino_title_governance_collection(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 灰犀牛治理证据采集 ---",
+        Language::EnUs => "--- Gray Rhino Governance Evidence Collection ---",
+        Language::JaJp => "--- グレイリノ統治証拠収集 ---",
+    }
+}
+
+fn gray_rhino_title_dependency_collection(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 灰犀牛依赖证据采集 ---",
+        Language::EnUs => "--- Gray Rhino Dependency Evidence Collection ---",
+        Language::JaJp => "--- グレイリノ依存証拠収集 ---",
+    }
+}
+
+fn gray_rhino_title_category_collection(language: Language, category: &str) -> String {
+    match language {
+        Language::ZhCn => format!("--- 灰犀牛 {category} 证据采集 ---"),
+        Language::EnUs => format!("--- Gray Rhino {category} Evidence Collection ---"),
+        Language::JaJp => format!("--- グレイリノ {category} 証拠収集 ---"),
+    }
+}
+
+fn gray_rhino_label_source_count(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源数",
+        Language::EnUs => "Sources",
+        Language::JaJp => "ソース数",
+    }
+}
+
+fn gray_rhino_label_formal_persisted(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "正式证据已持久化",
+        Language::EnUs => "Formal evidence persisted",
+        Language::JaJp => "正式証拠は保存済み",
+    }
+}
+
+fn gray_rhino_boolean_word(language: Language, value: bool) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            if value {
+                "是"
+            } else {
+                "否"
+            }
+        }
+        Language::EnUs => {
+            if value {
+                "true"
+            } else {
+                "false"
+            }
+        }
+        Language::JaJp => {
+            if value {
+                "はい"
+            } else {
+                "いいえ"
+            }
+        }
+    }
+}
+
+fn gray_rhino_label_coverage(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "覆盖率",
+        Language::EnUs => "Coverage",
+        Language::JaJp => "カバー率",
+    }
+}
+
+fn gray_rhino_label_field_coverage(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "字段覆盖率",
+        Language::EnUs => "Field coverage",
+        Language::JaJp => "項目カバー率",
+    }
+}
+
+fn gray_rhino_provider_status_value(language: Language, value: &str) -> String {
+    match language {
+        Language::ZhCn => match value {
+            "succeeded" => "成功".to_string(),
+            "partial_failure" => "部分失败".to_string(),
+            "failed" => "失败".to_string(),
+            "skipped" => "跳过".to_string(),
+            _ => value.to_string(),
+        },
+        Language::EnUs => match value {
+            "succeeded" => "succeeded".to_string(),
+            "partial_failure" => "partial failure".to_string(),
+            "failed" => "failed".to_string(),
+            "skipped" => "skipped".to_string(),
+            _ => value.to_string(),
+        },
+        Language::JaJp => match value {
+            "succeeded" => "成功".to_string(),
+            "partial_failure" => "部分失敗".to_string(),
+            "failed" => "失敗".to_string(),
+            "skipped" => "未実行".to_string(),
+            _ => value.to_string(),
+        },
+    }
+}
+
+fn gray_rhino_source_collection_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "边界声明: 仅限来源采集，不给出交易建议，不覆盖 Gate，不修改趋势凝聚，不触发执行动作。"
+        }
+        Language::EnUs => {
+            "Boundary: source collection only; no trading recommendation, no Gate override, no trend cohesion mutation, no execution action."
+        }
+        Language::JaJp => {
+            "境界声明: 由来収集のみで、取引推奨を出さず、Gate を上書きせず、トレンド凝集を変更せず、実行アクションを起こさない。"
+        }
+    }
+}
+
+fn gray_rhino_category_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "类别",
+        Language::EnUs => "Category",
+        Language::JaJp => "カテゴリ",
+    }
+}
+
+fn gray_rhino_source_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源",
+        Language::EnUs => "Source",
+        Language::JaJp => "ソース",
+    }
+}
+
+fn gray_rhino_observed_at_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "观测时间",
+        Language::EnUs => "Observed at",
+        Language::JaJp => "観測時刻",
+    }
+}
+
+fn gray_rhino_provider_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "提供方",
+        Language::EnUs => "provider",
+        Language::JaJp => "提供元",
+    }
+}
+
+fn gray_rhino_dry_run_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "干运行",
+        Language::EnUs => "dry_run",
+        Language::JaJp => "ドライラン",
+    }
+}
+
+fn gray_rhino_source_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源数",
+        Language::EnUs => "source_count",
+        Language::JaJp => "ソース数",
+    }
+}
+
+fn gray_rhino_accepted_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已接受",
+        Language::EnUs => "accepted",
+        Language::JaJp => "受理済み",
+    }
+}
+
+fn gray_rhino_rejected_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已拒绝",
+        Language::EnUs => "rejected",
+        Language::JaJp => "拒否済み",
+    }
+}
+
+fn gray_rhino_candidate_count_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "候选数",
+        Language::EnUs => "candidate_count",
+        Language::JaJp => "候補数",
+    }
+}
+
+fn gray_rhino_provider_status_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "提供方状态",
+        Language::EnUs => "provider_status",
+        Language::JaJp => "提供元状態",
+    }
+}
+
+fn gray_rhino_planned_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已规划",
+        Language::EnUs => "planned",
+        Language::JaJp => "計画済み",
+    }
+}
+
+fn gray_rhino_path_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "路径",
+        Language::EnUs => "path",
+        Language::JaJp => "パス",
+    }
+}
+
+fn gray_rhino_taxonomy_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "分类",
+        Language::EnUs => "taxonomy",
+        Language::JaJp => "分類",
+    }
+}
+
+fn gray_rhino_message_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "消息",
+        Language::EnUs => "message",
+        Language::JaJp => "メッセージ",
+    }
+}
+
+fn gray_rhino_saved_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已保存",
+        Language::EnUs => "Saved",
+        Language::JaJp => "保存済み",
+    }
+}
+
+fn gray_rhino_manifest_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "清单",
+        Language::EnUs => "Manifest",
+        Language::JaJp => "マニフェスト",
+    }
+}
+
+fn gray_rhino_audit_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "审计",
+        Language::EnUs => "Audit",
+        Language::JaJp => "監査",
+    }
+}
+
+fn gray_rhino_latest_observed_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "最新观测日",
+        Language::EnUs => "Latest observed date",
+        Language::JaJp => "最新観測日",
+    }
+}
+
+fn gray_rhino_backfill_processed_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已处理回填条目",
+        Language::EnUs => "Backfill entries processed",
+        Language::JaJp => "処理済み回填エントリ",
+    }
+}
+
+fn gray_rhino_backfill_summary_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "回填运行摘要",
+        Language::EnUs => "Backfill run summary",
+        Language::JaJp => "回填実行サマリー",
+    }
+}
+
+fn gray_rhino_backfill_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "边界声明: 仅限干运行，不更新升级、闸门、执行或交易状态。",
+        Language::EnUs => {
+            "Boundary: dry-run only; no escalation, gate, execution, or trading state updated."
+        }
+        Language::JaJp => "境界声明: ドライランのみで、昇格、ゲート、実行、取引状態は更新しない。",
+    }
+}
+
+fn gray_rhino_backfill_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 灰犀牛多类别回填干运行 ---",
+        Language::EnUs => "--- Gray Rhino Multi-Category Backfill Dry Run ---",
+        Language::JaJp => "--- グレイリノ多カテゴリ回填ドライラン ---",
+    }
+}
 
 pub(crate) fn run_ingest_gray_rhino_governance(
     app_config: &config::AppConfig,
     file_arg: Option<&str>,
+    language: Language,
 ) -> Result<()> {
     let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
     let raw = read_gray_rhino_text_file(file, "Failed to read governance evidence file")?;
@@ -45,15 +399,25 @@ pub(crate) fn run_ingest_gray_rhino_governance(
     let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
     let store = build_governance_evidence_store_adapter(&save_dir);
     let outcome = ingest_governance_concentration_evidence(&store, evidence)?;
-    if outcome.saved {
-        println!("Successfully ingested GovernanceConcentration evidence.");
-    } else {
-        println!("GovernanceConcentration evidence already exists (deduplicated).");
-    }
-    println!("Category: GovernanceConcentration");
-    println!("Source: {}", outcome.record.source.source_title);
-    println!("Observed at: {}", outcome.record.source.observed_at);
-    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    println!(
+        "{}",
+        gray_rhino_success_message(language, "GovernanceConcentration", outcome.saved)
+    );
+    println!(
+        "{}: GovernanceConcentration",
+        gray_rhino_category_label(language)
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_source_label(language),
+        outcome.record.source.source_title
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_observed_at_label(language),
+        outcome.record.source.observed_at
+    );
+    println!("{}", gray_rhino_boundary(language));
     Ok(())
 }
 
@@ -61,6 +425,7 @@ pub(crate) fn run_discover_gray_rhino(
     symbol: Option<String>,
     file_arg: Option<&str>,
     observed_date_arg: Option<&str>,
+    language: Language,
 ) -> Result<()> {
     let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
     let subject = symbol.unwrap_or_else(|| "UNKNOWN".to_string());
@@ -76,7 +441,7 @@ pub(crate) fn run_discover_gray_rhino(
         observed_at,
         text,
     });
-    println!("--- Gray Rhino Auto Discovery ---");
+    println!("{}", gray_rhino_title_auto_discovery(language));
     println!("{}", render_gray_rhino_inline_reference(&candidates));
     Ok(())
 }
@@ -88,6 +453,7 @@ pub(crate) async fn run_collect_gray_rhino_sources(
     dry_run: bool,
     observed_date_arg: Option<&str>,
     lookback_days: usize,
+    language: Language,
 ) -> Result<()> {
     let provider = GrayRhinoSourceProvider::parse(provider_arg)
         .ok_or_else(|| anyhow!("Unsupported Gray Rhino source provider: {}", provider_arg))?;
@@ -113,16 +479,24 @@ pub(crate) async fn run_collect_gray_rhino_sources(
         },
     )
     .await?;
-    println!("--- Gray Rhino Source Collection ---");
-    println!("provider: {:?}", provider);
-    println!("dry_run: {}", dry_run);
-    println!("source_count: {}", outcomes.len());
+    println!("{}", gray_rhino_title_source_collection(language));
+    println!("{}: {:?}", gray_rhino_provider_label(language), provider);
+    println!("{}: {}", gray_rhino_dry_run_label(language), dry_run);
+    println!(
+        "{}: {}",
+        gray_rhino_source_count_label(language),
+        outcomes.len()
+    );
     let accepted = outcomes.iter().filter(|outcome| outcome.accepted).count();
     let rejected = outcomes.len().saturating_sub(accepted);
     let candidate_count: usize = outcomes.iter().map(|outcome| outcome.candidate_count).sum();
-    println!("accepted: {}", accepted);
-    println!("rejected: {}", rejected);
-    println!("candidate_count: {}", candidate_count);
+    println!("{}: {}", gray_rhino_accepted_label(language), accepted);
+    println!("{}: {}", gray_rhino_rejected_label(language), rejected);
+    println!(
+        "{}: {}",
+        gray_rhino_candidate_count_label(language),
+        candidate_count
+    );
     let provider_status = if dry_run {
         "skipped"
     } else if accepted == outcomes.len() && accepted > 0 {
@@ -134,22 +508,30 @@ pub(crate) async fn run_collect_gray_rhino_sources(
     } else {
         "skipped"
     };
-    println!("provider_status: {}", provider_status);
+    println!(
+        "{}: {}",
+        gray_rhino_provider_status_label(language),
+        gray_rhino_provider_status_value(language, provider_status)
+    );
     for outcome in &outcomes {
         println!(
-            "- {} accepted={} planned={} candidates={} path={} taxonomy={} message={}",
+            "- {} {}={} {}={} {}={} {}={} {}={} {}={}",
             outcome.subject,
+            gray_rhino_accepted_label(language),
             outcome.accepted,
+            gray_rhino_planned_label(language),
             outcome.planned,
+            gray_rhino_candidate_count_label(language),
             outcome.candidate_count,
+            gray_rhino_path_label(language),
             outcome.repository_path.as_deref().unwrap_or("none"),
+            gray_rhino_taxonomy_label(language),
             outcome.failure_taxonomy.as_deref().unwrap_or("none"),
+            gray_rhino_message_label(language),
             outcome.message
         );
     }
-    println!(
-        "Boundary: source collection only; no trading recommendation, no Gate override, no trend cohesion mutation, no execution action."
-    );
+    println!("{}", gray_rhino_source_collection_boundary(language));
     if provider_status == "failed" {
         return Err(anyhow!(
             "Gray Rhino source collection failed for provider {:?}: no accepted source",
@@ -162,6 +544,7 @@ pub(crate) async fn run_collect_gray_rhino_sources(
 pub(crate) fn run_ingest_gray_rhino_dependency(
     app_config: &config::AppConfig,
     file_arg: Option<&str>,
+    language: Language,
 ) -> Result<()> {
     let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
     let raw = read_gray_rhino_text_file(file, "Failed to read dependency evidence file")?;
@@ -170,21 +553,32 @@ pub(crate) fn run_ingest_gray_rhino_dependency(
     let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
     let store = build_governance_evidence_store_adapter(&save_dir);
     let outcome = ingest_dependency_concentration_evidence(&store, evidence)?;
-    if outcome.saved {
-        println!("Successfully ingested DependencyConcentration evidence.");
-    } else {
-        println!("DependencyConcentration evidence already exists (deduplicated).");
-    }
-    println!("Category: DependencyConcentration");
-    println!("Source: {}", outcome.record.source.source_title);
-    println!("Observed at: {}", outcome.record.source.observed_at);
-    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    println!(
+        "{}",
+        gray_rhino_success_message(language, "DependencyConcentration", outcome.saved)
+    );
+    println!(
+        "{}: DependencyConcentration",
+        gray_rhino_category_label(language)
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_source_label(language),
+        outcome.record.source.source_title
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_observed_at_label(language),
+        outcome.record.source.observed_at
+    );
+    println!("{}", gray_rhino_boundary(language));
     Ok(())
 }
 
 pub(crate) fn run_ingest_gray_rhino_institutional(
     app_config: &config::AppConfig,
     file_arg: Option<&str>,
+    language: Language,
 ) -> Result<()> {
     let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
     let raw = read_gray_rhino_text_file(file, "Failed to read institutional evidence file")?;
@@ -193,21 +587,32 @@ pub(crate) fn run_ingest_gray_rhino_institutional(
     let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
     let store = build_governance_evidence_store_adapter(&save_dir);
     let outcome = ingest_institutional_maturity_evidence(&store, evidence)?;
-    if outcome.saved {
-        println!("Successfully ingested InstitutionalMaturity evidence.");
-    } else {
-        println!("InstitutionalMaturity evidence already exists (deduplicated).");
-    }
-    println!("Category: InstitutionalMaturity");
-    println!("Source: {}", outcome.record.source.source_title);
-    println!("Observed at: {}", outcome.record.source.observed_at);
-    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    println!(
+        "{}",
+        gray_rhino_success_message(language, "InstitutionalMaturity", outcome.saved)
+    );
+    println!(
+        "{}: InstitutionalMaturity",
+        gray_rhino_category_label(language)
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_source_label(language),
+        outcome.record.source.source_title
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_observed_at_label(language),
+        outcome.record.source.observed_at
+    );
+    println!("{}", gray_rhino_boundary(language));
     Ok(())
 }
 
 pub(crate) fn run_ingest_gray_rhino_redundancy(
     app_config: &config::AppConfig,
     file_arg: Option<&str>,
+    language: Language,
 ) -> Result<()> {
     let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
     let raw = read_gray_rhino_text_file(file, "Failed to read redundancy evidence file")?;
@@ -216,18 +621,26 @@ pub(crate) fn run_ingest_gray_rhino_redundancy(
     let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
     let store = build_governance_evidence_store_adapter(&save_dir);
     let outcome = ingest_redundancy_evidence(&store, evidence)?;
-    if outcome.saved {
-        println!("Successfully ingested Redundancy evidence.");
-    } else {
-        println!("Redundancy evidence already exists (deduplicated).");
-    }
-    println!("Category: Redundancy");
-    println!("Source: {}", outcome.record.source.source_title);
-    println!("Observed at: {}", outcome.record.source.observed_at);
-    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    println!(
+        "{}",
+        gray_rhino_success_message(language, "Redundancy", outcome.saved)
+    );
+    println!("{}: Redundancy", gray_rhino_category_label(language));
+    println!(
+        "{}: {}",
+        gray_rhino_source_label(language),
+        outcome.record.source.source_title
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_observed_at_label(language),
+        outcome.record.source.observed_at
+    );
+    println!("{}", gray_rhino_boundary(language));
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(crate) async fn run_collect_gray_rhino_governance(
     app_config: &config::AppConfig,
     symbol: Option<String>,
@@ -236,6 +649,7 @@ pub(crate) async fn run_collect_gray_rhino_governance(
     dry_run_requested: bool,
     observed_date_arg: Option<&str>,
     lookback_days: usize,
+    language: Language,
 ) -> Result<()> {
     let targets = resolve_governance_collection_targets(app_config, symbol, symbols, &source_file)?;
     let observed_at = match observed_date_arg {
@@ -293,19 +707,47 @@ pub(crate) async fn run_collect_gray_rhino_governance(
         total_accepted as f64 / total_sources as f64
     };
 
-    println!("--- Gray Rhino Governance Evidence Collection ---");
-    println!("Sources:  {}", total_sources);
-    println!("Accepted: {}", total_accepted);
-    println!("Saved:    {}", total_saved);
-    println!("Manifest: {}", total_manifest);
-    println!("Audit:    {}", total_audit);
-    println!("Dry run:  {}", !persist_evidence);
-    println!("Formal evidence persisted: {}", persist_evidence);
-    println!("Coverage: {:.1}%", coverage_ratio * 100.0);
-    render_governance_field_coverage(&metric_coverage);
-    println!("Rejected: {}", rejected.len());
+    println!("{}", gray_rhino_title_governance_collection(language));
+    println!(
+        "{}:  {}",
+        gray_rhino_source_count_label(language),
+        total_sources
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_accepted_label(language),
+        total_accepted
+    );
+    println!("{}:    {}", gray_rhino_saved_label(language), total_saved);
+    println!(
+        "{}: {}",
+        gray_rhino_manifest_label(language),
+        total_manifest
+    );
+    println!("{}:    {}", gray_rhino_audit_label(language), total_audit);
+    println!(
+        "{}:  {}",
+        gray_rhino_dry_run_label(language),
+        !persist_evidence
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_label_formal_persisted(language),
+        gray_rhino_boolean_word(language, persist_evidence)
+    );
+    println!(
+        "{}: {:.1}%",
+        gray_rhino_label_coverage(language),
+        coverage_ratio * 100.0
+    );
+    render_governance_field_coverage(&metric_coverage, language);
+    println!(
+        "{}: {}",
+        gray_rhino_rejected_label(language),
+        rejected.len()
+    );
     if let Some(latest) = latest_observed_at {
-        println!("Latest observed date: {}", latest);
+        println!("{}: {}", gray_rhino_latest_observed_label(language), latest);
     }
     for rejection in &rejected {
         println!(
@@ -313,7 +755,7 @@ pub(crate) async fn run_collect_gray_rhino_governance(
             rejection.source_title, rejection.reason
         );
     }
-    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    println!("{}", gray_rhino_boundary(language));
     Ok(())
 }
 
@@ -324,6 +766,7 @@ pub(crate) async fn run_collect_gray_rhino_dependency(
     source_url: Option<String>,
     dry_run_requested: bool,
     observed_date_arg: Option<&str>,
+    language: Language,
 ) -> Result<()> {
     let target = symbol.ok_or_else(|| anyhow!("--symbol is required"))?;
     let observed_at = match observed_date_arg {
@@ -359,27 +802,63 @@ pub(crate) async fn run_collect_gray_rhino_dependency(
         summary.accepted_count as f64 / summary.source_count as f64
     };
 
-    println!("--- Gray Rhino Dependency Evidence Collection ---");
-    println!("Sources:  {}", summary.source_count);
-    println!("Accepted: {}", summary.accepted_count);
-    println!("Saved:    {}", summary.saved_count);
-    println!("Manifest: {}", summary.manifest_count);
-    println!("Audit:    {}", summary.audit_count);
-    println!("Dry run:  {}", dry_run_requested);
-    println!("Formal evidence persisted: {}", !dry_run_requested);
-    println!("Coverage: {:.1}%", coverage_ratio * 100.0);
-    render_dependency_field_coverage(&summary.metric_coverage);
-    println!("Rejected: {}", summary.rejected.len());
+    println!("{}", gray_rhino_title_dependency_collection(language));
+    println!(
+        "{}:  {}",
+        gray_rhino_source_count_label(language),
+        summary.source_count
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_accepted_label(language),
+        summary.accepted_count
+    );
+    println!(
+        "{}:    {}",
+        gray_rhino_saved_label(language),
+        summary.saved_count
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_manifest_label(language),
+        summary.manifest_count
+    );
+    println!(
+        "{}:    {}",
+        gray_rhino_audit_label(language),
+        summary.audit_count
+    );
+    println!(
+        "{}:  {}",
+        gray_rhino_dry_run_label(language),
+        dry_run_requested
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_label_formal_persisted(language),
+        gray_rhino_boolean_word(language, !dry_run_requested)
+    );
+    println!(
+        "{}: {:.1}%",
+        gray_rhino_label_coverage(language),
+        coverage_ratio * 100.0
+    );
+    render_dependency_field_coverage(&summary.metric_coverage, language);
+    println!(
+        "{}: {}",
+        gray_rhino_rejected_label(language),
+        summary.rejected.len()
+    );
     if let Some(latest) = summary.latest_observed_at {
-        println!("Latest observed date: {}", latest);
+        println!("{}: {}", gray_rhino_latest_observed_label(language), latest);
     }
     for rejection in &summary.rejected {
         println!(
-            "  [REJECTED:{:?}] {}: {}",
-            rejection.taxonomy, rejection.source_title, rejection.reason
+            "  [REJECTED:{:?}] {}",
+            rejection.taxonomy, rejection.source_title
         );
     }
-    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    println!("{}", gray_rhino_boundary(language));
     Ok(())
 }
 
@@ -387,6 +866,7 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
     app_config: &config::AppConfig,
     file_arg: Option<&str>,
     observed_date_arg: Option<&str>,
+    language: Language,
 ) -> Result<()> {
     let file = file_arg.ok_or_else(|| anyhow!("--file is required"))?;
     let raw = read_gray_rhino_text_file(file, "Failed to read Gray Rhino backfill manifest")?;
@@ -404,7 +884,7 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
     let mut drift_sources = 0usize;
     let mut failures = Vec::new();
     let mut categories = Vec::new();
-    println!("--- Gray Rhino Multi-Category Backfill Dry Run ---");
+    println!("{}", gray_rhino_backfill_title(language));
     for entry in entries {
         let category = entry
             .get("category")
@@ -480,6 +960,7 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
                     None,
                     true,
                     observed_date_arg,
+                    language,
                 )
                 .await?;
             }
@@ -497,6 +978,7 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
                     "oversight_evolution_disclosed",
                     "compliance_maturity_level",
                 ],
+                language,
             )?,
             "Redundancy" => run_collect_gray_rhino_category_source(
                 app_config,
@@ -512,6 +994,7 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
                     "recovery_path_disclosed",
                     "failover_tested",
                 ],
+                language,
             )?,
             other => {
                 failures.push(serde_json::json!({
@@ -549,12 +1032,20 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
             "boundary": "evidence only; no escalation, gate, execution, or trading state updated"
         }),
     )?;
-    println!("Backfill entries processed: {}", processed);
-    println!("Backfill run summary: gray_rhino_backfill_runs.jsonl");
-    println!("Boundary: dry-run only; no escalation, gate, execution, or trading state updated.");
+    println!(
+        "{}: {}",
+        gray_rhino_backfill_processed_label(language),
+        processed
+    );
+    println!(
+        "{}: gray_rhino_backfill_runs.jsonl",
+        gray_rhino_backfill_summary_label(language)
+    );
+    println!("{}", gray_rhino_backfill_boundary(language));
     Ok(())
 }
 
+#[allow(clippy::too_many_arguments)]
 pub(crate) fn run_collect_gray_rhino_category_source(
     app_config: &config::AppConfig,
     category: &str,
@@ -563,6 +1054,7 @@ pub(crate) fn run_collect_gray_rhino_category_source(
     dry_run_requested: bool,
     observed_date_arg: Option<&str>,
     metrics: &[&str],
+    language: Language,
 ) -> Result<()> {
     let summary = collect_gray_rhino_category_source(
         &app_config.output.save_to,
@@ -574,19 +1066,35 @@ pub(crate) fn run_collect_gray_rhino_category_source(
         metrics,
     )?;
 
-    println!("--- Gray Rhino {category} Evidence Collection ---");
-    println!("Sources:  1");
-    println!("Accepted: {}", usize::from(summary.accepted));
-    println!("Saved:    0");
-    println!("Manifest: 1");
-    println!("Audit:    1");
-    println!("Dry run:  {}", summary.dry_run_requested);
-    println!("Formal evidence persisted: false");
     println!(
-        "Coverage: {:.1}%",
+        "{}",
+        gray_rhino_title_category_collection(language, category)
+    );
+    println!("{}: 1", gray_rhino_label_source_count(language));
+    println!(
+        "{}: {}",
+        gray_rhino_accepted_label(language),
+        usize::from(summary.accepted)
+    );
+    println!("{}: 0", gray_rhino_saved_label(language));
+    println!("{}: 1", gray_rhino_manifest_label(language));
+    println!("{}: 1", gray_rhino_audit_label(language));
+    println!(
+        "{}:  {}",
+        gray_rhino_dry_run_label(language),
+        gray_rhino_boolean_word(language, summary.dry_run_requested)
+    );
+    println!(
+        "{}: {}",
+        gray_rhino_label_formal_persisted(language),
+        gray_rhino_boolean_word(language, false)
+    );
+    println!(
+        "{}: {:.1}%",
+        gray_rhino_label_coverage(language),
         (summary.extracted.len() as f64 / summary.metrics.len() as f64) * 100.0
     );
-    println!("Field coverage:");
+    println!("{}:", gray_rhino_label_field_coverage(language));
     for metric in &summary.metrics {
         let count = usize::from(summary.extracted.iter().any(|item| item == metric));
         println!(
@@ -597,20 +1105,31 @@ pub(crate) fn run_collect_gray_rhino_category_source(
             summary.missing_count(metric)
         );
     }
-    println!("Rejected: {}", usize::from(!summary.accepted));
+    println!(
+        "{}: {}",
+        gray_rhino_rejected_label(language),
+        usize::from(!summary.accepted)
+    );
     if !summary.accepted {
         println!("  [REJECTED:{}] {}", summary.taxonomy, summary.source_title);
     }
-    println!("Latest observed date: {}", summary.observed_at);
-    println!("Boundary: evidence only; no escalation, gate, execution, or trading state updated.");
+    println!(
+        "{}: {}",
+        gray_rhino_latest_observed_label(language),
+        summary.observed_at
+    );
+    println!("{}", gray_rhino_boundary(language));
     Ok(())
 }
 
-fn render_dependency_field_coverage(metric_coverage: &[DependencyFieldCoverage]) {
+fn render_dependency_field_coverage(
+    metric_coverage: &[DependencyFieldCoverage],
+    language: Language,
+) {
     if metric_coverage.is_empty() {
         return;
     }
-    println!("Field coverage:");
+    println!("{}:", gray_rhino_label_field_coverage(language));
     for metric in metric_coverage {
         let total = metric.extracted_count + metric.missing_count;
         println!(
@@ -624,11 +1143,14 @@ fn render_dependency_field_coverage(metric_coverage: &[DependencyFieldCoverage])
     }
 }
 
-fn render_governance_field_coverage(metric_coverage: &[GovernanceFieldCoverage]) {
+fn render_governance_field_coverage(
+    metric_coverage: &[GovernanceFieldCoverage],
+    language: Language,
+) {
     if metric_coverage.is_empty() {
         return;
     }
-    println!("Field coverage:");
+    println!("{}:", gray_rhino_label_field_coverage(language));
     for metric in aggregate_governance_field_coverage(metric_coverage) {
         let total = metric.extracted_count + metric.missing_count + metric.invalid_count;
         let coverage_ratio = if total == 0 {
@@ -714,4 +1236,47 @@ fn resolve_governance_collection_targets(
     targets.sort();
     targets.dedup();
     Ok(targets)
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn boundary_text_is_stable() {
+        assert!(gray_rhino_boundary(Language::ZhCn).contains("边界声明"));
+        assert!(gray_rhino_boundary(Language::EnUs).contains("Boundary"));
+        assert!(gray_rhino_boundary(Language::JaJp).contains("境界声明"));
+    }
+
+    #[test]
+    fn success_message_is_localized() {
+        assert_eq!(
+            gray_rhino_success_message(Language::ZhCn, "GovernanceConcentration", true),
+            "已摄取 GovernanceConcentration 证据。"
+        );
+        assert_eq!(
+            gray_rhino_success_message(Language::EnUs, "GovernanceConcentration", false),
+            "GovernanceConcentration evidence already exists (deduplicated)."
+        );
+        assert_eq!(
+            gray_rhino_success_message(Language::JaJp, "GovernanceConcentration", true),
+            "GovernanceConcentration の証拠を取り込みました。"
+        );
+    }
+
+    #[test]
+    fn provider_status_values_are_localized() {
+        assert_eq!(
+            gray_rhino_provider_status_value(Language::ZhCn, "succeeded"),
+            "成功"
+        );
+        assert_eq!(
+            gray_rhino_provider_status_value(Language::EnUs, "partial_failure"),
+            "partial failure"
+        );
+        assert_eq!(
+            gray_rhino_provider_status_value(Language::JaJp, "skipped"),
+            "未実行"
+        );
+    }
 }

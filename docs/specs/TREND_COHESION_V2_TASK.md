@@ -19,7 +19,7 @@ V2 は、より厳格な問いに回答しなければなりません：
 
 システムはすでに以下の問いに回答しています：
 
-- 市場に参加してよいか (Participation Readiness)。
+- `trend_gate_changed` と `trend_cohesion` が現行の参加可否 SSOT である。
 - 新規ポジションは禁止されているか。
 - 既存ポジションを保持 / 削減 / 決済すべきか。
 
@@ -32,7 +32,7 @@ V2 は、以下に対する明示的な回答を追加します：
 
 本タスクにおいて、以下を変更しては**なりません**：
 
-- `ParticipationReadiness` の閾値。
+- `trend_gate_changed` の閾値。
 - `NO TRADE` のセマンティクス。
 - `ExitDecision` (手仕舞い判定)。
 - `ActionMatrix` (アクション・マトリクス)。
@@ -95,7 +95,7 @@ pub struct TrendCohesionSnapshot {
 
 V2 では、ドメイン層ですでに利用可能なデータのみを使用します：
 
-- `participation.participation_ready`
+- `trend_gate_changed`
 - `participation.core_tier_streak`
 - `market_features.stability_score`
 - 現在の `top_tier_symbols`
@@ -143,7 +143,7 @@ V2 では、直近 3 取引日の履歴ウィンドウを使用します。
 
 - `Cohesive` (収束)
   以下のすべてが真である場合：
-  - `participation_ready == true`
+  - `trend_gate_changed == true`
   - `stability_score >= 10.0`
   - `core_tier_streak >= 3`
   - `candidate_count <= 4`
@@ -236,7 +236,7 @@ pub trend_cohesion: TrendCohesionSnapshot
 - `stability = 1.5`
 - `continuity = 1d`
 - `candidate_count = 8+`
-- `participation_ready = false`
+- `trend_gate_changed = false`
 
 レポートは明示的に以下を表示しなければなりません：
 

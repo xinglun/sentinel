@@ -1,0 +1,22 @@
+{
+  "subject": "TSLA",
+  "period": "2026Q2",
+  "as_of_date": "2026-06-18",
+  "event_type": "DELIVERY_CONSENSUS",
+  "expected_value": "~401k deliveries",
+  "actual_value": "未発表",
+  "unit": "deliveries",
+  "consensus_source": "fixture: market-consensus-sample",
+  "estimate_count": 11,
+  "estimate_high": "435k",
+  "estimate_low": "372k",
+  "estimate_median": "401k",
+  "estimate_average": "402k",
+  "revision_direction": "UP",
+  "surprise_state": "NOT_RELEASED",
+  "expectation_pressure": "HIGH",
+  "confidence": 0.82,
+  "source_health": "SUCCEEDED",
+  "interpretation": "市場はすでに約40万台前後を基準として見ている。",
+  "observed_at": "2026-06-18"
+}

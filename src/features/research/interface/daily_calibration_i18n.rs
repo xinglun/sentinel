@@ -56,6 +56,14 @@ pub(crate) fn daily_calibration_gray_rhino_label(language: Language) -> &'static
     }
 }
 
+pub(crate) fn daily_calibration_expectation_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "## 9. Expectation Layer（市场预期观测）",
+        Language::EnUs => "## 9. Expectation Layer (Market Expectation Observation)",
+        Language::JaJp => "## 9. Expectation Layer（市場期待観測）",
+    }
+}
+
 pub(crate) fn daily_calibration_valuation_gravity_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "## 7. 估值重力层",

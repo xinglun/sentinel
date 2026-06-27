@@ -34,7 +34,7 @@ key: docs-specs-display-semantics-standard
 - **表示推奨**: 点線枠、または淡色のハイライト。
 
 ### [Blocked] (ブロック済み)
-- **判定ロジック**: `is_candidate_only == true && participation_ready == false`
+- **判定ロジック**: `is_candidate_only == true && trend_gate_changed == false`
 - **目的**: 「一見良さそうに見える」にもかかわらず、システムが ADD を命じていない理由を説明します。
 - **表示推奨**: ロックアイコン、またはグレーの斜線。
 
@@ -49,5 +49,5 @@ key: docs-specs-display-semantics-standard
 ## 4. 優先順位の競合処理
 
 1. **撤退優先**: `DisplayIntent::EXIT` は最高の表示ウェイトを持ちます。
-2. **ブロック優先**: もし `participation_ready == false` ならば、いかなる買いの提案も「待機」に変換されるか、明示的に `[Blocked]` タグを付与します。
+2. **ブロック優先**: もし `trend_gate_changed == false` で、かつ `trend_cohesion` が未成立ならば、いかなる買いの提案も「待機」に変換されるか、明示的に `[Blocked]` タグを付与します。
 3. **診断優先**: `exit_decision` 内で明確な `Protection` がトリガーされている場合、必ず詳細な理由を表示する必要があります。

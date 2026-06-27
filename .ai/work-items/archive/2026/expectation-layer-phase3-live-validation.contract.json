@@ -1,0 +1,134 @@
+{
+  "contractVersion": 1,
+  "workItemId": "expectation-layer-phase3-live-validation",
+  "mode": "investigate",
+  "title": "Expectation Layer 第三阶段真实データソース検証",
+  "scope": [
+    ".ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+    ".ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/research/infrastructure/expectation_source_adapter.rs",
+      "reason": "Finnhub consensus 取得の実装経路と entitlement 依存を確認する。"
+    },
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "reason": "live snapshot と fixture fallback の分岐条件を確認する。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "reason": "live-aware snapshot が report / weekly summary にどう流れるかを確認する。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "report-only boundary が維持されるかを確認する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "daily-calibration が Expectation Layer の live-aware report を呼ぶ入口であるため。"
+    },
+    {
+      "path": "config.toml",
+      "reason": "実行時の Finnhub 設定と環境変数上書きの前提を確認する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-layer-phase2-source-discovery.summary.json",
+      "reason": "phase2 の実装結果と残余リスクを引き継ぐ。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "external_dependency",
+      "review_debt"
+    ],
+    "reason": "Expectation Layer は外部 API の entitlement と可用性に依存し、report-only boundary を壊さずに live / unavailable を区別する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "live-aware path と entitlement failure の両方を検証し、結果を Summary に記録できる。"
+  },
+  "preReviewWarnings": [
+    "外部 API は entitlement 依存のため、live 取得できなくても contract / summary 上で unavailable を明示する。",
+    "Expectation Layer は観測専用であり、Gate / Execution / Trader / Position Sizing に接続しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "daily-calibration が Expectation Layer の live-aware snapshot を経由し、fixture 固定ではないことを確認した。",
+    "Finnhub の直接 probe 結果を記録し、現在の entitlement / availability の制約を説明できる。",
+    "Expectation Layer が report-only boundary を守り、Gate / Execution / Trader / Action Matrix / Position Sizing に接続しないことを維持した。",
+    "unsupported な subject / metric は unavailable として明示され、trade_signal や decision_weight を新たに持ち込まない。",
+    "検証結果は Summary と current_status に記録され、交易語義の変更は行わない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make daily-calibration",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-layer-phase3-live-validation.contract.json SUMMARY=.ai/work-items/active/expectation-layer-phase3-live-validation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

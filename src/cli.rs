@@ -19,27 +19,16 @@ use crate::features::radar::acl::market_data_provider_factory::{
 };
 use crate::features::radar::domain::trend_cohesion::EvidenceSourceType;
 use crate::features::radar::interface::audit_daily_report::{
-    audit_daily_usage, audit_empty_log_message, audit_error_parse_date, audit_error_parse_line,
-    audit_error_read_file, build_audit_daily_report_with_evidence_status, group_audit_days,
-    parse_transition_audit_entry, resolve_target_index, TransitionAuditDay, TransitionAuditEntry,
+    audit_daily_usage, audit_empty_log_message, audit_error_parse_date,
+    build_audit_daily_report_with_evidence_status, build_daily_calibration_context,
+    load_transition_audit_days, resolve_target_index,
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
-use crate::features::research::interface::capital_absorption_report_builder::build_capital_absorption_report_with_auto;
 use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
-    build_asset_thesis_report, build_capital_dynamics_report, build_flow_layer_report,
-    build_macro_gravity_report, build_research_attention_report, daily_calibration_attention_label,
-    daily_calibration_audit_label, daily_calibration_boundary,
-    daily_calibration_capital_dynamics_label, daily_calibration_evidence_none,
-    daily_calibration_evidence_observed, daily_calibration_evidence_strong,
-    daily_calibration_gray_rhino_label, daily_calibration_macro_gravity_label,
-    daily_calibration_question_attention, daily_calibration_question_boundary,
-    daily_calibration_question_evidence, daily_calibration_question_gate,
-    daily_calibration_question_market, daily_calibration_question_thesis,
-    daily_calibration_questions_label, daily_calibration_thesis_label, daily_calibration_title,
-    daily_calibration_valuation_gravity_label, enabled_asset_thesis_count,
+    build_daily_calibration_report_from_context, enabled_asset_thesis_count,
     enabled_research_attention_count,
 };
 use crate::features::research::interface::gray_rhino_cli_handler::{
@@ -49,13 +38,9 @@ use crate::features::research::interface::gray_rhino_cli_handler::{
     run_ingest_gray_rhino_governance, run_ingest_gray_rhino_institutional,
     run_ingest_gray_rhino_redundancy,
 };
-use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report_read_only;
-use crate::features::research::interface::valuation_gravity_i18n::future_date_error as valuation_future_date_error;
-use crate::features::research::interface::valuation_gravity_report_builder::build_valuation_gravity_report_with_auto;
 use crate::features::shared::acl::notification_factory::{
     load_run_evidence_collection_status, send_required_telegram_notification,
 };
-use crate::features::shared::application::run_status::DeliveryStatus;
 use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
@@ -163,6 +148,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_symbol.clone(),
                 options.governance_evidence_file.as_deref(),
                 options.evidence_date_arg.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoSources => {
@@ -176,6 +162,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
                 options.evidence_days,
+                audit_language,
             )
             .await?;
         }
@@ -186,6 +173,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_governance(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::IngestGrayRhinoDependency => {
@@ -195,6 +183,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_dependency(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::IngestGrayRhinoInstitutional => {
@@ -204,6 +193,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_institutional(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::IngestGrayRhinoRedundancy => {
@@ -213,6 +203,7 @@ pub async fn run() -> Result<()> {
             run_ingest_gray_rhino_redundancy(
                 &app_config,
                 options.governance_evidence_file.as_deref(),
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoGovernance => {
@@ -227,6 +218,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
                 options.evidence_days,
+                audit_language,
             )
             .await?;
         }
@@ -241,6 +233,7 @@ pub async fn run() -> Result<()> {
                 options.evidence_url.clone(),
                 options.evidence_dry_run,
                 options.evidence_date_arg.as_deref(),
+                audit_language,
             )
             .await?;
         }
@@ -262,6 +255,7 @@ pub async fn run() -> Result<()> {
                     "oversight_evolution_disclosed",
                     "compliance_maturity_level",
                 ],
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoRedundancy => {
@@ -282,6 +276,7 @@ pub async fn run() -> Result<()> {
                     "recovery_path_disclosed",
                     "failover_tested",
                 ],
+                audit_language,
             )?;
         }
         CliCommand::CollectGrayRhinoBackfill => {
@@ -292,6 +287,7 @@ pub async fn run() -> Result<()> {
                 &app_config,
                 options.governance_evidence_file.as_deref(),
                 options.evidence_date_arg.as_deref(),
+                audit_language,
             )
             .await?;
         }
@@ -321,11 +317,11 @@ pub async fn run() -> Result<()> {
             )?;
             if outcome.saved_count > 0 {
                 println!(
-                    "Successfully ingested {} evidence record.",
-                    outcome.saved_count
+                    "{}",
+                    evidence_collection_success_message(audit_language, outcome.saved_count)
                 );
             } else {
-                println!("Evidence record already exists (deduplicated).");
+                println!("{}", evidence_collection_duplicate_message(audit_language));
             }
         }
         CliCommand::IngestEvidenceUrl => {
@@ -383,21 +379,32 @@ pub async fn run() -> Result<()> {
             .context("Failed to collect evidence from source")?;
 
             if options.evidence_dry_run {
-                println!("--- Dry Run: Extracted Evidence ---");
-                println!("Source: {}", url);
-                println!("Symbol: {}", symbol);
+                println!("{}", evidence_dry_run_title(audit_language));
+                println!("{}: {}", evidence_dry_run_source_label(audit_language), url);
+                println!(
+                    "{}: {}",
+                    evidence_dry_run_symbol_label(audit_language),
+                    symbol
+                );
                 if outcome.records.is_empty() {
-                    println!("No evidence found.");
+                    println!("{}", evidence_dry_run_empty_notice(audit_language));
                 }
                 for (i, r) in outcome.records.iter().enumerate() {
                     println!(
-                        "[{}] Type: {:?}, Confidence: {:.2}, Date: {}",
+                        "[{}] {}: {:?}, {}: {:.2}, {}: {}",
                         i + 1,
+                        evidence_dry_run_type_label(audit_language),
                         r.evidence_type,
+                        evidence_dry_run_confidence_label(audit_language),
                         r.confidence,
+                        evidence_dry_run_date_label(audit_language),
                         r.event_date
                     );
-                    println!("    Desc: {}", r.description);
+                    println!(
+                        "    {}: {}",
+                        evidence_dry_run_desc_label(audit_language),
+                        r.description
+                    );
                     if let Some(ref url) = r.source_url {
                         println!("    URL:  {}", url);
                     }
@@ -407,11 +414,11 @@ pub async fn run() -> Result<()> {
 
             if outcome.saved_count > 0 {
                 println!(
-                    "Successfully ingested {} automated evidence records.",
-                    outcome.saved_count
+                    "{}",
+                    evidence_collection_success_message(audit_language, outcome.saved_count)
                 );
             } else {
-                println!("Evidence record already exists (deduplicated).");
+                println!("{}", evidence_collection_duplicate_message(audit_language));
             }
         }
         CliCommand::CollectEvidence => {
@@ -422,9 +429,17 @@ pub async fn run() -> Result<()> {
                 return Err(anyhow!("--symbols is required (comma separated)"));
             }
 
-            println!("--- Batch Evidence Collection ---");
-            println!("Symbols: {:?}", options.evidence_symbols);
-            println!("Window:  {} days", options.evidence_days);
+            println!("{}", evidence_batch_title(audit_language));
+            println!(
+                "{}: {:?}",
+                evidence_batch_symbols_title(audit_language),
+                options.evidence_symbols
+            );
+            println!(
+                "{}:  {} days",
+                evidence_batch_window_title(audit_language),
+                options.evidence_days
+            );
 
             let fetcher = build_batch_evidence_fetcher_adapter(
                 &app_config,
@@ -437,7 +452,11 @@ pub async fn run() -> Result<()> {
                 .evidence_symbols
                 .iter()
                 .map(|symbol| {
-                    println!("Fetching for {}...", symbol);
+                    println!(
+                        "{} {}...",
+                        evidence_batch_fetching_label(audit_language),
+                        symbol
+                    );
                     // Dry-run で Key がない場合は symbol 自身をファイル名として FixtureFetcher に探させる
                     let url = if app_config.finnhub.is_none() && options.evidence_dry_run {
                         symbol.clone()
@@ -492,42 +511,62 @@ pub async fn run() -> Result<()> {
                 {
                     continue;
                 }
-                println!("  -> Extracted {} records", record_count);
+                println!(
+                    "  -> {} {}",
+                    evidence_batch_extracted_label(audit_language),
+                    record_count
+                );
             }
             for failure in &batch_outcome.failures {
                 eprintln!(
-                    "  [ERROR] Failed to fetch for {}: {}",
-                    failure.symbol, failure.error
+                    "{} for {}: {}",
+                    evidence_batch_fetch_error_prefix(audit_language),
+                    failure.symbol,
+                    failure.error
                 );
             }
 
+            println!("{}", evidence_batch_summary_title(audit_language));
             println!(
-                "
---- Batch Collection Summary ---"
+                "{}: {} {}",
+                evidence_batch_processed_label(audit_language),
+                options.evidence_symbols.len(),
+                evidence_batch_symbols_label(audit_language)
             );
-            println!("Processed: {} symbols", options.evidence_symbols.len());
-            println!("Success:   {} symbols", batch_outcome.success_count);
-            println!("Failure:   {} symbols", batch_outcome.failure_count);
+            println!(
+                "{}:   {} {}",
+                evidence_batch_success_label(audit_language),
+                batch_outcome.success_count,
+                evidence_batch_symbols_label(audit_language)
+            );
+            println!(
+                "{}:   {} {}",
+                evidence_batch_failure_label(audit_language),
+                batch_outcome.failure_count,
+                evidence_batch_symbols_label(audit_language)
+            );
 
             if options.evidence_dry_run {
-                println!(
-                    "
---- Dry Run: Extracted Evidence Summary ---"
-                );
+                println!("{}", evidence_batch_dry_run_summary_title(audit_language));
                 if batch_outcome.records.is_empty() {
-                    println!("No evidence found in batch.");
+                    println!("{}", evidence_batch_no_evidence_notice(audit_language));
                 }
                 for (i, r) in batch_outcome.records.iter().enumerate() {
                     let date_str = r.event_date.as_str();
                     println!(
-                        "[{}] {}: {:?} ({:.2}) | Date: {}",
+                        "[{}] {}: {:?} ({:.2}) | {}: {}",
                         i + 1,
                         r.symbol.as_deref().unwrap_or("GLOBAL"),
                         r.evidence_type,
                         r.confidence,
+                        evidence_batch_date_label(audit_language),
                         date_str
                     );
-                    println!("    Desc: {}", r.description);
+                    println!(
+                        "    {}: {}",
+                        evidence_batch_desc_label(audit_language),
+                        r.description
+                    );
                     if let Some(ref url) = r.source_url {
                         println!("    URL:  {}", url);
                     }
@@ -536,9 +575,8 @@ pub async fn run() -> Result<()> {
             }
 
             println!(
-                "
-Successfully ingested {} batch evidence records to store.",
-                batch_outcome.saved_count
+                "{}",
+                evidence_batch_success_message(audit_language, batch_outcome.saved_count)
             );
         }
         CliCommand::Radar => {
@@ -563,6 +601,220 @@ fn market_data_provider_kind(provider: CliProviderKind) -> ProviderType {
     match provider {
         CliProviderKind::Yahoo => ProviderType::Yahoo,
         CliProviderKind::Futu => ProviderType::Futu,
+    }
+}
+
+fn evidence_dry_run_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 干运行：提取到的证据 ---",
+        Language::EnUs => "--- Dry Run: Extracted Evidence ---",
+        Language::JaJp => "--- ドライラン: 抽出された証拠 ---",
+    }
+}
+
+fn evidence_dry_run_source_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "来源",
+        Language::EnUs => "Source",
+        Language::JaJp => "ソース",
+    }
+}
+
+fn evidence_dry_run_symbol_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "标的",
+        Language::EnUs => "Symbol",
+        Language::JaJp => "シンボル",
+    }
+}
+
+fn evidence_dry_run_empty_notice(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "未发现证据。",
+        Language::EnUs => "No evidence found.",
+        Language::JaJp => "証拠は見つかりませんでした。",
+    }
+}
+
+fn evidence_dry_run_type_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "类型",
+        Language::EnUs => "Type",
+        Language::JaJp => "種別",
+    }
+}
+
+fn evidence_dry_run_confidence_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "置信度",
+        Language::EnUs => "Confidence",
+        Language::JaJp => "確信度",
+    }
+}
+
+fn evidence_dry_run_date_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "日期",
+        Language::EnUs => "Date",
+        Language::JaJp => "日付",
+    }
+}
+
+fn evidence_dry_run_desc_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "说明",
+        Language::EnUs => "Desc",
+        Language::JaJp => "説明",
+    }
+}
+
+fn evidence_collection_success_message(language: Language, count: usize) -> String {
+    match language {
+        Language::ZhCn => format!("成功摄取 {} 条自动证据记录。", count),
+        Language::EnUs => format!(
+            "Successfully ingested {} automated evidence records.",
+            count
+        ),
+        Language::JaJp => format!("自動証拠レコードを {} 件取り込みました。", count),
+    }
+}
+
+fn evidence_collection_duplicate_message(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "证据记录已存在（已去重）。",
+        Language::EnUs => "Evidence record already exists (deduplicated).",
+        Language::JaJp => "証拠レコードは既に存在します（重複除去済み）。",
+    }
+}
+
+fn evidence_batch_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 批量证据采集 ---",
+        Language::EnUs => "--- Batch Evidence Collection ---",
+        Language::JaJp => "--- バッチ証拠収集 ---",
+    }
+}
+
+fn evidence_batch_fetching_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "正在获取",
+        Language::EnUs => "Fetching for",
+        Language::JaJp => "取得中",
+    }
+}
+
+fn evidence_batch_symbols_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "标的",
+        Language::EnUs => "Symbols",
+        Language::JaJp => "銘柄",
+    }
+}
+
+fn evidence_batch_window_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "窗口",
+        Language::EnUs => "Window",
+        Language::JaJp => "期間",
+    }
+}
+
+fn evidence_batch_extracted_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已提取",
+        Language::EnUs => "Extracted",
+        Language::JaJp => "抽出済み",
+    }
+}
+
+fn evidence_batch_fetch_error_prefix(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "  [错误] 获取失败",
+        Language::EnUs => "  [ERROR] Failed to fetch",
+        Language::JaJp => "  [エラー] 取得失敗",
+    }
+}
+
+fn evidence_batch_processed_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "已处理",
+        Language::EnUs => "Processed",
+        Language::JaJp => "処理済み",
+    }
+}
+
+fn evidence_batch_success_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "成功",
+        Language::EnUs => "Success",
+        Language::JaJp => "成功",
+    }
+}
+
+fn evidence_batch_failure_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "失败",
+        Language::EnUs => "Failure",
+        Language::JaJp => "失敗",
+    }
+}
+
+fn evidence_batch_symbols_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "个标的",
+        Language::EnUs => "symbols",
+        Language::JaJp => "銘柄",
+    }
+}
+
+fn evidence_batch_no_evidence_notice(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "批次中未发现证据。",
+        Language::EnUs => "No evidence found in batch.",
+        Language::JaJp => "バッチ内で証拠は見つかりませんでした。",
+    }
+}
+
+fn evidence_batch_summary_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 批量采集摘要 ---",
+        Language::EnUs => "--- Batch Collection Summary ---",
+        Language::JaJp => "--- バッチ収集サマリー ---",
+    }
+}
+
+fn evidence_batch_dry_run_summary_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "--- 干运行：提取到的证据摘要 ---",
+        Language::EnUs => "--- Dry Run: Extracted Evidence Summary ---",
+        Language::JaJp => "--- ドライラン: 抽出された証拠サマリー ---",
+    }
+}
+
+fn evidence_batch_date_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "日期",
+        Language::EnUs => "Date",
+        Language::JaJp => "日付",
+    }
+}
+
+fn evidence_batch_desc_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "说明",
+        Language::EnUs => "Desc",
+        Language::JaJp => "説明",
+    }
+}
+
+fn evidence_batch_success_message(language: Language, count: usize) -> String {
+    match language {
+        Language::ZhCn => format!("成功摄取 {} 条批量证据记录。", count),
+        Language::EnUs => format!(
+            "Successfully ingested {} batch evidence records to store.",
+            count
+        ),
+        Language::JaJp => format!("バッチ証拠レコードを {} 件ストアへ取り込みました。", count),
     }
 }
 
@@ -646,180 +898,24 @@ async fn build_daily_calibration_report(
     language: Language,
 ) -> Result<String> {
     let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-    let path = save_dir.join("state_transitions.jsonl");
-    let days = load_transition_audit_days(&path, language)?;
-
-    let mut selected_entry: Option<&TransitionAuditEntry> = None;
-    let target_date = match target_date_arg {
-        Some(raw) => Some(
-            NaiveDate::parse_from_str(raw, "%Y-%m-%d")
-                .with_context(|| format!("{}: {}", valuation_future_date_error(language), raw))?,
-        ),
-        None => None,
-    };
-    let current_date = chrono::Local::now().date_naive();
-    if target_date.is_some_and(|date| date > current_date) {
-        return Err(anyhow!(
-            "{}: {}",
-            valuation_future_date_error(language),
-            target_date.expect("future target date is present")
-        ));
-    }
-    let mut calibration_date = target_date.unwrap_or(current_date);
-    let audit_section = if days.is_empty() {
-        audit_empty_log_message(language).to_string()
-    } else {
-        let target_idx = resolve_target_index(&days, target_date, language)?;
-        calibration_date = days[target_idx].date;
-        let evidence_collection_status =
-            load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-                .unwrap_or(DeliveryStatus::Skipped);
-        selected_entry = Some(days[target_idx].latest());
-        build_audit_daily_report_with_evidence_status(
-            &days,
-            target_idx,
-            window_days.max(1),
-            language,
-            Some(&evidence_collection_status),
-        )
-    };
-
-    let mut out = String::new();
-    out.push_str(daily_calibration_title(language));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_audit_label(language));
-    out.push_str("\n\n");
-    out.push_str(&audit_section);
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_questions_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_daily_calibration_questions(
-        app_config,
-        selected_entry,
-        language,
-    ));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_attention_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_research_attention_report(app_config, language));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_thesis_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_asset_thesis_report(app_config, language));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_macro_gravity_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_macro_gravity_report(app_config, language));
-    out.push_str("\n\n");
-    let capital_absorption_report = build_capital_absorption_report_with_auto(
-        app_config,
-        calibration_date,
-        window_days.max(1),
+    let context = build_daily_calibration_context(
+        save_dir.as_path(),
+        target_date_arg,
+        window_days,
+        enabled_research_attention_count(app_config),
+        enabled_asset_thesis_count(app_config),
         language,
     )
-    .await;
-    let flow_report = app_config
-        .capital_dynamics
-        .as_ref()
-        .and_then(config::CapitalDynamicsConfig::flow_layer_snapshot)
-        .map(|_| build_flow_layer_report(app_config, language));
-    out.push_str(daily_calibration_capital_dynamics_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_capital_dynamics_report(
-        &capital_absorption_report,
-        flow_report.as_deref(),
-        language,
-    ));
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_valuation_gravity_label(language));
-    out.push_str("\n\n");
-    out.push_str(
-        &build_valuation_gravity_report_with_auto(app_config, calibration_date, language).await?,
-    );
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_gray_rhino_label(language));
-    out.push_str("\n\n");
-    out.push_str(&build_gray_rhino_daily_report_read_only(
+    .await?;
+    build_daily_calibration_report_from_context(
         app_config,
-        &save_dir,
-        calibration_date,
+        &context.audit_section,
+        &context.questions_section,
+        context.calibration_date,
+        window_days,
         language,
-    )?);
-    out.push_str("\n\n");
-    out.push_str(daily_calibration_boundary(language));
-    Ok(out)
-}
-
-fn load_transition_audit_days(
-    path: &std::path::Path,
-    language: Language,
-) -> Result<Vec<TransitionAuditDay>> {
-    if !path.exists() {
-        return Ok(Vec::new());
-    }
-
-    let content = std::fs::read_to_string(path)
-        .with_context(|| format!("{}: {}", audit_error_read_file(language), path.display()))?;
-
-    let mut raw_entries = Vec::<TransitionAuditEntry>::new();
-    for (idx, raw_line) in content.lines().enumerate() {
-        let line = raw_line.trim();
-        if line.is_empty() {
-            continue;
-        }
-        if let Some(entry) = parse_transition_audit_entry(line, language)
-            .with_context(|| format!("{} {}", audit_error_parse_line(language), idx + 1))?
-        {
-            raw_entries.push(entry);
-        }
-    }
-
-    raw_entries.sort_by_key(|a| a.timestamp);
-    Ok(group_audit_days(raw_entries))
-}
-
-fn build_daily_calibration_questions(
-    app_config: &config::AppConfig,
-    selected_entry: Option<&TransitionAuditEntry>,
-    language: Language,
-) -> String {
-    let attention_count = enabled_research_attention_count(app_config);
-    let thesis_count = enabled_asset_thesis_count(app_config);
-    let gate_state = selected_entry
-        .map(|entry| {
-            if entry.log.trend_cohesion_gate.to {
-                "READY"
-            } else {
-                "NO TRADE"
-            }
-        })
-        .unwrap_or("NO AUDIT");
-    let evidence_state = selected_entry
-        .and_then(|entry| entry.log.trend_recognition.as_ref())
-        .map(|tr| {
-            if tr.conviction_score >= 3.0 {
-                daily_calibration_evidence_strong(language)
-            } else if tr.conviction_score > 0.0 {
-                daily_calibration_evidence_observed(language)
-            } else {
-                daily_calibration_evidence_none(language)
-            }
-        })
-        .unwrap_or(daily_calibration_evidence_none(language));
-
-    format!(
-        "{}\n{} {}\n{} {}\n{} {}\n{} {}\n{}",
-        daily_calibration_question_market(language),
-        daily_calibration_question_gate(language),
-        gate_state,
-        daily_calibration_question_evidence(language),
-        evidence_state,
-        daily_calibration_question_attention(language),
-        attention_count,
-        daily_calibration_question_thesis(language),
-        thesis_count,
-        daily_calibration_question_boundary(language),
     )
+    .await
 }
 
 fn build_daily_calibration_telegram_digest(report: &str, language: Language) -> String {
@@ -917,7 +1013,9 @@ fn is_noisy_digest_detail(trimmed: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::{build_daily_calibration_telegram_digest, run_pipeline};
+    use super::{
+        build_daily_calibration_report, build_daily_calibration_telegram_digest, run_pipeline,
+    };
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
         WatchlistEntry,
@@ -1085,6 +1183,23 @@ mod tests {
     }
 
     #[test]
+    fn daily_calibration_report_builds_from_feature_layer_boundary() {
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        runtime.block_on(async {
+            let tmp = tempdir().unwrap();
+            let config = mock_config(tmp.path());
+
+            let report = build_daily_calibration_report(&config, None, 7, Language::ZhCn)
+                .await
+                .unwrap();
+
+            assert!(report.contains("🧭 每日认知校准"));
+            assert!(report.contains("本日报只校准系统理解"));
+            assert!(report.contains(super::audit_empty_log_message(Language::ZhCn)));
+        });
+    }
+
+    #[test]
     fn daily_calibration_telegram_digest_keeps_structured_renamed_labels() {
         let report = r#"# Daily Calibration
 
@@ -1106,6 +1221,46 @@ mod tests {
         assert!(digest.contains("Should the thesis remain valid?"));
         assert!(!digest.contains("raw extract"));
         assert!(!digest.contains("example.com/source"));
+    }
+
+    #[test]
+    fn daily_calibration_telegram_digest_keeps_expectation_layer_boundary() {
+        let report = r#"# 🧭 每日认知校准
+
+## 9. Expectation Layer（市场预期观测）
+
+- As of: 2026-06-18
+- decision_weight: 0%
+- trade_signal: false
+- gate_effect: none
+- execution_effect: none
+- position_sizing_effect: none
+- observation_count: 1
+- subjects: TSLA
+
+### TSLA / 2026Q2 / DELIVERY_CONSENSUS
+- Period: 2026Q2
+- Expected: ~401k deliveries
+- Actual: 未发售
+- Surprise: NOT_RELEASED
+- Revision: UP
+- Expectation Pressure: HIGH
+- Source Health: SUCCEEDED
+- Interpretation: 市场はすでに期待を織り込んでいる。
+
+Boundary: Expectation Layer is for observing market expectations only. It does not enter Gate, Execution, Trader, Action Matrix, READY / EXECUTE, or Position Sizing, and it does not generate trade signals.
+"#;
+
+        let digest = build_daily_calibration_telegram_digest(report, Language::EnUs);
+
+        assert!(digest.contains("Expectation Layer"));
+        assert!(digest.contains("decision_weight: 0%"));
+        assert!(digest.contains("trade_signal: false"));
+        assert!(digest.contains("subjects: TSLA"));
+        assert!(digest
+            .contains("Boundary: Expectation Layer is for observing market expectations only."));
+        assert!(!digest.contains("BUY"));
+        assert!(!digest.contains("SELL"));
     }
     use time::OffsetDateTime;
 
@@ -1651,6 +1806,7 @@ mod tests {
         assert!(weekly_metrics.contains("\"capital_dynamics\""));
         assert!(weekly_metrics.contains("\"supply_layer\""));
         assert!(weekly_metrics.contains("\"flow_layer\""));
+        assert!(weekly_metrics.contains("\"expectation_layer\""));
         assert!(weekly_metrics.contains("\"strategic_context\""));
         assert!(weekly_metrics.contains("\"weekly_totals\""));
         assert!(weekly_metrics.contains("\"daily_summaries\""));
@@ -1662,12 +1818,14 @@ mod tests {
         assert!(
             weekly_metrics_json["latest_context"]["capital_dynamics"]["supply_layer"].is_object()
         );
+        assert!(weekly_metrics_json["latest_context"]["expectation_layer"].is_object());
         assert!(weekly_metrics_json["daily_summaries"][0]["to_state"] != serde_json::Value::Null);
         let weekly_review = std::fs::read_to_string(weekly_review_path).unwrap();
         assert!(weekly_review.contains("## 状态机周度汇总"));
         assert!(weekly_review.contains("## Capital Dynamics（供需观察）"));
         assert!(weekly_review.contains("### 6.1 Supply Layer（Capital Absorption）"));
         assert!(weekly_review.contains("### 6.2 Demand Layer（Flow Layer）"));
+        assert!(weekly_review.contains("## Expectation Layer（市场预期观测）"));
         assert!(weekly_review.contains("## 日度状态机时间线"));
         assert!(weekly_review.contains("## 战略上下文快照"));
         assert!(weekly_review.contains("## 宏观引力快照"));
