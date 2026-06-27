@@ -10,6 +10,7 @@ key: docs-specs-participation-readiness-layer-task
 > 現行コードベースでは独立した `ParticipationReadiness` モジュールはまだ実装されていません。
 > いま運用上の近似ゲートを担っているのは `trend_cohesion.gate_passed` と `trend_cohesion.continuity_streak` です。
 > 本資料は、そのギャップを明示した将来タスクとして残します。
+> したがって、ここに書かれている P0/P1 項目は current SSOT ではなく、将来検討用の仕様メモです。
 
 ## 1. 目標
 
@@ -310,7 +311,7 @@ pub participation: ParticipationReadiness
 
 ---
 
-## 10. 開発タスクの分解
+## 10. 将来実装案の分解
 
 ### P0-1 ParticipationReadiness モジュールの新規追加
 
@@ -426,9 +427,9 @@ pub participation: ParticipationReadiness
 
 ---
 
-## 15. 完了の定義
+## 15. 将来案の完了条件
 
-以下の条件がすべて満たされたとき、本タスクは完了と見なされます：
+以下の条件がすべて満たされたとき、この将来案は実装完了と見なされます：
 
 1. コード内に独立した readiness 層が存在すること。
 2. `participation_ready` が永続化パッケージに含まれていること。

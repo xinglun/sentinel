@@ -1,0 +1,168 @@
+{
+  "workItemId": "participation-readiness-doc-sync",
+  "contractPath": ".ai/work-items/archive/2026/participation-readiness-doc-sync.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "reason": "Work Item Contract を docs-only 変更に合わせて更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/participation-readiness-doc-sync.summary.json",
+      "reason": "AI Change Summary を検証結果に合わせて更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態の再生成により current status を同期する。"
+    },
+    {
+      "path": "docs/specs/DECISION_PACKET_SCHEMA.md",
+      "reason": "participation_changed を legacy alias と明示し、正規スキーマ名を固定した。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "未実装の ParticipationReadiness を current SSOT と誤認しないよう、将来提案へ降格した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/DECISION_PACKET_SCHEMA.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    ".ai/work-items/active/participation-readiness-doc-sync.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-index",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "文書の current/future 位置づけを明確化する修正に限定し、実装や runtime behavior は変更しない。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "ParticipationReadiness 文書が current SSOT と誤認されうる表現を含んでいた。",
+      "resolution": "冒頭の注記と見出しを future proposal に寄せ、current SSOT ではないことを明示した。"
+    },
+    {
+      "issue": "DecisionPacket 仕様の legacy alias の位置づけが曖昧だった。",
+      "resolution": "`participation_changed` を legacy alias と明記し、正規フィールド名を `trend_gate_changed` に固定した。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract と scope を docs-only 変更に合わせて確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象が scope 内であり、実装層に波及しないことを確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "文書修正と docs / AI guards の結果を確認し、摘要へ反映した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks の結果を記録し、Cockpit 再生成の準備が整った。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "review_debt",
+      "detail": "将来提案として残す ParticipationReadiness の仕様は、今後の実装時に再度 SSOT 整合を確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "文書の current/future 境界と legacy alias の扱いを明確化したが、将来実装時の再確認観点は残る。",
+    "expectedReviewFocus": [
+      "ParticipationReadiness が current SSOT ではないこと",
+      "DecisionPacket の正規名が trend_gate_changed であること",
+      "文書内の未来タスク表現が現行実装要求に読めないこと"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "not_applicable",
+    "persistence": "not_applicable",
+    "i18n": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [
+    "review 指摘に対して、実装ではなく文書の SSOT 整合として対応する。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "ParticipationReadiness 文書を current SSOT と誤認しうる表現のままにしない。",
+      "solidifiedTo": "doc",
+      "reason": "冒頭注記と見出しを future proposal へ寄せ、current SSOT ではないことを明示した。"
+    },
+    {
+      "correction": "DecisionPacket 仕様の legacy alias の位置づけを曖昧にしない。",
+      "solidifiedTo": "doc",
+      "reason": "`participation_changed` を legacy alias と明記し、正規名を `trend_gate_changed` に固定した。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "完了報告では、ParticipationReadiness の実装や DecisionPacket 構造変更は行っておらず、文書上の current/future 境界と legacy alias の明確化に限定したことを明記する。"
+}

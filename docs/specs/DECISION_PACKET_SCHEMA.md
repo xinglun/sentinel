@@ -91,7 +91,7 @@ key: docs-specs-decision-packet-schema
 注記:
 
 1. `trend_gate_changed` は現行実装の正規フィールドです。
-2. 旧入力の互換性のため、実装は `participation_changed` を alias として受け付けます。
+2. `participation_changed` は旧入力の互換性のための alias であり、正規スキーマ名ではありません。
 3. `participation` オブジェクトは現行 `DecisionPacket` には存在しません。参加準備の意味は、別途 `trend_cohesion` と表示層で表現します。
 
 ## 3. 消費の原則

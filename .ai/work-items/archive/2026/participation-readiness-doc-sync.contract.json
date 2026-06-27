@@ -1,0 +1,117 @@
+{
+  "contractVersion": 1,
+  "workItemId": "participation-readiness-doc-sync",
+  "mode": "code",
+  "title": "ParticipationReadiness 文档现行语义同步",
+  "scope": [
+    ".ai/work-items/active/participation-readiness-doc-sync.contract.json",
+    ".ai/work-items/active/participation-readiness-doc-sync.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/DECISION_PACKET_SCHEMA.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/DECISION_PACKET_SCHEMA.md",
+      "reason": "DecisionPacket の現行 schema 表現と legacy alias を確認する。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "ParticipationReadiness が現行実装では未実装であることを文書化する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "文書の語義修正に限定されるが、現行実装との乖離を残すと downstream が誤解するため。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "現行語義に合わせた文書修正はこの scope で実施可能。"
+  },
+  "preReviewWarnings": [
+    "現行実装の追加や変更は行わず、仕様文書の語義同期に限定する。",
+    "ParticipationReadiness を current SSOT として扱わないことを明記する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "DECISION_PACKET_SCHEMA.md が trend_gate_changed を正規名として明示し、participation_changed は legacy alias であることを明確にする。",
+    "PARTICIPATION_READINESS_LAYER_TASK.md が現行実装では未実装の将来提案であることを明記し、current SSOT と誤認されない。",
+    "文書修正後に docs / Cockpit の検証が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-doc-links",
+      "required": true
+    },
+    {
+      "command": "make check-doc-index",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/participation-readiness-doc-sync.contract.json SUMMARY=.ai/work-items/active/participation-readiness-doc-sync.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
