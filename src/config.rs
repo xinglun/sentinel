@@ -14,7 +14,6 @@ fn default_true() -> bool {
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct AppConfig {
-    #[allow(dead_code)]
     pub version: u32,
     pub output: OutputConfig,
     pub telegram: Option<TelegramConfig>,
@@ -22,7 +21,6 @@ pub struct AppConfig {
     pub finnhub: Option<FinnhubConfig>,
     pub fred: Option<FredConfig>,
     pub trading: Option<TradingConfig>,
-    #[allow(dead_code)]
     pub provider: Option<String>,
 
     pub rules: RulesConfig,
@@ -35,7 +33,6 @@ pub struct AppConfig {
     pub capital_dynamics: Option<CapitalDynamicsConfig>,
     pub gray_rhino_escalation: Option<GrayRhinoEscalationConfig>,
     /// 旧 provider registry 設定を読み捨てるための互換フィールド。
-    #[allow(dead_code)]
     pub gray_rhino_provider_registry: Option<toml::Value>,
 }
 
@@ -48,9 +45,7 @@ pub struct SecConfig {
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct OutputConfig {
-    #[allow(dead_code)]
     pub timezone: String,
-    #[allow(dead_code)]
     pub format: String,
     pub save_to: String,
     pub weight_kind: Option<String>,
@@ -79,7 +74,6 @@ pub struct TelegramConfig {
     pub chat_id: String,
 }
 
-#[allow(dead_code)]
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct FutuConfig {
@@ -438,7 +432,6 @@ pub struct GrayRhinoEscalationConfig {
     pub enable: Option<bool>,
 }
 
-#[allow(dead_code)]
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct TradingConfig {
@@ -541,7 +534,6 @@ pub struct MarketStateEngineConfig {
 pub struct WatchlistEntry {
     pub symbol: String,
     pub weight: Option<f64>,
-    #[allow(dead_code)]
     pub market: String,
     pub owner_ma_days: usize,
     pub leash_ma_days: usize,
@@ -564,7 +556,6 @@ pub enum DeviationBasis {
 pub struct ParsedRules {
     pub trend: TrendConfig,
     pub sorted_bands: Vec<(String, f64)>, // descending thresholds
-    #[allow(dead_code)]
     pub actions: HashMap<String, String>,
 
     pub sizing_multipliers: Option<HashMap<String, f64>>,
@@ -1383,5 +1374,52 @@ mod tests {
             user_agent: "Sample Company <admin@example>".to_string(),
         });
         assert!(config.validate().is_err());
+    }
+
+    #[test]
+    fn public_config_fields_remain_accessible() {
+        let config = AppConfig {
+            version: 7,
+            output: OutputConfig {
+                format: "table".to_string(),
+                language: None,
+                timezone: "UTC".to_string(),
+                save_to: "output".to_string(),
+                weight_kind: None,
+                compact_transition_evidence_in_no_trade: true,
+            },
+            telegram: None,
+            futu: None,
+            finnhub: None,
+            fred: None,
+            trading: None,
+            provider: Some("legacy".to_string()),
+            rules: RulesConfig {
+                trend: TrendConfig::default(),
+                deviation_bands: BTreeMap::new(),
+                actions: HashMap::new(),
+                sizing_multipliers: None,
+                core_assets: None,
+                min_state_duration: None,
+                inertia: None,
+                trend_cohesion: None,
+                breakout: None,
+                market_state_engine: None,
+            },
+            watchlist: vec![],
+            sec: None,
+            research_attention: None,
+            asset_thesis: None,
+            macro_gravity: None,
+            capital_absorption: None,
+            capital_dynamics: None,
+            gray_rhino_escalation: None,
+            gray_rhino_provider_registry: Some(toml::Value::Boolean(true)),
+        };
+
+        assert_eq!(config.version, 7);
+        assert_eq!(config.provider.as_deref(), Some("legacy"));
+        assert_eq!(config.output.format, "table");
+        assert!(config.gray_rhino_provider_registry.is_some());
     }
 }

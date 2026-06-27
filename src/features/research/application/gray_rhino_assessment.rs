@@ -3,9 +3,9 @@ use crate::features::research::domain::gray_rhino::{
     GrayRhinoEscalationInput, GrayRhinoObservationSource,
 };
 use crate::features::research::domain::gray_rhino_assessment_policy;
-use crate::features::research::domain::gray_rhino_evidence::{
-    GrayRhinoEvidenceRecord, GrayRhinoEvidenceRejection,
-};
+use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRecord;
+#[cfg(test)]
+use crate::features::research::domain::gray_rhino_evidence::GrayRhinoEvidenceRejection;
 use chrono::NaiveDate;
 
 /// 灰色のサイ観測入力を、日次監査可能な snapshot へ変換する。
@@ -52,7 +52,7 @@ pub(crate) fn build_evidence_backed_gray_rhino_assessment(
 /// 将来の自動収集 adapter が満たすべき evidence ingestion 境界。
 ///
 /// 現時点では escalation 判定へ接続せず、contract 違反の早期検出だけを行う。
-#[allow(dead_code)]
+#[cfg(test)]
 pub(crate) fn validate_gray_rhino_evidence_contract(
     record: &GrayRhinoEvidenceRecord,
 ) -> Result<(), GrayRhinoEvidenceRejection> {
@@ -469,5 +469,32 @@ mod tests {
         };
 
         assert!(build_evidence_backed_gray_rhino_input(&[record]).is_none());
+    }
+
+    #[test]
+    fn manual_assessment_marks_manual_configuration_source() {
+        let input = GrayRhinoEscalationInput {
+            risk_expansion_rate: RiskLevel::Low,
+            constraint_growth_rate: RiskLevel::Low,
+            dependency_centralization: RiskLevel::Low,
+            awareness_decay: RiskLevel::Low,
+            narrative_overconfidence: RiskLevel::Low,
+            single_point_fragility: RiskLevel::Low,
+            fallback_survivability_risk: RiskLevel::Low,
+            notes: vec!["all clear".to_string()],
+        };
+
+        let assessment =
+            build_gray_rhino_assessment(input, NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(), None);
+
+        assert_eq!(
+            assessment.current.source,
+            GrayRhinoObservationSource::ManualConfiguration
+        );
+        assert_eq!(assessment.current.schema_version, 1);
+        assert_eq!(
+            assessment.current.escalation.notes,
+            vec!["all clear".to_string()]
+        );
     }
 }

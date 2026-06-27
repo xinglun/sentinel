@@ -11,7 +11,6 @@ struct TelegramPayload {
     disable_web_page_preview: bool,
 }
 
-#[allow(dead_code)]
 pub fn escape_html(s: &str) -> String {
     s.replace('&', "&amp;")
         .replace('<', "&lt;")
@@ -155,7 +154,7 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
 
 #[cfg(test)]
 mod tests {
-    use super::{build_payload, chunk_telegram_html_message, sanitize_telegram_html};
+    use super::{build_payload, chunk_telegram_html_message, escape_html, sanitize_telegram_html};
     use crate::config::TelegramConfig;
 
     #[test]
@@ -190,6 +189,11 @@ mod tests {
 
         assert!(sanitized.contains("<b>headline</b>"));
         assert!(sanitized.contains("stability &lt; 10.0"));
+    }
+
+    #[test]
+    fn escape_html_escapes_raw_markup() {
+        assert_eq!(escape_html("a < b & c > d"), "a &lt; b &amp; c &gt; d");
     }
 
     #[test]

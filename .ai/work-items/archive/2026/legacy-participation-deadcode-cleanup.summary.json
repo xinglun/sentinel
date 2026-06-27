@@ -1,0 +1,144 @@
+{
+  "workItemId": "legacy-participation-deadcode-cleanup",
+  "contractPath": ".ai/work-items/archive/2026/legacy-participation-deadcode-cleanup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 開始と状態再生成で更新された。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "旧仕様メモを履歴扱いに明示した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "public 設定型の不要な dead_code 遮蔽を削除した。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_assessment.rs",
+      "reason": "テスト専用 contract validation に切り分けた。"
+    },
+    {
+      "path": "src/features/research/application/dependency_evidence.rs",
+      "reason": "公開 API から不要な dead_code 遮蔽を削除した。"
+    },
+    {
+      "path": "src/features/research/application/institutional_evidence.rs",
+      "reason": "公開 API から不要な dead_code 遮蔽を削除した。"
+    },
+    {
+      "path": "src/features/research/application/redundancy_evidence.rs",
+      "reason": "公開 API から不要な dead_code 遮蔽を削除した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+      "reason": "未使用の adapter helper を削除した。"
+    },
+    {
+      "path": "src/features/shared/domain/market_data.rs",
+      "reason": "公開フィールドの不要な dead_code 遮蔽を削除した。"
+    },
+    {
+      "path": "src/features/shared/infrastructure/notify.rs",
+      "reason": "HTML escape helper の不要な dead_code 遮蔽を削除した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json",
+    ".ai/cockpit/current_status.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    "src/config.rs",
+    "src/features/research/application/gray_rhino_assessment.rs",
+    "src/features/research/application/dependency_evidence.rs",
+    "src/features/research/application/institutional_evidence.rs",
+    "src/features/research/application/redundancy_evidence.rs",
+    "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+    "src/features/shared/domain/market_data.rs",
+    "src/features/shared/infrastructure/notify.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json SUMMARY=.ai/work-items/active/legacy-participation-deadcode-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/legacy-participation-deadcode-cleanup.summary.json CONTRACT=.ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json SUMMARY=.ai/work-items/active/legacy-participation-deadcode-cleanup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/legacy-participation-deadcode-cleanup.contract.json SUMMARY=.ai/work-items/active/legacy-participation-deadcode-cleanup.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "履歴メモと dead_code 遮蔽の整理を中心とする収束作業。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を task に合わせて更新した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / sources / acceptance を確定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "historical_doc_clarity",
+      "detail": "旧仕様メモのため、将来の実装要求と読まれないよう文面を明示した。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks が通過し、履歴メモの残余 risk のみが残る。",
+    "expectedReviewFocus": [
+      "historical_doc_clarity",
+      "dead_code signal"
+    ]
+  }
+}

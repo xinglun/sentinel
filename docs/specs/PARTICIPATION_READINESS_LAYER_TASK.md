@@ -7,14 +7,14 @@ key: docs-specs-participation-readiness-layer-task
 
 # Sentinel 参加準備レイヤー (Participation Readiness Layer) タスクリスト
 
-> 現行コードベースでは独立した `ParticipationReadiness` モジュールはまだ実装されていません。
-> いま運用上の近似ゲートを担っているのは `trend_cohesion.gate_passed`、`trend_cohesion.continuity_streak`、および `trend_gate_changed` です。
-> 本資料は、そのギャップを明示した将来タスクとして残します。
-> したがって、ここに書かれている P0/P1 項目は current SSOT ではなく、将来検討用の仕様メモです。
+> この文書は履歴メモとして保管します。現行 SSOT ではなく、実装方針の参照先でもありません。
+> 現在の実装は `trend_cohesion.gate_passed`、`trend_cohesion.continuity_streak`、および `trend_gate_changed` を正とします。
+> 以下に残る `participation_ready` 記述は旧仕様の残影であり、将来の実装要求ではありません。
 
 ## 1. 目標
 
-本タスクは、Sentinel の現行アーキテクチャに「参加許可メカニズム」という明確な階層を新規追加することを目的としています。
+本タスクは、当時検討していた「参加許可メカニズム」の設計メモです。
+現行アーキテクチャへの追加要求ではありません。
 
 現在のシステムには以下の要素がすでに備わっています：
 

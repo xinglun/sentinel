@@ -28,13 +28,6 @@ impl GovernanceDocumentSourceAdapter {
         }
     }
 
-    #[allow(dead_code)]
-    pub(crate) fn with_base_urls(mut self, data: String, www: String) -> Self {
-        self.base_url_data = data;
-        self.base_url_www = www;
-        self
-    }
-
     async fn fetch_local_document(
         &self,
         request: &GovernanceSourceCollectionRequest,
@@ -324,5 +317,15 @@ mod tests {
 
         assert_eq!(historical.primary_document, "old-proxy.htm");
         assert_eq!(current.primary_document, "new-proxy.htm");
+    }
+
+    #[test]
+    fn adapter_initializes_default_sec_base_urls() {
+        let dir = tempdir().unwrap();
+        let adapter = GovernanceDocumentSourceAdapter::new(Some("UA".to_string()), dir.path());
+
+        assert!(adapter.cache_dir.ends_with("gray_rhino_sources/governance"));
+        assert_eq!(adapter.base_url_data, "https://data.sec.gov");
+        assert_eq!(adapter.base_url_www, "https://www.sec.gov");
     }
 }
