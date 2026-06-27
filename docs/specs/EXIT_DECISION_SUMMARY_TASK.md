@@ -170,7 +170,7 @@ Assembler は、既存のドメイン事実と意思決定出力に基づいて 
 2. `asset.position_intent`
 3. `asset.display_context.has_position`
 4. `asset.display_context.is_core_holding`
-5. `participation_ready`
+5. `trend_gate_changed`
 6. 資産状態と streak（連続性）情報
 
 ### 5.2 第1版のルール
@@ -179,7 +179,7 @@ Assembler は、既存のドメイン事実と意思決定出力に基づいて 
 
 1. `DEFEND -> EXIT`
 2. `asset_out_of_top_tier_streak >= 3 -> TRIM`
-3. `participation_ready` が `true -> false` へ変化：
+3. `trend_gate_changed` が `true -> false` へ変化：
    - `is_core_holding == true -> HOLD`
    - それ以外 -> `TRIM`
 4. `OVERHEAT -> TRIM`
@@ -361,7 +361,7 @@ exit_reason_watch_pullback
 
 1. ATR、コストライン、含み益ドローダウンなどの複雑な利食いロジックの導入。
 2. `Market Regime` の変更。
-3. `ParticipationReadiness` の変更。
+3. `trend_cohesion` または `trend_gate_changed` の変更。
 4. `ActionMatrix` の変更。
 5. `ExitDecision` の下層ルール体系の再構築。
 

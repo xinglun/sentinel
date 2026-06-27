@@ -13,6 +13,7 @@ key: docs-index
 
 現在有効な仕様ドキュメント。  
 これらのファイルはドキュメント層の SSOT（Single Source of Truth：信頼できる唯一の情報源）を構成し、エンジニアリングの実装およびワークフローはこれらに準拠する必要があります。
+ただし、`*_TASK.md` などの将来提案文書は current 実装の SSOT ではなく、未実装の設計メモを含むことがあります。現在の正規語は、対応する feature code と実装済みの spec を優先して確認します。
 
 DDD / Clean Architecture の human-readable SSOT は `specs/DDD_CLEAN_ARCHITECTURE.md` です。実行時 checker が参照する machine-readable SSOT は `.ai/architecture/feature_acl.yaml` であり、文書と checker manifest が衝突する場合は `feature_acl.yaml` を優先して文書を更新します。
 

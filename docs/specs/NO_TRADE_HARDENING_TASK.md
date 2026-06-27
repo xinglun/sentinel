@@ -9,7 +9,7 @@ key: docs-specs-no-trade-hardening-task
 
 ## 1. 背景
 
-現在、Telegram の戦況ボードでは `NO TRADE` を表示できるようになっており、低安定性、連続性の不足、Participation（参加準備）未達時に「行動禁止」という主結論を出せるようになっています。
+現在、Telegram の戦況ボードでは `NO TRADE` を表示できるようになっており、低安定性、連続性の不足、`trend_cohesion` 未成立時に「行動禁止」という主結論を出せるようになっています。
 
 しかし、現在の実装にはまだいくつかの「セマンティック（意味的）な漏水」が存在します：
 
@@ -175,7 +175,7 @@ pub entry_cap_note: Option<String>,
 初版の明確なルール：
 
 ```text
-if is_data_missing || !participation_ready:
+if is_data_missing || !trend_gate_changed:
     action_status = NO_TRADE
 ```
 
@@ -190,7 +190,7 @@ NO_TRADE は能動的な新規エントリーの禁止を意味する
 
 初版の推奨案：
 
-1. `IGNITION + !participation_ready`
+1. `IGNITION + !trend_gate_changed`
    -> `未確認始動期`
 
 2. `is_data_missing`
@@ -295,7 +295,7 @@ no_trade_rule
 `report.rs` において以下を禁止します：
 
 1. `market_state` に基づいて独自に `NO TRADE` かどうかを推測すること。
-2. `participation_ready` に基づいて独自に状態タグを組み立てること。
+2. `trend_gate_changed` に基づいて独自に状態タグを組み立てること。
 3. 資産状態に基づいて独自に候補リストの説明文を組み立てること。
 
 ---
@@ -404,7 +404,7 @@ no_trade_rule
 
 本フェーズでは以下のことは行いません：
 
-1. `ParticipationReadiness` 判定ルールの変更。
+1. `ParticipationReadiness` を current SSOT と誤認させる文言の追加。
 2. `ExitDecision` 判定ルールの変更。
 3. `Engine` の変更。
 4. `DecisionPacket` の変更。

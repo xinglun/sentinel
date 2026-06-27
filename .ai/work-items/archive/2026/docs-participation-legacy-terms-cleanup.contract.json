@@ -1,0 +1,162 @@
+{
+  "contractVersion": 1,
+  "workItemId": "docs-participation-legacy-terms-cleanup",
+  "mode": "code",
+  "title": "Participation 旧语义残留の整理",
+  "scope": [
+    ".ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json",
+    ".ai/work-items/active/docs-participation-legacy-terms-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/README.md",
+    "docs/specs/DECISION_PACKET_SCHEMA.md",
+    "docs/specs/DISPLAY_SEMANTICS_STANDARD.md",
+    "docs/specs/EXIT_DECISION_LAYER_TASK.md",
+    "docs/specs/EXIT_DECISION_SUMMARY_TASK.md",
+    "docs/specs/NO_TRADE_HARDENING_TASK.md",
+    "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+    "docs/specs/POSITION_INTENT_UNIFICATION_TASK.md",
+    "docs/specs/RICH_DISPLAY_CONTEXT_TASK.md",
+    "docs/specs/TREND_COHESION_V2_TASK.md"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/README.md",
+      "reason": "specs/ の current SSOT と future task 文書の関係を確認する。"
+    },
+    {
+      "path": "docs/specs/DECISION_PACKET_SCHEMA.md",
+      "reason": "DecisionPacket の正規フィールドと legacy alias を確認する。"
+    },
+    {
+      "path": "docs/specs/DISPLAY_SEMANTICS_STANDARD.md",
+      "reason": "Blocked/participation 表示の current 語義を確認する。"
+    },
+    {
+      "path": "docs/specs/EXIT_DECISION_LAYER_TASK.md",
+      "reason": "退出レイヤーの current 語義を確認する。"
+    },
+    {
+      "path": "docs/specs/EXIT_DECISION_SUMMARY_TASK.md",
+      "reason": "退出サマリーの current 語義を確認する。"
+    },
+    {
+      "path": "docs/specs/NO_TRADE_HARDENING_TASK.md",
+      "reason": "NO TRADE の current 語義を確認する。"
+    },
+    {
+      "path": "docs/specs/PARTICIPATION_READINESS_LAYER_TASK.md",
+      "reason": "future proposal と current SSOT の境界を確認する。"
+    },
+    {
+      "path": "docs/specs/POSITION_INTENT_UNIFICATION_TASK.md",
+      "reason": "Position Intent 文脈での legacy terminology を確認する。"
+    },
+    {
+      "path": "docs/specs/RICH_DISPLAY_CONTEXT_TASK.md",
+      "reason": "DisplayContext の future terminology を current 語義へ寄せる。"
+    },
+    {
+      "path": "docs/specs/TREND_COHESION_V2_TASK.md",
+      "reason": "Trend Cohesion V2 の入力語義を current 実装へ寄せる。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "文書の語義整理に限定され、runtime behavior を変更しないが、引用箇所の整合が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "文書語義の整理はこの scope で実施可能。"
+  },
+  "preReviewWarnings": [
+    "ParticipationReady の旧語義を current SSOT と見せない。",
+    "CLI / runtime の大規模リファクタはこの Work Item に含めない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "docs/README.md が specs/ の current SSOT と future task 文書の境界を明示する。",
+    "active specs が participation_ready を current SSOT として扱わず、trend_gate_changed / trend_cohesion の current 語義へ寄せられる。",
+    "future task specs は ParticipationReadiness を current 実装要求ではなく、将来提案として扱う。",
+    "docs-only 変更として audit / link / index / Cockpit の検証が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make check-doc-links",
+      "required": true
+    },
+    {
+      "command": "make check-doc-index",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json SUMMARY=.ai/work-items/active/docs-participation-legacy-terms-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/docs-participation-legacy-terms-cleanup.summary.json CONTRACT=.ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json SUMMARY=.ai/work-items/active/docs-participation-legacy-terms-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/docs-participation-legacy-terms-cleanup.contract.json SUMMARY=.ai/work-items/active/docs-participation-legacy-terms-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

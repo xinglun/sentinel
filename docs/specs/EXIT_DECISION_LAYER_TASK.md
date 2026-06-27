@@ -188,7 +188,7 @@ EXIT > TRIM > HOLD > ADD
 
 条件：
 
-1. `participation_ready` が `true -> false` に変化
+1. `trend_gate_changed` が `true -> false` に変化
 
 アクション：
 
@@ -227,8 +227,8 @@ UI から逆算して退出ロジックを組むのではなく、システム�
 `DecisionPacket` に少なくとも以下の項目を追加、または明示的に露出させることを推奨します：
 
 1. `top_tier_symbols`
-2. `participation`
-3. `participation_changed`
+2. `trend_gate_changed`
+3. `trend_cohesion`
 4. `asset_top_tier_streak`
 5. `asset_out_of_top_tier_streak`
 6. `asset_state_streak`
@@ -360,7 +360,7 @@ UI から逆算して退出ロジックを組むのではなく、システム�
 
 1. `DEFEND` の日は必ず `EXIT` がトリガーされること。
 2. 3日連続で `Top Tier` から脱落した場合、必ず `TRIM` がトリガーされること。
-3. `participation_ready true -> false` 後は新規買いが禁止されること。
+3. `trend_gate_changed true -> false` 後は新規買いが禁止されること。
 4. `OVERHEAT` は部分的な減配のみを行い、全清算はしないこと。
 5. 強い資産は市場が冷え込んだ際、弱い資産と同じ扱いを受けてはならないこと。
 6. 強い資産が1日だけ脱落した場合、`TRIM` をトリガーしてはならないこと。

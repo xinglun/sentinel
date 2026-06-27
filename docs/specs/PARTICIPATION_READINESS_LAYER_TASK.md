@@ -8,7 +8,7 @@ key: docs-specs-participation-readiness-layer-task
 # Sentinel 参加準備レイヤー (Participation Readiness Layer) タスクリスト
 
 > 現行コードベースでは独立した `ParticipationReadiness` モジュールはまだ実装されていません。
-> いま運用上の近似ゲートを担っているのは `trend_cohesion.gate_passed` と `trend_cohesion.continuity_streak` です。
+> いま運用上の近似ゲートを担っているのは `trend_cohesion.gate_passed`、`trend_cohesion.continuity_streak`、および `trend_gate_changed` です。
 > 本資料は、そのギャップを明示した将来タスクとして残します。
 > したがって、ここに書かれている P0/P1 項目は current SSOT ではなく、将来検討用の仕様メモです。
 

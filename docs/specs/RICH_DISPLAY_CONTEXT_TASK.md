@@ -66,7 +66,7 @@ pub struct DisplayContext {
     pub is_core_holding: bool,
     pub is_candidate_only: bool,
     pub is_top_tier: bool,
-    pub participation_ready: bool,
+    pub trend_gate_changed: bool,
 }
 ```
 
@@ -79,7 +79,7 @@ pub struct DisplayContext {
 推奨される補完項目：
 
 1. `is_top_tier`
-2. `participation_ready`
+2. `trend_gate_changed`
 
 ---
 
@@ -147,7 +147,7 @@ pub struct DisplayContext {
     pub is_core_holding: bool,
     pub is_candidate_only: bool,
     pub is_top_tier: bool,
-    pub participation_ready: bool,
+    pub trend_gate_changed: bool,
 }
 ```
 
@@ -242,7 +242,7 @@ pub display_tags: Vec<String>
 1. `has_position=true && is_core_holding=true` -> `HOLD`
 2. `has_position=false && is_candidate_only=true` -> `OBSERVE`
 3. `has_position=true && is_core_holding=false` -> `HOLD` を維持するが、弱体化タグが付与されること。
-4. `participation_ready=false && candidate_only=true` -> 引き続き `OBSERVE` と表示され、blocked セマンティクスを伴うこと。
+4. `trend_gate_changed=false && candidate_only=true` -> 引き続き `OBSERVE` と表示され、blocked セマンティクスを伴うこと。
 5. Telegram Top Actions / Tactical Summary / 期待・機会セクションで同一のコンテキスト基準を共有していること。
 
 ---

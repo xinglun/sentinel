@@ -74,7 +74,7 @@ key: docs-specs-decision-packet-schema
           "is_core_holding": true,
           "is_candidate_only": false,
           "is_top_tier": true,
-          "participation_ready": true
+          "trend_gate_changed": true
       },
       "display_intent": "HOLD"
     }

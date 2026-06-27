@@ -192,9 +192,9 @@ EXIT > TRIM > HOLD > ADD > WATCH
    (資産状態と退出ルールに依存)
 4. `NO TRADE && !has_position` (ポジションなし)
    -> `Watch`
-5. `participation_ready && action/add path allowed`
+5. `trend_gate_changed && action/add path allowed`
    -> `Add`
-6. `participation_ready && no add/no trim/no exit`
+6. `trend_gate_changed && no add/no trim/no exit`
    -> `Hold`
 
 ### 5.3 Watch の定義
@@ -223,7 +223,7 @@ EXIT > TRIM > HOLD > ADD > WATCH
 
 責務：
 
-1. `ParticipationReadiness` を受信する。
+1. `trend_gate_changed` と `trend_cohesion` を受信する。
 2. `ExitDecision` を受信する。
 3. 資産のポジション事実 / 状態事実を受信する。
 4. 統合された `UnifiedPositionIntent` を出力する。
@@ -305,7 +305,7 @@ EXIT > TRIM > HOLD > ADD > WATCH
    - ポジションあり資産 -> `HOLD / TRIM / EXIT / WATCH`
    - すべてを一律に `SELL` と解釈しないこと。
 
-2. `participation_ready` シナリオにおいて：
+2. `trend_gate_changed` シナリオにおいて：
    - `ADD` の出現を許可する。
    - ただし、退出ルールがトリガーされた場合は、必ず `TRIM / EXIT` が優先（上書き）されること。
 
@@ -336,7 +336,7 @@ EXIT > TRIM > HOLD > ADD > WATCH
 3. `NO TRADE + 弱いポジション -> TRIM`
 4. `DEFEND -> EXIT`
 5. `OVERHEAT -> TRIM`
-6. `participation_ready + 強い資産 -> ADD`
+6. `trend_gate_changed + 強い資産 -> ADD`
 7. `ポジションなし、処理不要。退出条件は一切満たされていません。` の多言語出力。
 
 さらに、少なくとも1つの完全な UI 契約（Contract）テストを追加し、以下を固定（Lock）してください：
