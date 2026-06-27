@@ -56,12 +56,12 @@ impl TradeExecutor for FutuTrader {
         let pwd_md5 = match &self.config.unlock_password_md5 {
             Some(pwd) if !pwd.is_empty() => pwd.clone(),
             _ => {
-                println!("No FUTU_UNLOCK_PASSWORD_MD5 configured. Assuming read-only connection or already unlocked.");
+                println!("{}", unlock_password_missing_notice());
                 return Ok(());
             }
         };
 
-        println!("🔑 Sending Trd_UnlockTrade request to OpenD...");
+        println!("🔑 OpenD に Trd_UnlockTrade を送信します...");
 
         // Trd_UnlockTrade の Proto ID は 3205。
         let req = trd_unlock_trade::Request {
@@ -76,11 +76,11 @@ impl TradeExecutor for FutuTrader {
         let res = trd_unlock_trade::Response::decode(&raw_res[..])?;
 
         if res.ret_type == 0 {
-            println!("✅ Trd_UnlockTrade success. Trading functions are now authenticated.");
+            println!("✅ Trd_UnlockTrade 成功。取引機能の認証が完了しました。");
             Ok(())
         } else {
             Err(anyhow!(
-                "Failed to unlock trade: ret_type={}, msg={:?}, err_code={:?}",
+                "取引ロック解除に失敗しました: ret_type={}, msg={:?}, err_code={:?}",
                 res.ret_type,
                 res.ret_msg,
                 res.err_code
@@ -89,15 +89,15 @@ impl TradeExecutor for FutuTrader {
     }
 
     async fn get_account_funds(&self) -> Result<AccountFunds> {
-        println!("💰 Fetching account funds via Trd_GetFunds...");
+        println!("💰 Trd_GetFunds で口座資金を照会します...");
 
         let header = self.build_trd_header()?;
 
         let req = trd_get_funds::Request {
             c2s: trd_get_funds::C2s {
                 header,
-                refresh_cache: Some(false), // Fetch from OpenD cache for speed
-                currency: None,             // Use account base currency
+                refresh_cache: Some(false), // OpenD キャッシュを利用して照会する。
+                currency: None,             // 口座の基準通貨を使用する。
             },
         };
 
@@ -106,7 +106,7 @@ impl TradeExecutor for FutuTrader {
 
         if res.ret_type != 0 {
             return Err(anyhow!(
-                "Failed to get funds: ret_type={}, msg={:?}",
+                "口座資金の照会に失敗しました: ret_type={}, msg={:?}",
                 res.ret_type,
                 res.ret_msg
             ));
@@ -114,10 +114,10 @@ impl TradeExecutor for FutuTrader {
 
         let s2c = res
             .s2c
-            .ok_or_else(|| anyhow!("Missing payload in Trd_GetFunds response"))?;
+            .ok_or_else(|| anyhow!("Trd_GetFunds 応答の payload がありません"))?;
         let funds = s2c
             .funds
-            .ok_or_else(|| anyhow!("Missing funds details in payload"))?;
+            .ok_or_else(|| anyhow!("payload に funds 詳細がありません"))?;
 
         Ok(AccountFunds {
             power: funds.power,
@@ -135,8 +135,8 @@ impl TradeExecutor for FutuTrader {
         };
 
         let order_type = match order.order_type {
-            OrderType::Normal => 2, // Limit order
-            OrderType::Market => 1, // Market order
+            OrderType::Normal => 2, // 指値注文
+            OrderType::Market => 1, // 成行注文
         };
 
         let header = self.build_trd_header()?;
@@ -153,12 +153,12 @@ impl TradeExecutor for FutuTrader {
                 code: order.symbol.clone(),
                 qty: order.qty,
                 price: order.price,
-                adjust_price: Some(true), // Automatically shift to the nearest valid tick (crucial for HK/A shares)
-                adjust_side_and_limit: Some(0.0), // 0 means just adjust to nearest, don't force up/down limits
+                adjust_price: Some(true), // 最寄りの有効ティックへ自動補正する。
+                adjust_side_and_limit: Some(0.0), // 0 は最寄り補正のみで上下限を強制しない。
                 sec_market: None,
                 remark: Some("API Sentinel".to_string()),
-                time_in_force: None,           // Default is usually Day
-                fill_outside_rth: Some(false), // Pre/Post market off by default for safety
+                time_in_force: None,           // 通常は Day を既定とする。
+                fill_outside_rth: Some(false), // 安全のためプレ/ポスト市場を無効化する。
                 aux_price: None,
                 trail_type: None,
                 trail_value: None,
@@ -197,14 +197,14 @@ impl TradeExecutor for FutuTrader {
     }
 
     async fn get_order_status(&self, order_id: &str) -> Result<OrderExecutionDetails> {
-        println!("🔍 Querying order status for ID: {}...", order_id);
+        println!("🔍 注文 ID {} の状態を照会します...", order_id);
 
         let header = self.build_trd_header()?;
         let order_id_u64 = order_id
             .parse::<u64>()
             .map_err(|_| anyhow!("Invalid u64 order_id format"))?;
 
-        // 3202 is Trd_GetOrderList
+        // Trd_GetOrderList の Proto ID は 3202。
         let req = crate::adapters::futu::protocol::generated::trd_get_order_list::Request {
             c2s: crate::adapters::futu::protocol::generated::trd_get_order_list::C2s {
                 header,
@@ -225,22 +225,22 @@ impl TradeExecutor for FutuTrader {
 
         if res.ret_type != 0 {
             return Err(anyhow!(
-                "Failed to query order {}: {}",
+                "注文 {} の照会に失敗しました: {}",
                 order_id,
-                res.ret_msg.as_deref().unwrap_or("Unknown error")
+                res.ret_msg.as_deref().unwrap_or("不明なエラー")
             ));
         }
 
         let s2c = res
             .s2c
-            .ok_or_else(|| anyhow!("Missing payload in Trd_GetOrderList response"))?;
+            .ok_or_else(|| anyhow!("Trd_GetOrderList 応答の payload がありません"))?;
         let futu_order = s2c
             .order_list
             .first()
-            .ok_or_else(|| anyhow!("Order {} not found in broker response", order_id))?;
+            .ok_or_else(|| anyhow!("ブローカー応答に注文 {} が見つかりません", order_id))?;
 
-        // status を map する。OrderStatus の値は trd_common.rs または docs を参照する。
-        // 10: Filled_Part, 11: Filled_All, 12: Cancelled_All, etc.
+        // OrderStatus を変換する。値の詳細は trd_common.rs または docs を参照する。
+        // 10: Filled_Part, 11: Filled_All, 12: Cancelled_All など。
         let status = match futu_order.order_status {
             10 => OrderStatus::PartiallyFilled,
             11 => OrderStatus::Filled,
@@ -256,13 +256,13 @@ impl TradeExecutor for FutuTrader {
             qty_requested: futu_order.qty,
             qty_filled: futu_order.fill_qty.unwrap_or(0.0),
             avg_price: futu_order.fill_avg_price.unwrap_or(0.0),
-            error_msg: None, // Success path
+            error_msg: None, // 成功経路
             failure_reason: OrderFailureReason::None,
         })
     }
 
     async fn get_broker_permissions(&self) -> Result<BrokerPermissions> {
-        // 1. Get Market Rights via GetUserInfo (1001)
+        // 1. GetUserInfo (1001) で market right を取得する。
         let info_req = crate::adapters::futu::protocol::generated::get_user_info::Request {
             c2s: crate::adapters::futu::protocol::generated::get_user_info::C2s {
                 flag: Some(crate::adapters::futu::protocol::generated::get_user_info::UserInfoField::QotRight as i32),
@@ -287,7 +287,7 @@ impl TradeExecutor for FutuTrader {
             market_rights.insert("SZ".to_string(), map_right(s2c.sz_qot_right));
         }
 
-        // 2. Get Sub Quota via Qot_GetSubInfo (3003)
+        // 2. Qot_GetSubInfo (3003) で sub quota を取得する。
         let sub_info_req = crate::adapters::futu::protocol::generated::qot_get_sub_info::Request {
             c2s: crate::adapters::futu::protocol::generated::qot_get_sub_info::C2s {
                 is_req_all_conn: Some(true),
@@ -315,17 +315,17 @@ impl TradeExecutor for FutuTrader {
 
     async fn get_tradable_capacity(&self, symbol: &str, price: f64) -> Result<TradableCapacity> {
         println!(
-            "📊 Fetching tradable capacity for {} @ ${:.2}...",
+            "📊 {} の取引可能数量を @ ${:.2} で照会します...",
             symbol, price
         );
 
         let header = self.build_trd_header()?;
 
-        // Proto ID for Trd_GetMaxTrdQtys is 3207
+        // Trd_GetMaxTrdQtys の Proto ID は 3207。
         let req = trd_get_max_trd_qtys::Request {
             c2s: trd_get_max_trd_qtys::C2s {
                 header,
-                order_type: 2, // Limit order is safest for calculation
+                order_type: 2, // 計算は指値注文を前提にする。
                 code: symbol.to_string(),
                 price,
                 order_id: None,
@@ -341,7 +341,7 @@ impl TradeExecutor for FutuTrader {
 
         if res.ret_type != 0 {
             return Err(anyhow!(
-                "Failed to get max trade quantities: ret_type={}, msg={:?}",
+                "最大取引数量の照会に失敗しました: ret_type={}, msg={:?}",
                 res.ret_type,
                 res.ret_msg
             ));
@@ -349,10 +349,10 @@ impl TradeExecutor for FutuTrader {
 
         let s2c = res
             .s2c
-            .ok_or_else(|| anyhow!("Missing payload in Trd_GetMaxTrdQtys response"))?;
+            .ok_or_else(|| anyhow!("Trd_GetMaxTrdQtys 応答の payload がありません"))?;
         let qtys = s2c
             .max_trd_qtys
-            .ok_or_else(|| anyhow!("Missing max_trd_qtys in S2c"))?;
+            .ok_or_else(|| anyhow!("S2c に max_trd_qtys がありません"))?;
 
         Ok(TradableCapacity {
             max_buy: qtys.max_cash_buy,
@@ -361,7 +361,7 @@ impl TradeExecutor for FutuTrader {
     }
 
     async fn cancel_order(&self, order_id: &str) -> Result<()> {
-        println!("🚫 Cancelling order {} via Futu OpenAPI...", order_id);
+        println!("🚫 Futu OpenAPI で注文 {} をキャンセルします...", order_id);
 
         let header = self.build_trd_header()?;
         let packet_id = crate::adapters::futu::protocol::generated::common::PacketId {
@@ -399,23 +399,23 @@ impl TradeExecutor for FutuTrader {
 
         if res.ret_type != 0 {
             return Err(anyhow::anyhow!(
-                "Failed to cancel order {}: ret_type={}, msg={:?}",
+                "注文 {} のキャンセルに失敗しました: ret_type={}, msg={:?}",
                 order_id,
                 res.ret_type,
                 res.ret_msg
             ));
         }
 
-        println!("✅ Order {} cancellation requested successfully.", order_id);
+        println!("✅ 注文 {} のキャンセルを依頼しました。", order_id);
         Ok(())
     }
 
     async fn get_positions(&self) -> Result<Vec<Position>> {
-        println!("📋 Fetching account positions via Trd_GetPositionList...");
+        println!("📋 Trd_GetPositionList で口座ポジションを照会します...");
 
         let header = self.build_trd_header()?;
 
-        // Proto ID for Trd_GetPositionList is 3208
+        // Trd_GetPositionList の Proto ID は 3208。
         let req = trd_get_position_list::Request {
             c2s: trd_get_position_list::C2s {
                 header,
@@ -431,14 +431,14 @@ impl TradeExecutor for FutuTrader {
 
         if res.ret_type != 0 {
             return Err(anyhow!(
-                "Failed to get position list: {:?}",
+                "ポジション一覧の照会に失敗しました: {:?}",
                 res.ret_msg.unwrap_or_default()
             ));
         }
 
         let s2c = res
             .s2c
-            .ok_or_else(|| anyhow!("Empty s2c in Trd_GetPositionList response"))?;
+            .ok_or_else(|| anyhow!("Trd_GetPositionList 応答の s2c が空です"))?;
 
         let positions = s2c
             .position_list
@@ -468,13 +468,17 @@ impl TradeExecutor for FutuTrader {
 fn build_trd_header_from_config(config: &crate::config::FutuConfig) -> Result<TrdHeader> {
     let acc_id = config
         .acc_id
-        .ok_or_else(|| anyhow!("Moomoo account ID (FUTU_ACC_ID) is not configured"))?;
+        .ok_or_else(|| anyhow!("Moomoo account ID (FUTU_ACC_ID) が設定されていません"))?;
 
     Ok(TrdHeader {
         trd_env: config.trd_env as i32,
         acc_id,
         trd_market: config.market as i32,
     })
+}
+
+fn unlock_password_missing_notice() -> &'static str {
+    "ℹ️  FUTU_UNLOCK_PASSWORD_MD5 が未設定です。読み取り専用接続または既に解除済みとして扱います。"
 }
 
 #[cfg(test)]
@@ -514,7 +518,7 @@ mod tests {
         let err = build_trd_header_from_config(&config).unwrap_err();
 
         assert!(
-            err.to_string().contains("not configured"),
+            err.to_string().contains("設定されていません"),
             "unexpected error: {}",
             err
         );
@@ -550,5 +554,10 @@ mod tests {
             FutuTrader::map_futu_error(1, 9999, "other"),
             OrderFailureReason::Other(9999, "other".to_string())
         );
+    }
+
+    #[test]
+    fn unlock_password_missing_notice_is_localized() {
+        assert!(unlock_password_missing_notice().contains("未設定"));
     }
 }

@@ -58,7 +58,7 @@ impl TraderAgent {
     pub async fn execute_signals(&self, gated_trades: Vec<GatedTrade>) -> Result<ExecutionSummary> {
         let mut audits = Vec::new();
         if gated_trades.is_empty() {
-            println!("ℹ️  TraderAgent: No trades to execute (filtered or no signals).");
+            println!("{}", no_trades_notice());
             return Ok(ExecutionSummary {
                 audits,
                 status: Ok(()),
@@ -69,7 +69,7 @@ impl TraderAgent {
         let mut first = true;
 
         for trade in gated_trades {
-            // 2. レート制御: Moomoo の制限（15/30 秒）に合わせて注文間に 1 秒の間隔を置く。
+            // 2. レート制御: Moomoo の制限（15/30 秒）に合わせて注文間隔を 1 秒空ける。
             if !first {
                 tokio::time::sleep(std::time::Duration::from_secs(1)).await;
             }
@@ -82,7 +82,7 @@ impl TraderAgent {
             }
 
             println!(
-                "🛰️  TraderAgent: Dispatching gated trade for {} ({} units @ ${:.2}). Reason: {}",
+                "🛰️  トレーダー: {} を {} 単位 @ ${:.2} で送信します。理由: {}",
                 trade.symbol, trade.qty, trade.price, trade.reason
             );
 
@@ -106,25 +106,28 @@ impl TraderAgent {
                     };
 
                     if trade.is_liquidation {
-                        println!("🔥 [Trader - EXIT] Liquidation requested. Setting qty to max available: {}", max_available);
+                        println!(
+                            "🔥 [Trader - EXIT] 清算要求のため、数量を最大値 {} に設定します。",
+                            max_available
+                        );
                         final_qty = max_available;
                     } else if trade.is_trim {
                         println!(
-                            "✂️ [Trader - TRIM] 50% reduction requested. Setting qty to: {}",
+                            "✂️ [Trader - TRIM] 50% 削減要求のため、数量を {} に設定します。",
                             max_available * 0.5
                         );
                         final_qty = max_available * 0.5;
                     } else if final_qty > max_available {
                         println!(
-                            "⚠️ [Trader - CAPPING] Requested {} for {} exceeds broker capacity {}. Capping to max.",
-                            final_qty, trade.symbol, max_available
+                            "⚠️ [Trader - CAPPING] {} の要求 {} はブローカー容量 {} を超えるため、最大値へ切り詰めます。",
+                            trade.symbol, final_qty, max_available
                         );
                         final_qty = max_available;
                     }
                 }
                 Err(e) => {
                     println!(
-                        "❌ [Trader - ERROR] Failed to query capacity for {}: {}. Aborting trade.",
+                        "❌ [Trader - ERROR] {} の容量照会に失敗しました: {}。取引を中止します。",
                         trade.symbol, e
                     );
                     let audit = TradeExecutionAudit {
@@ -140,18 +143,18 @@ impl TraderAgent {
                         failure_reason:
                             crate::features::trading::application::trade_executor::OrderFailureReason::Other(
                                 999,
-                                "Capacity query failed".to_string(),
+                                "容量照会に失敗しました".to_string(),
                             ),
                     };
                     audits.push(audit);
-                    errors.push(format!("Capacity query failed for {}", trade.symbol));
+                    errors.push(format!("容量照会に失敗しました: {}", trade.symbol));
                     continue;
                 }
             }
 
             if final_qty <= 0.0 {
                 println!(
-                    "🚫 [Trader - SKIPPED] Tradable capacity is 0 for {}. Skipping order.",
+                    "🚫 [Trader - SKIPPED] {} の取引可能数量は 0 です。注文をスキップします。",
                     trade.symbol
                 );
                 continue;
@@ -189,7 +192,7 @@ impl TraderAgent {
                 Ok(res) => {
                     if let Some(order_id) = res.order_id {
                         println!(
-                            "🚀 [Trader - SUBMITTED] Order placed for {}. Order ID: {}. Waiting for fill...",
+                            "🚀 [Trader - SUBMITTED] {} の注文が発注されました。注文ID: {}。約定待ちです。",
                             trade.symbol, order_id
                         );
                         audit.order_id = Some(order_id.clone());
@@ -216,17 +219,15 @@ impl TraderAgent {
                                     _ => {
                                         if attempt % 5 == 0 {
                                             println!(
-                                                "⏳ [Trader - WAITING] Order {} still {:?} after {}s...",
-                                                order_id,
-                                                details.status,
-                                                attempt * 2
+                                                "⏳ [Trader - WAITING] 注文 {} は {} 秒経過時点でまだ {:?} です。",
+                                                order_id, attempt * 2, details.status
                                             );
                                         }
                                     }
                                 },
                                 Err(e) => {
                                     println!(
-                                        "⚠️ [Trader - ERROR] Status query failed for {}: {}",
+                                        "⚠️ [Trader - ERROR] {} の状態照会に失敗しました: {}",
                                         order_id, e
                                     );
                                 }
@@ -237,7 +238,7 @@ impl TraderAgent {
 
                         if let Some(details) = final_details {
                             println!(
-                                "🎯 [Trader - FINAL] Order {} status: {:?} (Filled: {} @ {:.2})",
+                                "🎯 [Trader - FINAL] 注文 {} の最終状態: {:?} (約定: {} @ {:.2})",
                                 order_id, details.status, details.qty_filled, details.avg_price
                             );
                             audit.success = details.qty_filled > 0.0;
@@ -268,14 +269,14 @@ impl TraderAgent {
                             }
                         } else {
                             println!(
-                                "🛑 [Trader - TIMEOUT] Order {} status query timed out after {}s.",
+                                "🛑 [Trader - TIMEOUT] 注文 {} の状態照会が {} 秒でタイムアウトしました。",
                                 order_id,
                                 self.poll_interval.as_secs() * self.max_poll_attempts as u64
                             );
 
                             // --- P2-2: タイムアウト時の自動キャンセル処理 ---
                             println!(
-                                "📡 [Trader - CANCEL] Attempting to cancel timed-out order {}...",
+                                "📡 [Trader - CANCEL] タイムアウトした注文 {} をキャンセルします...",
                                 order_id
                             );
                             let cancel_res = {
@@ -286,7 +287,7 @@ impl TraderAgent {
                             match cancel_res {
                                 Ok(_) => {
                                     println!(
-                                        "✅ [Trader - CANCEL] Order {} cancellation requested.",
+                                        "✅ [Trader - CANCEL] 注文 {} のキャンセルを依頼しました。",
                                         order_id
                                     );
 
@@ -301,7 +302,10 @@ impl TraderAgent {
                                             if details.status
                                                 == crate::features::trading::application::trade_executor::OrderStatus::Cancelled =>
                                         {
-                                            println!("🏁 [Trader - CONFIRMED] Order {} is verified CANCELLED at broker.", order_id);
+                                            println!(
+                                                "🏁 [Trader - CONFIRMED] 注文 {} はブローカー側で CANCELLED 確定です。",
+                                                order_id
+                                            );
                                             audit.status = "TimedOutCancelledConfirmed".to_string();
                                             audit.qty_filled = details.qty_filled;
                                             audit.price = if details.avg_price > 0.0 {
@@ -311,25 +315,28 @@ impl TraderAgent {
                                             };
                                         }
                                         _ => {
-                                            println!("❓ [Trader - UNKNOWN] Order {} cancellation requested but not yet confirmed as terminal.", order_id);
+                                            println!(
+                                                "❓ [Trader - UNKNOWN] 注文 {} のキャンセルは依頼済みですが、まだ終端状態が確認できません。",
+                                                order_id
+                                            );
                                             audit.status = "TimedOutCancelRequested".to_string();
                                         }
                                     }
                                 }
                                 Err(e) => {
                                     println!(
-                                        "❌ [Trader - CANCEL] Failed to cancel order {}: {}",
+                                        "❌ [Trader - CANCEL] 注文 {} のキャンセルに失敗しました: {}",
                                         order_id, e
                                     );
                                     audit.status = "TimedOutCancellationFailed".to_string();
-                                    audit.error = Some(format!("Cancellation failed: {}", e));
+                                    audit.error = Some(format!("キャンセルに失敗しました: {}", e));
                                 }
                             }
                         }
                     } else {
                         // 即時リジェクト。
                         println!(
-                            "❌ [Trader - REJECTED] Order rejected by broker for {}: {:?}",
+                            "❌ [Trader - REJECTED] ブローカーが {} の注文を拒否しました: {:?}",
                             trade.symbol, res.failure_reason
                         );
                         audit.status = "Rejected".to_string();
@@ -338,7 +345,7 @@ impl TraderAgent {
                 }
                 Err(e) => {
                     println!(
-                        "❌ [Trader - FAILED] Failed to submit order for {}: {}",
+                        "❌ [Trader - FAILED] {} の注文送信に失敗しました: {}",
                         trade.symbol, e
                     );
                     let err_msg: String = e.to_string();
@@ -352,7 +359,7 @@ impl TraderAgent {
 
         let execution_status = if !errors.is_empty() {
             Err(anyhow::anyhow!(
-                "Partial trade execution failure: {}",
+                "取引実行は一部失敗しました: {}",
                 errors.join("; ")
             ))
         } else {
@@ -368,7 +375,7 @@ impl TraderAgent {
     /// ポジションの reconciliation を実行する（P2-3）。
     /// local Ledger 由来の理論ポジションと broker 側の実ポジションを比較する。
     pub async fn reconcile_positions(&self) -> Result<ReconciliationReport> {
-        println!("🔍 Starting position reconciliation...");
+        println!("🔍 ポジション照合を開始します...");
 
         // 1. local position を取得する。
         let (_, local_positions) = self.ledger.get_portfolio_stats();
@@ -430,17 +437,17 @@ impl TraderAgent {
 
         if report.mismatches.is_empty() {
             println!(
-                "✅ Reconciliation successful! All {} positions match.",
+                "✅ 照合成功: {} 件のポジションがすべて一致しました。",
                 report.matching_count
             );
         } else {
             println!(
-                "⚠️ Reconciliation found {} mismatches!",
+                "⚠️ 照合で {} 件の不一致が見つかりました。",
                 report.mismatches.len()
             );
             for m in &report.mismatches {
                 println!(
-                    "   - {}: Local={} Broker={} Diff={}",
+                    "   - {}: ローカル={} ブローカー={} 差分={}",
                     m.symbol, m.local_qty, m.broker_qty, m.diff
                 );
             }
@@ -448,6 +455,10 @@ impl TraderAgent {
 
         Ok(report)
     }
+}
+
+fn no_trades_notice() -> &'static str {
+    "ℹ️  トレーダー: フィルタ後の取引対象がないため、実行しません。"
 }
 
 #[cfg(test)]
@@ -977,5 +988,10 @@ mod tests {
             .unwrap();
         assert_eq!(nvda.local_qty, 0.0);
         assert_eq!(nvda.broker_qty, 5.0);
+    }
+
+    #[test]
+    fn localized_trader_agent_notice_is_japanese() {
+        assert!(no_trades_notice().contains("取引対象がない"));
     }
 }

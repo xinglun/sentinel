@@ -309,7 +309,7 @@ impl TradeExecutor for MockTradeExecutor {
     }
 
     async fn cancel_order(&self, order_id: &str) -> Result<()> {
-        println!("🚫 [MockTrader] Cancelling order: {}", order_id);
+        println!("🚫 [MockTrader] 注文をキャンセルします: {}", order_id);
         let mut cancelled = self.cancelled_orders.lock().await;
         cancelled.insert(order_id.to_string());
         Ok(())
@@ -320,9 +320,13 @@ impl TradeExecutor for MockTradeExecutor {
     }
 }
 
+fn japanese_mock_cancel_notice(order_id: &str) -> String {
+    format!("🚫 [MockTrader] 注文をキャンセルします: {}", order_id)
+}
+
 #[cfg(test)]
 mod tests {
-    use super::MockTradeExecutor;
+    use super::{japanese_mock_cancel_notice, MockTradeExecutor};
 
     #[test]
     fn mock_trade_executor_starts_with_expected_defaults() {
@@ -342,5 +346,13 @@ mod tests {
             .clone();
         assert_eq!(capacity.max_buy, 100000.0);
         assert_eq!(capacity.max_sell, 100000.0);
+    }
+
+    #[test]
+    fn mock_trade_executor_cancel_notice_is_localized() {
+        assert_eq!(
+            japanese_mock_cancel_notice("ORDER-1"),
+            "🚫 [MockTrader] 注文をキャンセルします: ORDER-1"
+        );
     }
 }
