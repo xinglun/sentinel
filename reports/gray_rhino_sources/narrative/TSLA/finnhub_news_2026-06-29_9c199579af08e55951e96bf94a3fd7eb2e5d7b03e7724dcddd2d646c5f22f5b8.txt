@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow, Nasdaq, S&P 500 Futures Rise On US-Iran Truce Hopes: Why DRAM, AAPL, TSLA, SPCX, BB, WEN, STI Are In Focus
+  summary: Stocktwits data showed retail sentiment around SPY was ‘bearish’, while QQQ sentiment remained ‘bullish.’
+  url: https://finnhub.io/api/news?id=f87c02c5f4c8a0a5705c55cd35f6ce65587b519903d95f6daafdaf4a2e45b241

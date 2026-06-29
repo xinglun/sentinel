@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Deep Sky Delivers North America's First Certified Direct Air Capture Carbon Removal Credits
+  summary: Deep Sky and Isometric today announced that carbon captured and permanently removed from the atmosphere by Deep Sky Alpha in Alberta has been independently reviewed and registered as the first certified direct air capture (DAC) carbon removal credits in North America. The credits will be delivered to Microsoft and Royal Bank of Canada (RBC).
+  url: https://finnhub.io/api/news?id=6a1e78825141628ec4d8d701b56407c5008f8b34ff5919467a2471a9615c13ab

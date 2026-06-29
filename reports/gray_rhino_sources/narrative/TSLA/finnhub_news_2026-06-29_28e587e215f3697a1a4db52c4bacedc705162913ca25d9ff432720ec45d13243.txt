@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang’s Net Worth Under Pressure As Nvidia Stock Nears Bear Market
+  summary: Nvidia stock has pulled back from its May peak and is gradually approaching bear market territory. The shares have fallen nearly 20% from their year-to-date high, erasing billions of dollars from Jensen Huang’s fortune and inflicting losses on investors. Jensen...
+  url: https://finnhub.io/api/news?id=17b74ad5493f208beb404a878f510f6605561b820c60e0116007b6c3cfaf23d6

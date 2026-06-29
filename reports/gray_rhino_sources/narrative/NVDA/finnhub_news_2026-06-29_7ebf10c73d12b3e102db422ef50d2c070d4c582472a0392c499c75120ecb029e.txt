@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Can Buy 5 High-Yield Dividend Stocks Trading Under $10 Hand-Over-Fist
+  summary: Buying shares of the next Nvidia or Netflix gets a lot easier when the price tag stays under $10, and these five overlooked companies sweeten the deal with dividends that Wall Street rarely talks about.
+  url: https://finnhub.io/api/news?id=b75a68c6137a52ec4282e09f9c6459a58a83767804d9bb41ec2c38716c3d2696

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom (AVGO) The Best High Growth Semiconductor to Buy Now?
+  summary: Broadcom Inc. (NASDAQ:AVGO) is one of the High Growth Semiconductor Stocks to Buy Now. On June 24, Reuters reported that OpenAI, in partnership with Broadcom Inc. (NASDAQ:AVGO), released its first custom AI chip, called the Jalapeño. This marks an important milestone for both companies. ​The report noted that this chip has been designed specifically for […]
+  url: https://finnhub.io/api/news?id=0683098f1cc19b07827898bd013cbf708198c756c0c549bfe3c39106d2c9fcd0

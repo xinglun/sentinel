@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VOO vs. SPY: Which Popular S&P 500 ETF Is the Better Buy?
+  summary: Expense differences and fund structure can impact long-term returns for investors choosing between these two S&P 500 giants.
+  url: https://finnhub.io/api/news?id=a81696209e2543aacde72b854162efcdc974a1b79c32f5b7ca38bfe274149ace

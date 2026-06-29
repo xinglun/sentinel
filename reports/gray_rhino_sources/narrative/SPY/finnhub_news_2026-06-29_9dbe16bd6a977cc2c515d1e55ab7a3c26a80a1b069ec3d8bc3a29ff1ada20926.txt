@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises On U.S.-Iran News; SpaceX Rallies On Index Addition (Live Coverage)
+  summary: The Dow Jones index rises Monday on U.S.-Iran news. SpaceX stock climbs on its addition to the Nasdaq-100 index.
+  url: https://finnhub.io/api/news?id=d3990c444675174a89579cdbda18ce97b8bde4a7731ef8e7c227b3821432586c

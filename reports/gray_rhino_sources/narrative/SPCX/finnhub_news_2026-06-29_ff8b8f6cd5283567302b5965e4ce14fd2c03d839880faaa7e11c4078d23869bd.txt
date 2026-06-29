@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QQQI: High Income? Yes, A Good Time To Buy? No
+  summary: QQQI offers a nearly 14% yield and strong total returns since its January 2024 launch. Read why I recommend watching QQQI ETF rather than buying now.
+  url: https://finnhub.io/api/news?id=3fd56b740dd13930b1b659ab1c3c97c85fc5dc0fc00f45f3155997e9b1f6e91b

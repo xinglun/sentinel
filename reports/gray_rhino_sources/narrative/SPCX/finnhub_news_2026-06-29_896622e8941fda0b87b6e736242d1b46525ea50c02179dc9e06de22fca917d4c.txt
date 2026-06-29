@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: American Tower: The Market Is Ignoring This 10% IRR
+  summary: American Tower stock is a Buy, given its 4.2% dividend yield, ~16x FFO, strong moat, and ~10% IRR potential amid sector headwinds. Click for this AMT update.
+  url: https://finnhub.io/api/news?id=e3f2dd884adc7cb541386233824ea3b201a9974c18807a7bcf2d502a2ae909bb

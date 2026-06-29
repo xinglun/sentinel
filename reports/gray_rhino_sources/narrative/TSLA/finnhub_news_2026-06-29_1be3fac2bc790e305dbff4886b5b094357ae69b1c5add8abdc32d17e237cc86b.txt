@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $1,000 In Tesla Stock At IPO, Here's How Much You'd Have Today
+  summary: Tesla went public 16 years ago. Here&#39;s a look back at how much investors could have made buying TSLA stock at IPO.
+  url: https://finnhub.io/api/news?id=3056bf618e2b474de2cb7953c0c4347d7d8d997cbb60e20823f6b5922eb1c050

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s (AAPL) AI Strategy Reset Gains Wall Street Support Amid Cybersecurity Probe
+  summary: Apple Inc. (NASDAQ:AAPL) is one of the best stocks to buy now for good returns. On June 23, Apple Inc. (NASDAQ:AAPL) opened investigations after a ransomware group claimed to have published files linked to the company and electric vehicle company Tesla. The leaked information allegedly dates back to 2021, and does not contain critical or […]
+  url: https://finnhub.io/api/news?id=964e7dbe5e2737cf62f933853437a3ec8cb860f62def3d9fbbb2ff8186e9eef0

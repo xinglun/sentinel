@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Nasdaq futures rise after U.S.-Iran pause June 2026
+  summary: Nasdaq 100 futures advanced more than 1% in premarket trade after tech stocks shed nearly 5% last week
+  url: https://finnhub.io/api/news?id=300b30523bfcd6ad0bb54ec19ad0bfcca200e7c34eba942e0c0d2964684a429b

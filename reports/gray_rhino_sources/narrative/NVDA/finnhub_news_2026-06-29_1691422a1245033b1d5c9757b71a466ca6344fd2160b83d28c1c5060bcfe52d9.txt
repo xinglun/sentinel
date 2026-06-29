@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Soars 12% on $8 Billion Iridium Takeover, AST SpaceMobile and Planet Labs Rise 10%
+  summary: Space stocks are catching a bid Monday morning after Rocket Lab (NASDAQ:RKLB) unveiled a definitive agreement to acquire Iridium Communications (NASDAQ:IRDM) in a cash-and-stock deal carrying an enterprise value of approximately $8 billion. Rocket Lab stock is up 12% to $95 in early trading. The deal validates consolidation across the satellite economy, and peers are ... Rocket Lab Soars 12% on $8 Billion Iridium Takeover, AST SpaceMobile and Planet Labs Rise 10%
+  url: https://finnhub.io/api/news?id=880833196bf55a48d8b03d4cab1d9b55e6b761a864cd79e923792049dc696381

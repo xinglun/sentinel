@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Now a Better Time to Invest in the S&P 500 or Entire Stock Market?
+  summary: There's lots of overlap between them, but the answer comes down to one thing.
+  url: https://finnhub.io/api/news?id=422ff01b875c47ef3ee561774ff8e12a33628ec62910bb98b9c659b025ce7741

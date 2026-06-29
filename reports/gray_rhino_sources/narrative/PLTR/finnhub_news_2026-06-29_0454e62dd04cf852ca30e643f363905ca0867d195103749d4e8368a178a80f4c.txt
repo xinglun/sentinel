@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hormuz Goes Quiet, Software Wakes Up, and Burry Picks a Side
+  summary: The week closed with the Strait of Hormuz still bleeding headlines and crude already down nine percent. Sunday, Washington and Tehran said they were standing down and heading to Doha. Whether that holds is anyone's guess, but for one trading day, at least, the market gets to price the calmer outcome.
+  url: https://finnhub.io/api/news?id=337ac098885636449238758e63c48f4fad5c91798a779231f37aa746dc0a730c

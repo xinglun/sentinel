@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Correction Warning For H2 2026
+  summary: The S&P 500 is up 7.5% YTD, but risks are rising. Click here to see why a correction may hit in H2 2026, plus where to allocate capital now.
+  url: https://finnhub.io/api/news?id=69652b80d70955967545a5915a811251d293637a7e26da2d8cac970687b85613

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia and Firmus to build 170,000-GPU data center in Indonesia
+  summary: The 360-megawatt campus in Batam will serve AI-native customers and is expected to generate up to $30 billion in committed revenue over six years
+  url: https://finnhub.io/api/news?id=596afd2ce2da71fe01e468d5f97519dd18b38a223009dec497a5278495be0066

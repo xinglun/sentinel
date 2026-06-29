@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 6 Asset Bubbles That Have Already Popped
+  summary: Recent asset bubbles have sharply deflated following the Fedâs aggressive monetary expansion and subsequent tightening. Read more about the market warning signs.
+  url: https://finnhub.io/api/news?id=0a9e7e2c79738199156a97a752d1ade7a0c326236367895906fece0a84ba45e5

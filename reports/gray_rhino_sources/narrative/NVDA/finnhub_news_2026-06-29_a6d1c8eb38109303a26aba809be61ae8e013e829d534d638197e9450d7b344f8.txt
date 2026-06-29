@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Artificial Intelligence (AI) Software Stock That's Quietly Outperforming Palantir Technologies in 2026 (Hint: It's Significantly Cheaper)
+  summary: The adoption of Twilio's AI cloud communications tools is now driving stronger growth for the company.
+  url: https://finnhub.io/api/news?id=e8a38e95019d292f2714cb618847f14584f4e503dfb6f00a16d684e6bc967eb2

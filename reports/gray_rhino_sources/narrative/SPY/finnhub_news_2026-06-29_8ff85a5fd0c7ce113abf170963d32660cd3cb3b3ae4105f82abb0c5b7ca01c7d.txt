@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Q1 GDP Data: A Deeper Look Shows Why The U.S. Is On The Road To Recession
+  summary: Recent GDP growth of 2.1% is artificially boosted by import revisions, masking underlying economic weakness.
+  url: https://finnhub.io/api/news?id=1d748ca3c3af330a098fa64ce353a2c702e3196fe7aa96e961eb0cae421aaf9a

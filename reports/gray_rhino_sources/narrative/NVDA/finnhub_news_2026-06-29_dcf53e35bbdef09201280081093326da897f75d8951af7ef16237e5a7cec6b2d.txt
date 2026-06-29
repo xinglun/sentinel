@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons Chainlink Could Skyrocket in 2026
+  summary: Few cryptocurrencies can match this digital token's utility and partnerships.
+  url: https://finnhub.io/api/news?id=8a1b9c888aab92e53621bcfe00d14cef2ff4286fca9fd4a97fef4cd5991555c4

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Space Stock Could Make You Rich (Hint: It's Not SpaceX)
+  summary: SpaceX relies on a key supplier for many of its growth initiatives.
+  url: https://finnhub.io/api/news?id=ca6661f7b7c7fb7c44d097c7c8b6486a0d130e96dc8f17f2d23858555f4b45fa

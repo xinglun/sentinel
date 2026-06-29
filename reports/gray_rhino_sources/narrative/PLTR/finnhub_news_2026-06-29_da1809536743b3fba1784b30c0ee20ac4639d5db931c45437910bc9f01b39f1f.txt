@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SRFM Stock Heads Toward Best Day In A Year – What’s The Palantir Connection?
+  summary: Surf Air Mobility and Palantir are set to dedicate additional engineering and go-to-market resources to accelerate SurfOS development.
+  url: https://finnhub.io/api/news?id=ff2424cee9a663cd40deb23243552db072bdfe774667566ca390f4c808225d4e

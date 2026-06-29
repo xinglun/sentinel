@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab’s $8 Billion Bet Could Turn It Into the Next SpaceX
+  summary: The commercial space industry is entering a new phase. Simply reaching orbit is no longer enough to build a durable business. The companies likely to create the most shareholder value over the next decade are those that control more of the space economy — from designing satellites and launching them to operating the communications networks ... Rocket Lab’s $8 Billion Bet Could Turn It Into the Next SpaceX
+  url: https://finnhub.io/api/news?id=0ff25894e554b48537ed1c985178781397ab37fe39217281942b4b20e38ec217

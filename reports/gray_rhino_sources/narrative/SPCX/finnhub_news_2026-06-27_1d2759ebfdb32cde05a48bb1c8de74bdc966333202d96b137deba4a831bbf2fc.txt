@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IGA: Interesting Global Fund That Should Work As An Income Play
+  summary: The Voya Global Advantage & Premium Opportunity Fund targets high income via a global equity portfolio and naked index call writing. Read more on IGA CEF here.
+  url: https://finnhub.io/api/news?id=fecefa97028660f772586e828ebb2ab79906fb0144516750dc47cdf13cf41161

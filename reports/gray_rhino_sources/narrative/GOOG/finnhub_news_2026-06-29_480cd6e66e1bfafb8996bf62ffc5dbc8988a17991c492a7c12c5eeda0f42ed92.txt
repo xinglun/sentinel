@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Erayak Expands U.S. Online Retail Footprint as Backup Power Demand Shifts Toward Connected and AI-Enabled Endpoint Devices
+  summary: Erayak Power Solution Group Inc. (Nasdaq: RAYA) ("Erayak" or the "Company"), a developer and manufacturer of power solution products, today announced continued progress in expanding its U.S. online retail footprint and advancing its product roadmap for portable inverter generators, home backup power, RV power, outdoor power, and next-generation endpoint energy resilience solutions.
+  url: https://finnhub.io/api/news?id=265e2236eba506c34a6567d0460dba62d5e9d5287c11e3eba729cd5958662295

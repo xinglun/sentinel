@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Alphabet (GOOGL) the Best Stock to Buy in Chris Hohn’s TCI Fund Portfolio?
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the 9 Best Stocks to Buy in Chris Hohn’s TCI Fund Portfolio. Alphabet Inc., trading under the tickers GOOGL and GOOG, collectively represents 7.18% of Chris Hohn’s TCI Fund portfolio, with a combined market value of $3,246,398,810. On June 25, 2026, Alphabet Inc. (NASDAQ:GOOGL) unit Waymo registered a local […]
+  url: https://finnhub.io/api/news?id=8b6a270f6918ac9c746f702dde87afffb553cb125b95719d2eab11ca79ab9699

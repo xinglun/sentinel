@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma: The Stock Fell On AI Fear, But AI May Be The Rerating Trigger
+  summary: Figma (FIG) shifts from design tool to AI product platform. Q1 2026 results show 46% revenue growth. See here for a more detailed analysis.
+  url: https://finnhub.io/api/news?id=ec600c194dca95a376f8b0ffe5e860fbd0589539c8d5dfee0c53a0efe5b53fcd

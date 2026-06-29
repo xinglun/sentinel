@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Autonomous Vehicles In The Fast Lane: 3 Stocks To Watch
+  summary: The ongoing artificial intelligence boom has created multi-trillion dollar companies almost single-handedly. But the furore surrounding generative AI has been largely focused away from the automotive industry, despite
+  url: https://finnhub.io/api/news?id=5a5adc22d7275f1795ee58f749888a17ce306cd2fe3fb1a83ca28a940785278c

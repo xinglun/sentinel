@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Micron, and Broadcom hold the stock market's fate in the palm of their hands
+  summary: Big things are expected of Micron and Nvidia.
+  url: https://finnhub.io/api/news?id=b5b38f7e2dc167c34e0429291d78beaf73f4c4cd9d52ebae3e1cd332e0d3b0e4

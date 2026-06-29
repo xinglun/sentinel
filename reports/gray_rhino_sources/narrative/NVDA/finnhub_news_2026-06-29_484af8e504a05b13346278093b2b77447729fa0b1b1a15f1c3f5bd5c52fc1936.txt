@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Is Divided On Tesla, but I Keep Buying The Stock
+  summary: I bought Tesla (NASDAQ:TSLA) again last Friday, and I will probably buy it again next month. The bears on Reddit and the seven analysts carrying Sell or Strong Sell ratings have not talked me out of it, and neither has a year-to-date drawdown of -15.57%. I keep coming back to the buy button because Tesla is ... Wall Street Is Divided On Tesla, but I Keep Buying The Stock
+  url: https://finnhub.io/api/news?id=66d1a68c852d99fe4b492bb4fe95df907475a1aa7a1e53608600c04a596e8d1b

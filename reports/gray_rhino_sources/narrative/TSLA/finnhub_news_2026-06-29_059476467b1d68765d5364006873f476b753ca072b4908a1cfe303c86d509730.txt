@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Faces Q2 Delivery Test
+  summary: Barclays expects stronger China and Europe sales to offset U.S. weakness.
+  url: https://finnhub.io/api/news?id=2c0bb8d8a2352026fc585c5bcea326b35bc3ff1bdf06308d7698cc407b3d3e02

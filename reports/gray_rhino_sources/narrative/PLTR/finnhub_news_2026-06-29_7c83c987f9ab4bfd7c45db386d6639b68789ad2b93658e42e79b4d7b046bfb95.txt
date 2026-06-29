@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Launches Engine for Deploying NVIDIA Nemotron Open Models in Sovereign Environments
+  summary: MIAMI, June 29, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) today announced a strategic initiative with NVIDIA to deliver an intelligent engine for running NVIDIA AI and Nemotron open models in sovereign environments, with a focus on United States government agencies and U.S. critical infrastructure, where open models are essential for national security, corporate sustainability, and industrial innovation.
+  url: https://finnhub.io/api/news?id=d81b02de0478b32493a065c55e521cd3727bad74f6ff7797c0855403028b2a8b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Limits Meta's AI Access
+  summary: AI infrastructure shortages are forcing even tech giants to compete for computing power.
+  url: https://finnhub.io/api/news?id=be5e2b038f5ab947cace156065d358f9be0eab80c511c6878e658294deea52bb

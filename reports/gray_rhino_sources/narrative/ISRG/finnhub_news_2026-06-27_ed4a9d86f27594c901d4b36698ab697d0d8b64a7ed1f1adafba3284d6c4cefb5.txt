@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Stock Is Up Over 400%. Here's Why It's Still a No-Brainer Buy.
+  summary: Intuitive Surgical has been a huge winner over the long term, but there's a potential opening for new investors right now.
+  url: https://finnhub.io/api/news?id=2bfb59c3e1621d6d4ba0fcfe8d66c3d4e5a9d7047c7f9b5f51d162912ef090d8

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Expands Partnership With Surf Air Mobility To Accelerate Development And Commercial Release Of SurfOS, Including OperatorOS, OwnerOS, And SurfOS Enterprise Solutions Products
+  summary: Following the successful commercial launch of BrokerOS, Palantir and Surf Air Mobility are committing additional engineering and go-to-market resources to accelerate commercial expansion of OperatorOS, OwnerOS, and
+  url: https://finnhub.io/api/news?id=ff29d0a6a0f373ea66dca6ea16021957badead4252456eadcee7cc9b415db0e8

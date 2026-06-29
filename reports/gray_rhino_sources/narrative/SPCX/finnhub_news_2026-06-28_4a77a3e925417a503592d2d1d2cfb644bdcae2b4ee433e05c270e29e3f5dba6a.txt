@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Starting To Choke On Massive Surge In Debt Issuance
+  summary: Massive equity and AI-related debt issuanceâ$236B YTD, projected $570B for 2026âare straining credit markets. Read more on the market here.
+  url: https://finnhub.io/api/news?id=5f66f86ae8e56ee4863f054e9026a85a05d7a3f101bbc7b07bce262a1d04aa8c

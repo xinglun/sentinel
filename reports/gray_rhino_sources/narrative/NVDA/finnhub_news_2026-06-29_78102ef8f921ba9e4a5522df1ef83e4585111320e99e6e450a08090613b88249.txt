@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If I Had $10,000 to Invest Today, Here's the Trillion-Dollar Stock I'd Buy Instead of SpaceX
+  summary: More downside might be ahead for SpaceX stock, considering its sky-high valuation.
+  url: https://finnhub.io/api/news?id=e264f3d28e51814259efd9a6d5b35224b486a12bd973061430313b7b460631ee

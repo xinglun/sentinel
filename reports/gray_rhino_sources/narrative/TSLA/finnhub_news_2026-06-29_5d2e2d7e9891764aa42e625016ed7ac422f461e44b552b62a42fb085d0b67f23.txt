@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Lifts Tesla Delivery Forecast on Stronger Europe and China Demand (TSLA)
+  summary: Morgan Stanley has increased its forecast for Tesla’s (NASDAQ:TSLA) second-quarter vehicle deliveries after stronger-than-expected sales trends in Europe and China, although the bank continues to take a cautious view of the company’s energy storage business. The brokerage now expects Tesla to deliver around 413,000 vehicles during the second quarter, up from its previous estimate of approximately 373,000 and above the current market consensus of roughly 401,000 units.
+  url: https://finnhub.io/api/news?id=195b558d89d41d44324d9ec1f33dbd042ca339bb5c5c8fc1bbc9e9f6a4b26935

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Pushes Back on Broadcom (AVGO) Delay Fears and Says the TPU v9 Program Is Firmly on Schedule
+  summary: Broadcom Inc. (NASDAQ:AVGO) is one of the best growth stocks to buy according to billionaire Dan Loeb. On June 17, JPMorgan analyst Harlan Sur reiterated an Overweight rating and a $580 price target on Broadcom Inc. (NASDAQ:AVGO). Sur used the opportunity to push back against growing market fears that Broadcom’s AI chip project with Google […]
+  url: https://finnhub.io/api/news?id=d7f6b4900d51c478d854311f7336134edb780dfa625085c1841f0d1540e010ad

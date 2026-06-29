@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Pulls Back After IPO Gains - What's Behind the Dip?
+  summary: SpaceX surges after its record IPO before tumbling as valuation worries, AI bubble fears and market volatility tests investor confidence.
+  url: https://finnhub.io/api/news?id=b8ef1d5513b56c7239045386c264de9562345504cef454ba46253c984b9d2454

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Confessions Of An Oil Bull
+  summary: The energy markets have struggled with volatility. Read how investors can prepare for what happens next.
+  url: https://finnhub.io/api/news?id=36fd128517700b7f46da67a4c08a7aedcf1cafaf4946e1c2444fcd2b165023ed

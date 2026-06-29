@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Declines As Overinflated AI Stocks Lose Some Air
+  summary: The S&P 500 lost money every day of the trading week ending on Friday, 26 June 2026.
+  url: https://finnhub.io/api/news?id=f52c42a3562286d39148769552aab207b179a9a62a511d5874869d894e55dfe2

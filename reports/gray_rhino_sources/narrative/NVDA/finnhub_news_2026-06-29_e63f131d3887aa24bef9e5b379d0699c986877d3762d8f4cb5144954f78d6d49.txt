@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds, Equity Futures Higher Pre-Bell Monday Amid Hopes for Renewed US-Iran Diplomacy
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was up 1%, and the actively trade
+  url: https://finnhub.io/api/news?id=b33b5e5043ef2be72a01fe1d3bc70096514f60e83e75eb6ab68a4273fd1d3e2d

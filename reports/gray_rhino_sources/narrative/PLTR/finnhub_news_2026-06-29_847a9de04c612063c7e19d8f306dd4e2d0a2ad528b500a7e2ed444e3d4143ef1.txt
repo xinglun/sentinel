@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Teams Up With Nvidia for Government AI. Why the Stock Is Bouncing Back.
+  summary: Palantir advances Monday after snapping a seven-day losing streak on Friday. A new partnership with Nvidia might be the catalyst the stock needs.
+  url: https://finnhub.io/api/news?id=df8bfb6198c03810f1408a9c1b09c8b3a9937f01df6afcb0f6e059bed88c4162

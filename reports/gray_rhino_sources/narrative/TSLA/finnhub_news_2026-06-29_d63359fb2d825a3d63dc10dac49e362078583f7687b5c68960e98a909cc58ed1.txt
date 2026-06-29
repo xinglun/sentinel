@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Magnificent 7' stocks are having a dreadful year
+  summary: It's been a horrid year so far for the Magnificent Seven.
+  url: https://finnhub.io/api/news?id=63be492da0eeed8f8eade81686f3d73345856896cbefc3cd8255f797cb93bbad

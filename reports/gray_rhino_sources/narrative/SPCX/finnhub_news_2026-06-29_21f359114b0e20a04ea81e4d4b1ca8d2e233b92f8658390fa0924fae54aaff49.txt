@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Shares Wish For Mankind On 55th Birthday, Mom Maye Says Son Celebrated With Rocket And Moon Base Cake
+  summary: Elon Musk turned 55 with tributes from family, investors, and entertainers praising him as an entrepreneur and free-speech champion.
+  url: https://finnhub.io/api/news?id=791cdbc878f53432a9c5773ac789cbdd08adb6fef6fe2750294768bfa81c0ac0

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Lowers Q2 Delivery Estimates for Tesla (TSLA), Here’s What You Need to Know
+  summary: Tesla, Inc. (NASDAQ:TSLA) is one of the Stocks That Will Make You Rich Over the Next 3 Years. Tesla, Inc. (NASDAQ:TSLA) has declined around 13% over the past month. The decline has been driven by heavy capital expenditure guidance and autonomous vehicle regulatory hurdles, which offset the momentum from fiscal Q1 2026 earnings. Nevertheless, the […]
+  url: https://finnhub.io/api/news?id=159515cc0e820388bba9a59e4a996ce41930f81da60dbcb837f2bb807554f702

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rises as EV Maker Deepens Ties With SpaceX
+  summary: FEATURE  After a tough week, Tesla stock is up early Monday. Tweets from CEO Elon Musk might be helping.  Shares of the electric-vehicle maker were up 0.7% in premarket trading at $382.38.  There wasn’t much fundamental news to pin gains on—no Wall Street upgrades or downgrades.
+  url: https://finnhub.io/api/news?id=ed3b84228f63c58bbe6ce273748f3be7a209cc52507e9da56ddac73a2050603c

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The US Army Just Made Palantir (PLTR) Foundry the Data Backbone of Its Biggest Tech Overhaul
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the best fast growth stocks to buy according to hedge funds. On June 22, Palantir Technologies Inc. (NASDAQ:PLTR) announced that the US Army has established the common data layer baseline for its Next Generation Command and Control (NGC2) program, and selected its Foundry platform as the cloud data […]
+  url: https://finnhub.io/api/news?id=281fd94261d58b915c2545accffccde56e144088f2080b9b0bcdaafb31e0fbf6

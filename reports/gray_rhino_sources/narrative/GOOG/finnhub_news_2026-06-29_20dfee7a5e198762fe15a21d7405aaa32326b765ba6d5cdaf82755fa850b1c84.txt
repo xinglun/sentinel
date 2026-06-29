@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Rise Premarket Monday
+  summary: Technology stocks were rising premarket Monday, with the State Street Technology Select Sector SPDR
+  url: https://finnhub.io/api/news?id=c65b3fe6af05d7a480ba44a94c2c7ab93fba1abf1fc962daf9132977aae78fca

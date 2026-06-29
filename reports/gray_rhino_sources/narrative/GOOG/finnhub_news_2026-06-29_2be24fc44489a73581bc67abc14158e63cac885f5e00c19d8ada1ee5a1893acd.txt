@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Pushes US Share Sales to Record $251 Billion at Midyear
+  summary: (Bloomberg) -- Wall Street bankers are on a high after record-setting offerings from SpaceX and Google parent Alphabet Inc., lifting expectations for deal activity in the rest of 2026.Most Read from BloombergTrump’s U-Turn on Iran Sanctions Would Unravel Decades of CurbsUS and Iran Agree to Halt Attacking Each Other Ahead of TalksOil Trades Near Four-Month Low as US and Iran Halt Fresh AttacksAramco Helicopter Crash in Ras Tanura Kills All 14 on BoardPrabowo Risks Prompt Global Banks to Pull Cas
+  url: https://finnhub.io/api/news?id=07a540053035a4b240c9872ab492242151fb943c1df58d2911adb9bc7449c8cd

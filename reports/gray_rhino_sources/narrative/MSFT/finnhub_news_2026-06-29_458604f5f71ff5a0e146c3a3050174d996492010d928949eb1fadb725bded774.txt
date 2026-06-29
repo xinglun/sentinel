@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why this startup says it can eliminate AI chatbot hallucinations
+  summary: Scaled Cognition CEO Dan Roth explains how his company is developing reliable artificial intelligence (AI) models that don't provide false or misleading information.
+  url: https://finnhub.io/api/news?id=ef3c1ca62325b4a54347601099ac82f3a30d73a2913a2ad6d2fcbb59683fa08d

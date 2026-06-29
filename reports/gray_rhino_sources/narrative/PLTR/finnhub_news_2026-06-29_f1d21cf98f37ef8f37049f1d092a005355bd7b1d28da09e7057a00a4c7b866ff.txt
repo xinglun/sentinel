@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Has Lost Its AI Moat. UBS Says Investors Are Missing the Bigger Story.
+  summary: AI Competition Is Heating Up. Why UBS Thinks Palantir Can Stay Ahead
+  url: https://finnhub.io/api/news?id=bc06ccdf8cad415fcac96b15252e247b0f36e7f17e0b8d723e886384a2b0b84c

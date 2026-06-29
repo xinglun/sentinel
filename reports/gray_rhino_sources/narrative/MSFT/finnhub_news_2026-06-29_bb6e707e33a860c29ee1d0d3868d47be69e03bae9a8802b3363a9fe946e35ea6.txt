@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meridian Hedged Equity Fund Holds Firm on Microsoft Corp. (MSFT)
+  summary: Meridian Funds, managed by ArrowMark Partners, released its first-quarter 2026 investor letter for “Meridian Hedged Equity Fund”. A copy of the letter can be downloaded here. The Fund invests in high-quality growth companies and mitigates risk by writing call options. Following the late-February strike on Iran, oil prices surged, leading to a risk-off sentiment, boosting […]
+  url: https://finnhub.io/api/news?id=61e47224a599c1591068c13d7fef9585aaa5afd0cfe8d2e91fcdb39a316ccca4

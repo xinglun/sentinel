@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bought Bloom Energy, Credo At A +20% Discount, But Also Hedged
+  summary: Bloom Energy and Credo fell after Russell 2000 removalâsee why fundamentals stay strong, how to buy the dip, hedge risk, and position for Q2 earnings.
+  url: https://finnhub.io/api/news?id=c438d70818ddcd74de445616da9babd1ed4459dfb40d42815fc06705c6c8fae9

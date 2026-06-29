@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry pulls back on massive Palantir short bet
+  summary: Michael Burry is not a name the market ignores. The investor behind the "Big Short" trade that predicted the 2008 financial crisis has made his bearish stance on Palantir Technologies one of the more talked-about positions on Wall Street. Now, something has shifted. According to GuruFocus: Burry's ...
+  url: https://finnhub.io/api/news?id=abf39c14634201a57fe08a442fa43b12a151ef0c7a8f629e421b1059aeaad65f

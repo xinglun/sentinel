@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TG Therapeutics Surged 88%: Time To Be More Careful (Rating Downgrade)
+  summary: TG Therapeutics, Inc. boosts anti-CD20 share as Q1 revenue jumps 69.6% to $204.9M, but overbought signals hint at a near-term pullback. Click for this TGTX update.
+  url: https://finnhub.io/api/news?id=47c14cf1e84950a3a28b648c3734658b98b16788d3e9506ece04e8e386776285

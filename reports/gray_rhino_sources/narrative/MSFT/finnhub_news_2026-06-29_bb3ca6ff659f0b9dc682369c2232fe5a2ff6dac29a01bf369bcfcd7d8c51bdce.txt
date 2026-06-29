@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Memory Crunch Hits Hardware Makers
+  summary: Apple and Microsoft can raise prices, but smaller device makers face a tougher squeeze.
+  url: https://finnhub.io/api/news?id=8611afc61f37cad84814f6b6cd943b70f580b71c39159f22f23133d7b74b7670

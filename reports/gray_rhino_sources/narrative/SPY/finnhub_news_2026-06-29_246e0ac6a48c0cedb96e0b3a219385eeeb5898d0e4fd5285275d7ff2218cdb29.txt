@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IWR Offers Quality Mid-Cap AI Exposure With Strong Momentum And Positive Seasonality Ahead
+  summary: Buy iShares Russell Mid-Cap ETF (IWR) for strong momentum, superior risk-adjusted returns, and AI-driven mid-cap diversificationâread the outlook now.
+  url: https://finnhub.io/api/news?id=c4ff3ffc618a063a9a3419c7ea5d563c50bee65b3e70b57f317914bb897668fc

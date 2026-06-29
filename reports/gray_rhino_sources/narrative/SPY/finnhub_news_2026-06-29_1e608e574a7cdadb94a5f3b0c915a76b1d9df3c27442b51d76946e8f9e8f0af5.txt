@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Record Retail Inflows: Where Is All The Money Coming From?
+  summary: Money market funds hold a record $7.92T as of June 17. Retail investors alone account for $3.09T of that, also a record, and the climb has been relentless since the Fed started hiking.
+  url: https://finnhub.io/api/news?id=5e7e04349a17d8e0c895ced2650ce2e43e022990f6922c127459ab7bf2c421db

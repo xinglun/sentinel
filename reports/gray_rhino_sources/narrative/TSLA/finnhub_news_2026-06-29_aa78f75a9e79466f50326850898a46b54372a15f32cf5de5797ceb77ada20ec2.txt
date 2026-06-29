@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warner Discovery boss is again among highest-paid CEOs in America
+  summary: Zaslav's pay tripled to $165 million — eighth highest among large U.S. CEOs — even as 84% of shareholders rejected it and a Paramount sale nears an $887-million exit.
+  url: https://finnhub.io/api/news?id=ae340c53adb24ba581a544e09db9aedbb5057743d1addf101fca325735d784a6

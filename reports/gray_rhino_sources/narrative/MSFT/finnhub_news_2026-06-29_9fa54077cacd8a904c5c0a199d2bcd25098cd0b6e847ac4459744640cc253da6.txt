@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: eMazzanti Technologies Partners with Plurall AI to Deliver Full-Spectrum Cybersecurity and Synthetic Media Defense
+  summary: eMazzanti Technologies, a Hoboken-based Microsoft managed services provider specializing in Cybersecurity, cloud infrastructure, and AI implementation, has entered into a strategic partnership with Plurall AI, a trust and safety platform built to combat the rising risk of deepfakes and synthetic media.
+  url: https://finnhub.io/api/news?id=ae164b75369001eac1001dad0755b1edba7b03a8cc6ddc0227a83f73d3a583a9

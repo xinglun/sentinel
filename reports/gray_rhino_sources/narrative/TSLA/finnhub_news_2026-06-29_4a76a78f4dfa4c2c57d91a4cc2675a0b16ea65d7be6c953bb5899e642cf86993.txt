@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Rises Premarket: Tesla Gives Millions Of Older Cars A Major FSD Boost
+  summary: Tesla AI chief Ashok Elluswamy said the build is rolling out to “AI3 early-access customers” and will expand “over the next few weeks” based on feedback.
+  url: https://finnhub.io/api/news?id=ce62a90d596684be10a33d7695c2b48ee35906e9333b5020045eac99b192bb5f

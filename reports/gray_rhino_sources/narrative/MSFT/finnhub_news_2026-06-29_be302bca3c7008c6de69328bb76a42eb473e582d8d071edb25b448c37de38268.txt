@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft’s $570 Billion Rout Sets Up Its Worst Month Since 2000
+  summary: (Bloomberg) -- Microsoft Corp. shares are heading for their worst month since the dot-com era as investors continue to fret about how the software giant will fare in a world marked by artificial intelligence.Most Read from BloombergTrump’s U-Turn on Iran Sanctions Would Unravel Decades of CurbsUS and Iran Agree to Halt Attacking Each Other Ahead of TalksOil Trades Near Four-Month Low as US and Iran Halt Fresh AttacksAramco Helicopter Crash in Ras Tanura Kills All 14 on BoardPrabowo Risks Prompt
+  url: https://finnhub.io/api/news?id=fedd898a0c70a57fbd7113d59fd37d87c550737cd2ce0630984b35ce36a16ff7

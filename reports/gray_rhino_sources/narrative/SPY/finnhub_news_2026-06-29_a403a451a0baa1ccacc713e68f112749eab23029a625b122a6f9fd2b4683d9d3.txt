@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “You’re Gonna Get That $200,000 Back in Tax-Free Growth So Freaking Fast”: Ramsey Host Explains Why Paying Taxes Now Can Leave More for Your Kids
+  summary: The quote came from a recent Ramsey Everyday Millionaires segment, after a caller explained that his father had died five years ago and left him a $50,000 traditional IRA he is still draining under the 10-year rule. The 10-year rule requires that the entire balance of an inherited traditional IRA be withdrawn within 10 years ... “You’re Gonna Get That $200,000 Back in Tax-Free Growth So Freaking Fast”: Ramsey Host Explains Why Paying Taxes Now Can Leave More for Your Kids
+  url: https://finnhub.io/api/news?id=10b95c7dc96b1fe3806bc38998ec7c17a0f21424f047a198d180cf2d14a7d75f

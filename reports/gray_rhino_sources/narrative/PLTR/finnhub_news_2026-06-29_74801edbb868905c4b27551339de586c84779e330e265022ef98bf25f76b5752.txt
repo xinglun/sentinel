@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These S&P500 stocks that are showing activity before the opening bell on Monday.
+  summary: The US market session of Monday has yet to be opened, let's have a look at the top S&P500 gainers and losers in the pre-market session today.
+  url: https://finnhub.io/api/news?id=1a5620d43af714140bea490f7499dc22320b22efd51065fe5c9a1ba585f11c8a

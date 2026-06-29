@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Faces EU Gatekeeper Move And Italy Antitrust Probe
+  summary: The European Commission has issued a preliminary decision to classify Microsoft Azure as a gatekeeper under the Digital Markets Act, signaling new potential obligations for the cloud platform in the EU. Italy's antitrust regulator has opened an investigation into Microsoft 365, focusing on how Copilot and Designer are integrated, how price changes are communicated, and the handling of customer migrations to higher priced plans. Both actions highlight growing regulatory attention on...
+  url: https://finnhub.io/api/news?id=0f5ada8ed1edcb056441b3c05202544bb78da2c2a5b5cdfa84175a0c7b3b18a2

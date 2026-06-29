@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beyond The SpaceX IPO: 3 Top Aerospace And Infrastructure Stocks
+  summary: SpaceXâs historic IPO captivated investors, but recent volatility highlights valuation risks and overlooked aerospace and infrastructure stocks. Click here to see the top 3 stocks.
+  url: https://finnhub.io/api/news?id=40aafa53f0897dad3e3ff0353b70d06fdf360dfea7bc7e8ca2144f05a7d34e99

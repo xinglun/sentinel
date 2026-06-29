@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Dow, Nasdaq Futures Climb As US, Iran Reportedly Agree To Pause Further Escalation: SLS, WEN, MSTR, WDC Stocks In Focus
+  summary: According to an Axios report, the U.S. and Iran have agreed to halt attacks and will meet on Tuesday in Qatar to renegotiate terms following the dispute that escalated over the weekend.
+  url: https://finnhub.io/api/news?id=8a21cc0455858d882d73df8be17f11397b8f4071fd185b32978f450d42ebe42f

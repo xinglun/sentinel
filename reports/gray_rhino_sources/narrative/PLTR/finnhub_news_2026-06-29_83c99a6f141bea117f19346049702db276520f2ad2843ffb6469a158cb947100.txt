@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Surf Air Mobility Expand Partnership to Accelerate Commercialization of OperatorOS, OwnerOS, and Enterprise Products
+  summary: MIAMI & LOS ANGELES, June 29, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) ("Palantir") today announced an expansion of its partnership with Surf Air Mobility Inc. (NYSE: SRFM) ("Surf Air Mobility"), a leading air mobility platform. Under the expanded agreement, Palantir and Surf Air Mobility are committing additional resources to accelerate the development and commercial release of SurfOS, including OperatorOS, OwnerOS, and SurfOS Enterprise Solutions products.
+  url: https://finnhub.io/api/news?id=e5bd9c498aeff309f4b911e17fade75304ed6e4eacb9124fa2eb56f5e2a1ab47

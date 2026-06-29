@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Backs Firmus AI Cloud Deal
+  summary: The partnership will give smaller AI companies access to Nvidia-powered computing.
+  url: https://finnhub.io/api/news?id=4185621991b0923166c9538626141f59e54d45f7e41ef2704f8196844f82bfb8

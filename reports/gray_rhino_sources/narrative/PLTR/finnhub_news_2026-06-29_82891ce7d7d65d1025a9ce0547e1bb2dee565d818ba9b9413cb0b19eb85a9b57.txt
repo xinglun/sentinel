@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Stories Have Been Told, Now Let's Focus On The Numbers
+  summary: Palantir maintains a durable government business with a compliance moat, underpinned by unique security accreditations. Learn why PLTR stock is downgraded to hold.
+  url: https://finnhub.io/api/news?id=44f55d99659a91bfb8bae2e358c5b6d97fcbd6890c5023583e5903c9e9fa77c3

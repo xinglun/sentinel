@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says MSFT, ORCL Are 'Way Oversold', Expects A Reversal In Next 6-9 Months
+  summary: During an interview with CNBC, Ives said that the markets are currently treating Microsoft, Oracle, and Meta as bear-market stocks.
+  url: https://finnhub.io/api/news?id=39f4dce493f007da1720a629e7e0684669fb8872722c85ea6868ce685dabbd60

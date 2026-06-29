@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Strategy CEO Says Bitcoin Conviction Helped Company Survive Multiple 'Near-Death Experiences
+  summary: Strategy's CEO Phong Le said the company's belief in Bitcoin has helped it survive multiple "near-death experiences" throughout its history. Le added that the crypto ...
+  url: https://finnhub.io/api/news?id=5cd4c85868e76740fd4483efc7c59acfe26fca8c3be7101d26041cdd54eb35c1

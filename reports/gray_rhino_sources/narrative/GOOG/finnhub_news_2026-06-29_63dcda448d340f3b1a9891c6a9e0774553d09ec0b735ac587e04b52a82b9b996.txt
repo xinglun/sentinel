@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock Joins the Dow but It’s Rising for a Different Reason
+  summary: The shares were up 1.2% in premarket trading.  The Google-parent is replacing  Verizon Communications  in the 30-stock Dow index from Monday’s session, in a move announced last week.  Because the Dow is a price-weighted index—meaning stock price rather than market capitalization determine the weighting of each company—few funds choose to replicate its composition.
+  url: https://finnhub.io/api/news?id=cfbe3860f41278713b41d3a3bf187f097da1b57ac7a52333b1cc98d67b80344f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Earnings: These Expected EPS Growth Rates For Forward Quarters Seem Unsustainable
+  summary: 
+  url: https://finnhub.io/api/news?id=742b4ce19e188588662ec8ddb7f77102ac9c87f09d2d86cb1eadd7ec813daf1b

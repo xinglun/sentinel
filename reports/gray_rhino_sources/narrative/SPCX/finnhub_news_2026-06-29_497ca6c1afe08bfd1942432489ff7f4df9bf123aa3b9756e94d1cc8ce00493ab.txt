@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Solidion Technology Stock Gaining Monday?
+  summary: Solidion Technology (STI) stock jumps in Monday premarket after announcing plans to buy SpaceX shares as a strategic treasury asset.
+  url: https://finnhub.io/api/news?id=88d2f15a8b11c0f5dbd13d36c5335e2ccae1525876011423121b8885b8be440b

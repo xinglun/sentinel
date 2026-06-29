@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's SpaceX Scores Fast-Tracked Nasdaq-100 Entry After Stellar IPO With Billions In Passive Inflows Expected
+  summary: SpaceX will join the Nasdaq-100 on July 7, a move expected to drive an estimated $4.3 billion in passive inflows.
+  url: https://finnhub.io/api/news?id=22a06d9a49653ff980cec5de0babd144bc8c0468e34814dd8c57fda303af9844

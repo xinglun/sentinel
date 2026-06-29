@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Legendary Investor Jeremy Grantham Says This Is The ‘Most Expensive’ Market In US History As Buffett’s Favorite Valuation Gauge Sends A Warning Signal
+  summary: Veteran investor Jeremy Grantham warned that the U.S. stock market is at its most expensive valuation in history.
+  url: https://finnhub.io/api/news?id=a581984fdd9255fb276a97f127d20a5884a5e19d052273039a57801b210ab194

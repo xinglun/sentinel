@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Limits Meta's Gemini Access
+  summary: Infrastructure crunch exposes limits of AI boom.
+  url: https://finnhub.io/api/news?id=7fe63570234d29355121aab2b855bdcf7a311949370edb3eaf8930b93de7c991

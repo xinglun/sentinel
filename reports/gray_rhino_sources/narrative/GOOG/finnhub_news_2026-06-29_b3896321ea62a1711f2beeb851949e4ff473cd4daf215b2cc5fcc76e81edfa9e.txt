@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Prices the Largest Equity Capital Raise in US Corporate History at $84.75 Billion
+  summary: Alphabet Inc. (NASDAQ:GOOGL) is one of the best growth stocks to buy according to billionaire Dan Loeb. On June 2, Alphabet Inc. (NASDAQ:GOOGL) priced and upsized its equity capital raise to $84.75 billion from $80 billion. The raise is now the largest in US corporate history, and Alphabet intends to use the proceedings to fund […]
+  url: https://finnhub.io/api/news?id=2906371945dac1c0436f7aa61b7648521a1ba3274044471c8c2713408fb00c2a

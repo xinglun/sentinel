@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. At 250: What Five Decades Of Market History Tell Us About Investing Today
+  summary: An important question for investors as we approach the 250th anniversary of the US is not how much has changed, but what the changes imply for building investment portfolios.
+  url: https://finnhub.io/api/news?id=50d732d7dc07d4c33c4c22e7cb0b2375fe46bbc6c4dbc4269ad52f658bd463f9

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenBox AI Partners with CopilotKit to Bring Enterprise-Grade Trust to Agentic AI
+  summary: OpenBox AI today announced an integration with CopilotKit, the creators of the open AG-UI (Agent-User Interaction) protocol. This partnership solves a critical challenge for enterprises: how to deploy AI agents that are autonomous yet fully governed. By adding OpenBox's runtime governance layer to the AG-UI stack, organizations can now enforce strict compliance policies, mandate human approval for sensitive actions, and generate tamper-evident audit trails — all without slowing down development
+  url: https://finnhub.io/api/news?id=eb1a4c23528b566f91644c57491e02eb86933146dec9fcc6754e4c5834dad55c

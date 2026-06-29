@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Unstoppable Banking Juggernaut to Buy Hand Over Fist and Hold for the Next 20 Years
+  summary: JPMorgan Chase (NYSE:JPM) stands out among U.S. banks because no other peer combines its scale, diversification, and capital fortress in a way that compounds reliably through every economic regime. For a retirement-focused investor who has had enough of chasing themes, this is the kind of position that earns its place in a portfolio and then ... 1 Unstoppable Banking Juggernaut to Buy Hand Over Fist and Hold for the Next 20 Years
+  url: https://finnhub.io/api/news?id=3ca471cfd2280c54fede1e93c95dded329ce8749fb86a139baf98b84c372e4eb

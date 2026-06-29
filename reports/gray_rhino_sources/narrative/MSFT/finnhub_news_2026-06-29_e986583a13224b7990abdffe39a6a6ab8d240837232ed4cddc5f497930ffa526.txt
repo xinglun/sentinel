@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Expands Operations With a New Strategic Partnership
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the 9 Best Stocks to Buy in Chris Hohn’s TCI Fund Portfolio. On June 24, 2026, Microsoft Corporation (NASDAQ:MSFT) entered a strategic partnership with Commvault (CVLT). The partnership aims at enhancing AI and cyber resilience for enterprises shifting to the cloud. Under the agreement, Microsoft will integrate Commvault’s resilience […]
+  url: https://finnhub.io/api/news?id=6b5d223c3d7adbe59a9fa5072395f1a17bc38a7e35821ef4193eef2f043d820d
