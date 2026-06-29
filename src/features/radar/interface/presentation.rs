@@ -228,6 +228,80 @@ pub struct StateTransitionViewModel {
     pub holding_efficiency: HoldingEfficiency,
 }
 
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum InterpretationTrendState {
+    #[default]
+    Weak,
+    Stable,
+    PostRallyConsolidation,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum InterpretationPattern {
+    #[default]
+    EventWaiting,
+    FundamentalPricing,
+    PostRallyConsolidation,
+    SupplyPressure,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum InterpretationExpectationQuality {
+    High,
+    Medium,
+    Low,
+    #[default]
+    Unavailable,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum InterpretationExpectationQualityReason {
+    MarketConsensusAvailable,
+    MarketConsensusUnavailable,
+    #[default]
+    SystemUnavailable,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum InterpretationGravityDataQuality {
+    Ready,
+    Partial,
+    #[default]
+    Unavailable,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum InterpretationGravityDataQualityReason {
+    #[default]
+    ProviderUnavailable,
+    HistoricalSnapshotMissing,
+    ConsensusUnavailable,
+    SourceTemporarilyUnavailable,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct InterpretationLayerViewModel {
+    pub title: String,
+    pub notice: String,
+    pub current_decision_weight_label: String,
+    pub current_decision_weight_value: String,
+    pub expectation_quality_label: String,
+    pub expectation_quality_value: String,
+    pub expectation_quality_reason_label: String,
+    pub expectation_quality_reason_value: String,
+    pub gravity_data_quality_label: String,
+    pub gravity_data_quality_value: String,
+    pub gravity_data_quality_reason_label: String,
+    pub gravity_data_quality_reason_value: String,
+    pub narrative_pattern_label: String,
+    pub narrative_pattern_value: String,
+    pub subjects_label: String,
+    pub subjects_value: String,
+    pub narrative_summary_label: String,
+    pub narrative_summary_value: String,
+    pub boundary: String,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct HypothesisLayerViewModel {
     pub title: String,
@@ -334,6 +408,8 @@ pub struct PresentationPacket {
     pub data_alert: Option<DataAlertViewModel>,
     #[serde(default)]
     pub transition_evidence: Option<StateTransitionViewModel>,
+    #[serde(default)]
+    pub interpretation_layer: Option<InterpretationLayerViewModel>,
     #[serde(default)]
     pub hypothesis_layer: Option<HypothesisLayerViewModel>,
     // terminal table と archival markdown 用。

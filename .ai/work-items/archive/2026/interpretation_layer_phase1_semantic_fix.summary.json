@@ -1,0 +1,199 @@
+{
+  "workItemId": "interpretation_layer_phase1_semantic_fix",
+  "contractPath": ".ai/work-items/archive/2026/interpretation_layer_phase1_semantic_fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態を再生成する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/interpretation_layer_design.contract.json",
+      "reason": "前段の設計 Work Item を archive に退避した残留ファイルを管理する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/interpretation_layer_design.summary.json",
+      "reason": "前段の設計 Work Item を archive に退避した残留ファイルを管理する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/interpretation_layer_phase1.contract.json",
+      "reason": "前段の実装 Work Item を archive に退避した残留ファイルを管理する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/interpretation_layer_phase1.summary.json",
+      "reason": "前段の実装 Work Item を archive に退避した残留ファイルを管理する。"
+    },
+    {
+      "path": ".ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "reason": "語義修正用の Work Item Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+      "reason": "AI Change Summary を実装結果に合わせて更新した。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "前段の実装で追加された specs index の変更を保持している。"
+    },
+    {
+      "path": "docs/specs/INTERPRETATION_LAYER.md",
+      "reason": "Interpretation Layer の設計仕様を保持している。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "Interpretation read model モジュールを公開している。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Trend state と Expectation Quality reason の語義を修正した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "InterpretationLayerViewModel に Expectation Quality reason を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "前段の実装で PresentationPacket 初期化を接続した変更を保持している。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Observation read model 由来の Interpretation signal を組み立てている。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Interpretation section に Expectation Quality reason を表示する。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Interpretation section の boundary と reason 表示を検証する。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_builder.rs",
+      "reason": "前段の実装で auto snapshot を interface から取得できるようにした変更を保持している。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "reason": "前段の実装で gravity observation を interface から取得できるようにした変更を保持している。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Expectation Quality reason の多言語文言を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/shared/interface/i18n.rs",
+    "docs/specs/INTERPRETATION_LAYER.md",
+    "docs/README.md",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "src/features/research/interface/valuation_gravity_report_builder.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Expectation Quality reason の表示と trend_state の read model 化を行ったため、report boundary と文言整合の確認が必要。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "code / test / i18n / report output の確認を行い、Gate / Execution / Trader / Action Matrix / READY / Position Sizing は未変更であることを確認した。",
+    "trend_state は decision_summary 依存を解消し、transition read model だけで導出するようにした。",
+    "Expectation Quality には reason を追加し、market consensus unavailable と system unavailable を区別できるようにした。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を実装内容に合わせて更新した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / acceptance / verification を確定してから修正した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "fmt / test / clippy / architecture を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks を実行する前提の状態まで整えた。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "report_copy",
+      "detail": "Expectation Quality reason の英語表現が報告文脈で再調整される可能性がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "実装とローカル検証は通過し、残る論点は表示文言の最終確認のみ。",
+    "expectedReviewFocus": [
+      "trend_state が decision_summary ではなく Observation read model から導かれていること",
+      "Expectation Quality reason が market consensus unavailable と system unavailable を区別していること",
+      "Interpretation section の boundary 表示と 0% decision weight"
+    ]
+  }
+}

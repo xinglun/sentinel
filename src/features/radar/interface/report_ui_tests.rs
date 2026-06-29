@@ -3218,6 +3218,142 @@ mod tests {
     }
 
     #[test]
+    fn test_interpretation_layer_renders_before_hypothesis_with_read_only_boundary() {
+        use crate::features::radar::domain::trend_cohesion::{
+            SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+        };
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::presentation::{
+            InterpretationExpectationQuality, InterpretationGravityDataQuality,
+            InterpretationGravityDataQualityReason, InterpretationTrendState,
+        };
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let config = mock_config_with_language(Language::EnUs);
+        let mut packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            ..Default::default()
+        };
+        packet.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::StructuralPersistence,
+            diffusion_score: 3.4,
+            conviction_score: 3.4,
+            substantive: Some(SubstantiveEvidence {
+                capex_payoff_signal: true,
+                earnings_validation: true,
+                order_visibility: true,
+                ..Default::default()
+            }),
+            ..Default::default()
+        });
+        let mut pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        let subjects = vec!["TSLA".to_string(), "GOOG".to_string(), "NVDA".to_string()];
+        let dict = get_dictionary(Language::EnUs);
+        pres.interpretation_layer = Some(build_interpretation_layer_view_model(
+            InterpretationLayerReadModelInput {
+                subjects: &subjects,
+                signal: InterpretationNarrativeSignal {
+                    trend_state: InterpretationTrendState::Stable,
+                    expectation_quality: InterpretationExpectationQuality::High,
+                    expectation_quality_reason:
+                        crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                    gravity_data_quality_reason:
+                        InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                    gravity_status: Some(
+                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair,
+                    ),
+                    supply_pressure: false,
+                },
+                language: Language::EnUs,
+                dict: &dict,
+            },
+        ));
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        let interpretation_start = report
+            .telegram_html_body
+            .find("Interpretation Layer")
+            .expect("interpretation section");
+        let hypothesis_start = report
+            .telegram_html_body
+            .find("Future Map / Hypothesis Layer")
+            .expect("hypothesis section");
+
+        assert!(interpretation_start < hypothesis_start);
+        assert!(report
+            .telegram_html_body
+            .contains("Observation Layer read models"));
+        assert!(report
+            .telegram_html_body
+            .contains("Current decision weight: 0%"));
+        assert!(report
+            .telegram_html_body
+            .contains("Expectation Quality: HIGH"));
+        assert!(report
+            .telegram_html_body
+            .contains("Expectation Quality Reason"));
+        assert!(report
+            .telegram_html_body
+            .contains("Market consensus available"));
+        assert!(report
+            .telegram_html_body
+            .contains("Gravity Data Quality: READY"));
+        assert!(report
+            .telegram_html_body
+            .contains("Gravity Data Quality Reason"));
+        assert!(report.telegram_html_body.contains("Consensus unavailable"));
+        assert!(report.telegram_html_body.contains("TSLA, GOOG, NVDA"));
+        assert!(report.telegram_html_body.contains("Narrative Pattern"));
+        assert!(report.telegram_html_body.contains("Fundamental pricing"));
+        assert!(report
+            .telegram_html_body
+            .contains("does not enter the domain decision pipeline"));
+        assert!(report
+            .archival_markdown
+            .contains("does not generate trade signals"));
+        assert_eq!(
+            build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+                subjects: &subjects,
+                signal: InterpretationNarrativeSignal {
+                    trend_state: InterpretationTrendState::Stable,
+                    expectation_quality: InterpretationExpectationQuality::High,
+                    expectation_quality_reason:
+                        crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                    gravity_data_quality_reason:
+                        InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                    gravity_status: Some(
+                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair
+                    ),
+                    supply_pressure: false,
+                },
+                language: Language::EnUs,
+                dict: &dict,
+            })
+            .narrative_pattern_value,
+            "Fundamental pricing"
+        );
+    }
+
+    #[test]
     fn test_hypothesis_without_failure_risks_is_not_rendered() {
         use crate::features::radar::domain::transition_log::StateTransitionLog;
         use crate::features::radar::domain::trend_cohesion::{

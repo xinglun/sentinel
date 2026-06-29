@@ -12,12 +12,18 @@ use crate::features::radar::domain::rules::{
     ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
 };
 use crate::features::radar::infrastructure::radar_runtime_factory::build_radar_runtime_services;
+use crate::features::radar::interface::interpretation_read_model::{
+    build_interpretation_layer_view_model, collect_subjects, derive_expectation_quality,
+    derive_gravity_data_quality, derive_gravity_data_quality_reason, derive_trend_state,
+    has_supply_pressure, InterpretationLayerReadModelInput, InterpretationNarrativeSignal,
+};
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report::{self, ReportRenderContext};
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
 use crate::features::research::interface::capital_absorption_report_builder::{
+    build_capital_absorption_auto_snapshot_with_config,
     build_capital_absorption_ipo_queue_weekly_summary, build_capital_absorption_report_with_auto,
 };
 use crate::features::research::interface::cognitive_reports::{
@@ -26,8 +32,11 @@ use crate::features::research::interface::cognitive_reports::{
     enabled_research_attention_count, growth_valuation_impact_label, liquidity_condition_label,
     macro_pressure_label, yield_curve_label,
 };
+use crate::features::research::interface::expectation_report_builder::build_expectation_layer_snapshot_from_config;
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
-use crate::features::research::interface::valuation_gravity_report_builder::build_valuation_gravity_report_with_auto;
+use crate::features::research::interface::valuation_gravity_report_builder::{
+    build_valuation_gravity_observation_with_auto, build_valuation_gravity_report_with_auto,
+};
 use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
     load_latest_evidence_collection_status, send_telegram_with_status,
@@ -35,6 +44,7 @@ use crate::features::shared::acl::notification_factory::{
 use crate::features::shared::application::run_status::{
     DeliveryStatus, GrayRhinoCollectionStatus, GrayRhinoProviderStatus,
 };
+use crate::features::shared::interface::i18n::get_dictionary;
 use crate::features::shared::interface::threshold_format::format_threshold_value;
 
 pub(crate) async fn run_pipeline(
@@ -123,13 +133,67 @@ pub(crate) async fn run_pipeline(
             .output
             .language
             .unwrap_or(crate::features::shared::interface::i18n::Language::ZhCn);
-        let pres_packet = PresentationAssembler::assemble(
+        let mut pres_packet = PresentationAssembler::assemble(
             &packet,
             &domain_rules_arc,
             &positions,
             failed_symbols.clone(),
             lang,
         );
+        let dict = get_dictionary(lang);
+        let expectation_snapshot =
+            build_expectation_layer_snapshot_from_config(config_arc.as_ref());
+        let gravity_observation =
+            build_valuation_gravity_observation_with_auto(config_arc.as_ref(), packet.date).await?;
+        let capital_absorption_snapshot: Option<
+            crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoSnapshot,
+        > = build_capital_absorption_auto_snapshot_with_config(
+            config_arc.as_ref(),
+            packet.date,
+            14,
+        )
+        .await;
+        let (expectation_quality, expectation_quality_reason) =
+            derive_expectation_quality(&expectation_snapshot);
+        let interpretation_signal = InterpretationNarrativeSignal {
+            trend_state: derive_trend_state(pres_packet.transition_evidence.as_ref()),
+            expectation_quality,
+            expectation_quality_reason,
+            gravity_data_quality: derive_gravity_data_quality(&gravity_observation),
+            gravity_data_quality_reason: derive_gravity_data_quality_reason(&gravity_observation),
+            gravity_status: gravity_observation
+                .snapshot
+                .assets
+                .iter()
+                .filter_map(|asset| asset.gravity)
+                .find(|gravity| {
+                    matches!(
+                        *gravity,
+                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair
+                            | crate::features::research::domain::valuation_gravity::GravityStatus::Undervalued
+                            | crate::features::research::domain::valuation_gravity::GravityStatus::DeepUndervalued
+                    )
+                })
+                .or_else(|| {
+                    gravity_observation
+                        .snapshot
+                        .assets
+                        .iter()
+                        .find_map(|asset| asset.gravity)
+                }),
+            supply_pressure: capital_absorption_snapshot
+                .as_ref()
+                .is_some_and(has_supply_pressure),
+        };
+        let subjects = collect_subjects(&expectation_snapshot, &gravity_observation);
+        pres_packet.interpretation_layer = Some(build_interpretation_layer_view_model(
+            InterpretationLayerReadModelInput {
+                subjects: &subjects,
+                signal: interpretation_signal,
+                language: lang,
+                dict: &dict,
+            },
+        ));
 
         let default_trading_config = config::TradingConfig {
             enabled: false,

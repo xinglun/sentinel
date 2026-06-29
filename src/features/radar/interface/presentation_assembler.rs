@@ -455,6 +455,7 @@ impl PresentationAssembler {
             transition_evidence: transition_evidence_read_model::build_transition_evidence(
                 packet, rules, &dict,
             ),
+            interpretation_layer: None,
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
