@@ -1,0 +1,151 @@
+{
+  "workItemId": "interpretation_layer_design",
+  "contractPath": ".ai/work-items/archive/2026/interpretation_layer_design.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/interpretation_layer_design.contract.json",
+      "reason": "Interpretation Layer 設計の契約を文書タスク向けに確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/interpretation_layer_design.summary.json",
+      "reason": "Interpretation Layer 設計の進捗と検証状況を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "アクティブ Work Item の現在状態を再生成する。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "新しい Interpretation Layer 文書を specs index に追加する。"
+    },
+    {
+      "path": "docs/specs/INTERPRETATION_LAYER.md",
+      "reason": "Trend / Gravity / Supply / Expectation を束ねる解釈層の仕様を定義する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/interpretation_layer_design.contract.json",
+    "docs/specs/HYPOTHESIS_LAYER.md",
+    "docs/specs/VALUATION_GRAVITY_LAYER.md",
+    "docs/specs/CAPITAL_DYNAMICS.md",
+    "docs/specs/PRESENTATION_CONTEXT_DESIGN.md",
+    "docs/specs/DISPLAY_SEMANTICS_STANDARD.md",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/radar/interface/report.rs",
+    "docs/README.md",
+    "docs/specs/INTERPRETATION_LAYER.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-links",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-index",
+      "result": "passed"
+    },
+    {
+      "command": "make audit-docs",
+      "result": "passed"
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Interpretation Layer と Expectation Layer の既存 interpretation 文言が混同されると、説明責務の境界が曖昧になる。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Work Item skeleton を作成し、契約を文書タスク向けに再定義した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象を docs/specs/INTERPRETATION_LAYER.md と docs/README.md に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "文書本体、index、verification、status を更新した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks をすべて実行し、結果を summary に同期した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review_debt",
+      "detail": "Interpretation Layer の文言が既存 Expectation Layer の個別 interpretation 行と重なると、読者が section 境界を誤解する可能性がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks は通過し、残余の review focus が明示されている。",
+    "expectedReviewFocus": [
+      "Trend / Gravity / Supply / Expectation / Interpretation の責務分離",
+      "Expectation Quality と Gravity Data Quality の状態設計",
+      "docs index と本文の整合"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "not_applicable",
+    "persistence": "no_persistence",
+    "i18n": "not_applicable",
+    "makeEntrypoints": "not_applicable"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "knownGaps": [],
+  "overclaimPrevention": "完了報告では未確認項目を未確認として明記する。"
+}

@@ -231,6 +231,10 @@ fn generate_markdown_report(
         card.push('\n');
         card.push_str(&transition_block);
     }
+    card.push_str(&render_interpretation_section(
+        pres.interpretation_layer.as_ref(),
+        RenderMode::Markdown,
+    ));
     card.push_str(&render_hypothesis_section(
         pres.hypothesis_layer.as_ref(),
         &dict,
@@ -415,6 +419,10 @@ fn generate_telegram_html_report(
         card.push('\n');
         card.push_str(&transition_block);
     }
+    card.push_str(&render_interpretation_section(
+        pres.interpretation_layer.as_ref(),
+        RenderMode::Html,
+    ));
     card.push_str(&render_hypothesis_section(
         pres.hypothesis_layer.as_ref(),
         &dict,
@@ -1273,6 +1281,95 @@ fn render_hypothesis_section(
                     h.responsibility_label, candidate.responsibility_notice
                 ));
             }
+        }
+    }
+    block.push('\n');
+    block
+}
+
+fn render_interpretation_section(
+    layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
+    mode: RenderMode,
+) -> String {
+    let mut block = String::new();
+    let Some(layer) = layer else {
+        return block;
+    };
+
+    match mode {
+        RenderMode::Markdown => {
+            block.push_str(&format!("### {}\n\n", layer.title));
+            block.push_str(&format!("  - {}\n", layer.notice));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.current_decision_weight_label, layer.current_decision_weight_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.expectation_quality_label, layer.expectation_quality_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.expectation_quality_reason_label, layer.expectation_quality_reason_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.gravity_data_quality_label, layer.gravity_data_quality_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.gravity_data_quality_reason_label, layer.gravity_data_quality_reason_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.narrative_pattern_label, layer.narrative_pattern_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.subjects_label, layer.subjects_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.narrative_summary_label, layer.narrative_summary_value
+            ));
+            block.push_str(&format!("  - {}\n", layer.boundary));
+        }
+        RenderMode::Html => {
+            block.push_str(&format!("\n<b>{}</b>\n", layer.title));
+            block.push_str(&format!("  - <i>{}</i>\n", layer.notice));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.current_decision_weight_label, layer.current_decision_weight_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.expectation_quality_label, layer.expectation_quality_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.expectation_quality_reason_label, layer.expectation_quality_reason_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.gravity_data_quality_label, layer.gravity_data_quality_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.gravity_data_quality_reason_label, layer.gravity_data_quality_reason_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.narrative_pattern_label, layer.narrative_pattern_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.subjects_label, layer.subjects_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.narrative_summary_label, layer.narrative_summary_value
+            ));
+            block.push_str(&format!("  - {}\n", layer.boundary));
         }
     }
     block.push('\n');

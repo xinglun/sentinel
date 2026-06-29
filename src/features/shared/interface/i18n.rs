@@ -22,6 +22,7 @@ pub struct DisplayDictionary {
     pub breakout: BreakoutDictionary,
     pub transition_evidence: TransitionEvidenceDictionary,
     pub trend_recognition: TrendRecognitionDictionary,
+    pub interpretation: InterpretationDictionary,
     pub hypothesis: HypothesisDictionary,
 }
 
@@ -168,6 +169,21 @@ pub struct TrendRecognitionDictionary {
     pub strategic_tactical_status: String,
     pub strategic_tactical_waiting: String,
     pub strategic_tactical_ready: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InterpretationDictionary {
+    pub title: String,
+    pub notice: String,
+    pub current_decision_weight_label: String,
+    pub expectation_quality_label: String,
+    pub expectation_quality_reason_label: String,
+    pub gravity_data_quality_label: String,
+    pub gravity_data_quality_reason_label: String,
+    pub narrative_pattern_label: String,
+    pub subjects_label: String,
+    pub narrative_summary_label: String,
+    pub boundary: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -831,6 +847,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 strategic_tactical_waiting: "NO TRADE，等待结构扩散".to_string(),
                 strategic_tactical_ready: "READY，等待执行层确认".to_string(),
             },
+            interpretation: InterpretationDictionary {
+                title: "🧭 Interpretation Layer（解读层）".to_string(),
+                notice: "仅用于展示。只读取 Observation Layer 的 read model，不进入 domain decision pipeline。".to_string(),
+                current_decision_weight_label: "Current decision weight".to_string(),
+                expectation_quality_label: "Expectation Quality".to_string(),
+                expectation_quality_reason_label: "预期质量原因".to_string(),
+                gravity_data_quality_label: "Gravity Data Quality".to_string(),
+                gravity_data_quality_reason_label: "Gravity Data Quality Reason".to_string(),
+                narrative_pattern_label: "Narrative Pattern".to_string(),
+                subjects_label: "Subjects".to_string(),
+                narrative_summary_label: "Narrative".to_string(),
+                boundary: "边界: Interpretation Layer 仅消费 Observation Layer 的 read model，不进入 Gate、Execution、Trader、Action Matrix、READY / EXECUTE 或 Position Sizing，也不生成交易信号。".to_string(),
+            },
             hypothesis: HypothesisDictionary {
                 title: "🧭 未来地图 / Hypothesis Layer（推测参考）".to_string(),
                 notice: "⚠️ 以下为未来结构假设，不属于当前事实，不生成交易信号。".to_string(),
@@ -1264,6 +1293,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 strategic_tactical_waiting: "NO TRADE, waiting for structural diffusion".to_string(),
                 strategic_tactical_ready: "READY, waiting for execution-layer confirmation".to_string(),
             },
+            interpretation: InterpretationDictionary {
+                title: "🧭 Interpretation Layer (Interpretation)".to_string(),
+                notice: "Display-only. It reads Observation Layer read models only and does not enter the domain decision pipeline.".to_string(),
+                current_decision_weight_label: "Current decision weight".to_string(),
+                expectation_quality_label: "Expectation Quality".to_string(),
+                expectation_quality_reason_label: "Expectation Quality Reason".to_string(),
+                gravity_data_quality_label: "Gravity Data Quality".to_string(),
+                gravity_data_quality_reason_label: "Gravity Data Quality Reason".to_string(),
+                narrative_pattern_label: "Narrative Pattern".to_string(),
+                subjects_label: "Subjects".to_string(),
+                narrative_summary_label: "Narrative".to_string(),
+                boundary: "Boundary: Interpretation Layer only consumes Observation Layer read models. It does not enter Gate, Execution, Trader, Action Matrix, READY / EXECUTE, or Position Sizing, and it does not generate trade signals.".to_string(),
+            },
             hypothesis: HypothesisDictionary {
                 title: "🧭 Future Map / Hypothesis Layer (Speculative Reference)".to_string(),
                 notice: "⚠️ The following are future-structure hypotheses, not current facts, and do not generate trade signals.".to_string(),
@@ -1686,6 +1728,19 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 strategic_tactical_status: "戦術状態".to_string(),
                 strategic_tactical_waiting: "NO TRADE、構造拡散待ち".to_string(),
                 strategic_tactical_ready: "READY、実行レイヤー確認待ち".to_string(),
+            },
+            interpretation: InterpretationDictionary {
+                title: "🧭 Interpretation Layer（解釈層）".to_string(),
+                notice: "表示専用。Observation Layer の read model のみを読み、domain decision pipeline には入らない。".to_string(),
+                current_decision_weight_label: "Current decision weight".to_string(),
+                expectation_quality_label: "Expectation Quality".to_string(),
+                expectation_quality_reason_label: "期待品質の理由".to_string(),
+                gravity_data_quality_label: "Gravity Data Quality".to_string(),
+                gravity_data_quality_reason_label: "Gravity Data Quality Reason".to_string(),
+                narrative_pattern_label: "Narrative Pattern".to_string(),
+                subjects_label: "Subjects".to_string(),
+                narrative_summary_label: "Narrative".to_string(),
+                boundary: "Boundary: Interpretation Layer only consumes Observation Layer read models. It does not enter Gate, Execution, Trader, Action Matrix, READY / EXECUTE, or Position Sizing, and it does not generate trade signals.".to_string(),
             },
             hypothesis: HypothesisDictionary {
                 title: "🧭 未来地図 / Hypothesis Layer（推測参考）".to_string(),

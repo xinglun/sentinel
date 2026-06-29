@@ -1,0 +1,155 @@
+{
+  "contractVersion": 1,
+  "workItemId": "interpretation_layer_design",
+  "mode": "author_todo",
+  "title": "Interpretation Layer 設計",
+  "scope": [
+    ".ai/work-items/active/interpretation_layer_design.contract.json",
+    ".ai/work-items/active/interpretation_layer_design.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/README.md",
+    "docs/specs/INTERPRETATION_LAYER.md"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "Gate / execution / trader / action matrix / position sizing",
+    "market decision rules",
+    "data branch contents"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/HYPOTHESIS_LAYER.md",
+      "reason": "Future Hypothesis Layer との境界を定義する既存の表示専用仕様。"
+    },
+    {
+      "path": "docs/specs/VALUATION_GRAVITY_LAYER.md",
+      "reason": "Gravity の data quality と source health の表現を再利用するため。"
+    },
+    {
+      "path": "docs/specs/CAPITAL_DYNAMICS.md",
+      "reason": "Observation Layer を将来の Flow とどう分離するかの境界を確認するため。"
+    },
+    {
+      "path": "docs/specs/PRESENTATION_CONTEXT_DESIGN.md",
+      "reason": "表示専用の上下文と観測事実の分離方針を確認するため。"
+    },
+    {
+      "path": "docs/specs/DISPLAY_SEMANTICS_STANDARD.md",
+      "reason": "表示セマンティクスは意思決定から独立させる必要があるため。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "Expectation observation 既存の Interpretation 行と new section を混同しないため。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "レポート内の section 配置と表示責務の境界を確認するため。"
+    },
+    {
+      "path": "docs/README.md",
+      "reason": "新しい仕様文書を docs index に登録するため。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "Expectation Layer 内の既存 interpretation 文言と new Interpretation section が混同されると、説明責務の境界が崩れるため。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "文書設計の scope / sources / acceptance / verification が確定した。"
+  },
+  "preReviewWarnings": [
+    "Expectation Layer の observation-level interpretation と Interpretation Layer の section 名が混同されないようにする。",
+    "新しい仕様文書は日本語本文と front matter を持つ Markdown として作成する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Interpretation Layer は Trend / Gravity / Supply / Expectation の観測結果を自然言語へ翻訳する表示専用 section として定義されている。",
+    "Interpretation Layer は Trend Layer と Future Hypothesis Layer の間に配置され、表示上の narrative を生成するが、交易シグナルや decision weight を生成しない。",
+    "Expectation Quality は HIGH / MEDIUM / LOW / UNAVAILABLE を持ち、「市場一致予想がない」状態と「システム未取得」状態を区別できる。",
+    "Gravity Data Quality は READY / PARTIAL / UNAVAILABLE を持ち、Provider unavailable / Historical snapshot missing / Consensus unavailable / Source temporarily unavailable などの理由を表示できる。",
+    "Interpretation は Current decision weight = 0% であり、Gate / Execution / Trader / Action Matrix / READY / Position Sizing に影響しない。",
+    "docs/specs/INTERPRETATION_LAYER.md が日本語 front matter 付きで作成され、docs/README.md の specs index に追加される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-doc-links",
+      "required": true
+    },
+    {
+      "command": "make check-doc-index",
+      "required": true
+    },
+    {
+      "command": "make audit-docs",
+      "required": true
+    },
+    {
+      "command": "make check-doc-forbidden-terms",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interpretation_layer_design.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_design.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

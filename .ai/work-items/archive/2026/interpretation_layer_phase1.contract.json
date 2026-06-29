@@ -1,0 +1,149 @@
+{
+  "contractVersion": 1,
+  "workItemId": "interpretation_layer_phase1",
+  "mode": "code",
+  "title": "Interpretation Layer Phase 1",
+  "scope": [
+    ".ai/work-items/active/interpretation_layer_phase1.contract.json",
+    ".ai/work-items/active/interpretation_layer_phase1.summary.json",
+    ".ai/work-items/active/interpretation_layer_design.contract.json",
+    ".ai/work-items/active/interpretation_layer_design.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/README.md",
+    "docs/specs/INTERPRETATION_LAYER.md",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/research/interface/valuation_gravity_report_builder.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/INTERPRETATION_LAYER.md",
+      "reason": "Interpretation Layer Phase 1 の表示仕様と境界を定義している。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "主レポートの Markdown / Telegram 生成入口。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "InterpretationLayerViewModel を追加する presentation model の SSOT。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Observation layer read model を組み立てて report に流し込む接続点。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "PresentationPacket の初期化点で InterpretationLayerViewModel を受け取る。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Interpretation Layer の多言語表記を追加する SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt",
+      "i18n_snapshot"
+    ],
+    "reason": "主レポートの section 順序を変えるため、既存 snapshot と Telegram 省略ロジックへの影響確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "表示専用の Phase 1 として、scope 内で実装可能。"
+  },
+  "preReviewWarnings": [
+    "Interpretation と Expectation Layer 内部の observation-level Interpretation 行は命名が近いため、review で区別を確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Interpretation section が Trend / Observation sections と Future Hypothesis Layer の間に表示される。",
+    "Interpretation は Observation Layer の read model のみを消費し、domain decision pipeline に入らない。",
+    "Current decision weight は 0% に固定され、Gate / Execution / Trader / Action Matrix / READY / Position Sizing に影響しない。",
+    "Markdown / Telegram 出力に read-only boundary 説明が含まれる。",
+    "TSLA / GOOG / NVDA スタイルの narrative pattern テストが少なくとも 3 件ある。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interpretation_layer_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interpretation_layer_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interpretation_layer_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interpretation_layer_phase1.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interpretation_layer_phase1.summary.json CONTRACT=.ai/work-items/active/interpretation_layer_phase1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interpretation_layer_phase1.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interpretation_layer_phase1.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

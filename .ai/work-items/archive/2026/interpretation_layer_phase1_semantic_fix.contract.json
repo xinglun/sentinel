@@ -1,0 +1,132 @@
+{
+  "contractVersion": 1,
+  "workItemId": "interpretation_layer_phase1_semantic_fix",
+  "mode": "code",
+  "title": "Interpretation Layer Phase 1 Semantic Fix",
+  "scope": [
+    ".ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+    ".ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/interpretation_layer_design.contract.json",
+    ".ai/work-items/archive/2026/interpretation_layer_design.summary.json",
+    ".ai/work-items/archive/2026/interpretation_layer_phase1.contract.json",
+    ".ai/work-items/archive/2026/interpretation_layer_phase1.summary.json",
+    "docs/README.md",
+    "docs/specs/INTERPRETATION_LAYER.md",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/research/interface/capital_absorption_report_builder.rs",
+    "src/features/research/interface/valuation_gravity_report_builder.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Interpretation read model の trend / expectation 生成を修正する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "InterpretationLayerViewModel に expectation reason を追加する。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Interpretation section の表示項目を更新する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Observation read model 由来の trend state 生成を接続する。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Expectation reason の表示文言を追加する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "Observation read model 由来の trend state と expectation reason を追加するため、section boundary と文言整合の確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "既存の実装に対する語義修正であり、scope 内で対応可能。"
+  },
+  "preReviewWarnings": [
+    "Expectation Quality reason は market consensus unavailable と system unavailable を区別できる必要がある。",
+    "trend_state は decision_summary に依存せず Observation read model から導く。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Interpretation Layer の trend_state は decision_summary に依存せず Observation read model から導出される。",
+    "Expectation Quality には reason が追加され、market consensus unavailable と system unavailable を区別できる。",
+    "Interpretation section の表示は既存の順序と 0% decision weight を維持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.contract.json SUMMARY=.ai/work-items/active/interpretation_layer_phase1_semantic_fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
