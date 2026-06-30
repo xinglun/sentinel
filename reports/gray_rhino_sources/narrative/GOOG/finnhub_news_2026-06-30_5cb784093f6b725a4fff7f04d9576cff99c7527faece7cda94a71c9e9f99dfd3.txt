@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech stocks on pace for best 6 months since 2023 — even with much of the 'Magnificent 7' in the 'penalty box': Chart of the Day
+  summary: Tech stocks are set to notch their strongest first half of the year since 2023, when the AI boom first drove equities higher.
+  url: https://finnhub.io/api/news?id=c8f0228e8ee6ac332d67782f4a0f3c2481d419519b1d6e99daf45426630afb4e

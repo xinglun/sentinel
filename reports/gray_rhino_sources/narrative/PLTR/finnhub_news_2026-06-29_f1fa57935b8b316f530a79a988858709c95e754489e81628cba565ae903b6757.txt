@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron and Intel Lead Chip Selloff
+  summary: Software names rally as semiconductors lag.
+  url: https://finnhub.io/api/news?id=ae9b3beb94e0ed84821ef82478be2fb255be376095c129c70fdab996298a98fe

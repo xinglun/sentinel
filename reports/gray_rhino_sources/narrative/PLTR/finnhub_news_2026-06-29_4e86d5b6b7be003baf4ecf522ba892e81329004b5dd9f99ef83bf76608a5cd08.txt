@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Real Engine Behind Snowflake Stock's Reacceleration
+  summary: A new AI tool is seeing the fastest adoption in the company's history, and it might be the key to unlocking a whole new phase of growth.
+  url: https://finnhub.io/api/news?id=bb43b7405c52fa27898f4e2c8a0af4419a086ecad03d522f33e31d0ae8abaf99

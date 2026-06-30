@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Has Entirely Abandoned This Absolute $11 Billion Dividend King—Here Is the 1 Aggressive Bargain I Am Accumulating on Repeat
+  summary: I keep hitting the buy button on Nike (NYSE:NKE), and every fresh leg down only makes the case stronger to me. The stock is down 33.33% year to date and down 30.03% over the past year, sitting at $41.82 while the SPDR S&P 500 ETF Trust (NYSEARCA:SPY) and Invesco QQQ Trust (NASDAQ:QQQ) keep printing fresh ... Wall Street Has Entirely Abandoned This Absolute $11 Billion Dividend King—Here Is the 1 Aggressive Bargain I Am Accumulating on Repeat
+  url: https://finnhub.io/api/news?id=6ed28ee506a6336824ad1d0c711220d624e02a37b5ca98a0d2b77eaa6169d397

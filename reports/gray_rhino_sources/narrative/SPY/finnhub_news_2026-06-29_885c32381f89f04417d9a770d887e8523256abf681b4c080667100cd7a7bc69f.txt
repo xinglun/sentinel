@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Tool Giving Independent Advisors an Edge Over Big Banks
+  summary: The 351 exchange has quietly crossed into the mainstream and advisors who aren't paying attention may already be behind. Ryan Kirlin of Alpha Architect breaks down why this tax-smart ETF strategy is the most powerful tool in the independent advisor's arsenal right now.
+  url: https://finnhub.io/api/news?id=13f54deb13c43b7593617369b93f9bba974ac951d6482b0c28cba5dcb40870ab

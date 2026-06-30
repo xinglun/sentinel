@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA (NVDA), Palantir (PLTR) Partner to Deploy Secure AI Models for Government and Infrastructure
+  summary: NVIDIA Corporation (NASDAQ:NVDA) is one of the AI stocks on Wall Street’s radar. On June 29, Palantir announced a strategic initiative with NVIDIA. The two are launching an initiative to enable US government agencies and critical infrastructure sectors to deploy NVIDIA Nemotron open models in secure, sovereign environments. By combining NVIDIA’s AI platform with Palantir’s […]
+  url: https://finnhub.io/api/news?id=2a23dc08e16215031834162332da200c3032729c7db3d07a53527a27c74ecfbc

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds Mixed, Equity Futures Lower Pre-Bell Ahead of Key Economic Reports
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was up marginally, and the active
+  url: https://finnhub.io/api/news?id=d2f065acd4e354b17cbce9ad90237eaacfd8c4124c193e362d895c412dc8e88e

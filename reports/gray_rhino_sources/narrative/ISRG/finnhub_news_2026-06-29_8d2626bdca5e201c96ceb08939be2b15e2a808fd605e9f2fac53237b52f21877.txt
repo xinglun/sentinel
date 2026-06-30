@@ -1,0 +1,7 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Health Care Stocks With Whale Alerts In Today’s Session
+  summary: This whale alert can help traders discover the next big trading opportunities.
+Whales are entities with large sums of money and we track their transactions here at Benzinga on our options activity scanner.
+Traders often
+  url: https://finnhub.io/api/news?id=3b510a05254eac4da2d0a1d40f52879e479eca6c746029ac93824db3dbb6fbc7

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The John Rogers Contrarian Playbook: How Envista, MSG Entertainment, and Smucker Stack Up for Retirement Investors
+  summary: John Rogers built his fortune hunting unloved stocks that the market abandoned too soon, but three of his favorite contrarian bets look very different when filtered through the lens of retirement income and low volatility.
+  url: https://finnhub.io/api/news?id=305617b6fb4c01a8aa10b8e2d930a2e44282be8e6f490f9a26c9bbe87185d2a0

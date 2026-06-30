@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Dividend Stocks Worth Buying More of While the Market Is Distracted
+  summary: Smart investors know the best time to zig is when everyone else is zagging.
+  url: https://finnhub.io/api/news?id=226f0ade81c00698887d1cb5ea21543d07a2a3f86f4f1c18f5d7f7e6e31edc08

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market Still Has Room To Climb Higher
+  summary: Bullish on S&P 500, supported by resilient US economic growth and robust AI-driven CAPEX. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=589f2577cf18e9f337ba89ceaa3ae8c6402820f8b080b344feb9d15f9e38d053

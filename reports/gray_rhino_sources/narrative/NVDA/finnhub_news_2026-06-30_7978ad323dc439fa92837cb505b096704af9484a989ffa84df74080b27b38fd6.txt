@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave (CRWV) Expands European AI Infrastructure Through New Partnership with Conapto
+  summary: CoreWeave Inc. (NASDAQ:CRWV) is one of the AI stocks on Wall Street’s radar. On June 24, CoreWeave entered a co-location partnership with Conapto to expand its AI cloud capacity in Stockholm, Sweden. The agreement covers two data center campuses powered entirely by renewable energy, with the initial infrastructure already operational. This expansion aims to meet […]
+  url: https://finnhub.io/api/news?id=efe7e166f21ce196f106ee724edc4a4975b74754e3f3222602fb97cc8929bfa0

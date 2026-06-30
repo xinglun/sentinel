@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can a New Nvidia Partnership Save Palantir Stock From Its Brutal Slump?
+  summary: Palantir advances Monday after snapping a seven-day losing streak on Friday. A new partnership with Nvidia might be the catalyst the stock needs.
+  url: https://finnhub.io/api/news?id=0827cca1308c42c09f20ec1fd0ae3b227f0bcfe76427ea36463e6003ea7641c9

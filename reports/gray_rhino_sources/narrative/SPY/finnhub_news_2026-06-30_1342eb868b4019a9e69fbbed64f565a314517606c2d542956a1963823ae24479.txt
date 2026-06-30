@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Grantham Warns Of Biggest Bubble In History, Again
+  summary: S&P 500 nears best quarter in 6 years as gains broaden beyond Big Tech.
+  url: https://finnhub.io/api/news?id=92b4872bb4295d7581ccd5b78fa3984c509a0e32e0e7d0a903414bdf2d2ec5f7

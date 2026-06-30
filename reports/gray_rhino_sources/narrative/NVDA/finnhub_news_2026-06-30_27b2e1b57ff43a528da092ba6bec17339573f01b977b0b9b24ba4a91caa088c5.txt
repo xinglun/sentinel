@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Enphase Energy, SolarEdge Jump 8% as Solar Stocks Ride an AI Data Center Power Theme
+  summary: Solar names are surging in early trading on Tuesday as an AI data center power narrative grips the sector. Enphase Energy (NASDAQ:ENPH) stock is up 8% to $52.31, while SolarEdge Technologies (NASDAQ:SEDG) stock is up 8% to $59.81. The catalyst is a fresh Enphase announcement tying its distributed power electronics work to the booming AI ... Enphase Energy, SolarEdge Jump 8% as Solar Stocks Ride an AI Data Center Power Theme
+  url: https://finnhub.io/api/news?id=aee24c424f34eccf70a7d76f198a4b87fce7e9268bbf1e3f5d4880c13ba265fe

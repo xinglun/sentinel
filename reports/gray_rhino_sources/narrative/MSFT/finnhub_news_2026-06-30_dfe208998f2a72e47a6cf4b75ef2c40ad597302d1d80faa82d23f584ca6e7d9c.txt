@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Threatens 100% Tariffs Over Digital Taxes. These 5 Tech Stocks Are Most at Risk
+  summary: Trade tensions appeared to cool after the U.S. and European Union reached a trade agreement capping most EU exports to the U.S. with a 15% tariff ceiling. For investors, that looked like a welcome step toward greater certainty after months of tariff negotiations. Yet trade policy rarely stays settled for long. President Trump has now ... Trump Threatens 100% Tariffs Over Digital Taxes. These 5 Tech Stocks Are Most at Risk
+  url: https://finnhub.io/api/news?id=20c80505785dce65355116e89b13d0f9c4f3bb399a321f2fd67fb6d912104b15

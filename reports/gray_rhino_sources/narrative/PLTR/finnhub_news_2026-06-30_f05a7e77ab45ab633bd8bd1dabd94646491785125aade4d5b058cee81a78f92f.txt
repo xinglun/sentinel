@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR), Surf Air Mobility Expand Partnership to Accelerate SurfOS Platform Development
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the AI stocks on Wall Street’s radar. On June 29, Palantir and Surf Air Mobility are expanding their partnership to accelerate the commercialization of the SurfOS platform. Building on the successful launch of BrokerOS, both companies are committing additional engineering and go-to-market resources to expedite the development and […]
+  url: https://finnhub.io/api/news?id=31b26cecf2d65752ba4bc2675a6161e3e8dc910d8a3fd23c1252b52f07700c41

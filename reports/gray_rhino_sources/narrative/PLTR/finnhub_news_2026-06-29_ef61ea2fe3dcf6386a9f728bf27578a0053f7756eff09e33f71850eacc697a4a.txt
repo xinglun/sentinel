@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Is Backing the Truck Up on Palantir Stock. Is She Finally Right?
+  summary: Cathie Wood’s ARK funds kept buying Palantir (NASDAQ:PLTR) into the teeth of its 2026 drawdown, picking up roughly 81,254 shares for about $9.7 million on June 23 and another 41,601 shares for roughly $4.5 million on June 26 across multiple tech names. That extends a months-long pattern of averaging down on weakness, and it sets up the ... Cathie Wood Is Backing the Truck Up on Palantir Stock. Is She Finally Right?
+  url: https://finnhub.io/api/news?id=30f6b4ba3b42e2071b5f2deb8e61c172463f9f77c96ff3c3c541063d614d4394

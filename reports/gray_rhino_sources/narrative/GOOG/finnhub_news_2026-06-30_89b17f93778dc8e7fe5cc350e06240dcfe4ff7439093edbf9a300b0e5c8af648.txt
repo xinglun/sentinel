@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google’s AI Overviews Didn’t Hurt Search Performance, New Incrementality Data Reveals
+  summary: AUSTIN, Texas, June 30, 2026--New research from Measured finds Google's AI Overviews didn't weaken paid search. Incremental revenue and orders rose across 139 brands.
+  url: https://finnhub.io/api/news?id=4ded19cf6e85236dd4e8b0eaf4e9207ed9f5c8ade3aed04359e624e3bf1b37b4

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Progress Software Launches Progress Chef Enterprise Management for NVIDIA DGX Spark, “the World’s Smallest AI Supercomputer”
+  summary: Progress Chef brings enterprise-grade secure configuration management and governance to fleets of desktop AI supercomputers at scale BURLINGTON, Mass., June 30, 2026 (GLOBE NEWSWIRE) -- Progress Software (Nasdaq: PRGS), the trusted provider of AI-powered digital experience and infrastructure software, today announced that its Progress® Chef® platform now delivers enterprise lifecycle management and configuration capabilities for NVIDIA DGX Spark, enabling IT teams to securely provision, monitor
+  url: https://finnhub.io/api/news?id=fb62cb65f55996beab01d72395e10e61eb1a89579dfd8a16d431428b8e92f038

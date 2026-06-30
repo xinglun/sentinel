@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Q2 Deliveries May Miss Estimates, But Cantor Says AI, Robotics, Chips Could Drive 'Transformational' 2026
+  summary: The firm expects 397,414 Q2 deliveries, below Tesla’s company-compiled consensus of 408,609.
+  url: https://finnhub.io/api/news?id=db3ac3a8389dc367c2a42bfa657d3aa5b2d52a08c0bba913bda7a2aacb62c9a1

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Panasonic to localise its US data centre battery production, CEO says
+  summary: Panasonic is seeking to localise its U.S. supply chain for energy storage systems as it prepares ‌to produce battery cells at a plant in Kansas as ‌part of a shift towards supplying data centres, the Japanese group's CEO said on ​Tuesday.  "Since most of our customers are in the U.S. for these energy storage systems, we think it makes sense to complete the supply chain as much as possible within the U.S.," Yuki Kusumi said during ‌a roundtable interview in ⁠Tokyo.
+  url: https://finnhub.io/api/news?id=78e586cc28efad32b31b8517b5782fb6220e8a1b6cc6ff29530e81bd66745cb5

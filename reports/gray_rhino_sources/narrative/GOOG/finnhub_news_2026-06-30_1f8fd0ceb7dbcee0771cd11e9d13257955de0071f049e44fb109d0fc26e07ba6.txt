@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: Strong Growth Story, But Risks Grow Faster
+  summary: Nvidia Corporation stock still overvalued despite surging data center growth; see valuation multiples, risks, and more. Click for this NVDA update.
+  url: https://finnhub.io/api/news?id=fe83bcbb9179128359f628f4a50001998717c92360f51ece3778696c0a0e5aff

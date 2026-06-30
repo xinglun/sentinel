@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reported Earlier: 'US working on ban targeting Chinese energy inverters, sources say' - Reuters Exclusive
+  summary: https://www.reuters.com/legal/litigation/us-working-ban-targeting-chinese-energy-inverters-sources-say-2026-06-30/
+  url: https://finnhub.io/api/news?id=e04ce93a378d6625302a34fafadb6158b5cc6f4ee611df5d67a390bab1ad00ca

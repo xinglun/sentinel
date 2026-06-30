@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Level Access Now Available in the Microsoft Marketplace
+  summary: STAFFORD, Va., June 30, 2026--Level Access today announced the availability of the Level Access Platform in the Microsoft Marketplace, the unified online destination for customers to buy trusted cloud solutions, AI apps, and agents to meet their business needs. Customers can now discover and deploy trusted solutions from Level Access through Microsoft Marketplace, with smooth integration and streamlined management across Microsoft Azure and other Microsoft products.
+  url: https://finnhub.io/api/news?id=8496f9901137b5c563a82b1c6074000bcc2e436799a4d38e0b3bb5cb5a7cb4a1

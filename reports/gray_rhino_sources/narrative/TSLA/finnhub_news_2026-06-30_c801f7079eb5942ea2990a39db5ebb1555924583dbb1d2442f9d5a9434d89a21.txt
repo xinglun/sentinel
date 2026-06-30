@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: This Could Be The Biggest Disconnect In Market History
+  summary: Tesla (TSLA) looks overvalued: DCF fair value $100.79 vs lofty multiples, slowing growth and negative FCF on $25B+ CapEx.
+  url: https://finnhub.io/api/news?id=91d7f55bf2e82d5a7fc7adbba58e301ab0779662d2489bb1badec7ac4053e578

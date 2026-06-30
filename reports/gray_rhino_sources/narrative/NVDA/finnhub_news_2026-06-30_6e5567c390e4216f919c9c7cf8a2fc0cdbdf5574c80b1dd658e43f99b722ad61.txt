@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Tesla Stock Be in 5 Years?
+  summary: Investors might be surprised to learn that this Magnificent Seven stock has underperformed the market in the past half-decade.
+  url: https://finnhub.io/api/news?id=a3c39b7fe9f85949b804033434530ec8659c72917758587c2b1e316c8d489d12

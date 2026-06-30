@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven shed $2.3 trillion in June as AI spending comes under closer scrutiny (MSFT)
+  summary: Investor sentiment shifts toward infrastructure costsThe so-called “Magnificent Seven” technology stocks have collectively lost around $2. 3 trillion in market value during June as investors reassessed the scale of artificial intelligence infrastructure spending by the sector’s largest companies.
+  url: https://finnhub.io/api/news?id=1bc5b4ddf2fd8a8b2b7434fc66ad8cacb9cc352b81a0e02ca63c1d2d84ae2f5d

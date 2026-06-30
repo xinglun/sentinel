@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock vs. Sandisk Stock: Wall Street Says Buy One and Sell the Other
+  summary: Most Wall Street analysts think Palantir stock is headed higher, but the consensus says Sandisk stock is headed lower.
+  url: https://finnhub.io/api/news?id=2d3171e2e1e7a40b463651392dc1921f4b1950818d26e25feb74579eb47c30e6

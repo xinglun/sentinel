@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Three Roundhill ETFs Built for Investors Who Want a Paycheck Every Single Weekday
+  summary: For those seeking passive income with more frequent, supercharged payments, there’s a slate of Roundhill ETFs to choose from. Indeed, there are quite a few products to browse through as weekly income becomes the “new” monthly income. In this piece, we’ll check in on a trio of Roundhill ETFs that are well-suited to investors who’d ... Three Roundhill ETFs Built for Investors Who Want a Paycheck Every Single Weekday
+  url: https://finnhub.io/api/news?id=3664bd33375ac6d7d8db20a092e2cb2e43a76d47b74f15170b44e144962ae7e7

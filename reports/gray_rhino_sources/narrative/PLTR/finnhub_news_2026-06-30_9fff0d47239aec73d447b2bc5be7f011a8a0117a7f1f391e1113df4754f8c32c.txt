@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5-star analyst gives beaten-down Palantir a surprise verdict
+  summary: Palantir (PLTR) stock has effectively gone from AI favorite to AI laggard. Though we saw a resurgence late last week, shares are down seven straight sessions and remain down 37% in 2026, as investors fret over the stock’s valuation and the competitive edge it may be harder to defend. Hence, the ...
+  url: https://finnhub.io/api/news?id=41a401f4870298c220dfbc4156dc24588e62d6b9f978d32e413dade9826f8a9a

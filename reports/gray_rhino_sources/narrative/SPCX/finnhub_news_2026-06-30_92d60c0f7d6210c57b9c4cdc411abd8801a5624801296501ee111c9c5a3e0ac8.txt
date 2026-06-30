@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech Catches a Bid But Microsoft Is Walking Toward Its Worst Month Since 2008
+  summary: Wall Street finally exhaled on Monday with a broad tech rebound, but the largest software name in the world refused to come along. Alphabet stepped into the Dow, SpaceX into the Russell, and Rocket Lab paid eight billion dollars to take on a satellite incumbent, a session full of headlines, but only one of them was strange.
+  url: https://finnhub.io/api/news?id=8297b7354fe2e6f987712e0f4dbc838c2e3b82cde2598686e5319b8a9991c737

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Trims Losses Overnight: Tesla Cybercab Starts Austin Tests Without ‘Steering Wheel Or Pedals’
+  summary: Tesla also detailed safety features including at least 10 airbags, active hood protection, and emergency releases.
+  url: https://finnhub.io/api/news?id=62c8e183e28fa1297e868d81cc7a7be4374a391e4a92b48deab1adbf0493b419

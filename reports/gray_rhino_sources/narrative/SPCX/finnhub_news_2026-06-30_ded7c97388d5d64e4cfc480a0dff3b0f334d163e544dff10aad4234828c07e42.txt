@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Breakfast Podcast: iPhone 18 Secrets Surface
+  summary: Apple's next iPhone may already be out. Investors wanted SpaceX but their orders never made it. The pressure is on for the Swoosh.
+  url: https://finnhub.io/api/news?id=8c8b01cdf46b1437ea6dc45cebb1bb612975194e6efb818646faf7d1f20715cf

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Despite Dropping 26% This Year, Microsoft is a No-Brainer Buy
+  summary: Microsoft (NASDAQ:MSFT) has been brutalized in 2026, down 26.72% year to date and 7% in the past week alone, even as fundamentals accelerate. With shares at $352.83 heading into the final trading days of June 2026, the question is whether this is capitulation or the start of something worse. Our model says capitulation, and the ... Despite Dropping 26% This Year, Microsoft is a No-Brainer Buy
+  url: https://finnhub.io/api/news?id=e75543a81950f80f4e69946fcf8e1288da600a7927614df66d2b0513c7d1764d

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Telecom Stocks Face Heavy Selling Pressure Monday: Here's Why
+  summary: Verizon Communications Inc (NYSE: VZ) and AT&amp;T Inc (NYSE: T) shares are falling Monday. There are reports of new satellite connectivity headlines that could reshape the U.S. wireless market.
+  url: https://finnhub.io/api/news?id=3c3f0ec54c1064a808bfdfe8b6f8bc6ee46735d677d132f6d9d3a2993b9d4668

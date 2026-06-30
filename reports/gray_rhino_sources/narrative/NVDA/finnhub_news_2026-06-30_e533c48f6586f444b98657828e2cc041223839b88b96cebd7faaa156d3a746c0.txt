@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Market Chatter: Super Micro Computer Raided in Taiwan Nvidia Chip Smuggling Investigation
+  summary: (Updates with the company's response in the fourth paragraph.) Super Micro Computer (SMCI) is coo
+  url: https://finnhub.io/api/news?id=fab799ad825e304f37589a883b0a4036c6b052d6b6021da6ed9c3271d5b8cb8d

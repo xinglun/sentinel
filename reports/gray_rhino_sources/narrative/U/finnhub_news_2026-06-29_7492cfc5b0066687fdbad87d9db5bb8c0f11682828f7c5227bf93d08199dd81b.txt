@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Raymond James Initiates Coverage of Unity Software (U) with Market Perform Recommendation
+  summary: 
+  url: https://finnhub.io/api/news?id=58fea7b6c657a970cc9b899a4ed10a1a60895e3f8be9ae6d50cedf3e79067142

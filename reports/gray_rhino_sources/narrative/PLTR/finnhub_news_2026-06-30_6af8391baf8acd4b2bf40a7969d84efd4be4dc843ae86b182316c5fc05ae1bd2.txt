@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is The Deal Between Nvidia and Palantir a Game Changer?
+  summary: Two of the most respected names in technology are joining forces to expand the reach of artificial intelligence (AI).
+  url: https://finnhub.io/api/news?id=20b68686de4bd637e94b2e20040068445e9c7eea6b97dd56a5a81ae13d095e39

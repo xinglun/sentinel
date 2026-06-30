@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Cerebras Stock a Buy on the Dip as Revenue Surges?
+  summary: Cerebras shares sank despite strong revenue growth.
+  url: https://finnhub.io/api/news?id=54c1b8a89a843b645e1390bdea7be8451ee196a6034a03e9fcd73521de7a7b1e

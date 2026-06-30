@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Stock: What Does Its Valuation Imply?
+  summary: This is a supply-constrained year for Palantir Technologies. The company's core is its Artificial Intelligence Platform, embedded in government programs like the Maven Smart System and a fast-growing commercial base.
+  url: https://finnhub.io/api/news?id=a4c9d068ea5dc99991b99046c72d80e0fe580ac83a5e8f4832a4b94ade38f313

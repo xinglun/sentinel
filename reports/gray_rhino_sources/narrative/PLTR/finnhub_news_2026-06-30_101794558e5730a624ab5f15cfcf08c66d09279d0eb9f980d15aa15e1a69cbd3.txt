@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir stock has crashed this year, but there may be upside ahead
+  summary: Is it time to dive into beat-up Palantir?
+  url: https://finnhub.io/api/news?id=59216350bc3bfb332052c0607a1784f8b5e7d9cc4471601a812a5e3e446e50dd

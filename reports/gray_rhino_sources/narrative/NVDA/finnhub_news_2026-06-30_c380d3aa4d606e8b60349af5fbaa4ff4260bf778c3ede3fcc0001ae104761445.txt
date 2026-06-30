@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Baidu (BIDU) One of the AI Stocks on Wall Street’s Radar?
+  summary: Baidu Inc. (NASDAQ:BIDU) is one of the AI stocks on Wall Street’s radar. On June 28, Reuters reported that Kunlunxin, the semiconductor unit of Baidu, is reportedly targeting a $50 billion valuation for its upcoming Hong Kong IPO. This figure represents a 17-fold increase since its funding round just six months ago, when it was […]
+  url: https://finnhub.io/api/news?id=ad92dcefa8ee045f676d9b9a8cadddec4efee66ddca167f15221fcb4723ae5f6

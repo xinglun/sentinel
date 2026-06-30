@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Faces New Autonomy Challenger
+  summary: Uber, Stellantis and Nissan partnerships add momentum.
+  url: https://finnhub.io/api/news?id=c46d09724f223fc477884d29006617a152230d03834aadefd72fbb510d900b0c

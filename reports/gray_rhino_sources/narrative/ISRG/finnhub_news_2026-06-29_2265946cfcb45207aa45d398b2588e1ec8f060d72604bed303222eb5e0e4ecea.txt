@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can ISRG's 'Quintuple Aim' Strategy Continue to Justify Premium Pricing?
+  summary: Intuitive Surgical's Quintuple Aim strategy is driving premium pricing as da Vinci 5 adoption grows, with innovation-led revenue growth outpacing procedure growth.
+  url: https://finnhub.io/api/news?id=114499e6dd4eaa6ca7fb68293857493880ef5d632bdbecc410078617b2bb4682

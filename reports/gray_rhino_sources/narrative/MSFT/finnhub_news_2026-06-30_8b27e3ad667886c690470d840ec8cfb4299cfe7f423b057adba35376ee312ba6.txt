@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) AI Story Gains Momentum with Deutsche Bank Call and CIO Survey
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the 14 AI Stocks Making Moves on Wall Street: Nvidia, Micron, and More. On June 26, Deutsche Bank reiterated the stock as “Buy,” noting that the stock is underappreciated. We are planting our flag and affirming that current AI businesses across the cloud providers we cover are indeed value […]
+  url: https://finnhub.io/api/news?id=337ed4e00520adb2454c3fd33de21e7e03fff8d8a0adf7dc52829e808d7f46ba

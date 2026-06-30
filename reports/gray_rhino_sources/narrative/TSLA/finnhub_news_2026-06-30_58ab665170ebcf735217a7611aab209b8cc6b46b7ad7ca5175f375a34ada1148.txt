@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Surges 8% After FSD v14 Lite Update Launches
+  summary: Tesla stock jumped more than 8% after rolling out its FSD v14 Lite software to millions of older vehicles for the first time in over a year.
+  url: https://finnhub.io/api/news?id=adfdaee97f6148ebdcd6d8d54f9ce7aef6238f82c135a5c2467b975acf77787b

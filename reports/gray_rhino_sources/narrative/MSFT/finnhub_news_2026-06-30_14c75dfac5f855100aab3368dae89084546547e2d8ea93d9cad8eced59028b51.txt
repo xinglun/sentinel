@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TransAct Technologies Launches the Next Generation Enterprise-Grade BOHA! SaaS Platform
+  summary: HAMDEN, Conn., June 30, 2026--TransAct Technologies Incorporated (Nasdaq: TACT), a leading provider of SaaS platform and integrated hardware solutions, today announced the launch of its next-generation BOHA!® SaaS platform, delivering a major advancement in enterprise foodservice technology. The launch marks a major milestone in TransAct’s strategy to accelerate innovation and modernize back-of-house operations through a scalable cloud platform for customers worldwide.
+  url: https://finnhub.io/api/news?id=708d948958821414abbc8f3bb5f6d39fb968073453e40276792e6d0084025654

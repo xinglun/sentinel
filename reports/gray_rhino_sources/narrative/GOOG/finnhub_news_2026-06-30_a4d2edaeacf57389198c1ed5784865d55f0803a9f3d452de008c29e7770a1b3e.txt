@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FactSet Announces Strategic Partnership with Google Cloud to Bring Advanced AI to Financial Intelligence
+  summary: FactSet, a leading global data and AI solutions provider to the financial markets, today announced a multi-faceted strategic partnership with Google Cloud to create a new generation of AI-powered solutions for the financial industry. The collaboration addresses a growing demand from financial firms for workflow-specific agentic solutions that are powered by trusted data and fully sourced, auditable, and defensible in regulated environments. The partnership supports FactSet's broader AI vision by
+  url: https://finnhub.io/api/news?id=e345b2d6f158d8bee18cc81ec42cd43114554b56019690f28a900ec42d5fa7e2

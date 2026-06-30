@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta (META) Turns Inward On AI After Google Limits Gemini Access
+  summary: Google has restricted Meta Platforms' access to its Gemini AI models, citing industry wide compute shortages. The change has disrupted Meta's internal AI projects that relied on Gemini for training and experimentation. Meta is accelerating work on its in house AI systems, including models such as Muse Spark, to reduce reliance on external providers. For investors watching NasdaqGS:META, this shift in AI access lands at a time when the stock trades around $562.60 and longer term returns show...
+  url: https://finnhub.io/api/news?id=75583602e1a80f62b4dee361589714d513bd213bb9ec2f50cd382d244efbabbe

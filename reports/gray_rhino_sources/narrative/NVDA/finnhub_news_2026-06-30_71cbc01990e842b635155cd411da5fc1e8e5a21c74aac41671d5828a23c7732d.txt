@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could This New Chip Be a Game Changer for Broadcom Stock?
+  summary: Broadcom recently unveiled a new inference-focused chip designed to meet OpenAI's needs, and the early results are promising.
+  url: https://finnhub.io/api/news?id=867955e2fe4515eb4ba04da0cb94e97fd6e630c1ab10d4a84b531239efe00b60

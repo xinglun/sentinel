@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Charter Communications Stock Is Soaring: What's Going On?
+  summary: Charter Communications Inc (NASDAQ:CHTR) shares are jumping on Monday. It was reported that the company held executive level discussions with Space Exploration Technologies Corp (NASDAQ:SPCX) about a consumer mobile phone partnership. Here&#39;s what you need to know.
+  url: https://finnhub.io/api/news?id=c81024000167152e0d81b097e52d36a3eddba3086ac00e806bc350823521a128

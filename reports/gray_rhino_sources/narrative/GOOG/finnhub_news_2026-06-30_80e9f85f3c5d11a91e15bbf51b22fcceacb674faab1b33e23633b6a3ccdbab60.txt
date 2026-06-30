@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq called higher as tech rebalancing continues and second quarter ends
+  summary: US stocks have been predicted to extend their recovery on Tuesday, as investors approach the final session of a second quarter that has delivered a strong rebound for many risk assets. Futures pointed to a slightly firmer open, with S&P 500 futures up 0.1%, Nasdaq futures up 0.35% and Dow...
+  url: https://finnhub.io/api/news?id=c25b151e2155d1eb6290186623267e39a495dfebbcc3a350088e08e041c939ba

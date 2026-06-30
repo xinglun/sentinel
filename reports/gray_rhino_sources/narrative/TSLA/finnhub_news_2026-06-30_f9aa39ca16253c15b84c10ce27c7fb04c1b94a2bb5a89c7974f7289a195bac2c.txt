@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Robotaxi Math Doesn't Work With Human Safety Drivers, Gary Black Says
+  summary: Investor Gary Black of The Future Fund LLC thinks that Tesla Inc.‘s (NASDAQ:TSLA) Robotaxis with a human safety driver on board cost more than rivals like Alphabet Inc.-backed (NASDAQ:GOOGL) (NASDAQ:GOOG) Waymo, as well as Baidu Inc.‘s (NASDAQ:BIDU) Apollo Go Robotaxi and Amazon.com Inc.‘s (NASDAQ:AMZN) Zoox. Human Safety Drivers Cost More On Monday, user James Stephenson responded to Black by quoting an older reply by Stephenson where he argued that an autonomous car with a safety driver was st
+  url: https://finnhub.io/api/news?id=8fda98c75d06c8f149107e1b1254af8daa6233335e8464b7edbd2e4485172313

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Dividend ETF That Belongs in Almost Every Long-Term Portfolio
+  summary: This ETF has a strong record of delivering rising dividend income and strong total returns.
+  url: https://finnhub.io/api/news?id=eff490f4afdf0d59362ccd1f948dc2fd516cec922bdb28f911b764814c2335bb

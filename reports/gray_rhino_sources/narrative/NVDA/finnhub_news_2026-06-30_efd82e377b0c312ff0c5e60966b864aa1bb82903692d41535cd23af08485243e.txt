@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: International Business Machines (IBM) Unveils World’s First 0.7-Nanometer Semiconductor Tech
+  summary: International Business Machines Corporation (NYSE:IBM) is one of the AI stocks on Wall Street’s radar. On June 25, IBM unveiled the world’s first sub-1 nanometer (nm) chip technology. Featuring a 0.7-nanometer architecture, the design packs nearly 100 billion transistors onto a fingernail-sized surface, offering up to 50% higher performance or 70% greater energy efficiency compared […]
+  url: https://finnhub.io/api/news?id=1259d694c2a0d4b69b9ca1d4450dc26f623535b4cc77277dc1f690f3924d48b3

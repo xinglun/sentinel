@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GenNx360 Capital Partners Appoints Welela Dawit as Operating Partner
+  summary: NEW YORK, June 30, 2026--GenNx360 Capital Partners ("GenNx360"), a New York City-based private equity firm investing in U.S. lower middle market industrial services and business services companies, today announced the appointment of Welela Dawit as Operating Partner.
+  url: https://finnhub.io/api/news?id=a71d4d03add4a2883258b365559da0be40a25494172b3a777f5663798020dc5e

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Zeta Global (ZETA) Stock Is Up Today
+  summary: Shares of marketing technology company Zeta Global (NYSE:ZETA) jumped 4.8% in the afternoon session after the company announced strategic partnerships with Snowflake and Palantir Technologies to bolster its enterprise AI capabilities.
+  url: https://finnhub.io/api/news?id=bf2145e5b2e28209a9b21ab857c5118f7c6ffe684d1e605e2aa545e29c6eb175

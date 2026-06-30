@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's 2 deals answer a question investors keep asking
+  summary: Palantir Technologies Inc. (PLTR) confirmed two separate partnerships on Monday, June 29, one with a private aviation startup and one with Nvidia. Most coverage will treat these as routine corporate news. The pattern underneath them is not routine, however. It points to how Palantir plans to defend ...
+  url: https://finnhub.io/api/news?id=36fa4caaabbfa9187b6474436ebfc0d0133ef3d256ad27b2c68c8083f38cb56b

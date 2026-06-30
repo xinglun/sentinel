@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Balance Sheet Increases By $31B In June
+  summary: As soon as the Fed ended Quantitative Tightening, they launched a new round of Quantitative Easing. Read more here.
+  url: https://finnhub.io/api/news?id=e33a739968e7afd54820ddbabbf464f34a2c8cadc2cc132eb1e3b7b95ab75bb5

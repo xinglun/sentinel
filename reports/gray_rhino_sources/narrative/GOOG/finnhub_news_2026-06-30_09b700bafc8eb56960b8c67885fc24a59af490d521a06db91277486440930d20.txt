@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Cloud AI - AI-Powered Attacks Highlight Gaps In Cloud Security Strategies
+  summary: Recent research by Skyhawk Security highlights a significant security concern within cloud AI environments, demonstrating how their AI Autonomous Attack Simulation was able to take control of a company's AWS organization in mere seconds. The simulation revealed a critical cloud security blind spot where a chain of legitimate configurations can be exploited to gain full organizational control, challenging traditional security measures. Despite the target company adhering to best practices in...
+  url: https://finnhub.io/api/news?id=23a2f00de7cd49cf1211b3ffaf90cdcb99fa4d56c92535fb3273ce5472d9ee87

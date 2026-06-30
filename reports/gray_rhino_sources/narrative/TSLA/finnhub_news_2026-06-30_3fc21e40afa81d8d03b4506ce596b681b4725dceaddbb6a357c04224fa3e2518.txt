@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Delivery Outlook Improves as Morgan Stanley Keeps Equal Weight Rating
+  summary: Tesla, Inc. (NASDAQ:TSLA) is one of the 14 AI Stocks Making Moves on Wall Street: Nvidia, Micron, and More. On June 26, Morgan Stanley reiterated the stock as equal weight, stating how it anticipates robust delivery numbers from Tesla the following week. The firm cited stronger-than-expected sales trends in Europe and China. However, it remains […]
+  url: https://finnhub.io/api/news?id=811c57a622bc9795ae057b32759b9670fd2b8700b558947fbcc17034dbc90ddd

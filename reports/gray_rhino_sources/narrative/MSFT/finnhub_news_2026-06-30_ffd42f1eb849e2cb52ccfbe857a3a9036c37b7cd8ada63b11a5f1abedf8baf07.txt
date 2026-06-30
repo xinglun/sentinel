@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech Mahindra Partners with Microsoft to Advance Telecom Modernization with AI-Driven 5G Network Digital Twin
+  summary: Tech Mahindra (NSE: TECHM), a leading global provider of technology consulting and digital solutions to enterprises across industries, announced a collaboration with Microsoft to showcase an advanced Network Digital Twin solution. The solution is designed to help communications service providers modernize their network operations, improve service performance, and accelerate monetization of next-generation 5G capabilities.
+  url: https://finnhub.io/api/news?id=3b5d2d2e3ee0a6a5e5c922f93e27c1b91141a6926945209783d81cf41a0f6258

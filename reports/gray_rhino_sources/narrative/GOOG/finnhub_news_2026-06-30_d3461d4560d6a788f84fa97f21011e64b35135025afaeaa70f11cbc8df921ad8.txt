@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the Dow’s Tech Revolution Is a Blessing and a Curse
+  summary: If the Dow’s ascent to 52,000 were a World Cup match, then  Alphabet  involvement was akin to a soccer player being substituted on in the final moments and scoring the fourth goal in a 4-0 win.  After a stellar debut, Alphabet will be an important part of the squad moving forward.  Its inclusion means the Dow now contains five of the so-called Magnificent Seven—alongside  Microsoft Amazon Apple  and  Nvidia  That inevitably raises questions about whether the index is becoming too tech-heavy.
+  url: https://finnhub.io/api/news?id=96412a46f912b335d22d96fbe1451f011578fb64121a3901fe2fb7895970d1a9

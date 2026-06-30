@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Stock Will Dominate The Second Half of 2026
+  summary: My buy order on Microsoft (NASDAQ:MSFT) has fired five times this year, and the sixth sits queued for Monday morning. The stock is down. The headlines are nervous. I keep adding, and I am writing this to explain exactly why. What pulls me back is simple. Microsoft sits at the center of the agentic computing ... This Stock Will Dominate The Second Half of 2026
+  url: https://finnhub.io/api/news?id=2b43ffb4224d5fb5a290fbf33283fce1801c963cb8c8cbf4770e9eaaae2fe262

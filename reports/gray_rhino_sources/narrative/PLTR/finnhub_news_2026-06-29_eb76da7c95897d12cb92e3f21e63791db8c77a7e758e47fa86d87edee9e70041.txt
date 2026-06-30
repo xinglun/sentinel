@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Shares Jump After Striking Nvidia AI Deal
+  summary: Palantir and Nvidia Unveil Government AI Platform. Investors Cheer
+  url: https://finnhub.io/api/news?id=d37e7b8a61e0e45264f0b9713f7cc528229b91e2582f6933768b73acfd418b1f

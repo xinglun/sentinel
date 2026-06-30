@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Loads Up On Amazon Stock After Record $26.4 Billion Prime Day, Bets Big On Palantir's AI Push — Keeps Dumping Alibaba
+  summary: Invest scooped up Amazon, Palantir and Coinbase shares Monday while dumping Alibaba stock on Monday, June 29, 2026.
+  url: https://finnhub.io/api/news?id=f980814961a04a8e673ad5a24b855a134c17fcfb524c47f636f339242045f6b5

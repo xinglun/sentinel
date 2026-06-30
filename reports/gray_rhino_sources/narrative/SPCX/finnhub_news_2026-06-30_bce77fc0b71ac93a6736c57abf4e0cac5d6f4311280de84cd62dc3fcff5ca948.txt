@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Accounts Could Land An Unexpected Boost As SpaceX Reportedly Weighs Stock Donation
+  summary: SpaceX may donate stock to Trump Accounts, a new children&#39;s savings program backed by the Treasury, BNY Mellon and Robinhood.
+  url: https://finnhub.io/api/news?id=1630d3889b93254f64e75d9b1f89351afeefc60b74c28f81bd0838c8908e304d

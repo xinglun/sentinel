@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UK watchdog proposes changes to Apple and Google’s app stores payment rules
+  summary: The CMA is consulting on forcing the tech giants to allow developers to steer customers away from their platforms for payment.
+  url: https://finnhub.io/api/news?id=e8af85f2783c693d48d808895be8de6114a62da1b20aba4f7f98f823c6c10b34

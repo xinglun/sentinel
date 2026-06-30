@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Weaker June Labor Market Report Unlikely To Change The Hawkish Fed
+  summary: June labor market data is expected to show slight weakening, but not enough to alter the Fed's current hawkish mode.
+  url: https://finnhub.io/api/news?id=56f7796719f2e9a25a7040c75b14c386cdcb8227acc5883887e93370e4f231e2

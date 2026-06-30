@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robinhood Launches Trump Accounts App Ahead Of July 4 Rollout
+  summary: Robinhood Markets said its Trump Accounts app is now available to eligible U.S. families ahead of the program&#39;s official launch on July 4.
+  url: https://finnhub.io/api/news?id=f2eafdde71cfdef9e31b4c326868e515870fdaf5b9ea3192e7e1aa157045865f

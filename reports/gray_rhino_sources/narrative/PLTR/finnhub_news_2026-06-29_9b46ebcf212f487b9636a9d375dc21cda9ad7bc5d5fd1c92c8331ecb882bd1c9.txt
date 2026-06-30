@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Just Secured the U.S. Army’s Biggest Data Overhaul
+  summary: The headline number gets attention. Palantir (NASDAQ:PLTR) secured a $10 billion, 10-year Enterprise Agreement with the U.S. Army last summer. The contract was awarded July 31, 2025, and the question worth asking now, nearly a year in, is whether Wall Street has properly priced what that vehicle does to the company’s competitive position. The stock ... Palantir Just Secured the U.S. Army’s Biggest Data Overhaul
+  url: https://finnhub.io/api/news?id=e50fa62b054d611700d80ca9924e0b09e20b71dedfb05db21f0c06d043f5500e

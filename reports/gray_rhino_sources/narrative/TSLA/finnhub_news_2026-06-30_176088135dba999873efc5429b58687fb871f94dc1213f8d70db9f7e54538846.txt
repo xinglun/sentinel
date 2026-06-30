@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How SpaceX Stock Is Impacting Tesla Shares
+  summary: SpaceX  stock and  Tesla  shares are doing something surprising: They are rising and falling together.  Shares of Elon Musk’s rocket and AI company were down 0.6% in premarket trading at $163.25, while  and  futures were up 0.1% and 0.2%, respectively.  SpaceX stock gained 7.2%, its best day since June 15, which was the second day of trading post-IPO.
+  url: https://finnhub.io/api/news?id=56de4e4bcb91c598527b8856b01a78bad9944984af622679af6511f0f4c840fe

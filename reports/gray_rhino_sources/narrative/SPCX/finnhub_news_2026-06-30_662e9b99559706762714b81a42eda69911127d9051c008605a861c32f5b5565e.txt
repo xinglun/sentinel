@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FTSE Russell Reconstitution Signals Benchmark Evolution
+  summary: The latest FTSE Russell reconstitution materially reshaped growth and value benchmarks, reflecting how changing corporate fundamentals are redefining traditional style classifications
+  url: https://finnhub.io/api/news?id=d159891ac4c26673c020f66fcd696fd8e9a39f1006b87ea629c186ca87485bc1

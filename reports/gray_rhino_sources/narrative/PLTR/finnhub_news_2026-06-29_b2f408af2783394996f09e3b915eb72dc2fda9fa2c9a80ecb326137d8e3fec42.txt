@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Is Up Today
+  summary: A partnership with an artificial intelligence (AI) titan has investors intrigued.
+  url: https://finnhub.io/api/news?id=215d21a87cbe2ef7873d300a32f8bca3814a3c5b50d27c62e7fcf3bc13b6d71b

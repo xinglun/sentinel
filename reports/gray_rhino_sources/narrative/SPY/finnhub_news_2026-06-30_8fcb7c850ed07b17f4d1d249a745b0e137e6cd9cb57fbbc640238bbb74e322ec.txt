@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. House Committee Sends Letters To Pfizer, Eli Lilly & Bristol Myers Squibb Probing China Drug Trials
+  summary: - Reuters 
+  url: https://finnhub.io/api/news?id=3baa0b6d8130b52153c4c742a502edc285b76c9502f66aef88dfb9d8fc3d6dd9

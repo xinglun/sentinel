@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500, Dow Futures Hold Steady Ahead Of JOLTS Report, Nike Earnings: Why SLS, TSLA, SPCX, SNDK, AVAV, JACK Are In Focus
+  summary: Stocktwits data showed retail sentiment around SPY was ‘bearish’, while QQQ sentiment remained ‘bullish.’
+  url: https://finnhub.io/api/news?id=365b10bb9c45a6cbe0fc52e57962850cfe288efba7e7bac6f024393ff3e5d656

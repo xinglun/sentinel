@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. approach to regulation of AI is problematic, Sixth Street's Chavez says
+  summary: The United States' regulation of artificial intelligence is problematic and inconsistent, Martin Chavez, vice chairman at ‌investment firm Sixth Street, told Reuters on Tuesday.  Speaking at the Reuters Momentum ‌AI London event, Chavez criticised the current U.S. approach of regulating each new AI model's ​release individually, citing a lack of transparency on how decisions are made and who is making them.  The outspoken remarks from a technology and financial industry veteran, who is also a member of the board of Google owner Alphabet ‌Inc, echoed growing concerns ⁠about how the lack of a level playing field in AI regulation could increase risks.
+  url: https://finnhub.io/api/news?id=954c5254eaa9f310159c9714dfc92cd8d99f153de50a559799fb975901d36c62

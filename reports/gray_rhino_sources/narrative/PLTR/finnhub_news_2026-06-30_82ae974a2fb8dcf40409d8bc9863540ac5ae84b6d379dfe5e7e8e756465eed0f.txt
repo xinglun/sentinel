@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Technologies (PLTR) Stock Is Trading Up Today
+  summary: Shares of data analytics company Palantir Technologies (NASDAQ:PLTR) jumped 3.1% in the afternoon session after the company announced two significant artificial intelligence deals, including a partnership with NVIDIA and an expanded agreement with Surf Air Mobility.
+  url: https://finnhub.io/api/news?id=1805480a1f8d2abd2ee05c03f77c25bca3fdf58cd60410b0b01b33dd3744f8ad

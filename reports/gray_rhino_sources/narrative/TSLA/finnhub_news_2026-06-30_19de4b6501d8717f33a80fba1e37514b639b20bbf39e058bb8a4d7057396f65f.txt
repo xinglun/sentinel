@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent 7 stocks lose $2.3 trillion in June
+  summary: Investing.com -- The "Magnificent 7" group of technology companies lost approximately $2.3 trillion in market value this month as investors increased scrutiny of large infrastructure spending by these firms.
+  url: https://finnhub.io/api/news?id=45ae29641062ee38e9160a149e20958cf2a077f54f0351060ba0773e1af1818d

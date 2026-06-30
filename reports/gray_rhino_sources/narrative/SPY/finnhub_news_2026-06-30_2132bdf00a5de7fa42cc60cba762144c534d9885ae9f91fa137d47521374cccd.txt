@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: You Say Up, I Say Down
+  summary: After five straight days of positive breadth divergences last week, on Monday we saw negative breadth divergence, extending the streak of divergent breadth days to a record six trading days.
+  url: https://finnhub.io/api/news?id=f430bb90255fe3fffb0e51c14961cad43d29275df0e65f9ef9904d99d4aad04a

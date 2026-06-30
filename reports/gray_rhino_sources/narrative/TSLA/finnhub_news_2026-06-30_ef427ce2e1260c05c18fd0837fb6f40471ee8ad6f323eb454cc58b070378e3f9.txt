@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla Stock Just Went Parabolic
+  summary: Tesla Stock Soars as Wall Street Bets on a Massive Q2 Delivery Beat
+  url: https://finnhub.io/api/news?id=6bf4139a2ee7daba9ab2a63501885afb1616cfbf98ff3be92ccf89a42599fa0c

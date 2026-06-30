@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BlackBerry AtHoc Strengthens Enterprise Readiness as Cyber, Climate, and Geopolitical Uncertainty Rises
+  summary: New integrations extend BlackBerry AtHoc mission orchestration into the identity and collaboration systems organizations already run, keeping coordinated response fast and accountable as the window between warning and action shrinks WATERLOO, ON / ...
+  url: https://finnhub.io/api/news?id=2e21a2e0ebbb999e68ac38641931808d20c9aff10a6333695ccb5ca6ffe7f505

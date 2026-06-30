@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Vaporizes $811 Billion In Value
+  summary: In the space exploration business, money is easy come, easy go. And that's something Space Exploration IPO investors learned the hard way.
+  url: https://finnhub.io/api/news?id=b2e1678cb6b12ade4cc8b020c9129e5933a57be76f17df2737da84765d96bfbf

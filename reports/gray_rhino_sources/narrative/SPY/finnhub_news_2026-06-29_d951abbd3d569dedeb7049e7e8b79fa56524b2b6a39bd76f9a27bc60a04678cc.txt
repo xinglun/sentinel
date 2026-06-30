@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq End Higher To Record Best Quarter Since 2020, While Alphabet Debut Drives Dow — VZ, CMCSA, RKLB, SMCI, BATL, GOOGL In Focus
+  summary: Google parent, Alphabet, made its debut in the Dow Jones Industrial Average.
+  url: https://finnhub.io/api/news?id=979d70dbb69960fd2a6c3176cbba491ebd55794409137ee6626dd46ce0040944

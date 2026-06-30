@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett Says This ETF Is Perfect for Everyday Investors
+  summary: You may want to add it to your portfolio, too.
+  url: https://finnhub.io/api/news?id=7b283e397b67734e265ae90c365e502189103bc9c0703cf7d5222761411985e8

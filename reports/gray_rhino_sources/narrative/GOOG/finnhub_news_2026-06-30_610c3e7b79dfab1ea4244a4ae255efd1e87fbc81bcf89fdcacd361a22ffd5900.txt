@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Just Joined the Dow Jones Industrial Average. 3 Dow Dividend Stocks to Buy Now.
+  summary: Alphabet is a great company, but its dividend payout is underwhelming.
+  url: https://finnhub.io/api/news?id=3791404eb95fb94ba4fea4b9fe9a7ecaebc60426c9a687ab1366526f048c7dc7

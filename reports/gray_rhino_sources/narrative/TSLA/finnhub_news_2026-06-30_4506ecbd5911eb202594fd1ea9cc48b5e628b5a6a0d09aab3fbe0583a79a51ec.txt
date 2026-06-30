@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Falls After Big Gains as Auto Industry Wrestles With Copper Prices
+  summary: Tesla  stock was lower early Tuesday after an epic Monday, as the car industry looks for solutions to rising commodity prices.  Tesla stock gained 8.5% on Monday, rising roughly $30 a share, more than wiping out $20-per-share losses of the prior week.  Tuesday’s early move came as Reuters reported that several auto makers were using some aluminum wiring instead of copper.
+  url: https://finnhub.io/api/news?id=e5b92b22802c2367cf815ac7397139a3a260c68651af1d691c075dcc2c59b6f3

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EP Wealth Advisors Expands Northern California Presence with the Acquisition of Opes Wealth Management
+  summary: TORRANCE, Calif., June 30, 2026--EP Wealth Advisors ("EP Wealth"), a fee-only registered investment advisor (RIA), today announced its partnership with Menlo Park, Calif.-based Opes Wealth Management, LLC ("Opes"). The partnership adds specialized planning expertise and over $900 million in assets under management (AUM).
+  url: https://finnhub.io/api/news?id=12e40529aa35a865650a1c040df89ecce3e0ed7d687c6fc94d6da9be8dd2dda5

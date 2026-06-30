@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big tech faces AI spending scrutiny ahead of Q2 earnings: Wedbush
+  summary: Investors are entering the second-quarter earnings season focused on whether heavy artificial intelligence spending by major technology companies will begin translating into stronger revenue growth, according to Wedbush Securities analysts. Wedbush wrote that recent weakness in large-cap...
+  url: https://finnhub.io/api/news?id=96107d54c4de4f83659a82f3c7015eaf7143a69a54b5c16d59622f547297fad1

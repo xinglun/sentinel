@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Pfizer Could Prove to Be an Underrated GLP-1 Stock
+  summary: It could prove to be a case of better later than never for the healthcare giant.
+  url: https://finnhub.io/api/news?id=8dde04ddcab7fa50ac6d1569beb5d10e4aa9a73a0a05a6d7b7b82f65248f4c2b

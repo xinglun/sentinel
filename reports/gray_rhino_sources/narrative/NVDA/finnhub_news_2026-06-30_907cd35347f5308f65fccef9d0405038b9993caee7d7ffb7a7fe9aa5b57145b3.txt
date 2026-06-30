@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Is Transforming Drug Discovery. Here Is the Next Trillion-Dollar Biotech Opportunity
+  summary: Artificial intelligence is reshaping nearly every industry, but some of its biggest opportunities are emerging far from Silicon Valley. Biotechnology has spent decades producing breakthrough medicines, yet drug development has remained painfully slow, often taking 10 to 15 years while roughly 90% of candidates never reach approval. AI is beginning to change that equation. By ... AI Is Transforming Drug Discovery. Here Is the Next Trillion-Dollar Biotech Opportunity
+  url: https://finnhub.io/api/news?id=e1dd2417e2816b324b2de38909fb8bb300180f32722f54e7aca1ff37b0527d61

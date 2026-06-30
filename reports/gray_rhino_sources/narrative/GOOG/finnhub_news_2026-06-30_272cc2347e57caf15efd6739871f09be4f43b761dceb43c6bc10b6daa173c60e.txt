@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here are Tuesday’s Best Wall Street Analyst Research Calls: Block, Comcast, Fortinet, Goldman Sachs, Honeywell, Klarna, Logitech, Scorpio Tankers, Trade Desk, and More
+  summary: Pre-Market Stock Futures: Futures are trading higher after a big start to the holiday-shortened trading week, which saw every index trade higher, after the small-cap Russell 2000 eked out a tiny gain on the close, finishing up 0.01% at $3010, and still leads all the major indices in 2026, up over 20%. The tech-heavy Nasdaq ... Here are Tuesday’s Best Wall Street Analyst Research Calls: Block, Comcast, Fortinet, Goldman Sachs, Honeywell, Klarna, Logitech, Scorpio Tankers, Trade Desk, and More
+  url: https://finnhub.io/api/news?id=380b923db9528e7f2bc671689e34fc02dd2a156f0afb897001cef703252ef762

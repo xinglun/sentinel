@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Visa, Stripe Among Firms Joining Forces on Mainstream Stablecoin' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-06-30/visa-stripe-among-firms-joining-forces-on-mainstream-stablecoin
+  url: https://finnhub.io/api/news?id=74bc7cbc3421025c0e9ec3201d6d9caae7ed75d62add3884948a138dcd921117

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven stocks lose $2.3 trillion as AI fears mount
+  summary: Amazon, Microsoft, Alphabet, and Meta have committed hundreds of billions of dollars to chip purchases and data center construction
+  url: https://finnhub.io/api/news?id=62275af2bc77656cca4bbd188a3532920e8418a334ecf918dfba195dc84a28bb

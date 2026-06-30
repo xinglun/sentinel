@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ranking Wall Street's Trillion-Dollar Stocks From Most to Least Attractive, Based on Future Cash Flow
+  summary: Among Nvidia, Apple, Alphabet, Microsoft, Amazon, Taiwan Semi, SpaceX, Broadcom, Tesla, Meta, Micron, Eli Lilly, and Berkshire Hathaway, there are a handful of bargains and pretenders.
+  url: https://finnhub.io/api/news?id=d8e6ea6dd654285e0ca52c6944967cec4789c50c9480c2976e57d14b3057a9e8

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven Value Drops $2.3 Trillion In June
+  summary: There has been a great deal of discussion about whether the stock market will eventually start to sell off the Magnificent Seven. In June, as a group, their market cap dropped $2.3 trillion. Of course, the drop is uneven, but given how important they are to the market’s incredibly long rally, it is a warning ... Magnificent Seven Value Drops $2.3 Trillion In June
+  url: https://finnhub.io/api/news?id=818aee0746f0638af13c3634053238936c55c6c34165c26324b9e57f6c5b0c2d

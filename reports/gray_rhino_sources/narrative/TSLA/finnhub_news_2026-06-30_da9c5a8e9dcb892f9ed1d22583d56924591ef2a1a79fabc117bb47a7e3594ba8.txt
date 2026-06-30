@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Update - Statkraft Powers Up: Major Norwegian Hydropower Upgrade Planned
+  summary: Statkraft has submitted a license application for a major upgrade to the Mår power plant in Norway, aiming to boost power generation by over 13 percent. This proposed upgrade is part of a broader NOK 70 billion initiative focused on enhancing Norwegian hydropower infrastructure, reflecting a significant step in the ongoing energy transition. The new power plant is planned to have nearly three times the current installed capacity, aimed at increasing electricity production swiftly during high...
+  url: https://finnhub.io/api/news?id=fcb8d657ca1e279173db10e828089ed9e96518fad3898ceb041c647cf8dfaef6
