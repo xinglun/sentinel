@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says SpaceX Looks Expensive, But Elon Musk-Led SPCX Could Become 'One of the Best AI Plays'
+  summary: Wedbush&#39;s Dan Ives believes SpaceX could become a major AI infrastructure company and values it using a sum of the parts approach.
+  url: https://finnhub.io/api/news?id=345678e88b2b9b41a7097737020e9c1c3e269321fcce29dd66520883e42be6f3

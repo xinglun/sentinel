@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macabacus Appoints Paul Ross as Chief Marketing Officer
+  summary: Macabacus, the leading Microsoft-native productivity platform for finance and professional services teams, today announced the appointment of Paul Ross as Chief Marketing Officer.
+  url: https://finnhub.io/api/news?id=bcd880483b0b864f8e44058b8b18faf2b3818fbc0efbd38631224683f49b4ac0

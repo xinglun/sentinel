@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Halftime Show: Expect A Historic 2nd Half Of 2026. Plus The Latest On My Personal Portfolio
+  summary: Explore the ROAR 10 ETF portfolio for 2026: simple, flexible risk management amid tech-led concentration risk, plus microcap opportunities. Click here to read more.
+  url: https://finnhub.io/api/news?id=80ac057da782afa5aa6d6506e063541c581a4ccf7e265026219b6c5fca0b5199

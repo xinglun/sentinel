@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Swedish court says Google is to pay $1.5 billion to Klarna in antitrust damages
+  summary: A Swedish court said ‌on Wednesday Alphabet's Google ‌is to pay the equivalent ​of around 14.3 billion Swedish crowns ($1.5 billion) in antitrust damages to Klarna's price ‌comparison company PriceRunner. "PriceRunner ⁠is considered to have suffered damage as ⁠a result of Google having illegally favoured its ​price comparison ​service ​for many years," ‌the Stockholm Patent and Market Court said in a statement. PriceRunner in 2022 sued Google for around €2.1 billion ($2.4 ‌billion) at the ​court, saying ​the company ​breached antitrust laws ‌by manipulating search ​results in ​favour of its own comparison shopping services.
+  url: https://finnhub.io/api/news?id=5576f3dbd1b0cc365ee620b670f6019a164b3e76c4b6e0286bdb809075bb3820

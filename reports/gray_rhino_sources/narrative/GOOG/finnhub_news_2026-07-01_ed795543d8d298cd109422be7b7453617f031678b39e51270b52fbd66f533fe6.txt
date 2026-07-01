@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google ordered to pay $1.97 billion to Klarna in antitrust case
+  summary: The Patent and Market Court in Stockholm ruled Google unlawfully favored its own shopping comparison service, though the award fell well short of what PriceRunner sought
+  url: https://finnhub.io/api/news?id=d09c1304002f96c036bfea844efc3fbefe408278d7109cc288baabc862da74c9

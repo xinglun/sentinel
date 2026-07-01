@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta turns its AI spending spree into a business of its own
+  summary: Meta Platforms Inc's (NASDAQ:META, XETRA:FB2A, SIX:FB) plan to sell spare computing power is less a bold expansion than an admission, that the company has built so much AI capacity it now needs somewhere to put the surplus. The Facebook and Instagram owner has spent heavily on data centres...
+  url: https://finnhub.io/api/news?id=15d3e27e555ce41c6d99f8780761d84222a8b17a68d10e1ae5c790569e705444

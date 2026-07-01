@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MTUM Investors: Watch Micron’s Weight at the November Reconstitution
+  summary: The iShares MSCI USA Momentum Factor ETF (NYSEARCA:MTUM) has run hard this year, climbing 30% year to date and 38% over the past 12 months to roughly $326. Headline numbers, though, mask a violent rotation inside MTUM’s portfolio. The AI/cloud mega-caps that powered the momentum trade through 2025 have stumbled, while one AI-memory name has ... MTUM Investors: Watch Micron’s Weight at the November Reconstitution
+  url: https://finnhub.io/api/news?id=e2fcf33f60826a49fdade2c0b1ffdc94ad50ba1be20534ca38bb0df86bb3f811

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum Computing’s Cash Crisis: Which Players Can Actually Survive the Long Game?
+  summary: Pure-play quantum stocks are burning investor cash at wildly different rates, and the company with the biggest balance sheet is not necessarily the safest bet. Four names, one scoreboard, and a brutal gap in who can actually fund their own future.
+  url: https://finnhub.io/api/news?id=6d55f6f40a983a80e03b11efbc9c9b48b2f7cd6133a9063564f92f975e175c6a

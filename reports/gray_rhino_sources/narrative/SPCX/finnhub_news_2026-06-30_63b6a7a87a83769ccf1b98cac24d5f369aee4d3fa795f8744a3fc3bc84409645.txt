@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Box CEO Aaron Levie Says AI Race Hinges On Whether 'Open Weights AI' Stays 'A Close Second'
+  summary: Aaron Levie warns that the AI future hinges on open-source models staying close to frontier AI, potentially reshaping regulation.
+  url: https://finnhub.io/api/news?id=400e8f2dfcdcb69bc97b64c65e79b62a0678602bf7ed511d7df1f5a54a9a2a1e

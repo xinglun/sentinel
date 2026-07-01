@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq End Higher As Chipmakers Rally, While Dow Posts Best First Half In Five Years — LUNR, AMZN, PLTR, XYZ, AVAV In Focus
+  summary: The Philadelphia Semiconductor Index hit its best quarter on record.
+  url: https://finnhub.io/api/news?id=1b1d57bec0242b3ce0314625aa375a6996d8455b8eb44390188cfac4a92215e1

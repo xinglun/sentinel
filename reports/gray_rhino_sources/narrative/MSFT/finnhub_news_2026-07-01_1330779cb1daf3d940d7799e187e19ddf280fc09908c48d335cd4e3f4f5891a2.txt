@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Platforms stock surges 8% on cloud business plans
+  summary: Investing.com -- Meta Platforms (NASDAQ:META) shares jumped as much as 8% Wednesday morning following a Bloomberg report that the tech giant plans to enter the cloud infrastructure market by selling its excess AI computing capacity. The move sets up direct competition with established hyperscale giants like Amazon Web Services (AWS), Microsoft Azure, and Google Cloud Platform (GCP), while introducing new dynamics to the broader AI ecosystem. According to sources familiar with the matter, the ini
+  url: https://finnhub.io/api/news?id=78ef2f6f8686f483774ad327a2e10bfc904a6a86a92ab990a29724f4562bbb72

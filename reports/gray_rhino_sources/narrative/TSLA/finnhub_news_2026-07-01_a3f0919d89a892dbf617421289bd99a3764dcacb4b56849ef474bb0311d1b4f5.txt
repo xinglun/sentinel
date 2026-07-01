@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Chip Breakthrough Is a Big Deal. Time to Buy the Surge?
+  summary: Shares of Tesla (NASDAQ:TSLA) have been picking up in recent sessions, now close to 13% in just three sessions. Undoubtedly, just because Space Exploration Technologies (NASDAQ:SPCX) is the new hot Elon Musk stock in town does not mean shares of the EV juggernaut are going to be stuck going sideways for a while longer. With ... Tesla’s Chip Breakthrough Is a Big Deal. Time to Buy the Surge?
+  url: https://finnhub.io/api/news?id=a6f48593e2d22573e08a90e2b301eb003ed8b377661fec0345e49211d69d5de2

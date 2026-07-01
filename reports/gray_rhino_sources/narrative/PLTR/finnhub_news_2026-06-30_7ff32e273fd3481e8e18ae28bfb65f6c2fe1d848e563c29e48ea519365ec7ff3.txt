@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: More Bark, More Beta: Corgi Debuts 31 Single-Stock ETFs Covering Nvidia, Tesla And More
+  summary: Corgi launches 31 new single-stock leveraged ETFs tracking Nvidia, Tesla, AMD, Microsoft, and other AI and semiconductor leaders.
+  url: https://finnhub.io/api/news?id=72bf0ae826fe1cfbddf3f651ac1489245c4b00cc230f67a8d212075c3981c87a

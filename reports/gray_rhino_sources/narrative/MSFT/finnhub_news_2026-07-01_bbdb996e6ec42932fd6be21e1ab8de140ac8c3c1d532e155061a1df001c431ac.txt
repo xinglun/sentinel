@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New Era Energy & Digital names Charlie Nelson as chief executive
+  summary: New Era Energy & Digital (NASDAQ:NUAI) has appointed Charlie Nelson as chairman and chief executive, promoting him from his previous role as president and chief operating officer. The move, effective from Wednesday (1 July), is part of a broader leadership reshuffle at the Nasdaq-listed...
+  url: https://finnhub.io/api/news?id=ea0882799afb2de349fea185880f9b604085ce3bf42e98fbca8540cdb25dc605

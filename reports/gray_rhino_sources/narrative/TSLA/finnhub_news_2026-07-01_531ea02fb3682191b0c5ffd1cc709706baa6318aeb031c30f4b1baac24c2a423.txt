@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 deliveries seen rising as European demand gathers pace (TSLA)
+  summary: Analysts forecast stronger quarterly deliveriesTesla (NASDAQ:TSLA) is expected to report higher vehicle deliveries for the second quarter when it releases production and delivery figures on Thursday, with Wall Street forecasting a rebound driven primarily by improving demand in Europe. According to a survey of 20 analysts compiled by Visible Alpha, Tesla is expected to deliver 402,780 electric vehicles during the June quarter.
+  url: https://finnhub.io/api/news?id=8aafd40f1d9ca2649f02f012875de102727cf88810b21ac350214af9e177c8c4

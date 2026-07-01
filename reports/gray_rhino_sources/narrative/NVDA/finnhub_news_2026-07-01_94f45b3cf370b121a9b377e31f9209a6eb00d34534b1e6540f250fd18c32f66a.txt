@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Top Dividend Stocks to Own No Matter What Happens to Interest Rates This Year
+  summary: Higher interest rates might negatively impact the economy. Be prepared.
+  url: https://finnhub.io/api/news?id=3c9a45de8a2f9801b3cb5c94c622ae9947565c390608746d3e9a02555968af69

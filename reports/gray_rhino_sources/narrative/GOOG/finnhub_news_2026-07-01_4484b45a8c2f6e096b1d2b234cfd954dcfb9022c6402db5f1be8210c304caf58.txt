@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Women's sports market will 'grow the way tech grew in the early days,' says one of its earliest investors
+  summary: Women's sports continues its period of strong growth.
+  url: https://finnhub.io/api/news?id=d71cb6b54d36d3fe3690e35097fc0c9e085eabad40755503e5e5d41a3a5be0c9

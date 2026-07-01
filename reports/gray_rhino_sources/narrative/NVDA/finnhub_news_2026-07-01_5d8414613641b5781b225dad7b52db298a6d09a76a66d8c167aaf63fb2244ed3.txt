@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Together AI Raises $800 Million at $8.3 Billion Valuation to Make Frontier AI Accessible to All
+  summary: SAN FRANCISCO, July 01, 2026--Together AI, the company making it dramatically cheaper and easier to run open source AI models at scale, today announced an $800 million Series C financing at an $8.3 billion post-money valuation. The round was led by Aramco Ventures, with participation from Vista Equity Partners, General Catalyst, Emergence Capital, NVIDIA, March Capital, Pegatron, S Ventures (SentinelOne) and others.
+  url: https://finnhub.io/api/news?id=289be4eb553f3fe017eee3063cfe616b66eb8d476bed3c963977e08740c47de7

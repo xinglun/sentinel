@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What I'm Watching In July: Rate Hikes, Testimony, And AI Volatility
+  summary: Expect higher market volatility as SPY braces for a possible July Fed hike; track CPI, FOMC, and AI/semi catalysts like TSM and ASML. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=0ab352fbed53ad67a485b7f54a085db1dc6f9bef04ce4f13baa47952f057b390

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exchange-Traded Funds, Equity Futures Lower Pre-Bell Wednesday Ahead of Fed Chair Warsh's International Debut
+  summary: The broad market exchange-traded fund SPDR S&P 500 ETF Trust (SPY) was down 0.2%, and the actively t
+  url: https://finnhub.io/api/news?id=f2211e413cb9594e38eb83e4503404e54f9ed5d7ec324fbc96279eb1b3253e57

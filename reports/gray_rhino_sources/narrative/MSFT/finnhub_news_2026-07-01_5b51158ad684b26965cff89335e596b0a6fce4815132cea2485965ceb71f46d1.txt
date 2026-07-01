@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech's first half was a story of hardware versus software
+  summary: Big Tech's first half was marked by a divide between software stocks and hardware.
+  url: https://finnhub.io/api/news?id=50c1aa3decb502933601350f32597748f01100df8a18837def254486f0bb4c2f

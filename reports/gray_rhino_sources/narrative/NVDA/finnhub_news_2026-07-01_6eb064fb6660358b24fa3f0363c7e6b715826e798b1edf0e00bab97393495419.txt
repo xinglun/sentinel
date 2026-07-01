@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan prosecutors detain Super Micro employees over chip exports
+  summary: Investing.com -- Taiwanese prosecutors detained two Super Micro Computer Inc. employees on Wednesday following a raid of the company's local offices earlier this week over alleged shipments of Nvidia Corp. chips to China, according to a Bloomberg report early Wednesday.
+  url: https://finnhub.io/api/news?id=6941ae5c61cca257ea6efe93e3f181db967d450474d0ebd1779205f1ea98ef66

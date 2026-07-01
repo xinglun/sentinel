@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IGV Investors: Watch Oracle’s Free Cash Flow as the Real Test of AI Capex Economics
+  summary: The iShares Expanded Tech-Software Sector ETF (NASDAQ:IGV) closed Friday at $88.20, down 16.5% year to date and 18.9% over the past year, despite the broader AI trade still drawing capital. IGV’s slide accelerated this month after top holding Oracle posted its worst week since the 2001 dot-com bust, dropping 19.4% in five sessions on debt ... IGV Investors: Watch Oracle’s Free Cash Flow as the Real Test of AI Capex Economics
+  url: https://finnhub.io/api/news?id=aa66d60d450d05909574f49939402392b1a6aa249959d27a3195e7cacf00e9f7

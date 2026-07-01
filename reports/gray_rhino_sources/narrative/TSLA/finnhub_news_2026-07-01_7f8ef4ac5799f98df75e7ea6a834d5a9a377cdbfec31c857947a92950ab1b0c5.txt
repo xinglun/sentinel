@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Today - Advancing Grid Resilience With Vehicle-To-Grid Technology
+  summary: The Vehicle-to-Grid (V2G) market is poised for substantial growth as electric vehicles (EVs) increasingly integrate with renewable energy systems, enhancing grid stability and energy management. Recent advancements in bidirectional charging technology allow EVs to store and supply energy, contributing to grid resilience during peak demand periods. This growth is fueled by government incentives and the expanding adoption of battery electric vehicles (BEVs), particularly in Asia, where strong...
+  url: https://finnhub.io/api/news?id=be96c24497393ec7b0662bb331194726fdcbe30f83de342f2737c630f0208e1d

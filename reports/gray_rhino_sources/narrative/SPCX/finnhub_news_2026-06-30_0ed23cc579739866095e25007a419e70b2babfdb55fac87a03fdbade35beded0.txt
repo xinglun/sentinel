@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock: 73% Of Benzinga Viewers Have Owned It. Here's How Many Still Do.
+  summary: A Benzinga poll asks what percentage of viewers have ever owned Tesla stock. Here are the surprising results.
+  url: https://finnhub.io/api/news?id=215a40b1c4e1098662faca397b4527854d58bc712acaeb0bfe88c4973cc2d4bb

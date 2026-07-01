@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Stocks Have Gotten Crushed. These 2 Have Defied the Selloff.
+  summary: JFrog and Qualys are outperforming the broader software sector as bullish technical patterns suggest both stocks could continue leading into the second half of 2026.
+  url: https://finnhub.io/api/news?id=7b42d7aa87a279e40cacccfbca99827ce390085dd6b835d9bb9ab4bdc006ac91

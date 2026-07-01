@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s a Massive Reason You Should Buy SpaceX Before July 7th
+  summary: The thesis is straightforward: SpaceX (NASDAQ:SPCX) gets added to the Nasdaq-100 on July 7, and every index fund, ETF and benchmark-tracking pension on the planet has to buy it whether they like the valuation or not. That is mechanical demand against a float that has been public for 11 trading days, and it is the ... Here’s a Massive Reason You Should Buy SpaceX Before July 7th
+  url: https://finnhub.io/api/news?id=1629fc639a1c54767a4f4427b35feea3cb8b73e590e2a04602df80dee9c8d537

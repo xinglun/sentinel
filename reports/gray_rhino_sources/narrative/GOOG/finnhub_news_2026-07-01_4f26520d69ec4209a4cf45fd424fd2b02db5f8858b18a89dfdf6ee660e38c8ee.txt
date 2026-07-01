@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Alphabet's Google Faces South Korean Antitrust Probe
+  summary: (Updated with a response from a Google spokesperson in the sixth paragraph.) Alphabet's (GOOGL, G
+  url: https://finnhub.io/api/news?id=e0d668b46a286c4f3c2f83e6eb2abd325538520344844d3f00e31eea20912c4f

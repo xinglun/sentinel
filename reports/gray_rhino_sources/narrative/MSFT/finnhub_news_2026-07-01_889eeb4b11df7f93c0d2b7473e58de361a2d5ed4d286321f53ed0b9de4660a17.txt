@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta shares jump on plans to commercialise excess AI computing capacity
+  summary: Report says Meta is preparing a move into cloud infrastructureShares of Meta Platforms (NASDAQ:META) climbed as much as 8% on Wednesday after a Bloomberg report said the company is preparing to enter the cloud infrastructure market by offering customers access to surplus artificial intelligence computing resources. If launched, the initiative would place Meta in direct competition with leading cloud providers including Amazon Web Services (AWS), Microsoft Azure and Google Cloud Platform (GCP), w
+  url: https://finnhub.io/api/news?id=bd3d9402a7e84070fe90c6eba4196204d46d144b205c89c842fb2841281bde9d

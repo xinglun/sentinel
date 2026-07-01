@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why This Analyst Thinks SpaceX’s AI Business Alone Is Worth $1.8 Trillion
+  summary: With shares of Elon Musk’s rocket and AI company volatile in post-IPO trading, investors will be paying close attention to what Wall Street has to say about valuation.  The latest rating is a bullish call, valuing SpaceX at a cool $2.5 trillion.  Wedbush analyst Dan Ives launched coverage of SpaceX with a Buy rating and a $190 price target on Tuesday evening.
+  url: https://finnhub.io/api/news?id=df6b3de9e2579ac443da6f9f7ff90503f4ccc77a2f87f6d35f84271fb6a4c9ae

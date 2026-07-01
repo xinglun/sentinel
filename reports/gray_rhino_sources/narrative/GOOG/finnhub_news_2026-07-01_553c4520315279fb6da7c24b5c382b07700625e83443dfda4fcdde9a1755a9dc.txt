@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Klarna has received a favorable ruling in PriceRunner litigation, awarding damages of $1.97 billion
+  summary: NEW YORK, July 01, 2026--Klarna Group plc (NYSE: KLAR) today announces that the court has ruled in PriceRunner’s favor, awarding $1.97 billion in damages in an antitrust case brought by PriceRunner against Google. The award compensates for lost revenue caused by Google's preferential treatment of its own comparison-shopping service over independent price-comparison services, conduct that also drives up costs for consumers.
+  url: https://finnhub.io/api/news?id=5b450191e1af4b3d943853f3a02b3b4ad7167843ffdf931bad36a3defc88338a

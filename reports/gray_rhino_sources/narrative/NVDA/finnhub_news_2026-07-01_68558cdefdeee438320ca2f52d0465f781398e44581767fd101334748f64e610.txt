@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Edge AI Could Become a Real TAM Expansion Story for NVIDIA
+  summary: Nvidia (NASDAQ:NVDA) may very well be the king of the so-called “AI Factories,” but the GPU titan also stands to gain as the AI revolution makes its way to the edge as well. Of course, there seems to be no slowing the great AI data center buildout. The buildout could continue to accelerate, gobbling up ... Edge AI Could Become a Real TAM Expansion Story for NVIDIA
+  url: https://finnhub.io/api/news?id=d7a32c436bbd4bc8fb937c11fe41a7c0ab8c073e27d4a2355a537caf3a537b63

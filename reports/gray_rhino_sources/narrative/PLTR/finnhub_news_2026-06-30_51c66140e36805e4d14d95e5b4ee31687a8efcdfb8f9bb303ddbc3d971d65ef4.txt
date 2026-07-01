@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Binance Expands bStocks Offering and Adds Microsoft, Meta and More
+  summary: Binance expands its bStocks offering and adds support for Microsoft, Meta and more as tokenized U.S. securities.
+  url: https://finnhub.io/api/news?id=fe8deb680a67b65edfa583ec6ca575ca53229d2c1dd126908d8934a75785c183

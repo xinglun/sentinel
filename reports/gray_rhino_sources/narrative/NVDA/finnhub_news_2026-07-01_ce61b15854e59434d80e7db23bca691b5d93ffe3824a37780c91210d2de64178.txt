@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sandisk and Micron Dominated the First Half of 2026. Which Is the Best Buy Now?
+  summary: Micron and Sandisk are still great buys.
+  url: https://finnhub.io/api/news?id=91151589f5454ca1609c9838e215b84216c7ca32a41646643dd9d331c5c4734e

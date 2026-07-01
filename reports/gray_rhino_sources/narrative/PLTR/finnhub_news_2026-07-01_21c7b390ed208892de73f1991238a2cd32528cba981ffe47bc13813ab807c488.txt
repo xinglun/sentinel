@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Palantir Stock Surging On Wednesday?
+  summary: Palantir Technologies Inc. (PLTR) stock is trading higher Wednesday after securing a sovereign AI partnership with Nvidia and expanding its aviation deal with Surf Air Mobility. Learn more.
+  url: https://finnhub.io/api/news?id=9989ed046747fa3a61e3b18cfbcea18a4c78398b619e82cdf0154b1465d0a027

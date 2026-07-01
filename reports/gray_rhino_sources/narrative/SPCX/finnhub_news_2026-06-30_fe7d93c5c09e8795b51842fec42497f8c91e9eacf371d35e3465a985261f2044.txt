@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's X Money — New Details On Bank Killer Super App
+  summary: Elon Musk&#39;s X Money offers aggressive features: 6% APY, 3% cash back, and a metal Visa card.
+  url: https://finnhub.io/api/news?id=14d5c2c81bfe459317222670977531ad23dddaec1815986c806591a507102545

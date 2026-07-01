@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Roger Altman Says ‘Nobody Understands How To Value’ SpaceX Or Anthropic, Evercore Chair Warns Investors To Brace For ‘Lot Of Volatility'
+  summary: Evercore&#39;s Roger Altman warns traditional valuation methods struggle to capture high-growth companies like SpaceX &amp; Anthropic.
+  url: https://finnhub.io/api/news?id=6e5c98613f98dd7c9180f60e0fae926e6a93d40e9f1d7cddf737a84fc8ba9493

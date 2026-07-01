@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Saylor Says 'AI-Driven Black Hole' Diverts Capital Away From Bitcoin
+  summary: Saylor says Strategy bought 175,000 Bitcoin and sold just 32 this year, calling the backlash over two basis points of holdings pure noise.
+  url: https://finnhub.io/api/news?id=836bf6d89c98b89c332b6f0a3be6250b57c219eba0569cca03bc96da1331a8c2

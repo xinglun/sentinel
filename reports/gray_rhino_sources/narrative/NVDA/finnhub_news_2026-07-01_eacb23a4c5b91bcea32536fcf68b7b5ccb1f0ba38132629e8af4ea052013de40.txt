@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Back Near Its IPO Price After a 24% Drop. Here's How to Decide Whether to Buy, Hold, or Sell
+  summary: In the stock's second week of trading, investors are wondering whether the price swing is an opportunity or a warning.
+  url: https://finnhub.io/api/news?id=2f17bc0ed2963f2906b58389af33b24dd175af14c5671f441e5ae9a5dc40342f

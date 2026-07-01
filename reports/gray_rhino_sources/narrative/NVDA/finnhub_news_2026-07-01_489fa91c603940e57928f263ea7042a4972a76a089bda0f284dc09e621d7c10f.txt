@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Scared of an AI stock bubble? Then don't look at this chart.
+  summary: The AI stock bubble is looking bubbly.
+  url: https://finnhub.io/api/news?id=15c2af6a49d54b457c00e88e3b6e498310d8b542857a4630ee670553eff935b1

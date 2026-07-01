@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Is Struggling to Hold $200
+  summary: FEATURE   Nvidia was edging down early Wednesday amid a broader fall in technology stocks. The chip maker is still looking to establish a floor around the $200 level amid a recent selloff.  Nvidia shares were down 0.
+  url: https://finnhub.io/api/news?id=14ea6120c3bc9a59830459cb24fde3a53a9f3a880bf821f022e11be7adcda416

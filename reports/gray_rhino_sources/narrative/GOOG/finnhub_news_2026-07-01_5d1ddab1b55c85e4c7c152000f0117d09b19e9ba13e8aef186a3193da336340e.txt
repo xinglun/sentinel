@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Klarna pops 6% after crushing Google in $1.97B antitrust verdict
+  summary: Investing.com -- Klarna Group (NYSE:KLAR) shares jumped 6% on Wednesday following a massive legal victory over Alphabet’s tech monopoly. A Swedish court ruled in favor of Klarna’s subsidiary, PriceRunner, awarding the company a staggering $1.97 billion in antitrust damages. The high-stakes judgment caps off a fierce battle over online shopping dominance, with the court finding that Google illegally choked out competition by manipulating search results to favor its own comparison-shopping service
+  url: https://finnhub.io/api/news?id=6e635979e4711606075cc5be862331dd855303eabe24bfb7fc29a55d4301f563

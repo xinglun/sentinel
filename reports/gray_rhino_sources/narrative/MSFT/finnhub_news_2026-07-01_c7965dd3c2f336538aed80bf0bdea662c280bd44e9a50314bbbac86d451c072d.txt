@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron, Sandisk Lead Tech Stock Drops Premarket as Futures Fall
+  summary: Technology stocks were getting off to a stuttering start to the third quarter, with shares slipping in Wednesday's premarket. Memory-chip maker Micron Technology—an AI trade darling that has more than quadrupled this year so far—was down 3.
+  url: https://finnhub.io/api/news?id=6e3c657a226aa9b4f239e660bc11825bd77ef0baff93b9c33670cfaf1c452f6e

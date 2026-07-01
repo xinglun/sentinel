@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Major Asset Classes: June 2026 Performance Review
+  summary: Majority of the major asset classes fell, which translates into the softest month since the widespread selling in March following the start of the military strikes on Iran. Read more here.
+  url: https://finnhub.io/api/news?id=561b19df22c9bb3238a6316bc18eeddf9749068f983d46bf8be11c18f0af592e

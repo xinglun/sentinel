@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is ‘Much More Of An AI Play’ Than A Space Company, Says Dan Ives — Here’s The Bull Case
+  summary: Wedbush’s Dan Ives says SpaceX could become a major AI-driven hyperscaler, while remaining bullish on semiconductors and select software stocks.
+  url: https://finnhub.io/api/news?id=24da783c10b7107a99722cbc3d80989969de87a3b1bb0a1e8c066db32e8e6cac

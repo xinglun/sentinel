@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NIO’s Strong Deliveries Aren’t Enough to Keep the Stock From  Slumping
+  summary: Combined, NIO, Li and XPeng delivered 111,618 cars in June, up 16% year over year. It was the strongest monthly growth since March.
+  url: https://finnhub.io/api/news?id=6799dd64fc58f31028aa1de533d3a75988c8c7176fd9d9aa1f19756c565d5472

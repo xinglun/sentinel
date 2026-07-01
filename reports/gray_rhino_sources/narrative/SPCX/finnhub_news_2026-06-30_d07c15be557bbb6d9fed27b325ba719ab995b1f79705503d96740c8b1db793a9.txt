@@ -1,0 +1,14 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China's State-Backed Starlink Challenger Reportedly Seeks Fresh Capital
+  summary: The Shanghai-based satellite company is raising fresh capital for its Qianfan network in one of several Chinese efforts to build state-controlled low orbit broadband systems
+
+
+
+Key Takeaways:
+
+
+
+
+SpaceSail is seeking up
+  url: https://finnhub.io/api/news?id=cd8e366e741bfeaf488f4a167e374d3079dea0f510375bbc97a7173d5231a7c8

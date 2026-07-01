@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wayve courts automakers with AI driving system that learns like humans
+  summary: Autonomous-driving startup Wayve is riding a tide of investor interest.  The London-based company has pulled in $2.8 billion from a roster of investors and strategic partners that includes big names across the technology and automotive sectors, from Nvidia to Mercedes-Benz and Nissan.  In June, Wayve said it will deploy its system in robotaxis ‌from Jeep maker Stellantis, to go on Uber's ride-hailing network.
+  url: https://finnhub.io/api/news?id=cc339eaea0d05e00d9965cf3ac1d580b788799e6c648ad2e0bea3fb34bebfea6

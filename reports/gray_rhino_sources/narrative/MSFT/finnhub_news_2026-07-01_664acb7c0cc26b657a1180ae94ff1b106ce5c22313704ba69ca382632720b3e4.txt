@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TeamViewer Tops Frost & Sullivan's 2026 AR-Centric Augmented Connected Worker Rankings
+  summary: Frost & Sullivan has named TeamViewer a Visionary Leader, placing the company #1 in Growth and Innovation on the Frost Radar™: Augmented Connected Worker, AR-Centric Platforms, 2026. The classification recognizes companies that combine strategic vision with operational excellence to influence the direction of their industry.
+  url: https://finnhub.io/api/news?id=5122626e8a82f4d208536a67e3a5bdb5294b65fcadc3b919773d7eb052072b69

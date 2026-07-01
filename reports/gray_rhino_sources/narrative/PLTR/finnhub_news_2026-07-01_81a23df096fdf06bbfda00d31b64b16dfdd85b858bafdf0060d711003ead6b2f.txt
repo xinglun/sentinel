@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Discover the top S&P500 movers in Wednesday's pre-market session.
+  summary: As the US market prepares to open on Wednesday, let's get an early glimpse into the pre-market session and identify the S&P500 stocks leading the pack in terms of gains and losses.
+  url: https://finnhub.io/api/news?id=6268b472696bfadd9767b5c936359632fbcc3b3117cac0e7f8c6f65f320dae2d

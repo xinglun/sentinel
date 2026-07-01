@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wedbush Initiates SpaceX Coverage With 'Outperform' Rating, $190 Price Target
+  summary: Analysts at Wedbush gave SpaceX an "outperform" rating with a price target of $190 a share. The stock rose 2% on Wednesday morning.
+  url: https://finnhub.io/api/news?id=11a8a5662e70092b9d36493250ada0f73bb2dd0fbfdbd943c2a929fb63a9112a

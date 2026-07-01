@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Chips Update - Etched Unveils AI Chip with $1 Billion in Contracts
+  summary: Etched has emerged from stealth mode, unveiling its working AI chip alongside securing over $1 billion in customer contracts. The company announced the raising of $800 million in funding, highlighting significant support from notable investors and thought leaders in the AI field. Etched has achieved first-pass silicon success and is validating its rack-scale inference systems with clients, aiming to make AI inference significantly faster, cheaper, and more efficient. With production ramping...
+  url: https://finnhub.io/api/news?id=8c97d004b622b74d27329c618f027b8d34011a1704e23d7877b17fb7ab077a8f

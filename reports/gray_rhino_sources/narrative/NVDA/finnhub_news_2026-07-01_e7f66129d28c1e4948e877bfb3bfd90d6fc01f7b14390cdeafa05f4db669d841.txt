@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Is About to Make Its Next Billion-Dollar Bet. Wall Street Thinks It Could Be Huge
+  summary: The artificial intelligence race has become a contest of infrastructure as much as software. Amazon (NASDAQ:AMZN), Microsoft (NASDAQ:MSFT), and Alphabet (NASDAQ:GOOG) have each built cloud businesses that generate tens of billions of dollars in annual revenue by renting computing power to other companies. Meta Platforms (NASDAQ:META) has taken a different approach, spending heavily to build ... Meta Is About to Make Its Next Billion-Dollar Bet. Wall Street Thinks It Could Be Huge
+  url: https://finnhub.io/api/news?id=35d6484a7624062b5eeb26093aa8e7fd2be61098ef30ab1005545cec759b0cc4

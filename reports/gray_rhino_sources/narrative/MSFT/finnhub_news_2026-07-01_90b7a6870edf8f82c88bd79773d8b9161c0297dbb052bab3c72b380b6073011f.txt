@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump discloses over $1.4 billion in crypto income in 2025 filing
+  summary: For publicly traded crypto-linked funds, the disclosure underscores both the scale of Trump’s personal stake in the digital-asset market and the policy leverage that stake implies. Grayscale Bitcoin Trust ETF (NYSE: GBTC) was quoted at $45.52 in pre-market trading Wednesday, down 2.67% and near its 52-week low of $44.98, illustrating the gap between income figures booked at higher crypto valuations in 2025 and where the market stands today.
+  url: https://finnhub.io/api/news?id=608a12e92e9fca414cd5f8df16d6804944bf21d8e1b9c0f6b31486b7cb47c0c8

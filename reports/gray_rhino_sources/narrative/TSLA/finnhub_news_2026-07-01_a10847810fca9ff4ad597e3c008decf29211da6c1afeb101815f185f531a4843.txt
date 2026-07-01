@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It Took Tesla 10 Years to Perform Its First Stock Split. Here's Why a SpaceX Stock Split Could Come Much Sooner.
+  summary: Both are Elon Musk-led companies, but their IPOs couldn't have been more different.
+  url: https://finnhub.io/api/news?id=5af547e1381aa1d4b3786735d017282a26eb156adf7677192be84eb05e117465

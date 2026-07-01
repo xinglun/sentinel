@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock, Apple and Crypto Billions—What Trump’s Latest Financial Filing Reveals
+  summary: President Donald Trump made more than $1 billion from his crypto ventures last year, according to his latest financial disclosure filing.
+  url: https://finnhub.io/api/news?id=b55857d2c1a9b90728a8fcc1ef8c44744ff92254f520ac81cf4601842a5f87c0

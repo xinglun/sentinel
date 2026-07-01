@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Chips Power Wall Street Higher, Dow Eyes Records: Stock Market Today
+  summary: Tech and semis lead the S&amp;P 500 and Nasdaq higher into quarter-end
+  url: https://finnhub.io/api/news?id=a8f83b0bc9896af23e1f8da30f2a6d659220a17695682c12a72d0b5b8d649737

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood’s Palantir Buy Might Be a Signal to Buy the Dip
+  summary: Cathie Wood over at Ark Invest has been making moves in recent months amid the barrage of volatility slamming the tech sector. Undoubtedly, semiconductors have continued to be the leadership group while the Magnificent Seven have pulled the brakes a bit. With the flagship Ark Innovation ETF (ARKK) trailing the markets, up just over 3%, ... Cathie Wood’s Palantir Buy Might Be a Signal to Buy the Dip
+  url: https://finnhub.io/api/news?id=d54b2632a18a828ee4ca01fb43ea80fce794b0a05cf85c8a83ba3f0b0b335668

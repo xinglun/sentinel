@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why a $50,000 401(k) Loan at 50 Could Quietly Cost You $100,000 by Retirement
+  summary: A 50-year-old I will call Sarah has $750,000 in her 401(k), a daughter starting an expensive nursing program, and a kitchen untouched since 1998. Her plan administrator says she can borrow $50,000 at roughly 8%, with interest paid back to her own account. Against a 21% credit card or a HELOC, it sounds obvious. She ... Why a $50,000 401(k) Loan at 50 Could Quietly Cost You $100,000 by Retirement
+  url: https://finnhub.io/api/news?id=ebf0ba057685053261460a8fa7815996f39367611555a83698aaffbc9ec830dd

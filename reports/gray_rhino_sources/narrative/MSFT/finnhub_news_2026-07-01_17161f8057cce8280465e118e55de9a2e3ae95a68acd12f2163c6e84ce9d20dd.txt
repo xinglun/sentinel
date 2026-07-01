@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BlackBerry (TSX:BB) Launches AtHoc Upgrade With Microsoft Teams And Entra ID
+  summary: BlackBerry (TSX:BB) released major upgrades to its AtHoc mission orchestration platform, integrating with Microsoft Teams and Microsoft Entra ID. The update adds new dispatch controls and situational awareness tools for enterprise and government clients that rely on AtHoc for crisis management and critical communications. For investors tracking BlackBerry, this AtHoc update sits at the intersection of secure communications, critical event management, and cybersecurity software. By linking...
+  url: https://finnhub.io/api/news?id=186156677c18a7d20772d5df595be18867310e15b8f43892a3f91a331de9272e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rides a 10% Weekly Gain Into a High-Stakes Delivery Report
+  summary: Numbers for Tesla’s second-quarter deliveries range from below 400,000 cars to almost 470,000. The divergence is wide.
+  url: https://finnhub.io/api/news?id=b784990cc8fe384b9baae349a8f7bdfe20b5b6f10ba11f55b484d1dec18f54b8

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Rallies On Reported Plan To Launch AI Cloud Business
+  summary: Meta stock rallied on a report that the Facebook parent plans to offer access to its massive AI cloud infrastructure to business customers.
+  url: https://finnhub.io/api/news?id=f19dc68d1ac9c1e9f4b52b96fc09d68bed0e769c570052a052de42d974f58219

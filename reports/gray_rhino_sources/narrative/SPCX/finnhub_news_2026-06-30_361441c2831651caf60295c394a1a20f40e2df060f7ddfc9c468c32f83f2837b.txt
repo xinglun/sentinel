@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Leonardo DRS shares are trading higher after B of A Securities maintained a Buy rating on the stock and raised its price target from $50 to $56.
+  summary: 
+  url: https://finnhub.io/api/news?id=4ec6cea0fa1abe1e903ee947c66bdcb8b2bd924683960e3afe5197600c19c4bf

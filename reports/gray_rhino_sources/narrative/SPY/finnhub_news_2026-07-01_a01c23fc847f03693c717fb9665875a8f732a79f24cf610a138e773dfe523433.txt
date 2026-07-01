@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Symbios Thesis: How I View The Second Winner Of The AI Boom
+  summary: AI boom upends growth vs value: hyperscalersâ capex reshapes GDP & FCF, favoring infrastructure owners and partners.
+  url: https://finnhub.io/api/news?id=32e2e946c17f9ffbd44b61fa476509004842bd0df32a013460491828f8d62314

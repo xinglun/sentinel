@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google ordered to pay Klarna's PriceRunner €1.7 billion over search abuse
+  summary: A Swedish court has ordered Google to pay 14.3 billion Swedish kronor plus interest (€1.7bn) in damages to PriceRunner, the price-comparison service owned by fintech group Klarna, ruling that the technology giant unlawfully favoured its own shopping service for years.View on euronews
+  url: https://finnhub.io/api/news?id=add2faecd0eec8b47fe06105ddb03e77ebf0285ba6fa610d4c3f0abfa4d47730

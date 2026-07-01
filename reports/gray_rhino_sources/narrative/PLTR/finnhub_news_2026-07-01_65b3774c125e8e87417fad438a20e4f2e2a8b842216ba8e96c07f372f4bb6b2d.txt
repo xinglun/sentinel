@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Big Short' Investor Michael Burry Reveals Tesla, Nvidia Shorts, Says Chip Boom Is 'Beginning of the End'
+  summary: Michael Burry is shorting Tesla, Nvidia, and others including Caterpillar and Applied Materials amid bearish outlook on Semiconductors.
+  url: https://finnhub.io/api/news?id=499c7d4a2f24f6e52c024605c93057af12cbdf31e24b5dfc8701af20f8cb940d

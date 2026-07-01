@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft May Be Planning More Job Cuts
+  summary: New cuts could affect thousands of employees.
+  url: https://finnhub.io/api/news?id=e092f1bbfeb1ec80f75dd4f8f8f003cce2e0807abbf6d77d6f2ebef4cac57dc1

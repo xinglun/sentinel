@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta building cloud business to sell excess AI computing capacity
+  summary: The company is weighing plans to sell access to AI models and raw computing capacity, setting up new competition with AWS, Azure, and Google Cloud
+  url: https://finnhub.io/api/news?id=60db6aecb4de7d7756fba6bd262b520726b4146663369a14c413eb1e55900b50

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon's AWS Bets $1 Billion on New AI Engineering Unit Built Around a Strategy Palantir Pioneered More Than a Decade Ago
+  summary: AWS unveils a $1 billion AI engineering unit to help customers deploy AI systems with thousands of Forward Deployed Engineers.
+  url: https://finnhub.io/api/news?id=7f80175a0adb5a08b6323141e5b7ad4b41b57e84d1cc2d91e1faa94a8cad1c59

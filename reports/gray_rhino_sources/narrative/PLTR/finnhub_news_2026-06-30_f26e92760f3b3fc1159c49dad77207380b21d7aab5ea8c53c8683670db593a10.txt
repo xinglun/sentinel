@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia (NVDA) Teams With Palantir To Bring Sovereign AI To Government
+  summary: NVIDIA and Palantir announced a new initiative to deliver secure, sovereign AI infrastructure for U.S. government and critical industries. The collaboration centers on open-source Nemotron models and Palantir AIP, designed for classified and highly regulated environments. The offering focuses on strict data control, mission-specific model optimization, and full traceability of AI workflows. NVIDIA (NasdaqGS:NVDA) is extending its AI platform into sensitive public sector and infrastructure...
+  url: https://finnhub.io/api/news?id=c610448ecd4c8f3b551ebe85ccfc3c4ddbb0e7d8725506f7fec82d90f72c103c

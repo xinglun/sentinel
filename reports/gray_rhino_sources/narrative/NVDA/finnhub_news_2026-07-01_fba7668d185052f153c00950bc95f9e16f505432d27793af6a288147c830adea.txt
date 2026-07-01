@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Is Down 10% Today: How Does CRWV Compare to Other Cloud Stocks Like Cloudflare and Oracle?
+  summary: CoreWeave (NASDAQ:CRWV) stock is down 10% to approximately $90 in early trading Wednesday, extending a stretch of heavy volatility for the AI cloud provider. The slide comes without a clean, single catalyst dated today. It looks more like a continuation of a broader downtrend for one of the market’s most debt-heavy, richly valued names. The ... CoreWeave Is Down 10% Today: How Does CRWV Compare to Other Cloud Stocks Like Cloudflare and Oracle?
+  url: https://finnhub.io/api/news?id=5b0f4ad44c0e66b25fda169c09685241410d291d967d0a7800a1c94dc706e749

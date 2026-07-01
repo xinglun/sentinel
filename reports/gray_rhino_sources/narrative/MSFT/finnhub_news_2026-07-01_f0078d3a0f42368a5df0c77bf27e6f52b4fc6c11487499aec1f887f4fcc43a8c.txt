@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta stock pops on news it will reportedly start a cloud computing business
+  summary: Meta is reportedly building a cloud computing business.
+  url: https://finnhub.io/api/news?id=d2631b528d47466c7bd28f0ca1aba4679646e22cc68c1278670ae2c80849fe7d

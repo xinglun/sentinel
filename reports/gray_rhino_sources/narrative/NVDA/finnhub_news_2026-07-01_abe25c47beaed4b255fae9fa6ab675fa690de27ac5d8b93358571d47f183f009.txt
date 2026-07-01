@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is XRP the Best Crypto You Can Buy Right Now?
+  summary: Even in a down market, money continues to flow into the XRP ETFs.
+  url: https://finnhub.io/api/news?id=3fb2ba7d3eaa7b59592f6bad2f1daaa84b17b19b7e40e045ae647c3c71f5c46d

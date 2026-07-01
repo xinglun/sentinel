@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Risks Bull Trap As Stronger U.S. Dollar Threatens Q2 Rally
+  summary: The S&P 500 ended Q2 2026 on a strong note, but technical momentum is showing signs of fatigue. But a stronger US dollar is emerging as the key macro headwind. Read more here...
+  url: https://finnhub.io/api/news?id=c3725685c14db66699702cb0c65258f07b098a779af6af64cc873b9a7abc56f0

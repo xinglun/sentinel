@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Amazon May Be the Smartest Long-Term AI Investment Nobody Is Talking About
+  summary: Artificial intelligence has produced no shortage of headline-grabbing stories. Every week seems to bring another breakthrough model from OpenAI, Anthropic, or Google, while Nvidia (NASDAQ:NVDA) dominates discussions around the chips powering the AI revolution. Yet history shows that the companies creating the most value aren’t always the ones making the most noise. During the cloud ... Why Amazon May Be the Smartest Long-Term AI Investment Nobody Is Talking About
+  url: https://finnhub.io/api/news?id=0d4c9da317570ef579d3d923ac510575aa610bc6162508e2753447a81234888b

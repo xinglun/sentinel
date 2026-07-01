@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alex Karp Touts Palantir-Nvidia Partnership For Secure AI, Criticizes OpenAI And Anthropic Over Lack Of IP Protection
+  summary: During an interview with CNBC, Karp argued that the frontier AI model developers OpenAI and Anthropic reportedly lack measures to protect their clients' intellectual property.
+  url: https://finnhub.io/api/news?id=ec8c4bc841e03612ff9aa2db1ff628f855aaa54a8fa26af12ba8d17c0ed19bd1

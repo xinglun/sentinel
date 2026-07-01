@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Battery Theme Splits: Lithium Miners Outperform as Automakers Face EV Margin Squeeze
+  summary: The battery theme splits upstream lithium miners, capturing explosive earnings growth, from downstream automakers facing margin pressure as deep value plays with structural risks.
+  url: https://finnhub.io/api/news?id=bb54d084030103117c86508bcc0af5e3b687103e8e10e6f4a6fce97c0f0a0656

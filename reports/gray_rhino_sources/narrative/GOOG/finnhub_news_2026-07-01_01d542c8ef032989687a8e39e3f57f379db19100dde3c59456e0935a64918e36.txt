@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Duolingo vs. Zeta Global: Which Technology Stock Is a Better Buy in 2026?
+  summary: Duolingo posts robust profits and growth, while Zeta Global leverages AI for enterprise marketing, but each faces distinct risks and valuation profiles.
+  url: https://finnhub.io/api/news?id=18dd834b383a02e23289ccaf927068df2a042a7a228b0d9962109c640a09e802

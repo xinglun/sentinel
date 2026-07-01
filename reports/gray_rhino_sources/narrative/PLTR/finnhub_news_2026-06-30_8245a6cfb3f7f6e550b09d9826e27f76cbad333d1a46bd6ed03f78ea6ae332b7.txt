@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Next Space Race: Could the U.S. Tech Boom Send SPCX Past $3 Trillion by 2027?
+  summary: SpaceX (NASDAQ:SPCX) is surging back again after a brief fall from its highs. SPCX stock is up by almost 11 days in the past five trading sessions and is likely set to continue moving higher in the coming days as the broader rally shows no sign of stopping. In fact, many analysts (retail and the suits) ... The Next Space Race: Could the U.S. Tech Boom Send SPCX Past $3 Trillion by 2027?
+  url: https://finnhub.io/api/news?id=37cef236257eb6eca7491ad82e5b9ef7b2cfc2c67620b75e5aac3c3cf45e4783

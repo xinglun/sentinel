@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Swedish Court Orders Google To Pay Klarna Nearly $2 Billion In Antitrust Case
+  summary: A Swedish court on Wednesday ruled that Google-parent Alphabet abused its internet search-related market power in comparison shopping services vs. Klarna Group's PriceRunner unit.  Google was ordered to pay Klarna nearly $2 billion in damages.  Klarna stock popped on the news.
+  url: https://finnhub.io/api/news?id=f0bbb07f3a34638979996151086e542631e7110eaab4c690875e3ec4e70f35aa

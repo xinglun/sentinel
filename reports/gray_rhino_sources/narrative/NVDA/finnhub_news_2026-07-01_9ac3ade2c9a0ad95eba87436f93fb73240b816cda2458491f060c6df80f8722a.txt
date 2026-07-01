@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dataknox Solutions Unveils New Third Party Maintenance Offerings to Extend the Life of Valuable AI Hardware
+  summary: Dataknox Solutions, a full-spectrum IT infrastructure managed services provider (MSP), today announced new third party maintenance (TPM) offerings for AI hardware that will soon be reaching end-of-life (EOL) status with OEMs like NVIDIA, Intel and AMD. As demand for new AI hardware accelerates creating supply constraints, organizations can extend the life of existing hardware that still meets their compute power demands, potentially saving millions of dollars.
+  url: https://finnhub.io/api/news?id=10ca6292243da64f6bc1ab615c8d024fd0467f0413c0a12dcbdad3f09286dfd5

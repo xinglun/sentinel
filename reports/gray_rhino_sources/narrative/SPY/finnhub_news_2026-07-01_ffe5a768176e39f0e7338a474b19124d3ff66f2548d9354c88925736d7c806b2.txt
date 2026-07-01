@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Interesting Chart Updates
+  summary: Inflation fundamentals haven't changed, the economy is doing okay (1.5-2% real growth), corporate profits are tremendous, and there are no signs of a looming recession or even a slowdown.
+  url: https://finnhub.io/api/news?id=9c04a00726ed9fce796b4961afb5eba5eb94b39054fdc2dd2b1f661282b345aa

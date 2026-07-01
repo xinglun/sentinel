@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD set to again overtake Tesla as top electric car seller
+  summary: Investing.com -- BYD Co. is positioned to reclaim its spot as the world's largest seller of fully electric vehicles from Tesla Inc. as the Chinese automaker increases its international shipments.
+  url: https://finnhub.io/api/news?id=0598aef8c797a07cb539d3f2c3bb718204f3cae71f820184e5b24564ea6cce72

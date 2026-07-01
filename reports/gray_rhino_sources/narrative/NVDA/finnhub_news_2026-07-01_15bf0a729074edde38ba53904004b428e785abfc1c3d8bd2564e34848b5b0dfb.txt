@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street and Crypto Agree on One Chip Stock, and It Is Not Nvidia
+  summary: AMD stock is up 150% in 2026 and overtaking Nvidia as money flow, big AI deals, and crypto traders all turn bullish on the chip maker.
+  url: https://finnhub.io/api/news?id=45131081fb778cccebd3628c1dcb26c21051ff1338ab60ff43db6ede94fbdfe2

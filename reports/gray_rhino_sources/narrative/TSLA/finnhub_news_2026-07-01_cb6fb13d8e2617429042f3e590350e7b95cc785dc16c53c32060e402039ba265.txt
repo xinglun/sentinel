@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hiltzik: Is Elon Musk really a 'trillionaire'? Only on paper
+  summary: Musk's designation as the world's first trillionaire is based on dubious Wall Street math.
+  url: https://finnhub.io/api/news?id=0c70ebf9f7d09af5762693ef8ef128fe126a9cb582acb75577313a2541d8d2d3

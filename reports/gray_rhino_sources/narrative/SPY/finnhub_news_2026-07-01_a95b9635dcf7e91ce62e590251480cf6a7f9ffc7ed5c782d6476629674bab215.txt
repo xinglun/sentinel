@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: America At 250: Built On Reinvention, Powered By Innovation
+  summary: As the United States marks its 250th anniversary, this moment stands as both a milestone and an inflection point.
+  url: https://finnhub.io/api/news?id=38184fd513eaa346473fd68022c11c9cce3eaff7862cc8f487f69145d8f6dade

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: KLAR Stock On Track To Hit February Highs – What Is The Google Connection?
+  summary: Klarna said a Swedish court awarded PriceRunner about $1.97 billion in damages over Google's preferential treatment of its own comparison-shopping service.
+  url: https://finnhub.io/api/news?id=2fc46d22c35047706333029660a4fd69ee0c256168d581d91324e8455a4ef326

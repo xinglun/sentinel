@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CHAT: Riding The AI Wave To Continued Outperformance
+  summary: Discover Roundhillâs CHAT ETF for high-conviction AI exposure, active rotations, and strong performance vs. S&P 500. Read to see why it could shine in 2026.
+  url: https://finnhub.io/api/news?id=d16d1b34bd84411d9d48ddbfe30ac7ced77b1a22cc7c9530c8fbea51059c6628

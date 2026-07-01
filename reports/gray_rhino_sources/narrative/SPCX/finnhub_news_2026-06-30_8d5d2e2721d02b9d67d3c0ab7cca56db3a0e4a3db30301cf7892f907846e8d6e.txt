@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It's Time To Hedge
+  summary: Equity risk-reward looks weakest in decades amid high leverage, lofty valuations, and optimism. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=96f30ca4ed4126b2e9ae46ae7072bfec65a7f59cea71fb5825f12aa02a981516

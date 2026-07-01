@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Faces South Korea Antitrust Pressure
+  summary: Watchdog says company restricted app store competition.
+  url: https://finnhub.io/api/news?id=d6db5dde2c374c58a52cda6972c2d57ca61c4dc10b9d9178cd429a5084e7f606

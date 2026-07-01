@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Rises. A New Round of Layoffs Could Be Coming
+  summary: Microsoft Could Cut Thousands More Jobs in New Restructuring Push
+  url: https://finnhub.io/api/news?id=e6d417e75e3c967728e69c95303f13710776e7d1abb0bcb35462a8144dd9d59b

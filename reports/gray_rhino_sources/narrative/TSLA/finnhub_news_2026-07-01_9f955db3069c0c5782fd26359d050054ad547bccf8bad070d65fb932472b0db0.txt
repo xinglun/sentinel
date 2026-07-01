@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500, Dow Futures Slip After Historic First-Half Rally As Investors Await Labor Data, Fed Signals: Why NKE, TSLA, NIO, MU, LUNR, CVKD Are In Focus
+  summary: Stocktwits data showed retail sentiment around SPY was ‘bearish’, while QQQ sentiment remained ‘bullish.’
+  url: https://finnhub.io/api/news?id=abef09121dd254407e97489e15636aa7b1b6d472d94f2851c8c974a2c0781b69

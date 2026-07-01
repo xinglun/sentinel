@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Equity Markets: Lots Of Gambling Going On
+  summary: Market leadership has narrowed as the Magnificent Seven have shed $5 trillion in market cap from its peak. Read more about the warning signs for investors.
+  url: https://finnhub.io/api/news?id=f2c075bb05deff66a588a13b14e2590c15ab7656bffa4c90b601b4002f8b94a7

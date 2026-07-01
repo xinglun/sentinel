@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SEO Meets REI Launches Managed Facebook Ads for Real Estate Investors
+  summary: Boulder, CO, July 01, 2026 (GLOBE NEWSWIRE) -- SEO Meets Real Estate Investors (SEO Meets REI) today announced the launch of its done-for-you Facebook Ads for Real Estate Investors service, a fully managed Meta ads system that puts cash-buyer offers in front of motivated sellers across Facebook and Instagram, often weeks before those homeowners ever start searching on Google. Best known for ranking investor websites at the top of Google, SEO Meets REI is now extending its investor-built, results
+  url: https://finnhub.io/api/news?id=51cee38e81588ac5a3d23b80717b9bdffc02f85e697707a88d94feaedded9895
