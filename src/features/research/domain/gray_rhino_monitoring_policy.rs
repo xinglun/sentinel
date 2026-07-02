@@ -138,6 +138,7 @@ fn is_persistent_structural_kind(kind: GrayRhinoCandidateKind) -> bool {
             | GrayRhinoCandidateKind::DependencyConcentration
             | GrayRhinoCandidateKind::InstitutionalMaturityGap
             | GrayRhinoCandidateKind::RedundancyGap
+            | GrayRhinoCandidateKind::CapexPaybackFragility
     )
 }
 

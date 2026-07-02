@@ -234,6 +234,7 @@ fn generate_markdown_report(
     card.push_str(&render_interpretation_section(
         pres.interpretation_layer.as_ref(),
         RenderMode::Markdown,
+        detailed_transition,
     ));
     card.push_str(&render_hypothesis_section(
         pres.hypothesis_layer.as_ref(),
@@ -422,6 +423,7 @@ fn generate_telegram_html_report(
     card.push_str(&render_interpretation_section(
         pres.interpretation_layer.as_ref(),
         RenderMode::Html,
+        detailed_transition,
     ));
     card.push_str(&render_hypothesis_section(
         pres.hypothesis_layer.as_ref(),
@@ -1290,6 +1292,7 @@ fn render_hypothesis_section(
 fn render_interpretation_section(
     layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
     mode: RenderMode,
+    include_appendix: bool,
 ) -> String {
     let mut block = String::new();
     let Some(layer) = layer else {
@@ -1304,6 +1307,25 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
+            block.push_str(&format!("  - {}:\n", layer.todays_explanation_label));
+            block.push_str(&format!(
+                "    - {}: {} ({})\n",
+                layer.primary_driver_label,
+                layer.primary_driver_value,
+                layer.primary_driver_confidence
+            ));
+            if !layer.secondary_drivers_values.is_empty() {
+                block.push_str(&format!("    - {}:\n", layer.secondary_drivers_label));
+                for val in &layer.secondary_drivers_values {
+                    block.push_str(&format!("      - {}\n", val));
+                }
+            }
+            if !layer.ignored_today_values.is_empty() {
+                block.push_str(&format!("    - {}:\n", layer.ignored_today_label));
+                for val in &layer.ignored_today_values {
+                    block.push_str(&format!("      - {}\n", val));
+                }
+            }
             block.push_str(&format!("  - {}:\n", layer.signal_context_label));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1332,10 +1354,31 @@ fn render_interpretation_section(
                     layer.signal_context_source_diagnostics_value
                 ));
             }
+            if include_appendix
+                && !layer
+                    .signal_context_source_diagnostics_appendix_value
+                    .is_empty()
+            {
+                block.push_str(&format!(
+                    "    - {}:\n",
+                    layer.signal_context_source_diagnostics_appendix_label
+                ));
+                for line in layer
+                    .signal_context_source_diagnostics_appendix_value
+                    .lines()
+                {
+                    block.push_str(&format!("      - {}\n", line));
+                }
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_interpretation_label,
                 layer.signal_context_interpretation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_next_observation_label,
+                layer.signal_context_next_observation_value
             ));
             block.push_str(&format!("  - {}\n", layer.signal_context_boundary));
             block.push_str(&format!(
@@ -1348,11 +1391,27 @@ fn render_interpretation_section(
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
+                layer.expectation_lifecycle_label, layer.expectation_lifecycle_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.expectation_next_observation_label, layer.expectation_next_observation_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
                 layer.gravity_data_quality_label, layer.gravity_data_quality_value
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.gravity_data_quality_reason_label, layer.gravity_data_quality_reason_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.observation_health_label));
+            for line in layer.observation_health_value.lines() {
+                block.push_str(&format!("    - {}\n", line));
+            }
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.interpretation_quality_label, layer.interpretation_quality_value
             ));
             block.push_str(&format!("  - {}:\n", layer.narrative_components_label));
             block.push_str(&format!(
@@ -1361,7 +1420,15 @@ fn render_interpretation_section(
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
+                layer.trend_confidence_label, layer.trend_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
                 layer.expectation_label, layer.expectation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.expectation_confidence_label, layer.expectation_confidence_value
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1369,11 +1436,23 @@ fn render_interpretation_section(
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
+                layer.supply_confidence_label, layer.supply_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
                 layer.gravity_label, layer.gravity_value
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
+                layer.gravity_confidence_label, layer.gravity_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
                 layer.flow_label, layer.flow_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.flow_confidence_label, layer.flow_confidence_value
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
@@ -1403,6 +1482,25 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
+            block.push_str(&format!("  - <b>{}:</b>\n", layer.todays_explanation_label));
+            block.push_str(&format!(
+                "    - {}: {} (<i>{}</i>)\n",
+                layer.primary_driver_label,
+                layer.primary_driver_value,
+                layer.primary_driver_confidence
+            ));
+            if !layer.secondary_drivers_values.is_empty() {
+                block.push_str(&format!("    - {}:\n", layer.secondary_drivers_label));
+                for val in &layer.secondary_drivers_values {
+                    block.push_str(&format!("      - {}\n", val));
+                }
+            }
+            if !layer.ignored_today_values.is_empty() {
+                block.push_str(&format!("    - {}:\n", layer.ignored_today_label));
+                for val in &layer.ignored_today_values {
+                    block.push_str(&format!("      - <i>{}</i>\n", val));
+                }
+            }
             block.push_str(&format!("  - {}:\n", layer.signal_context_label));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1431,10 +1529,31 @@ fn render_interpretation_section(
                     layer.signal_context_source_diagnostics_value
                 ));
             }
+            if include_appendix
+                && !layer
+                    .signal_context_source_diagnostics_appendix_value
+                    .is_empty()
+            {
+                block.push_str(&format!(
+                    "    - {}:\n",
+                    layer.signal_context_source_diagnostics_appendix_label
+                ));
+                for line in layer
+                    .signal_context_source_diagnostics_appendix_value
+                    .lines()
+                {
+                    block.push_str(&format!("      - <i>{}</i>\n", line));
+                }
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_interpretation_label,
                 layer.signal_context_interpretation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_next_observation_label,
+                layer.signal_context_next_observation_value
             ));
             block.push_str(&format!("  - {}\n", layer.signal_context_boundary));
             block.push_str(&format!(
@@ -1447,11 +1566,27 @@ fn render_interpretation_section(
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
+                layer.expectation_lifecycle_label, layer.expectation_lifecycle_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.expectation_next_observation_label, layer.expectation_next_observation_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
                 layer.gravity_data_quality_label, layer.gravity_data_quality_value
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.gravity_data_quality_reason_label, layer.gravity_data_quality_reason_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.observation_health_label));
+            for line in layer.observation_health_value.lines() {
+                block.push_str(&format!("    - <i>{}</i>\n", line));
+            }
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.interpretation_quality_label, layer.interpretation_quality_value
             ));
             block.push_str(&format!("  - {}:\n", layer.narrative_components_label));
             block.push_str(&format!(
@@ -1460,7 +1595,15 @@ fn render_interpretation_section(
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
+                layer.trend_confidence_label, layer.trend_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
                 layer.expectation_label, layer.expectation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.expectation_confidence_label, layer.expectation_confidence_value
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1468,11 +1611,23 @@ fn render_interpretation_section(
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
+                layer.supply_confidence_label, layer.supply_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
                 layer.gravity_label, layer.gravity_value
             ));
             block.push_str(&format!(
                 "    - {}: {}\n",
+                layer.gravity_confidence_label, layer.gravity_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
                 layer.flow_label, layer.flow_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.flow_confidence_label, layer.flow_confidence_value
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",

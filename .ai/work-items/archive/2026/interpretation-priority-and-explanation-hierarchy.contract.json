@@ -1,0 +1,173 @@
+{
+  "contractVersion": 1,
+  "workItemId": "interpretation-priority-and-explanation-hierarchy",
+  "mode": "code",
+  "title": "Interpretation Priority and Explanation Hierarchy",
+  "scope": [
+    ".ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+    ".ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/application/gray_rhino_discovery.rs",
+    "src/features/research/domain/gray_rhino_discovery_policy.rs",
+    "src/features/research/domain/gray_rhino_monitoring_policy.rs",
+    "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "docs/specs/INTERPRETATION_LAYER.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/rules.rs",
+    "src/features/trading/**"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Interpretation layer read model の構築ロジックの定義。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "View Model 構造体の定義。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown / HTML レンダラーの定義。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "多言語辞書の定義。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Interpretation signal の実運用組み立て位置。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Signal Context との整合を保つための初期化 / 読み取りロジック。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "Gray Rhino 連携後の週次レポートテストと出力文言の整合を保つため。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "Gray Rhino 候補発見ロジックの追加テストを維持するため。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_discovery_policy.rs",
+      "reason": "Gray Rhino の候補判定ルールを拡張した実装の本体だから。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_monitoring_policy.rs",
+      "reason": "Gray Rhino の monitoring state 分類に新しい候補種別を含めるため。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "reason": "Gray Rhino レポートの inline reference 表示と多言語文言の整合を保つため。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino 日報の view model 構築とレンダリングを共通化するため。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "i18n_snapshot"
+    ],
+    "reason": "表示層のセマンティクス更新のみであり、取引・決定ルール等のロジックには影響を及ぼさないため低リスク。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contract confirmed. Ready to implement interpretation priority rules."
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Today's Explanation セクションが Interpretation Layer に正しく追加されていること。",
+    "Primary, Secondary, Ignored Today が定義通りの確定的な優先度ルールによって分類されていること。",
+    "Macro HIGH の時は Macro が Primary に選ばれ、Low の時は Ignored Today に入ること。",
+    "Macro UNKNOWN の時は Ignored Today ではなく、補足コンテキストとして低置信度の説明が示されること。",
+    "Gravity が Unavailable の時に Ignored Today に入り、valuation が除外された旨が明記されること。",
+    "Gray Rhino の昇格状態は実運用 pipeline から派生し、手書きの false 固定ではないこと。",
+    "Gray Rhino はデフォルトで Ignored Today となり、escalated 時にのみ Secondary となること（取引判定には影響しない）。",
+    "Hypothesis は本日の説明から完全に除外されていること。",
+    "Decision weight は 0% を維持し、Decision pipeline や取引ロジックが変更されていないこと。",
+    "新規の Observation source が追加されていないこと。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

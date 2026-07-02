@@ -1,7 +1,8 @@
 use crate::features::radar::interface::presentation::{
     InterpretationExpectationQuality, InterpretationExpectationQualityReason,
     InterpretationGravityDataQuality, InterpretationGravityDataQualityReason,
-    InterpretationLayerViewModel, InterpretationTrendState, StateTransitionViewModel,
+    InterpretationLayerViewModel, InterpretationQuality, InterpretationTrendState,
+    StateTransitionViewModel,
 };
 use crate::features::radar::interface::signal_context_read_model::{
     build_signal_context_assessment, signal_context_boundary,
@@ -36,6 +37,7 @@ pub(crate) struct InterpretationNarrativeSignal {
     pub supply_pressure: bool,
     pub supply_available: bool,
     pub flow_acceleration: Option<f64>,
+    pub gray_rhino_escalated: bool,
 }
 
 impl Default for InterpretationNarrativeSignal {
@@ -52,6 +54,7 @@ impl Default for InterpretationNarrativeSignal {
             supply_pressure: false,
             supply_available: false,
             flow_acceleration: None,
+            gray_rhino_escalated: false,
         }
     }
 }
@@ -84,16 +87,23 @@ pub(crate) fn build_interpretation_layer_view_model(
     let supply_value = supply_component_value(&input.signal, input.language);
     let gravity_value = gravity_component_value(&input.signal, input.language);
     let flow_value = flow_component_value(&input.signal, input.language);
-    let interpretation_value = compose_interpretation_value(
-        &trend_value,
-        &expectation_value,
-        &supply_value,
-        &gravity_value,
-        &flow_value,
-        input.language,
-    );
+    let trend_confidence_value = trend_confidence_value(&input.signal);
+    let expectation_confidence_value = expectation_confidence_value(&input.signal);
+    let supply_confidence_value = supply_confidence_value(&input.signal);
+    let gravity_confidence_value = gravity_confidence_value(&input.signal);
+    let flow_confidence_value = flow_confidence_value(&input.signal);
+    let observation_health_value = observation_health_value(&input.signal, &signal_context);
+    let interpretation_quality_value = interpretation_quality_value(&input.signal, &signal_context);
+    let expectation_lifecycle_value =
+        expectation_lifecycle_value(&input.signal, &signal_context, input.language);
+    let expectation_next_observation_value =
+        expectation_next_observation_value(&input.signal, &signal_context, input.language);
+    let interpretation_value =
+        compose_interpretation_value(&signal_context, &input.signal, input.language);
     let (decision_explanation_intro, decision_explanation_reasons, decision_explanation_conclusion) =
         decision_explanation_values(input.decision_summary, input.language, interpretation);
+    let todays_explanation =
+        build_todays_explanation(&input.signal, &signal_context, input.language);
 
     InterpretationLayerViewModel {
         title: interpretation.title.clone(),
@@ -123,11 +133,20 @@ pub(crate) fn build_interpretation_layer_view_model(
         signal_context_source_diagnostics_label: interpretation
             .signal_context_source_diagnostics_label
             .clone(),
-        signal_context_source_diagnostics_value: signal_context.source_diagnostics,
+        signal_context_source_diagnostics_value: signal_context.source_diagnostics_summary,
+        signal_context_source_diagnostics_appendix_label: interpretation
+            .signal_context_source_diagnostics_appendix_label
+            .clone(),
+        signal_context_source_diagnostics_appendix_value: signal_context
+            .source_diagnostics_appendix,
         signal_context_interpretation_label: interpretation
             .signal_context_interpretation_label
             .clone(),
         signal_context_interpretation_value: signal_context.interpretation,
+        signal_context_next_observation_label: interpretation
+            .signal_context_next_observation_label
+            .clone(),
+        signal_context_next_observation_value: signal_context.next_observation,
         signal_context_boundary: signal_context_boundary(input.language).to_string(),
         expectation_quality_label: interpretation.expectation_quality_label.clone(),
         expectation_quality_value: expectation_quality_label(input.signal.expectation_quality),
@@ -136,23 +155,43 @@ pub(crate) fn build_interpretation_layer_view_model(
             input.signal.expectation_quality_reason,
             input.language,
         ),
+        expectation_lifecycle_label: interpretation.expectation_lifecycle_label.clone(),
+        expectation_lifecycle_value,
+        expectation_next_observation_label: interpretation
+            .expectation_next_observation_label
+            .clone(),
+        expectation_next_observation_value,
         gravity_data_quality_label: interpretation.gravity_data_quality_label.clone(),
         gravity_data_quality_value: gravity_data_quality_label(input.signal.gravity_data_quality),
         gravity_data_quality_reason_label: interpretation.gravity_data_quality_reason_label.clone(),
         gravity_data_quality_reason_value: gravity_data_quality_reason_label(
             input.signal.gravity_data_quality_reason,
         ),
+        observation_health_label: interpretation.observation_health_label.clone(),
+        observation_health_value,
+        interpretation_quality_label: interpretation.interpretation_quality_label.clone(),
+        interpretation_quality_value,
         narrative_components_label: interpretation.narrative_components_label.clone(),
         trend_label: interpretation.trend_label.clone(),
         trend_value,
+        trend_confidence_label: interpretation.trend_confidence_label.clone(),
+        trend_confidence_value,
         expectation_label: interpretation.expectation_label.clone(),
         expectation_value,
+        expectation_confidence_label: interpretation.expectation_confidence_label.clone(),
+        expectation_confidence_value,
         supply_label: interpretation.supply_label.clone(),
         supply_value,
+        supply_confidence_label: interpretation.supply_confidence_label.clone(),
+        supply_confidence_value,
         gravity_label: interpretation.gravity_label.clone(),
         gravity_value,
+        gravity_confidence_label: interpretation.gravity_confidence_label.clone(),
+        gravity_confidence_value,
         flow_label: interpretation.flow_label.clone(),
         flow_value,
+        flow_confidence_label: interpretation.flow_confidence_label.clone(),
+        flow_confidence_value,
         interpretation_label: interpretation.interpretation_label.clone(),
         interpretation_value,
         decision_explanation_label: interpretation.decision_explanation_label.clone(),
@@ -162,6 +201,653 @@ pub(crate) fn build_interpretation_layer_view_model(
         subjects_label: interpretation.subjects_label.clone(),
         subjects_value,
         boundary: interpretation.boundary.clone(),
+        todays_explanation_label: interpretation.todays_explanation_label.clone(),
+        primary_driver_label: interpretation.primary_driver_label.clone(),
+        primary_driver_value: todays_explanation.primary_driver_value,
+        primary_driver_confidence: todays_explanation.primary_driver_confidence,
+        secondary_drivers_label: interpretation.secondary_drivers_label.clone(),
+        secondary_drivers_values: todays_explanation.secondary_drivers,
+        ignored_today_label: interpretation.ignored_today_label.clone(),
+        ignored_today_values: todays_explanation.ignored_today,
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ExplanationRole {
+    Primary,
+    Secondary,
+    Ignored,
+}
+
+pub(crate) struct TodaysExplanation {
+    pub primary_driver_value: String,
+    pub primary_driver_confidence: String,
+    pub secondary_drivers: Vec<String>,
+    pub ignored_today: Vec<String>,
+}
+
+fn build_todays_explanation(
+    signal: &InterpretationNarrativeSignal,
+    signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
+    language: Language,
+) -> TodaysExplanation {
+    let (macro_role, macro_text) = match signal_context.information_content {
+        crate::features::radar::interface::presentation::SignalContextInformationContent::High => (
+            ExplanationRole::Primary,
+            macro_explanation_text(ExplanationRole::Primary, language),
+        ),
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Medium => (
+            ExplanationRole::Secondary,
+            macro_explanation_text(ExplanationRole::Secondary, language),
+        ),
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Low => (
+            ExplanationRole::Ignored,
+            macro_explanation_text(ExplanationRole::Ignored, language),
+        ),
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown => (
+            ExplanationRole::Secondary,
+            macro_unknown_explanation_text(language),
+        ),
+    };
+
+    let is_trend_stable = signal.trend_available
+        && (signal.trend_state == InterpretationTrendState::Stable
+            || signal.trend_state == InterpretationTrendState::PostRallyConsolidation);
+    let trend_role = if is_trend_stable {
+        if macro_role != ExplanationRole::Primary {
+            ExplanationRole::Primary
+        } else {
+            ExplanationRole::Secondary
+        }
+    } else {
+        ExplanationRole::Ignored
+    };
+
+    let is_supply_pressure_present = signal.supply_available && signal.supply_pressure;
+    let supply_role = if is_supply_pressure_present {
+        if macro_role != ExplanationRole::Primary && trend_role != ExplanationRole::Primary {
+            ExplanationRole::Primary
+        } else {
+            ExplanationRole::Secondary
+        }
+    } else {
+        ExplanationRole::Ignored
+    };
+
+    let expectation_state = derive_expectation_state(signal, signal_context);
+    let expectation_role = if expectation_state == ExpectationState::Pending {
+        ExplanationRole::Secondary
+    } else {
+        ExplanationRole::Ignored
+    };
+
+    let has_clear_flow_direction =
+        signal.flow_acceleration.is_some() && signal.flow_acceleration.unwrap().abs() > 0.05;
+    let flow_role = if has_clear_flow_direction {
+        ExplanationRole::Secondary
+    } else {
+        ExplanationRole::Ignored
+    };
+
+    let gravity_role = match signal.gravity_data_quality {
+        InterpretationGravityDataQuality::Ready => ExplanationRole::Secondary,
+        InterpretationGravityDataQuality::Partial => ExplanationRole::Secondary,
+        InterpretationGravityDataQuality::Unavailable => ExplanationRole::Ignored,
+    };
+
+    let gray_rhino_role = if signal.gray_rhino_escalated {
+        ExplanationRole::Secondary
+    } else {
+        ExplanationRole::Ignored
+    };
+
+    let primary_name;
+    let primary_conf;
+
+    if macro_role == ExplanationRole::Primary {
+        primary_name = macro_explanation_text(ExplanationRole::Primary, language);
+        primary_conf = match signal_context.context_quality {
+            crate::features::radar::interface::presentation::SignalContextQuality::High => {
+                "HIGH".to_string()
+            }
+            crate::features::radar::interface::presentation::SignalContextQuality::Medium => {
+                "MEDIUM".to_string()
+            }
+            crate::features::radar::interface::presentation::SignalContextQuality::Low => {
+                "LOW".to_string()
+            }
+            crate::features::radar::interface::presentation::SignalContextQuality::Unavailable => {
+                "UNAVAILABLE".to_string()
+            }
+        };
+    } else if trend_role == ExplanationRole::Primary {
+        primary_name = trend_explanation_text(ExplanationRole::Primary, language);
+        primary_conf = trend_confidence_value(signal);
+    } else if supply_role == ExplanationRole::Primary {
+        primary_name = supply_explanation_text(ExplanationRole::Primary, language);
+        primary_conf = supply_confidence_value(signal);
+    } else {
+        primary_name = no_primary_driver_text(language);
+        primary_conf = "LOW".to_string();
+    }
+
+    let mut secondary_drivers = Vec::new();
+    if macro_role == ExplanationRole::Secondary {
+        secondary_drivers.push(macro_text.clone());
+    }
+    if trend_role == ExplanationRole::Secondary {
+        secondary_drivers.push(trend_explanation_text(ExplanationRole::Secondary, language));
+    }
+    if supply_role == ExplanationRole::Secondary {
+        secondary_drivers.push(supply_explanation_text(
+            ExplanationRole::Secondary,
+            language,
+        ));
+    }
+    if expectation_role == ExplanationRole::Secondary {
+        secondary_drivers.push(expectation_explanation_text(
+            ExplanationRole::Secondary,
+            language,
+        ));
+    }
+    if flow_role == ExplanationRole::Secondary {
+        secondary_drivers.push(flow_explanation_text(ExplanationRole::Secondary, language));
+    }
+    if gravity_role == ExplanationRole::Secondary {
+        secondary_drivers.push(gravity_explanation_text(
+            gravity_role,
+            signal.gravity_data_quality,
+            language,
+        ));
+    }
+    if gray_rhino_role == ExplanationRole::Secondary {
+        secondary_drivers.push(gray_rhino_explanation_text(
+            ExplanationRole::Secondary,
+            language,
+        ));
+    }
+
+    let mut ignored_today = Vec::new();
+    if macro_role == ExplanationRole::Ignored {
+        ignored_today.push(macro_text);
+    }
+    if trend_role == ExplanationRole::Ignored {
+        ignored_today.push(trend_explanation_text(ExplanationRole::Ignored, language));
+    }
+    if supply_role == ExplanationRole::Ignored {
+        ignored_today.push(supply_explanation_text(ExplanationRole::Ignored, language));
+    }
+    if expectation_role == ExplanationRole::Ignored {
+        ignored_today.push(expectation_explanation_text(
+            ExplanationRole::Ignored,
+            language,
+        ));
+    }
+    if flow_role == ExplanationRole::Ignored {
+        ignored_today.push(flow_explanation_text(ExplanationRole::Ignored, language));
+    }
+    if gravity_role == ExplanationRole::Ignored {
+        ignored_today.push(gravity_explanation_text(
+            gravity_role,
+            signal.gravity_data_quality,
+            language,
+        ));
+    }
+    if gray_rhino_role == ExplanationRole::Ignored {
+        ignored_today.push(gray_rhino_explanation_text(
+            ExplanationRole::Ignored,
+            language,
+        ));
+    }
+
+    TodaysExplanation {
+        primary_driver_value: primary_name,
+        primary_driver_confidence: primary_conf,
+        secondary_drivers,
+        ignored_today,
+    }
+}
+
+fn no_primary_driver_text(lang: Language) -> String {
+    match lang {
+        Language::ZhCn => "今日未识别到主导性主要驱动因子。".to_string(),
+        Language::EnUs => "No dominant primary driver today.".to_string(),
+        Language::JaJp => "本日は支配的な主要ドライバーは検出されていません。".to_string(),
+    }
+}
+
+fn macro_explanation_text(role: ExplanationRole, lang: Language) -> String {
+    match role {
+        ExplanationRole::Primary => match lang {
+            Language::ZhCn => "高信息量的宏观事件（Macro Event）。".to_string(),
+            Language::EnUs => "High-information macro event today.".to_string(),
+            Language::JaJp => "本日の主要なマクロイベント。".to_string(),
+        },
+        ExplanationRole::Secondary => match lang {
+            Language::ZhCn => "宏观事件信息量中等，起到辅助解释作用。".to_string(),
+            Language::EnUs => {
+                "Macro event information content is medium, serving as a secondary driver."
+                    .to_string()
+            }
+            Language::JaJp => {
+                "マクロイベントの情報量は中程度であり、本日は補助的な説明要因です。".to_string()
+            }
+        },
+        ExplanationRole::Ignored => match lang {
+            Language::ZhCn => "宏观事件信息量较低或未知，今日忽略。".to_string(),
+            Language::EnUs => {
+                "Macro event has low or unknown information content, and is ignored today."
+                    .to_string()
+            }
+            Language::JaJp => {
+                "マクロイベントの情報量は低いか未知数であり、本日は無視されます。".to_string()
+            }
+        },
+    }
+}
+
+fn macro_unknown_explanation_text(lang: Language) -> String {
+    match lang {
+        Language::ZhCn => "宏观信息暂无法确认，解释置信度下降，但仍保留为补充上下文。".to_string(),
+        Language::EnUs => "Macro information is not confirmed yet, so explanation confidence is lower, but it is still kept as supporting context.".to_string(),
+        Language::JaJp => "マクロ情報はまだ確認できず、説明の信頼度は下がるが、補助コンテキストとして保持される。".to_string(),
+    }
+}
+
+fn trend_explanation_text(role: ExplanationRole, lang: Language) -> String {
+    match role {
+        ExplanationRole::Primary => match lang {
+            Language::ZhCn => "今天的市场主驱动是趋势的延续。".to_string(),
+            Language::EnUs => "Primary driver today is trend continuation.".to_string(),
+            Language::JaJp => "本日の市場主要ドライバーはトレンドの継続です。".to_string(),
+        },
+        ExplanationRole::Secondary => match lang {
+            Language::ZhCn => "趋势结构虽稳定，但今天仅起到辅助解释作用。".to_string(),
+            Language::EnUs => "Trend structure is stable but secondary today.".to_string(),
+            Language::JaJp => "トレンド構造は安定していますが、本日は補助的です。".to_string(),
+        },
+        ExplanationRole::Ignored => match lang {
+            Language::ZhCn => "趋势结构偏弱或不可用，今日忽略。".to_string(),
+            Language::EnUs => {
+                "Trend is weak or unavailable, and is not a primary driver today.".to_string()
+            }
+            Language::JaJp => {
+                "トレンド構造は弱含みまたは利用不可であり、本日は無視されます。".to_string()
+            }
+        },
+    }
+}
+
+fn supply_explanation_text(role: ExplanationRole, lang: Language) -> String {
+    match role {
+        ExplanationRole::Primary => match lang {
+            Language::ZhCn => "今天最主要的驱动是显著的供给压力。".to_string(),
+            Language::EnUs => "Primary driver today is significant supply pressure.".to_string(),
+            Language::JaJp => "本日の主要なドライバーは顕著な供給圧力です。".to_string(),
+        },
+        ExplanationRole::Secondary => match lang {
+            Language::ZhCn => "供给压力存在，但仅具有次要解释作用。".to_string(),
+            Language::EnUs => "Supply pressure is relevant but secondary.".to_string(),
+            Language::JaJp => "供給圧力は存在しますが、補助的な要因に留まります。".to_string(),
+        },
+        ExplanationRole::Ignored => match lang {
+            Language::ZhCn => "未检测到明显的供给压力。".to_string(),
+            Language::EnUs => "No significant supply pressure is detected today.".to_string(),
+            Language::JaJp => "顕著な供給圧力は検出されていません。".to_string(),
+        },
+    }
+}
+
+fn expectation_explanation_text(role: ExplanationRole, lang: Language) -> String {
+    match role {
+        ExplanationRole::Primary => match lang {
+            Language::ZhCn => "市场一致预期变化为主驱动。".to_string(),
+            Language::EnUs => {
+                "Market consensus expectation acts as the primary driver.".to_string()
+            }
+            Language::JaJp => "市場コンセンサス期待が主要なドライバーです。".to_string(),
+        },
+        ExplanationRole::Secondary => match lang {
+            Language::ZhCn => "处于事件等待或业绩公布前夕的预期悬停状态。".to_string(),
+            Language::EnUs => {
+                "Expectation is in pending state awaiting event outcomes.".to_string()
+            }
+            Language::JaJp => "イベント待ちまたは決算発表前夕の期待待機状態です。".to_string(),
+        },
+        ExplanationRole::Ignored => match lang {
+            Language::ZhCn => "预期质量偏低或已定价，今日忽略。".to_string(),
+            Language::EnUs => {
+                "Expectation quality is low or priced in, and is ignored today.".to_string()
+            }
+            Language::JaJp => {
+                "期待の質が低いか織り込み済みであり、本日は説明要因になりません。".to_string()
+            }
+        },
+    }
+}
+
+fn flow_explanation_text(role: ExplanationRole, lang: Language) -> String {
+    match role {
+        ExplanationRole::Primary => match lang {
+            Language::ZhCn => "今天最主要的驱动是资金流向的加速倾斜。".to_string(),
+            Language::EnUs => {
+                "Primary driver today is accelerating capital flow direction.".to_string()
+            }
+            Language::JaJp => {
+                "本日の主要なドライバーは加速する資金フローの方向性です。".to_string()
+            }
+        },
+        ExplanationRole::Secondary => match lang {
+            Language::ZhCn => "资金流向有明确的支持或恶化趋势。".to_string(),
+            Language::EnUs => {
+                "Flow shows a clear supporting or deteriorating direction.".to_string()
+            }
+            Language::JaJp => "資金フローに明確な支持または悪化の方向性が見られます。".to_string(),
+        },
+        ExplanationRole::Ignored => match lang {
+            Language::ZhCn => "资金流向处于中性，今日忽略。".to_string(),
+            Language::EnUs => "Flow is neutral, and is not a primary driver today.".to_string(),
+            Language::JaJp => "資金フローは中立であり、本日の説明には含まれません。".to_string(),
+        },
+    }
+}
+
+fn gravity_explanation_text(
+    role: ExplanationRole,
+    dq: InterpretationGravityDataQuality,
+    lang: Language,
+) -> String {
+    match role {
+        ExplanationRole::Primary => match lang {
+            Language::ZhCn => "估值引力（Gravity）是今天最主要的价格解释因子。".to_string(),
+            Language::EnUs => {
+                "Valuation gravity is the primary explanatory factor today.".to_string()
+            }
+            Language::JaJp => "バリュエーション重力が本日最も主要な価格説明要因です。".to_string(),
+        },
+        ExplanationRole::Secondary => match lang {
+            Language::ZhCn => "估值引力作为价值边界起到辅助解释作用。".to_string(),
+            Language::EnUs => "Gravity is relevant as a valuation boundary.".to_string(),
+            Language::JaJp => {
+                "バリュエーション重力は価値の境界として補助的な説明になります。".to_string()
+            }
+        },
+        ExplanationRole::Ignored => {
+            if dq == InterpretationGravityDataQuality::Unavailable {
+                match lang {
+                    Language::ZhCn => "估值引力今天不可用，故估值未纳入当前解释。".to_string(),
+                    Language::EnUs => "Gravity is unavailable today, so valuation is excluded from the current explanation.".to_string(),
+                    Language::JaJp => "バリュエーション重力は利用不可であり、評価は現在の解釈から除外されています。".to_string(),
+                }
+            } else {
+                match lang {
+                    Language::ZhCn => "估值偏中性，今天被忽略。".to_string(),
+                    Language::EnUs => "Gravity is neutral and ignored today.".to_string(),
+                    Language::JaJp => {
+                        "バリュエーションは中立的であり、本日は無視されます。".to_string()
+                    }
+                }
+            }
+        }
+    }
+}
+
+fn gray_rhino_explanation_text(role: ExplanationRole, lang: Language) -> String {
+    match role {
+        ExplanationRole::Primary => match lang {
+            Language::ZhCn => "灰犀牛长期结构风险升级为当前主驱动。".to_string(),
+            Language::EnUs => "Gray Rhino structural risk acts as primary driver." .to_string(),
+            Language::JaJp => "灰犀牛の構造的リスクが主要なドライバーです。".to_string(),
+        },
+        ExplanationRole::Secondary => match lang {
+            Language::ZhCn => "灰犀牛长期结构风险已升级，起到辅助解释作用。".to_string(),
+            Language::EnUs => "Gray Rhino structural risk is escalated and secondary.".to_string(),
+            Language::JaJp => "灰犀牛の長期構造リスクが拡大しており、補助的な説明要因です。".to_string(),
+        },
+        ExplanationRole::Ignored => match lang {
+            Language::ZhCn => "灰犀牛属于持续监控的长期结构风险，不作为今天的解释驱动。".to_string(),
+            Language::EnUs => "Gray Rhino remains a monitored structural risk, not a primary driver of today's move.".to_string(),
+            Language::JaJp => "灰犀牛は継続監視される構造的リスクであり、本日の主要な説明要因ではありません。".to_string(),
+        },
+    }
+}
+
+fn trend_confidence_value(signal: &InterpretationNarrativeSignal) -> String {
+    match signal.trend_state {
+        InterpretationTrendState::Weak => "MEDIUM".to_string(),
+        InterpretationTrendState::Stable => "HIGH".to_string(),
+        InterpretationTrendState::PostRallyConsolidation => "MEDIUM".to_string(),
+    }
+}
+
+fn expectation_confidence_value(signal: &InterpretationNarrativeSignal) -> String {
+    match signal.expectation_quality {
+        InterpretationExpectationQuality::High => "HIGH".to_string(),
+        InterpretationExpectationQuality::Medium => "MEDIUM".to_string(),
+        InterpretationExpectationQuality::Low => "LOW".to_string(),
+        InterpretationExpectationQuality::Unavailable => "UNAVAILABLE".to_string(),
+    }
+}
+
+fn supply_confidence_value(signal: &InterpretationNarrativeSignal) -> String {
+    if signal.supply_available {
+        "HIGH".to_string()
+    } else {
+        "UNAVAILABLE".to_string()
+    }
+}
+
+fn gravity_confidence_value(signal: &InterpretationNarrativeSignal) -> String {
+    match signal.gravity_data_quality {
+        InterpretationGravityDataQuality::Ready => "HIGH".to_string(),
+        InterpretationGravityDataQuality::Partial => "MEDIUM".to_string(),
+        InterpretationGravityDataQuality::Unavailable => "UNAVAILABLE".to_string(),
+    }
+}
+
+fn flow_confidence_value(signal: &InterpretationNarrativeSignal) -> String {
+    match signal.flow_acceleration {
+        None => "UNAVAILABLE".to_string(),
+        Some(flow) if flow.abs() > 0.05 => "HIGH".to_string(),
+        Some(_) => "MEDIUM".to_string(),
+    }
+}
+
+fn observation_health_value(
+    signal: &InterpretationNarrativeSignal,
+    signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
+) -> String {
+    let mut rows = Vec::new();
+    rows.push(format!(
+        "Trend: {}",
+        if signal.trend_available {
+            "Healthy"
+        } else {
+            "Unavailable"
+        }
+    ));
+    rows.push(format!(
+        "Expectation: {}",
+        if signal.expectation_quality == InterpretationExpectationQuality::Unavailable {
+            "Unavailable"
+        } else {
+            "Healthy"
+        }
+    ));
+    rows.push(format!(
+        "Gravity: {}",
+        match signal.gravity_data_quality {
+            InterpretationGravityDataQuality::Ready => "Healthy",
+            InterpretationGravityDataQuality::Partial => "Partial",
+            InterpretationGravityDataQuality::Unavailable => "Unavailable",
+        }
+    ));
+    rows.push(format!(
+        "Supply: {}",
+        if signal.supply_available {
+            "Healthy"
+        } else {
+            "Unavailable"
+        }
+    ));
+    rows.push(format!(
+        "Flow: {}",
+        if signal.flow_acceleration.is_some() {
+            "Neutral"
+        } else {
+            "Unavailable"
+        }
+    ));
+    rows.push(format!(
+        "Macro Context: {}",
+        match signal_context.source_health {
+            crate::features::research::interface::macro_event_observation::MacroEventSourceHealth::Succeeded => "Healthy",
+            crate::features::research::interface::macro_event_observation::MacroEventSourceHealth::Partial => "Partial",
+            crate::features::research::interface::macro_event_observation::MacroEventSourceHealth::Unavailable => "Unavailable",
+        }
+    ));
+    rows.join("\n")
+}
+
+fn interpretation_quality_value(
+    signal: &InterpretationNarrativeSignal,
+    signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
+) -> String {
+    let mut score = 0;
+    if signal.trend_available {
+        score += 1;
+    }
+    if signal.expectation_quality != InterpretationExpectationQuality::Unavailable {
+        score += 1;
+    }
+    if signal.gravity_data_quality != InterpretationGravityDataQuality::Unavailable {
+        score += 1;
+    }
+    if signal.supply_available {
+        score += 1;
+    }
+    if signal.flow_acceleration.is_some() {
+        score += 1;
+    }
+    if signal_context.source_health != crate::features::research::interface::macro_event_observation::MacroEventSourceHealth::Unavailable {
+        score += 1;
+    }
+    if signal_context.information_content
+        != crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown
+    {
+        score += 1;
+    }
+
+    let mut quality = if score >= 6
+        && signal_context.source_health
+            == crate::features::research::interface::macro_event_observation::MacroEventSourceHealth::Succeeded
+    {
+        InterpretationQuality::High
+    } else if score >= 4 {
+        InterpretationQuality::Medium
+    } else {
+        InterpretationQuality::Low
+    };
+
+    if signal.gravity_data_quality == InterpretationGravityDataQuality::Unavailable
+        && quality == InterpretationQuality::High
+    {
+        quality = InterpretationQuality::Medium;
+    }
+
+    match quality {
+        InterpretationQuality::High => "HIGH".to_string(),
+        InterpretationQuality::Medium => "MEDIUM".to_string(),
+        InterpretationQuality::Low => "LOW".to_string(),
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ExpectationState {
+    Unavailable,
+    Pending,
+    Observing,
+    Low,
+    Unknown,
+}
+
+fn derive_expectation_state(
+    _signal: &InterpretationNarrativeSignal,
+    signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
+) -> ExpectationState {
+    if signal_context.information_content
+        == crate::features::radar::interface::presentation::SignalContextInformationContent::Low
+    {
+        return ExpectationState::Low;
+    }
+
+    if signal_context.source_health == crate::features::research::interface::macro_event_observation::MacroEventSourceHealth::Unavailable {
+        return ExpectationState::Unavailable;
+    }
+
+    if signal_context.primary_context == crate::features::radar::interface::presentation::SignalContextPrimaryContext::PreEarningsWaiting
+        || signal_context.primary_context == crate::features::radar::interface::presentation::SignalContextPrimaryContext::MajorEventWaiting
+    {
+        return ExpectationState::Pending;
+    }
+
+    if signal_context.information_content
+        == crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown
+    {
+        return ExpectationState::Unknown;
+    }
+
+    ExpectationState::Observing
+}
+
+fn expectation_lifecycle_value(
+    signal: &InterpretationNarrativeSignal,
+    signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
+    language: Language,
+) -> String {
+    let _ = language;
+    let state = derive_expectation_state(signal, signal_context);
+    match state {
+        ExpectationState::Unavailable => "UNAVAILABLE".to_string(),
+        ExpectationState::Pending => "PENDING".to_string(),
+        ExpectationState::Observing => "OBSERVING".to_string(),
+        ExpectationState::Low => "LOW".to_string(),
+        ExpectationState::Unknown => "UNKNOWN".to_string(),
+    }
+}
+
+fn expectation_next_observation_value(
+    signal: &InterpretationNarrativeSignal,
+    signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
+    language: Language,
+) -> String {
+    let state = derive_expectation_state(signal, signal_context);
+    match state {
+        ExpectationState::Unavailable => match language {
+            Language::ZhCn => "官方来源当前不可用；待来源恢复后再确认是否存在事件".to_string(),
+            Language::EnUs => "Official source is currently unavailable; verify if events exist once the source is restored.".to_string(),
+            Language::JaJp => "公式ソースは現在利用できません。ソース復旧後にイベントが存在するかどうかを再確認します。".to_string(),
+        },
+        ExpectationState::Pending => match language {
+            Language::ZhCn => "等待官方公布；公布后对比 Expected / Actual、计算 Surprise、更新 Narrative".to_string(),
+            Language::EnUs => "Waiting for the official release; comparison between Expected / Actual, calculation of Surprise, and Narrative updates will follow publication.".to_string(),
+            Language::JaJp => "公式発表を待機中；公表後は Expected / Actual を比較し、Surprise を計算して Narrative を更新する。".to_string(),
+        },
+        ExpectationState::Observing => match language {
+            Language::ZhCn => "继续观察后续价格/预期修正/资金反应".to_string(),
+            Language::EnUs => "Continue observing subsequent price actions, expectation adjustments, and capital flow responses.".to_string(),
+            Language::JaJp => "その後の価格動向、予想の修正、資金の反応を引き続き観察する。".to_string(),
+        },
+        ExpectationState::Low => match language {
+            Language::ZhCn => "当前无高信息量事件，继续等待官方日历更新".to_string(),
+            Language::EnUs => "No high-information events currently; continue waiting for the official calendar update.".to_string(),
+            Language::JaJp => "現在、高情報量のイベントはありません。公式カレンダーの更新を引き続き待機します。".to_string(),
+        },
+        ExpectationState::Unknown => match language {
+            Language::ZhCn => "无法确认是否存在事件；待来源更新或数据完整后再确认".to_string(),
+            Language::EnUs => "Unable to confirm if events exist; pending source updates or data completion.".to_string(),
+            Language::JaJp => "イベントの有無を確認できません。ソース更新またはデータ完了を待ちます。".to_string(),
+        },
     }
 }
 
@@ -374,29 +1060,205 @@ fn flow_component_value(signal: &InterpretationNarrativeSignal, language: Langua
 }
 
 fn compose_interpretation_value(
-    trend: &str,
-    expectation: &str,
-    supply: &str,
-    gravity: &str,
-    flow: &str,
+    signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
+    signal: &InterpretationNarrativeSignal,
     language: Language,
 ) -> String {
-    let separator = match language {
-        Language::ZhCn => " ",
-        Language::EnUs => " ",
-        Language::JaJp => " ",
+    let event_line = match signal_context.information_content {
+        crate::features::radar::interface::presentation::SignalContextInformationContent::High => {
+            match language {
+                Language::ZhCn => {
+                    format!(
+                        "今天识别到高信息量宏观事件: {}。",
+                        signal_context.event_fact
+                    )
+                }
+                Language::EnUs => {
+                    format!(
+                        "A high-information macro event was identified today: {}.",
+                        signal_context.event_fact
+                    )
+                }
+                Language::JaJp => {
+                    format!(
+                        "今日は高情報量のマクロイベントが識別された: {}。",
+                        signal_context.event_fact
+                    )
+                }
+            }
+        }
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Medium => match language {
+            Language::ZhCn => {
+                "今天存在中等重要事件，但尚不足以定义为高信息量事件。".to_string()
+            }
+            Language::EnUs => {
+                "Today has a medium-importance event, but it is not yet high-information enough to define the day as a high-information event."
+                    .to_string()
+            }
+            Language::JaJp => {
+                "今日は中重要度のイベントがあるが、まだ高情報量日と定義するほどではない。".to_string()
+            }
+        },
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Low => match language {
+            Language::ZhCn => {
+                "今天未识别到高信息量宏观事件。官方经济日历未命中 CPI、FOMC、就业、GDP 等事件。".to_string()
+            }
+            Language::EnUs => {
+                "Today no high-information macro event was identified. The official economic calendar did not match CPI, FOMC, jobs, GDP, or similar events."
+                    .to_string()
+            }
+            Language::JaJp => {
+                "今日は高情報量のマクロイベントは識別されていない。公式経済カレンダーは CPI、FOMC、雇用、GDP などにヒットしていない。".to_string()
+            }
+        },
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown => match language {
+            Language::ZhCn => {
+                "官方来源暂时无法确认今天是否存在高信息量事件。".to_string()
+            }
+            Language::EnUs => {
+                "Official sources cannot confirm whether today has a high-information event."
+                    .to_string()
+            }
+            Language::JaJp => {
+                "公式ソースでは今日は高情報量イベントの有無を確認できない。".to_string()
+            }
+        },
     };
+
+    let trend_line = match signal.trend_state {
+        InterpretationTrendState::Weak => match language {
+            Language::ZhCn => "当前价格主要仍由趋势延续驱动，但扩散力度还不强。".to_string(),
+            Language::EnUs => "Current price action is still mainly driven by trend continuation, although diffusion remains weak."
+                .to_string(),
+            Language::JaJp => "現在の価格は主にトレンド延長で動いているが、拡散力はまだ弱い。".to_string(),
+        },
+        InterpretationTrendState::Stable => match language {
+            Language::ZhCn => "当前价格主要仍由趋势延续驱动。".to_string(),
+            Language::EnUs => "Current price action is still mainly driven by trend continuation.".to_string(),
+            Language::JaJp => "現在の価格は主にトレンド延長で動いている。".to_string(),
+        },
+        InterpretationTrendState::PostRallyConsolidation => match language {
+            Language::ZhCn => "当前价格更接近上升后的整理。".to_string(),
+            Language::EnUs => "Current price action is closer to post-rally consolidation.".to_string(),
+            Language::JaJp => "現在の価格は上昇後の整理に近い。".to_string(),
+        },
+    };
+
+    let expectation_line = match signal.expectation_quality {
+        InterpretationExpectationQuality::High => match language {
+            Language::ZhCn => "市场预期清晰，等待官方结果落地后重新定价。".to_string(),
+            Language::EnUs => "Market expectation is clear, and the market is waiting for the official result before repricing again."
+                .to_string(),
+            Language::JaJp => "市場期待は明確で、公式結果の確定後に再価格付けを待つ局面である。".to_string(),
+        },
+        InterpretationExpectationQuality::Medium => match language {
+            Language::ZhCn => "市场有预期，但粒度较粗或部分信息缺失。".to_string(),
+            Language::EnUs => "The market has an expectation, but the granularity is coarse or partially missing."
+                .to_string(),
+            Language::JaJp => "市場期待はあるが、粒度が粗いか一部情報が欠けている。".to_string(),
+        },
+        InterpretationExpectationQuality::Low => match language {
+            Language::ZhCn => "市场预期较弱或碎片化，结论仍不稳定。".to_string(),
+            Language::EnUs => "Market expectation is weak or fragmented, so the conclusion remains unstable."
+                .to_string(),
+            Language::JaJp => "市場期待は弱いか断片的で、結論はまだ不安定である。".to_string(),
+        },
+        InterpretationExpectationQuality::Unavailable => match language {
+            Language::ZhCn => "预期数据暂时不可用，因此无法把期待变化纳入解释。".to_string(),
+            Language::EnUs => "Expectation data is temporarily unavailable, so expectation change cannot be folded into the explanation."
+                .to_string(),
+            Language::JaJp => "期待データは一時的に利用不可のため、期待変化を説明に織り込めない。".to_string(),
+        },
+    };
+
+    let supply_line = if signal.supply_available {
+        if signal.supply_pressure {
+            match language {
+                Language::ZhCn => "资金流暂未显示明显撤退，供给压力存在但仍可被市场吸收。".to_string(),
+                Language::EnUs => "Flow does not show a clear withdrawal, and supply pressure exists but is still being absorbed by the market."
+                    .to_string(),
+                Language::JaJp => "資金フローは明確な撤退を示しておらず、供給圧力はあるが市場に吸収されつつある。".to_string(),
+            }
+        } else {
+            match language {
+                Language::ZhCn => "资金流暂未显示明显撤退。".to_string(),
+                Language::EnUs => "Flow does not show a clear withdrawal yet.".to_string(),
+                Language::JaJp => "資金フローはまだ明確な撤退を示していない。".to_string(),
+            }
+        }
+    } else {
+        match language {
+            Language::ZhCn => "资金流观测暂时缺失。".to_string(),
+            Language::EnUs => "Flow observation is temporarily missing.".to_string(),
+            Language::JaJp => "資金フロー観測は一時的に欠けている。".to_string(),
+        }
+    };
+
+    let gravity_line = match signal.gravity_data_quality {
+        InterpretationGravityDataQuality::Ready => match language {
+            Language::ZhCn => "供给压力存在，但已被估值信息纳入解释。".to_string(),
+            Language::EnUs => "Supply pressure exists, but valuation information is already included in the explanation."
+                .to_string(),
+            Language::JaJp => "供給圧力はあるが、バリュエーション情報はすでに説明に含まれている。".to_string(),
+        },
+        InterpretationGravityDataQuality::Partial => match language {
+            Language::ZhCn => "估值数据部分可用。当前价格解释包含不完整的估值背景。价格解释置信度降低。".to_string(),
+            Language::EnUs => "Valuation is only partially available. Current price explanation includes incomplete valuation context. Price explanation confidence reduced."
+                .to_string(),
+            Language::JaJp => "バリュエーションデータは一部のみ有効です。現在の価格説明に含まれるバリュエーションのコンテキストは不完全です。価格説明の信頼性は低下しています。".to_string(),
+        },
+        InterpretationGravityDataQuality::Unavailable => match language {
+            Language::ZhCn => "Gravity unavailable. 当前趋势解释排除估值维度。价格解释置信度降低。".to_string(),
+            Language::EnUs => "Gravity unavailable. Current trend interpretation excludes valuation. Price explanation confidence reduced."
+                .to_string(),
+            Language::JaJp => "Gravity unavailable. 現在のトレンド解釈からバリュエーション評価は除外されています。価格説明の信頼性は低下しています。".to_string(),
+        },
+    };
+
+    let closing_line = match signal_context.information_content {
+        crate::features::radar::interface::presentation::SignalContextInformationContent::High => {
+            match language {
+                Language::ZhCn => "整体更接近新的信息重定价，而不是普通整理。".to_string(),
+                Language::EnUs => "Overall this is closer to a new information repricing than to ordinary consolidation."
+                    .to_string(),
+                Language::JaJp => "全体として、これは通常の整理よりも新しい情報再価格付けに近い。".to_string(),
+            }
+        }
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Medium => {
+            match language {
+                Language::ZhCn => "整体仍是观察中的中等信息日，后续公布会决定是否升级。".to_string(),
+                Language::EnUs => "Overall this remains a medium-information day under observation, and the next release will decide whether it upgrades."
+                    .to_string(),
+                Language::JaJp => "全体としては観察中の中情報量日であり、次回発表で格上げかどうかが決まる。".to_string(),
+            }
+        }
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Low => {
+            match language {
+                Language::ZhCn => "整体更接近正常整理，而非新的风险升级。".to_string(),
+                Language::EnUs => "Overall this looks closer to normal consolidation than to a new risk upgrade."
+                    .to_string(),
+                Language::JaJp => "全体としては新しいリスク上昇より通常の整理に近い。".to_string(),
+            }
+        }
+        crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown => {
+            match language {
+                Language::ZhCn => "整体解释完整性受限，需要等官方来源恢复后再判断。".to_string(),
+                Language::EnUs => "Overall explanation completeness is limited, and judgment should wait until the official source recovers."
+                    .to_string(),
+                Language::JaJp => "全体の説明完全性は制限されており、公式ソースの復旧を待ってから判断すべきである。".to_string(),
+            }
+        }
+    };
+
     [
-        trend.trim(),
-        expectation.trim(),
-        supply.trim(),
-        gravity.trim(),
-        flow.trim(),
+        event_line,
+        trend_line,
+        expectation_line,
+        supply_line,
+        gravity_line,
+        closing_line,
     ]
-    .into_iter()
-    .filter(|value| !value.is_empty())
-    .collect::<Vec<_>>()
-    .join(separator)
+    .join(" ")
 }
 
 fn decision_explanation_values(
@@ -907,6 +1769,11 @@ fn gravity_data_quality_reason_label(value: InterpretationGravityDataQualityReas
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::radar::interface::presentation::SignalContextQuality;
+    use crate::features::radar::interface::signal_context_event_read_model::{
+        SignalContextEventReadModel, SignalContextEventSlot, SignalContextEvidence,
+        SignalContextEvidenceSource,
+    };
     use crate::features::shared::interface::i18n::get_dictionary;
 
     fn signal(
@@ -929,6 +1796,7 @@ mod tests {
             supply_pressure,
             supply_available: true,
             flow_acceleration: Some(0.0),
+            gray_rhino_escalated: false,
         }
     }
 
@@ -1048,7 +1916,10 @@ mod tests {
         assert!(view_model.flow_value.contains("Flow is neutral"));
         assert!(view_model
             .interpretation_value
-            .contains("Price structure remains stable"));
+            .contains("no high-information macro event"));
+        assert!(view_model
+            .interpretation_value
+            .contains("trend continuation"));
         assert!(view_model
             .decision_explanation_reasons
             .contains(&"突破连续性不足".to_string()));
@@ -1138,5 +2009,161 @@ mod tests {
             ..Default::default()
         }));
         assert_eq!(post_rally, InterpretationTrendState::PostRallyConsolidation);
+    }
+
+    #[test]
+    fn test_todays_explanation_rules() {
+        let _dict = get_dictionary(Language::EnUs);
+
+        // 1. trend primary when signal context is low and gravity unavailable
+        // シグナルコンテキストが Low で重力が Unavailable の時、トレンドが Primary になる
+        let signal = InterpretationNarrativeSignal {
+            trend_state: InterpretationTrendState::Stable,
+            trend_available: true,
+            gravity_data_quality: InterpretationGravityDataQuality::Unavailable,
+            ..Default::default()
+        };
+        let future_context = SignalContextEventReadModel::default();
+        let signal_context = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
+            signal,
+            future_context,
+            language: Language::EnUs,
+        });
+
+        let explanation = build_todays_explanation(&signal, &signal_context, Language::EnUs);
+        assert!(explanation
+            .primary_driver_value
+            .contains("trend continuation"));
+        // Gravity は unavailable なので Ignored Today に入り、かつ valuation is excluded のメッセージを含む
+        assert!(explanation
+            .ignored_today
+            .iter()
+            .any(|s| s.contains("valuation is excluded")));
+
+        // 2. macro primary when information content is high
+        // マクロ情報が High の時にマクロが Primary になる
+        let signal_macro_high = InterpretationNarrativeSignal {
+            trend_state: InterpretationTrendState::Stable,
+            trend_available: true,
+            ..Default::default()
+        };
+        let future_context_high = SignalContextEventReadModel {
+            macro_event: SignalContextEventSlot::Loaded(Some(SignalContextEvidence {
+                detected: true,
+                quality: SignalContextQuality::High,
+                source: SignalContextEvidenceSource::Calendar,
+                summary: "Major Macro Event".to_string(),
+            })),
+            ..Default::default()
+        };
+        let signal_context_high = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            signal: signal_macro_high,
+            future_context: future_context_high,
+            language: Language::EnUs,
+        });
+        let explanation_high =
+            build_todays_explanation(&signal_macro_high, &signal_context_high, Language::EnUs);
+        assert!(explanation_high
+            .primary_driver_value
+            .contains("High-information macro event"));
+        // トレンドは Primary をマクロに譲り、Secondary に回る
+        assert!(explanation_high
+            .secondary_drivers
+            .iter()
+            .any(|s| s.contains("Trend structure is stable but secondary today")));
+
+        // 3. gravity unavailable moves to ignored_today
+        // 重力が不可用の時に Ignored Today に入る
+        assert!(explanation
+            .ignored_today
+            .iter()
+            .any(|s| s.contains("valuation is excluded")));
+
+        // 4. gray_rhino remains ignored_by_default
+        // 灰色サイはデフォルトで Ignored Today
+        let signal_default = InterpretationNarrativeSignal::default();
+        let signal_context_default = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            signal: signal_default,
+            future_context: SignalContextEventReadModel::default(),
+            language: Language::EnUs,
+        });
+        let explanation_default =
+            build_todays_explanation(&signal_default, &signal_context_default, Language::EnUs);
+        assert!(explanation_default
+            .secondary_drivers
+            .iter()
+            .any(|s| s.contains("Macro information is not confirmed yet")));
+        assert!(!explanation_default
+            .ignored_today
+            .iter()
+            .any(|s| s.contains("Macro event has low or unknown information content")));
+
+        // 5. gray_rhino_moves_to_secondary_when_escalated
+        // escalated の場合は 灰色サイが Secondary に昇格
+        let signal_escalated = InterpretationNarrativeSignal {
+            gray_rhino_escalated: true,
+            ..Default::default()
+        };
+        let explanation_escalated =
+            build_todays_explanation(&signal_escalated, &signal_context_default, Language::EnUs);
+        assert!(explanation_escalated
+            .secondary_drivers
+            .iter()
+            .any(|s| s.contains("Gray Rhino structural risk is escalated")));
+
+        // 6. hypothesis excluded from todays_explanation
+        // 推測 (Hypothesis) は本日の説明に含まれない
+        assert!(!explanation_default
+            .primary_driver_value
+            .contains("Hypothesis"));
+        assert!(!explanation_default
+            .secondary_drivers
+            .iter()
+            .any(|s| s.contains("Hypothesis")));
+        assert!(!explanation_default
+            .ignored_today
+            .iter()
+            .any(|s| s.contains("Hypothesis")));
+
+        // 7. supply secondary when elevated but not dominant
+        // 供給圧力が存在するが他が Primary の時に Secondary になる
+        let signal_supply = InterpretationNarrativeSignal {
+            trend_state: InterpretationTrendState::Stable,
+            trend_available: true,
+            supply_pressure: true,
+            supply_available: true,
+            ..Default::default()
+        };
+        let signal_context_supply = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            signal: signal_supply,
+            future_context: SignalContextEventReadModel::default(),
+            language: Language::EnUs,
+        });
+        let explanation_supply =
+            build_todays_explanation(&signal_supply, &signal_context_supply, Language::EnUs);
+        assert!(explanation_supply
+            .primary_driver_value
+            .contains("trend continuation"));
+        assert!(explanation_supply
+            .secondary_drivers
+            .iter()
+            .any(|s| s.contains("Supply pressure is relevant but secondary")));
+
+        // 8. flow_neutral becomes ignored
+        // 資金フローが中立の場合は Ignored Today になる
+        let signal_flow = InterpretationNarrativeSignal {
+            flow_acceleration: Some(0.01), // neutral
+            ..Default::default()
+        };
+        let explanation_flow =
+            build_todays_explanation(&signal_flow, &signal_context_default, Language::EnUs);
+        assert!(explanation_flow
+            .ignored_today
+            .iter()
+            .any(|s| s.contains("Flow is neutral")));
     }
 }

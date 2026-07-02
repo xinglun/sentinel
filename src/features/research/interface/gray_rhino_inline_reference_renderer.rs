@@ -699,6 +699,34 @@ fn localized_structural_text(value: &str, language: Language) -> String {
                 Some("单一主题领涨")
             } else if lower.contains("positioning reversal") {
                 Some("仓位反转")
+            } else if lower.contains("ai monetization may be failing to keep pace") {
+                Some("可见的结构性风险候选：AI 商业化可能未能跟上资本开支强度。")
+            } else if lower.contains("suggests payback fragility, not confirmed systemic failure") {
+                Some("当前证据表明存在回收脆弱性，而非确认的系统性失败。")
+            } else if lower.contains("revenue realization, margin structure, and adoption breadth")
+            {
+                Some("观察收入兑现、利润率结构和采用广度能否证实当前的投资水平。")
+            } else if lower
+                .contains("ai-related capital spending fails to connect to revenue growth")
+            {
+                Some("AI相关资本开支未能连接收入成长")
+            } else if lower
+                .contains("weakening prospects for returns on ai infrastructure investment")
+            {
+                Some("AI基础设施投资回收可能性减弱")
+            } else if lower.contains("ai investment persistently compresses margin") {
+                Some("AI投资持续压制利润率")
+            } else if lower.contains("ai revenue growth vs ai capex growth") {
+                Some("AI收入增长对比AI资本支出增长")
+            } else if lower.contains("margin compression from ai investment") {
+                Some("AI投资带来的利润率压迫")
+            } else if lower.contains("management roi caveat / payback horizon extension") {
+                Some("管理层对投资回报率的警示 / 回收期延长")
+            } else if lower.contains("enterprise adoption remains pilot-stage") {
+                Some("企业采用仍处于试点阶段")
+            } else if lower.contains("cloud / copilot / ad ai monetization misses prior narrative")
+            {
+                Some("云服务 / 智能助手 / 广告 AI 商业化未达此前叙事")
             } else {
                 None
             }
@@ -756,6 +784,34 @@ fn localized_structural_text(value: &str, language: Language) -> String {
                 Some("単一テーマ主導")
             } else if lower.contains("positioning reversal") {
                 Some("positioning 反転")
+            } else if lower.contains("ai monetization may be failing to keep pace") {
+                Some("可視的な構造的リスク候補：AIのマネタイズが資本集約度に伴っていない可能性があります。")
+            } else if lower.contains("suggests payback fragility, not confirmed systemic failure") {
+                Some("現在の証拠は回収の脆弱性を示唆しており、確定したシステム的失敗ではありません。")
+            } else if lower.contains("revenue realization, margin structure, and adoption breadth")
+            {
+                Some("収益の実現、マージン構造、および導入の広がりが現在の投資水準を正当化できるかを監視します。")
+            } else if lower
+                .contains("ai-related capital spending fails to connect to revenue growth")
+            {
+                Some("AI関連の資本支出が収益成長に結びつかない")
+            } else if lower
+                .contains("weakening prospects for returns on ai infrastructure investment")
+            {
+                Some("AIインフラ投資に対するリターン見通しの弱体化")
+            } else if lower.contains("ai investment persistently compresses margin") {
+                Some("AI投資が持続的にマージンを圧迫している")
+            } else if lower.contains("ai revenue growth vs ai capex growth") {
+                Some("AI収益成長 vs AI設備投資成長")
+            } else if lower.contains("margin compression from ai investment") {
+                Some("AI投資によるマージン圧迫")
+            } else if lower.contains("management roi caveat / payback horizon extension") {
+                Some("経営陣のROIに関する注意喚起 / 回収期間の延長")
+            } else if lower.contains("enterprise adoption remains pilot-stage") {
+                Some("企業の採用はパイロット段階にとどまる")
+            } else if lower.contains("cloud / copilot / ad ai monetization misses prior narrative")
+            {
+                Some("クラウド / コパイロット / 広告AIマネタイズが事前の予測を下回る")
             } else {
                 None
             }

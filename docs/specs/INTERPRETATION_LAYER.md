@@ -271,3 +271,39 @@ Interpretation は資金流入出を説明材料として自然に引用でき�
 5. Current decision weight = 0% が明記されている。
 6. docs/README.md の specs index からこの文書へ辿れる。
 
+## 12. 本日の解釈 (Today's Explanation) の優先度および階層
+
+各 Layer の解釈の優先度を整理し、ユーザーが「本日どの要因が最も重要か」を即座に判断できるようにするための階層構造を定義する。
+
+### 12.1 優先度階層の定義
+
+1. **主要ドライバー (Primary Driver)**:
+   - 本日の価格動向または市場環境を最も強く説明する主要な要因。排他的に1つ（またはNone）選出される。
+2. **補助ドライバー (Secondary Drivers)**:
+   - 価格動向に対する補助的な説明力を持つ、または警戒すべき副次的な要因。
+3. **本日無視 (Ignored Today)**:
+   - 存在するが、本日は主要な説明要因と見なさない、あるいは利用不可のため除外されている要因。
+
+### 12.2 優先度判定ルール
+
+- **マクロ (Macro / Signal Context)**:
+  - 情報量が `HIGH` の場合、優先的に **Primary Driver** となる。
+  - 情報量が `LOW` の場合、**Ignored Today** となる。
+  - 情報量が `UNKNOWN` の場合、**Ignored Today** ではなく、補足コンテキストとして **Secondary Driver** に入り、説明の信頼度低下を明記する。
+- **トレンド (Trend)**:
+  - トレンドが利用可能であり、構造が安定 (`Stable`) または上昇後の整理 (`PostRallyConsolidation`) の場合、**Primary Driver** の候補となる（マクロが `HIGH` でない場合に昇格）。
+  - トレンドが弱い (`Weak`) または利用不可の場合、**Ignored Today** となる。
+- **供給圧力 (Supply)**:
+  - 供給圧力が顕著に存在する場合、他の主要因（マクロ・トレンド）が未検出であれば **Primary Driver** となり、そうでない場合は **Secondary Driver** となる。
+- **期待 (Expectation)**:
+  - 期待ライフサイクルが `PENDING`（イベント待ち状態）の場合のみ、**Secondary Driver** に昇格する。
+- **資金フロー (Flow)**:
+  - フローの加速方向が明確（絶対値が 0.05 超）な場合のみ、**Secondary Driver** に昇格する。中性フローは **Ignored Today** となる。
+- **バリュエーション重力 (Gravity)**:
+  - データの品質が `READY` または `PARTIAL` の場合、**Secondary Driver** として評価に参加する。
+  - データが `UNAVAILABLE` の場合、**Ignored Today** に入り、「バリュエーション評価は除外されている (valuation is excluded)」旨が明記される。
+- **灰色サイ (Gray Rhino)**:
+  - 監視対象の長期リスクとしてデフォルトでは **Ignored Today** となる。
+  - 当日の Gray Rhino 日報または監視出力が `Expanding` / `Critical` / `Intensifying` を示す場合に限り、**Secondary Driver** に入る（Primary には昇格しない）。
+- **推測 (Hypothesis)**:
+  - 本日の解釈の優先度評価には参加せず、将来のロードマップ（Future Hypothesis Layer）として排他される。Ignored Today には `Hypothesis (future only)` としてのみ出現を許容する。

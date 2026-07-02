@@ -25,6 +25,14 @@ use crate::features::radar::interface::signal_context_event_read_model::{
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
+use crate::features::research::application::gray_rhino_daily_report::{
+    GrayRhinoDailyReportViewModel, GrayRhinoSnapshotPersistence,
+};
+use crate::features::research::application::gray_rhino_monitoring_state::{
+    GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
+};
+use crate::features::research::domain::gray_rhino::{GrayRhinoAssessment, RhinoEscalationState};
+use crate::features::research::domain::gray_rhino_candidate::GrayRhinoCandidateState;
 use crate::features::research::interface::capital_absorption_report_builder::{
     build_capital_absorption_auto_snapshot_with_config,
     build_capital_absorption_ipo_queue_weekly_summary, build_capital_absorption_report_with_auto,
@@ -36,7 +44,10 @@ use crate::features::research::interface::cognitive_reports::{
     macro_pressure_label, yield_curve_label,
 };
 use crate::features::research::interface::expectation_report_builder::build_expectation_layer_snapshot_from_config;
-use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
+use crate::features::research::interface::gray_rhino_report::{
+    build_gray_rhino_daily_report, build_gray_rhino_daily_report_view_model,
+    render_gray_rhino_daily_report,
+};
 use crate::features::research::interface::valuation_gravity_report_builder::{
     build_valuation_gravity_observation_with_auto, build_valuation_gravity_report_with_auto,
 };
@@ -86,6 +97,10 @@ pub(crate) async fn run_pipeline(
         .watchlist
         .iter()
         .map(DomainWatchlistEntry::from)
+        .collect::<Vec<_>>();
+    let watch_symbols = watchlist
+        .iter()
+        .map(|entry| entry.symbol.clone())
         .collect::<Vec<_>>();
     let prepared_data = crate::features::radar::application::radar::RadarPipelineUseCase::new()
         .acquire_market_data(provider, &watchlist)
@@ -172,6 +187,13 @@ pub(crate) async fn run_pipeline(
                 expectation_snapshot: Some(&expectation_snapshot),
                 future_calendar: Some(&future_calendar),
             });
+        let gray_rhino_daily_report = build_gray_rhino_daily_report_view_model(
+            config_arc.as_ref(),
+            save_dir,
+            packet.date,
+            GrayRhinoSnapshotPersistence::ReadOnly,
+        )
+        .ok();
         let (expectation_quality, expectation_quality_reason) =
             derive_expectation_quality(&expectation_snapshot);
         let interpretation_signal = InterpretationNarrativeSignal {
@@ -206,6 +228,12 @@ pub(crate) async fn run_pipeline(
                 .is_some_and(has_supply_pressure),
             supply_available: capital_absorption_snapshot.is_some(),
             flow_acceleration: packet.market_features.flow_acceleration,
+            gray_rhino_escalated: gray_rhino_daily_report.as_ref().is_some_and(|view_model| {
+                derive_gray_rhino_escalated_from_daily_report(
+                    view_model.assessment.as_ref(),
+                    &view_model.monitoring_statuses,
+                )
+            }),
         };
         let subjects = collect_subjects(&expectation_snapshot, &gravity_observation);
         pres_packet.interpretation_layer = Some(build_interpretation_layer_view_model(
@@ -307,7 +335,9 @@ pub(crate) async fn run_pipeline(
             config_arc.as_ref(),
             save_dir,
             packet.date,
+            &watch_symbols,
             pres_packet.language,
+            gray_rhino_daily_report.as_ref(),
         );
         append_expectation_reference_appendix(
             &mut report_result,
@@ -412,21 +442,32 @@ fn append_gray_rhino_reference_appendix(
     app_config: &config::AppConfig,
     save_dir: &std::path::Path,
     as_of_date: chrono::NaiveDate,
+    watch_symbols: &[String],
     language: crate::features::shared::interface::i18n::Language,
+    gray_rhino_daily_report: Option<&GrayRhinoDailyReportViewModel>,
 ) -> DeliveryStatus {
-    let appendix = match build_gray_rhino_daily_report(app_config, save_dir, as_of_date, language) {
-        Ok(appendix) => {
+    let appendix = match gray_rhino_daily_report {
+        Some(view_model) => {
+            let appendix = render_gray_rhino_daily_report(view_model, watch_symbols, language);
             if appendix.trim().is_empty() {
                 return DeliveryStatus::Skipped;
             }
             appendix
         }
-        Err(err) => {
-            let reason = err.to_string();
-            let appendix = gray_rhino_failure_appendix(language, &reason);
-            append_gray_rhino_appendix(report_result, &appendix, language);
-            return DeliveryStatus::Failed { reason };
-        }
+        None => match build_gray_rhino_daily_report(app_config, save_dir, as_of_date, language) {
+            Ok(appendix) => {
+                if appendix.trim().is_empty() {
+                    return DeliveryStatus::Skipped;
+                }
+                appendix
+            }
+            Err(err) => {
+                let reason = err.to_string();
+                let appendix = gray_rhino_failure_appendix(language, &reason);
+                append_gray_rhino_appendix(report_result, &appendix, language);
+                return DeliveryStatus::Failed { reason };
+            }
+        },
     };
     append_gray_rhino_appendix(report_result, &appendix, language);
     DeliveryStatus::Succeeded
@@ -592,6 +633,25 @@ fn is_noisy_reference_detail(trimmed: &str) -> bool {
         || lower.starts_with("sources:")
 }
 
+fn derive_gray_rhino_escalated_from_daily_report(
+    assessment: Option<&GrayRhinoAssessment>,
+    monitoring_statuses: &[GrayRhinoMonitoringStatus],
+) -> bool {
+    let assessment_escalated = assessment.is_some_and(|assessment| {
+        matches!(
+            assessment.current.escalation.escalation_state,
+            RhinoEscalationState::Expanding | RhinoEscalationState::Critical
+        )
+    });
+    let monitoring_escalated = monitoring_statuses.iter().any(|status| {
+        matches!(
+            status.current_state,
+            GrayRhinoCandidateState::Expanding | GrayRhinoCandidateState::Critical
+        ) || status.direction == GrayRhinoMonitoringDirection::Intensifying
+    });
+    assessment_escalated || monitoring_escalated
+}
+
 fn load_gray_rhino_collection_status(
     save_dir: &std::path::Path,
     as_of_date: chrono::NaiveDate,
@@ -676,6 +736,17 @@ fn gray_rhino_failure_appendix(
 #[cfg(test)]
 mod tests {
     use super::compact_reference_appendix_for_telegram;
+    use super::derive_gray_rhino_escalated_from_daily_report;
+    use crate::features::research::application::gray_rhino_monitoring_state::{
+        GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
+    };
+    use crate::features::research::domain::gray_rhino::{
+        GrayRhinoAssessment, GrayRhinoAssessmentSnapshot, GrayRhinoEscalation,
+        GrayRhinoObservationSource, RhinoEscalationState, RiskLevel,
+    };
+    use crate::features::research::domain::gray_rhino_candidate::{
+        GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
+    };
     use crate::features::shared::interface::i18n::Language;
 
     #[test]
@@ -805,5 +876,75 @@ Boundary: context only; no Gate input or trade instruction.
         assert!(digest.contains("Boundary: Gravity is independent from Trend"));
         assert!(digest.contains("produces no trading signal"));
         assert!(digest.contains("Telegram digest"));
+    }
+
+    #[test]
+    fn gray_rhino_escalation_helper_returns_false_without_escalated_daily_report() {
+        assert!(!derive_gray_rhino_escalated_from_daily_report(None, &[]));
+        assert!(!derive_gray_rhino_escalated_from_daily_report(
+            Some(&assessment_with_state(RhinoEscalationState::Background)),
+            &[monitoring_status(
+                GrayRhinoCandidateState::Visible,
+                GrayRhinoMonitoringDirection::Stable,
+            )],
+        ));
+    }
+
+    #[test]
+    fn gray_rhino_escalation_helper_returns_true_for_escalated_daily_report() {
+        assert!(derive_gray_rhino_escalated_from_daily_report(
+            Some(&assessment_with_state(RhinoEscalationState::Expanding)),
+            &[monitoring_status(
+                GrayRhinoCandidateState::Visible,
+                GrayRhinoMonitoringDirection::Stable,
+            )],
+        ));
+        assert!(derive_gray_rhino_escalated_from_daily_report(
+            Some(&assessment_with_state(RhinoEscalationState::Background)),
+            &[monitoring_status(
+                GrayRhinoCandidateState::Visible,
+                GrayRhinoMonitoringDirection::Intensifying,
+            )],
+        ));
+    }
+
+    fn assessment_with_state(state: RhinoEscalationState) -> GrayRhinoAssessment {
+        GrayRhinoAssessment {
+            current: GrayRhinoAssessmentSnapshot {
+                schema_version: 1,
+                as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
+                source: GrayRhinoObservationSource::EvidenceStore,
+                escalation: GrayRhinoEscalation {
+                    escalation_state: state,
+                    risk_expansion_rate: RiskLevel::Low,
+                    constraint_growth_rate: RiskLevel::Low,
+                    dependency_centralization: RiskLevel::Low,
+                    awareness_decay: RiskLevel::Low,
+                    narrative_overconfidence: RiskLevel::Low,
+                    single_point_fragility: RiskLevel::Low,
+                    fallback_survivability_risk: RiskLevel::Low,
+                    notes: Vec::new(),
+                    suppressed_note_count: 0,
+                },
+            },
+            previous: None,
+        }
+    }
+
+    fn monitoring_status(
+        current_state: GrayRhinoCandidateState,
+        direction: GrayRhinoMonitoringDirection,
+    ) -> GrayRhinoMonitoringStatus {
+        GrayRhinoMonitoringStatus {
+            scope: GrayRhinoCandidateScope::Company,
+            kind: GrayRhinoCandidateKind::GovernanceConcentration,
+            subject: "TSLA".to_string(),
+            current_state,
+            previous_state: None,
+            direction,
+            observation_count: 1,
+            latest_observed_at: chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
+            stale_days: 0,
+        }
     }
 }

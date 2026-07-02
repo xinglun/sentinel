@@ -259,35 +259,200 @@ pub(crate) fn discover_gray_rhino_candidates(
         ));
     }
 
-    if contains_any(
-        &text,
-        &[
-            "capex payback risk",
-            "capex payback critical",
-            "payback disappointment",
-            "capital expenditure payback delayed",
-            "infrastructure build-out without utilization",
-        ],
-    ) {
-        candidates.push(candidate(
-            GrayRhinoCandidateScope::Market,
-            GrayRhinoCandidateKind::CapexPaybackFragility,
-            "Market",
-            if contains_any(&text, &["capex payback critical"]) {
-                GrayRhinoCandidateState::Critical
-            } else if contains_any(&text, &["capex payback risk"]) {
-                GrayRhinoCandidateState::Expanding
-            } else {
-                GrayRhinoCandidateState::Visible
-            },
-            vec!["Capex payback fragility detected."],
-            vec![
-                "utilization gap",
-                "earnings disappointment",
-                "capex guidance revision",
+    let subject_upper = facts.subject.to_uppercase();
+    let is_target = subject_upper == "MARKET"
+        || subject_upper == "MSFT"
+        || subject_upper == "GOOG"
+        || subject_upper == "META"
+        || subject_upper == "AMZN"
+        || subject_upper == "NVDA";
+
+    if is_target {
+        let has_positive_validation = contains_any(
+            &text,
+            &[
+                "validate",
+                "validates",
+                "margin expansion",
+                "strong growth",
+                "robust",
+                "success",
+                "successful",
+                "accelerate",
             ],
-            facts,
-        ));
+        ) && !contains_any(
+            &text,
+            &[
+                "no longer",
+                "not",
+                "fails to",
+                "fail to",
+                "failed to",
+                "disappoint",
+                "but",
+                "however",
+            ],
+        );
+
+        let is_capex_payback_triggered = {
+            let has_strong_risk = contains_any(
+                &text,
+                &[
+                    "capex payback risk",
+                    "capex payback critical",
+                    "payback disappointment",
+                    "capital expenditure payback delayed",
+                    "infrastructure build-out without utilization",
+                    "monetization fragility",
+                    "capex payback fragility",
+                    "fails to connect to revenue growth",
+                    "fails to keep pace",
+                    "ai investment compresses margin",
+                    "margin compression",
+                    "profitability under pressure",
+                    "management roi caveat",
+                    "payback horizon extension",
+                    "enterprise adoption remains pilot-stage",
+                    "capital spending fails to connect to revenue growth",
+                ],
+            );
+
+            let has_neutral_concept = contains_any(
+                &text,
+                &[
+                    "ai-related capex",
+                    "capex rises significantly",
+                    "capex increases significantly",
+                    "capex is rising",
+                    "capex growth",
+                    "monetization timing",
+                    "pilot stage",
+                    "experiment stage",
+                    "experiment-stage",
+                ],
+            );
+
+            let has_negative_sentiment = contains_any(
+                &text,
+                &[
+                    "pressure",
+                    "risk",
+                    "concern",
+                    "slowing",
+                    "weak",
+                    "fragile",
+                    "delay",
+                    "disappoint",
+                    "compress",
+                ],
+            );
+
+            has_strong_risk
+                || (has_neutral_concept && has_negative_sentiment && !has_positive_validation)
+        };
+
+        let has_forbidden_narrative = contains_any(
+            &text,
+            &[
+                "ai will definitely fail",
+                "ai is bound to fail",
+                "systemic economic crisis has begun",
+                "economic crisis has started",
+                "most of us gdp is driven by ai",
+                "us gdp is mostly driven by ai",
+                "ai monetization failure will cause systemic crisis",
+            ],
+        );
+
+        if is_capex_payback_triggered && !has_forbidden_narrative {
+            let scope = if subject_upper == "MARKET" {
+                GrayRhinoCandidateScope::Market
+            } else {
+                GrayRhinoCandidateScope::Company
+            };
+
+            let mut state = GrayRhinoCandidateState::Visible;
+            let text_lower = text.to_lowercase();
+            let has_critical_concept = contains_any(
+                &text,
+                &["capex", "payback", "monetization", "margin", "capital"],
+            );
+            if contains_any(&text, &["capex payback critical"])
+                || (text_lower.contains("critical") && has_critical_concept)
+            {
+                state = GrayRhinoCandidateState::Critical;
+            } else if contains_any(
+                &text,
+                &[
+                    "capex payback risk",
+                    "expanding",
+                    "spreads",
+                    "multiple companies",
+                ],
+            ) {
+                state = GrayRhinoCandidateState::Expanding;
+            } else if contains_any(&text, &["resolved", "significantly improved"]) {
+                state = GrayRhinoCandidateState::Resolved;
+            } else if contains_any(&text, &["cooling", "stabilizing"]) {
+                state = GrayRhinoCandidateState::Cooling;
+            } else if contains_any(&text, &["discussion", "narrative", "sentiment"]) {
+                state = GrayRhinoCandidateState::Background;
+            } else if contains_any(
+                &text,
+                &[
+                    "visible",
+                    "delayed",
+                    "fragility",
+                    "disappointment",
+                    "compression",
+                ],
+            ) {
+                state = GrayRhinoCandidateState::Visible;
+            }
+
+            let mut evidence = vec![
+                "Capex payback fragility detected.".to_string(),
+                "Visible structural risk candidate: AI monetization may be failing to keep pace with capital intensity.".to_string(),
+                "Current evidence suggests payback fragility, not confirmed systemic failure.".to_string(),
+                "Watch whether revenue realization, margin structure, and adoption breadth can validate current investment levels.".to_string(),
+            ];
+
+            if contains_any(&text, &["capex", "capital spending"]) {
+                evidence.push(
+                    "AI-related capital spending fails to connect to revenue growth".to_string(),
+                );
+            }
+            if contains_any(&text, &["revenue", "returns", "payback"]) {
+                evidence.push(
+                    "Weakening prospects for returns on AI infrastructure investment".to_string(),
+                );
+            }
+            if contains_any(&text, &["margin", "compress"]) {
+                evidence.push("AI investment persistently compresses margin".to_string());
+            }
+
+            let watch_triggers = vec![
+                "AI revenue growth vs AI capex growth".to_string(),
+                "margin compression from AI investment".to_string(),
+                "management ROI caveat / payback horizon extension".to_string(),
+                "enterprise adoption remains pilot-stage".to_string(),
+                "cloud / copilot / ad AI monetization misses prior narrative".to_string(),
+            ];
+
+            candidates.push(GrayRhinoCandidate {
+                scope,
+                kind: GrayRhinoCandidateKind::CapexPaybackFragility,
+                subject: facts.subject.to_string(),
+                state,
+                evidence,
+                watch_triggers,
+                source_title: facts.source_title.to_string(),
+                observed_at: facts.observed_at,
+                source_published_at: Some(facts.observed_at),
+                last_confirmed_at: Some(facts.observed_at),
+                resolved_at: None,
+            });
+        }
     }
 
     candidates
