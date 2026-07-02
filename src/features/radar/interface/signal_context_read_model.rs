@@ -20,6 +20,7 @@ pub(crate) struct SignalContextAssessment {
     pub information_content: SignalContextInformationContent,
     pub primary_context: SignalContextPrimaryContext,
     pub context_quality: SignalContextQuality,
+    pub event_fact: String,
     pub source_health: MacroEventSourceHealth,
     pub source_diagnostics: String,
     pub interpretation: String,
@@ -32,6 +33,7 @@ pub(crate) fn build_signal_context_assessment(
     let primary_context = derive_primary_context(input.as_of_date, &input.future_context);
     let information_content = derive_information_content(primary_context);
     let context_quality = derive_context_quality(primary_context, &input.future_context);
+    let event_fact = compose_event_fact(&input.future_context);
     let source_health = input.future_context.source_health;
     let source_diagnostics = compose_source_diagnostics(&input.future_context, input.language);
     let interpretation = compose_interpretation(
@@ -45,6 +47,7 @@ pub(crate) fn build_signal_context_assessment(
         information_content,
         primary_context,
         context_quality,
+        event_fact,
         source_health,
         source_diagnostics,
         interpretation,
@@ -192,6 +195,9 @@ fn compose_source_diagnostics(
     future_context: &SignalContextEventReadModel,
     language: Language,
 ) -> String {
+    if future_context.source_health == MacroEventSourceHealth::Succeeded {
+        return String::new();
+    }
     let attempts = future_context.source_attempts;
     let successes = future_context.source_successes;
     let failures = future_context.source_failures;
@@ -258,6 +264,12 @@ fn quarter_end_text(language: Language) -> String {
                 .to_string()
         }
     }
+}
+
+fn compose_event_fact(future_context: &SignalContextEventReadModel) -> String {
+    future_context
+        .detected_primary_evidence_summary()
+        .unwrap_or_default()
 }
 
 fn month_end_text(language: Language) -> String {
@@ -667,6 +679,7 @@ mod tests {
             assessment.source_health,
             MacroEventSourceHealth::Unavailable
         );
+        assert!(assessment.event_fact.is_empty());
         assert!(assessment
             .source_diagnostics
             .contains("Official calendar source not loaded"));
@@ -899,6 +912,8 @@ mod tests {
             SignalContextInformationContent::High
         );
         assert_eq!(assessment.context_quality, SignalContextQuality::High);
+        assert_eq!(assessment.event_fact, "CPI Release / 2026-06-18 / BLS");
+        assert!(assessment.source_diagnostics.is_empty());
         assert!(assessment.interpretation.contains("macro information"));
     }
 

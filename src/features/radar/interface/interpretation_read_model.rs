@@ -118,6 +118,8 @@ pub(crate) fn build_interpretation_layer_view_model(
         signal_context_quality_label: interpretation.signal_context_quality_label.clone(),
         signal_context_quality_value: signal_context_quality_label(signal_context.context_quality)
             .to_string(),
+        signal_context_event_fact_label: interpretation.signal_context_event_fact_label.clone(),
+        signal_context_event_fact_value: signal_context.event_fact,
         signal_context_source_diagnostics_label: interpretation
             .signal_context_source_diagnostics_label
             .clone(),

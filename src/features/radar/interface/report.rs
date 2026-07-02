@@ -1319,11 +1319,19 @@ fn render_interpretation_section(
                 "    - {}: {}\n",
                 layer.signal_context_quality_label, layer.signal_context_quality_value
             ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.signal_context_source_diagnostics_label,
-                layer.signal_context_source_diagnostics_value
-            ));
+            if !layer.signal_context_event_fact_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
+                ));
+            }
+            if !layer.signal_context_source_diagnostics_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_source_diagnostics_label,
+                    layer.signal_context_source_diagnostics_value
+                ));
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_interpretation_label,
@@ -1410,11 +1418,19 @@ fn render_interpretation_section(
                 "    - {}: {}\n",
                 layer.signal_context_quality_label, layer.signal_context_quality_value
             ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.signal_context_source_diagnostics_label,
-                layer.signal_context_source_diagnostics_value
-            ));
+            if !layer.signal_context_event_fact_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
+                ));
+            }
+            if !layer.signal_context_source_diagnostics_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_source_diagnostics_label,
+                    layer.signal_context_source_diagnostics_value
+                ));
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_interpretation_label,

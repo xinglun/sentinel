@@ -132,6 +132,13 @@ impl SignalContextEventReadModel {
         None
     }
 
+    pub(crate) fn detected_primary_evidence_summary(&self) -> Option<String> {
+        self.detected_primary_context()
+            .and_then(|context| self.slot_for(context))
+            .and_then(|slot| slot.evidence())
+            .map(|evidence| evidence.summary.clone())
+    }
+
     pub(crate) fn evidence_quality_for(
         &self,
         context: SignalContextPrimaryContext,

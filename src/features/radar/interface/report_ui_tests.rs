@@ -3693,7 +3693,11 @@ mod tests {
         assert!(report.telegram_html_body.contains("Macro Event"));
         assert!(report.telegram_html_body.contains("Information Content"));
         assert!(report.telegram_html_body.contains("HIGH"));
-        assert!(report.telegram_html_body.contains("Source Diagnostics"));
+        assert!(report.telegram_html_body.contains("Event Fact"));
+        assert!(report
+            .telegram_html_body
+            .contains("CPI Release / 2026-06-18 / BLS"));
+        assert!(!report.telegram_html_body.contains("Source Diagnostics"));
         let signal_context = pres.interpretation_layer.unwrap();
         assert_eq!(
             signal_context.signal_context_primary_context_value,
@@ -3703,6 +3707,13 @@ mod tests {
             signal_context.signal_context_information_content_value,
             "HIGH"
         );
+        assert_eq!(
+            signal_context.signal_context_event_fact_value,
+            "CPI Release / 2026-06-18 / BLS"
+        );
+        assert!(signal_context
+            .signal_context_source_diagnostics_value
+            .is_empty());
         assert!(signal_context
             .signal_context_interpretation_value
             .to_lowercase()
@@ -3720,41 +3731,59 @@ mod tests {
     #[test]
     fn interpretation_layer_renders_future_calendar_contexts_without_trade_language() {
         let config = mock_config_with_language(Language::EnUs);
-        let packet = DecisionPacket {
-            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
-            ..Default::default()
-        };
         let dict = get_dictionary(Language::EnUs);
         let subjects = vec!["TSLA".to_string()];
 
-        for fact in [
-            future_calendar_fact(
+        for (packet_date, fact) in [
+            (
                 chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
-                FutureCalendarKind::IndexReconstitution,
-                chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
-                "Index Reconstitution",
+                future_calendar_fact(
+                    chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
+                    FutureCalendarKind::IndexReconstitution,
+                    chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
+                    "Index Reconstitution",
+                ),
             ),
-            future_calendar_fact(
-                chrono::NaiveDate::from_ymd_opt(2026, 6, 29).unwrap(),
-                FutureCalendarKind::MajorEventWaiting,
-                chrono::NaiveDate::from_ymd_opt(2026, 7, 2).unwrap(),
-                "Major Event Waiting",
+            (chrono::NaiveDate::from_ymd_opt(2026, 6, 29).unwrap(), {
+                let mut fact = future_calendar_fact(
+                    chrono::NaiveDate::from_ymd_opt(2026, 6, 29).unwrap(),
+                    FutureCalendarKind::MajorEventWaiting,
+                    chrono::NaiveDate::from_ymd_opt(2026, 7, 2).unwrap(),
+                    "Major Event Waiting",
+                );
+                fact.information_content = MacroEventInformationContent::High;
+                fact
+            }),
+            (
+                chrono::NaiveDate::from_ymd_opt(2026, 9, 18).unwrap(),
+                future_calendar_fact(
+                    chrono::NaiveDate::from_ymd_opt(2026, 9, 18).unwrap(),
+                    FutureCalendarKind::EtfRebalance,
+                    chrono::NaiveDate::from_ymd_opt(2026, 9, 18).unwrap(),
+                    "ETF Rebalance",
+                ),
             ),
-            future_calendar_fact(
-                chrono::NaiveDate::from_ymd_opt(2026, 9, 29).unwrap(),
-                FutureCalendarKind::EtfRebalance,
-                chrono::NaiveDate::from_ymd_opt(2026, 9, 30).unwrap(),
-                "ETF Rebalance",
-            ),
-            future_calendar_fact(
+            (
                 chrono::NaiveDate::from_ymd_opt(2026, 12, 24).unwrap(),
-                FutureCalendarKind::HolidayLiquidity,
-                chrono::NaiveDate::from_ymd_opt(2026, 12, 24).unwrap(),
-                "Holiday Liquidity",
+                future_calendar_fact(
+                    chrono::NaiveDate::from_ymd_opt(2026, 12, 24).unwrap(),
+                    FutureCalendarKind::HolidayLiquidity,
+                    chrono::NaiveDate::from_ymd_opt(2026, 12, 24).unwrap(),
+                    "Holiday Liquidity",
+                ),
             ),
         ] {
+            let expected_event_fact = format!(
+                "{} / {} / Official Calendar",
+                fact.event_name, fact.event_date
+            );
+            let expected_event_name = fact.event_name.clone();
+            let packet = DecisionPacket {
+                date: packet_date,
+                ..Default::default()
+            };
             let calendar = MacroEventCalendarReadModel::from_observations(
-                packet.date,
+                packet_date,
                 "inline".to_string(),
                 vec![fact],
             );
@@ -3806,13 +3835,106 @@ mod tests {
                 &HashMap::new(),
             )
             .unwrap();
+            assert_eq!(
+                pres.interpretation_layer
+                    .as_ref()
+                    .unwrap()
+                    .signal_context_event_fact_value,
+                expected_event_fact
+            );
             let body_lower = report.telegram_html_body.to_lowercase();
             assert!(report.telegram_html_body.contains("Interpretation Layer"));
-            assert!(report.telegram_html_body.contains("Source Diagnostics"));
+            assert!(report.telegram_html_body.contains("Event Fact"));
+            assert!(!report.telegram_html_body.contains("Source Diagnostics"));
+            assert!(report.telegram_html_body.contains(&expected_event_name));
             assert!(body_lower.contains("low"));
             assert!(!body_lower.contains("buy"));
             assert!(!body_lower.contains("sell"));
         }
+    }
+
+    #[test]
+    fn interpretation_layer_renders_source_diagnostics_only_for_degraded_sources() {
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket {
+            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            ..Default::default()
+        };
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["TSLA".to_string()];
+        let observation = future_calendar_fact(
+            packet.date,
+            FutureCalendarKind::IndexReconstitution,
+            packet.date,
+            "Index Reconstitution",
+        );
+        let calendar = MacroEventCalendarReadModel::from_observations_with_stats(
+            packet.date,
+            "official-calendar-connector".to_string(),
+            vec![observation],
+            2,
+            1,
+            1,
+            Some("fetch failed".to_string()),
+        );
+        let future_context =
+            build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                as_of_date: packet.date,
+                expectation_snapshot: None,
+                future_calendar: Some(&calendar),
+            });
+        let mut pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        pres.interpretation_layer = Some(build_interpretation_layer_view_model(
+            InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
+                subjects: &subjects,
+                signal: InterpretationNarrativeSignal {
+                    trend_state: InterpretationTrendState::Stable,
+                    trend_available: true,
+                    expectation_quality: InterpretationExpectationQuality::High,
+                    expectation_quality_reason:
+                        crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                    gravity_data_quality_reason:
+                        InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                    gravity_status: Some(
+                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair,
+                    ),
+                    supply_pressure: false,
+                    supply_available: true,
+                    flow_acceleration: Some(0.0),
+                },
+                future_context,
+                decision_summary: None,
+                language: Language::EnUs,
+                dict: &dict,
+            },
+        ));
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        assert_eq!(
+            pres.interpretation_layer
+                .as_ref()
+                .unwrap()
+                .signal_context_source_diagnostics_value,
+            "Official calendar source health: PARTIAL; coverage: 1/2 succeeded, 1 failed; fetch failed"
+        );
+        assert!(report.telegram_html_body.contains("Source Diagnostics"));
+        assert!(report.telegram_html_body.contains("PARTIAL"));
+        assert!(report.telegram_html_body.contains("fetch failed"));
     }
 
     #[test]
