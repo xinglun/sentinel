@@ -171,6 +171,11 @@ pub(crate) fn persist_weekly_state_outputs(
         text,
     );
     push_weekly_strategic_context_snapshot(&mut review, pres_packet, text);
+    push_weekly_signal_context_snapshot(
+        &mut review,
+        pres_packet.interpretation_layer.as_ref(),
+        text,
+    );
     push_weekly_macro_gravity_snapshot(&mut review, context, text);
     push_weekly_capital_dynamics_snapshot(
         &mut review,
@@ -320,12 +325,14 @@ fn build_weekly_latest_context(
         .as_ref()
         .map(|evidence| evidence.strategic_context.clone())
         .unwrap_or_default();
+    let signal_context = build_weekly_signal_context(pres_packet.interpretation_layer.as_ref());
 
     json!({
         "trend_breadth_mode": trend_breadth_mode,
         "market_cycle_position": market_cycle_position,
         "holding_efficiency": holding_efficiency,
         "strategic_context": strategic_context,
+        "signal_context": signal_context,
         "macro_gravity": build_weekly_macro_gravity_context(context),
         "capital_absorption_ipo_queue": capital_absorption_ipo_queue,
         "capital_dynamics": {
@@ -358,6 +365,86 @@ fn build_weekly_macro_gravity_context(context: &WeeklyReportContext) -> serde_js
     })
 }
 
+fn build_weekly_signal_context(
+    layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
+) -> serde_json::Value {
+    let Some(layer) = layer else {
+        return json!({
+            "configured": false
+        });
+    };
+
+    json!({
+        "configured": true,
+        "information_content": layer.signal_context_information_content_value,
+        "primary_context": layer.signal_context_primary_context_value,
+        "context_quality": layer.signal_context_quality_value,
+        "event_fact": layer.signal_context_event_fact_value,
+        "source_diagnostics": layer.signal_context_source_diagnostics_value,
+        "interpretation": layer.signal_context_interpretation_value
+    })
+}
+
+fn push_weekly_signal_context_snapshot(
+    review: &mut String,
+    layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
+    text: &WeeklyText,
+) {
+    review.push('\n');
+    review.push_str(text.signal_context_snapshot);
+    review.push('\n');
+    let Some(layer) = layer else {
+        review.push_str(&format!("- {}\n", text.signal_context_not_configured));
+        review.push_str("- ");
+        review.push_str(text.signal_context_boundary);
+        review.push('\n');
+        return;
+    };
+
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.signal_context_information_content, layer.signal_context_information_content_value
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.signal_context_primary_context, layer.signal_context_primary_context_value
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.signal_context_quality, layer.signal_context_quality_value
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.signal_context_event_fact,
+        if layer.signal_context_event_fact_value.is_empty() {
+            "N/A"
+        } else {
+            &layer.signal_context_event_fact_value
+        }
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.signal_context_source_diagnostics,
+        if layer.signal_context_source_diagnostics_value.is_empty() {
+            "N/A"
+        } else {
+            &layer.signal_context_source_diagnostics_value
+        }
+    ));
+    review.push_str(&format!(
+        "- {}: {}\n",
+        text.signal_context_interpretation,
+        if layer.signal_context_interpretation_value.is_empty() {
+            "N/A"
+        } else {
+            &layer.signal_context_interpretation_value
+        }
+    ));
+    review.push_str("- ");
+    review.push_str(text.signal_context_boundary);
+    review.push('\n');
+}
+
 struct WeeklyText {
     title: &'static str,
     as_of: &'static str,
@@ -384,6 +471,15 @@ struct WeeklyText {
     holding_efficiency: &'static str,
     strategic_context_lines: &'static str,
     strategic_context_none: &'static str,
+    signal_context_snapshot: &'static str,
+    signal_context_not_configured: &'static str,
+    signal_context_information_content: &'static str,
+    signal_context_primary_context: &'static str,
+    signal_context_quality: &'static str,
+    signal_context_event_fact: &'static str,
+    signal_context_source_diagnostics: &'static str,
+    signal_context_interpretation: &'static str,
+    signal_context_boundary: &'static str,
     macro_gravity_snapshot: &'static str,
     macro_gravity_not_configured: &'static str,
     rate_pressure: &'static str,
@@ -465,6 +561,16 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     holding_efficiency: "持仓效率",
     strategic_context_lines: "战略上下文行",
     strategic_context_none: "无",
+    signal_context_snapshot: "## Signal Context（信息质量上下文）",
+    signal_context_not_configured: "Signal Context 未配置",
+    signal_context_information_content: "Information Content",
+    signal_context_primary_context: "Primary Context",
+    signal_context_quality: "Context Quality",
+    signal_context_event_fact: "Event Fact",
+    signal_context_source_diagnostics: "Source Diagnostics",
+    signal_context_interpretation: "Interpretation",
+    signal_context_boundary:
+        "边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。",
     macro_gravity_snapshot: "## 宏观引力快照",
     macro_gravity_not_configured: "宏观引力未配置",
     rate_pressure: "利率压力",
@@ -540,6 +646,16 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     holding_efficiency: "Holding efficiency",
     strategic_context_lines: "Strategic context lines",
     strategic_context_none: "none",
+    signal_context_snapshot: "## Signal Context (Information Quality Context)",
+    signal_context_not_configured: "Signal Context not configured",
+    signal_context_information_content: "Information Content",
+    signal_context_primary_context: "Primary Context",
+    signal_context_quality: "Context Quality",
+    signal_context_event_fact: "Event Fact",
+    signal_context_source_diagnostics: "Source Diagnostics",
+    signal_context_interpretation: "Interpretation",
+    signal_context_boundary:
+        "Boundary: Signal Context is kept only for weekly traceability. It does not connect to Gate, Execution, Trader, READY / EXECUTE, or Position Sizing.",
     macro_gravity_snapshot: "## Macro Gravity Snapshot",
     macro_gravity_not_configured: "Macro gravity: not configured",
     rate_pressure: "Rate pressure",
@@ -617,6 +733,16 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     holding_efficiency: "保有効率",
     strategic_context_lines: "戦略コンテキスト行",
     strategic_context_none: "なし",
+    signal_context_snapshot: "## Signal Context（情報品質コンテキスト）",
+    signal_context_not_configured: "Signal Context は未設定",
+    signal_context_information_content: "Information Content",
+    signal_context_primary_context: "Primary Context",
+    signal_context_quality: "Context Quality",
+    signal_context_event_fact: "Event Fact",
+    signal_context_source_diagnostics: "Source Diagnostics",
+    signal_context_interpretation: "Interpretation",
+    signal_context_boundary:
+        "境界: Signal Context は週次の追跡可能な蓄積のみを担当し、Gate、Execution、Trader、READY / EXECUTE、Position Sizing へ接続しない。",
     macro_gravity_snapshot: "## マクログラビティスナップショット",
     macro_gravity_not_configured: "マクログラビティ未設定",
     rate_pressure: "金利圧力",
@@ -1046,9 +1172,12 @@ mod tests {
         build_weekly_latest_context, load_weekly_state_machine_summaries,
         persist_weekly_state_outputs, push_weekly_capital_absorption_ipo_queue_snapshot,
         push_weekly_capital_dynamics_snapshot, push_weekly_expectation_snapshot,
-        push_weekly_flow_layer_snapshot, weekly_text, WeeklyReportContext,
+        push_weekly_flow_layer_snapshot, push_weekly_signal_context_snapshot, weekly_text,
+        WeeklyReportContext,
     };
-    use crate::features::radar::interface::presentation::PresentationPacket;
+    use crate::features::radar::interface::presentation::{
+        InterpretationLayerViewModel, PresentationPacket,
+    };
     use crate::features::shared::application::run_status::StateMachineSummary;
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
@@ -1340,8 +1469,23 @@ mod tests {
             "observation_count": 1,
             "subjects": ["TSLA"]
         });
+        let interpretation_layer = InterpretationLayerViewModel {
+            signal_context_information_content_value: "HIGH".to_string(),
+            signal_context_primary_context_value: "Macro Event".to_string(),
+            signal_context_quality_value: "HIGH".to_string(),
+            signal_context_event_fact_value: "CPI at 08:30 ET".to_string(),
+            signal_context_source_diagnostics_value: "Official calendar source health: Succeeded"
+                .to_string(),
+            signal_context_interpretation_value: "Market is repricing new macro information."
+                .to_string(),
+            ..Default::default()
+        };
+        let packet = PresentationPacket {
+            interpretation_layer: Some(interpretation_layer),
+            ..Default::default()
+        };
         let latest = build_weekly_latest_context(
-            &PresentationPacket::default(),
+            &packet,
             &WeeklyReportContext {
                 macro_gravity: None,
                 research_attention_entries: 0,
@@ -1363,6 +1507,57 @@ mod tests {
         );
         assert_eq!(latest["capital_dynamics"]["flow_layer"], flow);
         assert_eq!(latest["expectation_layer"], expectation);
+        assert_eq!(latest["signal_context"]["configured"], true);
+        assert_eq!(latest["signal_context"]["information_content"], "HIGH");
+        assert_eq!(latest["signal_context"]["primary_context"], "Macro Event");
+        assert_eq!(latest["signal_context"]["context_quality"], "HIGH");
+        assert_eq!(latest["signal_context"]["event_fact"], "CPI at 08:30 ET");
+        assert_eq!(
+            latest["signal_context"]["source_diagnostics"],
+            "Official calendar source health: Succeeded"
+        );
+        assert_eq!(
+            latest["signal_context"]["interpretation"],
+            "Market is repricing new macro information."
+        );
+    }
+
+    #[test]
+    fn weekly_signal_context_review_section_keeps_traceable_boundary() {
+        let interpretation_layer = InterpretationLayerViewModel {
+            signal_context_information_content_value: "LOW".to_string(),
+            signal_context_primary_context_value: "Pre-Earnings Waiting".to_string(),
+            signal_context_quality_value: "MEDIUM".to_string(),
+            signal_context_event_fact_value: "TSLA / 2026-06-27 / EarningsConsensus pending"
+                .to_string(),
+            signal_context_source_diagnostics_value:
+                "Expectation lifecycle source health: Succeeded".to_string(),
+            signal_context_interpretation_value:
+                "Market is waiting for new fundamental information.".to_string(),
+            ..Default::default()
+        };
+        let mut review = String::new();
+
+        push_weekly_signal_context_snapshot(
+            &mut review,
+            Some(&interpretation_layer),
+            weekly_text(Language::ZhCn),
+        );
+
+        assert!(review.contains("## Signal Context（信息质量上下文）"));
+        assert!(review.contains("Information Content: LOW"));
+        assert!(review.contains("Primary Context: Pre-Earnings Waiting"));
+        assert!(review.contains("Context Quality: MEDIUM"));
+        assert!(review.contains("Event Fact: TSLA / 2026-06-27 / EarningsConsensus pending"));
+        assert!(
+            review.contains("Source Diagnostics: Expectation lifecycle source health: Succeeded")
+        );
+        assert!(
+            review.contains("Interpretation: Market is waiting for new fundamental information.")
+        );
+        assert!(review.contains("仅作周度追溯沉淀"));
+        assert!(!review.contains("BUY"));
+        assert!(!review.contains("SELL"));
     }
 
     #[test]
