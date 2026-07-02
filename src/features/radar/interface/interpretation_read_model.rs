@@ -1,8 +1,12 @@
 use crate::features::radar::interface::presentation::{
     InterpretationExpectationQuality, InterpretationExpectationQualityReason,
     InterpretationGravityDataQuality, InterpretationGravityDataQualityReason,
-    InterpretationLayerViewModel, InterpretationPattern, InterpretationTrendState,
-    StateTransitionViewModel,
+    InterpretationLayerViewModel, InterpretationTrendState, StateTransitionViewModel,
+};
+use crate::features::radar::interface::signal_context_read_model::{
+    build_signal_context_assessment, signal_context_boundary,
+    signal_context_information_content_label, signal_context_primary_context_label,
+    signal_context_quality_label, SignalContextReadModelInput,
 };
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoSnapshot, CapitalAbsorptionPotentialSupplyPressureLevel,
@@ -13,24 +17,32 @@ use crate::features::research::application::valuation_gravity::{
 use crate::features::research::domain::valuation_gravity::GravityStatus;
 use crate::features::research::interface::expectation_report_builder::ExpectationLayerSnapshot;
 use crate::features::shared::interface::i18n::{DisplayDictionary, Language};
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg(test)]
+use crate::features::radar::interface::presentation::InterpretationPattern;
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 pub(crate) struct InterpretationNarrativeSignal {
     pub trend_state: InterpretationTrendState,
+    pub trend_available: bool,
     pub expectation_quality: InterpretationExpectationQuality,
     pub expectation_quality_reason: InterpretationExpectationQualityReason,
     pub gravity_data_quality: InterpretationGravityDataQuality,
     pub gravity_data_quality_reason: InterpretationGravityDataQualityReason,
     pub gravity_status: Option<GravityStatus>,
     pub supply_pressure: bool,
+    pub supply_available: bool,
+    pub flow_acceleration: Option<f64>,
 }
 
 impl Default for InterpretationNarrativeSignal {
     fn default() -> Self {
         Self {
             trend_state: InterpretationTrendState::Weak,
+            trend_available: false,
             expectation_quality: InterpretationExpectationQuality::Unavailable,
             expectation_quality_reason: InterpretationExpectationQualityReason::SystemUnavailable,
             gravity_data_quality: InterpretationGravityDataQuality::Unavailable,
@@ -38,14 +50,20 @@ impl Default for InterpretationNarrativeSignal {
                 InterpretationGravityDataQualityReason::ProviderUnavailable,
             gravity_status: None,
             supply_pressure: false,
+            supply_available: false,
+            flow_acceleration: None,
         }
     }
 }
 
 #[derive(Debug)]
 pub(crate) struct InterpretationLayerReadModelInput<'a> {
+    pub as_of_date: NaiveDate,
     pub subjects: &'a [String],
     pub signal: InterpretationNarrativeSignal,
+    pub future_context: crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel,
+    pub decision_summary:
+        Option<&'a crate::features::radar::interface::presentation::DecisionSummaryViewModel>,
     pub language: Language,
     pub dict: &'a DisplayDictionary,
 }
@@ -54,14 +72,63 @@ pub(crate) fn build_interpretation_layer_view_model(
     input: InterpretationLayerReadModelInput<'_>,
 ) -> InterpretationLayerViewModel {
     let interpretation = &input.dict.interpretation;
-    let pattern = classify_interpretation_pattern(&input.signal);
+    let signal_context = build_signal_context_assessment(SignalContextReadModelInput {
+        as_of_date: input.as_of_date,
+        signal: input.signal,
+        future_context: input.future_context,
+        language: input.language,
+    });
     let subjects_value = render_subjects(input.subjects);
+    let trend_value = trend_component_value(&input.signal, input.language);
+    let expectation_value = expectation_component_value(&input.signal, input.language);
+    let supply_value = supply_component_value(&input.signal, input.language);
+    let gravity_value = gravity_component_value(&input.signal, input.language);
+    let flow_value = flow_component_value(&input.signal, input.language);
+    let interpretation_value = compose_interpretation_value(
+        &trend_value,
+        &expectation_value,
+        &supply_value,
+        &gravity_value,
+        &flow_value,
+        input.language,
+    );
+    let (decision_explanation_intro, decision_explanation_reasons, decision_explanation_conclusion) =
+        decision_explanation_values(input.decision_summary, input.language, interpretation);
 
     InterpretationLayerViewModel {
         title: interpretation.title.clone(),
         notice: interpretation.notice.clone(),
         current_decision_weight_label: interpretation.current_decision_weight_label.clone(),
         current_decision_weight_value: "0%".to_string(),
+        signal_context_label: interpretation.signal_context_label.clone(),
+        signal_context_information_content_label: interpretation
+            .signal_context_information_content_label
+            .clone(),
+        signal_context_information_content_value: signal_context_information_content_label(
+            signal_context.information_content,
+        )
+        .to_string(),
+        signal_context_primary_context_label: interpretation
+            .signal_context_primary_context_label
+            .clone(),
+        signal_context_primary_context_value: signal_context_primary_context_label(
+            signal_context.primary_context,
+        )
+        .to_string(),
+        signal_context_quality_label: interpretation.signal_context_quality_label.clone(),
+        signal_context_quality_value: signal_context_quality_label(signal_context.context_quality)
+            .to_string(),
+        signal_context_event_fact_label: interpretation.signal_context_event_fact_label.clone(),
+        signal_context_event_fact_value: signal_context.event_fact,
+        signal_context_source_diagnostics_label: interpretation
+            .signal_context_source_diagnostics_label
+            .clone(),
+        signal_context_source_diagnostics_value: signal_context.source_diagnostics,
+        signal_context_interpretation_label: interpretation
+            .signal_context_interpretation_label
+            .clone(),
+        signal_context_interpretation_value: signal_context.interpretation,
+        signal_context_boundary: signal_context_boundary(input.language).to_string(),
         expectation_quality_label: interpretation.expectation_quality_label.clone(),
         expectation_quality_value: expectation_quality_label(input.signal.expectation_quality),
         expectation_quality_reason_label: interpretation.expectation_quality_reason_label.clone(),
@@ -75,12 +142,25 @@ pub(crate) fn build_interpretation_layer_view_model(
         gravity_data_quality_reason_value: gravity_data_quality_reason_label(
             input.signal.gravity_data_quality_reason,
         ),
-        narrative_pattern_label: interpretation.narrative_pattern_label.clone(),
-        narrative_pattern_value: narrative_pattern_label(pattern, input.language),
+        narrative_components_label: interpretation.narrative_components_label.clone(),
+        trend_label: interpretation.trend_label.clone(),
+        trend_value,
+        expectation_label: interpretation.expectation_label.clone(),
+        expectation_value,
+        supply_label: interpretation.supply_label.clone(),
+        supply_value,
+        gravity_label: interpretation.gravity_label.clone(),
+        gravity_value,
+        flow_label: interpretation.flow_label.clone(),
+        flow_value,
+        interpretation_label: interpretation.interpretation_label.clone(),
+        interpretation_value,
+        decision_explanation_label: interpretation.decision_explanation_label.clone(),
+        decision_explanation_intro,
+        decision_explanation_reasons,
+        decision_explanation_conclusion,
         subjects_label: interpretation.subjects_label.clone(),
         subjects_value,
-        narrative_summary_label: interpretation.narrative_summary_label.clone(),
-        narrative_summary_value: narrative_summary(pattern, input.language),
         boundary: interpretation.boundary.clone(),
     }
 }
@@ -215,6 +295,439 @@ pub(crate) fn derive_gravity_data_quality_reason(
     InterpretationGravityDataQualityReason::SourceTemporarilyUnavailable
 }
 
+fn trend_component_value(signal: &InterpretationNarrativeSignal, language: Language) -> String {
+    if !signal.trend_available {
+        return unavailable_component("Trend", trend_unavailable_reason(language), language);
+    }
+
+    match signal.trend_state {
+        InterpretationTrendState::Weak => trend_weak_text(language),
+        InterpretationTrendState::Stable => trend_stable_text(language),
+        InterpretationTrendState::PostRallyConsolidation => trend_post_rally_text(language),
+    }
+}
+
+fn expectation_component_value(
+    signal: &InterpretationNarrativeSignal,
+    language: Language,
+) -> String {
+    match signal.expectation_quality {
+        InterpretationExpectationQuality::High => expectation_high_text(language),
+        InterpretationExpectationQuality::Medium => expectation_medium_text(language),
+        InterpretationExpectationQuality::Low => expectation_low_text(language),
+        InterpretationExpectationQuality::Unavailable => unavailable_component(
+            "Expectation",
+            expectation_unavailable_reason(signal.expectation_quality_reason, language),
+            language,
+        ),
+    }
+}
+
+fn supply_component_value(signal: &InterpretationNarrativeSignal, language: Language) -> String {
+    if !signal.supply_available {
+        return unavailable_component("Supply", supply_unavailable_reason(language), language);
+    }
+
+    if signal.supply_pressure {
+        supply_pressure_text(language)
+    } else {
+        supply_clear_text(language)
+    }
+}
+
+fn gravity_component_value(signal: &InterpretationNarrativeSignal, language: Language) -> String {
+    match signal.gravity_data_quality {
+        InterpretationGravityDataQuality::Unavailable => unavailable_component(
+            "Gravity",
+            gravity_unavailable_reason(signal.gravity_data_quality_reason, language),
+            language,
+        ),
+        InterpretationGravityDataQuality::Partial => {
+            if let Some(status) = signal.gravity_status {
+                gravity_status_text(status, language, true)
+            } else {
+                gravity_partial_without_status_text(language)
+            }
+        }
+        InterpretationGravityDataQuality::Ready => {
+            if let Some(status) = signal.gravity_status {
+                gravity_status_text(status, language, false)
+            } else {
+                gravity_ready_without_status_text(language)
+            }
+        }
+    }
+}
+
+fn flow_component_value(signal: &InterpretationNarrativeSignal, language: Language) -> String {
+    let Some(flow) = signal.flow_acceleration else {
+        return unavailable_component("Flow", flow_unavailable_reason(language), language);
+    };
+
+    if flow > 0.05 {
+        flow_supporting_text(language)
+    } else if flow < -0.05 {
+        flow_deteriorating_text(language)
+    } else {
+        flow_neutral_text(language)
+    }
+}
+
+fn compose_interpretation_value(
+    trend: &str,
+    expectation: &str,
+    supply: &str,
+    gravity: &str,
+    flow: &str,
+    language: Language,
+) -> String {
+    let separator = match language {
+        Language::ZhCn => " ",
+        Language::EnUs => " ",
+        Language::JaJp => " ",
+    };
+    [
+        trend.trim(),
+        expectation.trim(),
+        supply.trim(),
+        gravity.trim(),
+        flow.trim(),
+    ]
+    .into_iter()
+    .filter(|value| !value.is_empty())
+    .collect::<Vec<_>>()
+    .join(separator)
+}
+
+fn decision_explanation_values(
+    decision_summary: Option<
+        &crate::features::radar::interface::presentation::DecisionSummaryViewModel,
+    >,
+    language: Language,
+    interpretation: &crate::features::shared::interface::i18n::InterpretationDictionary,
+) -> (String, Vec<String>, String) {
+    let Some(summary) = decision_summary else {
+        return (
+            interpretation.decision_explanation_intro.clone(),
+            vec![unavailable_component(
+                "Decision",
+                decision_explanation_unavailable_reason(language),
+                language,
+            )],
+            interpretation.decision_explanation_conclusion.clone(),
+        );
+    };
+
+    if summary.is_no_trade {
+        let reasons = if summary.readiness_reasons.is_empty() {
+            vec![summary.summary.clone()]
+        } else {
+            summary.readiness_reasons.clone()
+        };
+        (
+            interpretation.decision_explanation_intro.clone(),
+            reasons,
+            interpretation.decision_explanation_conclusion.clone(),
+        )
+    } else {
+        (summary.summary.clone(), Vec::new(), String::new())
+    }
+}
+
+fn unavailable_component(layer: &str, reason: String, language: Language) -> String {
+    match language {
+        Language::ZhCn => format!("{layer}: UNAVAILABLE - {reason}"),
+        Language::EnUs => format!("{layer}: UNAVAILABLE - {reason}"),
+        Language::JaJp => format!("{layer}: UNAVAILABLE - {reason}"),
+    }
+}
+
+fn trend_unavailable_reason(language: Language) -> String {
+    match language {
+        Language::ZhCn => "缺少状态转移证据".to_string(),
+        Language::EnUs => "transition evidence unavailable".to_string(),
+        Language::JaJp => "状態遷移証拠がない".to_string(),
+    }
+}
+
+fn expectation_unavailable_reason(
+    reason: InterpretationExpectationQualityReason,
+    language: Language,
+) -> String {
+    match (reason, language) {
+        (InterpretationExpectationQualityReason::MarketConsensusAvailable, Language::ZhCn) => {
+            "市场共识已取得，但当前质量不满足输出".to_string()
+        }
+        (InterpretationExpectationQualityReason::MarketConsensusAvailable, Language::EnUs) => {
+            "market consensus available, but current quality is not sufficient for output"
+                .to_string()
+        }
+        (InterpretationExpectationQualityReason::MarketConsensusAvailable, Language::JaJp) => {
+            "市場コンセンサスはあるが、現状の品質では出力に足りない".to_string()
+        }
+        (InterpretationExpectationQualityReason::MarketConsensusUnavailable, Language::ZhCn) => {
+            "市场没有一致预期".to_string()
+        }
+        (InterpretationExpectationQualityReason::MarketConsensusUnavailable, Language::EnUs) => {
+            "market consensus unavailable".to_string()
+        }
+        (InterpretationExpectationQualityReason::MarketConsensusUnavailable, Language::JaJp) => {
+            "市場コンセンサスなし".to_string()
+        }
+        (InterpretationExpectationQualityReason::SystemUnavailable, Language::ZhCn) => {
+            "系统未取得预期数据".to_string()
+        }
+        (InterpretationExpectationQualityReason::SystemUnavailable, Language::EnUs) => {
+            "system unavailable".to_string()
+        }
+        (InterpretationExpectationQualityReason::SystemUnavailable, Language::JaJp) => {
+            "システム未取得".to_string()
+        }
+    }
+}
+
+fn supply_unavailable_reason(language: Language) -> String {
+    match language {
+        Language::ZhCn => "缺少供给观测".to_string(),
+        Language::EnUs => "supply observation unavailable".to_string(),
+        Language::JaJp => "供給観測がない".to_string(),
+    }
+}
+
+fn gravity_unavailable_reason(
+    reason: InterpretationGravityDataQualityReason,
+    language: Language,
+) -> String {
+    match (reason, language) {
+        (InterpretationGravityDataQualityReason::ProviderUnavailable, Language::ZhCn) => {
+            "估值数据提供方不可用".to_string()
+        }
+        (InterpretationGravityDataQualityReason::ProviderUnavailable, Language::EnUs) => {
+            "provider unavailable".to_string()
+        }
+        (InterpretationGravityDataQualityReason::ProviderUnavailable, Language::JaJp) => {
+            "プロバイダ利用不可".to_string()
+        }
+        (InterpretationGravityDataQualityReason::HistoricalSnapshotMissing, Language::ZhCn) => {
+            "历史快照缺失".to_string()
+        }
+        (InterpretationGravityDataQualityReason::HistoricalSnapshotMissing, Language::EnUs) => {
+            "historical snapshot missing".to_string()
+        }
+        (InterpretationGravityDataQualityReason::HistoricalSnapshotMissing, Language::JaJp) => {
+            "履歴スナップショットがない".to_string()
+        }
+        (InterpretationGravityDataQualityReason::ConsensusUnavailable, Language::ZhCn) => {
+            "共识数据不可用".to_string()
+        }
+        (InterpretationGravityDataQualityReason::ConsensusUnavailable, Language::EnUs) => {
+            "consensus unavailable".to_string()
+        }
+        (InterpretationGravityDataQualityReason::ConsensusUnavailable, Language::JaJp) => {
+            "コンセンサスがない".to_string()
+        }
+        (InterpretationGravityDataQualityReason::SourceTemporarilyUnavailable, Language::ZhCn) => {
+            "数据源临时不可用".to_string()
+        }
+        (InterpretationGravityDataQualityReason::SourceTemporarilyUnavailable, Language::EnUs) => {
+            "source temporarily unavailable".to_string()
+        }
+        (InterpretationGravityDataQualityReason::SourceTemporarilyUnavailable, Language::JaJp) => {
+            "データソースが一時的に利用不可".to_string()
+        }
+    }
+}
+
+fn flow_unavailable_reason(language: Language) -> String {
+    match language {
+        Language::ZhCn => "资金流数据不可用".to_string(),
+        Language::EnUs => "flow data unavailable".to_string(),
+        Language::JaJp => "資金フローが未取得".to_string(),
+    }
+}
+
+fn decision_explanation_unavailable_reason(language: Language) -> String {
+    match language {
+        Language::ZhCn => "没有可用的状态机结果".to_string(),
+        Language::EnUs => "state machine result unavailable".to_string(),
+        Language::JaJp => "状態機械結果がない".to_string(),
+    }
+}
+
+fn trend_weak_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "价格结构尚未形成一致扩散。".to_string(),
+        Language::EnUs => "Price structure has not yet formed a consistent diffusion.".to_string(),
+        Language::JaJp => "価格構造はまだ一貫した拡散に入っていない。".to_string(),
+    }
+}
+
+fn trend_stable_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "价格结构保持稳定。".to_string(),
+        Language::EnUs => "Price structure remains stable.".to_string(),
+        Language::JaJp => "価格構造は安定している。".to_string(),
+    }
+}
+
+fn trend_post_rally_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "价格正在经历上升后的整理。".to_string(),
+        Language::EnUs => "Price is in post-rally consolidation.".to_string(),
+        Language::JaJp => "価格は上昇後の整理局面にある。".to_string(),
+    }
+}
+
+fn expectation_high_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "市场预期清晰，且系统已取得一致预期数据。".to_string(),
+        Language::EnUs => {
+            "Market expectation is clear and the system has consensus data.".to_string()
+        }
+        Language::JaJp => {
+            "市場期待は明確で、システムもコンセンサスデータを取得している。".to_string()
+        }
+    }
+}
+
+fn expectation_medium_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "市场有预期，但粒度较粗或部分信息缺失。".to_string(),
+        Language::EnUs => {
+            "The market has an expectation, but the granularity is coarse or partially missing."
+                .to_string()
+        }
+        Language::JaJp => "市場期待はあるが、粒度が粗いか一部情報が欠けている。".to_string(),
+    }
+}
+
+fn expectation_low_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "市场预期较弱或碎片化，结论仍不稳定。".to_string(),
+        Language::EnUs => {
+            "Market expectation is weak or fragmented, so the conclusion remains unstable."
+                .to_string()
+        }
+        Language::JaJp => "市場期待は弱いか断片的で、結論はまだ不安定である。".to_string(),
+    }
+}
+
+fn supply_pressure_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "新增供给压力仍需市场吸收。".to_string(),
+        Language::EnUs => {
+            "New supply pressure still needs to be absorbed by the market.".to_string()
+        }
+        Language::JaJp => "新しい供給圧力はまだ市場に吸収される必要がある。".to_string(),
+    }
+}
+
+fn supply_clear_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "暂无新增供给风险。".to_string(),
+        Language::EnUs => "No new supply risk is visible yet.".to_string(),
+        Language::JaJp => "新しい供給リスクはまだ見えていない。".to_string(),
+    }
+}
+
+fn gravity_status_text(status: GravityStatus, language: Language, partial: bool) -> String {
+    let prefix = if partial {
+        match language {
+            Language::ZhCn => "估值数据部分可用，",
+            Language::EnUs => "Valuation data is partial, ",
+            Language::JaJp => "バリュエーションデータは一部のみ有効で、",
+        }
+    } else {
+        ""
+    };
+
+    let body = match status {
+        GravityStatus::DeepUndervalued => match language {
+            Language::ZhCn => "价格明显低于价值锚。".to_string(),
+            Language::EnUs => "Price is materially below the value anchor.".to_string(),
+            Language::JaJp => "価格は価値アンカーよりかなり低い。".to_string(),
+        },
+        GravityStatus::Undervalued => match language {
+            Language::ZhCn => "价格低于价值锚。".to_string(),
+            Language::EnUs => "Price is below the value anchor.".to_string(),
+            Language::JaJp => "価格は価値アンカーを下回っている。".to_string(),
+        },
+        GravityStatus::Fair => match language {
+            Language::ZhCn => "价格大致处于价值锚附近。".to_string(),
+            Language::EnUs => "Price is broadly near the value anchor.".to_string(),
+            Language::JaJp => "価格は概ね価値アンカー付近にある。".to_string(),
+        },
+        GravityStatus::SlightlyExpensive => match language {
+            Language::ZhCn => "价格略高于价值锚。".to_string(),
+            Language::EnUs => "Price is slightly above the value anchor.".to_string(),
+            Language::JaJp => "価格は価値アンカーよりやや高い。".to_string(),
+        },
+        GravityStatus::Expensive => match language {
+            Language::ZhCn => "价格高于价值锚。".to_string(),
+            Language::EnUs => "Price is above the value anchor.".to_string(),
+            Language::JaJp => "価格は価値アンカーを上回っている。".to_string(),
+        },
+        GravityStatus::VeryExpensive => match language {
+            Language::ZhCn => "价格显著高于价值锚。".to_string(),
+            Language::EnUs => "Price is materially above the value anchor.".to_string(),
+            Language::JaJp => "価格は価値アンカーを大きく上回っている。".to_string(),
+        },
+    };
+
+    format!("{prefix}{body}")
+}
+
+fn gravity_partial_without_status_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "估值数据部分可用，但价格相对价值的方向仍未落定。".to_string(),
+        Language::EnUs => {
+            "Valuation data is partial, but the direction relative to value is still undecided."
+                .to_string()
+        }
+        Language::JaJp => {
+            "バリュエーションデータは一部のみ有効だが、価値に対する方向はまだ未確定である。"
+                .to_string()
+        }
+    }
+}
+
+fn gravity_ready_without_status_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "估值数据可用，但尚未形成明确的价值锚判断。".to_string(),
+        Language::EnUs => {
+            "Valuation data is ready, but no clear value-anchor judgment has been formed yet."
+                .to_string()
+        }
+        Language::JaJp => {
+            "バリュエーションデータは有効だが、明確な価値アンカー判断はまだない。".to_string()
+        }
+    }
+}
+
+fn flow_supporting_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "资金流正在支持当前趋势。".to_string(),
+        Language::EnUs => "Flow is supporting the current trend.".to_string(),
+        Language::JaJp => "資金フローは現在のトレンドを支えている。".to_string(),
+    }
+}
+
+fn flow_deteriorating_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "资金流正在削弱当前趋势。".to_string(),
+        Language::EnUs => "Flow is weakening the current trend.".to_string(),
+        Language::JaJp => "資金フローは現在のトレンドを弱めている。".to_string(),
+    }
+}
+
+fn flow_neutral_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "资金流处于中性。".to_string(),
+        Language::EnUs => "Flow is neutral.".to_string(),
+        Language::JaJp => "資金フローは中立である。".to_string(),
+    }
+}
+
 pub(crate) fn derive_trend_state(
     transition_evidence: Option<&StateTransitionViewModel>,
 ) -> InterpretationTrendState {
@@ -271,6 +784,7 @@ pub(crate) fn collect_subjects(
     subjects
 }
 
+#[cfg(test)]
 pub(crate) fn classify_interpretation_pattern(
     signal: &InterpretationNarrativeSignal,
 ) -> InterpretationPattern {
@@ -390,72 +904,6 @@ fn gravity_data_quality_reason_label(value: InterpretationGravityDataQualityReas
     }
 }
 
-fn narrative_pattern_label(pattern: InterpretationPattern, language: Language) -> String {
-    match (pattern, language) {
-        (InterpretationPattern::EventWaiting, Language::ZhCn) => "事件等待".to_string(),
-        (InterpretationPattern::EventWaiting, Language::EnUs) => "Event waiting".to_string(),
-        (InterpretationPattern::EventWaiting, Language::JaJp) => "イベント待ち".to_string(),
-        (InterpretationPattern::FundamentalPricing, Language::ZhCn) => "基本面定价".to_string(),
-        (InterpretationPattern::FundamentalPricing, Language::EnUs) => {
-            "Fundamental pricing".to_string()
-        }
-        (InterpretationPattern::FundamentalPricing, Language::JaJp) => {
-            "ファンダメンタル定価".to_string()
-        }
-        (InterpretationPattern::PostRallyConsolidation, Language::ZhCn) => "上涨后整理".to_string(),
-        (InterpretationPattern::PostRallyConsolidation, Language::EnUs) => {
-            "Post-rally consolidation".to_string()
-        }
-        (InterpretationPattern::PostRallyConsolidation, Language::JaJp) => {
-            "上昇後の整理".to_string()
-        }
-        (InterpretationPattern::SupplyPressure, Language::ZhCn) => "供给压力".to_string(),
-        (InterpretationPattern::SupplyPressure, Language::EnUs) => "Supply pressure".to_string(),
-        (InterpretationPattern::SupplyPressure, Language::JaJp) => "供給圧力".to_string(),
-    }
-}
-
-fn narrative_summary(pattern: InterpretationPattern, language: Language) -> String {
-    match (pattern, language) {
-        (InterpretationPattern::EventWaiting, Language::ZhCn) => {
-            "当前弱势更像是事件等待，而不是长期 Thesis 的崩坏。".to_string()
-        }
-        (InterpretationPattern::EventWaiting, Language::EnUs) => {
-            "The current weakness looks more like event waiting than a break in the long-term thesis.".to_string()
-        }
-        (InterpretationPattern::EventWaiting, Language::JaJp) => {
-            "現在の弱さは、長期 Thesis の崩れというよりイベント待ちに近い。".to_string()
-        }
-        (InterpretationPattern::FundamentalPricing, Language::ZhCn) => {
-            "市场已经开始按基本面定价，价格更多反映现实兑现而非远期想象。".to_string()
-        }
-        (InterpretationPattern::FundamentalPricing, Language::EnUs) => {
-            "The market is already pricing fundamentals, with price reflecting realization more than distant expectations.".to_string()
-        }
-        (InterpretationPattern::FundamentalPricing, Language::JaJp) => {
-            "市場はすでに基本面を織り込み始めており、価格は遠い期待より実現を映している。".to_string()
-        }
-        (InterpretationPattern::PostRallyConsolidation, Language::ZhCn) => {
-            "这更像是上涨后的整理，而不是长结构恶化的证据。".to_string()
-        }
-        (InterpretationPattern::PostRallyConsolidation, Language::EnUs) => {
-            "This looks more like post-rally consolidation than evidence of long-structure deterioration.".to_string()
-        }
-        (InterpretationPattern::PostRallyConsolidation, Language::JaJp) => {
-            "これは長期構造の悪化というより、上昇後の整理に近い。".to_string()
-        }
-        (InterpretationPattern::SupplyPressure, Language::ZhCn) => {
-            "新的供给压力正在影响价格解释，但它本身不自动转化为交易结论。".to_string()
-        }
-        (InterpretationPattern::SupplyPressure, Language::EnUs) => {
-            "New supply pressure is affecting the price story, but it does not automatically turn into a trading conclusion.".to_string()
-        }
-        (InterpretationPattern::SupplyPressure, Language::JaJp) => {
-            "新しい供給圧力が価格説明に効いているが、それ自体を売買結論へ自動変換しない。".to_string()
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -471,6 +919,7 @@ mod tests {
     ) -> InterpretationNarrativeSignal {
         InterpretationNarrativeSignal {
             trend_state,
+            trend_available: true,
             expectation_quality,
             expectation_quality_reason,
             gravity_data_quality,
@@ -478,6 +927,8 @@ mod tests {
                 InterpretationGravityDataQualityReason::ProviderUnavailable,
             gravity_status,
             supply_pressure,
+            supply_available: true,
+            flow_acceleration: Some(0.0),
         }
     }
 
@@ -542,6 +993,7 @@ mod tests {
         let dict = get_dictionary(Language::EnUs);
         let subjects = vec!["TSLA".to_string(), "GOOG".to_string(), "NVDA".to_string()];
         let view_model = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 5, 31).unwrap(),
             subjects: &subjects,
             signal: signal(
                 InterpretationTrendState::Stable,
@@ -551,11 +1003,33 @@ mod tests {
                 Some(GravityStatus::Fair),
                 false,
             ),
+            future_context: Default::default(),
+            decision_summary: Some(
+                &crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                    is_no_trade: true,
+                    summary: "NO TRADE".to_string(),
+                    readiness_reasons_label: "Readiness Reasons".to_string(),
+                    readiness_reasons: vec![
+                        "突破连续性不足".to_string(),
+                        "扩散范围有限".to_string(),
+                    ],
+                    ..Default::default()
+                },
+            ),
             language: Language::EnUs,
             dict: &dict,
         });
 
         assert_eq!(view_model.current_decision_weight_value, "0%");
+        assert_eq!(view_model.signal_context_information_content_value, "LOW");
+        assert_eq!(
+            view_model.signal_context_primary_context_value,
+            "Month-end Rebalancing"
+        );
+        assert_eq!(view_model.signal_context_quality_value, "HIGH");
+        assert!(view_model
+            .signal_context_interpretation_value
+            .contains("month-end"));
         assert_eq!(
             view_model.expectation_quality_reason_value,
             "Market consensus available"
@@ -563,8 +1037,21 @@ mod tests {
         assert!(view_model.boundary.contains("Observation Layer"));
         assert!(view_model.subjects_value.contains("TSLA"));
         assert!(view_model
-            .narrative_summary_value
-            .contains("pricing fundamentals"));
+            .narrative_components_label
+            .contains("Narrative Components"));
+        assert!(view_model.trend_value.contains("Price structure"));
+        assert!(view_model.expectation_value.contains("Market expectation"));
+        assert!(view_model.supply_value.contains("No new supply risk"));
+        assert!(view_model
+            .gravity_value
+            .contains("Price is broadly near the value anchor"));
+        assert!(view_model.flow_value.contains("Flow is neutral"));
+        assert!(view_model
+            .interpretation_value
+            .contains("Price structure remains stable"));
+        assert!(view_model
+            .decision_explanation_reasons
+            .contains(&"突破连续性不足".to_string()));
     }
 
     #[test]
@@ -602,8 +1089,14 @@ mod tests {
                 subject: "TSLA".to_string(),
                 period: "2026Q2".to_string(),
                 event_type: ExpectationEventType::DeliveryConsensus,
+                lifecycle_state: crate::features::research::domain::expectation::ExpectationLifecycleState::Pending,
                 expected_value: "~401k deliveries".to_string(),
                 actual_value: "未発表".to_string(),
+                result: None,
+                surprise_percent: None,
+                market_reaction: None,
+                released_at: None,
+                archived_at: None,
                 unit: "deliveries".to_string(),
                 consensus_source: "fixture".to_string(),
                 estimate_count: 0,

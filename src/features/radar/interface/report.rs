@@ -1304,6 +1304,40 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
+            block.push_str(&format!("  - {}:\n", layer.signal_context_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_information_content_label,
+                layer.signal_context_information_content_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_primary_context_label,
+                layer.signal_context_primary_context_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_quality_label, layer.signal_context_quality_value
+            ));
+            if !layer.signal_context_event_fact_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
+                ));
+            }
+            if !layer.signal_context_source_diagnostics_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_source_diagnostics_label,
+                    layer.signal_context_source_diagnostics_value
+                ));
+            }
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_interpretation_label,
+                layer.signal_context_interpretation_value
+            ));
+            block.push_str(&format!("  - {}\n", layer.signal_context_boundary));
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.expectation_quality_label, layer.expectation_quality_value
@@ -1320,17 +1354,45 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.gravity_data_quality_reason_label, layer.gravity_data_quality_reason_value
             ));
+            block.push_str(&format!("  - {}:\n", layer.narrative_components_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.trend_label, layer.trend_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.expectation_label, layer.expectation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.supply_label, layer.supply_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.gravity_label, layer.gravity_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.flow_label, layer.flow_value
+            ));
             block.push_str(&format!(
                 "  - {}: {}\n",
-                layer.narrative_pattern_label, layer.narrative_pattern_value
+                layer.interpretation_label, layer.interpretation_value
             ));
+            if !layer.decision_explanation_reasons.is_empty() {
+                block.push_str(&format!("  - {}:\n", layer.decision_explanation_label));
+                block.push_str(&format!("    - {}\n", layer.decision_explanation_intro));
+                for reason in &layer.decision_explanation_reasons {
+                    block.push_str(&format!("    - {}\n", reason));
+                }
+                block.push_str(&format!(
+                    "    - {}\n",
+                    layer.decision_explanation_conclusion
+                ));
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.subjects_label, layer.subjects_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                layer.narrative_summary_label, layer.narrative_summary_value
             ));
             block.push_str(&format!("  - {}\n", layer.boundary));
         }
@@ -1341,6 +1403,40 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
+            block.push_str(&format!("  - {}:\n", layer.signal_context_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_information_content_label,
+                layer.signal_context_information_content_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_primary_context_label,
+                layer.signal_context_primary_context_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_quality_label, layer.signal_context_quality_value
+            ));
+            if !layer.signal_context_event_fact_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
+                ));
+            }
+            if !layer.signal_context_source_diagnostics_value.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_source_diagnostics_label,
+                    layer.signal_context_source_diagnostics_value
+                ));
+            }
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.signal_context_interpretation_label,
+                layer.signal_context_interpretation_value
+            ));
+            block.push_str(&format!("  - {}\n", layer.signal_context_boundary));
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.expectation_quality_label, layer.expectation_quality_value
@@ -1357,17 +1453,48 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.gravity_data_quality_reason_label, layer.gravity_data_quality_reason_value
             ));
+            block.push_str(&format!("  - {}:\n", layer.narrative_components_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.trend_label, layer.trend_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.expectation_label, layer.expectation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.supply_label, layer.supply_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.gravity_label, layer.gravity_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.flow_label, layer.flow_value
+            ));
             block.push_str(&format!(
                 "  - {}: {}\n",
-                layer.narrative_pattern_label, layer.narrative_pattern_value
+                layer.interpretation_label, layer.interpretation_value
             ));
+            if !layer.decision_explanation_reasons.is_empty() {
+                block.push_str(&format!("  - {}:\n", layer.decision_explanation_label));
+                block.push_str(&format!(
+                    "    - <i>{}</i>\n",
+                    layer.decision_explanation_intro
+                ));
+                for reason in &layer.decision_explanation_reasons {
+                    block.push_str(&format!("    - <i>{}</i>\n", reason));
+                }
+                block.push_str(&format!(
+                    "    - <i>{}</i>\n",
+                    layer.decision_explanation_conclusion
+                ));
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.subjects_label, layer.subjects_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                layer.narrative_summary_label, layer.narrative_summary_value
             ));
             block.push_str(&format!("  - {}\n", layer.boundary));
         }

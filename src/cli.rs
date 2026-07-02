@@ -25,7 +25,8 @@ use crate::features::radar::interface::audit_daily_report::{
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
 use crate::features::research::interface::cli_command_handler::{
-    run_asset_thesis_command, run_gray_rhino_escalation_command, run_research_attention_command,
+    run_asset_thesis_command, run_gray_rhino_escalation_command,
+    run_official_calendar_smoke_command, run_research_attention_command,
 };
 use crate::features::research::interface::cognitive_reports::{
     build_daily_calibration_report_from_context, enabled_asset_thesis_count,
@@ -135,6 +136,15 @@ pub async fn run() -> Result<()> {
                 )
                 .await?;
             }
+        }
+        CliCommand::OfficialCalendarSmoke => {
+            let as_of_date = match options.audit_date_arg.as_deref() {
+                Some(raw) => NaiveDate::parse_from_str(raw, "%Y-%m-%d").with_context(|| {
+                    format!("{}: {}", audit_error_parse_date(audit_language), raw)
+                })?,
+                None => chrono::Local::now().date_naive(),
+            };
+            run_official_calendar_smoke_command(as_of_date).await?;
         }
         CliCommand::GrayRhinoEscalation => {
             run_gray_rhino_escalation_command(&app_config, audit_language, options.research_notify)
@@ -1032,6 +1042,7 @@ mod tests {
     use crate::features::shared::infrastructure::run_status_reader::{
         load_latest_evidence_collection_status, EVIDENCE_COLLECTION_STATUS_FILE,
     };
+    use crate::features::shared::interface::cli_args::{cli_usage, parse_cli_options, CliCommand};
     use crate::features::shared::interface::i18n::Language;
     use anyhow::{anyhow, Result};
     use chrono::{NaiveDate, Utc};
@@ -1041,6 +1052,7 @@ mod tests {
     use std::path::{Path, PathBuf};
     use std::sync::Arc;
     use tempfile::tempdir;
+    use time::OffsetDateTime;
 
     #[test]
     fn review_ignores_weekly_auto_report_with_localized_capital_absorption_heading() {
@@ -1262,8 +1274,21 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         assert!(!digest.contains("BUY"));
         assert!(!digest.contains("SELL"));
     }
-    use time::OffsetDateTime;
 
+    #[test]
+    fn official_calendar_smoke_command_is_parsed_and_documented() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+        let args = vec![
+            "stock-sentinel".to_string(),
+            "official-calendar-smoke".to_string(),
+        ];
+        let options = parse_cli_options(&args, &config, Language::ZhCn);
+
+        assert_eq!(options.command, CliCommand::OfficialCalendarSmoke);
+        assert!(cli_usage(Language::ZhCn).contains("official-calendar-smoke"));
+        assert!(cli_usage(Language::EnUs).contains("official-calendar-smoke"));
+    }
     struct AlwaysFailProvider;
 
     struct PartialSuccessProvider;

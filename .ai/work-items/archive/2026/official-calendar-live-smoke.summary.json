@@ -1,0 +1,140 @@
+{
+  "workItemId": "official-calendar-live-smoke",
+  "contractPath": ".ai/work-items/archive/2026/official-calendar-live-smoke.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 作成時に Cockpit 現在状態を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "reason": "公式日历 live smoke の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/official-calendar-live-smoke.summary.json",
+      "reason": "実装内容、検証結果、残余リスクを記録する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "公式日历 smoke command の dispatch を追加した。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "公式日历 smoke command の CLI 解析と help 表示を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/cli_command_handler.rs",
+      "reason": "公式日历 smoke command の実行入口を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "live fetch の結果を smoke summary として構造化投影する helper を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/official-calendar-live-smoke.contract.json",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/research/interface/cli_command_handler.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/interface/report_ui_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "live smoke command は外部ネットワーク依存のため、失敗時 diagnostic と non-zero exit の契約を明確にする必要がある。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を確認し、公式日历 live smoke の scope を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / sources / acceptance を確認してから実装を開始した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を終え、ready 判定の最終確認段階に入った。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_dependency",
+      "detail": "ライブ smoke は外部 official site の応答に依存する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "公式日历 smoke command と structured diagnostic payload を追加し、required checks を完了した。",
+    "expectedReviewFocus": [
+      "CLI command が read-only smoke として動作するか",
+      "失敗時 diagnostic が non-zero exit とともに露出するか",
+      "fallback synthetic event に戻らないか"
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 use crate::config;
 use crate::features::research::domain::expectation::{
-    ExpectationEventType, ExpectationObservation, ExpectationPressure, RevisionDirection,
-    SourceHealth, SurpriseState,
+    derive_lifecycle_state, ExpectationEventType, ExpectationObservation, ExpectationPressure,
+    RevisionDirection, SourceHealth, SurpriseState,
 };
 use crate::features::research::infrastructure::expectation_source_adapter::{
     parse_period_date, FinnhubConsensusMetric, FinnhubExpectationSourceAdapter,
@@ -255,6 +255,7 @@ fn build_consensus_observation(
     let expected = series.average.or(series.median).unwrap_or_default();
     let expected_value = format_consensus_value(expected, unit_suffix);
     let period = quarter_label_from_series(&series.period);
+    let lifecycle_state = derive_lifecycle_state(&period, as_of_date, "未発表", None, None, None);
     let revision_direction = revision_direction(series.previous_average, series.average);
     let spread = spread_ratio(series.high, series.low, series.average);
 
@@ -263,8 +264,14 @@ fn build_consensus_observation(
         period,
         as_of_date,
         event_type,
+        lifecycle_state,
         expected_value: format_consensus_value(expected, unit_suffix),
         actual_value: "未発表".to_string(),
+        result: None,
+        surprise_percent: None,
+        market_reaction: None,
+        released_at: None,
+        archived_at: None,
         unit: unit.to_string(),
         consensus_source: format!("{PROVIDER} {} estimates", metric_label(event_type)),
         estimate_count: series.count,
@@ -301,6 +308,8 @@ fn build_margin_observation(
     unit: &str,
     as_of_date: NaiveDate,
 ) -> ExpectationObservation {
+    let period = quarter_label_from_series(&gross_income.period);
+    let lifecycle_state = derive_lifecycle_state(&period, as_of_date, "未発表", None, None, None);
     let gross_average = gross_income
         .average
         .or(gross_income.median)
@@ -320,11 +329,17 @@ fn build_margin_observation(
 
     ExpectationObservation {
         subject: subject.to_string(),
-        period: quarter_label_from_series(&gross_income.period),
+        period,
         as_of_date,
         event_type,
+        lifecycle_state,
         expected_value: format_percent(gross_margin),
         actual_value: "未発表".to_string(),
+        result: None,
+        surprise_percent: None,
+        market_reaction: None,
+        released_at: None,
+        archived_at: None,
         unit: unit.to_string(),
         consensus_source: format!("{PROVIDER} gross-income estimates / revenue estimates"),
         estimate_count: count,
@@ -350,13 +365,20 @@ fn unavailable_observation(
     reason: &str,
     as_of_date: NaiveDate,
 ) -> ExpectationObservation {
+    let lifecycle_state = derive_lifecycle_state(period, as_of_date, "未発表", None, None, None);
     ExpectationObservation {
         subject: subject.to_string(),
         period: period.to_string(),
         as_of_date,
         event_type,
+        lifecycle_state,
         expected_value: "未対応".to_string(),
         actual_value: "未発表".to_string(),
+        result: None,
+        surprise_percent: None,
+        market_reaction: None,
+        released_at: None,
+        archived_at: None,
         unit: unit.to_string(),
         consensus_source: format!("unavailable: {reason}"),
         estimate_count: 0,

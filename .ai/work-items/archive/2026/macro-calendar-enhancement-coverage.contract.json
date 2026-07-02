@@ -1,0 +1,143 @@
+{
+  "contractVersion": 1,
+  "workItemId": "macro-calendar-enhancement-coverage",
+  "mode": "code",
+  "title": "オフィシャル日历链路の解析・診断・カバレッジ拡張",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/shared/interface/i18n.rs",
+    ".ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+    ".ai/work-items/active/macro-calendar-enhancement-coverage.summary.json"
+  ],
+  "outOfScope": [
+    "Gate / execution / trader / action matrix / position sizing / order routing のロジック変更。",
+    "DecisionSummaryViewModel や no-trade 結論を Signal Context に戻す変更。",
+    "合成 fallback 宏観測値を新たに注入する実装。",
+    "official source 以外の新規外部 provider 追加。",
+    "週次 / 日次の運用通知経路追加。"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "公式ページ解析、分類精度、source coverage、診断文字列を拡張する実装の中心。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_calendar_adapter.rs",
+      "reason": "official / JSON の source strategy と read model の source health / diagnostic を保持する入口。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Signal Context へ source diagnostics を投影し、report で読める形にする層。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "診断情報を Markdown / HTML report に表示する層。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "診断情報と official source coverage の表示を検証する UI テスト。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "診断ラベルを各言語に投影する辞書。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "external_dependency",
+      "review_debt"
+    ],
+    "reason": "official source の追加と分類精度の変更は外部ページ依存の回帰を招きやすいため、診断と UI 表示の回帰確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "official source の coverage / classification / diagnostics 拡張を scope 内で実装できる。"
+  },
+  "preReviewWarnings": [
+    "外部ページの availability により source health が partial になる可能性があるため、diagnostic と test を重視する。",
+    "classification 精度の変更は誤分類回帰を生みやすいので、既存 official source のテストを増やして確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "official page の複数 source / endpoint を扱い、fetch / parse / classify の結果が diagnostic で追跡できる。",
+    "source health は succeeded / partial / unavailable として表現され、失敗時に合成 macro event を注入しない。",
+    "official source の coverage が広がり、主要 event type の source-backed 判定が増える。",
+    "Signal Context / report で source diagnostics が読めるまま維持される。",
+    "Index Reconstitution / ETF Rebalance / Holiday Liquidity の official coverage が回帰なく維持される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

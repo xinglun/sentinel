@@ -4,8 +4,8 @@ use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
 use crate::features::research::domain::expectation::{
-    ExpectationEventType, ExpectationObservation, ExpectationPressure, RevisionDirection,
-    SourceHealth, SurpriseState,
+    derive_lifecycle_state, ExpectationEventType, ExpectationObservation, ExpectationPressure,
+    RevisionDirection, SourceHealth, SurpriseState,
 };
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -407,13 +407,20 @@ fn observation(
     interpretation: &str,
     date: NaiveDate,
 ) -> ExpectationObservation {
+    let lifecycle_state = derive_lifecycle_state(period, date, actual_value, None, None, None);
     ExpectationObservation {
         subject: subject.to_string(),
         period: period.to_string(),
         as_of_date: date,
         event_type,
+        lifecycle_state,
         expected_value: expected_value.to_string(),
         actual_value: actual_value.to_string(),
+        result: None,
+        surprise_percent: None,
+        market_reaction: None,
+        released_at: None,
+        archived_at: None,
         unit: unit.to_string(),
         consensus_source: consensus_source.to_string(),
         estimate_count,
@@ -428,5 +435,86 @@ fn observation(
         source_health,
         interpretation: interpretation.to_string(),
         observed_at: date,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn observation_derives_upcoming_for_future_period() {
+        let as_of_date = NaiveDate::from_ymd_opt(2026, 6, 18).expect("valid date");
+        let observation = observation(
+            "TSLA",
+            "2026Q3",
+            ExpectationEventType::DeliveryConsensus,
+            "~405k deliveries",
+            "未発表",
+            "deliveries",
+            "fixture",
+            0,
+            None,
+            None,
+            None,
+            None,
+            RevisionDirection::Unknown,
+            SurpriseState::NotReleased,
+            ExpectationPressure::Low,
+            None,
+            SourceHealth::Unavailable,
+            "future quarter",
+            as_of_date,
+        );
+
+        assert_eq!(
+            observation.lifecycle_state,
+            crate::features::research::domain::expectation::ExpectationLifecycleState::Upcoming
+        );
+    }
+
+    #[test]
+    fn observation_derives_released_and_archived_states_from_dates() {
+        let as_of_date = NaiveDate::from_ymd_opt(2026, 6, 18).expect("valid date");
+        let released_at = NaiveDate::from_ymd_opt(2026, 6, 19).expect("valid date");
+        let archived_at = NaiveDate::from_ymd_opt(2026, 6, 25).expect("valid date");
+
+        let released = crate::features::research::domain::expectation::derive_lifecycle_state(
+            "2026Q2",
+            as_of_date,
+            "392k deliveries",
+            None,
+            Some(released_at),
+            None,
+        );
+        let compared = crate::features::research::domain::expectation::derive_lifecycle_state(
+            "2026Q2",
+            as_of_date,
+            "392k deliveries",
+            Some(crate::features::research::domain::expectation::ExpectationResult::Beat),
+            Some(released_at),
+            None,
+        );
+        let archived = crate::features::research::domain::expectation::derive_lifecycle_state(
+            "2026Q2",
+            as_of_date,
+            "392k deliveries",
+            Some(crate::features::research::domain::expectation::ExpectationResult::Beat),
+            Some(released_at),
+            Some(archived_at),
+        );
+
+        assert_eq!(
+            released,
+            crate::features::research::domain::expectation::ExpectationLifecycleState::Released
+        );
+        assert_eq!(
+            compared,
+            crate::features::research::domain::expectation::ExpectationLifecycleState::Compared
+        );
+        assert_eq!(
+            archived,
+            crate::features::research::domain::expectation::ExpectationLifecycleState::Archived
+        );
     }
 }

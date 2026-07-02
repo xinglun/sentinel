@@ -1,0 +1,142 @@
+{
+  "contractVersion": 1,
+  "workItemId": "telegram-signal-context-tightening",
+  "mode": "code",
+  "title": "Telegram 表現層の Signal Context 情報密度を調整する",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/shared/interface/i18n.rs",
+    ".ai/work-items/active/telegram-signal-context-tightening.contract.json",
+    ".ai/work-items/active/telegram-signal-context-tightening.summary.json"
+  ],
+  "outOfScope": [
+    "Gate / Execution / Trader / READY / EXECUTE / Position Sizing のロジック変更。",
+    "DecisionSummaryViewModel を Signal Context の判断材料として再接続する変更。",
+    "週次データや永続化スキーマへの Signal Context 書き込み。",
+    "Signal Context の判定ロジックそのものを拡張する変更。"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Telegram の Signal Context 区块を直接描画する表示層。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Signal Context の view model を report に投影する橋渡し。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Event Fact と source diagnostics の表示方針を決める read model。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "Signal Context の event evidence summary を保持する future context 読み取りモデル。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Signal Context の Telegram 表示回帰を検証する UI テスト。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Signal Context の新しい表示ラベルを各言語へ投影する辞書。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt",
+      "data_integrity"
+    ],
+    "reason": "Telegram への表示方針を変えるため、イベント事实の追加と diagnostics の降格表示に回帰がないか確認する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Telegram 表示層の情報密度調整を scope 内で実装できる。"
+  },
+  "preReviewWarnings": [
+    "Source Diagnostics は成功時に隠す方針へ寄せるため、表示欠落と運用ノイズのバランスを確認する。",
+    "Event Fact は既存 summary を再利用するだけだが、Telegram の可読性回帰がないかテストで確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Signal Context の Telegram 表示に、トリガーとなったイベント事実の要約が追加される。",
+    "Source Diagnostics は成功時に Telegram で露出しないか、極小の状態表示に抑えられる。",
+    "PARTIAL / UNAVAILABLE のときだけ、降格説明が Telegram で読める。",
+    "Decision / Gate / Trader / 周データのいずれにも接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

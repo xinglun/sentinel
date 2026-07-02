@@ -7,6 +7,8 @@ pub mod presentation_assembler;
 pub mod radar_pipeline_runner;
 pub mod report;
 pub(crate) mod risk_taxonomy_read_model;
+pub(crate) mod signal_context_event_read_model;
+pub(crate) mod signal_context_read_model;
 pub(crate) mod strategic_context_read_model;
 pub mod telemetry;
 pub(crate) mod transition_evidence_read_model;

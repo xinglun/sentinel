@@ -1,0 +1,153 @@
+{
+  "workItemId": "telegram-signal-context-tightening",
+  "contractPath": ".ai/work-items/archive/2026/telegram-signal-context-tightening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を再生成した。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Signal Context の event fact と source diagnostics を Interpretation Layer に投影した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "InterpretationLayerViewModel に event fact の表示字段を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Telegram / Markdown の Signal Context 表示に event fact と diagnostics の条件付き表示を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Telegram の Signal Context 表示と diagnostics の回帰テストを更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "Primary context に紐づく event evidence summary を取り出す補助 API を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Signal Context の event fact と source diagnostics の組み立て方を調整した。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Signal Context の event fact ラベルを各言語辞書へ追加した。"
+    },
+    {
+      "path": ".ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "reason": "Work Item Contract を実装内容に合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/telegram-signal-context-tightening.summary.json",
+      "reason": "AI Change Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/telegram-signal-context-tightening.contract.json",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-signal-context-tightening.contract.json SUMMARY=.ai/work-items/active/telegram-signal-context-tightening.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Telegram の情報密度を下げる一方で、event fact と diagnostics の露出条件が回帰していないかを継続して確認する必要がある。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract と scope を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "実装対象を Signal Context 表示層に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を継続実行中。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "残りの Cockpit checks を実行中。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "telegram_readability",
+      "detail": "Source Diagnostics を成功時に隠すため、運用者が必要な情報を失っていないかを review で確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks は通過したが、Telegram 表示の可読性回帰を review で確認する余地がある。",
+    "expectedReviewFocus": [
+      "Signal Context の event fact 表示",
+      "成功時の Source Diagnostics 非表示",
+      "PARTIAL / UNAVAILABLE の降格表示",
+      "Decision / Gate / Trader / 周データへの非接続"
+    ]
+  }
+}

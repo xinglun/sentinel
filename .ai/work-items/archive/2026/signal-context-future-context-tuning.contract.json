@@ -1,0 +1,203 @@
+{
+  "contractVersion": 1,
+  "workItemId": "signal-context-future-context-tuning",
+  "mode": "code",
+  "title": "Signal Context の future context と公式日程ソースを収束",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/signal-context-future-context-tuning.contract.json",
+    ".ai/work-items/active/signal-context-future-context-tuning.summary.json",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/research/acl/expectation_source_adapter_factory.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/macro_event_calendar_file_reader.rs",
+    "src/features/research/domain/expectation.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_builder.rs",
+    "src/features/research/interface/expectation_report_tests.rs",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/infrastructure/macro_event_calendar_file_reader.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/shared/interface/i18n.rs",
+    "tests/fixtures/expectation/tsla_q2_delivery_consensus.json",
+    "tests/fixtures/macro_events/cpi_release.json",
+    "tests/fixtures/macro_events/fomc_rate_decision.json"
+  ],
+  "outOfScope": [
+    "docs/specs/INTERPRETATION_LAYER.md",
+    "scripts/ai_check_work_item.py",
+    ".ai/work-items/active/signal-context-radar-governance-archive.contract.json",
+    ".ai/work-items/active/signal-context-radar-governance-archive.summary.json"
+  ],
+  "sources": [
+    {
+      "path": "docs/specs/INTERPRETATION_LAYER.md",
+      "reason": "Signal Context の表示境界と future context の仕様境界。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Signal Context の read model 取り込み点。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "future_context の生成と interpretation layer への接続点。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Signal Context の主要判定ロジック。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "pre-earnings / macro / calendar の future context read model。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Signal Context section の出力実装。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_calendar_adapter.rs",
+      "reason": "外部日程の read-only contract。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "公式日程ソースの読み取り実装。"
+    },
+    {
+      "path": "src/features/research/acl/macro_event_calendar_file_reader.rs",
+      "reason": "Macro Event calendar の JSON / fixture file I/O を ACL helper に移した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Macro Event calendar file reader helper を ACL module tree に登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/macro_event_calendar_file_reader.rs",
+      "reason": "JSON / fixture の file I/O を infrastructure に下ろすための helper。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Macro Event file reader helper を infrastructure module tree に登録した。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_observation.rs",
+      "reason": "future calendar observation の契約。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_tests.rs",
+      "reason": "Pre-Earnings Waiting の近端判定を固定するテスト。"
+    },
+    {
+      "path": "tests/fixtures/expectation/tsla_q2_delivery_consensus.json",
+      "reason": "Pre-Earnings Waiting の fixture。"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_release.json",
+      "reason": "Macro Event の fixture。"
+    },
+    {
+      "path": "tests/fixtures/macro_events/fomc_rate_decision.json",
+      "reason": "Macro Event の fixture。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "公式日程 source の優先順位と近端 window の調整は、誤命中すると Interpretation の説明品質を落とすため、テストと review での確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / sources / acceptance / verification が確定し、実装と検証を自動化できる。"
+  },
+  "preReviewWarnings": [
+    "この Work Item は interpretation / read-only source の収束だけを扱い、Gate / Execution / Trader への接続は追加しない。",
+    "治理系の specs / checker は別 Work Item に分離されている。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Signal Context の display chain が interpretation/report で生きている。",
+    "future_context は radar pipeline から build され、interpretation layer に渡される。",
+    "Macro Event / Major Event Waiting / Pre-Earnings Waiting / Index Reconstitution / ETF Rebalance / Holiday Liquidity は read-only future context として扱われ、Decision Pipeline に流入しない。",
+    "official calendar adapter と fixture が read-only source として接続されている。",
+    "治理系の docs / checker / spec は別 Work Item に分離されている。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-future-context-tuning.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-future-context-tuning.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-future-context-tuning.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-future-context-tuning.contract.json SUMMARY=.ai/work-items/active/signal-context-future-context-tuning.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-future-context-tuning.summary.json CONTRACT=.ai/work-items/active/signal-context-future-context-tuning.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-future-context-tuning.contract.json SUMMARY=.ai/work-items/active/signal-context-future-context-tuning.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-future-context-tuning.contract.json SUMMARY=.ai/work-items/active/signal-context-future-context-tuning.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

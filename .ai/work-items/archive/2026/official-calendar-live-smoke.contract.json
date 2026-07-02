@@ -1,0 +1,134 @@
+{
+  "contractVersion": 1,
+  "workItemId": "official-calendar-live-smoke",
+  "mode": "code",
+  "title": "公式日历 live smoke と失敗診断モニタを追加する",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/research/interface/cli_command_handler.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    ".ai/work-items/active/official-calendar-live-smoke.contract.json",
+    ".ai/work-items/active/official-calendar-live-smoke.summary.json"
+  ],
+  "outOfScope": [
+    "Signal Context の週次追跡や interpretation/report の表示変更。",
+    "Decision / Gate / Execution / Trader / Position Sizing の変更。",
+    "official calendar の分類ルールや source 対象の拡張。",
+    "fallback 合成イベントの新規導入や復活。"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "公式日历の live fetch と diagnostic source。"
+    },
+    {
+      "path": "src/features/research/interface/cli_command_handler.rs",
+      "reason": "research CLI の追加実行入口。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "新しい smoke command の CLI 解析と help 表示。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "新コマンドの dispatch 入口。"
+    },
+    {
+      "path": "src/features/research/interface/report_ui_tests.rs",
+      "reason": "診断表示が trade language に汚染されない表示契約の参照。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "external_dependency",
+      "review_debt"
+    ],
+    "reason": "live smoke command を追加するため、CLI 入口と diagnostic の失敗時挙動を明確にする必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "既存 official calendar read model を再利用して live smoke を追加できる。"
+  },
+  "preReviewWarnings": [
+    "smoke command は read-only で、fallback synthetic event を復活させない。",
+    "失敗時は diagnostic を返すが、Decision / Gate / Trader には接続しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "official calendar live smoke command が追加され、公式 calendar read model を実際に load する。",
+    "smoke は source_health / source_attempts / source_successes / source_failures / diagnostic を構造化して出力する。",
+    "失敗時は diagnostic が見える形で non-zero exit になり、fallback 合成イベントには落ちない。",
+    "CLI 追加は read-only monitoring surface であり、Decision / Gate / Trader に接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

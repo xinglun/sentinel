@@ -7,4 +7,5 @@ pub(crate) mod gray_rhino_backfill_runner_factory;
 pub(crate) mod gray_rhino_daily_report_factory;
 pub(crate) mod gray_rhino_file_reader;
 pub(crate) mod gray_rhino_source_adapter_factory;
+pub(crate) mod macro_event_calendar_file_reader;
 pub(crate) mod valuation_gravity_source_adapter_factory;
