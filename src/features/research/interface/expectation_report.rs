@@ -1,7 +1,9 @@
 use std::collections::BTreeMap;
 
 use crate::config;
-use crate::features::research::domain::expectation::ExpectationObservation;
+use crate::features::research::domain::expectation::{
+    ExpectationLifecycleState, ExpectationObservation,
+};
 use crate::features::shared::interface::i18n::Language;
 use serde::Serialize;
 use serde_json::json;
@@ -123,10 +125,49 @@ fn push_observation_block(
     observation: &ExpectationObservation,
     _language: Language,
 ) {
+    out.push_str(&format!(
+        "- Lifecycle Stage: {}\n",
+        enum_code(&observation.lifecycle_state)
+    ));
     out.push_str(&format!("- Period: {}\n", observation.period));
     out.push_str(&format!("- As of: {}\n", observation.as_of_date));
     out.push_str(&format!("- Expected: {}\n", observation.expected_value));
     out.push_str(&format!("- Actual: {}\n", observation.actual_value));
+    out.push_str(&format!(
+        "- Result: {}\n",
+        observation
+            .result
+            .map(|value| enum_code(&value))
+            .unwrap_or_else(|| "UNAVAILABLE".to_string())
+    ));
+    out.push_str(&format!(
+        "- Surprise Percent: {}\n",
+        observation
+            .surprise_percent
+            .map(|value| format!("{:.2}%", value))
+            .unwrap_or_else(|| "UNAVAILABLE".to_string())
+    ));
+    out.push_str(&format!(
+        "- Market Reaction: {}\n",
+        observation
+            .market_reaction
+            .as_deref()
+            .unwrap_or("UNAVAILABLE")
+    ));
+    out.push_str(&format!(
+        "- Released At: {}\n",
+        observation
+            .released_at
+            .map(|date| date.to_string())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string())
+    ));
+    out.push_str(&format!(
+        "- Archived At: {}\n",
+        observation
+            .archived_at
+            .map(|date| date.to_string())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string())
+    ));
     out.push_str(&format!("- Unit: {}\n", observation.unit));
     out.push_str(&format!(
         "- Consensus Source: {}\n",
@@ -178,6 +219,13 @@ fn expectation_layer_summary(snapshot: &ExpectationLayerSnapshot) -> serde_json:
     let mut expectation_pressure_counts = BTreeMap::<String, usize>::new();
     let mut source_health_counts = BTreeMap::<String, usize>::new();
     let mut event_type_counts = BTreeMap::<String, usize>::new();
+    let mut lifecycle_state_counts = BTreeMap::<String, usize>::new();
+
+    lifecycle_state_counts.insert(enum_code(&ExpectationLifecycleState::Upcoming), 0);
+    lifecycle_state_counts.insert(enum_code(&ExpectationLifecycleState::Pending), 0);
+    lifecycle_state_counts.insert(enum_code(&ExpectationLifecycleState::Released), 0);
+    lifecycle_state_counts.insert(enum_code(&ExpectationLifecycleState::Compared), 0);
+    lifecycle_state_counts.insert(enum_code(&ExpectationLifecycleState::Archived), 0);
 
     for observation in &snapshot.observations {
         *revision_direction_counts
@@ -194,6 +242,9 @@ fn expectation_layer_summary(snapshot: &ExpectationLayerSnapshot) -> serde_json:
             .or_insert(0) += 1;
         *event_type_counts
             .entry(enum_code(&observation.event_type))
+            .or_insert(0) += 1;
+        *lifecycle_state_counts
+            .entry(enum_code(&observation.lifecycle_state))
             .or_insert(0) += 1;
     }
 
@@ -221,6 +272,7 @@ fn expectation_layer_summary(snapshot: &ExpectationLayerSnapshot) -> serde_json:
         "expectation_pressure_counts": expectation_pressure_counts,
         "source_health_counts": source_health_counts,
         "event_type_counts": event_type_counts,
+        "lifecycle_state_counts": lifecycle_state_counts,
         "snapshot": serde_json::to_value(snapshot).unwrap_or(serde_json::Value::Null)
     })
 }

@@ -1,0 +1,22 @@
+{
+  "event_id": "fomc-2026-06-18",
+  "as_of_date": "2026-06-18",
+  "event_date": "2026-06-18",
+  "event_time": "14:00",
+  "timezone": "America/New_York",
+  "country": "US",
+  "event_type": "FOMC_RATE_DECISION",
+  "event_name": "FOMC Rate Decision",
+  "source": "Federal Reserve",
+  "source_url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+  "importance": "CRITICAL",
+  "lifecycle": "UPCOMING",
+  "expected_value": "5.25%",
+  "actual_value": null,
+  "previous_value": "5.50%",
+  "unit": "%",
+  "surprise_state": "NOT_AVAILABLE",
+  "information_content": "HIGH",
+  "source_health": "SUCCEEDED",
+  "observed_at": "2026-06-17"
+}

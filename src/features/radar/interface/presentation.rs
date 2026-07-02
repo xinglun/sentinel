@@ -246,6 +246,38 @@ pub enum InterpretationPattern {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum SignalContextInformationContent {
+    High,
+    Medium,
+    Low,
+    #[default]
+    Unknown,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum SignalContextPrimaryContext {
+    QuarterEndRebalancing,
+    MonthEndRebalancing,
+    IndexReconstitution,
+    EtfRebalance,
+    HolidayLiquidity,
+    PreEarningsWaiting,
+    MajorEventWaiting,
+    MacroEvent,
+    #[default]
+    None,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum SignalContextQuality {
+    High,
+    Medium,
+    Low,
+    #[default]
+    Unavailable,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum InterpretationExpectationQuality {
     High,
     Medium,
@@ -285,6 +317,16 @@ pub struct InterpretationLayerViewModel {
     pub notice: String,
     pub current_decision_weight_label: String,
     pub current_decision_weight_value: String,
+    pub signal_context_label: String,
+    pub signal_context_information_content_label: String,
+    pub signal_context_information_content_value: String,
+    pub signal_context_primary_context_label: String,
+    pub signal_context_primary_context_value: String,
+    pub signal_context_quality_label: String,
+    pub signal_context_quality_value: String,
+    pub signal_context_interpretation_label: String,
+    pub signal_context_interpretation_value: String,
+    pub signal_context_boundary: String,
     pub expectation_quality_label: String,
     pub expectation_quality_value: String,
     pub expectation_quality_reason_label: String,
@@ -293,12 +335,25 @@ pub struct InterpretationLayerViewModel {
     pub gravity_data_quality_value: String,
     pub gravity_data_quality_reason_label: String,
     pub gravity_data_quality_reason_value: String,
-    pub narrative_pattern_label: String,
-    pub narrative_pattern_value: String,
+    pub narrative_components_label: String,
+    pub trend_label: String,
+    pub trend_value: String,
+    pub expectation_label: String,
+    pub expectation_value: String,
+    pub supply_label: String,
+    pub supply_value: String,
+    pub gravity_label: String,
+    pub gravity_value: String,
+    pub flow_label: String,
+    pub flow_value: String,
+    pub interpretation_label: String,
+    pub interpretation_value: String,
+    pub decision_explanation_label: String,
+    pub decision_explanation_intro: String,
+    pub decision_explanation_reasons: Vec<String>,
+    pub decision_explanation_conclusion: String,
     pub subjects_label: String,
     pub subjects_value: String,
-    pub narrative_summary_label: String,
-    pub narrative_summary_value: String,
     pub boundary: String,
 }
 

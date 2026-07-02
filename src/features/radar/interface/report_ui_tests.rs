@@ -82,7 +82,29 @@ mod tests {
     use super::*;
     use crate::features::radar::domain::transition_log::StateTransitionLog;
     use crate::features::radar::domain::trend_cohesion::{
+        SubstantiveEvidence, TrendContinuationState, TrendRecognitionEvidence,
+    };
+    use crate::features::radar::domain::trend_cohesion::{
         TrendCohesionGateCondition, TrendCohesionSnapshot,
+    };
+    use crate::features::radar::interface::interpretation_read_model::{
+        build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+        InterpretationNarrativeSignal,
+    };
+    use crate::features::radar::interface::presentation::{
+        InterpretationExpectationQuality, InterpretationGravityDataQuality,
+        InterpretationGravityDataQualityReason, InterpretationTrendState,
+    };
+    use crate::features::radar::interface::signal_context_event_read_model::{
+        build_signal_context_event_read_model, SignalContextEventReadModel,
+        SignalContextEventReadModelInput,
+    };
+    use crate::features::research::interface::expectation_report_builder::build_expectation_layer_fixture_snapshot;
+    use crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel;
+    use crate::features::research::interface::macro_event_observation::{
+        FutureCalendarKind, FutureCalendarObservation, MacroEventImportance,
+        MacroEventInformationContent, MacroEventLifecycle, MacroEventObservation,
+        MacroEventSourceHealth, MacroEventSurpriseState, MacroEventType,
     };
     use crate::features::shared::interface::i18n::{get_dictionary, Language};
     use std::fs;
@@ -3234,7 +3256,7 @@ mod tests {
 
         let config = mock_config_with_language(Language::EnUs);
         let mut packet = DecisionPacket {
-            date: Utc::now().date_naive(),
+            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
             ..Default::default()
         };
         packet.trend_recognition = Some(TrendRecognitionEvidence {
@@ -3260,9 +3282,11 @@ mod tests {
         let dict = get_dictionary(Language::EnUs);
         pres.interpretation_layer = Some(build_interpretation_layer_view_model(
             InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
                 subjects: &subjects,
                 signal: InterpretationNarrativeSignal {
                     trend_state: InterpretationTrendState::Stable,
+                    trend_available: true,
                     expectation_quality: InterpretationExpectationQuality::High,
                     expectation_quality_reason:
                         crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
@@ -3273,7 +3297,21 @@ mod tests {
                         crate::features::research::domain::valuation_gravity::GravityStatus::Fair,
                     ),
                     supply_pressure: false,
+                    supply_available: true,
+                    flow_acceleration: Some(0.0),
                 },
+                future_context: Default::default(),
+                decision_summary: Some(&crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                    is_no_trade: true,
+                    summary: "NO TRADE".to_string(),
+                    readiness_reasons_label: "Readiness Reasons".to_string(),
+                    readiness_reasons: vec![
+                        "突破连续性不足".to_string(),
+                        "扩散范围有限".to_string(),
+                        "核心资产尚未形成一致攻击".to_string(),
+                    ],
+                    ..Default::default()
+                }),
                 language: Language::EnUs,
                 dict: &dict,
             },
@@ -3304,6 +3342,15 @@ mod tests {
         assert!(report
             .telegram_html_body
             .contains("Current decision weight: 0%"));
+        assert!(report.telegram_html_body.contains("Signal Context"));
+        assert!(report.telegram_html_body.contains("Information Content"));
+        assert!(report.telegram_html_body.contains("Primary Context"));
+        assert!(report.telegram_html_body.contains("Context Quality"));
+        assert!(report
+            .telegram_html_body
+            .contains("Quarter-end Rebalancing"));
+        assert!(report.telegram_html_body.contains("LOW"));
+        assert!(report.telegram_html_body.contains("HIGH"));
         assert!(report
             .telegram_html_body
             .contains("Expectation Quality: HIGH"));
@@ -3321,19 +3368,103 @@ mod tests {
             .contains("Gravity Data Quality Reason"));
         assert!(report.telegram_html_body.contains("Consensus unavailable"));
         assert!(report.telegram_html_body.contains("TSLA, GOOG, NVDA"));
-        assert!(report.telegram_html_body.contains("Narrative Pattern"));
-        assert!(report.telegram_html_body.contains("Fundamental pricing"));
+        assert!(report.telegram_html_body.contains("Narrative Components"));
+        assert!(report.telegram_html_body.contains("Trend"));
+        assert!(report.telegram_html_body.contains("Expectation"));
+        assert!(report.telegram_html_body.contains("Supply"));
+        assert!(report.telegram_html_body.contains("Gravity"));
+        assert!(report.telegram_html_body.contains("Flow"));
+        assert!(report.telegram_html_body.contains("Interpretation"));
+        assert!(report.telegram_html_body.contains("Decision Explanation"));
+        assert!(report
+            .telegram_html_body
+            .contains("Price structure remains stable"));
         assert!(report
             .telegram_html_body
             .contains("does not enter the domain decision pipeline"));
         assert!(report
             .archival_markdown
             .contains("does not generate trade signals"));
+        let vm = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: packet.date,
+            subjects: &subjects,
+            signal: InterpretationNarrativeSignal {
+                trend_state: InterpretationTrendState::Stable,
+                trend_available: true,
+                expectation_quality: InterpretationExpectationQuality::High,
+                expectation_quality_reason:
+                    crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                gravity_data_quality_reason:
+                    InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                gravity_status: Some(
+                    crate::features::research::domain::valuation_gravity::GravityStatus::Fair
+                ),
+                supply_pressure: false,
+                supply_available: true,
+                flow_acceleration: Some(0.0),
+            },
+            future_context: Default::default(),
+            decision_summary: Some(&crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                is_no_trade: true,
+                summary: "NO TRADE".to_string(),
+                readiness_reasons_label: "Readiness Reasons".to_string(),
+                readiness_reasons: vec![
+                    "突破连续性不足".to_string(),
+                    "扩散范围有限".to_string(),
+                    "核心资产尚未形成一致攻击".to_string(),
+                ],
+                ..Default::default()
+            }),
+            language: Language::EnUs,
+            dict: &dict,
+        });
+        assert_eq!(vm.signal_context_information_content_value, "LOW");
         assert_eq!(
+            vm.signal_context_primary_context_value,
+            "Quarter-end Rebalancing"
+        );
+        assert_eq!(vm.signal_context_quality_value, "HIGH");
+        assert!(vm
+            .signal_context_interpretation_value
+            .contains("quarter-end"));
+        assert_eq!(
+            vm.interpretation_value,
+            "Price structure remains stable. Market expectation is clear and the system has consensus data. No new supply risk is visible yet. Price is broadly near the value anchor. Flow is neutral."
+        );
+    }
+
+    #[test]
+    fn interpretation_layer_renders_future_read_model_signal_contexts() {
+        let config = mock_config_with_language(Language::EnUs);
+        let mut packet = DecisionPacket {
+            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            ..Default::default()
+        };
+        packet.trend_recognition = Some(TrendRecognitionEvidence {
+            state: TrendContinuationState::StructuralPersistence,
+            diffusion_score: 2.8,
+            conviction_score: 2.8,
+            substantive: Some(SubstantiveEvidence {
+                capex_payoff_signal: true,
+                earnings_validation: true,
+                order_visibility: true,
+                ..Default::default()
+            }),
+            ..Default::default()
+        });
+
+        let subjects = vec!["TSLA".to_string()];
+        let dict = get_dictionary(Language::EnUs);
+        let expectation_snapshot = build_expectation_layer_fixture_snapshot();
+
+        let build_view_model = |future_context: SignalContextEventReadModel| {
             build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
                 subjects: &subjects,
                 signal: InterpretationNarrativeSignal {
                     trend_state: InterpretationTrendState::Stable,
+                    trend_available: true,
                     expectation_quality: InterpretationExpectationQuality::High,
                     expectation_quality_reason:
                         crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
@@ -3341,16 +3472,345 @@ mod tests {
                     gravity_data_quality_reason:
                         InterpretationGravityDataQualityReason::ConsensusUnavailable,
                     gravity_status: Some(
-                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair
+                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair,
                     ),
                     supply_pressure: false,
+                    supply_available: true,
+                    flow_acceleration: Some(0.0),
                 },
+                future_context,
+                decision_summary: Some(
+                    &crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                        is_no_trade: true,
+                        summary: "NO TRADE".to_string(),
+                        readiness_reasons_label: "Readiness Reasons".to_string(),
+                        readiness_reasons: vec![
+                            "突破连续性不足".to_string(),
+                            "扩散范围有限".to_string(),
+                            "核心资产尚未形成一致攻击".to_string(),
+                        ],
+                        ..Default::default()
+                    },
+                ),
                 language: Language::EnUs,
                 dict: &dict,
             })
-            .narrative_pattern_value,
-            "Fundamental pricing"
+        };
+
+        let pre_earnings_context =
+            build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                as_of_date: expectation_snapshot.as_of_date,
+                expectation_snapshot: Some(&expectation_snapshot),
+                future_calendar: None,
+            });
+        let pre_earnings_vm = build_view_model(pre_earnings_context);
+        let mut pre_earnings_pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
         );
+        pre_earnings_pres.interpretation_layer = Some(pre_earnings_vm.clone());
+        let pre_earnings_report = generate_refined_report(
+            &report_context(&config),
+            &pre_earnings_pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        assert!(pre_earnings_report
+            .telegram_html_body
+            .contains("Pre-Earnings Waiting"));
+        assert_eq!(
+            pre_earnings_vm.signal_context_information_content_value,
+            "LOW"
+        );
+        assert_eq!(pre_earnings_vm.signal_context_quality_value, "LOW");
+        assert!(pre_earnings_vm
+            .signal_context_interpretation_value
+            .contains("waiting"));
+        assert!(!pre_earnings_vm
+            .signal_context_interpretation_value
+            .to_lowercase()
+            .contains("buy"));
+        assert!(!pre_earnings_vm
+            .signal_context_interpretation_value
+            .to_lowercase()
+            .contains("sell"));
+        assert!(!pre_earnings_vm
+            .signal_context_interpretation_value
+            .to_lowercase()
+            .contains("ready"));
+        assert!(!pre_earnings_vm
+            .signal_context_interpretation_value
+            .to_lowercase()
+            .contains("execute"));
+        assert!(!pre_earnings_vm
+            .signal_context_interpretation_value
+            .to_lowercase()
+            .contains("position sizing"));
+
+        assert!(!pre_earnings_report
+            .telegram_html_body
+            .contains("Macro Event"));
+        assert!(!pre_earnings_report
+            .telegram_html_body
+            .contains("macro information"));
+    }
+
+    fn macro_event_observation(event_date: chrono::NaiveDate) -> MacroEventObservation {
+        MacroEventObservation {
+            event_id: "cpi-2026-06-18".to_string(),
+            as_of_date: event_date,
+            event_date,
+            event_time: Some("08:30".to_string()),
+            timezone: "America/New_York".to_string(),
+            country: "US".to_string(),
+            event_type: MacroEventType::Cpi,
+            event_name: "CPI Release".to_string(),
+            source: "BLS".to_string(),
+            source_url: "https://www.bls.gov/schedule/news_release/cpi.htm".to_string(),
+            importance: MacroEventImportance::Critical,
+            lifecycle: MacroEventLifecycle::Upcoming,
+            expected_value: Some("2.9%".to_string()),
+            actual_value: None,
+            previous_value: Some("2.8%".to_string()),
+            unit: Some("%".to_string()),
+            surprise_state: MacroEventSurpriseState::NotAvailable,
+            information_content: MacroEventInformationContent::High,
+            source_health: MacroEventSourceHealth::Succeeded,
+            observed_at: event_date,
+        }
+    }
+
+    fn future_calendar_fact(
+        as_of_date: chrono::NaiveDate,
+        kind: FutureCalendarKind,
+        event_date: chrono::NaiveDate,
+        event_name: &str,
+    ) -> FutureCalendarObservation {
+        FutureCalendarObservation {
+            kind,
+            event_id: format!("fact-{:?}-{}", kind, event_date),
+            as_of_date,
+            event_date,
+            event_time: Some("08:30".to_string()),
+            timezone: "America/New_York".to_string(),
+            country: "US".to_string(),
+            event_type: MacroEventType::Gdp,
+            event_name: event_name.to_string(),
+            source: "Official Calendar".to_string(),
+            source_url: "https://example.com/calendar".to_string(),
+            importance: MacroEventImportance::High,
+            lifecycle: MacroEventLifecycle::Upcoming,
+            expected_value: None,
+            actual_value: None,
+            previous_value: None,
+            unit: None,
+            surprise_state: MacroEventSurpriseState::NotAvailable,
+            information_content: MacroEventInformationContent::Low,
+            source_health: MacroEventSourceHealth::Succeeded,
+            observed_at: event_date,
+        }
+    }
+
+    #[test]
+    fn interpretation_layer_renders_macro_event_without_trade_language() {
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket {
+            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            ..Default::default()
+        };
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["TSLA".to_string()];
+        let observation = macro_event_observation(packet.date);
+        let calendar = MacroEventCalendarReadModel::from_observations(
+            packet.date,
+            "inline".to_string(),
+            vec![observation],
+        );
+        let future_context =
+            build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                as_of_date: packet.date,
+                expectation_snapshot: None,
+                future_calendar: Some(&calendar),
+            });
+        let mut pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        pres.interpretation_layer = Some(build_interpretation_layer_view_model(
+            InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
+                subjects: &subjects,
+                signal: InterpretationNarrativeSignal {
+                    trend_state: InterpretationTrendState::Stable,
+                    trend_available: true,
+                    expectation_quality: InterpretationExpectationQuality::High,
+                    expectation_quality_reason:
+                        crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                    gravity_data_quality_reason:
+                        InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                    gravity_status: Some(
+                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair,
+                    ),
+                    supply_pressure: false,
+                    supply_available: true,
+                    flow_acceleration: Some(0.0),
+                },
+                future_context,
+                decision_summary: Some(
+                    &crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                        is_no_trade: true,
+                        summary: "NO TRADE".to_string(),
+                        readiness_reasons_label: "Readiness Reasons".to_string(),
+                        readiness_reasons: vec![
+                            "突破连续性不足".to_string(),
+                            "扩散范围有限".to_string(),
+                        ],
+                        ..Default::default()
+                    },
+                ),
+                language: Language::EnUs,
+                dict: &dict,
+            },
+        ));
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        assert!(report.telegram_html_body.contains("Macro Event"));
+        assert!(report.telegram_html_body.contains("Information Content"));
+        assert!(report.telegram_html_body.contains("HIGH"));
+        let signal_context = pres.interpretation_layer.unwrap();
+        assert_eq!(
+            signal_context.signal_context_primary_context_value,
+            "Macro Event"
+        );
+        assert_eq!(
+            signal_context.signal_context_information_content_value,
+            "HIGH"
+        );
+        assert!(signal_context
+            .signal_context_interpretation_value
+            .to_lowercase()
+            .contains("macro information"));
+        let lower = signal_context
+            .signal_context_interpretation_value
+            .to_lowercase();
+        assert!(!lower.contains("buy"));
+        assert!(!lower.contains("sell"));
+        assert!(!lower.contains("ready"));
+        assert!(!lower.contains("execute"));
+        assert!(!lower.contains("position sizing"));
+    }
+
+    #[test]
+    fn interpretation_layer_renders_future_calendar_contexts_without_trade_language() {
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket {
+            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
+            ..Default::default()
+        };
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["TSLA".to_string()];
+
+        for fact in [
+            future_calendar_fact(
+                chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
+                FutureCalendarKind::IndexReconstitution,
+                chrono::NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
+                "Index Reconstitution",
+            ),
+            future_calendar_fact(
+                chrono::NaiveDate::from_ymd_opt(2026, 6, 29).unwrap(),
+                FutureCalendarKind::MajorEventWaiting,
+                chrono::NaiveDate::from_ymd_opt(2026, 7, 2).unwrap(),
+                "Major Event Waiting",
+            ),
+            future_calendar_fact(
+                chrono::NaiveDate::from_ymd_opt(2026, 9, 29).unwrap(),
+                FutureCalendarKind::EtfRebalance,
+                chrono::NaiveDate::from_ymd_opt(2026, 9, 30).unwrap(),
+                "ETF Rebalance",
+            ),
+            future_calendar_fact(
+                chrono::NaiveDate::from_ymd_opt(2026, 12, 24).unwrap(),
+                FutureCalendarKind::HolidayLiquidity,
+                chrono::NaiveDate::from_ymd_opt(2026, 12, 24).unwrap(),
+                "Holiday Liquidity",
+            ),
+        ] {
+            let calendar = MacroEventCalendarReadModel::from_observations(
+                packet.date,
+                "inline".to_string(),
+                vec![fact],
+            );
+            let future_context =
+                build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                    as_of_date: packet.date,
+                    expectation_snapshot: None,
+                    future_calendar: Some(&calendar),
+                });
+            let mut pres = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                Language::EnUs,
+            );
+            pres.interpretation_layer = Some(build_interpretation_layer_view_model(
+                InterpretationLayerReadModelInput {
+                    as_of_date: packet.date,
+                    subjects: &subjects,
+                    signal: InterpretationNarrativeSignal {
+                        trend_state: InterpretationTrendState::Stable,
+                        trend_available: true,
+                        expectation_quality: InterpretationExpectationQuality::High,
+                        expectation_quality_reason:
+                            crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                        gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                        gravity_data_quality_reason:
+                            InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                        gravity_status: Some(
+                            crate::features::research::domain::valuation_gravity::GravityStatus::Fair,
+                        ),
+                        supply_pressure: false,
+                        supply_available: true,
+                        flow_acceleration: Some(0.0),
+                    },
+                    future_context,
+                    decision_summary: None,
+                    language: Language::EnUs,
+                    dict: &dict,
+                },
+            ));
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            let body_lower = report.telegram_html_body.to_lowercase();
+            assert!(report.telegram_html_body.contains("Interpretation Layer"));
+            assert!(body_lower.contains("low"));
+            assert!(!body_lower.contains("buy"));
+            assert!(!body_lower.contains("sell"));
+        }
     }
 
     #[test]

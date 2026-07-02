@@ -19,6 +19,9 @@ use crate::features::radar::interface::interpretation_read_model::{
 };
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report::{self, ReportRenderContext};
+use crate::features::radar::interface::signal_context_event_read_model::{
+    build_signal_context_event_read_model, SignalContextEventReadModelInput,
+};
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
@@ -34,6 +37,7 @@ use crate::features::research::interface::cognitive_reports::{
 };
 use crate::features::research::interface::expectation_report_builder::build_expectation_layer_snapshot_from_config;
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
+use crate::features::research::interface::macro_event_official_calendar_adapter::load_official_future_calendar;
 use crate::features::research::interface::valuation_gravity_report_builder::{
     build_valuation_gravity_observation_with_auto, build_valuation_gravity_report_with_auto,
 };
@@ -153,10 +157,25 @@ pub(crate) async fn run_pipeline(
             14,
         )
         .await;
+        let future_calendar = std::thread::spawn(move || load_official_future_calendar(packet.date))
+            .join()
+            .unwrap_or_else(|_| {
+                crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel::unavailable(
+                    packet.date,
+                    "official-calendar-connector".to_string(),
+                )
+            });
+        let future_context =
+            build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                as_of_date: packet.date,
+                expectation_snapshot: Some(&expectation_snapshot),
+                future_calendar: Some(&future_calendar),
+            });
         let (expectation_quality, expectation_quality_reason) =
             derive_expectation_quality(&expectation_snapshot);
         let interpretation_signal = InterpretationNarrativeSignal {
             trend_state: derive_trend_state(pres_packet.transition_evidence.as_ref()),
+            trend_available: pres_packet.transition_evidence.is_some(),
             expectation_quality,
             expectation_quality_reason,
             gravity_data_quality: derive_gravity_data_quality(&gravity_observation),
@@ -184,12 +203,17 @@ pub(crate) async fn run_pipeline(
             supply_pressure: capital_absorption_snapshot
                 .as_ref()
                 .is_some_and(has_supply_pressure),
+            supply_available: capital_absorption_snapshot.is_some(),
+            flow_acceleration: packet.market_features.flow_acceleration,
         };
         let subjects = collect_subjects(&expectation_snapshot, &gravity_observation);
         pres_packet.interpretation_layer = Some(build_interpretation_layer_view_model(
             InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
                 subjects: &subjects,
                 signal: interpretation_signal,
+                future_context,
+                decision_summary: Some(&pres_packet.decision_summary),
                 language: lang,
                 dict: &dict,
             },
