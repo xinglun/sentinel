@@ -1,0 +1,125 @@
+{
+  "contractVersion": 1,
+  "workItemId": "official-calendar-live-smoke-fix",
+  "mode": "code",
+  "title": "公式日历smokeのTokio阻塞panicを修正する",
+  "scope": [
+    "src/cli.rs",
+    "src/features/research/interface/cli_command_handler.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+    ".ai/work-items/active/official-calendar-live-smoke-fix.summary.json"
+  ],
+  "outOfScope": [
+    "Signal Context の週次追跡や interpretation/report の表示変更。",
+    "Decision / Gate / Execution / Trader / Position Sizing の変更。",
+    "official calendar の分類ルールや source 対象の拡張。",
+    "source_diagnostics の逐源可視化を interpretation / weekly report に広げること。"
+  ],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "official-calendar-smoke command の async 実行入口。"
+    },
+    {
+      "path": "src/features/research/interface/cli_command_handler.rs",
+      "reason": "smoke 実行と JSON payload の出力入口。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "official calendar 取得処理の blocking runtime boundary。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "external_dependency",
+      "review_debt"
+    ],
+    "reason": "Tokio async context から blocking reqwest path を切り離す必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "blocking smoke 入口を spawn_blocking / async boundary へ切り替えれば修正できる。"
+  },
+  "preReviewWarnings": [
+    "live smoke は read-only で、fallback synthetic event を復活させない。",
+    "失敗時は diagnostic を返すが、Decision / Gate / Trader には接続しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "official-calendar-smoke が Tokio async context から panic せず実行できる。",
+    "blocking reqwest path は async boundary から切り離される。",
+    "失敗時は diagnostic を見える形で non-zero exit になり、fallback 合成イベントには落ちない。",
+    "CLI 追加は read-only monitoring surface であり、Decision / Gate / Trader に接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

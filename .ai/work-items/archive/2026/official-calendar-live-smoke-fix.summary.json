@@ -1,0 +1,131 @@
+{
+  "workItemId": "official-calendar-live-smoke-fix",
+  "contractPath": ".ai/work-items/archive/2026/official-calendar-live-smoke-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の現在状態を生成し直した。"
+    },
+    {
+      "path": ".ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "reason": "live smoke 修正の scope、acceptance、verification を完成状態に更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/official-calendar-live-smoke-fix.summary.json",
+      "reason": "修正内容、検証結果、残余リスクを記録した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "official-calendar-smoke コマンドを async の smoke 実行関数へ接続した。"
+    },
+    {
+      "path": "src/features/research/interface/cli_command_handler.rs",
+      "reason": "Tokio async context から reqwest::blocking を spawn_blocking に切り離した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+    "src/cli.rs",
+    "src/features/research/interface/cli_command_handler.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/official-calendar-live-smoke-fix.contract.json SUMMARY=.ai/work-items/active/official-calendar-live-smoke-fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Tokio async context から blocking reqwest path を切り離し、live smoke の panic は解消した。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "2026-07-02 の live smoke は source_health=Partial のため non-zero exit だったが、panic ではなく設計上の smoke failure として返った。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "contract を確認し、live smoke の async boundary 修正に絞って着手した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / sources / acceptance を確認してから src/cli.rs と cli_command_handler.rs を変更した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks と live smoke の実行結果を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "make 系の required checks と実行検証を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_dependency",
+      "detail": "official calendar の live smoke は外部 official site の応答に依存する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Tokio/blocking panic を解消し、required checks と live smoke を確認した。",
+    "expectedReviewFocus": [
+      "official-calendar-smoke が async boundary から blocking path を安全に切り離しているか",
+      "live smoke の non-zero exit が panic ではなく設計上の failure として扱われているか",
+      "Decision / Gate / Trader に接続していないか"
+    ]
+  }
+}

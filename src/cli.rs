@@ -144,7 +144,7 @@ pub async fn run() -> Result<()> {
                 })?,
                 None => chrono::Local::now().date_naive(),
             };
-            run_official_calendar_smoke_command(as_of_date)?;
+            run_official_calendar_smoke_command(as_of_date).await?;
         }
         CliCommand::GrayRhinoEscalation => {
             run_gray_rhino_escalation_command(&app_config, audit_language, options.research_notify)
@@ -1287,6 +1287,7 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
 
         assert_eq!(options.command, CliCommand::OfficialCalendarSmoke);
         assert!(cli_usage(Language::ZhCn).contains("official-calendar-smoke"));
+        assert!(cli_usage(Language::EnUs).contains("official-calendar-smoke"));
     }
     struct AlwaysFailProvider;
 

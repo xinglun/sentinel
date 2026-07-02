@@ -8,7 +8,7 @@ use crate::features::research::interface::macro_event_official_calendar_adapter:
 };
 use crate::features::shared::acl::notification_factory::send_required_telegram_notification;
 use crate::features::shared::interface::i18n::Language;
-use anyhow::Result;
+use anyhow::{Context, Result};
 use chrono::NaiveDate;
 use serde_json::json;
 
@@ -71,13 +71,20 @@ pub(crate) async fn run_gray_rhino_escalation_command(
 }
 
 /// 公式日历の live smoke command を実行する。
-pub(crate) fn run_official_calendar_smoke_command(as_of_date: NaiveDate) -> Result<()> {
-    let summary = build_official_calendar_smoke_summary(as_of_date);
+pub(crate) async fn run_official_calendar_smoke_command(as_of_date: NaiveDate) -> Result<()> {
+    let summary =
+        tokio::task::spawn_blocking(move || build_official_calendar_smoke_summary(as_of_date))
+            .await
+            .context("official calendar smoke worker panicked")?;
     println!(
         "{}",
         serde_json::to_string_pretty(&build_official_calendar_smoke_payload(&summary))?
     );
 
+    official_calendar_smoke_exit_status(&summary)
+}
+
+fn official_calendar_smoke_exit_status(summary: &OfficialCalendarSmokeSummary) -> Result<()> {
     if summary.source_health != crate::features::research::interface::macro_event_observation::MacroEventSourceHealth::Succeeded {
         return Err(anyhow::anyhow!(
             "official calendar smoke failed: health={:?}, attempts={}, successes={}, failures={}, diagnostic={}",
@@ -103,7 +110,7 @@ pub(crate) fn build_official_calendar_smoke_payload(
 
 #[cfg(test)]
 mod tests {
-    use super::build_official_calendar_smoke_payload;
+    use super::{build_official_calendar_smoke_payload, official_calendar_smoke_exit_status};
     use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
     use crate::features::research::interface::macro_event_official_calendar_adapter::OfficialCalendarSmokeSummary;
     use chrono::NaiveDate;
@@ -142,5 +149,25 @@ mod tests {
             payload["summary"]["diagnostic"],
             "official source failed on one endpoint"
         );
+    }
+
+    #[test]
+    fn official_calendar_smoke_exit_status_rejects_partial_source_health() {
+        let summary = OfficialCalendarSmokeSummary {
+            as_of_date: NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            source_health: MacroEventSourceHealth::Partial,
+            source_attempts: 4,
+            source_successes: 3,
+            source_failures: 1,
+            observation_count: 2,
+            source_diagnostics: vec![],
+            diagnostic: Some("official source failed on one endpoint".to_string()),
+        };
+
+        let err = official_calendar_smoke_exit_status(&summary).unwrap_err();
+
+        assert!(err
+            .to_string()
+            .contains("official calendar smoke failed: health=Partial"));
     }
 }
