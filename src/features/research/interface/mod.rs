@@ -27,6 +27,8 @@ pub(crate) mod macro_event_calendar_adapter;
 pub(crate) mod macro_event_observation;
 pub(crate) mod macro_event_official_calendar_adapter;
 mod macro_gravity_report;
+#[cfg(test)]
+mod official_calendar_smoke_tests;
 mod research_attention_report;
 pub(crate) mod valuation_gravity_i18n;
 mod valuation_gravity_report;

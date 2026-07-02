@@ -117,6 +117,14 @@ mod tests {
             source_successes: 3,
             source_failures: 1,
             observation_count: 2,
+            source_diagnostics: vec![crate::features::research::interface::macro_event_calendar_adapter::MacroEventSourceDiagnostic {
+                family: "Bureau of Labor Statistics".to_string(),
+                label: "BLS CPI release".to_string(),
+                url: "https://www.bls.gov/schedule/news_release/cpi.htm".to_string(),
+                fetch_health: MacroEventSourceHealth::Succeeded,
+                observation_count: 1,
+                note: "1 release(s)".to_string(),
+            }],
             diagnostic: Some("official source failed on one endpoint".to_string()),
         };
 
@@ -126,6 +134,10 @@ mod tests {
         assert_eq!(payload["summary"]["source_health"], "PARTIAL");
         assert_eq!(payload["summary"]["source_attempts"], 4);
         assert_eq!(payload["summary"]["observation_count"], 2);
+        assert_eq!(
+            payload["summary"]["source_diagnostics"][0]["label"],
+            "BLS CPI release"
+        );
         assert_eq!(
             payload["summary"]["diagnostic"],
             "official source failed on one endpoint"

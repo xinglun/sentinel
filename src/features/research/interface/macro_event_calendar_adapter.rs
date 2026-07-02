@@ -3,7 +3,7 @@ use crate::features::research::interface::macro_event_observation::{
     FutureCalendarObservation, MacroEventSourceHealth,
 };
 use chrono::NaiveDate;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::env;
 use std::path::{Path, PathBuf};
 
@@ -17,7 +17,18 @@ pub(crate) struct MacroEventCalendarReadModel {
     pub source_successes: usize,
     pub source_failures: usize,
     pub diagnostic: Option<String>,
+    pub source_diagnostics: Vec<MacroEventSourceDiagnostic>,
     pub observations: Vec<FutureCalendarObservation>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub(crate) struct MacroEventSourceDiagnostic {
+    pub family: String,
+    pub label: String,
+    pub url: String,
+    pub fetch_health: MacroEventSourceHealth,
+    pub observation_count: usize,
+    pub note: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -184,6 +195,32 @@ impl MacroEventCalendarReadModel {
     where
         T: Into<FutureCalendarObservation>,
     {
+        Self::from_observations_with_stats_and_diagnostics(
+            as_of_date,
+            source,
+            observations,
+            source_attempts,
+            source_successes,
+            source_failures,
+            diagnostic,
+            Vec::new(),
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn from_observations_with_stats_and_diagnostics<T>(
+        as_of_date: NaiveDate,
+        source: String,
+        observations: Vec<T>,
+        source_attempts: usize,
+        source_successes: usize,
+        source_failures: usize,
+        diagnostic: Option<String>,
+        source_diagnostics: Vec<MacroEventSourceDiagnostic>,
+    ) -> Self
+    where
+        T: Into<FutureCalendarObservation>,
+    {
         let observations = observations.into_iter().map(Into::into).collect::<Vec<_>>();
         let source_health = derive_source_health(
             source_attempts,
@@ -203,6 +240,7 @@ impl MacroEventCalendarReadModel {
             source_successes,
             source_failures,
             diagnostic,
+            source_diagnostics,
             observations,
         }
     }
@@ -230,6 +268,7 @@ impl MacroEventCalendarReadModel {
             source_successes,
             source_failures,
             diagnostic,
+            source_diagnostics: Vec::new(),
             observations: Vec::new(),
         }
     }
@@ -258,6 +297,7 @@ impl MacroEventCalendarReadModel {
             source_successes: 0,
             source_failures: 0,
             diagnostic,
+            source_diagnostics: Vec::new(),
             observations: Vec::new(),
         }
     }

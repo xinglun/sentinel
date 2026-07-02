@@ -1,0 +1,133 @@
+{
+  "workItemId": "weekly-signal-context-audit",
+  "contractPath": ".ai/work-items/archive/2026/weekly-signal-context-audit.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 作成時の Cockpit 状態を反映する。"
+    },
+    {
+      "path": ".ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "reason": "公式日历源診断の scope / acceptance / verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/weekly-signal-context-audit.summary.json",
+      "reason": "実装内容、検証結果、残余リスクを記録する。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_calendar_adapter.rs",
+      "reason": "公式日历 read model に structured source diagnostics を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "official source の端点診断を read model と smoke summary に投影した。"
+    },
+    {
+      "path": "src/features/research/interface/cli_command_handler.rs",
+      "reason": "smoke payload に structured source diagnostics を露出した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "official calendar smoke test module を test compile に含めた。"
+    },
+    {
+      "path": "src/features/research/interface/official_calendar_smoke_tests.rs",
+      "reason": "structured source diagnostics の test evidence を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/weekly-signal-context-audit.contract.json",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/research/interface/cli_command_handler.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/official_calendar_smoke_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "official calendar の live smoke を structured にするため、read model と CLI 出力の整合を確認する必要がある。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を更新し、source diagnostics の scope を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / sources / acceptance を確認してから実装を開始した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を実行し、ready 判定の最終確認に入った。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_dependency",
+      "detail": "公式日历 live smoke は外部 official site の応答に依存する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "公式日历 smoke の structured source diagnostics を追加し、required checks を完了した。",
+    "expectedReviewFocus": [
+      "structured source diagnostics が endpoint-level の failure monitoring として十分か",
+      "read-only smoke が Decision / Gate / Trader に接続しないか",
+      "external official site の失敗時に non-zero exit と diagnostic が保たれるか"
+    ]
+  }
+}

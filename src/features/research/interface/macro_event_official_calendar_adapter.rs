@@ -1,4 +1,6 @@
-use crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel;
+use crate::features::research::interface::macro_event_calendar_adapter::{
+    MacroEventCalendarReadModel, MacroEventSourceDiagnostic,
+};
 use crate::features::research::interface::macro_event_observation::{
     FutureCalendarKind, FutureCalendarObservation, MacroEventImportance,
     MacroEventInformationContent, MacroEventLifecycle, MacroEventSourceHealth,
@@ -109,6 +111,7 @@ pub(crate) struct OfficialCalendarSmokeSummary {
     pub source_successes: usize,
     pub source_failures: usize,
     pub observation_count: usize,
+    pub source_diagnostics: Vec<MacroEventSourceDiagnostic>,
     pub diagnostic: Option<String>,
 }
 
@@ -132,7 +135,7 @@ pub(crate) fn load_official_future_calendar(as_of_date: NaiveDate) -> MacroEvent
         holiday_liquidity.len(),
     );
 
-    MacroEventCalendarReadModel::from_observations_with_stats(
+    MacroEventCalendarReadModel::from_observations_with_stats_and_diagnostics(
         as_of_date,
         "official-calendar-connector".to_string(),
         observations,
@@ -140,6 +143,7 @@ pub(crate) fn load_official_future_calendar(as_of_date: NaiveDate) -> MacroEvent
         macro_release.source_successes,
         macro_release.source_failures,
         Some(diagnostic),
+        macro_release.source_diagnostics.clone(),
     )
 }
 
@@ -160,6 +164,7 @@ pub(crate) fn official_calendar_smoke_summary(
         source_successes: read_model.source_successes,
         source_failures: read_model.source_failures,
         observation_count: read_model.observations.len(),
+        source_diagnostics: read_model.source_diagnostics.clone(),
         diagnostic: read_model.diagnostic.clone(),
     }
 }
@@ -171,6 +176,7 @@ struct OfficialSourceLoadStats {
     source_successes: usize,
     source_failures: usize,
     source_notes: Vec<String>,
+    source_diagnostics: Vec<MacroEventSourceDiagnostic>,
 }
 
 fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadStats {
@@ -187,6 +193,18 @@ fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadS
             stats
                 .source_notes
                 .push("official source client could not be created".to_string());
+            stats
+                .source_diagnostics
+                .extend(OFFICIAL_SOURCE_ENDPOINTS.iter().map(|endpoint| {
+                    MacroEventSourceDiagnostic {
+                        family: endpoint.family.to_string(),
+                        label: endpoint.label.to_string(),
+                        url: endpoint.url.to_string(),
+                        fetch_health: MacroEventSourceHealth::Unavailable,
+                        observation_count: 0,
+                        note: "official source client could not be created".to_string(),
+                    }
+                }));
             return stats;
         }
     };
@@ -198,6 +216,14 @@ fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadS
             stats
                 .source_notes
                 .push(format!("{}: fetch failed", endpoint.label));
+            stats.source_diagnostics.push(MacroEventSourceDiagnostic {
+                family: endpoint.family.to_string(),
+                label: endpoint.label.to_string(),
+                url: endpoint.url.to_string(),
+                fetch_health: MacroEventSourceHealth::Unavailable,
+                observation_count: 0,
+                note: "fetch failed".to_string(),
+            });
             continue;
         };
         stats.source_successes += 1;
@@ -217,15 +243,39 @@ fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadS
                 "{}: reached with no matching releases",
                 endpoint.label
             ));
+            stats.source_diagnostics.push(MacroEventSourceDiagnostic {
+                family: endpoint.family.to_string(),
+                label: endpoint.label.to_string(),
+                url: endpoint.url.to_string(),
+                fetch_health: MacroEventSourceHealth::Succeeded,
+                observation_count: 0,
+                note: "reached with no matching releases".to_string(),
+            });
         } else if duplicate == 0 {
             stats
                 .source_notes
                 .push(format!("{}: {} release(s)", endpoint.label, added));
+            stats.source_diagnostics.push(MacroEventSourceDiagnostic {
+                family: endpoint.family.to_string(),
+                label: endpoint.label.to_string(),
+                url: endpoint.url.to_string(),
+                fetch_health: MacroEventSourceHealth::Succeeded,
+                observation_count: added,
+                note: format!("{added} release(s)"),
+            });
         } else {
             stats.source_notes.push(format!(
                 "{}: {} release(s), {} duplicate(s) skipped",
                 endpoint.label, added, duplicate
             ));
+            stats.source_diagnostics.push(MacroEventSourceDiagnostic {
+                family: endpoint.family.to_string(),
+                label: endpoint.label.to_string(),
+                url: endpoint.url.to_string(),
+                fetch_health: MacroEventSourceHealth::Succeeded,
+                observation_count: added,
+                note: format!("{added} release(s), {duplicate} duplicate(s) skipped"),
+            });
         }
     }
 
@@ -1118,6 +1168,24 @@ mod tests {
                 "Bureau of Labor Statistics: 1 release(s)".to_string(),
                 "Bureau of Economic Analysis: fetch failed".to_string(),
             ],
+            source_diagnostics: vec![
+                MacroEventSourceDiagnostic {
+                    family: "Bureau of Labor Statistics".to_string(),
+                    label: "BLS schedule".to_string(),
+                    url: "https://www.bls.gov/schedule/news_release/current_year.asp".to_string(),
+                    fetch_health: MacroEventSourceHealth::Succeeded,
+                    observation_count: 1,
+                    note: "1 release(s)".to_string(),
+                },
+                MacroEventSourceDiagnostic {
+                    family: "Bureau of Economic Analysis".to_string(),
+                    label: "BEA schedule".to_string(),
+                    url: "https://www.bea.gov/news/schedule/full".to_string(),
+                    fetch_health: MacroEventSourceHealth::Unavailable,
+                    observation_count: 0,
+                    note: "fetch failed".to_string(),
+                },
+            ],
         };
         let diagnostic = build_official_calendar_diagnostic(&stats, 3, 1, 0, 2);
 
@@ -1161,6 +1229,23 @@ mod tests {
             1,
             Some("one official source failed to fetch".to_string()),
         );
+        let read_model = MacroEventCalendarReadModel::from_observations_with_stats_and_diagnostics(
+            read_model.as_of_date,
+            read_model.source.clone(),
+            read_model.observations.clone(),
+            read_model.source_attempts,
+            read_model.source_successes,
+            read_model.source_failures,
+            read_model.diagnostic.clone(),
+            vec![MacroEventSourceDiagnostic {
+                family: "Federal Reserve Board".to_string(),
+                label: "Fed calendar".to_string(),
+                url: "https://www.federalreserve.gov/newsevents/calendar.htm".to_string(),
+                fetch_health: MacroEventSourceHealth::Succeeded,
+                observation_count: 1,
+                note: "1 release(s)".to_string(),
+            }],
+        );
 
         let summary = official_calendar_smoke_summary(&read_model);
 
@@ -1173,6 +1258,8 @@ mod tests {
         assert_eq!(summary.source_successes, 3);
         assert_eq!(summary.source_failures, 1);
         assert_eq!(summary.observation_count, 1);
+        assert_eq!(summary.source_diagnostics.len(), 1);
+        assert_eq!(summary.source_diagnostics[0].label, "Fed calendar");
         assert_eq!(
             summary.diagnostic.as_deref(),
             Some("one official source failed to fetch")

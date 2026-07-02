@@ -1,0 +1,127 @@
+{
+  "contractVersion": 1,
+  "workItemId": "weekly-signal-context-audit",
+  "mode": "code",
+  "title": "公式日历源診断を構造化して監視性を上げる",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/research/interface/cli_command_handler.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/official_calendar_smoke_tests.rs",
+    ".ai/work-items/active/weekly-signal-context-audit.contract.json",
+    ".ai/work-items/active/weekly-signal-context-audit.summary.json"
+  ],
+  "outOfScope": [
+    "Signal Context の週次追跡や weekly report の表示変更。",
+    "Decision / Gate / Execution / Trader / Position Sizing の変更。",
+    "official calendar の分類ルールや source 対象の拡張。",
+    "fallback 合成イベントの新規導入や復活。"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/macro_event_calendar_adapter.rs",
+      "reason": "公式日历の read model に source health と診断を持たせる入口。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "official source の端点診断と smoke summary を投影する本体。"
+    },
+    {
+      "path": "src/features/research/interface/cli_command_handler.rs",
+      "reason": "live smoke の structured diagnostic payload を出力する入口。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "official calendar smoke test module を test compile に含める。"
+    },
+    {
+      "path": "src/features/research/interface/official_calendar_smoke_tests.rs",
+      "reason": "structured source diagnostics の test evidence を提供する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "external_dependency",
+      "review_debt"
+    ],
+    "reason": "official calendar live smoke の診断を端点レベルで構造化するため、read model の shape と CLI output の整合を確認する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "既存 live smoke を拡張して source diagnostics を構造化できる。"
+  },
+  "preReviewWarnings": [
+    "live smoke は read-only で、fallback synthetic event を復活させない。",
+    "失敗時は diagnostic を返すが、Decision / Gate / Trader には接続しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "official calendar smoke の read model に endpoint-level の source diagnostics が追加される。",
+    "smoke payload が source health / observation count / diagnostic に加えて structured source diagnostics を出力する。",
+    "失敗時は diagnostic が見える形で non-zero exit になり、fallback 合成イベントには落ちない。",
+    "CLI 追加は read-only monitoring surface であり、Decision / Gate / Trader に接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekly-signal-context-audit.contract.json SUMMARY=.ai/work-items/active/weekly-signal-context-audit.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
