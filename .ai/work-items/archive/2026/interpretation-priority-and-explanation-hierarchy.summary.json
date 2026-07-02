@@ -1,0 +1,177 @@
+{
+  "workItemId": "interpretation-priority-and-explanation-hierarchy",
+  "contractPath": ".ai/work-items/archive/2026/interpretation-priority-and-explanation-hierarchy.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の現在状態を反映する Cockpit 出力を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+      "reason": "作業結果と検証状況を記録する summary を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Today's Explanation の優先度判定と出力文を実装した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "優先度判定と Markdown / HTML レンダリングの回帰テストを追加・修正した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Gray Rhino 昇格状態を当日の日次レポートの assessment / monitoring 出力から派生させるように接続した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "reason": "Gray Rhino 日報の view model 構築とレンダリングを共通化した。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "InterpretationNarrativeSignal の新フィールドに対応する初期化を補った。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "Gray Rhino 連携後の週次レポートテストと出力文言の整合を保つため。"
+    },
+    {
+      "path": "src/features/research/application/gray_rhino_discovery.rs",
+      "reason": "Gray Rhino 候補発見ロジックの追加テストを維持するため。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_discovery_policy.rs",
+      "reason": "Gray Rhino の候補判定ルールを拡張した実装の本体だから。"
+    },
+    {
+      "path": "src/features/research/domain/gray_rhino_monitoring_policy.rs",
+      "reason": "Gray Rhino の monitoring state 分類に新しい候補種別を含めるため。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "reason": "Gray Rhino レポートの inline reference 表示と多言語文言の整合を保つため。"
+    },
+    {
+      "path": "docs/specs/INTERPRETATION_LAYER.md",
+      "reason": "Macro UNKNOWN と Gray Rhino の Today's Explanation ルールを実装と一致させた。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/application/gray_rhino_discovery.rs",
+    "src/features/research/domain/gray_rhino_discovery_policy.rs",
+    "src/features/research/domain/gray_rhino_monitoring_policy.rs",
+    "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+    "src/features/research/interface/gray_rhino_report.rs",
+    "src/features/shared/interface/i18n.rs",
+    "docs/specs/INTERPRETATION_LAYER.md",
+    "docs/specs/GRAY_RHINO_ESCALATION_FRAMEWORK.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.contract.json SUMMARY=.ai/work-items/active/interpretation-priority-and-explanation-hierarchy.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [
+    "required verification needs to be rerun after scope correction."
+  ],
+  "risk": {
+    "level": "low",
+    "detail": "Feature implementation is complete and scope guards are now aligned; verification needs to be refreshed."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "テスト初期化に Default::default() 後のフィールド再代入があり、clippy に合わせて一次元の初期化へ整理した。",
+    "Gray Rhino 昇格状態の source を当日の日次レポートの assessment / monitoring 出力へ接続し、appendix でも同じ view model を再利用するようにした。",
+    "Macro UNKNOWN を Ignored Today ではなく、低置信度の補足コンテキストへ再分類した。"
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract と summary の初期状態を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 内の Interpretation Layer / report / i18n / test を確認して編集した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "scope の不足ファイルを contract へ取り込み、guard 前提を整えた。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "required verification を再実行して cockpit status を更新する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "verification_refresh",
+      "detail": "contract / summary 更新後に required checks を再実行して最終状態を確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "scope の阻塞は解消し、verification も再実行できる状態になったが、Cockpit の最終 status 反映を再確認したい。",
+    "expectedReviewFocus": [
+      "verification",
+      "cockpit status",
+      "scope alignment"
+    ]
+  }
+}

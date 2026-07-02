@@ -1,7 +1,7 @@
 use crate::config::{self, GrayRhinoRiskLevel};
 use crate::features::research::acl::gray_rhino_daily_report_factory::build_gray_rhino_daily_report_repository;
 use crate::features::research::application::gray_rhino_daily_report::{
-    GrayRhinoDailyReportUseCase, GrayRhinoSnapshotPersistence,
+    GrayRhinoDailyReportUseCase, GrayRhinoDailyReportViewModel, GrayRhinoSnapshotPersistence,
 };
 #[cfg(test)]
 use crate::features::research::domain::gray_rhino::{
@@ -63,13 +63,18 @@ pub(crate) fn build_gray_rhino_daily_report(
     as_of_date: NaiveDate,
     language: Language,
 ) -> Result<String> {
-    build_gray_rhino_daily_report_with_persistence(
+    let watch_symbols = enabled_watch_symbols(app_config);
+    let view_model = build_gray_rhino_daily_report_view_model(
         app_config,
         save_dir,
         as_of_date,
-        language,
         GrayRhinoSnapshotPersistence::SaveIfChanged,
-    )
+    )?;
+    Ok(render_gray_rhino_daily_report(
+        &view_model,
+        &watch_symbols,
+        language,
+    ))
 }
 
 pub(crate) fn build_gray_rhino_daily_report_read_only(
@@ -78,30 +83,41 @@ pub(crate) fn build_gray_rhino_daily_report_read_only(
     as_of_date: NaiveDate,
     language: Language,
 ) -> Result<String> {
-    build_gray_rhino_daily_report_with_persistence(
+    let watch_symbols = enabled_watch_symbols(app_config);
+    let view_model = build_gray_rhino_daily_report_view_model(
         app_config,
         save_dir,
         as_of_date,
-        language,
         GrayRhinoSnapshotPersistence::ReadOnly,
-    )
+    )?;
+    Ok(render_gray_rhino_daily_report(
+        &view_model,
+        &watch_symbols,
+        language,
+    ))
 }
 
-fn build_gray_rhino_daily_report_with_persistence(
+pub(crate) fn build_gray_rhino_daily_report_view_model(
     app_config: &config::AppConfig,
     save_dir: &Path,
     as_of_date: NaiveDate,
-    language: Language,
     snapshot_persistence: GrayRhinoSnapshotPersistence,
-) -> Result<String> {
+) -> Result<GrayRhinoDailyReportViewModel> {
     let watch_symbols = enabled_watch_symbols(app_config);
     let repository = build_gray_rhino_daily_report_repository(save_dir);
-    let view_model = GrayRhinoDailyReportUseCase::new(&repository).build(
+    GrayRhinoDailyReportUseCase::new(&repository).build(
         input_from_config(app_config),
         &watch_symbols,
         as_of_date,
         snapshot_persistence,
-    )?;
+    )
+}
+
+pub(crate) fn render_gray_rhino_daily_report(
+    view_model: &GrayRhinoDailyReportViewModel,
+    watch_symbols: &[String],
+    language: Language,
+) -> String {
     let mut report = if let Some(assessment) = &view_model.assessment {
         render_gray_rhino_assessment_markdown(assessment, language)
     } else {
@@ -118,7 +134,7 @@ fn build_gray_rhino_daily_report_with_persistence(
         report.push_str("\n\n");
         report.push_str(&survivability_summary);
     }
-    let sensor_health = render_multi_category_sensor_health(&view_model, language);
+    let sensor_health = render_multi_category_sensor_health(view_model, language);
     if !sensor_health.is_empty() {
         report.push_str("\n\n");
         report.push_str(&sensor_health);
@@ -138,7 +154,7 @@ fn build_gray_rhino_daily_report_with_persistence(
     }
     report.push_str("\n\n");
     report.push_str(&render_auto_discovery_inline_reference(
-        &watch_symbols,
+        watch_symbols,
         &view_model.display_candidates,
         &view_model.monitoring_statuses,
         language,
@@ -149,7 +165,7 @@ fn build_gray_rhino_daily_report_with_persistence(
         report.push_str("\n\n");
         report.push_str(&discovery_ops_view);
     }
-    Ok(report)
+    report
 }
 
 fn input_from_config(app_config: &config::AppConfig) -> Option<GrayRhinoEscalationInput> {

@@ -3299,6 +3299,7 @@ mod tests {
                     supply_pressure: false,
                     supply_available: true,
                     flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
                 },
                 future_context: Default::default(),
                 decision_summary: Some(&crate::features::radar::interface::presentation::DecisionSummaryViewModel {
@@ -3403,6 +3404,7 @@ mod tests {
                 supply_pressure: false,
                 supply_available: true,
                 flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
             },
             future_context: Default::default(),
             decision_summary: Some(&crate::features::radar::interface::presentation::DecisionSummaryViewModel {
@@ -3430,8 +3432,96 @@ mod tests {
             .contains("quarter-end"));
         assert_eq!(
             vm.interpretation_value,
-            "Price structure remains stable. Market expectation is clear and the system has consensus data. No new supply risk is visible yet. Price is broadly near the value anchor. Flow is neutral."
+            "Today no high-information macro event was identified. The official economic calendar did not match CPI, FOMC, jobs, GDP, or similar events. Current price action is still mainly driven by trend continuation. Market expectation is clear, and the market is waiting for the official result before repricing again. Flow does not show a clear withdrawal yet. Supply pressure exists, but valuation information is already included in the explanation. Overall this looks closer to normal consolidation than to a new risk upgrade."
         );
+    }
+
+    #[test]
+    fn test_interpretation_layer_renders_todays_explanation() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::presentation::{
+            InterpretationExpectationQuality, InterpretationGravityDataQuality,
+            InterpretationGravityDataQualityReason, InterpretationTrendState,
+        };
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket {
+            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
+            ..Default::default()
+        };
+        let mut pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        let subjects = vec!["TSLA".to_string()];
+        let dict = get_dictionary(Language::EnUs);
+        pres.interpretation_layer = Some(build_interpretation_layer_view_model(
+            InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
+                subjects: &subjects,
+                signal: InterpretationNarrativeSignal {
+                    trend_state: InterpretationTrendState::Stable,
+                    trend_available: true,
+                    expectation_quality: InterpretationExpectationQuality::High,
+                    expectation_quality_reason:
+                        crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    gravity_data_quality: InterpretationGravityDataQuality::Unavailable,
+                    gravity_data_quality_reason:
+                        InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                    gravity_status: None,
+                    supply_pressure: true,
+                    supply_available: true,
+                    flow_acceleration: Some(0.1), // clear flow acceleration (Secondary)
+                    gray_rhino_escalated: true, // escalated (Secondary)
+                },
+                future_context: Default::default(),
+                decision_summary: None,
+                language: Language::EnUs,
+                dict: &dict,
+            },
+        ));
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        // Markdown レンダリング検証
+        assert!(report.archival_markdown.contains("Today's Explanation"));
+        assert!(report
+            .archival_markdown
+            .contains("Primary Driver: Primary driver today is trend continuation. (HIGH)"));
+        assert!(report.archival_markdown.contains("Secondary Drivers:"));
+        assert!(report
+            .archival_markdown
+            .contains("Supply pressure is relevant but secondary."));
+        assert!(report
+            .archival_markdown
+            .contains("Flow shows a clear supporting or deteriorating direction."));
+        assert!(report
+            .archival_markdown
+            .contains("Gray Rhino structural risk is escalated and secondary."));
+        assert!(report.archival_markdown.contains("Ignored Today:"));
+        assert!(report.archival_markdown.contains(
+            "Gravity is unavailable today, so valuation is excluded from the current explanation."
+        ));
+
+        // HTML レンダリング検証
+        assert!(report.telegram_html_body.contains("Today's Explanation"));
+        assert!(report
+            .telegram_html_body
+            .contains("Primary Driver: Primary driver today is trend continuation. (<i>HIGH</i>)"));
     }
 
     #[test]
@@ -3477,6 +3567,7 @@ mod tests {
                     supply_pressure: false,
                     supply_available: true,
                     flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
                 },
                 future_context,
                 decision_summary: Some(
@@ -3525,7 +3616,7 @@ mod tests {
             .contains("Pre-Earnings Waiting"));
         assert_eq!(
             pre_earnings_vm.signal_context_information_content_value,
-            "LOW"
+            "MEDIUM"
         );
         assert_eq!(pre_earnings_vm.signal_context_quality_value, "LOW");
         assert!(pre_earnings_vm
@@ -3663,6 +3754,7 @@ mod tests {
                     supply_pressure: false,
                     supply_available: true,
                     flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
                 },
                 future_context,
                 decision_summary: Some(
@@ -3819,6 +3911,7 @@ mod tests {
                         supply_pressure: false,
                         supply_available: true,
                         flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
                     },
                     future_context,
                     decision_summary: None,
@@ -3909,6 +4002,7 @@ mod tests {
                     supply_pressure: false,
                     supply_available: true,
                     flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
                 },
                 future_context,
                 decision_summary: None,
@@ -3925,16 +4019,507 @@ mod tests {
             &HashMap::new(),
         )
         .unwrap();
+
         assert_eq!(
             pres.interpretation_layer
                 .as_ref()
                 .unwrap()
                 .signal_context_source_diagnostics_value,
-            "Official calendar source health: PARTIAL; coverage: 1/2 succeeded, 1 failed; fetch failed"
+            "Official Calendar coverage 1/2; unavailable 1; health PARTIAL."
         );
+        assert!(pres
+            .interpretation_layer
+            .as_ref()
+            .unwrap()
+            .signal_context_source_diagnostics_appendix_value
+            .contains("fetch failed"));
         assert!(report.telegram_html_body.contains("Source Diagnostics"));
         assert!(report.telegram_html_body.contains("PARTIAL"));
-        assert!(report.telegram_html_body.contains("fetch failed"));
+        assert!(!report.telegram_html_body.contains("fetch failed"));
+        assert!(report.archival_markdown.contains("fetch failed"));
+    }
+
+    #[test]
+    fn test_quarter_end_and_official_source_unavailable_is_low() {
+        use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
+        use crate::features::radar::interface::presentation::{
+            SignalContextInformationContent, SignalContextPrimaryContext,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::radar::interface::signal_context_read_model::{
+            build_signal_context_assessment, SignalContextReadModelInput,
+        };
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::Language;
+
+        let as_of_date = chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(); // Quarter end
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Unavailable,
+            ..Default::default()
+        };
+
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date,
+            signal: InterpretationNarrativeSignal::default(),
+            future_context,
+            language: Language::EnUs,
+        });
+
+        assert_eq!(
+            assessment.primary_context,
+            SignalContextPrimaryContext::QuarterEndRebalancing
+        );
+        assert_eq!(
+            assessment.information_content,
+            SignalContextInformationContent::Low
+        );
+    }
+
+    #[test]
+    fn test_month_end_and_official_source_unavailable_is_low() {
+        use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
+        use crate::features::radar::interface::presentation::{
+            SignalContextInformationContent, SignalContextPrimaryContext,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::radar::interface::signal_context_read_model::{
+            build_signal_context_assessment, SignalContextReadModelInput,
+        };
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::Language;
+
+        let as_of_date = chrono::NaiveDate::from_ymd_opt(2026, 4, 30).unwrap(); // Month end
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Unavailable,
+            ..Default::default()
+        };
+
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date,
+            signal: InterpretationNarrativeSignal::default(),
+            future_context,
+            language: Language::EnUs,
+        });
+
+        assert_eq!(
+            assessment.primary_context,
+            SignalContextPrimaryContext::MonthEndRebalancing
+        );
+        assert_eq!(
+            assessment.information_content,
+            SignalContextInformationContent::Low
+        );
+    }
+
+    #[test]
+    fn test_none_primary_context_and_loaded_context_is_low() {
+        use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
+        use crate::features::radar::interface::presentation::{
+            SignalContextInformationContent, SignalContextPrimaryContext,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::{
+            SignalContextEventReadModel, SignalContextEventSlot,
+        };
+        use crate::features::radar::interface::signal_context_read_model::{
+            build_signal_context_assessment, SignalContextReadModelInput,
+        };
+        use crate::features::shared::interface::i18n::Language;
+
+        let as_of_date = chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap();
+        let future_context = SignalContextEventReadModel {
+            index_reconstitution: SignalContextEventSlot::Loaded(None),
+            ..Default::default()
+        };
+
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date,
+            signal: InterpretationNarrativeSignal::default(),
+            future_context,
+            language: Language::EnUs,
+        });
+
+        assert_eq!(
+            assessment.primary_context,
+            SignalContextPrimaryContext::None
+        );
+        assert_eq!(
+            assessment.information_content,
+            SignalContextInformationContent::Low
+        );
+    }
+
+    #[test]
+    fn test_none_primary_context_and_no_loaded_context_is_unknown() {
+        use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
+        use crate::features::radar::interface::presentation::{
+            SignalContextInformationContent, SignalContextPrimaryContext,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::radar::interface::signal_context_read_model::{
+            build_signal_context_assessment, SignalContextReadModelInput,
+        };
+        use crate::features::shared::interface::i18n::Language;
+
+        let as_of_date = chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap();
+        let future_context = SignalContextEventReadModel::default();
+
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date,
+            signal: InterpretationNarrativeSignal::default(),
+            future_context,
+            language: Language::EnUs,
+        });
+
+        assert_eq!(
+            assessment.primary_context,
+            SignalContextPrimaryContext::None
+        );
+        assert_eq!(
+            assessment.information_content,
+            SignalContextInformationContent::Unknown
+        );
+    }
+
+    #[test]
+    fn test_expectation_unavailable_and_source_unavailable_shows_source_unavailable() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::presentation::InterpretationExpectationQuality;
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let signal = InterpretationNarrativeSignal {
+            expectation_quality: InterpretationExpectationQuality::Unavailable,
+            gray_rhino_escalated: false,
+            ..Default::default()
+        };
+
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Unavailable,
+            ..Default::default()
+        };
+
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["TSLA".to_string()];
+
+        let view_model = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap(),
+            subjects: &subjects,
+            signal,
+            future_context,
+            decision_summary: None,
+            language: Language::EnUs,
+            dict: &dict,
+        });
+
+        assert!(view_model
+            .expectation_next_observation_value
+            .contains("Official source is currently unavailable"));
+    }
+
+    #[test]
+    fn test_pending_event_shows_waiting_for_official_release() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::presentation::{
+            InterpretationExpectationQuality, SignalContextQuality,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::{
+            SignalContextEventReadModel, SignalContextEventSlot, SignalContextEvidence,
+            SignalContextEvidenceSource,
+        };
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let signal = InterpretationNarrativeSignal {
+            expectation_quality: InterpretationExpectationQuality::High,
+            gray_rhino_escalated: false,
+            ..Default::default()
+        };
+
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Succeeded,
+            pre_earnings_waiting: SignalContextEventSlot::Loaded(Some(SignalContextEvidence {
+                detected: true,
+                quality: SignalContextQuality::High,
+                source: SignalContextEvidenceSource::Calendar,
+                summary: "Earnings".to_string(),
+            })),
+            ..Default::default()
+        };
+
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["TSLA".to_string()];
+
+        let view_model = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap(),
+            subjects: &subjects,
+            signal,
+            future_context,
+            decision_summary: None,
+            language: Language::EnUs,
+            dict: &dict,
+        });
+
+        assert!(view_model
+            .expectation_next_observation_value
+            .contains("Waiting for the official release"));
+    }
+
+    #[test]
+    fn test_quarter_end_expectation_state_is_low_even_with_unavailable_source() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Unavailable,
+            ..Default::default()
+        };
+
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["TSLA".to_string()];
+
+        let view_model = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(), // Quarter end
+            subjects: &subjects,
+            signal: InterpretationNarrativeSignal::default(),
+            future_context,
+            decision_summary: None,
+            language: Language::EnUs,
+            dict: &dict,
+        });
+
+        assert_eq!(view_model.expectation_lifecycle_value, "LOW");
+        assert!(view_model
+            .expectation_next_observation_value
+            .contains("No high-information events currently"));
+    }
+
+    #[test]
+    fn test_none_primary_context_and_source_succeeded_expectation_state_is_unknown() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Succeeded,
+            ..Default::default()
+        };
+
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["TSLA".to_string()];
+
+        let view_model = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap(),
+            subjects: &subjects,
+            signal: InterpretationNarrativeSignal::default(),
+            future_context,
+            decision_summary: None,
+            language: Language::EnUs,
+            dict: &dict,
+        });
+
+        assert_eq!(view_model.expectation_lifecycle_value, "UNKNOWN");
+        assert!(view_model
+            .expectation_next_observation_value
+            .contains("Unable to confirm if events exist"));
+    }
+
+    #[test]
+    fn test_expectation_observing_japanese_typo_is_fixed() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::presentation::SignalContextQuality;
+        use crate::features::radar::interface::signal_context_event_read_model::{
+            SignalContextEventReadModel, SignalContextEventSlot, SignalContextEvidence,
+            SignalContextEvidenceSource,
+        };
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let signal = InterpretationNarrativeSignal::default();
+
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Succeeded,
+            macro_event: SignalContextEventSlot::Loaded(Some(SignalContextEvidence {
+                detected: true,
+                quality: SignalContextQuality::High,
+                source: SignalContextEvidenceSource::Calendar,
+                summary: "CPI Release".to_string(),
+            })),
+            ..Default::default()
+        };
+
+        let dict = get_dictionary(Language::JaJp);
+        let subjects = vec!["TSLA".to_string()];
+
+        let view_model = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap(),
+            subjects: &subjects,
+            signal,
+            future_context,
+            decision_summary: None,
+            language: Language::JaJp,
+            dict: &dict,
+        });
+
+        assert_eq!(view_model.expectation_lifecycle_value, "OBSERVING");
+        assert!(view_model
+            .expectation_next_observation_value
+            .contains("予想の修正"));
+        assert!(!view_model
+            .expectation_next_observation_value
+            .contains("期待 of の修正"));
+    }
+
+    #[test]
+    fn test_interpretation_gravity_unavailable_degradation() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::presentation::{
+            InterpretationExpectationQuality, InterpretationGravityDataQuality,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let signal = InterpretationNarrativeSignal {
+            gravity_data_quality: InterpretationGravityDataQuality::Unavailable,
+            trend_available: true,
+            expectation_quality: InterpretationExpectationQuality::High,
+            supply_available: true,
+            flow_acceleration: Some(0.1),
+            gray_rhino_escalated: false,
+            ..Default::default()
+        };
+
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Succeeded,
+            ..Default::default()
+        };
+
+        for language in [Language::EnUs, Language::ZhCn, Language::JaJp] {
+            let dict = get_dictionary(language);
+            let view_model =
+                build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+                    as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap(),
+                    subjects: &["TSLA".to_string()],
+                    signal,
+                    future_context: future_context.clone(),
+                    decision_summary: None,
+                    language,
+                    dict: &dict,
+                });
+
+            // 1. Quality must reflect the degradation (should be MEDIUM, not HIGH)
+            assert_eq!(view_model.interpretation_quality_value, "MEDIUM");
+
+            // 2. The narrative must not contain "already included in the explanation" equivalent semantics
+            let main_text = &view_model.interpretation_value;
+
+            // 确保不包含 Ready 状态的标志性话语
+            assert!(!main_text.contains("valuation information is already included"));
+            assert!(!main_text.contains("已被估值信息纳入解释"));
+            assert!(!main_text.contains("バリュエーション情報はすでに説明に含まれている"));
+
+            // 确保包含降级宣告
+            match language {
+                Language::EnUs => {
+                    assert!(main_text.contains("Gravity unavailable. Current trend interpretation excludes valuation. Price explanation confidence reduced."));
+                }
+                Language::ZhCn => {
+                    assert!(main_text.contains(
+                        "Gravity unavailable. 当前趋势解释排除估值维度。价格解释置信度降低。"
+                    ));
+                }
+                Language::JaJp => {
+                    assert!(main_text.contains("Gravity unavailable. 現在のトレンド解釈からバリュエーション評価は除外されています。価格説明の信頼性は低下しています。"));
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn test_interpretation_gravity_partial_degradation() {
+        use crate::features::radar::interface::interpretation_read_model::{
+            build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
+            InterpretationNarrativeSignal,
+        };
+        use crate::features::radar::interface::presentation::{
+            InterpretationExpectationQuality, InterpretationGravityDataQuality,
+        };
+        use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        let signal = InterpretationNarrativeSignal {
+            gravity_data_quality: InterpretationGravityDataQuality::Partial,
+            trend_available: true,
+            expectation_quality: InterpretationExpectationQuality::High,
+            supply_available: true,
+            flow_acceleration: Some(0.1),
+            gray_rhino_escalated: false,
+            ..Default::default()
+        };
+
+        let future_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Succeeded,
+            ..Default::default()
+        };
+
+        for language in [Language::EnUs, Language::ZhCn, Language::JaJp] {
+            let dict = get_dictionary(language);
+            let view_model =
+                build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+                    as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap(),
+                    subjects: &["TSLA".to_string()],
+                    signal,
+                    future_context: future_context.clone(),
+                    decision_summary: None,
+                    language,
+                    dict: &dict,
+                });
+
+            let main_text = &view_model.interpretation_value;
+
+            // 确保不包含 Ready 状态的标志性话语
+            assert!(!main_text.contains("valuation information is already included"));
+            assert!(!main_text.contains("已被估值信息纳入解释"));
+            assert!(!main_text.contains("バリュエーション情報はすでに説明に含まれている"));
+
+            // 确保包含不完整和降级宣告
+            match language {
+                Language::EnUs => {
+                    assert!(main_text.contains("Valuation is only partially available. Current price explanation includes incomplete valuation context. Price explanation confidence reduced."));
+                }
+                Language::ZhCn => {
+                    assert!(main_text.contains(
+                        "估值数据部分可用。当前价格解释包含不完整的估值背景。价格解释置信度降低。"
+                    ));
+                }
+                Language::JaJp => {
+                    assert!(main_text.contains("バリュエーションデータは一部のみ有効です。現在の価格説明に含まれるバリュエーションのコンテキストは不完全です。価格説明の信頼性は低下しています。"));
+                }
+            }
+        }
     }
 
     #[test]

@@ -22,8 +22,10 @@ pub(crate) struct SignalContextAssessment {
     pub context_quality: SignalContextQuality,
     pub event_fact: String,
     pub source_health: MacroEventSourceHealth,
-    pub source_diagnostics: String,
+    pub source_diagnostics_summary: String,
+    pub source_diagnostics_appendix: String,
     pub interpretation: String,
+    pub next_observation: String,
 }
 
 pub(crate) fn build_signal_context_assessment(
@@ -31,15 +33,23 @@ pub(crate) fn build_signal_context_assessment(
 ) -> SignalContextAssessment {
     let _signal = input.signal;
     let primary_context = derive_primary_context(input.as_of_date, &input.future_context);
-    let information_content = derive_information_content(primary_context);
+    let information_content = derive_information_content(primary_context, &input.future_context);
     let context_quality = derive_context_quality(primary_context, &input.future_context);
     let event_fact = compose_event_fact(&input.future_context);
     let source_health = input.future_context.source_health;
-    let source_diagnostics = compose_source_diagnostics(&input.future_context, input.language);
+    let (source_diagnostics_summary, source_diagnostics_appendix) =
+        compose_source_diagnostics(&input.future_context, input.language);
     let interpretation = compose_interpretation(
         primary_context,
         information_content,
         context_quality,
+        &input.future_context,
+        input.language,
+    );
+    let next_observation = compose_next_observation(
+        primary_context,
+        information_content,
+        &input.future_context,
         input.language,
     );
 
@@ -49,8 +59,10 @@ pub(crate) fn build_signal_context_assessment(
         context_quality,
         event_fact,
         source_health,
-        source_diagnostics,
+        source_diagnostics_summary,
+        source_diagnostics_appendix,
         interpretation,
+        next_observation,
     }
 }
 
@@ -125,17 +137,27 @@ fn derive_primary_context(
 
 fn derive_information_content(
     primary_context: SignalContextPrimaryContext,
+    future_context: &SignalContextEventReadModel,
 ) -> SignalContextInformationContent {
     match primary_context {
+        // 機械性コンテキストは公式ソースの状態に依存せず LOW とする。
         SignalContextPrimaryContext::QuarterEndRebalancing
-        | SignalContextPrimaryContext::MonthEndRebalancing => SignalContextInformationContent::Low,
-        SignalContextPrimaryContext::MacroEvent => SignalContextInformationContent::High,
-        SignalContextPrimaryContext::IndexReconstitution
+        | SignalContextPrimaryContext::MonthEndRebalancing
+        | SignalContextPrimaryContext::IndexReconstitution
         | SignalContextPrimaryContext::EtfRebalance
-        | SignalContextPrimaryContext::HolidayLiquidity
-        | SignalContextPrimaryContext::PreEarningsWaiting
-        | SignalContextPrimaryContext::MajorEventWaiting => SignalContextInformationContent::Low,
-        SignalContextPrimaryContext::None => SignalContextInformationContent::Unknown,
+        | SignalContextPrimaryContext::HolidayLiquidity => SignalContextInformationContent::Low,
+        SignalContextPrimaryContext::MacroEvent => SignalContextInformationContent::High,
+        SignalContextPrimaryContext::MajorEventWaiting
+        | SignalContextPrimaryContext::PreEarningsWaiting => {
+            SignalContextInformationContent::Medium
+        }
+        SignalContextPrimaryContext::None => {
+            if future_context.has_loaded_context() {
+                SignalContextInformationContent::Low
+            } else {
+                SignalContextInformationContent::Unknown
+            }
+        }
     }
 }
 
@@ -174,30 +196,46 @@ fn compose_interpretation(
     primary_context: SignalContextPrimaryContext,
     information_content: SignalContextInformationContent,
     context_quality: SignalContextQuality,
+    future_context: &SignalContextEventReadModel,
     language: Language,
 ) -> String {
     match primary_context {
-        SignalContextPrimaryContext::QuarterEndRebalancing => quarter_end_text(language),
-        SignalContextPrimaryContext::MonthEndRebalancing => month_end_text(language),
-        SignalContextPrimaryContext::IndexReconstitution => index_reconstitution_text(language),
-        SignalContextPrimaryContext::EtfRebalance => etf_rebalance_text(language),
-        SignalContextPrimaryContext::HolidayLiquidity => holiday_liquidity_text(language),
-        SignalContextPrimaryContext::PreEarningsWaiting => pre_earnings_waiting_text(language),
-        SignalContextPrimaryContext::MajorEventWaiting => major_event_waiting_text(language),
-        SignalContextPrimaryContext::MacroEvent => macro_event_text(language),
-        SignalContextPrimaryContext::None => {
-            none_text(information_content, context_quality, language)
-        }
+        SignalContextPrimaryContext::MacroEvent => macro_event_text(
+            future_context,
+            information_content,
+            context_quality,
+            language,
+        ),
+        SignalContextPrimaryContext::MajorEventWaiting
+        | SignalContextPrimaryContext::PreEarningsWaiting => waiting_event_text(
+            primary_context,
+            future_context,
+            information_content,
+            language,
+        ),
+        SignalContextPrimaryContext::QuarterEndRebalancing
+        | SignalContextPrimaryContext::MonthEndRebalancing
+        | SignalContextPrimaryContext::IndexReconstitution
+        | SignalContextPrimaryContext::EtfRebalance
+        | SignalContextPrimaryContext::HolidayLiquidity => mechanical_context_text(
+            primary_context,
+            future_context,
+            information_content,
+            language,
+        ),
+        SignalContextPrimaryContext::None => none_text(
+            information_content,
+            context_quality,
+            future_context,
+            language,
+        ),
     }
 }
 
 fn compose_source_diagnostics(
     future_context: &SignalContextEventReadModel,
     language: Language,
-) -> String {
-    if future_context.source_health == MacroEventSourceHealth::Succeeded {
-        return String::new();
-    }
+) -> (String, String) {
     let attempts = future_context.source_attempts;
     let successes = future_context.source_successes;
     let failures = future_context.source_failures;
@@ -210,23 +248,90 @@ fn compose_source_diagnostics(
             Language::EnUs => "no extra diagnostic information",
             Language::JaJp => "追加の診断情報はない",
         });
-    if attempts == 0 {
-        return match language {
-            Language::ZhCn => format!("官方日历源未加载；{detail}"),
+    let summary = if attempts == 0 {
+        match language {
+            Language::ZhCn => "Official Calendar unavailable.".to_string(),
+            Language::EnUs => "Official Calendar unavailable.".to_string(),
+            Language::JaJp => "Official Calendar は利用不可。".to_string(),
+        }
+    } else if failures == 0 {
+        String::new()
+    } else {
+        match language {
+            Language::ZhCn => format!(
+                "Official Calendar coverage {successes}/{attempts}; unavailable {failures}; health {health}."
+            ),
+            Language::EnUs => format!(
+                "Official Calendar coverage {successes}/{attempts}; unavailable {failures}; health {health}."
+            ),
+            Language::JaJp => format!(
+                "Official Calendar coverage {successes}/{attempts}; unavailable {failures}; health {health}."
+            ),
+        }
+    };
+    let appendix = if attempts == 0 {
+        match language {
+            Language::ZhCn => format!("Official Calendar source not loaded; {detail}"),
             Language::EnUs => format!("Official calendar source not loaded; {detail}"),
-            Language::JaJp => format!("公式カレンダーの source は未ロード；{detail}"),
+            Language::JaJp => format!("公式カレンダー source は未ロード; {detail}"),
+        }
+    } else if future_context.source_health == MacroEventSourceHealth::Succeeded {
+        String::new()
+    } else {
+        match language {
+            Language::ZhCn => format!(
+                "Official calendar source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
+            ),
+            Language::EnUs => format!(
+                "Official calendar source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
+            ),
+            Language::JaJp => format!(
+                "公式カレンダーの source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
+            ),
+        }
+    };
+    (summary, appendix)
+}
+
+fn compose_next_observation(
+    primary_context: SignalContextPrimaryContext,
+    information_content: SignalContextInformationContent,
+    future_context: &SignalContextEventReadModel,
+    language: Language,
+) -> String {
+    let waiting_text = match language {
+        Language::ZhCn => "等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。".to_string(),
+        Language::EnUs => "Waiting for the official release. After publication the system will automatically compare Expected / Actual, calculate Surprise, and refresh the Narrative.".to_string(),
+        Language::JaJp => "公式発表を待機中。公表後は Expected / Actual を比較し、Surprise を計算して Narrative を更新する。".to_string(),
+    };
+
+    if future_context.source_health == MacroEventSourceHealth::Unavailable
+        && !future_context.has_loaded_context()
+    {
+        return match language {
+            Language::ZhCn => "官方来源当前不可用；待来源恢复后再确认是否存在事件".to_string(),
+            Language::EnUs => "Official source is currently unavailable; verify if events exist once the source is restored.".to_string(),
+            Language::JaJp => "公式ソースは現在利用できません。ソース復旧後にイベントが存在するかどうかを再確認します。".to_string(),
         };
     }
-    match language {
-        Language::ZhCn => format!(
-            "官方日历源健康: {health}；覆盖: {successes}/{attempts} 成功，{failures} 失败；{detail}"
-        ),
-        Language::EnUs => format!(
-            "Official calendar source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
-        ),
-        Language::JaJp => format!(
-            "公式カレンダーの source health: {health}；coverage: {successes}/{attempts} succeeded, {failures} failed；{detail}"
-        ),
+
+    match (primary_context, information_content) {
+        (SignalContextPrimaryContext::MacroEvent, SignalContextInformationContent::High) => match language {
+            Language::ZhCn => "等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。".to_string(),
+            Language::EnUs => "Waiting for the official release. After publication the system will automatically compare Expected / Actual, calculate Surprise, and refresh the Narrative.".to_string(),
+            Language::JaJp => "公式発表を待機中。公表後は Expected / Actual を比較し、Surprise を計算して Narrative を更新する。".to_string(),
+        },
+        (_, SignalContextInformationContent::Medium) => match language {
+            Language::ZhCn => "观察中等重要事件的后续公布，并在结果落地后重新评估预期修正。".to_string(),
+            Language::EnUs => "Watching the next release for a medium-importance event, then re-evaluating the expectation adjustment once it lands.".to_string(),
+            Language::JaJp => "中重要度イベントの次回公表を観察し、結果が出たら期待修正を再評価する。".to_string(),
+        },
+        (_, SignalContextInformationContent::Low) => match language {
+            Language::ZhCn => "继续等待官方日历更新；当前更接近正常整理而非新的风险升级。".to_string(),
+            Language::EnUs => "Continue waiting for the official calendar update; this is closer to normal consolidation than a new risk upgrade.".to_string(),
+            Language::JaJp => "公式カレンダーの更新を待つ。現状は新しいリスク上昇というより通常の整理に近い。".to_string(),
+        },
+        _ => waiting_text,
     }
 }
 
@@ -250,177 +355,190 @@ fn last_day_of_month(date: NaiveDate) -> NaiveDate {
         .expect("previous day of first month day must exist")
 }
 
-fn quarter_end_text(language: Language) -> String {
-    match language {
-        Language::ZhCn => {
-            "近期价格波动更可能来自季度末的机械性再平衡。当前价格的信息含量较低，建议等资金流恢复常态后再重新评估趋势。".to_string()
-        }
-        Language::EnUs => {
-            "Recent price action is more likely driven by quarter-end mechanical rebalancing. Information content is low, so wait until normal trading resumes before re-evaluating the trend."
-                .to_string()
-        }
-        Language::JaJp => {
-            "最近の値動きは四半期末の機械的なリバランスに由来する可能性が高い。情報含量は低く、通常の取引に戻ってから改めてトレンドを評価した方がよい。"
-                .to_string()
-        }
-    }
-}
-
 fn compose_event_fact(future_context: &SignalContextEventReadModel) -> String {
     future_context
         .detected_primary_evidence_summary()
         .unwrap_or_default()
 }
 
-fn month_end_text(language: Language) -> String {
-    match language {
-        Language::ZhCn => {
-            "近期价格波动更可能来自月末再平衡。当前价格的信息含量较低，适合先观察正常交易恢复后的延续性。".to_string()
-        }
-        Language::EnUs => {
-            "Recent price action is more likely driven by month-end rebalancing. Information content is low, so it is better to observe whether the move persists after normal trading resumes."
-                .to_string()
-        }
-        Language::JaJp => {
-            "最近の値動きは月末リバランスの影響である可能性が高い。情報含量は低く、通常取引に戻った後の持続性を先に観察したい。"
-                .to_string()
-        }
-    }
-}
-
 fn none_text(
     information_content: SignalContextInformationContent,
     context_quality: SignalContextQuality,
+    future_context: &SignalContextEventReadModel,
     language: Language,
 ) -> String {
     match context_quality {
         SignalContextQuality::Unavailable => match language {
             Language::ZhCn => {
-                "当前没有足够明确的日历或事件上下文，Signal Context 只能标记为未知。"
+                let _ = (information_content, future_context);
+                "官方来源暂时无法确认今天是否存在高信息量事件，Signal Context 只能标记为 UNKNOWN。"
                     .to_string()
             }
             Language::EnUs => {
-                "There is not enough explicit calendar or event context today, so Signal Context can only be marked as unknown."
-                    .to_string()
+                let _ = (information_content, future_context);
+                "Official sources cannot confirm whether today has a high-information event, so Signal Context is UNKNOWN.".to_string()
             }
             Language::JaJp => {
-                "今日は明示的なカレンダーやイベントの文脈が不足しており、Signal Context は未知としてしか扱えない。"
-                    .to_string()
+                let _ = (information_content, future_context);
+                "公式ソースでは今日は高情報量イベントの有無を確認できず、Signal Context は UNKNOWN でしか扱えない。".to_string()
             }
         },
         SignalContextQuality::Low => match language {
             Language::ZhCn => {
-                let _ = information_content;
-                "上下文读模型已经接入，但今天没有命中明确事件，Signal Context 仍应视为未知。"
-                    .to_string()
+                let _ = (information_content, future_context);
+                "今天未识别到高信息量宏观事件。官方经济日历未命中 CPI、FOMC、就业、GDP 等事件。今日价格变化更可能由企业消息、板块轮动、技术走势驱动。".to_string()
             }
             Language::EnUs => {
-                let _ = information_content;
-                "The context read model is loaded, but no explicit event matched today, so Signal Context remains unknown."
+                let _ = (information_content, future_context);
+                "Today no high-information macro event was identified. The official economic calendar did not match CPI, FOMC, jobs, GDP, or similar events. Price changes are more likely driven by company news, sector rotation, or technical action."
                     .to_string()
             }
             Language::JaJp => {
-                let _ = information_content;
-                "コンテキスト読取りモデルは接続済みだが、今日は明示的なイベントに一致せず、Signal Context は未知のままである。"
-                    .to_string()
+                let _ = (information_content, future_context);
+                "今日は高情報量のマクロイベントは識別されていない。公式経済カレンダーは CPI、FOMC、雇用、GDP などにヒットしておらず、値動きは企業ニュース、セクターローテーション、テクニカル要因に由来する可能性が高い。".to_string()
             }
         },
         _ => match language {
             Language::ZhCn => {
-                let _ = information_content;
-                "当前没有明确的日历或事件上下文，应该把它与既有趋势、流动性和其他观测一起看待。".to_string()
+                let _ = (information_content, future_context);
+                "今天存在中等重要事件，但不是高信息量事件。市场更可能围绕局部信息和预期修正波动。"
+                    .to_string()
             }
             Language::EnUs => {
-                let _ = information_content;
-                "No explicit calendar or event context is identified, so the move should be viewed together with the existing trend, liquidity, and other observations."
+                let _ = (information_content, future_context);
+                "Today has a medium-importance event, but not a high-information macro event. The market is more likely to trade around localized information and expectation adjustments."
                     .to_string()
             }
             Language::JaJp => {
-                let _ = information_content;
-                "明示的なカレンダーやイベント文脈はなく、既存のトレンド、流動性、その他の観測と合わせて見るべきである。"
-                    .to_string()
+                let _ = (information_content, future_context);
+                "今日は中重要度のイベントはあるが、高情報量のマクロイベントではない。市場は局所情報と期待修正を中心に動きやすい。".to_string()
             }
         },
     }
 }
 
-fn index_reconstitution_text(language: Language) -> String {
-    match language {
-        Language::ZhCn => "当前价格更像是在反映指数成分调整，信息含量偏低。".to_string(),
-        Language::EnUs => {
+fn mechanical_context_text(
+    primary_context: SignalContextPrimaryContext,
+    future_context: &SignalContextEventReadModel,
+    information_content: SignalContextInformationContent,
+    language: Language,
+) -> String {
+    let _ = (future_context, information_content);
+    match (primary_context, language) {
+        (SignalContextPrimaryContext::QuarterEndRebalancing, Language::ZhCn) => {
+            "近期价格波动更可能来自季度末的机械性再平衡。当前价格的信息含量较低，建议等资金流恢复常态后再重新评估趋势。".to_string()
+        }
+        (SignalContextPrimaryContext::QuarterEndRebalancing, Language::EnUs) => {
+            "Recent price action is more likely driven by quarter-end mechanical rebalancing. Information content is low, so wait until normal trading resumes before re-evaluating the trend."
+                .to_string()
+        }
+        (SignalContextPrimaryContext::QuarterEndRebalancing, Language::JaJp) => {
+            "最近の値動きは四半期末の機械的なリバランスに由来する可能性が高い。情報含量は低く、通常の取引に戻ってから改めてトレンドを評価した方がよい。"
+                .to_string()
+        }
+        (SignalContextPrimaryContext::MonthEndRebalancing, Language::ZhCn) => {
+            "近期价格波动更可能来自月末再平衡。当前价格的信息含量较低，适合先观察正常交易恢复后的延续性。".to_string()
+        }
+        (SignalContextPrimaryContext::MonthEndRebalancing, Language::EnUs) => {
+            "Recent price action is more likely driven by month-end rebalancing. Information content is low, so it is better to observe whether the move persists after normal trading resumes."
+                .to_string()
+        }
+        (SignalContextPrimaryContext::MonthEndRebalancing, Language::JaJp) => {
+            "最近の値動きは月末リバランスの影響である可能性が高い。情報含量は低く、通常取引に戻った後の持続性を先に観察したい。".to_string()
+        }
+        (SignalContextPrimaryContext::IndexReconstitution, Language::ZhCn) => {
+            "当前价格更像是在反映指数成分调整，信息含量偏低。".to_string()
+        }
+        (SignalContextPrimaryContext::IndexReconstitution, Language::EnUs) => {
             "The move looks tied to index reconstitution flow, so its information content is low."
                 .to_string()
         }
-        Language::JaJp => {
+        (SignalContextPrimaryContext::IndexReconstitution, Language::JaJp) => {
             "現在の値動きは指数リコンスティテューションの影響に近く、情報含量は低い。".to_string()
         }
-    }
-}
-
-fn etf_rebalance_text(language: Language) -> String {
-    match language {
-        Language::ZhCn => "当前价格更像是在反映 ETF 再平衡，信息含量偏低。".to_string(),
-        Language::EnUs => {
+        (SignalContextPrimaryContext::EtfRebalance, Language::ZhCn) => {
+            "当前价格更像是在反映 ETF 再平衡，信息含量偏低。".to_string()
+        }
+        (SignalContextPrimaryContext::EtfRebalance, Language::EnUs) => {
             "The move looks tied to ETF rebalancing flow, so its information content is low."
                 .to_string()
         }
-        Language::JaJp => "現在の値動きは ETF リバランスの影響に近く、情報含量は低い。".to_string(),
-    }
-}
-
-fn holiday_liquidity_text(language: Language) -> String {
-    match language {
-        Language::ZhCn => "节假日前后的流动性偏薄，当前价格信息含量偏低。".to_string(),
-        Language::EnUs => {
+        (SignalContextPrimaryContext::EtfRebalance, Language::JaJp) => {
+            "現在の値動きは ETF リバランスの影響に近く、情報含量は低い。".to_string()
+        }
+        (SignalContextPrimaryContext::HolidayLiquidity, Language::ZhCn) => {
+            "节假日前后的流动性偏薄，当前价格信息含量偏低。".to_string()
+        }
+        (SignalContextPrimaryContext::HolidayLiquidity, Language::EnUs) => {
             "Liquidity is thinner around the holiday window, so the information content is low."
                 .to_string()
         }
-        Language::JaJp => "休日前後は流動性が薄く、現在の価格情報含量は低い。".to_string(),
+        (SignalContextPrimaryContext::HolidayLiquidity, Language::JaJp) => {
+            "休日前後は流動性が薄く、現在の価格情報含量は低い。".to_string()
+        }
+        _ => none_text(information_content, SignalContextQuality::Low, future_context, language),
     }
 }
 
-fn pre_earnings_waiting_text(language: Language) -> String {
+fn waiting_event_text(
+    primary_context: SignalContextPrimaryContext,
+    future_context: &SignalContextEventReadModel,
+    information_content: SignalContextInformationContent,
+    language: Language,
+) -> String {
+    let _ = (primary_context, future_context, information_content);
     match language {
         Language::ZhCn => {
-            "当前价格更像是在等待新的基本面信息，短期波动反映的是观望而非新的长期判断，信息含量偏低。"
-                .to_string()
+            "市场正在等待重要事件，当前价格信息含量处于中等水平，尚不足以直接定义为高信息量事件。".to_string()
         }
         Language::EnUs => {
-            "The move looks like the market waiting for new fundamental information, so short-term noise reflects hesitation rather than a new long-term view."
+            "The market is waiting for an important event. Information content is medium, but not yet high enough to qualify as a high-information day."
                 .to_string()
         }
         Language::JaJp => {
-            "現在の値動きは新しいファンダメンタル情報を待つ局面に近く、短期変動は新しい長期判断ではなく様子見を映しているため、情報含量は低い。"
-                .to_string()
+            "市場は重要イベントを待っており、情報含量は中程度だが、高情報量日と断定するにはまだ足りない。".to_string()
         }
     }
 }
 
-fn major_event_waiting_text(language: Language) -> String {
-    match language {
-        Language::ZhCn => "市场正在等待重要事件，当前价格信息含量偏低。".to_string(),
-        Language::EnUs => {
-            "The market is waiting for a major event, so the current price action has low information content."
-                .to_string()
-        }
-        Language::JaJp => {
-            "市場は重要イベントを待っており、現在の価格情報含量は低い。".to_string()
-        }
-    }
-}
-
-fn macro_event_text(language: Language) -> String {
+fn macro_event_text(
+    future_context: &SignalContextEventReadModel,
+    information_content: SignalContextInformationContent,
+    context_quality: SignalContextQuality,
+    language: Language,
+) -> String {
+    let event_fact = future_context
+        .detected_primary_evidence_summary()
+        .unwrap_or_default();
     match language {
         Language::ZhCn => {
-            "市场正在重新定价新的宏观信息，近期价格变动具有较高的信息含量。".to_string()
+            let _ = context_quality;
+            let info = signal_context_information_content_label(information_content);
+            if event_fact.is_empty() {
+                format!(
+                    "今天识别到高信息量宏观事件，市场正在重新定价新的宏观信息。信息含量: {info}。"
+                )
+            } else {
+                format!("今天识别到高信息量宏观事件: {event_fact}。市场正在重新定价新的宏观信息。信息含量: {info}。")
+            }
         }
         Language::EnUs => {
-            "The market is repricing new macro information, so recent price changes have high information content."
-                .to_string()
+            let _ = context_quality;
+            let info = signal_context_information_content_label(information_content);
+            if event_fact.is_empty() {
+                format!("A high-information macro event was identified today, and the market is repricing the new macro information. Information content: {info}.")
+            } else {
+                format!("A high-information macro event was identified today: {event_fact}. The market is repricing the new macro information. Information content: {info}.")
+            }
         }
         Language::JaJp => {
-            "市場は新しいマクロ情報を再価格付けしており、最近の値動きは高い情報含量を持つ。"
-                .to_string()
+            let _ = context_quality;
+            let info = signal_context_information_content_label(information_content);
+            if event_fact.is_empty() {
+                format!("今日は高情報量のマクロイベントが識別され、市場は新しいマクロ情報を再価格付けしている。情報含量: {info}。")
+            } else {
+                format!("今日は高情報量のマクロイベントが識別され: {event_fact}。市場は新しいマクロ情報を再価格付けしている。情報含量: {info}。")
+            }
         }
     }
 }
@@ -473,6 +591,7 @@ mod tests {
             supply_pressure,
             supply_available: true,
             flow_acceleration,
+            gray_rhino_escalated: false,
         }
     }
 
@@ -630,7 +749,9 @@ mod tests {
             SignalContextPrimaryContext::None
         );
         assert_eq!(assessment.context_quality, SignalContextQuality::Low);
-        assert!(assessment.interpretation.contains("loaded"));
+        assert!(assessment
+            .interpretation
+            .contains("no high-information macro event"));
     }
 
     #[test]
@@ -681,7 +802,10 @@ mod tests {
         );
         assert!(assessment.event_fact.is_empty());
         assert!(assessment
-            .source_diagnostics
+            .source_diagnostics_summary
+            .contains("Official Calendar unavailable"));
+        assert!(assessment
+            .source_diagnostics_appendix
             .contains("Official calendar source not loaded"));
     }
 
@@ -786,7 +910,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Medium
         );
     }
 
@@ -873,12 +997,10 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Medium
         );
         assert_eq!(assessment.context_quality, SignalContextQuality::Low);
-        assert!(assessment
-            .interpretation
-            .contains("fundamental information"));
+        assert!(assessment.interpretation.contains("important event"));
     }
 
     #[test]
@@ -913,8 +1035,14 @@ mod tests {
         );
         assert_eq!(assessment.context_quality, SignalContextQuality::High);
         assert_eq!(assessment.event_fact, "CPI Release / 2026-06-18 / BLS");
-        assert!(assessment.source_diagnostics.is_empty());
-        assert!(assessment.interpretation.contains("macro information"));
+        assert!(assessment.source_diagnostics_summary.is_empty());
+        assert!(assessment.source_diagnostics_appendix.is_empty());
+        assert!(assessment
+            .interpretation
+            .contains("high-information macro event"));
+        assert!(assessment
+            .next_observation
+            .contains("Waiting for the official release"));
     }
 
     #[test]
@@ -945,7 +1073,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Unknown
+            SignalContextInformationContent::Low
         );
     }
 
@@ -977,7 +1105,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Unknown
+            SignalContextInformationContent::Low
         );
     }
 
@@ -1069,7 +1197,7 @@ mod tests {
             assessment.context_quality,
             SignalContextQuality::Unavailable
         );
-        assert!(assessment.interpretation.contains("unknown"));
+        assert!(assessment.interpretation.contains("UNKNOWN"));
     }
 
     #[test]
@@ -1093,9 +1221,11 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Unknown
+            SignalContextInformationContent::Low
         );
         assert_eq!(assessment.context_quality, SignalContextQuality::Low);
-        assert!(assessment.interpretation.contains("read model is loaded"));
+        assert!(assessment
+            .interpretation
+            .contains("no high-information macro event"));
     }
 }

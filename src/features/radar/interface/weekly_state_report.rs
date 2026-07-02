@@ -1474,8 +1474,8 @@ mod tests {
             signal_context_primary_context_value: "Macro Event".to_string(),
             signal_context_quality_value: "HIGH".to_string(),
             signal_context_event_fact_value: "CPI at 08:30 ET".to_string(),
-            signal_context_source_diagnostics_value: "Official calendar source health: Succeeded"
-                .to_string(),
+            signal_context_source_diagnostics_value:
+                "Official Calendar coverage 1/1; unavailable 0; health SUCCEEDED.".to_string(),
             signal_context_interpretation_value: "Market is repricing new macro information."
                 .to_string(),
             ..Default::default()
@@ -1514,7 +1514,7 @@ mod tests {
         assert_eq!(latest["signal_context"]["event_fact"], "CPI at 08:30 ET");
         assert_eq!(
             latest["signal_context"]["source_diagnostics"],
-            "Official calendar source health: Succeeded"
+            "Official Calendar coverage 1/1; unavailable 0; health SUCCEEDED."
         );
         assert_eq!(
             latest["signal_context"]["interpretation"],
