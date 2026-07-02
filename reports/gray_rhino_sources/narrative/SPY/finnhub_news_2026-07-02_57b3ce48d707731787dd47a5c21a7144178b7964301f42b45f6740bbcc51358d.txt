@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: June Jobs Report: Winning Streak Stalls As Employers Add Less Than Expected
+  summary: June jobs rose 57K, missing forecasts, but gains in key sectors suggest a steady labor market amid uncertainty. Click for a full look at the report.
+  url: https://finnhub.io/api/news?id=8c49eb0cec56abf00ae93a0ef435639f3d08b69f24619eb60a2d5981254e0a2e

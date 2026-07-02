@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla paid a Russian hacker $15,000 per bug found — then he cracked open the case that cost them $243 million
+  summary: "Green" used to help Tesla uncover software flaws through its bug bounty program. Years later, the same hacker recovered the crash data the company swore didn't exist — while sitting at a Starbucks, sipping hot chocolate.
+  url: https://finnhub.io/api/news?id=4cfd268f84fe826e5131d6039ca6c60d556aa32a8d749d99b998f08d3d3adff6

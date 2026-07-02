@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wedbush Initiates Coverage On SpaceX with Outperform Rating, Announces Price Target of $190
+  summary: Wedbush  analyst Dan Ives   initiates coverage on SpaceX (NASDAQ:SPCX) with a Outperform rating and announces Price Target of $190.
+  url: https://finnhub.io/api/news?id=84ad87b81c8cf69487d31bb2eaaa3df91e1e44c4097e3d1188f91da8a36058c4

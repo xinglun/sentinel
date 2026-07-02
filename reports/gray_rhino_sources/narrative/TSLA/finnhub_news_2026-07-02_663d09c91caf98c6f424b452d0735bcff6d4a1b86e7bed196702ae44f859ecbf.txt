@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla posts record second-quarter deliveries as Europe sales rebound
+  summary: Tesla posted record second-quarter deliveries on Thursday that beat Wall Street estimates, as a demand rebound in Europe more than offset continued weakness in North America.  The ‌stronger-than-expected deliveries suggest Tesla's core vehicle business is regaining momentum after two years of decline, easing ‌concerns about the segment that still generates most of the company's revenue.  Investors have, however, increasingly looked past vehicle sales, betting instead ​on Tesla's long-term ambitions in autonomous driving and artificial intelligence.
+  url: https://finnhub.io/api/news?id=13ab269154d8124cbde908a6a4661f8670600bdb4b16aa5734c472947cb590bb

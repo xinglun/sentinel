@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitcoin Cratered 20% in June as ETFs Bled $4.5 Billion: What's Next for BTC?
+  summary: Bitcoin closes June down 20% in its worst month since 2022 as ETF outflows hit a record $4.5B, topping the previous worst month by 29%.
+  url: https://finnhub.io/api/news?id=3d70b3908f69206094966f6a6ac64bcba920114651581e43b8c4aad3eef58b50

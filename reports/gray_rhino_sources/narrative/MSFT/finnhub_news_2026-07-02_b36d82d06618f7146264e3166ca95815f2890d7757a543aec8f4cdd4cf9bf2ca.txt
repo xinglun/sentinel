@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Meta Crashed CoreWeave Stock's Cloud Party
+  summary: The AI infrastructure darling was flying high until a report surfaced that one of the world's biggest companies might be moving into its neighborhood.
+  url: https://finnhub.io/api/news?id=929fe0a2b36a7f75d7fc0774ddc6fe85e65c8a2903f297ee79480e91327fc7f2

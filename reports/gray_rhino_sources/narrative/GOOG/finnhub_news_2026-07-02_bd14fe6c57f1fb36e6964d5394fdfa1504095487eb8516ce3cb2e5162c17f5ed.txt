@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Axon is replacing guns with tech
+  summary: Axon founder and CEO Rick Smith sits down with Yahoo Finance Executive Editor Brian Sozzi to explore the company's wild evolution from a scrappy garage startup into a $40 billion public safety tech empire driven by tasers, AI, and drones, all united under a moonshot mission to make the bullet obsolete.
+  url: https://finnhub.io/api/news?id=e274e95068d5ea4ef721fec1cfaa429932256421fee2a451f9e05b0a4922c680

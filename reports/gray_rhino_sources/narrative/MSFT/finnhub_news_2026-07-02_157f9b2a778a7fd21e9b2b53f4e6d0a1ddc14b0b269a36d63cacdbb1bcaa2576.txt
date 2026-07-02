@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sony Will Stop Making Discs for New PlayStation Games in January 2028
+  summary: Sony will stop making physical game discs in January 2028, and Xbox's Project Helix reportedly drops its disc drive too.
+  url: https://finnhub.io/api/news?id=3d1a93221a7491c8ceae536a941aa8bf5866afedd74bced866d28e072ffd320f

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: authID Achieves Microsoft Entra Verified ID Identity Verification Partner Certification
+  summary: Certified Integration Delivers High-Assurance, Privacy-Preserving Identity Verification at Scale Across the Microsoft Ecosystem DENVER, CO, July 02, 2026 (GLOBE NEWSWIRE) -- authID® (Nasdaq: AUID), a leading provider of biometric identity verification and authentication solutions, today announced its inclusion in the Microsoft Entra Verified ID partner ecosystem as an Entra Verified ID Identity Verification (IDV) Partner. This milestone expands authID’s potential reach across the global Microsof
+  url: https://finnhub.io/api/news?id=b0c015d2a3dfd2656dbfdcef15c952831e7ea28893658e5fae08acdf50eb106b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google, Disney Intellectual Property Licensing Partner Teases Breakout. Top Funds Buy In.
+  summary: Boasting multiyear partnerships with Google, Disney and more, intellectual property licensing firm Adeia tests new buy zone.
+  url: https://finnhub.io/api/news?id=da8c5d40ded401ffc511b45aa7d97d6ba4e0f38fe9afc0ea1ea8be913e1f2170

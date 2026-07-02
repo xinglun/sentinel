@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The average investor is running away from 'Magnificent 7' stocks
+  summary: No retail love for the "Magnificent Seven" is persisting.
+  url: https://finnhub.io/api/news?id=aed789f1677c673a658e02a9b6ea11dbea93fe8d0be97a9dcebb3cbcf05d422e

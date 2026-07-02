@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be the Next AI Stock to Split (Hint: It's Not Micron or Sandisk)
+  summary: Forget Nvidia. The AI memory boom is creating massive winners, and this soaring ETF could be on track for a stock split before the year is over.
+  url: https://finnhub.io/api/news?id=1d8ead6816e19b881df61d298437a74eff104033cb2d016450b827d5183b3821

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Total Return Forecasts: Major Asset Classes - July 2, 2026
+  summary: 
+  url: https://finnhub.io/api/news?id=50d3fe80808b8fb8d07ed57e8f4e7bce0624a88739fb62ba9b3acca39bb04f0c

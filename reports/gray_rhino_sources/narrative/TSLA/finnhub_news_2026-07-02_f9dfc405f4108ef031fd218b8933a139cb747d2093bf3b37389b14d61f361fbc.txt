@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: NHTSA Closes Tesla Phantom-Braking Probe After Incident Decline
+  summary: (Updates with NHTSA's statement throughout the story.) NHTSA's probe into reports of unexpected b
+  url: https://finnhub.io/api/news?id=faf3f56af68df49c5926dea8351427cc29b0fc2c2453d2d06ca6686543c199ff

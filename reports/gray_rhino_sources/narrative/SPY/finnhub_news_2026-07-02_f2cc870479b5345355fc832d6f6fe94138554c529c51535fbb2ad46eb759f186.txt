@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman’s Top Strategist Says Europe Is Quietly Keeping Pace With the S&P 500. Here’s the AI Spillover Nobody’s Watching
+  summary: Peter Oppenheimer, Goldman Sachs’ Chief Global Equity Strategist, went on Bloomberg on July 1, 2026 and pointed at a statistic most US-focused investors have missed: European equities have kept pace with the S&P 500 through the first half of the year, despite carrying a fraction of the tech weight. The tortoise is running even with ... Goldman’s Top Strategist Says Europe Is Quietly Keeping Pace With the S&P 500. Here’s the AI Spillover Nobody’s Watching
+  url: https://finnhub.io/api/news?id=0d885eba446b6ad75d1326ab37a89fdd54c3be32ebfdb74c5f1320712e6555ac

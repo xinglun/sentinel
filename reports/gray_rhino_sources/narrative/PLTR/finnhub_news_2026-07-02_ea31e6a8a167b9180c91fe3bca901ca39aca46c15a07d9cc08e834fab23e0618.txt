@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From Nvidia's 'Godfather of AI' to Palantir's 'Messi of AI': Dan Ives' Stock Calls That Defined a Bull Market
+  summary: As Dan Ives leaves Wedbush, here&#39;s a look back at his biggest stock calls, from dubbing Nvidia the &#39;Godfather of AI&#39; to calling Palantir the &#39;Messi of AI.&#39;
+  url: https://finnhub.io/api/news?id=48f1cd308a0faf475e53b1c7492620a74211a69a446c4b46c518e773876f4548

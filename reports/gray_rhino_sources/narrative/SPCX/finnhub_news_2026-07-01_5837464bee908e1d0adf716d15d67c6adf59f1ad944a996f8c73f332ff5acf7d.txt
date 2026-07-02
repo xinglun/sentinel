@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Market Expert Jay Woods Picks Top 2 Magnificent Seven Stocks For Rest of 2026, 2027
+  summary: Market expert Jay Woods shares his top two Magnificent Seven stocks for the second half of 2026 with Benzinga in an exclusive interview.
+  url: https://finnhub.io/api/news?id=b810a2e1df86fb753e29050001166da070f83c90772bf156c6454c4fe5be034f

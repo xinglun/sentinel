@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Responds to 'Crash Is Coming' Narrative, Says 'Momentary Dips' Exist but 'The Macro Trend Is Overwhelmingly Up'
+  summary: Elon Musk said AI and robotics will drive long-term economic growth despite inevitable short-term economic setbacks
+  url: https://finnhub.io/api/news?id=c60f4ab0c345f13c9acd901410f98e777893e8b815de584fff353c9ca7fd5bb2

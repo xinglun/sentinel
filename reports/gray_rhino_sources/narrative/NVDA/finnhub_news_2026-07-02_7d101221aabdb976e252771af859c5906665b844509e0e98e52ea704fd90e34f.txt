@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morningstar Warns Of 30% Crash In AI Stocks, Is It Time To Sell Micron?
+  summary: Morningstar is warning investors to brace for a reckoning in AI stocks, with memory-chip names sitting on the biggest gains facing the most downside. In a Bloomberg TV segment, Morningstar director of research Lorraine Tan warned that a large slice of AI names could give back 20% to 30% before they become buyable again. For ... Morningstar Warns Of 30% Crash In AI Stocks, Is It Time To Sell Micron?
+  url: https://finnhub.io/api/news?id=8b7389b20aeaa45580ce74fe5d8bb06422f4e4326bad583563e0751694832e15

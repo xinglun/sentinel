@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cramer to a 23-Year-Old: Buy It, but It Might Take a ‘Lifetime’ to Make Money
+  summary: On the June 30 episode of Mad Money, a 23-year-old caller named Jackson from Iowa asked Jim Cramer about Voyager Therapeutics (NASDAQ:VYGR), a clinical-stage gene therapy company he wanted to hold for the long haul. Cramer’s response was a shrug wrapped around a birthday card. “Only because you told me that can I encourage you ... Cramer to a 23-Year-Old: Buy It, but It Might Take a ‘Lifetime’ to Make Money
+  url: https://finnhub.io/api/news?id=7c924cbe06545dad630caba9518d0f29bbc6d0114a8960604cc790fb6308bebf

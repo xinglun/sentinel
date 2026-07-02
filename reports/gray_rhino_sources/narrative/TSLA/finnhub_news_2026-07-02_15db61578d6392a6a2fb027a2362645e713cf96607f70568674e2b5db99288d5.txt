@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla beats delivery forecasts with 480,126 vehicles delivered in second quarter (TSLA)
+  summary: Deliveries outperform market expectationsTesla (NASDAQ:TSLA) reported second-quarter 2026 vehicle deliveries of 480,126 units, comfortably exceeding analyst expectations of 406,024 vehicles. The electric vehicle maker also produced 451,758 vehicles during the quarter, according to a company statement.
+  url: https://finnhub.io/api/news?id=772e5f45d93d36686442aa2b66cecc9394b4854253cf977e5163a8d437755230

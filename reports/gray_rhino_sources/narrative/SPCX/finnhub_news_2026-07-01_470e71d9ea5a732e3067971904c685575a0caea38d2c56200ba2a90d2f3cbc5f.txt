@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says SpaceX's ‘Demand Flywheel’ is Just Getting Started As Wall Street Veteran Roger Altman Questions How Anyone Can Value the Stock: 'I Don't Think...'
+  summary: Wedbush&#39;s Dan Ives backs the SPCX demand flywheel ahead of Nasdaq passive inflows, even as experts warn nobody understands its valuation.
+  url: https://finnhub.io/api/news?id=10b013e4e2fb592615a2f9d4b32a3e387b945be11ec3a7ac764d2e9ec20a3d0b

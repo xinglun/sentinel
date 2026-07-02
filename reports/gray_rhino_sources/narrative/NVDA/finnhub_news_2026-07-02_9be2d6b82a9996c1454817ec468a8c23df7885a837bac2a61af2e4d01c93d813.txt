@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: More Bang for Your Buck: Is Bank of America or Wells Fargo the Better Value-and-Income Buy?
+  summary: Bank of America and Wells Fargo both crushed Q1 2026 and are showering shareholders with buybacks and dividends, but for a retiree choosing between them right now, one has a hidden catalyst the other simply cannot match.
+  url: https://finnhub.io/api/news?id=3b8cc48ac7b4950c20e6281e3e7515ff0797648c3ba3ee5c238486f5a2983dba

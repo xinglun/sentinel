@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GLO: Deep Discount Alone Doesn't Make This A Buy Yet
+  summary: Clough Global Opportunities Fund's recent outperformance is driven by strong tech holdings and a narrowing discount. Read why GLO CEF is a hold.
+  url: https://finnhub.io/api/news?id=e4ffa6e008ae1cf7978c99f85836d46f1d788c02a76ddbe44ef2c46aba9fa335

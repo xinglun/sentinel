@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s How Trump Made Over $1.4 Billion On Crypto Last Year, While Bitcoin Went Nowhere
+  summary: A Bloomberg TV segment on July 1, 2026 with anchor Romaine Bostick surfaced a striking data point from President Trump’s latest financial disclosure filed with the Office of Government Ethics: the president reported more than $1.4 billion in crypto earnings in 2025. As Bloomberg’s reporter noted on air, “More than 1.2 billion in crypto earnings, ... Here’s How Trump Made Over $1.4 Billion On Crypto Last Year, While Bitcoin Went Nowhere
+  url: https://finnhub.io/api/news?id=4a51a3ac844fa79aa1eab63b393b2ae1e2c241fd170f84e7e8f5282a258ad153

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Microsoft Corporation (MSFT) the Most Profitable Software Stock to Buy Right Now?
+  summary: Microsoft Corporation (NASDAQ:MSFT) is among the most profitable software stocks to buy right now. As of June 30, Microsoft Corporation (NASDAQ:MSFT) stock has declined by approximately 19% in June. As highlighted by The Business Times on June 29, the company’s shares are entering their worst month since the dot-com era. This is due to investors’ […]
+  url: https://finnhub.io/api/news?id=9c9b0d031c94844db7f215bec9e8f769f65e37ac0414d12896c52ee4a054ec84

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top EU court dismisses Google appeal of $4.5 billion antitrust fine
+  summary: Judges at the European Union's top court dismissed an appeal by Google over a landmark, 4.1 billion euro ($4.5 billion) antitrust fine imposed for throttling competition and reducing consumer choice through the dominance of its mobile Android operating system.  The case has been tangled up in courts since the European Commission announced the fine in 2018.  “The appeal brought by Google and its parent company Alphabet against the judgment of the General Court is dismissed, thereby confirming the penalty imposed for Google Search’s abuse of a dominant position in the context of the Android operating system,” the Luxembourg-based judges wrote in their ruling.
+  url: https://finnhub.io/api/news?id=a3ebfc1ef9232457a0e06de37c1c9017e172ab710344b682a74946847af6291c

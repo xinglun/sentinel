@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 6 S&P 500 Stocks Turn $100,000 Into $3.5 Million In 6 Months
+  summary: June didn't pan out as a great month of the year for most S&P 500 investors. But some stocks absolutely rocked.
+  url: https://finnhub.io/api/news?id=4dbb092c37554831e9efde542cd98368e023b4dfd842107f773377186c574e8b

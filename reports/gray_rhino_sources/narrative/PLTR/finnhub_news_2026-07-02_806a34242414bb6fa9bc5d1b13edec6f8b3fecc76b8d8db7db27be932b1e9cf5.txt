@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Palantir-Nvidia Sovereign AI Deal Will Reshape Who Wins the AI Infrastructure Race
+  summary: The AI gold rush continues in mid-2026, with companies racing to turn flashy models into actual money-making systems. While the market obsesses over token prices and frontier lab drama, a quieter shift is underway. Governments and enterprises want AI they control — not rent — especially when national security or trade secrets sit on the ... The Palantir-Nvidia Sovereign AI Deal Will Reshape Who Wins the AI Infrastructure Race
+  url: https://finnhub.io/api/news?id=1a1455da2a5acdcf5ad62116189ac55f090123dee0650f203823de7777d32f9b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Portfolio Manager Says the Real Crowded Trade Isn’t the Mag 7. It’s Hiding in Plain Sight
+  summary: Zachary Hill, Head of Portfolio Management at Horizon Investments, went on CNBC this morning and said the quiet part loud. “The semis and the memory names are the most crowded ones in the market right now.” The AI trade, in his framing, has split into two separate trades, and retail is looking at the wrong ... A Portfolio Manager Says the Real Crowded Trade Isn’t the Mag 7. It’s Hiding in Plain Sight
+  url: https://finnhub.io/api/news?id=158efbb91c95aa64aa8142ecf6b20aa846cba0ca585ff05c1b477faf66f45a11

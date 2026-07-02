@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Surf Air Mobility (SRFM) Is Up 14.3% After New Palantir Deal And Electric Flight Push
+  summary: In recent days, Palantir Technologies and Surf Air Mobility expanded their partnership to accelerate the SurfOS aviation software suite, while Surf Air also launched a Hawaiʻi electric aircraft demonstration with BETA Technologies and signed Wheels Up as the first Enterprise BrokerOS customer in a multi-year, up to US$12 million subscription deal. Together, these moves highlight Surf Air Mobility’s push to pair AI-powered software with emerging electric aircraft operations, aiming to create...
+  url: https://finnhub.io/api/news?id=062f2aba48ca943b4e16d36487c406428f3f29bdfe887ae72dcfa9402b71b600

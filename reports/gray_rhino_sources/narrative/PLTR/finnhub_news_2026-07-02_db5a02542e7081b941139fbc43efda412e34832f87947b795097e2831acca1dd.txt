@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Karp unleashes on frontier AI labs
+  summary: For 20 minutes on CNBC Wednesday, Palantir CEO Alex Karp unloaded on frontier AI labs, arguing they've become so obsessed with building ever-more-powerful models that they're failing their biggest enterprise customers.
+  url: https://finnhub.io/api/news?id=08dbd62d98613fd2f6139142f739f676450bf44985cd7334869159fd099f7c64

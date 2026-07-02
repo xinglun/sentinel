@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Stock Rises Premarket – This Analyst Called Palantir A ‘Gift’ For Investors Ahead of Independence Day
+  summary: DA Davidson upgraded Palantir’s rating to ‘Buy’ from ‘Neutral’ and hiked the price target to $175 from $165, according to TheFly.
+  url: https://finnhub.io/api/news?id=446175f0bcb9a9d92c25c9c541f131dff5679657a18bf85ba432c7187d1ea9f3

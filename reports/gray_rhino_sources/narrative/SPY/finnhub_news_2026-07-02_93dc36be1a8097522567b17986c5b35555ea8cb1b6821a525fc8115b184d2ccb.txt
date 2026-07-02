@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Panic: Big AI CapEx, Negative Free Cash Flow, And Lack Of ROI Are NOT Bearish
+  summary: Commentators are coming in hot, heavily, and frequently to bash AI and convince the world a dangerous bubble is ready to burst. Read more here.
+  url: https://finnhub.io/api/news?id=ac6d4bea6e21d8f730343cc6efa12e314e56d2648bc8ab552359526bc70e8e6f

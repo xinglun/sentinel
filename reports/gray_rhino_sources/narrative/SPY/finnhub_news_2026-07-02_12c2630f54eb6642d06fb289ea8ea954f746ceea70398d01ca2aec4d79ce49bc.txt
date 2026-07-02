@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macro Insights: H2 Outlook, A Hawk-Eyed Fed, And The AI TAM Contraction
+  summary: Welcome to the SAâs The Macro Brief! This official SA Profile will highlight our analysts' latest economic and market analysis to help investors gauge the...
+  url: https://finnhub.io/api/news?id=41c3e58275e7a1942d53f79465dbee486b98c7e6b58796b010b3a3da9cc25430

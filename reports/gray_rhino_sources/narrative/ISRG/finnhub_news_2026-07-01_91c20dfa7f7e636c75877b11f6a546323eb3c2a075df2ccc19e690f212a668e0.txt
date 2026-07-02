@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stryker Vs. Intuitive Surgical: Stryker’s Joint-Replacement Moat Over Intuitive’s Premium Valuation
+  summary: Stryker (NYSE:SYK) and Intuitive Surgical (NASDAQ:ISRG) both closed the books on Q1 2026 with sharply different results. Stryker absorbed a March 11 cyberattack and heavy restructuring charges while defending its joint replacement franchise. Intuitive posted another crisp beat on the back of da Vinci 5 adoption. Two medtech giants, two very different quarters. A Cyber ... Stryker Vs. Intuitive Surgical: Stryker’s Joint-Replacement Moat Over Intuitive’s Premium Valuation
+  url: https://finnhub.io/api/news?id=d0fe8c0ba178e00be1e131acac41a495e6ce7890f6beb2590347eb46bd0642ff

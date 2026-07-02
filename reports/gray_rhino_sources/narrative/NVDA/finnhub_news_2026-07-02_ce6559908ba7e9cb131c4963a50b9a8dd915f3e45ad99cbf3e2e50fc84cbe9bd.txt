@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Has a New Big Short. Is Michael Burry Right to Bet Against Elon Musk’s Robotics Titan?
+  summary: There have been a lot of bears on the tail of Tesla (NASDAQ:TSLA) in the past several years, but the name has proven quite punishing to short. Now that Dr. Michael Burry of The Big Short fame doesn’t have to answer to any investors (he’s moved on from Scion), it feels like the man is ... Tesla Has a New Big Short. Is Michael Burry Right to Bet Against Elon Musk’s Robotics Titan?
+  url: https://finnhub.io/api/news?id=055a022703d08718d74c7893b73d5498327ce707d7f9792a01231c8a37d7ddf9

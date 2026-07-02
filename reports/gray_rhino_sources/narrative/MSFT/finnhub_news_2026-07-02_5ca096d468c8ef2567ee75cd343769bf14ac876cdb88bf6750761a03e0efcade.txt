@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Top AI Stocks to Buy in July
+  summary: AI infrastructure spending is still the defining trade of 2026, but the leadership inside the trade keeps rotating. June reminded investors of that NVIDIA (NASDAQ:NVDA) slid nearly 12% over the past month, Microsoft (NASDAQ:MSFT) dropped nearly 17% and Broadcom (NASDAQ:AVGO) gave back nearly 20%. That pullback is the setup. Three names continue to compound the ... 3 Top AI Stocks to Buy in July
+  url: https://finnhub.io/api/news?id=597a52ddd566c470f30395d70d7f886e8192b19c0a16e2c55baba5ea6c410310

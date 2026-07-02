@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Caterpillar Slides Nearly 7% After Burry Opens First Short
+  summary: Michael Burry shorted Caterpillar after its AI-linked rally pushed shares to an all-time high.
+  url: https://finnhub.io/api/news?id=39e4b40c7957ccc55050525fee0717925e105f7270f48d90de1511931b1bd635

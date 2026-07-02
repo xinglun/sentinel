@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, Chevron upgraded: Wall Street's top analyst calls
+  summary: Palantir, Chevron upgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=c2a6fba140873409e3a6d36bf473847ba984473d3641a25461bdc2f68fa1d183

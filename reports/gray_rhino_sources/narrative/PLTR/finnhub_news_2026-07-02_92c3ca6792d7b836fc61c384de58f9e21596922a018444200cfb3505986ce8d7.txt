@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zeta Global (ZETA) Teams With Palantir To Build Enterprise AI Marketing Stack
+  summary: Zeta Global Holdings (NYSE:ZETA) has entered into a partnership with Palantir Technologies to build an enterprise AI infrastructure layer for data driven, agentic marketing. The collaboration includes rearchitecting Zeta's Data Cloud on Palantir Foundry and upgrading Athena, Zeta's AI powered decisioning system, for real time and secure marketing at scale. The partnership targets large enterprises that place a high priority on data security, governance, and effective marketing...
+  url: https://finnhub.io/api/news?id=50a04c6cc4a6f7281a6fad61a41f98125e7b6f4dfc9425677548406aab4b7813

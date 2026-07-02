@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trillionaire Elon Musk Says Neuralink Could Deliver 'Jesus-Level' Miracles: Here's What He Means
+  summary: Elon Musk affirms Neuralink brain implants can enable Jesus-level miracles, including restoring vision and enable mobility functions.
+  url: https://finnhub.io/api/news?id=277480bf8c55804cc3b35738e5799e587cdbcc1a48c8a4777d4d9bcaaa167ceb

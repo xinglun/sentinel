@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Magnificent ETF I'm Buying Hand Over Fist in 2026
+  summary: This ETF has historically delivered excellent returns.
+  url: https://finnhub.io/api/news?id=a4a8cc52bd025912a69e0d5ec79d81cf1d2ade5495bbec3554d4f2bba796b7a7

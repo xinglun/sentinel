@@ -1,12 +1,12 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-07-01
+- 截至: 2026-07-02
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
 - 平均置信度: 55.0
-- 平均稳定度: 36.3
-- 趋势凝聚 ready 天数: 4
+- 平均稳定度: 37.4
+- 趋势凝聚 ready 天数: 5
 
 ## 市场状态计数
 - IGNITION: 7
@@ -21,19 +21,19 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-06-23: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-24: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-25: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-26: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-29: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-30: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-01: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-07-02: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
 - 趋势广度模式: NarrowLeadership
 - 市场周期位置: CrowdedExpectation
-- 持仓效率: TimeCostRising
+- 持仓效率: Neutral
 - 战略上下文行:
   - 市场结构模式: 核心资产主导期
   - 长期方向: 长期结构趋势增强
@@ -46,6 +46,15 @@
   - 证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)
   - 战术状态: READY，等待执行层确认
 - 边界: 仅为快照；不生成评分、建议或交易判断。
+
+## Signal Context（信息质量上下文）
+- Information Content: UNKNOWN
+- Primary Context: None
+- Context Quality: LOW
+- Event Fact: N/A
+- Source Diagnostics: 官方日历源健康: PARTIAL；覆盖: 10/16 成功，6 失败；macro sources: 10/16 succeeded, 6 failed; macro notes: BLS schedule: fetch failed | BLS CPI release: fetch failed | BLS PPI release: fetch failed | BLS Employment Situation: fetch failed | BLS JOLTS: fetch failed | BEA schedule: reached with no matching releases | BEA current releases: reached with no matching releases | BEA GDP: reached with no matching releases | Census retail schedule: reached with no matching releases | Census retail sales: reached with no matching releases | Fed calendar: reached with no matching releases | FOMC calendars: reached with no matching releases | ISM PMI reports: reached with no matching releases | ISM report calendar: fetch failed | Treasury upcoming auctions: reached with no matching releases | Treasury announcements and results: reached with no matching releases; observations: 0; derived facts: index reconstitution 0, ETF rebalance 0, holiday liquidity 0
+- Interpretation: 上下文读模型已经接入，但今天没有命中明确事件，Signal Context 仍应视为未知。
+- 边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。
 
 ## 宏观引力快照
 - 利率压力: RISING
@@ -60,7 +69,7 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-07-01
+- 最新观测日: 2026-07-02
 - 最新 Near-Term Supply 数量: 0
 - 最新 Future Queue 数量: 1
 - 7 日 Future Queue 最小值 / 最大值: 1 / 2
@@ -78,7 +87,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-07-02
+- 观测日: 2026-07-03
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

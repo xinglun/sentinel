@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Deliveries Soar To 480,126 In Q2; But EV Giant's Stock Falls (Live Coverage)
+  summary: Second-quarter Tesla deliveries rose much more than expected in Q2, well above Q1 and a year earlier. Tesla stock fell from near a buy point.
+  url: https://finnhub.io/api/news?id=344512c78bd2ad5bccdd404bcd4f2b4e27858e1ace185ab6d6058bb65dff7237

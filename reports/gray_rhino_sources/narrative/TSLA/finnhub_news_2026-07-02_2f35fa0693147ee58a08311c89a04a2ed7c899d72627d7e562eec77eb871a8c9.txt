@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Nike Will Be Booted From the Dow Jones Industrial Average Within 12 Months and Replaced by One of 2 Consumer-Facing Giants
+  summary: The time-tested Dow has had companies added or removed 54 times since its inception in May 1896.
+  url: https://finnhub.io/api/news?id=a84513e97d07daf325b2e4d0f9d17efc0b38b27d9165db9537f103ff0ebf2279

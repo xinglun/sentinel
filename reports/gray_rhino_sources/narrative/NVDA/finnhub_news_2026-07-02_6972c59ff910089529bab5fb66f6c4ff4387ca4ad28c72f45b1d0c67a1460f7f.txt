@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s Rumored China Chip Deal Could Blow a Hole in Micron and Trap the US for Years
+  summary: The story rippling through memory stocks this week began on CNBC’s Fast Money on June 29, where the panel dug into a report that Apple is trying to source memory chips from Chinese manufacturer CXMT. The company Apple (NASDAQ:AAPL) wants to buy from is not yet on the US entity list, unlike YMTC, which already is. For ... Apple’s Rumored China Chip Deal Could Blow a Hole in Micron and Trap the US for Years
+  url: https://finnhub.io/api/news?id=afc094937e93b172c86d3b98556662f228eaf0b7b1d34b1d999709fcacc9954b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why The June Jobs Swoon Brings A Smile To Wall Street
+  summary: The June jobs report missed badly with payrolls +57K, revisions lower, and the jobless rate fell on a smaller workforce. Click for more on the latest employment data.
+  url: https://finnhub.io/api/news?id=36c5685dd17082351783b5efa7bd8440c3a6722f58f91a5fbf1bd26a52c1207a

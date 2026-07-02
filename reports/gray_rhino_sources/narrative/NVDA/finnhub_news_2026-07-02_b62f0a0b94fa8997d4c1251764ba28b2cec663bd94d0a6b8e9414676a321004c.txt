@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Corning Just Dropped 13% in a Day. Is the AI Fiber Boom Cracking, or Is This Just Profit-Taking?
+  summary: Corning’s (NYSE:GLW) 13.6% single-day drop is being looked at as a crack in the AI fiber thesis by many. The stock had gone parabolic, up 192.71% year-to-date heading into this session, so a shakeout was overdue. Corning makes the optical fiber, cable, and connectivity that stitch AI data centers together, which is why the stock ... Corning Just Dropped 13% in a Day. Is the AI Fiber Boom Cracking, or Is This Just Profit-Taking?
+  url: https://finnhub.io/api/news?id=c3905d40755521c64175d7d15c77456aa48c238c72a8600ddd62eab363cc9ff9

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analysts Warn: These Popular Income ETFs Were ‘Built to Be Sold, Not to Work for You’
+  summary: On a recent Motley Fool Money episode, analyst Lou didn’t dress it up. “A lot of products on Wall Street were built to be sold, were built for the fees, not necessarily built because they really, really work for the buyer,” he said. He was talking about the covered-call income ETF boom, and specifically the ... Analysts Warn: These Popular Income ETFs Were ‘Built to Be Sold, Not to Work for You’
+  url: https://finnhub.io/api/news?id=4c4c3ce26216dcd9b07c7278988c4b42a86587d3b9355d8b0bbf9cfa9422dd82

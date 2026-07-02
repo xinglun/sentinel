@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla sales rose last quarter in a possible sign the worst of the Musk backlash is behind it
+  summary: Tesla car sales rose over the past three months for the second straight quarter in a sign the worst of the damage from boycotts and rivals stealing market share could be behind it.  The electric vehicle maker run by Elon Musk reported Thursday that it delivered 480,126 cars, much higher than the 384,122 from a year ago, as Europeans furious at Musk's embrace of far-right political candidates began buying again.  Tesla's stock dipped slightly in early morning trading on Thursday.
+  url: https://finnhub.io/api/news?id=fc1be312d9c49466133e994a926f24eeb85294cc1389130cb34ff260c3025221

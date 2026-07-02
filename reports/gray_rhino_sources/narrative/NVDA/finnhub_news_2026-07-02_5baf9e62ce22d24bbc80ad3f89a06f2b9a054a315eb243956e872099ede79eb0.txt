@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gold Is Soaring. So Why Has Barrick Fallen Since Its Rebrand?
+  summary: Gold keeps printing record highs, yet Barrick Mining has shed a quarter of its value from its January peak and is still falling. A tangle of leadership changes, geopolitical friction, and strategic overhauls explains why one of the world's biggest gold producers is moving opposite to the metal it mines.
+  url: https://finnhub.io/api/news?id=654246840718aef66fde81e213198eb1c616d504ede799d852beef7ff568532f

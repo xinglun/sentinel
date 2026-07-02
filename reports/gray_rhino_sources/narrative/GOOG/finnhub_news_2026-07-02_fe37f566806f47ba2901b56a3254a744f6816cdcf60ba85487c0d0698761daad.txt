@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Ordered to Pay Nearly $2 Billion as Klarna Wins Swedish Case
+  summary: Swedish court awarded Pricerunner nearly $2 billion over Google's comparison shopping practices.
+  url: https://finnhub.io/api/news?id=c8a5cfbed20175b4400ea793276532f4f86aab2847fd7349baca2076988a89ea

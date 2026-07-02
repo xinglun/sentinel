@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla saw a massive sales jump in the second quarter
+  summary: The company delivered more than 480,000 EVs globally, seemingly thanks to geographic expansion and cheaper versions of the Model 3, Model Y, and Cybertruck.
+  url: https://finnhub.io/api/news?id=2a085282bda20e5f2f35e50507642071ecf3af563d988fd58823e287ffbbbcbf

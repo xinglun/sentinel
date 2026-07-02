@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Today - Driving Grid Stability With Vehicle-To-Grid Innovation
+  summary: Vehicle-to-Grid (V2G) technology is emerging as a key component in the transition towards renewable energy integration and grid stability. This innovative approach allows electric vehicles to both consume and supply electricity, transforming them into dynamic storage units that support energy management and enhance grid resilience. The global V2G market is projected to expand significantly, driven by technological advancements, regulatory support, and the increasing adoption of battery...
+  url: https://finnhub.io/api/news?id=b8595d9261b05a38ecbaae357c48815a98b852f6659b18825024d758d25ffd29

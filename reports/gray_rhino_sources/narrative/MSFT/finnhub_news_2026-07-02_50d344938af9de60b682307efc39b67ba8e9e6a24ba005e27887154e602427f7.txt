@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sony Ends PlayStation Discs in 2028 as Digital Shift Accelerates
+  summary: Sony will stop PlayStation disc production in January 2028, pushing future console games fully through its online storefront.
+  url: https://finnhub.io/api/news?id=79b45cc8f09b16218dc01974cbf210fc969daf6e3a28ec7b50a8d6041bb725df

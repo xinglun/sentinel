@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Advance Premarket Thursday
+  summary: Technology stocks were advancing premarket Thursday, with the State Street Technology Select Sector
+  url: https://finnhub.io/api/news?id=c64ca0e6978bb80b16e0798ce4c1f56283cbfa005e3c34cfe52183a5974a9b3c

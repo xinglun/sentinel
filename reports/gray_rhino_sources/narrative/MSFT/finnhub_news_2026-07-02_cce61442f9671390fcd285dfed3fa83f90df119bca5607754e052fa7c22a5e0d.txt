@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vlad Tenev Says Robinhood Wants Retail Investors To Trade Like The Pros With AI — Mizuho Calls HOOD The ‘AWS’ Of Online Brokers
+  summary: During an interview with CNBC, Tenev highlighted the end goal of Robinhood’s agentic AI trading offerings for retail investors.
+  url: https://finnhub.io/api/news?id=f15f37114daa510cc7317e7fd65f7b7e2d734ba8f8722c35854e020d7de6a4d7

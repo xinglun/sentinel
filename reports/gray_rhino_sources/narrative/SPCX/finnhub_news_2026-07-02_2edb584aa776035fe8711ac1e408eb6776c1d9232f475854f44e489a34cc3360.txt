@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Telefonica Brasil: That's Why Starlink Is Not A Threat
+  summary: TelefÃ´nica Brasil VIV faces minimal threat from Starlink, as customer overlap is limited to remote regions, not urban strongholds. Learn why VIV stock is a buy.
+  url: https://finnhub.io/api/news?id=ccfe85943650cfee6dccec9501433af75b0a7aa0b9777c74d001029b727b6bfa

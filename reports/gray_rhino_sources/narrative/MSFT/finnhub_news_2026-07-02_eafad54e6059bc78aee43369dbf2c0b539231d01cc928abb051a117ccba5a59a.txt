@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Rises as Tech Slumps. Its Biggest Weakness Is Now a Strength.
+  summary: Microsoft stock is having a terrible year but it’s starting to get a boost for an unlikely reason.  The shares started the second half of the year well, rising 3% Wednesday and pointing higher again in premarket trading Thursday, with the stock up 0.7%.  The  is little changed in premarket trading, while the  is up .2%, and the  is down 0.3%.
+  url: https://finnhub.io/api/news?id=701bbcc91ef1934a0ea694cdf5fa9b9e7a4eda9562c875de07159f2fa15dc031

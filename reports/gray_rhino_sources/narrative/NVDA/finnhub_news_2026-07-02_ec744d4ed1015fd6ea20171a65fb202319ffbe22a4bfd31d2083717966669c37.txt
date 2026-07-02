@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell (NYSE:DELL) Unveils Eye Health Research And New AI Systems
+  summary: Dell Technologies (NYSE:DELL) released peer reviewed research on sleep and eye health outcomes for users of Dell XPS laptops with Eyesafe Display and Eyesafe IQ. The study reported measurable improvements in sleep quality, eye comfort, and productivity among evening users, with Eyesafe IQ delivering the strongest effects. In parallel, Dell introduced new AI infrastructure products, including the PowerEdge XE8812 server built around advanced NVIDIA technology for intensive workloads. Dell...
+  url: https://finnhub.io/api/news?id=fa4f2e4400ce2306d0cc19de00e4495cf1fb6caf2d94ece70b63823faa6fe370

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Microsoft Joins Asian Firms to Build Undersea Cable Linking India With Singapore, Malaysia to Support AI Payloads
+  summary: (Updates with the Lightstorm statement from the first paragraph.) Microsoft (MSFT), as part of a
+  url: https://finnhub.io/api/news?id=12b7d48cbcac2f7168f1897cbc8aef93ee6fab59941614e91f17ee338a6f8ac1

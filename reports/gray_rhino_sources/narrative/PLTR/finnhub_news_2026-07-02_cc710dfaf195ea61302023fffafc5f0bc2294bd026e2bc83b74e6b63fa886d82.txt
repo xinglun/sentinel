@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weak Jobs, Good News: These 10 Rate-Sensitive Stocks Are Soaring Today
+  summary: A weak June jobs report crushed Fed rate-hike bets, sending gold and silver soaring and rate-sensitive stocks higher. Miners led the rally.
+  url: https://finnhub.io/api/news?id=dab19d0fa2f1ff4197f24d5e34e1d9e8e7d58d28333f4b4af818ba5d6844b3dd

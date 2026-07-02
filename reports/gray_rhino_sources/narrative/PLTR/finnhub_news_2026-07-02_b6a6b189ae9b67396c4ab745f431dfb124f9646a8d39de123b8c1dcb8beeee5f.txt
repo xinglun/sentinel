@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: You Might Not Find A Better Chance To Double Down Now
+  summary: Palantir has suffered a massive de-rating, falling nearly 50% since its November peak, amid concerns about AI competitors. Find out why PLTR stock is a strong buy.
+  url: https://finnhub.io/api/news?id=cb184b89341b21de076212a9b2c9b4599405f26b95ee95b548032e4b0513684b

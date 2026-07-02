@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceX Handset-Like Device Prototype Prototype To Run On Proprietary Operating System Integrating AI Technology From SpaceX's xAI; Prototype Described as Having Sleek Design Slimmer Than iPhone; Device Would Use A Qualcomm Snapdragon Chipset' - WSJ
+  summary: https://www.wsj.com/tech/ai/spacex-showed-investors-prototype-of-elon-musks-new-ai-device-b445c57b?mod=hp_lead_pos1
+  url: https://finnhub.io/api/news?id=ac2825f9cfdf3c63e5f929c0f2d1de6dfe66180ceb5b98be55fb926d183d5943

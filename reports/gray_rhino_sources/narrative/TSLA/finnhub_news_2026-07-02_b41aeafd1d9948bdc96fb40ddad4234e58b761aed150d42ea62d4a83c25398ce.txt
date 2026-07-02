@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla China-made EV sales rise for eighth consecutive month in June (TSLA)
+  summary: Shanghai production continues to gather momentumTesla (NASDAQ:TSLA) recorded its eighth straight month of year-over-year sales growth for China-built electric vehicles in June, supported by improving demand in European export markets. According to figures released on Thursday by the China Passenger Car Association, deliveries of Model 3 and Model Y vehicles produced at Tesla’s Shanghai Gigafactory reached 89,091 units during the month.
+  url: https://finnhub.io/api/news?id=c218571929a28e2a9245122a55fd8ebce8a83292b2cd570f7ad7a9a747d43fa5

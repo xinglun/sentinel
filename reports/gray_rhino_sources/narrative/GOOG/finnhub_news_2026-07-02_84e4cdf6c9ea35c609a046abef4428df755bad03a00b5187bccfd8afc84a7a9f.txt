@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI proposes 5% stake to U.S. government for AI wealth fund
+  summary: A 5% holding in OpenAI would be worth roughly $42.6 billion based on the company's $852 billion March valuation
+  url: https://finnhub.io/api/news?id=c80a8c346bdde4809e3aff77adec22b0e7dc82b053961c2d49bb38689edbef94

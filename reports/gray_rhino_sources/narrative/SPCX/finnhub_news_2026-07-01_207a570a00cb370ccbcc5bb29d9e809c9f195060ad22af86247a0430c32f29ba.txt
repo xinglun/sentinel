@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceX Showed Investors Prototype of Elon Musk’s New AI Device' - Wall Street Journal Exclusive
+  summary: https://www.wsj.com/tech/ai/spacex-showed-investors-prototype-of-elon-musks-new-ai-device-b445c57b?mod=hp_lead_pos1
+  url: https://finnhub.io/api/news?id=e2067a7adaa76c7e67aa64d817fe3f4184c810f36ab8b68c70c34fc227f50cfd

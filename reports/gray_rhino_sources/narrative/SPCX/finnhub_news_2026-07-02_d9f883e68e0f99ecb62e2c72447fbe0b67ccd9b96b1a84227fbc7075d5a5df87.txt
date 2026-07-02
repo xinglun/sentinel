@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500: Strong Earnings Support The Market, But A Reset Still Looks Likely
+  summary: Earnings support the index. S&P 500 profits grew about 28% in the latest reporting season, the strongest since 2021, with AI-infrastructure names supplying roughly half of that growth.
+  url: https://finnhub.io/api/news?id=09303ce5c0325079bb2fd35462708621ddd96d341e465a6162be376fae1a14a0

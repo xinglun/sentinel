@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Is a Key Enterprise AI Player, Says Wedbush
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is among the most profitable software stocks to buy right now. On June 24, Wedbush reiterated an Outperform rating and a price target of $230 on Palantir Technologies Inc. (NASDAQ:PLTR). In its analysis, the firm highlighted the company’s partnership with Zeta, which is focused on marketing infrastructure within the AI landscape. […]
+  url: https://finnhub.io/api/news?id=3a325e8d59db4335e978c0c1d9246e06a78b37a151e7c0d25d0766a13442c2b6

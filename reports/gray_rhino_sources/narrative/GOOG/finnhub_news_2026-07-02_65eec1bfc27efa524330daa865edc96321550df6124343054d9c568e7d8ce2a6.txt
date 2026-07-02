@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Loses Fight Against EU’s $4.7 Billion Android Fine
+  summary: The penalty is the largest the EU has handed the company in its efforts to curb Google’s online dominance.
+  url: https://finnhub.io/api/news?id=f7ef3c3040791f47fe43053fa4db2473b181573ea9991c7588f985020afc00a3

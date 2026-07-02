@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Thursday’s Best Wall Street Analyst Research Calls: Adobe, Chevron, Dana, Honeywell Aerospace, Mobility Global, Ni Source, Palantir, SpaceX, and More
+  summary: Pre-Market Stock Futures: Futures are trading higher as we get ready to end the holiday-shortened trading week, with the country preparing to celebrate the 250th birthday of our democratic republic. The stock market will be closed on Friday for the federal holiday, kicking off a long weekend to jump-start the holiday fun. All of the ... Here Are Thursday’s Best Wall Street Analyst Research Calls: Adobe, Chevron, Dana, Honeywell Aerospace, Mobility Global, Ni Source, Palantir, SpaceX, and More
+  url: https://finnhub.io/api/news?id=b9291e8f71c7a8f111a1a2af61e459e138494b620e34e7e0fc7b0fef7fa4323e

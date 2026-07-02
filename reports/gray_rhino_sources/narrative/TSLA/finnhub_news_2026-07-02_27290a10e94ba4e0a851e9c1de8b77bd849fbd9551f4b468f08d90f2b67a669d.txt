@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Thursday's session: gap up and gap down stock in the S&P500 index
+  summary: Wondering what's happening in today's session regarding gap up and gap down stocks? Explore the S&P500 index on Thursday to uncover the stocks that are gapping in the S&P500 index.
+  url: https://finnhub.io/api/news?id=f01ee094064c93eae178d67c70e68480070722e19e2d115ee4d24dd034970b1b

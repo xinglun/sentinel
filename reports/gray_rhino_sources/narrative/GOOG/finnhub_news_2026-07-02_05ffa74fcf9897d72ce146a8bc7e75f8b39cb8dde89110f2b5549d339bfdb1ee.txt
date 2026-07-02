@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Italy's Intesa shifts core IT banking systems to Google's cloud technology
+  summary: Italy's biggest bank Intesa Sanpaolo on Thursday said it had completed the cloud migration of its ‌core IT systems, joining a handful of European banks that have ‌managed to move away from legacy technology. Replacing existing core IT infrastructure, known as ​mainframes, with cloud technology poses a major challenge to traditional banks. Legacy systems, often comprising multiple software stacks accumulated over time due to mergers, put high-street banks at a disadvantage versus cloud-native, challenger banks.
+  url: https://finnhub.io/api/news?id=9beb823de793fd8dc329ebc987f189c59304e5af4ec3bb43890cdde3436e0fd5

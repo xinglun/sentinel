@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 deliveries crush forecasts at 480,126, erasing backlog concerns
+  summary: Investing.com -- Tesla (NASDAQ: TSLA) has shattered expectations for its second-quarter performance, releasing official production and delivery metrics that comfortably outpaced the tracking consensus figures meant to clarify the gap in market projections. Prior to the report, market participants were monitoring a conservative Bloomberg consensus of 396,465.95 vehicles and Tesla’s own company-compiled investor relations (IR) consensus of 406,024 deliveries (with a median of 408,609). Actual resu
+  url: https://finnhub.io/api/news?id=0c5c0e43f460070667f825d0c46fd22ba83323abd6378363a8380ad668dcad5f

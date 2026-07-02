@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives' SpaceX Bull Case Comes Down to One Number: Less Than 1%
+  summary: Wedbush&#39;s Dan Ives says Starlink has captured less than 1% of the global broadband market, underpinning his bullish outlook on SpaceX.
+  url: https://finnhub.io/api/news?id=a4085b25d8fb32d224564e0c0232d55803b3fe493c0bf09c0eb5d7dc7608dd12

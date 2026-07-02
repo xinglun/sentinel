@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google loses final E.U. appeal over €4.1 billion Android fine
+  summary: Europe's top court upheld the penalty, which was originally imposed in 2018 for anti-competitive practices tied to the Android operating system
+  url: https://finnhub.io/api/news?id=696f861993461625ebd25bfffcbfe0d6ee8f42c59f1e3fe7a151cadd6df886eb

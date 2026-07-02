@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron vs. Sandisk: Which Stock Is the Better Buy for the AI Memory Boom?
+  summary: Both are benefiting from surging demand for data center memory.
+  url: https://finnhub.io/api/news?id=ccccb12dceb8b7b0dc71d85c03955e7bda0259731ac5028b49c7aa2a0091cb73

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Gets Analyst Upgrade Amid Anthropic, OpenAI Rivalry
+  summary: D.A. Davidson upgraded Palantir stock to buy from neutral on views that it's a better option for enterprises than OpenAI or Anthropic.
+  url: https://finnhub.io/api/news?id=19382fc11ebc42e418f04840d925d95d4c3cc0524b98ad2628299416bc770539

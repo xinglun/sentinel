@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robotics Then And Now: 2000 To 2026 By The Numbers
+  summary: What a robot is has changed completely: in 2000 it was a blind, caged arm; today it sees, walks warehouse aisles beside people, assists surgeons, and drives passengers.
+  url: https://finnhub.io/api/news?id=6eeb75403045b8c1246ad2039bc3c79fe695f5ccc272d9509449b98b15da12a3

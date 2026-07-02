@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rallying Near Highs: Is TSM a Buy, Sell, or Hold?
+  summary: At $455.10, Taiwan Semiconductor Manufacturing (NYSE:TSM) looks compelling. The stock sits within striking distance of its $476.79 52-week high after a blistering run, and the question is whether the AI foundry trade still has room or the easy money is gone. TSM is the world’s largest pure-play semiconductor foundry, manufacturing leading-edge logic chips that power ... Rallying Near Highs: Is TSM a Buy, Sell, or Hold?
+  url: https://finnhub.io/api/news?id=74197177d137b5aba2dcb646d84c9b35872a1087cbe7c66c37316047897db560

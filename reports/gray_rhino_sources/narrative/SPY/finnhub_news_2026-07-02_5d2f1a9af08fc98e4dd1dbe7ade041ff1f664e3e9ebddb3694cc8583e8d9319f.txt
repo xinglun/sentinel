@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Summer 2026 Snapshot Of The S&P 500's Market Cap
+  summary: Market capitalization of the S&P 500 (SPX) rebounded strongly in the second quarter of 2026 after having shrunk by 1.5% in the first. Read more here...
+  url: https://finnhub.io/api/news?id=802d84461fff111628e03caa90d902d2c816eaa9f21452b15cd24f8664ced4c0

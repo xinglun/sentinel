@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives' Final Major Call At Wedbush: SpaceX
+  summary: After eight years with Webush securities and 25 years as a top Wall Street technology analyst, Dan Ives announced Thursday plans to move on.  Well known as a colorful commentator and a longtime Tesla bull, Ives aims to launch what he described as a "modern merchant bank," aimed at combining research, advisory, capital raising and investing under one roof, the analyst told CNBC.  On Tuesday, Ives wrapped up his term at Wedbush by initiating coverage of SpaceX with an outperform rating and $190 price target.
+  url: https://finnhub.io/api/news?id=e22088412124a887be30ff7be45c86bfc710cb92e03e0601dd803e7c143085c0

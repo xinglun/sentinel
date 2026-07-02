@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Declares War on the Cloud Giants, and Chip Stocks Pay the Price
+  summary: Meta's surprise move into cloud computing sent its shares up nearly 9% and rattled the neocloud upstarts, while chip stocks broadly retreated as Wall Street rotated into software. Michael Burry doubled down on his AI short, central bankers debated AI's uncertain economic impact at the ECB's Sintra forum, and oil eased further as US-Iran talks continued in Qatar.
+  url: https://finnhub.io/api/news?id=49532cfe16e8c9309455af64d6022e870335c2dc1e5b85b0eadbd2b6be344bb1

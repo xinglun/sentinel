@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bears Keep Missing The Big Picture
+  summary: Market breadth is improving as laggards outperform, and the equally weighted S&P 500 hits new highs, countering bear market concerns. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=e3335d02b2206ef53db27809d8167e75e7eb9b497b2bdcabcd90880021d10419

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock analysts may be setting up the market for a summer failure
+  summary: There is such a thing as being too bullish.
+  url: https://finnhub.io/api/news?id=e8a11313d5ce22f9023122429033c54d26730c79464de35aadc4451e206e1115

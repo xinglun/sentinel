@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Climbs After Surprise Jobs Report; Tesla Slides On Delivery Numbers (Live Coverage)
+  summary: Stock Market Today; The Dow Jones index rose Thursday after a surprise jobs report. Tesla stock skidded despite strong Q2 deliveries.
+  url: https://finnhub.io/api/news?id=f3f03584f1033714cb4d306c37c5f1797c0be4a333f07b39d1e6a3b58c047fa8

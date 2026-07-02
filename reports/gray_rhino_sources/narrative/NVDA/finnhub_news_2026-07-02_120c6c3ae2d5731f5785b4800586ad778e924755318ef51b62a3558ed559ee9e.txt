@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia launches revenue-sharing model for AI startups
+  summary: The chipmaker will earn a share of cloud revenue from partners, with two data center operators named as its first participants
+  url: https://finnhub.io/api/news?id=dde08c03c8dd6f66031632d5438aab154b9c93dc9dfee28a2acd71ab127fa71d

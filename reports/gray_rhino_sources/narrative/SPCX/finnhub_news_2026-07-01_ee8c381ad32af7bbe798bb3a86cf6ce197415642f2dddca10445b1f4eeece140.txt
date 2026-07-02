@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Joins Dell, SoFi and JPMorgan in Backing Trump Accounts Ahead of the Program's July 4 Nationwide Rollout
+  summary: Micron committed $250 million to Trump Accounts, expanding corporate backing ahead of the program&#39;s July 4 rollout.
+  url: https://finnhub.io/api/news?id=eeecdc428f0556e5dc8ded3f8105ba4a9d8753a7ba5657037914ec6528790928

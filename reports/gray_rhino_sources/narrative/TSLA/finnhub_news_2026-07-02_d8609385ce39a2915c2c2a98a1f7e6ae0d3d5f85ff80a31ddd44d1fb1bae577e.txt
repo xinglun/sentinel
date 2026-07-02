@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 2026 deliveries beat estimates at 480,126 vehicles
+  summary: The strong quarter comes as Tesla attempts to turn around a two-year run of falling annual sales
+  url: https://finnhub.io/api/news?id=454f948ba5bdccce8779245bb0ec2c6b5db6180cbe795d7eb5c8bfff670e4484

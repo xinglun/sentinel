@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon To Rally Over 29%? Here Are 10 Top Analyst Forecasts For Thursday
+  summary: Wall Street analysts updated ratings and price targets for top companies, including Robinhood, Westlake, Genmab, Levi Strauss, Generac, General Mills, and Amazon.
+  url: https://finnhub.io/api/news?id=6cde2206ad1ac0d08a1dd813553a131e8d46d9614df3ac66806f0dbc9fc84239

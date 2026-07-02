@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Second Quarter 2026 Production, Deliveries & Deployments
+  summary: AUSTIN, Texas, July 02, 2026--In the second quarter, we produced over 450,000 vehicles, delivered over 480,000 vehicles and deployed 13.5 GWh of energy storage products.
+  url: https://finnhub.io/api/news?id=321b22e23d24dbbf0dce7ffd97dc3b9fe5e2e289cfb45b4042696926deb2814f

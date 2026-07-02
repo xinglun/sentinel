@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Is Up 11% Today: Is It Outperforming Other EV Stocks Like Tesla and Lucid?
+  summary: Shares of Rivian Automotive (NASDAQ:RIVN) are up 11% in early trading Thursday to $19 and change, standing out as the clear leader among electric vehicle names on July 2. The move follows the company’s release of Q2 2026 production and delivery figures before the open, handing Rivian its first genuine company-specific catalyst in weeks. For ... Rivian Is Up 11% Today: Is It Outperforming Other EV Stocks Like Tesla and Lucid?
+  url: https://finnhub.io/api/news?id=21daf99feeaecf20ecfd3101c8c1f893f720daafee0e9ff29978d696f56a8752

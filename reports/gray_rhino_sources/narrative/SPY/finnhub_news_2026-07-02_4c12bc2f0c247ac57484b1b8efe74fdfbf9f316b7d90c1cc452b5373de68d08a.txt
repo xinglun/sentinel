@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rates Spark: ECB Tweaking Its Business Model
+  summary: US payroll numbers are likely to stay above 100k, which means US rates are finding little excuse to test lower.
+  url: https://finnhub.io/api/news?id=9526c64dda50a35809ae8e0a058ed4a7cf53b4ac430214f52b9538c13d95b121
