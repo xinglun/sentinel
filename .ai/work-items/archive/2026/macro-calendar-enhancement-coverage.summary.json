@@ -1,0 +1,140 @@
+{
+  "workItemId": "macro-calendar-enhancement-coverage",
+  "contractPath": ".ai/work-items/archive/2026/macro-calendar-enhancement-coverage.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "公式ページ端点の拡張、分類精度の収緻、診断文字列の強化、時間表記のパース安定化を実装した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の現在状態を Cockpit に反映するために更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "reason": "公式 source 解析と診断拡張の実装範囲に合わせて Contract を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/macro-calendar-enhancement-coverage.summary.json",
+      "reason": "実装結果と検証結果を記録するために Summary を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/macro-calendar-enhancement-coverage.contract.json SUMMARY=.ai/work-items/active/macro-calendar-enhancement-coverage.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "official source の availability と HTML 構造の変化により、coverage と classification は将来変動しうる。"
+  },
+  "generatedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status file として生成・更新される。"
+    }
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を公式 source の解析・診断拡張の scope に合わせて更新した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / acceptance / verification を確定してから code を変更した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "fmt / test / clippy と AI guard / summary check を通過し、review 可能な状態まで更新した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "Cockpit status の生成と AI status check を通過し、required verification を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_dependency",
+      "detail": "公式网页の availability が落ちると coverage は partial / unavailable になりうるため、diagnostic の確認が必要。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Required checks は通過済み。残余 risk は official source の availability と HTML 変化による coverage 変動。",
+    "expectedReviewFocus": [
+      "official source coverage",
+      "classification precision",
+      "source diagnostics",
+      "HTML parsing stability"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "公式 source 失敗時に合成 fallback を注入しない。",
+      "solidifiedTo": "contract",
+      "reason": "outOfScope と acceptance に固定して、今後の回帰を防ぐため。"
+    },
+    {
+      "correction": "Signal Context から decision state を読ませない。",
+      "solidifiedTo": "contract",
+      "reason": "Interpretation と Decision の分離を Contract で維持するため。"
+    }
+  ]
+}

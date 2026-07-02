@@ -10,6 +10,96 @@ use std::time::Duration as StdDuration;
 
 const WINDOW_DAYS: i64 = 45;
 
+#[derive(Debug, Clone, Copy)]
+struct OfficialSourceEndpoint {
+    family: &'static str,
+    label: &'static str,
+    url: &'static str,
+}
+
+const OFFICIAL_SOURCE_ENDPOINTS: &[OfficialSourceEndpoint] = &[
+    OfficialSourceEndpoint {
+        family: "Bureau of Labor Statistics",
+        label: "BLS schedule",
+        url: "https://www.bls.gov/schedule/news_release/current_year.asp",
+    },
+    OfficialSourceEndpoint {
+        family: "Bureau of Labor Statistics",
+        label: "BLS CPI release",
+        url: "https://www.bls.gov/schedule/news_release/cpi.htm",
+    },
+    OfficialSourceEndpoint {
+        family: "Bureau of Labor Statistics",
+        label: "BLS PPI release",
+        url: "https://www.bls.gov/schedule/news_release/ppi.htm",
+    },
+    OfficialSourceEndpoint {
+        family: "Bureau of Labor Statistics",
+        label: "BLS Employment Situation",
+        url: "https://www.bls.gov/schedule/news_release/empsit.htm",
+    },
+    OfficialSourceEndpoint {
+        family: "Bureau of Labor Statistics",
+        label: "BLS JOLTS",
+        url: "https://www.bls.gov/schedule/news_release/jolts.htm",
+    },
+    OfficialSourceEndpoint {
+        family: "Bureau of Economic Analysis",
+        label: "BEA schedule",
+        url: "https://www.bea.gov/news/schedule/full",
+    },
+    OfficialSourceEndpoint {
+        family: "Bureau of Economic Analysis",
+        label: "BEA current releases",
+        url: "https://www.bea.gov/news/current-releases",
+    },
+    OfficialSourceEndpoint {
+        family: "Bureau of Economic Analysis",
+        label: "BEA GDP",
+        url: "https://www.bea.gov/data/gdp/gross-domestic-product",
+    },
+    OfficialSourceEndpoint {
+        family: "U.S. Census Bureau",
+        label: "Census retail schedule",
+        url: "https://www.census.gov/retail/release_schedule.html",
+    },
+    OfficialSourceEndpoint {
+        family: "U.S. Census Bureau",
+        label: "Census retail sales",
+        url: "https://www.census.gov/retail/sales.html",
+    },
+    OfficialSourceEndpoint {
+        family: "Federal Reserve Board",
+        label: "Fed calendar",
+        url: "https://www.federalreserve.gov/newsevents/calendar.htm",
+    },
+    OfficialSourceEndpoint {
+        family: "Federal Reserve Board",
+        label: "FOMC calendars",
+        url: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    },
+    OfficialSourceEndpoint {
+        family: "Institute for Supply Management",
+        label: "ISM PMI reports",
+        url: "https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi-reports/",
+    },
+    OfficialSourceEndpoint {
+        family: "Institute for Supply Management",
+        label: "ISM report calendar",
+        url: "https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/",
+    },
+    OfficialSourceEndpoint {
+        family: "U.S. Treasury",
+        label: "Treasury upcoming auctions",
+        url: "https://www.treasurydirect.gov/auctions/upcoming/",
+    },
+    OfficialSourceEndpoint {
+        family: "U.S. Treasury",
+        label: "Treasury announcements and results",
+        url: "https://www.treasurydirect.gov/auctions/announcements-data-results/",
+    },
+];
+
 pub(crate) fn load_official_future_calendar(as_of_date: NaiveDate) -> MacroEventCalendarReadModel {
     let macro_release = load_macro_release_observations(as_of_date);
     let index_reconstitution = load_index_reconstitution_observations(as_of_date);
@@ -52,6 +142,7 @@ struct OfficialSourceLoadStats {
 
 fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadStats {
     let mut stats = OfficialSourceLoadStats::default();
+    let mut seen = BTreeSet::new();
     let client = match reqwest::blocking::Client::builder()
         .timeout(StdDuration::from_secs(15))
         .build()
@@ -67,56 +158,42 @@ fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadS
         }
     };
 
-    let sources = [
-        (
-            "Bureau of Labor Statistics",
-            "https://www.bls.gov/schedule/news_release/current_year.asp",
-        ),
-        (
-            "Bureau of Economic Analysis",
-            "https://www.bea.gov/news/schedule",
-        ),
-        (
-            "U.S. Census Bureau",
-            "https://www.census.gov/retail/release_schedule.html",
-        ),
-        (
-            "Federal Reserve Board",
-            "https://www.federalreserve.gov/newsevents/calendar.htm",
-        ),
-        (
-            "Federal Reserve Board FOMC",
-            "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-        ),
-        (
-            "ISM World",
-            "https://www.ismworld.org/supply-management-news-and-reports/reports/rob-report-calendar/",
-        ),
-        (
-            "U.S. Treasury",
-            "https://www.treasurydirect.gov/TA_WS/securities/auctioned",
-        ),
-    ];
-
-    for (source, url) in sources {
+    for endpoint in OFFICIAL_SOURCE_ENDPOINTS {
         stats.source_attempts += 1;
-        let Some(text) = fetch_text(&client, url) else {
+        let Some(text) = fetch_text(&client, endpoint.url) else {
             stats.source_failures += 1;
-            stats.source_notes.push(format!("{source}: fetch failed"));
+            stats
+                .source_notes
+                .push(format!("{}: fetch failed", endpoint.label));
             continue;
         };
         stats.source_successes += 1;
-        let parsed = parse_official_calendar_text(source, url, &text, as_of_date);
-        if parsed.is_empty() {
-            stats
-                .source_notes
-                .push(format!("{source}: reached with no matching releases"));
-        } else {
-            stats
-                .source_notes
-                .push(format!("{source}: {} release(s)", parsed.len()));
+        let parsed = parse_official_calendar_text(endpoint.family, endpoint.url, &text, as_of_date);
+        let mut added = 0usize;
+        let mut duplicate = 0usize;
+        for observation in parsed {
+            if seen.insert(observation_dedup_key(&observation)) {
+                stats.observations.push(observation);
+                added += 1;
+            } else {
+                duplicate += 1;
+            }
         }
-        stats.observations.extend(parsed);
+        if added == 0 && duplicate == 0 {
+            stats.source_notes.push(format!(
+                "{}: reached with no matching releases",
+                endpoint.label
+            ));
+        } else if duplicate == 0 {
+            stats
+                .source_notes
+                .push(format!("{}: {} release(s)", endpoint.label, added));
+        } else {
+            stats.source_notes.push(format!(
+                "{}: {} release(s), {} duplicate(s) skipped",
+                endpoint.label, added, duplicate
+            ));
+        }
     }
 
     stats
@@ -297,13 +374,11 @@ fn parse_official_calendar_line(
         default_year
     };
 
-    let time_token = *tokens.get(cursor)?;
-    let meridiem = *tokens.get(cursor + 1)?;
-    if !is_clock_token(time_token) || !is_meridiem_token(meridiem) {
-        return None;
-    }
-    let time = Some(format!("{} {}", time_token, meridiem));
-    let title_start = cursor + 2;
+    let (time, title_start) = if let Some((time, consumed)) = parse_time_tokens(&tokens[cursor..]) {
+        (Some(time), cursor + consumed)
+    } else {
+        (None, cursor)
+    };
     if title_start >= tokens.len() {
         return None;
     }
@@ -332,7 +407,64 @@ fn is_clock_token(token: &str) -> bool {
 }
 
 fn is_meridiem_token(token: &str) -> bool {
-    matches!(token, "AM" | "PM")
+    matches!(
+        normalize_meridiem_token(token).as_deref(),
+        Some("AM" | "PM")
+    )
+}
+
+fn parse_time_tokens(tokens: &[&str]) -> Option<(String, usize)> {
+    let first = *tokens.first()?;
+    if let Some((clock, meridiem)) = split_clock_and_meridiem(first) {
+        return Some((format!("{clock} {meridiem}"), 1));
+    }
+    let second = *tokens.get(1)?;
+    if is_clock_token(first) && is_meridiem_token(second) {
+        return Some((
+            format!(
+                "{} {}",
+                first.trim_end_matches('.'),
+                normalize_meridiem_token(second)?
+            ),
+            2,
+        ));
+    }
+    None
+}
+
+fn split_clock_and_meridiem(token: &str) -> Option<(String, String)> {
+    let trimmed = token.trim_end_matches([',', '.']);
+    let lower = trimmed.to_ascii_lowercase();
+    let (clock, meridiem) = if let Some(clock) = lower.strip_suffix("am") {
+        (clock, "AM")
+    } else if let Some(clock) = lower.strip_suffix("pm") {
+        (clock, "PM")
+    } else {
+        return None;
+    };
+    if is_clock_token(clock) {
+        Some((clock.to_string(), meridiem.to_string()))
+    } else {
+        None
+    }
+}
+
+fn normalize_meridiem_token(token: &str) -> Option<String> {
+    let normalized = token
+        .trim_matches(|ch: char| ch == ',' || ch == '.')
+        .to_ascii_uppercase();
+    match normalized.as_str() {
+        "AM" | "A.M" | "A.M." => Some("AM".to_string()),
+        "PM" | "P.M" | "P.M." => Some("PM".to_string()),
+        _ => None,
+    }
+}
+
+fn observation_dedup_key(observation: &FutureCalendarObservation) -> String {
+    format!(
+        "{:?}:{:?}:{}:{}",
+        observation.kind, observation.event_type, observation.event_date, observation.event_name
+    )
 }
 
 fn classify_macro_title(
@@ -346,16 +478,17 @@ fn classify_macro_title(
     MacroEventInformationContent,
 )> {
     let title_lower = title.to_lowercase();
-    let source_lower = source.to_lowercase();
-    let is_bls_source =
-        source_lower.contains("bureau of labor statistics") || source_lower.contains("bls");
-    let is_bea_source =
-        source_lower.contains("bureau of economic analysis") || source_lower.contains("bea");
-    let is_census_source =
-        source_lower.contains("census bureau") || source_lower.contains("census");
-    let is_fed_source = source_lower.contains("federal reserve");
+    let is_bls_source = source_matches(source, &["bureau of labor statistics", "bls"]);
+    let is_bea_source = source_matches(source, &["bureau of economic analysis", "bea"]);
+    let is_census_source = source_matches(source, &["census bureau", "census"]);
+    let is_fed_source = source_matches(source, &["federal reserve", "fomc"]);
+    let is_ism_source = source_matches(source, &["institute for supply management", "ism"]);
+    let is_treasury_source =
+        source_matches(source, &["u.s. treasury", "treasury", "treasurydirect"]);
     if is_bls_source
-        && (title_lower.contains("core consumer price index") || title_lower.contains("core cpi"))
+        && (title_lower.contains("core consumer price index")
+            || title_lower.contains("core cpi")
+            || title_lower.contains("consumer price index - core"))
     {
         return Some((
             FutureCalendarKind::MacroEvent,
@@ -460,6 +593,8 @@ fn classify_macro_title(
     }
     if is_census_source
         && (title_lower.contains("retail and food services sales")
+            || title_lower.contains("advance monthly sales for retail and food services")
+            || title_lower.contains("advance retail sales")
             || title_lower.contains("monthly retail trade")
             || title_lower.contains("retail sales"))
     {
@@ -500,7 +635,10 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if source_lower.contains("ism") && title_lower.contains("services pmi") {
+    if is_ism_source
+        && (title_lower.contains("services pmi")
+            || title_lower.contains("services purchasing managers index"))
+    {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::IsmServices,
@@ -509,7 +647,10 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if source_lower.contains("ism") && title_lower.contains("manufacturing pmi") {
+    if is_ism_source
+        && (title_lower.contains("manufacturing pmi")
+            || title_lower.contains("manufacturing purchasing managers index"))
+    {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::IsmManufacturing,
@@ -518,7 +659,7 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if source_lower.contains("treasury") && title_lower.contains("auction") {
+    if is_treasury_source && title_lower.contains("auction") {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::TreasuryAuction,
@@ -528,6 +669,11 @@ fn classify_macro_title(
         ));
     }
     None
+}
+
+fn source_matches(source: &str, needles: &[&str]) -> bool {
+    let source_lower = source.to_lowercase();
+    needles.iter().any(|needle| source_lower.contains(needle))
 }
 
 fn build_official_calendar_diagnostic(
@@ -873,6 +1019,25 @@ mod tests {
     }
 
     #[test]
+    fn parser_accepts_missing_time_field() {
+        let line = "Wednesday June 18 2026 Consumer Price Index";
+        let parsed = parse_official_calendar_line(line, 2026).unwrap();
+        assert_eq!(parsed.0, "June");
+        assert_eq!(parsed.1, 18);
+        assert_eq!(parsed.2, 2026);
+        assert!(parsed.3.is_none());
+        assert_eq!(parsed.4, "Consumer Price Index");
+    }
+
+    #[test]
+    fn parser_accepts_punctuated_meridiem() {
+        let line = "Wednesday June 18 2026 8:30 a.m. Consumer Price Index";
+        let parsed = parse_official_calendar_line(line, 2026).unwrap();
+        assert_eq!(parsed.3.as_deref(), Some("8:30 AM"));
+        assert_eq!(parsed.4, "Consumer Price Index");
+    }
+
+    #[test]
     fn core_cpi_classification_takes_precedence_over_generic_cpi() {
         let classified = classify_macro_title("Bureau of Labor Statistics", "Core CPI Release");
         assert!(matches!(
@@ -880,6 +1045,24 @@ mod tests {
             Some((
                 FutureCalendarKind::MacroEvent,
                 MacroEventType::CoreCpi,
+                _,
+                _,
+                MacroEventInformationContent::High
+            ))
+        ));
+    }
+
+    #[test]
+    fn retail_sales_classification_accepts_census_release_title() {
+        let classified = classify_macro_title(
+            "U.S. Census Bureau",
+            "Advance Monthly Sales for Retail and Food Services",
+        );
+        assert!(matches!(
+            classified,
+            Some((
+                FutureCalendarKind::MacroEvent,
+                MacroEventType::RetailSales,
                 _,
                 _,
                 MacroEventInformationContent::High
