@@ -5,6 +5,7 @@ use crate::features::research::interface::macro_event_observation::{
     MacroEventSurpriseState, MacroEventType,
 };
 use chrono::{Datelike, Duration, NaiveDate, Weekday};
+use serde::Serialize;
 use std::collections::BTreeSet;
 use std::time::Duration as StdDuration;
 
@@ -100,6 +101,17 @@ const OFFICIAL_SOURCE_ENDPOINTS: &[OfficialSourceEndpoint] = &[
     },
 ];
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub(crate) struct OfficialCalendarSmokeSummary {
+    pub as_of_date: NaiveDate,
+    pub source_health: MacroEventSourceHealth,
+    pub source_attempts: usize,
+    pub source_successes: usize,
+    pub source_failures: usize,
+    pub observation_count: usize,
+    pub diagnostic: Option<String>,
+}
+
 pub(crate) fn load_official_future_calendar(as_of_date: NaiveDate) -> MacroEventCalendarReadModel {
     let macro_release = load_macro_release_observations(as_of_date);
     let index_reconstitution = load_index_reconstitution_observations(as_of_date);
@@ -129,6 +141,27 @@ pub(crate) fn load_official_future_calendar(as_of_date: NaiveDate) -> MacroEvent
         macro_release.source_failures,
         Some(diagnostic),
     )
+}
+
+pub(crate) fn build_official_calendar_smoke_summary(
+    as_of_date: NaiveDate,
+) -> OfficialCalendarSmokeSummary {
+    let read_model = load_official_future_calendar(as_of_date);
+    official_calendar_smoke_summary(&read_model)
+}
+
+pub(crate) fn official_calendar_smoke_summary(
+    read_model: &MacroEventCalendarReadModel,
+) -> OfficialCalendarSmokeSummary {
+    OfficialCalendarSmokeSummary {
+        as_of_date: read_model.as_of_date,
+        source_health: read_model.source_health,
+        source_attempts: read_model.source_attempts,
+        source_successes: read_model.source_successes,
+        source_failures: read_model.source_failures,
+        observation_count: read_model.observations.len(),
+        diagnostic: read_model.diagnostic.clone(),
+    }
 }
 
 #[derive(Debug, Default, Clone)]
@@ -943,6 +976,10 @@ fn is_exact_day(event_date: NaiveDate, as_of_date: NaiveDate) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::research::interface::macro_event_observation::{
+        MacroEventImportance, MacroEventInformationContent, MacroEventLifecycle,
+        MacroEventObservation, MacroEventSourceHealth, MacroEventType,
+    };
 
     #[test]
     fn computes_index_reconstitution_dates() {
@@ -1088,5 +1125,57 @@ mod tests {
         assert!(diagnostic.contains("1 failed"));
         assert!(diagnostic.contains("derived facts"));
         assert!(diagnostic.contains("fetch failed"));
+    }
+
+    #[test]
+    fn smoke_summary_projects_read_model_metadata_without_network() {
+        let observation = MacroEventObservation {
+            event_id: "fomc-2026-06-18".to_string(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            event_date: NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            event_time: Some("14:00".to_string()),
+            timezone: "America/New_York".to_string(),
+            country: "US".to_string(),
+            event_type: MacroEventType::FomcRateDecision,
+            event_name: "FOMC Rate Decision".to_string(),
+            source: "Federal Reserve".to_string(),
+            source_url: "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+                .to_string(),
+            importance: MacroEventImportance::Critical,
+            lifecycle: MacroEventLifecycle::Upcoming,
+            expected_value: Some("5.25%".to_string()),
+            actual_value: None,
+            previous_value: Some("5.50%".to_string()),
+            unit: Some("%".to_string()),
+            surprise_state: crate::features::research::interface::macro_event_observation::MacroEventSurpriseState::NotAvailable,
+            information_content: MacroEventInformationContent::High,
+            source_health: MacroEventSourceHealth::Succeeded,
+            observed_at: NaiveDate::from_ymd_opt(2026, 6, 17).unwrap(),
+        };
+        let read_model = MacroEventCalendarReadModel::from_observations_with_stats(
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            "official-calendar-connector".to_string(),
+            vec![observation],
+            4,
+            3,
+            1,
+            Some("one official source failed to fetch".to_string()),
+        );
+
+        let summary = official_calendar_smoke_summary(&read_model);
+
+        assert_eq!(
+            summary.as_of_date,
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap()
+        );
+        assert_eq!(summary.source_health, MacroEventSourceHealth::Partial);
+        assert_eq!(summary.source_attempts, 4);
+        assert_eq!(summary.source_successes, 3);
+        assert_eq!(summary.source_failures, 1);
+        assert_eq!(summary.observation_count, 1);
+        assert_eq!(
+            summary.diagnostic.as_deref(),
+            Some("one official source failed to fetch")
+        );
     }
 }
