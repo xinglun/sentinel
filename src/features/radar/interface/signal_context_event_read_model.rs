@@ -21,6 +21,11 @@ pub(crate) struct SignalContextEventReadModelInput<'a> {
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub(crate) struct SignalContextEventReadModel {
+    pub source_health: MacroEventSourceHealth,
+    pub source_attempts: usize,
+    pub source_successes: usize,
+    pub source_failures: usize,
+    pub source_diagnostic: Option<String>,
     pub index_reconstitution: SignalContextEventSlot,
     pub etf_rebalance: SignalContextEventSlot,
     pub holiday_liquidity: SignalContextEventSlot,
@@ -67,6 +72,25 @@ pub(crate) fn build_signal_context_event_read_model(
         .unwrap_or_default();
 
     SignalContextEventReadModel {
+        source_health: input
+            .future_calendar
+            .map(|calendar| calendar.source_health)
+            .unwrap_or(MacroEventSourceHealth::Unavailable),
+        source_attempts: input
+            .future_calendar
+            .map(|calendar| calendar.source_attempts)
+            .unwrap_or(0),
+        source_successes: input
+            .future_calendar
+            .map(|calendar| calendar.source_successes)
+            .unwrap_or(0),
+        source_failures: input
+            .future_calendar
+            .map(|calendar| calendar.source_failures)
+            .unwrap_or(0),
+        source_diagnostic: input
+            .future_calendar
+            .and_then(|calendar| calendar.diagnostic.clone()),
         index_reconstitution: future_calendar.index_reconstitution,
         etf_rebalance: future_calendar.etf_rebalance,
         holiday_liquidity: future_calendar.holiday_liquidity,

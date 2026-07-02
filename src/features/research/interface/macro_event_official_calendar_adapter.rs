@@ -11,27 +11,60 @@ use std::time::Duration as StdDuration;
 const WINDOW_DAYS: i64 = 45;
 
 pub(crate) fn load_official_future_calendar(as_of_date: NaiveDate) -> MacroEventCalendarReadModel {
-    let mut observations = Vec::new();
-    observations.extend(load_macro_release_observations(as_of_date));
-    observations.extend(load_index_reconstitution_observations(as_of_date));
-    observations.extend(load_etf_rebalance_observations(as_of_date));
-    observations.extend(load_holiday_liquidity_observations(as_of_date));
+    let macro_release = load_macro_release_observations(as_of_date);
+    let index_reconstitution = load_index_reconstitution_observations(as_of_date);
+    let etf_rebalance = load_etf_rebalance_observations(as_of_date);
+    let holiday_liquidity = load_holiday_liquidity_observations(as_of_date);
 
-    MacroEventCalendarReadModel::from_observations(
+    let mut observations = Vec::new();
+    observations.extend(macro_release.observations.clone());
+    observations.extend(index_reconstitution.clone());
+    observations.extend(etf_rebalance.clone());
+    observations.extend(holiday_liquidity.clone());
+
+    let diagnostic = build_official_calendar_diagnostic(
+        &macro_release,
+        observations.len(),
+        index_reconstitution.len(),
+        etf_rebalance.len(),
+        holiday_liquidity.len(),
+    );
+
+    MacroEventCalendarReadModel::from_observations_with_stats(
         as_of_date,
         "official-calendar-connector".to_string(),
         observations,
+        macro_release.source_attempts,
+        macro_release.source_successes,
+        macro_release.source_failures,
+        Some(diagnostic),
     )
 }
 
-fn load_macro_release_observations(as_of_date: NaiveDate) -> Vec<FutureCalendarObservation> {
-    let mut observations = Vec::new();
+#[derive(Debug, Default, Clone)]
+struct OfficialSourceLoadStats {
+    observations: Vec<FutureCalendarObservation>,
+    source_attempts: usize,
+    source_successes: usize,
+    source_failures: usize,
+    source_notes: Vec<String>,
+}
+
+fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadStats {
+    let mut stats = OfficialSourceLoadStats::default();
     let client = match reqwest::blocking::Client::builder()
         .timeout(StdDuration::from_secs(15))
         .build()
     {
         Ok(client) => client,
-        Err(_) => return observations,
+        Err(_) => {
+            stats.source_attempts = 7;
+            stats.source_failures = 7;
+            stats
+                .source_notes
+                .push("official source client could not be created".to_string());
+            return stats;
+        }
     };
 
     let sources = [
@@ -66,13 +99,27 @@ fn load_macro_release_observations(as_of_date: NaiveDate) -> Vec<FutureCalendarO
     ];
 
     for (source, url) in sources {
+        stats.source_attempts += 1;
         let Some(text) = fetch_text(&client, url) else {
+            stats.source_failures += 1;
+            stats.source_notes.push(format!("{source}: fetch failed"));
             continue;
         };
-        observations.extend(parse_official_calendar_text(source, url, &text, as_of_date));
+        stats.source_successes += 1;
+        let parsed = parse_official_calendar_text(source, url, &text, as_of_date);
+        if parsed.is_empty() {
+            stats
+                .source_notes
+                .push(format!("{source}: reached with no matching releases"));
+        } else {
+            stats
+                .source_notes
+                .push(format!("{source}: {} release(s)", parsed.len()));
+        }
+        stats.observations.extend(parsed);
     }
 
-    observations
+    stats
 }
 
 fn load_index_reconstitution_observations(as_of_date: NaiveDate) -> Vec<FutureCalendarObservation> {
@@ -299,7 +346,28 @@ fn classify_macro_title(
     MacroEventInformationContent,
 )> {
     let title_lower = title.to_lowercase();
-    if title_lower.contains("consumer price index") {
+    let source_lower = source.to_lowercase();
+    let is_bls_source =
+        source_lower.contains("bureau of labor statistics") || source_lower.contains("bls");
+    let is_bea_source =
+        source_lower.contains("bureau of economic analysis") || source_lower.contains("bea");
+    let is_census_source =
+        source_lower.contains("census bureau") || source_lower.contains("census");
+    let is_fed_source = source_lower.contains("federal reserve");
+    if is_bls_source
+        && (title_lower.contains("core consumer price index") || title_lower.contains("core cpi"))
+    {
+        return Some((
+            FutureCalendarKind::MacroEvent,
+            MacroEventType::CoreCpi,
+            "Core Consumer Price Index".to_string(),
+            MacroEventImportance::High,
+            MacroEventInformationContent::High,
+        ));
+    }
+    if is_bls_source
+        && (title_lower.contains("consumer price index") || title_lower.contains("cpi"))
+    {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::Cpi,
@@ -308,7 +376,9 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("producer price index") {
+    if is_bls_source
+        && (title_lower.contains("producer price index") || title_lower.contains("ppi"))
+    {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::Ppi,
@@ -317,34 +387,28 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("employment situation") {
+    if is_bea_source
+        && (title_lower.contains("core pce")
+            || title_lower.contains("core personal consumption expenditures"))
+    {
         return Some((
             FutureCalendarKind::MacroEvent,
-            MacroEventType::NonfarmPayrolls,
-            "Employment Situation".to_string(),
+            MacroEventType::CorePce,
+            "Core Personal Consumption Expenditures".to_string(),
             MacroEventImportance::Critical,
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("job openings and labor turnover survey") {
-        return Some((
-            FutureCalendarKind::MacroEvent,
-            MacroEventType::Jolts,
-            "Job Openings and Labor Turnover Survey".to_string(),
-            MacroEventImportance::High,
-            MacroEventInformationContent::High,
-        ));
-    }
-    if title_lower.contains("gross domestic product") || title_lower.contains("gdp") {
-        return Some((
-            FutureCalendarKind::MacroEvent,
-            MacroEventType::Gdp,
-            "GDP".to_string(),
-            MacroEventImportance::Critical,
-            MacroEventInformationContent::High,
-        ));
-    }
-    if title_lower.contains("personal income and outlays") {
+    if is_bea_source && title_lower.contains("personal income and outlays") {
+        if title_lower.contains("core") || title_lower.contains("pce price index") {
+            return Some((
+                FutureCalendarKind::MacroEvent,
+                MacroEventType::CorePce,
+                "Core Personal Consumption Expenditures".to_string(),
+                MacroEventImportance::Critical,
+                MacroEventInformationContent::High,
+            ));
+        }
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::Pce,
@@ -353,8 +417,51 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("retail and food services sales")
-        || title_lower.contains("monthly retail trade")
+    if is_bls_source
+        && (title_lower.contains("employment situation") || title_lower.contains("nonfarm payroll"))
+    {
+        return Some((
+            FutureCalendarKind::MacroEvent,
+            MacroEventType::NonfarmPayrolls,
+            "Employment Situation".to_string(),
+            MacroEventImportance::Critical,
+            MacroEventInformationContent::High,
+        ));
+    }
+    if is_bls_source
+        && (title_lower.contains("job openings and labor turnover survey")
+            || title_lower.contains("jolts"))
+    {
+        return Some((
+            FutureCalendarKind::MacroEvent,
+            MacroEventType::Jolts,
+            "Job Openings and Labor Turnover Survey".to_string(),
+            MacroEventImportance::High,
+            MacroEventInformationContent::High,
+        ));
+    }
+    if is_bea_source && title_lower.contains("gross domestic product") {
+        return Some((
+            FutureCalendarKind::MacroEvent,
+            MacroEventType::Gdp,
+            "GDP".to_string(),
+            MacroEventImportance::Critical,
+            MacroEventInformationContent::High,
+        ));
+    }
+    if is_bls_source && title_lower.contains("unemployment rate") {
+        return Some((
+            FutureCalendarKind::MacroEvent,
+            MacroEventType::UnemploymentRate,
+            "Unemployment Rate".to_string(),
+            MacroEventImportance::High,
+            MacroEventInformationContent::High,
+        ));
+    }
+    if is_census_source
+        && (title_lower.contains("retail and food services sales")
+            || title_lower.contains("monthly retail trade")
+            || title_lower.contains("retail sales"))
     {
         return Some((
             FutureCalendarKind::MacroEvent,
@@ -364,7 +471,9 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("fomc meeting") || title_lower.contains("fomc statement") {
+    if is_fed_source
+        && (title_lower.contains("fomc meeting") || title_lower.contains("fomc statement"))
+    {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::FomcRateDecision,
@@ -373,9 +482,7 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if source.to_lowercase().contains("federal reserve")
-        && (title_lower.contains("speech") || title_lower.contains("testimony"))
-    {
+    if is_fed_source && (title_lower.contains("speech") || title_lower.contains("testimony")) {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::FedChairSpeech,
@@ -384,7 +491,7 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("minutes") && title_lower.contains("fomc") {
+    if is_fed_source && title_lower.contains("minutes") && title_lower.contains("fomc") {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::FomcMinutes,
@@ -393,7 +500,7 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("services pmi") {
+    if source_lower.contains("ism") && title_lower.contains("services pmi") {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::IsmServices,
@@ -402,7 +509,7 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if title_lower.contains("manufacturing pmi") {
+    if source_lower.contains("ism") && title_lower.contains("manufacturing pmi") {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::IsmManufacturing,
@@ -411,7 +518,7 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
-    if source.to_lowercase().contains("treasury") && title_lower.contains("auction") {
+    if source_lower.contains("treasury") && title_lower.contains("auction") {
         return Some((
             FutureCalendarKind::MacroEvent,
             MacroEventType::TreasuryAuction,
@@ -421,6 +528,34 @@ fn classify_macro_title(
         ));
     }
     None
+}
+
+fn build_official_calendar_diagnostic(
+    macro_release: &OfficialSourceLoadStats,
+    observation_count: usize,
+    index_reconstitution_count: usize,
+    etf_rebalance_count: usize,
+    holiday_liquidity_count: usize,
+) -> String {
+    let mut parts = Vec::new();
+    parts.push(format!(
+        "macro sources: {}/{} succeeded, {} failed",
+        macro_release.source_successes,
+        macro_release.source_attempts,
+        macro_release.source_failures
+    ));
+    if !macro_release.source_notes.is_empty() {
+        parts.push(format!(
+            "macro notes: {}",
+            macro_release.source_notes.join(" | ")
+        ));
+    }
+    parts.push(format!("observations: {observation_count}"));
+    parts.push(format!(
+        "derived facts: index reconstitution {}, ETF rebalance {}, holiday liquidity {}",
+        index_reconstitution_count, etf_rebalance_count, holiday_liquidity_count
+    ));
+    parts.join("; ")
 }
 
 struct CalendarFactSpec<'a> {
@@ -735,5 +870,40 @@ mod tests {
 
         assert!(!observations.is_empty());
         assert_eq!(observations[0].event_type, MacroEventType::Cpi);
+    }
+
+    #[test]
+    fn core_cpi_classification_takes_precedence_over_generic_cpi() {
+        let classified = classify_macro_title("Bureau of Labor Statistics", "Core CPI Release");
+        assert!(matches!(
+            classified,
+            Some((
+                FutureCalendarKind::MacroEvent,
+                MacroEventType::CoreCpi,
+                _,
+                _,
+                MacroEventInformationContent::High
+            ))
+        ));
+    }
+
+    #[test]
+    fn official_calendar_diagnostic_mentions_coverage_and_failures() {
+        let stats = OfficialSourceLoadStats {
+            observations: Vec::new(),
+            source_attempts: 3,
+            source_successes: 2,
+            source_failures: 1,
+            source_notes: vec![
+                "Bureau of Labor Statistics: 1 release(s)".to_string(),
+                "Bureau of Economic Analysis: fetch failed".to_string(),
+            ],
+        };
+        let diagnostic = build_official_calendar_diagnostic(&stats, 3, 1, 0, 2);
+
+        assert!(diagnostic.contains("2/3 succeeded"));
+        assert!(diagnostic.contains("1 failed"));
+        assert!(diagnostic.contains("derived facts"));
+        assert!(diagnostic.contains("fetch failed"));
     }
 }

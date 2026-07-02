@@ -1,0 +1,153 @@
+{
+  "contractVersion": 1,
+  "workItemId": "macro-calendar-production-stability",
+  "mode": "code",
+  "title": "官方日历链路の生産安定化",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "src/features/research/acl/macro_event_calendar_file_reader.rs",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/shared/interface/i18n.rs",
+    ".ai/work-items/active/macro-calendar-production-stability.contract.json",
+    ".ai/work-items/active/macro-calendar-production-stability.summary.json"
+  ],
+  "outOfScope": [
+    "Gate / execution / trader / position sizing / order routing のロジック変更。",
+    "合成された fallback 宏観測値を新たに注入する実装。",
+    "公式日歴以外の外部 provider や売買判断ロジックの追加。"
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "公式カレンダーの取得、解析、分類、source health の判定を担う実装。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_calendar_adapter.rs",
+      "reason": "Macro Event の source strategy と JSON / official 切替入口。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "Signal Context が future calendar facts をどう判定するかを定義する read model。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Signal Context の情報含量、品質、説明文を組み立てる層。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Interpretation Layer へ Signal Context を投影する橋渡し。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Signal Context の report 表示を担う。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Signal Context と official calendar の report 表示を検証する UI snapshot / integration test。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "Signal Context の新しい診断ラベルを各言語へ投影する辞書。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "external_dependency",
+      "review_debt"
+    ],
+    "reason": "公式 source の fetch / parse 失敗を observability に落とし、合成 fallback を避けながら report を拡張するため、分類精度と表示面の回帰確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "公式日历の production stability を実装できるだけの scope と acceptance が確定した。"
+  },
+  "preReviewWarnings": [
+    "公式 source の coverage は外部ページの稼働状態に依存するため、source health と failure diagnostics を report で確認できることを重視する。",
+    "classify / normalize の改善は regression を招きやすいので、既存の official source / signal context テストを増やして確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "official calendar の fetch / parse 失敗時に合成 macro event を注入せず、source health は unavailable / partial として記録される。",
+    "official source の parsing と classification が安定し、主要 event type が source-backed で判定される。",
+    "Signal Context / report に source health または failure diagnostic が投影され、失敗や coverage を読める。",
+    "Index Reconstitution / ETF Rebalance / Holiday Liquidity を含む official source coverage がテストで確認される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/macro-calendar-production-stability.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/macro-calendar-production-stability.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/macro-calendar-production-stability.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/macro-calendar-production-stability.contract.json SUMMARY=.ai/work-items/active/macro-calendar-production-stability.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/macro-calendar-production-stability.summary.json CONTRACT=.ai/work-items/active/macro-calendar-production-stability.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/macro-calendar-production-stability.contract.json SUMMARY=.ai/work-items/active/macro-calendar-production-stability.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/macro-calendar-production-stability.contract.json SUMMARY=.ai/work-items/active/macro-calendar-production-stability.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

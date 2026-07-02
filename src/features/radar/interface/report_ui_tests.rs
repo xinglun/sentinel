@@ -3693,6 +3693,7 @@ mod tests {
         assert!(report.telegram_html_body.contains("Macro Event"));
         assert!(report.telegram_html_body.contains("Information Content"));
         assert!(report.telegram_html_body.contains("HIGH"));
+        assert!(report.telegram_html_body.contains("Source Diagnostics"));
         let signal_context = pres.interpretation_layer.unwrap();
         assert_eq!(
             signal_context.signal_context_primary_context_value,
@@ -3807,6 +3808,7 @@ mod tests {
             .unwrap();
             let body_lower = report.telegram_html_body.to_lowercase();
             assert!(report.telegram_html_body.contains("Interpretation Layer"));
+            assert!(report.telegram_html_body.contains("Source Diagnostics"));
             assert!(body_lower.contains("low"));
             assert!(!body_lower.contains("buy"));
             assert!(!body_lower.contains("sell"));

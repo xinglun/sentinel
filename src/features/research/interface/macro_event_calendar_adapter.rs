@@ -13,6 +13,10 @@ pub(crate) struct MacroEventCalendarReadModel {
     pub source_health: MacroEventSourceHealth,
     pub source: String,
     pub source_url: Option<String>,
+    pub source_attempts: usize,
+    pub source_successes: usize,
+    pub source_failures: usize,
+    pub diagnostic: Option<String>,
     pub observations: Vec<FutureCalendarObservation>,
 }
 
@@ -56,9 +60,10 @@ pub(crate) fn load_macro_event_calendar_with_strategy(
             .as_deref()
             .map(|path| load_macro_event_calendar_from_json(path, as_of_date))
             .unwrap_or_else(|| {
-                MacroEventCalendarReadModel::unavailable(
+                MacroEventCalendarReadModel::failed(
                     as_of_date,
                     "env://SENTINEL_MACRO_EVENT_CALENDAR_JSON_PATH".to_string(),
+                    "json calendar path is not configured".to_string(),
                 )
             }),
     }
@@ -100,10 +105,18 @@ pub(crate) fn load_macro_event_calendar_from_json(
 ) -> MacroEventCalendarReadModel {
     let source = path.display().to_string();
     let Some(raw) = read_macro_event_calendar_text(path) else {
-        return MacroEventCalendarReadModel::unavailable(as_of_date, source);
+        return MacroEventCalendarReadModel::failed(
+            as_of_date,
+            source,
+            "json calendar file could not be read".to_string(),
+        );
     };
     let Ok(document) = serde_json::from_str::<MacroEventDocument>(&raw) else {
-        return MacroEventCalendarReadModel::unavailable(as_of_date, source);
+        return MacroEventCalendarReadModel::failed(
+            as_of_date,
+            source,
+            "json calendar document could not be parsed".to_string(),
+        );
     };
     match document {
         MacroEventDocument::Single(observation) => {
@@ -123,7 +136,11 @@ pub(crate) fn load_macro_event_calendar_from_json_str(
 ) -> MacroEventCalendarReadModel {
     let source = source.into();
     let Ok(document) = serde_json::from_str::<MacroEventDocument>(raw) else {
-        return MacroEventCalendarReadModel::unavailable(as_of_date, source);
+        return MacroEventCalendarReadModel::failed(
+            as_of_date,
+            source,
+            "json calendar document could not be parsed".to_string(),
+        );
     };
     match document {
         MacroEventDocument::Single(observation) => {
@@ -137,13 +154,11 @@ pub(crate) fn load_macro_event_calendar_from_json_str(
 
 impl MacroEventCalendarReadModel {
     pub(crate) fn unavailable(as_of_date: NaiveDate, source: String) -> Self {
-        Self {
-            as_of_date,
-            source_health: MacroEventSourceHealth::Unavailable,
-            source,
-            source_url: None,
-            observations: Vec::new(),
-        }
+        Self::with_source_stats(as_of_date, source, None, 0, 0, 0, None)
+    }
+
+    pub(crate) fn failed(as_of_date: NaiveDate, source: String, diagnostic: String) -> Self {
+        Self::with_source_stats(as_of_date, source, None, 1, 0, 1, Some(diagnostic))
     }
 
     pub(crate) fn from_observations<T>(
@@ -154,8 +169,28 @@ impl MacroEventCalendarReadModel {
     where
         T: Into<FutureCalendarObservation>,
     {
+        Self::from_observations_with_stats(as_of_date, source, observations, 1, 1, 0, None)
+    }
+
+    pub(crate) fn from_observations_with_stats<T>(
+        as_of_date: NaiveDate,
+        source: String,
+        observations: Vec<T>,
+        source_attempts: usize,
+        source_successes: usize,
+        source_failures: usize,
+        diagnostic: Option<String>,
+    ) -> Self
+    where
+        T: Into<FutureCalendarObservation>,
+    {
         let observations = observations.into_iter().map(Into::into).collect::<Vec<_>>();
-        let source_health = derive_source_health(&observations);
+        let source_health = derive_source_health(
+            source_attempts,
+            source_successes,
+            source_failures,
+            observations.is_empty(),
+        );
         let source_url = observations
             .first()
             .map(|observation| observation.source_url.clone());
@@ -164,33 +199,86 @@ impl MacroEventCalendarReadModel {
             source_health,
             source,
             source_url,
+            source_attempts,
+            source_successes,
+            source_failures,
+            diagnostic,
             observations,
+        }
+    }
+
+    fn with_source_stats(
+        as_of_date: NaiveDate,
+        source: String,
+        source_url: Option<String>,
+        source_attempts: usize,
+        source_successes: usize,
+        source_failures: usize,
+        diagnostic: Option<String>,
+    ) -> Self {
+        Self {
+            as_of_date,
+            source_health: derive_source_health(
+                source_attempts,
+                source_successes,
+                source_failures,
+                false,
+            ),
+            source,
+            source_url,
+            source_attempts,
+            source_successes,
+            source_failures,
+            diagnostic,
+            observations: Vec::new(),
+        }
+    }
+
+    #[allow(dead_code)]
+    pub(crate) fn unavailable_with_diagnostic(
+        as_of_date: NaiveDate,
+        source: String,
+        diagnostic: String,
+    ) -> Self {
+        Self::failed(as_of_date, source, diagnostic)
+    }
+
+    #[allow(dead_code)]
+    pub(crate) fn with_diagnostic(
+        as_of_date: NaiveDate,
+        source: String,
+        diagnostic: Option<String>,
+    ) -> Self {
+        Self {
+            as_of_date,
+            source_health: MacroEventSourceHealth::Unavailable,
+            source,
+            source_url: None,
+            source_attempts: 0,
+            source_successes: 0,
+            source_failures: 0,
+            diagnostic,
+            observations: Vec::new(),
         }
     }
 }
 
-fn derive_source_health(observations: &[FutureCalendarObservation]) -> MacroEventSourceHealth {
-    if observations.is_empty() {
+fn derive_source_health(
+    source_attempts: usize,
+    source_successes: usize,
+    source_failures: usize,
+    has_observations: bool,
+) -> MacroEventSourceHealth {
+    if source_attempts == 0 && !has_observations {
         return MacroEventSourceHealth::Unavailable;
     }
 
-    if observations
-        .iter()
-        .any(|observation| observation.source_health == MacroEventSourceHealth::Partial)
-    {
+    if source_failures > 0 && (source_successes > 0 || has_observations) {
         return MacroEventSourceHealth::Partial;
     }
 
-    if observations
-        .iter()
-        .all(|observation| observation.source_health == MacroEventSourceHealth::Succeeded)
-    {
+    if source_successes > 0 || has_observations {
         MacroEventSourceHealth::Succeeded
-    } else if observations
-        .iter()
-        .any(|observation| observation.source_health == MacroEventSourceHealth::Succeeded)
-    {
-        MacroEventSourceHealth::Partial
     } else {
         MacroEventSourceHealth::Unavailable
     }
@@ -256,6 +344,48 @@ mod tests {
             MacroEventSourceHealth::Unavailable
         );
         assert!(read_model.observations.is_empty());
+    }
+
+    #[test]
+    fn partial_source_health_is_preserved_with_diagnostics() {
+        let observation = build_observation(MacroEventSourceHealth::Succeeded);
+        let read_model = MacroEventCalendarReadModel::from_observations_with_stats(
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            "official-calendar-connector".to_string(),
+            vec![observation],
+            3,
+            2,
+            1,
+            Some("one official source failed to fetch".to_string()),
+        );
+
+        assert_eq!(read_model.source_health, MacroEventSourceHealth::Partial);
+        assert_eq!(read_model.source_attempts, 3);
+        assert_eq!(read_model.source_successes, 2);
+        assert_eq!(read_model.source_failures, 1);
+        assert_eq!(
+            read_model.diagnostic.as_deref(),
+            Some("one official source failed to fetch")
+        );
+    }
+
+    #[test]
+    fn json_strategy_without_path_returns_diagnostic_failure() {
+        let read_model = load_macro_event_calendar_with_strategy(
+            MacroEventCalendarSourceStrategy::Json { path: None },
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+        );
+
+        assert_eq!(
+            read_model.source_health,
+            MacroEventSourceHealth::Unavailable
+        );
+        assert_eq!(read_model.source_attempts, 1);
+        assert_eq!(read_model.source_failures, 1);
+        assert!(read_model
+            .diagnostic
+            .as_deref()
+            .is_some_and(|value| value.contains("path is not configured")));
     }
 
     #[test]

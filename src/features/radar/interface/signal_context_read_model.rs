@@ -3,6 +3,7 @@ use crate::features::radar::interface::presentation::{
     SignalContextInformationContent, SignalContextPrimaryContext, SignalContextQuality,
 };
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::shared::interface::i18n::Language;
 use chrono::{Datelike, NaiveDate};
 
@@ -19,6 +20,8 @@ pub(crate) struct SignalContextAssessment {
     pub information_content: SignalContextInformationContent,
     pub primary_context: SignalContextPrimaryContext,
     pub context_quality: SignalContextQuality,
+    pub source_health: MacroEventSourceHealth,
+    pub source_diagnostics: String,
     pub interpretation: String,
 }
 
@@ -29,6 +32,8 @@ pub(crate) fn build_signal_context_assessment(
     let primary_context = derive_primary_context(input.as_of_date, &input.future_context);
     let information_content = derive_information_content(primary_context);
     let context_quality = derive_context_quality(primary_context, &input.future_context);
+    let source_health = input.future_context.source_health;
+    let source_diagnostics = compose_source_diagnostics(&input.future_context, input.language);
     let interpretation = compose_interpretation(
         primary_context,
         information_content,
@@ -40,6 +45,8 @@ pub(crate) fn build_signal_context_assessment(
         information_content,
         primary_context,
         context_quality,
+        source_health,
+        source_diagnostics,
         interpretation,
     }
 }
@@ -178,6 +185,42 @@ fn compose_interpretation(
         SignalContextPrimaryContext::None => {
             none_text(information_content, context_quality, language)
         }
+    }
+}
+
+fn compose_source_diagnostics(
+    future_context: &SignalContextEventReadModel,
+    language: Language,
+) -> String {
+    let attempts = future_context.source_attempts;
+    let successes = future_context.source_successes;
+    let failures = future_context.source_failures;
+    let health = signal_context_source_health_label(future_context.source_health);
+    let detail = future_context
+        .source_diagnostic
+        .as_deref()
+        .unwrap_or(match language {
+            Language::ZhCn => "没有额外诊断信息",
+            Language::EnUs => "no extra diagnostic information",
+            Language::JaJp => "追加の診断情報はない",
+        });
+    if attempts == 0 {
+        return match language {
+            Language::ZhCn => format!("官方日历源未加载；{detail}"),
+            Language::EnUs => format!("Official calendar source not loaded; {detail}"),
+            Language::JaJp => format!("公式カレンダーの source は未ロード；{detail}"),
+        };
+    }
+    match language {
+        Language::ZhCn => format!(
+            "官方日历源健康: {health}；覆盖: {successes}/{attempts} 成功，{failures} 失败；{detail}"
+        ),
+        Language::EnUs => format!(
+            "Official calendar source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
+        ),
+        Language::JaJp => format!(
+            "公式カレンダーの source health: {health}；coverage: {successes}/{attempts} succeeded, {failures} failed；{detail}"
+        ),
     }
 }
 
@@ -367,6 +410,14 @@ fn macro_event_text(language: Language) -> String {
             "市場は新しいマクロ情報を再価格付けしており、最近の値動きは高い情報含量を持つ。"
                 .to_string()
         }
+    }
+}
+
+fn signal_context_source_health_label(value: MacroEventSourceHealth) -> &'static str {
+    match value {
+        MacroEventSourceHealth::Succeeded => "SUCCEEDED",
+        MacroEventSourceHealth::Partial => "PARTIAL",
+        MacroEventSourceHealth::Unavailable => "UNAVAILABLE",
     }
 }
 
@@ -595,6 +646,30 @@ mod tests {
         );
         assert_eq!(assessment.context_quality, SignalContextQuality::High);
         assert!(assessment.interpretation.contains("quarter-end"));
+    }
+
+    #[test]
+    fn future_context_unavailable_exports_source_diagnostics() {
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            signal: signal(
+                InterpretationExpectationQuality::High,
+                InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                InterpretationGravityDataQuality::Ready,
+                false,
+                Some(0.08),
+            ),
+            future_context: future_context_unavailable(),
+            language: Language::EnUs,
+        });
+
+        assert_eq!(
+            assessment.source_health,
+            MacroEventSourceHealth::Unavailable
+        );
+        assert!(assessment
+            .source_diagnostics
+            .contains("Official calendar source not loaded"));
     }
 
     #[test]

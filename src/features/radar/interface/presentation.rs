@@ -324,6 +324,8 @@ pub struct InterpretationLayerViewModel {
     pub signal_context_primary_context_value: String,
     pub signal_context_quality_label: String,
     pub signal_context_quality_value: String,
+    pub signal_context_source_diagnostics_label: String,
+    pub signal_context_source_diagnostics_value: String,
     pub signal_context_interpretation_label: String,
     pub signal_context_interpretation_value: String,
     pub signal_context_boundary: String,
