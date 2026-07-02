@@ -37,7 +37,6 @@ use crate::features::research::interface::cognitive_reports::{
 };
 use crate::features::research::interface::expectation_report_builder::build_expectation_layer_snapshot_from_config;
 use crate::features::research::interface::gray_rhino_report::build_gray_rhino_daily_report;
-use crate::features::research::interface::macro_event_official_calendar_adapter::load_official_future_calendar;
 use crate::features::research::interface::valuation_gravity_report_builder::{
     build_valuation_gravity_observation_with_auto, build_valuation_gravity_report_with_auto,
 };
@@ -157,12 +156,14 @@ pub(crate) async fn run_pipeline(
             14,
         )
         .await;
-        let future_calendar = std::thread::spawn(move || load_official_future_calendar(packet.date))
+        let future_calendar = std::thread::spawn(move || {
+            crate::features::research::interface::macro_event_calendar_adapter::load_macro_event_calendar_from_env(packet.date)
+        })
             .join()
             .unwrap_or_else(|_| {
                 crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel::unavailable(
                     packet.date,
-                    "official-calendar-connector".to_string(),
+                    "macro-event-calendar-connector".to_string(),
                 )
             });
         let future_context =

@@ -1,10 +1,11 @@
+use crate::features::research::acl::macro_event_calendar_file_reader::read_macro_event_calendar_text;
 use crate::features::research::interface::macro_event_observation::{
     FutureCalendarObservation, MacroEventSourceHealth,
 };
 use chrono::NaiveDate;
 use serde::Deserialize;
-use std::fs;
-use std::path::Path;
+use std::env;
+use std::path::{Path, PathBuf};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct MacroEventCalendarReadModel {
@@ -22,6 +23,12 @@ enum MacroEventDocument {
     Multiple(Vec<FutureCalendarObservation>),
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum MacroEventCalendarSourceStrategy {
+    Official,
+    Json { path: Option<PathBuf> },
+}
+
 #[allow(dead_code)]
 pub(crate) trait MacroEventCalendarAdapter {
     fn load_from_json(&self, path: &Path, as_of_date: NaiveDate) -> MacroEventCalendarReadModel;
@@ -37,12 +44,62 @@ impl MacroEventCalendarAdapter for FileMacroEventCalendarAdapter {
     }
 }
 
+pub(crate) fn load_macro_event_calendar_with_strategy(
+    strategy: MacroEventCalendarSourceStrategy,
+    as_of_date: NaiveDate,
+) -> MacroEventCalendarReadModel {
+    match strategy {
+        MacroEventCalendarSourceStrategy::Official => {
+            crate::features::research::interface::macro_event_official_calendar_adapter::load_official_future_calendar(as_of_date)
+        }
+        MacroEventCalendarSourceStrategy::Json { path } => path
+            .as_deref()
+            .map(|path| load_macro_event_calendar_from_json(path, as_of_date))
+            .unwrap_or_else(|| {
+                MacroEventCalendarReadModel::unavailable(
+                    as_of_date,
+                    "env://SENTINEL_MACRO_EVENT_CALENDAR_JSON_PATH".to_string(),
+                )
+            }),
+    }
+}
+
+pub(crate) fn load_macro_event_calendar_from_env(
+    as_of_date: NaiveDate,
+) -> MacroEventCalendarReadModel {
+    load_macro_event_calendar_with_strategy(
+        resolve_macro_event_calendar_source_strategy(),
+        as_of_date,
+    )
+}
+
+pub(crate) fn resolve_macro_event_calendar_source_strategy() -> MacroEventCalendarSourceStrategy {
+    let source =
+        env::var("SENTINEL_MACRO_EVENT_CALENDAR_SOURCE").unwrap_or_else(|_| "official".to_string());
+    let normalized = source.trim();
+    if normalized.eq_ignore_ascii_case("official") {
+        MacroEventCalendarSourceStrategy::Official
+    } else if let Some(path) = normalized.strip_prefix("json:") {
+        MacroEventCalendarSourceStrategy::Json {
+            path: Some(PathBuf::from(path.trim())),
+        }
+    } else if normalized.eq_ignore_ascii_case("json") {
+        MacroEventCalendarSourceStrategy::Json {
+            path: env::var("SENTINEL_MACRO_EVENT_CALENDAR_JSON_PATH")
+                .ok()
+                .map(PathBuf::from),
+        }
+    } else {
+        MacroEventCalendarSourceStrategy::Official
+    }
+}
+
 pub(crate) fn load_macro_event_calendar_from_json(
     path: &Path,
     as_of_date: NaiveDate,
 ) -> MacroEventCalendarReadModel {
     let source = path.display().to_string();
-    let Ok(raw) = fs::read_to_string(path) else {
+    let Some(raw) = read_macro_event_calendar_text(path) else {
         return MacroEventCalendarReadModel::unavailable(as_of_date, source);
     };
     let Ok(document) = serde_json::from_str::<MacroEventDocument>(&raw) else {
@@ -146,6 +203,7 @@ mod tests {
         MacroEventImportance, MacroEventInformationContent, MacroEventLifecycle,
         MacroEventObservation, MacroEventSourceHealth, MacroEventType,
     };
+    use tempfile::NamedTempFile;
 
     fn build_observation(source_health: MacroEventSourceHealth) -> MacroEventObservation {
         MacroEventObservation {
@@ -198,5 +256,59 @@ mod tests {
             MacroEventSourceHealth::Unavailable
         );
         assert!(read_model.observations.is_empty());
+    }
+
+    #[test]
+    fn json_strategy_loads_replay_fixture() {
+        let mut file = NamedTempFile::new().unwrap();
+        let observation = build_observation(MacroEventSourceHealth::Succeeded);
+        let raw = serde_json::to_string(&vec![observation]).unwrap();
+        use std::io::Write;
+        file.as_file_mut().write_all(raw.as_bytes()).unwrap();
+
+        let read_model = load_macro_event_calendar_with_strategy(
+            MacroEventCalendarSourceStrategy::Json {
+                path: Some(file.path().to_path_buf()),
+            },
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+        );
+
+        assert_eq!(read_model.source_health, MacroEventSourceHealth::Succeeded);
+        assert_eq!(read_model.observations.len(), 1);
+    }
+
+    #[test]
+    fn json_strategy_without_path_returns_unavailable_read_model() {
+        let read_model = load_macro_event_calendar_with_strategy(
+            MacroEventCalendarSourceStrategy::Json { path: None },
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+        );
+
+        assert_eq!(
+            read_model.source_health,
+            MacroEventSourceHealth::Unavailable
+        );
+        assert!(read_model.observations.is_empty());
+    }
+
+    #[test]
+    fn json_prefix_strategy_embeds_path_from_source_selection() {
+        let strategy = {
+            let source = "json:/tmp/macro-calendar.json";
+            if let Some(path) = source.strip_prefix("json:") {
+                MacroEventCalendarSourceStrategy::Json {
+                    path: Some(PathBuf::from(path)),
+                }
+            } else {
+                MacroEventCalendarSourceStrategy::Official
+            }
+        };
+
+        assert_eq!(
+            strategy,
+            MacroEventCalendarSourceStrategy::Json {
+                path: Some(PathBuf::from("/tmp/macro-calendar.json"))
+            }
+        );
     }
 }

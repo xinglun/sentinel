@@ -300,7 +300,7 @@ fn is_near_term_pending_observation(period: &str, as_of_date: NaiveDate) -> bool
         return false;
     };
     let days = event_date.signed_duration_since(as_of_date).num_days();
-    event_date >= as_of_date && days <= PRE_EARNINGS_WAITING_WINDOW_DAYS
+    days > 0 && days <= PRE_EARNINGS_WAITING_WINDOW_DAYS
 }
 
 fn is_pre_earnings_candidate(event_type: ExpectationEventType) -> bool {
@@ -358,7 +358,7 @@ fn is_future_event_window_hit(
     observation: &FutureCalendarObservation,
     as_of_date: NaiveDate,
 ) -> bool {
-    observation.event_date >= as_of_date
+    observation.event_date > as_of_date
         && observation
             .event_date
             .signed_duration_since(as_of_date)
@@ -686,6 +686,18 @@ mod tests {
     }
 
     #[test]
+    fn pre_earnings_waiting_excludes_same_day_pending_observation() {
+        let snapshot = expectation_snapshot_with_pending_observation("2026-06-18");
+        let read_model = build_signal_context_event_read_model(SignalContextEventReadModelInput {
+            as_of_date: NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            expectation_snapshot: Some(&snapshot),
+            future_calendar: None,
+        });
+
+        assert_eq!(read_model.detected_primary_context(), None);
+    }
+
+    #[test]
     fn index_reconstitution_loaded_from_future_calendar() {
         let fact = future_calendar_fact(
             FutureCalendarKind::IndexReconstitution,
@@ -838,6 +850,26 @@ mod tests {
             read_model.detected_primary_context(),
             Some(SignalContextPrimaryContext::MajorEventWaiting)
         );
+    }
+
+    #[test]
+    fn major_event_waiting_excludes_same_day_future_calendar() {
+        let fact = future_calendar_fact(
+            FutureCalendarKind::MajorEventWaiting,
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            MacroEventImportance::Critical,
+            MacroEventLifecycle::Upcoming,
+            MacroEventSourceHealth::Succeeded,
+            MacroEventInformationContent::High,
+        );
+        let calendar = future_calendar_with_fact(fact);
+        let read_model = build_signal_context_event_read_model(SignalContextEventReadModelInput {
+            as_of_date: NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            expectation_snapshot: None,
+            future_calendar: Some(&calendar),
+        });
+
+        assert_eq!(read_model.detected_primary_context(), None);
     }
 
     #[test]

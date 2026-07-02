@@ -1,6 +1,6 @@
 {
   "workItemId": "signal-context-future-context-tuning",
-  "contractPath": ".ai/work-items/active/signal-context-future-context-tuning.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/signal-context-future-context-tuning.contract.json",
   "changedFiles": [
     {
       "path": ".ai/cockpit/current_status.md",
@@ -79,6 +79,38 @@
       "reason": "公式日程 source から future calendar を読み取る入口を実装した。"
     },
     {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "future_context の読込を official / json の明示的 source strategy に切り替えた。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "Pre-Earnings Waiting と Major Event Waiting の near-term window を same-day 除外に収束した。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_calendar_adapter.rs",
+      "reason": "Macro Event calendar の official / json 切り替え契約を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "公式ページの HTML 正規化と source-gated classification を追加した。"
+    },
+    {
+      "path": "src/features/research/acl/macro_event_calendar_file_reader.rs",
+      "reason": "Macro Event calendar の JSON / fixture file I/O を ACL helper に移した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Macro Event calendar file reader helper を ACL module tree に登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/macro_event_calendar_file_reader.rs",
+      "reason": "JSON / fixture の file I/O を infrastructure に分離した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Macro Event file reader helper を infrastructure module tree に登録した。"
+    },
+    {
       "path": "src/features/research/interface/mod.rs",
       "reason": "research interface から Macro Event / calendar モジュールを公開した。"
     },
@@ -108,6 +140,10 @@
     "src/features/radar/interface/report.rs",
     "src/features/research/interface/macro_event_calendar_adapter.rs",
     "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/research/acl/macro_event_calendar_file_reader.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/infrastructure/macro_event_calendar_file_reader.rs",
+    "src/features/research/infrastructure/mod.rs",
     "src/features/research/interface/macro_event_observation.rs",
     "src/features/research/interface/expectation_report_tests.rs",
     "tests/fixtures/expectation/tsla_q2_delivery_consensus.json",

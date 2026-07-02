@@ -373,6 +373,17 @@ fn classify_macro_title(
             MacroEventInformationContent::High,
         ));
     }
+    if source.to_lowercase().contains("federal reserve")
+        && (title_lower.contains("speech") || title_lower.contains("testimony"))
+    {
+        return Some((
+            FutureCalendarKind::MacroEvent,
+            MacroEventType::FedChairSpeech,
+            "Federal Reserve Speech".to_string(),
+            MacroEventImportance::High,
+            MacroEventInformationContent::High,
+        ));
+    }
     if title_lower.contains("minutes") && title_lower.contains("fomc") {
         return Some((
             FutureCalendarKind::MacroEvent,
@@ -461,7 +472,98 @@ fn fetch_text(client: &reqwest::blocking::Client, url: &str) -> Option<String> {
     if !response.status().is_success() {
         return None;
     }
-    response.text().ok()
+    response
+        .text()
+        .ok()
+        .map(|text| normalize_official_calendar_text(&text))
+}
+
+fn normalize_official_calendar_text(raw: &str) -> String {
+    let without_markup = strip_html_markup(raw);
+    let decoded = decode_common_html_entities(&without_markup);
+    decoded
+        .lines()
+        .map(|line| line.split_whitespace().collect::<Vec<_>>().join(" "))
+        .filter(|line| !line.is_empty())
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
+fn strip_html_markup(raw: &str) -> String {
+    let mut output = String::with_capacity(raw.len());
+    let mut cursor = 0usize;
+    while cursor < raw.len() {
+        let remainder = &raw[cursor..];
+        let Some(tag_start) = remainder.find('<') else {
+            output.push_str(remainder);
+            break;
+        };
+        output.push_str(&remainder[..tag_start]);
+        cursor += tag_start;
+        let remainder = &raw[cursor..];
+        let Some(tag_end) = remainder.find('>') else {
+            output.push_str(remainder);
+            break;
+        };
+        let tag = remainder[1..tag_end].trim().to_ascii_lowercase();
+        if tag.starts_with("script") {
+            if let Some(end_offset) = remainder[tag_end + 1..]
+                .to_ascii_lowercase()
+                .find("</script>")
+            {
+                cursor += tag_end + 1 + end_offset + "</script>".len();
+                continue;
+            }
+        }
+        if tag.starts_with("style") {
+            if let Some(end_offset) = remainder[tag_end + 1..]
+                .to_ascii_lowercase()
+                .find("</style>")
+            {
+                cursor += tag_end + 1 + end_offset + "</style>".len();
+                continue;
+            }
+        }
+        if emits_line_break(&tag) {
+            output.push('\n');
+        } else {
+            output.push(' ');
+        }
+        cursor += tag_end + 1;
+    }
+    output
+}
+
+fn emits_line_break(tag: &str) -> bool {
+    let tag = tag.trim_start_matches('/');
+    matches!(
+        tag.split_whitespace().next().unwrap_or_default(),
+        "br" | "div"
+            | "p"
+            | "li"
+            | "tr"
+            | "table"
+            | "section"
+            | "article"
+            | "thead"
+            | "tbody"
+            | "tfoot"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+    )
+}
+
+fn decode_common_html_entities(raw: &str) -> String {
+    raw.replace("&nbsp;", " ")
+        .replace("&amp;", "&")
+        .replace("&quot;", "\"")
+        .replace("&#39;", "'")
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
 }
 
 fn parse_month_day_year(month: &str, day: u32, year: i32) -> Option<NaiveDate> {
@@ -597,5 +699,41 @@ mod tests {
     fn treasury_auction_classification_requires_treasury_source() {
         assert!(classify_macro_title("Bureau of Labor Statistics", "Treasury Auction").is_none());
         assert!(classify_macro_title("U.S. Treasury", "Treasury Auction").is_some());
+    }
+
+    #[test]
+    fn federal_reserve_speech_classification_requires_federal_reserve_source() {
+        assert!(
+            classify_macro_title("Federal Reserve Board", "Chair Powell Speech on Inflation")
+                .is_some()
+        );
+        assert!(classify_macro_title(
+            "Bureau of Labor Statistics",
+            "Chair Powell Speech on Inflation"
+        )
+        .is_none());
+    }
+
+    #[test]
+    fn html_markup_is_normalized_before_line_parsing() {
+        let text = r#"
+            <html>
+              <body>
+                <table>
+                  <tr><td>Wednesday June 18 2026 08:30 AM Consumer Price Index</td></tr>
+                </table>
+              </body>
+            </html>
+        "#;
+        let normalized = normalize_official_calendar_text(text);
+        let observations = parse_official_calendar_text(
+            "Bureau of Labor Statistics",
+            "https://example.com",
+            &normalized,
+            NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+        );
+
+        assert!(!observations.is_empty());
+        assert_eq!(observations[0].event_type, MacroEventType::Cpi);
     }
 }

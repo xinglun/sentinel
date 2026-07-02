@@ -16,11 +16,15 @@
     "src/features/radar/interface/signal_context_event_read_model.rs",
     "src/features/radar/interface/signal_context_read_model.rs",
     "src/features/research/acl/expectation_source_adapter_factory.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/macro_event_calendar_file_reader.rs",
     "src/features/research/domain/expectation.rs",
     "src/features/research/interface/expectation_report.rs",
     "src/features/research/interface/expectation_report_builder.rs",
     "src/features/research/interface/expectation_report_tests.rs",
     "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/infrastructure/macro_event_calendar_file_reader.rs",
+    "src/features/research/infrastructure/mod.rs",
     "src/features/research/interface/macro_event_observation.rs",
     "src/features/research/interface/macro_event_official_calendar_adapter.rs",
     "src/features/research/interface/mod.rs",
@@ -67,6 +71,22 @@
     {
       "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
       "reason": "公式日程ソースの読み取り実装。"
+    },
+    {
+      "path": "src/features/research/acl/macro_event_calendar_file_reader.rs",
+      "reason": "Macro Event calendar の JSON / fixture file I/O を ACL helper に移した。"
+    },
+    {
+      "path": "src/features/research/acl/mod.rs",
+      "reason": "Macro Event calendar file reader helper を ACL module tree に登録した。"
+    },
+    {
+      "path": "src/features/research/infrastructure/macro_event_calendar_file_reader.rs",
+      "reason": "JSON / fixture の file I/O を infrastructure に下ろすための helper。"
+    },
+    {
+      "path": "src/features/research/infrastructure/mod.rs",
+      "reason": "Macro Event file reader helper を infrastructure module tree に登録した。"
     },
     {
       "path": "src/features/research/interface/macro_event_observation.rs",
